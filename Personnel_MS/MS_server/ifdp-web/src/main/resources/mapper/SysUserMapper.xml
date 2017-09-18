@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.omcube.model.mapper.SysUserMapper">
+    <resultMap id="SysUserMap" type="com.omcube.model.po.SysUserPO">
+        <id column="user_id" property="id"></id>
+        <result column="mobile_no" property="mobileNo" javaType="java.lang.String"></result>
+        <result column="cert_type" property="certType" javaType="java.lang.String"></result>
+        <result column="cert_no" property="certNo" javaType="java.lang.String"></result>
+        <result column="create_time" property="createTime" javaType="java.util.Date"></result>
+        <result column="update_time" property="updateTime" javaType="java.util.Date"></result>
+    </resultMap>
+</mapper>
