@@ -1,0 +1,69 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "getMenus": [
+    {
+      "icon": "el-icon-menu",
+      "index": "2",
+      "title": "表格",
+      "subs": [
+        {
+              "index": "/home/basetable",
+              "title": "基础表格"
+        },
+        {
+              "index": "/home/vuetable",
+              "title": "Vue表格组件"
+        }
+      ]
+    },
+    {
+      "icon": "el-icon-date",
+      "index": "3",
+      "title": "表单",
+      "subs": [
+        {
+              "index": "/home/baseform",
+              "title": "基本表单"
+        },
+        {
+              "index": "/home/vueeditor",
+              "title": "编辑器"
+        },
+        {
+              "index": "/home/markdown",
+              "title": "markdown"
+        },
+        {
+              "index": "/home/upload",
+              "title": "文件上传"
+        }
+      ]
+    },
+    {
+      "icon": "el-icon-star-on",
+      "index": "/home/basecharts",
+      "title": "图表"
+    },
+    {
+      "icon": "el-icon-upload2",
+      "index": "/home/drag",
+      "title": "拖拽"
+    }
+  ]
+}
