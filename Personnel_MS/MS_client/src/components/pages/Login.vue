@@ -14,7 +14,7 @@
                         <input type="text" placeholder="请输入验证码" class="last-input"><span class="check-code">xxxx</span>
                     </div>
                     <div class="error">帐号或密码错</div>
-                    <button type="submit" class="tijiao">登录</button>
+                    <button type="submit" class="tijiao" @click="submitForm">登录</button>
                     <span class="text">忘记密码</span>
                 </form>
                 <div class="line1"></div>
@@ -64,9 +64,10 @@
 //                }
 //            }
 //        },
-//        methods: {
-//            submitForm(formName) {
-//                const self = this;
+        methods: {
+            submitForm(formName) {
+                const self = this;
+                self.$router.push('/home');
 //                self.$refs[formName].validate((valid) => {
 //                    if (valid) {
 //                        localStorage.setItem('ms_username',self.ruleForm.username);
@@ -76,8 +77,8 @@
 //                        return false;
 //                    }
 //                });
-//            }
-//        }
+            }
+        }
     }
 </script>
 
