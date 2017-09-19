@@ -9,7 +9,7 @@
 	<packaging>pom</packaging>
 
 	<name>ifdp-parent</name>
-	<description>Demo project for Spring Boot</description>
+	<description>iem root project</description>
 
 	<modules>
 		<module>ifdp-core</module>
@@ -28,21 +28,19 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<ifdp.version>1.0.0</ifdp.version>
+		<fastjson.version>1.2.31</fastjson.version>
 	</properties>
 
-	<dependencies>
-        
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+	<!-- 版本统一管理 -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+	            <groupId>com.alibaba</groupId>
+	            <artifactId>fastjson</artifactId>
+	            <version>${fastjson.version}</version>
+	        </dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		 <pluginManagement>
