@@ -19,7 +19,7 @@ export default new Router({
       children: [
         {
           path: '/',
-          component: resolve => require(['../components/pages/BaseTable.vue'], resolve)
+          component: resolve => require(['../components/pages/home_page.vue'], resolve)
         },
         {
           path: 'basecharts',

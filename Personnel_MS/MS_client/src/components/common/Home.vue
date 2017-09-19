@@ -1,17 +1,28 @@
 <template>
-    <el-row class="container">
-        <v-head></v-head>
-        <el-row :gutter="20" class="content">
-            <el-col :span="5">
-                <v-sidebar></v-sidebar>
-            </el-col>
-            <el-col :span="19">
+    <div id="home-wrapper">
+        <v-head class="home-header"></v-head>
+        <div class="wrapper">
+            <v-Sidebar class="sider"></v-Sidebar>
+            <div class="container-wrapper">
                 <transition name="move" mode="out-in">
                     <router-view></router-view>
                 </transition>
-            </el-col>
-        </el-row>
-    </el-row> 
+            </div>
+        </div>
+    </div>
+    <!--<el-row class="container">-->
+        <!--<v-head></v-head>-->
+        <!--<el-row :gutter="20" class="content">-->
+            <!--<el-col :span="5">-->
+                <!--<v-sidebar></v-sidebar>-->
+            <!--</el-col>-->
+            <!--<el-col :span="19">-->
+                <!--<transition name="move" mode="out-in">-->
+                    <!--<router-view></router-view>-->
+                <!--</transition>-->
+            <!--</el-col>-->
+        <!--</el-row>-->
+    <!--</el-row> -->
 </template>
 
 <script>
@@ -25,5 +36,23 @@
 </script>
 
 <style scoped>
-
+    .home-header{
+        width: 100%;
+        height: 60px;
+        background: #363D47;
+    }
+    .wrapper{
+        display: flex;
+        width: 100%;
+    }
+    .sider{
+        flex: 0 0 180px;
+        width: 180px;
+        background: #fff;
+    }
+    .container-wrapper{
+        flex: 1;
+        background: #f4f4f4;
+        padding-left: 20px;
+    }
 </style>
