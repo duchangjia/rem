@@ -1,32 +1,36 @@
 <template>
-    <div class="wrap">
-    <div class="login-wrap">
-        <div class="header"></div>
-        <div class="main">
-            <div class="img-wrapper"><img src="../../../static/img/login/omc_logo1.png" alt=""></div>
-            <div class="form-wrapper">
-                <img src="../../../static/img/login/fly.png" alt="" width="86" height="77" class="fly">
-                <form action="#" class="form-content">
-                    <span class="title">用户登录</span>
-                    <input type="text" placeholder="请输入用户名">
-                    <input type="password" placeholder="请输入密码">
-                    <div class="code-wrapper">
-                        <input type="text" placeholder="请输入验证码" class="last-input"><span class="check-code">xxxx</span>
-                    </div>
-                    <div class="error">帐号或密码错</div>
-                    <button type="submit" class="tijiao" @click="submitForm">登录</button>
-                    <span class="text">忘记密码</span>
-                </form>
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
+    <div id="wrap">
+        <div class="login-wrap">
+            <div class="header"></div>
+            <div class="main">
+                <div class="img-wrapper"><img src="../../../static/img/login/omc_logo1.png" alt=""></div>
+                <div class="form-wrapper">
+                    <img src="../../../static/img/login/fly.png" alt="" width="86" height="77" class="fly">
+                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="form-content">
+                        <span class="title">用户登录</span>
+                        <el-form-item prop="username">
+                            <el-input v-model="ruleForm.username" placeholder="请输入用户名"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="password">
+                            <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
+                        </el-form-item>
+                        <div class="code-wrapper">
+                            <el-input type="text" placeholder="请输入验证码" class="last-input"></el-input><span class="check-code">xxxx</span>
+                        </div>
+                        <div class="error">帐号或密码错</div>
+                        <button type="submit" class="tijiao" @click="submitForm('ruleForm')">登录</button>
+                        <a class="text" href="#">忘记密码</a>
+                    </el-form>
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
             </div>
-        </div>
-        <div class="bottom">
-            <span class="text">
-                橙色魔方版权所有 © Copyright Orange Magic Cube Co.ltd.All Rights Reserved. | 粤ICP备2553149号
-            </span>
-        </div>
+            <div class="bottom">
+                <span class="text">
+                    橙色魔方版权所有 © Copyright Orange Magic Cube Co.ltd.All Rights Reserved. | 粤ICP备2553149号
+                </span>
+            </div>
         <!--<div class="ms-title">后台管理系统</div>-->
         <!--<div class="ms-login">-->
             <!--<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">-->
@@ -42,63 +46,60 @@
                 <!--</div>-->
             <!--</el-form>-->
         <!--</div>-->
-    </div>
+        </div>
     </div>
 </template>
 
 <script>
     export default {
-//        data: function(){
-//            return {
-//                ruleForm: {
-//                    username: '',
-//                    password: ''
-//                },
-//                rules: {
-//                    username: [
-//                        { required: true, message: '请输入用户名', trigger: 'blur' }
-//                    ],
-//                    password: [
-//                        { required: true, message: '请输入密码', trigger: 'blur' }
-//                    ]
-//                }
-//            }
-//        },
+        data: function(){
+            return {
+                ruleForm: {
+                    username: '',
+                    password: ''
+                },
+                rules: {
+                    username: [
+                        { required: true, message: '请输入用户名', trigger: 'blur' }
+                    ],
+                    password: [
+                        { required: true, message: '请输入密码', trigger: 'blur' }
+                    ]
+                }
+            }
+        },
         methods: {
             submitForm(formName) {
                 const self = this;
-                self.$router.push('/home');
-//                self.$refs[formName].validate((valid) => {
-//                    if (valid) {
-//                        localStorage.setItem('ms_username',self.ruleForm.username);
-//                        self.$router.push('/home');
-//                    } else {
-//                        //console.log('error submit!!');
-//                        return false;
-//                    }
-//                });
+                self.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        localStorage.setItem('ms_username',self.ruleForm.username);
+                        self.$router.push('/home');
+                    } else {
+                        //console.log('error submit!!');
+                        return false;
+                    }
+                });
             }
         }
     }
 </script>
 
 <style scoped>
-    .wrap{
-        background: black;
-    }
     .login-wrap{
         overflow: hidden;
-        max-width: 1280px;
+        width: 100%;
         margin: 0 auto;
         position: relative;
         height: 800px;
     }
     .login-wrap .header{
         height: 480px;
+        width: 100%;
         background: #363D47 url("../../../static/img/login/bg_Bitmap.png") no-repeat left bottom;
+        background-size: 100% ;
     }
     .login-wrap .main{
-        /*float: left;*/
         position: absolute;
         top: 136px;
         left: 50%;
@@ -156,7 +157,7 @@
         background: #F3F3F3;
         margin: 0 auto;
     }
-    .form-content{
+    #wrap .el-form{
         width: 330px;
         height: 370px;
         background: #FFFFFF;
@@ -173,13 +174,12 @@
         letter-spacing: -0.39px;
         line-height: 16px;
     }
-    .form-content>input{
+    #wrap .form-content .el-form-item{
         display: block;
         box-sizing: border-box;
         width: 260px;
         height: 40px;
         background: #FFFFFF;
-        border: 1px solid #EEEEEE;
         border-radius: 4px;
         margin: 0 auto 20px auto;
         font-family: PingFangSC-Regular;
@@ -188,8 +188,12 @@
         letter-spacing: 0;
         line-height: 14px;
     }
-    .form-content>input:nth-child(odd){
+    #wrap .form-content .el-form-item:nth-child(odd){
         letter-spacing:  -0.34px;
+    }
+    #wrap .el-form-item .el-input{
+        width: 100%;
+        height: 100%;
     }
     .form-content .code-wrapper{
         margin: 0 auto 16px auto;
@@ -199,7 +203,7 @@
     .form-content .last-input{
         width: 160px;
         height: 40px;
-        border: 1px solid #EEEEEE;
+        /*border: 1px solid #EEEEEE;*/
         border-radius: 4px;
         margin: 0 10px 0px 0px;
         font-family: PingFangSC-Regular;
@@ -256,6 +260,4 @@
         letter-spacing: -0.34px;
         line-height: 14px;
     }
-
-
 </style>
