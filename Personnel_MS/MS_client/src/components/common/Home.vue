@@ -37,13 +37,11 @@
 
 <style scoped>
     .home-header{
-        width: 100%;
+        min-width: 1280px;
         height: 60px;
-        background: #363D47;
     }
     .wrapper{
         display: flex;
-        width: 100%;
     }
     .sider{
         flex: 0 0 180px;

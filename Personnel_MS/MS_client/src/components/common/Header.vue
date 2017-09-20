@@ -50,6 +50,9 @@ export default {
 
                 });
             }
+        },
+        handleClick() {
+            return false
         }
     }
 }
