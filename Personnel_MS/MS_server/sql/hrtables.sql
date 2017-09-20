@@ -61,7 +61,8 @@ create table IFDP_SYS_MENU
    UPDATED_DATE         date not null comment '更新时间',
    primary key (UID, SYS_NO, MENU_NO)
 )ENGINE=InnoDB DEFAULT CHARSET=UTF8;
-alter table IFDP_SYS_MENU_FUNC comment '系统菜单表';
+
+alter table IFDP_SYS_MENU comment '系统菜单表';
 
 /*==============================================================*/
 /* Table: IFDP_SYS_MENU_FUNC                                         */
