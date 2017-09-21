@@ -1,5 +1,4 @@
 <template>
-	<!--<el-button class="errpage" type="text" @click="open">点击打开 Message Box</el-button>-->
 	<div class="errmessage-wrap" :class="{hidden:errflag}">
 		<div class="errmessage">
 			<div class="header">
@@ -40,23 +39,12 @@
 	    	close() {
 	    		this.errflag = true;
 	    	}
-//	      open() {
-//	        this.$alert(this.errmessage.content, this.errmessage.title, {
-//	          confirmButtonText: '确定',
-//	          callback: action => {
-//	            this.$message({
-//	              type: 'info',
-//	              message: `action: ${ action }`
-//	            });
-//	          }
-//	        });
-//	      }
 	    }
   }
 
 </script>
 
-<style>
+<style scoped>
 	.errmessage-wrap {
 		position: absolute;
 		left: 0;
@@ -79,6 +67,7 @@
 		padding: 18px 20px 20px 20px;
 		width: 100%;
 		height: 60px;
+		line-height: 22px;
 		background: #F4F4F4;
 		
 	}
