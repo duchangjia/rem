@@ -47,10 +47,15 @@
             <!--</el-form>-->
         <!--</div>-->
         </div>
+        <toast></toast>
+        <errtip></errtip>
     </div>
 </template>
 
 <script>
+	import Bus from '../../common/Bus.js'
+	import Toast from '../common/Toast.vue';
+	import errtip from './errTip.vue'
     export default {
         data: function(){
             return {
@@ -68,15 +73,21 @@
                 }
             }
         },
+        components: {
+        	Toast,errtip
+        },
         methods: {
             submitForm(formName) {
                 const self = this;
                 self.$refs[formName].validate((valid) => {
                     if (valid) {
+                    	//吐丝提示
+						Bus.$emit('showToast','正在努力加载中...');
                         localStorage.setItem('ms_username',self.ruleForm.username);
                         self.$router.push('/home');
                     } else {
                         //console.log('error submit!!');
+                        Bus.$emit('showErrTip',{content:'登录失败！请填写正确的账号和密码。',title:'温馨提示'});
                         return false;
                     }
                 });
