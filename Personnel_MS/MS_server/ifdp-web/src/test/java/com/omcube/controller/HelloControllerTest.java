@@ -20,13 +20,13 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 public class HelloControllerTest {
 
     @Autowired
-    private MockMvc mvc;
+    private MockMvc mvc;	
 
     @Test
     public void hello() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().is3xxRedirection());
-                //.andExpect(content().string(equalTo("hello, world!")));
+                .andExpect(status().isOk())
+                .andExpect(content().string(equalTo("\"hello, world!\"")));
     }
 
 }
