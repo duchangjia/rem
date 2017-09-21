@@ -16,47 +16,68 @@
             </template>
         </template>
     </el-menu>-->
-	<div class="sidebar" id='sidebar'>
-		<el-radio-group v-model="isCollapse">
-			<el-radio-button :label="!isCollapse">
-				<i class="collapsible"></i>
-			</el-radio-button>
-		</el-radio-group>
-		<el-menu  class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-			<el-menu-item index="1">
+	<div class="sider">
+		<div class="collapse-btn" :class="{'collapse-active':isCollapse}" @click="collapse()">
+			<el-radio-group v-model="isCollapse">
+				<el-radio-button :label="!isCollapse">
+					<i class="collapsible"></i>
+				</el-radio-button>
+			</el-radio-group>
+		</div>
+		
+		<el-menu unique-opened="true" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+			<el-menu-item index="1" @click='link()'>
 				<i class="icon icon-home"></i>
 				<span slot="title">主页</span>
 			</el-menu-item>
-			<el-submenu index="2" id="el-submenu">
+			<el-submenu index="2">
 				<template slot="title">
 					<i class="icon icon-sys"></i>
 					<span slot="title">系统管理</span>
 				</template>
-				<el-menu-item index="2-1">组织架构</el-menu-item>
+				<el-menu-item index="2-1" @click="loadzzjg()">组织架构</el-menu-item>
 				<el-menu-item index="2-2">用户管理</el-menu-item>
 				<el-menu-item index="2-3">角色管理</el-menu-item>
 				<el-menu-item index="2-4">功能管理</el-menu-item>
 			</el-submenu>
-			<el-menu-item index="3">
-				<i class="icon icon-csgl"></i>
-				<span slot="title">参数管理</span>
-			</el-menu-item>
-			<el-menu-item index="4">
-				<i class="icon icon-khgx"></i>
-				<span slot="title">客户关系</span>
-			</el-menu-item>
-			<el-menu-item index="5">
-				<i class="icon icon-xmgl"></i>
-				<span slot="title">项目管理</span>
-			</el-menu-item>
-			<el-menu-item index="6">
-				<i class="icon icon-ywgl"></i>
-				<span slot="title">业务管理</span>
-			</el-menu-item>
-			<el-menu-item index="7">
-				<i class="icon icon-tjbb"></i>
-				<span slot="title">统计报表</span>
-			</el-menu-item>
+			<el-submenu index="3">
+				<template slot="title">
+					<i class="icon icon-csgl"></i>
+					<span slot="title">参数管理</span>
+				</template>
+				<el-menu-item index="3-1">参数管理1</el-menu-item>
+				<el-menu-item index="3-2">参数管理2</el-menu-item>
+			</el-submenu>
+			<el-submenu index="4">
+				<template slot="title">
+					<i class="icon icon-khgx"></i>
+					<span slot="title">客户关系</span>
+				</template>
+				<el-menu-item index="4-1">客户关系</el-menu-item>
+			</el-submenu>
+			<el-submenu index="5">
+				<template slot="title">
+					<i class="icon icon-xmgl"></i>
+					<span slot="title">项目管理</span>
+				</template>
+				<el-menu-item index="5-1">项目管理1</el-menu-item>
+				<el-menu-item index="5-2">项目管理2</el-menu-item>
+			</el-submenu>
+			<el-submenu index="6">
+				<template slot="title">
+					<i class="icon icon-ywgl"></i>
+					<span slot="title">业务管理</span>
+				</template>
+				<el-menu-item index="6-1">业务管理</el-menu-item>
+			</el-submenu>
+			<el-submenu index="7">
+				<template slot="title">
+					<i class="icon icon-tjbb"></i>
+					<span slot="title">统计报表</span>
+				</template>
+				<el-menu-item index="7-1">统计报表1</el-menu-item>
+				<el-menu-item index="7-2">统计报表1</el-menu-item>
+			</el-submenu>
 		</el-menu>
 	</div>
 </template>
@@ -74,6 +95,15 @@
 			},
 			handleClose(key, keyPath) {
 				console.log(key, keyPath);
+			},
+			collapse() {
+				console.log('collapse');
+			},
+			link() {
+				this.$router.replace('/home');
+			},
+			loadzzjg() {
+				this.$router.push('/home/basetable');
 			}
 		}
 
@@ -101,11 +131,33 @@
 </script>
 
 <style>
-	.sidebar .collapsible {
+	.sider[data-v-49e57eae] {
+	    flex: 0 0 180px;
+	    width: 180px;
+	    background: #f4f4f4;
+	    transition: all 0.3s linear;
+	}
+	/*.sider.collapse-active {
+		flex: 0 0 60px;
+		width: 60px;
+	}*/
+	/*.sider.collapse-active {
+		width: 60px;
+	}*/
+	.sider .collapsible {
 		display: inline-block;
 		width: 16px;
 		height: 13px;
 		background: url('../../../static/img/sidebar/collapsible.png') no-repeat;
+	}
+	.collapse-btn {
+		width: 180px;
+		background: #ffffff;
+		transition: all 0.3s linear;
+	}
+	.collapse-btn.collapse-active {
+		width: 60px;
+		background: #ffffff;
 	}
 	.el-menu--collapse {
 	    width: 60px;
@@ -113,8 +165,26 @@
 	.el-radio-button {
 	    display: inline-block;
 	    max-width: 100%;
-	     margin-bottom: 0px; 
+	    margin-bottom: 0px; 
 	    font-weight: 700;
+	}
+	.el-radio-button__inner {
+	    border: none;
+	    transition: all 0.3s linear;
+	    padding: 22.5px 22px;
+	    font-size: 14px;
+	    border-radius: 0;
+	}
+	.button-collapse{
+		width: 180px;
+	}
+	.el-radio-button:first-child .el-radio-button__inner {
+	    border-left: none;
+	    border-radius: 0px 0 0 0px;
+	    box-shadow: none!important;
+	}
+	.el-radio-button:first-child:last-child .el-radio-button__inner {
+	    border-radius: 0px;
 	}
 	.icon{
 		display: inline-block;
@@ -167,12 +237,13 @@
 	    padding: 0 20px;
 	    cursor: pointer;
 	    position: relative;
-	    transition: border-color .3s,background-color .3s,color .3s;
+	    transition: all 0.3s linear;
 	    box-sizing: border-box;
 	    white-space: nowrap;
 	}
 	.el-submenu .el-menu {
 	    background-color: #ffffff;
+	    transition: all 0.3s linear;
 	}
 	.el-menu {
 	    border-radius: 2px;
@@ -181,6 +252,7 @@
 	    margin: 0;
 	    padding-left: 0;
 	    background-color: #ffffff!important;
+	    transition: all 0.3s linear;
 	}
 	.el-submenu__icon-arrow {
 	    position: absolute;
@@ -195,26 +267,12 @@
 	    -ms-transform: rotate(0deg);
 	    transform: rotateZ(0deg);
 	}
-	.el-radio-button__inner {
-	    white-space: nowrap;
-	    background: #ffffff;
-	    border: none;
-	    border-left: 0;
-	    color: #1f2d3d;
-	    -webkit-appearance: none;
-	    text-align: center;
-	    box-sizing: border-box;
-	    outline: 0;
-	    margin: 0;
-	    cursor: pointer;
-	    transition: all .3s cubic-bezier(.645,.045,.355,1);
-	    padding: 22.5px 22px;
-	    font-size: 14px;
-	    border-radius: 0;
+	.el-submenu.is-opened {
+	    border-top: 4px solid #f4f4f4;
+    	border-bottom: 4px solid #f4f4f4;
 	}
-	.el-radio-button:first-child .el-radio-button__inner {
-	    border-left: none;
-	    border-radius: 4px 0 0 4px;
-	    box-shadow: none!important;
+	.el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active, .el-menu-item.is-active {
+	    color: #FF9900;
+	    /*background: #f4f4f4;*/
 	}
 </style>
