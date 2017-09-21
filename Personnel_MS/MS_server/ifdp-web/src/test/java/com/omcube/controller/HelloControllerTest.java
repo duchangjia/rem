@@ -25,8 +25,8 @@ public class HelloControllerTest {
     @Test
     public void hello() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("hello, world!")));
+                .andExpect(status().is3xxRedirection());
+                //.andExpect(content().string(equalTo("hello, world!")));
     }
 
 }

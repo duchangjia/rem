@@ -3,6 +3,7 @@ package com.omcube.model.po;
 import java.util.Date;
 
 public class BasicPO {
+	
     private String status;
     private Date createdDate;
     private Date updatedDate;
