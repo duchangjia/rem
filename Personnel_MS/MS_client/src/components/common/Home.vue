@@ -43,11 +43,11 @@
     .wrapper{
         display: flex;
     }
-    .sider{
+    /*.sider{
         flex: 0 0 180px;
         width: 180px;
         background: #fff;
-    }
+    }*/
     .container-wrapper{
         flex: 1;
         background: #f4f4f4;

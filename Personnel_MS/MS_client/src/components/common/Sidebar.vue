@@ -16,7 +16,7 @@
             </template>
         </template>
     </el-menu>-->
-	<div class="sider">
+	<div class="sider" :class="{'sider-active':isCollapse}">
 		<div class="collapse-btn" :class="{'collapse-active':isCollapse}" @click="collapse()">
 			<el-radio-group v-model="isCollapse">
 				<el-radio-button :label="!isCollapse">
@@ -26,7 +26,7 @@
 		</div>
 		
 		<el-menu unique-opened="true" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-			<el-menu-item index="1" @click='link()'>
+			<el-menu-item index="1" :class="{'is-active':menuItemFlag}" @click='link()'>
 				<i class="icon icon-home"></i>
 				<span slot="title">主页</span>
 			</el-menu-item>
@@ -86,7 +86,8 @@
 	export default {
 		data() {
 			return {
-				isCollapse: false
+				isCollapse: false,
+				menuItemFlag: true
 			};
 		},
 		methods: {
@@ -104,6 +105,7 @@
 			},
 			loadzzjg() {
 				this.$router.push('/home/basetable');
+				this.menuItemFlag = false;
 			}
 		}
 
@@ -131,19 +133,16 @@
 </script>
 
 <style>
-	.sider[data-v-49e57eae] {
+	.sider {
 	    flex: 0 0 180px;
 	    width: 180px;
-	    background: #f4f4f4;
+	    background: #FFFFFF;
 	    transition: all 0.3s linear;
 	}
-	/*.sider.collapse-active {
+	.sider.sider-active {
 		flex: 0 0 60px;
 		width: 60px;
-	}*/
-	/*.sider.collapse-active {
-		width: 60px;
-	}*/
+	}
 	.sider .collapsible {
 		display: inline-block;
 		width: 16px;
@@ -188,7 +187,7 @@
 	}
 	.icon{
 		display: inline-block;
-		margin-right: 17px;
+		margin-right: 20px;
 		width: 20px;
 		height: 16px;
 	}
@@ -212,6 +211,30 @@
 	}
 	.icon-tjbb{
 		background: url('../../../static/img/sidebar/tjbb0.png') no-repeat top center;
+	}
+	.el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active, .el-menu-item.is-active {
+	    color: #FF9900;
+	}
+	.is-active .icon-home{
+		background: url('../../../static/img/sidebar/home1.png') no-repeat top center;
+	}
+	.is-active .icon-sys{
+		background: url('../../../static/img/sidebar/sys1.png') no-repeat top center;
+	}
+	.is-active .icon-csgl{
+		background: url('../../../static/img/sidebar/csgl1.png') no-repeat top center;
+	}
+	.is-active .icon-khgx{
+		background: url('../../../static/img/sidebar/khgx1.png') no-repeat top center;
+	}
+	.is-active .icon-xmgl{
+		background: url('../../../static/img/sidebar/xmgl1.png') no-repeat top center;
+	}
+	.is-active .icon-ywgl{
+		background: url('../../../static/img/sidebar/ywgl1.png') no-repeat top center;
+	}
+	.is-active .icon-tjbb{
+		background: url('../../../static/img/sidebar/tjbb1.png') no-repeat top center;
 	}
 	.el-submenu .el-menu-item:hover, .el-submenu__title:hover {
 	    background-color: #F4F4F4;
@@ -243,7 +266,7 @@
 	}
 	.el-submenu .el-menu {
 	    background-color: #ffffff;
-	    transition: all 0.3s linear;
+	    transition: all 0.3s linear!important;
 	}
 	.el-menu {
 	    border-radius: 2px;
@@ -271,8 +294,11 @@
 	    border-top: 4px solid #f4f4f4;
     	border-bottom: 4px solid #f4f4f4;
 	}
-	.el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active, .el-menu-item.is-active {
-	    color: #FF9900;
-	    /*background: #f4f4f4;*/
+	.el-menu--collapse .el-submenu .el-menu {
+	    border: 1px solid #f4f4f4;
 	}
+	/*.el-tooltip__popper.is-dark {
+	    background: #1f2d3d;
+	    color: #fff;
+	}*/
 </style>
