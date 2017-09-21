@@ -17,10 +17,10 @@ public class UserController {
     @Autowired
     private SysUserMapper userMapper;
 
-    @RequestMapping("/{id}")
+    @RequestMapping("/{userNo}")
     @Cacheable
-    public SysUserPO getUser(@PathVariable String id) {
-        return userMapper.getUserById(id);
+    public SysUserPO getUser(@PathVariable String userNo) {
+        return userMapper.getUserByUserNo(userNo);
     }
 
 }

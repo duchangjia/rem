@@ -1,8 +1,8 @@
 package com.omcube.ifdpcore.common;
 
-import com.alibaba.fastjson.JSONObject;
+import java.io.Serializable;
 
-public class JSONResult extends JSONObject{
+public class JSONResult implements Serializable{
 
 	private static final long serialVersionUID = -1928917661186974720L;
 	

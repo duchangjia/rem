@@ -1,4 +1,4 @@
-package com.omcube.aop;
+package com.omcube.config.aop;
 
 import java.util.UUID;
 

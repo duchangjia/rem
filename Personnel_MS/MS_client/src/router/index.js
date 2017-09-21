@@ -67,10 +67,6 @@ export default new Router({
         {
             path: '/statement_2',
                 component: resolve => require(['../components/pages/statement_2.vue'], resolve)
-        },
-        {
-          path: 'role_mgmt',
-          component: resolve => require(['../components/pages/role_mgmt.vue'], resolve)
         }
       ]
     }

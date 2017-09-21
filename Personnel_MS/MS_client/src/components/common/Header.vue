@@ -118,19 +118,25 @@ export default {
 .header .headerright .userinfo {
     padding: 0 20px;
 }
+
 .header .headerright .el-icon--right {
     font-size: 10px;
 }
+
 .header .headerright .userinfo .useravatar {
     margin-right: 15px;
     border-radius: 50%;
 }
+
 .el-dropdown {
     color: #cccccc;
 }
+
 .el-dropdown-menu {
-    padding: 6px 20px !important;
     margin: 0 !important;
 }
 
+.el-dropdown-menu__item {
+    padding: 0 20px;
+}
 </style>
