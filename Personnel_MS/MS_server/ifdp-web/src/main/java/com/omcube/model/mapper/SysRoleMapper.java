@@ -11,17 +11,17 @@ import java.util.List;
 @Mapper
 public interface SysRoleMapper {
 
-    @Select("select r.* from sys_role r, sys_role_action ra where r.role_id=ra.role_id and ra.action_id=#{actionId}")
+    @Select("select r.* from IFDP_SYS_ROLE r, IFDP_SYS_REL_ROLE_BSN rb where r.role_no=rb.role_no and rb.bsn_no=#{bsnNo}")
     @Results({
-            @Result(id = true, column = "role_id", property = "roleId"),
+            @Result(id = true, column = "role_no", property = "roleNo"),
             @Result(column = "role_name", property = "roleName")
     })
-    List<SysRolePO> getByActionId(String actionId);
+    List<SysRolePO> getByBusinessNo(String bsnNo);
 
-    @Select("select r.* from sys_role r, sys_user_role ur where r.role_id=ur.role_id and ur.user_id=#{userId}")
+    @Select("select r.* from IFDP_SYS_ROLE r, IFDP_SYS_REL_USER_ROLE ur where r.role_no=ur.role_no and ur.user_no=#{userNo}")
     @Results({
-            @Result(id = true, column = "role_id", property = "roleId"),
+            @Result(id = true, column = "role_no", property = "roleNo"),
             @Result(column = "role_name", property = "roleName")
     })
-    List<SysRolePO> getByUserId(String userId);
+    List<SysRolePO> getByUserNo(String userNo);
 }

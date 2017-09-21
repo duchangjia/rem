@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://mysql.ruanzr.com:3306/ifdp?autoReconnect=true
+    url: jdbc:mysql://10.0.0.242:3306/ifdp?autoReconnect=true&useSSL=true
     username: ifdp
     password: $ifdp@2017
     type: com.alibaba.druid.pool.DruidDataSource

@@ -5,11 +5,16 @@
 
 <mapper namespace="com.omcube.model.mapper.SysUserMapper">
     <resultMap id="SysUserMap" type="com.omcube.model.po.SysUserPO">
-        <id column="user_id" property="id"></id>
-        <result column="mobile_no" property="mobileNo" javaType="java.lang.String"></result>
-        <result column="cert_type" property="certType" javaType="java.lang.String"></result>
+        <id column="user_no" property="userNo"></id>
+        <result column="log_name" property="userName" javaType="java.lang.String"></result>
         <result column="cert_no" property="certNo" javaType="java.lang.String"></result>
-        <result column="create_time" property="createTime" javaType="java.util.Date"></result>
-        <result column="update_time" property="updateTime" javaType="java.util.Date"></result>
+        <result column="mobile_tel" property="mobileTEL" javaType="java.lang.String"></result>
+        <result column="email" property="email" javaType="java.lang.String"></result>
+        <result column="organ_no" property="organNo" javaType="java.lang.String"></result>
+        <result column="remark" property="remark" javaType="java.lang.String"></result>
+        <result column="created_date" property="createdDate" javaType="java.util.Date"></result>
+        <result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
+        <result column="created_by" property="createdBy" javaType="java.lang.String"></result>
+        <result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
     </resultMap>
 </mapper>
