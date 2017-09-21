@@ -33,6 +33,10 @@ export default new Router({
           path: 'vuetable',
           component: resolve => require(['../components/pages/vuetabledemo.vue'], resolve)
         },
+        {
+          path: 'role_mgmt',
+          component: resolve => require(['../components/pages/role_mgmt.vue'], resolve)
+        }
       ]
     }
   ]

@@ -51,6 +51,6 @@
     .container-wrapper{
         flex: 1;
         background: #f4f4f4;
-        padding-left: 20px;
+        /* padding-left: 20px; */
     }
 </style>
