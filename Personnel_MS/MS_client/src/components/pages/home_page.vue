@@ -158,10 +158,6 @@
         },
         methods: {
             drawLine1() {
-                var easingFuncs = {quadraticIn: function (k) {
-                        return k * k;
-                    },
-                }
                 let myChart = this.$echarts.init(document.getElementById('myChart1'))
                 myChart.setOption({
                     title: {
@@ -183,28 +179,54 @@
                             show: true
                         },
                         backgroundColor:'#111',
+//                        label: {
+//                            show: true,
+//                            formatter: function (params) {
+//                                return params.value + '万元';
+//                            }
+//                        }
                     },
                     grid: {
                         show:true,
                         left: '7%',
-                        top: 50,
+                        top: 70,
                         borderColor:'transparent',
+                        //containLabel: true        // 让轴标签能在内容区里
                     },
-                    tooltip: {},
-                    xAxis: {
-                        data: ["一月", "二月", "三月", "四月", "五月", "六月"]
-                    },
-                    yAxis: {
-                        splitArea: {
-                          show: true,
-                            areaStyle: {
-                              color: ['#F9F9F9','#fff']
-                            }
+                    tooltip: {
+                        trigger: 'axis',           // 要配合下面属性一起用。提示X轴信息
+                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                            type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
                         },
                     },
+                    xAxis: {
+                        data: ["一月", "二月", "三月", "四月", "五月", "六月"],
+                        axisTick: {
+                            alignWithLabel: true           // 让X轴刻度位于data数据正中
+                        }
+                    },
+                    yAxis:[{
+//                            type: 'value',
+//                            min: 0,
+//                            max: 500,
+//                            interval: 100,
+//                            axisLabel: {
+//                                formatter: '{value} 万元'
+//                            },
+                            name: '万元',
+                            splitArea: {
+                              show: true,
+                                areaStyle: {
+                                  color: ['#F9F9F9','#fff']
+                                }
+                            },
+                        },
+                    ],
                     series: [{
                         name: '收入',
                         type:'line',
+//                        yAxisIndex: 1,   //如果是双Y轴坐标，index1表示使用右侧Y轴
+                        smooth: true,
                         data: [50, 250, 150, 300, 270, 450]
                     }],
                     backgroundColor: '#fff',
@@ -220,161 +242,278 @@
                     },
                     backgroundColor: '#fff',
                     tooltip: {
-//                        trigger: 'item',
-//                        formatter: '{a} <br/>{b} : {c} ({d}%)'
+                        trigger: 'item',
+                        formatter: '{a} <br/>{b} : {c} ({d}%)'
                     },
-                    grid: {
-                        left: '0%',
-                    },
-                    legend: {
-//                        orient: 'vertical',
-//                        left: 'left',
-//                        data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
-                    },
-                    series: [{
-                        name: '访问来源',
-                        type: 'pie',
-                        roseType: true,
-                        data: [
-                            {value: 335},
-                            {value:310, },
-                            {value:234,},
-                            {value:135,},
-                            {value:548,}
-                        ],
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
+                    toolbox: {
+                        show : true,
+                        feature : {
+                            mark : {show: true},
+                            dataView : {show: true, readOnly: false},
+                            magicType : {
+                                show: true,
+                                type: ['pie', 'funnel']
+                            },
+                            restore : {show: true},
+                            saveAsImage : {show: true}
                         }
-                    }]
+                    },
+                    calculable : true,
+                    legend: {
+//                        x : 'center',
+//                        y : 'bottom',
+                        orient: 'vertical',
+                        // x: 'left',
+                        right:'10%',
+                        bottom:'center',
+                        height:80,
+//                        padding:20,
+//                        align:'left',
+//                        itemGap:'100',
+//                        itemWidth:30,
+//                        itemHeight:38,
+                        data:['TeamA','TeamB','TeamC','TeamD','TeamE','TeamF'],
+                        tooltip: {
+                            show: true
+                        }
+                    },
+//                    color: ['#000'],   //柱子或者图效颜色
+                    series : [
+                        {
+//                            type:'bar',
+//                            barWidth: '20%',   //柱状图柱子的宽度
+                            name:'访问来源',
+                            type:'pie',
+                            radius : [30, 110],
+                            center : ['25%', '55%'],
+                            roseType : 'radius',
+                            avoidLabelOverlap:false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '16',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },
+                            lableLine: {
+                                normal: {
+                                    show: false
+                                },
+                                emphasis: {
+                                    show: true
+                                }
+                            },
+                            data:[
+                                {value:42, name:'TeamA'},
+                                {value:37, name:'TeamB'},
+                                {value:18, name:'TeamC'},
+                                {value:12, name:'TeamD'},
+                                {value:10, name:'TeamE'},
+                                {value:5, name:'TeamF'},
+                            ]
+                        },
+                    ]
                 })
             },
             drawLine3() {
                 var myChart = this.$echarts.init(document.getElementById('myChart3'));
-                var dataStyle = { //作用不明
-                    normal: {
-                        label: {show:false},
-                        labelLine: {show:false},
-                        shadowBlur: 40,
-                        shadowColor: 'rgba(40, 40, 40, 0.5)',
-                    }
-                };
-                var placeHolderStyle = { //作用不明  原来是这是pie图里面的
-                    normal : {
-                        color: 'rgba(0,0,0,0)',
-                        label: {show:false},
-                        labelLine: {show:false}
+                myChart.setOption({
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b}: {c} ({d}%)"
                     },
-                    emphasis : {
-                        color: 'rgba(0,0,0,0)'
-                    }
-                };
-                var option = {
-                    backgroundColor: '#fff', //图表的配置颜色
-                    color: ['#45e8bc', '#33d7fb','#ffdf34','#eeeeee'], //每一项对应的颜色
-                    tooltip : {  //提示框组件
-                        show: true,
-                        formatter: "{a} <br/>{b} : {c} ({d}%)"  //正则设置格式
+                    legend: {
+                        orient: 'vertical',
+                        // x: 'left',
+                        right:'10%',
+                        bottom:'center',
+                        data:['直达','邮件营销','联盟广告']
                     },
-                    legend: {  //图例组件
-                        orient:'vertical', //图例的布局朝向
-                        x:400,  //图例的位置--离左边的距离
-                        y:50,  //图例的位置--离上边的距离
-                        itemGap:20, //图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。
-                        data:['高血压','高血脂','高血糖','会员总数']
-                    },
-                    series : [  //系列列表
+                    series: [
                         {
-                            name:'高血压',  //名字--用于tooltip的显示
-                            type:'pie',    //类型--饼状图
-                            clockWise:false,   //饼图的扇区是否是顺时针排布。
-                            radius : [90,115], //饼图的半径，数组的第一项是内半径，第二项是外半径。 内半径是0就是一个真正的饼
-                            center:['30%', '50%'], //饼图片的中心
-                            itemStyle : dataStyle, //样式
-                            hoverAnimation: false, //是否开启 hover 在扇区上的放大动画效果。
-                            zlevel:2,
-                            data:[  //系列中的数据内容数组
-                                {
-                                    value:360,     //数据值总的值
-                                    name:'高血压'  //数据项名称。
-                                },
-                                {
-                                    value:60,     //剩下的值
-                                    name:'invisible',
-                                    itemStyle : placeHolderStyle
-                                }
-
-                            ],
-                        },
-                        {
-                            name:'高血脂',
+                            name:'访问来源',
                             type:'pie',
-                            clockWise:false,
-                            radius : [70, 90],
-                            center:['30%', '50%'], //饼图片的中心
-                            itemStyle : dataStyle,
+                            radius: ['40%', '55%'],
                             hoverAnimation: false,
-                            zlevel:100,
-                            data:[
-                                {
-                                    value:360,   //数据值总的值
-                                    name:'高血脂'
-                                },
-                                {
-                                    value:270,
-                                    name:'invisible',
-                                    itemStyle : placeHolderStyle
+                            avoidLabelOverlap:false,
+                            label: {
+                                normal: {
+                                    formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
+                                    backgroundColor: '#eee',
+                                    borderColor: '#aaa',
+                                    borderWidth: 1,
+                                    borderRadius: 4,
+                                    // shadowBlur:3,
+                                    // shadowOffsetX: 2,
+                                    // shadowOffsetY: 2,
+                                    // shadowColor: '#999',
+                                    // padding: [0, 7],
+                                    rich: {
+                                        a: {
+                                            color: '#999',
+                                            align: 'center'
+                                        },
+                                        // abg: {
+                                        //     backgroundColor: '#333',
+                                        //     width: '100%',
+                                        //     align: 'right',
+                                        //     height: 22,
+                                        //     borderRadius: [4, 4, 0, 0]
+                                        // },
+                                        hr: {
+                                            borderColor: '#aaa',
+                                            width: '100%',
+                                            borderWidth: 0.5,
+                                            height: 0
+                                        },
+                                        b: {
+                                            fontSize: 12,
+                                        },
+                                        per: {
+                                            color: '#eee',
+                                            backgroundColor: '#334455',
+                                            padding: [2, 4],
+                                            borderRadius: 2
+                                        }
+                                    }
                                 }
+                            },
+                            data:[
+                                {value:335, name:'直达',selected:true},
+                                {value:310, name:'邮件营销',selected:true},
+                                {value:234, name:'联盟广告',selected:true},
                             ]
-                        },
-                        {
-                            name:'高血糖',
-                            type:'pie',
-                            clockWise:false,
-                            hoverAnimation: false,
-                            radius : [50, 70],
-                            center:['30%', '50%'], //饼图片的中心
-                            itemStyle : dataStyle,
-
-                            data:[
-                                {
-                                    value:360,
-                                    name:'高血糖'
-                                },
-                                {
-                                    value:300,
-                                    name:'invisible',
-                                    itemStyle : placeHolderStyle
-                                }
-                            ]
-                        },
-                        {
-                            name:'会员总数',
-                            type:'pie',
-                            clockWise:false,
-                            hoverAnimation: false,
-                            radius : [90,115],
-                            center:['30%', '50%'], //饼图片的中心
-                            itemStyle : dataStyle,
-                            zlevel:1,
-                            data:[
-                                {
-                                    value:360,
-                                    name:'会员总数'
-                                },
-                                {
-                                    value:0,
-                                    name:'invisible',
-                                    itemStyle : placeHolderStyle
-                                }
-                            ],
-                        },
+                        }
                     ]
-                };
-                myChart.setOption(option);
+                })
+//                var dataStyle = { //作用不明
+//                    normal: {
+//                        label: {show:false},
+//                        labelLine: {show:false},
+//                        shadowBlur: 40,
+//                        shadowColor: 'rgba(40, 40, 40, 0.5)',
+//                    }
+//                };
+//                var placeHolderStyle = { //作用不明  原来是这是pie图里面的
+//                    normal : {
+//                        color: 'rgba(0,0,0,0)',
+//                        label: {show:false},
+//                        labelLine: {show:false}
+//                    },
+//                    emphasis : {
+//                        color: 'rgba(0,0,0,0)'
+//                    }
+//                };
+//                var option = {
+//                    backgroundColor: '#fff', //图表的配置颜色
+//                    color: ['#45e8bc', '#33d7fb','#ffdf34','#eeeeee'], //每一项对应的颜色
+//                    tooltip : {  //提示框组件
+//                        show: true,
+//                        formatter: "{a} <br/>{b} : {c} ({d}%)"  //正则设置格式
+//                    },
+//                    legend: {  //图例组件
+//                        orient:'vertical', //图例的布局朝向
+//                        x:400,  //图例的位置--离左边的距离
+//                        y:50,  //图例的位置--离上边的距离
+//                        itemGap:20, //图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。
+//                        data:['高血压','高血脂','高血糖','会员总数']
+//                    },
+//                    series : [  //系列列表
+//                        {
+//                            name:'高血压',  //名字--用于tooltip的显示
+//                            type:'pie',    //类型--饼状图
+//                            clockWise:false,   //饼图的扇区是否是顺时针排布。
+//                            radius : [90,115], //饼图的半径，数组的第一项是内半径，第二项是外半径。 内半径是0就是一个真正的饼
+//                            center:['30%', '50%'], //饼图片的中心
+//                            itemStyle : dataStyle, //样式
+//                            hoverAnimation: true, //是否开启 hover 在扇区上的放大动画效果。
+//                            zlevel:2,
+////                            avoidLabelOverlap:true,
+//                            data:[  //系列中的数据内容数组
+//                                {
+//                                    value:360,     //数据值总的值
+//                                    name:'高血压'  //数据项名称。
+//                                },
+//                                {
+//                                    value:60,     //剩下的值
+//                                    name:'invisible',
+//                                    itemStyle : placeHolderStyle
+//                                }
+//
+//                            ],
+//                        },
+//                        {
+//                            name:'高血脂',
+//                            type:'pie',
+//                            clockWise:false,
+//                            radius : [70, 90],
+//                            center:['30%', '50%'], //饼图片的中心
+//                            itemStyle : dataStyle,
+//                            hoverAnimation: false,
+//                            zlevel:100,
+//                            data:[
+//                                {
+//                                    value:360,   //数据值总的值
+//                                    name:'高血脂'
+//                                },
+//                                {
+//                                    value:270,
+//                                    name:'invisible',
+//                                    itemStyle : placeHolderStyle
+//                                }
+//                            ]
+//                        },
+//                        {
+//                            name:'高血糖',
+//                            type:'pie',
+//                            clockWise:false,
+//                            hoverAnimation: false,
+//                            radius : [50, 70],
+//                            center:['30%', '50%'], //饼图片的中心
+//                            itemStyle : dataStyle,
+//
+//                            data:[
+//                                {
+//                                    value:360,
+//                                    name:'高血糖'
+//                                },
+//                                {
+//                                    value:300,
+//                                    name:'invisible',
+//                                    itemStyle : placeHolderStyle
+//                                }
+//                            ]
+//                        },
+//                        {
+//                            name:'会员总数',
+//                            type:'pie',
+//                            clockWise:false,
+//                            hoverAnimation: false,
+//                            radius : [90,115],
+//                            center:['30%', '50%'], //饼图片的中心
+//                            itemStyle : dataStyle,
+//                            zlevel:1,
+//                            data:[
+//                                {
+//                                    value:360,
+//                                    name:'会员总数'
+//                                },
+//                                {
+//                                    value:0,
+//                                    name:'invisible',
+//                                    itemStyle : placeHolderStyle
+//                                }
+//                            ],
+//                        },
+//                    ]
+//                };
+//                myChart.setOption(option);
             },
             drawLine4() {
                 let myChart = this.$echarts.init(document.getElementById('myChart4'))
@@ -520,6 +659,9 @@
 </script>
 
 <style scoped>
+    .home_page{
+        padding-left: 20px;
+    }
     .home_page *{
         padding: 0;
         margin: 0;
