@@ -20,8 +20,20 @@
 					</el-menu-item>
 				</template>
 			</template>
+	<!--<div class="sider" :class="{'sider-active':isCollapse}">-->
+		<!--<div class="collapse-btn" :class="{'collapse-active':isCollapse}" @click="collapse()">-->
+			<!--<el-radio-group v-model="isCollapse">-->
+				<!--<el-radio-button :label="!isCollapse">-->
+					<!--<i class="collapsible"></i>-->
+				<!--</el-radio-button>-->
+			<!--</el-radio-group>-->
+		<!--</div>-->
 
-
+		<!--<el-menu unique-opened="true" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">-->
+			<!--<el-menu-item index="1" @click='link()'>-->
+				<!--<i class="icon icon-home"></i>-->
+				<!--<span slot="title">主页</span>-->
+			<!--</el-menu-item>-->
 			<!--<el-submenu index="2">-->
 				<!--<template slot="title">-->
 					<!--<i class="icon icon-sys"></i>-->
@@ -29,7 +41,7 @@
 				<!--</template>-->
 				<!--<el-menu-item index="2-1" @click="loadzzjg()">组织架构</el-menu-item>-->
 				<!--<el-menu-item index="2-2">用户管理</el-menu-item>-->
-				<!--<el-menu-item index="2-3">角色管理</el-menu-item>-->
+				<!--<el-menu-item index="2-3" @click="link('role_mgmt')">角色管理</el-menu-item>-->
 				<!--<el-menu-item index="2-4">功能管理</el-menu-item>-->
 			<!--</el-submenu>-->
 			<!--<el-submenu index="3">-->
@@ -351,15 +363,6 @@
 	    /*background: #f4f4f4;*/
 	}
 	.el-menu--collapse .el-submenu .el-menu {
-	    /*position: absolute;
-	    margin-left: 5px;
-	    top: 0;
-	    left: 100%;
-	    z-index: 10;*/
-	    border: 1px solid #f4f4f4;
-	}
-	.el-tooltip__popper.is-dark {
-	    background: #1f2d3d;
-	    color: #fff;
+
 	}
 </style>
