@@ -1,97 +1,97 @@
 package com.omcube.model.po;
 
-import java.util.Date;
 import java.util.List;
 
 public class SysUserPO extends BasicPO {
-    private int id;
-    private String username;
-    private String password;
-    private String mobileNo;
-    private String email;
-    private String certType;
-    private String certNo;
-    private String gender;
-    private String birthday;
-    private List<SysRolePO> roles;
+	private String userNo;
+	private String userName;
+	private String certNo;
+	private String mobileTEL;
+	private String email;
+	private String organNo;// 所属机构
+	private String password;
+	private String pwdLevel;
+	private String remark;
+	private List<SysRolePO> roles;
 
-    public int getId() {
-        return id;
-    }
+	public String getUserNo() {
+		return userNo;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setUserNo(String userNo) {
+		this.userNo = userNo;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getCertNo() {
+		return certNo;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setCertNo(String certNo) {
+		this.certNo = certNo;
+	}
 
-    public String getMobileNo() {
-        return mobileNo;
-    }
+	public String getMobileTEL() {
+		return mobileTEL;
+	}
 
-    public void setMobileNo(String mobileNo) {
-        this.mobileNo = mobileNo;
-    }
+	public void setMobileTEL(String mobileTEL) {
+		this.mobileTEL = mobileTEL;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getCertType() {
-        return certType;
-    }
+	public String getOrganNo() {
+		return organNo;
+	}
 
-    public void setCertType(String certType) {
-        this.certType = certType;
-    }
+	public void setOrganNo(String organNo) {
+		this.organNo = organNo;
+	}
 
-    public String getCertNo() {
-        return certNo;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setCertNo(String certNo) {
-        this.certNo = certNo;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public String getGender() {
-        return gender;
-    }
+	public String getPwdLevel() {
+		return pwdLevel;
+	}
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
+	public void setPwdLevel(String pwdLevel) {
+		this.pwdLevel = pwdLevel;
+	}
 
-    public String getBirthday() {
-        return birthday;
-    }
+	public String getRemark() {
+		return remark;
+	}
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
-    public List<SysRolePO> getRoles() {
-        return roles;
-    }
+	public List<SysRolePO> getRoles() {
+		return roles;
+	}
 
-    public void setRoles(List<SysRolePO> roles) {
-        this.roles = roles;
-    }
+	public void setRoles(List<SysRolePO> roles) {
+		this.roles = roles;
+	}
+
 }
