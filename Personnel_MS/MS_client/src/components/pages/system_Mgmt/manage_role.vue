@@ -1,19 +1,8 @@
 <template>
-
-    <section class="role_mgmt">
-        <div class="location-wrapper">
-            <el-col :span="24">
-                <span class="title">当前位置：</span>
-                <el-breadcrumb separator="/" class="breadcrumb-inner">
-                    <el-breadcrumb-item>系统管理</el-breadcrumb-item>
-                    <el-breadcrumb-item>角色管理</el-breadcrumb-item>
-                </el-breadcrumb>
-            </el-col>
-        </div>
         <div class="content-wrapper">
             <el-col :span="24" class="titlebar">
                 <span class="title">角色管理</span>
-                <el-button type="primary" @click="handleAdd('add_role')" class="addBtn">新增角色</el-button>
+                <el-button type="primary" @click="handleAdd" class="addBtn">新增角色</el-button>
             </el-col>
             <el-table stripe :data="tableData" border>
                 <el-table-column align="center" prop="ID" label="角色ID" width="260">
@@ -33,7 +22,6 @@
             <el-pagination class="toolbar" layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
             </el-pagination>
         </div>
-    </section>
 </template>
 
 <script type='text/ecmascript-6'>
@@ -115,8 +103,7 @@ export default {
         },
 
         handleAdd() {
-            const _self = this
-            _self.$router.push('/management_role/add_role');
+            this.$router.push('add_role');
         }
 
     }
@@ -131,23 +118,6 @@ export default {
 
 .role_mgmt {
     padding: 0 20px 20px;
-}
-
-.location-wrapper {
-    height: 70px;
-    line-height: 70px;
-    font-size: 12px;
-}
-
-.location-wrapper .title {
-    color: #475669;
-    vertical-align: middle;
-}
-
-.location-wrapper .breadcrumb-inner {
-    font-size: 12px;
-    display: inline-block;
-    vertical-align: middle;
 }
 
 .content-wrapper {
