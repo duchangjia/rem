@@ -9,8 +9,11 @@
                 </el-breadcrumb>
             </el-col>
         </div>
-
         <div class="content-wrapper">
+            <el-col :span="24" class="titlebar">
+                <span class="title">角色管理</span>
+                <el-button type="primary" @click="handleAdd" class="addBtn">新增角色</el-button>
+            </el-col>
             <el-table stripe :data="tableData" border>
                 <el-table-column align="center" prop="ID" label="角色ID" width="260">
                 </el-table-column>
@@ -26,13 +29,9 @@
                     </template>
                 </el-table-column>
             </el-table>
-
-            <div class="toolbar">
-                <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
-                </el-pagination>
-            </div>
+            <el-pagination class="toolbar" layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+            </el-pagination>
         </div>
-
     </section>
 </template>
 
@@ -111,7 +110,10 @@ export default {
             this.getRoles();
         },
         getRoles() {
-
+            return false;
+        },
+        handleAdd() {
+            return false;
         }
     }
 }
@@ -147,12 +149,29 @@ export default {
 .content-wrapper {
     background: #ffffff;
     padding: 20px;
-    /* padding-bottom: 0; */
+    padding-top: 0;
 }
-.toolbar {
+
+.titlebar {
+    height: 80px;
+    line-height: 80px;
+    font-size: 16px;
+    font-family: "PingFang SC";
+    border-bottom: 1px solid #eeeeee;
+    margin-bottom: 20px;
+}
+.titlebar .addBtn {
+    float: right;
+    margin-top: 20px;
+    border-radius: 0;
+    height: 40px;
+    line-height: 40px;
+    width: 120px;
+    background: #FF9900;
+    border: none;
+}
+.toolbar.el-pagination {
     text-align: right;
-}
-.toolbar .el-pagination {
     float: none !important;
     margin-top: 20px;
 }
