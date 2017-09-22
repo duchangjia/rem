@@ -1,4 +1,5 @@
 <template>
+
     <section class="role_mgmt">
         <div class="location-wrapper">
             <el-col :span="24">
@@ -12,7 +13,7 @@
         <div class="content-wrapper">
             <el-col :span="24" class="titlebar">
                 <span class="title">角色管理</span>
-                <el-button type="primary" @click="handleAdd" class="addBtn">新增角色</el-button>
+                <el-button type="primary" @click="handleAdd('add_role')" class="addBtn">新增角色</el-button>
             </el-col>
             <el-table stripe :data="tableData" border>
                 <el-table-column align="center" prop="ID" label="角色ID" width="260">
@@ -112,9 +113,10 @@ export default {
         getRoles() {
             return false;
         },
-        handleAdd() {
-            return false;
-        }
+        handleAdd(dir) {
+            const _self = this
+            _self.$router.push(dir)
+        },
     }
 }
 </script>

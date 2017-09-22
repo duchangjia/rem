@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <span class="homelogo">
-            <img src="../../../static/img/common/home_logo.png" alt="" width="120" height="30">
+            <img src="../../../static/img/common/home_logo.png" alt="" width="120" height="30" @click="link2Home" style="cursor: pointer">
         </span>
         <span class="headertitle">项目管理系统</span>
         <div class="headerright">
@@ -58,6 +58,9 @@ export default {
         handleCommand(commmand) {
             const _self = this
             _self.$router.push(commmand);
+        },
+        link2Home() {
+            this.$router.push('/home')
         }
     }
 }

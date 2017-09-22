@@ -81,7 +81,11 @@ export default new Router({
         {
             path: '/statement_2',
                 component: resolve => require(['../components/pages/statement_STAT/statement_2.vue'], resolve)
-        }
+        },
+        {
+            path: '/add_role',
+                component: resolve => require(['../components/pages/system_Mgmt/add_role.vue'], resolve)
+        },
       ]
     }
   ]
