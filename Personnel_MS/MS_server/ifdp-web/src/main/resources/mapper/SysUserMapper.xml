@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+        
 <mapper namespace="com.omcube.model.mapper.SysUserMapper">
     <resultMap id="SysUserMap" type="com.omcube.model.po.SysUserPO">
         <id column="user_no" property="userNo"></id>
@@ -17,4 +17,16 @@
         <result column="created_by" property="createdBy" javaType="java.lang.String"></result>
         <result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
     </resultMap>
+    
+    <select id="queryUser" parameterType="java.lang.String" resultMap="SysUserMap">       
+    	select * from IFDP_SYS_USER_BASE 
+		<where>
+			<if test="userNo != null">
+				user_no = #{userNo}
+			</if>
+			<if test="userName != null">
+				and log_name = #{userName}
+			</if>
+		</where> 
+    </select>
 </mapper>
