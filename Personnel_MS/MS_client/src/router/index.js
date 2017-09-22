@@ -14,12 +14,18 @@ export default new Router({
       component: resolve => require(['../components/pages/Login.vue'], resolve)
     },
     {
-        path: '/modifine_password',
-        component: resolve => require(['../components/pages/modifine_password.vue'], resolve)
-    },
-    {
-        path: '/user_info',
-            component: resolve => require(['../components/pages/user_info.vue'], resolve)
+        path: '/user_center',
+        component: resolve => require(['../components/common/user_center.vue'], resolve),
+        children: [
+          {
+              path: '/',
+              component: resolve => require(['../components/pages/user_Setting/user_info.vue'], resolve)
+          },
+          {
+              path: '/modify_password',
+                  component: resolve => require(['../components/pages/user_Setting/modify_password.vue'], resolve)
+          },
+        ]
     },
     {
       path: '/home',
@@ -31,50 +37,50 @@ export default new Router({
         },
         {
           path: '/management_framework',
-          component: resolve => require(['../components/pages/framework.vue'], resolve)
+          component: resolve => require(['../components/pages/system_Mgmt/framework.vue'], resolve)
         },
         {
           path: '/management_user',
-          component: resolve => require(['../components/pages/manage_user.vue'], resolve)
+          component: resolve => require(['../components/pages/system_Mgmt/manage_user.vue'], resolve)
         },
         {
           path: '/management_role',
-          component: resolve => require(['../components/pages/manage_role.vue'], resolve)
+          component: resolve => require(['../components/pages/system_Mgmt/manage_role.vue'], resolve)
         },
         {
             path: '/argument_1',
-                component: resolve => require(['../components/pages/argument_1.vue'], resolve)
+                component: resolve => require(['../components/pages/argument_Mgmt/argument_1.vue'], resolve)
         },
         {
             path: '/management_fun',
-                component: resolve => require(['../components/pages/manage_fun.vue'], resolve)
+                component: resolve => require(['../components/pages/system_Mgmt/manage_fun.vue'], resolve)
         },
         {
             path: '/argument_2',
-                component: resolve => require(['../components/pages/argument_2.vue'], resolve)
+                component: resolve => require(['../components/pages/argument_Mgmt/argument_2.vue'], resolve)
         },
         {
             path: '/client',
-                component: resolve => require(['../components/pages/client.vue'], resolve)
+                component: resolve => require(['../components/pages/client_Relationship/client.vue'], resolve)
         },{
             path: '/project_1',
-                component: resolve => require(['../components/pages/project_1.vue'], resolve)
+                component: resolve => require(['../components/pages/project_Mgmt/project_1.vue'], resolve)
         },
         {
             path: '/project_2',
-                component: resolve => require(['../components/pages/project_2.vue'], resolve)
+                component: resolve => require(['../components/pages/project_Mgmt/project_2.vue'], resolve)
         },
         {
             path: '/business',
-                component: resolve => require(['../components/pages/business.vue'], resolve)
+                component: resolve => require(['../components/pages/business_Mgmt/business.vue'], resolve)
         },
         {
             path: '/statement_1',
-                component: resolve => require(['../components/pages/statement_1.vue'], resolve)
+                component: resolve => require(['../components/pages/statement_STAT/statement_1.vue'], resolve)
         },
         {
             path: '/statement_2',
-                component: resolve => require(['../components/pages/statement_2.vue'], resolve)
+                component: resolve => require(['../components/pages/statement_STAT/statement_2.vue'], resolve)
         }
       ]
     }

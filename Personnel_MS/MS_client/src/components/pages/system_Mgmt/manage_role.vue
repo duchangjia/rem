@@ -180,6 +180,6 @@ export default {
     display: inline-block;
     width: 20px;
     height: 18px;
-    background: url('../../../static/img/common/edit.png');
+    background: url('../../../../static/img/common/edit.png');
 }
 </style>

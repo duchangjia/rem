@@ -16,11 +16,11 @@
                     <i class="el-icon-caret-bottom el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown" split-button type="primary">
-                    <el-dropdown-item command="user_info">基本信息</el-dropdown-item>
-                    <el-dropdown-item command="modifine_password">密码修改</el-dropdown-item>
+                    <el-dropdown-item command="user_center">基本信息</el-dropdown-item>
+                    <el-dropdown-item command="modify_password">密码修改</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
-            <span @click="handleCommand('loginout')">
+            <span @click="loginout('loginout')">
                 <img src="../../../static/img/common/exit0.png" alt="" width="16" height="18">
             </span>
         </div>
@@ -40,7 +40,7 @@ export default {
         }
     },
     methods: {
-        handleCommand(command) {
+        loginout(command) {
             var _this = this;
             if (command == 'loginout') {
                 this.$confirm('确认退出吗?', '提示', {
@@ -56,8 +56,8 @@ export default {
 //            return false
 //        },
         handleCommand(commmand) {
-            const self = this
-            self.$router.push(commmand);
+            const _self = this
+            _self.$router.push(commmand);
         }
     }
 }
