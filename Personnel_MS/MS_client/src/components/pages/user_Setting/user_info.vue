@@ -4,7 +4,7 @@
         <div class="main">
         	<div class="basic-sider">
 				<div class="top">
-					<img class="avatar" src="../../../static/img/common/avatar.png" width="100px" height="100px" alt="" />
+					<img class="avatar" src="../../../../static/img/common/avatar.png" width="100px" height="100px" alt="" />
 					<div class="name">卢小鱼</div>
 					<div class="job">技术经理</div>
 				</div>

@@ -1,6 +1,9 @@
 <template>
     <div class="user_center">
-        user_center
+        <v-header></v-header>
+        <transition name="move" mode="out-in">
+            <router-view></router-view>
+        </transition>
     </div>
 </template>
 
