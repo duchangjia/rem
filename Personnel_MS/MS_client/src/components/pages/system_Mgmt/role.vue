@@ -28,11 +28,6 @@
 </script>
 
 <style>
-* {
-    padding: 0;
-    margin: 0;
-}
-
 .role_mgmt {
     padding: 0 20px 20px;
 }
@@ -41,12 +36,10 @@
     line-height: 70px;
     font-size: 12px;
 }
-
 .location-wrapper .title {
     color: #475669;
     vertical-align: middle;
 }
-
 .location-wrapper .breadcrumb-inner {
     font-size: 12px;
     display: inline-block;
