@@ -10,7 +10,7 @@
                 <!-- <span>8</span> -->
             </span>
             <span><img src="../../../static/img/common/help.png" alt="" width="14" height="16"></span>
-            <el-dropdown trigger="hover" class="userinfo"  @command="handleCommand">
+            <el-dropdown trigger="hover" class="userinfo" @command="handleCommand">
                 <span class="el-dropdown-link">
                     <img src="../../../static/img/common/avatar.png" width="32" height="32" class="useravatar" />您好，{{username}}
                     <i class="el-icon-caret-bottom el-icon--right"></i>
@@ -20,7 +20,7 @@
                     <el-dropdown-item command="modify_password">密码修改</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
-            <span @click="loginout('loginout')">
+            <span @click="loginout()">
                 <img src="../../../static/img/common/exit0.png" alt="" width="16" height="18">
             </span>
         </div>
@@ -40,21 +40,17 @@ export default {
         }
     },
     methods: {
-        loginout(command) {
-            var _this = this;
-            if (command == 'loginout') {
-                this.$confirm('确认退出吗?', '提示', {
-                }).then(() => {
-                    localStorage.removeItem('ms_username');
-                    _this.$router.push('/login');
-                }).catch(() => {
+        loginout() {
+            const _this = this;
+            this.$confirm('确认退出吗?', '提示', {
+            }).then(() => {
+                localStorage.removeItem('ms_username');
+                _this.$router.push('/login');
+            }).catch(() => {
 
-                });
-            }
+            });
+
         },
-//        handleClick() {
-//            return false
-//        },
         handleCommand(commmand) {
             const _self = this
             _self.$router.push(commmand);
