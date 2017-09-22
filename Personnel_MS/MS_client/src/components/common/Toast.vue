@@ -32,7 +32,7 @@
 <style>
 .tusi{
 	position: absolute;
-	left: 37%;
+	left: 37.5%;
 	top:57%;
 	font-size: 0px;
 	padding:9px 106px;
