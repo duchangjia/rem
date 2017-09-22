@@ -113,7 +113,8 @@ export default {
             return false;
         },
         handleAdd() {
-            return false;
+            const _self = this
+            _self.$router.push('/management_role/add_role');
         }
     }
 }
@@ -160,6 +161,7 @@ export default {
     border-bottom: 1px solid #eeeeee;
     margin-bottom: 20px;
 }
+
 .titlebar .addBtn {
     float: right;
     margin-top: 20px;
@@ -170,6 +172,7 @@ export default {
     background: #FF9900;
     border: none;
 }
+
 .toolbar.el-pagination {
     text-align: right;
     float: none !important;
