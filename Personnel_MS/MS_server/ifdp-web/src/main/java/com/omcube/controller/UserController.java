@@ -29,7 +29,7 @@ public class UserController {
     @RequestMapping(value = "/queryUser", method = RequestMethod.GET)
     @Cacheable
     public Object queryUser(@RequestParam String userNo,@RequestParam String userName) {
-    	/*logger.info(String.format("the request pragram userNo:%s,userName:%s", userNo,userName));
+    	logger.info(String.format("the request pragram userNo:%s,userName:%s", userNo,userName));
     	//校验参数，至少一个不为空
     	if(StringUtils.isEmpty(userNo) && StringUtils.isEmpty(userName))
     	{
@@ -41,8 +41,7 @@ public class UserController {
     		userMapper = SpringUtil.getBean(SysUserMapper.class);
     	}
     	SysUserPO sysUserPo = userMapper.queryUser(userNo,userName);
-    	logger.info(sysUserPo);*/
-        return JSONResultUtil.setSuccess( userMapper.queryUser("1","jinx"));
+        return JSONResultUtil.setSuccess(sysUserPo);
     }
 
     @RequestMapping(value = "/queryUserByName", method = RequestMethod.GET)

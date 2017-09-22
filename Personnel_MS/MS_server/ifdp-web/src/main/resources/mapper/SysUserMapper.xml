@@ -18,4 +18,15 @@
         <result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
     </resultMap>
     
+    <select id="queryUser" parameterType="java.lang.String" resultMap="SysUserMap">       
+    	select * from IFDP_SYS_USER_BASE 
+		<where>
+			<if test="userNo != null">
+				user_no = #{userNo}
+			</if>
+			<if test="userName != null">
+				and log_name = #{userName}
+			</if>
+		</where> 
+    </select>
 </mapper>
