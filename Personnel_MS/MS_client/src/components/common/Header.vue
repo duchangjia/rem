@@ -10,14 +10,14 @@
                 <!-- <span>8</span> -->
             </span>
             <span><img src="../../../static/img/common/help.png" alt="" width="14" height="16"></span>
-            <el-dropdown trigger="hover" class="userinfo">
+            <el-dropdown trigger="hover" class="userinfo"  @command="handleCommand">
                 <span class="el-dropdown-link">
                     <img src="../../../static/img/common/avatar.png" width="32" height="32" class="useravatar" />您好，{{username}}
                     <i class="el-icon-caret-bottom el-icon--right"></i>
                 </span>
-                <el-dropdown-menu slot="dropdown" split-button type="primary" @click="handleClick">
-                    <el-dropdown-item>基本信息</el-dropdown-item>
-                    <el-dropdown-item>密码修改</el-dropdown-item>
+                <el-dropdown-menu slot="dropdown" split-button type="primary">
+                    <el-dropdown-item command="user_info">基本信息</el-dropdown-item>
+                    <el-dropdown-item command="modifine_password">密码修改</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
             <span @click="handleCommand('loginout')">
@@ -52,8 +52,12 @@ export default {
                 });
             }
         },
-        handleClick() {
-            return false
+//        handleClick() {
+//            return false
+//        },
+        handleCommand(commmand) {
+            const self = this
+            self.$router.push(commmand);
         }
     }
 }

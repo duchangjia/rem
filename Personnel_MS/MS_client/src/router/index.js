@@ -14,6 +14,14 @@ export default new Router({
       component: resolve => require(['../components/pages/Login.vue'], resolve)
     },
     {
+        path: '/modifine_password',
+        component: resolve => require(['../components/pages/modifine_password.vue'], resolve)
+    },
+    {
+        path: '/user_info',
+            component: resolve => require(['../components/pages/user_info.vue'], resolve)
+    },
+    {
       path: '/home',
       component: resolve => require(['../components/common/Home.vue'], resolve),
       children: [
