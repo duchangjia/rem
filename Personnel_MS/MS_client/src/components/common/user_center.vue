@@ -31,21 +31,22 @@
 //               default: '',
 //           }
 //        }],
-		data() {
-			return {
-				infoChange: ''
+//		data() {
+//			return {
+//				infoChange: ''
+//			}
+//		},
+		computed: {
+			infoChange() {
+				console.log(this.$route.path);
+				if (this.$route.path === '/user_center') {
+					return true
+				}
+				return false
 			}
 		},
         components: {
             vHeader,successTip
-        },
-        created(){
-        	console.log(location.hash);
-        	if(location.hash.substring(2) === 'user_center'){
-        		this.infoChange = true;
-        	}else {
-        		this.infoChange = false;
-        	}
         },
         methods: {
         	handleCommand(commmand) {
