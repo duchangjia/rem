@@ -23,10 +23,10 @@
         			<div class="right">技术经理</div>
         		</li>
         		<li class="list-item">
-        			<el-col :span="2">
+        			<!--<el-col :span="2">-->
         				<div class="left">系统权限</div>
-        			</el-col>
-        			<el-col :span="22">
+        			<!--</el-col>-->
+        			<!--<el-col :span="22">-->
         				<div class="right right3">
 	        				<span class="sys-item">角色管理</span>
 	        				<span class="sys-item">部门经营报表</span>
@@ -42,7 +42,7 @@
 	        				<span class="sys-item">部门经营报表</span>
 	        				
 	        			</div>
-        			</el-col>
+        			<!--</el-col>-->
         			
         		</li>
         	</ul>
@@ -90,7 +90,8 @@ a {
 }
 .user_info .content {
 	width: 100%;
-	min-height: 530px;
+	/*min-height: 530px;*/
+    /*height: calc(100% - 90px);*/
 	padding: 0px 40px;
 	background: #ffffff;
 }
@@ -114,6 +115,7 @@ a {
 }
 .user_info .content .list-item{
 	/*padding: 32px 0px;*/
+	display: flex;
 }
 .user_info .content .list-item .left,.user_info .content .list-item .right {
 	display: inline-block;
@@ -121,11 +123,15 @@ a {
 	color: #333333;
 }
 .user_info .content .list-item .left {
+	flex: 0 0 64px;
 	width: 64px;
 	text-align: right;
 	margin-right: 40px;
 	color: #999999;
 	
+}
+.user_info .content .list-item .right{
+	flex: 1;
 }
 .user_info .list-item .right3 {
     padding: 14px 0px!important;
@@ -139,6 +145,6 @@ a {
 	line-height: 14px;
 	background: #F4F4F4;
 	border-radius: 2px;
-    margin: 10px;
+    margin: 10px 20px 10px -10px;
 }
 </style>

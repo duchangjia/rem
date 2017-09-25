@@ -33,14 +33,19 @@
 //        }],
 		data() {
 			return {
-				infoChange: true
+				infoChange: ''
 			}
 		},
         components: {
             vHeader,successTip
         },
         created(){
-        	this.$router.push('user_center');
+        	console.log(location.hash);
+        	if(location.hash.substring(2) === 'user_center'){
+        		this.infoChange = true;
+        	}else {
+        		this.infoChange = false;
+        	}
         },
         methods: {
         	handleCommand(commmand) {
