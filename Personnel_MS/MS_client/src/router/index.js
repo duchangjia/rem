@@ -53,7 +53,7 @@ export default new Router({
                             component: resolve => require(['../components/pages/system_Mgmt/manage_role.vue'], resolve)
                         },
                         {
-                            path: '/add_role',
+                            path: 'add_role',
                             component: resolve => require(['../components/pages/system_Mgmt/add_role.vue'], resolve)
                         }
                     ]
