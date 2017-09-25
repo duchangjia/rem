@@ -103,7 +103,7 @@ export default {
         },
 
         handleAdd() {
-            this.$router.replace('/management_role/add_role');
+            this.$router.replace('/add_role');
         }
 
     }
