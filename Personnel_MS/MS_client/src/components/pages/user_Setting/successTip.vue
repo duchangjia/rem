@@ -26,7 +26,7 @@
 			}
 		},
 		created(){
-			Bus.$on('showErrTip',(msg) => {
+			Bus.$on('showSuccessTip',(msg) => {
 				this.errflag = false;
 				if(msg !== ''){
 					this.errmessage = msg;
@@ -39,7 +39,7 @@
 	    		this.errflag = true;
 	    	},
 	    	login() {
-	    		this.$router.push('login');
+	    		this.$router.push('/login');
 	    	}
 	    }
   }

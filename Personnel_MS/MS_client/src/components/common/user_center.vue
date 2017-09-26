@@ -25,16 +25,16 @@
     import vHeader from './Header.vue'
     import successTip from '../pages/user_Setting/successTip.vue'
     export default {
-//		data() {
-//			return {
-//				infoChange: true
-//			}
-//		},
+		computed: {
+			infoChange() {
+				if (this.$route.path === '/user_center') {
+					return true
+				}
+				return false
+			}
+		},
         components: {
             vHeader,successTip
-        },
-        created(){
-        	this.$router.push('user_center');
         },
         methods: {
         	handleCommand(commmand) {
@@ -42,14 +42,6 @@
 	            _self.$router.push(commmand);
 	        }
         },
-        computed: {
-            infoChange() {
-				if (this.$route.path==='/user_center') {
-                    return true
-				}
-                return false
-            },
-        }
     }
 
 </script>
