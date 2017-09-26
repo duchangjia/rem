@@ -35,7 +35,7 @@
                 <div>关联菜单</div>
             </el-col>
             <el-col :span="22" class="right">
-                <el-radio-group v-model="menuRadio" class="menu">
+                <el-radio-group v-model="menuRadio" @change="handleCheckedMenusChange" class="menu">
                     <el-radio-button label="系统管理" class="menu-item"></el-radio-button>
                     <el-radio-button label="参数管理" class="menu-item"></el-radio-button>
                     <el-radio-button label="客户关系" class="menu-item"></el-radio-button>
@@ -45,12 +45,9 @@
                 </el-radio-group>
 
                 <div class="submenu">
-                    <el-button class="menu-item">全部</el-button>
-                    <el-checkbox-group v-model="menuCheckboxGroup">
-                        <el-checkbox-button label="组织架构" class="menu-item"></el-checkbox-button>
-                        <el-checkbox-button label="用户管理" class="menu-item"></el-checkbox-button>
-                        <el-checkbox-button label="角色管理" class="menu-item"></el-checkbox-button>
-                        <el-checkbox-button label="功能管理" class="menu-item"></el-checkbox-button>
+                    <el-checkbox-button :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" label="全部"></el-checkbox-button>
+                    <el-checkbox-group v-model="submenuCheckboxGroup" @change="handleCheckedSubmenusChange">
+                        <el-checkbox-button v-for="submenu in submenus" :label="submenu" :key="submenu" class="menu-item">{{submenu}}</el-checkbox-button>
                     </el-checkbox-group>
                 </div>
             </el-col>
@@ -58,13 +55,20 @@
                 <div>功能权限</div>
             </el-col>
             <el-col :span="22" class="right">
-                
+
             </el-col>
         </div>
     </div>
 </template>
 
 <script type='text/ecmascript-6'>
+const submenuOptions1 = ['组织架构', '用户管理', '角色管理', '功能管理'];
+const submenuOptions2 = ['参数管理1', '参数管理2', '参数管理3'];
+const submenuOptions3 = ['客户关系1', '客户关系2', '客户关系3'];
+const submenuOptions4 = ['项目管理1', '项目管理2', '项目管理3', '项目管理4'];
+const submenuOptions5 = ['业务管理1', '业务管理2', '业务管理3', '业务管理4'];
+const submenuOptions6 = ['运营报表1', '运营报表2', '运营报表3', '运营报表4'];
+
 export default {
     data() {
         return {
@@ -75,8 +79,39 @@ export default {
                 descript: ''
             },
             menuRadio: '系统管理',
-            menuCheckboxGroup: []
+
+            checkAll: true,
+            checkedCities: ['组织架构', '用户管理'],
+            submenus: [],
+            isIndeterminate: true,
+            submenuCheckboxGroup: []
         };
+    },
+    methods: {
+        handleCheckedMenusChange(value) {
+            if (value == '系统管理') {
+                this.submenus = submenuOptions1;
+            } else if (value == '参数管理') {
+                this.submenus = submenuOptions2;
+            } else if (value == '客户关系') {
+                this.submenus = submenuOptions3;
+            } else if (value == '项目管理') {
+                this.submenus = submenuOptions4;
+            } else if (value == '业务管理') {
+                this.submenus = submenuOptions5;
+            } else if (value == '运营报表') {
+                this.submenus = submenuOptions6;
+            }
+        },
+        handleCheckAllChange(event) {
+            this.submenuCheckboxGroup = event.target.checked ? submenuOptions1 : [];
+            this.isIndeterminate = false;
+        },
+        handleCheckedSubmenusChange(value) {
+            let checkedCount = value.length;
+            this.checkAll = checkedCount === this.submenus.length;
+            this.isIndeterminate = checkedCount > 0 && checkedCount < this.submenus.length;
+        }
     }
 }
 </script>
@@ -140,98 +175,94 @@ export default {
     display: inline-block;
 }
 
-label {
+.add-wrapper label {
     font-weight: 400;
     color: #999999;
     margin-right: 14px;
 }
 
-.el-input__inner {
+.add-wrapper .el-input__inner {
     border-radius: 0;
     width: 300px;
 }
 
-.menu-item {
+.add-wrapper .menu-item {
     display: inline-block;
-    /* padding: 10px; */
     margin-right: 20px;
     margin-bottom: 20px;
     border-radius: 2px;
     font-family: "PingFangSC-Regular";
 }
-.menu-item > span {
-    display: inline-block;
-    padding: 10px;
-}
-.el-radio-button__inner {
+
+.add-wrapper .el-radio-button__inner {
     background: #F4F4F4;
     border: none;
     padding: 10px;
     border-radius: 2px;
 }
 
-.el-radio-button__inner:hover {
+.add-wrapper .el-radio-button__inner:hover {
     color: #FF9900;
 }
 
-.el-radio-button:first-child .el-radio-button__inner {
+.add-wrapper .el-radio-button:first-child .el-radio-button__inner {
     border-left: none;
     border-radius: 2px;
 }
 
-.el-radio-button:last-child .el-radio-button__inner {
+.add-wrapper .el-radio-button:last-child .el-radio-button__inner {
     border-radius: 2px;
 }
 
-.el-radio-button__orig-radio:checked+.el-radio-button__inner {
+.add-wrapper .el-radio-button__orig-radio:checked+.el-radio-button__inner {
     background-color: #FF9900;
+    box-shadow: none;
 }
 
-.submenu {
+.add-wrapper .el-radio-button__orig-radio:checked+.el-radio-button__inner:hover {
+    color: #ffffff;
+}
+
+.add-wrapper .submenu {
     padding: 10px;
     background: #F4F4F4;
 }
 
-.submenu .menu-item {
+.add-wrapper .submenu .menu-item {
     margin-bottom: 0;
     font-family: "PingFangSC-Light";
 }
-.submenu .el-checkbox-group {
+
+.add-wrapper .submenu .el-checkbox-group {
     display: inline-block;
 }
 
-.submenu .el-button {
-    border: none;
-    color: #999999;
-}
-.submenu .el-button:active {
-    color: #ffffff;
-    background: #FF9900;
-}
-.submenu .el-checkbox-button__inner {
+.add-wrapper .submenu .el-checkbox-button__inner {
     background: #ffffff;
     border: none;
     padding: 10px;
     border-radius: 2px;
 }
 
-.submenu .el-checkbox-button:first-child .el-checkbox-button__inner {
+.add-wrapper .submenu .el-checkbox-button:first-child .el-checkbox-button__inner {
     border-left: none;
     border-radius: 2px;
 }
-.submenu .el-checkbox-button.is-checked .el-checkbox-button__inner {
+
+.add-wrapper .submenu .el-checkbox-button.is-checked .el-checkbox-button__inner {
+    background-color: #FF9900;
     box-shadow: none;
 }
-.submenu .el-checkbox-button:last-child .el-checkbox-button__inner {
+
+.add-wrapper .submenu .el-checkbox-button:last-child .el-checkbox-button__inner {
     border-radius: 2px;
 }
 
-.submenu .el-checkbox-button__inner:hover {
+.add-wrapper .submenu .el-checkbox-button__inner:hover {
     color: #FF9900;
 }
-.submenu .el-checkbox-button.is-checked .el-checkbox-button__inner:hover {
+
+.add-wrapper .submenu .el-checkbox-button.is-checked .el-checkbox-button__inner:hover {
     color: #ffffff;
 }
-
-
 </style>
