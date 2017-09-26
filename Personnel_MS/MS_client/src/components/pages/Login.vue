@@ -88,7 +88,6 @@
                     } else {
                         //console.log('error submit!!');
                         Bus.$emit('showErrTip',{content:'登录失败！请填写正确的账号和密码。',title:'温馨提示'});
-                        return false;
                     }
                 });
             }

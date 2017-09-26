@@ -1,30 +1,35 @@
 <template>
-    <div class="content-wrapper">
-        <el-col :span="24" class="titlebar">
-            <span class="title">角色管理</span>
-            <el-button type="primary" @click="handleAdd" class="toolBtn">新增角色</el-button>
-        </el-col>
-        <el-table stripe :data="tableData" border>
-            <el-table-column align="center" prop="roleID" label="角色ID" width="260">
-            </el-table-column>
-            <el-table-column align="center" prop="roleName" label="角色名称" width="260">
-            </el-table-column>
-            <el-table-column align="center" prop="status" label="状态">
-            </el-table-column>
-            <el-table-column align="center" prop="descript" label="描述">
-            </el-table-column>
-            <el-table-column align="center" label="操作" width="150">
-                <template scope="scope">
-                    <i class="icon-edit"></i>
-                </template>
-            </el-table-column>
-        </el-table>
-        <el-pagination class="toolbar" layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
-        </el-pagination>
+    <div class="role_mgmt">
+        <current yiji="系统管理" erji="角色管理">
+        </current>
+        <div class="content-wrapper">
+            <el-col :span="24" class="titlebar">
+                <span class="title">角色管理</span>
+                <el-button type="primary" @click="handleAdd" class="toolBtn">新增角色</el-button>
+            </el-col>
+            <el-table stripe :data="tableData" border>
+                <el-table-column align="center" prop="roleID" label="角色ID">
+                </el-table-column>
+                <el-table-column align="center" prop="roleName" label="角色名称">
+                </el-table-column>
+                <el-table-column align="center" prop="status" label="状态">
+                </el-table-column>
+                <el-table-column align="center" prop="descript" label="描述">
+                </el-table-column>
+                <el-table-column align="center" label="操作" width="150">
+                    <template scope="scope">
+                        <i class="icon-edit"></i>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination class="toolbar" layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+            </el-pagination>
+        </div>
     </div>
 </template>
 
 <script type='text/ecmascript-6'>
+import current from '../../common/current_position.vue'
 export default {
     data() {
         return {
@@ -93,6 +98,9 @@ export default {
             sels: []//列表选中列
         }
     },
+    components: {
+        current,
+    },
     methods: {
         handleCurrentChange(val) {
             this.page = val;
@@ -111,10 +119,15 @@ export default {
 </script>
 
 <style scoped>
+.role_mgmt {
+    padding: 0 20px 20px;
+}
+
 .content-wrapper {
     background: #ffffff;
     padding: 0 20px 20px;
 }
+
 .content-wrapper .titlebar {
     float: none;
     height: 80px;
@@ -135,9 +148,11 @@ export default {
     background: #FF9900;
     border: none;
 }
+
 .el-button {
     padding: 0;
 }
+
 .toolbar.el-pagination {
     text-align: right;
     float: none !important;
