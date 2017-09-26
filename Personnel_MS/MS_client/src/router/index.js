@@ -42,7 +42,17 @@ export default new Router({
                 },
                 {
                     path: '/management_user',
-                    component: resolve => require(['../components/pages/system_Mgmt/manage_user.vue'], resolve)
+                    component: resolve => require(['../components/pages/system_Mgmt/manage_user.vue'], resolve),
+                	children: [
+	                	{
+	                		path: '/',
+	                		component: resolve => require(['../components/pages/system_Mgmt/user-query.vue'], resolve)
+	                	},
+	                	{
+	                		path: '/user-info',
+	                		component: resolve => require(['../components/pages/system_Mgmt/user-info.vue'], resolve)
+	                	}
+                	]
                 },
                 {
                     path: '/management_role',

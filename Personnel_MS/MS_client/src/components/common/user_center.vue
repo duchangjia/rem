@@ -39,10 +39,7 @@
         methods: {
         	handleCommand(commmand) {
 	            const _self = this;
-<<<<<<< HEAD
 //	            _self.infoChange = !_self.infoChange;
-=======
->>>>>>> 20ce43a1dc96bd0ed81a13273674d79d29b1e1db
 	            _self.$router.push(commmand);
 	        }
         },
