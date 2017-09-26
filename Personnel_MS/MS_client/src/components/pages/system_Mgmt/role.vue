@@ -1,23 +1,16 @@
 <template>
-    <div class="role_mgmt">
-
-        <transition name="move" mode="out-in">
-            <router-view></router-view>
-        </transition>
-    </div>
+    <transition name="move" mode="out-in">
+        <router-view></router-view>
+    </transition>
 </template>
 
 <script type='text/ecmascript-6'>
-    export default {
+export default {
 
-    }
+}
 </script>
 
 <style>
-.role_mgmt {
-    padding: 0 20px 20px;
-}
-
 
 </style>
 

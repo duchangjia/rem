@@ -1,62 +1,66 @@
 <template>
-    <div class="content-wrapper">
-        <el-col :span="24" class="titlebar">
-            <span class="title">新增角色</span>
-            <el-button type="primary" @click="handleAdd" class="toolBtn">保存</el-button>
-        </el-col>
-        <div class="add-wrapper role-msg">
-            <el-col :span="24" class="item-title">角色信息</el-col>
-            <el-form :inline="true" :model="formRoleMsg" :label-position="right" label-width="80px">
-                <el-col :span="12">
-                    <el-form-item label="角色ID">
-                        <el-input v-model="formRoleMsg.roleID"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="名称">
-                        <el-input v-model="formRoleMsg.roleName"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="状态">
-                        <el-input v-model="formRoleMsg.status"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="描述">
-                        <el-input v-model="formRoleMsg.descript"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-form>
-        </div>
-        <div class="add-wrapper auth-assign">
-            <el-col :span="24" class="item-title">权限分配</el-col>
-            <el-col :span="2" class="left">
-                <div>关联菜单</div>
+    <div class="role_mgmt">
+        <current yiji="系统管理" erji="角色管理" sanji="新增角色">
+        </current>
+        <div class="content-wrapper">
+            <el-col :span="24" class="titlebar">
+                <span class="title">新增角色</span>
+                <el-button type="primary" @click="handleAdd" class="toolBtn">保存</el-button>
             </el-col>
-            <el-col :span="22" class="right">
-                <el-radio-group v-model="menuRadio" @change="handleCheckedMenusChange" class="menu">
-                    <el-radio-button label="系统管理" class="menu-item"></el-radio-button>
-                    <el-radio-button label="参数管理" class="menu-item"></el-radio-button>
-                    <el-radio-button label="客户关系" class="menu-item"></el-radio-button>
-                    <el-radio-button label="项目管理" class="menu-item"></el-radio-button>
-                    <el-radio-button label="业务管理" class="menu-item"></el-radio-button>
-                    <el-radio-button label="运营报表" class="menu-item"></el-radio-button>
-                </el-radio-group>
+            <div class="add-wrapper role-msg">
+                <el-col :span="24" class="item-title">角色信息</el-col>
+                <el-form :inline="true" :model="formRoleMsg" :label-position="right" label-width="80px">
+                    <el-col :span="12">
+                        <el-form-item label="角色ID">
+                            <el-input v-model="formRoleMsg.roleID"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="名称">
+                            <el-input v-model="formRoleMsg.roleName"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="状态">
+                            <el-input v-model="formRoleMsg.status"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="描述">
+                            <el-input v-model="formRoleMsg.descript"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-form>
+            </div>
+            <div class="add-wrapper auth-assign">
+                <el-col :span="24" class="item-title">权限分配</el-col>
+                <el-col :span="2" class="left">
+                    <div>关联菜单</div>
+                </el-col>
+                <el-col :span="22" class="right">
+                    <el-radio-group v-model="menuRadio" @change="handleCheckedMenusChange" class="menu">
+                        <el-radio-button label="系统管理" class="menu-item"></el-radio-button>
+                        <el-radio-button label="参数管理" class="menu-item"></el-radio-button>
+                        <el-radio-button label="客户关系" class="menu-item"></el-radio-button>
+                        <el-radio-button label="项目管理" class="menu-item"></el-radio-button>
+                        <el-radio-button label="业务管理" class="menu-item"></el-radio-button>
+                        <el-radio-button label="运营报表" class="menu-item"></el-radio-button>
+                    </el-radio-group>
 
-                <div class="submenu">
-                    <el-checkbox-button :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" label="全部"></el-checkbox-button>
-                    <el-checkbox-group v-model="submenuCheckboxGroup" @change="handleCheckedSubmenusChange">
-                        <el-checkbox-button v-for="submenu in submenus" :label="submenu" :key="submenu" class="menu-item">{{submenu}}</el-checkbox-button>
-                    </el-checkbox-group>
-                </div>
-            </el-col>
-            <el-col :span="2" class="left">
-                <div>功能权限</div>
-            </el-col>
-            <el-col :span="22" class="right">
+                    <div class="submenu">
+                        <el-checkbox-button :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" label="全部"></el-checkbox-button>
+                        <el-checkbox-group v-model="submenuCheckboxGroup" @change="handleCheckedSubmenusChange">
+                            <el-checkbox-button v-for="submenu in submenus" :label="submenu" :key="submenu" class="menu-item">{{submenu}}</el-checkbox-button>
+                        </el-checkbox-group>
+                    </div>
+                </el-col>
+                <el-col :span="2" class="left">
+                    <div>功能权限</div>
+                </el-col>
+                <el-col :span="22" class="right">
 
-            </el-col>
+                </el-col>
+            </div>
         </div>
     </div>
 </template>
@@ -68,7 +72,7 @@ const submenuOptions3 = ['客户关系1', '客户关系2', '客户关系3'];
 const submenuOptions4 = ['项目管理1', '项目管理2', '项目管理3', '项目管理4'];
 const submenuOptions5 = ['业务管理1', '业务管理2', '业务管理3', '业务管理4'];
 const submenuOptions6 = ['运营报表1', '运营报表2', '运营报表3', '运营报表4'];
-
+import current from '../../common/current_position.vue'
 export default {
     data() {
         return {
@@ -86,6 +90,9 @@ export default {
             isIndeterminate: true,
             submenuCheckboxGroup: []
         };
+    },
+    components: {
+        current,
     },
     methods: {
         handleCheckedMenusChange(value) {
@@ -117,6 +124,10 @@ export default {
 </script>
 
 <style>
+.role_mgmt {
+    padding: 0 20px 20px;
+}
+
 .content-wrapper {
     background: #ffffff;
     padding: 0 20px 20px;
