@@ -1,5 +1,5 @@
 <template>
-    <div class="role_mgmt">
+    <div class="add_role">
         <current yiji="系统管理" erji="角色管理" sanji="新增角色">
         </current>
         <div class="content-wrapper">
@@ -124,7 +124,7 @@ export default {
 </script>
 
 <style>
-.role_mgmt {
+.add_role {
     padding: 0 20px 20px;
 }
 

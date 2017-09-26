@@ -8,9 +8,9 @@
                 <el-button type="primary" @click="handleAdd" class="toolBtn">新增角色</el-button>
             </el-col>
             <el-table stripe :data="tableData" border>
-                <el-table-column align="center" prop="roleID" label="角色ID" width="260">
+                <el-table-column align="center" prop="roleID" label="角色ID">
                 </el-table-column>
-                <el-table-column align="center" prop="roleName" label="角色名称" width="260">
+                <el-table-column align="center" prop="roleName" label="角色名称">
                 </el-table-column>
                 <el-table-column align="center" prop="status" label="状态">
                 </el-table-column>
