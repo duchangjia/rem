@@ -113,9 +113,6 @@ export default {
                     descript: '我是描述是描述是描述是描述'
                 },
             ],
-            filters: {
-                roleName: ''
-            },
             users: [],
             total: 100,
             page: 1,
@@ -201,6 +198,45 @@ export default {
     text-align: right;
     float: none !important;
     margin-top: 20px;
+}
+
+.content-wrapper .toolbar.el-pagination {
+    text-align: right;
+    margin-top: 40px;
+    margin-right: 40px;
+}
+
+.content-wrapper .el-pager li.active {
+    border-color: #ff9900;
+    background-color: #ff9900;
+    color: #fff;
+    cursor: default;
+}
+
+.content-wrapper .el-pager li {
+    padding: 0 4px;
+    border-right: 0;
+    background: #fff;
+    font-size: 12px;
+    min-width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+}
+
+.el-pagination button,
+.el-pagination span {
+    display: inline-block;
+    font-size: 12px;
+    min-width: 24px;
+    height: 24px;
+    line-height: 24px;
+    vertical-align: top;
+    box-sizing: border-box;
+}
+
+.el-pager li:hover {
+    color: #FF9900;
 }
 
 .icon-edit {
