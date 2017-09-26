@@ -38,7 +38,25 @@ export default new Router({
                 },
                 {
                     path: '/management_framework',
-                    component: resolve => require(['../components/pages/system_Mgmt/framework.vue'], resolve)
+                    component: resolve => require(['../components/pages/system_Mgmt/frame.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/system_Mgmt/framework.vue'], resolve)
+                        },
+                        {
+                            path: '/edit_department',
+                                component: resolve => require(['../components/pages/system_Mgmt/edit_department.vue'], resolve)
+                        },
+                        {
+                            path: '/add_person',
+                                component: resolve => require(['../components/pages/system_Mgmt/add_person.vue'], resolve)
+                        },
+                        {
+                            path: '/add_junior',
+                                component: resolve => require(['../components/pages/system_Mgmt/add_junior.vue'], resolve)
+                        }
+                    ]
                 },
                 {
                     path: '/management_user',

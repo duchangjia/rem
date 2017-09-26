@@ -109,11 +109,9 @@ export default {
         getRoles() {
             return false;
         },
-
         handleAdd() {
-            this.$router.replace('/add_role');
+            this.$router.push('/add_role');
         }
-
     }
 }
 </script>
