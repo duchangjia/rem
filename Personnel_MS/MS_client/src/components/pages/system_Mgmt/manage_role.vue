@@ -4,7 +4,7 @@
         </current>
         <div class="content-wrapper">
             <el-col :span="24" class="titlebar">
-                <span class="title">角色管理</span>
+                <span class="title-text">角色管理</span>
                 <el-button type="primary" @click="handleAdd" class="toolBtn">新增角色</el-button>
             </el-col>
             <el-table stripe :data="tableData" border>
@@ -22,7 +22,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <el-pagination class="toolbar" layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+            <el-pagination class="toolbar" layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="5" :total="total" style="float:right;">
             </el-pagination>
         </div>
     </div>
@@ -38,62 +38,86 @@ export default {
                     roleID: '10001',
                     roleName: '系统管理员',
                     status: '启动',
-                    descript: '我是描述是描述是描述是描述是描述'
+                    descript: '我是描述是描述是描述是描述'
                 },
                 {
-                    roleID: '10001',
+                    roleID: '10002',
                     roleName: '系统管理员',
                     status: '启动',
-                    descript: '我是描述是描述是描述是描述是描述'
+                    descript: '我是描述是描述是描述是描述'
                 },
                 {
-                    roleID: '10001',
-                    roleName: '系统管理员',
+                    roleID: '10003',
+                    roleName: '财务',
                     status: '启动',
-                    descript: '我是描述是描述是描述是描述是描述'
+                    descript: '我是描述是描述是描述是描述'
                 },
                 {
-                    roleID: '10001',
-                    roleName: '系统管理员',
+                    roleID: '10004',
+                    roleName: '出纳',
                     status: '启动',
-                    descript: '我是描述是描述是描述是描述是描述'
+                    descript: '我是描述是描述是描述是描述'
                 },
                 {
-                    roleID: '10001',
-                    roleName: '系统管理员',
+                    roleID: '10005',
+                    roleName: '人事',
                     status: '启动',
-                    descript: '我是描述是描述是描述是描述是描述'
+                    descript: '我是描述是描述是描述是描述'
                 },
                 {
-                    roleID: '10001',
-                    roleName: '系统管理员',
+                    roleID: '10006',
+                    roleName: '部门经理',
                     status: '启动',
-                    descript: '我是描述是描述是描述是描述是描述'
+                    descript: '我是描述是描述是描述是描述'
                 },
                 {
-                    roleID: '10001',
-                    roleName: '系统管理员',
+                    roleID: '10007',
+                    roleName: '部门经理',
                     status: '启动',
-                    descript: '我是描述是描述是描述是描述是描述'
+                    descript: '我是描述是描述是描述是描述'
                 },
                 {
-                    roleID: '10001',
-                    roleName: '系统管理员',
+                    roleID: '10008',
+                    roleName: '普通员工',
                     status: '启动',
-                    descript: '我是描述是描述是描述是描述是描述'
+                    descript: '我是描述是描述是描述是描述'
                 },
                 {
-                    roleID: '10001',
+                    roleID: '10009',
                     roleName: '系统管理员',
                     status: '启动',
-                    descript: '我是描述是描述是描述是描述是描述'
-                }
+                    descript: '我是描述是描述是描述是描述'
+                },
+                {
+                    roleID: '10010',
+                    roleName: '普通员工',
+                    status: '启动',
+                    descript: '我是描述是描述是描述是描述'
+                },
+                {
+                    roleID: '10011',
+                    roleName: '普通员工',
+                    status: '启动',
+                    descript: '我是描述是描述是描述是描述'
+                },
+                {
+                    roleID: '10012',
+                    roleName: '普通员工',
+                    status: '启动',
+                    descript: '我是描述是描述是描述是描述'
+                },
+                {
+                    roleID: '10013',
+                    roleName: '普通员工',
+                    status: '启动',
+                    descript: '我是描述是描述是描述是描述'
+                },
             ],
             filters: {
                 roleName: ''
             },
             users: [],
-            total: 150,
+            total: 100,
             page: 1,
             sels: []//列表选中列
         }
@@ -118,7 +142,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .role_mgmt {
     padding: 0 20px 20px;
 }
@@ -138,6 +162,22 @@ export default {
     margin-bottom: 20px;
 }
 
+.content-wrapper .titlebar .title-text {
+    display: inline-block;
+    height: 80px;
+    position: relative;
+}
+
+.content-wrapper .titlebar .title-text::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: #333333;
+}
+
 .content-wrapper .titlebar .toolBtn {
     float: right;
     margin-top: 20px;
@@ -149,8 +189,12 @@ export default {
     border: none;
 }
 
-.el-button {
+.content-wrapper .titlebar .el-button {
     padding: 0;
+}
+
+.content-wrapper .el-table th {
+    background-color: #F4F4F4 !important;
 }
 
 .toolbar.el-pagination {
