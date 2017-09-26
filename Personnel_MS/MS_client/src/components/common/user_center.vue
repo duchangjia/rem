@@ -51,7 +51,7 @@
         methods: {
         	handleCommand(commmand) {
 	            const _self = this;
-	            _self.infoChange = !_self.infoChange;
+//	            _self.infoChange = !_self.infoChange;
 	            _self.$router.push(commmand);
 	        }
         }
