@@ -1,5 +1,5 @@
 <template>
-	<div class="manage_user">
+	<div class="user-query">
 		<current yiji="系统管理" erji="用户管理"></current>
 		<div class="content">
 			<div class="title">
@@ -26,7 +26,7 @@
 					</div>
 				</el-form>
 				<div class="user-info">
-					<el-table :data="tableData" border stripe style="width: 100%">
+					<el-table :data="userList" border stripe style="width: 100%">
 						<el-table-column prop="number" label="工号" width="180">
 						</el-table-column>
 						<el-table-column prop="name" label="姓名" width="180">
@@ -43,10 +43,8 @@
 						</el-table-column>
 					</el-table>
 				</div>
-				<!--<div class="pagination-wrap">-->
 				<el-pagination class="" layout="prev, pager, next" :total="1000">
 				</el-pagination>
-				<!--</div>-->
 			</div>
 		</div>
 	</div>
@@ -68,7 +66,7 @@
 					department: '',
 					user: ''
 				},
-				tableData: [{
+				userList: [{
 					number: '2016001',
 					name: '王小虎',
 					company: '广州分公司',
@@ -144,11 +142,11 @@
 </script>
 
 <style>
-	.manage_user {
-		padding: 0px 20px;
+	.user-query {
+		padding-left: 20px;
 		width: 100%;
 	}
-	.manage_user .content {
+	.user-query .content {
 		width: 100%;
 		/*min-height: 530px;*/
 		/*height: calc(100% - 90px);*/
@@ -156,18 +154,18 @@
 		background: #ffffff;
 	}
 	
-	.manage_user .content .title {
+	.user-query .content .title {
 		border-bottom: 1px solid #EEEEEE;
 	}
 	
-	.manage_user .content .title .title-text {
+	.user-query .content .title .title-text {
 		display: inline-block;
 		position: relative;
 		padding: 29px 0px;
 		font-size: 16px;
 	}
 	
-	.manage_user .content .title .title-text:after {
+	.user-query .content .title .title-text:after {
 		content: '';
 		position: absolute;
 		left: 0;
@@ -177,15 +175,15 @@
 		background: #333333;
 	}
 	
-	.manage_user .content-inner {
+	.user-query .content-inner {
 		padding: 40px 0px;
 	}
 	
-	.manage_user .input-wrap {
+	.user-query .input-wrap {
 		display: flex;
 	}
 	
-	.manage_user .el-form-item__label {
+	.user-query .el-form-item__label {
 		text-align: left;
 		vertical-align: middle;
 		float: left;
@@ -196,36 +194,36 @@
 		box-sizing: border-box;
 	}
 	
-	.manage_user .input-wrap .el-form-item {
+	.user-query .input-wrap .el-form-item {
 		margin-right: 80px;
 	}
 	
-	.manage_user .el-form-item {
+	.user-query .el-form-item {
 		margin-bottom: 40px;
 	}
 	
-	.manage_user .el-input,
+	.user-query .el-input,
 	.el-input__inner {
 		width: 200px;
 		display: inline-block;
 	}
 	
-	.manage_user .el-form-item__content {
+	.user-query .el-form-item__content {
 		line-height: 36px;
 		position: relative;
 		font-size: 14px;
 	}
 	
-	.manage_user .button-wrap {
+	.user-query .button-wrap {
 		margin: 0px auto;
 		width: 264px;
 	}
 	
-	.manage_user .button-wrap .el-form-item__content {
+	.user-query .button-wrap .el-form-item__content {
 		margin-left: 0!important;
 	}
 	
-	.manage_user .el-input__inner {
+	.user-query .el-input__inner {
 		border-radius: 2px;
 		border: 1px solid #eeeeee;
 		color: #333333;
@@ -233,7 +231,7 @@
 		transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
 	}
 	
-	.manage_user .el-button {
+	.user-query .el-button {
 		display: inline-block;
 		line-height: 1;
 		white-space: nowrap;
@@ -243,27 +241,27 @@
 		color: #ff9900;
 		margin: 0;
 		padding: 12px 45px;
-		border-radius: 4px;
+		border-radius: 0px;
 	}
 	
-	.manage_user .el-button.resetform {
+	.user-query .el-button.resetform {
 		margin-right: 20px;
 	}
 	
-	.manage_user .el-button--primary {
+	.user-query .el-button--primary {
 		color: #fff;
 		background-color: #ff9900;
 		border-color: #ff9900;
 	}
 	
-	.manage_user .user-info {}
+	.user-query .user-info {}
 	
-	.manage_user .el-table td,
-	.manage_user .el-table th {
+	.user-query .el-table td,
+	.user-query .el-table th {
 		text-align: center;
 	}
 	
-	.manage_user .el-table th {
+	.user-query .el-table th {
 		white-space: nowrap;
 		overflow: hidden;
 		background-color: #f4f4f4;
@@ -271,26 +269,27 @@
 		box-shadow: inset 0 1px 0 0 #EEEEEE;
 	}
 	
-	.manage_user .el-table--border td,
+	.user-query .el-table--border td,
 	.el-table--border th {
 		border-right: 1px solid #EEEEEE;
 	}
 	
-	.manage_user .el-table td,
-	.manage_user .el-table th.is-leaf {
+	.user-query .el-table td,
+	.user-query .el-table th.is-leaf {
 		border-bottom: 1px solid #EEEEEE;
 	}
-	.manage_user .el-pagination {
+	.user-query .el-pagination {
 		text-align: right;
 		margin-top: 40px;
+	    margin-right: 40px;
 	}
-	.manage_user .el-pager li.active {
+	.user-query .el-pager li.active {
 	    border-color: #ff9900;
 	    background-color: #ff9900;
 	    color: #fff;
 	    cursor: default;
 	}
-	.manage_user .el-pager li {
+	.user-query .el-pager li {
 	    padding: 0 4px;
 	    border-right: 0;
 	    background: #fff;

@@ -212,7 +212,7 @@
 	    border-radius: 4px;
 	    width: 300px;
 	}
-	.modifine_password .el-button, .el-textarea__inner {
+	.modifine_password .el-button, .modifine_password .el-textarea__inner {
 	    font-size: 16px;
 	}
 	.el-button:focus, .el-button:hover {
