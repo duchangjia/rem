@@ -145,10 +145,11 @@ export default {
 .content-wrapper {
     background: #ffffff;
     padding: 0 20px 20px;
+    color: #333333;
+    clear: both;
 }
 
 .content-wrapper .titlebar {
-    float: none;
     height: 80px;
     line-height: 80px;
     font-size: 16px;
@@ -196,12 +197,6 @@ export default {
     text-align: right;
     float: none !important;
     margin-top: 20px;
-}
-
-.content-wrapper .toolbar.el-pagination {
-    text-align: right;
-    margin-top: 40px;
-    margin-right: 40px;
 }
 
 .content-wrapper .el-pager li.active {
