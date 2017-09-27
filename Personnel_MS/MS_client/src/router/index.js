@@ -4,6 +4,9 @@ import Router from 'vue-router';
 Vue.use(Router);
 
 export default new Router({
+    //     mode: 'history',
+    // hashbang: false,
+    //     history: true,
     routes: [
         {
             path: '/',
@@ -33,7 +36,7 @@ export default new Router({
             component: resolve => require(['../components/common/Home.vue'], resolve),
             children: [
                 {
-                    path: '/',
+                    path: '',
                     component: resolve => require(['../components/pages/home_page.vue'], resolve)
                 },
                 {
