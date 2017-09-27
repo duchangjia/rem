@@ -33,9 +33,12 @@
                </div>
                <div class="form1-wrapper">
                    <span>上级机构</span><input type="text" value="上海分公司"><br>
-                   <span>上级机构</span><input type="text" value="上海分公司"><br>
-                   <span>上级机构</span><input type="text" value="上海分公司"><br>
-                   <span>上级机构</span><input type="text" value="上海分公司">
+                   <span>主管</span><input type="text" value="上海分公司"><br>
+                   <span>类型</span><select value="">
+                   <option value="一级部门">一级部门</option>
+                   <option value="一级部门">一级部门</option>
+                   <option value="一级部门">一级部门</option></select><br>
+                   <span>状态</span><input type="text" value="上海分公司">
                </div>
                <div class="title" style="margin-top: 36px;">
                    <span class="text">下级机构</span>
@@ -379,8 +382,9 @@ ul, li{
     display: inline-block;
     margin-right: 30px;
     vertical-align: middle;
+    text-align: right;
 }
-.form1-wrapper>input{
+.form1-wrapper>input, .form1-wrapper>select{
     background: #FFFFFF;
     border: 1px solid #EEEEEE;
     border-radius: 4px;
