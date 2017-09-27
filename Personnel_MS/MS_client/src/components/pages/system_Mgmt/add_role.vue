@@ -38,16 +38,12 @@
                     <div>关联菜单</div>
                 </el-col>
                 <el-col :span="22" class="rightside">
-                    <el-radio-group v-model="menuRadio" @change="handleCheckedMenusChange" class="menu">
-                        <el-radio-button label="系统管理" class="menu-item"></el-radio-button>
-                        <el-radio-button label="参数管理" class="menu-item"></el-radio-button>
-                        <el-radio-button label="客户关系" class="menu-item"></el-radio-button>
-                        <el-radio-button label="项目管理" class="menu-item"></el-radio-button>
-                        <el-radio-button label="业务管理" class="menu-item"></el-radio-button>
-                        <el-radio-button label="运营报表" class="menu-item"></el-radio-button>
-                    </el-radio-group>
-
-                    <div class="submenu">
+                    <div class="menu">
+                        <el-radio-group v-model="menuRadio" @change="handleCheckedMenusChange">
+                            <el-radio-button v-for="menu in menus" :label="menu" :key="menu" class="menu-item"></el-radio-button>
+                        </el-radio-group>
+                    </div>
+                    <div class="submenu" v-if="menuRadioFlag">
                         <el-checkbox-button :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" label="全部"></el-checkbox-button>
                         <el-checkbox-group v-model="submenuCheckboxGroup" @change="handleCheckedSubmenusChange">
                             <el-checkbox-button v-for="submenu in submenus" :label="submenu" :key="submenu" class="menu-item">{{submenu}}</el-checkbox-button>
@@ -58,7 +54,7 @@
                     <div>功能权限</div>
                 </el-col>
                 <el-col :span="22" class="rightside">
-
+                    <div>功能权限下的东东</div>
                 </el-col>
             </div>
         </div>
@@ -66,6 +62,7 @@
 </template>
 
 <script type='text/ecmascript-6'>
+const menuOptions = ['系统管理', '参数管理', '客户关系', '项目管理', '业务管理', '运营报表'];
 const submenuOptions1 = ['组织架构', '用户管理', '角色管理', '功能管理'];
 const submenuOptions2 = ['参数管理1', '参数管理2', '参数管理3'];
 const submenuOptions3 = ['客户关系1', '客户关系2', '客户关系3'];
@@ -83,7 +80,9 @@ export default {
                 status: '',
                 descript: ''
             },
-            menuRadio: '系统管理',
+            menuRadio: '',
+            menuRadioFlag: false,
+            menus: menuOptions,
 
             checkAll: false,
             checkedCities: ['组织架构', '用户管理'],
@@ -97,6 +96,11 @@ export default {
     },
     methods: {
         handleCheckedMenusChange(value) {
+            if (value !== null) {
+                this.menuRadioFlag = true;
+            } else {
+                this.menuRadioFlag = false;
+            }
             if (value == '系统管理') {
                 this.checkAll = false;
                 this.submenus = submenuOptions1;
@@ -203,7 +207,7 @@ export default {
 
 .add-wrapper .leftside {
     display: inline-block;
-    padding: 10px 0 10px 8px;
+    padding: 7px 0 7px 8px;
     color: #999999;
 }
 
