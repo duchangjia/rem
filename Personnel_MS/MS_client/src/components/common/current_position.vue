@@ -31,12 +31,6 @@
         },
         methods: {
             jump() {
-<<<<<<< HEAD
-                let aa = this.link[this.breadItemLength-2]
-//              this.$router.push(aa)
-				this.$router.go(-1)
-            }
-=======
                 let aa = this.link[this.breadItemLength-1]
                 if (!aa) return false
                 this.$router.push(aa)
@@ -55,7 +49,6 @@
 //                    // `this` 绑定到当前实例
 //                    this.doSomethingElse()
 //                })
->>>>>>> 96ebd80c1393648f511a1114e9da84f1923e56e5
         },
         computed: {
           links() {

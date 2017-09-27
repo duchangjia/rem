@@ -20,31 +20,23 @@
 					</div>
 					<div class="button-wrap">
 						<el-form-item>
-							<el-button @click="resetForm('ruleForm2')" class="resetform">重置</el-button>
+							<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
 							<el-button type="primary" @click="submitForm('ruleForm2')">查询</el-button>
 						</el-form-item>
 					</div>
 				</el-form>
 				<div class="info">
-					<el-table :data="userList" border stripe style="width: 100%">
-						<el-table-column prop="number" label="工号">
-						</el-table-column>
-						<el-table-column prop="name" label="姓名">
-						</el-table-column>
-						<el-table-column prop="company" label="所属公司">
-						</el-table-column>
-						<el-table-column prop="department" label="部门">
-						</el-table-column>
-						<el-table-column prop="role" label="角色">
-						</el-table-column>
-						<el-table-column prop="phone" label="手机">
-						</el-table-column>
-						<el-table-column prop="status" label="状态">
-						</el-table-column>
+					<el-table :data="userList" border stripe style="width: 100%" @cell-click="resetUserInfo">
+						<el-table-column prop="number" label="工号"></el-table-column>
+						<el-table-column prop="name" label="姓名"></el-table-column>
+						<el-table-column prop="company" label="所属公司"></el-table-column>
+						<el-table-column prop="department" label="部门"></el-table-column>
+						<el-table-column prop="role" label="角色"></el-table-column>
+						<el-table-column prop="phone" label="手机"></el-table-column>
+						<el-table-column prop="status" label="状态"></el-table-column>
 					</el-table>
 				</div>
 				<el-pagination
-			      @size-change="handleSizeChange"
 			      @current-change="handleCurrentChange"
 			      :current-page.sync="currentPage"
 			      :page-size="100"
@@ -145,7 +137,15 @@
 			},
 			handleCurrentChange(val) {
 		        console.log(`当前页: ${val}`);
-	      	}
+	     	},
+	     	resetUserInfo(row, column, cell, event) {
+	     		console.log(row.number);
+	     		console.log(column);
+	     		if(column.property==='number'){
+	     			this.$router.push('/user-info');
+	     		}
+	     		
+	     	}
 		}
 
 	}
@@ -164,18 +164,15 @@
 		background: #ffffff;
 		clear: both;
 	}
-	
 	.user-query .content .title {
 		border-bottom: 1px solid #EEEEEE;
 	}
-	
 	.user-query .content .title .title-text {
 		display: inline-block;
 		position: relative;
 		padding: 29px 0px;
 		font-size: 16px;
 	}
-	
 	.user-query .content .title .title-text:after {
 		content: '';
 		position: absolute;
@@ -185,15 +182,12 @@
 		height: 2px;
 		background: #333333;
 	}
-	
 	.user-query .content-inner {
 		padding: 40px 0px;
 	}
-	
 	.user-query .input-wrap {
 		display: flex;
 	}
-	
 	.user-query .el-form-item__label {
 		text-align: left;
 		vertical-align: middle;
@@ -204,15 +198,12 @@
 		padding: 11px 12px 11px 0;
 		box-sizing: border-box;
 	}
-	
 	.user-query .input-wrap .el-form-item {
 		margin-right: 80px;
 	}
-	
 	.user-query .el-form-item {
 		margin-bottom: 40px;
 	}
-	
 	.user-query .el-input,
 	.user-query .el-input__inner {
 		width: 200px;
@@ -224,25 +215,22 @@
 		position: relative;
 		font-size: 14px;
 	}
-	
 	.user-query .button-wrap {
 		margin: 0px auto;
 		width: 264px;
 	}
-	
 	.user-query .button-wrap .el-form-item__content {
 		margin-left: 0!important;
 	}
-	
 	.user-query .el-input__inner {
 		border-radius: 4px;
-		border: 1px solid #eeeeee;
+		border: 1px solid #EEEEEE;
 		color: #333333;
 		padding: 19px 10px;
 		transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
 	}
 	.user-query .el-input__inner:hover {
-	    border-color: #ff9900;
+	    border-color: #FF9900;
 	}
 	.user-query .el-button {
 		display: inline-block;
@@ -250,35 +238,32 @@
 		white-space: nowrap;
 		cursor: pointer;
 		background: #fff;
-		border: 1px solid #ff9900;
-		color: #ff9900;
+		border: 1px solid #FF9900;
+		color: #FF9900;
 		margin: 0;
 		padding: 12px 45px;
 		border-radius: 0px;
 	}
-	
 	.user-query .el-button.resetform {
 		margin-right: 20px;
 	}
-	
 	.user-query .el-button--primary {
 		color: #fff;
-		background-color: #ff9900;
-		border-color: #ff9900;
+		background-color: #FF9900;
+		border-color: #FF9900;
 	}
-	
 	.user-query .el-button:focus,
 	.user-query .el-button:hover {
-	    border-color: #ff9900;
+	    border-color: #FF9900;
 	    opacity: 0.5;
 	}
 	.user-query .el-button.resetform:focus,
 	.user-query .el-button.resetform:hover {
-		color: #ff9900;
+		color: #FF9900;
 	}
 	.user-query .el-table {
 	    background-color: #fff;
-	    border-left: 1px solid #eeeeee;
+	    border-left: 1px solid #EEEEEE;
 	    color: #666666;
 	}
 	.user-query .el-table__footer-wrapper thead div, 
@@ -306,15 +291,18 @@
 		text-align: center;
 		box-shadow: inset 0 1px 0 0 #EEEEEE;
 	}
-	
 	.user-query .el-table--border td,
 	.user-query .el-table--border th {
 		border-right: 1px solid #EEEEEE;
 	}
 	.user-query .el-table td,
 	.user-query .el-table th.is-leaf {
-		border-bottom: 1px solid #eeeeee;
+		border-bottom: 1px solid #EEEEEE;
 	}
+	/*.user-query .el-table td:first-child:hover {
+		color: #FF9900;
+		cursor: pointer;
+	}*/
 	.user-query .el-table::after, 
 	.user-query .el-table::before {
 	    content: '';
@@ -328,8 +316,8 @@
         color: #282828;
 	}
 	.el-pager li.active {
-	    border-color: #ff9900;
-	    background-color: #ff9900;
+	    border-color: #FF9900;
+	    background-color: #FF9900;
 	    color: #fff;
 	    cursor: default;
 	}
@@ -363,17 +351,17 @@
 	    color: #FF9900!important;
 	}
 	.el-pagination button:hover {
-    color: #ff9900;
+    color: #FF9900;
 }
 	.el-pagination__editor {
-	    border: 1px solid #eeeeee;
+	    border: 1px solid #EEEEEE;
 	    border-radius: 2px;
 	    padding: 2px 2px;
 	    width: 24px;
 	}
 	.el-pagination__editor:focus {
 	    outline: 0;
-	    border-color: #ff9900;
+	    border-color: #FF9900;
 	}
 	.el-pagination .btn-next, 
 	.el-pagination .btn-prev {
@@ -382,7 +370,7 @@
 	}
 	.el-autocomplete-suggestion__wrap, 
 	.el-pager li {
-	    border: 1px solid #eeeeee;
+	    border: 1px solid #EEEEEE;
 	}
 	.el-pager li.btn-quicknext, 
 	.el-pager li.btn-quickprev {

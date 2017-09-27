@@ -19,7 +19,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="工号" prop="number">
-							<el-input v-model="userMsg.number"></el-input>
+							<el-input v-model="userMsg.number" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
@@ -88,7 +88,7 @@
 			return {
 				userMsg: {
 					name: '',
-					number: '',
+					number: 'P00001',
 					company: '',
 					department: '',
 					role: '',
