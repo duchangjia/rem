@@ -3,13 +3,13 @@
         <current yiji="系统管理" erji="角色管理" sanji="新增角色">
         </current>
         <div class="content-wrapper">
-            <el-col :span="24" class="titlebar">
+            <div class="titlebar">
                 <span class="title-text">新增角色</span>
                 <el-button type="primary" @click="handleAdd" class="toolBtn">保存</el-button>
-            </el-col>
+            </div>
             <div class="add-wrapper role-msg">
                 <el-col :span="24" class="item-title">角色信息</el-col>
-                <el-form :inline="true" :model="formRoleMsg" :label-position="right" label-width="80px">
+                <el-form :inline="true" :model="formRoleMsg" :label-position="labelPosition" label-width="80px">
                     <el-col :span="12">
                         <el-form-item label="角色ID">
                             <el-input v-model="formRoleMsg.roleID"></el-input>
@@ -34,10 +34,10 @@
             </div>
             <div class="add-wrapper auth-assign">
                 <el-col :span="24" class="item-title">权限分配</el-col>
-                <el-col :span="2" class="left">
+                <el-col :span="2" class="leftside">
                     <div>关联菜单</div>
                 </el-col>
-                <el-col :span="22" class="right">
+                <el-col :span="22" class="rightside">
                     <el-radio-group v-model="menuRadio" @change="handleCheckedMenusChange" class="menu">
                         <el-radio-button label="系统管理" class="menu-item"></el-radio-button>
                         <el-radio-button label="参数管理" class="menu-item"></el-radio-button>
@@ -54,10 +54,10 @@
                         </el-checkbox-group>
                     </div>
                 </el-col>
-                <el-col :span="2" class="left">
+                <el-col :span="2" class="leftside">
                     <div>功能权限</div>
                 </el-col>
-                <el-col :span="22" class="right">
+                <el-col :span="22" class="rightside">
 
                 </el-col>
             </div>
@@ -76,6 +76,7 @@ import current from '../../common/current_position.vue'
 export default {
     data() {
         return {
+            labelPosition: 'right',
             formRoleMsg: {
                 roleID: '',
                 roleName: '',
@@ -133,7 +134,7 @@ export default {
 </script>
 
 
-<style scoped>
+<style>
 .add_role {
     padding: 0 20px 20px;
 }
@@ -142,10 +143,10 @@ export default {
     background: #ffffff;
     padding: 0 20px 20px;
     color: #333333;
+    clear: both;
 }
 
 .content-wrapper .titlebar {
-    float: none;
     height: 80px;
     line-height: 80px;
     font-size: 16px;
@@ -189,7 +190,6 @@ export default {
     height: 56px;
     line-height: 56px;
     padding-left: 8px;
-    float: none;
 }
 
 .add-wrapper form {
@@ -201,13 +201,13 @@ export default {
     display: inline-block;
 }
 
-.add-wrapper .left {
+.add-wrapper .leftside {
     display: inline-block;
     padding: 10px 0 10px 8px;
     color: #999999;
 }
 
-.add-wrapper .right {
+.add-wrapper .rightside {
     float: none;
     display: inline-block;
 }
