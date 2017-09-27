@@ -110,7 +110,7 @@
 			},
 			//密码重置
 			passreset() {
-				this.$router.replace('modify_password');
+//				this.$router.replace('modify_password');
 			},
 			//保存
 			conserve() {

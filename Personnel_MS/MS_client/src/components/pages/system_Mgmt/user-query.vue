@@ -25,11 +25,11 @@
 						</el-form-item>
 					</div>
 				</el-form>
-				<div class="user-info">
+				<div class="info">
 					<el-table :data="userList" border stripe style="width: 100%">
-						<el-table-column prop="number" label="工号" width="180">
+						<el-table-column prop="number" label="工号">
 						</el-table-column>
-						<el-table-column prop="name" label="姓名" width="180">
+						<el-table-column prop="name" label="姓名">
 						</el-table-column>
 						<el-table-column prop="company" label="所属公司">
 						</el-table-column>
@@ -43,7 +43,7 @@
 						</el-table-column>
 					</el-table>
 				</div>
-				<el-pagination class="" layout="prev, pager, next" :total="1000">
+				<el-pagination class="" layout="prev, pager, next" :total="100">
 				</el-pagination>
 			</div>
 		</div>
@@ -203,7 +203,7 @@
 	}
 	
 	.user-query .el-input,
-	.el-input__inner {
+	.user-query .el-input__inner {
 		width: 200px;
 		display: inline-block;
 	}
@@ -254,13 +254,39 @@
 		border-color: #ff9900;
 	}
 	
-	.user-query .user-info {}
-	
+	.user-query .el-button:focus,
+	.user-query .el-button:hover {
+	    
+	    border-color: #ff9900;
+	    opacity: 0.5;
+	}
+	.user-query .el-button.resetform:focus,
+	.user-query .el-button.resetform:hover {
+		color: #ff9900;
+	}
+	.user-query .el-table {
+	    background-color: #fff;
+	    border-left: 1px solid #eeeeee;
+	    color: #666666;
+	}
+	.user-query .el-table__footer-wrapper thead div, 
+	.user-query .el-table__header-wrapper thead div {
+	    background-color: #f4f4f4;
+	    color: #666666;
+	    /*box-shadow: inset 0 1px 0 0 #EEEEEE;*/
+	}
 	.user-query .el-table td,
 	.user-query .el-table th {
 		text-align: center;
 	}
-	
+	.user-query .el-table--enable-row-hover .el-table__body tr:hover>td {
+	    background-color: #f8f8f8;
+	    background-clip: padding-box;
+	}
+	.user-query .el-table--striped .el-table__body tr.el-table__row--striped td {
+	    background: #F8F8F8;
+	    background-clip: padding-box;
+	}
 	.user-query .el-table th {
 		white-space: nowrap;
 		overflow: hidden;
@@ -270,13 +296,22 @@
 	}
 	
 	.user-query .el-table--border td,
-	.el-table--border th {
+	.user-query .el-table--border th {
 		border-right: 1px solid #EEEEEE;
 	}
-	
+	/*.user-query .el-table--border td:last-of-type, 
+	.user-query .el-table--border th:last-of-type {
+	    border-right: none;
+	}*/
 	.user-query .el-table td,
 	.user-query .el-table th.is-leaf {
-		border-bottom: 1px solid #EEEEEE;
+		border-bottom: 1px solid #eeeeee;
+	}
+	.user-query .el-table::after, 
+	.user-query .el-table::before {
+	    content: '';
+	    position: absolute;
+     	background-color: transparent; 
 	}
 	.user-query .el-pagination {
 		text-align: right;
@@ -299,7 +334,11 @@
 	    line-height: 24px;
 	    text-align: center;
 	}
-	.el-pagination button, .el-pagination span {
+	.user-query .el-pager li:last-child {
+	    border-right: 1px solid #EEEEEE;
+	}
+	.el-pagination button, 
+	.el-pagination span {
 	    display: inline-block;
 	    font-size: 12px;
 	    min-width: 24px;
