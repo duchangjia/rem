@@ -4,7 +4,7 @@
         </current>
         <div class="content-wrapper">
             <el-col :span="24" class="titlebar">
-                <span class="title">新增角色</span>
+                <span class="title-text">新增角色</span>
                 <el-button type="primary" @click="handleAdd" class="toolBtn">保存</el-button>
             </el-col>
             <div class="add-wrapper role-msg">
@@ -84,9 +84,9 @@ export default {
             },
             menuRadio: '系统管理',
 
-            checkAll: true,
+            checkAll: false,
             checkedCities: ['组织架构', '用户管理'],
-            submenus: [],
+            submenus: submenuOptions1,
             isIndeterminate: true,
             submenuCheckboxGroup: []
         };
@@ -97,33 +97,43 @@ export default {
     methods: {
         handleCheckedMenusChange(value) {
             if (value == '系统管理') {
+                this.checkAll = false;
                 this.submenus = submenuOptions1;
             } else if (value == '参数管理') {
+                this.checkAll = false;
                 this.submenus = submenuOptions2;
             } else if (value == '客户关系') {
+                this.checkAll = false;
                 this.submenus = submenuOptions3;
             } else if (value == '项目管理') {
+                this.checkAll = false;
                 this.submenus = submenuOptions4;
             } else if (value == '业务管理') {
+                this.checkAll = false;
                 this.submenus = submenuOptions5;
             } else if (value == '运营报表') {
+                this.checkAll = false;
                 this.submenus = submenuOptions6;
             }
         },
         handleCheckAllChange(event) {
-            this.submenuCheckboxGroup = event.target.checked ? submenuOptions1 : [];
+            this.submenuCheckboxGroup = event.target.checked ? this.submenus : [];
             this.isIndeterminate = false;
         },
         handleCheckedSubmenusChange(value) {
             let checkedCount = value.length;
             this.checkAll = checkedCount === this.submenus.length;
             this.isIndeterminate = checkedCount > 0 && checkedCount < this.submenus.length;
+        },
+        handleAdd() {
+            console.log('暂时没用')
         }
     }
 }
 </script>
 
-<style>
+
+<style scoped>
 .add_role {
     padding: 0 20px 20px;
 }
@@ -141,6 +151,22 @@ export default {
     font-size: 16px;
     font-family: "PingFang SC";
     border-bottom: 1px solid #eeeeee;
+}
+
+.content-wrapper .titlebar .title-text {
+    display: inline-block;
+    height: 80px;
+    position: relative;
+}
+
+.content-wrapper .titlebar .title-text::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: #333333;
 }
 
 .content-wrapper .titlebar .toolBtn {
