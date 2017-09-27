@@ -18,7 +18,7 @@
                 </el-table-column>
                 <el-table-column align="center" label="操作" width="150">
                     <template scope="scope">
-                        <i class="icon-edit"></i>
+                        <i class="icon-edit" @click="handleEdit"></i>
                     </template>
                 </el-table-column>
             </el-table>
@@ -132,6 +132,9 @@ export default {
         },
         handleAdd() {
             this.$router.push('/add_role');
+        },
+        handleEdit() {
+            this.$router.push('/edit_role');
         }
     }
 }
@@ -234,8 +237,11 @@ export default {
 
 .icon-edit {
     display: inline-block;
-    width: 20px;
-    height: 18px;
-    background: url('../../../../static/img/common/edit.png');
+    width: 24px;
+    height: 24px;
+    background: url('../../../../static/img/common/edit.png') center no-repeat;
+}
+.icon-edit:hover {
+    cursor: pointer;
 }
 </style>
