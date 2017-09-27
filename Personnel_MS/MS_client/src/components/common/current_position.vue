@@ -29,7 +29,8 @@
         methods: {
             jump() {
                 let aa = this.link[this.breadItemLength-2]
-                this.$router.push(aa)
+//              this.$router.push(aa)
+				this.$router.go(-1)
             }
         },
         computed: {

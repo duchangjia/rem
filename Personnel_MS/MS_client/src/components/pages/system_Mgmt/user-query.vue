@@ -43,8 +43,14 @@
 						</el-table-column>
 					</el-table>
 				</div>
-				<el-pagination class="" layout="prev, pager, next" :total="100">
-				</el-pagination>
+				<el-pagination
+			      @size-change="handleSizeChange"
+			      @current-change="handleCurrentChange"
+			      :current-page.sync="currentPage"
+			      :page-size="100"
+			      layout="prev, pager, next, jumper"
+			      :total="1000">
+			    </el-pagination>
 			</div>
 		</div>
 	</div>
@@ -61,6 +67,7 @@
 			var validatecompany2 = (rule, value, callback) => {
 			};
 			return {
+				currentPage: 5,
 				ruleForm2: {
 					company: '',
 					department: '',
@@ -89,7 +96,7 @@
 					department: '111',
 					role: '财务部',
 					phone: '1351011111',
-					status: '正常'
+					status: '已锁定'
 				}, {
 					number: '2016001',
 					name: '王小虎',
@@ -135,7 +142,10 @@
 //			}
 			resetForm() {
 				this.$router.push('/user-info');
-			}
+			},
+			handleCurrentChange(val) {
+		        console.log(`当前页: ${val}`);
+	      	}
 		}
 
 	}
@@ -152,6 +162,7 @@
 		/*height: calc(100% - 90px);*/
 		padding: 0px 20px;
 		background: #ffffff;
+		clear: both;
 	}
 	
 	.user-query .content .title {
@@ -224,13 +235,15 @@
 	}
 	
 	.user-query .el-input__inner {
-		border-radius: 2px;
+		border-radius: 4px;
 		border: 1px solid #eeeeee;
 		color: #333333;
 		padding: 19px 10px;
 		transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
 	}
-	
+	.user-query .el-input__inner:hover {
+	    border-color: #ff9900;
+	}
 	.user-query .el-button {
 		display: inline-block;
 		line-height: 1;
@@ -256,7 +269,6 @@
 	
 	.user-query .el-button:focus,
 	.user-query .el-button:hover {
-	    
 	    border-color: #ff9900;
 	    opacity: 0.5;
 	}
@@ -299,10 +311,6 @@
 	.user-query .el-table--border th {
 		border-right: 1px solid #EEEEEE;
 	}
-	/*.user-query .el-table--border td:last-of-type, 
-	.user-query .el-table--border th:last-of-type {
-	    border-right: none;
-	}*/
 	.user-query .el-table td,
 	.user-query .el-table th.is-leaf {
 		border-bottom: 1px solid #eeeeee;
@@ -313,41 +321,72 @@
 	    position: absolute;
      	background-color: transparent; 
 	}
-	.user-query .el-pagination {
+	.el-pagination {
 		text-align: right;
 		margin-top: 40px;
 	    margin-right: 40px;
+        color: #282828;
 	}
-	.user-query .el-pager li.active {
+	.el-pager li.active {
 	    border-color: #ff9900;
 	    background-color: #ff9900;
 	    color: #fff;
 	    cursor: default;
 	}
-	.user-query .el-pager li {
+	.el-pager li {
 	    padding: 0 4px;
 	    border-right: 0;
 	    background: #fff;
 	    font-size: 12px;
+	    letter-spacing: -0.39px;
 	    min-width: 24px;
 	    height: 24px;
 	    line-height: 24px;
 	    text-align: center;
 	}
-	.user-query .el-pager li:last-child {
+	.el-pager li:last-child {
 	    border-right: 1px solid #EEEEEE;
 	}
 	.el-pagination button, 
 	.el-pagination span {
 	    display: inline-block;
 	    font-size: 12px;
+	    letter-spacing: -0.39px;
 	    min-width: 24px;
 	    height: 24px;
+	    color: #282828;
 	    line-height: 24px;
 	    vertical-align: top;
 	    box-sizing: border-box;
 	}
 	.el-pager li:hover {
-	    color: #FF9900;
+	    color: #FF9900!important;
+	}
+	.el-pagination button:hover {
+    color: #ff9900;
+}
+	.el-pagination__editor {
+	    border: 1px solid #eeeeee;
+	    border-radius: 2px;
+	    padding: 2px 2px;
+	    width: 24px;
+	}
+	.el-pagination__editor:focus {
+	    outline: 0;
+	    border-color: #ff9900;
+	}
+	.el-pagination .btn-next, 
+	.el-pagination .btn-prev {
+	    border: 1px solid #EEEEEE;
+	    color: #282828;
+	}
+	.el-autocomplete-suggestion__wrap, 
+	.el-pager li {
+	    border: 1px solid #eeeeee;
+	}
+	.el-pager li.btn-quicknext, 
+	.el-pager li.btn-quickprev {
+	    line-height: 28px;
+	    color: #282828;
 	}
 </style>
