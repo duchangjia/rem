@@ -11,7 +11,7 @@
                     <el-breadcrumb-item v-if="wuji" :to="{ path: links[4] }" class="test1" >{{wuji}}</el-breadcrumb-item>
                 </el-breadcrumb>
             </el-col>
-            <el-col :span="2">
+            <el-col :span="2" v-show="breadItemLength">
                 <img src="../../../static/img/common/back.png" alt="pic" width="19" height="12" class="pic" @click="jump">
             </el-col>
         </el-row>
@@ -26,45 +26,63 @@
                 breadItemLength: 0,
             }
         },
+        created() {
+
+        },
         methods: {
             jump() {
-                let aa = this.link[this.breadItemLength-2]
+                let aa = this.link[this.breadItemLength-1]
+                if (!aa) return false
                 this.$router.push(aa)
-            }
+            },
+//            jumpTo() {
+//                this.$nextTick(function () {
+//                    this.jump()
+//                })
+//            }
+//            jumpTo(): function () {
+//                // 修改数据
+//                this.message = 'changed'
+//                // DOM 还没有更新
+//                this.$nextTick(function () {
+//                    // DOM 现在更新了
+//                    // `this` 绑定到当前实例
+//                    this.doSomethingElse()
+//                })
         },
         computed: {
           links() {
-              let breadItem = document.getElementsByClassName('test1')
-              this.breadItemLength = breadItem.length
-              let _link=[]
-              if(this.yiji==='系统管理'){
-                  _link.push('/management_framework')
-              }
-              if(this.erji==='用户管理'){
-                  _link.push('/management_user')
-              }
-              if(this.erji==='角色管理'){
-                  _link.push('/management_role')
-              }if(this.erji==='功能管理'){
-                  _link.push('/management_fun')
-              }
-              if(this.erji==='组织架构'){
-                  _link.push('/management_framework')
-              }
-              if(this.sanji==='编辑部门'){
-                  _link.push('/edit_department')
-              }
-              if(this.sanji==='新增机构人员'){
-                  _link.push('/add_person')
-              }
-              if(this.sanji==='新增子部门'){
-                  _link.push('/add_junior')
-              }
-              if(this.sanji==='新增角色'){
-                  _link.push('/add_role')
-              }
-              this.link = _link
-              return this.link
+                  let breadItem = document.getElementsByClassName('test1')
+                  this.breadItemLength = breadItem.length
+                  let _link=[]
+                  if(this.yiji==='系统管理'){
+                      _link.push('/management_framework')
+                  }
+                  if(this.erji==='用户管理'){
+                      _link.push('/management_user')
+                  }
+                  if(this.erji==='角色管理'){
+                      _link.push('/management_role')
+                  }if(this.erji==='功能管理'){
+                      _link.push('/management_fun')
+                  }
+                  if(this.erji==='组织架构'){
+                      _link.push('/management_framework')
+                  }
+                  if(this.sanji==='编辑部门'){
+                      _link.push('/edit_department')
+                  }
+                  if(this.sanji==='新增机构人员'){
+                      _link.push('/add_person')
+                  }
+                  if(this.sanji==='新增子部门'){
+                      _link.push('/add_junior')
+                  }
+                  if(this.sanji==='新增角色'){
+                      _link.push('/add_role')
+                  }
+                  this.link = _link
+                  return this.link
           }
         },
         props:{

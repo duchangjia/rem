@@ -141,6 +141,9 @@
 				return this.$route.path.replace('/', '');
 			}
 		},
+		watch: {
+		    
+		}
 	}
 </script>
 
