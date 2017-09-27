@@ -76,7 +76,9 @@ export default {
 .edit_role {
     padding: 0 20px 20px;
 }
-
+.edit-wrapper {
+    padding-bottom: 20px;
+}
 .edit-wrapper .item-title {
     font-size: 14px;
     height: 56px;
@@ -88,6 +90,7 @@ export default {
     font-weight: 400;
     color: #999999;
     margin-bottom: 0;
+    /* margin-right: 14px; */
 }
 
 .edit-wrapper .el-input__inner {
