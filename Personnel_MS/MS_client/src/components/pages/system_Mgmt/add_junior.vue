@@ -46,7 +46,7 @@
         },
         methods: {
             save() {
-                console.log('test')
+                console.log('save')
             },
             check() {
                 let value = this.$refs.inputSelect.value
