@@ -42,7 +42,8 @@ export default {
     methods: {
         loginout() {
             const _this = this;
-            this.$confirm('确认退出吗?', '提示', {
+            this.$confirm('您确认退出登录吗?', '提示', {
+                type: 'warning'
             }).then(() => {
                 localStorage.removeItem('ms_username');
                 _this.$router.push('/login');

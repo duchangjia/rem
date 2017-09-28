@@ -78,7 +78,13 @@ export default {
             editRole.status = this.formRoleMsg.status;
             console.dir(editRole);
         }
+    },
+    created() {
+        globalBus.$on('currentRole', function(val) {
+            console.log(val);
+        })
     }
+
 }
 </script>
 
@@ -98,7 +104,7 @@ export default {
 
 .edit-wrapper {
     clear: both;
-} 
+}
 
 .edit-wrapper form {
     font-size: 0;
@@ -107,7 +113,7 @@ export default {
 .edit-wrapper form>div {
     float: none;
     display: inline-block;
-} 
+}
 
 .edit-wrapper .item-title {
     font-size: 14px;
