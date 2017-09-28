@@ -1,6 +1,6 @@
 <template>
     <div id="home-wrapper">
-        <el-row><v-head class="home-header"></v-head></el-row>
+        <v-head class="home-header"></v-head>
                 <div class="wrapper">
                         <v-Sidebar class="sider"></v-Sidebar>
                         <div class="container-wrapper">
@@ -42,7 +42,6 @@
     }
     .home-wrapper .home-header{
         height: 60px;
-        width: 100%;
     }
     .wrapper{
         display: flex;

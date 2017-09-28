@@ -1,6 +1,5 @@
 <template>
     <div class="header">
-        <el-row>
             <span class="homelogo">
             <img src="../../../static/img/common/home_logo.png" alt="" width="120" height="30" @click="link2Home" style="cursor: pointer">
         </span>
@@ -25,7 +24,6 @@
                 <img src="../../../static/img/common/exit0.png" alt="" width="16" height="18">
             </span>
             </div>
-        </el-row>
     </div>
 </template>
 <script>
