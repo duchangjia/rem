@@ -3,7 +3,10 @@ package com.omcube.controller;
 import com.omcube.model.po.SysUserPO;
 import com.omcube.util.JSONResultUtil;
 import com.omcube.util.SpringUtil;
+import com.github.pagehelper.PageHelper;
 import com.omcube.model.mapper.SysUserMapper;
+
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/user")
+@RequestMapping(value = "iem/user")
 @CacheConfig(cacheNames = "users")
 public class UserController {
 
@@ -50,4 +53,14 @@ public class UserController {
     {
     	return JSONResultUtil.setSuccess(userMapper.getUserByUsername(userName));
     }
+    
+    @RequestMapping(value = "/queryUserAll", method = RequestMethod.GET)
+    @Cacheable
+    public Object queryUserAll()
+    {
+	PageHelper.startPage(1,2);
+	List<SysUserPO> userInfos = userMapper.getUserAll();
+    	return JSONResultUtil.setSuccess(userInfos);
+    }
+    
 }

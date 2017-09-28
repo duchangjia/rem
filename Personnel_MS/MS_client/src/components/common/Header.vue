@@ -53,6 +53,11 @@ export default {
         },
         handleCommand(commmand) {
             const _self = this
+            if (commmand === 'user_center') {
+                sessionStorage.setItem('user_center',true);
+            } else {
+                sessionStorage.setItem('user_center',false);
+            }
             _self.$router.push(commmand);
         },
         link2Home() {

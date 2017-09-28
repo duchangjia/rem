@@ -9,7 +9,7 @@
 					<div class="job">技术经理</div>
 				</div>
 				<div class="bottom">
-					<div class="info" :class="{'active':infoChange}" command="user_center" @click="handleCommand('user_center')">基本信息</div>
+					<div class="info"  :class="{'active':infoChange}" command="user_center" @click="handleCommand('user_center')">基本信息</div>
 					<div class="setword" :class="{'active':!infoChange}" command="modify_password" @click="handleCommand('modify_password')">修改密码</div>
 				</div>
 			</div>
@@ -25,20 +25,8 @@
     import vHeader from './Header.vue'
     import successTip from '../pages/user_Setting/successTip.vue'
     export default {
-//        props: [{
-//           username:{
-//               type: String,
-//               default: '',
-//           }
-//        }],
-//		data() {
-//			return {
-//				infoChange: ''
-//			}
-//		},
 		computed: {
 			infoChange() {
-				console.log(this.$route.path);
 				if (this.$route.path === '/user_center') {
 					return true
 				}
@@ -51,11 +39,12 @@
         methods: {
         	handleCommand(commmand) {
 	            const _self = this;
-	            _self.infoChange = !_self.infoChange;
+//	            _self.infoChange = !_self.infoChange;
 	            _self.$router.push(commmand);
 	        }
-        }
+        },
     }
+
 </script>
 
 <style>
