@@ -37,7 +37,7 @@
 
 <style scoped>
     .home-header{
-        min-width: 1280px;
+        /* min-width: 1280px; */
         height: 60px;
     }
     .wrapper{

@@ -118,7 +118,7 @@ export default {
             menus: menuOptions,
 
             checkAll: false,
-            checkedSubmenus: ['组织架构','用户管理'],
+            checkedSubmenus: ['组织架构', '用户管理'],
             submenus: submenuOptions1,
             isIndeterminate: true
         };
@@ -177,53 +177,14 @@ export default {
 
 <style>
 .add_role {
-    padding: 0 20px 20px;
+    padding: 0 0 20px 20px;
 }
 
-.content-wrapper {
+.add_role .content-wrapper {
     background: #ffffff;
     padding: 0 20px 0;
     color: #333333;
     clear: both;
-}
-
-.content-wrapper .titlebar {
-    height: 80px;
-    line-height: 80px;
-    font-size: 16px;
-    font-family: "PingFang SC";
-    border-bottom: 1px solid #eeeeee;
-}
-
-.content-wrapper .titlebar .title-text {
-    display: inline-block;
-    height: 80px;
-    position: relative;
-}
-
-.content-wrapper .titlebar .title-text::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    background: #333333;
-}
-
-.content-wrapper .titlebar .toolBtn {
-    float: right;
-    margin-top: 20px;
-    border-radius: 0;
-    height: 40px;
-    line-height: 40px;
-    width: 120px;
-    background: #FF9900;
-    border: none;
-}
-
-.el-button {
-    padding: 0;
 }
 
 .add-wrapper .item-title {
@@ -262,10 +223,12 @@ export default {
 .add-wrapper.role-msg label {
     margin-right: 14px;
 }
+
 .el-select-dropdown__item.selected,
 .el-select-dropdown__item.selected.hover {
     background-color: #FF9900;
 }
+
 .add-wrapper .el-input__inner {
     border-radius: 0;
     width: 300px;
