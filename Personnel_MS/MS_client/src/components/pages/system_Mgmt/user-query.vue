@@ -49,6 +49,7 @@
 </template>
 
 <script type='text/ecmascript-6'>
+	import Bus from '../../../common/Bus.js'
 	import current from '../../common/current_position.vue'
 	export default {
 		data() {
@@ -133,6 +134,7 @@
 //				this.$refs[formName].resetFields();
 //			}
 			resetForm() {
+				Bus.$emit('user',this.userList);
 				this.$router.push('/user-info');
 			},
 			handleCurrentChange(val) {
@@ -184,9 +186,6 @@
 	}
 	.user-query .content-inner {
 		padding: 40px 0px;
-	}
-	.user-query .input-wrap {
-		/*display: flex;*/
 	}
 	.user-query .el-form-item__label {
 		text-align: left;

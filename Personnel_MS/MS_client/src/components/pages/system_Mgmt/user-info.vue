@@ -82,6 +82,7 @@
 </template>
 
 <script>
+	import Bus from '../../../common/Bus.js'
 	import current from '../../common/current_position.vue'
 	export default {
 		data() {
@@ -113,6 +114,11 @@
 		components: {
 			current
 		},
+		created() {
+			Bus.$on('user',(res)=>{
+				console.log(res);
+			})
+		},
 		methods: {
 			//返回
 			back() {
@@ -121,6 +127,7 @@
 			//密码重置
 			passreset() {
 				//this.$router.replace('modify_password');
+				
 			},
 			//保存
 			conserve(formName) {

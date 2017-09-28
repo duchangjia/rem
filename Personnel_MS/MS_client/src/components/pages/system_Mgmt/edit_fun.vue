@@ -27,7 +27,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="交易类型" prop="dealtype">
+						<el-form-item label="交易类型" prop="dealType">
 							<el-select v-model="userMsg.dealType" placeholder="交易类型">
 								<el-option label="交易类型" value="01"></el-option>
 								<el-option label="交易类型" value="02"></el-option>
@@ -67,7 +67,7 @@
 					dealname: '',
 					interfacename: '',
 					company: '',
-					dealtype: '',
+					dealType: '',
 					status: ''
 				}
 			}
@@ -206,7 +206,6 @@
 	.edit_fun .el-input__inner {
 		border: 1px solid #eeeeee;
 		color: #333333;
-		/*background: #f4f4f4;*/
 		height: 40px;
 	}
 	

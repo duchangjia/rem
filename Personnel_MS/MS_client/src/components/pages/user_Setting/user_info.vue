@@ -69,7 +69,7 @@ a {
 	text-decoration: none;
 }
 .user_info {
-	padding: 0px 20px;
+	padding-left: 20px;
 	width: 100%;
 }
 .location-wrapper {
@@ -91,7 +91,7 @@ a {
 .user_info .content {
 	width: 100%;
 	/*min-height: 530px;*/
-    /*height: calc(100% - 90px);*/
+    height: calc(100% - 90px);
 	padding: 0px 40px;
 	background: #ffffff;
 }
