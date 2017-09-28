@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.omcube.model.mapper.SysUserMapper">
+    <resultMap id="SysUserMap" type="com.omcube.model.po.SysUserPO">
+        <id column="user_no" property="userNo"></id>
+        <result column="log_name" property="userName" javaType="java.lang.String"></result>
+        <result column="cert_no" property="certNo" javaType="java.lang.String"></result>
+        <result column="mobile_tel" property="mobileTEL" javaType="java.lang.String"></result>
+        <result column="email" property="email" javaType="java.lang.String"></result>
+        <result column="organ_no" property="organNo" javaType="java.lang.String"></result>
+        <result column="remark" property="remark" javaType="java.lang.String"></result>
+        <result column="created_date" property="createdDate" javaType="java.util.Date"></result>
+        <result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
+        <result column="created_by" property="createdBy" javaType="java.lang.String"></result>
+        <result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
+    </resultMap>
+    
+    <select id="queryUser" parameterType="java.lang.String" resultMap="SysUserMap">       
+    	select * from IFDP_SYS_USER_BASE 
+		<where>
+			<if test="userNo != null">
+				user_no = #{userNo}
+			</if>
+			<if test="userName != null">
+				and log_name = #{userName}
+			</if>
+		</where> 
+    </select>
+</mapper>
