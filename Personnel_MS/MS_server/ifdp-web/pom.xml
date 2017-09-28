@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     
     <artifactId>ifdp-web</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>ifdp-web</name>
     <url>http://maven.apache.org</url>
 
@@ -87,6 +87,14 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!--  
+		<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-tomcat</artifactId>
+        <scope>provided</scope>
+        </dependency>
+		-->
+		
     </dependencies>
 
     <properties>
