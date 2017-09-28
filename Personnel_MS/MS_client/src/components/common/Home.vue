@@ -1,14 +1,14 @@
 <template>
     <div id="home-wrapper">
-        <v-head class="home-header"></v-head>
-        <div class="wrapper">
-            <v-Sidebar class="sider"></v-Sidebar>
-            <div class="container-wrapper">
-                <transition name="move" mode="out-in">
-                    <router-view></router-view>
-                </transition>
-            </div>
-        </div>
+        <el-row><v-head class="home-header"></v-head></el-row>
+                <div class="wrapper">
+                        <v-Sidebar class="sider"></v-Sidebar>
+                        <div class="container-wrapper">
+                            <transition name="move" mode="out-in">
+                                <router-view></router-view>
+                            </transition>
+                        </div>
+                </div>
     </div>
     <!--<el-row class="container">-->
         <!--<v-head></v-head>-->
@@ -36,9 +36,13 @@
 </script>
 
 <style scoped>
-    .home-header{
-        min-width: 1280px;
+
+    .home-wrapper .el-row{
+        display: flex;
+    }
+    .home-wrapper .home-header{
         height: 60px;
+        width: 100%;
     }
     .wrapper{
         display: flex;

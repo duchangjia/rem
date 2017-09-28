@@ -1,46 +1,58 @@
 <template>
     <div class="home_page">
-        <div class="location-wrapper">
-            <span class="current-location">当前位置：首页</span>
-            <span class="search"><input type="text" class="search-text"><i class="search-icon"></i></span>
-        </div>
-        <ul class="list">
-            <li class="list-item">
-                <img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">
-                <div class="des">
-                    <div class="count">321</div>
-                    <div class="text">项目一览</div>
-                </div>
-            </li>
-            <li class="list-item">
-                <img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">
-                <div class="des">
-                    <div class="count">321</div>
-                    <div class="text">项目一览</div>
-                </div>
-            </li>
-            <li class="list-item">
-                <img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">
-                <div class="des">
-                    <div class="count">321</div>
-                    <div class="text">项目一览</div>
-                </div>
-            </li>
-            <li class="list-item">
-                <img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">
-                <div class="des">
-                    <div class="count">321</div>
-                    <div class="text">项目一览</div>
-                </div>
-            </li>
-            <li class="list-item">
-                <img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">
-                <div class="des">
-                    <div class="count">321</div>
-                    <div class="text">项目一览</div>
-                </div>
-            </li>
-        </ul>
+        <!--<div class="location-wrapper">-->
+            <!--<span class="current-location">当前位置：首页</span>-->
+            <!--<span class="search"><input type="text" class="search-text"><i class="search-icon"></i></span>-->
+        <!--</div>-->
+        <current yiji="首页" class="test" ></current>
+        <el-row>
+            <ul class="list">
+                <li class="list-item" v-for="(item, index) in listObj.imgIcon">
+                    <img :src="`../../../static/img/home/${item}.png`" alt="" width="56" height="56">
+                    <div class="des">
+                        <div class="count">{{listObj.listData}}</div>
+                        <div class="text">{{listObj.listText[index]}}</div>
+                    </div>
+                </li>
+            </ul>
+        </el-row>
+        <!--<ul class="list">-->
+            <!--<li class="list-item">-->
+                <!--<img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">-->
+                <!--<div class="des">-->
+                    <!--<div class="count">321</div>-->
+                    <!--<div class="text">项目一览</div>-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li class="list-item">-->
+                <!--<img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">-->
+                <!--<div class="des">-->
+                    <!--<div class="count">321</div>-->
+                    <!--<div class="text">项目一览</div>-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li class="list-item">-->
+                <!--<img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">-->
+                <!--<div class="des">-->
+                    <!--<div class="count">321</div>-->
+                    <!--<div class="text">项目一览</div>-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li class="list-item">-->
+                <!--<img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">-->
+                <!--<div class="des">-->
+                    <!--<div class="count">321</div>-->
+                    <!--<div class="text">项目一览</div>-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li class="list-item">-->
+                <!--<img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">-->
+                <!--<div class="des">-->
+                    <!--<div class="count">321</div>-->
+                    <!--<div class="text">项目一览</div>-->
+                <!--</div>-->
+            <!--</li>-->
+        <!--</ul>-->
         <div class="content-wrapper">
             <div class="content-left" id="myChart1"></div>
             <div class="content-right" id="myChart2"></div>
@@ -125,9 +137,15 @@
 </template>
 
 <script>
+    import current from '../common/current_position.vue'
     export default {
         data() {
             return {
+                listObj: {
+                    imgIcon: ['xmyl', 'xmlx', 'sqlx', 'jygl', 'rygl'],
+                    listText: ['项目一览', '项目立项', '售前立项', '经营管理', '人员管理'],
+                    listData: '321'
+                },
                 tableData: [{
                     date: '2016-05-02',
                     name: '王小虎',
@@ -149,6 +167,9 @@
                     progress: 70,
                 }],
             }
+        },
+        components: {
+          current,
         },
         mounted() {
             this.drawLine1();
@@ -669,6 +690,9 @@
     .home_page ul{
         list-style: none;
     }
+    .home_page .test{
+        padding-left: 10px;
+    }
     .location-wrapper{
         margin: 20px 0;
         display: flex;
@@ -710,17 +734,13 @@
         display: flex;
     }
     .list-item{
-        float: left;
-        width: 216px;
+        flex: 1;
         height: 100px;
         background: #fff;
-        list-style: none;
-        box-sizing: border-box;
-        padding: 20px 20px 24px 20px;
+        padding: 20px 35px 24px 20px;
     }
     .list-item .des{
         float: right;
-        margin-left: 56px;
     }
     .list-item .count{
         float: right;
@@ -871,7 +891,7 @@
         flex: 0 0 3px;
     }
     .item-pro{
-        width: 1080px;
+        /*width: 1080px;*/
         height: 324px;
         padding: 20px 20px 43px 20px;
         background: #fff;
