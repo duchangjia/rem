@@ -108,6 +108,9 @@
         line-height: 70px;
         font-size: 12px;
     }
+    .location-wrapper .el-row {
+        width: 100%;
+    }
     .location-wrapper .title {
         color: #475669;
         vertical-align: middle;
