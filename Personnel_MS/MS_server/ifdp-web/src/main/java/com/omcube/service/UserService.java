@@ -32,5 +32,4 @@ public class UserService implements UserDetailsService {
         user.setMobileNo(userPO.getMobileTEL());
         return user;
     }
-
 }
