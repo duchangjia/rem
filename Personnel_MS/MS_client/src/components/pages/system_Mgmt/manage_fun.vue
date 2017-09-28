@@ -1,7 +1,7 @@
 <template>
-    <div>
-        manage_fun
-    </div>
+    <transition name="move" mode="out-in">
+        <router-view></router-view>
+    </transition>
 </template>
 
 <script type='text/ecmascript-6'>

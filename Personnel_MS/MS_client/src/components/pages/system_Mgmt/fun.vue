@@ -1,97 +1,112 @@
 <template>
-	<div class="user-query">
-		<current yiji="系统管理" erji="用户管理"></current>
+	<div class="fun">
+		<current yiji="系统管理" erji="功能管理"></current>
 		<div class="content">
 			<div class="title">
-				<span class="title-text">用户管理</span>
+				<span class="title-text">功能管理</span>
 			</div>
 			<div class="content-inner">
-				<el-form :model="ruleForm2" ref="ruleForm2" label-width="58px" class="demo-ruleForm">
+				<el-form :model="formData" ref="formData" label-width="68px" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-form-item label="公司" prop="company">
-							<el-input type="text" v-model="ruleForm2.company"></el-input>
+						<el-form-item label="交易名称" prop="dealName">
+							<el-input type="text" v-model="formData.dealName"></el-input>
 						</el-form-item>
-						<el-form-item label="部门" prop="department">
-							<el-input type="text" v-model="ruleForm2.department"></el-input>
+						<el-form-item label="交易类型" prop="dealType">
+							<el-select v-model="formData.dealType" class="bg-white">
+								<el-option label="交易类型" value="00" checked></el-option>
+								<el-option label="交易类型" value="01"></el-option>
+								<el-option label="交易类型" value="02"></el-option>
+							</el-select>
 						</el-form-item>
-						<el-form-item label="用户" prop="user">
-							<el-input type="text" v-model="ruleForm2.user" placeholder="工号/姓名/手机/邮箱"></el-input>
+						<el-form-item label="状态" prop="status">
+							<el-select v-model="formData.status" class="bg-white">
+								<el-option label="正常" value="00" checked></el-option>
+								<el-option label="已锁定" value="01"></el-option>
+								<el-option label="已注销" value="02"></el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="所属系统" prop="system">
+							<el-select v-model="formData.system" class="bg-white">
+								<el-option label="所属系统" value="00" checked></el-option>
+								<el-option label="所属系统" value="01"></el-option>
+								<el-option label="所属系统" value="02"></el-option>
+							</el-select>
 						</el-form-item>
 					</div>
 					<div class="button-wrap">
 						<el-form-item>
-							<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
-							<el-button type="primary" @click="submitForm('ruleForm2')">查询</el-button>
+							<el-button class="resetform" @click="resetForm('formData')">重置</el-button>
+							<el-button type="primary" @click="query('formData')">查询</el-button>
 						</el-form-item>
 					</div>
 				</el-form>
 				<div class="info">
-					<el-table :data="userList" border stripe style="width: 100%" @cell-click="resetUserInfo">
-						<el-table-column prop="number" label="工号"></el-table-column>
-						<el-table-column prop="name" label="姓名"></el-table-column>
-						<el-table-column prop="company" label="所属公司"></el-table-column>
-						<el-table-column prop="department" label="部门"></el-table-column>
-						<el-table-column prop="role" label="角色"></el-table-column>
-						<el-table-column prop="phone" label="手机"></el-table-column>
-						<el-table-column prop="status" label="状态"></el-table-column>
+					<el-table :data="userList" border stripe style="width: 100%" @cell-click="handleEdit">
+						<el-table-column prop="number" label="交易代码"></el-table-column>
+						<el-table-column prop="name" label="交易名称"></el-table-column>
+						<el-table-column prop="company" label="接口名称"></el-table-column>
+						<el-table-column prop="department" label="交易类型"></el-table-column>
+						<el-table-column prop="role" label="所属系统"></el-table-column>
+						<el-table-column prop="phone" label="状态"></el-table-column>
+						<el-table-column label="操作">
+							<template scope="scope">
+		                        <i class="icon-edit"></i>
+		                    </template>
+						</el-table-column>
 					</el-table>
 				</div>
 				<el-pagination
-			      @current-change="handleCurrentChange"
-			      :current-page.sync="currentPage"
-			      :page-size="100"
-			      layout="prev, pager, next, jumper"
-			      :total="1000">
+                   	@size-change="handleSizeChange"
+		      		@current-change="handleCurrentChange"
+			      	:current-page.sync="currentPage"
+			      	:page-size="100"
+			      	layout="prev, pager, next, jumper"
+			      	:total="1000">
 			    </el-pagination>
 			</div>
 		</div>
 	</div>
 </template>
 
-<script type='text/ecmascript-6'>
+<script>
 	import current from '../../common/current_position.vue'
 	export default {
 		data() {
-			var checkAge = (rule, value, callback) => {
-			};
-			var validatecompany = (rule, value, callback) => {
-			};
-			var validatecompany2 = (rule, value, callback) => {
-			};
 			return {
 				currentPage: 5,
-				ruleForm2: {
-					company: '',
-					department: '',
-					user: ''
+				formData: {
+					dealName: '',
+					dealType: '',
+					status: '',
+					system: ''
 				},
 				userList: [{
-					number: '2016001',
-					name: '王小虎',
+					number: '0000111',
+					name: '111111',
 					company: '广州分公司',
 					department: '111',
 					role: '财务部',
 					phone: '1351011111',
 					status: '正常'
 				}, {
-					number: '2016001',
-					name: '王小虎',
+					number: '0000112',
+					name: '222222',
 					company: '广州分公司',
 					department: '111',
 					role: '财务部',
 					phone: '1351011111',
 					status: '正常'
 				}, {
-					number: '2016001',
-					name: '王小虎',
+					number: '0000113',
+					name: '333333',
 					company: '广州分公司',
 					department: '111',
 					role: '财务部',
 					phone: '1351011111',
 					status: '已锁定'
 				}, {
-					number: '2016001',
-					name: '王小虎',
+					number: '0000114',
+					name: '444444',
 					company: '广州分公司',
 					department: '111',
 					role: '财务部',
@@ -99,30 +114,17 @@
 					status: '正常'
 				}],
 
-				rules2: {
-					company: [{
-						validator: validatecompany,
-						trigger: 'blur'
-					}],
-					checkcompany: [{
-						validator: validatecompany2,
-						trigger: 'blur'
-					}],
-					age: [{
-						validator: checkAge,
-						trigger: 'blur'
-					}]
-				}
+				
 			};
 		},
 		components: {
 			current
 		},
 		methods: {
-			submitForm(formName) {
+			query(formName) {
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						alert('submit!');
+						console.log(this.formData.dealName);
 					} else {
 						console.log('error submit!!');
 						return false;
@@ -133,30 +135,29 @@
 //				this.$refs[formName].resetFields();
 //			}
 			resetForm() {
-				this.$router.push('/user-info');
+				this.$router.push('/edit_fun');
 			},
+	     	handleEdit(row, column, cell, event) {
+	     		console.log(row.number);
+	            this.$router.push('/edit_fun');
+	        },
+			handleSizeChange(val) {
+                console.log(`每页 ${val} 条`);
+           	},
 			handleCurrentChange(val) {
 		        console.log(`当前页: ${val}`);
-	     	},
-	     	resetUserInfo(row, column, cell, event) {
-	     		console.log(row.number);
-	     		console.log(column);
-	     		if(column.property==='number'){
-	     			this.$router.push('/user-info');
-	     		}
-	     		
 	     	}
-		}
+	}
 
 	}
 </script>
 
 <style>
-	.user-query {
+	.fun {
 		padding-left: 20px;
 		width: 100%;
 	}
-	.user-query .content {
+	.fun .content {
 		width: 100%;
 		/*min-height: 530px;*/
 		/*height: calc(100% - 90px);*/
@@ -164,16 +165,16 @@
 		background: #ffffff;
 		clear: both;
 	}
-	.user-query .content .title {
+	.fun .content .title {
 		border-bottom: 1px solid #EEEEEE;
 	}
-	.user-query .content .title .title-text {
+	.fun .content .title .title-text {
 		display: inline-block;
 		position: relative;
 		padding: 29px 0px;
 		font-size: 16px;
 	}
-	.user-query .content .title .title-text:after {
+	.fun .content .title .title-text:after {
 		content: '';
 		position: absolute;
 		left: 0;
@@ -182,13 +183,13 @@
 		height: 2px;
 		background: #333333;
 	}
-	.user-query .content-inner {
+	.fun .content-inner {
 		padding: 40px 0px;
 	}
-	.user-query .input-wrap {
+	.fun .input-wrap {
 		/*display: flex;*/
 	}
-	.user-query .el-form-item__label {
+	.fun .el-form-item__label {
 		text-align: left;
 		vertical-align: middle;
 		float: left;
@@ -198,43 +199,43 @@
 		padding: 11px 12px 11px 0;
 		box-sizing: border-box;
 	}
-	.user-query .input-wrap .el-form-item {
+	.fun .input-wrap .el-form-item {
 		margin-right: 80px;
 		float: left;
 	}
-	.user-query .el-form-item {
+	.fun .el-form-item {
 		margin-bottom: 40px;
 	}
-	.user-query .el-input,
-	.user-query .el-input__inner {
+	.fun .el-input,
+	.fun .el-input__inner {
 		width: 200px;
 		display: inline-block;
 	}
 	
-	.user-query .el-form-item__content {
+	.fun .el-form-item__content {
 		line-height: 36px;
 		position: relative;
 		font-size: 14px;
 	}
-	.user-query .button-wrap {
+	.fun .button-wrap {
 		margin: 0px auto;
 		width: 264px;
 		clear: both;
 	}
-	.user-query .button-wrap .el-form-item__content {
+	.fun .button-wrap .el-form-item__content {
 		margin-left: 0!important;
 	}
-	.user-query .el-input__inner {
+	.fun .el-input__inner {
 		border-radius: 4px;
 		border: 1px solid #EEEEEE;
 		color: #333333;
 		padding: 19px 10px;
 		transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
 	}
-	.user-query .el-input__inner:hover {
+	.fun .el-input__inner:hover {
 	    border-color: #FF9900;
 	}
-	.user-query .el-button {
+	.fun .el-button {
 		display: inline-block;
 		line-height: 1;
 		white-space: nowrap;
@@ -246,70 +247,82 @@
 		padding: 12px 45px;
 		border-radius: 0px;
 	}
-	.user-query .el-button.resetform {
+	.fun .el-button.resetform {
 		margin-right: 20px;
 	}
-	.user-query .el-button--primary {
+	.fun .el-button--primary {
 		color: #fff;
 		background-color: #FF9900;
 		border-color: #FF9900;
 	}
-	.user-query .el-button:focus,
-	.user-query .el-button:hover {
+	.fun .el-button:focus,
+	.fun .el-button:hover {
 	    border-color: #FF9900;
 	    opacity: 0.5;
 	}
-	.user-query .el-button.resetform:focus,
-	.user-query .el-button.resetform:hover {
+	.fun .el-button:focus {
+		opacity: 1;
+	}
+	.fun .el-button.resetform:focus,
+	.fun .el-button.resetform:hover {
 		color: #FF9900;
 	}
-	.user-query .el-table {
+	.fun .el-table {
 	    background-color: #fff;
 	    border-left: 1px solid #EEEEEE;
 	    color: #666666;
 	}
-	.user-query .el-table__footer-wrapper thead div, 
-	.user-query .el-table__header-wrapper thead div {
+	.fun .el-table__footer-wrapper thead div, 
+	.fun .el-table__header-wrapper thead div {
 	    background-color: #f4f4f4;
 	    color: #666666;
 	    /*box-shadow: inset 0 1px 0 0 #EEEEEE;*/
 	}
-	.user-query .el-table td,
-	.user-query .el-table th {
+	.fun .el-table td,
+	.fun .el-table th {
 		text-align: center;
 	}
-	.user-query .el-table--enable-row-hover .el-table__body tr:hover>td {
+	.fun .el-table--enable-row-hover .el-table__body tr:hover>td {
 	    background-color: #f8f8f8;
 	    background-clip: padding-box;
 	}
-	.user-query .el-table--striped .el-table__body tr.el-table__row--striped td {
+	.fun .el-table--striped .el-table__body tr.el-table__row--striped td {
 	    background: #F8F8F8;
 	    background-clip: padding-box;
 	}
-	.user-query .el-table th {
+	.fun .el-table th {
 		white-space: nowrap;
 		overflow: hidden;
 		background-color: #f4f4f4;
 		text-align: center;
 		box-shadow: inset 0 1px 0 0 #EEEEEE;
 	}
-	.user-query .el-table--border td,
-	.user-query .el-table--border th {
+	.fun .el-table--border td,
+	.fun .el-table--border th {
 		border-right: 1px solid #EEEEEE;
 	}
-	.user-query .el-table td,
-	.user-query .el-table th.is-leaf {
+	.fun .el-table td,
+	.fun .el-table th.is-leaf {
 		border-bottom: 1px solid #EEEEEE;
 	}
-	/*.user-query .el-table td:first-child:hover {
+	/*.fun .el-table td:first-child:hover {
 		color: #FF9900;
 		cursor: pointer;
 	}*/
-	.user-query .el-table::after, 
-	.user-query .el-table::before {
+	.fun .el-table::after, 
+	.fun .el-table::before {
 	    content: '';
 	    position: absolute;
      	background-color: transparent; 
+	}
+	.fun .icon-edit {
+	    display: inline-block;
+	    width: 24px;
+	    height: 24px;
+	    background: url('../../../../static/img/common/edit.png') center no-repeat;
+	}
+	.fun .icon-edit:hover {
+	    cursor: pointer;
 	}
 	.el-pagination {
 		text-align: right;
@@ -351,6 +364,9 @@
 	}
 	.el-pager li:hover {
 	    color: #FF9900!important;
+	}
+	.el-pager li.active:hover {
+		color: #FFFFFF!important;
 	}
 	.el-pagination button:hover {
     color: #FF9900;

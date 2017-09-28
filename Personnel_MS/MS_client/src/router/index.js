@@ -99,7 +99,17 @@ export default new Router({
                 },
                 {
                     path: '/management_fun',
-                    component: resolve => require(['../components/pages/system_Mgmt/manage_fun.vue'], resolve)
+                    component: resolve => require(['../components/pages/system_Mgmt/manage_fun.vue'], resolve),
+                	children: [
+	                	{
+	                		path: '/',
+	                		component: resolve => require(['../components/pages/system_Mgmt/fun.vue'], resolve)
+	                	},
+	                	{
+	                		path: '/edit_fun',
+	                		component: resolve => require(['../components/pages/system_Mgmt/edit_fun.vue'], resolve)
+	                	}
+                	]
                 },
                 {
                     path: '/argument_2',

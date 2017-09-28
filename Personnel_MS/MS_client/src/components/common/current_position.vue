@@ -65,9 +65,15 @@
               if(this.sanji==='新增角色'){
                   _link.push('/add_role')
               }
+              if(this.sanji==='用户信息'){
+              	 _link.push('/user-info')
+              }
+              if(this.sanji==='功能编辑'){
+              	 _link.push('/edit_fun')
+              }
               this.link = _link
               this.breadItemLength = _link.length
-              console.log(_link, this.breadItemLength)
+//            console.log(_link, this.breadItemLength)
               return this.link
           }
         },
