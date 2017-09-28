@@ -37,10 +37,8 @@
 
 <style scoped>
 
-    .home-wrapper .el-row{
-        display: flex;
-    }
-    .home-wrapper .home-header{
+    .home-header{
+        /* min-width: 1280px; */
         height: 60px;
     }
     .wrapper{

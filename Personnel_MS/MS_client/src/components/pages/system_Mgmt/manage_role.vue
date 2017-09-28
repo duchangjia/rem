@@ -7,7 +7,7 @@
                 <span class="title-text">角色管理</span>
                 <el-button type="primary" @click="handleAdd" class="toolBtn">新增角色</el-button>
             </el-col>
-            <el-table stripe :data="tableData" border>
+            <el-table stripe :data="roleData" border>
                 <el-table-column align="center" prop="roleID" label="角色ID">
                 </el-table-column>
                 <el-table-column align="center" prop="roleName" label="角色名称">
@@ -18,7 +18,8 @@
                 </el-table-column>
                 <el-table-column align="center" label="操作" width="150">
                     <template scope="scope">
-                        <i class="icon-edit"></i>
+                        <i class="icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
+                        <i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
                     </template>
                 </el-table-column>
             </el-table>
@@ -33,7 +34,7 @@ import current from '../../common/current_position.vue'
 export default {
     data() {
         return {
-            tableData: [
+            roleData: [
                 {
                     roleID: '10001',
                     roleName: '系统管理员',
@@ -132,6 +133,27 @@ export default {
         },
         handleAdd() {
             this.$router.push('/add_role');
+        },
+        handleEdit(index, row) {
+            
+            this.$router.push('/edit_role');
+        },
+        handleDelete(index, row) {
+            this.$confirm('此操作将会删除该条角色, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                });
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消删除'
+                });
+            });
         }
     }
 }
@@ -139,10 +161,10 @@ export default {
 
 <style>
 .role_mgmt {
-    padding: 0 20px 20px;
+    padding: 0 0 20px 20px;
 }
 
-.content-wrapper {
+.role_mgmt .content-wrapper {
     background: #ffffff;
     padding: 0 20px 20px;
     color: #333333;
@@ -234,8 +256,20 @@ export default {
 
 .icon-edit {
     display: inline-block;
-    width: 20px;
-    height: 18px;
-    background: url('../../../../static/img/common/edit.png');
+    width: 24px;
+    height: 24px;
+    background: url('../../../../static/img/common/edit.png') center no-repeat;
+}
+
+.icon-delete {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: url('../../../../static/img/common/delete.png') center no-repeat;
+}
+
+.icon-edit:hover,
+.icon-delete:hover {
+    cursor: pointer;
 }
 </style>
