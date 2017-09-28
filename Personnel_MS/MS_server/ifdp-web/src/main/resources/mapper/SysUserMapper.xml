@@ -49,19 +49,19 @@
 				and ob2.organ_name like '%${organCompanyName}%'
 			</if>
 			<if test="organDepartmentName != null">
-				and ob1.organ_name = #{organDepartmentName}
+				and ob1.organ_name like '%${organDepartmentName}%'
 			</if>
 			<if test="userNo != null">
-				and u.user_no = #{userNo}
+				and u.user_no like '%${userNo}%'
 			</if>
 			<if test="userName != null">
-				and u.log_name = #{userName}
+				and u.log_name like '%${userName}%'
 			</if>
 			<if test="mobileTEL != null">
-				and u.mobile_tel = #{mobileTEL}
+				and u.mobile_tel like '%${mobileTEL}%'
 			</if>
 			<if test="email != null">
-				and u.email = #{email}
+				and u.email like '%${email}%'
 			</if>
     </select>
     
