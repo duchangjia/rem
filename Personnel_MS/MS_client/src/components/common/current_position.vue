@@ -11,7 +11,7 @@
                     <el-breadcrumb-item v-if="wuji" :to="{ path: links[4] }" class="test1" >{{wuji}}</el-breadcrumb-item>
                 </el-breadcrumb>
             </el-col>
-            <el-col :span="2" v-show="breadItemLength>1">
+            <el-col :span="2" v-show="breadItemLength>2">
                 <img src="../../../static/img/common/back.png" alt="pic" width="19" height="12" class="pic" @click="jump">
             </el-col>
         </el-row>
@@ -67,7 +67,6 @@
               }
               this.link = _link
               this.breadItemLength = _link.length
-              console.log(_link, this.breadItemLength)
               return this.link
           }
         },

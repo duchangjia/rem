@@ -40,6 +40,12 @@
     .home-header{
         /* min-width: 1280px; */
         height: 60px;
+
+    }
+    @media screen and (max-width: 680px) { /*当屏幕尺寸小于600px时，应用下面的CSS样式*/
+        .home-header {
+            min-width: 1280px;
+        }
     }
     .wrapper{
         display: flex;
