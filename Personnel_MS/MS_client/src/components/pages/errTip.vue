@@ -2,10 +2,10 @@
 	<div class="errmessage-wrap" :class="{hidden:errflag}">
 		<div class="errmessage">
 			<div class="header">
-				<span class="title-text">{{errmessage.title}}</span>
+				<span class="title-text">{{title}}</span>
 				<span class="close-icon" @click="close()"></span>
 			</div>
-			<div class="main">{{errmessage.content}}</div>
+			<div class="main">{{content}}</div>
 			<div class="bottom">
 				<span class="button" @click="close()">确定</span>
 			</div>
@@ -15,26 +15,36 @@
 </template>
 
 <script>
-	import Bus from '../../common/Bus'
+//	import Bus from '../../common/Bus'
 	export default {
+	    props: {
+	        title: {
+	            require: true,
+				default: ''
+			},
+            content: {
+                require: true,
+                default: ''
+            }
+		},
 		data() {
 			return {
 				errflag: true,
-				errmessage:{
-					content:'登录失败!账号或者密码有误，请填写正确的账号和密码。',
-					title:'温馨提示'
-				}
+//				errmessage:{
+//					content:'登录失败!账号或者密码有误，请填写正确的账号和密码。',
+//					title:'温馨提示'
+//				}
 			}
 		},
-		created(){
-			Bus.$on('showErrTip',(msg) => {
-				this.errflag = false;
-				if(msg !== ''){
-					this.errmessage = msg;
-				}
-				
-			})
-		},
+//		created(){
+//			Bus.$on('showErrTip',(msg) => {
+//				this.errflag = false;
+//				if(msg !== ''){
+//					this.errmessage = msg;
+//				}
+//
+//			})
+//		},
 	    methods: {
 	    	close() {
 	    		this.errflag = true;
@@ -57,9 +67,9 @@
 		display: none;
 	}
 	.errmessage{
-		position: absolute;
-		left: 27%;
-		top: 43%;
+		/*position: absolute;*/
+		/*left: 27%;*/
+		/*top: 43%;*/
 		width: 640px;
 		background: #ffffff;
 	}

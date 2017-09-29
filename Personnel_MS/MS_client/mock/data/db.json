@@ -1,27 +1,33 @@
 {
-  "user":{
-    "queryUser": {
-      "code": "S00000",
-      "data": {
-        "certNo": "123456",
-        "createdBy": "JINXIAO",
-        "createdDate": "2017-09-13 00:00:00",
-        "email": "admin@pactera.com",
-        "mobileTEL": "18910015767",
-        "organNo": "002",
-        "password": "",
-        "pwdLevel": "",
-        "remark": "admin用户",
-        "roles": "",
-        "status": "0",
-        "uId": "0001",
-        "updatedBy": "JINXIAO",
-        "updatedDate": "2017-09-20 00:00:00",
-        "userName": "jinx",
-        "userNo": "1"
-      },
-      "retMsg": "操作成功"
+  "user":[
+    {
+      "queryUser": {
+        "code": "S00000",
+        "data": {
+          "certNo": "123456",
+          "createdBy": "JINXIAO",
+          "createdDate": "2017-09-13 00:00:00",
+          "email": "admin@pactera.com",
+          "mobileTEL": "18910015767",
+          "organNo": "002",
+          "password": "",
+          "pwdLevel": "",
+          "remark": "admin用户",
+          "roles": "",
+          "status": "0",
+          "uId": "0001",
+          "updatedBy": "JINXIAO",
+          "updatedDate": "2017-09-20 00:00:00",
+          "userName": "jinx",
+          "userNo": "1"
+        },
+        "retMsg": "操作成功"
+      }
     }
+  ],
+  "checkuser": {
+    "username": "cyj",
+    "password": "111"
   },
   "posts": [
     {
