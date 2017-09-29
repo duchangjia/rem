@@ -6,8 +6,7 @@ public class JSONResultUtil {
 	
 	public static JSONResult setSuccess(Object object){
 		
-		JSONResult result = new JSONResult();
-		
+		JSONResult result = new JSONResult();		
         result.setCode("S00000");
         result.setRetMsg("操作成功");
         result.setData(object);

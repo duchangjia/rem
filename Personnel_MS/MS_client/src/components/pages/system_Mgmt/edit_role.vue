@@ -15,7 +15,6 @@
                             <el-input v-model="formRoleMsg.roleName" auto-complete="off"></el-input>
                         </el-form-item>
                     </el-col>
-
                     <el-col :span="12">
                         <el-form-item label="岗位">
                             <el-select v-model="formRoleMsg.job">
@@ -25,13 +24,11 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-
                     <el-col :span="12">
                         <el-form-item label="描述">
                             <el-input type="textarea" v-model="formRoleMsg.descript"></el-input>
                         </el-form-item>
                     </el-col>
-
                     <el-col :span="12">
                         <el-form-item label="状态">
                             <el-radio-group v-model="formRoleMsg.status">
@@ -40,10 +37,8 @@
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
-
                 </el-form>
             </div>
-
         </div>
     </div>
 </template>
@@ -66,6 +61,10 @@ export default {
             },
         };
     },
+    mounted() {
+        this.formRoleMsg.roleName = this.$route.query.roleName;
+        this.formRoleMsg.descript = this.$route.query.descript;
+    },
     components: {
         current,
     },
@@ -78,12 +77,8 @@ export default {
             editRole.status = this.formRoleMsg.status;
             console.dir(editRole);
         }
-    },
-    created() {
-        globalBus.$on('currentRole', function(val) {
-            console.log(val);
-        })
     }
+
 
 }
 </script>

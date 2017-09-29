@@ -135,13 +135,15 @@ export default {
             this.$router.push('/add_role');
         },
         handleEdit(index, row) {
-            globalBus.$emit('currentRole', {
-                roleID: this.roleData[index].roleID,
-                roleName: this.roleData[index].roleName,
-                status: this.roleData[index].status,
-                descript: this.roleData[index].descript
-            });
-            this.$router.push('/edit_role');
+            this.$router.push({
+                path: '/edit_role',
+                query: {
+                    roleID: this.roleData[index].roleID,
+                    roleName: this.roleData[index].roleName,
+                    status: this.roleData[index].status,
+                    descript: this.roleData[index].descript
+                }
+            })
         },
         handleDelete(index, row) {
             this.$confirm('此操作将会删除该条角色, 是否继续?', '提示', {
@@ -154,10 +156,7 @@ export default {
                     message: '删除成功!'
                 });
             }).catch(() => {
-                // this.$message({
-                //     type: 'info',
-                //     message: '已取消删除'
-                // });
+                
             });
         }
     }
