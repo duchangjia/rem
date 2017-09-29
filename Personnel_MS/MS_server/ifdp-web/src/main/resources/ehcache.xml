@@ -5,5 +5,9 @@
            maxEntriesLocalHeap="200"
            timeToLiveSeconds="600">
     </cache>
+     <cache name="pacts"
+           maxEntriesLocalHeap="200"
+           timeToLiveSeconds="600">
+    </cache>
 
 </ehcache>

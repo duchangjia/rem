@@ -13,6 +13,7 @@ public class HelloController {
 
     @RequestMapping("/say")
     public String saySth(String s){
+    	s = "sshkjh";
         return "Say: " + s;
     }
 
