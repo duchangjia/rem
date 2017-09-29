@@ -49,7 +49,7 @@
 </template>
 
 <script type='text/ecmascript-6'>
-	import Bus from '../../../common/Bus.js'
+//	import Bus from '../../../common/Bus.js'
 	import current from '../../common/current_position.vue'
 	export default {
 		data() {
@@ -70,32 +70,32 @@
 					number: '2016001',
 					name: '王小虎',
 					company: '广州分公司',
-					department: '111',
+					department: '财务部',
 					role: '财务部',
+					phone: '1351011111',
+					status: '财务部经理'
+				}, {
+					number: '2016002',
+					name: '王小虎',
+					company: '广州分公司',
+					department: '财务部',
+					role: '财务预算员',
 					phone: '1351011111',
 					status: '正常'
 				}, {
-					number: '2016001',
+					number: '2016003',
 					name: '王小虎',
 					company: '广州分公司',
-					department: '111',
-					role: '财务部',
-					phone: '1351011111',
-					status: '正常'
-				}, {
-					number: '2016001',
-					name: '王小虎',
-					company: '广州分公司',
-					department: '111',
-					role: '财务部',
+					department: '行政部',
+					role: '行政',
 					phone: '1351011111',
 					status: '已锁定'
 				}, {
-					number: '2016001',
+					number: '2016004',
 					name: '王小虎',
 					company: '广州分公司',
-					department: '111',
-					role: '财务部',
+					department: '行政部',
+					role: '行政',
 					phone: '1351011111',
 					status: '正常'
 				}],
@@ -134,15 +134,13 @@
 //				this.$refs[formName].resetFields();
 //			}
 			resetForm() {
-				Bus.$emit('user',this.userList);
+				globalBus.$emit('user',this.userList);
 				this.$router.push('/user-info');
 			},
 			handleCurrentChange(val) {
 		        console.log(`当前页: ${val}`);
 	     	},
 	     	resetUserInfo(row, column, cell, event) {
-	     		console.log(row.number);
-	     		console.log(column);
 	     		if(column.property==='number'){
 	     			this.$router.push('/user-info');
 	     		}

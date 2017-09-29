@@ -82,11 +82,12 @@
 </template>
 
 <script>
-	import Bus from '../../../common/Bus.js'
+//	import Bus from '../../../common/Bus.js'
 	import current from '../../common/current_position.vue'
 	export default {
 		data() {
 			return {
+				datalist: '',
 				userMsg: {
 					name: '',
 					number: 'P00001',
@@ -115,8 +116,11 @@
 			current
 		},
 		created() {
-			Bus.$on('user',(res)=>{
-				console.log(res);
+			globalBus.$on('user',(res)=>{
+				console.log('bus');
+//				console.log(res);
+				this.datalist = res;
+//				console.log(this.datalist);
 			})
 		},
 		methods: {
