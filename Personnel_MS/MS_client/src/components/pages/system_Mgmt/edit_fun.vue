@@ -76,14 +76,6 @@
 			current
 		},
 		methods: {
-			//返回
-			back() {
-				this.$router.replace('management_user');
-			},
-			//密码重置
-			passreset() {
-				//this.$router.replace('modify_password');
-			},
 			//保存
 			conserve(formName) {
 				this.$refs[formName].validate((valid) => {

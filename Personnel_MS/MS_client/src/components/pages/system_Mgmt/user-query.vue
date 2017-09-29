@@ -66,6 +66,18 @@
 					department: '',
 					user: ''
 				},
+				userlist1: {
+					name: '小米',
+					number: '20170001',
+					company: '深圳分公司',
+					department: '行政部',
+					role: '行政文员',
+					status: '正常',
+					phone: '1356666666',
+					email: '123@123.com',
+					idCard: '54222222201010100',
+					remark: '新人'
+				},
 				userList: [{
 					number: '2016001',
 					name: '王小虎',
@@ -121,9 +133,16 @@
 		},
 		methods: {
 			submitForm(formName) {
-				this.$refs[formName].validate((valid) => {
+				const self = this;
+				self.$refs[formName].validate((valid) => {
 					if(valid) {
-						alert('submit!');
+						let params = {
+							pageIndex: '1',
+							pageRows: '10'
+						};
+						self.$axios.get('ifdp/list',{pageIndex: '1'}).then(function(res){
+							console.log('success');
+						})
 					} else {
 						console.log('error submit!!');
 						return false;
@@ -134,8 +153,11 @@
 //				this.$refs[formName].resetFields();
 //			}
 			resetForm() {
-				globalBus.$emit('user',this.userList);
 				this.$router.push('/user-info');
+//				this.$router.push({
+//					path:'/user-info',
+//					query: this.userlist1
+//				});
 			},
 			handleCurrentChange(val) {
 		        console.log(`当前页: ${val}`);
@@ -256,10 +278,10 @@
 	    border-color: #FF9900;
 	    opacity: 0.5;
 	}
-	.user-query .el-button.resetform:focus,
+	/*.user-query .el-button.resetform:focus,
 	.user-query .el-button.resetform:hover {
 		color: #FF9900;
-	}
+	}*/
 	.user-query .el-table {
 	    background-color: #fff;
 	    border-left: 1px solid #EEEEEE;

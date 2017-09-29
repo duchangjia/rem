@@ -1,7 +1,6 @@
 <template>
 	<div class="user-info">
 		<current yiji="系统管理" erji="用户管理" sanji="用户信息"></current>
-		<!--<span class="back" @click="back()"></span>-->
 		<div class="content">
 			<div class="title">
 				<span class="title-text">用户信息</span>
@@ -82,23 +81,22 @@
 </template>
 
 <script>
-//	import Bus from '../../../common/Bus.js'
+	import Bus from '../../../common/Bus.js'
 	import current from '../../common/current_position.vue'
 	export default {
 		data() {
 			return {
-				datalist: '',
 				userMsg: {
-					name: '',
-					number: 'P00001',
-					company: '',
-					department: '',
-					role: '',
-					status: '',
-					phone: '123123123123',
-					email: '',
-					idCard: '54001111000002345',
-					remark: ''
+					name: '1',
+					number: '1',
+					company: '1',
+					department: '1',
+					role: '1',
+					status: '1',
+					phone: '1',
+					email: '1',
+					idCard: '1',
+					remark: '1'
 				},
 				rules: {
 					name: [
@@ -115,23 +113,28 @@
 		components: {
 			current
 		},
-		created() {
-			globalBus.$on('user',(res)=>{
-				console.log('bus');
-//				console.log(res);
-				this.datalist = res;
-//				console.log(this.datalist);
-			})
+		created(){
+//			this.userMsg = this.$route.query;
 		},
 		methods: {
-			//返回
-			back() {
-				this.$router.replace('management_user');
-			},
 			//密码重置
 			passreset() {
-				//this.$router.replace('modify_password');
-				
+				this.$confirm('此操作后将无法找回原密码, 是否继续?', '提示', {
+		          	confirmButtonText: '确定',
+		          	cancelButtonText: '取消',
+		          	type: 'warning'
+		        }).then(() => {
+		          	this.$message({
+		            	type: 'success',
+		            	message: '密码重置成功!请查看邮箱。'
+		          	});
+		        }).catch(() => {
+		          	this.$message({
+		            	type: 'info',
+		            	message: '已取消操作'
+		          	});          
+		        });
+
 			},
 			//保存
 			conserve(formName) {
