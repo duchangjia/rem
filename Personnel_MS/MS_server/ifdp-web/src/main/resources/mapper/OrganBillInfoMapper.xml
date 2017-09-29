@@ -48,10 +48,12 @@
 		
 		<!-- 通过公司名称模糊查询公司开票信息列表 -->
 		<select id="queryBillInfoByName"  resultMap="EpOrganBillInfoMap">
-			select * from EP_ORGAN_BILLINFO where
-				UID = #{arg0}
-				and 
-			ORGAN_NAME like concat('%',#{arg1},'%')
-			
+			select * from EP_ORGAN_BILLINFO 
+				<where>
+					UID=#{arg0}
+					<if test="arg1 = '' || arg1=null">
+						and ORGAN_NAME like concat("%",#{arg1},"%")
+					</if>
+				</where>
 		</select>
 	</mapper>
