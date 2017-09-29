@@ -59,6 +59,8 @@
     export default {
         data: function(){
             return {
+                fullscreenLoading: false,
+                loading: true,
                 ruleForm: {
                     username: '',
                     password: ''
@@ -77,14 +79,43 @@
         	Toast,errtip
         },
         methods: {
+            openFullScreen() {
+                this.fullscreenLoading = true;
+                setTimeout(() => {
+                    this.fullscreenLoading = false;
+                }, 3000);
+            },
             submitForm(formName) {
                 const self = this;
                 self.$refs[formName].validate((valid) => {
                     if (valid) {
+                        var loadingInstance = this.$loading({
+                            target: '.form-content',
+                            lock: true,
+                            text: '加载中'
+                        })
                     	//吐丝提示
-						Bus.$emit('showToast','正在努力加载中...');
-                        localStorage.setItem('ms_username',self.ruleForm.username);
-                        self.$router.push('home');
+//						Bus.$emit('showToast','正在努力加载中...');
+						setTimeout(function () {
+                            let data = {
+                                userName: self.ruleForm.username,
+                                password: self.ruleForm.password,
+                            }
+                            self.$axios.post('/checkuser',data)
+                                .then( function (res) {
+                                    if(username==='wukong'){
+
+                                    }else{
+                                        Bus.$emit('showErrTip',{content:'登录失败！帐号或密码错。',title:'温馨提示'});
+                                    }
+                                })
+                                .catch( function (res) {
+                                    console.log('服务超时')
+                                })
+                            loadingInstance.close()
+                            localStorage.setItem('ms_username',self.ruleForm.username);
+                            self.$router.push('home');
+                        },3000)
                     } else {
                         Bus.$emit('showErrTip',{content:'登录失败！请填写正确的账号和密码。',title:'温馨提示'});
                     }

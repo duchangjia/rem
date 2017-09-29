@@ -25,12 +25,11 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        SysUserPO userPO = userMapper.getUserByUsername(username);
+        SysUserPO userPO = new SysUserPO(); //userMapper.getUserByUsername(username);
         List<SimpleGrantedAuthority> authorities = userPO.getRoles().stream().map(r -> new SimpleGrantedAuthority(r.getRoleName())).collect(Collectors.toList());
         SysUser user = new SysUser(userPO.getUserName(), userPO.getPassword(), authorities);
         user.setEmail(userPO.getEmail());
         user.setMobileNo(userPO.getMobileTEL());
         return user;
     }
-
 }

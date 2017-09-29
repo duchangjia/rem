@@ -247,10 +247,10 @@
    padding-left: 10px;
 }
 .framework-content-wrapper{
-    padding:27px 0 16px 20px ;
+    padding:29px 0 16px 20px ;
 }
 .framework-content-wrapper .framework-content{
-    margin-top: 27px;
+    margin-top: 29px;
     display: flex;
 }
 .framework-content .content-left{
