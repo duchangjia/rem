@@ -18,6 +18,8 @@ import com.omcube.model.mapper.SysOrganMapper;
 import com.omcube.model.po.OrganTree;
 import com.omcube.model.po.SysOrganPO;
 import com.omcube.model.po.SysUserPO;
+import com.omcube.service.OrganService;
+import com.omcube.serviceImpl.OrganServiceImpl;
 import com.omcube.util.JSONResultUtil;
 import com.omcube.util.SpringUtil;
 
@@ -32,8 +34,12 @@ public class OrganController {
 	@Autowired
     private SysOrganMapper sysOrganMapper;
 	
+	@Autowired
+	private OrganService organService;
+	
+	
 		/**
-		 * 1.获取总公司及其下属机构
+		 * 1.获取总公司及其所有下属机构
 		 * @param organ_no
 		 * @return
 		 */
@@ -184,26 +190,37 @@ public class OrganController {
 	    
 	    
 	    /**
-	     * 8.更新机构信息
+	     * 8.更新机构及机构详情信息
 	     * @param organ_no
 	     * @return
 	     */
 	    @RequestMapping(value = "/updateOrgan", method = RequestMethod.GET)
         
-	    public Object updateOrgan(String organ_no ){
-	   
-	    	if (sysOrganMapper == null)
-	    	{
-	    		sysOrganMapper = SpringUtil.getBean(SysOrganMapper.class);
-	    	}    	
-	    	//sysOrganMapper.updateOrgan(organ_no);
+	    public Object updateOrgan(SysOrganPO sysOrganPO ){
+	    	
+	    	
+	    	organService.updateOrgan(sysOrganPO);
 	    	
 	    	return JSONResultUtil.setSuccess(null);
 	    	   	
 	    }
 	    
 	    
-	    
+	    /**
+	     * 9.增加机构及机构详情信息
+	     * @param organ_no
+	     * @return
+	     */
+	    @RequestMapping(value = "/addOrgan", method = RequestMethod.GET)
+        
+	    public Object addOrgan(SysOrganPO sysOrganPO ){
+	    	
+	    	
+	    	organService.addOrgan(sysOrganPO);
+	    	
+	    	return JSONResultUtil.setSuccess(null);
+	    	   	
+	    }
 	    
 	
 	
