@@ -70,7 +70,7 @@ public class OrganBillInfoController {
 	@Cacheable
 	public Object updateOrganBillInfo() throws ParseException{
 		EpOrganBillInfoPO billInfoPO = new EpOrganBillInfoPO();
-		DateFormat dateformat = new SimpleDateFormat("yyyy-mm-dd");
+//		DateFormat dateformat = new SimpleDateFormat("yyyy-mm-dd");
 //		Date createdDate  = dateformat.parse("2017-09-26");
 //		Date updatedDate  = dateformat.parse("2017-09-26");
 		billInfoPO.setuId("0001");
@@ -111,4 +111,5 @@ public class OrganBillInfoController {
 		PageInfo<EpOrganBillInfoPO> pageInfo = new PageInfo<EpOrganBillInfoPO>(billInfoPOList);
 		return JSONResultUtil.setSuccess(pageInfo);
 	}
+	
 }
