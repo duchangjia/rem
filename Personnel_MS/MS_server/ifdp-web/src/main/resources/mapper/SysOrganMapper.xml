@@ -5,6 +5,7 @@
         
 <mapper namespace="com.omcube.model.mapper.SysOrganMapper">
   
+  <!--1.递归查询公司及其所有下属机构  -->
   
    <resultMap type="com.omcube.model.po.OrganTree" id="OrganTree">
 		<result column="organ_no" property="id" javaType="java.lang.String" />
@@ -26,7 +27,7 @@
 	</select>
 
 
-
+	<!--2.查询上级机构及机构详情信息  -->
     <select id="queryParentOrgan" parameterType="java.lang.String" resultType="com.omcube.model.po.SysOrganPO">     
       
 		SELECT o1.ORGAN_NO,o1.ORGAN_NAME,o2.ORGAN_NAME organ_parent_name
@@ -37,7 +38,7 @@
     </select>
     
     
-    
+    <!--3.查询下级机构及机构详情信息  -->
      <select id="queryChildOrgan" parameterType="java.lang.String" resultType="com.omcube.model.po.SysOrganPO"> 
     
 	    SELECT o1.ORGAN_NAME organ_child_name,o1.ORGAN_TYPE,o1.ORGAN_STATUS,od.ORGAN_MGE_NAME 
@@ -46,8 +47,16 @@
     
     </select>
     
+
     
-    <resultMap id="SysUserMap" type="com.omcube.model.po.SysUserPO">
+    <!--4.查询机构下的人员信息 -->
+    <select id="queryOrganUser" parameterType="java.lang.String" resultMap="SysUserMap"> 
+   	    
+	    select * from IFDP_SYS_USER_BASE where ORGAN_NO=#{organ_no}    
+	    
+    </select>
+    
+     <resultMap id="SysUserMap" type="com.omcube.model.po.SysUserPO">
         <id column="user_no" property="userNo"></id>
         <result column="log_name" property="userName" javaType="java.lang.String"></result>
         <result column="cert_no" property="certNo" javaType="java.lang.String"></result>
@@ -61,21 +70,9 @@
         <result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
         
     </resultMap>
-    
-    
-    <select id="queryOrganUser" parameterType="java.lang.String" resultMap="SysUserMap"> 
-   	    
-	    select * from IFDP_SYS_USER_BASE where ORGAN_NO=#{organ_no}    
-	    
-    </select>
    
    
-   <delete id="deleteOrgan" parameterType="java.lang.String" >
-   
-   		UPDATE IFDP_SYS_ORGAN_BASE SET ORGAN_STATUS='0' WHERE uid='0001' AND organ_no=#{organ_no}
-    
-   </delete>
-   
+   <!--5.增加机构人员信息 -->
     <insert id="addOrganUser" parameterType="java.lang.String">
    
     	INSERT INTO IFDP_SYS_USER_BASE(UID,USER_NO,LOG_NAME,CERT_NO,MOBILE_TEL,EMAIL,ORGAN_NO,STATUS,PSWD,PSWD_LEVEL,REMARK,CREATED_BY,CREATED_DATE,UPDATED_BY,UPDATED_DATE) values(
@@ -86,12 +83,64 @@
     
     </insert>
     
-    
+    <!--6.删除人员 -->
     <delete id="deleteOrganUser" parameterType="java.lang.String" >
    
    		UPDATE IFDP_SYS_USER_BASE SET STATUS='0' WHERE user_no=#{userNo}
     
    </delete>
+    
+    
+    <!--7.根据机构编号删除机构 -->
+   <delete id="deleteOrgan" parameterType="java.lang.String" >
+   
+   		UPDATE IFDP_SYS_ORGAN_BASE SET ORGAN_STATUS='0' WHERE uid='0001' AND organ_no=#{organ_no}
+    
+   </delete>
+    
+    
+    <!--8.更新机构信息 -->
+    <update id="updateOrgan" parameterType="com.omcube.model.po.SysOrganPO">
+    
+    	
+    	UPDATE IFDP_SYS_ORGAN_BASE
+			SET organ_name =#{ organ_name },organ_type =#{ organ_type }, organ_status =#{ organ_status }
+		WHERE
+			organ_no =#{ organ_no }
+    	
+    </update>
+    
+    <!--9.更新机构详情信息-->
+     <update id="updateOrganDetail" parameterType="com.omcube.model.po.SysOrganPO">
+    
+    	UPDATE SYS_ORGAN_DETAIL
+			SET ORGAN_MGE_NAME =#{ organ_mge_name }
+		WHERE
+			organ_no =#{ organ_no }
+    	
+    </update>
+    
+    
+     <!--10.新增机构信息-->
+    <insert id="addOrgan" parameterType="com.omcube.model.po.SysOrganPO">
+   
+    	INSERT INTO IFDP_SYS_USER_BASE(UID,ORGAN_NO,ORGAN_NAME,ORGAN_TYPE,ORGAN_STATUS,PARENT_NO,ORGAN_LEVEL,ORGAN_DESCR,ORG_PATH,CREATED_BY,CREATED_DATE,UPDATED_BY,UPDATED_DATE) values(
+    	
+    		#{uid}，#{organ_no},#{organ_name},#{organ_type},#{organ_status},#{parent_no},#{organ_level},#{organ_descr},#{organ_path},#{createdBy}，#{createdDate}，#{updatedBy},#{updatedDate}
+    	)
+    
+    </insert>
+    
+    
+    <!--11.新增机构详情信息-->
+    <insert id="addOrganDetail" parameterType="com.omcube.model.po.SysOrganPO">
+    	INSERT INTO SYS_ORGAN_DETAIL(UID,ORGAN_NO,ORG_REG_ADDR,ORGAN_CON_ADDR,ORGAN_MAN,ORGAN_TEL,ORGAN_EMAIL,ORGAN_MGE_ID,ORGAN_MGE_NAME,ORGAN_DESCR,CREATED_BY,CREATED_DATE,UPDATED_BY,UPDATED_DATE) values(
+    	
+    		#{uid}，#{organ_no},#{org_reg_addr},#{organ_con_addr},#{organ_man},#{organ_tel},#{organ_email},#{organ_mge_id},#{organ_mge_name},#{organ_descr},#{createdBy}，#{createdDate}，#{updatedBy},#{updatedDate}
+    	)
+      
+    </insert>
+    
     
     
     
