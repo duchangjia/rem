@@ -25,6 +25,8 @@ public interface SysOrganMapper {
 
 	void deleteOrganUser(String userNo);
 
+	List<String> queryAllChildrenOrganNoes(String organNo);
+	
 	void updateOrgan(SysOrganPO sysOrganPO);
 	
 	void updateOrganDetail(SysOrganPO sysOrganPO);
@@ -32,6 +34,5 @@ public interface SysOrganMapper {
 	void addOrgan(SysOrganPO sysOrganPO);
 
 	void addOrganDetail(SysOrganPO sysOrganPO);
-	
 	
 }

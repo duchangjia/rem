@@ -9,12 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,12 +27,9 @@ public class UserControllerTest {
 	mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
-    @Test
-    public void addCityInfoSuccessTestCase() throws Exception
+    //@Test
+    public void queryUser() throws Exception
     {
-
-	//"pageNum":1,"pageSize":1,"uid":"0001","organCompanyName":"魔方",
-	//"organDepartmentName":"上海办事处","userFeatureInfo":"admin@pactera.com"
 	String result = mockMvc.perform(get("/iem/user/queryUser")
 		.param("pageNum", "1")
 		.param("pageSize", "10")
@@ -51,4 +44,26 @@ public class UserControllerTest {
 	System.out.println(result);
     }
 
+    @Test
+    public void updateUserInfo() throws Exception
+    {
+	String result = mockMvc.perform(get("/iem/user/updateUserInfo")
+		.param("uid", "0001")
+		.param("organCompanyNo", "234")
+		.param("organDepartmentNo", "10001")
+		.param("roleNo", "COMMONqqqq")
+		.param("userNo", "2")
+		.param("userName", "jinQQx")
+		.param("certNo", "431223199003013356")
+		.param("mobile", "13418760926")
+		.param("email", "11223@qq.com")
+		.param("remark", "qqqq")
+		.param("updatedBy", "ttt")
+		.param("userStatus", "1")
+		.contentType(MediaType.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk()).andReturn().getResponse()
+		.getContentAsString();
+
+	System.out.println(result);
+    }
 }

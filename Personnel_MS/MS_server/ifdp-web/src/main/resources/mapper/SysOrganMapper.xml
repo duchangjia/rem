@@ -135,6 +135,9 @@
     
    </delete>
     
+    <select id="queryAllChildrenOrganNoes" parameterType="java.lang.String" resultType="java.lang.String"> 
+	      SELECT organ_no from IFDP_SYS_ORGAN_BASE where FIND_IN_SET(organ_no,queryChildrenOrganInfo(#{organNo}));
+    </select>
     
     <!--7.根据机构编号删除机构 -->
    <delete id="deleteOrgan" parameterType="java.lang.String" >
