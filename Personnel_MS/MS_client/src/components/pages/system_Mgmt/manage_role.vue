@@ -7,7 +7,7 @@
                 <span class="title-text">角色管理</span>
                 <el-button type="primary" @click="handleAdd" class="toolBtn">新增角色</el-button>
             </el-col>
-            <el-table stripe :data="tableData" border>
+            <el-table stripe :data="roleData" border>
                 <el-table-column align="center" prop="roleID" label="角色ID">
                 </el-table-column>
                 <el-table-column align="center" prop="roleName" label="角色名称">
@@ -18,7 +18,8 @@
                 </el-table-column>
                 <el-table-column align="center" label="操作" width="150">
                     <template scope="scope">
-                        <i class="icon-edit" @click="handleEdit"></i>
+                        <i class="icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
+                        <i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
                     </template>
                 </el-table-column>
             </el-table>
@@ -33,7 +34,7 @@ import current from '../../common/current_position.vue'
 export default {
     data() {
         return {
-            tableData: [
+            roleData: [
                 {
                     roleID: '10001',
                     roleName: '系统管理员',
@@ -133,8 +134,30 @@ export default {
         handleAdd() {
             this.$router.push('/add_role');
         },
-        handleEdit() {
-            this.$router.push('/edit_role');
+        handleEdit(index, row) {
+            this.$router.push({
+                path: '/edit_role',
+                query: {
+                    roleID: this.roleData[index].roleID,
+                    roleName: this.roleData[index].roleName,
+                    status: this.roleData[index].status,
+                    descript: this.roleData[index].descript
+                }
+            })
+        },
+        handleDelete(index, row) {
+            this.$confirm('此操作将会删除该条角色, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$message({
+                    type: 'success',
+                    message: '删除成功!'
+                });
+            }).catch(() => {
+                
+            });
         }
     }
 }
@@ -142,10 +165,10 @@ export default {
 
 <style>
 .role_mgmt {
-    padding: 0 20px 20px;
+    padding: 0 0 20px 20px;
 }
 
-.content-wrapper {
+.role_mgmt .content-wrapper {
     background: #ffffff;
     padding: 0 20px 20px;
     color: #333333;
@@ -241,7 +264,16 @@ export default {
     height: 24px;
     background: url('../../../../static/img/common/edit.png') center no-repeat;
 }
-.icon-edit:hover {
+
+.icon-delete {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: url('../../../../static/img/common/delete.png') center no-repeat;
+}
+
+.icon-edit:hover,
+.icon-delete:hover {
     cursor: pointer;
 }
 </style>

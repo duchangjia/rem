@@ -7,7 +7,7 @@
                 <el-button type="primary" @click="save" class="save">保存</el-button>
             </div>
             <div class="department-info">
-                <div class="text">部门信息</div>
+                <!--<div class="text">部门信息</div>-->
                 <div class="item-common">
                     <div><span class="label-common">部门编号</span><input type="text" value="10000" class="input-common input-dark"></div>
                     <div><span class="label-common">部门名称</span><input type="text" value="互联网中心" class="input-common input-light"></div>
@@ -48,7 +48,7 @@
 
 <style scoped>
 .edit-wrapper{
-    padding:27px 0 16px 20px ;
+    padding:29px 0 16px 20px ;
 }
 .edit-wrapper .test{
     padding-left: 10px;
@@ -61,6 +61,7 @@
     justify-content: space-between;
 }
 .edit-content{
+    margin-top: 29px;
     background: #fff;
     padding-left: 20px;
     padding-right: 20px;

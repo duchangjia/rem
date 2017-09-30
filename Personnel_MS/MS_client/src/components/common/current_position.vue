@@ -65,9 +65,18 @@
               if(this.sanji==='新增角色'){
                   _link.push('/add_role')
               }
+              if(this.sanji==='编辑角色'){
+                  _link.push('/edit_role')
+              }
+              if(this.sanji==='用户信息'){
+              	 _link.push('/user-info')
+              }
+              if(this.sanji==='功能编辑'){
+              	 _link.push('/edit_fun')
+              }
+
               this.link = _link
               this.breadItemLength = _link.length
-              console.log(_link, this.breadItemLength)
               return this.link
           }
         },
@@ -101,6 +110,9 @@
         height: 70px;
         line-height: 70px;
         font-size: 12px;
+    }
+    .location-wrapper .el-row {
+        width: 100%;
     }
     .location-wrapper .title {
         color: #475669;

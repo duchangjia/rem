@@ -238,6 +238,7 @@
 	
 	.user-info .el-form-item__label {
 		color: #999999;
+	    margin-right: 18px;
 	}
 	
 	.user-info .el-input__inner {

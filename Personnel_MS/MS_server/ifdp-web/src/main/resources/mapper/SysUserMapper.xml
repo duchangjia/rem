@@ -4,29 +4,107 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
 <mapper namespace="com.omcube.model.mapper.SysUserMapper">
-    <resultMap id="SysUserMap" type="com.omcube.model.po.SysUserPO">
+    <resultMap id="queryUserMap" type="com.omcube.model.response.QueryUserInfoResponse">
         <id column="user_no" property="userNo"></id>
-        <result column="log_name" property="userName" javaType="java.lang.String"></result>
+        <id column="role_no" property="roleNo"></id>
+        <id column="organ_department_no" property="organDepartmentNo"></id>
+        <id column="organ_company_no" property="organCompanyNo"></id>
+        <result column="user_name" property="userName" javaType="java.lang.String"></result>
         <result column="cert_no" property="certNo" javaType="java.lang.String"></result>
-        <result column="mobile_tel" property="mobileTEL" javaType="java.lang.String"></result>
+        <result column="mobile_tel" property="mobile" javaType="java.lang.String"></result>
         <result column="email" property="email" javaType="java.lang.String"></result>
-        <result column="organ_no" property="organNo" javaType="java.lang.String"></result>
+        <result column="status" property="userStatus" javaType="java.lang.String"></result>
         <result column="remark" property="remark" javaType="java.lang.String"></result>
-        <result column="created_date" property="createdDate" javaType="java.util.Date"></result>
         <result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
-        <result column="created_by" property="createdBy" javaType="java.lang.String"></result>
         <result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
+        <result column="role_name" property="roleName" javaType="java.lang.String"></result>
+        <result column="organ_department_name" property="organDepartmentName" javaType="java.lang.String"></result>
+        <result column="organ_company_name" property="organCompanyName" javaType="java.lang.String"></result>
     </resultMap>
     
-    <select id="queryUser" parameterType="java.lang.String" resultMap="SysUserMap">       
-    	select * from IFDP_SYS_USER_BASE 
-		<where>
+    <select id="queryUser" parameterType="com.omcube.model.request.QueryUserRequest" resultMap="queryUserMap">
+        select
+        	u.user_no as user_no,
+        	u.log_name as user_name,
+        	u.cert_no as cert_no,
+        	u.mobile_tel as mobile_tel,
+        	u.email as email,
+        	u.status as status,
+        	u.remark as remark,
+        	u.updated_date as updated_date,
+        	u.updated_by as updated_by,
+        	u.organ_no as organ_department_no,
+        	r.role_name as role_name,
+        	r.role_no as role_no,
+        	ob1.organ_name as organ_department_name,
+        	ob2.organ_name as organ_company_name,
+        	ob2.organ_no as organ_company_no
+        from IFDP_SYS_USER_BASE u
+        	left outer join IFDP_SYS_REL_USER_ROLE ur on u.user_no = ur.user_no 
+			left outer join IFDP_SYS_ROLE r on r.role_no = ur.role_no 
+			left outer join IFDP_SYS_ORGAN_BASE ob1 on ob1.organ_no = u.organ_no
+			left outer join IFDP_SYS_ORGAN_BASE ob2 on ob2.organ_no in (SELECT  organ_no from IFDP_SYS_ORGAN_BASE where FIND_IN_SET(organ_no,queryBelongOrganByUserNo(u.user_no)))
+        where u.uid = #{uid}
+        	<if test="organCompanyName != null">
+				and ob2.organ_name like '%${organCompanyName}%'
+			</if>
+			<if test="organDepartmentName != null">
+				and ob1.organ_name like '%${organDepartmentName}%'
+			</if>
 			<if test="userNo != null">
-				user_no = #{userNo}
+				and u.user_no like '%${userNo}%'
 			</if>
 			<if test="userName != null">
-				and log_name = #{userName}
+				and u.log_name like '%${userName}%'
 			</if>
-		</where> 
+			<if test="mobileTEL != null">
+				and u.mobile_tel like '%${mobileTEL}%'
+			</if>
+			<if test="email != null">
+				and u.email like '%${email}%'
+			</if>
     </select>
+    
+    <select id="queryUserLoad" parameterType="java.lang.String" resultMap="queryUserMap">
+        select
+        	u.user_no as user_no,
+        	u.log_name as user_name,
+        	u.cert_no as cert_no,
+        	u.mobile_tel as mobile_tel,
+        	u.email as email,
+        	u.status as status,
+        	u.remark as remark,
+        	u.updated_date as updated_date,
+        	u.updated_by as updated_by,
+        	u.organ_no as organ_department_no,
+        	r.role_name as role_name,
+        	r.role_no as role_no,
+        	ob1.organ_name as organ_department_name,
+        	ob2.organ_name as organ_company_name,
+        	ob2.organ_no as organ_company_no
+        from (SELECT * from IFDP_SYS_USER_BASE where FIND_IN_SET(organ_no,queryParentOrganInfo(#{userNo}))) u
+        	left outer join IFDP_SYS_REL_USER_ROLE ur on u.user_no = ur.user_no 
+			left outer join IFDP_SYS_ROLE r on r.role_no = ur.role_no 
+			left outer join IFDP_SYS_ORGAN_BASE ob1 on ob1.organ_no = u.organ_no
+			left outer join IFDP_SYS_ORGAN_BASE ob2 on ob2.organ_no in (SELECT  organ_no from IFDP_SYS_ORGAN_BASE where FIND_IN_SET(organ_no,queryBelongOrganByUserNo(u.user_no)))
+        where u.uid = #{uid}
+    </select>
+    
+	<update id="updateUserInfo" parameterType="com.omcube.model.request.UpdateUserInfoRequest">
+		update IFDP_SYS_USER_BASE set
+			log_name = #{userName},
+			cert_no=#{certNo},
+			mobile_tel=#{mobile},
+			email=#{email},
+			status=#{userStatus},
+			remark=#{remark},
+			updated_by=#{updatedBy},
+			updated_date=date_format(now(),'%y-%m-%d')
+		where UID=#{uid} and user_no=#{userNo}
+	</update>
+	
+	<update id="updteUserRoleInfo" parameterType="com.omcube.model.request.UpdateUserInfoRequest">
+		update IFDP_SYS_REL_USER_ROLE set role_no = #{roleNo} where UID=#{uid} and user_no=#{userNo}
+	</update>
+	
 </mapper>

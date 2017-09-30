@@ -9,30 +9,36 @@
             </div>
             <div class="edit-wrapper">
                 <el-col :span="24" class="item-title">角色信息</el-col>
-                <el-form :model="formRoleMsg" label-width="80px" :rules="editRoleRules" ref="editForm">
-                    <el-form-item label="名称" prop="roleName">
-                        <el-input v-model="formRoleMsg.roleName" auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="岗位">
-                        <el-select v-model="formRoleMsg.job">
-                            <el-option label="普通员工" value="普通员工"></el-option>
-                            <el-option label="系统管理员" value="系统管理员"></el-option>
-                            <el-option label="经理" value="经理"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="描述">
-                        <el-input type="textarea" v-model="formRoleMsg.descript"></el-input>
-                    </el-form-item>
-                    <el-form-item label="状态">
-                        <el-radio-group v-model="formRoleMsg.status">
-                            <el-radio label="正常"></el-radio>
-                            <el-radio label="停用"></el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-
+                <el-form :inline="true" :model="formRoleMsg" label-width="80px" :rules="editRoleRules" ref="editForm">
+                    <el-col :span="12">
+                        <el-form-item label="名称" prop="roleName">
+                            <el-input v-model="formRoleMsg.roleName" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="岗位">
+                            <el-select v-model="formRoleMsg.job">
+                                <el-option label="普通员工" value="普通员工"></el-option>
+                                <el-option label="系统管理员" value="系统管理员"></el-option>
+                                <el-option label="经理" value="经理"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="描述">
+                            <el-input type="textarea" v-model="formRoleMsg.descript"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="状态">
+                            <el-radio-group v-model="formRoleMsg.status">
+                                <el-radio label="正常"></el-radio>
+                                <el-radio label="停用"></el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-col>
                 </el-form>
             </div>
-
         </div>
     </div>
 </template>
@@ -55,6 +61,10 @@ export default {
             },
         };
     },
+    mounted() {
+        this.formRoleMsg.roleName = this.$route.query.roleName;
+        this.formRoleMsg.descript = this.$route.query.descript;
+    },
     components: {
         current,
     },
@@ -68,17 +78,38 @@ export default {
             console.dir(editRole);
         }
     }
+
+
 }
 </script>
 
 
 <style>
 .edit_role {
+    padding: 0 0 20px 20px;
+    ;
+}
+
+.edit_role .content-wrapper {
+    background: #ffffff;
     padding: 0 20px 20px;
+    color: #333333;
+    clear: both;
 }
+
 .edit-wrapper {
-    padding-bottom: 20px;
+    clear: both;
 }
+
+.edit-wrapper form {
+    font-size: 0;
+}
+
+.edit-wrapper form>div {
+    float: none;
+    display: inline-block;
+}
+
 .edit-wrapper .item-title {
     font-size: 14px;
     height: 56px;
@@ -99,7 +130,7 @@ export default {
 }
 
 .edit-wrapper .el-textarea {
-    width: 500px;
+    width: 300px;
 }
 
 .edit-wrapper .el-textarea__inner {

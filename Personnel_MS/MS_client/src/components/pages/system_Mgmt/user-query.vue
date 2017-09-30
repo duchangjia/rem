@@ -186,7 +186,7 @@
 		padding: 40px 0px;
 	}
 	.user-query .input-wrap {
-		display: flex;
+		/*display: flex;*/
 	}
 	.user-query .el-form-item__label {
 		text-align: left;
@@ -200,6 +200,7 @@
 	}
 	.user-query .input-wrap .el-form-item {
 		margin-right: 80px;
+		float: left;
 	}
 	.user-query .el-form-item {
 		margin-bottom: 40px;
@@ -218,6 +219,7 @@
 	.user-query .button-wrap {
 		margin: 0px auto;
 		width: 264px;
+		clear: both;
 	}
 	.user-query .button-wrap .el-form-item__content {
 		margin-left: 0!important;
