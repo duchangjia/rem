@@ -10,7 +10,14 @@ public class TaxRateCtrlPO extends BasicPO{
     private BigDecimal groupLowerLimit;
     private BigDecimal percentRate;
     private BigDecimal quickCal;
+    private String     isDelete;
     
+	public String getIsDelete() {
+		return isDelete;
+	}
+	public void setIsDelete(String isDelete) {
+		this.isDelete = isDelete;
+	}
 	public String getGroupId() {
 		return groupId;
 	}

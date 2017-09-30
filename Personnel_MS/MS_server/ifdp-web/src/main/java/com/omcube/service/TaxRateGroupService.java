@@ -24,7 +24,10 @@ public class TaxRateGroupService {
 		
 	}
 		
-		
+	//删除
+	public void deleteTaxRateGroup(String uId,String groupId){
+		taxRateGroupMapper.deleteTaxRateGroup(uId, groupId);
+	}
 		
 	
 }

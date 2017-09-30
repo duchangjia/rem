@@ -1,15 +1,20 @@
 package com.omcube.model.po;
 
-import java.util.Date;
-
 public class TaxRateGroupPO extends BasicPO{
     private String groupId;
     private String groupNo;
-    private Date   startTime;
-	private Date   endTime;
+    private String startTime;
+	private String endTime;
     private String remark;
+    private String isDelete;
 
-    public String getGroupId() {
+    public String getIsDelete() {
+		return isDelete;
+	}
+	public void setIsDelete(String isDelete) {
+		this.isDelete = isDelete;
+	}
+	public String getGroupId() {
 		return groupId;
 	}
 	public void setGroupId(String groupId) {
@@ -18,21 +23,22 @@ public class TaxRateGroupPO extends BasicPO{
 	public String getGroupNo() {
 		return groupNo;
 	}
+	public String getStartTime() {
+		return startTime;
+	}
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+	public String getEndTime() {
+		return endTime;
+	}
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
 	public void setGroupNo(String groupNo) {
 		this.groupNo = groupNo;
 	}
-	public Date getStartTime() {
-		return startTime;
-	}
-	public void setStartTime(Date startTime) {
-		this.startTime = startTime;
-	}
-	public Date getEndTime() {
-		return endTime;
-	}
-	public void setEndTime(Date endTime) {
-		this.endTime = endTime;
-	}
+	
 	public String getRemark() {
 		return remark;
 	}

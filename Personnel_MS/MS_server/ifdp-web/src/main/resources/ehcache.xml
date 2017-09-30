@@ -9,5 +9,9 @@
            maxEntriesLocalHeap="200"
            timeToLiveSeconds="600">
     </cache>
+    <cache name="taxRateCtrles"
+           maxEntriesLocalHeap="200"
+           timeToLiveSeconds="600">
+    </cache>
 
 </ehcache>
