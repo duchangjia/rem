@@ -183,8 +183,8 @@
 	    INSERT INTO IFDP_SYS_ORGAN_BASE(UID,ORGAN_NO,ORGAN_NAME,ORGAN_TYPE,ORGAN_STATUS,
 	    	PARENT_NO,ORGAN_LEVEL,ORGAN_DESCR,ORG_PATH,CREATED_BY,CREATED_DATE,UPDATED_BY,UPDATED_DATE) 
 	    	values(
-	    		#{uid}，#{organ_no},#{organ_name},#{organ_type},#{organ_status},
-	    		#{parent_no},#{organ_level},#{organ_descr},#{organ_path},#{createdBy}，date_format(now(),'%y-%m-%d')，
+	    		#{uId}，#{organ_no},#{organ_name},#{organ_type},#{organ_status},
+	    		#{parent_no},#{organ_level},#{organ_descr},#{organ_path},#{createdBy},date_format(now(),'%y-%m-%d'),
 	    		#{updatedBy},date_format(now(),'%y-%m-%d')
 	    	)
     
@@ -195,8 +195,8 @@
 	    INSERT INTO SYS_ORGAN_DETAIL(UID,ORGAN_NO,ORG_REG_ADDR,ORGAN_CON_ADDR,ORGAN_MAN,ORGAN_TEL,
 	    	ORGAN_EMAIL,ORGAN_MGE_ID,ORGAN_MGE_NAME,ORGAN_DESCR,CREATED_BY,CREATED_DATE,UPDATED_BY,UPDATED_DATE) 
 	    	values(
-	    		#{uid}，#{organ_no},#{org_reg_addr},#{organ_con_addr},#{organ_man},#{organ_tel},#{organ_email},
-	    		#{organ_mge_id},#{organ_mge_name},#{organ_descr},#{createdBy}，date_format(now(),'%y-%m-%d')，
+	    		#{uId}，#{organ_no},#{org_reg_addr},#{organ_con_addr},#{organ_man},#{organ_tel},#{organ_email},
+	    		#{organ_mge_id},#{organ_mge_name},#{organ_descr},#{createdBy},date_format(now(),'%y-%m-%d'),
 	    		#{updatedBy},date_format(now(),'%y-%m-%d')
 	    	)
       

@@ -26,7 +26,7 @@ import com.omcube.util.JSONResultUtil;
 import com.omcube.util.SpringUtil;
 
 @RestController
-@RequestMapping(value = "/organ")
+@RequestMapping(value = "/iem/organ")
 
 public class OrganController {
 	
@@ -136,7 +136,7 @@ public class OrganController {
 	    	if(sysUserPO == null)
 	    	{
 	    	    logger.error("the request body is null");
-	    	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_NULL_ERR, "the request body is null");
+	    	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	    	}
 	    	logger.info(String.format("the request body is %s:", sysUserPO.toString()));
 	    	
@@ -178,7 +178,7 @@ public class OrganController {
 	    	if(sysOrganPO == null)
 	    	{
 	    	    logger.error("the request body is null");
-	    	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_NULL_ERR, "the request body is null");
+	    	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	    	}
 	    	logger.info(String.format("the request body is %s:", sysOrganPO.toString()));
 	    	
@@ -195,14 +195,14 @@ public class OrganController {
 	     * @param organ_no
 	     * @return
 	     */
-	    @RequestMapping(value = "/addOrgan", method = RequestMethod.POST)
+	    @RequestMapping(value = "/addOrgan", method = RequestMethod.GET)
         
 	    public Object addOrgan(SysOrganPO sysOrganPO ){
 	   
 	    	if(sysOrganPO == null)
 	    	{
 	    	    logger.error("the request body is null");
-	    	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_NULL_ERR, "the request body is null");
+	    	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	    	}
 	    	logger.info(String.format("the request body is %s:", sysOrganPO.toString()));
 	    	
