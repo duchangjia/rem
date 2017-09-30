@@ -12,34 +12,34 @@
 			<div class="content-inner">
 				<el-form :inline="true" :model="userMsg" :rules="rules" ref="userMsg" label-width="80px">
 					<el-col :span="12">
-						<el-form-item label="姓名" prop="name">
-							<el-input v-model="userMsg.name"></el-input>
+						<el-form-item label="姓名" prop="userName">
+							<el-input v-model="userMsg.userName"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="工号" prop="number">
-							<el-input v-model="userMsg.number" :disabled="true"></el-input>
+						<el-form-item label="工号" prop="userNo">
+							<el-input v-model="userMsg.userNo" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="所属公司" prop="company">
-							<el-select v-model="userMsg.company" placeholder="所属公司">
-								<el-option label="上海" value="shanghai"></el-option>
-								<el-option label="深圳" value="beijing"></el-option>
+						<el-form-item label="所属公司" prop="compName">
+							<el-select v-model="userMsg.compName" placeholder="所属公司">
+								<el-option label="上海" value="0"></el-option>
+								<el-option label="深圳" value="1"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="所属部门" prop="department">
-							<el-select v-model="userMsg.department" placeholder="所属部门">
-								<el-option label="行政部" value="xingzheng"></el-option>
-								<el-option label="财务部" value="caiwu"></el-option>
+						<el-form-item label="所属部门" prop="departName">
+							<el-select v-model="userMsg.departName" placeholder="所属部门">
+								<el-option label="行政部" value="0"></el-option>
+								<el-option label="财务部" value="1"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="角色" prop="role">
-							<el-select v-model="userMsg.role" class="bg-white">
+						<el-form-item label="角色" prop="roleName">
+							<el-select v-model="userMsg.roleName" class="bg-white">
 								<el-option label="行政经理" value="01"></el-option>
 								<el-option label="财务经理" value="02"></el-option>
 							</el-select>
@@ -48,25 +48,25 @@
 					<el-col :span="12">
 						<el-form-item label="状态" prop="status">
 							<el-select v-model="userMsg.status" class="bg-white">
-								<el-option label="正常" value="00" checked></el-option>
-								<el-option label="已锁定" value="01"></el-option>
-								<el-option label="已注销" value="02"></el-option>
+								<el-option label="正常" value="1" checked></el-option>
+								<el-option label="停用" value="0"></el-option>
+								<el-option label="锁定" value="2"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="手机" prop="phone">
-							<el-input v-model="userMsg.phone"></el-input>
+						<el-form-item label="手机" prop="mobile">
+							<el-input v-model="userMsg.mobile" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="邮箱" prop="email">
-							<el-input v-model="userMsg.email"></el-input>
+							<el-input v-model="userMsg.email" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="身份证" prop="idCard">
-							<el-input v-model="userMsg.idCard"></el-input>
+						<el-form-item label="身份证" prop="certNo">
+							<el-input v-model="userMsg.certNo" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
@@ -87,19 +87,19 @@
 		data() {
 			return {
 				userMsg: {
-					name: '1',
-					number: '1',
-					company: '1',
-					department: '1',
-					role: '1',
+					userName: '1',
+					userNo: '1',
+					compName: '1',
+					departName: '1',
+					roleName: '1',
 					status: '1',
-					phone: '1',
+					mobile: '1',
 					email: '1',
-					idCard: '1',
+					certNo: '1',
 					remark: '1'
 				},
 				rules: {
-					name: [
+					userName: [
 			            { required: true, message: '请输入姓名', trigger: 'blur' },
 //			            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
 		          	],
@@ -115,6 +115,14 @@
 		},
 		created(){
 //			this.userMsg = this.$route.query;
+			const self = this;
+			let params = {
+				user: localStorage.getItem('user')
+			};
+			self.$axios.get('ifdp/queryOperatorDetail',params)
+			.then(function(res){
+				self.userMsg = res.data.data;
+			})
 		},
 		methods: {
 			//密码重置
@@ -129,18 +137,41 @@
 		            	message: '密码重置成功!请查看邮箱。'
 		          	});
 		        }).catch(() => {
-		          	this.$message({
-		            	type: 'info',
-		            	message: '已取消操作'
-		          	});          
+//		          	this.$message({
+//		            	type: 'info',
+//		            	message: '已取消操作'
+//		          	});          
 		        });
 
 			},
 			//保存
 			conserve(formName) {
+				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						alert('submit!');
+						let params ={
+							userNo: self.userMsg.userNo,
+							roleNo: self.userMsg.roleNo,
+							status: self.userMsg.status
+						}
+						self.$axios.put('/ifdp/modifyOperatorInfo',params)
+						.then(function(res){
+							console.log(res);
+							self.$alert('信息修改成功', '提示', {
+					          confirmButtonText: '确定',
+					          callback: action => {
+//					            self.$message({
+//					              type: 'info',
+//					              message: `action: ${ action }`
+//					            });
+					          }
+					        });
+
+						})
+						.catch(function(err){
+							console.log('error');
+						})
+						
 					} else {
 						console.log('error submit!!');
 						return false;
