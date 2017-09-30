@@ -136,7 +136,7 @@ public class OrganController {
 	    	if(sysUserPO == null)
 	    	{
 	    	    logger.error("the request body is null");
-	    	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_NULL_ERR, "the request body is null");
+	    	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	    	}
 	    	logger.info(String.format("the request body is %s:", sysUserPO.toString()));
 	    	
@@ -178,7 +178,7 @@ public class OrganController {
 	    	if(sysOrganPO == null)
 	    	{
 	    	    logger.error("the request body is null");
-	    	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_NULL_ERR, "the request body is null");
+	    	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	    	}
 	    	logger.info(String.format("the request body is %s:", sysOrganPO.toString()));
 	    	
@@ -202,7 +202,7 @@ public class OrganController {
 	    	if(sysOrganPO == null)
 	    	{
 	    	    logger.error("the request body is null");
-	    	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_NULL_ERR, "the request body is null");
+	    	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	    	}
 	    	logger.info(String.format("the request body is %s:", sysOrganPO.toString()));
 	    	

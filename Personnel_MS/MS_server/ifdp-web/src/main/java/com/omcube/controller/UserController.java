@@ -3,6 +3,7 @@ package com.omcube.controller;
 import com.omcube.model.request.QueryUserRequest;
 import com.omcube.model.request.UpdateUserInfoRequest;
 import com.omcube.model.response.QueryUserInfoResponse;
+import com.omcube.service.UserInfoUpdateService;
 import com.omcube.util.ConstantUtil;
 import com.omcube.util.ErrorCodeConstantUtil;
 import com.omcube.util.JSONResultUtil;
@@ -20,7 +21,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,6 +39,9 @@ public class UserController {
 
     @Autowired
     private SysOrganMapper sysOrganMapper;
+    
+    @Autowired
+    private UserInfoUpdateService userUpdateService;
     /**
      * 条件组合查询
      * url:iem/user/queryUser
@@ -114,9 +117,7 @@ public class UserController {
      * 手机只校验中国大陆 所有信息不可为null 
      * @return
      */
-    @RequestMapping(value = "/updateUserInfo", method = RequestMethod.GET)
-    @Cacheable
-    @Transactional
+    @RequestMapping(value = "/updateUserInfo", method = RequestMethod.PUT)
     public Object updateUserInfo(UpdateUserInfoRequest updateUserReq)
     {
 	if (updateUserReq == null)
@@ -133,11 +134,8 @@ public class UserController {
 	    logger.error(errMsg);
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, errMsg);
 	}
-	//更新用户表
-	userMapper.updateUserInfo(updateUserReq);
-	//int a = 2/0;
-	//更用户角色关联表
-	userMapper.updteUserRoleInfo(updateUserReq);
+	//更新用户表 及 关联角色表  事务一致
+	userUpdateService.updateUserInfo(updateUserReq);
 	
 	logger.info(String.format("update user info end"));
 	return JSONResultUtil.setSuccess();

@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,7 +28,7 @@ public class UserControllerTest {
 	mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
-    //@Test
+   // @Test
     public void queryUser() throws Exception
     {
 	String result = mockMvc.perform(get("/iem/user/queryUser")
@@ -47,13 +48,13 @@ public class UserControllerTest {
     @Test
     public void updateUserInfo() throws Exception
     {
-	String result = mockMvc.perform(get("/iem/user/updateUserInfo")
+	String result = mockMvc.perform(put("/iem/user/updateUserInfo")
 		.param("uid", "0001")
 		.param("organCompanyNo", "234")
 		.param("organDepartmentNo", "10001")
-		.param("roleNo", "COMMONqqqq")
+		.param("roleNo", "COMMONssss")
 		.param("userNo", "2")
-		.param("userName", "jinQQx")
+		.param("userName", "jinQqqqq")
 		.param("certNo", "431223199003013356")
 		.param("mobile", "13418760926")
 		.param("email", "11223@qq.com")
