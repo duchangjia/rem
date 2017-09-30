@@ -27,6 +27,6 @@ public interface SysOrganMapper {
 
 	void deleteOrganUser(String userNo);
 
-	
+	List<String> queryAllChildrenOrganNoes(String organNo);
 	
 }

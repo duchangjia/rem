@@ -1,6 +1,7 @@
 package com.omcube.model.mapper;
 
 import com.omcube.model.request.QueryUserRequest;
+import com.omcube.model.request.UpdateUserInfoRequest;
 import com.omcube.model.response.QueryUserInfoResponse;
 
 import java.util.List;
@@ -12,4 +13,9 @@ public interface SysUserMapper {
     List<QueryUserInfoResponse> queryUser(QueryUserRequest queryUserReq);
 
     List<QueryUserInfoResponse> queryUserLoad(@Param("uid") String uid,@Param("userNo") String userNo);
+    
+    void updateUserInfo(UpdateUserInfoRequest updateUserInfo);
+    
+    void updteUserRoleInfo(UpdateUserInfoRequest updateUserInfo);
+    
 }
