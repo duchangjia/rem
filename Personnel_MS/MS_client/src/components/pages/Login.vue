@@ -6,7 +6,7 @@
                 <div class="img-wrapper"><img src="../../../static/img/login/omc_logo1.png" alt=""></div>
                 <div class="form-wrapper">
                     <img src="../../../static/img/login/fly.png" alt="" width="86" height="77" class="fly">
-                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="form-content">
+                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="form-content"  v-loading.fullscreen.lock="fullscreenLoading"  element-loading-text="登录中">
                         <span class="title">用户登录</span>
                         <el-form-item prop="username">
                             <el-input v-model="ruleForm.username" placeholder="请输入用户名"></el-input>
@@ -17,13 +17,14 @@
                         <div class="code-wrapper">
                             <el-input type="text" placeholder="请输入验证码" class="last-input"></el-input><span class="check-code">xxxx</span>
                         </div>
-                        <div class="error">帐号或密码错</div>
-                        <button type="submit" class="tijiao" @click="submitForm('ruleForm')">登录</button>
+                        <div class="error" style="display: none">帐号或密码错</div>
+                        <button class="tijiao" @click="submitForm('ruleForm')">登录</button>
                         <a class="text" href="#">忘记密码</a>
                     </el-form>
                     <div class="line1"></div>
                     <div class="line2"></div>
                     <div class="line3"></div>
+                    <errtip></errtip>
                 </div>
             </div>
             <div class="bottom">
@@ -47,18 +48,19 @@
             <!--</el-form>-->
         <!--</div>-->
         </div>
-        <toast></toast>
-        <errtip></errtip>
+        <!--<toast></toast>-->
     </div>
 </template>
 
 <script>
-	import Bus from '../../common/Bus.js'
-	import Toast from '../common/Toast.vue';
+//	import Bus from '../../common/Bus.js'
+//	import Toast from '../common/Toast.vue';
 	import errtip from './errTip.vue'
     export default {
         data: function(){
             return {
+                title: '温馨提示',
+                fullscreenLoading: false,
                 ruleForm: {
                     username: '',
                     password: ''
@@ -74,27 +76,68 @@
             }
         },
         components: {
-        	Toast,errtip
+        	errtip
         },
         methods: {
             submitForm(formName) {
                 const self = this;
                 self.$refs[formName].validate((valid) => {
                     if (valid) {
+                        self.fullscreenLoading = true;
+//                        var loadingInstance = this.$loading({
+//                            target: '.form-content',
+//                            lock: true,
+//                            text: '加载中'
+//                        })
                     	//吐丝提示
-						Bus.$emit('showToast','正在努力加载中...');
-                        localStorage.setItem('ms_username',self.ruleForm.username);
-                        self.$router.push('home');
+//						Bus.$emit('showToast','正在努力加载中...');
+						setTimeout(function () {
+                            let data = {
+                                username: self.ruleForm.username,
+                                password: self.ruleForm.password,
+                            }
+//                            'http://10.0.0.6:3000/checkuser'
+                            self.$axios.get('/ifdp/checkuser',data)
+                                .then( function (res) {
+                                    console.log(res)
+                                    let result = res.data.data
+                                    console.log(data.username,result.username)
+                                    if(data.username === result.username && data.password === result.password){
+
+                                    }else{
+                                        Bus.$emit('showErrTip',{content:'登录失败！帐号或密码错。',title:'温馨提示'});
+                                    }
+                                })
+                                .catch( function (res) {
+                                    console.log('服务超时')
+                                })
+                            localStorage.setItem('ms_username',self.ruleForm.username);
+                            self.$router.push('home');
+                        },2000)
                     } else {
-                        Bus.$emit('showErrTip',{content:'登录失败！请填写正确的账号和密码。',title:'温馨提示'});
+//                        Bus.$emit('showErrTip',{content:'登录失败！请填写正确的账号和密码。',title:'温馨提示'});
+//                        this.$alert('请填写正确的账号和密码', '温馨提示', {
+//                            confirmButtonText: '确定',
+//                            callback: action => {
+//                                this.$message({
+//                                    type: 'info',
+//                                    message: `action: ${ action }`
+//                                });
+//                            }
+//                        });
+
                     }
                 });
+                return false
             }
         }
     }
 </script>
 
-<style scoped>
+<style>
+    .el-loading-mask{
+        background-color: rgba(0,0,0,.5);
+    }
     .login-wrap{
         overflow: hidden;
         width: 100%;

@@ -1,32 +1,33 @@
 <template>
     <div class="edit-wrapper">
-        <current yiji="系统管理" erji="组织架构" sanji="新增子部门" class="test" ></current>
+        <current yiji="系统管理" erji="组织架构" sanji="新增机构" class="test" ></current>
         <div class="edit-content">
             <div class="title">
-                <span class="text">新增子部门</span>
+                <span class="text">新增机构</span>
                 <el-button type="primary" @click="save" class="save">保存</el-button>
             </div>
             <div class="department-info">
-                <div class="text">部门信息</div>
+                <!--<div class="text">部门信息</div>-->
                 <div class="item-common">
-                    <div><span class="label-common">部门编号</span><input type="text" value="10000" class="input-common input-dark"></div>
-                    <div><span class="label-common">部门名称</span><input type="text" placeholder="请入部门名称" class="input-common input-light"></div>
-                </div>
-                <div class="item-common">
-                    <div><span class="label-common">上级部门</span><input type="text"  value="10000" class="input-common input-dark"></div>
-                    <div><span class="label-common">部门主管</span><input type="text" placeholder="请输入部门主管姓名" class="input-common input-light"></div>
-                </div>
-                <div class="item-common">
+                    <div><span class="label-common">上级部门</span><input type="text" value="上海分公司" class="input-common input-dark"></div>
                     <div><span class="label-common">机构类型</span><select class="input-common input-select" :class="{'input-test1':isActive, 'input-test2':!isActive}" @change="check" ref="inputSelect">
                         <option value="" disabled selected>请选择机构类型</option>
                         <option value="一级部门">一级部门</option>
                         <option value="二级部门">二级部门</option>
                         <option value="三级部门">三级部门</option>
                     </select></div>
+                </div>
+                <div class="item-common">
+                    <div><span class="label-common">部门编号</span><input type="text"  value="10000" class="input-common input-dark"></div>
+                    <div><span class="label-common">部门名称</span><input type="text" placeholder="请入部门名称" class="input-common input-light"></div>
+                </div>
+                <div class="item-common">
                     <div><span class="label-common">部门状态</span><select class="input-common input-select">
                         <option value="正常">正常</option>
                         <option value="正常">正常</option>
                     </select></div>
+                    <div><span class="label-common">部门主管</span><input type="text" placeholder="请输入部门主管姓名" class="input-common input-light"></div>
+
                 </div>
             </div>
         </div>
@@ -60,7 +61,7 @@
 
 <style scoped>
     .edit-wrapper{
-        padding:27px 0 16px 20px ;
+        padding:29px 0 16px 20px ;
     }
     .edit-wrapper .test{
         padding-left: 10px;
@@ -73,6 +74,7 @@
         justify-content: space-between;
     }
     .edit-content{
+        margin-top: 29px;
         background: #fff;
         padding-left: 20px;
         padding-right: 20px;
