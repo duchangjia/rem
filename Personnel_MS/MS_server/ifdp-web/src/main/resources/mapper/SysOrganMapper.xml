@@ -17,7 +17,7 @@
 	     select organ_no,organ_name from IFDP_SYS_ORGAN_BASE where organ_no=#{organNo}       		
 	</select>	
 	<select id="selectOrganChildrenById" resultMap="OrganTree" parameterType="string">
-		 select organ_no,organ_name from IFDP_SYS_ORGAN_BASE where parent_no=#{organ_no}		
+		 select organ_no,organ_name from IFDP_SYS_ORGAN_BASE where parent_no=#{organ_no} and organ_status='1'			
 	</select>
 
 
@@ -58,6 +58,7 @@
 				o1.organ_no = od.organ_no
 			and o1.uid = od.uid
 			and parent_no = #{organNo} 
+			and o1.organ_status='1'
     
     </select>
     
@@ -65,7 +66,7 @@
     
     <!--4.查询机构下的人员信息 -->
     <select id="queryOrganMember" parameterType="java.lang.String" resultMap="SysUserMap"> 	    
-	    select * from IFDP_SYS_USER_BASE where organ_no=#{organNo}    
+	    select * from IFDP_SYS_USER_BASE where organ_no=#{organNo} and status='1'   
     </select>
     
      <resultMap id="SysUserMap" type="com.omcube.model.po.SysUserPO">
@@ -86,7 +87,7 @@
      <!--5.根据机构编号删除机构 -->
    <delete id="deleteOrganInfo" parameterType="java.lang.String" >
    
-   		update IFDP_SYS_ORGAN_BASE set organ_status='0' where organ_no=#{organNo}
+   		update IFDP_SYS_ORGAN_BASE set organ_status='0' where organ_no=#{organNo}  
     
    </delete>
    <!--6.增加机构人员信息 -->
