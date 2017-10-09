@@ -233,7 +233,9 @@ export default {
     border-radius: 0;
     width: 300px;
 }
-
+.add-wrapper .el-input__inner:focus {
+    border-color: #ff9900;
+}
 .add-wrapper .menu-item {
     display: inline-block;
     margin-right: 20px;
@@ -365,5 +367,17 @@ export default {
 .add-wrapper .func-permission .funcs-content .el-checkbox.func-checkall .el-checkbox__label {
     font-family: "PingFangSC-Regular";
     font-size: 16px;
+}
+
+.add-wrapper .func-permission .funcs-content .el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: #ff9900;
+    border-color: #ff8d00;
+}
+.add-wrapper .func-permission .funcs-content .el-checkbox__inner {
+    border-radius: 0;
+}
+.add-wrapper .func-permission .funcs-content .el-checkbox__inner:hover,
+.add-wrapper .func-permission .funcs-content .el-checkbox__inner:focus {
+    border-color: #ff8d00;
 }
 </style>

@@ -17,24 +17,26 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class HelloControllerTest {
+public class PactControllerTest {
+	
+	@Autowired
+    private MockMvc mvc;
 
-    @Autowired
-    private MockMvc mvc;	
+	@Test
+	public void testQueryPact() {
+		
+	}
 
-    @Test
-    public void hello() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string(equalTo("\"hello, world!\"")));
-        System.out.println("杨睿试试");
-    }
-    @Test 
-    public void saySth() throws Exception{
-    	mvc.perform(MockMvcRequestBuilders.get("/say").accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(content().string(equalTo("\"Say: sshkjh\"")));
-    	
-    }
+	@Test
+	public void testQueryPactByPactId() throws Exception {
+	}
+
+	@Test
+	public void testQueryPactChange() {
+	}
+
+	@Test
+	public void testQueryPactRenew() {
+	}
 
 }
