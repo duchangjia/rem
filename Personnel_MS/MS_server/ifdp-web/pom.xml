@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     
     <artifactId>ifdp-web</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>ifdp-web</name>
     <url>http://maven.apache.org</url>
 
@@ -87,12 +87,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-        <dependency>
-        	<groupId>com.github.pagehelper</groupId>
-        	<artifactId>pagehelper</artifactId>
-        	<version>4.1.0</version>
+		 
+		<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-tomcat</artifactId>
+        <scope>provided</scope>
         </dependency>
+<<<<<<< HEAD
 
         <dependency>
         	<groupId>org.springframework.integration</groupId>
@@ -125,6 +126,14 @@
         	<artifactId>scala-library</artifactId>
         	<version>2.11.0</version>
         </dependency>
+=======
+	
+		<dependency>
+		    <groupId>com.github.pagehelper</groupId>  
+    		<artifactId>pagehelper</artifactId>  
+    		<version>4.1.0</version> 
+		</dependency>
+>>>>>>> 0f1d60a5691d3fa9a3712796d1970943e2778427
     </dependencies>
 	
     <properties>

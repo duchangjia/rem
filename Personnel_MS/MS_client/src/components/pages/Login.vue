@@ -102,6 +102,8 @@
                                     console.log(res)
                                     let result = res.data.data
                                     console.log(data.username,result.username)
+                                    localStorage.setItem('ms_username',self.ruleForm.username);
+                            		self.$router.push('home');
                                     if(data.username === result.username && data.password === result.password){
 
                                     }else{
@@ -111,8 +113,7 @@
                                 .catch( function (res) {
                                     console.log('服务超时')
                                 })
-                            localStorage.setItem('ms_username',self.ruleForm.username);
-                            self.$router.push('home');
+                            
                         },2000)
                     } else {
 //                        Bus.$emit('showErrTip',{content:'登录失败！请填写正确的账号和密码。',title:'温馨提示'});

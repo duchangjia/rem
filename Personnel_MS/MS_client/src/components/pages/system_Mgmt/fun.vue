@@ -186,9 +186,6 @@
 	.fun .content-inner {
 		padding: 40px 0px;
 	}
-	.fun .input-wrap {
-		/*display: flex;*/
-	}
 	.fun .el-form-item__label {
 		text-align: left;
 		vertical-align: middle;
@@ -198,6 +195,7 @@
 		line-height: 1;
 		padding: 11px 12px 11px 0;
 		box-sizing: border-box;
+	    margin-right: 18px;
 	}
 	.fun .input-wrap .el-form-item {
 		margin-right: 80px;
@@ -216,6 +214,8 @@
 		line-height: 36px;
 		position: relative;
 		font-size: 14px;
+	    float: left;
+	    margin-left: 0px!important;
 	}
 	.fun .button-wrap {
 		margin: 0px auto;
