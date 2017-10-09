@@ -87,23 +87,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<<<<<<< HEAD
-		 
-		<dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-tomcat</artifactId>
-        <scope>provided</scope>
-        </dependency>
-	
-		<dependency>
-		    <groupId>com.github.pagehelper</groupId>  
-    		<artifactId>pagehelper</artifactId>  
-    		<version>4.1.0</version> 
-		</dependency>
-
-    </dependencies>
-=======
->>>>>>> 8f227de9a1597672031a2eeb15dea77751fc9551
 
         <dependency>
         	<groupId>com.github.pagehelper</groupId>
