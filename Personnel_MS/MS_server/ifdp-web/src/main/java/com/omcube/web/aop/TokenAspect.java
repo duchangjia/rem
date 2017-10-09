@@ -1,7 +1,7 @@
-package com.omcube.config.aop;
+package com.omcube.web.aop;
 
 import java.util.UUID;
-
+	
 import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.JoinPoint;
@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.omcube.annotation.Token;
-import com.omcube.exception.FormRepeatException;
+import com.omcube.ifdpcore.annotation.Token;
+import com.omcube.ifdpcore.exception.FormRepeatException;
 
 
 

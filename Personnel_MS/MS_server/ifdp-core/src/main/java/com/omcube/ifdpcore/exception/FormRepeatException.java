@@ -1,4 +1,4 @@
-package com.omcube.exception;
+package com.omcube.ifdpcore.exception;
 
 public class FormRepeatException extends RuntimeException {
 	

@@ -1,4 +1,4 @@
-package com.omcube.serviceImpl;
+package com.omcube.service.impl;
 
 import java.util.List;
 

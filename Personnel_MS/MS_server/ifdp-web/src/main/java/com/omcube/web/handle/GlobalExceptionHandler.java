@@ -1,4 +1,4 @@
-package com.omcube.config.handle;
+package com.omcube.web.handle;
 
 import javax.servlet.http.HttpServletRequest;
 

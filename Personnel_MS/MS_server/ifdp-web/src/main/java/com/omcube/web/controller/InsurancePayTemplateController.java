@@ -1,4 +1,4 @@
-package com.omcube.controller;
+package com.omcube.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
