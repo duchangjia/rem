@@ -128,7 +128,7 @@ public class OrganController {
 	    /**
 	     * 6.在当前机构下增加机构人员
 	     * @param organ_no
-	     * @return
+	     * @return 
 	     */
 	    @RequestMapping(value = "/addOrganMember", method = RequestMethod.POST)
         

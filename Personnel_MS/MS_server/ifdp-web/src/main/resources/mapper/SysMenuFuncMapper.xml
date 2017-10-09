@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omcube.model.mapper.SysMenuFuncMapper">
+
+	<insert id="addMenuFunc" parameterType="com.omcube.model.po.SysMenuFuncPO">
+		INSERT INTO
+		ifdp_sys_menu_func
+		VALUES(#{sysBsn.uId},#{sysMenuPO.sysNo},#{sysMenuPO.menuNo},#{sysBsn.bsnNo},#{createdBy},#{createdDate},#{updatedBy},#{updatedDate},#{remark})
+	</insert>
+
+</mapper>

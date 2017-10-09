@@ -7,11 +7,12 @@ import org.springframework.stereotype.Service;
 import com.omcube.model.mapper.EpOrganBillInfoMapper;
 import com.omcube.model.po.EpOrganBillInfoPO;
 import com.omcube.service.OrganBillInfoService;
+
 @Service
-public class OrganBillInfoServiceImpl implements OrganBillInfoService{
-	
+public class OrganBillInfoServiceImpl implements OrganBillInfoService {
+
 	private EpOrganBillInfoMapper billiInfoMapper;
- 
+
 	@Override
 	public void addOrganBillInfo(EpOrganBillInfoPO billInfoPO) {
 		billiInfoMapper.addOrganBillInfo(billInfoPO);
