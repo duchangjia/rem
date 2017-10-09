@@ -19,8 +19,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.omcube.model.mapper.OrganCCCManagementMapper;
 import com.omcube.model.po.OrganCCCManagemenPO;
-import com.omcube.service.impl.OrganCCCManagementServiceImpl;
-import com.omcube.service.tx.OrganCCCManagementService;
+import com.omcube.service.OrganCCCManagementService;
 import com.omcube.util.JSONResultUtil;
 import com.omcube.util.SpringUtil;
 

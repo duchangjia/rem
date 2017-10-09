@@ -27,6 +27,14 @@ public class HelloControllerTest {
         mvc.perform(MockMvcRequestBuilders.get("/hello").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(equalTo("\"hello, world!\"")));
+        System.out.println("杨睿试试");
+    }
+    @Test 
+    public void saySth() throws Exception{
+    	mvc.perform(MockMvcRequestBuilders.get("/say").accept(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(content().string(equalTo("\"Say: sshkjh\"")));
+    	
     }
 
 }

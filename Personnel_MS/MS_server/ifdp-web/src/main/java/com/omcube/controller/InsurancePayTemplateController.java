@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,12 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * 保险缴纳系数的设置
+ * 
+ * @author zhaoqi
+ *
+ */
 @RestController
 @RequestMapping(value = "/InsurancePayTemplate")
 @CacheConfig(cacheNames = "insurancePayTemplates")
@@ -29,7 +36,14 @@ public class InsurancePayTemplateController {
 	@Autowired
 	private InsurancePayTemplateService insurancePayTemplateService;
 
-	// 通过uId查询所有的保险缴纳模板列表
+	/**
+	 * 通过uId查询所有的保险缴纳模板列表
+	 * 
+	 * @param uId
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
 	@RequestMapping(value = "/queryInsurancePayTemplates")
 	@Cacheable
 	public Object queryInsurancePayTemplates(@RequestParam String uId, @RequestParam Integer pageNum,
@@ -46,15 +60,19 @@ public class InsurancePayTemplateController {
 		return JSONResultUtil.setSuccess(pageInfo);
 	}
 
-	// 添加保险缴纳模板
+	/**
+	 * 添加保险缴纳模板
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "/addInsurancePayTemplate")
 	@Cacheable
-	public Object addInsurancePayTemplate() {
+	public Object addInsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate) {
 		// 创建添加保险缴纳模板测试用例
-		InsurancePayTemplatePO insurancePayTemplate = new InsurancePayTemplatePO();
+		/*insurancePayTemplate = new InsurancePayTemplatePO();
 		insurancePayTemplate.setuId("2");
 		insurancePayTemplate.setApplyNo("0002");
-		insurancePayTemplate.setApplyName("深圳地区缴纳");
+		insurancePayTemplate.setApplyName("河南地区缴纳");
 		insurancePayTemplate.setPerEndmRate(7.1);
 		insurancePayTemplate.setPerEndmFixed(250.0);
 		insurancePayTemplate.setComEndmRate(5.0);
@@ -79,36 +97,46 @@ public class InsurancePayTemplateController {
 		insurancePayTemplate.setPerHousFixed(250.0);
 		insurancePayTemplate.setComHousRate(5.0);
 		insurancePayTemplate.setComHousFixed(250.0);
-		insurancePayTemplate.setRemark("深圳地区缴纳模板");
-		insurancePayTemplate.setCreatedBy("123123");
+		insurancePayTemplate.setRemark("河南地区缴纳模板");
+		insurancePayTemplate.setCreatedBy("123123");*/
 		if (StringUtils.isEmpty(insurancePayTemplate.getuId())) {
-			return JSONResultUtil.setError("F00002", "参数uId为空");
+			return JSONResultUtil.setError("F00002", "param uId is null");
 		}
 		// 返回查询结果 和信息
 		return insurancePayTemplateService.addInsurancePayTemplate(insurancePayTemplate);
 	}
 
-	// 根据uId和模板编号applyNo详细查询单个保险缴纳模板
-	@RequestMapping(value = "/queryInsurancePayTemplate")
+	/**
+	 * 根据uId和模板编号applyNo详细查询单个保险缴纳模板
+	 * 
+	 * @param uId
+	 * @param applyNo
+	 * @return
+	 */
+	@RequestMapping(value = "/queryInsurancePayTemplate/{uId}&{applyNo}")
 	@Cacheable
-	public Object queryInsurancePayTemplate(@RequestParam String uId, @RequestParam String applyNo) {
+	public Object queryInsurancePayTemplate(@PathVariable String uId, @PathVariable String applyNo) {
 		// 判断传入参数是否为空,若为空则返回错误信息
 		if (StringUtils.isEmpty(uId) || StringUtils.isEmpty(applyNo)) {
-			return JSONResultUtil.setError("F00002", "参数uId或applyNo为空");
+			return JSONResultUtil.setError("F00002", "param uId or applyNo is null");
 		}
 		// 返回查询结果 和信息
 		return JSONResultUtil.setSuccess(insurancePayTemplateService.queryInsurancePayTemplate(uId, applyNo));
 	}
 
-	// 修改保险缴纳模板
+	/**
+	 * 修改保险缴纳模板
+	 * 
+	 * @return
+	 */
 	@RequestMapping(value = "/updateInsurancePayTemplate")
 	@Cacheable
-	public Object updateInsurancePayTemplate() {
+	public Object updateInsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate) {
 		// 创建修改保险缴纳模板测试用例
-		InsurancePayTemplatePO insurancePayTemplate = new InsurancePayTemplatePO();
+		/*insurancePayTemplate = new InsurancePayTemplatePO();
 		insurancePayTemplate.setuId("2");
 		insurancePayTemplate.setApplyNo("0005");
-		insurancePayTemplate.setApplyName("上海地区缴纳");
+		insurancePayTemplate.setApplyName("广州地区缴纳");
 		insurancePayTemplate.setPerEndmRate(12.3);
 		insurancePayTemplate.setPerEndmFixed(350.0);
 		insurancePayTemplate.setComEndmRate(7.1);
@@ -133,11 +161,11 @@ public class InsurancePayTemplateController {
 		insurancePayTemplate.setPerHousFixed(122.0);
 		insurancePayTemplate.setComHousRate(3.4);
 		insurancePayTemplate.setComHousFixed(230.0);
-		insurancePayTemplate.setRemark("上海地区缴纳");
-		insurancePayTemplate.setUpdatedBy("121212");
+		insurancePayTemplate.setRemark("广州地区缴纳");
+		insurancePayTemplate.setUpdatedBy("121212");*/
 		if (StringUtils.isEmpty(insurancePayTemplate.getuId())
 				|| StringUtils.isEmpty(insurancePayTemplate.getApplyNo())) {
-			return JSONResultUtil.setError("F00002", "参数uId或applyNo为空");
+			return JSONResultUtil.setError("F00002", "param uId or applyNo is null");
 		}
 		insurancePayTemplateService.updateINsurancePayTemplate(insurancePayTemplate);
 		return JSONResultUtil.setSuccess();

@@ -5,11 +5,11 @@ import java.util.List;
 public class OrganTree {
 	
 	
-	private String id;
+	private String id;//机构编号
 	
-	private String name;
+	private String name;//机构名
 	
-	private List<OrganTree> childrenList;
+	private List<OrganTree> childrenList;//当前机构下的子机构
 	
 	public String getId() {
 		return id;

@@ -25,6 +25,26 @@
       }
     }
   ],
+  "companies": [
+    {"company": "广州分公司",
+      "department": [
+        {"name": "行政部", "child_department": ["行政一部","行政二部","行政三部"]},
+        {"name": "财务部", "child_department": ["财务一部","财务二部","财务三部"]},
+        {"name": "产品研发部", "child_department": ["产品研发一部","产品研发二部","产品研发三部"]},
+        {"name": "系统设计部", "child_department": ["系统设计一部","系统设计二部","系统设计三部"]},
+        {"name": "互联网中心", "child_department": ["互联网中一心","互联网中二心","互联网中三心"]}
+      ]
+    },
+    {"company": "上海分公司",
+      "department": [
+        {"name": "行政部", "child_department": ["行政一部","行政二部","行政三部"]},
+        {"name": "财务部", "child_department": ["财务一部","财务二部","财务三部"]},
+        {"name": "产品研发部", "child_department": ["产品研发一部","产品研发二部","产品研发三部"]},
+        {"name": "系统设计部", "child_department": ["系统设计一部","系统设计二部","系统设计三部"]},
+        {"name": "互联网中心", "child_department": ["互联网中一心","互联网中二心","互联网中三心"]}
+      ]
+    }
+  ],
   "queryOperatorList":{
   	"pageIndex": "1",
   	"pageRows": "10",
