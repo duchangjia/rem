@@ -26,7 +26,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="描述">
-                            <el-input type="textarea" v-model="formRoleMsg.descript"></el-input>
+                            <el-input type="textarea" v-model="formRoleMsg.roleDescr"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -51,7 +51,7 @@ export default {
             formRoleMsg: {
                 roleName: '',
                 job: '',
-                descript: '',
+                roleDescr: '',
                 status: ''
             },
             editRoleRules: {
@@ -63,7 +63,7 @@ export default {
     },
     mounted() {
         this.formRoleMsg.roleName = this.$route.query.roleName;
-        this.formRoleMsg.descript = this.$route.query.descript;
+        this.formRoleMsg.roleDescr = this.$route.query.roleDescr;
     },
     components: {
         current,
@@ -73,7 +73,7 @@ export default {
             let editRole = {};
             editRole.roleName = this.formRoleMsg.roleName;
             editRole.job = this.formRoleMsg.job;
-            editRole.descript = this.formRoleMsg.descript;
+            editRole.roleDescr = this.formRoleMsg.roleDescr;
             editRole.status = this.formRoleMsg.status;
             console.dir(editRole);
         }
