@@ -136,4 +136,18 @@ export default {
 .edit-wrapper .el-textarea__inner {
     border-radius: 0;
 }
+
+.edit-wrapper .el-radio__input.is-checked .el-radio__inner {
+    background: #ff9900;
+    border-color: #ff9900;
+}
+
+.edit-wrapper .el-input__inner:focus,
+.edit-wrapper .el-textarea__inner:focus{
+    border-color: #ff9900;
+}
+
+.edit-wrapper .el-radio__inner:hover {
+    border-color: #ff9900;
+}
 </style>
