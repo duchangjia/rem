@@ -192,7 +192,7 @@ export default {
 .el-pager li:hover {
     color: #FF9900;
 }
-.e.el-pager li.active:hover {
+.el-pager li.active:hover {
     cursor: pointer;
     color: #ffffff;
 }
