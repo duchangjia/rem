@@ -1,44 +1,34 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="ehcache.xsd">
+	xsi:noNamespaceSchemaLocation="ehcache.xsd">
 
-    <cache name="users"
-           maxEntriesLocalHeap="200"
-           timeToLiveSeconds="600">
-    </cache>
-
-	
-	<cache name="organs"
-           maxEntriesLocalHeap="200"
-           timeToLiveSeconds="600">
-    </cache>
-
-    
-    <cache name="roles"
-           maxEntriesLocalHeap="200"
-           timeToLiveSeconds="600">
-    </cache>
-    
-    <cache name="taxRateGroupes"
-           maxEntriesLocalHeap="200"
-           timeToLiveSeconds="600">
-    </cache>
-    
-    <cache name="taxRateCtrles"
-           maxEntriesLocalHeap="200"
-           timeToLiveSeconds="600">
-    </cache>
-
-
-	<cache name="organBillInfoes"
-           maxEntriesLocalHeap="200"
-           timeToLiveSeconds="600">>
+	<cache name="users" maxEntriesLocalHeap="200" timeToLiveSeconds="600">
 	</cache>
 
 
-   <cache name="insurancePayTemplates"
-           maxEntriesLocalHeap="200"
-           timeToLiveSeconds="600">
-    </cache>
+	<cache name="organs" maxEntriesLocalHeap="200" timeToLiveSeconds="600">
+	</cache>
+
+
+	<cache name="roles" maxEntriesLocalHeap="200" timeToLiveSeconds="600">
+	</cache>
+
+	<cache name="taxRateGroupes" maxEntriesLocalHeap="200"
+		timeToLiveSeconds="600">
+	</cache>
+
+	<cache name="taxRateCtrles" maxEntriesLocalHeap="200"
+		timeToLiveSeconds="600">
+	</cache>
+
+
+	<cache name="organBillInfoes" maxEntriesLocalHeap="200"
+		timeToLiveSeconds="600">>
+	</cache>
+
+
+	<cache name="insurancePayTemplates" maxEntriesLocalHeap="200"
+		timeToLiveSeconds="600">
+	</cache>
 
 
 </ehcache>
