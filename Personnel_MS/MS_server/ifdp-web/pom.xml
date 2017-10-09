@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     
     <artifactId>ifdp-web</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>ifdp-web</name>
     <url>http://maven.apache.org</url>
 
@@ -88,10 +88,11 @@
 			<scope>test</scope>
 		</dependency>
 
-        <dependency>
-        	<groupId>com.github.pagehelper</groupId>
-        	<artifactId>pagehelper</artifactId>
-        	<version>4.1.0</version>
+		 
+		<dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-tomcat</artifactId>
+        <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -114,17 +115,11 @@
         	<artifactId>ehcache-clustered</artifactId>
         </dependency>
         
-        <dependency>
-            <groupId>com.sun.jna</groupId>
-            <artifactId>jna</artifactId>
-            <version>3.0.9</version>
-        </dependency>
-
-        <dependency>
-        	<groupId>org.scala-lang</groupId>
-        	<artifactId>scala-library</artifactId>
-        	<version>2.11.0</version>
-        </dependency>
+		<dependency>
+		    <groupId>com.github.pagehelper</groupId>  
+    		<artifactId>pagehelper</artifactId>  
+    		<version>4.1.0</version> 
+		</dependency>
     </dependencies>
 	
     <properties>
