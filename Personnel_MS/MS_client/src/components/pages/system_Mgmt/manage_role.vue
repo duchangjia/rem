@@ -156,7 +156,7 @@ export default {
                     message: '删除成功!'
                 });
             }).catch(() => {
-                
+
             });
         }
     }
@@ -275,5 +275,28 @@ export default {
 .icon-edit:hover,
 .icon-delete:hover {
     cursor: pointer;
+}
+
+.el-message-box__btns .el-button {
+    border-radius: 2px;
+}
+
+.el-message-box__btns .el-button:focus,
+.el-message-box__btns .el-button:hover {
+    color: #ff9900;
+    border-color: #ff9900;
+}
+
+.el-message-box__btns .el-button--primary,
+.el-message-box__btns .el-button--primary:focus,
+.el-message-box__btns .el-button--primary:hover {
+    background: #ff9900;
+    border-color: #ff9900;
+    color: #fff;
+}
+
+.el-message-box__headerbtn:focus .el-message-box__close,
+.el-message-box__headerbtn:hover .el-message-box__close {
+    color: #ff9900;
 }
 </style>
