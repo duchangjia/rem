@@ -7,14 +7,14 @@
                 <span class="title-text">角色管理</span>
                 <el-button type="primary" @click="handleAdd" class="toolBtn">新增角色</el-button>
             </el-col>
-            <el-table stripe :data="roleData" border>
-                <el-table-column align="center" prop="roleID" label="角色ID">
+            <el-table stripe :data="roleListInfo" border>
+                <el-table-column align="center" prop="roleNo" label="角色ID">
                 </el-table-column>
                 <el-table-column align="center" prop="roleName" label="角色名称">
                 </el-table-column>
                 <el-table-column align="center" prop="status" label="状态">
                 </el-table-column>
-                <el-table-column align="center" prop="descript" label="描述">
+                <el-table-column align="center" prop="roleDescr" label="描述">
                 </el-table-column>
                 <el-table-column align="center" label="操作" width="150">
                     <template scope="scope">
@@ -34,94 +34,29 @@ import current from '../../common/current_position.vue'
 export default {
     data() {
         return {
-            roleData: [
-                {
-                    roleID: '10001',
-                    roleName: '系统管理员',
-                    status: '启动',
-                    descript: '我是描述是描述是描述是描述'
-                },
-                {
-                    roleID: '10002',
-                    roleName: '系统管理员',
-                    status: '启动',
-                    descript: '我是描述是描述是描述是描述'
-                },
-                {
-                    roleID: '10003',
-                    roleName: '财务',
-                    status: '启动',
-                    descript: '我是描述是描述是描述是描述'
-                },
-                {
-                    roleID: '10004',
-                    roleName: '出纳',
-                    status: '启动',
-                    descript: '我是描述是描述是描述是描述'
-                },
-                {
-                    roleID: '10005',
-                    roleName: '人事',
-                    status: '启动',
-                    descript: '我是描述是描述是描述是描述'
-                },
-                {
-                    roleID: '10006',
-                    roleName: '部门经理',
-                    status: '启动',
-                    descript: '我是描述是描述是描述是描述'
-                },
-                {
-                    roleID: '10007',
-                    roleName: '部门经理',
-                    status: '启动',
-                    descript: '我是描述是描述是描述是描述'
-                },
-                {
-                    roleID: '10008',
-                    roleName: '普通员工',
-                    status: '启动',
-                    descript: '我是描述是描述是描述是描述'
-                },
-                {
-                    roleID: '10009',
-                    roleName: '系统管理员',
-                    status: '启动',
-                    descript: '我是描述是描述是描述是描述'
-                },
-                {
-                    roleID: '10010',
-                    roleName: '普通员工',
-                    status: '启动',
-                    descript: '我是描述是描述是描述是描述'
-                },
-                {
-                    roleID: '10011',
-                    roleName: '普通员工',
-                    status: '启动',
-                    descript: '我是描述是描述是描述是描述'
-                },
-                {
-                    roleID: '10012',
-                    roleName: '普通员工',
-                    status: '启动',
-                    descript: '我是描述是描述是描述是描述'
-                },
-                {
-                    roleID: '10013',
-                    roleName: '普通员工',
-                    status: '启动',
-                    descript: '我是描述是描述是描述是描述'
-                },
-            ],
-            users: [],
+            roleListInfo: [],
             total: 100,
-            page: 1,
-            sels: []//列表选中列
+            page: 1
         }
     },
     components: {
         current,
+    },
+    created() {
+        const self = this;
+        let params = {
+            pageIndex: 1,
+            pageRows: 10
+        }
+        self.$axios.get('ifdp/queryRoleList', params)
+            .then(function(res) {
+                self.roleListInfo = res.data.data.roleListInfo;
+                // self.pageIndex = Number(res.data.data.pageIndex);
+                // self.pageRows = Number(res.data.data.pageRows);
+                // self.totalRows = Number(res.data.data.totalRows);
+            }).catch(function(err) {
+                console.log('error');
+            })
     },
     methods: {
         handleCurrentChange(val) {
@@ -138,10 +73,10 @@ export default {
             this.$router.push({
                 path: '/edit_role',
                 query: {
-                    roleID: this.roleData[index].roleID,
-                    roleName: this.roleData[index].roleName,
-                    status: this.roleData[index].status,
-                    descript: this.roleData[index].descript
+                    roleNo: this.roleListInfo[index].roleNo,
+                    roleName: this.roleListInfo[index].roleName,
+                    status: this.roleListInfo[index].status,
+                    roleDescr: this.roleListInfo[index].roleDescr
                 }
             })
         },
@@ -257,7 +192,10 @@ export default {
 .el-pager li:hover {
     color: #FF9900;
 }
-
+.e.el-pager li.active:hover {
+    cursor: pointer;
+    color: #ffffff;
+}
 .icon-edit {
     display: inline-block;
     width: 24px;
@@ -281,10 +219,10 @@ export default {
     border-radius: 2px;
 }
 
-.el-message-box__btns .el-button:focus,
 .el-message-box__btns .el-button:hover {
     color: #ff9900;
     border-color: #ff9900;
+    opacity: 0.5;
 }
 
 .el-message-box__btns .el-button--primary,
