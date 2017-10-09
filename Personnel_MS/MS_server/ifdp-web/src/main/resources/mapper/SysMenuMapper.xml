@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.omcube.model.mapper.SysMenuMapper">
+	
+	<resultMap id="SysMenuMap" type="com.omcube.model.po.SysMenuPO">
+        <id column="MENU_NO" property="menuNo"></id>
+        <result column="UID" property="uId" javaType="java.lang.String"></result>
+        <result column="SYS_NO" property="sysNo" javaType="java.lang.String"></result>
+        <result column="MENU_NAME" property="menuName" javaType="java.lang.String"></result>
+        <result column="UP_MENU_NO" property="upMenuNo" javaType="java.lang.String"></result>
+        <result column="MENU_LEVEL" property="menuLevel" javaType="java.lang.String"></result>
+        <result column="MENU_ORDER" property="menuOrder" javaType="java.lang.String"></result>
+        <result column="MENU_URL" property="menuUrl" javaType="java.lang.String"></result>
+        <result column="MENU_DESCR" property="menuDescr" javaType="java.lang.String"></result>
+        <result column="MENU_IMG" property="menuImg" javaType="java.lang.String"></result>
+        
+        <result column="STATUS" property="status" javaType="java.lang.String"></result>
+        <result column="created_date" property="createdDate" javaType="java.util.Date"></result>
+        <result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
+        <result column="created_by" property="createdBy" javaType="java.lang.String"></result>
+        <result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
+        
+    </resultMap>
+  
+ 	<select id="findMenuByUidAndSysNoAndMenuNo" parameterType="com.omcube.model.po.SysMenuPO" resultMap="SysMenuMap">
+ 		SELECT * FROM ifdp_sys_menu WHERE uid = #{uId} AND sys_no = #{sysNo} AND menu_no = #{menuNo}
+ 	</select>
+    
+</mapper>

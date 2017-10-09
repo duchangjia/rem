@@ -6,7 +6,7 @@
 				<span class="title-text">用户管理</span>
 			</div>
 			<div class="content-inner">
-				<el-form :model="ruleForm2" ref="ruleForm2" label-width="58px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="58px" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-form-item label="公司" prop="company">
 							<el-input type="text" v-model="ruleForm2.company"></el-input>
@@ -26,22 +26,22 @@
 					</div>
 				</el-form>
 				<div class="info">
-					<el-table :data="userList" border stripe style="width: 100%" @cell-click="resetUserInfo">
-						<el-table-column prop="number" label="工号"></el-table-column>
-						<el-table-column prop="name" label="姓名"></el-table-column>
-						<el-table-column prop="company" label="所属公司"></el-table-column>
-						<el-table-column prop="department" label="部门"></el-table-column>
-						<el-table-column prop="role" label="角色"></el-table-column>
-						<el-table-column prop="phone" label="手机"></el-table-column>
+					<el-table :data="operatorList" border stripe style="width: 100%" @cell-click="resetUserInfo">
+						<el-table-column prop="userNo" label="工号"></el-table-column>
+						<el-table-column prop="userName" label="姓名"></el-table-column>
+						<el-table-column prop="compName" label="所属公司"></el-table-column>
+						<el-table-column prop="departName" label="部门"></el-table-column>
+						<el-table-column prop="roleNo" label="角色"></el-table-column>
+						<el-table-column prop="mobile" label="手机"></el-table-column>
 						<el-table-column prop="status" label="状态"></el-table-column>
 					</el-table>
 				</div>
 				<el-pagination
 			      @current-change="handleCurrentChange"
-			      :current-page.sync="currentPage"
-			      :page-size="100"
+			      :current-page.sync="pageIndex"
+			      :page-size="pageRows"
 			      layout="prev, pager, next, jumper"
-			      :total="1000">
+			      :total="totalRows" v-show="totalRows>2*pageRows">
 			    </el-pagination>
 			</div>
 		</div>
@@ -49,80 +49,71 @@
 </template>
 
 <script type='text/ecmascript-6'>
+	import Bus from '../../../common/Bus.js'
 	import current from '../../common/current_position.vue'
 	export default {
 		data() {
-			var checkAge = (rule, value, callback) => {
-			};
-			var validatecompany = (rule, value, callback) => {
-			};
-			var validatecompany2 = (rule, value, callback) => {
-			};
 			return {
-				currentPage: 5,
+				pageIndex: 0,
+				pageRows: 0,
+				totalRows: 0,
 				ruleForm2: {
 					company: '',
 					department: '',
 					user: ''
 				},
-				userList: [{
-					number: '2016001',
-					name: '王小虎',
-					company: '广州分公司',
-					department: '111',
-					role: '财务部',
-					phone: '1351011111',
-					status: '正常'
-				}, {
-					number: '2016001',
-					name: '王小虎',
-					company: '广州分公司',
-					department: '111',
-					role: '财务部',
-					phone: '1351011111',
-					status: '正常'
-				}, {
-					number: '2016001',
-					name: '王小虎',
-					company: '广州分公司',
-					department: '111',
-					role: '财务部',
-					phone: '1351011111',
-					status: '已锁定'
-				}, {
-					number: '2016001',
-					name: '王小虎',
-					company: '广州分公司',
-					department: '111',
-					role: '财务部',
-					phone: '1351011111',
-					status: '正常'
-				}],
-
-				rules2: {
-					company: [{
-						validator: validatecompany,
-						trigger: 'blur'
-					}],
-					checkcompany: [{
-						validator: validatecompany2,
-						trigger: 'blur'
-					}],
-					age: [{
-						validator: checkAge,
-						trigger: 'blur'
-					}]
+				operatorList: [],
+				rules: {
+					company: [],
+					department: [],
+					user: [
+						{ required: true, message: '工号/姓名/手机/邮箱四者必输其一', trigger: 'blur' },
+            			
+					]
 				}
 			};
 		},
 		components: {
 			current
 		},
+		created() {
+			const self = this;
+			let params = {
+				pageIndex: 1,
+				pageRows: 10
+			}
+			self.$axios.get('ifdp/queryOperatorList',params)
+			.then(function(res){
+				self.operatorList = res.data.data.operatorListInfo;
+				self.pageIndex = Number(res.data.data.pageIndex);
+				self.pageRows = Number(res.data.data.pageRows);
+				self.totalRows = Number(res.data.data.totalRows);
+			}).catch(function(err){
+				console.log('error');
+			})
+		},
 		methods: {
 			submitForm(formName) {
-				this.$refs[formName].validate((valid) => {
+				const self = this;
+				self.$refs[formName].validate((valid) => {
 					if(valid) {
-						alert('submit!');
+						let params = {
+							"userNo": self.ruleForm2.user ,
+							"userName": self.ruleForm2.user ,
+							"mobile": self.ruleForm2.user ,
+							"email": self.ruleForm2.user
+						};
+						self.operatorList = [];
+						self.$axios.get('ifdp/queryOperatorDetail',params)
+						.then(function(res){
+							self.operatorList.push(res.data.data);
+							self.pageIndex = 0;
+							self.pageRows = 0;
+							self.totalRows = 0;
+							localStorage.setItem('user',self.ruleForm2.user);
+						}).catch(function(err){
+							console.log(err);
+						})
 					} else {
 						console.log('error submit!!');
 						return false;
@@ -134,13 +125,15 @@
 //			}
 			resetForm() {
 				this.$router.push('/user-info');
+//				this.$router.push({
+//					path:'/user-info',
+//					query: this.userlist1
+//				});
 			},
 			handleCurrentChange(val) {
-		        console.log(`当前页: ${val}`);
+				self.pageIndex = `${val}`;
 	     	},
 	     	resetUserInfo(row, column, cell, event) {
-	     		console.log(row.number);
-	     		console.log(column);
 	     		if(column.property==='number'){
 	     			this.$router.push('/user-info');
 	     		}
@@ -184,9 +177,6 @@
 	}
 	.user-query .content-inner {
 		padding: 40px 0px;
-	}
-	.user-query .input-wrap {
-		/*display: flex;*/
 	}
 	.user-query .el-form-item__label {
 		text-align: left;
@@ -259,10 +249,10 @@
 	    border-color: #FF9900;
 	    opacity: 0.5;
 	}
-	.user-query .el-button.resetform:focus,
+	/*.user-query .el-button.resetform:focus,
 	.user-query .el-button.resetform:hover {
 		color: #FF9900;
-	}
+	}*/
 	.user-query .el-table {
 	    background-color: #fff;
 	    border-left: 1px solid #EEEEEE;
