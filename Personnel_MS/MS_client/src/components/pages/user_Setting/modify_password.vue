@@ -14,7 +14,7 @@
 				<span class="title-text">修改密码</span>
 			</div>
 			<ul class="content-inner">
-				<el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="94px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="74px" class="demo-ruleForm">
 					<el-form-item label="当前密码" prop="oldpass">
 						<el-input type="password" v-model.number="ruleForm2.oldpass" placeholder="请输入原密码"></el-input>
 						<span class="tips forget">忘记密码</span>
@@ -51,6 +51,8 @@
 			var validatePass = (rule, value, callback) => {
 				if(value === '') {
 					callback(new Error('请输入新密码'));
+				}else if(!/^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/.test(value)){
+					callback(new Error('请输入正确格式的密码'));
 				} else {
 					if(this.ruleForm2.checkPass !== '') {
 						this.$refs.ruleForm2.validateField('checkPass');
@@ -116,7 +118,7 @@
 		text-decoration: none;
 	}
 	.modifine_password {
-		padding: 0px 20px;
+		padding-left: 20px;
 		width: 100%;
 	}
 	.location-wrapper {
@@ -137,7 +139,7 @@
 	.modifine_password .content {
 		width: 100%;
 		/*min-height: 530px;*/
-	    /*height: calc(100% - 90px);*/
+	    height: calc(100% - 90px);
 		padding: 0px 40px 20px;
 		background: #ffffff;
 	}
@@ -227,5 +229,9 @@
 	    max-width: 100%;
 	    margin-bottom: 5px;
 	    font-weight: normal;
+        margin-right: 18px;
+	}
+	.el-form-item__error {
+	    left: 28px;
 	}
 </style>

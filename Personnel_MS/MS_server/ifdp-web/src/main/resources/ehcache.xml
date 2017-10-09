@@ -5,6 +5,7 @@
            maxEntriesLocalHeap="200"
            timeToLiveSeconds="600">
     </cache>
+
      <cache name="taxRateGroupes"
            maxEntriesLocalHeap="200"
            timeToLiveSeconds="600">
@@ -23,6 +24,5 @@
            maxEntriesLocalHeap="200"
            timeToLiveSeconds="600">
     </cache>
-
 
 </ehcache>
