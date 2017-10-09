@@ -1,9 +1,10 @@
 package com.omcube.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -34,29 +37,203 @@ public class OrganControllerTest {
 	    {
 		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 	    }
-
+  
+	    /**
+	     * 1.查询机构树
+	     * @param organNo
+	     */
 	    @Test
+	    public void queryOrganList() throws Exception
+	    {
+	    	
+	    	String result = mockMvc.perform(get("/iem/organ/queryOrganList/0")
+	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
+	    			.andExpect(status().isOk()).andReturn().getResponse()
+	    			.getContentAsString();
+
+	    		System.out.println(result);
+	    }
+	    
+	    
+	    
+	    
+	    /**
+	     * 2.查询当前机构及上级机构信息
+	     * @param organNo
+	     */
+	    @Test
+	    public void queryParentOrgan() throws Exception
+	    {
+	    	
+	    	String result = mockMvc.perform(get("/iem/organ/queryParentOrgan/01")
+	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
+	    			.andExpect(status().isOk()).andReturn().getResponse()
+	    			.getContentAsString();
+
+	    		System.out.println(result);
+	    }
+	    
+	    
+	    /**
+	     * 3.查询当前机构及下级机构信息
+	     * @param organNo
+	     */
+	    @Test
+	    public void queryChildOrgan() throws Exception
+	    {
+	    	
+	    	String result = mockMvc.perform(get("/iem/organ/queryChildOrgan/0")
+	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
+	    			.andExpect(status().isOk()).andReturn().getResponse()
+	    			.getContentAsString();
+
+	    		System.out.println(result);
+	    }
+	    
+	       
+	    /**
+	     * 4.查询当前机构下的人员信息
+	     * @param organNo
+	     */
+	    @Test
+	    public void queryOrganMember() throws Exception
+	    {
+	    	
+	    	String result = mockMvc.perform(get("/iem/organ/queryOrganMember/0")
+	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
+	    			.andExpect(status().isOk()).andReturn().getResponse()
+	    			.getContentAsString();
+
+	    		System.out.println(result);
+	    }
+	    
+	    
+	    /**
+	     * 5.删除机构
+	     * @param organNo
+	     */
+	    @Test
+	    public void deleteOrganInfo() throws Exception
+	    {
+	    	
+	    	String result = mockMvc.perform(get("/iem/organ/deleteOrganInfo/0001")
+	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
+	    			.andExpect(status().isOk()).andReturn().getResponse()
+	    			.getContentAsString();
+
+	    		System.out.println(result);
+	    }
+	    
+	    
+	    /**
+	     * 6.增加当前机构人员信息
+	     * @param sysOrganUser
+	     */
+	    @Test
+	    public void addOrganMember() throws Exception
+	    {
+	    	
+	  String result = mockMvc.perform(post("/iem/organ/addOrganMember")
+	    			.param("uId", "00001")
+	    			.param("userNo", "1004")
+	    			.param("userName", "kzheming")
+	    			.param("certNo", "1234567")
+	    			.param("mobileTEL", "13429692050")
+	    			.param("email", "kzheming@163.com")
+	    			.param("organNo", "01")
+	    			.param("status", "1")
+	    			.param("password", "123")
+	    			.param("pwdLevel", "2")
+	    			.param("remark", "上海分公司员工")
+	    			.param("createdBy", "蓝亿铮")
+	    			.param("updatedBy", "蓝亿铮")	
+	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
+	    			.andExpect(status().isOk()).andReturn().getResponse()
+	    			.getContentAsString();
+
+	    		System.out.println(result);
+	    		
+	    		
+	    }
+	
+	    
+	    /**
+	     * 7.根据机构人员编号-删除机构下的人员
+	     * @param sysOrganUser
+	     */
+	    @Test
+	    public void deleteOrganMember() throws Exception
+	    {
+	    	
+	    	String result = mockMvc.perform(get("/iem/organ/deleteOrganMember/1004")
+	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
+	    			.andExpect(status().isOk()).andReturn().getResponse()
+	    			.getContentAsString();
+
+	    		System.out.println(result);
+	    }
+	    
+	    
+	    
+		/**
+	     * 8.更新机构信息
+	     *
+	     */
+	   @Test
+	    public void modifyOrganInfo() throws Exception
+	    {
+	    	
+		String result = mockMvc.perform((put("/iem/organ/modifyOrganInfo"))
+			.param("uId", "00001")
+			.param("organNo", "04")
+			.param("organName", "橙色魔方武汉公司")
+			.param("organType", "02")
+			.param("organStatus", "1")
+			.param("parentNo", "0")
+			.param("organLevel", "2")
+			.param("organDescr", "很有发展前景图纸")
+			.param("organPath", "武汉")
+			.param("orgRegAddr", "武汉珞珈山")
+			.param("organConAddr", "武汉珞珈山")
+			.param("organMan", "kzm")
+			.param("organTel", "13833455678")
+			.param("organEmail", "kzm@163.com")
+			.param("organMgeId", "1")
+			.param("organMgeName", "kk123")
+			.param("createdBy", "lhj")
+			.param("updatedBy", "lhj")	
+			.contentType(MediaType.APPLICATION_JSON_UTF8))
+			.andExpect(status().isOk()).andReturn().getResponse()
+			.getContentAsString();
+			System.out.println(result);
+	    }
+
+		/**
+	     * 9.新增机构：向机构表和机构详情表中同时保存信息
+	     *
+	     */
+	   @Test
 	    public void addOrgan() throws Exception
 	    {
 	    	
-		String result = mockMvc.perform(get("/iem/organ/addOrgan")
-			.param("uId", "0001")
-			.param("organ_no", "02")
-			.param("organ_name", "橙色魔方广州分公司")
-			.param("organ_type", "02")
-			.param("organ_status", "1")
-			.param("parent_no", "0")
-			.param("organ_level", "2")
-			.param("organ_descr", "很有发展前景")
-			.param("organ_path", "广州")
-			.param("org_reg_addr", "广州天河")
-			.param("organ_con_addr", "广州天河")
-			.param("organ_man", "kzm")
-			.param("organ_tel", "13833455678")
-			.param("organ_email", "kzm@163.com")
-			.param("organ_mge_id", "1")
-			.param("organ_mge_name", "kk")
-			.param("createdBy", "lhj")
+		String result = mockMvc.perform(post("/iem/organ/addOrgan")
+			.param("uId", "00001")
+			.param("organNo", "04")
+			.param("organName", "橙色魔方武汉分公司")
+			.param("organType", "02")
+			.param("organStatus", "1")
+			.param("parentNo", "0")
+			.param("organLevel", "2")
+			.param("organDescr", "很有发展前景")
+			.param("organPath", "武汉")
+			.param("orgRegAddr", "武汉珞珈山")
+			.param("organConAddr", "武汉珞珈山")
+			.param("organMan", "kzm")
+			.param("organTel", "13833455678")
+			.param("organEmail", "kzm@163.com")
+			.param("organMgeId", "1")
+			.param("organMgeName", "kk")
+			.param("createdBy", "kzm")
 			.param("updatedBy", "kzm")	
 			.contentType(MediaType.APPLICATION_JSON_UTF8))
 			.andExpect(status().isOk()).andReturn().getResponse()
@@ -64,11 +241,6 @@ public class OrganControllerTest {
 			System.out.println(result);
 	    }
 	    
-	    
-	    
-	    
-	
-	
-	
+	    	
 
 }

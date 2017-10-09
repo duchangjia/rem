@@ -20,16 +20,16 @@ public class OrganServiceImpl implements OrganService{
 	
 	@Transactional
 	@Override
-	public void updateOrgan(SysOrganPO sysOrganPO) {
+	public void modifyOrganInfo(SysOrganPO sysOrganPO) {
 		
 		if (sysOrganMapper == null)
     	{
     		sysOrganMapper = SpringUtil.getBean(SysOrganMapper.class);
     	} 
 		
-		sysOrganMapper.updateOrgan(sysOrganPO);
+		sysOrganMapper.modifyOrgan(sysOrganPO);
 		
-		sysOrganMapper.updateOrganDetail(sysOrganPO);
+		sysOrganMapper.modifyOrganDetail(sysOrganPO);
 		
 		
 	}
