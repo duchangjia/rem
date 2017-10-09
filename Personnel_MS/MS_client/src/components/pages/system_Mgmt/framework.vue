@@ -4,22 +4,24 @@
         <div class="framework-content">
            <div class="content-left">
                <div class="content-left-title"><img  height="21px" src="../../../../static/img/common/home_logo.png" /><span class="text">深圳前海橙色魔方信息技术有限公司</span></div>
-               <ul class="list ">
-                   <li class="guangzhou common L">广州分公司<span class="count">(111)</span></li>
-                   <li class="shanghai common L">上海分公司<span class="count">(111)</span>
-                    <ul class="common-list ">
-                        <li class=" common dot">行政部<span class="count">(111)</span></li>
-                        <li class=" common dot">行政部<span class="count">(111)</span></li>
-                        <li class=" common dot">行政部<span class="count">(111)</span></li>
-                        <li class=" common dot">行政部<span class="count">(111)</span></li>
-                        <li class=" common dot">行政部<span class="count">(111)</span>
-                            <ul class="common-list-item">
-                                <li class="common dot">一部<span class="count">(111)</span></li>
-                                <li class="common dot">一部<span class="count">(111)</span></li>
-                                <li class="common dot">一部<span class="count">(111)</span></li>
-                            </ul>
-                        </li>
-                    </ul>
+               <ul class="list " v-show="companies" >
+                   <!--<li class="guangzhou common L">广州分公司<span class="count">(111)</span></li>-->
+                   <li class="shanghai common L" v-for="(company, index) in companies" @click="collapse(index, $event)">{{company.company}}<span class="count">(111)</span>
+                    <template>
+                        <ul class="common-list " v-for="department in company.department">
+                            <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
+                            <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
+                            <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
+                            <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
+                            <li class=" common dot">{{department.name}}<span class="count">(111)</span>
+                                <ul class="common-list-item">
+                                    <li class="common dot" v-for="childDepartment in department.child_department">{{childDepartment}}<span class="count">(111)</span></li>
+                                    <!--<li class="common dot">一部<span class="count">(111)</span></li>-->
+                                    <!--<li class="common dot">一部<span class="count">(111)</span></li>-->
+                                </ul>
+                            </li>
+                        </ul>
+                    </template>
                    </li>
                </ul>
            </div>
@@ -160,6 +162,8 @@
     export default {
         data() {
             return {
+                show: '',
+                companies: '',
                 currentPage3: 1,
                 tableData: [{
                     date: '研发部',
@@ -221,6 +225,16 @@
                 ]
             }
         },
+        created() {
+           let self = this
+            self.$axios.get('/ifdp/companies')
+              .then( res => {
+                  self.companies = res.data.data
+              })
+              .catch( res=> {
+                  console.log('请求公司数据超时')
+              })
+        },
         methods: {
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
@@ -230,6 +244,13 @@
             },
             handleAdd(tt) {
                 this.$router.push(tt);
+            },
+            collapse(e) {
+                console.log(e)
+                var reg = /L/
+                if (reg.test(e.target.className)) {
+                    console.log('L')
+                }
             }
         },
         components: {
@@ -247,10 +268,10 @@
    padding-left: 10px;
 }
 .framework-content-wrapper{
-    padding:27px 0 16px 20px ;
+    padding:29px 0 16px 20px ;
 }
 .framework-content-wrapper .framework-content{
-    margin-top: 27px;
+    margin-top: 29px;
     display: flex;
 }
 .framework-content .content-left{
@@ -294,6 +315,7 @@
     line-height: 14px;
     margin-bottom: 20px;
     margin-right: 4px;
+    cursor: pointer;
 }
 .content-left ul>li:first-child{
     margin-top: 20px;

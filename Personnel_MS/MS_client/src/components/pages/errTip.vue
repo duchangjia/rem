@@ -17,6 +17,16 @@
 <script>
 	import Bus from '../../common/Bus'
 	export default {
+	    props: {
+	        title: {
+	            require: true,
+				default: ''
+			},
+            content: {
+                require: true,
+                default: ''
+            }
+		},
 		data() {
 			return {
 				errflag: true,
@@ -32,7 +42,7 @@
 				if(msg !== ''){
 					this.errmessage = msg;
 				}
-				
+
 			})
 		},
 	    methods: {
@@ -46,11 +56,13 @@
 
 <style scoped>
 	.errmessage-wrap {
-		position: absolute;
+		position: fixed;
 		left: 0;
 		top: 0;
-		width: 100%;
-		height: 100%;
+		right: 0;
+		bottom:0;
+		/*width: 100%;*/
+		/*height: 100%;*/
 		background: rgba(0,0,0,0.5);
 	}
 	.errmessage-wrap .hidden{
@@ -58,7 +70,8 @@
 	}
 	.errmessage{
 		position: absolute;
-		left: 27%;
+		left: 50%;
+		transform: translate3d(-50%,0,0);
 		top: 43%;
 		width: 640px;
 		background: #ffffff;

@@ -117,12 +117,13 @@
 
 <style scoped>
 .edit-wrapper{
-    padding:27px 0 16px 20px ;
+    padding:29px 0 16px 20px ;
 }
 .edit-wrapper .test{
     padding-left: 10px;
 }
 .person-content{
+    margin-top: 29px;
     background: #fff;
     padding-left: 20px;
     padding-right: 20px;

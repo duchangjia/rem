@@ -2,11 +2,17 @@ package com.omcube.model.po;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+
 public class BasicPO {
 	
-    private String status;
-    private Date createdDate;
-    private Date updatedDate;
+    private String status; 
+    private Date createdDate;  
+    private Date updatedDate;  
     private String createdBy;
     private String updatedBy;
     private String uId;//租户id
@@ -58,5 +64,6 @@ public class BasicPO {
 	public void setuId(String uId) {
 		this.uId = uId;
 	}
-
 }
+
+

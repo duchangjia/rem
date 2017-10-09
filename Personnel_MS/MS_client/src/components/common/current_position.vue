@@ -77,7 +77,6 @@
 
               this.link = _link
               this.breadItemLength = _link.length
-//            console.log(_link, this.breadItemLength)
               return this.link
           }
         },
