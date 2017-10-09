@@ -9,12 +9,12 @@
                    <li class="shanghai common L" v-for="(company, $index) in companies" @click.stop="collapse($index, $event, null)" :class="`L${$index}`">{{company.company}}<span class="count">(111)</span>
                     <!--<template>-->
                     <!--<transition-group name="fade">-->
-                        <ul class="common-list " v-for="(department, index) in company.department">
+                        <ul class="common-list">
                             <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
                             <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
                             <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
                             <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
-                            <li class="common dot X" @click.stop="collapse(index, $event, $index)" :class="`X${index}`">{{department.name || '你好'}}<span class="count">(111)</span>
+                            <li class="common dot X" v-for="(department, index) in company.department" @click.stop="collapse(index, $event, $index)" :class="`X${index}`">{{department.name || '你好'}}<span class="count">(111)</span>
                                 <ul class="common-list-item">
                                     <li class="common dot" v-for="childDepartment in department.child_department">{{childDepartment}}<span class="count">(111)</span></li>
                                     <!--<li class="common dot">一部<span class="count">(111)</span></li>-->
@@ -248,6 +248,39 @@
                   console.log('请求公司数据超时')
               })
         },
+        beforeMount() {
+//            self.$nextTick(function () {
+//                console.log(111,_$('.L1>ul'))
+//                _$('.L1>ul').slideUp(0)
+//            })
+            let self = this
+            for (let index=0;index<5;index++) {
+                var str = ($('.L'+index+'>ul')[0])
+                if (str && index!=0) {
+                    setTimeout(function () {
+                        $('.L'+index+'>ul').slideUp(0)
+                    },200)
+                }
+            }
+           setTimeout(function () {
+               self.content.title = $('.L0 .X0')[0].childNodes[0].nodeValue
+               $('.L0 .X0').addClass('active')
+               $('.L0').addClass('active')
+               self.content.super = $('.L0')[0].childNodes[0].nodeValue
+               self.tableData = []
+               var lenght = $('.L0 .X0 li').length
+               for (let i=0;i<lenght;i++) {
+                   var dep = $('.L0 .X0 li')[i].childNodes[0].nodeValue
+                   var obj = {
+                       dep: dep,
+                       name: '方清丽',
+                       state: '正常',
+                       type: '三级部门'
+                   }
+                   self.tableData.push(obj)
+               }
+           },200)
+        },
         methods: {
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
@@ -259,7 +292,7 @@
                 this.$router.push(tt);
             },
             collapse(index, e, parent) {
-                var _self = this
+                let _self = this
 //                console.log(index)
 //                console.log(parent)
 //                console.log(e)
@@ -268,15 +301,21 @@
                 var reg1 = /X/
                 if (reg.test(e.target.className)) {
                     $('.L'+ index + ' >ul').slideToggle('slow')
+                    $('.L'+ index).addClass('active')
+                    $('.L'+ index).siblings().removeClass('active')
                 }
                 if (reg1.test(e.target.className) && parent!==null) {
                     _self.tableData = []
 //                    console.log($('.L'+ parent+' .X'+ index)[0].childNodes[0].nodeValue)
                     _self.content.title = $('.L'+ parent+' .X'+ index)[0].childNodes[0].nodeValue
+                    $('.L'+ parent+' .X'+ index).addClass('active')
+                    $('.L'+ parent+' .X'+ index).parents('.L').addClass('active')
+                    $('.L'+ parent+' .X'+ index).siblings().removeClass('active')
+                    $('.L'+ parent+' .X'+ index).parents('.L').siblings().removeClass('active')
+                    $('.L'+ parent+' .X'+ index).parents('.L').siblings().find('.common-list>li').removeClass('active')
                    var str = $('.L'+ parent+' .X'+ index).parents('.L' + parent)[0].childNodes[0].nodeValue
                     _self.content.super = str
                    var lenght = $('.L'+ parent+' .X'+ index + ' >ul>li').length
-                    console.log(lenght)
                     for (let i=0;i<lenght;i++) {
                        var dep = $('.L'+ parent+' .X'+ index + ' >ul>li')[i].childNodes[0].nodeValue
                        var obj = {
@@ -457,6 +496,9 @@ ul, li{
     line-height: 14px;
     text-indent: 1em;
     margin-bottom: 20px;
+}
+.active{
+    color: orange !important;
 }
 /*.fade-enter-active, .fade-leave-active {*/
     /*transition: all .5s*/
