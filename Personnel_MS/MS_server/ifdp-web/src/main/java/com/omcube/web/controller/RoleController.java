@@ -1,4 +1,4 @@
-package com.omcube.controller;
+package com.omcube.web.controller;
 
 import java.util.List;
 import org.apache.commons.logging.Log;

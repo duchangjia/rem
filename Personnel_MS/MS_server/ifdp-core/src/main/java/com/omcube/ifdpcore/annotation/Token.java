@@ -1,4 +1,4 @@
-package com.omcube.annotation;
+package com.omcube.ifdpcore.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

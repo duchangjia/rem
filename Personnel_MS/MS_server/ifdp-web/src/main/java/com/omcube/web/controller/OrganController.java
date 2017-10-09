@@ -1,4 +1,4 @@
-package com.omcube.controller;
+package com.omcube.web.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ import com.omcube.model.po.OrganTree;
 import com.omcube.model.po.SysOrganPO;
 import com.omcube.model.po.SysUserPO;
 import com.omcube.service.OrganService;
-import com.omcube.serviceImpl.OrganServiceImpl;
+import com.omcube.service.impl.OrganServiceImpl;
 import com.omcube.util.ErrorCodeConstantUtil;
 import com.omcube.util.JSONResultUtil;
 import com.omcube.util.SpringUtil;

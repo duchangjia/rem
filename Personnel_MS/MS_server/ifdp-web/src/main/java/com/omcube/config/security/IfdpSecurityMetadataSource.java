@@ -1,4 +1,4 @@
-package com.omcube.security;
+package com.omcube.config.security;
 
 import com.omcube.model.mapper.SysBusinessMapper;
 import com.omcube.model.po.SysBusinessPO;

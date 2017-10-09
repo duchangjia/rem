@@ -1,4 +1,4 @@
-package com.omcube.security;
+package com.omcube.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
