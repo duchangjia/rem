@@ -6,24 +6,24 @@
 				<span class="title-text">用户信息</span>
 				<div class="btn-wrap">
 					<el-button type="primary" class="reset" @click="passreset()">密码重置</el-button>
-					<el-button type="primary" class="conserve" @click="conserve('userMsg')">保存</el-button>
+					<el-button type="primary" class="conserve" @click="conserve('operatorDetail')">保存</el-button>
 				</div>
 			</div>
 			<div class="content-inner">
-				<el-form :inline="true" :model="userMsg" :rules="rules" ref="userMsg" label-width="80px">
+				<el-form :inline="true" :model="operatorDetail" :rules="rules" ref="operatorDetail" label-width="80px">
 					<el-col :span="12">
 						<el-form-item label="姓名" prop="userName">
-							<el-input v-model="userMsg.userName"></el-input>
+							<el-input v-model="operatorDetail.userName"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="工号" prop="userNo">
-							<el-input v-model="userMsg.userNo" :disabled="true"></el-input>
+							<el-input v-model="operatorDetail.userNo" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="所属公司" prop="compName">
-							<el-select v-model="userMsg.compName" placeholder="所属公司">
+							<el-select v-model="operatorDetail.compName" placeholder="所属公司">
 								<el-option label="上海" value="0"></el-option>
 								<el-option label="深圳" value="1"></el-option>
 							</el-select>
@@ -31,7 +31,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="所属部门" prop="departName">
-							<el-select v-model="userMsg.departName" placeholder="所属部门">
+							<el-select v-model="operatorDetail.departName" placeholder="所属部门">
 								<el-option label="行政部" value="0"></el-option>
 								<el-option label="财务部" value="1"></el-option>
 							</el-select>
@@ -39,7 +39,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="角色" prop="roleName">
-							<el-select v-model="userMsg.roleName" class="bg-white">
+							<el-select v-model="operatorDetail.roleName" class="bg-white">
 								<el-option label="行政经理" value="01"></el-option>
 								<el-option label="财务经理" value="02"></el-option>
 							</el-select>
@@ -47,7 +47,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="状态" prop="status">
-							<el-select v-model="userMsg.status" class="bg-white">
+							<el-select v-model="operatorDetail.status" class="bg-white">
 								<el-option label="正常" value="1" checked></el-option>
 								<el-option label="停用" value="0"></el-option>
 								<el-option label="锁定" value="2"></el-option>
@@ -56,22 +56,22 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="手机" prop="mobile">
-							<el-input v-model="userMsg.mobile" :disabled="true"></el-input>
+							<el-input v-model="operatorDetail.mobile" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="邮箱" prop="email">
-							<el-input v-model="userMsg.email" :disabled="true"></el-input>
+							<el-input v-model="operatorDetail.email" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="身份证" prop="certNo">
-							<el-input v-model="userMsg.certNo" :disabled="true"></el-input>
+							<el-input v-model="operatorDetail.certNo" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="备注" prop="remark">
-							<el-input v-model="userMsg.remark" class="bg-white"></el-input>
+							<el-input v-model="operatorDetail.remark" class="bg-white"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-form>
@@ -86,7 +86,7 @@
 	export default {
 		data() {
 			return {
-				userMsg: {
+				operatorDetail: {
 					userName: '1',
 					userNo: '1',
 					compName: '1',
@@ -114,14 +114,14 @@
 			current
 		},
 		created(){
-//			this.userMsg = this.$route.query;
+//			this.operatorDetail = this.$route.query;
 			const self = this;
 			let params = {
 				user: localStorage.getItem('user')
 			};
 			self.$axios.get('ifdp/queryOperatorDetail',params)
 			.then(function(res){
-				self.userMsg = res.data.data;
+				self.operatorDetail = res.data.data;
 			})
 		},
 		methods: {
@@ -136,11 +136,13 @@
 		            	type: 'success',
 		            	message: '密码重置成功!请查看邮箱。'
 		          	});
+		          	//更多操作
+		          	
 		        }).catch(() => {
-//		          	this.$message({
-//		            	type: 'info',
-//		            	message: '已取消操作'
-//		          	});          
+		          	this.$message({
+		            	type: 'info',
+		            	message: '已取消操作'
+		          	});          
 		        });
 
 			},
@@ -150,9 +152,9 @@
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
 						let params ={
-							userNo: self.userMsg.userNo,
-							roleNo: self.userMsg.roleNo,
-							status: self.userMsg.status
+							userNo: self.operatorDetail.userNo,
+							roleNo: self.operatorDetail.roleNo,
+							status: self.operatorDetail.status
 						}
 						self.$axios.put('/ifdp/modifyOperatorInfo',params)
 						.then(function(res){
