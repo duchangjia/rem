@@ -5,14 +5,7 @@
            maxEntriesLocalHeap="200"
            timeToLiveSeconds="600">
     </cache>
-<<<<<<< HEAD
-	
-	<cache name="organs"
-           maxEntriesLocalHeap="200"
-           timeToLiveSeconds="600">
-    </cache>
-	
-=======
+
      <cache name="taxRateGroupes"
            maxEntriesLocalHeap="200"
            timeToLiveSeconds="600">
@@ -32,6 +25,4 @@
            timeToLiveSeconds="600">
     </cache>
 
-
->>>>>>> ca72b5a0eafc6f3b64cd0d0a79b8f64470e99e18
 </ehcache>
