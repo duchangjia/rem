@@ -345,5 +345,23 @@
         "updateDate": "2017-10-09 00:00:00"
       }
     ]
+  },
+  "queryRoleDetail": {
+    "roleNo": "005",
+    "roleName": "人事",
+    "roleDescr": "我是描述是描述是描述是描述是描述",
+    "status": "启动",
+    "roleFuncInfo": [
+      {
+        "bsnNo": "678578",
+        "bsnStatus": "1",
+        "remark": "备注是啥"
+      },
+      {
+        "bsnNo": "234332",
+        "bsnStatus": "0",
+        "remark": "备注是啥就是啥"
+      }
+    ]
   }
 }
