@@ -26,7 +26,7 @@ import com.omcube.util.JSONResultUtil;
 import com.omcube.util.SpringUtil;
 
 @RestController
-@RequestMapping(value = "/organ")
+@RequestMapping(value = "/iem/organ")
 
 public class OrganController {
 	
@@ -42,14 +42,14 @@ public class OrganController {
 	
 		/**
 		 * 1.获取总公司及其所有下属机构
-		 * @param organ_no
+		 * @param organNo
 		 * @return
 		 */
-		@RequestMapping(value = "/queryOrganTreeList/{organ_no}", method = RequestMethod.GET)
+		@RequestMapping(value = "/queryOrganList/{organNo}", method = RequestMethod.GET)
 	    
-	    public Object queryOrganTreeList(@PathVariable String organ_no) {
+	    public Object queryOrganTreeList(@PathVariable String organNo) {
 	   	
-	    	List<OrganTree> organTreeList = sysOrganMapper.queryOrganTreeList(organ_no);	    	
+	    	List<OrganTree> organTreeList = sysOrganMapper.queryOrganList(organNo);	    	
 	    	return JSONResultUtil.setSuccess(organTreeList);    
 	    
 	    }
@@ -59,11 +59,11 @@ public class OrganController {
 		 * @param organ_no
 		 * @return
 		 */
-	    @RequestMapping(value = "/queryParentOrgan/{organ_no}", method = RequestMethod.GET)
+	    @RequestMapping(value = "/queryParentOrgan/{organNo}", method = RequestMethod.GET)
 	        
-	    public Object queryParentOrgan(@PathVariable String organ_no ){
+	    public Object queryParentOrgan(@PathVariable String organNo ){
 	    		
-	    	SysOrganPO sysOrganPO = sysOrganMapper.queryParentOrgan(organ_no);
+	    	SysOrganPO sysOrganPO = sysOrganMapper.queryParentOrgan(organNo);
 	    	
 	        return JSONResultUtil.setSuccess(sysOrganPO);
 	    	    
@@ -74,15 +74,15 @@ public class OrganController {
 	     * @param organ_no
 	     * @return
 	     */
-	    @RequestMapping(value = "/queryChildOrgan/{organ_no}", method = RequestMethod.GET)
+	    @RequestMapping(value = "/queryChildOrgan/{organNo}", method = RequestMethod.GET)
         
-	    public Object queryChildOrgan(HttpServletRequest request, Integer pageNum, Integer pageSize ,@PathVariable String organ_no ){
+	    public Object queryChildOrgan(HttpServletRequest request, Integer pageNum, Integer pageSize ,@PathVariable String organNo ){
 	
 	    	pageNum = pageNum == null ? 1 : pageNum;
 			pageSize = pageSize == null ? 3 : pageSize;
 	        PageHelper.startPage(pageNum, pageSize,true);
 	        
-	        List<SysOrganPO> list = sysOrganMapper.queryChildOrgan(organ_no);
+	        List<SysOrganPO> list = sysOrganMapper.queryChildOrgan(organNo);
 	        PageInfo<SysOrganPO> pageInfo = new PageInfo<SysOrganPO>(list);		
 	        return JSONResultUtil.setSuccess(pageInfo);
 	    	   	
@@ -94,15 +94,15 @@ public class OrganController {
 	     * @return
 	     */
 	    
-	    @RequestMapping(value = "/queryOrganUser/{organ_no}", method = RequestMethod.GET)
+	    @RequestMapping(value = "/queryOrganMember/{organNo}", method = RequestMethod.GET)
         
-	    public Object queryOrganUser(HttpServletRequest request, Integer pageNum, Integer pageSize,@PathVariable String organ_no ){
+	    public Object queryOrganMember(HttpServletRequest request, Integer pageNum, Integer pageSize,@PathVariable String organNo ){
 	    	  
 	    	pageNum = pageNum == null ? 1 : pageNum;
 			pageSize = pageSize == null ? 1 : pageSize;
 	        PageHelper.startPage(pageNum, pageSize,true);
 	    	
-	    	List<SysUserPO> list = sysOrganMapper.queryOrganUser(organ_no);
+	    	List<SysUserPO> list = sysOrganMapper.queryOrganMember(organNo);
 	    	PageInfo<SysUserPO> pageInfo = new PageInfo<SysUserPO>(list);	 
 	        
 	    	return JSONResultUtil.setSuccess(pageInfo);
@@ -114,11 +114,12 @@ public class OrganController {
 	     * @param organ_no
 	     * @return
 	     */
-	    @RequestMapping(value = "/deleteOrgan/{organ_no}", method = RequestMethod.GET)
+	    @RequestMapping(value = "/deleteOrganInfo/{organNo}", method = RequestMethod.GET)
         
-	    public Object deleteOrgan(@PathVariable String organ_no){
+	    public Object deleteOrganInfo(@PathVariable String organNo){
 	    	  	
-	    	sysOrganMapper.deleteOrgan(organ_no);
+	    	//删除机构还需确认机构下是否有子部门和人员,需作进一步判断
+	    	sysOrganMapper.deleteOrganInfo(organNo);
 	    	
 	    	return JSONResultUtil.setSuccess();
 	    	   	
@@ -129,9 +130,9 @@ public class OrganController {
 	     * @param organ_no
 	     * @return 
 	     */
-	    @RequestMapping(value = "/addOrganUser", method = RequestMethod.POST)
+	    @RequestMapping(value = "/addOrganMember", method = RequestMethod.POST)
         
-	    public Object addOrganUser(SysUserPO sysUserPO ){
+	    public Object addOrganMember(SysUserPO sysUserPO ){
 	 	    	
 	    	if(sysUserPO == null)
 	    	{
@@ -140,7 +141,7 @@ public class OrganController {
 	    	}
 	    	logger.info(String.format("the request body is %s:", sysUserPO.toString()));
 	    	
-	    	sysOrganMapper.addOrganUser(sysUserPO);
+	    	sysOrganMapper.addOrganMember(sysUserPO);
 	    	
 	    	return JSONResultUtil.setSuccess();
 	    	   	
@@ -149,16 +150,16 @@ public class OrganController {
 	   
 	
 	    /**
-	     * 7.删除机构人员
+	     * 7.根据机构人员编号-删除机构下的人员
 	     * @param organ_no
 	     * @return
 	     */
-	    @RequestMapping(value = "/deleteOrganUser/{userNo}", method = RequestMethod.GET)
+	    @RequestMapping(value = "/deleteOrganMember/{userNo}", method = RequestMethod.GET)
         
 	    public Object deleteOrganUser(@PathVariable String userNo ){
 	   
 	    	
-	    	sysOrganMapper.deleteOrganUser(userNo);
+	    	sysOrganMapper.deleteOrganMember(userNo);
 	    	
 	    	return JSONResultUtil.setSuccess();
 	    	   	
@@ -171,9 +172,8 @@ public class OrganController {
 	     * @param organ_no
 	     * @return
 	     */
-	    @RequestMapping(value = "/updateOrgan", method = RequestMethod.POST)
-        
-	    public Object updateOrgan(SysOrganPO sysOrganPO ){
+	    @RequestMapping(value = "/modifyOrganInfo", method = RequestMethod.PUT)
+	    public Object modifyOrganInfo(SysOrganPO sysOrganPO ){
 	    	
 	    	if(sysOrganPO == null)
 	    	{
@@ -182,7 +182,7 @@ public class OrganController {
 	    	}
 	    	logger.info(String.format("the request body is %s:", sysOrganPO.toString()));
 	    	
-	    	organService.updateOrgan(sysOrganPO);
+	    	organService.modifyOrganInfo(sysOrganPO);
 	    	
 	    	return JSONResultUtil.setSuccess();
 	    	   	
