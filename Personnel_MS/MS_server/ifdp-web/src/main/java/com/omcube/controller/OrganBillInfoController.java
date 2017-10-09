@@ -86,7 +86,7 @@ public class OrganBillInfoController {
 		return JSONResultUtil.setSuccess(pageInfo);
 	}
 
-	// 根据名称模糊查询
+	// 根据名称模糊查询开票信息
 	@RequestMapping(value = "/queryBillInfoByName/{uId}&{organName}", method = RequestMethod.GET)
 	@Cacheable
 	public Object queryBillInfoByName(@PathVariable String uId, @PathVariable String organName,
