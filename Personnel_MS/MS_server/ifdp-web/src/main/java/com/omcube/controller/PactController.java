@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.omcube.model.po.PactPO;
 import com.omcube.service.PactService;
 import com.omcube.util.JSONResultUtil;
+
 
 /**
  * 合同
@@ -26,7 +29,7 @@ public class PactController {
 	
 	//第一次页面显示
 	@RequestMapping(value = "/queryPact",method= RequestMethod.GET)
-	public Object queryPact(HttpServletRequest request, Integer pageNum, Integer pageSize, String derpNo,String custName,String pactType){
+	public Object queryPact(HttpServletRequest request, Integer pageNum, Integer pageSize ,@RequestParam String derpNo, @RequestParam String custName, String pactType){
 		pageNum = pageNum == null ? 1 :pageNum;
 		pageSize = pageSize == null ? 3 : pageSize;
 		PageHelper.startPage(pageNum, pageSize, true);
@@ -51,5 +54,10 @@ public class PactController {
 	@RequestMapping(value = "/queryPactRenew", method = RequestMethod.GET)
 	public Object queryPactRenew(@RequestParam String pactNo){
 		return JSONResultUtil.setSuccess(pactService.getPactRenewByPactNo(pactNo));
+	}
+	
+	//合同添加
+	public void addPact(PactPO pactPO){
+		pactService.addPact(pactPO);
 	}
 }

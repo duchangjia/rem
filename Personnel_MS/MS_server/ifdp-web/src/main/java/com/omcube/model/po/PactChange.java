@@ -17,9 +17,9 @@ public class PactChange {
 	private String attachm;
 	private String remark;
 	private String createdBy;
-	private String createdDate;
+	private Date createdDate;
 	private String updatedBy;
-	private String updatedDate;
+	private Date updatedDate;
 	public String getuId() {
 		return uId;
 	}
@@ -74,10 +74,10 @@ public class PactChange {
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
-	public String getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
-	public void setCreatedDate(String createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 	public String getUpdatedBy() {
@@ -86,10 +86,10 @@ public class PactChange {
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-	public String getUpdatedDate() {
+	public Date getUpdatedDate() {
 		return updatedDate;
 	}
-	public void setUpdatedDate(String updatedDate) {
+	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
 	}
 	

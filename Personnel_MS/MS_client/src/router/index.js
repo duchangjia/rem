@@ -4,6 +4,9 @@ import Router from 'vue-router';
 Vue.use(Router);
 
 export default new Router({
+    //     mode: 'history',
+    // hashbang: false,
+    //     history: true,
     routes: [
         {
             path: '/',
@@ -33,16 +36,44 @@ export default new Router({
             component: resolve => require(['../components/common/Home.vue'], resolve),
             children: [
                 {
-                    path: '/',
+                    path: '',
                     component: resolve => require(['../components/pages/home_page.vue'], resolve)
                 },
                 {
                     path: '/management_framework',
-                    component: resolve => require(['../components/pages/system_Mgmt/framework.vue'], resolve)
+                    component: resolve => require(['../components/pages/system_Mgmt/frame.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/system_Mgmt/framework.vue'], resolve)
+                        },
+                        {
+                            path: '/edit_department',
+                                component: resolve => require(['../components/pages/system_Mgmt/edit_department.vue'], resolve)
+                        },
+                        {
+                            path: '/add_person',
+                                component: resolve => require(['../components/pages/system_Mgmt/add_person.vue'], resolve)
+                        },
+                        {
+                            path: '/add_junior',
+                                component: resolve => require(['../components/pages/system_Mgmt/add_junior.vue'], resolve)
+                        }
+                    ]
                 },
                 {
                     path: '/management_user',
-                    component: resolve => require(['../components/pages/system_Mgmt/manage_user.vue'], resolve)
+                    component: resolve => require(['../components/pages/system_Mgmt/manage_user.vue'], resolve),
+                	children: [
+	                	{
+	                		path: '/',
+	                		component: resolve => require(['../components/pages/system_Mgmt/user-query.vue'], resolve)
+	                	},
+	                	{
+	                		path: '/user-info',
+	                		component: resolve => require(['../components/pages/system_Mgmt/user-info.vue'], resolve)
+	                	}
+                	]
                 },
                 {
                     path: '/management_role',
@@ -55,6 +86,10 @@ export default new Router({
                         {
                             path: '/add_role',
                             component: resolve => require(['../components/pages/system_Mgmt/add_role.vue'], resolve)
+                        },
+                        {
+                            path: '/edit_role',
+                            component: resolve => require(['../components/pages/system_Mgmt/edit_role.vue'], resolve)
                         }
                     ]
                 },
@@ -64,7 +99,17 @@ export default new Router({
                 },
                 {
                     path: '/management_fun',
-                    component: resolve => require(['../components/pages/system_Mgmt/manage_fun.vue'], resolve)
+                    component: resolve => require(['../components/pages/system_Mgmt/manage_fun.vue'], resolve),
+                	children: [
+	                	{
+	                		path: '/',
+	                		component: resolve => require(['../components/pages/system_Mgmt/fun.vue'], resolve)
+	                	},
+	                	{
+	                		path: '/edit_fun',
+	                		component: resolve => require(['../components/pages/system_Mgmt/edit_fun.vue'], resolve)
+	                	}
+                	]
                 },
                 {
                     path: '/argument_2',

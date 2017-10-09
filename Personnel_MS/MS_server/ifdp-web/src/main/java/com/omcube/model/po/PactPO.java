@@ -7,7 +7,8 @@ import java.util.Date;
  * @author Administrator
  *
  */
-public class PactPO extends BasicPO {
+public class PactPO {
+	private String uId;
 	private String pactNo;
 	private String paperPactNo;
 	private String pactName;
@@ -28,6 +29,10 @@ public class PactPO extends BasicPO {
 	private String autoudFlag;//是否自动更新标志
 	private String attachm;//附件
 	private String remark;//备注
+	private String greatedBy;
+	private Date greatedDate;
+	private String updatedBy;
+	private Date updatedDate;
 	public String getPactNo() {
 		return pactNo;
 	}
