@@ -244,11 +244,11 @@
 		background-color: #FF9900;
 		border-color: #FF9900;
 	}
-	.user-query .el-button:focus,
+	/*.user-query .el-button:focus,
 	.user-query .el-button:hover {
 	    border-color: #FF9900;
 	    opacity: 0.5;
-	}
+	}*/
 	/*.user-query .el-button.resetform:focus,
 	.user-query .el-button.resetform:hover {
 		color: #FF9900;

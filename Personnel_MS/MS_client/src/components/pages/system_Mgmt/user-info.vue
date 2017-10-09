@@ -259,10 +259,10 @@
 		height: 40px;
 	}
 	
-	.user-info .el-button:focus,
+	/*.user-info .el-button:focus,
 	.user-info .el-button:hover {
 		opacity: 0.5;
-	}
+	}*/
 	
 	.user-info .content-inner {
 		padding: 40px 0px;
