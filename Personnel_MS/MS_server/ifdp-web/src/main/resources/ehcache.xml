@@ -5,6 +5,11 @@
            maxEntriesLocalHeap="200"
            timeToLiveSeconds="600">
     </cache>
+    
+    <cache name="roles"
+           maxEntriesLocalHeap="200"
+           timeToLiveSeconds="600">
+    </cache>
 
 	<cache name="organBillInfoes"
            maxEntriesLocalHeap="200"
