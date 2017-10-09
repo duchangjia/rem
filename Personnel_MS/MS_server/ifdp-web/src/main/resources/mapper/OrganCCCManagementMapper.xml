@@ -2,50 +2,57 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-        
+
 <mapper namespace="com.omcube.model.mapper.OrganCCCManagementMapper">
-    <resultMap id="OrganCCCManagementMap" type="com.omcube.model.po.OrganCCCManagemenPO">
-    	<id column="UID" property="uid"></id>
-        <id column="ORGAN_NO" property="organNo"></id>
-        <result column="ORGAN_NO" property="organNo" javaType="java.lang.String"></result>
-        <result column="ORGAN_NAME" property="organName" javaType="java.lang.String"></result>
-        <result column="COST_TYPE" property="costType" javaType="java.lang.String"></result>
-        <result column="COST_CODE" property="costCode" javaType="java.lang.String"></result>
-        <result column="DESCR" property="descr" javaType="java.lang.String"></result>
-        
-        <result column="ORGAN_LEVEL" property="organLevel" javaType="java.lang.String"/>
-        <result column="CREATED_BY" property="createBy" javaType="java.lang.String"/>
-        <result column="CREATED_DATE" property="createDate" javaType="java.util.Date"/>
-        <result column="UPDATED_BY" property="updateBy" javaType="java.lang.String"/>
-        <result column="UPDATED_DATE" property="updateDate" javaType="java.util.Date"/>
-        
-    </resultMap>
-    
-    <select id="queryOrganCCCManagements" resultMap="OrganCCCManagementMap">       
-    	select sob.ORGAN_NO,sob.ORGAN_NAME,edc.COST_TYPE,edc.COST_CODE,edc.DESCR from SYS_ORGAN_BASE sob,EP_DEPT_CCC edc
+	<resultMap id="OrganCCCManagementMap" type="com.omcube.model.po.OrganCCCManagemenPO">
+		<id column="UID" property="uid"></id>
+		<id column="ORGAN_NO" property="organNo"></id>
+		<result column="ORGAN_NO" property="organNo" javaType="java.lang.String"></result>
+		<result column="ORGAN_NAME" property="organName" javaType="java.lang.String"></result>
+		<result column="COST_TYPE" property="costType" javaType="java.lang.String"></result>
+		<result column="COST_CODE" property="costCode" javaType="java.lang.String"></result>
+		<result column="DESCR" property="descr" javaType="java.lang.String"></result>
+
+		<result column="ORGAN_LEVEL" property="organLevel" javaType="java.lang.String" />
+		<result column="CREATED_BY" property="createBy" javaType="java.lang.String" />
+		<result column="CREATED_DATE" property="createDate" javaType="java.util.Date" />
+		<result column="UPDATED_BY" property="updateBy" javaType="java.lang.String" />
+		<result column="UPDATED_DATE" property="updateDate" javaType="java.util.Date" />
+
+	</resultMap>
+
+	<select id="queryOrganCCCManagements" resultMap="OrganCCCManagementMap">
+		select
+		sob.ORGAN_NO,sob.ORGAN_NAME,edc.COST_TYPE,edc.COST_CODE,edc.DESCR from
+		SYS_ORGAN_BASE sob,EP_DEPT_CCC edc
 		<where>
-			
-			sob.ORGAN_NO=edc.ORGAN_NO 
+
+			sob.ORGAN_NO=edc.ORGAN_NO
 			and sob.uid=edc.uid
-		</where> 
-    </select>
-    
-    <insert id="insertOrganCCCManagement" parameterType="com.omcube.model.po.OrganCCCManagemenPO" >
-    	insert into IFDP_SYS_ORGAN_BASE (UID,ORGAN_NO,ORGAN_NAME,ORGAN_TYPE,ORGAN_STATUS,ORGAN_LEVEL,
-    	CREATED_BY,CREATED_DATE,UPDATED_BY,UPDATED_DATE) values(#{uid},#{organNo},#{organName},
-    	#{organType},#{status},#{organLevel},#{createBy},#{createDate},#{updateBy},#{updateDate})
-    </insert>
-    <insert id="insertOrganCCCManagement1" parameterType="com.omcube.model.po.OrganCCCManagemenPO" >
-    	insert into EP_DEPT_CCC (UID,ORGAN_NO,COST_TYPE,COST_CODE,DESCR)
-    	values (#{uid},#{organNo},#{costType},#{costCode},#{descr})
-    </insert>
-    
-    <update id="updateOrganCCCManagement" parameterType="com.omcube.model.po.OrganCCCManagemenPO"  >
-    	update IFDP_SYS_ORGAN_BASE set organ_name=#{organName} where organ_no=#{organNo}
-    </update>
-    <update id="updateOrganCCCManagement1" parameterType="com.omcube.model.po.OrganCCCManagemenPO"  >
-    	update EP_DEPT_CCC set cost_type=#{costType},cost_code=#{costCode},descr=#{descr} where organ_no=#{organNo}
-    </update>
-    
-    
+		</where>
+	</select>
+
+	<insert id="insertOrganCCCManagement" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
+		insert into IFDP_SYS_ORGAN_BASE
+		(UID,ORGAN_NO,ORGAN_NAME,ORGAN_TYPE,ORGAN_STATUS,ORGAN_LEVEL,
+		CREATED_BY,CREATED_DATE,UPDATED_BY,UPDATED_DATE)
+		values(#{uid},#{organNo},#{organName},
+		#{organType},#{status},#{organLevel},#{createBy},#{createDate},#{updateBy},#{updateDate})
+	</insert>
+	<insert id="insertOrganCCCManagement1" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
+		insert into EP_DEPT_CCC (UID,ORGAN_NO,COST_TYPE,COST_CODE,DESCR)
+		values (#{uid},#{organNo},#{costType},#{costCode},#{descr})
+	</insert>
+
+	<update id="updateOrganCCCManagement" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
+		update IFDP_SYS_ORGAN_BASE set organ_name=#{organName} where
+		organ_no=#{organNo}
+	</update>
+	<update id="updateOrganCCCManagement1" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
+		update EP_DEPT_CCC set
+		cost_type=#{costType},cost_code=#{costCode},descr=#{descr} where
+		organ_no=#{organNo}
+	</update>
+
+
 </mapper>
