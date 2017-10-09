@@ -11,25 +11,25 @@ import com.omcube.model.po.SysUserPO;
 @Mapper
 public interface SysOrganMapper {
 
-	List<OrganTree> queryOrganTreeList(String organ_no);
+	List<OrganTree> queryOrganList(String organNo);
 	
-	SysOrganPO queryParentOrgan(String organ_no);
+	SysOrganPO queryParentOrgan(String organNo);
 	
-	List<SysOrganPO> queryChildOrgan(String organ_no);
+	List<SysOrganPO> queryChildOrgan(String organNo);
 
-	List<SysUserPO> queryOrganUser(String organ_no);
+	List<SysUserPO> queryOrganMember(String organNo);
 
-	void deleteOrgan(String organ_no);
+	void deleteOrganInfo(String organNo);
 
-	void addOrganUser(SysUserPO sysUserPO);
+	void addOrganMember(SysUserPO sysUserPO);
 
-	void deleteOrganUser(String userNo);
+	void deleteOrganMember(String userNo);
 
 	List<String> queryAllChildrenOrganNoes(String organNo);
 	
-	void updateOrgan(SysOrganPO sysOrganPO);
+	void modifyOrgan(SysOrganPO sysOrganPO);
 	
-	void updateOrganDetail(SysOrganPO sysOrganPO);
+	void modifyOrganDetail(SysOrganPO sysOrganPO);
 
 	void addOrgan(SysOrganPO sysOrganPO);
 

@@ -31,7 +31,7 @@ public class UserControllerTest {
    // @Test
     public void queryUser() throws Exception
     {
-	String result = mockMvc.perform(get("/iem/user/queryUser")
+	String result = mockMvc.perform(get("/iem/organ/queryUser")
 		.param("pageNum", "1")
 		.param("pageSize", "10")
 		.param("organCompanyName", "魔方")

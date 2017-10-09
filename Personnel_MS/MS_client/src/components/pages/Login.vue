@@ -18,13 +18,13 @@
                             <el-input type="text" placeholder="请输入验证码" class="last-input"></el-input><span class="check-code">xxxx</span>
                         </div>
                         <div class="error" style="display: none">帐号或密码错</div>
-                        <button class="tijiao" @click="submitForm('ruleForm')">登录</button>
+                        <el-button class="tijiao" @click="submitForm('ruleForm')">登录</el-button>
                         <a class="text" href="#">忘记密码</a>
                     </el-form>
                     <div class="line1"></div>
                     <div class="line2"></div>
                     <div class="line3"></div>
-                    <errtip></errtip>
+                    <!--<errtip :title="title" :content="content" class="errtip" ref="errtip"></errtip>-->
                 </div>
             </div>
             <div class="bottom">
@@ -48,18 +48,18 @@
             <!--</el-form>-->
         <!--</div>-->
         </div>
+        <errtip></errtip>
         <!--<toast></toast>-->
     </div>
 </template>
 
 <script>
-//	import Bus from '../../common/Bus.js'
+	import Bus from '../../common/Bus.js'
 //	import Toast from '../common/Toast.vue';
 	import errtip from './errTip.vue'
     export default {
         data: function(){
             return {
-                title: '温馨提示',
                 fullscreenLoading: false,
                 ruleForm: {
                     username: '',
@@ -99,24 +99,30 @@
 //                            'http://10.0.0.6:3000/checkuser'
                             self.$axios.get('/ifdp/checkuser',data)
                                 .then( function (res) {
-                                    console.log(res)
                                     let result = res.data.data
-                                    console.log(data.username,result.username)
-                                    localStorage.setItem('ms_username',self.ruleForm.username);
-                            		self.$router.push('home');
-                                    if(data.username === result.username && data.password === result.password){
-
+//                                    data.username === result.username && data.password === result.password
+                                    if(true){
+                                        localStorage.setItem('ms_username',self.ruleForm.username);
+                                        self.fullscreenLoading = false
+                                        self.$router.push('home');
                                     }else{
                                         Bus.$emit('showErrTip',{content:'登录失败！帐号或密码错。',title:'温馨提示'});
+//                                        self.content = '登录失败！帐号或密码错'
+//                                        self.$refs.errtip.errflag = false
                                     }
                                 })
                                 .catch( function (res) {
                                     console.log('服务超时')
                                 })
-                            
                         },2000)
                     } else {
-//                        Bus.$emit('showErrTip',{content:'登录失败！请填写正确的账号和密码。',title:'温馨提示'});
+//                        self.content = '登录失败！请填写正确的账号和密码'
+//                        console.log(self.content,self.title,self.$refs.errtip)
+//                        self.$nextTick(function () {
+//                            self.$refs.errtip.errflag = false
+//                        })
+
+                        Bus.$emit('showErrTip',{content:'登录失败！请填写正确的账号和密码。',title:'温馨提示'});
 //                        this.$alert('请填写正确的账号和密码', '温馨提示', {
 //                            confirmButtonText: '确定',
 //                            callback: action => {
