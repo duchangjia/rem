@@ -366,4 +366,15 @@ export default {
     font-family: "PingFangSC-Regular";
     font-size: 16px;
 }
+
+.add-wrapper .func-permission .funcs-content .el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: #ff9900;
+    border-color: #ff8d00;
+}
+.add-wrapper .func-permission .funcs-content .el-checkbox__inner {
+    border-radius: 0;
+}
+.add-wrapper .func-permission .funcs-content .el-checkbox__inner:hover {
+    border-color: #ff8d00;
+}
 </style>
