@@ -1,4 +1,4 @@
-package com.omcube.service.tx;
+package com.omcube.service;
 
 import com.omcube.model.po.OrganCCCManagemenPO;
 

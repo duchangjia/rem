@@ -1,4 +1,4 @@
-package com.omcube.service.impl;
+package com.omcube.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.omcube.model.mapper.OrganCCCManagementMapper;
 import com.omcube.model.po.OrganCCCManagemenPO;
-import com.omcube.service.tx.OrganCCCManagementService;
+import com.omcube.service.OrganCCCManagementService;
 
 @Service
 public class OrganCCCManagementServiceImpl implements OrganCCCManagementService {
