@@ -1,46 +1,45 @@
 <template>
 	<div class="user-info">
 		<current yiji="系统管理" erji="用户管理" sanji="用户信息"></current>
-		<!--<span class="back" @click="back()"></span>-->
 		<div class="content">
 			<div class="title">
 				<span class="title-text">用户信息</span>
 				<div class="btn-wrap">
 					<el-button type="primary" class="reset" @click="passreset()">密码重置</el-button>
-					<el-button type="primary" class="conserve" @click="conserve('userMsg')">保存</el-button>
+					<el-button type="primary" class="conserve" @click="conserve('operatorDetail')">保存</el-button>
 				</div>
 			</div>
 			<div class="content-inner">
-				<el-form :inline="true" :model="userMsg" :rules="rules" ref="userMsg" label-width="80px">
+				<el-form :inline="true" :model="operatorDetail" :rules="rules" ref="operatorDetail" label-width="80px">
 					<el-col :span="12">
-						<el-form-item label="姓名" prop="name">
-							<el-input v-model="userMsg.name"></el-input>
+						<el-form-item label="姓名" prop="userName">
+							<el-input v-model="operatorDetail.userName"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="工号" prop="number">
-							<el-input v-model="userMsg.number" :disabled="true"></el-input>
+						<el-form-item label="工号" prop="userNo">
+							<el-input v-model="operatorDetail.userNo" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="所属公司" prop="company">
-							<el-select v-model="userMsg.company" placeholder="所属公司">
-								<el-option label="上海" value="shanghai"></el-option>
-								<el-option label="深圳" value="beijing"></el-option>
+						<el-form-item label="所属公司" prop="compName">
+							<el-select v-model="operatorDetail.compName" placeholder="所属公司">
+								<el-option label="上海" value="0"></el-option>
+								<el-option label="深圳" value="1"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="所属部门" prop="department">
-							<el-select v-model="userMsg.department" placeholder="所属部门">
-								<el-option label="行政部" value="xingzheng"></el-option>
-								<el-option label="财务部" value="caiwu"></el-option>
+						<el-form-item label="所属部门" prop="departName">
+							<el-select v-model="operatorDetail.departName" placeholder="所属部门">
+								<el-option label="行政部" value="0"></el-option>
+								<el-option label="财务部" value="1"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="角色" prop="role">
-							<el-select v-model="userMsg.role" class="bg-white">
+						<el-form-item label="角色" prop="roleName">
+							<el-select v-model="operatorDetail.roleName" class="bg-white">
 								<el-option label="行政经理" value="01"></el-option>
 								<el-option label="财务经理" value="02"></el-option>
 							</el-select>
@@ -48,31 +47,31 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="状态" prop="status">
-							<el-select v-model="userMsg.status" class="bg-white">
-								<el-option label="正常" value="00" checked></el-option>
-								<el-option label="已锁定" value="01"></el-option>
-								<el-option label="已注销" value="02"></el-option>
+							<el-select v-model="operatorDetail.status" class="bg-white">
+								<el-option label="正常" value="1" checked></el-option>
+								<el-option label="停用" value="0"></el-option>
+								<el-option label="锁定" value="2"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="手机" prop="phone">
-							<el-input v-model="userMsg.phone"></el-input>
+						<el-form-item label="手机" prop="mobile">
+							<el-input v-model="operatorDetail.mobile" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="邮箱" prop="email">
-							<el-input v-model="userMsg.email"></el-input>
+							<el-input v-model="operatorDetail.email" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="身份证" prop="idCard">
-							<el-input v-model="userMsg.idCard"></el-input>
+						<el-form-item label="身份证" prop="certNo">
+							<el-input v-model="operatorDetail.certNo" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="备注" prop="remark">
-							<el-input v-model="userMsg.remark" class="bg-white"></el-input>
+							<el-input v-model="operatorDetail.remark" class="bg-white"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-form>
@@ -82,24 +81,25 @@
 </template>
 
 <script>
+	import Bus from '../../../common/Bus.js'
 	import current from '../../common/current_position.vue'
 	export default {
 		data() {
 			return {
-				userMsg: {
-					name: '',
-					number: 'P00001',
-					company: '',
-					department: '',
-					role: '',
-					status: '',
-					phone: '123123123123',
-					email: '',
-					idCard: '54001111000002345',
-					remark: ''
+				operatorDetail: {
+					userName: '1',
+					userNo: '1',
+					compName: '1',
+					departName: '1',
+					roleName: '1',
+					status: '1',
+					mobile: '1',
+					email: '1',
+					certNo: '1',
+					remark: '1'
 				},
 				rules: {
-					name: [
+					userName: [
 			            { required: true, message: '请输入姓名', trigger: 'blur' },
 //			            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
 		          	],
@@ -113,20 +113,67 @@
 		components: {
 			current
 		},
+		created(){
+//			this.operatorDetail = this.$route.query;
+			const self = this;
+			let params = {
+				user: localStorage.getItem('user')
+			};
+			self.$axios.get('ifdp/queryOperatorDetail',params)
+			.then(function(res){
+				self.operatorDetail = res.data.data;
+			})
+		},
 		methods: {
-			//返回
-			back() {
-				this.$router.replace('management_user');
-			},
 			//密码重置
 			passreset() {
-				//this.$router.replace('modify_password');
+				this.$confirm('此操作后将无法找回原密码, 是否继续?', '提示', {
+		          	confirmButtonText: '确定',
+		          	cancelButtonText: '取消',
+		          	type: 'warning'
+		        }).then(() => {
+		          	this.$message({
+		            	type: 'success',
+		            	message: '密码重置成功!请查看邮箱。'
+		          	});
+		          	//更多操作
+		          	
+		        }).catch(() => {
+		          	this.$message({
+		            	type: 'info',
+		            	message: '已取消操作'
+		          	});          
+		        });
+
 			},
 			//保存
 			conserve(formName) {
+				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						alert('submit!');
+						let params ={
+							userNo: self.operatorDetail.userNo,
+							roleNo: self.operatorDetail.roleNo,
+							status: self.operatorDetail.status
+						}
+						self.$axios.put('/ifdp/modifyOperatorInfo',params)
+						.then(function(res){
+							console.log(res);
+							self.$alert('信息修改成功', '提示', {
+					          confirmButtonText: '确定',
+					          callback: action => {
+//					            self.$message({
+//					              type: 'info',
+//					              message: `action: ${ action }`
+//					            });
+					          }
+					        });
+
+						})
+						.catch(function(err){
+							console.log('error');
+						})
+						
 					} else {
 						console.log('error submit!!');
 						return false;

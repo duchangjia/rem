@@ -7,6 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +19,9 @@ import com.omcube.model.mapper.SysOrganMapper;
 import com.omcube.model.po.OrganTree;
 import com.omcube.model.po.SysOrganPO;
 import com.omcube.model.po.SysUserPO;
+import com.omcube.service.OrganService;
+import com.omcube.serviceImpl.OrganServiceImpl;
+import com.omcube.util.ErrorCodeConstantUtil;
 import com.omcube.util.JSONResultUtil;
 import com.omcube.util.SpringUtil;
 
@@ -32,37 +36,32 @@ public class OrganController {
 	@Autowired
     private SysOrganMapper sysOrganMapper;
 	
+	@Autowired
+	private OrganService organService;
+	
+	
 		/**
-		 * 1.获取总公司及其下属机构
+		 * 1.获取总公司及其所有下属机构
 		 * @param organ_no
 		 * @return
 		 */
-		@RequestMapping(value = "/queryOrganTreeList", method = RequestMethod.GET)
+		@RequestMapping(value = "/queryOrganTreeList/{organ_no}", method = RequestMethod.GET)
 	    
-	    public Object queryOrganTreeList( String organ_no) {
-	  
-	    	if (sysOrganMapper == null)
-	    	{
-	    		sysOrganMapper = SpringUtil.getBean(SysOrganMapper.class);
-	    	}    	
+	    public Object queryOrganTreeList(@PathVariable String organ_no) {
+	   	
 	    	List<OrganTree> organTreeList = sysOrganMapper.queryOrganTreeList(organ_no);	    	
 	    	return JSONResultUtil.setSuccess(organTreeList);    
 	    
 	    }
 		
 		/**
-		 * 2.查询上级机构信息
+		 * 2.查询当前机构、上级机构及机构详情信息
 		 * @param organ_no
 		 * @return
 		 */
-	    @RequestMapping(value = "/queryParentOrgan", method = RequestMethod.GET)
+	    @RequestMapping(value = "/queryParentOrgan/{organ_no}", method = RequestMethod.GET)
 	        
-	    public Object queryParentOrgan(String organ_no ){
-	    	  	
-	    	if (sysOrganMapper == null)
-	    	{
-	    		sysOrganMapper = SpringUtil.getBean(SysOrganMapper.class);
-	    	}
+	    public Object queryParentOrgan(@PathVariable String organ_no ){
 	    		
 	    	SysOrganPO sysOrganPO = sysOrganMapper.queryParentOrgan(organ_no);
 	    	
@@ -71,26 +70,20 @@ public class OrganController {
 	    }
 	        
 	    /**
-	     * 3.查询下级机构的信息
+	     * 3.查询当前机构、下级机构及机构详情信息
 	     * @param organ_no
 	     * @return
 	     */
-	    @RequestMapping(value = "/queryChildOrgan", method = RequestMethod.GET)
+	    @RequestMapping(value = "/queryChildOrgan/{organ_no}", method = RequestMethod.GET)
         
-	    public Object queryChildOrgan(HttpServletRequest request, Integer pageNum, Integer pageSize , String organ_no ){
-
-	    	if (sysOrganMapper == null)
-	    	{
-	    		sysOrganMapper = SpringUtil.getBean(SysOrganMapper.class);
-	    	}
-	    	    	
+	    public Object queryChildOrgan(HttpServletRequest request, Integer pageNum, Integer pageSize ,@PathVariable String organ_no ){
+	
 	    	pageNum = pageNum == null ? 1 : pageNum;
 			pageSize = pageSize == null ? 3 : pageSize;
 	        PageHelper.startPage(pageNum, pageSize,true);
 	        
 	        List<SysOrganPO> list = sysOrganMapper.queryChildOrgan(organ_no);
-	        PageInfo<SysOrganPO> pageInfo = new PageInfo<SysOrganPO>(list);	
-	    	
+	        PageInfo<SysOrganPO> pageInfo = new PageInfo<SysOrganPO>(list);		
 	        return JSONResultUtil.setSuccess(pageInfo);
 	    	   	
 	    }
@@ -101,15 +94,10 @@ public class OrganController {
 	     * @return
 	     */
 	    
-	    @RequestMapping(value = "/queryOrganUser", method = RequestMethod.GET)
+	    @RequestMapping(value = "/queryOrganUser/{organ_no}", method = RequestMethod.GET)
         
-	    public Object queryOrganUser(HttpServletRequest request, Integer pageNum, Integer pageSize,String organ_no ){
+	    public Object queryOrganUser(HttpServletRequest request, Integer pageNum, Integer pageSize,@PathVariable String organ_no ){
 	    	  
-	    	if (sysOrganMapper == null)
-	    	{
-	    		sysOrganMapper = SpringUtil.getBean(SysOrganMapper.class);
-	    	}
-	        	
 	    	pageNum = pageNum == null ? 1 : pageNum;
 			pageSize = pageSize == null ? 1 : pageSize;
 	        PageHelper.startPage(pageNum, pageSize,true);
@@ -126,37 +114,35 @@ public class OrganController {
 	     * @param organ_no
 	     * @return
 	     */
-	    @RequestMapping(value = "/deleteOrgan", method = RequestMethod.GET)
+	    @RequestMapping(value = "/deleteOrgan/{organ_no}", method = RequestMethod.GET)
         
-	    public Object deleteOrgan(@RequestParam String organ_no){
-	    	  
-	    	
-	    	if (sysOrganMapper == null)
-	    	{
-	    		sysOrganMapper = SpringUtil.getBean(SysOrganMapper.class);
-	    	}    	
+	    public Object deleteOrgan(@PathVariable String organ_no){
+	    	  	
 	    	sysOrganMapper.deleteOrgan(organ_no);
 	    	
-	    	return JSONResultUtil.setSuccess(null);
+	    	return JSONResultUtil.setSuccess();
 	    	   	
 	    }
 	    
 	    /**
-	     * 6.增加机构人员
+	     * 6.在当前机构下增加机构人员
 	     * @param organ_no
 	     * @return
 	     */
-	    @RequestMapping(value = "/addOrganUser", method = RequestMethod.GET)
+	    @RequestMapping(value = "/addOrganUser", method = RequestMethod.POST)
         
-	    public Object addOrganUser(@RequestParam SysUserPO sysUserPO ){
-	   
-	    	if (sysOrganMapper == null)
+	    public Object addOrganUser(SysUserPO sysUserPO ){
+	 	    	
+	    	if(sysUserPO == null)
 	    	{
-	    		sysOrganMapper = SpringUtil.getBean(SysOrganMapper.class);
-	    	}    	
+	    	    logger.error("the request body is null");
+	    	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
+	    	}
+	    	logger.info(String.format("the request body is %s:", sysUserPO.toString()));
+	    	
 	    	sysOrganMapper.addOrganUser(sysUserPO);
 	    	
-	    	return JSONResultUtil.setSuccess(null);
+	    	return JSONResultUtil.setSuccess();
 	    	   	
 	    }
 	    
@@ -167,43 +153,64 @@ public class OrganController {
 	     * @param organ_no
 	     * @return
 	     */
-	    @RequestMapping(value = "/deleteOrganUser", method = RequestMethod.GET)
+	    @RequestMapping(value = "/deleteOrganUser/{userNo}", method = RequestMethod.GET)
         
-	    public Object deleteOrganUser(String userNo ){
+	    public Object deleteOrganUser(@PathVariable String userNo ){
 	   
-	    	if (sysOrganMapper == null)
-	    	{
-	    		sysOrganMapper = SpringUtil.getBean(SysOrganMapper.class);
-	    	}    	
+	    	
 	    	sysOrganMapper.deleteOrganUser(userNo);
 	    	
-	    	return JSONResultUtil.setSuccess(null);
+	    	return JSONResultUtil.setSuccess();
 	    	   	
 	    }
 	    
 	    
 	    
 	    /**
-	     * 8.更新机构信息
+	     * 8.更新机构及机构详情信息
 	     * @param organ_no
 	     * @return
 	     */
-	    @RequestMapping(value = "/updateOrgan", method = RequestMethod.GET)
+	    @RequestMapping(value = "/updateOrgan", method = RequestMethod.POST)
         
-	    public Object updateOrgan(String organ_no ){
-	   
-	    	if (sysOrganMapper == null)
-	    	{
-	    		sysOrganMapper = SpringUtil.getBean(SysOrganMapper.class);
-	    	}    	
-	    	//sysOrganMapper.updateOrgan(organ_no);
+	    public Object updateOrgan(SysOrganPO sysOrganPO ){
 	    	
-	    	return JSONResultUtil.setSuccess(null);
+	    	if(sysOrganPO == null)
+	    	{
+	    	    logger.error("the request body is null");
+	    	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
+	    	}
+	    	logger.info(String.format("the request body is %s:", sysOrganPO.toString()));
+	    	
+	    	organService.updateOrgan(sysOrganPO);
+	    	
+	    	return JSONResultUtil.setSuccess();
 	    	   	
 	    }
 	    
 	    
 	    
+	    /**
+	     * 9.增加机构及机构详情信息
+	     * @param organ_no
+	     * @return
+	     */
+	    @RequestMapping(value = "/addOrgan", method = RequestMethod.POST)
+        
+	    public Object addOrgan(SysOrganPO sysOrganPO ){
+	   
+	    	if(sysOrganPO == null)
+	    	{
+	    	    logger.error("the request body is null");
+	    	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
+	    	}
+	    	logger.info(String.format("the request body is %s:", sysOrganPO.toString()));
+	    	
+	    	organService.addOrgan(sysOrganPO);
+	    	
+	    	return JSONResultUtil.setSuccess();
+	    	   	
+	    }
 	    
 	
 	
