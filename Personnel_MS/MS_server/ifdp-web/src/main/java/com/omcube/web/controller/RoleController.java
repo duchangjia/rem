@@ -1,4 +1,4 @@
-package com.omcube.controller;
+package com.omcube.web.controller;
 
 import java.util.List;
 import org.apache.commons.logging.Log;
@@ -62,10 +62,10 @@ public class RoleController {
 			pageNum = ConstantUtil.DEFAULT_PAGE_NUM;
 		}
 		if (pageSize <= 0) {
-			pageSize = ConstantUtil.DEFAULT_PAGE_SIZE;
+			pageSize = ConstantUtil.DEFAULT_PAGE_SEZE;
 		}
 		if (pageSize > 100) {
-			pageSize = ConstantUtil.DEFAULT_MAX_PAGE_SIZE;
+			pageSize = ConstantUtil.DEFAULT_MAX_PAGE_SEZE;
 		}
 
 		// 返回结果集
