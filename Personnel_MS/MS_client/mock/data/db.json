@@ -317,7 +317,7 @@
       {
         "roleNo": "003",
         "roleName": "出纳",
-        "roleDescr": "我是描述是描述是描述是描述是描述",
+        "roleDescr": "我是描述是描述是描述是描述",
         "status": "启动",
         "createdBy": "JINXIAO",
         "createdDate": "2017-09-13 00:00:00",
@@ -327,7 +327,7 @@
       {
         "roleNo": "004",
         "roleName": "系统管理员",
-        "roleDescr": "我是描述是描述是描述是描述是描述",
+        "roleDescr": "我是描述是描述是描述是描述",
         "status": "启动",
         "createdBy": "JINXIAO",
         "createdDate": "2017-09-13 00:00:00",
@@ -337,7 +337,7 @@
       {
         "roleNo": "005",
         "roleName": "人事",
-        "roleDescr": "我是描述是描述是描述是描述是描述",
+        "roleDescr": "我是描述是描述是描述是描述",
         "status": "启动",
         "createdBy": "JINXIAO",
         "createdDate": "2017-09-13 00:00:00",
@@ -349,7 +349,7 @@
   "queryRoleDetail": {
     "roleNo": "005",
     "roleName": "人事",
-    "roleDescr": "我是描述是描述是描述是描述是描述",
+    "roleDescr": "我是描述是描述是描述是描述",
     "status": "启动",
     "roleFuncInfo": [
       {

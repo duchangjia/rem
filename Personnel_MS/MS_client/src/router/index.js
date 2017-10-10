@@ -77,11 +77,11 @@ export default new Router({
                 },
                 {
                     path: '/management_role',
-                    component: resolve => require(['../components/pages/system_Mgmt/role.vue'], resolve),
+                    component: resolve => require(['../components/pages/system_Mgmt/manage_role.vue'], resolve),
                     children: [
                         {
                             path: '/',
-                            component: resolve => require(['../components/pages/system_Mgmt/manage_role.vue'], resolve)
+                            component: resolve => require(['../components/pages/system_Mgmt/query_role.vue'], resolve)
                         },
                         {
                             path: '/add_role',

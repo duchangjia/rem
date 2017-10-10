@@ -150,4 +150,8 @@ export default {
 .edit-wrapper .el-radio__inner:hover {
     border-color: #ff9900;
 }
+.el-select-dropdown__item.selected,
+.el-select-dropdown__item.selected.hover{
+    background-color: #ff9900;
+}
 </style>
