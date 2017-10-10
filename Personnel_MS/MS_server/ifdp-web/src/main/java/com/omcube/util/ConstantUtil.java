@@ -19,6 +19,6 @@ public class ConstantUtil {
     
     public static final String NAME_REG = "(([\u4E00-\u9FA5]{2,7})|([a-zA-Z]{3,10}))";
     
-    public static final int REMARK_MAX_LENGTH = 120;
+    public static final int REMARK_MAX_LENGTH = 60;
     
 }
