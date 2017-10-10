@@ -1,11 +1,5 @@
 package com.omcube.service.impl;
-<<<<<<< HEAD
 import java.util.List;
-=======
-
-import java.util.List;
-
->>>>>>> 61abdbb37d7f945cf990bb94e189f1dd43b2a935
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +8,6 @@ import com.omcube.model.po.OrganTree;
 import com.omcube.model.po.SysOrganPO;
 import com.omcube.model.po.SysUserPO;
 import com.omcube.service.OrganService;
-import com.omcube.util.SpringUtil;
 @Service
 public class OrganServiceImpl implements OrganService{
 	
@@ -95,19 +88,19 @@ public class OrganServiceImpl implements OrganService{
 
 
 	@Override
-<<<<<<< HEAD
+
 	public SysOrganPO queryCurrentOrgan(String organNo) {
 		
 		return sysOrganMapper.queryCurrentOrgan(organNo);
 	}
-=======
+
 	public List<String> queryAllChildrenOrganNoes(String organNo)
 	{
 	    return sysOrganMapper.queryAllChildrenOrganNoes(organNo);
 	}
 	
 	
->>>>>>> 61abdbb37d7f945cf990bb94e189f1dd43b2a935
+
 	
 	
 
