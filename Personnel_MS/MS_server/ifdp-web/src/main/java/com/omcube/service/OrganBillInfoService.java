@@ -32,5 +32,6 @@ public interface OrganBillInfoService {
 	 * @param organName
 	 * @return
 	 */
-	public List<EpOrganBillInfoPO> queryBillInfoByName(String uId, String organName);
+	public List<EpOrganBillInfoPO> queryBillInfoByName(EpOrganBillInfoPO billInfoPO);
+	
 }

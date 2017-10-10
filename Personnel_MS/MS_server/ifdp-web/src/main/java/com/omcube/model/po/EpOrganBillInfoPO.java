@@ -1,10 +1,7 @@
 package com.omcube.model.po;
 
-import java.util.Date;
+public class EpOrganBillInfoPO extends BasicPO{
 
-public class EpOrganBillInfoPO {
-
-	private String uId; // 租户id
 	private String organNo; // 机构号
 	private String organName; // 公司名称
 	private String organTaxNo; // 纳税人编号
@@ -12,10 +9,6 @@ public class EpOrganBillInfoPO {
 	private String organAcct; // 账号
 	private String organAcctname;// 账户名称
 	private String organAddr; // 地址
-	private Date createdDate;
-	private Date updatedDate;
-	private String createdBy;
-	private String updatedBy;
 
 	public EpOrganBillInfoPO() {
 		super();
@@ -75,46 +68,6 @@ public class EpOrganBillInfoPO {
 
 	public void setOrganAddr(String organAddr) {
 		this.organAddr = organAddr;
-	}
-
-	public String getuId() {
-		return uId;
-	}
-
-	public void setuId(String uId) {
-		this.uId = uId;
-	}
-
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Date getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(Date updatedDate) {
-		this.updatedDate = updatedDate;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getUpdatedBy() {
-		return updatedBy;
-	}
-
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy;
 	}
 
 }

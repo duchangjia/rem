@@ -24,7 +24,6 @@ import com.omcube.util.JSONResultUtil;
 
 public class OrganController {
 	
-	
 	protected final Log logger = LogFactory.getLog(getClass());
 	
 	@Autowired
