@@ -1,5 +1,5 @@
 {
-  "user":[
+  "user": [
     {
       "queryUser": {
         "code": "S00000",
@@ -26,128 +26,200 @@
     }
   ],
   "companies": [
-    {"company": "广州分公司",
+    {
+      "company": "广州分公司",
       "department": [
-        {"name": "行政部", "child_department": ["行政一部","行政二部","行政三部"]},
-        {"name": "财务部", "child_department": ["财务一部","财务二部","财务三部"]},
-        {"name": "产品研发部", "child_department": ["产品研发一部","产品研发二部","产品研发三部"]},
-        {"name": "系统设计部", "child_department": ["系统设计一部","系统设计二部","系统设计三部"]},
-        {"name": "互联网中心", "child_department": ["互联网中一心","互联网中二心","互联网中三心"]}
+        {
+          "name": "行政部",
+          "child_department": [
+            "行政一部",
+            "行政二部",
+            "行政三部"
+          ]
+        },
+        {
+          "name": "财务部",
+          "child_department": [
+            "财务一部",
+            "财务二部",
+            "财务三部"
+          ]
+        },
+        {
+          "name": "产品研发部",
+          "child_department": [
+            "产品研发一部",
+            "产品研发二部",
+            "产品研发三部"
+          ]
+        },
+        {
+          "name": "系统设计部",
+          "child_department": [
+            "系统设计一部",
+            "系统设计二部",
+            "系统设计三部"
+          ]
+        },
+        {
+          "name": "互联网中心",
+          "child_department": [
+            "互联网中一心",
+            "互联网中二心",
+            "互联网中三心"
+          ]
+        }
       ]
     },
-    {"company": "上海分公司",
+    {
+      "company": "上海分公司",
       "department": [
-        {"name": "行政部", "child_department": ["行政一部","行政二部","行政三部"]},
-        {"name": "财务部", "child_department": ["财务一部","财务二部","财务三部"]},
-        {"name": "产品研发部", "child_department": ["产品研发一部","产品研发二部","产品研发三部"]},
-        {"name": "系统设计部", "child_department": ["系统设计一部","系统设计二部","系统设计三部"]},
-        {"name": "互联网中心", "child_department": ["互联网中一心","互联网中二心","互联网中三心"]}
+        {
+          "name": "行政部",
+          "child_department": [
+            "行政一部",
+            "行政二部",
+            "行政三部"
+          ]
+        },
+        {
+          "name": "财务部",
+          "child_department": [
+            "财务一部",
+            "财务二部",
+            "财务三部"
+          ]
+        },
+        {
+          "name": "产品研发部",
+          "child_department": [
+            "产品研发一部",
+            "产品研发二部",
+            "产品研发三部"
+          ]
+        },
+        {
+          "name": "系统设计部",
+          "child_department": [
+            "系统设计一部",
+            "系统设计二部",
+            "系统设计三部"
+          ]
+        },
+        {
+          "name": "互联网中心",
+          "child_department": [
+            "互联网中一心",
+            "互联网中二心",
+            "互联网中三心"
+          ]
+        }
       ]
     }
   ],
-  "queryOperatorList":{
-  	"pageIndex": "1",
-  	"pageRows": "10",
-  	"pageCount": "100",
-  	"totalRows": "1000",
-  	"operatorListInfo":[{
-  		"userNo": "1",
-  		"userName": "小米",
-  		"certNo": "210001",
-  		"mobile": "123456",
-  		"email": "123@123.com",
-  		"compOrgNo": "100",
-  		"compName": "广州分公司",
-  		"departOrgNo": "1001",
-  		"departName": "行政部",
-  		"roleNo": "001",
-  		"roleName": "文员",
-  		"status": "正常",
-  		"remark": "备注"
-  	},
-  	{
-  		"userNo": "2",
-  		"userName": "小心",
-  		"certNo": "135134",
-  		"mobile": "654321",
-  		"email": "321@123.com",
-  		"compOrgNo": "200",
-  		"compName": "深圳分公司",
-  		"departOrgNo": "2002",
-  		"departName": "财务部",
-  		"roleNo": "角色编号",
-  		"roleName": "角色名称",
-  		"status": "正常",
-  		"remark": "备注"
-  	},
-  	{
-  		"userNo": "用户编号",
-  		"userName": "用户名",
-  		"certNo": "证件号",
-  		"mobile": "手机",
-  		"email": "邮箱",
-  		"compOrgNo": "所属公司机构号",
-  		"compName": "所属公司名称",
-  		"departOrgNo": "所属部门机构号",
-  		"departName": "所属部门名称",
-  		"roleNo": "角色编号",
-  		"roleName": "角色名称",
-  		"status": "状态",
-  		"remark": "备注"
-  	},
-  	{
-  		"userNo": "用户编号",
-  		"userName": "用户名",
-  		"certNo": "证件号",
-  		"mobile": "手机",
-  		"email": "邮箱",
-  		"compOrgNo": "所属公司机构号",
-  		"compName": "所属公司名称",
-  		"departOrgNo": "所属部门机构号",
-  		"departName": "所属部门名称",
-  		"roleNo": "角色编号",
-  		"roleName": "角色名称",
-  		"status": "状态",
-  		"remark": "备注"
-  	}
-  		
-  	]
+  "queryOperatorList": {
+    "pageIndex": "1",
+    "pageRows": "10",
+    "pageCount": "100",
+    "totalRows": "1000",
+    "operatorListInfo": [
+      {
+        "userNo": "1",
+        "userName": "小米",
+        "certNo": "210001",
+        "mobile": "123456",
+        "email": "123@123.com",
+        "compOrgNo": "100",
+        "compName": "广州分公司",
+        "departOrgNo": "1001",
+        "departName": "行政部",
+        "roleNo": "001",
+        "roleName": "文员",
+        "status": "正常",
+        "remark": "备注"
+      },
+      {
+        "userNo": "2",
+        "userName": "小心",
+        "certNo": "135134",
+        "mobile": "654321",
+        "email": "321@123.com",
+        "compOrgNo": "200",
+        "compName": "深圳分公司",
+        "departOrgNo": "2002",
+        "departName": "财务部",
+        "roleNo": "角色编号",
+        "roleName": "角色名称",
+        "status": "正常",
+        "remark": "备注"
+      },
+      {
+        "userNo": "用户编号",
+        "userName": "用户名",
+        "certNo": "证件号",
+        "mobile": "手机",
+        "email": "邮箱",
+        "compOrgNo": "所属公司机构号",
+        "compName": "所属公司名称",
+        "departOrgNo": "所属部门机构号",
+        "departName": "所属部门名称",
+        "roleNo": "角色编号",
+        "roleName": "角色名称",
+        "status": "状态",
+        "remark": "备注"
+      },
+      {
+        "userNo": "用户编号",
+        "userName": "用户名",
+        "certNo": "证件号",
+        "mobile": "手机",
+        "email": "邮箱",
+        "compOrgNo": "所属公司机构号",
+        "compName": "所属公司名称",
+        "departOrgNo": "所属部门机构号",
+        "departName": "所属部门名称",
+        "roleNo": "角色编号",
+        "roleName": "角色名称",
+        "status": "状态",
+        "remark": "备注"
+      }
+    ]
   },
-  "queryOperatorDetail":{
-  	"userNo": "用户编号",
-  	"userName": "用户名",
-  	"certNo": "证件号",
-  	"mobile": "12312131234",
-  	"email": "123@123.com",
-  	"compOrgNo": "所属公司机构号",
-  	"compName": "所属公司名称",
-  	"departOrgNo": "所属部门机构号",
-  	"departName": "所属部门名称",
-  	"roleNo": "角色编号",
-  	"roleName": "角色名称",
-  	"status": "状态",
-  	"remark": "备注",
-  	"createdBy": "创建人",
-  	"createdDate": "创建时间",
-  	"updateBy": "创建人",
-  	"updateDate": "创建时间"
+  "queryOperatorDetail": {
+    "userNo": "用户编号",
+    "userName": "用户名",
+    "certNo": "证件号",
+    "mobile": "12312131234",
+    "email": "123@123.com",
+    "compOrgNo": "所属公司机构号",
+    "compName": "所属公司名称",
+    "departOrgNo": "所属部门机构号",
+    "departName": "所属部门名称",
+    "roleNo": "角色编号",
+    "roleName": "角色名称",
+    "status": "状态",
+    "remark": "备注",
+    "createdBy": "创建人",
+    "createdDate": "创建时间",
+    "updateBy": "创建人",
+    "updateDate": "创建时间"
   },
-  "modifyOperatorInfo":{
-  	"userNo": "0001"
+  "modifyOperatorInfo": {
+    "userNo": "0001"
   },
-  "deleteOperatorInfo":{
-  	"userNo": "0002",
-  	"status": "0"
+  "deleteOperatorInfo": {
+    "userNo": "0002",
+    "status": "0"
   },
-  "lockUnlockOperator":{
-  	"userNo": "0001",
-  	"status": "2"
+  "lockUnlockOperator": {
+    "userNo": "0001",
+    "status": "2"
   },
-  "resetPassword":{
-  	"userNo": "0001"
+  "resetPassword": {
+    "userNo": "0001"
   },
-  "changePassword":{
-  	"userNo": "0001"
+  "changePassword": {
+    "userNo": "0001"
   },
   "checkuser": {
     "username": "cyj",
@@ -177,12 +249,12 @@
       "title": "表格",
       "subs": [
         {
-              "index": "/home/basetable",
-              "title": "基础表格"
+          "index": "/home/basetable",
+          "title": "基础表格"
         },
         {
-              "index": "/home/vuetable",
-              "title": "Vue表格组件"
+          "index": "/home/vuetable",
+          "title": "Vue表格组件"
         }
       ]
     },
@@ -192,20 +264,20 @@
       "title": "表单",
       "subs": [
         {
-              "index": "/home/baseform",
-              "title": "基本表单"
+          "index": "/home/baseform",
+          "title": "基本表单"
         },
         {
-              "index": "/home/vueeditor",
-              "title": "编辑器"
+          "index": "/home/vueeditor",
+          "title": "编辑器"
         },
         {
-              "index": "/home/markdown",
-              "title": "markdown"
+          "index": "/home/markdown",
+          "title": "markdown"
         },
         {
-              "index": "/home/upload",
-              "title": "文件上传"
+          "index": "/home/upload",
+          "title": "文件上传"
         }
       ]
     },
@@ -219,5 +291,77 @@
       "index": "/home/drag",
       "title": "拖拽"
     }
-  ]
+  ],
+  "queryRoleList": {
+    "roleListInfo": [
+      {
+        "roleNo": "001",
+        "roleName": "系统管理员",
+        "roleDescr": "我是描述是描述是描述是描述",
+        "status": "启动",
+        "createdBy": "JINXIAO",
+        "createdDate": "2017-09-13 00:00:00",
+        "updateBy": "aaa",
+        "updateDate": "2017-10-09 00:00:00"
+      },
+      {
+        "roleNo": "002",
+        "roleName": "经理",
+        "roleDescr": "我是描述是描述是描述是描述",
+        "status": "启动",
+        "createdBy": "JINXIAO",
+        "createdDate": "2017-09-13 00:00:00",
+        "updateBy": "aaa",
+        "updateDate": "2017-10-09 00:00:00"
+      },
+      {
+        "roleNo": "003",
+        "roleName": "出纳",
+        "roleDescr": "我是描述是描述是描述是描述是描述",
+        "status": "启动",
+        "createdBy": "JINXIAO",
+        "createdDate": "2017-09-13 00:00:00",
+        "updateBy": "aaa",
+        "updateDate": "2017-10-09 00:00:00"
+      },
+      {
+        "roleNo": "004",
+        "roleName": "系统管理员",
+        "roleDescr": "我是描述是描述是描述是描述是描述",
+        "status": "启动",
+        "createdBy": "JINXIAO",
+        "createdDate": "2017-09-13 00:00:00",
+        "updateBy": "aaa",
+        "updateDate": "2017-10-09 00:00:00"
+      },
+      {
+        "roleNo": "005",
+        "roleName": "人事",
+        "roleDescr": "我是描述是描述是描述是描述是描述",
+        "status": "启动",
+        "createdBy": "JINXIAO",
+        "createdDate": "2017-09-13 00:00:00",
+        "updateBy": "aaa",
+        "updateDate": "2017-10-09 00:00:00"
+      }
+    ]
+  },
+  "queryRoleDetail": {
+    "roleNo": "005",
+    "roleName": "人事",
+    "roleDescr": "我是描述是描述是描述是描述是描述",
+    "status": "启动",
+    "roleFuncInfo": [
+      {
+        "bsnNo": "678578",
+        "bsnStatus": "1",
+        "remark": "备注是啥"
+      },
+      {
+        "bsnNo": "234332",
+        "bsnStatus": "0",
+        "remark": "备注是啥就是啥"
+      }
+    ]
+  }
 }

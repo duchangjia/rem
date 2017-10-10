@@ -1,4 +1,4 @@
-package com.omcube.security;
+package com.omcube.config.security;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

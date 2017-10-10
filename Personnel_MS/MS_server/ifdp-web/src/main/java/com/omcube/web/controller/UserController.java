@@ -1,4 +1,4 @@
-package com.omcube.controller;
+package com.omcube.web.controller;
 
 import com.omcube.model.request.QueryUserRequest;
 import com.omcube.model.request.UpdateUserInfoRequest;
