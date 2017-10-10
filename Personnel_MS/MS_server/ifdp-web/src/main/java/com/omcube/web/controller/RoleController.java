@@ -32,7 +32,7 @@ import com.omcube.util.Result;
  */
 @RestController
 @RequestMapping(value = "iem/role")
-@CacheConfig(cacheNames = "roles")
+@CacheConfig(cacheNames = "queryCache")
 public class RoleController {
 
 	protected final Log logger = LogFactory.getLog(getClass());
