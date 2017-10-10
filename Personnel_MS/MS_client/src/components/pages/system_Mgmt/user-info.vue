@@ -206,7 +206,6 @@
 	.user-info .content {
 		width: 100%;
 		/*min-height: 530px;*/
-		/*height: calc(100% - 90px);*/
 		padding: 0px 20px;
 		background: #ffffff;
 		clear: both;

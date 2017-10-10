@@ -121,10 +121,10 @@
 		},
 		methods: {
 			handleOpen(key, keyPath) {
-				console.log(key, keyPath);
+//				console.log(key, keyPath);
 			},
 			handleClose(key, keyPath) {
-				console.log(key, keyPath);
+//				console.log(key, keyPath);
 			},
 			collapse() {
 				console.log('collapse');
@@ -153,7 +153,13 @@
 			}
 		},
 		watch: {
-
+			$route: function(){
+				//sidebar导航highlight随路由变化
+				let path = this.$route.path.substr(1);
+				this.itemActive = {};
+				this.itemActive[path] = 'is-active';
+				console.log(path)
+			}
 		}
 	}
 </script>
