@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,11 +39,12 @@ public class OrganController {
 
 		/**
 		 * 1.获取总公司及其所有下属机构
+		 * url:/iem/organ/queryOrganList/organNo
 		 * @param organNo
 		 * @return
-		 */
-	
+		 */	
 		@GetMapping(value = "/queryOrganList/{organNo}")
+		@Cacheable(value = "queryCache")
 	    public Object queryOrganTreeList(@PathVariable String organNo) {
 			if (StringUtils.isEmpty(organNo)) {
 				logger.error("the request params organNo is null");
@@ -55,10 +57,12 @@ public class OrganController {
 		
 		/**
 		 * 2.人事系统：查询并回显当前机构信息
+		 * url:/iem/organ/queryCurrentOrgan/organNo
 		 * @param organ_no
 		 * @return
 		 */
-		@GetMapping(value = "/queryCurrentOrgan/{organNo}")	        
+		@GetMapping(value = "/queryCurrentOrgan/{organNo}")	
+		@Cacheable(value = "queryCache")
 	    public Object queryCurrentOrgan(@PathVariable String organNo ){
 	    	
 	    	if (StringUtils.isEmpty(organNo)) {
@@ -78,10 +82,12 @@ public class OrganController {
 		
 		/**
 		 * 3.查询当前机构、上级机构及机构详情信息
+		 * url:/iem/organ/queryOrganAndParentOrganDetail/organNo
 		 * @param organ_no
 		 * @return
 		 */
-		@GetMapping(value = "/queryOrganAndParentOrganDetail/{organNo}")	        
+		@GetMapping(value = "/queryOrganAndParentOrganDetail/{organNo}")
+		@Cacheable(value = "queryCache")	
 	    public Object queryOrganAndParentOrganDetail(@PathVariable String organNo ){
 	    	
 	    	if (StringUtils.isEmpty(organNo)) {
@@ -96,11 +102,12 @@ public class OrganController {
 	        
 	    /**
 	     * 4.查询当前机构的直属下级机构详情
+	     * url:/iem/organ/queryChildOrganDetail/organNo
 	     * @param organ_no
 	     * @return
 	     */
 		@GetMapping(value = "/queryChildOrganDetail/{organNo}")
-        
+		@Cacheable(value = "queryCache")
 	    public Object queryChildOrganDetail(HttpServletRequest request, Integer pageNum, Integer pageSize ,@PathVariable String organNo ){
 	    	
 	    	if (StringUtils.isEmpty(organNo)) {
@@ -119,12 +126,12 @@ public class OrganController {
 	   	        
 	    /**
 	     * 5.查询机构下的人员
+	     * url:/iem/organ/queryOrganMember/organNo
 	     * @param organ_no
 	     * @return
-	     */
-	    
+	     */   
 		@GetMapping(value = "/queryOrganMember/{organNo}")
-        
+		@Cacheable(value = "queryCache")     
 	    public Object queryOrganMember(HttpServletRequest request, Integer pageNum, Integer pageSize,@PathVariable String organNo ){
 	    	
 	    	if (StringUtils.isEmpty(organNo)) {
@@ -144,6 +151,7 @@ public class OrganController {
 	    
 	    /**
 	     * 6.删除机构：逻辑删除
+	     * url:/iem/organ/deleteOrganInfo/organNo
 	     * @param organ_no
 	     * @return
 	     */
@@ -177,7 +185,8 @@ public class OrganController {
 	    
 	    /**
 	     * 7.在当前机构下增加机构人员
-	     * @param organ_no
+	     * url:/iem/organ/addOrganMember
+	     * @param sysUserPO
 	     * @return 
 	     */
 		@PostMapping(value = "/addOrganMember")
@@ -201,7 +210,8 @@ public class OrganController {
 	
 	    /**
 	     * 8.根据机构人员编号-删除机构下的人员
-	     * @param organ_no
+	     * url:/iem/organ/deleteOrganMember/userNo
+	     * @param userNo
 	     * @return
 	     */
 		@DeleteMapping(value = "/deleteOrganMember/{userNo}")
@@ -222,7 +232,8 @@ public class OrganController {
 	    
 	    /**
 	     * 9.更新机构及机构详情信息
-	     * @param organ_no
+	     * url:/iem/organ/modifyOrganInfo
+	     * @param sysOrganPO
 	     * @return
 	     */
 		@PutMapping(value = "/modifyOrganInfo")
@@ -245,7 +256,8 @@ public class OrganController {
 	    
 	    /**
 	     * 10.增加机构及机构详情信息
-	     * @param organ_no
+	     * url:/iem/organ/addOrgan
+	     * @param sysOrganPO
 	     * @return
 	     */
 	    @PostMapping(value = "/addOrgan")
