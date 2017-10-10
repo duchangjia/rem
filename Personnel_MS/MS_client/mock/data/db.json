@@ -363,5 +363,31 @@
         "remark": "备注是啥就是啥"
       }
     ]
+  },
+  "addRoleInfo": {
+    "roleName":"人事",
+    "roleDescr":"我是描述是描述是描述",
+    "status":"0"
+  },
+  "modifyRoleInfo": {
+    "roleNo":"001",
+    "roleName":"人事",
+    "roleDescr":"我是描述是描述是描述" 
+  },
+  "deleteRoleInfo": {
+    "roleNo":"001"
+  },
+  "setRoleFunc": {
+    "roleNo":"001", 
+    "roleFuncSet": [ 
+      {
+        "bsnNo":"234332",
+        "bsnSet": "1"
+      },
+      {
+        "bsnNo":"234332",
+        "bsnSet": "1"
+      }
+    ]
   }
 }
