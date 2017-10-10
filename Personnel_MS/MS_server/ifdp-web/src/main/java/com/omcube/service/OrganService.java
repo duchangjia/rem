@@ -8,26 +8,26 @@ import com.omcube.model.po.SysUserPO;
 
 public interface OrganService {
 
-	public List<OrganTree> queryOrganList(String organNo);
-	
-	public SysOrganPO queryCurrentOrgan(String organNo);
-	
-	public SysOrganPO queryOrganAndParentOrganDetail(String organNo);
+    public List<OrganTree> queryOrganList(String organNo);
 
-	public List<SysOrganPO> queryChildOrganDetail(String organNo);
+    public SysOrganPO queryCurrentOrgan(String organNo);
 
-	public List<SysUserPO> queryOrganMember(String organNo);
+    public SysOrganPO queryCurrentAndParentOrganDetail(String organNo);
 
-	public void deleteOrganInfo(String organNo);
+    public List<SysOrganPO> queryChildOrganDetail(String organNo);
 
-	public void addOrganMember(SysUserPO sysUserPO);
+    public List<SysUserPO> queryOrganMember(String organNo);
 
-	public void deleteOrganMember(String userNo);
+    public void deleteOrganInfo(String organNo);
 
-	public void modifyOrganInfo(SysOrganPO sysOrganPO);
+    public void addOrganMember(SysUserPO sysUserPO);
 
-	public void addOrgan(SysOrganPO sysOrganPO);
-	
-	List<String> queryAllChildrenOrganNoes(String organNo);
+    public void deleteOrganMember(String userNo);
+
+    public void modifyOrganInfo(SysOrganPO sysOrganPO);
+
+    public void addOrgan(SysOrganPO sysOrganPO);
+
+    List<String> queryAllChildrenOrganNoes(String organNo);
 
 }
