@@ -3,19 +3,19 @@ package com.omcube.model.po;
 import java.util.List;
 
 /**
- * 业务功能表
+ * 业务功能的实体类
  * 
  * @author dangjun
  * @version 1.0
  */
 public class SysBsnPO extends BasicPO {
 
-	private String bsnNo; // NOT NULL功能编号
-	private String interfaceName; // NOT NULL接口名称
-	private String methodName; // NOT NULL方法名称
-	private String serviceName; // NOT NULL服务名称
-	private String remark; // NULL备注
-	private String bsnUrl; // NOT NULL访问路径
+	private String bsnNo; // 功能编号
+	private String interfaceName; // 接口名称
+	private String methodName; // 方法名称
+	private String serviceName; // 服务名称
+	private String remark; // 备注
+	private String bsnUrl; // 访问路径
 	private List<SysMenuPO> menus; // 一个业务功能对应多个按钮
 
 	public List<SysMenuPO> getMenus() {

@@ -5,51 +5,65 @@
 
 <mapper namespace="com.omcube.model.mapper.SysRoleMapper">
 	<resultMap id="SysRoleMap" type="com.omcube.model.po.SysRolePO">
+		<id column="UID" property="uId"></id>
 		<id column="ROLE_NO" property="roleNo"></id>
 		<result column="ROLE_NAME" property="roleName" javaType="java.lang.String"></result>
 		<result column="ROLE_DESCR" property="roleDescr" javaType="java.lang.String"></result>
 		<result column="ROLE_STATUS" property="status" javaType="java.lang.String"></result>
-		<result column="CREATED_DATE" property="createdDate" javaType="java.util.Date"></result>
-		<result column="UPDATED_DATE" property="updatedDate" javaType="java.util.Date"></result>
 		<result column="CREATED_BY" property="createdBy" javaType="java.lang.String"></result>
+		<result column="CREATED_DATE" property="createdDate" javaType="java.util.Date"></result>
 		<result column="UPDATED_BY" property="updatedBy" javaType="java.lang.String"></result>
+		<result column="UPDATED_DATE" property="updatedDate" javaType="java.util.Date"></result>
 	</resultMap>
 
 	<!-- 查询所有角色 -->
-	<select id="getRoleAll" parameterType="java.lang.String" resultMap="SysRoleMap">
-		SELECT * FROM IFDP_SYS_ROLE WHERE UID = #{uId}
+	<select id="queryRoleList" parameterType="java.lang.String"
+		resultMap="SysRoleMap">
+		select * 
+		from 
+			IFDP_SYS_ROLE 
+		where 
+			UID = #{uId}
 	</select>
-	
+
 	<!-- 角色的添加 -->
-	<insert id="addRole" parameterType="com.omcube.model.po.SysRolePO">
-	    INSERT INTO IFDP_SYS_ROLE (
-			UID,
-			ROLE_NO,
-			ROLE_NAME,
-			ROLE_DESCR,
-			ROLE_STATUS,
-			CREATED_BY,
-			UPDATED_BY,
-			CREATED_DATE,
-			UPDATED_DATE,
-		)
-		VALUES
-		(
+	<insert id="addRoleInfo" parameterType="com.omcube.model.po.SysRolePO">
+		insert into 
+			IFDP_SYS_ROLE
+		values(
 			#{uId},
 			#{roleNo},
 			#{roleName},
 			#{roleDescr},
 			#{status},
 			#{createdBy},
-			#{updatedBy},
 			date_format(now(),'%y-%m-%d'),
+			#{updatedBy},
 			date_format(now(),'%y-%m-%d')
 		)
-    </insert>
-	
+	</insert>
+
+	<!-- 修改角色 -->
+	<update id="updateRoleInfo" parameterType="com.omcube.model.po.SysRolePO">
+		update 
+			IFDP_SYS_ROLE
+		set
+			ROLE_NAME = #{roleName},
+			ROLE_DESCR=#{roleDescr},
+			ROLE_STATUS=#{status},
+			UPDATED_BY=#{updatedBy},
+			UPDATED_DATE=date_format(now(),'%y-%m-%d')
+		where 
+			(UID=#{uId} and ROLE_NO=#{roleNo})
+	</update>
+
 	<!-- 修改角色时的数据回显 -->
-	<select id="getRoleByRoleNo" parameterType="map" resultMap="SysRoleMap">
-		select * from IFDP_SYS_ROLE WHERE UID = #{uId} AND ROLE_NO = #{roleNo}
+	<select id="queryRoleByRoleNo" parameterType="map" resultMap="SysRoleMap">
+		select * 
+		from 
+			IFDP_SYS_ROLE 
+		where 
+			UID = #{uId} and ROLE_NO = #{roleNo}
 	</select>
-	
+
 </mapper>

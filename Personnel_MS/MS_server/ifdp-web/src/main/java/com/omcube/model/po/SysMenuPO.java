@@ -3,7 +3,7 @@ package com.omcube.model.po;
 import java.util.List;
 
 /**
- * 菜单的实体类。
+ * 菜单的实体类
  * 
  * @author dangjun
  * @version 1.0
@@ -11,15 +11,15 @@ import java.util.List;
 public class SysMenuPO extends BasicPO {
 
 	private String sysNo; // 系统编号
-	private String menuNo; // NOT NULL菜单编码
-	private String menuName; // NOT NULL菜单名称
-	private String upMenuNo; // NOT NULL上级菜单编码
-	private String menuLevel; // NOT NULL菜单级别
-	private String menuOrder; // NOT NULL菜单顺序
-	private String menuUrl; // NULL菜单功能链接
-	private String menuDescr; // 菜单描述menu_descr
+	private String menuNo; // 菜单编码
+	private String menuName; // 菜单名称
+	private String upMenuNo; // 上级菜单编码
+	private String menuLevel; // 菜单级别
+	private String menuOrder; // 菜单顺序
+	private String menuUrl; // 菜单功能链接
+	private String menuDescr; // 菜单描述
 	private String menuImg; // 菜单图标
-	private List<SysBsnPO> bsns;
+	private List<SysBsnPO> bsns; // 业务功能
 
 	public List<SysBsnPO> getBsns() {
 		return bsns;
