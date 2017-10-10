@@ -13,7 +13,7 @@
 				<el-form :inline="true" :model="operatorDetail" :rules="rules" ref="operatorDetail" label-width="80px">
 					<el-col :span="12">
 						<el-form-item label="姓名" prop="userName">
-							<el-input v-model="operatorDetail.userName"></el-input>
+							<el-input v-model="operatorDetail.userName" ref="user"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
@@ -152,6 +152,7 @@
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
 						let params ={
+							userName: self.operatorDetail.userName,
 							userNo: self.operatorDetail.userNo,
 							roleNo: self.operatorDetail.roleNo,
 							status: self.operatorDetail.status
@@ -159,6 +160,7 @@
 						self.$axios.put('/ifdp/modifyOperatorInfo',params)
 						.then(function(res){
 							console.log(res);
+							console.log(self.operatorDetail);
 							self.$alert('信息修改成功', '提示', {
 					          confirmButtonText: '确定',
 					          callback: action => {
@@ -166,7 +168,7 @@
 //					              type: 'info',
 //					              message: `action: ${ action }`
 //					            });
-					          }
+					         }
 					        });
 
 						})
@@ -259,10 +261,10 @@
 		height: 40px;
 	}
 	
-	.user-info .el-button:focus,
+	/*.user-info .el-button:focus,
 	.user-info .el-button:hover {
 		opacity: 0.5;
-	}
+	}*/
 	
 	.user-info .content-inner {
 		padding: 40px 0px;

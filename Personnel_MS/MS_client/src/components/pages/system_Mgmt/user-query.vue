@@ -140,10 +140,115 @@ export default {
 </script>
 
 <style>
-.user-query {
-	padding-left: 20px;
-	width: 100%;
-}
+	.user-query {
+		padding-left: 20px;
+		width: 100%;
+	}
+	.user-query .content {
+		width: 100%;
+		/*min-height: 530px;*/
+		/*height: calc(100% - 90px);*/
+		padding: 0px 20px;
+		background: #ffffff;
+		clear: both;
+	}
+	.user-query .content .title {
+		border-bottom: 1px solid #EEEEEE;
+	}
+	.user-query .content .title .title-text {
+		display: inline-block;
+		position: relative;
+		padding: 29px 0px;
+		font-size: 16px;
+	}
+	.user-query .content .title .title-text:after {
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: -1px;
+		width: 100%;
+		height: 2px;
+		background: #333333;
+	}
+	.user-query .content-inner {
+		padding: 40px 0px;
+	}
+	.user-query .el-form-item__label {
+		text-align: left;
+		vertical-align: middle;
+		float: left;
+		font-size: 14px;
+		color: #999999;
+		line-height: 1;
+		padding: 11px 12px 11px 0;
+		box-sizing: border-box;
+	}
+	.user-query .input-wrap .el-form-item {
+		margin-right: 80px;
+		float: left;
+	}
+	.user-query .el-form-item {
+		margin-bottom: 40px;
+	}
+	.user-query .el-input,
+	.user-query .el-input__inner {
+		width: 200px;
+		display: inline-block;
+	}
+	
+	.user-query .el-form-item__content {
+		line-height: 36px;
+		position: relative;
+		font-size: 14px;
+	}
+	.user-query .button-wrap {
+		margin: 0px auto;
+		width: 264px;
+		clear: both;
+	}
+	.user-query .button-wrap .el-form-item__content {
+		margin-left: 0!important;
+	}
+	.user-query .el-input__inner {
+		border-radius: 4px;
+		border: 1px solid #EEEEEE;
+		color: #333333;
+		padding: 19px 10px;
+		transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+	}
+	.user-query .el-input__inner:hover {
+	    border-color: #FF9900;
+	}
+	.user-query .el-button {
+		display: inline-block;
+		line-height: 1;
+		white-space: nowrap;
+		cursor: pointer;
+		background: #fff;
+		border: 1px solid #FF9900;
+		color: #FF9900;
+		margin: 0;
+		padding: 12px 45px;
+		border-radius: 0px;
+	}
+	.user-query .el-button.resetform {
+		margin-right: 20px;
+	}
+	.user-query .el-button--primary {
+		color: #fff;
+		background-color: #FF9900;
+		border-color: #FF9900;
+	}
+	/*.user-query .el-button:focus,
+	.user-query .el-button:hover {
+	    border-color: #FF9900;
+	    opacity: 0.5;
+	}*/
+	/*.user-query .el-button.resetform:focus,
+	.user-query {
+		padding-left: 20px;
+		width: 100%;
+	}*/
 
 .user-query .content {
 	width: 100%;

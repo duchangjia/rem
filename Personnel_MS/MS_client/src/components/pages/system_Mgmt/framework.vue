@@ -6,14 +6,15 @@
                <div class="content-left-title"><img  height="21px" src="../../../../static/img/common/home_logo.png" /><span class="text">深圳前海橙色魔方信息技术有限公司</span></div>
                <ul class="list " v-show="companies" >
                    <!--<li class="guangzhou common L">广州分公司<span class="count">(111)</span></li>-->
-                   <li class="shanghai common L" v-for="(company, index) in companies" @click="collapse(index, $event)">{{company.company}}<span class="count">(111)</span>
-                    <template>
-                        <ul class="common-list " v-for="department in company.department">
+                   <li class="shanghai common L" v-for="(company, $index) in companies" @click.stop="collapse($index, $event, null)" :class="`L${$index}`">{{company.company}}<span class="count">(111)</span>
+                    <!--<template>-->
+                    <!--<transition-group name="fade">-->
+                        <ul class="common-list">
                             <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
                             <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
                             <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
                             <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
-                            <li class=" common dot">{{department.name}}<span class="count">(111)</span>
+                            <li class="common dot X" v-for="(department, index) in company.department" @click.stop="collapse(index, $event, $index)" :class="`X${index}`">{{department.name || '你好'}}<span class="count">(111)</span>
                                 <ul class="common-list-item">
                                     <li class="common dot" v-for="childDepartment in department.child_department">{{childDepartment}}<span class="count">(111)</span></li>
                                     <!--<li class="common dot">一部<span class="count">(111)</span></li>-->
@@ -21,176 +22,188 @@
                                 </ul>
                             </li>
                         </ul>
-                    </template>
+                    <!--</transition-group>-->
+                    <!--</template>-->
                    </li>
                </ul>
            </div>
-           <div class="content-right">
-               <div class="title">
-                   <span class="text">互联网中心</span>
-                   <div class="button-wrapper" style="display: flex">
-                       <el-button class="del">删除</el-button>
-                       <el-button type="primary" @click="handleAdd('edit_department')" class="toolBtn">编辑</el-button>
-                   </div>
-               </div>
-               <div class="form1-wrapper">
-                   <span>上级机构</span><input type="text" value="上海分公司"><br>
-                   <span>主管</span><input type="text" value="上海分公司"><br>
-                   <span>类型</span><select value="">
-                   <option value="一级部门">一级部门</option>
-                   <option value="一级部门">一级部门</option>
-                   <option value="一级部门">一级部门</option></select><br>
-                   <span>状态</span><input type="text" value="上海分公司">
-               </div>
-               <div class="title" style="margin-top: 36px;">
-                   <span class="text">下级机构</span>
-                   <el-button type="primary" @click="handleAdd('add_junior')" class="toolBtn">新增</el-button>
-               </div>
-               <div class="table-wrapper" style="margin-top: 13px; text-align: right;">
-                   <!--<table>-->
-                       <!--<tr><td>名称</td><td>类型</td><td>主管</td><td>状态</td></tr>-->
-                       <!--<tr><td>研发部</td><td>三级部门</td><td>老王</td><td>正常</td></tr>-->
-                       <!--<tr><td>研发部</td><td>三级部门</td><td>老王</td><td>正常</td></tr>-->
-                       <!--<tr><td>研发部</td><td>三级部门</td><td>老王</td><td>正常</td></tr>-->
-                       <!--<tr><td>研发部</td><td>三级部门</td><td>老王</td><td>正常</td></tr>-->
-                       <!--<tr><td>研发部</td><td>三级部门</td><td>老王</td><td>正常</td></tr>-->
-                   <!--</table>-->
-                   <template>
-                       <el-table
-                               :data="tableData"
-                               border
-                               stripe
-                               >
-                               <el-table-column
-                                       prop="date"
-                                       label="名称"
-                                       align="center"
-                                       >
-                               </el-table-column>
-                               <el-table-column
-                                       prop="type"
-                                       label="类型"
-                                       align="center"
-                               >
-                               </el-table-column>
-                               <el-table-column
-                                       prop="name"
-                                       label="主管"
-                                       align="center"
-                                      >
-                               </el-table-column>
-                               <el-table-column
-                                       prop="address"
-                                       label="状态"
-                                       align="center">
-                               </el-table-column>
-                       </el-table>
-                   </template>
-                   <div class="block" style="margin-top: 40px; display: inline-block;">
-                       <el-pagination
-                               @size-change="handleSizeChange"
-                               @current-change="handleCurrentChange"
-                               :current-page.sync="currentPage3"
-                               :page-size="100"
-                               layout="prev, pager, next, jumper"
-                               :total="1000">
-                       </el-pagination>
-                   </div>
-               </div>
-               <div class="title" style="margin-top: 36px;">
-                   <span class="text">机构人员</span>
-                   <el-button type="primary" @click="handleAdd('add_person')" class="toolBtn">新增</el-button>
-               </div>
-               <div class="table-wrapper" style="margin-top: 13px; text-align: right;">
-                   <template>
-                       <el-table
-                               :data="tableData2"
-                               border
-                               stripe
-                       >
-                           <el-table-column
-                                   prop="user_name"
-                                   label="姓名"
-                                   align="center"
-                           >
-                           </el-table-column>
-                           <el-table-column
-                                   prop="user_num"
-                                   label="工号"
-                                   align="center"
-                           >
-                           </el-table-column>
-                           <el-table-column
-                                   prop="position"
-                                   label="职位"
-                                   align="center"
-                                   width="170"
-                           >
-                           </el-table-column>
-                           <el-table-column
-                                   prop="phone"
-                                   label="手机"
-                                   align="center">
-                           </el-table-column>
-                           <el-table-column
-                                   label="操作"
-                                   align="center">
-                               <template scope="scope">
-                                   <i class="el-icon-delete" style="color: #FF9900"></i>
-                               </template>
-                           </el-table-column>
-                       </el-table>
-                   </template>
-                   <div class="block" style="margin-top: 40px; display: inline-block;">
-                       <el-pagination
-                               @size-change="handleSizeChange"
-                               @current-change="handleCurrentChange"
-                               :current-page.sync="currentPage3"
-                               :page-size="100"
-                               layout="prev, pager, next, jumper"
-                               :total="1000">
-                       </el-pagination>
-                   </div>
-               </div>
-           </div>
+            <div class="content-right">
+                <div class="title">
+                    <span class="text">{{content.title}}</span>
+                    <div class="button-wrapper" style="display: flex">
+                        <el-button class="del">删除</el-button>
+                        <el-button type="primary" @click="handleAdd('edit_department')" class="toolBtn">编辑</el-button>
+                    </div>
+                </div>
+                <div class="form1-wrapper">
+                    <span>上级机构</span><input type="text" v-model="content.super" disabled><br>
+                    <span>主管</span><input type="text" v-model="content.chief" disabled><br>
+                    <span>类型</span><select value="" disabled>
+                    <option v-model="content.type[0]">一级部门</option>
+                    <option v-model="content.type[1]">二级部门</option>
+                    <option v-model="content.type[2]">三级部门</option></select><br>
+                    <span>状态</span><input type="text" v-model="content.state" disabled>
+                </div>
+                <div class="title" style="margin-top: 36px;">
+                    <span class="text">下级机构</span>
+                    <el-button type="primary" @click="handleAdd('add_junior')" class="toolBtn">新增</el-button>
+                </div>
+                <div class="table-wrapper" style="margin-top: 13px; text-align: right;">
+                    <!--<table>-->
+                    <!--<tr><td>名称</td><td>类型</td><td>主管</td><td>状态</td></tr>-->
+                    <!--<tr><td>研发部</td><td>三级部门</td><td>老王</td><td>正常</td></tr>-->
+                    <!--<tr><td>研发部</td><td>三级部门</td><td>老王</td><td>正常</td></tr>-->
+                    <!--<tr><td>研发部</td><td>三级部门</td><td>老王</td><td>正常</td></tr>-->
+                    <!--<tr><td>研发部</td><td>三级部门</td><td>老王</td><td>正常</td></tr>-->
+                    <!--<tr><td>研发部</td><td>三级部门</td><td>老王</td><td>正常</td></tr>-->
+                    <!--</table>-->
+                    <template>
+                        <el-table
+                                :data="tableData"
+                                border
+                                stripe
+                        >
+                            <el-table-column
+                                    prop="dep"
+                                    label="名称"
+                                    align="center"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="type"
+                                    label="类型"
+                                    align="center"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="name"
+                                    label="主管"
+                                    align="center"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="state"
+                                    label="状态"
+                                    align="center">
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                    <div class="block" style="margin-top: 40px; display: inline-block;">
+                        <el-pagination
+                                @size-change="handleSizeChange"
+                                @current-change="handleCurrentChange"
+                                :current-page.sync="currentPage3"
+                                :page-size="100"
+                                layout="prev, pager, next, jumper"
+                                :total="1000">
+                        </el-pagination>
+                    </div>
+                </div>
+                <div class="title" style="margin-top: 36px;">
+                    <span class="text">机构人员</span>
+                    <el-button type="primary" @click="handleAdd('add_person')" class="toolBtn">新增</el-button>
+                </div>
+                <div class="table-wrapper" style="margin-top: 13px; text-align: right;">
+                    <template>
+                        <el-table
+                                :data="tableData2"
+                                border
+                                stripe
+                        >
+                            <el-table-column
+                                    prop="user_name"
+                                    label="姓名"
+                                    align="center"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="user_num"
+                                    label="工号"
+                                    align="center"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="position"
+                                    label="职位"
+                                    align="center"
+                                    width="170"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="phone"
+                                    label="手机"
+                                    align="center">
+                            </el-table-column>
+                            <el-table-column
+                                    label="操作"
+                                    align="center">
+                                <template scope="scope">
+                                    <i class="el-icon-delete" style="color: #FF9900"></i>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                    <div class="block" style="margin-top: 40px; display: inline-block;">
+                        <el-pagination
+                                @size-change="handleSizeChange"
+                                @current-change="handleCurrentChange"
+                                :current-page.sync="currentPage3"
+                                :page-size="100"
+                                layout="prev, pager, next, jumper"
+                                :total="1000">
+                        </el-pagination>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script type='text/ecmascript-6'>
     import current from '../../common/current_position.vue'
+//    import frameworkDetail from './framework_detail.vue'
+    import $ from '../../../../static/bower_components/jquery/dist/jquery.min'
     export default {
         data() {
             return {
-                show: '',
+                content:{
+                    title:'',
+                    super: '',
+                    chief: '方清丽',
+                    type: ['一级部门', '二级部门', '三级部门'],
+                    state: '正常'
+                },
+                show: false,
                 companies: '',
                 currentPage3: 1,
-                tableData: [{
-                    date: '研发部',
-                    name: '王小虎',
-                    address: '正常',
-                    type: '三级部门'
-                }, {
-                    date: '研发部',
-                    name: '王小虎',
-                    address: '正常',
-                    type: '三级部门'
-                }, {
-                    date: '研发部',
-                    name: '王小虎',
-                    address: '正常',
-                    type: '三级部门'
-                }, {
-                    date: '研发部',
-                    name: '王小虎',
-                    address: '正常',
-                    type: '三级部门'
-                }, {
-                    date: '研发部',
-                    name: '王小虎',
-                    address: '正常',
-                    type: '三级部门'
-                }],
+                tableData: [
+//                    {
+//                    dep: '研发部',
+//                    name: '王小虎',
+//                    state: '正常',
+//                    type: '三级部门'
+//                }, {
+//                    date: '研发部',
+//                    name: '王小虎',
+//                    address: '正常',
+//                    type: '三级部门'
+//                }, {
+//                    date: '研发部',
+//                    name: '王小虎',
+//                    address: '正常',
+//                    type: '三级部门'
+//                }, {
+//                    date: '研发部',
+//                    name: '王小虎',
+//                    address: '正常',
+//                    type: '三级部门'
+//                }, {
+//                    date: '研发部',
+//                    name: '王小虎',
+//                    address: '正常',
+//                    type: '三级部门'
+//                }
+                ],
                 tableData2: [
                     {
                         user_num: 'P001',
@@ -235,6 +248,39 @@
                   console.log('请求公司数据超时')
               })
         },
+        beforeMount() {
+//            self.$nextTick(function () {
+//                console.log(111,_$('.L1>ul'))
+//                _$('.L1>ul').slideUp(0)
+//            })
+            let self = this
+            for (let index=0;index<5;index++) {
+                var str = ($('.L'+index+'>ul')[0])
+                if (str && index!=0) {
+                    setTimeout(function () {
+                        $('.L'+index+'>ul').slideUp(0)
+                    },200)
+                }
+            }
+           setTimeout(function () {
+               self.content.title = $('.L0 .X0')[0].childNodes[0].nodeValue
+               $('.L0 .X0').addClass('active')
+               $('.L0').addClass('active')
+               self.content.super = $('.L0')[0].childNodes[0].nodeValue
+               self.tableData = []
+               var lenght = $('.L0 .X0 li').length
+               for (let i=0;i<lenght;i++) {
+                   var dep = $('.L0 .X0 li')[i].childNodes[0].nodeValue
+                   var obj = {
+                       dep: dep,
+                       name: '方清丽',
+                       state: '正常',
+                       type: '三级部门'
+                   }
+                   self.tableData.push(obj)
+               }
+           },200)
+        },
         methods: {
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
@@ -245,11 +291,42 @@
             handleAdd(tt) {
                 this.$router.push(tt);
             },
-            collapse(e) {
-                console.log(e)
+            collapse(index, e, parent) {
+                let _self = this
+//                console.log(index)
+//                console.log(parent)
+//                console.log(e)
+//                console.log($,$('.L'+ index),$('.framework-content'))
                 var reg = /L/
+                var reg1 = /X/
                 if (reg.test(e.target.className)) {
-                    console.log('L')
+                    $('.L'+ index + ' >ul').slideToggle('slow')
+                    $('.L'+ index).addClass('active')
+                    $('.L'+ index).siblings().removeClass('active')
+                }
+                if (reg1.test(e.target.className) && parent!==null) {
+                    _self.tableData = []
+//                    console.log($('.L'+ parent+' .X'+ index)[0].childNodes[0].nodeValue)
+                    _self.content.title = $('.L'+ parent+' .X'+ index)[0].childNodes[0].nodeValue
+                    $('.L'+ parent+' .X'+ index).addClass('active')
+                    $('.L'+ parent+' .X'+ index).parents('.L').addClass('active')
+                    $('.L'+ parent+' .X'+ index).siblings().removeClass('active')
+                    $('.L'+ parent+' .X'+ index).parents('.L').siblings().removeClass('active')
+                    $('.L'+ parent+' .X'+ index).parents('.L').siblings().find('.common-list>li').removeClass('active')
+                   var str = $('.L'+ parent+' .X'+ index).parents('.L' + parent)[0].childNodes[0].nodeValue
+                    _self.content.super = str
+                   var lenght = $('.L'+ parent+' .X'+ index + ' >ul>li').length
+                    for (let i=0;i<lenght;i++) {
+                       var dep = $('.L'+ parent+' .X'+ index + ' >ul>li')[i].childNodes[0].nodeValue
+                       var obj = {
+                           dep: dep,
+                           name: '方清丽',
+                           state: '正常',
+                           type: '三级部门'
+                       }
+                        _self.tableData.push(obj)
+                    }
+                    $('.L'+ parent+' .X'+ index + ' >ul').slideToggle('slow')
                 }
             }
         },
@@ -420,5 +497,15 @@ ul, li{
     text-indent: 1em;
     margin-bottom: 20px;
 }
+.active{
+    color: orange !important;
+}
+/*.fade-enter-active, .fade-leave-active {*/
+    /*transition: all .5s*/
+/*}*/
+/*.fade-enter, .fade-leave-to {*/
+    /*opacity: 0;*/
+    /*height: 0;*/
+/*}*/
 
 </style>

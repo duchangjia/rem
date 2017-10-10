@@ -27,5 +27,7 @@ public interface OrganService {
 	public void modifyOrganInfo(SysOrganPO sysOrganPO);
 
 	public void addOrgan(SysOrganPO sysOrganPO);
+	
+	List<String> queryAllChildrenOrganNoes(String organNo);
 
 }
