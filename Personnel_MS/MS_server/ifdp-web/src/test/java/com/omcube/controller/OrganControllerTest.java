@@ -3,9 +3,8 @@ package com.omcube.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,12 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import com.mysql.fabric.xmlrpc.base.Data;
 
 
 @RunWith(SpringRunner.class)
@@ -51,21 +46,36 @@ public class OrganControllerTest {
 	    			.andExpect(status().isOk()).andReturn().getResponse()
 	    			.getContentAsString();
 
-	    		System.out.println(result);
+	    	System.out.println(result);
 	    }
-	    
-	    
-	    
 	    
 	    /**
 	     * 2.查询当前机构及上级机构信息
 	     * @param organNo
 	     */
 	    @Test
-	    public void queryParentOrgan() throws Exception
+	    public void queryCurrentOrgan() throws Exception
 	    {
 	    	
-	    	String result = mockMvc.perform(get("/iem/organ/queryParentOrgan/01")
+	    	String result = mockMvc.perform(get("/iem/organ/queryCurrentOrgan/00001")
+	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
+	    			.andExpect(status().isOk()).andReturn().getResponse()
+	    			.getContentAsString();
+
+	    		System.out.println(result);
+	    }
+	    
+	    
+	    
+	    /**
+	     * 3.查询当前机构及上级机构信息
+	     * @param organNo
+	     */
+	    @Test
+	    public void queryOrganAndParentOrganDetail() throws Exception
+	    {
+	    	
+	    	String result = mockMvc.perform(get("/iem/organ/queryOrganAndParentOrganDetail/01")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
 	    			.andExpect(status().isOk()).andReturn().getResponse()
 	    			.getContentAsString();
@@ -75,14 +85,14 @@ public class OrganControllerTest {
 	    
 	    
 	    /**
-	     * 3.查询当前机构及下级机构信息
+	     * 4.查询当前机构及下级机构信息
 	     * @param organNo
 	     */
 	    @Test
-	    public void queryChildOrgan() throws Exception
+	    public void queryChildOrganDetail() throws Exception
 	    {
 	    	
-	    	String result = mockMvc.perform(get("/iem/organ/queryChildOrgan/0")
+	    	String result = mockMvc.perform(get("/iem/organ/queryChildOrganDetail/0")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
 	    			.andExpect(status().isOk()).andReturn().getResponse()
 	    			.getContentAsString();
@@ -92,14 +102,15 @@ public class OrganControllerTest {
 	    
 	       
 	    /**
-	     * 4.查询当前机构下的人员信息
+	     * 5.查询当前机构下的人员信息
 	     * @param organNo
 	     */
 	    @Test
 	    public void queryOrganMember() throws Exception
 	    {
 	    	
-	    	String result = mockMvc.perform(get("/iem/organ/queryOrganMember/0")
+	    	
+	    	String result = mockMvc.perform(get("/iem/organ/queryOrganMember/01")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
 	    			.andExpect(status().isOk()).andReturn().getResponse()
 	    			.getContentAsString();
@@ -109,14 +120,14 @@ public class OrganControllerTest {
 	    
 	    
 	    /**
-	     * 5.删除机构
+	     * 6.删除机构
 	     * @param organNo
 	     */
 	    @Test
 	    public void deleteOrganInfo() throws Exception
 	    {
 	    	
-	    	String result = mockMvc.perform(get("/iem/organ/deleteOrganInfo/0001")
+	    	String result = mockMvc.perform(delete("/iem/organ/deleteOrganInfo/0")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
 	    			.andExpect(status().isOk()).andReturn().getResponse()
 	    			.getContentAsString();
@@ -126,7 +137,7 @@ public class OrganControllerTest {
 	    
 	    
 	    /**
-	     * 6.增加当前机构人员信息
+	     * 7.增加当前机构人员信息
 	     * @param sysOrganUser
 	     */
 	    @Test
@@ -158,14 +169,14 @@ public class OrganControllerTest {
 	
 	    
 	    /**
-	     * 7.根据机构人员编号-删除机构下的人员
+	     * 8.根据机构人员编号-删除机构下的人员
 	     * @param sysOrganUser
 	     */
 	    @Test
 	    public void deleteOrganMember() throws Exception
 	    {
 	    	
-	    	String result = mockMvc.perform(get("/iem/organ/deleteOrganMember/1004")
+	    	String result = mockMvc.perform(delete("/iem/organ/deleteOrganMember/1004")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
 	    			.andExpect(status().isOk()).andReturn().getResponse()
 	    			.getContentAsString();
@@ -176,7 +187,7 @@ public class OrganControllerTest {
 	    
 	    
 		/**
-	     * 8.更新机构信息
+	     * 9.更新机构信息
 	     *
 	     */
 	   @Test
@@ -209,7 +220,7 @@ public class OrganControllerTest {
 	    }
 
 		/**
-	     * 9.新增机构：向机构表和机构详情表中同时保存信息
+	     * 10.新增机构：向机构表和机构详情表中同时保存信息
 	     *
 	     */
 	   @Test
