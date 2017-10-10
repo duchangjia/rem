@@ -1,5 +1,7 @@
 package com.omcube.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
@@ -48,6 +50,13 @@ public class OrganServiceImpl implements OrganService{
 		
 		sysOrganMapper.addOrganDetail(sysOrganPO);
 		
+	}
+
+
+	@Override
+	public List<String> queryAllChildrenOrganNoes(String organNo)
+	{
+	    return sysOrganMapper.queryAllChildrenOrganNoes(organNo);
 	}
 	
 	

@@ -62,8 +62,8 @@ export default {
         };
     },
     mounted() {
-        this.formRoleMsg.roleName = this.$route.query.roleName;
-        this.formRoleMsg.roleDescr = this.$route.query.roleDescr;
+        this.formRoleMsg.roleName = this.$route.params.roleName;
+        this.formRoleMsg.roleDescr = this.$route.params.roleDescr;
     },
     components: {
         current,
@@ -78,8 +78,6 @@ export default {
             console.dir(editRole);
         }
     }
-
-
 }
 </script>
 
@@ -149,5 +147,9 @@ export default {
 
 .edit-wrapper .el-radio__inner:hover {
     border-color: #ff9900;
+}
+.el-select-dropdown__item.selected,
+.el-select-dropdown__item.selected.hover{
+    background-color: #ff9900;
 }
 </style>
