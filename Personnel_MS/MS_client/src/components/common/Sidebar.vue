@@ -29,7 +29,6 @@
 		data() {
 			return {
 				isCollapse: false,
-				menuItemFlag: true,
 				itemActive: {},
                 items: [
                     {
@@ -154,11 +153,11 @@
 		},
 		watch: {
 			$route: function(){
-				//sidebar导航highlight随路由变化
-				let path = this.$route.path.substr(1);
-				this.itemActive = {};
-				this.itemActive[path] = 'is-active';
-				console.log(path)
+//				//sidebar导航highlight随路由变化
+//				let path = this.$route.path.substr(1);
+//				this.itemActive = {};
+//				this.itemActive[path] = 'is-active';
+//				console.log(this.itemActive);
 			}
 		}
 	}

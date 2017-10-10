@@ -83,9 +83,12 @@
 <script>
 	import Bus from '../../../common/Bus.js'
 	import current from '../../common/current_position.vue'
+	const baseURL = 'ifdp'
 	export default {
 		data() {
 			return {
+				oldStatus: 1,
+				oldOperatorDetail: {},
 				operatorDetail: {
 					userName: '1',
 					userNo: '1',
@@ -119,62 +122,138 @@
 			let params = {
 				user: localStorage.getItem('user')
 			};
-			self.$axios.get('ifdp/queryOperatorDetail',params)
+			self.$axios.get(baseURL+'/queryOperatorDetail',params)
 			.then(function(res){
 				self.operatorDetail = res.data.data;
+				self.oldStatus = self.operatorDetail.status;
+//				self.oldOperatorDetail = self.operatorDetail;
+				for(var i in self.operatorDetail){
+					self.oldOperatorDetail[i] = self.operatorDetail[i];
+				}
 			})
 		},
 		methods: {
 			//密码重置
 			passreset() {
-				this.$confirm('此操作后将无法找回原密码, 是否继续?', '提示', {
+				const self = this;
+				self.$confirm('此操作后将无法找回原密码, 是否继续?', '提示', {
 		          	confirmButtonText: '确定',
 		          	cancelButtonText: '取消',
 		          	type: 'warning'
-		        }).then(() => {
-		          	this.$message({
-		            	type: 'success',
-		            	message: '密码重置成功!请查看邮箱。'
-		          	});
+		       }).then(() => {
 		          	//更多操作
-		          	
+		          	self.$axios.put(baseURL+'/resetPassword',{userNo: self.operatorDetail.userNo})
+		          	.then(function(res){
+		          		console.log(res);
+		          		if(res.status===200){
+		          			self.$message({
+				            	type: 'success',
+				            	message: '新密码已发送至邮箱，请查收!'
+				          	});
+		          		}
+		          	})
 		        }).catch(() => {
-		          	this.$message({
+		          	self.$message({
 		            	type: 'info',
 		            	message: '已取消操作'
 		          	});          
 		        });
-
 			},
 			//保存
 			conserve(formName) {
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
+						let detailChange = false;
+						//用户修改
 						let params ={
 							userName: self.operatorDetail.userName,
 							userNo: self.operatorDetail.userNo,
 							roleNo: self.operatorDetail.roleNo,
 							status: self.operatorDetail.status
 						}
-						self.$axios.put('/ifdp/modifyOperatorInfo',params)
-						.then(function(res){
-							console.log(res);
-							console.log(self.operatorDetail);
-							self.$alert('信息修改成功', '提示', {
-					          confirmButtonText: '确定',
-					          callback: action => {
-//					            self.$message({
-//					              type: 'info',
-//					              message: `action: ${ action }`
-//					            });
-					         }
-					        });
-
-						})
-						.catch(function(err){
-							console.log('error');
-						})
+						for(let k in self.operatorDetail){
+							if(self.oldOperatorDetail[k]!==self.operatorDetail[k]){
+								console.log('true');
+								detailChange = true;
+							}
+						}
+						if(detailChange===true){//判断是否有修改信息
+							self.$axios.put(baseURL+'/modifyOperatorInfo',params)
+							.then(function(res){
+								if(res.status==200){
+									self.$alert('信息修改成功', '提示', {
+							          	confirmButtonText: '确定',
+							          	callback: action => {}
+						        	});
+								}
+							})
+							.catch(function(err){
+								console.log('error');
+							})
+						}else{
+							self.$alert('你还未修改信息', '提示', {
+					          	confirmButtonText: '确定',
+					          	callback: action => {}
+				        	});
+						}
+						
+						//用户状态变更
+						let newStatus = self.operatorDetail.status;
+						if(newStatus!==self.oldStatus && newStatus==='0'){
+							//用户注销
+							let param = {userNo: self.operatorDetail.userNo};
+							self.$axios.put(baseURL+'/deleteOperatorInfo',param)
+							.then(function(res){
+								console.log(res);
+								if(res.status===200){
+									self.$alert('用户注销成功', '提示', {
+							          	confirmButtonText: '确定'
+						        	});
+								}
+							})
+							.catch(function(err){
+								console.log('用户注销失败')
+							})
+						}else if(newStatus!==self.oldStatus && newStatus==='2'){
+							//用户锁定
+							console.log('oldstatus',self.oldStatus);
+							console.log('newStatus',newStatus);
+							let params = {
+								userNo: self.operatorDetail.userNo,
+								funcModel: 'L'
+							}
+							self.$axios.put(baseURL+'/lockUnlockOperator',params)
+							.then(function(res){
+								console.log(res);
+								if(res.status===200){
+									self.$alert('用户锁定成功', '提示', {
+							          	confirmButtonText: '确定'
+						        	});
+								}
+							})
+							.catch(function(err){
+								console.log('用户锁定失败')
+							})
+						}else if(self.oldStatus==='2' && newStatus==='1'){
+							//用户解锁
+							let params = {
+								userNo: self.operatorDetail.userNo,
+								funcModel: 'U'
+							}
+							self.$axios.put(baseURL+'/lockUnlockOperator',params)
+							.then(function(res){
+								console.log(res);
+								if(res.status===200){
+									self.$alert('用户解锁成功', '提示', {
+							          	confirmButtonText: '确定'
+						        	});
+								}
+							})
+							.catch(function(err){
+								console.log('用户解锁失败')
+							})
+						}
 						
 					} else {
 						console.log('error submit!!');
@@ -259,11 +338,6 @@
 		width: 120px;
 		height: 40px;
 	}
-	
-	/*.user-info .el-button:focus,
-	.user-info .el-button:hover {
-		opacity: 0.5;
-	}*/
 	
 	.user-info .content-inner {
 		padding: 40px 0px;

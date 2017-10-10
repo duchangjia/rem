@@ -34,10 +34,10 @@
 						</el-form-item>
 					</div>
 					<div class="button-wrap">
-						<el-form-item>
+						<!--<el-form-item>-->
 							<el-button class="resetform" @click="resetForm('formData')">重置</el-button>
 							<el-button type="primary" @click="query('formData')">查询</el-button>
-						</el-form-item>
+						<!--</el-form-item>-->
 					</div>
 				</el-form>
 				<div class="info">
@@ -160,7 +160,6 @@
 	.fun .content {
 		width: 100%;
 		/*min-height: 530px;*/
-		/*height: calc(100% - 90px);*/
 		padding: 0px 20px;
 		background: #ffffff;
 		clear: both;
@@ -218,13 +217,14 @@
 	    margin-left: 0px!important;
 	}
 	.fun .button-wrap {
-		margin: 0px auto;
-		width: 264px;
+		margin: 0px auto 40px;
+		width: 260px;
 		clear: both;
+		font-size: 0px;
 	}
-	.fun .button-wrap .el-form-item__content {
+	/*.fun .button-wrap .el-form-item__content {
 		margin-left: 0!important;
-	}
+	}*/
 	.fun .el-input__inner {
 		border-radius: 4px;
 		border: 1px solid #EEEEEE;

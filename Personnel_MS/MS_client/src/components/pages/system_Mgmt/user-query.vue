@@ -19,10 +19,10 @@
 						</el-form-item>
 					</div>
 					<div class="button-wrap">
-						<el-form-item>
+						<!--<el-form-item>-->
 							<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
 							<el-button type="primary" @click="submitForm('ruleForm2')">查询</el-button>
-						</el-form-item>
+						<!--</el-form-item>-->
 					</div>
 				</el-form>
 				<div class="info">
@@ -219,14 +219,15 @@ export default {
 }
 
 .user-query .button-wrap {
-	margin: 0px auto;
-	width: 264px;
+	margin: 0px auto 40px;
+	width: 260px;
 	clear: both;
+	font-size: 0px;
 }
 
-.user-query .button-wrap .el-form-item__content {
+/*.user-query .button-wrap .el-form-item__content {
 	margin-left: 0!important;
-}
+}*/
 
 .user-query .el-input__inner {
 	border-radius: 4px;
@@ -367,7 +368,7 @@ export default {
     color: #fff;
     cursor: default;
 }
-.e.el-pager li.active:hover {
+.el-pager li.active:hover {
 	cursor: pointer;
 	color: #ffffff;
 }
