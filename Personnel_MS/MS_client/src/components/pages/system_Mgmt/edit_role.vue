@@ -62,8 +62,8 @@ export default {
         };
     },
     mounted() {
-        this.formRoleMsg.roleName = this.$route.query.roleName;
-        this.formRoleMsg.roleDescr = this.$route.query.roleDescr;
+        this.formRoleMsg.roleName = this.$route.params.roleName;
+        this.formRoleMsg.roleDescr = this.$route.params.roleDescr;
     },
     components: {
         current,
@@ -78,8 +78,6 @@ export default {
             console.dir(editRole);
         }
     }
-
-
 }
 </script>
 

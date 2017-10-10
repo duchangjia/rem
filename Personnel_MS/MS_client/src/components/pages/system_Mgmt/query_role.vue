@@ -72,7 +72,8 @@ export default {
         handleEdit(index, row) {
             this.$router.push({
                 path: '/edit_role',
-                query: {
+                name: 'edit_role',
+                params: {
                     roleNo: this.roleListInfo[index].roleNo,
                     roleName: this.roleListInfo[index].roleName,
                     status: this.roleListInfo[index].status,
@@ -192,10 +193,12 @@ export default {
 .el-pager li:hover {
     color: #FF9900;
 }
+
 .el-pager li.active:hover {
     cursor: pointer;
     color: #ffffff;
 }
+
 .icon-edit {
     display: inline-block;
     width: 24px;
