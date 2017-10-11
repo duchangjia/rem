@@ -42,7 +42,7 @@ public class UserController {
 
     /**
      * 条件组合查询
-     * url:iem/user/queryUser
+     * url:user/queryUser
      * @param queryUserReq
      * @return
      */
@@ -65,7 +65,7 @@ public class UserController {
 	List<QueryUserInfoResponse> userInfos = userService.queryUser(queryUserparam);
 	long totalNum = page.getTotal();
 	result.setTotal(totalNum);
-	result.setModel(userInfos);
+	result.setModels(userInfos);
 	logger.debug(String.format("queryUser is end  total numbers is :%s", totalNum));
 
 	return JSONResultUtil.setSuccess(result);
@@ -73,7 +73,7 @@ public class UserController {
 
     /**
      * 点击用户管理显示该用户所在机构下的所有成员
-     * url:iem/user/queryUserLoad
+     * url:user/queryUserLoad
      * @param queryUserReq
      * @return
      */
@@ -92,7 +92,7 @@ public class UserController {
 	List<QueryUserInfoResponse> userInfos = userService.queryUserLoad(uid, userNo);
 	long totalNum = page.getTotal();
 	result.setTotal(totalNum);
-	result.setModel(userInfos);
+	result.setModels(userInfos);
 	logger.debug(String.format("queryUserload is end total numbers is :%s", totalNum));
 
 	return JSONResultUtil.setSuccess(result);
@@ -100,7 +100,7 @@ public class UserController {
 
     /**
      * 更新用户信息 
-     * url:iem/user/updateUserInfo
+     * url:user/updateUserInfo
      * 手机只校验中国大陆 所有信息不可为null 
      * @return
      */
