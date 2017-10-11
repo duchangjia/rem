@@ -23,7 +23,9 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <el-pagination class="toolbar" layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="5" :total="total" style="float:right;">
+            <!-- <el-pagination class="toolbar" layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="5" :total="total" style="float:right;">
+                    </el-pagination> -->
+            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" style="float:right;">
             </el-pagination>
         </div>
     </div>
@@ -34,9 +36,10 @@ import current from '../../common/current_position.vue'
 export default {
     data() {
         return {
-            roleListInfo: [],
-            total: 100,
-            page: 1
+            pageNum: 0,
+            pageSize: 0,
+            totalRows: 0,
+            roleListInfo: []
         }
     },
     components: {
@@ -45,22 +48,23 @@ export default {
     created() {
         const self = this;
         let params = {
-            pageIndex: 1,
-            pageRows: 10
+            pageNum: 1,
+            pageSize: 4
         }
-        self.$axios.get('ifdp/queryRoleList', params)
+        self.$axios.post('iemrole/role/queryRoleList', { params })
             .then(function(res) {
-                self.roleListInfo = res.data.data.roleListInfo;
-                // self.pageIndex = Number(res.data.data.pageIndex);
-                // self.pageRows = Number(res.data.data.pageRows);
-                // self.totalRows = Number(res.data.data.totalRows);
+                console.log(res);
+                self.roleListInfo = res.data.data.model;
+                self.pageNum = Number(res.data.config.pageNum);
+                self.pageSize = Number(res.data.config.pageSize);
+                self.totalRows = Number(res.data.data.total);
             }).catch(function(err) {
                 console.log('error');
             })
     },
     methods: {
         handleCurrentChange(val) {
-            this.page = val;
+            this.pageNum = val;
             this.getRoles();
         },
         getRoles() {
