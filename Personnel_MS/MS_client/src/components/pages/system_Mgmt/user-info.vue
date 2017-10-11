@@ -118,14 +118,12 @@
 		},
 		created(){
 			const self = this;
-			let params = {
-				user: localStorage.getItem('user')
-			};
-//			let msg = JSON.parse(localStorage.getItem('msg'));
-//			let user = localStorage.getItem('user');
-//			console.log(msg);
-//			console.log(user);
-			self.$axios.get(baseURL+'/queryOperatorDetail',params)
+			let param = JSON.parse(sessionStorage.getItem('param'));
+			let msg = JSON.parse(sessionStorage.getItem('msg'));
+//			let user = sessionStorage.getItem('user');
+			console.log('msg',msg);
+			console.log('param',param);
+			self.$axios.get(baseURL+'/queryOperatorDetail',param)
 			.then(function(res){
 				self.operatorDetail = res.data.data;
 				self.oldStatus = self.operatorDetail.status;
@@ -269,6 +267,7 @@
 <style>
 	.user-info {
 		padding-left: 20px;
+	    padding-bottom: 20px;
 		width: 100%;
 		position: relative;
 	}

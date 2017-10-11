@@ -21,7 +21,7 @@
 					<div class="button-wrap">
 						<!--<el-form-item>-->
 							<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
-							<el-button type="primary" @click="submitForm('ruleForm2')">查询</el-button>
+							<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
 						<!--</el-form-item>-->
 					</div>
 				</el-form>
@@ -78,6 +78,7 @@ export default {
 			pageIndex: 1,
 			pageRows: 10
 		}
+		//查询用户列表
 		self.$axios.get(baseURL+'/queryOperatorList', params)
 			.then(function(res) {
 				self.operatorList = res.data.data.operatorListInfo;
@@ -89,21 +90,29 @@ export default {
 			})
 	},
 	methods: {
-		submitForm(formName) {
+		//查询用户详细信息
+		queryForm(formName) {
 			const self = this;
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
-					let user = self.ruleForm2.user;
-					let param = {};
+					let user = self.ruleForm2.user,
+						param = {},
+						emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+						mobileReg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/,
+						userNoReg = /^P\d{6}$/;
 					self.operatorList = [];
-					if(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(user)){
+					if(emailReg.test(user)){
 						param = {"email": user};
-					}else if(/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/.test(user)){
+						console.log('email',user)
+					}else if(mobileReg.test(user)){
 						param = {"mobile": user};
-					}else if(/^P\d{6}$/.test(user)){
+						console.log('mobile',user)
+					}else if(userNoReg.test(user)){
 						param = {"userNo": user};
+						console.log('userNo',user)
 					}else{
 						param = {"userName": user};
+						console.log('userName',user)
 					}
 					self.$axios.get(baseURL+'/queryOperatorDetail', param)
 						.then(function(res) {
@@ -111,8 +120,8 @@ export default {
 							self.pageIndex = 0;
 							self.pageRows = 0;
 							self.totalRows = 0;
-							localStorage.setItem('user', self.ruleForm2.user);
-//							localStorage.setItem('msg',JSON.stringify(self.operatorList[0]));
+//							sessionStorage.setItem('param', JSON.stringify(param));
+							sessionStorage.setItem('msg',JSON.stringify(self.operatorList[0]));
 						}).catch(function(err) {
 							console.log(err);
 						})
@@ -122,10 +131,31 @@ export default {
 				}
 			});
 		},
+		//重置
 		resetForm(formName) {
 			const self = this;
 			self.$refs[formName].validate((valid) => {
 				if(valid){
+					let user = self.ruleForm2.user,
+						param = {},
+						emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+						mobileReg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/,
+						userNoReg = /^P\d{6}$/;
+					self.operatorList = [];
+					if(emailReg.test(user)){
+						param = {"email": user};
+						console.log('email',user)
+					}else if(mobileReg.test(user)){
+						param = {"mobile": user};
+						console.log('mobile',user)
+					}else if(userNoReg.test(user)){
+						param = {"userNo": user};
+						console.log('userNo',user)
+					}else{
+						param = {"userName": user};
+						console.log('userName',user)
+					}
+					sessionStorage.setItem('param', JSON.stringify(param));
 					self.$router.push('/user-info');
 					
 				}
@@ -135,7 +165,7 @@ export default {
 			self.pageIndex = `${val}`;
 		},
 		resetUserInfo(row, column, cell, event) {
-			if (column.property === 'number') {
+			if (column.property === 'userNo') {
 				this.$router.push('/user-info');
 			}
 
@@ -149,6 +179,7 @@ export default {
 	
 .user-query {
 	padding-left: 20px;
+    padding-bottom: 20px;
 	width: 100%;
 }
 
@@ -279,7 +310,12 @@ export default {
 .user-query .el-table th {
 	text-align: center;
 }
-
+.user-query .el-table td:first-child{
+	cursor: pointer;
+}
+.user-query .el-table td:first-child:hover{
+	color: #FF9900;
+}
 /*.user-query .el-table--enable-row-hover .el-table__body tr:hover>td {
 	background-color: #f8f8f8;
 	background-clip: padding-box;
