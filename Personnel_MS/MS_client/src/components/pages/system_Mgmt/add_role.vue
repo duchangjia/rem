@@ -9,28 +9,28 @@
             </div>
             <div class="add-wrapper role-msg">
                 <el-col :span="24" class="item-title">角色信息</el-col>
-                <el-form :inline="true" :model="formRoleMsg" :label-position="labelPosition" label-width="80px">
-                    <el-col :span="12">
-                        <el-form-item label="角色ID">
-                            <el-input v-model="formRoleMsg.roleID"></el-input>
-                        </el-form-item>
-                    </el-col>
+                <el-form :inline="true" :model="addRoleMsg" :label-position="labelPosition" label-width="80px">
+                    <!-- <el-col :span="12">
+                            <el-form-item label="角色ID">
+                                <el-input v-model="addRoleMsg.roleNo"></el-input>
+                            </el-form-item>
+                        </el-col> -->
                     <el-col :span="12">
                         <el-form-item label="名称">
-                            <el-input v-model="formRoleMsg.roleName"></el-input>
+                            <el-input v-model="addRoleMsg.roleName"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="状态">
-                            <el-select v-model="formRoleMsg.status">
-                                <el-option label="启用" value="启用"></el-option>
-                                <el-option label="未启用" value="未启用"></el-option>
+                            <el-select v-model="addRoleMsg.status">
+                                <el-option label="有效" value="1"></el-option>
+                                <el-option label="无效" value="0"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="描述">
-                            <el-input v-model="formRoleMsg.descript"></el-input>
+                            <el-input v-model="addRoleMsg.roleDescr"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -107,11 +107,11 @@ export default {
     data() {
         return {
             labelPosition: 'right',
-            formRoleMsg: {
-                roleID: '',
+            addRoleMsg: {
+                roleNo: '',
                 roleName: '',
                 status: '',
-                descript: ''
+                roleDescr: ''
             },
             menuRadio: '系统管理',
             menuRadioFlag: true,
@@ -164,11 +164,16 @@ export default {
         },
         handleAdd() {
             let newRole = {};
-            newRole.roleID = this.formRoleMsg.roleID;
-            newRole.roleName = this.formRoleMsg.roleName;
-            newRole.status = this.formRoleMsg.status;
-            newRole.descript = this.formRoleMsg.descript;
-            console.dir(newRole);
+            newRole.roleName = this.addRoleMsg.roleName;
+            newRole.status = this.addRoleMsg.status;
+            newRole.roleDescr = this.addRoleMsg.roleDescr;
+            console.log(newRole);
+            this.$axios.post('iemrole/role/addRoleInfo', { newRole })
+                .then(function(res) {
+                    console.log(res);
+                }).catch(function(err) {
+                    console.log('error');
+                })
         }
     }
 }
@@ -233,9 +238,11 @@ export default {
     border-radius: 0;
     width: 300px;
 }
+
 .add-wrapper .el-input__inner:focus {
     border-color: #ff9900;
 }
+
 .add-wrapper .menu-item {
     display: inline-block;
     margin-right: 20px;
@@ -373,9 +380,11 @@ export default {
     background-color: #ff9900;
     border-color: #ff8d00;
 }
+
 .add-wrapper .func-permission .funcs-content .el-checkbox__inner {
     border-radius: 0;
 }
+
 .add-wrapper .func-permission .funcs-content .el-checkbox__inner:hover,
 .add-wrapper .func-permission .funcs-content .el-checkbox__inner:focus {
     border-color: #ff8d00;
