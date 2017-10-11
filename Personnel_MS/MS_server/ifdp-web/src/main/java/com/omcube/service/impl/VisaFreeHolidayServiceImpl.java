@@ -12,30 +12,29 @@ import com.omcube.service.VisaFreeHolidayService;
 
 @Service
 public class VisaFreeHolidayServiceImpl implements VisaFreeHolidayService {
-    
-    @Autowired
-    private VisaFreeHolidayMapper visaFreeHolidayMapper;
-    
-    //查询所有列表
-    @Override
-    public List<VisaFreeHolidayPo> queryVisaFreeHolidays()
-    {
-	
-	return visaFreeHolidayMapper.queryVisaFreeHolidays();
-    }
-    
-    //新增
-    @Override
-    public void insertVisaFreeHoliday(VisaFreeHolidayPo visaFreeHolidayPo)
-    {
-	visaFreeHolidayMapper.insertVisaFreeHoliday(visaFreeHolidayPo);
-    }
-    
-    //条件组合查询
-    @Override
-    public List<VisaFreeHolidayPo> queryVisaFreeHolidaysByCondition(QueryVisaFreeHolidayRequest queryVisaFreeHolidayRequest)
-    {
-	return visaFreeHolidayMapper.queryVisaFreeHolidaysByCondition(queryVisaFreeHolidayRequest);
-    }
+
+	@Autowired
+	private VisaFreeHolidayMapper visaFreeHolidayMapper;
+
+	// 查询所有列表
+	@Override
+	public List<VisaFreeHolidayPo> queryVisaFreeHolidays(String uid) {
+
+		return visaFreeHolidayMapper.queryVisaFreeHolidays(uid);
+	}
+
+	// 新增
+	@Override
+	public void insertVisaFreeHoliday(VisaFreeHolidayPo visaFreeHolidayPo) {
+		visaFreeHolidayMapper.insertVisaFreeHoliday(visaFreeHolidayPo);
+	}
+
+	// 条件组合查询
+	@Override
+	public List<VisaFreeHolidayPo> queryVisaFreeHolidaysByCondition(
+			QueryVisaFreeHolidayRequest queryVisaFreeHolidayRequest) {
+		return visaFreeHolidayMapper
+				.queryVisaFreeHolidaysByCondition(queryVisaFreeHolidayRequest);
+	}
 
 }

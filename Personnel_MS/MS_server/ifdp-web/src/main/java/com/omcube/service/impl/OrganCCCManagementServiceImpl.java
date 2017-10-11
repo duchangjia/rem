@@ -9,28 +9,34 @@ import com.omcube.model.po.OrganCCCManagemenPO;
 import com.omcube.service.OrganCCCManagementService;
 
 @Service
-public class OrganCCCManagementServiceImpl implements OrganCCCManagementService {
-    @Autowired
-    private OrganCCCManagementMapper organCCCManagementMapper;
+public class OrganCCCManagementServiceImpl
+		implements
+			OrganCCCManagementService {
+	@Autowired
+	private OrganCCCManagementMapper organCCCManagementMapper;
 
-    @Transactional
-    @Override
-    public void insertOrganCCCManagement(OrganCCCManagemenPO organCCCManagemenPO)
-    {
+	@Transactional
+	@Override
+	public void insertOrganCCCManagement(
+			OrganCCCManagemenPO organCCCManagemenPO) {
 
-	organCCCManagementMapper.insertOrganCCCManagement(organCCCManagemenPO);
-	organCCCManagementMapper.insertOrganCCCManagement1(organCCCManagemenPO);
+		organCCCManagementMapper
+				.insertOrganCCCManagementISOB(organCCCManagemenPO);
+		organCCCManagementMapper
+				.insertOrganCCCManagementEDC(organCCCManagemenPO);
 
-    }
+	}
 
-    @Transactional
-    @Override
-    public Integer updateOrganCCCManagement(OrganCCCManagemenPO organCCCManagemenPO)
-    {
-	Integer i;
-	i = organCCCManagementMapper.updateOrganCCCManagement(organCCCManagemenPO);
-	i = organCCCManagementMapper.updateOrganCCCManagement1(organCCCManagemenPO);
-	return i;
-    }
+	@Transactional
+	@Override
+	public Integer updateOrganCCCManagement(
+			OrganCCCManagemenPO organCCCManagemenPO) {
+		Integer i;
+		i = organCCCManagementMapper
+				.updateOrganCCCManagementISOB(organCCCManagemenPO);
+		i = organCCCManagementMapper
+				.updateOrganCCCManagementEDC(organCCCManagemenPO);
+		return i;
+	}
 
 }

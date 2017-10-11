@@ -4,9 +4,49 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.omcube.model.mapper.SysBsnMapper">
 
-	<insert id="addBsn" parameterType="com.omcube.model.po.SysBsnPO">
-		INSERT INTO ifdp_sys_bsn
-		VALUES(#{uId},#{bsnNo},#{interfaceName},#{methodName},#{serviceName},#{status},#{remark},#{createdBy},#{createdDate},#{updatedBy},#{updatedDate},#{bsnUrl})
-	</insert>
+	<resultMap id="SysBsnMap" type="com.omcube.model.po.SysBsnPO">
+		<id column="UID" property="uId"></id>
+		<id column="BSN_NO" property="bsnNo"></id>
+		<result column="INTERFACE" property="interfaceName" javaType="java.lang.String"></result>
+		<result column="METHOD_NAME" property="methodName" javaType="java.lang.String"></result>
+		<result column="SERVICE" property="serviceName" javaType="java.lang.String"></result>
+		<result column="STATUS" property="status" javaType="java.lang.String"></result>
+		<result column="REMARK" property="remark" javaType="java.lang.String"></result>
+		<result column="CREATED_BY" property="createdBy" javaType="java.lang.String"></result>
+		<result column="CREATED_DATE" property="createdDate" javaType="java.util.Date"></result>
+		<result column="UPDATED_BY" property="updatedBy" javaType="java.lang.String"></result>
+		<result column="UPDATED_DATE" property="updatedDate" javaType="java.util.Date"></result>
+		<result column="BSN_URL" property="bsnUrl" javaType="java.lang.String"></result>
+	</resultMap>
 	
+	<!-- 根据uId,功能编号bsnNo查询对应业务功能 -->
+	<select id="queryBsnByUidAndBsnNo" parameterType="com.omcube.model.po.SysBsnPO" resultMap="SysBsnMap">
+		select * 
+		from 
+			IFDP_SYS_BSN 
+		where 
+			UID = #{uId} 
+			and BSN_NO = #{bsnNo}
+	</select>
+	
+	<!-- 添加业务功能 -->
+	<insert id="addBsn" parameterType="com.omcube.model.po.SysBsnPO">
+		insert into 
+			IFDP_SYS_BSN
+		values(
+			#{uId},
+			#{bsnNo},
+			#{interfaceName},
+			#{methodName},
+			#{serviceName},
+			#{status},
+			#{remark},
+			#{createdBy},
+			#{createdDate},
+			#{updatedBy},
+			#{updatedDate},
+			#{bsnUrl}
+		)
+	</insert>
+
 </mapper>

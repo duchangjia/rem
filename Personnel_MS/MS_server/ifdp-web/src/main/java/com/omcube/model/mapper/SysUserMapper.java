@@ -7,17 +7,16 @@ import com.omcube.model.response.QueryUserInfoResponse;
 import java.util.List;
 
 import org.apache.ibatis.annotations.*;
-import org.springframework.cache.annotation.Cacheable;
 
 @Mapper
 public interface SysUserMapper {
-    
+
     List<QueryUserInfoResponse> queryUser(QueryUserRequest queryUserReq);
 
-    List<QueryUserInfoResponse> queryUserLoad(@Param("uid") String uid,@Param("userNo") String userNo);
-    
+    List<QueryUserInfoResponse> queryUserLoad(@Param("uid") String uid, @Param("userNo") String userNo);
+
     void updateUserInfo(UpdateUserInfoRequest updateUserInfo);
-    
+
     void updteUserRoleInfo(UpdateUserInfoRequest updateUserInfo);
-    
+
 }

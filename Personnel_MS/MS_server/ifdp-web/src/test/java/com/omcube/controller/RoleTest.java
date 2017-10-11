@@ -42,7 +42,7 @@ public class RoleTest {
 	}
 	
 	@Test
-	public void test(){
+	public void test() throws Exception{
 		
 		SysRolePO sysRolePO = new SysRolePO();
 		sysRolePO.setuId("0001");
@@ -55,7 +55,7 @@ public class RoleTest {
 		sysRolePO.setUpdatedBy("jun");
 		sysRolePO.setUpdatedDate(new Date());
 		
-		roleService.addRole(sysRolePO);
+		roleService.addRoleInfo(sysRolePO);;
 	}
 
 	public static void main(String[] args) {
