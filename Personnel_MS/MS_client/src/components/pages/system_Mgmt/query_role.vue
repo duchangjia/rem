@@ -51,7 +51,7 @@ export default {
             pageNum: 1,
             pageSize: 4
         }
-        self.$axios.post('iemrole/role/queryRoleList', { params })
+        self.$axios.get('iemrole/role/queryRoleList', { params })
             .then(function(res) {
                 console.log(res);
                 self.roleListInfo = res.data.data.model;
