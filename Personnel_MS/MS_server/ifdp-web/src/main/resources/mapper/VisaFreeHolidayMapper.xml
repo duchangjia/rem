@@ -14,10 +14,10 @@
         <result column="day_date" property="endDate" javaType="java.lang.String"></result>
     </resultMap>
     
-    <select id="queryVisaFreeHolidays"  resultMap="VisaFreeHolidayMap">       
-    	select eaf.ATTENCE_TIME,pw.DAY_FLAG,eaf.REMARK,pw.CREATED_BY,pw.CREATED_DATE from PUB_WORKDAY pw,EP_ATTENCE_FLOW eaf 
+    <select id="queryVisaFreeHolidays"  resultMap="VisaFreeHolidayMap"> 
+    	select day_date,day_flag,remark,created_by,created_date from PUB_WORKDAY      
 		<where>
-			 pw.UID=eaf.UID=#{uid}
+			 UID=#{uid}
 		</where> 
     </select>
     

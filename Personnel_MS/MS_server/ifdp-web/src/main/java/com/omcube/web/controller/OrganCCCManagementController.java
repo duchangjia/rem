@@ -66,7 +66,6 @@ public class OrganCCCManagementController {
 
     //新增
     @RequestMapping(value = "/insertOrganCCCManagement", method = RequestMethod.GET)
-    @Cacheable
     public Object insertOrganCCCManagement(OrganCCCManagemenPO organCCCManagemenPO)
     {
 

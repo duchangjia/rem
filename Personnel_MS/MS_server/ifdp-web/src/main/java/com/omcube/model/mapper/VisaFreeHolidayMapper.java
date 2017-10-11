@@ -9,14 +9,15 @@ import com.omcube.model.request.QueryVisaFreeHolidayRequest;
 
 @Mapper
 public interface VisaFreeHolidayMapper {
-    
-    //查询所有列表
-    List<VisaFreeHolidayPo> queryVisaFreeHolidays();
-    
-    //新增
-    void insertVisaFreeHoliday(VisaFreeHolidayPo visaFreeHolidayPo);
-    
-    //条件组合查询
-    List<VisaFreeHolidayPo> queryVisaFreeHolidaysByCondition(QueryVisaFreeHolidayRequest queryVisaFreeHolidayRequest);
-	
+
+	// 查询所有列表
+	List<VisaFreeHolidayPo> queryVisaFreeHolidays(String uid);
+
+	// 新增
+	void insertVisaFreeHoliday(VisaFreeHolidayPo visaFreeHolidayPo);
+
+	// 条件组合查询
+	List<VisaFreeHolidayPo> queryVisaFreeHolidaysByCondition(
+			QueryVisaFreeHolidayRequest queryVisaFreeHolidayRequest);
+
 }
