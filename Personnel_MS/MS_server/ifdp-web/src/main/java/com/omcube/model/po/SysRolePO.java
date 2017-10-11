@@ -3,7 +3,7 @@ package com.omcube.model.po;
 import java.util.List;
 
 /**
- * 角色的PO类
+ * 角色的实体类
  * 
  * @author dangjun
  * @version 1.0

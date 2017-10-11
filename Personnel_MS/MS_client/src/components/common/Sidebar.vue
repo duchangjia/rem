@@ -8,14 +8,14 @@
 		<el-menu  class="el-menu-vertical-demo" :default-active="onRoutes" @open="handleOpen" @close="handleClose" :collapse="isCollapse" unique-opened router>
 			<template v-for="item in items">
 				<template v-if="item.subs">
-					<el-submenu :index="item.index">
+					<el-submenu :index="item.index" :class="itemActive[item.index]">
 						<template slot="title"><i class="icon" :class="item.icon"></i><span slot="title">{{ item.title }}</span></template>
-						<el-menu-item v-for="(subItem,i) in item.subs" :key="i" :index="subItem.index">{{ subItem.title }}
+						<el-menu-item v-for="(subItem,i) in item.subs" :key="i" :index="subItem.index" :class="itemActive[subItem.index]" @click="highlight(item.index,subItem.index)">{{ subItem.title }}
 						</el-menu-item>
 					</el-submenu>
 				</template>
 				<template v-else>
-					<el-menu-item :index="item.index">
+					<el-menu-item :index="item.index" :class="itemActive[item.index]" @click="highlight(item.index,'')">
 						<i :class="item.icon" class="icon"></i><span slot="title">{{ item.title }}</span>
 					</el-menu-item>
 				</template>
@@ -29,7 +29,7 @@
 		data() {
 			return {
 				isCollapse: false,
-				menuItemFlag: true,
+				itemActive: {},
                 items: [
                     {
                     	icon: 'icon-home',
@@ -120,13 +120,23 @@
 		},
 		methods: {
 			handleOpen(key, keyPath) {
-				console.log(key, keyPath);
+//				console.log(key, keyPath);
 			},
 			handleClose(key, keyPath) {
-				console.log(key, keyPath);
+//				console.log(key, keyPath);
 			},
 			collapse() {
 				console.log('collapse');
+			},
+			highlight(item,subitem) {
+				this.itemActive = {};
+				if(subitem===''){
+					this.itemActive[item] = 'is-active';
+				}else{
+					this.itemActive[subitem] = 'is-active';
+					this.itemActive[item] = 'is-active';
+				}
+				
 			}
 //			link() {
 //				this.$router.replace('/home');
@@ -142,7 +152,13 @@
 			}
 		},
 		watch: {
-
+			$route: function(){
+//				//sidebar导航highlight随路由变化
+//				let path = this.$route.path.substr(1);
+//				this.itemActive = {};
+//				this.itemActive[path] = 'is-active';
+//				console.log(this.itemActive);
+			}
 		}
 	}
 </script>

@@ -10,16 +10,19 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.omcube.model.po.SysRolePO;
 import com.omcube.service.RoleService;
+import com.omcube.util.ConstantUtil;
 import com.omcube.util.ErrorCodeConstantUtil;
 import com.omcube.util.JSONResultUtil;
-import com.omcube.util.SpringUtil;
+import com.omcube.util.Result;
 
 /**
  * 角色管理的controller
@@ -27,10 +30,9 @@ import com.omcube.util.SpringUtil;
  * @author dangjun
  * @version 1.0
  */
-
 @RestController
 @RequestMapping(value = "iem/role")
-@CacheConfig(cacheNames = "roles")
+@CacheConfig(cacheNames = "queryCache")
 public class RoleController {
 
 	protected final Log logger = LogFactory.getLog(getClass());
@@ -39,58 +41,45 @@ public class RoleController {
 	private RoleService roleService;
 
 	/**
-	 * 像角色分配权限的方法
-	 * 
-	 * @param sysRolePO
-	 * @param sysMenuPO
-	 * @return
-	 */
-	@RequestMapping(value = "/distributionRole", method = RequestMethod.GET)
-	public Object distributionRole(SysRolePO sysRolePO) {
-
-		if (StringUtils.isEmpty(sysRolePO) || StringUtils.isEmpty(sysRolePO.getMenus())) {
-			logger.error("the request params sysRolePO or sysMenuPO is null");
-			return JSONResultUtil.setError("F00002", "the request params sysRolePO or sysMenuPO is null");
-		}
-
-		try {
-			roleService.distributionRole(sysRolePO, sysRolePO.getMenus());
-			return JSONResultUtil.setSuccess();
-		} catch (Exception e) {
-
-		}
-		return JSONResultUtil.setError("F00002", "the request params is null");
-	}
-
-	/**
 	 * 查询所有角色
 	 * 
 	 * @param uid
 	 * @return Object
 	 */
-	@GetMapping(value = "/queryRoleList/{uId}")
+	@GetMapping(value = "/queryRoleList")
 	@Cacheable
-	public Object queryRoleList(@PathVariable(value = "uId", required = true) String uId, Integer pageNum,
+	public Object queryRoleList(@RequestParam(value = "uId", required = true) String uId, Integer pageNum,
 			Integer pageSize) {
 
+		// 租户id的非空校验
 		if (StringUtils.isEmpty(uId)) {
 			logger.error("the request params uId is null");
-			return JSONResultUtil.setError("F00002", "the request params uId is null");
+			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request params uId is null");
 		}
 
-		if (roleService == null) {
-			roleService = SpringUtil.getBean(RoleService.class);
+		// 分页信息的校验
+		if (pageNum <= 0) {
+			pageNum = ConstantUtil.DEFAULT_PAGE_NUM;
+		}
+		if (pageSize <= 0) {
+			pageSize = ConstantUtil.DEFAULT_PAGE_SEZE;
+		}
+		if (pageSize > 100) {
+			pageSize = ConstantUtil.DEFAULT_MAX_PAGE_SEZE;
 		}
 
-		pageNum = pageNum == null ? 1 : pageNum;
-		pageSize = pageSize == null ? 2 : pageSize;
-		PageHelper.startPage(pageNum, pageSize, true);
+		// 返回结果集
+		Result<SysRolePO> result = new Result<>();
 
-		List<SysRolePO> roleInfos = roleService.getRoleAll(uId);
+		Page<SysRolePO> page = PageHelper.startPage(pageNum, pageSize, true);
 
-		PageInfo<SysRolePO> pageInfo = new PageInfo<SysRolePO>(roleInfos);
+		List<SysRolePO> roleInfos = roleService.queryRoleList(uId);
 
-		return JSONResultUtil.setSuccess(pageInfo);
+		long totalNum = page.getTotal();
+		result.setTotal(totalNum);
+		result.setModels(roleInfos);
+
+		return JSONResultUtil.setSuccess(result);
 	}
 
 	/**
@@ -99,7 +88,7 @@ public class RoleController {
 	 * @param sysRolePO
 	 * @return object
 	 */
-	@PostMapping(value = "/addRole")
+	@PostMapping(value = "/addRoleInfo")
 	public Object addRoleInfo(SysRolePO sysRolePO) {
 
 		if (sysRolePO == null) {
@@ -108,15 +97,19 @@ public class RoleController {
 		}
 
 		logger.info(String.format("the request body is %s:", sysRolePO.toString()));
-		
-		sysRolePO.setuId("0001");
-		sysRolePO.setRoleNo("0003");
-		String roleNo = String.valueOf(System.currentTimeMillis());
-		sysRolePO.setRoleNo(roleNo);
-		
-		roleService.addRole(sysRolePO);
 
-		return JSONResultUtil.setSuccess();
+		String roleNo = String.valueOf(System.currentTimeMillis()); // 角色的编号暂时使用当前的毫秒值代替
+		sysRolePO.setuId("0001");
+		sysRolePO.setRoleNo(roleNo);
+
+		try {
+			roleService.addRoleInfo(sysRolePO);
+			return JSONResultUtil.setSuccess();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "add role fail");
 
 	}
 
@@ -134,14 +127,77 @@ public class RoleController {
 
 		if (StringUtils.isEmpty(uId) || StringUtils.isEmpty(roleNo)) {
 			logger.error("the request params uId ,roleNo is null");
-			return JSONResultUtil.setError("F00002", "the request params uId,roleNo is null");
+			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
+					"the request params uId,roleNo is null");
 		}
 
-		if (roleService == null) {
-			roleService = SpringUtil.getBean(RoleService.class);
-		}
-
-		return JSONResultUtil.setSuccess(roleService.getRoleByRoleNo(uId, roleNo));
+		return JSONResultUtil.setSuccess(roleService.queryRoleByRoleNo(uId, roleNo));
 	}
 
+	/**
+	 * 角色的修改
+	 * 
+	 * @param sysRolePO
+	 * @return
+	 */
+	@PutMapping(value = "/updateRoleInfo")
+	public Object updateRoleInfo(SysRolePO sysRolePO) {
+
+		if (sysRolePO == null) {
+			logger.error("the request params sysRolePO is null");
+			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
+					"the request params sysRolePO is null");
+		}
+
+		try {
+			roleService.updateRoleInfo(sysRolePO);
+			return JSONResultUtil.setSuccess();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "update role fail");
+	}
+	
+	/**
+	 * 权限分配页面角色的查询
+	 * 
+	 * @return
+	 */
+	@GetMapping(value="/queryRoleByRoleNameOrRoleNo")
+	public Object queryRoleByRoleName(SysRolePO sysRolePO){
+		if (sysRolePO == null) {
+			logger.error("the request params sysRolePO is null");
+			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
+					"the request params sysRolePO is null");
+		}
+		
+		JSONResultUtil.setSuccess(roleService.queryRoleByRoleName(sysRolePO));
+		
+		return null;
+	}
+
+	/**
+	 * 向角色分配权限的方法
+	 * 
+	 * @param sysRolePO
+	 * @param sysMenuPO
+	 * @return
+	 */
+	@PostMapping(value = "/distributionRole")
+	public Object distributionRole(SysRolePO sysRolePO) {
+
+		if (sysRolePO == null || StringUtils.isEmpty(sysRolePO.getMenus())) {
+			logger.error("the request params sysRolePO or menus is null");
+			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
+					"the request params sysRolePO or menus is null");
+		}
+
+		try {
+			roleService.distributionRole(sysRolePO, sysRolePO.getMenus(), sysRolePO.getBsns());
+			return JSONResultUtil.setSuccess();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request params is null");
+	}
 }
