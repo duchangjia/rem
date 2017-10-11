@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +26,6 @@ import com.omcube.util.SpringUtil;
 
 @RestController
 @RequestMapping(value = "/organ")
-@CacheConfig(cacheNames = "organs")
 public class OrganCCCManagementController {
 
 	protected final Log logger = LogFactory.getLog(getClass());
@@ -37,8 +37,8 @@ public class OrganCCCManagementController {
 	private OrganCCCManagementService organCCCManagementService;
 
 	// 查询所有列表
-	@RequestMapping(value = "/queryOrganCCCManagements", method = RequestMethod.GET)
-	@Cacheable
+	@GetMapping(value = "/queryOrganCCCManagements")
+	@Cacheable(value="queryCache")
 	public Object queryOrganCCCManagements(@RequestParam Integer pageSize,
 			@RequestParam String pageNum) {
 		MessageFormat.format("{0} the request at {1,date,yyyy-MM-dd HH:mm:ss}",

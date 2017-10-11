@@ -5,7 +5,7 @@ import java.util.List;
 public class Result<T> {
 
     private long total;
-    private List<T> model;
+    private List<T> models;
 
     public long getTotal() {
 	return total;
@@ -15,12 +15,12 @@ public class Result<T> {
 	this.total = total;
     }
 
-    public List<T> getModel() {
-	return model;
+    public List<T> getModels() {
+        return models;
     }
 
-    public void setModel(List<T> model) {
-	this.model = model;
+    public void setModels(List<T> models) {
+        this.models = models;
     }
 
 }

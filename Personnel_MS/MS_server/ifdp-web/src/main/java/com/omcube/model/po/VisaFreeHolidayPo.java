@@ -5,7 +5,7 @@ import java.util.Date;
 public class VisaFreeHolidayPo extends BasicPO{
     private String uid;
     //节假日期
-    private Date day;
+    private String day;
     //节假日类型
     private String dayFlag;
     //备注
@@ -20,7 +20,7 @@ public class VisaFreeHolidayPo extends BasicPO{
 
     }
 
-    public VisaFreeHolidayPo(Date day, String dayFlag, String remark, String creatById, Date time)
+    public VisaFreeHolidayPo(String day, String dayFlag, String remark, String creatById, Date time)
     {
 
 	this.day = day;
@@ -40,12 +40,12 @@ public class VisaFreeHolidayPo extends BasicPO{
         this.uid = uid;
     }
 
-    public Date getDay()
+    public String getDay()
     {
 	return day;
     }
 
-    public void setDay(Date day)
+    public void setDay(String day)
     {
 	this.day = day;
     }

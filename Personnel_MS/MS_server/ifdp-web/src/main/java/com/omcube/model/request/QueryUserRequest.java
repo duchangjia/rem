@@ -4,7 +4,7 @@ public class QueryUserRequest {
 
     private int pageNum;//第几页
     private int pageSize;//每页多少条
-    private String uid;//租户id
+    private String uid;//租户id  从session 中获取
     private String organCompanyName;
     private String organDepartmentName;
     private String userFeatureInfo;
@@ -95,8 +95,8 @@ public class QueryUserRequest {
 
     @Override
     public String toString() {
-	return "QueryUserRequest [pageNum=" + pageNum + ", pageSize=" + pageSize + ", uid=" + uid
-		+ ", organCompanyName=" + organCompanyName + ", organDepartmentName=" + organDepartmentName
+	return "QueryUserRequest [pageNum=" + pageNum + ", pageSize=" + pageSize + ", "
+		+ " organCompanyName=" + organCompanyName + ", organDepartmentName=" + organDepartmentName
 		+ ", userFeatureInfo=" + userFeatureInfo + "]";
     }
 

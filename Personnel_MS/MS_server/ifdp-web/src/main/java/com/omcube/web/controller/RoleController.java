@@ -77,7 +77,7 @@ public class RoleController {
 
 		long totalNum = page.getTotal();
 		result.setTotal(totalNum);
-		result.setModel(roleInfos);
+		result.setModels(roleInfos);
 
 		return JSONResultUtil.setSuccess(result);
 	}

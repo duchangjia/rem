@@ -1,5 +1,6 @@
 package com.omcube.web.controller;
 
+import com.omcube.model.po.SysLoginCtrl;
 import com.omcube.model.request.QueryUserRequest;
 import com.omcube.model.request.UpdateUserInfoRequest;
 import com.omcube.model.response.QueryUserInfoResponse;
@@ -9,6 +10,7 @@ import com.omcube.util.ConstantUtil;
 import com.omcube.util.ErrorCodeConstantUtil;
 import com.omcube.util.JSONResultUtil;
 import com.omcube.util.Result;
+import com.omcube.util.SysLoginCtrlUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 
@@ -24,7 +26,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -41,7 +42,7 @@ public class UserController {
 
     /**
      * 条件组合查询
-     * url:iem/user/queryUser
+     * url:user/queryUser
      * @param queryUserReq
      * @return
      */
@@ -53,10 +54,6 @@ public class UserController {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	}
 	logger.info(String.format("the request body is %s:", queryUserReq.toString()));
-	if (StringUtils.isEmpty(queryUserReq.getUid())) {
-	    logger.error("the request uid is null");
-	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request uid is null");
-	}
 	QueryUserRequest queryUserparam = makeRequestPragram(queryUserReq);
 	logger.debug(String.format("the pageNum is  :%s and the pageSize is :%s", queryUserparam.getPageNum(),
 		queryUserparam.getPageSize()));
@@ -68,7 +65,7 @@ public class UserController {
 	List<QueryUserInfoResponse> userInfos = userService.queryUser(queryUserparam);
 	long totalNum = page.getTotal();
 	result.setTotal(totalNum);
-	result.setModel(userInfos);
+	result.setModels(userInfos);
 	logger.debug(String.format("queryUser is end  total numbers is :%s", totalNum));
 
 	return JSONResultUtil.setSuccess(result);
@@ -76,20 +73,18 @@ public class UserController {
 
     /**
      * 点击用户管理显示该用户所在机构下的所有成员
-     * url:iem/user/queryUserLoad?uid=?&userNo=111
+     * url:user/queryUserLoad
      * @param queryUserReq
      * @return
      */
     @GetMapping(value = "/queryUserLoad")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
-    public Object queryUserLoad(@RequestParam String uid, @RequestParam String userNo) {
+    public Object queryUserLoad() {
+	//从session 获取uid  userNo
+	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+	String uid = sysLoginCtrl.getuId();
+	String userNo = sysLoginCtrl.getUserNo();
 	logger.info(String.format("the request param uid:%s, userNo:%s", uid, userNo));
-	if (StringUtils.isEmpty(uid) || StringUtils.isEmpty(userNo)) {
-	    logger.error("the request param uid or userNo is null");
-	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
-		    "the request param uid or userNo is null");
-	}
-
 	Result<QueryUserInfoResponse> result = new Result<>();
 	//分页
 	Page<QueryUserInfoResponse> page = PageHelper.startPage(ConstantUtil.DEFAULT_PAGE_NUM,
@@ -97,7 +92,7 @@ public class UserController {
 	List<QueryUserInfoResponse> userInfos = userService.queryUserLoad(uid, userNo);
 	long totalNum = page.getTotal();
 	result.setTotal(totalNum);
-	result.setModel(userInfos);
+	result.setModels(userInfos);
 	logger.debug(String.format("queryUserload is end total numbers is :%s", totalNum));
 
 	return JSONResultUtil.setSuccess(result);
@@ -105,7 +100,7 @@ public class UserController {
 
     /**
      * 更新用户信息 
-     * url:iem/user/updateUserInfo
+     * url:user/updateUserInfo
      * 手机只校验中国大陆 所有信息不可为null 
      * @return
      */
@@ -158,6 +153,10 @@ public class UserController {
 		&& updateUserReq.getRemark().length() > ConstantUtil.REMARK_MAX_LENGTH) {
 	    return "the remark is out of the max length 128";
 	}
+	//session 获取登录信息
+	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+	updateUserReq.setUid(sysLoginCtrl.getuId());
+	updateUserReq.setUpdatedBy(sysLoginCtrl.getUpdatedBy());
 	return null;
     }
 
@@ -212,6 +211,10 @@ public class UserController {
 		queryUserReq.setUserNo(userFeatureInfo);
 	    }
 	}
+	//从session 中获取登录信息
+	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+	queryUserReq.setUid(sysLoginCtrl.getuId());
+	
 	return queryUserReq;
     }
 }
