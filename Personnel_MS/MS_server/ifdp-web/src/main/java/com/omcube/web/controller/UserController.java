@@ -3,7 +3,8 @@ package com.omcube.web.controller;
 import com.omcube.model.po.SysLoginCtrl;
 import com.omcube.model.request.QueryUserRequest;
 import com.omcube.model.request.UpdateUserInfoRequest;
-import com.omcube.model.response.QueryUserInfoResponse;
+import com.omcube.model.response.UserListInfo;
+import com.omcube.model.response.UserDetailInfo;
 import com.omcube.service.OrganService;
 import com.omcube.service.UserInfoService;
 import com.omcube.util.ConstantUtil;
@@ -24,6 +25,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,9 +48,9 @@ public class UserController {
      * @param queryUserReq
      * @return
      */
-    @GetMapping(value = "/queryUser")
+    @GetMapping(value = "/queryUserList")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
-    public Object queryUser(QueryUserRequest queryUserReq) {
+    public Object queryUserList(QueryUserRequest queryUserReq) {
 	if (queryUserReq == null) {
 	    logger.error("the request body is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
@@ -58,11 +60,11 @@ public class UserController {
 	logger.debug(String.format("the pageNum is  :%s and the pageSize is :%s", queryUserparam.getPageNum(),
 		queryUserparam.getPageSize()));
 
-	Result<QueryUserInfoResponse> result = new Result<>();
+	Result<UserListInfo> result = new Result<>();
 	//分页
-	Page<QueryUserInfoResponse> page = PageHelper.startPage(queryUserparam.getPageNum(),
+	Page<UserListInfo> page = PageHelper.startPage(queryUserReq.getPageNum(),
 		queryUserparam.getPageSize(), true);
-	List<QueryUserInfoResponse> userInfos = userService.queryUser(queryUserparam);
+	List<UserListInfo> userInfos = userService.queryUserList(queryUserparam);
 	long totalNum = page.getTotal();
 	result.setTotal(totalNum);
 	result.setModels(userInfos);
@@ -72,30 +74,25 @@ public class UserController {
     }
 
     /**
-     * 点击用户管理显示该用户所在机构下的所有成员
+     * 查询用户详情
      * url:user/queryUserLoad
      * @param queryUserReq
      * @return
      */
-    @GetMapping(value = "/queryUserLoad")
-    @Cacheable(value = ConstantUtil.QUERY_CACHE)
-    public Object queryUserLoad() {
-	//从session 获取uid  userNo
+    @GetMapping(value = "/queryUserDetail/{userNo}")
+    public Object queryUserDetail(@PathVariable String userNo) {
+	if (StringUtils.isEmpty(userNo))
+	{
+	    logger.error("the request userNo is null");
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request userNo is null");
+	}
+	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	String uid = sysLoginCtrl.getuId();
-	String userNo = sysLoginCtrl.getUserNo();
 	logger.info(String.format("the request param uid:%s, userNo:%s", uid, userNo));
-	Result<QueryUserInfoResponse> result = new Result<>();
-	//分页
-	Page<QueryUserInfoResponse> page = PageHelper.startPage(ConstantUtil.DEFAULT_PAGE_NUM,
-		ConstantUtil.DEFAULT_PAGE_SEZE, true);
-	List<QueryUserInfoResponse> userInfos = userService.queryUserLoad(uid, userNo);
-	long totalNum = page.getTotal();
-	result.setTotal(totalNum);
-	result.setModels(userInfos);
-	logger.debug(String.format("queryUserload is end total numbers is :%s", totalNum));
-
-	return JSONResultUtil.setSuccess(result);
+	UserDetailInfo userInfos = userService.queryUserDetail(uid, userNo);
+	
+	return JSONResultUtil.setSuccess(userInfos);
     }
 
     /**

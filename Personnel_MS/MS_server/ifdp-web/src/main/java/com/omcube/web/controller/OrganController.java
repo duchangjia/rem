@@ -23,7 +23,6 @@ import com.omcube.model.mapper.SysOrganMapper;
 import com.omcube.model.po.OrganTree;
 import com.omcube.model.po.SysOrganPO;
 import com.omcube.model.po.SysUserPO;
-import com.omcube.model.response.QueryUserInfoResponse;
 import com.omcube.service.OrganService;
 import com.omcube.util.ErrorCodeConstantUtil;
 import com.omcube.util.JSONResultUtil;
