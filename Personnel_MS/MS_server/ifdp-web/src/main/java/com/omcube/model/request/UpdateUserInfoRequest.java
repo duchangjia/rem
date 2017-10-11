@@ -8,7 +8,7 @@ public class UpdateUserInfoRequest {
     private String organDepartmentNo;
 
     private String roleNo;
-    
+
     private String userNo;
     private String userName;
     private String certNo;
@@ -18,132 +18,108 @@ public class UpdateUserInfoRequest {
     private String remark;
     private String updatedBy;
 
-    public String getUid()
-    {
+    public String getUid() {
 	return uid;
     }
 
-    public void setUid(String uid)
-    {
+    public void setUid(String uid) {
 	this.uid = uid;
     }
 
-    public String getOrganCompanyNo()
-    {
+    public String getOrganCompanyNo() {
 	return organCompanyNo;
     }
 
-    public void setOrganCompanyNo(String organCompanyNo)
-    {
+    public void setOrganCompanyNo(String organCompanyNo) {
 	this.organCompanyNo = organCompanyNo;
     }
 
-    public String getOrganDepartmentNo()
-    {
+    public String getOrganDepartmentNo() {
 	return organDepartmentNo;
     }
 
-    public void setOrganDepartmentNo(String organDepartmentNo)
-    {
+    public void setOrganDepartmentNo(String organDepartmentNo) {
 	this.organDepartmentNo = organDepartmentNo;
     }
 
-    public String getRoleNo()
-    {
+    public String getRoleNo() {
 	return roleNo;
     }
 
-    public void setRoleNo(String roleNo)
-    {
+    public void setRoleNo(String roleNo) {
 	this.roleNo = roleNo;
     }
 
-    public String getUserNo()
-    {
+    public String getUserNo() {
 	return userNo;
     }
 
-    public void setUserNo(String userNo)
-    {
+    public void setUserNo(String userNo) {
 	this.userNo = userNo;
     }
 
-    public String getUserName()
-    {
+    public String getUserName() {
 	return userName;
     }
 
-    public void setUserName(String userName)
-    {
+    public void setUserName(String userName) {
 	this.userName = userName;
     }
 
-    public String getCertNo()
-    {
+    public String getCertNo() {
 	return certNo;
     }
 
-    public void setCertNo(String certNo)
-    {
+    public void setCertNo(String certNo) {
 	this.certNo = certNo;
     }
 
-    public String getMobile()
-    {
+    public String getMobile() {
 	return mobile;
     }
 
-    public void setMobile(String mobile)
-    {
+    public void setMobile(String mobile) {
 	this.mobile = mobile;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
 	return email;
     }
 
-    public void setEmail(String email)
-    {
+    public void setEmail(String email) {
 	this.email = email;
     }
 
-    public String getUserStatus()
-    {
+    public String getUserStatus() {
 	return userStatus;
     }
 
-    public void setUserStatus(String userStatus)
-    {
+    public void setUserStatus(String userStatus) {
 	this.userStatus = userStatus;
     }
 
-    public String getRemark()
-    {
+    public String getRemark() {
 	return remark;
     }
 
-    public void setRemark(String remark)
-    {
+    public void setRemark(String remark) {
 	this.remark = remark;
     }
 
-    public String getUpdatedBy()
-    {
+    public String getUpdatedBy() {
 	return updatedBy;
     }
 
-    public void setUpdatedBy(String updatedBy)
-    {
+    public void setUpdatedBy(String updatedBy) {
 	this.updatedBy = updatedBy;
     }
 
     @Override
-    public String toString()
-    {
-	return "UpdateUserInfoRequest [uid=" + uid + ", organCompanyNo=" + organCompanyNo + ", organDepartmentNo=" + organDepartmentNo + ", roleNo=" + roleNo
-		+ ", userNo=" + userNo + ", userName=" + userName + ", certNo=" + certNo + ", mobile=" + mobile + ", email=" + email + ", userStatus="
-		+ userStatus + ", remark=" + remark + ", updatedBy=" + updatedBy + "]";
+    public String toString() {
+	return "UpdateUserInfoRequest [uid=" + uid + ", organCompanyNo=" + organCompanyNo + ", organDepartmentNo="
+		+ organDepartmentNo + ", roleNo=" + roleNo + ", userNo=" + userNo + ", userName=" + userName
+		+ ", certNo=" + certNo + ", mobile=" + mobile + ", email=" + email + ", userStatus=" + userStatus
+		+ ", remark=" + remark + ", updatedBy=" + updatedBy + "]";
     }
 
 }

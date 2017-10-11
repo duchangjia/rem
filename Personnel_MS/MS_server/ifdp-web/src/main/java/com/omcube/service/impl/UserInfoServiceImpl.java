@@ -17,11 +17,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Autowired
     private SysUserMapper userMapper;
-    
+
     @Transactional
     @Override
-    public void updateUserInfo(UpdateUserInfoRequest updateUserReq)
-    {
+    public void updateUserInfo(UpdateUserInfoRequest updateUserReq) {
 	//更新用户表
 	userMapper.updateUserInfo(updateUserReq);
 
@@ -31,15 +30,13 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public List<QueryUserInfoResponse> queryUser(QueryUserRequest queryUserReq)
-    {
+    public List<QueryUserInfoResponse> queryUser(QueryUserRequest queryUserReq) {
 	return userMapper.queryUser(queryUserReq);
     }
 
     @Override
-    public List<QueryUserInfoResponse> queryUserLoad(String uid, String userNo)
-    {
-	return userMapper.queryUserLoad(uid,userNo);
+    public List<QueryUserInfoResponse> queryUserLoad(String uid, String userNo) {
+	return userMapper.queryUserLoad(uid, userNo);
     }
 
 }

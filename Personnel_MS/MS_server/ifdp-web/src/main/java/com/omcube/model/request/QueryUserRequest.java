@@ -12,113 +12,92 @@ public class QueryUserRequest {
     private String userName;
     private String mobileTEL;
     private String email;
-    
-    public int getPageNum()
-    {
+
+    public int getPageNum() {
 	return pageNum;
     }
 
-    public void setPageNum(int pageNum)
-    {
+    public void setPageNum(int pageNum) {
 	this.pageNum = pageNum;
     }
 
-    public int getPageSize()
-    {
+    public int getPageSize() {
 	return pageSize;
     }
 
-    public void setPageSize(int pageSize)
-    {
+    public void setPageSize(int pageSize) {
 	this.pageSize = pageSize;
     }
 
-    public String getUid()
-    {
+    public String getUid() {
 	return uid;
     }
 
-    public void setUid(String uid)
-    {
+    public void setUid(String uid) {
 	this.uid = uid;
     }
 
-    public String getOrganCompanyName()
-    {
+    public String getOrganCompanyName() {
 	return organCompanyName;
     }
 
-    public void setOrganCompanyName(String organCompanyName)
-    {
+    public void setOrganCompanyName(String organCompanyName) {
 	this.organCompanyName = organCompanyName;
     }
 
-    public String getOrganDepartmentName()
-    {
-        return organDepartmentName;
+    public String getOrganDepartmentName() {
+	return organDepartmentName;
     }
 
-    public void setOrganDepartmentName(String organDepartmentName)
-    {
-        this.organDepartmentName = organDepartmentName;
+    public void setOrganDepartmentName(String organDepartmentName) {
+	this.organDepartmentName = organDepartmentName;
     }
 
-    public String getUserFeatureInfo()
-    {
+    public String getUserFeatureInfo() {
 	return userFeatureInfo;
     }
 
-    public void setUserFeatureInfo(String userFeatureInfo)
-    {
+    public void setUserFeatureInfo(String userFeatureInfo) {
 	this.userFeatureInfo = userFeatureInfo;
     }
 
-    
-    public String getUserNo()
-    {
-        return userNo;
+    public String getUserNo() {
+	return userNo;
     }
 
-    public void setUserNo(String userNo)
-    {
-        this.userNo = userNo;
+    public void setUserNo(String userNo) {
+	this.userNo = userNo;
     }
 
-    public String getUserName()
-    {
-        return userName;
+    public String getUserName() {
+	return userName;
     }
 
-    public void setUserName(String userName)
-    {
-        this.userName = userName;
+    public void setUserName(String userName) {
+	this.userName = userName;
     }
 
-    public String getMobileTEL()
-    {
-        return mobileTEL;
+    public String getMobileTEL() {
+	return mobileTEL;
     }
 
-    public void setMobileTEL(String mobileTEL)
-    {
-        this.mobileTEL = mobileTEL;
+    public void setMobileTEL(String mobileTEL) {
+	this.mobileTEL = mobileTEL;
     }
 
-    public String getEmail()
-    {
-        return email;
+    public String getEmail() {
+	return email;
     }
 
-    public void setEmail(String email)
-    {
-        this.email = email;
+    public void setEmail(String email) {
+	this.email = email;
     }
 
     @Override
-    public String toString()
-    {
-	return "QueryUserRequest [pageNum=" + pageNum + ", pageSize=" + pageSize + ", uid=" + uid + ", organCompanyName=" + organCompanyName
-		+ ", organDepartmentName=" + organDepartmentName + ", userFeatureInfo=" + userFeatureInfo + "]";
+    public String toString() {
+	return "QueryUserRequest [pageNum=" + pageNum + ", pageSize=" + pageSize + ", uid=" + uid
+		+ ", organCompanyName=" + organCompanyName + ", organDepartmentName=" + organDepartmentName
+		+ ", userFeatureInfo=" + userFeatureInfo + "]";
     }
 
 }
