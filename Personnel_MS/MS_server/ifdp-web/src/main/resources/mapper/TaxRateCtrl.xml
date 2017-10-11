@@ -2,86 +2,81 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-        
-        
+
+
 <mapper namespace="com.omcube.model.mapper.TaxRateCtrlMapper">
-     <resultMap type="com.omcube.model.po.TaxRateCtrlPO" id="TaxRateCtrlMap">
-          <id column="UID" property="uId"></id>
-          <id column="GROUP_ID" property="groupId"></id>
-          <id column="APPLY_NO" property="applyNo"></id>
-          <result column="GROUP_LIMIT" property="groupLimit"></result>
-          <result column="GROUP_LOWER_LIMIT" property="groupLowerLimit"></result>
-          <result column="PERCENT_RATE" property="percentRate"></result>
-          <result column="QUICK_CAL" property="quickCal"></result>
-          <result column="REMARK" property="remark"></result>
-          <result column="CREATED_BY" property="createdBy"></result>
-          <result column="CREATED_DATE" property="createdDate"></result>
-          <result column="UPDATED_BY" property="updatedBy"></result>
-          <result column="UPDATED_DATE" property="updatedDate"></result>
-          <result column="ISDELETE" property="isDelete"></result>
-    </resultMap>  
- 
-     <!-- 增加 -->
-     <insert id="addTaxRateCtrl" parameterType="com.omcube.model.po.TaxRateCtrlPO">
-          insert into 
-          EP_TAXRATE_CTRL 
-          values(
-          #{uId},#{groupId},#{applyNo},#{groupLimit},
-          #{groupLowerLimit},#{percentRate},#{quickCal},
-          #{remark},#{createdBy},date_format(now(),'%y-%m-%d'),
-          #{updatedBy},date_format(now(),'%y-%m-%d'),#{isDelete}
-          )
-     </insert>
-     
-     <!-- 查询 -->
-     <select id="findTaxRateCtrl" parameterType="java.lang.String" resultMap="TaxRateCtrlMap">
-          select 
-          UID,GROUP_ID,APPLY_NO,GROUP_LIMIT,GROUP_LOWER_LIMIT,
-          PERCENT_RATE,QUICK_CAL,REMARK,CREATED_BY,CREATED_DATE,
-          UPDATED_BY,UPDATED_DATE,ISDELETE 
-          from 
-          EP_TAXRATE_CTRL 
-          where 
-          UID=#{uId}
-     </select>
-     
-     <!-- 删除 -->
-     <update id="deleteTaxRateCtrl" parameterType="java.lang.String">
-          update 
-          EP_TAXRATE_CTRL 
-          set 
-          ISDELETE='0'
-          where 
-          UID=#{arg0} 
-          and 
-          GROUP_ID=#{arg1} 
-          and 
-          APPLY_NO=#{arg2}
-     </update>
-     
-     <!-- 修改 -->
-     <update id="updateTaxRateCtrl" parameterType="com.omcube.model.po.TaxRateCtrlPO">
-     update 
-     EP_TAXRATE_CTRL 
-     set 
-     UID=#{uId},GROUP_ID=#{groupId},APPLY_NO=#{applyNo},GROUP_LIMIT=#{groupLimit},
-     GROUP_LOWER_LIMIT=#{groupLowerLimit},PERCENT_RATE=#{percentRate},
-     QUICK_CAL=#{quickCal},REMARK=#{remark},UPDATED_DATE=#{updatedBy},
-     UPDATED_DATE=date_format(now(),'%y-%m-%d'),ISDELETE=#{isDelete} 
-     where 
-     UID=#{uId} 
-     and 
-     GROUP_ID=#{groupId} 
-     and 
-     APPLY_NO=#{applyNo}
-     </update>
-     
-     
-     
-     
-     
-     
-     
-     
-     
- </mapper>      
+	<resultMap type="com.omcube.model.po.TaxRateCtrlPO" id="TaxRateCtrlMap">
+		<id column="UID" property="uId"></id>
+		<id column="GROUP_ID" property="groupId"></id>
+		<id column="APPLY_NO" property="applyNo"></id>
+		<result column="GROUP_LIMIT" property="groupLimit"></result>
+		<result column="GROUP_LOWER_LIMIT" property="groupLowerLimit"></result>
+		<result column="PERCENT_RATE" property="percentRate"></result>
+		<result column="QUICK_CAL" property="quickCal"></result>
+		<result column="REMARK" property="remark"></result>
+		<result column="CREATED_BY" property="createdBy"></result>
+		<result column="CREATED_DATE" property="createdDate"></result>
+		<result column="UPDATED_BY" property="updatedBy"></result>
+		<result column="UPDATED_DATE" property="updatedDate"></result>
+		<result column="ISDELETE" property="isDelete"></result>
+	</resultMap>
+
+	<!-- 增加 -->
+	<insert id="addTaxRateCtrl" parameterType="com.omcube.model.po.TaxRateCtrlPO">
+		insert into
+		EP_TAXRATE_CTRL
+		values(
+		#{uId},#{groupId},#{applyNo},
+		#{groupLimit},#{groupLowerLimit},
+		#{percentRate},#{quickCal},
+		#{remark},#{createdBy},now(),
+		#{updatedBy},now(),#{isDelete}
+		)
+	</insert>
+
+	<!-- 查询 -->
+	<select id="findTaxRateCtrl" parameterType="java.lang.String"
+		resultMap="TaxRateCtrlMap">
+		select
+		UID,GROUP_ID,APPLY_NO,GROUP_LIMIT,GROUP_LOWER_LIMIT,
+		PERCENT_RATE,QUICK_CAL,REMARK,CREATED_BY,CREATED_DATE,
+		UPDATED_BY,UPDATED_DATE,ISDELETE
+		from
+		EP_TAXRATE_CTRL
+		where
+		UID=#{uId}
+	</select>
+
+	<!-- 删除 -->
+	<update id="deleteTaxRateCtrl" parameterType="java.lang.String">
+		update
+		EP_TAXRATE_CTRL
+		set
+		ISDELETE='0'
+		where
+		UID=#{uId}
+		and
+		GROUP_ID=#{groupId}
+		and
+		APPLY_NO=#{applyNo}
+	</update>
+
+	<!-- 修改 -->
+	<update id="updateTaxRateCtrl" parameterType="com.omcube.model.po.TaxRateCtrlPO">
+		update
+		EP_TAXRATE_CTRL
+		set
+		UID=#{uId},GROUP_ID=#{groupId},APPLY_NO=#{applyNo},
+		GROUP_LIMIT=#{groupLimit},GROUP_LOWER_LIMIT=#{groupLowerLimit},
+		PERCENT_RATE=#{percentRate},QUICK_CAL=#{quickCal},
+		REMARK=#{remark},UPDATED_DATE=#{updatedBy},
+		UPDATED_DATE=now(),ISDELETE=#{isDelete}
+		where
+		UID=#{uId}
+		and
+		GROUP_ID=#{groupId}
+		and
+		APPLY_NO=#{applyNo}
+	</update>
+
+</mapper>      
