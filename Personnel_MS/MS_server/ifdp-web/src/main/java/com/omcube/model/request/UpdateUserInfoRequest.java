@@ -2,7 +2,7 @@ package com.omcube.model.request;
 
 public class UpdateUserInfoRequest {
 
-    private String uid;
+    private String uid;//session 获取
 
     private String organCompanyNo;
     private String organDepartmentNo;
@@ -16,7 +16,7 @@ public class UpdateUserInfoRequest {
     private String email;
     private String userStatus;
     private String remark;
-    private String updatedBy;
+    private String updatedBy;//session 获取
 
     public String getUid() {
 	return uid;

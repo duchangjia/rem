@@ -37,7 +37,6 @@ public class UserControllerTest {
 		.param("organCompanyName", "魔方")
 		.param("organDepartmentName", "上海办事处")
 		.param("userFeatureInfo", "admin@pactera.com")
-		.param("uid", "0001")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();
@@ -49,7 +48,6 @@ public class UserControllerTest {
     public void updateUserInfo() throws Exception
     {
 	String result = mockMvc.perform(put("/iem/user/updateUserInfo")
-		.param("uid", "0001")
 		.param("organCompanyNo", "234")
 		.param("organDepartmentNo", "10001")
 		.param("roleNo", "COMMONssss")
@@ -59,7 +57,6 @@ public class UserControllerTest {
 		.param("mobile", "13418760926")
 		.param("email", "11223@qq.com")
 		.param("remark", "qqqq")
-		.param("updatedBy", "ttt")
 		.param("userStatus", "1")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
