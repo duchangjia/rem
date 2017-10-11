@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.omcube.model.po.EpOrganBillInfoPO;
 
 @Mapper
-public interface EpOrganBillInfoMapper {
+public interface OrganBillInfoMapper {
 	
 	/**
 	 * 新增公司开票信息
@@ -37,5 +37,13 @@ public interface EpOrganBillInfoMapper {
 	 * @return
 	 */
 	public List<EpOrganBillInfoPO> queryBillInfoByName(EpOrganBillInfoPO billInfoPO);
+	
+	/**
+	 * 查询公司开票信息
+	 * 
+	 * @param organNo
+	 * @return
+	 */
+	public EpOrganBillInfoPO queryBillInfo(String organNo);
 	
 }

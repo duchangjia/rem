@@ -34,4 +34,12 @@ public interface OrganBillInfoService {
 	 */
 	public List<EpOrganBillInfoPO> queryBillInfoByName(EpOrganBillInfoPO billInfoPO);
 	
+	/**
+	 * 查询公司开票信息
+	 * 
+	 * @param organNO
+	 * @return
+	 */
+	public EpOrganBillInfoPO queryBillInfo(String organNo);
+	
 }

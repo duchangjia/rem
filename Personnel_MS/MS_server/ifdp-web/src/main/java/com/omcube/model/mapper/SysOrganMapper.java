@@ -13,9 +13,11 @@ public interface SysOrganMapper {
 
 	List<OrganTree> queryOrganList(String organNo);
 	
-	SysOrganPO queryParentOrgan(String organNo);
+	SysOrganPO queryCurrentOrgan(String organNo);
 	
-	List<SysOrganPO> queryChildOrgan(String organNo);
+	SysOrganPO queryOrganAndParentOrganDetail(String organNo);
+	
+	List<SysOrganPO> queryChildOrganDetail(String organNo);
 
 	List<SysUserPO> queryOrganMember(String organNo);
 

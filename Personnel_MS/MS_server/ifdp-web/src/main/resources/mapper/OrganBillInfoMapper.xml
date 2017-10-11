@@ -69,4 +69,11 @@
 		</if>
 	</select>
 	
+	<!-- 查询公司开票信息 -->
+	<select id = "queryBillInfo" parameterType = "java.lang.String" resultMap = "EpOrganBillInfoMap">
+		select * from EP_ORGAN_BILLINFO
+		where
+		uid = 0001 and organ_no = #{organNo}
+	</select>
+	
 </mapper>
