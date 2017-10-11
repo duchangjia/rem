@@ -46,6 +46,7 @@
 <script type='text/ecmascript-6'>
 import Bus from '../../../common/Bus.js'
 import current from '../../common/current_position.vue'
+const baseURL = 'ifdp'
 export default {
 	data() {
 		return {
@@ -77,7 +78,7 @@ export default {
 			pageIndex: 1,
 			pageRows: 10
 		}
-		self.$axios.get('ifdp/queryOperatorList', params)
+		self.$axios.get(baseURL+'/queryOperatorList', params)
 			.then(function(res) {
 				self.operatorList = res.data.data.operatorListInfo;
 				self.pageIndex = Number(res.data.data.pageIndex);
@@ -92,20 +93,26 @@ export default {
 			const self = this;
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
-					let params = {
-						"userNo": self.ruleForm2.user,
-						"userName": self.ruleForm2.user,
-						"mobile": self.ruleForm2.user,
-						"email": self.ruleForm2.user
-					};
+					let user = self.ruleForm2.user;
+					let param = {};
 					self.operatorList = [];
-					self.$axios.get('ifdp/queryOperatorDetail', params)
+					if(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(user)){
+						param = {"email": user};
+					}else if(/^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/.test(user)){
+						param = {"mobile": user};
+					}else if(/^P\d{6}$/.test(user)){
+						param = {"userNo": user};
+					}else{
+						param = {"userName": user};
+					}
+					self.$axios.get(baseURL+'/queryOperatorDetail', param)
 						.then(function(res) {
 							self.operatorList.push(res.data.data);
 							self.pageIndex = 0;
 							self.pageRows = 0;
 							self.totalRows = 0;
 							localStorage.setItem('user', self.ruleForm2.user);
+//							localStorage.setItem('msg',JSON.stringify(self.operatorList[0]));
 						}).catch(function(err) {
 							console.log(err);
 						})
@@ -115,19 +122,12 @@ export default {
 				}
 			});
 		},
-		//			resetForm(formName) {
-		//				this.$refs[formName].resetFields();
-		//			}
 		resetForm(formName) {
 			const self = this;
 			self.$refs[formName].validate((valid) => {
 				if(valid){
 					self.$router.push('/user-info');
-			
-					//this.$router.push({
-						//path:'/user-info',
-						//query: this.userlist1
-					//});
+					
 				}
 			})
 		},

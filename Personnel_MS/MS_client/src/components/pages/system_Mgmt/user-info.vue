@@ -117,16 +117,18 @@
 			current
 		},
 		created(){
-//			this.operatorDetail = this.$route.query;
 			const self = this;
 			let params = {
 				user: localStorage.getItem('user')
 			};
+//			let msg = JSON.parse(localStorage.getItem('msg'));
+//			let user = localStorage.getItem('user');
+//			console.log(msg);
+//			console.log(user);
 			self.$axios.get(baseURL+'/queryOperatorDetail',params)
 			.then(function(res){
 				self.operatorDetail = res.data.data;
 				self.oldStatus = self.operatorDetail.status;
-//				self.oldOperatorDetail = self.operatorDetail;
 				for(var i in self.operatorDetail){
 					self.oldOperatorDetail[i] = self.operatorDetail[i];
 				}
@@ -254,7 +256,6 @@
 								console.log('用户解锁失败')
 							})
 						}
-						
 					} else {
 						console.log('error submit!!');
 						return false;
