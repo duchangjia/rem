@@ -1,6 +1,6 @@
 package com.omcube.model.po;
 
-public class EpOrganBillInfoPO extends BasicPO{
+public class OrganBillInfoPO extends BasicPO{
 
 	private String organNo; // 机构号
 	private String organName; // 公司名称
@@ -10,7 +10,7 @@ public class EpOrganBillInfoPO extends BasicPO{
 	private String organAcctname;// 账户名称
 	private String organAddr; // 地址
 
-	public EpOrganBillInfoPO() {
+	public OrganBillInfoPO() {
 		super();
 	}
 
@@ -69,5 +69,5 @@ public class EpOrganBillInfoPO extends BasicPO{
 	public void setOrganAddr(String organAddr) {
 		this.organAddr = organAddr;
 	}
-
+ 
 }

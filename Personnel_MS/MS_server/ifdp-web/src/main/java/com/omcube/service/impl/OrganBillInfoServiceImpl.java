@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.omcube.model.mapper.OrganBillInfoMapper;
-import com.omcube.model.po.EpOrganBillInfoPO;
+import com.omcube.model.po.OrganBillInfoPO;
 import com.omcube.service.OrganBillInfoService;
 
 @Service
@@ -16,31 +16,31 @@ public class OrganBillInfoServiceImpl implements OrganBillInfoService {
     private OrganBillInfoMapper billiInfoMapper;
 
     @Override
-    public void addOrganBillInfo(EpOrganBillInfoPO billInfoPO)
+    public void addOrganBillInfo(OrganBillInfoPO billInfoPO)
     {
 	billiInfoMapper.addOrganBillInfo(billInfoPO);
     }
 
     @Override
-    public void updateOrganBillInfo(EpOrganBillInfoPO billInfoPO)
+    public void updateOrganBillInfo(OrganBillInfoPO billInfoPO)
     {
 	billiInfoMapper.updateOrganBillInfo(billInfoPO);
     }
 
     @Override
-    public List<EpOrganBillInfoPO> queryBillInfoList(String uId)
+    public List<OrganBillInfoPO> queryBillInfoList(String uId)
     {
 	return billiInfoMapper.queryBillInfoList(uId);
     }
 
     @Override
-    public List<EpOrganBillInfoPO> queryBillInfoByName(EpOrganBillInfoPO billInfoPO)
+    public List<OrganBillInfoPO> queryBillInfoByName(OrganBillInfoPO billInfoPO)
     {
 	return billiInfoMapper.queryBillInfoByName(billInfoPO);
     }
 
     @Override
-    public EpOrganBillInfoPO queryBillInfo(String organNo)
+    public OrganBillInfoPO queryBillInfo(String organNo)
     {
 	return billiInfoMapper.queryBillInfo(organNo);
     }

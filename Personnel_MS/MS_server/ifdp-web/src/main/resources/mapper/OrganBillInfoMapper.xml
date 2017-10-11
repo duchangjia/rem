@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.omcube.model.mapper.EpOrganBillInfoMapper">
+<mapper namespace="com.omcube.model.mapper.OrganBillInfoMapper">
 
-	<resultMap id="EpOrganBillInfoMap" type="com.omcube.model.po.EpOrganBillInfoPO">
+	<resultMap id="OrganBillInfoMap" type="com.omcube.model.po.OrganBillInfoPO">
 		<id column="uid" property="uId"></id>
 		<id column="organ_no" property="organNo"></id>
 		<result column="organ_name" property="organName" javaType="java.lang.String"></result>
@@ -20,7 +20,7 @@
 	</resultMap>
 
 	<!-- 新增公司开票信息 -->
-	<insert id="addOrganBillInfo" parameterType="com.omcube.model.po.EpOrganBillInfoPO">
+	<insert id="addOrganBillInfo" parameterType="com.omcube.model.po.OrganBillInfoPO">
 		insert into EP_ORGAN_BILLINFO(
 			uid,organ_no,organ_name,organ_taxno,
 			organ_tel,organ_acct,organ_acctname,organ_addr,
@@ -36,7 +36,7 @@
 	</insert>
 
 	<!-- 修改公司开票信息 -->
-	<update id="updateOrganBillInfo" parameterType="com.omcube.model.po.EpOrganBillInfoPO" >
+	<update id="updateOrganBillInfo" parameterType="com.omcube.model.po.OrganBillInfoPO" >
 		update EP_ORGAN_BILLINFO 
 		set
 			organ_name = #{organName},
@@ -53,12 +53,12 @@
 
 	<!-- 查询公司开票信息列表 -->
 	<select id="queryBillInfoList" parameterType="java.lang.String"
-		resultMap="EpOrganBillInfoMap">
+		resultMap="OrganBillInfoMap">
 		select * from EP_ORGAN_BILLINFO where UID = #{uId}
 	</select>
 
 	<!-- 通过公司名称模糊查询公司开票信息列表 -->
-	<select id="queryBillInfoByName" parameterType="com.omcube.model.po.EpOrganBillInfoPO" resultMap="EpOrganBillInfoMap">
+	<select id="queryBillInfoByName" parameterType="com.omcube.model.po.OrganBillInfoPO" resultMap="OrganBillInfoMap">
 		select * from EP_ORGAN_BILLINFO
 		where 1=1
 		<if test="uId != null">
@@ -70,7 +70,7 @@
 	</select>
 	
 	<!-- 查询公司开票信息 -->
-	<select id = "queryBillInfo" parameterType = "java.lang.String" resultMap = "EpOrganBillInfoMap">
+	<select id = "queryBillInfo" parameterType = "java.lang.String" resultMap = "OrganBillInfoMap">
 		select * from EP_ORGAN_BILLINFO
 		where
 		uid = 0001 and organ_no = #{organNo}

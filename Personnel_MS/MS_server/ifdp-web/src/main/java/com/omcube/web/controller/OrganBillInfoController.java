@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.omcube.model.po.EpOrganBillInfoPO;
+import com.omcube.model.po.OrganBillInfoPO;
 import com.omcube.service.OrganBillInfoService;
 import com.omcube.service.OrganService;
 import com.omcube.util.ErrorCodeConstantUtil;
@@ -28,7 +29,6 @@ import com.omcube.util.JSONResultUtil;
  * @author rongxing
  * @version 1.0
  */
-
 @RestController
 @RequestMapping(value = "/organBillInfo")
 public class OrganBillInfoController {
@@ -49,18 +49,18 @@ public class OrganBillInfoController {
      * @throws ParseException
      */
     @PostMapping(value = "/addOrganBillInfo")
-    public Object addOrganBillInfo(EpOrganBillInfoPO billInfo) throws ParseException {
+    public Object addOrganBillInfo(OrganBillInfoPO billInfo) throws ParseException {
 
 	//校验机构是否存在
 	if (organService.queryCurrentOrgan(billInfo.getOrganNo()) == null) {
-	    logger.error("the organ does not exit");
-	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the organ does not exit");
+	    logger.error("the organ does not exist");
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the organ does not exists");
 	}
 
 	//校验是否重复开票
 	if (billInfoService.queryBillInfo(billInfo.getOrganNo()) != null) {
-	    logger.error("公司开票信息已经存在");
-	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "公司开票信息已经存在");
+	    logger.error("the organ already exists");
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the organ already exists");
 	}
 
 	billInfoService.addOrganBillInfo(billInfo);
@@ -75,7 +75,7 @@ public class OrganBillInfoController {
      * @throws ParseException
      */
     @PutMapping(value = "/updateOrganBillInfo")
-    public Object updateOrganBillInfo(EpOrganBillInfoPO billInfoPO) throws ParseException {
+    public Object updateOrganBillInfo(OrganBillInfoPO billInfoPO) throws ParseException {
 
 	billInfoService.updateOrganBillInfo(billInfoPO);
 	logger.info("uid:" + billInfoPO.getuId() + "organName" + billInfoPO.getOrganName() + "修改公司信息成功");
@@ -92,6 +92,7 @@ public class OrganBillInfoController {
      * @return
      */
     @GetMapping(value = "/queryBillInfoList/{uId}")
+    @Cacheable(value="queryCache")
     public Object quetyBillInfoList(@PathVariable String uId, Integer pageNum, Integer pageSize) {
 
 	if (StringUtils.isEmpty(uId)) {
@@ -103,8 +104,8 @@ public class OrganBillInfoController {
 	pageNum = pageNum == null ? 1 : pageNum;
 	pageSize = pageSize == null ? 5 : pageSize;
 	PageHelper.startPage(pageNum, pageSize, true);
-	List<EpOrganBillInfoPO> billInfoPOList = billInfoService.queryBillInfoList(uId);
-	PageInfo<EpOrganBillInfoPO> pageInfo = new PageInfo<EpOrganBillInfoPO>(billInfoPOList);
+	List<OrganBillInfoPO> billInfoPOList = billInfoService.queryBillInfoList(uId);
+	PageInfo<OrganBillInfoPO> pageInfo = new PageInfo<OrganBillInfoPO>(billInfoPOList);
 
 	return JSONResultUtil.setSuccess(pageInfo);
     }
@@ -120,14 +121,15 @@ public class OrganBillInfoController {
      * @return
      */
     @GetMapping(value = "/queryBillInfoByName")
-    public Object queryBillInfoByName(EpOrganBillInfoPO billInfoPO, Integer pageNum, Integer pageSize) {
+    @Cacheable(value="queryCache")
+    public Object queryBillInfoByName(OrganBillInfoPO billInfoPO, Integer pageNum, Integer pageSize) {
 
 	pageNum = pageNum == null ? 1 : pageNum;
 	pageSize = pageSize == null ? 5 : pageSize;
 	//分页
 	PageHelper.startPage(pageNum, pageSize, true);
-	List<EpOrganBillInfoPO> billInfoPOList = billInfoService.queryBillInfoByName(billInfoPO);
-	PageInfo<EpOrganBillInfoPO> pageInfo = new PageInfo<EpOrganBillInfoPO>(billInfoPOList);
+	List<OrganBillInfoPO> billInfoPOList = billInfoService.queryBillInfoByName(billInfoPO);
+	PageInfo<OrganBillInfoPO> pageInfo = new PageInfo<OrganBillInfoPO>(billInfoPOList);
 
 	return JSONResultUtil.setSuccess(pageInfo);
     }
@@ -139,10 +141,12 @@ public class OrganBillInfoController {
      * @return
      */
     @GetMapping(value = "/queryBillInfo")
+    @Cacheable(value="queryCache")
     public Object queryBillInfo(String organNo) {
-	EpOrganBillInfoPO billInfoPO = billInfoService.queryBillInfo(organNo);
-	System.out.println("yyyyyyyyyyyyyy");
-	System.out.println(billInfoPO == null);
+	OrganBillInfoPO billInfoPO = billInfoService.queryBillInfo(organNo);
 	return JSONResultUtil.setSuccess(billInfoPO);
     }
+    
+  //从session 中获取登录信息
+    
 }

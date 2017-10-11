@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.omcube.model.po.EpOrganBillInfoPO;
+import com.omcube.model.po.OrganBillInfoPO;
 
 @Mapper
 public interface OrganBillInfoMapper {
@@ -14,21 +14,21 @@ public interface OrganBillInfoMapper {
 	 * 
 	 * @param billInfoPO
 	 */
-	public void addOrganBillInfo(EpOrganBillInfoPO billInfoPO);
+	public void addOrganBillInfo(OrganBillInfoPO billInfoPO);
 
 	/**
 	 * 修改公司开票信息
 	 * 
 	 * @param billInfoPO
 	 */
-	public void updateOrganBillInfo(EpOrganBillInfoPO billInfoPO);
+	public void updateOrganBillInfo(OrganBillInfoPO billInfoPO);
 
 	/**
 	 * 查询公司开票列表
 	 * 
 	 * @return
 	 */
-	public List<EpOrganBillInfoPO> queryBillInfoList(String uId);
+	public List<OrganBillInfoPO> queryBillInfoList(String uId);
 
 	/**
 	 * 通过公司名称模糊查询公司开票信息列表
@@ -36,7 +36,7 @@ public interface OrganBillInfoMapper {
 	 * @param organName
 	 * @return
 	 */
-	public List<EpOrganBillInfoPO> queryBillInfoByName(EpOrganBillInfoPO billInfoPO);
+	public List<OrganBillInfoPO> queryBillInfoByName(OrganBillInfoPO billInfoPO);
 	
 	/**
 	 * 查询公司开票信息
@@ -44,6 +44,6 @@ public interface OrganBillInfoMapper {
 	 * @param organNo
 	 * @return
 	 */
-	public EpOrganBillInfoPO queryBillInfo(String organNo);
+	public OrganBillInfoPO queryBillInfo(String organNo);
 	
 }

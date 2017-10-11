@@ -2,7 +2,7 @@ package com.omcube.service;
 
 import java.util.List;
 
-import com.omcube.model.po.EpOrganBillInfoPO;
+import com.omcube.model.po.OrganBillInfoPO;
 
 public interface OrganBillInfoService {
 	/**
@@ -10,21 +10,21 @@ public interface OrganBillInfoService {
 	 * 
 	 * @param epOrganBillInfoPO
 	 */
-	public void addOrganBillInfo(EpOrganBillInfoPO billInfoPO);
+	public void addOrganBillInfo(OrganBillInfoPO billInfoPO);
 
 	/**
 	 * 修改公司开票信息
 	 * 
 	 * @param billInfoPO
 	 */
-	public void updateOrganBillInfo(EpOrganBillInfoPO billInfoPO);
+	public void updateOrganBillInfo(OrganBillInfoPO billInfoPO);
 
 	/**
 	 * 查询公司开票列表
 	 * 
 	 * @return
 	 */
-	public List<EpOrganBillInfoPO> queryBillInfoList(String uId);
+	public List<OrganBillInfoPO> queryBillInfoList(String uId);
 
 	/**
 	 * 通过公司名称查询公司开票信息列表
@@ -32,7 +32,7 @@ public interface OrganBillInfoService {
 	 * @param organName
 	 * @return
 	 */
-	public List<EpOrganBillInfoPO> queryBillInfoByName(EpOrganBillInfoPO billInfoPO);
+	public List<OrganBillInfoPO> queryBillInfoByName(OrganBillInfoPO billInfoPO);
 	
 	/**
 	 * 查询公司开票信息
@@ -40,6 +40,6 @@ public interface OrganBillInfoService {
 	 * @param organNO
 	 * @return
 	 */
-	public EpOrganBillInfoPO queryBillInfo(String organNo);
+	public OrganBillInfoPO queryBillInfo(String organNo);
 	
 }
