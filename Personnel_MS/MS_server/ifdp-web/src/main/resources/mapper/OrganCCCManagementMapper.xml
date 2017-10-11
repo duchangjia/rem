@@ -32,24 +32,29 @@
 		</where>
 	</select>
 
-	<insert id="insertOrganCCCManagement" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
-		insert into IFDP_SYS_ORGAN_BASE
+	<insert id="insertOrganCCCManagementISOB" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
+		insert
+		into IFDP_SYS_ORGAN_BASE
 		(UID,ORGAN_NO,ORGAN_NAME,ORGAN_TYPE,ORGAN_STATUS,ORGAN_LEVEL,
 		CREATED_BY,CREATED_DATE,UPDATED_BY,UPDATED_DATE)
 		values(#{uid},#{organNo},#{organName},
 		#{organType},#{status},#{organLevel},#{createBy},#{createDate},#{updateBy},#{updateDate})
 	</insert>
-	<insert id="insertOrganCCCManagement1" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
-		insert into EP_DEPT_CCC (UID,ORGAN_NO,COST_TYPE,COST_CODE,DESCR)
-		values (#{uid},#{organNo},#{costType},#{costCode},#{descr})
+	<insert id="insertOrganCCCManagementEDC" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
+		insert
+		into EP_DEPT_CCC (UID,ORGAN_NO,COST_TYPE,COST_CODE,DESCR)
+		values
+		(#{uid},#{organNo},#{costType},#{costCode},#{descr})
 	</insert>
 
-	<update id="updateOrganCCCManagement" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
-		update IFDP_SYS_ORGAN_BASE set organ_name=#{organName} where
+	<update id="updateOrganCCCManagementISOB" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
+		update
+		IFDP_SYS_ORGAN_BASE set organ_name=#{organName} where
 		organ_no=#{organNo}
 	</update>
-	<update id="updateOrganCCCManagement1" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
-		update EP_DEPT_CCC set
+	<update id="updateOrganCCCManagementEDC" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
+		update
+		EP_DEPT_CCC set
 		cost_type=#{costType},cost_code=#{costCode},descr=#{descr} where
 		organ_no=#{organNo}
 	</update>
