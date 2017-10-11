@@ -50,7 +50,7 @@ public class OrganControllerTest {
 	    }
 	    
 	    /**
-	     * 2.查询当前机构及上级机构信息
+	     * 2.查询当前机构信息
 	     * @param organNo
 	     */
 	    @Test
@@ -72,10 +72,10 @@ public class OrganControllerTest {
 	     * @param organNo
 	     */
 	    @Test
-	    public void queryOrganAndParentOrganDetail() throws Exception
+	    public void queryCurrentAndParentOrganDetail() throws Exception
 	    {
 	    	
-	    	String result = mockMvc.perform(get("/iem/organ/queryOrganAndParentOrganDetail/01")
+	    	String result = mockMvc.perform(get("/iem/organ/queryCurrentAndParentOrganDetail/01")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
 	    			.andExpect(status().isOk()).andReturn().getResponse()
 	    			.getContentAsString();
@@ -144,7 +144,7 @@ public class OrganControllerTest {
 	    public void addOrganMember() throws Exception
 	    {
 	    	
-	  String result = mockMvc.perform(post("/iem/organ/addOrganMember")
+		String result = mockMvc.perform(post("/iem/organ/addOrganMember")
 	    			.param("uId", "00001")
 	    			.param("userNo", "1004")
 	    			.param("userName", "kzheming")

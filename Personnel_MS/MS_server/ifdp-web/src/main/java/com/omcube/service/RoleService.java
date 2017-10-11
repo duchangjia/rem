@@ -2,7 +2,6 @@ package com.omcube.service;
 
 import java.util.List;
 
-import com.omcube.ifdpcore.common.JSONResult;
 import com.omcube.model.po.SysBsnPO;
 import com.omcube.model.po.SysMenuPO;
 import com.omcube.model.po.SysRolePO;
@@ -21,14 +20,15 @@ public interface RoleService {
 	 * @param uId
 	 * @return
 	 */
-	List<SysRolePO> getRoleAll(String uId);
+	List<SysRolePO> queryRoleList(String uId);
 
 	/**
 	 * 角色的添加
 	 * 
 	 * @param sysRolePO
+	 * @throws Exception 
 	 */
-	void addRole(SysRolePO sysRolePO);
+	void addRoleInfo(SysRolePO sysRolePO) throws Exception;
 
 	/**
 	 * 要修改数据的查询
@@ -37,7 +37,22 @@ public interface RoleService {
 	 * @param roleNo
 	 * @return
 	 */
-	SysRolePO getRoleByRoleNo(String uId, String roleNo);
+	SysRolePO queryRoleByRoleNo(String uId, String roleNo);
+	
+	/**
+	 * 角色的修改
+	 * 
+	 * @param sysRolePO
+	 */
+	void updateRoleInfo(SysRolePO sysRolePO) throws Exception;
+
+	/**
+	 * 权限分配时角色查询
+	 * 
+	 * @param sysRolePO
+	 * @return
+	 */
+	Object queryRoleByRoleName(SysRolePO sysRolePO);
 
 	/**
 	 * 向角色分配权限的方法
@@ -46,6 +61,8 @@ public interface RoleService {
 	 * @param sysMenuPO
 	 * @return
 	 */
-	void distributionRole(SysRolePO sysRolePO, List<SysMenuPO> menus) throws Exception;
+	void distributionRole(SysRolePO sysRolePO, List<SysMenuPO> menus, List<SysBsnPO> bsns) throws Exception;
+
+
 
 }

@@ -18,6 +18,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,16 +28,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "iem/user")
+@RequestMapping(value = "user")
 public class UserController {
 
     protected final Log logger = LogFactory.getLog(getClass());
-    
+
     @Autowired
     private UserInfoService userService;
-    
+
     @Autowired
     private OrganService organService;
+
     /**
      * 条件组合查询
      * url:iem/user/queryUser
@@ -44,17 +46,14 @@ public class UserController {
      * @return
      */
     @GetMapping(value = "/queryUser")
-    @Cacheable(value = "queryCache")
-    public Object queryUser(QueryUserRequest queryUserReq)
-    {
-	if (queryUserReq == null)
-	{
+    @Cacheable(value = ConstantUtil.QUERY_CACHE)
+    public Object queryUser(QueryUserRequest queryUserReq) {
+	if (queryUserReq == null) {
 	    logger.error("the request body is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	}
 	logger.info(String.format("the request body is %s:", queryUserReq.toString()));
-	if (StringUtils.isEmpty(queryUserReq.getUid()))
-	{
+	if (StringUtils.isEmpty(queryUserReq.getUid())) {
 	    logger.error("the request uid is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request uid is null");
 	}
@@ -82,12 +81,10 @@ public class UserController {
      * @return
      */
     @GetMapping(value = "/queryUserLoad")
-    @Cacheable(value = "queryCache")
-    public Object queryUserLoad(@RequestParam String uid, @RequestParam String userNo)
-    {
+    @Cacheable(value = ConstantUtil.QUERY_CACHE)
+    public Object queryUserLoad(@RequestParam String uid, @RequestParam String userNo) {
 	logger.info(String.format("the request param uid:%s, userNo:%s", uid, userNo));
-	if (StringUtils.isEmpty(uid) || StringUtils.isEmpty(userNo))
-	{
+	if (StringUtils.isEmpty(uid) || StringUtils.isEmpty(userNo)) {
 	    logger.error("the request param uid or userNo is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
 		    "the request param uid or userNo is null");
@@ -113,10 +110,9 @@ public class UserController {
      * @return
      */
     @PutMapping(value = "/updateUserInfo")
-    public Object updateUserInfo(UpdateUserInfoRequest updateUserReq)
-    {
-	if (updateUserReq == null)
-	{
+    @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
+    public Object updateUserInfo(UpdateUserInfoRequest updateUserReq) {
+	if (updateUserReq == null) {
 	    logger.error("the request body is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	}
@@ -124,75 +120,60 @@ public class UserController {
 
 	//检查参数（数据库不可为空的参数）
 	String errMsg = checkUpdateReqParams(updateUserReq);
-	if (!StringUtils.isEmpty(errMsg))
-	{
+	if (!StringUtils.isEmpty(errMsg)) {
 	    logger.error(errMsg);
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, errMsg);
 	}
 	//更新用户表 及 关联角色表  事务一致
 	userService.updateUserInfo(updateUserReq);
-	
+
 	logger.info(String.format("update user info end"));
 	return JSONResultUtil.setSuccess();
 
     }
 
-    private String checkUpdateReqParams(UpdateUserInfoRequest updateUserReq)
-    {
+    private String checkUpdateReqParams(UpdateUserInfoRequest updateUserReq) {
 	//检查参数不为空
 	String errMsg = checkFieldIsNull(updateUserReq);
-	if (!StringUtils.isEmpty(errMsg))
-	{
+	if (!StringUtils.isEmpty(errMsg)) {
 	    return errMsg;
 	}
 	//校验公司和部门的从属关系
 	List<String> organNos = organService.queryAllChildrenOrganNoes(updateUserReq.getOrganCompanyNo());
 	logger.info(String.format("the company children organNos is ：%s", organNos));
-	if (!organNos.contains(updateUserReq.getOrganDepartmentNo()))
-	{
+	if (!organNos.contains(updateUserReq.getOrganDepartmentNo())) {
 	    return "the department is not belong to the company";
 	}
 	//校验规则
-	if (!updateUserReq.getEmail().matches(ConstantUtil.EMAIL_REG))
-	{
+	if (!updateUserReq.getEmail().matches(ConstantUtil.EMAIL_REG)) {
 	    return stringErrorFormat(updateUserReq.getEmail());
 	}
-	if (!updateUserReq.getMobile().matches(ConstantUtil.PHONE_REG))
-	{
+	if (!updateUserReq.getMobile().matches(ConstantUtil.PHONE_REG)) {
 	    return stringErrorFormat(updateUserReq.getMobile());
 	}
-	if (!updateUserReq.getUserName().matches(ConstantUtil.NAME_REG))
-	{
+	if (!updateUserReq.getUserName().matches(ConstantUtil.NAME_REG)) {
 	    return stringErrorFormat(updateUserReq.getUserName());
 	}
 	if (!StringUtils.isEmpty(updateUserReq.getRemark())
-		&& updateUserReq.getRemark().length() > ConstantUtil.REMARK_MAX_LENGTH)
-	{
+		&& updateUserReq.getRemark().length() > ConstantUtil.REMARK_MAX_LENGTH) {
 	    return "the remark is out of the max length 128";
 	}
 	return null;
     }
 
-    private String checkFieldIsNull(UpdateUserInfoRequest updateUserReq)
-    {
-	for (Field field : updateUserReq.getClass().getDeclaredFields())
-	{
+    private String checkFieldIsNull(UpdateUserInfoRequest updateUserReq) {
+	for (Field field : updateUserReq.getClass().getDeclaredFields()) {
 	    field.setAccessible(true);
-	    if (field.getName().equals("remark"))
-	    {
+	    if (field.getName().equals("remark")) {
 		continue;
 	    }
-	    else
-	    {
-		try
-		{
-		    if (StringUtils.isEmpty(field.get(updateUserReq)))
-		    {
+	    else {
+		try {
+		    if (StringUtils.isEmpty(field.get(updateUserReq))) {
 			return stringErrorFormat(field.getName());
 		    }
 		}
-		catch (IllegalArgumentException | IllegalAccessException e)
-		{
+		catch (IllegalArgumentException | IllegalAccessException e) {
 		    logger.error(String.format("check field %s is error.", field.getName()));
 		}
 	    }
@@ -200,44 +181,34 @@ public class UserController {
 	return null;
     }
 
-    private String stringErrorFormat(String param)
-    {
+    private String stringErrorFormat(String param) {
 	return String.format("the request param %s is invalid", param);
     }
 
-    private QueryUserRequest makeRequestPragram(QueryUserRequest queryUserReq)
-    {
-	if (queryUserReq.getPageNum() <= 0)
-	{
+    private QueryUserRequest makeRequestPragram(QueryUserRequest queryUserReq) {
+	if (queryUserReq.getPageNum() <= 0) {
 	    queryUserReq.setPageNum(ConstantUtil.DEFAULT_PAGE_NUM);
 	}
-	if (queryUserReq.getPageSize() <= 0)
-	{
+	if (queryUserReq.getPageSize() <= 0) {
 	    queryUserReq.setPageSize(ConstantUtil.DEFAULT_PAGE_SEZE);
 	}
-	if (queryUserReq.getPageSize() > 100)
-	{
+	if (queryUserReq.getPageSize() > 100) {
 	    queryUserReq.setPageSize(ConstantUtil.DEFAULT_MAX_PAGE_SEZE);
 	}
 	//如果不为空判断是那种条件查询
 	String userFeatureInfo = queryUserReq.getUserFeatureInfo();
 	logger.debug(String.format("user feature info is :%s", userFeatureInfo));
-	if (!StringUtils.isEmpty(userFeatureInfo))
-	{
-	    if (userFeatureInfo.matches(ConstantUtil.EMAIL_REG))
-	    {
+	if (!StringUtils.isEmpty(userFeatureInfo)) {
+	    if (userFeatureInfo.matches(ConstantUtil.EMAIL_REG)) {
 		queryUserReq.setEmail(userFeatureInfo);
 	    }
-	    else if (userFeatureInfo.matches(ConstantUtil.PHONE_REG))
-	    {
+	    else if (userFeatureInfo.matches(ConstantUtil.PHONE_REG)) {
 		queryUserReq.setMobileTEL(userFeatureInfo);
 	    }
-	    else if (userFeatureInfo.matches(ConstantUtil.NAME_REG))
-	    {
+	    else if (userFeatureInfo.matches(ConstantUtil.NAME_REG)) {
 		queryUserReq.setUserName(userFeatureInfo);
 	    }
-	    else
-	    {
+	    else {
 		queryUserReq.setUserNo(userFeatureInfo);
 	    }
 	}

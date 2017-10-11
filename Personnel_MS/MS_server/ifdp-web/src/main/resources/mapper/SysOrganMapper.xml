@@ -14,10 +14,10 @@
 		 javaType="java.util.ArrayList" select="selectOrganChildrenById"/>
 	</resultMap>  
     <select id="queryOrganList" parameterType="java.lang.String" resultMap="OrganTree">   
-	     select organ_no,organ_name from IFDP_SYS_ORGAN_BASE where organ_no=#{organNo}       		
+	    select organ_no,organ_name from IFDP_SYS_ORGAN_BASE where organ_no=#{organNo}       		
 	</select>	
 	<select id="selectOrganChildrenById" resultMap="OrganTree" parameterType="string">
-		 select organ_no,organ_name from IFDP_SYS_ORGAN_BASE where parent_no=#{organ_no} and organ_status='1'			
+		select organ_no,organ_name from IFDP_SYS_ORGAN_BASE where parent_no=#{organ_no} and organ_status='1'			
 	</select>
 
 	<!--2.查询当前机构信息  -->
@@ -34,47 +34,45 @@
 	</select>
 
 	<!--3.查询当前机构、上级机构及机构详情信息  -->
-    <select id="queryOrganAndParentOrganDetail" parameterType="java.lang.String" resultType="com.omcube.model.po.SysOrganPO">          
-			select
-				o1.organ_no as organNo,
-				o1.organ_name as organName ,
-				o1.organ_type as organType,
-				o1.organ_status as organStatus,
-				o2.organ_name as organParentName,
-				od.organ_mge_name as organMgeName
-			from
-				IFDP_SYS_ORGAN_BASE o1,
-				IFDP_SYS_ORGAN_BASE o2,
-				SYS_ORGAN_DETAIL od
-			where
-				o1.organ_no = od.organ_no
-			and o1.uid = od.uid
-			and o1.parent_no = o2.organ_no
-			and o1.organ_no = #{organNo} 
+    <select id="queryCurrentAndParentOrganDetail" parameterType="java.lang.String" resultType="com.omcube.model.po.SysOrganPO">          
+		
+		select 
+		  o1.organ_no as organNo,
+		  o1.organ_name as organName,
+		  o1.organ_type as organType,
+		  o1.organ_status as organStatus,
+		  o2.organ_name as organParentName,
+		  od.organ_mge_name as organMgeName 
+		from
+		  	IFDP_SYS_ORGAN_BASE o1 
+		left outer join IFDP_SYS_ORGAN_BASE o2 
+		    on o1.parent_no = o2.organ_no 
+		left outer join SYS_ORGAN_DETAIL od 
+		    on o1.organ_no = od.organ_no 
+		    and o1.uid = od.uid 
+		where o1.organ_no =#{organNo} 
 	
     </select>
-    
-    
+       
     <!--4.查询当前机构的直属下级机构详情信息  -->
      <select id="queryChildOrganDetail" parameterType="java.lang.String" resultType="com.omcube.model.po.SysOrganPO"> 
    
-			select
-				o1.organ_name as organChildName,
-				o1.organ_type as organType,
-				o1.organ_status as organStatus,
-				od.organ_mge_name as organMgeName
-			from
-				IFDP_SYS_ORGAN_BASE o1
-			left outer join SYS_ORGAN_DETAIL od on o1.organ_no = od.organ_no
-			AND o1.uid = od.uid
-			where
-				o1.parent_no = #{organNo} 
+		select
+			o1.organ_name as organChildName,
+			o1.organ_type as organType,
+			o1.organ_status as organStatus,
+			od.organ_mge_name as organMgeName
+		from
+			IFDP_SYS_ORGAN_BASE o1
+		left outer join SYS_ORGAN_DETAIL od 
+			on o1.organ_no = od.organ_no
+			and o1.uid = od.uid
+		where
+			o1.parent_no = #{organNo} 
 			and o1.organ_status = '1'
     
     </select>
-    
-
-    
+       
     <!--5.查询机构下的人员信息 -->
     <select id="queryOrganMember" parameterType="java.lang.String" resultMap="SysUserMap"> 	    
 	    select * from IFDP_SYS_USER_BASE where organ_no=#{organNo} and status='1'   
@@ -154,8 +152,7 @@
 			organ_no =#{ organNo }
     	
     </update>
-    
-    
+       
      <!--10.新增机构和机构详情信息-->
     <insert id="addOrgan" parameterType="com.omcube.model.po.SysOrganPO">
    
