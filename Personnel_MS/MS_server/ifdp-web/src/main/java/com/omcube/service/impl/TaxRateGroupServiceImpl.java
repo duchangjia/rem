@@ -17,20 +17,20 @@ public class TaxRateGroupServiceImpl implements TaxRateGroupService{
 	@Autowired
 	private TaxRateGroupMapper taxRateGroupMapper;
 	
-	//增加
+	// 新增个人所得税税率组
 	@Override
 	public void addTaxRateGroup(TaxRateGroupPO taxRateGroupPO){
 		taxRateGroupMapper.addTaxRateGroup(taxRateGroupPO);
 	}
 	
-	//查询
+	// 查询所有个人所得税税率组
 	@Override
 	public List<TaxRateGroupPO> findTaxRateGroup(String uId){
 		return taxRateGroupMapper.findTaxRateGroup(uId);
 		
 	}
 		
-	//删除
+	// 根据主键（组ID）删除个人所得税税率组
 	@Override
 	public void deleteTaxRateGroup(TaxRateGroupPO taxRateGroupPO){
 		taxRateGroupMapper.deleteTaxRateGroup(taxRateGroupPO);

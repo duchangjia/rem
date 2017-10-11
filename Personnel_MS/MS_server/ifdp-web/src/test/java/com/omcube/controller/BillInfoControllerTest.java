@@ -69,7 +69,7 @@ public class BillInfoControllerTest {
 		.perform(put("/organBillInfo/updateOrganBillInfo")
 		.param("uId", "0001")
 		.param("organNo", "0001")
-		.param("organName", "橙色魔方")
+		.param("organName", "橙色魔方6666")
 		.param("organTaxNo", "6666")
 		.param("organTel", "0000")
 		.param("organAcct", "0000")

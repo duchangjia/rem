@@ -18,7 +18,7 @@
 		<result column="ISDELETE" property="isDelete"></result>
 	</resultMap>
 
-	<!-- 增加 -->
+	<!-- 新增个人所得税税率组 -->
 	<insert id="addTaxRateGroup" parameterType="com.omcube.model.po.TaxRateGroupPO">
 		insert into
 		EP_TAXRATE_GROUP
@@ -30,7 +30,7 @@
 		)
 	</insert>
 
-	<!-- 查询 -->
+	<!-- 查询所有个人所得税税率组 -->
 	<select id="findTaxRateGroup" parameterType="java.lang.String"
 		resultMap="TaxRateGroupMap">
 		select
@@ -42,7 +42,7 @@
 		UID=#{uId}
 	</select>
 
-	<!-- 删除 -->
+	<!-- 根据主键（组ID）删除个人所得税税率组 -->
 	<update id="deleteTaxRateGroup" parameterType="java.lang.String">
 		update EP_TAXRATE_GROUP
 		set

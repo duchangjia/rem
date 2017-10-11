@@ -21,7 +21,7 @@
 		<result column="ISDELETE" property="isDelete"></result>
 	</resultMap>
 
-	<!-- 增加 -->
+	<!-- 新增个人所得税税率 -->
 	<insert id="addTaxRateCtrl" parameterType="com.omcube.model.po.TaxRateCtrlPO">
 		insert into
 		EP_TAXRATE_CTRL
@@ -34,7 +34,7 @@
 		)
 	</insert>
 
-	<!-- 查询 -->
+	<!-- 查询所有个人所得税税率 -->
 	<select id="findTaxRateCtrl" parameterType="java.lang.String"
 		resultMap="TaxRateCtrlMap">
 		select
@@ -47,7 +47,7 @@
 		UID=#{uId}
 	</select>
 
-	<!-- 删除 -->
+	<!-- 根据主键（组ID，编号）删除个人所得税税率 -->
 	<update id="deleteTaxRateCtrl" parameterType="java.lang.String">
 		update
 		EP_TAXRATE_CTRL
@@ -61,7 +61,7 @@
 		APPLY_NO=#{applyNo}
 	</update>
 
-	<!-- 修改 -->
+	<!-- 根据主键（组ID，编号）修改个人所得税税率 -->
 	<update id="updateTaxRateCtrl" parameterType="com.omcube.model.po.TaxRateCtrlPO">
 		update
 		EP_TAXRATE_CTRL
