@@ -28,7 +28,7 @@ public class UserControllerTest {
 	mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
-    @Test
+    //@Test
     public void queryUser() throws Exception
     {
 	String result = mockMvc.perform(get("/user/queryUserList")
@@ -44,20 +44,20 @@ public class UserControllerTest {
 	System.out.println(result);
     }
 
-   // @Test
+    @Test
     public void updateUserInfo() throws Exception
     {
 	String result = mockMvc.perform(put("/user/updateUserInfo")
-		.param("organCompanyNo", "234")
-		.param("organDepartmentNo", "10001")
+		.param("organCompanyNo", "01")
+		.param("organDepartmentNo", "002")
 		.param("roleNo", "COMMONssss")
 		.param("userNo", "2")
-		.param("userName", "jinQqqqq")
+		.param("userName", "jinQQQ")
 		.param("certNo", "431223199003013356")
 		.param("mobile", "13418760926")
 		.param("email", "11223@qq.com")
 		.param("remark", "qqqq")
-		.param("userStatus", "1")
+		.param("status", "1")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();

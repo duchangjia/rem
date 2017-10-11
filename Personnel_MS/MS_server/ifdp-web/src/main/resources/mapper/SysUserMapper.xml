@@ -114,7 +114,7 @@
 			cert_no=#{certNo},
 			mobile_tel=#{mobile},
 			email=#{email},
-			status=#{userStatus},
+			status=#{status},
 			remark=#{remark},
 			updated_by=#{updatedBy},
 			updated_date=date_format(now(),'%y-%m-%d')

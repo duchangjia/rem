@@ -62,8 +62,7 @@ public class UserController {
 
 	Result<UserListInfo> result = new Result<>();
 	//分页
-	Page<UserListInfo> page = PageHelper.startPage(queryUserReq.getPageNum(),
-		queryUserparam.getPageSize(), true);
+	Page<UserListInfo> page = PageHelper.startPage(queryUserReq.getPageNum(), queryUserparam.getPageSize(), true);
 	List<UserListInfo> userInfos = userService.queryUserList(queryUserparam);
 	long totalNum = page.getTotal();
 	result.setTotal(totalNum);
@@ -81,8 +80,7 @@ public class UserController {
      */
     @GetMapping(value = "/queryUserDetail/{userNo}")
     public Object queryUserDetail(@PathVariable String userNo) {
-	if (StringUtils.isEmpty(userNo))
-	{
+	if (StringUtils.isEmpty(userNo)) {
 	    logger.error("the request userNo is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request userNo is null");
 	}
@@ -91,7 +89,7 @@ public class UserController {
 	String uid = sysLoginCtrl.getuId();
 	logger.info(String.format("the request param uid:%s, userNo:%s", uid, userNo));
 	UserDetailInfo userInfos = userService.queryUserDetail(uid, userNo);
-	
+
 	return JSONResultUtil.setSuccess(userInfos);
     }
 
@@ -160,7 +158,8 @@ public class UserController {
     private String checkFieldIsNull(UpdateUserInfoRequest updateUserReq) {
 	for (Field field : updateUserReq.getClass().getDeclaredFields()) {
 	    field.setAccessible(true);
-	    if (field.getName().equals("remark")) {
+	    if (field.getName().equals("remark") || field.getName().equals("uid")
+		    || field.getName().equals("updatedBy")) {
 		continue;
 	    }
 	    else {
@@ -211,7 +210,7 @@ public class UserController {
 	//从session 中获取登录信息
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	queryUserReq.setUid(sysLoginCtrl.getuId());
-	
+
 	return queryUserReq;
     }
 }
