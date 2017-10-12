@@ -24,24 +24,21 @@
 					<el-col :span="12">
 						<el-form-item label="所属公司" prop="compName">
 							<el-select v-model="operatorDetail.compName" placeholder="所属公司">
-								<el-option label="上海" value="0"></el-option>
-								<el-option label="深圳" value="1"></el-option>
+								<el-option v-for="item in compList" :label="item.compName" :value="item.compNo"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="所属部门" prop="departName">
 							<el-select v-model="operatorDetail.departName" placeholder="所属部门">
-								<el-option label="行政部" value="0"></el-option>
-								<el-option label="财务部" value="1"></el-option>
+								<el-option v-for="item in departList" :label="item.departName" :value="item.departNo"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="角色" prop="roleName">
 							<el-select v-model="operatorDetail.roleName" class="bg-white">
-								<el-option label="行政经理" value="01"></el-option>
-								<el-option label="财务经理" value="02"></el-option>
+								<el-option v-for="(item,k) in roleList" :label="item.roleName" :value="item.roleNo"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -83,12 +80,13 @@
 <script>
 	import Bus from '../../../common/Bus.js'
 	import current from '../../common/current_position.vue'
-	const baseURL = 'ifdp'
+	const baseURL = 'aaaa'
 	export default {
 		data() {
 			return {
 				oldStatus: 1,
 				oldOperatorDetail: {},
+				//用户详细信息
 				operatorDetail: {
 					userName: '1',
 					userNo: '1',
@@ -101,6 +99,23 @@
 					certNo: '1',
 					remark: '1'
 				},
+				//角色列表
+				roleList: [
+					{roleName: '行政经理',roleNo: '01'},
+					{roleName: '财务经理',roleNo: '02'},
+					{roleName: '行政文员',roleNo: '03'}
+				],
+				//部门列表
+				departList: [
+					{departName: '行政部',departNo: '001'},
+					{departName: '财务部',departNo: '002'}
+				],
+				//公司列表
+				compList: [
+					{compName: '上海分公司',compNo: '011'},
+					{compName: '深圳分公司',compNo: '012'},
+					{compName: '广州分公司',compNo: '013'}
+				],
 				rules: {
 					userName: [
 			            { required: true, message: '请输入姓名', trigger: 'blur' },
@@ -118,12 +133,14 @@
 		},
 		created(){
 			const self = this;
-			let param = JSON.parse(sessionStorage.getItem('param'));
-			let msg = JSON.parse(sessionStorage.getItem('msg'));
-//			let user = sessionStorage.getItem('user');
-			console.log('msg',msg);
-			console.log('param',param);
-			self.$axios.get(baseURL+'/queryOperatorDetail',param)
+			let userParam = JSON.parse(sessionStorage.getItem('userParam'));
+			let userMsg = JSON.parse(sessionStorage.getItem('userMsg'));
+//			console.log('msg',userMsg);
+//			console.log('param',userParam);
+			if(!userMsg){
+				console.log('重置',userMsg);
+			}
+			self.$axios.get(baseURL+'/queryOperatorDetail',{params: userParam})
 			.then(function(res){
 				self.operatorDetail = res.data.data;
 				self.oldStatus = self.operatorDetail.status;
@@ -166,11 +183,23 @@
 					if(valid) {
 						let detailChange = false;
 						//用户修改
-						let params ={
-							userName: self.operatorDetail.userName,
-							userNo: self.operatorDetail.userNo,
-							roleNo: self.operatorDetail.roleNo,
-							status: self.operatorDetail.status
+//						let params ={
+//							userName: self.operatorDetail.userName,
+//							userNo: self.operatorDetail.userNo,
+//							roleNo: self.operatorDetail.roleNo,
+//							status: self.operatorDetail.status
+//						}
+						let params = {
+							"organCompanyNo": "234",
+							"organDepartmentNo": "10001",
+							"roleNo": "COMMONssss",
+							"userNo": "2",
+							"userName": "jinQqqqq",
+							"certNo": "431223199003013356",
+							"mobile": "13418760926",
+							"email": "11223@qq.com",
+							"remark": "qqqq",
+							"userStatus": "1"
 						}
 						for(let k in self.operatorDetail){
 							if(self.oldOperatorDetail[k]!==self.operatorDetail[k]){
@@ -179,8 +208,9 @@
 							}
 						}
 						if(detailChange===true){//判断是否有修改信息
-							self.$axios.put(baseURL+'/modifyOperatorInfo',params)
+							self.$axios.put(baseURL+'/user/updateUserInfo',params)
 							.then(function(res){
+								console.log(res);
 								if(res.status==200){
 									self.$alert('信息修改成功', '提示', {
 							          	confirmButtonText: '确定',

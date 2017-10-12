@@ -19,10 +19,8 @@
 						</el-form-item>
 					</div>
 					<div class="button-wrap">
-						<!--<el-form-item>-->
 							<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
 							<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
-						<!--</el-form-item>-->
 					</div>
 				</el-form>
 				<div class="info">
@@ -46,7 +44,8 @@
 <script type='text/ecmascript-6'>
 import Bus from '../../../common/Bus.js'
 import current from '../../common/current_position.vue'
-const baseURL = 'ifdp'
+//const baseURL = 'ifdp'
+const baseURL = 'aaaa'
 export default {
 	data() {
 		return {
@@ -75,18 +74,20 @@ export default {
 	created() {
 		const self = this;
 		let params = {
-			pageIndex: 1,
-			pageRows: 10
+			"pageNum": 1,
+			"pageSize": 2,
+			"organCompanyName": "魔方"
 		}
 		//查询用户列表
-		self.$axios.get(baseURL+'/queryOperatorList', params)
+		self.$axios.get(baseURL+'/user/queryUserList', {params: params})
 			.then(function(res) {
-				self.operatorList = res.data.data.operatorListInfo;
+				console.log(res);
+				self.operatorList = res.data.data.models;
 				self.pageIndex = Number(res.data.data.pageIndex);
 				self.pageRows = Number(res.data.data.pageRows);
 				self.totalRows = Number(res.data.data.totalRows);
 			}).catch(function(err) {
-				console.log('error');
+				console.log(err);
 			})
 	},
 	methods: {
@@ -101,27 +102,29 @@ export default {
 						mobileReg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/,
 						userNoReg = /^P\d{6}$/;
 					self.operatorList = [];
-					if(emailReg.test(user)){
-						param = {"email": user};
-						console.log('email',user)
-					}else if(mobileReg.test(user)){
-						param = {"mobile": user};
-						console.log('mobile',user)
-					}else if(userNoReg.test(user)){
-						param = {"userNo": user};
-						console.log('userNo',user)
-					}else{
-						param = {"userName": user};
-						console.log('userName',user)
-					}
-					self.$axios.get(baseURL+'/queryOperatorDetail', param)
+//					if(emailReg.test(user)){
+//						param = {"email": user};
+//						console.log('email',user)
+//					}else if(mobileReg.test(user)){
+//						param = {"mobile": user};
+//						console.log('mobile',user)
+//					}else if(userNoReg.test(user)){
+//						param = {"userNo": user};
+//						console.log('userNo',user)
+//					}else{
+//						param = {"userName": user};
+//						console.log('userName',user)
+//					}
+					param = {"userNo": user};
+					self.$axios.get(baseURL+'/user/queryUserDetail/'+user)
 						.then(function(res) {
+							console.log(res);
 							self.operatorList.push(res.data.data);
 							self.pageIndex = 0;
 							self.pageRows = 0;
 							self.totalRows = 0;
-//							sessionStorage.setItem('param', JSON.stringify(param));
-							sessionStorage.setItem('msg',JSON.stringify(self.operatorList[0]));
+//							sessionStorage.setItem('userParam', JSON.stringify(param));
+							sessionStorage.setItem('userMsg',JSON.stringify(self.operatorList[0]));
 						}).catch(function(err) {
 							console.log(err);
 						})
@@ -155,7 +158,7 @@ export default {
 						param = {"userName": user};
 						console.log('userName',user)
 					}
-					sessionStorage.setItem('param', JSON.stringify(param));
+					sessionStorage.setItem('userParam', JSON.stringify(param));
 					self.$router.push('/user-info');
 					
 				}
