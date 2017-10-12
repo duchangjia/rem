@@ -99,14 +99,52 @@
 			<artifactId>pagehelper</artifactId>
 			<version>4.1.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jta-narayana</artifactId>
 		</dependency>
+		
+		<!-- for activiti use -->
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-spring-boot-starter-basic</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-spring-boot-starter-rest-api</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-spring-boot-starter-actuator</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+		<!-- jpa makes activiti integration easier -->
+		<dependency>
+    		<groupId>org.activiti</groupId>
+    		<artifactId>activiti-spring-boot-starter-jpa</artifactId>
+    		<version>${activiti.version}</version>
+		</dependency>
+		<!-- SMTP server dependency is needed if you wish to send an email in activiti -->
+		<dependency>
+			<groupId>org.subethamail</groupId>
+			<artifactId>subethasmtp-wiser</artifactId>
+			<version>1.2</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
 	</dependencies>
-
-
+	<properties>
+		<!-- activiti integration -->
+		<activiti.version>5.19.0.2</activiti.version>
+	</properties>
 	<build>
 		<plugins>
 			<plugin>
