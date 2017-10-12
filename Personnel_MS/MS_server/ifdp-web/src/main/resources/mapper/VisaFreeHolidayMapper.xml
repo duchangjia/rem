@@ -14,7 +14,7 @@
 			<result column="day_date" property="endDate" javaType="java.lang.String"></result> -->
 	</resultMap>
 
-	<select id="queryVisaFreeHolidays" parameterType="java.lang.String"
+	<select id="queryVisaFreeHolidayList" parameterType="java.lang.String"
 		resultType="com.omcube.model.po.VisaFreeHolidayPo">
 		select
 		day_date as day,
@@ -25,14 +25,28 @@
 		from
 		PUB_WORKDAY
 		where
-		UID=#{uid}
+		UID=#{uId}
 	</select>
 
+	<!-- 向 PUB_WORKDAY表插入数据 -->
+	<insert id="insertVisaFreeHoliday" parameterType="java.lang.String">
+		insert into
+		PUB_WORKDAY (uid,day_date,day_flag,remark)values
+		(#{uid},#{day},#{dayFlag},#{remark})
+	</insert>
 
 	<!-- 条件组合查询 -->
-	<select id="queryVisaFreeHolidaysByCondition" resultMap="VisaFreeHolidayMap"
-		parameterType="com.omcube.model.request.QueryVisaFreeHolidayRequest">
-		select day_date,day_flag,remark,created_by,created_date from
+	<select id="queryVisaFreeHolidaysByCondition"
+		parameterType="com.omcube.model.request.QueryVisaFreeHolidayRequest"
+		resultType="com.omcube.model.po.VisaFreeHolidayPo">
+		select
+		day_date as day,
+		day_flag as dayFlag,
+		remark as remark,
+		created_by
+		as createdById,
+		created_date as time
+		from
 		PUB_WORKDAY
 		<where>
 			uid=#{uid}
@@ -47,10 +61,11 @@
 			</if>
 		</where>
 	</select>
-	<!-- 向 PUB_WORKDAY表插入数据 -->
-	<insert id="insertVisaFreeHoliday" parameterType="java.lang.String">
-		insert into
-		PUB_WORKDAY (uid,day_date,day_flag,remark)values
-		(#{uid},#{day},#{dayFlag},#{remark})
-	</insert>
+
+	<!-- 删除 -->
+	<delete id="deleteVisaFreeHoliday" parameterType="java.lang.String">
+		delete from
+		PUB_WORKDAY where day_date=#{day}
+	</delete>
+
 </mapper>
