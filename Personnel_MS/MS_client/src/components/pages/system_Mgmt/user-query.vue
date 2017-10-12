@@ -101,7 +101,7 @@ export default {
 							self.totalRows = 0;
 							sessionStorage.setItem('userMsg',JSON.stringify(self.operatorList[0]));
 						}).catch(function(err) {
-							this.$message.error('查询失败');
+							self.$message.error('查询失败');
 						})
 				} else {
 					console.log('error submit!!');
@@ -129,15 +129,15 @@ export default {
 				"pageNum": pageNum,
 				"pageSize": pageSize,
 				"organCompanyName": "魔方",
-				"organDepartmentName":"魔方分公司深圳分公司",
-				"userFeatureInfo":"11223@qq.com"
+//				"organDepartmentName":"魔方分公司深圳分公司",
+//				"userFeatureInfo":"11223@qq.com"
 			}
 			//查询用户列表
 			if(pageNum!==oldPage){
 				console.log('oldPage',oldPage)
 				console.log('pageNum',pageNum)
+				self.queryUserList(pageNum,pageSize,params);
 			}
-			self.queryUserList(pageNum,pageSize,params);
 		},
 		resetUserInfo(row, column, cell, event) {
 			if (column.property === 'userNo') {

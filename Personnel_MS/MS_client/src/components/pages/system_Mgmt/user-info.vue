@@ -196,10 +196,10 @@
 				            	message: '新密码已发送至邮箱，请查收!'
 				          	});
 		          		} else {
-		          			this.$message.error('密码重置失败');
+		          			self.$message.error('密码重置失败');
 		          		}
 		          	}).catch(function(err){
-		          		this.$message.error('密码重置失败');
+		          		self.$message.error('密码重置失败');
 		          	})
 		        }).catch(() => {
 		          	self.$message({
@@ -240,11 +240,11 @@
 							          	confirmButtonText: '确定'
 						        	});
 								} else {
-									this.$message.error('信息修改失败');
+									self.$message.error('信息修改失败');
 								}
 							})
 							.catch(function(err){
-								this.$message.error('信息修改失败');
+								self.$message.error('信息修改失败');
 							})
 						}else{
 							self.$alert('你还未修改信息', '提示', {
