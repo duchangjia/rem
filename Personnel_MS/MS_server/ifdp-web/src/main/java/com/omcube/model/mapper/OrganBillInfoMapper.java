@@ -3,6 +3,7 @@ package com.omcube.model.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.omcube.model.po.OrganBillInfoPO;
 
@@ -36,7 +37,7 @@ public interface OrganBillInfoMapper {
 	 * @param organName
 	 * @return
 	 */
-	public List<OrganBillInfoPO> queryBillInfoByName(OrganBillInfoPO billInfoPO);
+	public List<OrganBillInfoPO> queryBillInfoByName(@Param("uId") String uId,@Param("organName") String organName);
 	
 	/**
 	 * 查询公司开票信息
@@ -44,6 +45,6 @@ public interface OrganBillInfoMapper {
 	 * @param organNo
 	 * @return
 	 */
-	public OrganBillInfoPO queryBillInfo(String organNo);
+	public OrganBillInfoPO queryBillInfo(@Param("uId") String uId,@Param("organNo") String organNo);
 	
 }

@@ -40,15 +40,15 @@
 		update EP_ORGAN_BILLINFO 
 		set
 			organ_name = #{organName},
-			organ_taxno=#{organTaxNo},
-			organ_tel=#{organTel},
-			organ_acct=#{organAcct},
-			organ_acctname=#{organAcctname},
-			organ_addr=#{organAddr},
-			updated_by=#{updatedBy},
-			updated_date=now()
+			organ_taxno = #{organTaxNo},
+			organ_tel = #{organTel},
+			organ_acct = #{organAcct},
+			organ_acctname = #{organAcctname},
+			organ_addr = #{organAddr},
+			updated_by = #{updatedBy},
+			updated_date = now()
 		where 
-			uid=#{uId} and organ_no=#{organNo}
+			uid= #{uId} and organ_no = #{organNo}
 	</update>
 
 	<!-- 查询公司开票信息列表 -->
@@ -58,7 +58,7 @@
 	</select>
 
 	<!-- 通过公司名称模糊查询公司开票信息列表 -->
-	<select id="queryBillInfoByName" parameterType="com.omcube.model.po.OrganBillInfoPO" resultMap="OrganBillInfoMap">
+	<select id="queryBillInfoByName" parameterType="java.lang.String" resultMap="OrganBillInfoMap">
 		select * from EP_ORGAN_BILLINFO
 		where 1=1
 		<if test="uId != null">
@@ -73,7 +73,7 @@
 	<select id = "queryBillInfo" parameterType = "java.lang.String" resultMap = "OrganBillInfoMap">
 		select * from EP_ORGAN_BILLINFO
 		where
-		uid = 0001 and organ_no = #{organNo}
+		uid = #{uId} and organ_no = #{organNo}
 	</select>
 	
 </mapper>

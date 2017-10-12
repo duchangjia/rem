@@ -27,12 +27,12 @@ public interface OrganBillInfoService {
 	public List<OrganBillInfoPO> queryBillInfoList(String uId);
 
 	/**
-	 * 通过公司名称查询公司开票信息列表
+	 * 通过公司名称模糊查询
 	 * 
 	 * @param organName
 	 * @return
 	 */
-	public List<OrganBillInfoPO> queryBillInfoByName(OrganBillInfoPO billInfoPO);
+	public List<OrganBillInfoPO> queryBillInfoByName(String uId,String organName);
 	
 	/**
 	 * 查询公司开票信息
@@ -40,6 +40,6 @@ public interface OrganBillInfoService {
 	 * @param organNO
 	 * @return
 	 */
-	public OrganBillInfoPO queryBillInfo(String organNo);
+	public OrganBillInfoPO queryBillInfo(String uId,String organNo);
 	
 }
