@@ -49,7 +49,7 @@ export default {
         const self = this;
         let params = {
             pageNum: 1,
-            pageSize: 4
+            pageSize: 5
         }
         self.$axios.get('iemrole/role/queryRoleList', { params })
             .then(function(res) {
