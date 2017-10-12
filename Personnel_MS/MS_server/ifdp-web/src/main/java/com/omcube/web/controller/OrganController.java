@@ -27,7 +27,7 @@ import com.omcube.util.ErrorCodeConstantUtil;
 import com.omcube.util.JSONResultUtil;
 
 @RestController
-@RequestMapping(value = "/iem/organ")
+@RequestMapping(value = "/organ")
 
 public class OrganController {
 
@@ -38,7 +38,7 @@ public class OrganController {
 
     /**
      * 1.获取总公司及其所有下属机构
-     * url:/iem/organ/queryOrganList/organNo
+     * url:/organ/queryOrganList/organNo
      * @param organNo
      * @return
      */
@@ -87,7 +87,7 @@ public class OrganController {
     /**
      * 3.查询当前机构、上级机构及机构详情信息
 
-     * url:/iem/organ/queryOrganAndParentOrganDetail/organNo
+     * url:/organ/queryOrganAndParentOrganDetail/organNo
      * @param organ_no
      * @return
      */
@@ -112,7 +112,7 @@ public class OrganController {
 
     /**
      * 4.查询当前机构的直属下级机构详情
-     * url:/iem/organ/queryChildOrganDetail/organNo
+     * url:/organ/queryChildOrganDetail/organNo
      * @param organNo
      * @return
      */
@@ -139,7 +139,7 @@ public class OrganController {
 
     /**
      * 5.查询机构下的人员
-     * url:/iem/organ/queryOrganMember/organNo
+     * url:/organ/queryOrganMember/organNo
      * @param organNo
      * @return
      */
@@ -167,7 +167,7 @@ public class OrganController {
 
     /**
      * 6.删除机构：逻辑删除
-     * url:/iem/organ/deleteOrganInfo/organNo
+     * url:/organ/deleteOrganInfo/organNo
      * @param organNo
      * @return
      */
@@ -205,7 +205,7 @@ public class OrganController {
 
     /**
      * 7.在当前机构下增加机构人员
-     * url:/iem/organ/addOrganMember
+     * url:/organ/addOrganMember
      * @param sysUserPO
      * @return 
      */
@@ -229,7 +229,7 @@ public class OrganController {
 
     /**
      * 8.根据机构人员编号-删除机构下的人员
-     * url:/iem/organ/deleteOrganMember/userNo
+     * url:/organ/deleteOrganMember/userNo
      * @param userNo
      * @return
      */
@@ -251,7 +251,7 @@ public class OrganController {
 
     /**
      * 9.更新机构及机构详情信息
-     * url:/iem/organ/modifyOrganInfo
+     * url:/organ/modifyOrganInfo
      * @param sysOrganPO
      * @return
      */
@@ -274,7 +274,7 @@ public class OrganController {
 
     /**
      * 10.增加机构及机构详情信息
-     * url:/iem/organ/addOrgan
+     * url:/organ/addOrgan
      * @param sysOrganPO
      * @return
      */

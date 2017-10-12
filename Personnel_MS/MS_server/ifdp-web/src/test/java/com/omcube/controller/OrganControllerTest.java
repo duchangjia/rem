@@ -75,7 +75,7 @@ public class OrganControllerTest {
 	    public void queryCurrentAndParentOrganDetail() throws Exception
 	    {
 	    	
-	    	String result = mockMvc.perform(get("/iem/organ/queryCurrentAndParentOrganDetail/01")
+	    	String result = mockMvc.perform(get("/iem/organ/queryCurrentAndParentOrganDetail/02")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
 	    			.andExpect(status().isOk()).andReturn().getResponse()
 	    			.getContentAsString();

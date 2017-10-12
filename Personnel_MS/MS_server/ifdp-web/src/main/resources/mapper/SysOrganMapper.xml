@@ -21,7 +21,7 @@
 	</select>
 
 	<!--2.查询当前机构信息  -->
- 	<select id="queryCurrentOrgan" parameterType="java.lang.String" resultType="com.omcube.model.po.SysOrganPO">
+ 	<select id="queryCurrentOrgan" parameterType="map" resultType="com.omcube.model.po.SysOrganPO">
 	 
 		select
 			organ_no as organNo,
@@ -30,6 +30,7 @@
 			IFDP_SYS_ORGAN_BASE
 		where
 			organ_no = #{organNo} 
+		and uid = #{uId}
 	 
 	</select>
 
@@ -38,10 +39,12 @@
 		
 		select 
 		  o1.organ_no as organNo,
+		  o1.parent_no as parentNo,
 		  o1.organ_name as organName,
 		  o1.organ_type as organType,
-		  o1.organ_status as organStatus,
+		  o1.organ_status as status,
 		  o2.organ_name as organParentName,
+		  od.organ_mge_id as organMgeId ,
 		  od.organ_mge_name as organMgeName 
 		from
 		  	IFDP_SYS_ORGAN_BASE o1 
@@ -58,9 +61,11 @@
      <select id="queryChildOrganDetail" parameterType="java.lang.String" resultType="com.omcube.model.po.SysOrganPO"> 
    
 		select
+			o1.organ_no as organNo,
 			o1.organ_name as organChildName,
 			o1.organ_type as organType,
-			o1.organ_status as organStatus,
+			o1.organ_status as status,
+			od.organ_mge_id as organMgeId ,
 			od.organ_mge_name as organMgeName
 		from
 			IFDP_SYS_ORGAN_BASE o1
@@ -132,7 +137,7 @@
 		set 
 			organ_name =#{ organName },
 			organ_type =#{ organType }, 
-			organ_status =#{ organStatus},
+			organ_status =#{ status},
 			updated_by=#{updatedBy},
 			updated_date=date_format(now(),'%y-%m-%d')
 		where
@@ -161,7 +166,7 @@
 	    		parent_no,organ_level,organ_descr,org_path,created_by,
 	    		created_date,updated_by,updated_date) 
 	    	values(
-	    		#{uId},#{organNo},#{organName},#{organType},#{organStatus},
+	    		#{uId},#{organNo},#{organName},#{organType},#{status},
 	    		#{parentNo},#{organLevel},#{organDescr},#{organPath},#{createdBy},
 	    		date_format(now(),'%y-%m-%d'),#{updatedBy},date_format(now(),'%y-%m-%d')
 	    	)   
