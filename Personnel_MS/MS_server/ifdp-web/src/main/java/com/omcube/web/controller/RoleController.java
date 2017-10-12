@@ -30,7 +30,11 @@ import com.omcube.util.Result;
  * @version 1.0
  */
 @RestController
+<<<<<<< HEAD
 @RequestMapping(value = "role")
+=======
+@RequestMapping(value = "iem/role")
+>>>>>>> 1b5a5a36ecf38f46c43bd27b09641007a3daa0b1
 @CacheConfig(cacheNames = "queryCache")
 public class RoleController {
 
@@ -68,7 +72,7 @@ public class RoleController {
 
 		long totalNum = page.getTotal();
 		result.setTotal(totalNum);
-		result.setModel(roleInfos);
+		result.setModels(roleInfos);
 
 		return JSONResultUtil.setSuccess(result);
 	}

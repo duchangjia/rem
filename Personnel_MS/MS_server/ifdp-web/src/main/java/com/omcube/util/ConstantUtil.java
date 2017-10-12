@@ -21,4 +21,6 @@ public class ConstantUtil {
     
     public static final int REMARK_MAX_LENGTH = 60;
     
+    public static final String QUERY_CACHE = "queryCache";
+    
 }

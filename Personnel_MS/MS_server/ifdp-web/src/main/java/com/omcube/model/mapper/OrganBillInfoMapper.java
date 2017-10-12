@@ -1,14 +1,19 @@
-package com.omcube.service;
+package com.omcube.model.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import com.omcube.model.po.OrganBillInfoPO;
 
-public interface OrganBillInfoService {
+@Mapper
+public interface OrganBillInfoMapper {
+	
 	/**
 	 * 新增公司开票信息
 	 * 
-	 * @param epOrganBillInfoPO
+	 * @param billInfoPO
 	 */
 	public void addOrganBillInfo(OrganBillInfoPO billInfoPO);
 
@@ -27,19 +32,19 @@ public interface OrganBillInfoService {
 	public List<OrganBillInfoPO> queryBillInfoList(String uId);
 
 	/**
-	 * 通过公司名称模糊查询
+	 * 通过公司名称模糊查询公司开票信息列表
 	 * 
 	 * @param organName
 	 * @return
 	 */
-	public List<OrganBillInfoPO> queryBillInfoByName(String uId,String organName);
+	public List<OrganBillInfoPO> queryBillInfoByName(@Param("uId") String uId,@Param("organName") String organName);
 	
 	/**
 	 * 查询公司开票信息
 	 * 
-	 * @param organNO
+	 * @param organNo
 	 * @return
 	 */
-	public OrganBillInfoPO queryBillInfo(String uId,String organNo);
+	public OrganBillInfoPO queryBillInfo(@Param("uId") String uId,@Param("organNo") String organNo);
 	
 }

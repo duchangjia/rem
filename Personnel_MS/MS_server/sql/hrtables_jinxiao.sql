@@ -43,31 +43,6 @@ END WHILE;
 RETURN organNoList;
 END
 
-
-DROP FUNCTION IF EXISTS queryParentOrganInfo;
-/*==============================================================*/
-/* Method: queryParentOrganInfo    查询部门上的所有子部门Id                                         */
-/*==============================================================*/
-CREATE FUNCTION queryParentOrganInfo(userNo VARCHAR(20))
-RETURNS VARCHAR(4000)
-BEGIN
-DECLARE organNoList VARCHAR(4000);
-DECLARE parentNo VARCHAR(20);
-DECLARE organNo VARCHAR(20);
-
-select organ_no into organNo from IFDP_SYS_USER_BASE where user_no = userNo;
-
-SET organNoList='$';
-SET parentNo = organNo;
-
-WHILE parentNo IS NOT NULL DO
-SET organNoList = CONCAT(organNoList,',',parentNo);
-SELECT GROUP_CONCAT(parent_no) INTO parentNo FROM IFDP_SYS_ORGAN_BASE WHERE FIND_IN_SET(organ_no,parentNo)>0;
-END WHILE;
-RETURN organNoList;
-END;
-
-
 DROP FUNCTION IF EXISTS queryBelongOrganByUserNo;
 /*==============================================================*/
 /* Method: queryBelongOrganByUserNo    查询用户最终属于哪个机构（总公司或者分公司）                                         */

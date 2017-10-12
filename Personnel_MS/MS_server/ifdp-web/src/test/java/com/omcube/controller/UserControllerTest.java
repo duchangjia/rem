@@ -28,16 +28,15 @@ public class UserControllerTest {
 	mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
-   // @Test
+    //@Test
     public void queryUser() throws Exception
     {
-	String result = mockMvc.perform(get("/iem/organ/queryUser")
+	String result = mockMvc.perform(get("/user/queryUserList")
 		.param("pageNum", "1")
 		.param("pageSize", "10")
 		.param("organCompanyName", "魔方")
-		.param("organDepartmentName", "上海办事处")
-		.param("userFeatureInfo", "admin@pactera.com")
-		.param("uid", "0001")
+		//.param("organDepartmentName", "上海办事处")
+		//.param("userFeatureInfo", "admin@pactera.com")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();
@@ -48,19 +47,17 @@ public class UserControllerTest {
     @Test
     public void updateUserInfo() throws Exception
     {
-	String result = mockMvc.perform(put("/iem/user/updateUserInfo")
-		.param("uid", "0001")
-		.param("organCompanyNo", "234")
-		.param("organDepartmentNo", "10001")
+	String result = mockMvc.perform(put("/user/updateUserInfo")
+		.param("organCompanyNo", "01")
+		.param("organDepartmentNo", "002")
 		.param("roleNo", "COMMONssss")
 		.param("userNo", "2")
-		.param("userName", "jinQqqqq")
+		.param("userName", "jinQQQ")
 		.param("certNo", "431223199003013356")
 		.param("mobile", "13418760926")
 		.param("email", "11223@qq.com")
 		.param("remark", "qqqq")
-		.param("updatedBy", "ttt")
-		.param("userStatus", "1")
+		.param("status", "1")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();

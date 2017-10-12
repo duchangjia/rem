@@ -5,54 +5,64 @@
 
 <mapper namespace="com.omcube.model.mapper.OrganCCCManagementMapper">
 	<resultMap id="OrganCCCManagementMap" type="com.omcube.model.po.OrganCCCManagemenPO">
-		<id column="UID" property="uid"></id>
+		<id column="UID" property="uId"></id>
 		<id column="ORGAN_NO" property="organNo"></id>
 		<result column="ORGAN_NO" property="organNo" javaType="java.lang.String"></result>
 		<result column="ORGAN_NAME" property="organName" javaType="java.lang.String"></result>
 		<result column="COST_TYPE" property="costType" javaType="java.lang.String"></result>
 		<result column="COST_CODE" property="costCode" javaType="java.lang.String"></result>
 		<result column="DESCR" property="descr" javaType="java.lang.String"></result>
-
 		<result column="ORGAN_LEVEL" property="organLevel" javaType="java.lang.String" />
 		<result column="CREATED_BY" property="createBy" javaType="java.lang.String" />
 		<result column="CREATED_DATE" property="createDate" javaType="java.util.Date" />
 		<result column="UPDATED_BY" property="updateBy" javaType="java.lang.String" />
 		<result column="UPDATED_DATE" property="updateDate" javaType="java.util.Date" />
-
 	</resultMap>
-
-	<select id="queryOrganCCCManagements" resultMap="OrganCCCManagementMap">
+	
+	<!-- 查询所有列表 -->
+	<select id="queryOrganCCCManagementList"  parameterType="java.lang.String" resultType="com.omcube.model.po.OrganCCCManagemenPO">
 		select
-		sob.ORGAN_NO,sob.ORGAN_NAME,edc.COST_TYPE,edc.COST_CODE,edc.DESCR from
-		SYS_ORGAN_BASE sob,EP_DEPT_CCC edc
-		<where>
-
-			sob.ORGAN_NO=edc.ORGAN_NO
-			and sob.uid=edc.uid
-		</where>
+			sob.ORGAN_NO as organNo,
+			sob.ORGAN_NAME as organName,
+			edc.COST_TYPE as costType,
+			edc.COST_CODE as costCode,
+			edc.DESCR as descr
+		from
+		IFDP_SYS_ORGAN_BASE sob,EP_DEPT_CCC edc
+		where
+			sob.uid=edc.uid=#{uId}
+			and sob.organ_status='1'
 	</select>
 
-	<insert id="insertOrganCCCManagement" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
-		insert into IFDP_SYS_ORGAN_BASE
+	<insert id="insertOrganCCCManagementISOB" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
+		insert
+		into IFDP_SYS_ORGAN_BASE
 		(UID,ORGAN_NO,ORGAN_NAME,ORGAN_TYPE,ORGAN_STATUS,ORGAN_LEVEL,
 		CREATED_BY,CREATED_DATE,UPDATED_BY,UPDATED_DATE)
 		values(#{uid},#{organNo},#{organName},
 		#{organType},#{status},#{organLevel},#{createBy},#{createDate},#{updateBy},#{updateDate})
 	</insert>
-	<insert id="insertOrganCCCManagement1" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
-		insert into EP_DEPT_CCC (UID,ORGAN_NO,COST_TYPE,COST_CODE,DESCR)
-		values (#{uid},#{organNo},#{costType},#{costCode},#{descr})
+	<insert id="insertOrganCCCManagementEDC" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
+		insert
+		into EP_DEPT_CCC (UID,ORGAN_NO,COST_TYPE,COST_CODE,DESCR)
+		values
+		(#{uid},#{organNo},#{costType},#{costCode},#{descr})
 	</insert>
 
-	<update id="updateOrganCCCManagement" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
-		update IFDP_SYS_ORGAN_BASE set organ_name=#{organName} where
+	<update id="updateOrganCCCManagementISOB" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
+		update
+		IFDP_SYS_ORGAN_BASE set organ_name=#{organName} where
 		organ_no=#{organNo}
 	</update>
-	<update id="updateOrganCCCManagement1" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
-		update EP_DEPT_CCC set
+	<update id="updateOrganCCCManagementEDC" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
+		update
+		EP_DEPT_CCC set
 		cost_type=#{costType},cost_code=#{costCode},descr=#{descr} where
 		organ_no=#{organNo}
 	</update>
 
-
+	<!-- 删除机构CCC -->
+	<delete id="deleteOrganCCC" parameterType="java.lang.String">
+		update IFDP_SYS_ORGAN_BASE set organ_status='0' where organ_no=#{organNo} 
+	</delete>
 </mapper>

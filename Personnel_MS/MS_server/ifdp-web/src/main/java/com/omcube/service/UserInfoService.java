@@ -6,13 +6,14 @@ import org.apache.ibatis.annotations.Param;
 
 import com.omcube.model.request.QueryUserRequest;
 import com.omcube.model.request.UpdateUserInfoRequest;
-import com.omcube.model.response.QueryUserInfoResponse;
+import com.omcube.model.response.UserDetailInfo;
+import com.omcube.model.response.UserListInfo;
 
 public interface UserInfoService {
 
-    List<QueryUserInfoResponse> queryUser(QueryUserRequest queryUserReq);
+    List<UserListInfo> queryUserList(QueryUserRequest queryUserReq);
 
-    List<QueryUserInfoResponse> queryUserLoad(@Param("uid") String uid, @Param("userNo") String userNo);
+    UserDetailInfo queryUserDetail(@Param("uid") String uid, @Param("userNo") String userNo);
 
     void updateUserInfo(UpdateUserInfoRequest updateUserInfo);
 }
