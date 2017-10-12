@@ -7,10 +7,10 @@ import com.omcube.model.po.SysMenuPO;
 public interface SysMenuMapper {
 
 	/**
-	 * 根据uid,系统编号sysNo,菜单编号menuNo查询这个菜单
+	 * 根据菜单查询对应的功能
 	 * 
 	 * @param sysMenuPO
 	 * @return
 	 */
-	SysMenuPO queryMenuByUidAndSysNoAndMenuNo(SysMenuPO sysMenuPO);
+	SysMenuPO queryBsnByMenu(SysMenuPO menu);
 }

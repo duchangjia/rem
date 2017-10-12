@@ -5,12 +5,12 @@
 <mapper namespace="com.omcube.model.mapper.SysRoleBsnMapper">
 
 	<!-- 添加角色功能的对应关系 -->
-	<insert id="addRoleBsn" parameterType="com.omcube.model.po.SysRoleBsnPO">
+	<insert id="addRoleBsnInfo" parameterType="com.omcube.model.po.SysRoleBsnPO">
 		insert into
 			IFDP_SYS_REL_ROLE_BSN
 		values(
-			#{sysRolePO.uId},
-			#{sysRolePO.roleNo},
+			#{sysRole.uId},
+			#{sysRole.roleNo},
 			#{sysBsn.bsnNo},
 			#{status},
 			#{createdBy},
