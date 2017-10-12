@@ -14,27 +14,18 @@ public class SysRolePO extends BasicPO {
 	private String roleName; // 角色名称
 	private String roleDescr; // 角色描述
 	private List<SysUserPO> users; // 一个角色对应多个用户
-	private List<SysBsnPO> bsns; // 一个角色对应多个业务功能
-	private List<SysMenuPO> menus; // 菜单信息
-
-	public List<SysBsnPO> getBsns() {
-		return bsns;
-	}
-
-	public List<SysMenuPO> getMenus() {
-		return menus;
-	}
-
-	public void setMenus(List<SysMenuPO> menus) {
-		this.menus = menus;
-	}
-
-	public void setBsns(List<SysBsnPO> bsns) {
-		this.bsns = bsns;
-	}
+	private List<SysBsnPO> roleFuncSet ; // 一个角色对应多个业务功能
 
 	public List<SysUserPO> getUsers() {
 		return users;
+	}
+
+	public List<SysBsnPO> getRoleFuncSet() {
+		return roleFuncSet;
+	}
+
+	public void setRoleFuncSet(List<SysBsnPO> roleFuncSet) {
+		this.roleFuncSet = roleFuncSet;
 	}
 
 	public void setUsers(List<SysUserPO> users) {
@@ -68,7 +59,8 @@ public class SysRolePO extends BasicPO {
 	@Override
 	public String toString() {
 		return "SysRolePO [roleNo=" + roleNo + ", roleName=" + roleName + ", roleDescr=" + roleDescr + ", users="
-				+ users + "]";
+				+ users + ", roleFuncSet=" + roleFuncSet + "]";
 	}
 
+	
 }
