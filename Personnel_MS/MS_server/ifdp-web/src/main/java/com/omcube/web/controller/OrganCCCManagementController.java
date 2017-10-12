@@ -1,16 +1,17 @@
 package com.omcube.web.controller;
 
-import java.text.MessageFormat;
-import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,24 +38,22 @@ public class OrganCCCManagementController {
 	private OrganCCCManagementService organCCCManagementService;
 
 	// 查询所有列表
-	@GetMapping(value = "/queryOrganCCCManagements")
-	@Cacheable(value="queryCache")
-	public Object queryOrganCCCManagements(@RequestParam Integer pageSize,
-			@RequestParam String pageNum) {
-		MessageFormat.format("{0} the request at {1,date,yyyy-MM-dd HH:mm:ss}",
-				new Date());
-		if (StringUtils.isEmpty(pageNum) || StringUtils.isEmpty(pageSize)) {
-			logger.error("the request uid or pageSize or pageNum is null");
+	@GetMapping(value = "/queryOrganCCCManagementList/{uId}")
+	@Cacheable(value = "queryCache")
+	public Object queryOrganCCCManagementList(@PathVariable String uId,
+			HttpServletRequest request, Integer pageSize, Integer pageNum) {
+
+		if (StringUtils.isEmpty(uId)) {
+			logger.error("the request params uId is null");
 			return JSONResultUtil.setError("F00002",
-					"the request params uid or pageSize or pageNum is null");
+					"the request params uId is null");
 		}
-		if (organCCCManagementMapper == null) {
-			organCCCManagementMapper = SpringUtil
-					.getBean(OrganCCCManagementMapper.class);
-		}
-		PageHelper.startPage(pageNum);
-		List<OrganCCCManagemenPO> list = organCCCManagementMapper
-				.queryOrganCCCManagements();
+
+		pageNum = pageNum == null ? 1 : pageNum;
+		pageSize = pageSize == null ? 5 : pageSize;
+		PageHelper.startPage(pageNum, pageSize, true);
+		List<OrganCCCManagemenPO> list = organCCCManagementService
+				.queryOrganCCCManagementList(uId);
 		PageInfo<OrganCCCManagemenPO> pageInfo = new PageInfo<OrganCCCManagemenPO>(
 				list);
 		return JSONResultUtil.setSuccess(pageInfo);
@@ -126,7 +125,6 @@ public class OrganCCCManagementController {
 
 	// 修改
 	@RequestMapping(value = "/updateOrganCCCManagement", method = RequestMethod.GET)
-	@Cacheable
 	public Object updateOrganCCCManagement(
 			OrganCCCManagemenPO organCCCManagemenPO) {
 		logger.info(String.format(
@@ -157,19 +155,16 @@ public class OrganCCCManagementController {
 
 	}
 
-	// //删除
-	// @RequestMapping(value = "/deleteOrganCCCManagement", method =
-	// RequestMethod.GET)
-	// @Cacheable
-	// public Object deleteOrganCCCManagement(@RequestParam String organNo){
-	// logger.info(String.format("the request pragram
-	// organNo:%s,organNo:%s",organNo));
-	// if(StringUtils.isEmpty(organNo)){
-	// logger.error("the request params organNo is null");
-	// return JSONResultUtil.setError("F00002", "the request params organNo is
-	// null");
-	// }
-	//
-	// return null;
-	// }
+	// 删除机构CCC：逻辑删除
+	@RequestMapping(value = "/deleteOrganCCC/{organNo}",method = RequestMethod.GET)
+	public Object deleteOrganCCC(@PathVariable String organNo) {
+		if (StringUtils.isEmpty(organNo)) {
+			logger.error("the request params organNo is null");
+			return JSONResultUtil.setError("F00002",
+					"the request params organNo is null");
+		}
+		organCCCManagementService.deleteOrganCCC(organNo);
+		return JSONResultUtil.setSuccess();
+	}
+
 }
