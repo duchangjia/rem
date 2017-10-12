@@ -37,6 +37,7 @@ module.exports = {
           '^/ifdp': ''
         },
       },
+<<<<<<< HEAD
       '/aaaa': {
 //      target: 'http://localhost:3000/',
         target: 'http://10.0.0.34:8888/',
@@ -44,6 +45,14 @@ module.exports = {
         secure: false,
         pathRewrite: {
           '^/aaaa': ''
+=======
+      '/iemrole': {
+        target: 'http://192.168.1.105:8888/',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/iemrole': ''
+>>>>>>> 1b5a5a36ecf38f46c43bd27b09641007a3daa0b1
         },
       }
     },

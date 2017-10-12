@@ -2,42 +2,70 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-        
-   <!-- 查询所有列表 -->     
+
+<!-- 查询所有列表 -->
 <mapper namespace="com.omcube.model.mapper.VisaFreeHolidayMapper">
 	<resultMap id="VisaFreeHolidayMap" type="com.omcube.model.po.VisaFreeHolidayPo">
-        <result column="DAY_FLAG" property="dayFlag" javaType="java.util.Date"></result>
-        <result column="REMARK" property="remark" javaType="java.lang.String"></result>
-        <result column="CREATED_BY" property="creatById" javaType="java.lang.String"></result>
-        <result column="CREATED_DATE" property="time" javaType="java.util.Date"></result>
-        <result column="day_date" property="startDate" javaType="java.lang.String"></result>
-        <result column="day_date" property="endDate" javaType="java.lang.String"></result>
-    </resultMap>
-    
-    <select id="queryVisaFreeHolidays"  resultMap="VisaFreeHolidayMap"> 
-    	select day_date,day_flag,remark,created_by,created_date from PUB_WORKDAY      
+		<result column="DAY_FLAG" property="dayFlag" javaType="java.util.Date"></result>
+		<result column="REMARK" property="remark" javaType="java.lang.String"></result>
+		<result column="CREATED_BY" property="creatById" javaType="java.lang.String"></result>
+		<result column="CREATED_DATE" property="time" javaType="java.util.Date"></result>
+		<!-- <result column="day_date" property="startDate" javaType="java.lang.String"></result> 
+			<result column="day_date" property="endDate" javaType="java.lang.String"></result> -->
+	</resultMap>
+
+	<select id="queryVisaFreeHolidayList" parameterType="java.lang.String"
+		resultType="com.omcube.model.po.VisaFreeHolidayPo">
+		select
+		day_date as day,
+		day_flag as dayFlag,
+		remark as remark,
+		created_by as createdById,
+		created_date as time
+		from
+		PUB_WORKDAY
+		where
+		UID=#{uId}
+	</select>
+
+	<!-- 向 PUB_WORKDAY表插入数据 -->
+	<insert id="insertVisaFreeHoliday" parameterType="java.lang.String">
+		insert into
+		PUB_WORKDAY (uid,day_date,day_flag,remark)values
+		(#{uid},#{day},#{dayFlag},#{remark})
+	</insert>
+
+	<!-- 条件组合查询 -->
+	<select id="queryVisaFreeHolidaysByCondition"
+		parameterType="com.omcube.model.request.QueryVisaFreeHolidayRequest"
+		resultType="com.omcube.model.po.VisaFreeHolidayPo">
+		select
+		day_date as day,
+		day_flag as dayFlag,
+		remark as remark,
+		created_by
+		as createdById,
+		created_date as time
+		from
+		PUB_WORKDAY
 		<where>
-			 UID=#{uid}
-		</where> 
-    </select>
-    
-    <!-- 条件组合查询 -->
-    <select id="queryVisaFreeHolidaysByCondition" resultMap="VisaFreeHolidayMap" parameterType="com.omcube.model.request.QueryVisaFreeHolidayRequest">
-    	select day_date,day_flag,remark,created_by,created_date from PUB_WORKDAY 
-    	<where> uid=#{uid}
-    		<if test="startDate!=null">
-    			and day_date like '%${startDate}%'
-    		</if>
-    		<if test="endDate!=null">
-    			and day_date like '%${endDate}%'
-    		</if>
-    		<if test="dayFlag!=null">
-    			and day_flag =#{dayFlag}
-    		</if>
-    	</where>
-    </select>
-    <!-- 向 PUB_WORKDAY表插入数据 -->
-    <insert id ="insertVisaFreeHoliday" parameterType="java.lang.String" >
-    	insert into  PUB_WORKDAY (uid,day_date,day_flag,remark)values (#{uid},#{day},#{dayFlag},#{remark})
-    </insert>
+			uid=#{uid}
+			<if test="startDate!=null">
+				and day_date like '%${startDate}%'
+			</if>
+			<if test="endDate!=null">
+				and day_date like '%${endDate}%'
+			</if>
+			<if test="dayFlag!=null">
+				and day_flag =#{dayFlag}
+			</if>
+		</where>
+	</select>
+
+	<!-- 删除 -->
+	<delete id="deleteVisaFreeHoliday" parameterType="java.lang.String">
+		delete from
+		PUB_WORKDAY where day_date=#{day}
+	</delete>
+
 </mapper>

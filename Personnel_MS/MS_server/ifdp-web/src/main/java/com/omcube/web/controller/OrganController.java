@@ -1,7 +1,9 @@
 package com.omcube.web.controller;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,26 +15,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.omcube.model.mapper.SysOrganMapper;
 import com.omcube.model.po.OrganTree;
 import com.omcube.model.po.SysOrganPO;
 import com.omcube.model.po.SysUserPO;
-import com.omcube.model.response.QueryUserInfoResponse;
 import com.omcube.service.OrganService;
 import com.omcube.util.ErrorCodeConstantUtil;
 import com.omcube.util.JSONResultUtil;
-import com.omcube.util.Result;
 
 @RestController
 @RequestMapping(value = "/iem/organ")
 
 public class OrganController {
+
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Autowired
@@ -88,13 +86,15 @@ public class OrganController {
 
     /**
      * 3.查询当前机构、上级机构及机构详情信息
-     * url:/iem/organ/queryCurrentAndParentOrganDetail/organNo
-     * @param organNo
+
+     * url:/iem/organ/queryOrganAndParentOrganDetail/organNo
+     * @param organ_no
      * @return
      */
     @GetMapping(value = "/queryCurrentAndParentOrganDetail/{organNo}")
     @Cacheable(value = "queryCache")
     public Object queryCurrentAndParentOrganDetail(@PathVariable String organNo)
+
     {
 
 	if (StringUtils.isEmpty(organNo))
@@ -103,7 +103,9 @@ public class OrganController {
 	    return JSONResultUtil.setError("F00002", "the request params organNo is null");
 	}
 
+
 	SysOrganPO sysOrganPO = organService.queryCurrentAndParentOrganDetail(organNo);
+
 	return JSONResultUtil.setSuccess(sysOrganPO);
 
     }
