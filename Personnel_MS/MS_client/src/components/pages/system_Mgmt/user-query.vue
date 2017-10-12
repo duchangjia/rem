@@ -44,14 +44,13 @@
 <script type='text/ecmascript-6'>
 import Bus from '../../../common/Bus.js'
 import current from '../../common/current_position.vue'
-//const baseURL = 'ifdp'
-const baseURL = 'aaaa'
+const baseURL = 'iem'
 export default {
 	data() {
 		return {
-			pageIndex: 0,
-			pageRows: 0,
-			totalRows: 0,
+			pageIndex: 1,
+			pageRows: 1,
+			totalRows: 1,
 			ruleForm2: {
 				company: '',
 				department: '',
@@ -73,22 +72,17 @@ export default {
 	},
 	created() {
 		const self = this;
+		let pageNum = 1;
+		let pageSize = 3;
 		let params = {
-			"pageNum": 1,
-			"pageSize": 2,
-			"organCompanyName": "魔方"
+			"pageNum": pageNum,
+			"pageSize": pageSize,
+			"organCompanyName": "魔方",
+			"organDepartmentName":"魔方分公司深圳分公司",
+			"userFeatureInfo":"11223@qq.com"
 		}
 		//查询用户列表
-		self.$axios.get(baseURL+'/user/queryUserList', {params: params})
-			.then(function(res) {
-				console.log(res);
-				self.operatorList = res.data.data.models;
-				self.pageIndex = Number(res.data.data.pageIndex);
-				self.pageRows = Number(res.data.data.pageRows);
-				self.totalRows = Number(res.data.data.totalRows);
-			}).catch(function(err) {
-				console.log(err);
-			})
+		self.queryUserList(pageNum,pageSize,params);
 	},
 	methods: {
 		//查询用户详细信息
@@ -96,26 +90,8 @@ export default {
 			const self = this;
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
-					let user = self.ruleForm2.user,
-						param = {},
-						emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
-						mobileReg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/,
-						userNoReg = /^P\d{6}$/;
+					let user = self.ruleForm2.user;
 					self.operatorList = [];
-//					if(emailReg.test(user)){
-//						param = {"email": user};
-//						console.log('email',user)
-//					}else if(mobileReg.test(user)){
-//						param = {"mobile": user};
-//						console.log('mobile',user)
-//					}else if(userNoReg.test(user)){
-//						param = {"userNo": user};
-//						console.log('userNo',user)
-//					}else{
-//						param = {"userName": user};
-//						console.log('userName',user)
-//					}
-					param = {"userNo": user};
 					self.$axios.get(baseURL+'/user/queryUserDetail/'+user)
 						.then(function(res) {
 							console.log(res);
@@ -123,10 +99,9 @@ export default {
 							self.pageIndex = 0;
 							self.pageRows = 0;
 							self.totalRows = 0;
-//							sessionStorage.setItem('userParam', JSON.stringify(param));
 							sessionStorage.setItem('userMsg',JSON.stringify(self.operatorList[0]));
 						}).catch(function(err) {
-							console.log(err);
+							this.$message.error('查询失败');
 						})
 				} else {
 					console.log('error submit!!');
@@ -139,39 +114,49 @@ export default {
 			const self = this;
 			self.$refs[formName].validate((valid) => {
 				if(valid){
-					let user = self.ruleForm2.user,
-						param = {},
-						emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
-						mobileReg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/,
-						userNoReg = /^P\d{6}$/;
-					self.operatorList = [];
-					if(emailReg.test(user)){
-						param = {"email": user};
-						console.log('email',user)
-					}else if(mobileReg.test(user)){
-						param = {"mobile": user};
-						console.log('mobile',user)
-					}else if(userNoReg.test(user)){
-						param = {"userNo": user};
-						console.log('userNo',user)
-					}else{
-						param = {"userName": user};
-						console.log('userName',user)
-					}
-					sessionStorage.setItem('userParam', JSON.stringify(param));
+					sessionStorage.setItem('user', self.ruleForm2.user);
 					self.$router.push('/user-info');
-					
 				}
 			})
 		},
 		handleCurrentChange(val) {
-			self.pageIndex = `${val}`;
+			console.log(`当前页: ${val}`);
+			const self = this;
+			let oldPage = 1;
+			let pageNum = self.pageIndex;
+			let pageSize = 3;
+			let params = {
+				"pageNum": pageNum,
+				"pageSize": pageSize,
+				"organCompanyName": "魔方",
+				"organDepartmentName":"魔方分公司深圳分公司",
+				"userFeatureInfo":"11223@qq.com"
+			}
+			//查询用户列表
+			if(pageNum!==oldPage){
+				console.log('oldPage',oldPage)
+				console.log('pageNum',pageNum)
+			}
+			self.queryUserList(pageNum,pageSize,params);
 		},
 		resetUserInfo(row, column, cell, event) {
 			if (column.property === 'userNo') {
 				this.$router.push('/user-info');
 			}
 
+		},
+		queryUserList(pageNum,pageSize,params) {
+			let self = this;
+			self.$axios.get(baseURL+'/user/queryUserList', {params: params})
+			.then(function(res) {
+				console.log('UserList',res);
+				self.operatorList = res.data.data.models;
+				self.pageIndex = pageNum;
+				self.pageRows = pageSize;
+				self.totalRows = Number(res.data.data.total);
+			}).catch(function(err) {
+				console.log(err);
+			})
 		}
 	}
 
