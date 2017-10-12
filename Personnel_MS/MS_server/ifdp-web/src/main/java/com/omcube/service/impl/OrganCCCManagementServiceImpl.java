@@ -1,5 +1,7 @@
 package com.omcube.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,11 @@ public class OrganCCCManagementServiceImpl
 			OrganCCCManagementService {
 	@Autowired
 	private OrganCCCManagementMapper organCCCManagementMapper;
+	
+	@Override
+	public List<OrganCCCManagemenPO> queryOrganCCCManagementList(String uId) {
+		return organCCCManagementMapper.queryOrganCCCManagementList(uId);
+	}
 
 	@Transactional
 	@Override
@@ -38,5 +45,12 @@ public class OrganCCCManagementServiceImpl
 				.updateOrganCCCManagementEDC(organCCCManagemenPO);
 		return i;
 	}
+
+	@Transactional
+	@Override
+	public void deleteOrganCCC(String organNo) {
+		organCCCManagementMapper.deleteOrganCCC(organNo);
+	}
+
 
 }

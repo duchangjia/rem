@@ -13,7 +13,7 @@ import com.omcube.model.po.OrganCCCManagemenPO;
 @Mapper
 public interface OrganCCCManagementMapper {
 	
-	List<OrganCCCManagemenPO> queryOrganCCCManagements();
+	List<OrganCCCManagemenPO> queryOrganCCCManagementList(String uId);
 	
 	//同时向两张表中添加数据
 	//@Insert("insert into IFDP_SYS_ORGAN_BASE (UID,ORGAN_NO,ORGAN_NAME,ORGAN_TYPE,ORGAN_STATUS,ORGAN_LEVEL,CREATED_BY,CREATED_DATE,UPDATED_BY,UPDATED_DATE) values(uid,organNo,organName,organType,status,organLevel,createBy,createDate,updateBy,updateDate)")
@@ -34,6 +34,9 @@ public interface OrganCCCManagementMapper {
 	//新增之前先判断数据表中是否存在将要添加的数据 只查询机构号即可
 	@Select("select organ_no from sys_organ_base")
 	List<String> queryOrganCCCManagementNo();
+	
+	//删除机构CCC
+	void deleteOrganCCC(String organNo);
 
 	
 

@@ -18,9 +18,9 @@ public class VisaFreeHolidayServiceImpl implements VisaFreeHolidayService {
 
 	// 查询所有列表
 	@Override
-	public List<VisaFreeHolidayPo> queryVisaFreeHolidays(String uid) {
+	public List<VisaFreeHolidayPo> queryVisaFreeHolidayList(String uId) {
 
-		return visaFreeHolidayMapper.queryVisaFreeHolidays(uid);
+		return visaFreeHolidayMapper.queryVisaFreeHolidayList(uId);
 	}
 
 	// 新增
@@ -35,6 +35,11 @@ public class VisaFreeHolidayServiceImpl implements VisaFreeHolidayService {
 			QueryVisaFreeHolidayRequest queryVisaFreeHolidayRequest) {
 		return visaFreeHolidayMapper
 				.queryVisaFreeHolidaysByCondition(queryVisaFreeHolidayRequest);
+	}
+
+	@Override
+	public void deleteVisaFreeHoliday(String day) {
+		visaFreeHolidayMapper.deleteVisaFreeHoliday(day);
 	}
 
 }

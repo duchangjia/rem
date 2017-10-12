@@ -36,6 +36,14 @@ module.exports = {
         pathRewrite: {
           '^/ifdp': ''
         },
+      },
+      '/iemrole': {
+        target: 'http://192.168.1.105:8888/',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/iemrole': ''
+        },
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

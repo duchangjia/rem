@@ -11,7 +11,7 @@ import com.omcube.model.request.QueryVisaFreeHolidayRequest;
 public interface VisaFreeHolidayMapper {
 
 	// 查询所有列表
-	List<VisaFreeHolidayPo> queryVisaFreeHolidays(String uid);
+	List<VisaFreeHolidayPo> queryVisaFreeHolidayList(String uId);
 
 	// 新增
 	void insertVisaFreeHoliday(VisaFreeHolidayPo visaFreeHolidayPo);
@@ -19,5 +19,8 @@ public interface VisaFreeHolidayMapper {
 	// 条件组合查询
 	List<VisaFreeHolidayPo> queryVisaFreeHolidaysByCondition(
 			QueryVisaFreeHolidayRequest queryVisaFreeHolidayRequest);
+
+	//删除
+	void deleteVisaFreeHoliday(String day);
 
 }

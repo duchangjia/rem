@@ -14,7 +14,7 @@ public class UpdateUserInfoRequest {
     private String certNo;
     private String mobile;
     private String email;
-    private String userStatus;
+    private String status;
     private String remark;
     private String updatedBy;//session 获取
 
@@ -90,14 +90,6 @@ public class UpdateUserInfoRequest {
 	this.email = email;
     }
 
-    public String getUserStatus() {
-	return userStatus;
-    }
-
-    public void setUserStatus(String userStatus) {
-	this.userStatus = userStatus;
-    }
-
     public String getRemark() {
 	return remark;
     }
@@ -114,12 +106,20 @@ public class UpdateUserInfoRequest {
 	this.updatedBy = updatedBy;
     }
 
+    public String getStatus() {
+	return status;
+    }
+
+    public void setStatus(String status) {
+	this.status = status;
+    }
+
     @Override
     public String toString() {
 	return "UpdateUserInfoRequest [uid=" + uid + ", organCompanyNo=" + organCompanyNo + ", organDepartmentNo="
 		+ organDepartmentNo + ", roleNo=" + roleNo + ", userNo=" + userNo + ", userName=" + userName
-		+ ", certNo=" + certNo + ", mobile=" + mobile + ", email=" + email + ", userStatus=" + userStatus
-		+ ", remark=" + remark + ", updatedBy=" + updatedBy + "]";
+		+ ", certNo=" + certNo + ", mobile=" + mobile + ", email=" + email + ", status=" + status + ", remark="
+		+ remark + ", updatedBy=" + updatedBy + "]";
     }
 
 }
