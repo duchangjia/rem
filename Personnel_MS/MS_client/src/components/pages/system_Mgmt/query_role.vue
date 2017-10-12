@@ -23,9 +23,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <!-- <el-pagination class="toolbar" layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="5" :total="total" style="float:right;">
-                    </el-pagination> -->
-            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" style="float:right;">
+            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows">
             </el-pagination>
         </div>
     </div>
@@ -55,8 +53,8 @@ export default {
             .then(function(res) {
                 console.log(res);
                 self.roleListInfo = res.data.data.models;
-                self.pageNum = Number(res.data.config.pageNum);
-                self.pageSize = Number(res.data.config.pageSize);
+                self.pageNum = Number(res.config.params.pageNum);
+                self.pageSize = Number(res.config.params.pageSize);
                 self.totalRows = Number(res.data.data.total);
             }).catch(function(err) {
                 console.log('error');
@@ -86,22 +84,33 @@ export default {
             })
         },
         handleDelete(index, row) {
+            let targetRole = {};
+            targetRole.roleNo = this.roleListInfo[index].roleNo;
+            console.log(targetRole);
             this.$confirm('此操作将会删除该条角色, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
-                });
-            }).catch(() => {
+                // this.$axios.delete('iemrole/role/deleteRoleInfo', targetRole)
+                // this.$axios.delete('iemrole/role/deleteRoleInfo', { targetRole })
+                this.$axios.delete('iemrole/role/deleteRoleInfo?roleNo=' + this.roleListInfo[index].roleNo, targetRole)
+                    .then((res) => {
+                        console.log(res);
+                        if (res.data.code == 'S00000') this.$message({ type: 'success', message: '删除成功!' });
+                        else this.$message.error('删除角色失败！');
+                    }).catch(() => {
+                        this.$message.error('删除角色失败！');
+                    })
 
+            }).catch(() => {
+                this.$message('您已取消删除角色！');
             });
         }
     }
 }
 </script>
+
 
 <style>
 .role_mgmt {
@@ -161,7 +170,6 @@ export default {
 
 .toolbar.el-pagination {
     text-align: right;
-    float: none !important;
     margin-top: 20px;
 }
 

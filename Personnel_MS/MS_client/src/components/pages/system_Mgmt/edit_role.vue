@@ -32,8 +32,8 @@
                     <el-col :span="12">
                         <el-form-item label="状态">
                             <el-radio-group v-model="editRoleMsg.status">
-                                <el-radio label="正常"></el-radio>
-                                <el-radio label="停用"></el-radio>
+                                <el-radio label="有效" value="1"></el-radio>
+                                <el-radio label="无效" value="0"></el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -62,15 +62,14 @@ export default {
             },
         };
     },
+    components: {
+        current,
+    },
     mounted() {
         this.editRoleMsg.roleNo = this.$route.params.roleNo;
         this.editRoleMsg.roleName = this.$route.params.roleName;
-        this.editRoleMsg.status = this.$route.params.status;
         this.editRoleMsg.roleDescr = this.$route.params.roleDescr;
-        console.log(this.editRoleMsg.status);   
-    },
-    components: {
-        current,
+        this.editRoleMsg.status = this.$route.params.status;        
     },
     methods: {
         handleEdit() {
@@ -78,20 +77,20 @@ export default {
             editRole.roleNo = this.editRoleMsg.roleNo;
             editRole.roleName = this.editRoleMsg.roleName;
             editRole.roleDescr = this.editRoleMsg.roleDescr;
-            // editRole.status = this.editRoleMsg.status;
+            editRole.status = this.editRoleMsg.status;
             console.dir(editRole);
-            this.$axios.put('iemrole/role/updateRoleInfo', { editRole })
-                .then(function(res) {
+            this.$axios.put('iemrole/role/modifyRoleInfo', editRole)
+                .then((res) => {
                     console.log(res);
-                    this.$router.push('/management_role');
-                }).catch(function(err) {
-                    console.log('error');
+                    if(res.data.code == 'S00000') this.$router.push('/management_role');
+                    else this.$message.error('编辑角色失败！');
+                }).catch(() => {
+                    this.$message.error('编辑角色失败！');
                 })
         }
     }
 }
 </script>
-
 
 <style>
 .edit_role {
