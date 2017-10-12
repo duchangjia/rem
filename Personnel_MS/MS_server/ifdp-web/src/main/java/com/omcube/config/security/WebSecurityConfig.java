@@ -2,6 +2,7 @@ package com.omcube.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,6 +13,7 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 
 @Configuration
 @EnableWebSecurity
+@Order(value=99)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -19,7 +21,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .anyRequest().authenticated()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-                    @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O fsi) {
                         fsi.setAccessDecisionManager(accessDecisionManager());
                         fsi.setSecurityMetadataSource(securityMetadataSource());
