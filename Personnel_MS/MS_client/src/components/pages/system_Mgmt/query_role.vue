@@ -54,7 +54,7 @@ export default {
         self.$axios.get('iemrole/role/queryRoleList', { params })
             .then(function(res) {
                 console.log(res);
-                self.roleListInfo = res.data.data.model;
+                self.roleListInfo = res.data.data.models;
                 self.pageNum = Number(res.data.config.pageNum);
                 self.pageSize = Number(res.data.config.pageSize);
                 self.totalRows = Number(res.data.data.total);
