@@ -1,35 +1,23 @@
 package com.omcube.service;
 
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.omcube.model.mapper.TaxRateCtrlMapper;
 import com.omcube.model.po.TaxRateCtrlPO;
 
-@Component
-public class TaxRateCtrlService {
+public interface TaxRateCtrlService {
 
-	@Autowired
-	private TaxRateCtrlMapper taxRateCtrlMapper;
-	//增加
-	public void addTaxRateGroup(TaxRateCtrlPO taxRateCtrlPO){
-		taxRateCtrlMapper.addTaxRateCtrl(taxRateCtrlPO);
-	}
+	// 新增个人所得税税率
+	 void addTaxRateGroup(TaxRateCtrlPO taxRateCtrlPO);
 	
-	//查询
-	public List<TaxRateCtrlPO> findTaxRateCtrl(String uId){
-		return taxRateCtrlMapper.findTaxRateCtrl(uId);
-	}
 	
-	//删除
-	public void deleteTaxRateCtrl(String uId,String groupId,String applyNo){
-		taxRateCtrlMapper.deleteTaxRateCtrl(uId, groupId,applyNo);
-	}
+	// 查询所有个人所得税税率
+	 List<TaxRateCtrlPO> findTaxRateCtrl(String uId);
 	
-	//修改
-	public void updateTaxRateCtrl(TaxRateCtrlPO taxRateCtrlPO){
-		taxRateCtrlMapper.updateTaxRateCtrl(taxRateCtrlPO);	
-	}
+	
+	// 根据主键（组ID，编号）删除个人所得税税率
+	void deleteTaxRateCtrl(TaxRateCtrlPO taxRateCtrlPO);
+	
+	
+	// 根据主键（组ID，编号）修改个人所得税税率
+	 void updateTaxRateCtrl(TaxRateCtrlPO taxRateCtrlPO);
+	
 }
