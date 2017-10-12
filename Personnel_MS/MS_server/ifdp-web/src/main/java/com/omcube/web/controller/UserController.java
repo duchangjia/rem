@@ -27,6 +27,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -50,7 +51,7 @@ public class UserController {
      */
     @GetMapping(value = "/queryUserList")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
-    public Object queryUserList(QueryUserRequest queryUserReq) {
+    public Object queryUserList(@RequestBody QueryUserRequest queryUserReq) {
 	if (queryUserReq == null) {
 	    logger.error("the request body is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
@@ -101,7 +102,7 @@ public class UserController {
      */
     @PutMapping(value = "/updateUserInfo")
     @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-    public Object updateUserInfo(UpdateUserInfoRequest updateUserReq) {
+    public Object updateUserInfo(@RequestBody UpdateUserInfoRequest updateUserReq) {
 	if (updateUserReq == null) {
 	    logger.error("the request body is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
@@ -185,10 +186,10 @@ public class UserController {
 	    queryUserReq.setPageNum(ConstantUtil.DEFAULT_PAGE_NUM);
 	}
 	if (queryUserReq.getPageSize() <= 0) {
-	    queryUserReq.setPageSize(ConstantUtil.DEFAULT_PAGE_SEZE);
+	    queryUserReq.setPageSize(ConstantUtil.DEFAULT_PAGE_SIZE);
 	}
 	if (queryUserReq.getPageSize() > 100) {
-	    queryUserReq.setPageSize(ConstantUtil.DEFAULT_MAX_PAGE_SEZE);
+	    queryUserReq.setPageSize(ConstantUtil.DEFAULT_MAX_PAGE_SIZE);
 	}
 	//如果不为空判断是那种条件查询
 	String userFeatureInfo = queryUserReq.getUserFeatureInfo();

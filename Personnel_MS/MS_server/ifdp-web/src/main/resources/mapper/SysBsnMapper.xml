@@ -20,12 +20,12 @@
 	</resultMap>
 	
 	<!-- 根据uId,功能编号bsnNo查询对应业务功能 -->
-	<select id="queryBsnByUidAndBsnNo" parameterType="com.omcube.model.po.SysBsnPO" resultMap="SysBsnMap">
+	<select id="queryFuncByBsnNo" parameterType="com.omcube.model.po.SysBsnPO" resultMap="SysBsnMap">
 		select * 
 		from 
 			IFDP_SYS_BSN 
 		where 
-			UID = #{uId} 
+			UID = '0001' 
 			and BSN_NO = #{bsnNo}
 	</select>
 	

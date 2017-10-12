@@ -9,9 +9,9 @@ public class ConstantUtil {
 
     public static final int  DEFAULT_PAGE_NUM = 1;
     
-    public static final int DEFAULT_PAGE_SEZE = 10;
+    public static final int DEFAULT_PAGE_SIZE = 10;
     
-    public static final int DEFAULT_MAX_PAGE_SEZE = 100;
+    public static final int DEFAULT_MAX_PAGE_SIZE = 100;
     
     public static final String EMAIL_REG = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
     

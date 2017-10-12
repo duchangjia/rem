@@ -1,9 +1,6 @@
 package com.omcube.service;
 
 import java.util.List;
-
-import com.omcube.model.po.SysBsnPO;
-import com.omcube.model.po.SysMenuPO;
 import com.omcube.model.po.SysRolePO;
 
 /**
@@ -17,16 +14,15 @@ public interface RoleService {
 	/**
 	 * 查询所有的角色
 	 * 
-	 * @param uId
 	 * @return
 	 */
-	List<SysRolePO> queryRoleList(String uId);
+	List<SysRolePO> queryRoleList();
 
 	/**
 	 * 角色的添加
 	 * 
 	 * @param sysRolePO
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	void addRoleInfo(SysRolePO sysRolePO) throws Exception;
 
@@ -37,32 +33,36 @@ public interface RoleService {
 	 * @param roleNo
 	 * @return
 	 */
-	SysRolePO queryRoleByRoleNo(String uId, String roleNo);
-	
+	SysRolePO queryRoleByRoleNo(String roleNo);
+
 	/**
 	 * 角色的修改
 	 * 
 	 * @param sysRolePO
 	 */
-	void updateRoleInfo(SysRolePO sysRolePO) throws Exception;
-
-	/**
-	 * 权限分配时角色查询
-	 * 
-	 * @param sysRolePO
-	 * @return
-	 */
-	Object queryRoleByRoleName(SysRolePO sysRolePO);
+	void modifyRoleInfo(SysRolePO sysRolePO) throws Exception;
 
 	/**
 	 * 向角色分配权限的方法
 	 * 
 	 * @param sysRolePO
-	 * @param sysMenuPO
 	 * @return
 	 */
-	void distributionRole(SysRolePO sysRolePO, List<SysMenuPO> menus, List<SysBsnPO> bsns) throws Exception;
+	void setRoleFunc(SysRolePO sysRolePO) throws Exception;
 
+	/**
+	 * 角色的删除
+	 * 
+	 * @param sysRolePO
+	 */
+	void deleteRoleInfo(String roleNo);
 
+	/**
+	 * 角色详情的查询
+	 * 
+	 * @param sysRolePO
+	 * @return
+	 */
+	Object queryRoleDetail(SysRolePO sysRolePO);
 
 }

@@ -66,7 +66,8 @@ export default {
         this.editRoleMsg.roleNo = this.$route.params.roleNo;
         this.editRoleMsg.roleName = this.$route.params.roleName;
         this.editRoleMsg.status = this.$route.params.status;
-        this.editRoleMsg.roleDescr = this.$route.params.roleDescr;        
+        this.editRoleMsg.roleDescr = this.$route.params.roleDescr;
+        console.log(this.editRoleMsg.status);   
     },
     components: {
         current,

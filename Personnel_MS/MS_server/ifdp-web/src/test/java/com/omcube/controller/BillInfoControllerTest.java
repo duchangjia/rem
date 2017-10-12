@@ -64,20 +64,14 @@ public class BillInfoControllerTest {
 
 	String result = mockMvc
 		.perform(put("/organBillInfo/updateOrganBillInfo")
-<<<<<<< HEAD
-		.param("organNo", "0002")
-		.param("organName", "橙色魔方222")
-		.param("organTaxNo", "9999")
-		.param("organTel", "9999")
-		.param("organAcct", "9999")
-=======
+
 		.param("uId", "0001")
 		.param("organNo", "0001")
 		.param("organName", "橙色魔方6666")
 		.param("organTaxNo", "6666")
 		.param("organTel", "0000")
 		.param("organAcct", "0000")
->>>>>>> 9189e063bc40b4a325f70298929032f67436a3c0
+
 		.param("organAcctname", "魔方")
 		.param("organAddr", "深圳")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
