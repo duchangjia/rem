@@ -163,23 +163,23 @@ export default {
             this.isIndeterminate = checkedCount > 0 && checkedCount < this.submenus.length;
         },
         handleAdd() {
-            let sysRolePO = {};
-            sysRolePO.roleName = this.addRoleMsg.roleName;
-            sysRolePO.status = this.addRoleMsg.status;
-            sysRolePO.roleDescr = this.addRoleMsg.roleDescr;
-            console.log(sysRolePO);
-            this.$axios.post('iemrole/role/addRoleInfo', { sysRolePO })
-                .then(function(res) {
+            let newRole = {};
+            newRole.roleName = this.addRoleMsg.roleName;
+            newRole.status = this.addRoleMsg.status;
+            newRole.roleDescr = this.addRoleMsg.roleDescr;
+            console.log(newRole);
+            this.$axios.post('iemrole/role/addRoleInfo', newRole )
+                .then((res) => {
                     console.log(res);
-                    this.$router.push('/management_role');
-                }).catch(function(err) {
-                    console.log('error');
+                    if(res.data.code == 'S00000') this.$router.push('/management_role');
+                    else this.$message.error('新增角色失败！');
+                }).catch(() => {
+                    this.$message.error('新增角色失败！');
                 })
         }
     }
 }
 </script>
-
 
 <style>
 .add_role {
