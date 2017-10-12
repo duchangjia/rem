@@ -48,8 +48,8 @@ public class UserControllerTest {
     public void updateUserInfo() throws Exception
     {
 	String result = mockMvc.perform(put("/user/updateUserInfo")
-		.param("organCompanyNo", "01")
-		.param("organDepartmentNo", "002")
+		.param("organCompanyNo", "0")
+		.param("organDepartmentNo", "0")
 		.param("roleNo", "COMMONssss")
 		.param("userNo", "2")
 		.param("userName", "jinQQQ")
