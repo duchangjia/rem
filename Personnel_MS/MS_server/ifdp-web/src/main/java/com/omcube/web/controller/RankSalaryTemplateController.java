@@ -36,9 +36,9 @@ public class RankSalaryTemplateController {
      * @param rankSalaryTemplate
      * @return
      */
-    @PostMapping(value="/addRankSalaryTemplate")
+    @PostMapping(value="/addCparm")
     @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-    public Object addRankSalaryTemplate(RankSalaryTemplatePO rankSalaryTemplate){
+    public Object addCparm(RankSalaryTemplatePO rankSalaryTemplate){
 	//从session中获取uId createdBy
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	String uId = sysLoginCtrl.getuId();
@@ -67,9 +67,9 @@ public class RankSalaryTemplateController {
      * @param organNo
      * @return
      */
-    @GetMapping(value="queryRankSalaryTemplates/{pageNum}/{pageSize}/{organNo}")
+    @GetMapping(value="queryCParmList/{pageNum}/{pageSize}/{organNo}")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
-    public Object queryRankSalaryTemplates(HttpServletRequest request ,@PathVariable Integer pageNum,@PathVariable Integer pageSize,@PathVariable String organNo){
+    public Object queryCParmList(HttpServletRequest request ,@PathVariable Integer pageNum,@PathVariable Integer pageSize,@PathVariable String organNo){
 	//从session中获取uId 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	String uId = sysLoginCtrl.getuId();
@@ -95,9 +95,9 @@ public class RankSalaryTemplateController {
      * @param applyNo
      * @return
      */
-    @GetMapping(value="queryRankSalaryTemplate/{organNo}/{applyNo}")
+    @GetMapping(value="queryCParmDtl/{organNo}/{applyNo}")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
-    public Object queryRankSalaryTemplate(HttpServletRequest request,@PathVariable String organNo,@PathVariable String applyNo){
+    public Object queryCParmDtl(@PathVariable(value="organNo") String organNo,@PathVariable(value="applyNo") String applyNo){
 	//从session中获取uId 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	String uId = sysLoginCtrl.getuId();
@@ -107,19 +107,29 @@ public class RankSalaryTemplateController {
 	rankSalaryTemplate.setuId(uId);
 	rankSalaryTemplate.setApplyNo(applyNo);
 	//判断查询条件是否为空
-	if(StringUtils.isEmpty(rankSalaryTemplate.getuId())||StringUtils.isEmpty(rankSalaryTemplate.getOrganNo())||StringUtils.isEmpty(rankSalaryTemplate.getApplyNo())){
+	if(StringUtils.isEmpty(rankSalaryTemplate.getuId())||StringUtils.isEmpty(rankSalaryTemplate.getApplyNo())){
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request param uId ,applyNo or organNo is null");
 	}
 	return JSONResultUtil.setSuccess(rankSalaryTemplateService.queryRankSalaryTemplate(rankSalaryTemplate));
+    }
+    /**
+     * 3.根据uId和applyNo查询单个职级薪酬模板
+     * @param applyNo
+     * @return
+     */
+    @GetMapping(value="queryCParmDtl/{applyNo}")
+    @Cacheable(value = ConstantUtil.QUERY_CACHE)
+    public Object queryCParmDtl(@PathVariable(value="applyNo") String applyNo){
+	return queryCParmDtl(null, applyNo);
     }
     /**
      * 4.修改职级薪酬标准模板
      * @param rankSalaryTemplate
      * @return
      */
-    @PutMapping(value="updateRankSalaryTemplate")
+    @PutMapping(value="modCparm")
     @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-    public Object updateRankSalaryTemplate(RankSalaryTemplatePO rankSalaryTemplate){
+    public Object modCparm(RankSalaryTemplatePO rankSalaryTemplate){
 	//从session中获取uId updatedBy
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	String uId = sysLoginCtrl.getuId();
@@ -142,9 +152,9 @@ public class RankSalaryTemplateController {
      * @param applyNo
      * @return
      */
-    @DeleteMapping(value="deleteRankSalaryTemplate/{organNo}/{applyNo}")
+    @DeleteMapping(value="delCparm/{organNo}/{applyNo}")
     @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-    public Object deleteRankSalaryTemplate(HttpServletRequest request,@PathVariable String organNo,@PathVariable String applyNo){
+    public Object delCparm(HttpServletRequest request,@PathVariable String organNo,@PathVariable String applyNo){
 	//从session中获取uId updatedBy
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	String uId = sysLoginCtrl.getuId();

@@ -38,8 +38,8 @@ public class RankSalaryTemplateControllerTest {
      * @throws Exception
      */
     @Test
-    public void addRankSalaryTemplate() throws UnsupportedEncodingException, Exception{
-	String result = mockMvc.perform(post("/RankSalaryTemplate/addRankSalaryTemplate")
+    public void addCparm() throws UnsupportedEncodingException, Exception{
+	String result = mockMvc.perform(post("/RankSalaryTemplate/addCparm")
 			.param("applyNo", "")
 			.param("organNo", "112111")
 			.param("applyName", "上海分公司总经理薪资模板")  
@@ -59,8 +59,8 @@ public class RankSalaryTemplateControllerTest {
      * @throws Exception
      */
     @Test
-    public void queryRankSalaryTemplates() throws UnsupportedEncodingException, Exception{
-	String result = mockMvc.perform(get("/RankSalaryTemplate/queryRankSalaryTemplates/1/5/112111")	
+    public void queryCParmList() throws UnsupportedEncodingException, Exception{
+	String result = mockMvc.perform(get("/RankSalaryTemplate/queryCParmList/1/5/112111")	
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();
@@ -72,8 +72,8 @@ public class RankSalaryTemplateControllerTest {
      * @throws Exception
      */
     @Test
-    public void queryRankSalaryTemplate() throws UnsupportedEncodingException, Exception{
-	String result = mockMvc.perform(get("/RankSalaryTemplate/queryRankSalaryTemplate/112111/1121110002")	
+    public void queryCParmDtl() throws UnsupportedEncodingException, Exception{
+	String result = mockMvc.perform(get("/RankSalaryTemplate/queryCParmDtl/112111/1121110002")	
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();
@@ -85,16 +85,16 @@ public class RankSalaryTemplateControllerTest {
      * @throws Exception
      */
     @Test
-    public void updateRankSalaryTemplate() throws UnsupportedEncodingException, Exception{
-	String result = mockMvc.perform(put("/RankSalaryTemplate/updateRankSalaryTemplate")
-		.param("applyNo", "1121110002")
+    public void modCparm() throws UnsupportedEncodingException, Exception{
+	String result = mockMvc.perform(put("/RankSalaryTemplate/modCparm")
+		.param("applyNo", "1121110007")
 		.param("organNo", "112111")
-		.param("applyName", "哈尔滨分公司总经理薪资模板")  
-		.param("rank", "B4-中级级开发软件工程师")
-		.param("salaryTop", "20000")
-		.param("salaryFloor", "10000")
-		.param("businessStandard", "300")	
-		.param("remark", "哈尔滨分公司总经理薪资模板")		
+		.param("applyName", "重庆分公司总经理薪资模板")  
+		.param("rank", "B5-中级级开发软件工程师")
+		.param("salaryTop", "30000")
+		.param("salaryFloor", "20000")
+		.param("businessStandard", "400")	
+		.param("remark", "重庆分公司总经理薪资模板")		
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();
@@ -106,8 +106,8 @@ public class RankSalaryTemplateControllerTest {
      * @throws Exception
      */
     @Test
-    public void deleteRankSalaryTemplate() throws UnsupportedEncodingException, Exception{
-	String result = mockMvc.perform(delete("/RankSalaryTemplate/deleteRankSalaryTemplate/112111/1121110002")	
+    public void delCparm() throws UnsupportedEncodingException, Exception{
+	String result = mockMvc.perform(delete("/RankSalaryTemplate/delCparm/112111/1121110007")	
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();
