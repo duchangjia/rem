@@ -53,10 +53,10 @@ public class RoleController {
 			pageNum = ConstantUtil.DEFAULT_PAGE_NUM;
 		}
 		if (pageSize <= 0) {
-			pageSize = ConstantUtil.DEFAULT_PAGE_SEZE;
+			pageSize = ConstantUtil.DEFAULT_PAGE_SIZE;
 		}
 		if (pageSize > 100) {
-			pageSize = ConstantUtil.DEFAULT_MAX_PAGE_SEZE;
+			pageSize = ConstantUtil.DEFAULT_MAX_PAGE_SIZE;
 		}
 
 		// 返回结果集

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omcube.model.mapper.CustInfoMapper">
+
+	<resultMap id="CustInfoMap" type="com.omcube.model.po.CustInfoPO">
+		<id column="uid" property="uId"></id>
+		<id column="user_no" property="userNo"></id>
+		<result column="cust_name" property="custName" javaType="java.lang.String"></result>
+		<result column="organ_no" property="organNo" javaType="java.lang.String"></result>
+		<result column="derp_no" property="derpNo" javaType="java.lang.String"></result>
+		<result column="owner_ccc" property="ownerCCC" javaType="java.lang.String"></result>
+		<result column="cert_type" property="certType" javaType="java.lang.String"></result>
+		<result column="cert_no" property="certNo" javaType="java.lang.String"></result>
+		<result column="sex" property="sex" javaType="java.lang.String"></result>
+		<result column="birthday" property="birthday" javaType="java.lang.String"></result>
+		<result column="nation" property="nation" javaType="java.lang.String"></result>
+		<result column="marital" property="marital" javaType="java.lang.String"></result>
+		<result column="politial" property="politial" javaType="java.lang.String"></result>
+		<result column="education" property="education" javaType="java.lang.String"></result>
+		<result column="degree" property="degree" javaType="java.lang.String"></result>
+		<result column="grad_school" property="gradSchool" javaType="java.lang.String"></result>
+		<result column="grad_time" property="gradTime" javaType="java.lang.String"></result>
+		<result column="major" property="major" javaType="java.lang.String"></result>
+		<result column="line_manager" property="lineManager" javaType="java.lang.String"></result>
+		<result column="origo" property="origo" javaType="java.lang.String"></result>
+		<result column="home_addr" property="homeAddr" javaType="java.lang.String"></result>
+		<result column="live_addr" property="liveAddr" javaType="java.lang.String"></result>
+		<result column="perm_addr" property="permAddr" javaType="java.lang.String"></result>
+		<result column="mobile_no" property="mobileNo" javaType="java.lang.String"></result>
+		<result column="teleph" property="teleph" javaType="java.lang.String"></result>
+		<result column="home_teleph" property="homeTeleph" javaType="java.lang.String"></result>
+		<result column="per_email" property="perEmail" javaType="java.lang.String"></result>
+		<result column="com_email" property="comEmail" javaType="java.lang.String"></result>
+		<result column="atten" property="atten" javaType="java.lang.String"></result>
+		<result column="atten_teleph" property="attenTeleph" javaType="java.lang.String"></result>
+		<result column="qq_acct" property="qqAcct" javaType="java.lang.String"></result>
+		<result column="one_line" property="oneLine" javaType="java.lang.String"></result>
+		<result column="cust_type" property="custType" javaType="java.lang.String"></result>
+		<result column="cust_post" property="custPost" javaType="java.lang.String"></result>
+		<result column="cust_class" property="custClass" javaType="java.lang.String"></result>
+		<result column="cust_status" property="custStatus" javaType="java.lang.String"></result>
+		<result column="entry_time" property="entryTime" javaType="java.util.Date"></result>
+		<result column="leftjob_time" property="leftJobTime" javaType="java.util.Date"></result>
+		<result column="work_time" property="workTime" javaType="java.util.Date"></result>
+		<result column="proftitle_time" property="profTitleTime" javaType="java.util.Date"></result>
+		<result column="compact_start_time" property="compactStartTime" javaType="java.util.Date"></result>
+		<result column="compact_end_time" property="compactEndTime" javaType="java.util.Date"></result>
+		<result column="prob_start_time" property="probStartTime" javaType="java.util.Date"></result>
+		<result column="prob_end_time" property="probEndTime" javaType="java.util.Date"></result>
+		<result column="recruit_quarry" property="recruitQuarry" javaType="java.lang.String"></result>
+		<result column="late_leave_time" property="lateLeaveTime" javaType="java.util.Date"></result>
+		<result column="open_bank" property="openBank" javaType="java.lang.String"></result>
+		<result column="bank_card_no" property="bankCardNo" javaType="java.lang.String"></result>
+		<result column="endm_acct" property="endmAcct" javaType="java.lang.String"></result>
+		<result column="medi_acct" property="mediAcct" javaType="java.lang.String"></result>
+		<result column="mate_acct" property="mateAcct" javaType="java.lang.String"></result>
+		<result column="hous_acct" property="housAcct" javaType="java.lang.String"></result>
+		<result column="attachm" property="attachm" javaType="java.lang.String"></result>
+		<result column="remark" property="remark" javaType="java.lang.String"></result>
+		<result column="created_by" property="createdBy" javaType="java.lang.String"></result>
+		<result column="created_date" property="createdDate" javaType="java.util.Date"></result>
+		<result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
+		<result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
+	</resultMap>
+	
+	<insert id = "insertCustInfo" parameterType = "com.omcube.model.po.CustInfoPO" >
+    
+        <selectKey resultType="java.lang.String" keyProperty="userNo" order="AFTER">  
+      		 SELECT user_no  FROM EP_CUST_INFO ORDER BY user_no DESC LIMIT 1
+   	 	</selectKey>  
+		
+		insert into EP_CUST_INFO(
+			uid,user_no,cust_name,organ_no,derp_no,owner_ccc,cert_type,cert_no,sex,birthday,nation,
+			marital,politial,education,degree,grad_school,grad_time,major,line_manager,origo,home_addr,
+			live_addr,perm_addr,mobile_no,teleph,home_teleph,per_email,com_email,atten,atten_teleph,qq_acct,
+			one_inch,cust_type,cust_post,cust_class,cust_status,entry_time,leftjob_time,work_time,proftitle_time,compact_start_time,
+			compact_end_time,prob_start_time,prob_end_time,recruit_quarry,late_leave_time,open_bank,bank_card_no,endm_acct,medi_acct,mate_acct,
+			hous_acct,attachm,remark,created_by,created_date,updated_by,updated_date)
+		values (
+			#{uId},#{userNo},#{custName},#{organNo},#{derpNo},#{ownerCCC},#{certType},#{certNo},#{sex},#{birthday},#{nation},
+			#{marital},#{politial},#{education},#{degree},#{gradSchool},#{gradTime},#{major},#{lineManager},#{origo},#{homeAddr},
+			#{liveAddr},#{permAddr},#{mobileNo},#{teleph},#{homeTeleph},#{perEmail},#{comEmail},#{atten},#{attenTeleph},#{qqAcct},
+			#{oneInch},#{custType},#{custPost},#{custClass},#{custStatus},#{entryTime},#{leftJobTime},#{workTime},#{profTitleTime},#{compactStartTime},
+			#{compactEndTime},#{probStartTime},#{probEndTime},#{recruitQuarry},#{lateLeaveTime},#{openBank},#{bankCardNo},#{endmAcct},#{mediAcct},#{mateAcct},
+			#{housAcct},#{attachm},#{remark},#{createdBy},now(),#{updatedBy},now()
+		)
+			
+	</insert>
+	
+</mapper>

@@ -3,8 +3,8 @@ package com.omcube.model.po;
 import java.util.List;
 
 public class SysUserPO extends BasicPO {
-	private String userNo;
-	private String userName;
+	private String userNo; 
+	private String userName; 
 	private String certNo;
 	private String mobileTEL;
 	private String email;

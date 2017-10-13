@@ -19,8 +19,8 @@
 		<result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
 	</resultMap>
 
-	<!-- 新增公司开票信息 -->
-	<insert id="addOrganBillInfo" parameterType="com.omcube.model.po.OrganBillInfoPO">
+	<!-- 开票信息新增 -->
+	<insert id="addBillInf" parameterType="com.omcube.model.po.OrganBillInfoPO">
 		insert into EP_ORGAN_BILLINFO(
 			uid,organ_no,organ_name,organ_taxno,
 			organ_tel,organ_acct,organ_acctname,organ_addr,
@@ -35,8 +35,8 @@
 		)
 	</insert>
 
-	<!-- 修改公司开票信息 -->
-	<update id="updateOrganBillInfo" parameterType="com.omcube.model.po.OrganBillInfoPO" >
+	<!-- 开票信息修改 -->
+	<update id="modBillInf" parameterType="com.omcube.model.po.OrganBillInfoPO" >
 		update EP_ORGAN_BILLINFO 
 		set
 			organ_name = #{organName},
@@ -69,8 +69,8 @@
 		</if>
 	</select>
 	
-	<!-- 查询公司开票信息 -->
-	<select id = "queryBillInfo" parameterType = "java.lang.String" resultMap = "OrganBillInfoMap">
+	<!-- 开票信息详细信息查询 -->
+	<select id = "queryBillInfDtl" parameterType = "java.lang.String" resultMap = "OrganBillInfoMap">
 		select * from EP_ORGAN_BILLINFO
 		where
 		uid = #{uId} and organ_no = #{organNo}
