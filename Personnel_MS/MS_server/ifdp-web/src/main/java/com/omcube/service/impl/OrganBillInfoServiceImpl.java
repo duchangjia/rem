@@ -16,13 +16,13 @@ public class OrganBillInfoServiceImpl implements OrganBillInfoService {
     private OrganBillInfoMapper billiInfoMapper;
 
     @Override
-    public void addOrganBillInfo(OrganBillInfoPO billInfoPO) {
-	billiInfoMapper.addOrganBillInfo(billInfoPO);
+    public void addBillInf(OrganBillInfoPO billInfoPO) {
+	billiInfoMapper.addBillInf(billInfoPO);
     }
 
     @Override
-    public void updateOrganBillInfo(OrganBillInfoPO billInfoPO) {
-	billiInfoMapper.updateOrganBillInfo(billInfoPO);
+    public void modBillInf(OrganBillInfoPO billInfoPO) {
+	billiInfoMapper.modBillInf(billInfoPO);
     }
 
     @Override
@@ -36,8 +36,8 @@ public class OrganBillInfoServiceImpl implements OrganBillInfoService {
     }
 
     @Override
-    public OrganBillInfoPO queryBillInfo(String uId, String organNo) {
-	return billiInfoMapper.queryBillInfo(uId, organNo);
+    public OrganBillInfoPO queryBillInfDtl(String uId, String organNo) {
+	return billiInfoMapper.queryBillInfDtl(uId, organNo);
     }
 
 }

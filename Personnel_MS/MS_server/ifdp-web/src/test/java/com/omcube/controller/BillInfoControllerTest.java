@@ -1,11 +1,9 @@
 package com.omcube.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.io.UnsupportedEncodingException;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,14 +32,14 @@ public class BillInfoControllerTest {
     }
 
     /**
-     * 测试新增开票信息
+     * 测试开票信息新增
      * @throws Exception
      */
     @Test
-    public void addOrganBillInfo() throws Exception {
+    public void addBillInf() throws Exception {
 
 	String result = mockMvc
-		.perform(post("/organBillInfo/addOrganBillInfo")
+		.perform(post("/organBillInfo/addBillInf")
 		.param("organNo", "0002")
 		.param("organName", "橙色魔方")
 		.param("organTaxNo", "6666")
@@ -56,28 +54,19 @@ public class BillInfoControllerTest {
     }
 
     /**
-     * 测试更新开票信息
+     * 开票信息修改
      * @throws Exception
      */
     @Test
-    public void updateOrganBillInfo() throws Exception {
+    public void modBillInf() throws Exception {
 
 	String result = mockMvc
-		.perform(put("/organBillInfo/updateOrganBillInfo")
-<<<<<<< HEAD
+		.perform(put("/organBillInfo/modBillInf")
 		.param("organNo", "0002")
-		.param("organName", "橙色魔方222")
-		.param("organTaxNo", "9999")
-		.param("organTel", "9999")
-		.param("organAcct", "9999")
-=======
-		.param("uId", "0001")
-		.param("organNo", "0001")
-		.param("organName", "橙色魔方6666")
-		.param("organTaxNo", "6666")
+		.param("organName", "橙色魔方方方")
+		.param("organTaxNo", "0000")
 		.param("organTel", "0000")
 		.param("organAcct", "0000")
->>>>>>> 9189e063bc40b4a325f70298929032f67436a3c0
 		.param("organAcctname", "魔方")
 		.param("organAddr", "深圳")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -116,13 +105,13 @@ public class BillInfoControllerTest {
     }
 
     /**
-     * 测试查询公司开票信息
+     * 测试开票信息详细信息查询
      * @throws Exception
      */
     @Test
-    public void queryBillInfo() throws Exception {
+    public void queryBillInfDtl() throws Exception {
 	String result = mockMvc
-		.perform(get("/organBillInfo/queryBillInfo/10001")
+		.perform(get("/organBillInfo/queryBillInfDtl/10001")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 	
