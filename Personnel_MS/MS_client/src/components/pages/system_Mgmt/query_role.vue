@@ -23,7 +23,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows">
+            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
             </el-pagination>
         </div>
     </div>
@@ -34,9 +34,9 @@ import current from '../../common/current_position.vue'
 export default {
     data() {
         return {
-            pageNum: 0,
-            pageSize: 0,
-            totalRows: 0,
+            pageNum: 1,
+            pageSize: 1,
+            totalRows: 1,
             roleListInfo: []
         }
     },
@@ -45,28 +45,42 @@ export default {
     },
     created() {
         const self = this;
+        let pageNum = 1;
+        let pageSize = 7;
         let params = {
-            pageNum: 1,
-            pageSize: 5
+            "pageNum": pageNum,
+            "pageSize": pageSize
         }
-        self.$axios.get('iemrole/role/queryRoleList', { params })
-            .then(function(res) {
-                console.log(res);
-                self.roleListInfo = res.data.data.models;
-                self.pageNum = Number(res.config.params.pageNum);
-                self.pageSize = Number(res.config.params.pageSize);
-                self.totalRows = Number(res.data.data.total);
-            }).catch(function(err) {
-                console.log('error');
-            })
+        //初始查询角色列表
+        self.getRoleList(pageNum, pageSize, params);
     },
     methods: {
+        getRoleList(pageNum, pageSize, params) {
+            const self = this;
+            self.$axios.get('iemrole/role/queryRoleList', { params: params })
+                .then(function(res) {
+                    console.log(res);
+                    self.roleListInfo = res.data.data.models;
+                    self.pageNum = pageNum;
+                    self.pageSize = pageSize;
+                    self.totalRows = Number(res.data.data.total);
+                }).catch(function(err) {
+                    console.log('error');
+                })
+        },
         statusFormatter(row, column) {
             return row.status == 1 ? '有效' : row.status == 0 ? '无效' : '异常';
         },
         handleCurrentChange(val) {
-            this.pageNum = val;
-            this.getRoles();
+            const self = this;
+            let pageNum = val;
+            let pageSize = self.pageSize;
+            let params = {
+                "pageNum": pageNum,
+                "pageSize": pageSize
+            }
+            //分页查询角色列表
+            self.getRoleList(pageNum, pageSize, params);
         },
         getRoles() {
             return false;
