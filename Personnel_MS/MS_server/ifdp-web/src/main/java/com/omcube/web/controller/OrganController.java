@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,17 +15,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.omcube.model.po.OrganTree;
+import com.omcube.model.po.SysLoginCtrl;
 import com.omcube.model.po.SysOrganPO;
 import com.omcube.model.po.SysUserPO;
+import com.omcube.model.response.UserDetailInfo;
 import com.omcube.service.OrganService;
+import com.omcube.service.UserInfoService;
+import com.omcube.service.UserService;
+import com.omcube.util.ConstantUtil;
 import com.omcube.util.ErrorCodeConstantUtil;
 import com.omcube.util.JSONResultUtil;
+import com.omcube.util.SysLoginCtrlUtil;
 
 @RestController
 @RequestMapping(value = "/organ")
@@ -35,6 +44,9 @@ public class OrganController {
 
     @Autowired
     private OrganService organService;
+    
+    @Autowired
+    private UserInfoService userInfoService;
 
     /**
      * 1.获取总公司及其所有下属机构
@@ -43,7 +55,7 @@ public class OrganController {
      * @return
      */
     @GetMapping(value = "/queryOrganList/{organNo}")
-    @Cacheable(value = "queryCache")
+    @Cacheable(value = ConstantUtil.QUERY_CACHE)
     public Object queryOrganTreeList(@PathVariable String organNo)
     {
 	if (StringUtils.isEmpty(organNo))
@@ -63,7 +75,7 @@ public class OrganController {
      * @return
      */
     @GetMapping(value = "/queryCurrentOrgan/{organNo}")
-    @Cacheable(value = "queryCache")
+    @Cacheable(value = ConstantUtil.QUERY_CACHE)
     public Object queryCurrentOrgan(@PathVariable String organNo)
     {
 
@@ -92,7 +104,7 @@ public class OrganController {
      * @return
      */
     @GetMapping(value = "/queryCurrentAndParentOrganDetail/{organNo}")
-    @Cacheable(value = "queryCache")
+    @Cacheable(value = ConstantUtil.QUERY_CACHE)
     public Object queryCurrentAndParentOrganDetail(@PathVariable String organNo)
 
     {
@@ -117,7 +129,7 @@ public class OrganController {
      * @return
      */
     @GetMapping(value = "/queryChildOrganDetail/{organNo}")
-    @Cacheable(value = "queryCache")
+    @Cacheable(value = ConstantUtil.QUERY_CACHE)
     public Object queryChildOrganDetail(HttpServletRequest request, Integer pageNum, Integer pageSize,
 	    @PathVariable String organNo)
     {
@@ -128,7 +140,7 @@ public class OrganController {
 	    return JSONResultUtil.setError("F00002", "the request params organNo is null");
 	}
 	pageNum = pageNum == null ? 1 : pageNum;
-	pageSize = pageSize == null ? 3 : pageSize;
+	pageSize = pageSize == null ? 5 : pageSize;
 	PageHelper.startPage(pageNum, pageSize, true);
 
 	List<SysOrganPO> list = organService.queryChildOrganDetail(organNo);
@@ -144,7 +156,7 @@ public class OrganController {
      * @return
      */
     @GetMapping(value = "/queryOrganMember/{organNo}")
-    @Cacheable(value = "queryCache")
+    @Cacheable(value = ConstantUtil.QUERY_CACHE)
     public Object queryOrganMember(HttpServletRequest request, Integer pageNum, Integer pageSize,
 	    @PathVariable String organNo)
     {
@@ -171,8 +183,9 @@ public class OrganController {
      * @param organNo
      * @return
      */
+   
     @DeleteMapping(value = "/deleteOrganInfo/{organNo}")
-
+    @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
     public Object deleteOrganInfo(@PathVariable String organNo)
     {
 
@@ -210,8 +223,8 @@ public class OrganController {
      * @return 
      */
     @PostMapping(value = "/addOrganMember")
-
-    public Object addOrganMember(SysUserPO sysUserPO)
+    @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
+    public Object addOrganMember(@RequestBody SysUserPO sysUserPO)
     {
 
 	if (sysUserPO == null)
@@ -220,7 +233,7 @@ public class OrganController {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	}
 	logger.info(String.format("the request body is %s:", sysUserPO.toString()));
-
+	
 	organService.addOrganMember(sysUserPO);
 
 	return JSONResultUtil.setSuccess();
@@ -234,7 +247,7 @@ public class OrganController {
      * @return
      */
     @DeleteMapping(value = "/deleteOrganMember/{userNo}")
-
+    @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
     public Object deleteOrganUser(@PathVariable String userNo)
     {
 
@@ -256,7 +269,8 @@ public class OrganController {
      * @return
      */
     @PutMapping(value = "/modifyOrganInfo")
-    public Object modifyOrganInfo(SysOrganPO sysOrganPO)
+    @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
+    public Object modifyOrganInfo(@RequestBody SysOrganPO sysOrganPO)
     {
 
 	if (sysOrganPO == null)
@@ -265,9 +279,14 @@ public class OrganController {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	}
 	logger.info(String.format("the request body is %s:", sysOrganPO.toString()));
-
+	
+	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+	String uId = sysLoginCtrl.getuId();
+	String userNo = sysLoginCtrl.getUserNo();
+	UserDetailInfo userDetailInfo = userInfoService.queryUserDetail(uId,userNo);
+	//添加更新机构人员
+	sysOrganPO.setUpdatedBy(userDetailInfo.getUserName());
 	organService.modifyOrganInfo(sysOrganPO);
-
 	return JSONResultUtil.setSuccess();
 
     }
@@ -278,9 +297,9 @@ public class OrganController {
      * @param sysOrganPO
      * @return
      */
-    @PostMapping(value = "/addOrgan")
-
-    public Object addOrgan(SysOrganPO sysOrganPO)
+    @PostMapping(value="/addOrgan")
+    @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
+    public Object addOrgan(@RequestBody SysOrganPO sysOrganPO)
     {
 
 	if (sysOrganPO == null)
@@ -289,9 +308,26 @@ public class OrganController {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	}
 	logger.info(String.format("the request body is %s:", sysOrganPO.toString()));
-
+	
+	String organLevel = sysOrganPO.getOrganLevel();
+	if (StringUtils.isEmpty(organLevel))
+	{
+	    logger.error("the organLevel is null");
+	    return JSONResultUtil.setError("F00002", "the request params organLevel is null");
+	}
+	//获取系统管理人员的uid和userNo
+	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+	String uId = sysLoginCtrl.getuId();
+	String userNo = sysLoginCtrl.getUserNo();
+	UserDetailInfo userDetailInfo = userInfoService.queryUserDetail(uId,userNo);
+	sysOrganPO.setCreatedBy(userDetailInfo.getUserName());
+	sysOrganPO.setUpdatedBy(userDetailInfo.getUserName());
+	sysOrganPO.setuId(uId);
+	
+	//获取当前机构的organLevel,创建子机构级别
+	int newOrganLevel = Integer.parseInt(organLevel)+1;
+	sysOrganPO.setOrganLevel(String.valueOf(newOrganLevel));
 	organService.addOrgan(sysOrganPO);
-
 	return JSONResultUtil.setSuccess();
 
     }

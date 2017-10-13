@@ -41,7 +41,7 @@ public class OrganControllerTest {
 	    public void queryOrganList() throws Exception
 	    {
 	    	
-	    	String result = mockMvc.perform(get("/iem/organ/queryOrganList/0")
+	    	String result = mockMvc.perform(get("/organ/queryOrganList/0")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
 	    			.andExpect(status().isOk()).andReturn().getResponse()
 	    			.getContentAsString();
@@ -57,7 +57,7 @@ public class OrganControllerTest {
 	    public void queryCurrentOrgan() throws Exception
 	    {
 	    	
-	    	String result = mockMvc.perform(get("/iem/organ/queryCurrentOrgan/00001")
+	    	String result = mockMvc.perform(get("/organ/queryCurrentOrgan/00001")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
 	    			.andExpect(status().isOk()).andReturn().getResponse()
 	    			.getContentAsString();
@@ -75,7 +75,7 @@ public class OrganControllerTest {
 	    public void queryCurrentAndParentOrganDetail() throws Exception
 	    {
 	    	
-	    	String result = mockMvc.perform(get("/iem/organ/queryCurrentAndParentOrganDetail/02")
+	    	String result = mockMvc.perform(get("/organ/queryCurrentAndParentOrganDetail/02")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
 	    			.andExpect(status().isOk()).andReturn().getResponse()
 	    			.getContentAsString();
@@ -92,7 +92,7 @@ public class OrganControllerTest {
 	    public void queryChildOrganDetail() throws Exception
 	    {
 	    	
-	    	String result = mockMvc.perform(get("/iem/organ/queryChildOrganDetail/0")
+	    	String result = mockMvc.perform(get("/organ/queryChildOrganDetail/0")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
 	    			.andExpect(status().isOk()).andReturn().getResponse()
 	    			.getContentAsString();
@@ -110,7 +110,7 @@ public class OrganControllerTest {
 	    {
 	    	
 	    	
-	    	String result = mockMvc.perform(get("/iem/organ/queryOrganMember/01")
+	    	String result = mockMvc.perform(get("/organ/queryOrganMember/01")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
 	    			.andExpect(status().isOk()).andReturn().getResponse()
 	    			.getContentAsString();
@@ -127,7 +127,7 @@ public class OrganControllerTest {
 	    public void deleteOrganInfo() throws Exception
 	    {
 	    	
-	    	String result = mockMvc.perform(delete("/iem/organ/deleteOrganInfo/0")
+	    	String result = mockMvc.perform(delete("/organ/deleteOrganInfo/0")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
 	    			.andExpect(status().isOk()).andReturn().getResponse()
 	    			.getContentAsString();
@@ -144,7 +144,7 @@ public class OrganControllerTest {
 	    public void addOrganMember() throws Exception
 	    {
 	    	
-		String result = mockMvc.perform(post("/iem/organ/addOrganMember")
+		String result = mockMvc.perform(post("/organ/addOrganMember")
 	    			.param("uId", "00001")
 	    			.param("userNo", "1004")
 	    			.param("userName", "kzheming")
@@ -176,7 +176,7 @@ public class OrganControllerTest {
 	    public void deleteOrganMember() throws Exception
 	    {
 	    	
-	    	String result = mockMvc.perform(delete("/iem/organ/deleteOrganMember/1004")
+	    	String result = mockMvc.perform(delete("/organ/deleteOrganMember/1004")
 	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
 	    			.andExpect(status().isOk()).andReturn().getResponse()
 	    			.getContentAsString();
@@ -194,12 +194,12 @@ public class OrganControllerTest {
 	    public void modifyOrganInfo() throws Exception
 	    {
 	    	
-		String result = mockMvc.perform((put("/iem/organ/modifyOrganInfo"))
-			.param("uId", "00001")
-			.param("organNo", "04")
+		String result = mockMvc.perform((put("/organ/modifyOrganInfo"))
+			.param("uId", "0001")
+			.param("organNo", "0011")
 			.param("organName", "橙色魔方武汉公司")
 			.param("organType", "02")
-			.param("organStatus", "1")
+			.param("status", "1")
 			.param("parentNo", "0")
 			.param("organLevel", "2")
 			.param("organDescr", "很有发展前景图纸")
@@ -227,25 +227,24 @@ public class OrganControllerTest {
 	    public void addOrgan() throws Exception
 	    {
 	    	
-		String result = mockMvc.perform(post("/iem/organ/addOrgan")
-			.param("uId", "00001")
-			.param("organNo", "04")
-			.param("organName", "橙色魔方武汉分公司")
-			.param("organType", "02")
-			.param("organStatus", "1")
-			.param("parentNo", "0")
-			.param("organLevel", "2")
-			.param("organDescr", "很有发展前景")
-			.param("organPath", "武汉")
-			.param("orgRegAddr", "武汉珞珈山")
-			.param("organConAddr", "武汉珞珈山")
+		String result = mockMvc.perform(post("/organ/addOrgan")
+			.param("uId", "0001")
+			.param("organNo", "0015")
+			.param("organName", "橙公司")
+			.param("organType", "2")
+			.param("status", "1")
+			.param("parentNo", "01")
+			.param("organDescr", "1")
+			.param("organPath", "1")
+			.param("orgRegAddr", "5")
+			.param("organConAddr", "5")
 			.param("organMan", "kzm")
-			.param("organTel", "13833455678")
+			.param("organTel", "1")
 			.param("organEmail", "kzm@163.com")
 			.param("organMgeId", "1")
-			.param("organMgeName", "kk")
-			.param("createdBy", "kzm")
-			.param("updatedBy", "kzm")	
+			.param("organMgeName", "k")
+			.param("createdBy", "k")
+			.param("updatedBy", "k")	
 			.contentType(MediaType.APPLICATION_JSON_UTF8))
 			.andExpect(status().isOk()).andReturn().getResponse()
 			.getContentAsString();

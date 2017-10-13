@@ -79,6 +79,7 @@ public class UserController {
      * @return
      */
     @GetMapping(value = "/queryUserDetail/{userNo}")
+    @Cacheable(value = ConstantUtil.QUERY_CACHE)
     public Object queryUserDetail(@PathVariable String userNo) {
 	if (StringUtils.isEmpty(userNo)) {
 	    logger.error("the request userNo is null");

@@ -10,14 +10,15 @@
    <resultMap type="com.omcube.model.po.OrganTree" id="OrganTree">
 		<result column="organ_no" property="id" javaType="java.lang.String" />
 		<result column="organ_name" property="name" javaType="java.lang.String" />
+		<result column="organ_level" property="organLevel" javaType="java.lang.String" />
 		<collection column="organ_no" property="childrenList" ofType="com.omcube.model.po.OrganTree"
 		 javaType="java.util.ArrayList" select="selectOrganChildrenById"/>
 	</resultMap>  
     <select id="queryOrganList" parameterType="java.lang.String" resultMap="OrganTree">   
-	    select organ_no,organ_name from IFDP_SYS_ORGAN_BASE where organ_no=#{organNo}       		
+	    select organ_no,organ_name,organ_level from IFDP_SYS_ORGAN_BASE where organ_no=#{organNo}       		
 	</select>	
 	<select id="selectOrganChildrenById" resultMap="OrganTree" parameterType="string">
-		select organ_no,organ_name from IFDP_SYS_ORGAN_BASE where parent_no=#{organ_no} and organ_status='1'			
+		select organ_no,organ_name,organ_level from IFDP_SYS_ORGAN_BASE where parent_no=#{organ_no} and organ_status='1'			
 	</select>
 
 	<!--2.查询当前机构信息  -->
@@ -37,15 +38,16 @@
 	<!--3.查询当前机构、上级机构及机构详情信息  -->
     <select id="queryCurrentAndParentOrganDetail" parameterType="java.lang.String" resultType="com.omcube.model.po.SysOrganPO">          
 		
-		select 
+		select 	  
 		  o1.organ_no as organNo,
+		  o1.organ_level as organLevel,
 		  o1.parent_no as parentNo,
 		  o1.organ_name as organName,
 		  o1.organ_type as organType,
 		  o1.organ_status as status,
 		  o2.organ_name as organParentName,
 		  od.organ_mge_id as organMgeId ,
-		  od.organ_mge_name as organMgeName 
+		  od.organ_mge_name as organMgeName    			
 		from
 		  	IFDP_SYS_ORGAN_BASE o1 
 		left outer join IFDP_SYS_ORGAN_BASE o2 
@@ -62,6 +64,7 @@
    
 		select
 			o1.organ_no as organNo,
+			o1.organ_level as organLevel,
 			o1.organ_name as organChildName,
 			o1.organ_type as organType,
 			o1.organ_status as status,
@@ -160,7 +163,6 @@
        
      <!--10.新增机构和机构详情信息-->
     <insert id="addOrgan" parameterType="com.omcube.model.po.SysOrganPO">
-   
 	    insert into IFDP_SYS_ORGAN_BASE
 	  	  		(uid,organ_no,organ_name,organ_type,organ_status,
 	    		parent_no,organ_level,organ_descr,org_path,created_by,
