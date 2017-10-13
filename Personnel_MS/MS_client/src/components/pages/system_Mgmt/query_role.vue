@@ -94,7 +94,7 @@ export default {
             }).then(() => {
                 // this.$axios.delete('iemrole/role/deleteRoleInfo', targetRole)
                 // this.$axios.delete('iemrole/role/deleteRoleInfo', { targetRole })
-                this.$axios.delete('iemrole/role/deleteRoleInfo?roleNo=' + this.roleListInfo[index].roleNo, targetRole)
+                this.$axios.delete('/iemrole/role/deleteRoleInfo?roleNo=' + this.roleListInfo[index].roleNo, targetRole)
                     .then((res) => {
                         console.log(res);
                         if (res.data.code == 'S00000') this.$message({ type: 'success', message: '删除成功!' });
