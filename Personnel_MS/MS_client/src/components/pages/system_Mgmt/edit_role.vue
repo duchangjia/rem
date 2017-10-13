@@ -32,8 +32,8 @@
                     <el-col :span="12">
                         <el-form-item label="状态">
                             <el-radio-group v-model="editRoleMsg.status">
-                                <el-radio label="有效" value="1"></el-radio>
-                                <el-radio label="无效" value="0"></el-radio>
+                                <el-radio label="1">有效</el-radio>
+                                <el-radio label="0">无效</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -65,11 +65,24 @@ export default {
     components: {
         current,
     },
-    mounted() {
-        this.editRoleMsg.roleNo = this.$route.params.roleNo;
-        this.editRoleMsg.roleName = this.$route.params.roleName;
-        this.editRoleMsg.roleDescr = this.$route.params.roleDescr;
-        this.editRoleMsg.status = this.$route.params.status;        
+    created() {
+        const self = this;
+        let params = {
+            roleNo: self.$route.params.roleNo,
+            status: self.$route.params.status
+        }
+        console.log(params);
+        self.$axios.get('iemrole/role/queryRoleDetail', { params })
+            .then(function(res) {
+                console.log(res);
+                self.roleDetail = res.data.data;
+                self.editRoleMsg.roleNo = self.roleDetail.roleNo;
+                self.editRoleMsg.roleName = self.roleDetail.roleName;
+                self.editRoleMsg.roleDescr = self.roleDetail.roleDescr;
+                self.editRoleMsg.status = self.roleDetail.status;
+            }).catch(function(err) {
+                console.log('error');
+            })
     },
     methods: {
         handleEdit() {
@@ -79,10 +92,10 @@ export default {
             editRole.roleDescr = this.editRoleMsg.roleDescr;
             editRole.status = this.editRoleMsg.status;
             console.dir(editRole);
-            this.$axios.put('iemrole/role/modifyRoleInfo', editRole)
+            this.$axios.put('/iemrole/role/modifyRoleInfo', editRole)
                 .then((res) => {
                     console.log(res);
-                    if(res.data.code == 'S00000') this.$router.push('/management_role');
+                    if (res.data.code == 'S00000') this.$router.push('/management_role');
                     else this.$message.error('编辑角色失败！');
                 }).catch(() => {
                     this.$message.error('编辑角色失败！');
@@ -91,6 +104,7 @@ export default {
     }
 }
 </script>
+
 
 <style>
 .edit_role {

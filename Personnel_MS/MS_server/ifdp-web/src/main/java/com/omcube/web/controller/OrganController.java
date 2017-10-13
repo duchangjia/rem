@@ -293,7 +293,6 @@ public class OrganController {
 	organService.addOrgan(sysOrganPO);
 
 	return JSONResultUtil.setSuccess();
-
     }
 
 }

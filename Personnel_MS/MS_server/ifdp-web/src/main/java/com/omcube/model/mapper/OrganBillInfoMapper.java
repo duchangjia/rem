@@ -11,18 +11,18 @@ import com.omcube.model.po.OrganBillInfoPO;
 public interface OrganBillInfoMapper {
 	
 	/**
-	 * 新增公司开票信息
+	 * 开票信息新增
 	 * 
 	 * @param billInfoPO
 	 */
-	public void addOrganBillInfo(OrganBillInfoPO billInfoPO);
+	public void addBillInf(OrganBillInfoPO billInfoPO);
 
 	/**
-	 * 修改公司开票信息
+	 * 开票信息修改
 	 * 
 	 * @param billInfoPO
 	 */
-	public void updateOrganBillInfo(OrganBillInfoPO billInfoPO);
+	public void modBillInf(OrganBillInfoPO billInfoPO);
 
 	/**
 	 * 查询公司开票列表
@@ -40,11 +40,11 @@ public interface OrganBillInfoMapper {
 	public List<OrganBillInfoPO> queryBillInfoByName(@Param("uId") String uId,@Param("organName") String organName);
 	
 	/**
-	 * 查询公司开票信息
+	 * 开票信息详细信息查询
 	 * 
 	 * @param organNo
 	 * @return
 	 */
-	public OrganBillInfoPO queryBillInfo(@Param("uId") String uId,@Param("organNo") String organNo);
+	public OrganBillInfoPO queryBillInfDtl(@Param("uId") String uId,@Param("organNo") String organNo);
 	
 }
