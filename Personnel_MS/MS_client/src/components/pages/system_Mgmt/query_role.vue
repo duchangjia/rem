@@ -12,7 +12,7 @@
                 </el-table-column>
                 <el-table-column align="center" prop="roleName" label="角色名称">
                 </el-table-column>
-                <el-table-column align="center" prop="status" label="状态">
+                <el-table-column align="center" prop="status" label="状态" :formatter="statusFormatter">
                 </el-table-column>
                 <el-table-column align="center" prop="roleDescr" label="描述">
                 </el-table-column>
@@ -61,6 +61,9 @@ export default {
             })
     },
     methods: {
+        statusFormatter(row, column) {
+            return row.status == 1 ? '有效' : row.status == 0 ? '无效' : '异常';
+        },
         handleCurrentChange(val) {
             this.pageNum = val;
             this.getRoles();
@@ -77,9 +80,7 @@ export default {
                 name: 'edit_role',
                 params: {
                     roleNo: this.roleListInfo[index].roleNo,
-                    roleName: this.roleListInfo[index].roleName,
-                    status: this.roleListInfo[index].status,
-                    roleDescr: this.roleListInfo[index].roleDescr
+                    status: this.roleListInfo[index].status
                 }
             })
         },
@@ -92,8 +93,6 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                // this.$axios.delete('iemrole/role/deleteRoleInfo', targetRole)
-                // this.$axios.delete('iemrole/role/deleteRoleInfo', { targetRole })
                 this.$axios.delete('/iemrole/role/deleteRoleInfo?roleNo=' + this.roleListInfo[index].roleNo, targetRole)
                     .then((res) => {
                         console.log(res);
