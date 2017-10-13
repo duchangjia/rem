@@ -51,7 +51,7 @@ public class UserController {
      */
     @GetMapping(value = "/queryUserList")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
-    public Object queryUserList(@RequestBody QueryUserRequest queryUserReq) {
+    public Object queryUserList(QueryUserRequest queryUserReq) {
 	if (queryUserReq == null) {
 	    logger.error("the request body is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
@@ -152,7 +152,7 @@ public class UserController {
 	//session 获取登录信息
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	updateUserReq.setUid(sysLoginCtrl.getuId());
-	updateUserReq.setUpdatedBy(sysLoginCtrl.getUpdatedBy());
+	updateUserReq.setUpdatedBy(sysLoginCtrl.getUserName());
 	return null;
     }
 

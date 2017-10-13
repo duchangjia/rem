@@ -23,4 +23,6 @@ public class ConstantUtil {
     
     public static final String QUERY_CACHE = "queryCache";
     
+    public static final String MONEY_REG = "^\\d+(\\.\\d{1,2})?$";
+    
 }
