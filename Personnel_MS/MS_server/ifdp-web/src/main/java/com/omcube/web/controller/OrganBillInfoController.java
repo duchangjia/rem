@@ -45,14 +45,14 @@ public class OrganBillInfoController {
     private OrganService organService;
 
     /**
-     * 新增开票信息	
+     * 开票信息新增	
      * 
      * @param uId
      * @return
      * @throws ParseException
      */
-    @PostMapping(value = "/addOrganBillInfo")
-    public Object addOrganBillInfo(OrganBillInfoPO billInfo) throws ParseException {
+    @PostMapping(value = "/addBillInf")
+    public Object addBillInf(OrganBillInfoPO billInfo) throws ParseException {
 
 	//从session 获取uid  userNo 并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
@@ -69,24 +69,24 @@ public class OrganBillInfoController {
 	}
 
 	//校验是否重复开票
-	if (billInfoService.queryBillInfo(billInfo.getuId(),billInfo.getOrganNo()) != null) {
+	if (billInfoService.queryBillInfDtl(billInfo.getuId(),billInfo.getOrganNo()) != null) {
 	    logger.error("the organ already exists");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the billInfo already exists");
 	}
 
-	billInfoService.addOrganBillInfo(billInfo);
+	billInfoService.addBillInf(billInfo);
 	logger.info("uid:" + billInfo.getuId() + "organName" + billInfo.getOrganName() + "新增公司信息成功");
 	return JSONResultUtil.setSuccess();
     }
 
     /**
-     * 修改开票信息
+     * 开票信息修改
      * 
      * @return
      * @throws ParseException
      */
-    @PutMapping(value = "/updateOrganBillInfo")
-    public Object updateOrganBillInfo(OrganBillInfoPO billInfo) throws ParseException {
+    @PutMapping(value = "/modBillInf")
+    public Object modBillInf(OrganBillInfoPO billInfo) throws ParseException {
 
 	//从session 获取uid  userNo 并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
@@ -96,7 +96,7 @@ public class OrganBillInfoController {
 	billInfo.setUpdatedBy(userNo);
 	
 	if (billInfo != null) {
-	    billInfoService.updateOrganBillInfo(billInfo);
+	    billInfoService.modBillInf(billInfo);
 	}
 	logger.info("修改公司信息成功");
 	return JSONResultUtil.setSuccess();
@@ -124,6 +124,7 @@ public class OrganBillInfoController {
 	    return JSONResultUtil.setError("ErrorCodeConstantUtil.REQUEST_INVALID_ERR",
 		    "the request param uId is null");
 	}
+	
 	//分页
 	pageNum = pageNum == null ? 1 : pageNum;
 	pageSize = pageSize == null ? 5 : pageSize;
@@ -153,7 +154,6 @@ public class OrganBillInfoController {
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	String uId = sysLoginCtrl.getuId();
 	
-	
 	//分页
 	pageNum = pageNum == null ? 1 : pageNum;
 	pageSize = pageSize == null ? 5 : pageSize;
@@ -166,21 +166,21 @@ public class OrganBillInfoController {
     }
 
     /**
-     * 查询公司开票信息
+     * 开票信息详细信息查询
      * 
      * @param organNo
      * @return
      */
-    @GetMapping(value = "/queryBillInfo/{organNo}")
+    @GetMapping(value = "/queryBillInfDtl/{organNo}")
     @Cacheable(ConstantUtil.QUERY_CACHE)
-    public Object queryBillInfo(@PathVariable String organNo) {
+    public Object queryBillInfDtl(@PathVariable String organNo) {
 
 	//从session 获取uid  并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	String uId = sysLoginCtrl.getuId();
-	System.out.println(organNo+"organNoorganNo");
-	OrganBillInfoPO billInfoPO = billInfoService.queryBillInfo(uId,organNo);
+	OrganBillInfoPO billInfoPO = billInfoService.queryBillInfDtl(uId,organNo);
 	return JSONResultUtil.setSuccess(billInfoPO);
     }
 
+    
 }
