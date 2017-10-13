@@ -329,7 +329,6 @@ public class OrganController {
 	sysOrganPO.setOrganLevel(String.valueOf(newOrganLevel));
 	organService.addOrgan(sysOrganPO);
 	return JSONResultUtil.setSuccess();
-
     }
 
 }

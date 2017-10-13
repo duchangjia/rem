@@ -12,7 +12,7 @@
                 </el-table-column>
                 <el-table-column align="center" prop="roleName" label="角色名称">
                 </el-table-column>
-                <el-table-column align="center" prop="status" label="状态">
+                <el-table-column align="center" prop="status" label="状态" :formatter="statusFormatter">
                 </el-table-column>
                 <el-table-column align="center" prop="roleDescr" label="描述">
                 </el-table-column>
@@ -23,9 +23,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <!-- <el-pagination class="toolbar" layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="5" :total="total" style="float:right;">
-                    </el-pagination> -->
-            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" style="float:right;">
+            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
             </el-pagination>
         </div>
     </div>
@@ -36,9 +34,9 @@ import current from '../../common/current_position.vue'
 export default {
     data() {
         return {
-            pageNum: 0,
-            pageSize: 0,
-            totalRows: 0,
+            pageNum: 1,
+            pageSize: 7,
+            totalRows: 1,
             roleListInfo: []
         }
     },
@@ -47,25 +45,38 @@ export default {
     },
     created() {
         const self = this;
-        let params = {
-            pageNum: 1,
-            pageSize: 5
-        }
-        self.$axios.get('iemrole/role/queryRoleList', { params })
-            .then(function(res) {
-                console.log(res);
-                self.roleListInfo = res.data.data.models;
-                self.pageNum = Number(res.data.config.pageNum);
-                self.pageSize = Number(res.data.config.pageSize);
-                self.totalRows = Number(res.data.data.total);
-            }).catch(function(err) {
-                console.log('error');
-            })
+        let pageNum = self.pageNum;
+        let pageSize = self.pageSize;
+        //初始查询角色列表
+        self.getRoleList(pageNum, pageSize);
+
     },
     methods: {
+        getRoleList(pageNum, pageSize) {
+            const self = this;
+            let params = {
+                "pageNum": pageNum,
+                "pageSize": pageSize
+            }
+            self.$axios.get('iemrole/role/queryRoleList', { params: params })
+                .then(function(res) {
+                    console.log(res);
+                    self.roleListInfo = res.data.data.models;
+                    self.pageNum = Number(res.data.data.pageNum);
+                    self.totalRows = Number(res.data.data.total);
+                }).catch(function(err) {
+                    console.log('error');
+                })
+        },
+        statusFormatter(row, column) {
+            return row.status == 1 ? '有效' : row.status == 0 ? '无效' : '异常';
+        },
         handleCurrentChange(val) {
-            this.pageNum = val;
-            this.getRoles();
+            const self = this;
+            let pageNum = val;
+            let pageSize = self.pageSize;
+            //分页查询角色列表
+            self.getRoleList(pageNum, pageSize);
         },
         getRoles() {
             return false;
@@ -79,29 +90,36 @@ export default {
                 name: 'edit_role',
                 params: {
                     roleNo: this.roleListInfo[index].roleNo,
-                    roleName: this.roleListInfo[index].roleName,
-                    status: this.roleListInfo[index].status,
-                    roleDescr: this.roleListInfo[index].roleDescr
+                    status: this.roleListInfo[index].status
                 }
             })
         },
         handleDelete(index, row) {
+            let targetRole = {};
+            targetRole.roleNo = this.roleListInfo[index].roleNo;
+            console.log(targetRole);
             this.$confirm('此操作将会删除该条角色, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                this.$message({
-                    type: 'success',
-                    message: '删除成功!'
-                });
-            }).catch(() => {
+                this.$axios.delete('/iemrole/role/deleteRoleInfo?roleNo=' + this.roleListInfo[index].roleNo, targetRole)
+                    .then((res) => {
+                        console.log(res);
+                        if (res.data.code == 'S00000') this.$message({ type: 'success', message: '删除成功!' });
+                        else this.$message.error('删除角色失败！');
+                    }).catch(() => {
+                        this.$message.error('删除角色失败！');
+                    })
 
+            }).catch(() => {
+                this.$message('您已取消删除角色！');
             });
         }
     }
 }
 </script>
+
 
 <style>
 .role_mgmt {
@@ -161,7 +179,6 @@ export default {
 
 .toolbar.el-pagination {
     text-align: right;
-    float: none !important;
     margin-top: 20px;
 }
 

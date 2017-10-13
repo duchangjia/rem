@@ -11,10 +11,10 @@
                 <el-col :span="24" class="item-title">角色信息</el-col>
                 <el-form :inline="true" :model="addRoleMsg" :label-position="labelPosition" label-width="80px">
                     <!-- <el-col :span="12">
-                                <el-form-item label="角色ID">
-                                    <el-input v-model="addRoleMsg.roleNo"></el-input>
-                                </el-form-item>
-                            </el-col> -->
+                                        <el-form-item label="角色ID">
+                                            <el-input v-model="addRoleMsg.roleNo"></el-input>
+                                        </el-form-item>
+                                    </el-col> -->
                     <el-col :span="12">
                         <el-form-item label="名称">
                             <el-input v-model="addRoleMsg.roleName"></el-input>
@@ -126,6 +126,16 @@ export default {
     components: {
         current,
     },
+    // created() {
+    //     const self = this;
+    //     let params = {};
+    //     self.$axios.get('iemrole/role/setRoleFunc', { params: params })
+    //         .then(function(res) {
+    //             console.log(res);
+    //         }).catch(function(err) {
+    //             console.log('error');
+    //         })
+    // },
     methods: {
         handleCheckedMenusChange(value) {
             if (value !== null) {
@@ -163,23 +173,23 @@ export default {
             this.isIndeterminate = checkedCount > 0 && checkedCount < this.submenus.length;
         },
         handleAdd() {
-            let sysRolePO = {};
-            sysRolePO.roleName = this.addRoleMsg.roleName;
-            sysRolePO.status = this.addRoleMsg.status;
-            sysRolePO.roleDescr = this.addRoleMsg.roleDescr;
-            console.log(sysRolePO);
-            this.$axios.post('iemrole/role/addRoleInfo', { sysRolePO })
-                .then(function(res) {
+            let newRole = {};
+            newRole.roleName = this.addRoleMsg.roleName;
+            newRole.status = this.addRoleMsg.status;
+            newRole.roleDescr = this.addRoleMsg.roleDescr;
+            console.log(newRole);
+            this.$axios.post('/iemrole/role/addRoleInfo', newRole)
+                .then((res) => {
                     console.log(res);
-                    this.$router.push('/management_role');
-                }).catch(function(err) {
-                    console.log('error');
+                    if (res.data.code == 'S00000') this.$router.push('/management_role');
+                    else this.$message.error('新增角色失败！');
+                }).catch(() => {
+                    this.$message.error('新增角色失败！');
                 })
         }
     }
 }
 </script>
-
 
 <style>
 .add_role {

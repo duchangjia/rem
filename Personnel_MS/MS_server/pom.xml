@@ -29,6 +29,8 @@
 		<java.version>1.8</java.version>
 		<ifdp.version>1.0.0</ifdp.version>
 		<fastjson.version>1.2.31</fastjson.version>
+		<commons.lang.version>3.6</commons.lang.version>
+		<quartz.version>2.3.0</quartz.version>
 	</properties>
 
 	<dependencyManagement>
@@ -49,6 +51,22 @@
 				<version>Brussels-SR5</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons.lang.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz</artifactId>
+				<version>${quartz.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>com.mchange</groupId>
+						<artifactId>c3p0</artifactId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -29,7 +29,6 @@ public interface RoleService {
 	/**
 	 * 要修改数据的查询
 	 * 
-	 * @param uId
 	 * @param roleNo
 	 * @return
 	 */
@@ -55,7 +54,7 @@ public interface RoleService {
 	 * 
 	 * @param sysRolePO
 	 */
-	void deleteRoleInfo(String roleNo);
+	void deleteRoleInfo(SysRolePO sysRolePO);
 
 	/**
 	 * 角色详情的查询

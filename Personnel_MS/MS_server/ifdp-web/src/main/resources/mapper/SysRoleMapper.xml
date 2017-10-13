@@ -64,12 +64,12 @@
 			IFDP_SYS_ROLE
 		set
 			ROLE_NAME = #{roleName},
-			ROLE_DESCR=#{roleDescr},
-			ROLE_STATUS=#{status},
-			UPDATED_BY=#{updatedBy},
-			UPDATED_DATE=date_format(now(),'%y-%m-%d')
+			ROLE_DESCR = #{roleDescr},
+			ROLE_STATUS = #{status},
+			UPDATED_BY = #{updatedBy},
+			UPDATED_DATE = date_format(now(),'%y-%m-%d')
 		where
-			(UID=#{uId} and ROLE_NO=#{roleNo})
+			UID = #{uId} and ROLE_NO = #{roleNo}
 	</update>
 
 	<!-- 修改角色时的数据回显 -->
@@ -82,7 +82,7 @@
 	</select>
 
 	<!-- 删除角色 -->
-	<update id="deleteRoleInfo" parameterType="java.lang.String">
+	<update id="deleteRoleInfo" parameterType="com.omcube.model.po.SysRolePO">
 		update
 			IFDP_SYS_ROLE
 		set
@@ -118,7 +118,7 @@
 		and 
 			ro.`ROLE_STATUS`=1 
 		and
-			ro.`UID`=bs.`UID`=1
+			ro.`UID`=bs.`UID`=0001
 	</select>
 	
 	
