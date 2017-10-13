@@ -19,10 +19,8 @@
 						</el-form-item>
 					</div>
 					<div class="button-wrap">
-						<!--<el-form-item>-->
 							<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
-							<el-button type="primary" @click="submitForm('ruleForm2')">查询</el-button>
-						<!--</el-form-item>-->
+							<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
 				<div class="info">
@@ -46,12 +44,13 @@
 <script type='text/ecmascript-6'>
 import Bus from '../../../common/Bus.js'
 import current from '../../common/current_position.vue'
+const baseURL = 'iem'
 export default {
 	data() {
 		return {
-			pageIndex: 0,
-			pageRows: 0,
-			totalRows: 0,
+			pageIndex: 1,
+			pageRows: 1,
+			totalRows: 1,
 			ruleForm2: {
 				company: '',
 				department: '',
@@ -73,41 +72,36 @@ export default {
 	},
 	created() {
 		const self = this;
+		let pageNum = 1;
+		let pageSize = 3;
 		let params = {
-			pageIndex: 1,
-			pageRows: 10
+			"pageNum": pageNum,
+			"pageSize": pageSize,
+			"organCompanyName": "魔方",
+			"organDepartmentName":"魔方分公司深圳分公司",
+			"userFeatureInfo":"11223@qq.com"
 		}
-		self.$axios.get('ifdp/queryOperatorList', params)
-			.then(function(res) {
-				self.operatorList = res.data.data.operatorListInfo;
-				self.pageIndex = Number(res.data.data.pageIndex);
-				self.pageRows = Number(res.data.data.pageRows);
-				self.totalRows = Number(res.data.data.totalRows);
-			}).catch(function(err) {
-				console.log('error');
-			})
+		//查询用户列表
+		self.queryUserList(pageNum,pageSize,params);
 	},
 	methods: {
-		submitForm(formName) {
+		//查询用户详细信息
+		queryForm(formName) {
 			const self = this;
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
-					let params = {
-						"userNo": self.ruleForm2.user,
-						"userName": self.ruleForm2.user,
-						"mobile": self.ruleForm2.user,
-						"email": self.ruleForm2.user
-					};
+					let user = self.ruleForm2.user;
 					self.operatorList = [];
-					self.$axios.get('ifdp/queryOperatorDetail', params)
+					self.$axios.get(baseURL+'/user/queryUserDetail/'+user)
 						.then(function(res) {
+							console.log(res);
 							self.operatorList.push(res.data.data);
 							self.pageIndex = 0;
 							self.pageRows = 0;
 							self.totalRows = 0;
-							localStorage.setItem('user', self.ruleForm2.user);
+							sessionStorage.setItem('userMsg',JSON.stringify(self.operatorList[0]));
 						}).catch(function(err) {
-							console.log(err);
+							self.$message.error('查询失败');
 						})
 				} else {
 					console.log('error submit!!');
@@ -115,30 +109,54 @@ export default {
 				}
 			});
 		},
-		//			resetForm(formName) {
-		//				this.$refs[formName].resetFields();
-		//			}
+		//重置
 		resetForm(formName) {
 			const self = this;
 			self.$refs[formName].validate((valid) => {
 				if(valid){
+					sessionStorage.setItem('user', self.ruleForm2.user);
 					self.$router.push('/user-info');
-			
-					//this.$router.push({
-						//path:'/user-info',
-						//query: this.userlist1
-					//});
 				}
 			})
 		},
 		handleCurrentChange(val) {
-			self.pageIndex = `${val}`;
+			console.log(`当前页: ${val}`);
+			const self = this;
+			let oldPage = 1;
+			let pageNum = self.pageIndex;
+			let pageSize = 3;
+			let params = {
+				"pageNum": pageNum,
+				"pageSize": pageSize,
+				"organCompanyName": "魔方",
+//				"organDepartmentName":"魔方分公司深圳分公司",
+//				"userFeatureInfo":"11223@qq.com"
+			}
+			//查询用户列表
+			if(pageNum!==oldPage){
+				console.log('oldPage',oldPage)
+				console.log('pageNum',pageNum)
+				self.queryUserList(pageNum,pageSize,params);
+			}
 		},
 		resetUserInfo(row, column, cell, event) {
-			if (column.property === 'number') {
+			if (column.property === 'userNo') {
 				this.$router.push('/user-info');
 			}
 
+		},
+		queryUserList(pageNum,pageSize,params) {
+			let self = this;
+			self.$axios.get(baseURL+'/user/queryUserList', {params: params})
+			.then(function(res) {
+				console.log('UserList',res);
+				self.operatorList = res.data.data.models;
+				self.pageIndex = pageNum;
+				self.pageRows = pageSize;
+				self.totalRows = Number(res.data.data.total);
+			}).catch(function(err) {
+				console.log(err);
+			})
 		}
 	}
 
@@ -149,6 +167,7 @@ export default {
 	
 .user-query {
 	padding-left: 20px;
+    padding-bottom: 20px;
 	width: 100%;
 }
 
@@ -279,7 +298,12 @@ export default {
 .user-query .el-table th {
 	text-align: center;
 }
-
+.user-query .el-table td:first-child{
+	cursor: pointer;
+}
+.user-query .el-table td:first-child:hover{
+	color: #FF9900;
+}
 /*.user-query .el-table--enable-row-hover .el-table__body tr:hover>td {
 	background-color: #f8f8f8;
 	background-clip: padding-box;

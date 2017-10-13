@@ -168,18 +168,18 @@ export default {
             newRole.status = this.addRoleMsg.status;
             newRole.roleDescr = this.addRoleMsg.roleDescr;
             console.log(newRole);
-            this.$axios.post('iemrole/role/addRoleInfo', { newRole })
-                .then(function(res) {
+            this.$axios.post('/iemrole/role/addRoleInfo', newRole )
+                .then((res) => {
                     console.log(res);
-                    this.$router.push('/management_role');
-                }).catch(function(err) {
-                    console.log('error');
+                    if(res.data.code == 'S00000') this.$router.push('/management_role');
+                    else this.$message.error('新增角色失败！');
+                }).catch(() => {
+                    this.$message.error('新增角色失败！');
                 })
         }
     }
 }
 </script>
-
 
 <style>
 .add_role {

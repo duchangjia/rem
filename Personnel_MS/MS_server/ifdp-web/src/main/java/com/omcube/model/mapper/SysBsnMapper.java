@@ -1,9 +1,7 @@
 package com.omcube.model.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-
 import com.omcube.model.po.SysBsnPO;
-import com.omcube.model.po.SysMenuFuncPO;
 
 /**
  * 业务功能表的dao
@@ -20,4 +18,12 @@ public interface SysBsnMapper {
 	 * @param sysMenuFunc
 	 */
 	void addBsn(SysBsnPO sysBsn);
+
+	/**
+	 * 根据的bsnNo查询业务功能
+	 * 
+	 * @param func
+	 * @return
+	 */
+	SysBsnPO queryFuncByBsnNo(SysBsnPO func);
 }

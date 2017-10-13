@@ -2,6 +2,7 @@ package com.omcube.model.po;
 
 public class SysLoginCtrl extends BasicPO {
     private String userNo;
+    private String userName;
     private String channel;
     private String loginNum;
     private String lastLoginDate;
@@ -72,6 +73,14 @@ public class SysLoginCtrl extends BasicPO {
 
     public void setLastErrTime(String lastErrTime) {
 	this.lastErrTime = lastErrTime;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
 }
