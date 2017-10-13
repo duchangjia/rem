@@ -23,14 +23,14 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="所属公司" prop="compName">
-							<el-select v-model="userDetail.compName" placeholder="所属公司">
+							<el-select v-model="userDetail.compOrgNo" placeholder="所属公司">
 								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="所属部门" prop="departName">
-							<el-select v-model="userDetail.departName" placeholder="所属部门">
+							<el-select v-model="userDetail.departOrgNo" placeholder="所属部门">
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 							</el-select>
 						</el-form-item>
@@ -74,6 +74,15 @@
 				</el-form>
 			</div>
 		</div>
+		  <!--<el-select v-model="value2" value-key  placeholder="请选择" @change="test()">
+		    <el-option
+		      v-for="item in options2"
+		      :key="item.value"
+		      :label="item.label"
+		      :value="item.value"
+		      :disabled="item.disabled">
+		    </el-option>
+		  </el-select>-->
 	</div>
 </template>
 
@@ -108,14 +117,16 @@
 				olduserDetail: {},
 				//用户详细信息
 				userDetail: {
-					userName: '1',
+					userName: 'aaaaa',
 					userNo: '1',
 					compName: '1',
+					compOrgNo: 'p1',
 					departName: '1',
+					departOrgNo: 'p1',
 					roleName: '1',
 					status: '1',
-					mobile: '1',
-					email: '1',
+					mobile: '13513513513',
+					email: '123@123.com',
 					certNo: '1',
 					remark: '1'
 				},
@@ -127,14 +138,14 @@
 				],
 				//部门列表
 				departList: [
-					{departName: '行政部',departOrgNo: '001'},
-					{departName: '财务部',departOrgNo: '002'}
+					{departName: '行政部',departOrgNo: 'p1'},
+					{departName: '财务部',departOrgNo: 'p2'}
 				],
 				//公司列表
 				compList: [
-					{compName: '上海分公司',compOrgNo: '01'},
-					{compName: '深圳分公司',compOrgNo: '02'},
-					{compName: '广州分公司',compOrgNo: '03'}
+					{compName: '上海分公司',compOrgNo: 'p1'},
+					{compName: '深圳分公司',compOrgNo: 'p2'},
+					{compName: '广州分公司',compOrgNo: 'p3'}
 				],
 				rules: {
 					userName: [
@@ -148,7 +159,25 @@
 //					mobile: [
 ////						{ validator: checkMobile, trigger: 'blur'}
 //					]
-				}
+				},
+//				 options2: [{
+//		          value: '选项1',
+//		          label: '黄金糕'
+//		        }, {
+//		          value: '选项2',
+//		          label: '双皮奶',
+//		          disabled: true
+//		        }, {
+//		          value: '选项3',
+//		          label: '蚵仔煎'
+//		        }, {
+//		          value: '选项4',
+//		          label: '龙须面'
+//		        }, {
+//		          value: '选项5',
+//		          label: '北京烤鸭'
+//		        }],
+//		        value2: ''
 			}
 		},
 		components: {
@@ -179,6 +208,10 @@
 			
 		},
 		methods: {
+			test(){
+				console.log(this.value2);
+				console.log(this.value2);
+			},
 			//密码重置
 			resetPass() {
 				const self = this;
@@ -232,6 +265,8 @@
 							}
 						}
 						if(detailChange===true){//判断是否有修改信息
+							console.log('compName',self.userDetail.compName)
+							console.log('compOrgNo',self.userDetail.compOrgNo)
 							self.$axios.put(baseURL+'/user/updateUserInfo',params)
 							.then(function(res){
 								console.log('updateUserInfo',res);
@@ -251,7 +286,6 @@
 					          	confirmButtonText: '确定'
 				        	});
 						}
-						
 					} else {
 						console.log('error submit!!');
 						return false;
