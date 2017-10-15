@@ -16,33 +16,28 @@ public class OrganBillInfoServiceImpl implements OrganBillInfoService {
     private OrganBillInfoMapper billiInfoMapper;
 
     @Override
-    public void addOrganBillInfo(OrganBillInfoPO billInfoPO)
-    {
-	billiInfoMapper.addOrganBillInfo(billInfoPO);
+    public void addBillInf(OrganBillInfoPO billInfoPO) {
+	billiInfoMapper.addBillInf(billInfoPO);
     }
 
     @Override
-    public void updateOrganBillInfo(OrganBillInfoPO billInfoPO)
-    {
-	billiInfoMapper.updateOrganBillInfo(billInfoPO);
+    public void modBillInf(OrganBillInfoPO billInfoPO) {
+	billiInfoMapper.modBillInf(billInfoPO);
     }
 
     @Override
-    public List<OrganBillInfoPO> queryBillInfoList(String uId)
-    {
+    public List<OrganBillInfoPO> queryBillInfoList(String uId) {
 	return billiInfoMapper.queryBillInfoList(uId);
     }
 
     @Override
-    public List<OrganBillInfoPO> queryBillInfoByName(OrganBillInfoPO billInfoPO)
-    {
-	return billiInfoMapper.queryBillInfoByName(billInfoPO);
+    public List<OrganBillInfoPO> queryBillInfoByName(String uId,String organName) {
+	return billiInfoMapper.queryBillInfoByName(uId,organName);
     }
 
     @Override
-    public OrganBillInfoPO queryBillInfo(String organNo)
-    {
-	return billiInfoMapper.queryBillInfo(organNo);
+    public OrganBillInfoPO queryBillInfDtl(String uId, String organNo) {
+	return billiInfoMapper.queryBillInfDtl(uId, organNo);
     }
 
 }

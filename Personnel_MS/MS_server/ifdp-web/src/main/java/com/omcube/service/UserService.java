@@ -3,6 +3,7 @@ package com.omcube.service;
 import com.omcube.model.dto.SysUser;
 import com.omcube.model.mapper.SysUserMapper;
 import com.omcube.model.po.SysUserPO;
+import com.omcube.model.response.UserDetailInfo;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,4 +33,8 @@ public class UserService implements UserDetailsService {
         user.setMobileNo(userPO.getMobileTEL());
         return user;
     }
+
+ 
+
+  
 }

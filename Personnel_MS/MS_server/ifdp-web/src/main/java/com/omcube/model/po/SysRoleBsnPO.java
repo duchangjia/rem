@@ -30,5 +30,6 @@ public class SysRoleBsnPO extends BasicPO {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-
+	
+	
 }
