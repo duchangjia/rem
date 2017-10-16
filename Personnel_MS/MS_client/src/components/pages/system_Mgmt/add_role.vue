@@ -10,11 +10,6 @@
             <div class="add-wrapper role-msg">
                 <el-col :span="24" class="item-title">角色信息</el-col>
                 <el-form :inline="true" :model="addRoleMsg" :label-position="labelPosition" label-width="80px">
-                    <!-- <el-col :span="12">
-                                        <el-form-item label="角色ID">
-                                            <el-input v-model="addRoleMsg.roleNo"></el-input>
-                                        </el-form-item>
-                                    </el-col> -->
                     <el-col :span="12">
                         <el-form-item label="名称">
                             <el-input v-model="addRoleMsg.roleName"></el-input>
