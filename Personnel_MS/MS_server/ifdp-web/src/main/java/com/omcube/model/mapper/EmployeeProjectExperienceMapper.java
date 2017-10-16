@@ -1,6 +1,5 @@
 package com.omcube.model.mapper;
 
-
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,4 +24,7 @@ public interface EmployeeProjectExperienceMapper {
 			@Param(value = "uId") String uId,
 			@Param(value = "userNo") String userNo,
 			@Param(value = "projectId") String projectId);
+
+	// 项目经历信息修改
+	void modEmpProExp(EmployeeProjectExperiencePO employeeProjectExperiencePO);
 }

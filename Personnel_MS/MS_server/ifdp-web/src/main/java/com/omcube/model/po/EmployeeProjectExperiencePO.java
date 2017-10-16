@@ -1,16 +1,14 @@
 package com.omcube.model.po;
 
-import java.util.Date;
-
 public class EmployeeProjectExperiencePO extends BasicPO {
-	//用户编号
+	// 用户编号
 	private String userNo;
-	//序号
+	// 序号
 	private String projectId;
 	// 开始时间
-	private Date startTime;
+	private String startTime;
 	// 结束时间
-	private Date endTime;
+	private String endTime;
 	// 项目名称
 	private String projectName;
 	// 主要技能
@@ -25,10 +23,10 @@ public class EmployeeProjectExperiencePO extends BasicPO {
 	private String projectDuty;
 	// 项目描述
 	private String desc;
-	
+
 	public EmployeeProjectExperiencePO() {
 	}
-	
+
 	public String getUserNo() {
 		return userNo;
 	}
@@ -45,16 +43,16 @@ public class EmployeeProjectExperiencePO extends BasicPO {
 		this.projectId = projectId;
 	}
 
-	public Date getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
-	public void setStartTime(Date startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
-	public Date getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(Date endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 	public String getProjectName() {
