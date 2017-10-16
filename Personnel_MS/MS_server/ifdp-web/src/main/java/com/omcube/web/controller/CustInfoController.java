@@ -3,6 +3,8 @@ package com.omcube.web.controller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,4 +55,19 @@ public class CustInfoController {
 	
     }   
    
+    @GetMapping(value = "/queryCustInfoByUserNo/{userNo}")
+    public Object queryCustInfoByUserNo(@PathVariable String userNo)
+    {
+	if (StringUtils.isEmpty(userNo)) {
+	    logger.error("the request userNo is null");
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request userNo is null");
+	}
+	//从session 获取uid 
+	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+	String uid = sysLoginCtrl.getuId();
+	logger.info(String.format("the request param uid:%s, userNo:%s", uid, userNo));
+	
+	CustInfoPO custInfoPO = custInfoService.queryCustInfoByUserNo(uid, userNo);
+	return JSONResultUtil.setSuccess(custInfoPO);
+    }
 }

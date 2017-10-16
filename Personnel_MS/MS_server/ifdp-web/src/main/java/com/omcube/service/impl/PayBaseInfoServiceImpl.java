@@ -20,4 +20,11 @@ public class PayBaseInfoServiceImpl implements PayBaseInfoService {
 
     }
 
+    @Override
+    public double querySalaryTopByUserNo(String uid, String userNo) {
+	
+	return payBaseInfoMapper.querySalaryTopByUserNo(uid, userNo);
+	
+    }
+
 }

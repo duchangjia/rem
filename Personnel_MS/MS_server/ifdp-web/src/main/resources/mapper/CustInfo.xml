@@ -89,4 +89,7 @@
 			
 	</insert>
 	
+	 <select id="queryCustInfoByUserNo" parameterType="java.lang.String" resultMap="CustInfoMap">
+	 		select * from EP_CUST_INFO where uid = #{uid} and user_no = #{userNo}
+	 </select>
 </mapper>
