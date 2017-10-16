@@ -131,10 +131,10 @@ public class VisaFreeHolidayController {
 			queryVisaFreeHolidayRequest.setPageNum(ConstantUtil.DEFAULT_PAGE_NUM);
 		}
 		if (queryVisaFreeHolidayRequest.getPageSize() <= 0) {
-			queryVisaFreeHolidayRequest.setPageSize(ConstantUtil.DEFAULT_PAGE_SEZE);
+			queryVisaFreeHolidayRequest.setPageSize(ConstantUtil.DEFAULT_PAGE_SIZE);
 		}
 		if (queryVisaFreeHolidayRequest.getPageSize() > 100) {
-			queryVisaFreeHolidayRequest.setPageSize(ConstantUtil.DEFAULT_MAX_PAGE_SEZE);
+			queryVisaFreeHolidayRequest.setPageSize(ConstantUtil.DEFAULT_MAX_PAGE_SIZE);
 		}
 		
 		//从session 中获取信息
