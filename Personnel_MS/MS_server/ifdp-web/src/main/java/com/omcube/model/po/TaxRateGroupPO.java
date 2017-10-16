@@ -1,12 +1,12 @@
 package com.omcube.model.po;
 
 public class TaxRateGroupPO extends BasicPO{
-    private String groupId;
-    private String groupNo;
-    private String startTime;
-	private String endTime;
-    private String remark;
-    private String isDelete;
+    private String groupId;      //组ID
+    private String groupNo;      //组名称
+    private String startTime;    //生效时间
+    private String endTime;      //失效时间
+    private String remark;       //备注
+    private String isDelete;     //是否删除
 
     public String getIsDelete() {
 		return isDelete;

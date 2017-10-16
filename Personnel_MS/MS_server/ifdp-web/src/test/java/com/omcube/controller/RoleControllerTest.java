@@ -10,15 +10,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import com.arjuna.ats.internal.arjuna.objectstore.jdbc.drivers.postgres_driver;
-import com.arjuna.ats.internal.jdbc.drivers.modifiers.extensions;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+/**
+ * 角色管理接口测试
+ * 
+ * @author dangjun
+ * @version 1.0
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class RoleControllerTest {
@@ -38,7 +40,7 @@ public class RoleControllerTest {
      * 角色修改
      * @throws Exception
      */
-    //@Test
+    @Test
     public void modifyRoleInfo() throws Exception
     {
     	
@@ -55,12 +57,13 @@ public class RoleControllerTest {
 		.getContentAsString();
 		System.out.println(result);
     }
+    
     /**
      * 添加角色的测试
      * 
      * @throws Exception
      */
-    @Test
+    //@Test
     public void addRoleInfo() throws Exception
     {
     	
@@ -83,11 +86,12 @@ public class RoleControllerTest {
      * 
      * @throws Exception
      */
-    // @Test
+    @Test
     public void deleteRoleInfo() throws Exception
     {
     	
-    	String result = mockMvc.perform(delete("/role/deleteRoleInfo/0002")
+    	String result = mockMvc.perform(delete("/role/deleteRoleInfo")
+    			.param("roleNo", "0002")
     			.contentType(MediaType.APPLICATION_JSON_UTF8))
     			.andExpect(status().isOk()).andReturn().getResponse()
     			.getContentAsString();

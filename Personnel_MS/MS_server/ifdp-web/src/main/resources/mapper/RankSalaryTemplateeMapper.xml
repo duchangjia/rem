@@ -41,7 +41,10 @@
 		SELECT 
 		uid,organ_no,apply_no,apply_name,rank,salary_top,salary_floor,business_standard,remark
 		FROM EP_CLASSPARM_CTRL
-		WHERE uid = #{uId} AND organ_no = #{organNo} AND template_status =1 AND apply_no = #{applyNo}
+		WHERE uid = #{uId}  AND template_status =1 AND apply_no = #{applyNo}
+		<if test="organNo != null and organNo != ''" >
+			AND organ_no = #{organNo}
+		</if>
 	</select>
 	<!--4.修改职级薪酬标准模板  -->
 	<update id="updateRankSalaryTemplate" parameterType="com.omcube.model.po.RankSalaryTemplatePO">

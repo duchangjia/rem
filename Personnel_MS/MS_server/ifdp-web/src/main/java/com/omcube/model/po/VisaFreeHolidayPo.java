@@ -1,8 +1,10 @@
 package com.omcube.model.po;
 
+
 public class VisaFreeHolidayPo extends BasicPO {
+	
 	// 节假日期
-	private String day;
+	private String dayDate;
 	// 节假日类型
 	private String dayFlag;
 	// 备注
@@ -12,12 +14,12 @@ public class VisaFreeHolidayPo extends BasicPO {
 
 	}
 
-	public String getDay() {
-		return day;
+	public String getDayDate() {
+		return dayDate;
 	}
 
-	public void setDay(String day) {
-		this.day = day;
+	public void setDayDate(String dayDate) {
+		this.dayDate = dayDate;
 	}
 
 	public String getDayFlag() {
@@ -35,5 +37,6 @@ public class VisaFreeHolidayPo extends BasicPO {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+
 
 }

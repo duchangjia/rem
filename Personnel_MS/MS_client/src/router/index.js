@@ -164,6 +164,20 @@ export default new Router({
                 {
                     path: '/statement_2',
                     component: resolve => require(['../components/pages/statement_STAT/statement_2.vue'], resolve)
+                },
+                {
+                    path: '/personnel_contract',
+                    component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/query_contract.vue'], resolve)
+                        },
+                        {
+                            path: '/add_contract',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/add_contract.vue'], resolve)
+                        }
+                    ]
                 }
             ]
         }

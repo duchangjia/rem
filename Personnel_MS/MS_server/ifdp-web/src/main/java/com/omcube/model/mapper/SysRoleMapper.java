@@ -63,7 +63,7 @@ public interface SysRoleMapper {
 	 * 
 	 * @param sysRolePO
 	 */
-	void deleteRoleInfo(String roleNo);
+	void deleteRoleInfo(SysRolePO sysRolePO);
 
 	/**
 	 * 角色的详情的查询

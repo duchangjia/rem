@@ -42,6 +42,9 @@
               if(this.yiji==='系统管理'){
                   _link.push('/management_framework')
               }
+              if(this.yiji==='人事事务'){
+                  _link.push('/personnel_contract')
+              }
               if(this.erji==='用户管理'){
                   _link.push('/management_user')
               }
@@ -49,6 +52,9 @@
                   _link.push('/management_role')
               }if(this.erji==='功能管理'){
                   _link.push('/management_fun')
+              }
+              if(this.erji==='人事合同'){
+                  _link.push('/personnel_contract')
               }
               if(this.erji==='组织架构'){
                   _link.push('/management_framework')
@@ -73,6 +79,9 @@
               }
               if(this.sanji==='功能编辑'){
               	 _link.push('/edit_fun')
+              }
+              if(this.sanji==='新增合同'){
+              	 _link.push('/add_contract')
               }
 
               this.link = _link

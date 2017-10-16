@@ -392,5 +392,77 @@
         "bsnSet": "1"
       }
     ]
+  },
+  "queryPactList": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "totalRows": "50",
+    "pactListArray":[
+      {
+        "pactNo": "001",
+        "pactName": "一号合同",
+        "pactType": "1",
+        "userNo": "a123",
+        "custName": "王二狗",
+        "cert": "422000199012211222",
+        "organNo": "P001001",
+        "organName": "001公司",
+        "derpNo": "D001",
+        "derpName": "001部门",
+        "pactStatus": "1",
+        "signTime": "2017-09-13 00:00:00",
+        "pactStartTime": "2017-09-13 00:00:00",
+        "pactEndTime": "2020-09-13 00:00:00"
+      },
+      {
+        "pactNo": "002",
+        "pactName": "二号合同",
+        "pactType": "1",
+        "userNo": "b123",
+        "custName": "李大锤",
+        "cert": "422000199012211222",
+        "organNo": "P001001",
+        "organName": "001公司",
+        "derpNo": "D002",
+        "derpName": "002部门",
+        "pactStatus": "1",
+        "signTime": "2017-09-20 00:00:00",
+        "pactStartTime": "2017-09-20 00:00:00",
+        "pactEndTime": "2020-09-20 00:00:00"
+      },
+      {
+        "pactNo": "003",
+        "pactName": "三号合同",
+        "pactType": "0",
+        "userNo": "c123",
+        "custName": "王二狗",
+        "cert": "422000199012211222",
+        "organNo": "P001001",
+        "organName": "003公司",
+        "derpNo": "D003",
+        "derpName": "003部门",
+        "pactStatus": "1",
+        "signTime": "2017-08-10 00:00:00",
+        "pactStartTime": "2017-08-10 00:00:00",
+        "pactEndTime": "2020-08-10 00:00:00"
+      },
+      {
+        "pactNo": "004",
+        "pactName": "四号合同",
+        "pactType": "1",
+        "userNo": "d123",
+        "custName": "张铁牛",
+        "cert": "422000199012211222",
+        "organNo": "P001002",
+        "organName": "002公司",
+        "derpNo": "D001",
+        "derpName": "001部门",
+        "pactStatus": "1",
+        "signTime": "2017-09-13 00:00:00",
+        "pactStartTime": "2017-09-13 00:00:00",
+        "pactEndTime": "2020-09-13 00:00:00"
+      }
+    ]
   }
 }
