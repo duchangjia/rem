@@ -17,4 +17,9 @@ public class CustInfoServiceImpl implements CustInfoService {
 	 custInfoMapper.insertCustInfo(custInfo);
     }
 
+    @Override
+    public CustInfoPO queryCustInfoByUserNo(String uid, String userNo) {
+	return custInfoMapper.queryCustInfoByUserNo(uid, userNo);
+    }
+
 }
