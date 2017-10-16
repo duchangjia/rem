@@ -26,14 +26,15 @@ public class TaxRateGroupController {
 
 	@Autowired
 	private TaxRateGroupService taxRateGroupService;
+	
 	// 新增个人所得税税率组
 	@PostMapping(value="/insertTaxRateGroup")
 	public Object saveTaxRateGroup(TaxRateGroupPO taxRateGroupPO){
 		taxRateGroupService.addTaxRateGroup(taxRateGroupPO);	
 		return  JSONResultUtil.setSuccess();
 	}
+	
 	// 查询所有个人所得税税率组
-			
 	@GetMapping(value="/selectTaxRateGroup")
 	@Cacheable(value="queryCache")
 	public Object findTaxRateGroup(HttpServletRequest request, Integer pageNum, Integer pageSize ,String uId){

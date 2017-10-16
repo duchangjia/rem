@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.omcube.model.mapper.OrganCCCManagementMapper;
-import com.omcube.model.mapper.SysRoleMapper;
 import com.omcube.model.po.OrganCCCManagemenPO;
 import com.omcube.service.OrganCCCManagementService;
 import com.omcube.util.SpringUtil;
