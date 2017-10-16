@@ -80,20 +80,20 @@
                     {
                         icon: 'icon-khgx',
                         index: 'client',
-                        title: '客户关系'
+                        title: '人事事务'
                     },
                     {
                         icon: 'icon-xmgl',
                         index: '5',
-                        title: '项目管理',
+                        title: '薪酬福利',
                         subs: [
                             {
                                 index: 'project_1',
-                                title: '项目管理1'
+                                title: '薪酬福利1'
                             },
                             {
                                 index: 'project_2',
-                                title: '项目管理2'
+                                title: '薪酬福利2'
                             },
                         ]
                     },

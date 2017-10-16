@@ -96,7 +96,33 @@ export default new Router({
                 },
                 {
                     path: '/argument_1',
-                    component: resolve => require(['../components/pages/argument_Mgmt/argument_1.vue'], resolve)
+                    component: resolve => require(['../components/pages/argument_Mgmt/argument_1.vue'], resolve),
+                	children: [
+                		{
+                			path:'/welfare_coefficient',
+                			component: resolve => require(['../components/pages/argument_Mgmt/welfare_coefficient.vue'], resolve)
+                		},
+                		{
+                			path:'/add_welfare',
+                			component: resolve => require(['../components/pages/argument_Mgmt/add_welfare.vue'], resolve)
+                		},
+                		{
+                			path:'/tax_rate',
+                			component:resolve => require(['../components/pages/argument_Mgmt/tax_rate.vue'],resolve)
+                		},
+                		{
+                			path:'/add_tax',
+                			component:resolve => require(['../components/pages/argument_Mgmt/add_tax.vue'],resolve)
+                		},
+                		{
+                			path:'/rank',
+                			component:resolve => require(['../components/pages/argument_Mgmt/rank.vue'],resolve)
+                		},
+                		{
+                			path:'/add_rank',
+                			component:resolve => require(['../components/pages/argument_Mgmt/add_rank.vue'],resolve)
+                		}
+                	]
                 },
                 {
                     path: '/management_fun',

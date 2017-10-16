@@ -124,7 +124,7 @@ export default {
 			console.log(`当前页: ${val}`);
 			const self = this;
 //			let oldPage = 1;
-			let pageNum = self.pageIndex;
+			let pageNum = val;
 			let pageSize = 3;
 			let params = {
 				"pageNum": pageNum,
@@ -134,11 +134,11 @@ export default {
 //				"userFeatureInfo":"11223@qq.com"
 			}
 			//查询用户列表
-			if(pageNum!==self.oldPage){
-				console.log('oldPage',oldPage)
-				console.log('pageNum',pageNum)
+//			if(pageNum!==self.oldPage){
+//				console.log('oldPage',oldPage)
+//				console.log('pageNum',pageNum)
 				self.queryUserList(pageNum,pageSize,params);
-			}
+//			}
 		},
 		resetUserInfo(row, column, cell, event) {
 			if (column.property === 'userNo') {
@@ -154,7 +154,7 @@ export default {
 				self.operatorList = res.data.data.models;
 				self.pageIndex = pageNum;
 				self.pageRows = pageSize;
-				self.oldPage = self.pageIndex;
+//				self.oldPage = self.pageIndex;
 				self.totalRows = Number(res.data.data.total);
 			}).catch(function(err) {
 				console.log(err);
