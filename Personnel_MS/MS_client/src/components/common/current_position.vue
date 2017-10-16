@@ -83,7 +83,24 @@
               if(this.sanji==='新增合同'){
               	 _link.push('/add_contract')
               }
-
+              if(this.sanji==='福利缴纳系数设置'){
+              	_link.push('/welfare_coefficient')
+              }
+			  if(this.sanji==='个人所得税税率设置'){
+			  	_link.push('/tax_rate')
+			  }
+			  if(this.sanji==='职级薪酬标准设置'){
+			  	_link.push('/rank')
+			  }
+			  if(this.siji==='福利缴纳系数新增'){
+			  	_link.push('/add_welfare')
+			  }
+			  if(this.siji==='税率组新增'){
+			  	_link.push('/add_tax')
+			  }
+			  if(this.siji==='职级薪酬标准新增'){
+			  	_link.push('/add_rank')
+			  }
               this.link = _link
               this.breadItemLength = _link.length
               return this.link

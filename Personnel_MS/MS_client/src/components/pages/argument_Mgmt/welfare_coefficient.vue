@@ -9,9 +9,9 @@
 			<div class="content-inner">
 				<el-table :data="dataList" border stripe style="width: 100%">
 					<el-table-column prop="modelNo" label="模版编号">
-						<template scope="scope">
+						<!--<template scope="scope">
 					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.modelNo }}</span>
-				      	</template>
+				      	</template>-->
 					</el-table-column>
 					<el-table-column prop="modelName" label="模版名称"></el-table-column>
 					<el-table-column prop="beiz" label="备注"></el-table-column>
@@ -176,12 +176,12 @@ border-bottom: 1px solid #EEEEEE;
 .welfare_coefficient .el-table th {
 	text-align: center;
 }
-.welfare_coefficient .el-table td:first-child{
+/*.welfare_coefficient .el-table td:first-child{
 	cursor: pointer;
 }
 .welfare_coefficient .el-table td:first-child:hover{
 	color: #FF9900;
-}
+}*/
 /*.welfare_coefficient .el-table--enable-row-hover .el-table__body tr:hover>td {
 	background-color: #f8f8f8;
 	background-clip: padding-box;

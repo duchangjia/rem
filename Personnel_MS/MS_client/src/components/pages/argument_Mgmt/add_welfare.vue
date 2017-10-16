@@ -154,10 +154,34 @@ export default {
 					{ required: true, message: '请输入养老保险单位支付系数', trigger: 'blur' }
 				],
 				yiliao_gr: [
-					{ required: true, message: '请输入养老保险个人支付系数', trigger: 'blur' }
+					{ required: true, message: '请输入医疗保险个人支付系数', trigger: 'blur' }
 				],
 				yiliao_dw: [
-					{ required: true, message: '请输入养老保险单位支付系数', trigger: 'blur' }
+					{ required: true, message: '请输入医疗保险单位支付系数', trigger: 'blur' }
+				],
+				shiye_gr: [
+					{ required: true, message: '请输入失业保险个人支付系数', trigger: 'blur' }
+				],
+				shiye_dw: [
+					{ required: true, message: '请输入失业保险单位支付系数', trigger: 'blur' }
+				],
+				gongs_gr: [
+					{ required: true, message: '请输入工伤保险个人支付系数', trigger: 'blur' }
+				],
+				gongs_dw: [
+					{ required: true, message: '请输入工伤保险单位支付系数', trigger: 'blur' }
+				],
+				shengy_gr: [
+					{ required: true, message: '请输入生育保险个人支付系数', trigger: 'blur' }
+				],
+				shengy_dw: [
+					{ required: true, message: '请输入生育保险单位支付系数', trigger: 'blur' }
+				],
+				zhuf_gr: [
+					{ required: true, message: '请输入住房公积金个人支付系数', trigger: 'blur' }
+				],
+				zhuf_dw: [
+					{ required: true, message: '请输入住房公积金单位支付系数', trigger: 'blur' }
 				]
 			}
 		}

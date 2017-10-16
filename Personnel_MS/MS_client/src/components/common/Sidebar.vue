@@ -29,109 +29,6 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-	export default {
-		data() {
-			return {
-				isCollapse: false,
-				//subMenu index
-				subMenuOldIndex: '',
-				//nav item activeClass
-				itemActive: {},
-                items: [
-                    {
-                    	icon: 'icon-home',
-                        index: 'home',
-                        title: '主页'
-                    },
-                    {
-                        icon: 'icon-sys',
-                        index: '2',
-                        title: '系统管理',
-                        subs: [
-                            {
-                                index: 'management_framework',
-                                title: '组织架构'
-                            },
-                            {
-                                index: 'management_user',
-                                title: '用户管理'
-                            },
-                            {
-                                index: 'management_role',
-                                title: '角色管理'
-                            },
-                            {
-                                index: 'management_fun',
-                                title: '功能管理'
-                            }
-                        ]
-                    },
-                    {
-                        icon: 'icon-csgl',
-                        index: '3',
-                        title: '参数管理',
-                        subs: [
-                            {
-                                index: 'argument_1',
-                                title: '参数管理1'
-                            },
-                            {
-                                index: 'argument_2',
-                                title: '参数管理2'
-                            },
-                        ]
-                    },
-                    {
-                        icon: 'icon-khgx',
-                        index: 'client',
-                        title: '人事事务'
-                    },
-                    {
-                        icon: 'icon-xmgl',
-                        index: '5',
-                        title: '薪酬福利',
-                        subs: [
-                            {
-                                index: 'project_1',
-                                title: '薪酬福利1'
-                            },
-                            {
-                                index: 'project_2',
-                                title: '薪酬福利2'
-                            },
-                        ]
-                    },
-					{
-                        icon: 'icon-ywgl',
-						index: 'business',
-                        title: '业务管理',
-					},
-                    {
-                        icon: 'icon-tjbb',
-                        index: '7',
-                        title: '统计报表',
-                        subs: [
-                            {
-                                index: 'statement_1',
-                                title: '统计报表1'
-                            },
-                            {
-                                index: 'statement_2',
-                                title: '统计报表2'
-                            },
-                        ]
-                    }
-                ]
-
-			};
-		},
-		methods: {
-			handleSelect(key,keyPath) {
-				//subMenu index
-				if(keyPath[1]){
-					this.subMenuOldIndex = keyPath[0];
-=======
 export default {
 	data() {
 		return {
@@ -234,7 +131,6 @@ export default {
 							title: '统计报表2'
 						},
 					]
->>>>>>> b5e32b3d42c874204fb78283fbbd0b93ddac2f55
 				}
 				
 			]

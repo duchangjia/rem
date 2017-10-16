@@ -22,14 +22,14 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="所属公司" prop="compName">
+						<el-form-item label="所属公司" prop="compOrgNo">
 							<el-select v-model="userDetail.compOrgNo" placeholder="所属公司">
 								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="所属部门" prop="departName">
+						<el-form-item label="所属部门" prop="departOrgNo">
 							<el-select v-model="userDetail.departOrgNo" placeholder="所属部门">
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 							</el-select>
