@@ -103,8 +103,7 @@ public class OrganCCCManagementController {
 
 	// 修改
 	@PutMapping(value = "/modOrgCCC")
-	public Object modOrgCCC(
-			OrganCCCManagemenPO organCCCManagemenPO) {
+	public Object modOrgCCC(OrganCCCManagemenPO organCCCManagemenPO) {
 
 		if (organCCCManagemenPO == null) {
 			logger.error("the request params organCCCManagemenPO is null");
