@@ -7,7 +7,6 @@ public class SysOrganPO extends BasicPO {
 	private String organParentName;
 	private String organChildName;
 	private String organType;
-	private String organStatus;
 	private String parentNo;
 	private String organLevel;
 	private String organDescr;
@@ -51,12 +50,6 @@ public class SysOrganPO extends BasicPO {
 	}
 	public void setOrganType(String organType) {
 		this.organType = organType;
-	}
-	public String getOrganStatus() {
-		return organStatus;
-	}
-	public void setOrganStatus(String organStatus) {
-		this.organStatus = organStatus;
 	}
 	public String getParentNo() {
 		return parentNo;

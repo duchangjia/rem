@@ -1,28 +1,37 @@
 package com.omcube.model.request;
 
 public class QueryVisaFreeHolidayRequest {
-
-	private String uid;
+	
+	private int pageNum;//第几页
+	
+    private int pageSize;//每页多少条
+	
+	private String uId;
 	// 开始日期
 	private String startDate;
 	// 结束日期
 	private String endDate;
 	// 类型
 	private String dayFlag;
-	public QueryVisaFreeHolidayRequest() {
+	
+	public int getPageNum() {
+		return pageNum;
 	}
-	public QueryVisaFreeHolidayRequest(String uid, String startDate,
-			String endDate, String dayFlag) {
-		this.uid = uid;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.dayFlag = dayFlag;
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
 	}
-	public String getUid() {
-		return uid;
+	public int getPageSize() {
+		return pageSize;
 	}
-	public void setUid(String uid) {
-		this.uid = uid;
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public String getuId() {
+		return uId;
+	}
+	public void setuId(String uId) {
+		this.uId = uId;
 	}
 	public String getStartDate() {
 		return startDate;

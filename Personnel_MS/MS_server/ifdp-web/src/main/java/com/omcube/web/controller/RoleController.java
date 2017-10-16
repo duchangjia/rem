@@ -4,7 +4,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.Page;
@@ -31,7 +32,6 @@ import com.omcube.util.Result;
  */
 @RestController
 @RequestMapping(value = "role")
-@CacheConfig(cacheNames = "queryCache")
 public class RoleController {
 
 	protected final Log logger = LogFactory.getLog(getClass());
@@ -45,7 +45,7 @@ public class RoleController {
 	 * @return Object
 	 */
 	@GetMapping(value = "/queryRoleList")
-	@Cacheable
+	@Cacheable(value = ConstantUtil.QUERY_CACHE)
 	public Object queryRoleList(Integer pageNum, Integer pageSize) {
 
 		// 分页信息的校验
@@ -80,7 +80,8 @@ public class RoleController {
 	 * @return object
 	 */
 	@PostMapping(value = "/addRoleInfo")
-	public Object addRoleInfo(SysRolePO sysRolePO) {
+	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
+	public Object addRoleInfo(@RequestBody SysRolePO sysRolePO) {
 
 		if (sysRolePO == null) {
 			logger.error("the request body is null");
@@ -111,7 +112,7 @@ public class RoleController {
 	 * @return Object
 	 */
 	@GetMapping(value = "/queryRoleByRoleNo/{roleNo}")
-	@Cacheable
+	@Cacheable(value = ConstantUtil.QUERY_CACHE)
 	public Object queryRoleByRoleNo(@PathVariable(value = "roleNo", required = true) String roleNo) {
 
 		if (StringUtils.isEmpty(roleNo)) {
@@ -130,7 +131,8 @@ public class RoleController {
 	 * @return
 	 */
 	@PutMapping(value = "/modifyRoleInfo")
-	public Object updateRoleInfo(SysRolePO sysRolePO) {
+	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
+	public Object modifyRoleInfo(@RequestBody SysRolePO sysRolePO) {
 
 		if (sysRolePO == null) {
 			logger.error("the request params sysRolePO is null");
@@ -150,22 +152,24 @@ public class RoleController {
 	/**
 	 * 删除角色
 	 * 
-	 * @param roleNo
+	 * @param sysRolePO
 	 * @return
 	 */
-	@DeleteMapping(value = "/deleteRoleInfo/{roleNo}")
-	public Object deleteRoleInfo(@PathVariable(value = "roleNo", required = true) String roleNo) {
+	@DeleteMapping(value = "/deleteRoleInfo")
+	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
+	public Object deleteRoleInfo(SysRolePO sysRolePO) {
 
-		if (StringUtils.isEmpty(roleNo)) {
-			logger.error("the request params roleNo is null");
+		if (sysRolePO == null) {
+			logger.error("the request params sysRolePO is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
-					"the request params roleNo is null");
+					"the request params sysRolePO is null");
 		}
 
 		try {
-			roleService.deleteRoleInfo(roleNo);
+			roleService.deleteRoleInfo(sysRolePO);
 			return JSONResultUtil.setSuccess();
 		} catch (Exception e) {
+			
 			e.printStackTrace();
 		}
 		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "delete role fail");
@@ -178,22 +182,23 @@ public class RoleController {
 	 * @return
 	 */
 	@GetMapping(value = "/queryRoleDetail")
+	@Cacheable(value = ConstantUtil.QUERY_CACHE)
 	public Object queryRoleDetail(SysRolePO sysRolePO) {
-		
+
 		if (sysRolePO == null) {
 			logger.error("the request params sysRolePO is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
 					"the request params sysRolePO is null");
 		}
-		
+
 		try {
 			return JSONResultUtil.setSuccess(roleService.queryRoleDetail(sysRolePO));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "this role fail");
-		
+
 	}
 
 	/**
@@ -203,7 +208,7 @@ public class RoleController {
 	 * @return
 	 */
 	@PostMapping(value = "/setRoleFunc")
-	public Object setRoleFunc(SysRolePO sysRolePO) {
+	public Object setRoleFunc(@RequestBody SysRolePO sysRolePO) {
 
 		if (sysRolePO == null || StringUtils.isEmpty(sysRolePO.getRoleFuncSet())) {
 			logger.error("the request params sysRolePO is null");
