@@ -16,7 +16,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class EpCustWorkHisTest {
+public class EpCustWorkHisControllerTest {
 
     @Autowired
         private WebApplicationContext wac;
@@ -34,26 +34,34 @@ public class EpCustWorkHisTest {
         public void testInsertEpCustWorkHis() throws Exception{
             String result = mockMvc.perform(post("/epCustWorkHis/insertEpCustWorkHis")
     		.param("uId", "001")
-    		.param("userNo", "001001")
-    		.param("workHisId", "1")
-    		.param("startTime", "2015-08-18")
-    		.param("endTime", "2017-08-18")
+    		.param("userNo", "001002")
+    		.param("workHisId", "2")
+    		.param("startTime", "2014-08-18")
+    		.param("endTime", "2016-08-18")
     		.param("company", "Tencent")
     		.param("post1", "UI")
     		.param("duty", "页面设计")
     		.param("desc", "网页的交互设计和测试")
     		.param("createdBy", "小明")
-    		.param("updatedBy", "小黄")
-    		.param("isDelete", "1")
+    		.param("updatedBy", "小蓝")
     		.contentType(MediaType.APPLICATION_JSON_UTF8))
     		.andExpect(status().isOk()).andReturn().getResponse()
     		.getContentAsString();
     	System.out.println(result);
         }
             
-        
-        
-        
+        //测试根据主键（用户编号，序号）删除员工工作经历信息
+        @Test
+        public void testDeleteEpCustWorkHis() throws Exception{
+            String result = mockMvc.perform(post("/epCustWorkHis/deleteEpCustEduHis")
+    		.param("uId", "001")
+    		.param("userNo", "001002")
+    		.param("workHisId", "2")
+    		.contentType(MediaType.APPLICATION_JSON_UTF8))
+        		.andExpect(status().isOk()).andReturn().getResponse()
+        		.getContentAsString();
+        	System.out.println(result);
+        }
         
 
 }

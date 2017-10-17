@@ -22,4 +22,11 @@ public class EpCustEduHisController {
 	epCustEduHisService.insertEpCustEduHis(epCustEduHisPO);
 	return JSONResultUtil.setSuccess();
     }
+    
+    //根据主键(用户编号，序号)删除员工教育经历信息
+    @PostMapping(value="deleteEpCustEduHis")
+    public Object deleteEpCustEduHis(EpCustEduHisPO epCustEduHisPO){
+	epCustEduHisService.deleteEpCustEduHis(epCustEduHisPO);
+	return JSONResultUtil.setSuccess();
+    }
 }

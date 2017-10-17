@@ -1,30 +1,29 @@
 <template>
-	<div class="tax_rate">
-		<current yiji="参数管理" erji="业务参数" sanji="个人所得税税率设置"></current>
+	<div class="rate_info">
+		<current yiji="参数管理" erji="业务参数" sanji="个人所得税税率设置" siji="个人所得税税率详情"></current>
 		<div class="content">
 			<div class="title">
-				<span class="title-text">个人所得税税率设置</span>
+				<span class="title-text">个人所得税税率详情</span>
 				<el-button type="primary" @click="addtax()">新增</el-button>
 			</div>
 			<div class="content-inner">
 				<el-table :data="dataList" border stripe style="width: 100%">
 					<el-table-column prop="name" label="组名称">
-						<template scope="scope">
+						<!--<template scope="scope">
 					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.name }}</span>
-				      	</template>
+				      	</template>-->
 					</el-table-column>
-					<el-table-column prop="beiz" label="备注"></el-table-column>
-					<el-table-column prop="create_date" label="生效日期"></el-table-column>
-					<el-table-column prop="del_date" label="失效日期"></el-table-column>
-					<el-table-column prop="createdId" label="创建ID"></el-table-column>
-					<el-table-column prop="create_time" label="创建时间"></el-table-column>
+					<el-table-column prop="min_lev" label="下限"></el-table-column>
+					<el-table-column prop="max_lev" label="上限"></el-table-column>
+					<el-table-column prop="percent" label="百分比率（%）"></el-table-column>
+					<el-table-column prop="quickC" label="速算扣除数"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
 							<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>=2*pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>2*pageRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -42,19 +41,17 @@ export default {
 			dataList: [
 				{
 					name: "1600起征",
-					beiz: "xxxx",
-					create_date: "",
-					del_date: "",
-					createdId: '',
-					create_time: ''
+					min_lev: "1600",
+					max_lev: "3500",
+					percent: '5%',
+					quickC: '0.00'
 				},
 				{
 					name: "3500起征",
-					beiz: "xxxx",
-					create_date: "",
-					del_date: "",
-					createdId: '',
-					create_time: ''
+					min_lev: "3500",
+					max_lev: "5000",
+					percent: '7%',
+					quickC: '0.00'
 				}
 			]
 		}
@@ -65,10 +62,6 @@ export default {
 	methods: {
 		addtax() {
 			this.$router.push('/add_tax');
-		},
-		handleEdit(index, row) {
-			console.log('index:'+index,'row.modelNo:'+row.modelNo);
-            this.$router.push('/rate_info');
 		},
 		handleDelete(index, row) {
             console.log('index',index);
@@ -85,30 +78,30 @@ export default {
             });
         },
         handleCurrentChange(val) {
-			console.log('当前页', val);
+			console.log(`当前页: ${val}`);
 		}
 	}
 }
 </script>
 
 <style>
-.tax_rate {
+.rate_info {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
 }
-.tax_rate .content {
+.rate_info .content {
 	width: 100%;
 	min-height: 510px;
 	padding: 0px 20px;
 	background: #ffffff;
 	clear: both;
 }
-.tax_rate .content .title {
+.rate_info .content .title {
 border-bottom: 1px solid #EEEEEE;
 }
 
-.tax_rate .content .title .title-text {
+.rate_info .content .title .title-text {
 	display: inline-block;
 	position: relative;
 	padding: 29px 0px;
@@ -116,7 +109,7 @@ border-bottom: 1px solid #EEEEEE;
 	letter-spacing: 0;
 }
 
-.tax_rate .content .title .title-text:after {
+.rate_info .content .title .title-text:after {
 	content: '';
 	position: absolute;
 	left: 0;
@@ -126,10 +119,10 @@ border-bottom: 1px solid #EEEEEE;
 	background: #333333;
 }
 
-.tax_rate .content-inner {
+.rate_info .content-inner {
 	padding: 40px 0px;
 }
-.tax_rate .el-button {
+.rate_info .el-button {
 	display: inline-block;
 	line-height: 1;
 	white-space: nowrap;
@@ -143,51 +136,46 @@ border-bottom: 1px solid #EEEEEE;
 	border-radius: 0px;
 }
 
-.tax_rate .el-button.resetform {
+.rate_info .el-button.resetform {
 	margin-right: 20px;
 }
 
-.tax_rate .el-button--primary {
+.rate_info .el-button--primary {
 	color: #fff;
 	background-color: #FF9900;
 	border-color: #FF9900;
 }
-.tax_rate .content-inner {
+.rate_info .content-inner {
 	padding: 40px 0px;
 }
-/*.tax_rate .el-table {
+/*.rate_info .el-table {
 	background-color: #fff;
 	border-left: 1px solid #EEEEEE;
 	color: #666666;
 }
 
-.tax_rate .el-table__footer-wrapper thead div,
-.tax_rate .el-table__header-wrapper thead div {
+.rate_info .el-table__footer-wrapper thead div,
+.rate_info .el-table__header-wrapper thead div {
 	background-color: #f4f4f4;
 	color: #666666;
 }*/
 
-.tax_rate .el-table td,
-.tax_rate .el-table th {
+.rate_info .el-table td,
+.rate_info .el-table th {
 	text-align: center;
 }
-.tax_rate .el-table td:first-child{
-	cursor: pointer;
-}
-.tax_rate .el-table td:first-child:hover{
-	color: #FF9900;
-}
-/*.tax_rate .el-table--enable-row-hover .el-table__body tr:hover>td {
+
+/*.rate_info .el-table--enable-row-hover .el-table__body tr:hover>td {
 	background-color: #f8f8f8;
 	background-clip: padding-box;
 }
 
-.tax_rate .el-table--striped .el-table__body tr.el-table__row--striped td {
+.rate_info .el-table--striped .el-table__body tr.el-table__row--striped td {
 	background: #F8F8F8;
 	background-clip: padding-box;
 }*/
 
-.tax_rate .el-table th {
+.rate_info .el-table th {
 	white-space: nowrap;
 	overflow: hidden;
 	background-color: #f4f4f4;
@@ -195,19 +183,19 @@ border-bottom: 1px solid #EEEEEE;
 	box-shadow: inset 0 1px 0 0 #EEEEEE;
 }
 
-/*.tax_rate .el-table--border td,
-.tax_rate .el-table--border th {
+/*.rate_info .el-table--border td,
+.rate_info .el-table--border th {
 	border-right: 1px solid #EEEEEE;
 }
 
-.tax_rate .el-table td,
-.tax_rate .el-table th.is-leaf {
+.rate_info .el-table td,
+.rate_info .el-table th.is-leaf {
 	border-bottom: 1px solid #EEEEEE;
 }
 
 
-.tax_rate .el-table::after,
-.tax_rate .el-table::before {
+.rate_info .el-table::after,
+.rate_info .el-table::before {
 	content: '';
 	position: absolute;
 	background-color: transparent;
@@ -219,25 +207,25 @@ border-bottom: 1px solid #EEEEEE;
     background: url('../../../../static/img/common/delete.png') center no-repeat;
 }
 
-.tax_rate .icon-edit:hover,
-.tax_rate .icon-delete:hover {
+.rate_info .icon-edit:hover,
+.rate_info .icon-delete:hover {
     cursor: pointer;
 }
-.tax_rate .el-pagination {
+.rate_info .el-pagination {
 	text-align: right;
 	margin-top: 40px;
 	margin-right: 40px;
 	color: #282828;
 }
 
-.tax_rate .el-pager li.active {
+.rate_info .el-pager li.active {
 	border-color: #FF9900;
 	background-color: #FF9900;
 	color: #fff;
 	cursor: default;
 }
 
-.tax_rate .el-pager li {
+.rate_info .el-pager li {
 	padding: 0 4px;
 	border-right: 0;
 	background: #fff;
@@ -249,12 +237,12 @@ border-bottom: 1px solid #EEEEEE;
 	text-align: center;
 }
 
-.tax_rate .el-pager li:last-child {
+.rate_info .el-pager li:last-child {
 	border-right: 1px solid #EEEEEE;
 }
 
-.tax_rate .el-pagination button,
-.tax_rate .el-pagination span {
+.rate_info .el-pagination button,
+.rate_info .el-pagination span {
 	display: inline-block;
 	font-size: 12px;
 	letter-spacing: -0.39px;
@@ -266,31 +254,28 @@ border-bottom: 1px solid #EEEEEE;
 	box-sizing: border-box;
 }
 
-.tax_rate .el-pager li:hover {
+.rate_info .el-pager li:hover {
 	color: #FF9900;
 }
-.tax_rate .el-pager li.active {
+.rate_info .el-pager li.active {
     border-color: #ff9900;
     background-color: #ff9900;
     color: #fff;
     cursor: default;
 }
-.tax_rate .el-pager li.active:hover {
+.rate_info .el-pager li.active:hover {
 	cursor: pointer;
 	color: #ffffff;
 }
 
-.tax_rate .el-pagination button:hover {
+.rate_info .el-pagination button:hover {
 	color: #FF9900;
 }
-.tax_rate .el-pagination button.disabled {
-    color: #e4e4e4;
-}
-.tax_rate .el-pagination button.disabled:hover {
+.rate_info .el-pagination button.disabled:hover {
 	color: #e4e4e4;
 }
 
-.tax_rate .el-pagination__editor {
+.rate_info .el-pagination__editor {
 	border: 1px solid #EEEEEE;
 	border-radius: 2px;
 	padding: 2px 0px;
@@ -298,24 +283,24 @@ border-bottom: 1px solid #EEEEEE;
 	min-width: 24px;
 }
 
-.tax_rate .el-pagination__editor:focus {
+.rate_info .el-pagination__editor:focus {
 	outline: 0;
 	border-color: #FF9900;
 }
 
-.tax_rate .el-pagination .btn-next,
-.tax_rate .el-pagination .btn-prev {
+.rate_info .el-pagination .btn-next,
+.rate_info .el-pagination .btn-prev {
 	border: 1px solid #EEEEEE;
 	color: #282828;
 }
 
-.tax_rate .el-autocomplete-suggestion__wrap,
-.tax_rate .el-pager li {
+.rate_info .el-autocomplete-suggestion__wrap,
+.rate_info .el-pager li {
 	border: 1px solid #EEEEEE;
 }
 
-.tax_rate .el-pager li.btn-quicknext,
-.tax_rate .el-pager li.btn-quickprev {
+.rate_info .el-pager li.btn-quicknext,
+.rate_info .el-pager li.btn-quickprev {
 	line-height: 28px;
 	color: #282828;
 }

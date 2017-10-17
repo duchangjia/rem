@@ -10,8 +10,8 @@
             <div class="add-wrapper">
                 <el-form :inline="true" :model="addPactMsg" :rules="rules" ref="addPactMsg" :label-position="labelPosition" label-width="110px">
                     <el-col :span="12">
-                        <el-form-item label="纸质合同编号" prop="paperNo">
-                            <el-input v-model="addPactMsg.paperNo"></el-input>
+                        <el-form-item label="纸质合同编号" prop="paperPactNo">
+                            <el-input v-model="addPactMsg.paperPactNo"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -46,8 +46,8 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="性别" prop="gender">
-                            <el-select v-model="addPactMsg.gender">
+                        <el-form-item label="性别" prop="sex">
+                            <el-select v-model="addPactMsg.sex">
                                 <el-option label="男" value="1"></el-option>
                                 <el-option label="女" value="0"></el-option>
                             </el-select>
@@ -59,7 +59,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="合同类型" prop="pactStatus">
+                        <el-form-item label="合同类型" prop="pactType">
                             <el-select v-model="addPactMsg.pactType">
                                 <el-option label="劳动合同" value="1"></el-option>
                                 <el-option label="保密协议" value="0"></el-option>
@@ -84,32 +84,31 @@
                     <el-col :span="12">
                         <el-form-item label="合同状态" prop="pactStatus">
                             <el-select v-model="addPactMsg.pactStatus">
-                                <el-option label="有效" value="1"></el-option>
-                                <el-option label="无效" value="0"></el-option>
+                                <el-option label="已生效" value="1"></el-option>
+                                <el-option label="未生效" value="0"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="合同年限" prop="pactPeriod">
-                            <el-input v-model="addPactMsg.pactPeriod"></el-input>
+                        <el-form-item label="合同年限" prop="pactExpires">
+                            <el-input v-model="addPactMsg.pactExpires"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="终止日期" prop="pactTermDate">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactTermDate" style="width: 100%;"></el-date-picker>
+                        <el-form-item label="终止日期" prop="pactStopTime">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStopTime" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="合同附件" prop="pactAttach">
-                            <!-- <el-input v-model="addPactMsg.pactAttach"></el-input> -->
+                        <el-form-item label="合同附件" prop="attachm">
                             <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-preview="handlePreview" :on-remove="handleRemove" :auto-upload="false">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
-                        <el-form-item label="终止原因" prop="pactTermReason">
-                            <el-input type="textarea" v-model="addPactMsg.pactTermReason"></el-input>
+                        <el-form-item label="终止原因" prop="stopReason">
+                            <el-input type="textarea" v-model="addPactMsg.stopReason"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
@@ -130,23 +129,23 @@ export default {
         return {
             labelPosition: 'right',
             addPactMsg: {
-                paperNo: '',
+                paperPactNo: '',
                 pactName: '',
                 organName: '',
                 derpName: '',
                 userNo: '',
                 custName: '',
-                gender: '',
+                sex: '',
                 cert: '',
                 pactType: '',
                 signTime: '',
                 pactStartTime: '',
                 pactEndTime: '',
                 pactStatus: '',
-                pactPeriod: '',
-                pactTermDate: '',
-                pactAttach: '',
-                pactTermReason: '',
+                pactExpires: '',
+                pactStopTime: '',
+                attachm: '',
+                stopReason: '',
                 remark: ''
 
             },
@@ -177,9 +176,12 @@ export default {
         current,
     },
     methods: {
-
         handleAdd() {
-
+            let newPact = {};
+            newPact.paperPactNo = this.addPactMsg.paperPactNo;
+            newPact.pactName = this.addPactMsg.pactName;
+            newPact.organName = this.addPactMsg.organName;
+            console.log(newPact);
         }
     }
 }
@@ -188,10 +190,5 @@ export default {
 <style>
 .add_contract {
     padding: 0 0 20px 20px;
-}
-
-.add-wrapper form {
-    font-size: 0;
-    margin-top: 40px;
 }
 </style>

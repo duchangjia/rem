@@ -130,6 +130,10 @@ export default new Router({
                 			component: resolve => require(['../components/pages/argument_Mgmt/welfare_coefficient.vue'], resolve)
                 		},
                 		{
+                			path:'/welfare_info',
+                			component: resolve => require(['../components/pages/argument_Mgmt/welfare_info.vue'], resolve)
+                		},
+                		{
                 			path:'/add_welfare',
                 			component: resolve => require(['../components/pages/argument_Mgmt/add_welfare.vue'], resolve)
                 		},
@@ -138,12 +142,20 @@ export default new Router({
                 			component:resolve => require(['../components/pages/argument_Mgmt/tax_rate.vue'],resolve)
                 		},
                 		{
+                			path:'/rate_info',
+                			component:resolve => require(['../components/pages/argument_Mgmt/rate_info.vue'],resolve)
+                		},
+                		{
                 			path:'/add_tax',
                 			component:resolve => require(['../components/pages/argument_Mgmt/add_tax.vue'],resolve)
                 		},
                 		{
                 			path:'/rank',
                 			component:resolve => require(['../components/pages/argument_Mgmt/rank.vue'],resolve)
+                		},
+                		{
+                			path:'/edit_rank',
+                			component:resolve => require(['../components/pages/argument_Mgmt/edit_rank.vue'],resolve)
                 		},
                 		{
                 			path:'/add_rank',
@@ -205,6 +217,11 @@ export default new Router({
                         {
                             path: '/add_contract',
                             component: resolve => require(['../components/pages/personnel_Mgmt/add_contract.vue'], resolve)
+                        },
+                        {
+                            name: 'detail_contract',
+                            path: '/detail_contract',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/detail_contract.vue'], resolve)
                         }
                     ]
                 }

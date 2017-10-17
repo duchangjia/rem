@@ -34,7 +34,7 @@
 						<el-table-column prop="status" label="状态"></el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>2*pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>=2*pageRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -245,10 +245,6 @@ export default {
 	clear: both;
 	font-size: 0px;
 }
-
-/*.user-query .button-wrap .el-form-item__content {
-	margin-left: 0!important;
-}*/
 
 .user-query .el-input__inner {
 	border-radius: 4px;

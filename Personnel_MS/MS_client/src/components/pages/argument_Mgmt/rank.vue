@@ -28,7 +28,7 @@
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>2*pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>=2*pageRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -49,11 +49,11 @@ export default {
 					modelName: "xxxxxx",
 					compName: 'xxxx',
 					ranks: 'B10-高级开发软件工程师',
-					min_level: '5000',
-					max_level: '10000',
+					min_level: '5000.00',
+					max_level: '10000.00',
 					busStandard: '50',
 					beiz: "",
-					createdId: "",
+					createdId: "001",
 					createdTime: ""
 				},
 				{
@@ -65,8 +65,8 @@ export default {
 					max_level: '70000',
 					busStandard: '60',
 					beiz: "",
-					ID: "",
-					time: ""
+					createdId: "002",
+					createdTime: ""
 				}
 			]
 		}
@@ -81,23 +81,33 @@ export default {
 		handleEdit(index, row) {
 			console.log('index',index);
             console.log('row.modelNo',row.modelNo);
-            this.$router.push('/add_rank');
+            this.$router.push('/edit_rank');
 		},
 		handleDelete(index, row) {
             console.log('index',index);
             console.log('row',row);
-            this.$confirm('此操作将会删除该条模版, 是否继续?', '提示', {
+            const self = this;
+            self.$confirm('此操作将会删除该条模版, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-               this.$message({ type: 'success', message: '删除成功!' });
+            	let params = {
+            		
+            	};
+            	self.$axios.delete('',params)
+            		.then(function(res) {
+            			self.$message({ type: 'success', message: '删除成功!' });
+            		}).catch(function(err) {
+            			self.$message('删除模版失败！');
+            		})
+               	
             }).catch(() => {
-                this.$message('您已取消删除模版！');
+                self.$message('您已取消删除模版！');
             });
         },
         handleCurrentChange(val) {
-			console.log(`当前页: ${val}`);
+			console.log('当前页',val);
 		}
 	}
 }
