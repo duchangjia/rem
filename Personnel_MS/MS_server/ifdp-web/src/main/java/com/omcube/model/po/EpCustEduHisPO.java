@@ -9,16 +9,7 @@ public class EpCustEduHisPO extends BasicPO{
     private String major;     //专业
     private String education; //学历
     private String desc;      //描述
-    private String isDelete;  //是否删除
     
-    public String getIsDelete()
-    {
-        return isDelete;
-    }
-    public void setIsDelete(String isDelete)
-    {
-        this.isDelete = isDelete;
-    }
     public String getUserNo()
     {
         return userNo;

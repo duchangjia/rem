@@ -20,13 +20,16 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item style="margin-left:10px;">
-                        <el-button type="primary" @click="handleQudery" class="queryBtn">查询</el-button>
+                        <el-button type="primary" @click="handleQuery" class="queryBtn">查询</el-button>
                     </el-form-item>
                 </el-form>
             </el-col>
 
             <el-table stripe :data="pactListInfo" border>
-                <el-table-column align="center" prop="pactNo" label="合同编号">
+                <el-table-column align="center" label="合同编号">
+                    <template scope="scope">
+                        <span @click="handlePactDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.pactNo }}</span>
+                    </template>
                 </el-table-column>
                 <el-table-column align="center" prop="pactName" label="合同名称">
                 </el-table-column>
@@ -110,7 +113,17 @@ export default {
             return row.pactType == 1 ? '劳动合同' : row.pactType == 0 ? '保密协议' : '异常';
         },
         pactStatusFormatter(row, column) {
-            return row.pactStatus == 1 ? '有效' : row.pactStatus == 0 ? '无效' : '异常';
+            return row.pactStatus == 1 ? '已生效' : row.pactStatus == 0 ? '未生效' : '异常';
+        },
+        handlePactDetail(index, row) {
+            const self = this;
+            let params = {
+                "pactNo": row.pactNo
+            }
+            self.$router.push({
+                name: 'detail_contract',
+                params: params
+            });
         },
         handleCurrentChange(val) {
             const self = this;
@@ -118,7 +131,7 @@ export default {
             //分页查询合同列表
             self.getPactList();
         },
-        handleQudery() {
+        handleQuery() {
             const self = this;
             console.log('name:' + self.filters.name + ' pactType:' + self.filters.pactType);
             //根据条件查询合同列表
@@ -153,5 +166,14 @@ export default {
 <style>
 .pact_mgmt {
     padding: 0 0 20px 20px;
+}
+
+.linkSpan {
+    color: #337ab7;
+    text-decoration: underline;
+}
+
+.linkSpan:hover {
+    cursor: pointer;
 }
 </style>

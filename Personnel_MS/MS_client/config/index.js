@@ -36,7 +36,24 @@ module.exports = {
           pathRewrite: {
               '^/ifdp': ''
           },
-      }
+      },
+      // '/iem_hrm': {
+      //     target: 'http://10.0.0.41:8888/',
+      //     // target: 'http://10.0.0.34:8888/',
+      //     changeOrigin: true,
+      //     secure: false,
+      //     pathRewrite: {
+      //         '^/iem_hrm': ''
+      //     }
+      // },
+//    '/iemrole': {
+//      target: 'http://192.168.1.105:8888/',
+//      changeOrigin: true,
+//      secure: false,
+//      pathRewrite: {
+//        '^/iemrole': ''
+//      }
+//    }
 //    '/iem_hrm': {
 //        target: 'http://10.0.0.41:8888/',
 //        // target: 'http://10.0.0.34:8888/',

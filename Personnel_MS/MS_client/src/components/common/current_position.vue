@@ -91,6 +91,9 @@
 			  }
 			  if(this.sanji==='职级薪酬标准设置'){
 			  	_link.push('/rank')
+              }
+              if(this.sanji==='合同详情'){
+			  	_link.push('/detail_contract')
 			  }
 			  if(this.siji==='福利缴纳系数新增'){
 			  	_link.push('/add_welfare')
