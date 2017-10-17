@@ -1,6 +1,7 @@
 package com.omcube.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,7 @@ public class PayBaseInfoServiceImpl implements PayBaseInfoService {
 
     @Override
     public void addPayBaseInfo(EpPayBaseInfoPO epPayBaseInfo) {
-
 	payBaseInfoMapper.addPayBaseInfo(epPayBaseInfo);
-
     }
 
     @Override
@@ -33,15 +32,21 @@ public class PayBaseInfoServiceImpl implements PayBaseInfoService {
 
     @Override
     public List<PayBaseInfoListResponse> queryPayBaseInfoList(QueryPayBaseInfoRequest queryPayBaseInfoReq) {
-
 	return payBaseInfoMapper.queryPayBaseInfoList(queryPayBaseInfoReq);
-
     }
 
     @Override
     public EpPayBaseInfoPO queryPayBaseInfoDetail(String uid, String userNo) {
-	
 	return payBaseInfoMapper.queryPayBaseInfoDetail(uid, userNo);
     }
 
+    @Override
+    public void updatePayBaseInfo(EpPayBaseInfoPO epPayBaseInfo) {
+	payBaseInfoMapper.updatePayBaseInfo(epPayBaseInfo);
+    }
+
+    @Override
+    public void deletePayBaseInfo(Map<String, String> params) {
+	payBaseInfoMapper.deletePayBaseInfo(params);
+    }
 }

@@ -87,16 +87,42 @@
 		 	EP_PAY_BASEINF pb,
 		 	EP_CUST_INFO ci 
 		 where 
-		 	pb.user_no = ci.user_no and pb.pbase_status != 0 and pb.uid = #{uid}
+		 	pb.user_no = ci.user_no and pb.pbase_status != 0 and pb.uid = #{uid}  
 			<if test="userNo != null">
 				and pb.user_no like '%${userNo}%'
 			</if>
 			<if test="userName != null">
 				and ci.cust_name like '%${userName}%'
 			</if>
+			order by pb.user_no desc
 	 </select>
 	 
 	 <select id="queryPayBaseInfoDetail" parameterType="java.lang.String" resultMap="queryPayBaseInfoDetailMap">
  		select * from EP_PAY_BASEINF where uid = #{uid} and user_no = #{userNo} 
 	 </select>
+	 
+	 <update id="updatePayBaseInfo" parameterType="com.omcube.model.po.EpPayBaseInfoPO">
+		update EP_PAY_BASEINF set
+			wages_base=#{wagesBase},
+			wages_perf=#{wagesPerf},
+			post_pension=#{postPension},
+			other_pension=#{otherPension},
+			endm_base=#{endmBase},
+			medi_base=#{mediBase},
+			unem_base=#{unemBase},
+			empl_base=#{emplBase},
+			mate_base=#{mateBase},
+			house_base=#{houseBase},
+			prob_ratio=#{probRatio},
+			welcoe_no=#{welcoeNo},
+			remark=#{remark},
+			updated_by=#{updatedBy},
+			updated_date=date_format(now(),'%y-%m-%d')
+		where uid=#{uId} and user_no=#{userNo}
+	</update>
+	 
+	<update id="deletePayBaseInfo" parameterType="java.util.Map" >
+   		update EP_PAY_BASEINF set pbase_status='0', updated_by=#{updatedBy} where uid=#{uid} and user_no=#{userNo} 
+    </update>
+    
 </mapper>
