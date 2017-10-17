@@ -33,6 +33,7 @@ import com.omcube.util.ConstantUtil;
 import com.omcube.util.ErrorCodeConstantUtil;
 import com.omcube.util.JSONResultUtil;
 import com.omcube.util.Result;
+import com.omcube.util.SpringUtil;
 import com.omcube.util.SysLoginCtrlUtil;
 
 /**
@@ -187,12 +188,6 @@ public class PayBaseInfoController {
 	//删除
 	payBaseInfoService.deletePayBaseInfo(params);
 	return JSONResultUtil.setSuccess();
-    }
-
-    @GetMapping(value = "downLoadPayBaseTemplate/")
-    public void downLoadPayBaseTemplate()
-    {
-	
     }
     
     private void makeMap(String uid, String userNo, String updatedBy, Map<String, String> params) {
