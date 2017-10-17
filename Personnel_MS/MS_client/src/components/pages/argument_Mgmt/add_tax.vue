@@ -17,7 +17,18 @@
 				  	<el-form-item label="失效日期" prop="del_date">
 			        	<el-date-picker type="date" placeholder="如无，则不填" v-model="formdata.del_date"></el-date-picker>
 			      	</el-form-item>
-
+					<el-form-item label="上限" prop="max_lev">
+					    <el-input v-model="formdata.max_lev"></el-input>
+				  	</el-form-item>
+				  	<el-form-item label="下限" prop="min_lev">
+					    <el-input v-model="formdata.min_lev"></el-input>
+				  	</el-form-item>
+				  	<el-form-item label="百分率" prop="percent">
+					    <el-input v-model="formdata.percent"></el-input>
+				  	</el-form-item>
+				  	<el-form-item label="速算扣除率" prop="quickC">
+					    <el-input v-model="formdata.quickC" placeholder='自动计算'></el-input>
+				  	</el-form-item>
 				  	<el-form-item label="备注">
 					    <el-input v-model="formdata.beiz"></el-input>
 				  	</el-form-item>
@@ -36,7 +47,11 @@ export default {
 				name: "",
 				create_date: "",
 				del_date: "",
-				beiz: ""
+				beiz: "",
+				max_lev: '',
+				min_lev: '',
+				percent: '',
+				quickC: ''
 			},
 			rules: {
 				name: [
@@ -44,6 +59,15 @@ export default {
 				],
 				create_date: [
 					{ type: 'date', required: true, message: '生效日期不能为空', trigger: 'blur' }
+				],
+				max_lev: [
+					{ required: true, message: '上限不能为空', trigger: 'blur' }
+				],
+				min_lev: [
+					{ required: true, message: '下限不能为空', trigger: 'blur' }
+				],
+				percent: [
+					{ required: true, message: '百分率不能为空', trigger: 'blur' }
 				]
 			}
 		}

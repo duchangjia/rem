@@ -8,7 +8,11 @@
 			</div>
 			<div class="content-inner">
 				<el-table :data="dataList" border stripe style="width: 100%">
-					<el-table-column prop="name" label="组名称"></el-table-column>
+					<el-table-column prop="name" label="组名称">
+						<template scope="scope">
+					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.name }}</span>
+				      	</template>
+					</el-table-column>
 					<el-table-column prop="beiz" label="备注"></el-table-column>
 					<el-table-column prop="create_date" label="生效日期"></el-table-column>
 					<el-table-column prop="del_date" label="失效日期"></el-table-column>
@@ -61,6 +65,10 @@ export default {
 	methods: {
 		addtax() {
 			this.$router.push('/add_tax');
+		},
+		handleEdit(index, row) {
+			console.log('index:'+index,'row.modelNo:'+row.modelNo);
+            this.$router.push('/rate_info');
 		},
 		handleDelete(index, row) {
             console.log('index',index);

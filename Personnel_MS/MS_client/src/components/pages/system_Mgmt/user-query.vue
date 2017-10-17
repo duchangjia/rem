@@ -246,10 +246,6 @@ export default {
 	font-size: 0px;
 }
 
-/*.user-query .button-wrap .el-form-item__content {
-	margin-left: 0!important;
-}*/
-
 .user-query .el-input__inner {
 	border-radius: 4px;
 	border: 1px solid #EEEEEE;

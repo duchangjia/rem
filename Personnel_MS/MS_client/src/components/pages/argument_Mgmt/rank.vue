@@ -81,7 +81,7 @@ export default {
 		handleEdit(index, row) {
 			console.log('index',index);
             console.log('row.modelNo',row.modelNo);
-            this.$router.push('/add_rank');
+            this.$router.push('/edit_rank');
 		},
 		handleDelete(index, row) {
             console.log('index',index);
@@ -97,7 +97,7 @@ export default {
             });
         },
         handleCurrentChange(val) {
-			console.log(`当前页: ${val}`);
+			console.log('当前页',val);
 		}
 	}
 }
