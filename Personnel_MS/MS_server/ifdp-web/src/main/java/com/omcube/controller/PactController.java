@@ -189,18 +189,27 @@ public class PactController {
 		pactService.deletePactRenew(pactNo, renewId);
 	}
 	
-	//修改合同信息
+	/**
+	 * 修改合同信息
+	 * @param pactPO
+	 */
 	@PutMapping(value = "/updatePact")
 	public void updatePact(@RequestParam PactPO pactPO){
 		pactService.updatePact(pactPO);
 	}
 	
-	//修改合同更改信息
+	/**
+	 * 修改合同更改信息
+	 * @param pactChange
+	 */
 	public void updatePactChange(@RequestParam PactChange pactChange){
 		pactService.updatePactChange(pactChange);
 	}
 	
-	//修改合同续约信息
+	/**
+	 * 修改合同续约信息
+	 * @param pactRenew
+	 */
 	public void updatePactRenew(@RequestParam PactRenew pactRenew){
 		pactService.updatePactRenew(pactRenew);
 	}
