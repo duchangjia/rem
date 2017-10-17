@@ -4,32 +4,32 @@
 		<div class="content">
 			<div class="title">
 				<span class="title-text">福利缴纳系数详情</span>
-				<!--<el-button type="primary" class="conserve" @click="save('formdata')">保存</el-button>-->
+				<!--<el-button type="primary" class="conserve" @click="save('welfareInfo')">保存</el-button>-->
 				<el-button type="primary" class="conserve" @click="back">返回</el-button>			
 			</div>
 			<div class="content-inner">
-				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
+				<el-form ref="welfareInfo" :rules="rules" :model="welfareInfo" label-width="80px">
 					<el-form-item label="模版编号" prop="modelNo">
-					    <el-input v-model="formdata.modelNo"></el-input>
+					    <el-input v-model="welfareInfo.modelNo"></el-input>
 				  	</el-form-item>
 					<el-form-item label="模版名称" prop="modelName">
-					    <el-input v-model="formdata.modelName"></el-input>
+					    <el-input v-model="welfareInfo.modelName"></el-input>
 				  	</el-form-item>
 					<el-form-item label="模版备注">
-					    <el-input v-model="formdata.beiz"></el-input>
+					    <el-input v-model="welfareInfo.beiz"></el-input>
 				  	</el-form-item>
 					<div class="form_box">
 						<div class="title">养老保险系数</div>
 						<div class="inner">
 							<el-form-item label="个人支付" prop="yangl_gr">
-						      	<el-input type="text" placeholder="" v-model="formdata.yangl_gr"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.yangl_gr"></el-input>
 							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.yangl_gr_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.yangl_gr_r"></el-input>
 						  	</el-form-item>
 						  	<el-form-item label="个人支付" prop="yangl_dw">
-						      	<el-input type="text" placeholder="" v-model="formdata.yangl_dw"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.yangl_dw"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.yangl_dw_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.yangl_dw_r"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
@@ -37,14 +37,14 @@
 						<div class="title">医疗保险系数</div>
 						<div class="inner">
 							<el-form-item label="个人支付" prop="yiliao_gr">
-						      	<el-input type="text" placeholder="" v-model="formdata.yiliao_gr"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.yiliao_gr"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.yiliao_gr_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.yiliao_gr_r"></el-input>
 						  	</el-form-item>
 						  	<el-form-item label="个人支付" prop="yiliao_dw">
-						      	<el-input type="text" placeholder="" v-model="formdata.yiliao_dw"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.yiliao_dw"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.yiliao_dw_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.yiliao_dw_r"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
@@ -52,14 +52,14 @@
 						<div class="title">失业保险系数</div>
 						<div class="inner">
 							<el-form-item label="个人支付" prop="shiye_gr">
-						      	<el-input type="text" placeholder="" v-model="formdata.shiye_gr"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.shiye_gr"></el-input>
 							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.shiye_gr_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.shiye_gr_r"></el-input>
 						  	</el-form-item>
 						  	<el-form-item label="个人支付" prop="shiye_dw">
-						      	<el-input type="text" placeholder="" v-model="formdata.shiye_dw"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.shiye_dw"></el-input>
 							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.shiye_dw_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.shiye_dw_r"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
@@ -67,14 +67,14 @@
 						<div class="title">工伤保险系数</div>
 						<div class="inner">
 							<el-form-item label="个人支付" prop="gongs_gr">
-						      	<el-input type="text" placeholder="" v-model="formdata.gongs_gr"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.gongs_gr"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.gongs_gr_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.gongs_gr_r"></el-input>
 						  	</el-form-item>
 						  	<el-form-item label="个人支付" prop="gongs_dw">
-						      	<el-input type="text" placeholder="" v-model="formdata.gongs_dw"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.gongs_dw"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.gongs_dw_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.gongs_dw_r"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
@@ -82,14 +82,14 @@
 						<div class="title">生育保险系数</div>
 						<div class="inner">
 							<el-form-item label="个人支付" prop="shengy_gr">
-						      	<el-input type="text" placeholder="" v-model="formdata.shengy_gr"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.shengy_gr"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.shengy_gr_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.shengy_gr_r"></el-input>
 						  	</el-form-item>
 						  	<el-form-item label="个人支付" prop="shengy_dw">
-						      	<el-input type="text" placeholder="" v-model="formdata.shengy_dw"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.shengy_dw"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.shengy_dw_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.shengy_dw_r"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
@@ -97,14 +97,14 @@
 						<div class="title">住房公积金系数</div>
 						<div class="inner">
 							<el-form-item label="个人支付" prop="zhuf_gr">
-						      	<el-input type="text" placeholder="" v-model="formdata.zhuf_gr"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.zhuf_gr"></el-input>
 							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.zhuf_gr_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.zhuf_gr_r"></el-input>
 						  	</el-form-item>
 						  	<el-form-item label="个人支付" prop="zhuf_dw">
-						      	<el-input type="text" placeholder="" v-model="formdata.zhuf_dw"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.zhuf_dw"></el-input>
 						    	<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.zhuf_dw_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.zhuf_dw_r"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
@@ -116,10 +116,11 @@
 
 <script>
 import current from '../../common/current_position.vue'
+const baseURL = 'ifdp'
 export default {
 	data() {
 		return {
-			formdata: {
+			welfareInfo: {
 				modelNo: '',
 				modelName: '',
 				beiz: '',
@@ -193,6 +194,18 @@ export default {
 	},
 	components: {
 		current
+	},
+	created(){
+		const self = this;
+		let modelNo = sessionStorage.getItem('modelNo');
+		let param = { modelNo: modelNo };
+		self.$axios.get(baseURL+'/queryWelfareInfo',{ params : param })
+			.then(function(res) {
+				console.log('res',res);
+				self.welfareInfo = res.data.data;
+			}).catch(function(err) {
+				console.log('err');
+			})
 	},
 	methods: {
 		back() {

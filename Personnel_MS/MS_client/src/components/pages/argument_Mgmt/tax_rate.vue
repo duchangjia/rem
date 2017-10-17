@@ -24,7 +24,7 @@
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>2*pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>=2*pageRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -85,7 +85,7 @@ export default {
             });
         },
         handleCurrentChange(val) {
-			console.log(`当前页: ${val}`);
+			console.log('当前页', val);
 		}
 	}
 }
@@ -282,6 +282,9 @@ border-bottom: 1px solid #EEEEEE;
 
 .tax_rate .el-pagination button:hover {
 	color: #FF9900;
+}
+.tax_rate .el-pagination button.disabled {
+    color: #e4e4e4;
 }
 .tax_rate .el-pagination button.disabled:hover {
 	color: #e4e4e4;
