@@ -189,9 +189,4 @@ export default {
 .add_contract {
     padding: 0 0 20px 20px;
 }
-
-.add-wrapper form {
-    font-size: 0;
-    margin-top: 40px;
-}
 </style>

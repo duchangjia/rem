@@ -113,6 +113,12 @@ label {
     margin-left: 0;
 }
 
+.add-wrapper form {
+    font-size: 0;
+    margin-top: 40px;
+    overflow: hidden;
+}
+
 .add_contract .el-form-item__label {
     margin-right: 14px;
 }

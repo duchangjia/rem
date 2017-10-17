@@ -4,7 +4,28 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
 <mapper namespace="com.omcube.model.mapper.PayBaseInfoMapper">
-
+	<resultMap id="queryPayBaseInfoDetailMap" type="com.omcube.model.po.EpPayBaseInfoPO">
+        <id column="user_no" property="userNo"></id>
+        <result column="wages_base" property="wagesBase" javaType="java.lang.Double"></result>
+        <result column="wages_perf" property="wagesPerf" javaType="java.lang.Double"></result>
+        <result column="post_pension" property="postPension" javaType="java.lang.Double"></result>
+        <result column="other_pension" property="otherPension" javaType="java.lang.Double"></result>
+        <result column="endm_base" property="endmBase" javaType="java.lang.Double"></result>
+        <result column="medi_base" property="mediBase" javaType="java.lang.Double"></result>
+        <result column="unem_base" property="unemBase" javaType="java.lang.Double"></result>
+        <result column="empl_base" property="emplBase" javaType="java.lang.Double"></result>
+        <result column="mate_base" property="mateBase" javaType="java.lang.Double"></result>
+        <result column="house_base" property="houseBase" javaType="java.lang.Double"></result>
+        <result column="prob_ratio" property="probRatio" javaType="java.lang.Double"></result>
+        <result column="welcoe_no" property="welcoeNo" javaType="java.lang.String"></result>
+        <result column="remark" property="remark" javaType="java.lang.String"></result>
+        <result column="pbase_status" property="status" javaType="java.lang.String"></result>
+        <result column="created_by" property="createdBy" javaType="java.lang.String"></result>
+        <result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
+        <result column="created_date" property="createdDate" javaType="java.util.Date"></result>
+        <result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
+    </resultMap>
+    
 	<resultMap id="queryPayBaseInfoListMap" type="com.omcube.model.response.PayBaseInfoListResponse">
         <id column="user_no" property="userNo"></id>
         <result column="cust_name" property="userName" javaType="java.lang.String"></result>
@@ -15,7 +36,7 @@
         <result column="prob_ratio" property="probRatio" javaType="java.lang.Double"></result>
         <result column="created_date" property="createdDate" javaType="java.util.Date"></result>
     </resultMap>
-
+    
 	<insert id="addPayBaseInfo" parameterType="com.omcube.model.po.EpPayBaseInfoPO">
 		insert into 
 			EP_PAY_BASEINF 
@@ -49,7 +70,7 @@
  			cp.salary_top 
  		from EP_CLASSPARM_CTRL cp 
 			left join EP_CUST_INFO ci on cp.organ_no = ci.organ_no and cp.rank = ci.cust_class and cp.uid = ci.uid
-		where ci.uid = #{uid} and ci.user_no = #{userNo}; 
+		where ci.uid = #{uid} and ci.user_no = #{userNo} 
 	 </select>
 	 
 	 <select id="queryPayBaseInfoList" parameterType="com.omcube.model.request.QueryPayBaseInfoRequest" resultMap="queryPayBaseInfoListMap">
@@ -75,4 +96,7 @@
 			</if>
 	 </select>
 	 
+	 <select id="queryPayBaseInfoDetail" parameterType="java.lang.String" resultMap="queryPayBaseInfoDetailMap">
+ 		select * from EP_PAY_BASEINF where uid = #{uid} and user_no = #{userNo} 
+	 </select>
 </mapper>

@@ -57,7 +57,7 @@ public class PayBaseInfoControllerTest {
 	System.out.println(result);
     }
     
-    @Test
+    //@Test
     public void queryPayBaseInfoList() throws Exception
     {
 	String result = mockMvc.perform(get("/pay/queryPayBaseInfoList")
@@ -72,5 +72,4 @@ public class PayBaseInfoControllerTest {
 	System.out.println(result);
     }
     
-
 }
