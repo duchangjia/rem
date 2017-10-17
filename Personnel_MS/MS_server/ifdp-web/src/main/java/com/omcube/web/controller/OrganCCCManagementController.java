@@ -15,12 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.omcube.model.mapper.OrganCCCManagementMapper;
 import com.omcube.model.po.OrganCCCManagemenPO;
 import com.omcube.service.OrganCCCManagementService;
 import com.omcube.util.ErrorCodeConstantUtil;
@@ -32,9 +30,6 @@ import com.omcube.util.SpringUtil;
 public class OrganCCCManagementController {
 
 	protected final Log logger = LogFactory.getLog(getClass());
-
-	@Autowired
-	private OrganCCCManagementMapper organCCCManagementMapper;
 
 	@Autowired
 	private OrganCCCManagementService organCCCManagementService;
@@ -108,8 +103,7 @@ public class OrganCCCManagementController {
 
 	// 修改
 	@PutMapping(value = "/modOrgCCC")
-	public Object modOrgCCC(
-			OrganCCCManagemenPO organCCCManagemenPO) {
+	public Object modOrgCCC(OrganCCCManagemenPO organCCCManagemenPO) {
 
 		if (organCCCManagemenPO == null) {
 			logger.error("the request params organCCCManagemenPO is null");

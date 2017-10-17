@@ -42,6 +42,12 @@
               if(this.yiji==='系统管理'){
                   _link.push('/management_framework')
               }
+              if(this.yiji==='人事事务'){
+                  _link.push('/personnel_contract')
+              }
+              if(this.yiji==='参数管理'){
+                  _link.push('/argument_1')
+              }
               if(this.erji==='用户管理'){
                   _link.push('/management_user')
               }
@@ -52,6 +58,12 @@
               }
               if(this.erji==='组织架构'){
                   _link.push('/management_framework')
+              }
+              if(this.erji==='人事合同'){
+                  _link.push('/personnel_contract')
+              }
+              if(this.erji==='业务参数'){
+                  _link.push('/argument_2')
               }
               if(this.sanji==='编辑部门'){
                   _link.push('/edit_department')
@@ -74,7 +86,48 @@
               if(this.sanji==='功能编辑'){
               	 _link.push('/edit_fun')
               }
-
+              if(this.sanji==='新增合同'){
+              	 _link.push('/add_contract')
+              }
+              if(this.sanji==='机构CCC管理'){
+                  _link.push('/agency_argument')
+              }
+              if(this.sanji==='免签节假日维护'){
+                  _link.push('/holiday_info')
+              }
+              if(this.sanji==='公司开票信息维护'){
+                  _link.push('/ticket_info')
+              }
+              if(this.sanji==='福利缴纳系数设置'){
+              	_link.push('/welfare_coefficient')
+              }
+			  if(this.sanji==='个人所得税税率设置'){
+			  	_link.push('/tax_rate')
+			  }
+			  if(this.sanji==='职级薪酬标准设置'){
+			  	_link.push('/rank')
+              }
+              if(this.sanji==='合同详情'){
+			  	_link.push('/detail_contract')
+			  }
+			  if(this.siji==='福利缴纳系数新增'){
+			  	_link.push('/add_welfare')
+			  }
+			  if(this.siji==='税率组新增'){
+			  	_link.push('/add_tax')
+			  }
+			  if(this.siji==='职级薪酬标准新增'){
+			  	_link.push('/add_rank')
+			  }
+              if(this.siji==='CCC新增'){
+                  _link.push('/add_agency')
+              }
+              if(this.siji==='节假日新增'){
+                  _link.push('/add_holiday')
+              }
+              if(this.siji==='开票信息新增'){
+                  _link.push('/add_ticket')
+              }
               this.link = _link
               this.breadItemLength = _link.length
               return this.link

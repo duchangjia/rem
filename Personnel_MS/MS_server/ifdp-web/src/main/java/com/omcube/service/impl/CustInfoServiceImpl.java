@@ -23,13 +23,12 @@ public class CustInfoServiceImpl implements CustInfoService {
     }
 
     @Override
-    public CustInfoPO queryCustInf(String uId,String userNo) {
-	return custInfoMapper.queryCustInf(uId,userNo);
-    }
-
-    @Override
     public void delCustInf(String uId, String userNo) {
 	custInfoMapper.delCustInf(uId, userNo);
     }
     
+    public CustInfoPO queryCustInfoByUserNo(String uid, String userNo) {
+	return custInfoMapper.queryCustInfoByUserNo(uid, userNo);
+    }
+
 }

@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -116,4 +117,28 @@ public class EmployeeProjectExperienceController {
 						projectId);
 	}
 
+	// 项目经历信息修改
+	@PutMapping(value = "/modEmpProExp")
+	public Object modEmpProExp(
+			EmployeeProjectExperiencePO employeeProjectExperiencePO) {
+
+		if (employeeProjectExperiencePO == null) {
+			logger.error(
+					"the request params employeeProjectExperiencePO is null");
+			return JSONResultUtil.setError(
+					ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
+					"the request params employeeProjectExperiencePO is null");
+		}
+
+		try {
+			employeeProjectExperienceService
+					.modEmpProExp(employeeProjectExperiencePO);
+			return JSONResultUtil.setSuccess();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JSONResultUtil.setError(
+				ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
+				"update organCCCManagemen fail");
+	}
 }

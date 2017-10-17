@@ -13,10 +13,10 @@
 		<result column="cost_type" property="costType" javaType="java.lang.String"></result>
 		<result column="cost_code" property="costCode" javaType="java.lang.String"></result>
 		<result column="descr" property="descr" javaType="java.lang.String"></result>
-		<result column="created_by" property="createBy" javaType="java.lang.String" />
-		<result column="created_date" property="createDate" javaType="java.util.Date" />
-		<result column="updated_by" property="updateBy" javaType="java.lang.String" />
-		<result column="updated_date" property="updateDate" javaType="java.util.Date" />
+		<result column="created_by" property="createdBy" javaType="java.lang.String" />
+		<result column="created_date" property="createdDate" javaType="java.util.Date" />
+		<result column="updated_by" property="updatedBy" javaType="java.lang.String" />
+		<result column="updated_date" property="updatedDate" javaType="java.util.Date" />
 	</resultMap>
 
 	<!-- 查询所有列表 -->
@@ -42,7 +42,8 @@
 		from
 		EP_DEPT_CCC
 		where
-		organ_no=(select organ_no from IFDP_SYS_ORGAN_BASE
+		organ_no=(select organ_no from
+		IFDP_SYS_ORGAN_BASE
 		where
 		organ_name=#{organName}
 		and organ_status='1' )
@@ -55,9 +56,10 @@
 		</insert> -->
 	<insert id="insertOrganCCCManagementEDC" parameterType="com.omcube.model.po.OrganCCCManagemenPO">
 		insert
-		into EP_DEPT_CCC (UID,ORGAN_NO,COST_TYPE,COST_CODE,DESCR)
+		into EP_DEPT_CCC
+		(uid,organ_no,cost_type,cost_code,descr,created_by,created_date,updated_by,updated_date)
 		values
-		(#{uId},#{organNo},#{costType},#{costCode},#{descr})
+		(#{uId},#{organNo},#{costType},#{costCode},#{descr},#{createdBy},date_format(now(),'%y-%m-%d'),#{updatedBy},date_format(now(),'%y-%m-%d'))
 	</insert>
 
 	<!-- <update id="updateOrganCCCManagementISOB" parameterType="com.omcube.model.po.OrganCCCManagemenPO"> 
@@ -87,7 +89,8 @@
 		set
 		cost_type=#{costType},cost_code=#{costCode},descr=#{descr}
 		WHERE
-		organ_no=(SELECT organ_no FROM IFDP_SYS_ORGAN_BASE WHERE organ_name=#{organName}
+		organ_no=(SELECT organ_no FROM IFDP_SYS_ORGAN_BASE WHERE
+		organ_name=#{organName}
 		and organ_status='1' )
 	</update>
 

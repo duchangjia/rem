@@ -18,7 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class TaxRateCtrlTest {
+public class TaxRateCtrlControllerTest {
 
     @Autowired
     private WebApplicationContext wac;

@@ -25,8 +25,8 @@ public class VisaFreeHolidayServiceImpl implements VisaFreeHolidayService {
 
 	//校验新增的免签节假日是否存在
 	@Override
-	public Object queryVisaFreeHoliayByuId(String uId) {
-		return visaFreeHolidayMapper.queryVisaFreeHoliayByuId(uId);
+	public Object queryVisaFreeHoliayByDate(String dayDate) {
+		return visaFreeHolidayMapper.queryVisaFreeHoliayByDate(dayDate);
 	}
 	
 	// 新增
@@ -45,8 +45,8 @@ public class VisaFreeHolidayServiceImpl implements VisaFreeHolidayService {
 	
 
 	@Override
-	public void deleteVisaFreeHoliday(String day) {
-		visaFreeHolidayMapper.deleteVisaFreeHoliday(day);
+	public void deleteVisaFreeHoliday(String dayDate) {
+		visaFreeHolidayMapper.deleteVisaFreeHoliday(dayDate);
 	}
 
 

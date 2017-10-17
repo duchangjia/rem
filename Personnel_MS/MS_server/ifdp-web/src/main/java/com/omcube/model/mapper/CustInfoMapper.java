@@ -23,7 +23,7 @@ public interface CustInfoMapper {
      * 员工基本信息查询
      * @param userNo
      */
-    public CustInfoPO queryCustInf(@Param("uId") String uId,@Param("userNo") String userNo);
+    CustInfoPO queryCustInfoByUserNo(@Param(value = "uid") String uid,@Param(value = "userNo") String userNo);
     
     /**
      * 员工基本信息删除
@@ -31,4 +31,5 @@ public interface CustInfoMapper {
      * @param userNo
      */
     public void delCustInf(@Param("uId") String uId,@Param("userNo") String userNo);
+
 }

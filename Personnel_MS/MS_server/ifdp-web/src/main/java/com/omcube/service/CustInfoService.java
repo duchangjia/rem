@@ -20,7 +20,7 @@ public interface CustInfoService {
      * @param userNo
      * @return
      */
-    public CustInfoPO queryCustInf(String uId,String userNo);
+    CustInfoPO queryCustInfoByUserNo(String uid, String userNo);
     
     /**
      * 员工基本信息删除

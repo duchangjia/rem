@@ -84,11 +84,11 @@ export default {
 					subs: [
 						{
 							index: 'argument_1',
-							title: '参数管理1'
+							title: '系统参数'
 						},
 						{
 							index: 'argument_2',
-							title: '参数管理2'
+							title: '业务参数'
 						},
 					]
 				},	
@@ -325,7 +325,7 @@ export default {
 	height: 50px;
 	line-height: 50px;
 	padding: 0 45px;
-	padding-left: 60px!important;
+	padding-left: 67px!important;
 	min-width: 200px;
 }
 

@@ -124,9 +124,9 @@ public class CustInfoControllerTest {
      * @throws Exception
      */
     @Test
-    public void queryCustInf() throws Exception{
+    public void queryCustInfoByUserNo() throws Exception{
 	
-	String result = mockMvc.perform(get("/CustInfo/queryCustInf/P0000001")
+	String result = mockMvc.perform(get("/CustInfo/queryCustInfoByUserNo/P0000001")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk())
 		.andReturn().getResponse().getContentAsString();

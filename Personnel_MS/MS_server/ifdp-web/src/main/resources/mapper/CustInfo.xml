@@ -107,15 +107,12 @@
 			uid=#{uId} and user_no=#{userNo}
 	</update>
 	
-	<!-- 员工基本信息查询 -->
-	<select id="queryCustInf" parameterType = "java.lang.String" resultMap="CustInfoMap">
-		select * from EP_CUST_INFO
-		where 
-			uid=#{uId} and user_no=#{userNo}
-	</select>
-	
 	<!-- 员工基本信息删除 -->
 	<update id = "delCustInf" parameterType = "java.lang.String">
 		update EP_CUST_INFO set cust_status = '04'
 	</update>
+	<!-- 员工基本信息查询 -->
+	 <select id="queryCustInfoByUserNo" parameterType="java.lang.String" resultMap="CustInfoMap">
+	 		select * from EP_CUST_INFO where uid = #{uid} and user_no = #{userNo}
+	 </select>
 </mapper>

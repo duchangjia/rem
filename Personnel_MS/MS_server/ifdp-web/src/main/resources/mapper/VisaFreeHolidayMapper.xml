@@ -6,23 +6,25 @@
 <!-- 查询所有列表 -->
 <mapper namespace="com.omcube.model.mapper.VisaFreeHolidayMapper">
 	<resultMap id="VisaFreeHolidayMap" type="com.omcube.model.po.VisaFreeHolidayPo">
-		<id column="uid" property="uId"/>
-		<id column="user_no" property="userNo"/>
-		<result column="day_date" property="dayDate" javaType="java.lang.String"/>
+		<id column="uid" property="uId" />
+		<id column="user_no" property="userNo" />
+		<result column="day_date" property="dayDate" javaType="java.lang.String" />
 		<result column="day_flag" property="dayFlag" javaType="java.lang.String"></result>
 		<result column="remark" property="remark" javaType="java.lang.String"></result>
-		<result column="created_by" property="creatBy" javaType="java.lang.String"></result>
+		<result column="created_by" property="createdBy" javaType="java.lang.String"></result>
 		<result column="created_date" property="createdDate" javaType="java.util.Date"></result>
-		
+		<result column="updated_by" property="updatedBy" javaType="java.lang.String" />
+		<result column="updated_date" property="updatedDate" javaType="java.util.Date" />
 	</resultMap>
-	
+
 	<!-- 查询所所有列表 -->
 	<select id="queryVisaFreeHolidayList" parameterType="java.lang.String"
 		resultType="com.omcube.model.po.VisaFreeHolidayPo">
 		select
 		day_date as dayDate,
 		day_flag as dayFlag,
-		remark as remark,
+		remark as
+		remark,
 		created_by as createdById,
 		created_date as time
 		from
@@ -32,15 +34,17 @@
 	</select>
 
 	<!-- 校验新增的免签节假日是否存在 -->
-	<select id="queryVisaFreeHoliayByuId" parameterType="String" resultMap="VisaFreeHolidayMap">
-		select * from PUB_WORKDAY where uid = #{uId}
+	<select id="queryVisaFreeHoliayByDate" parameterType="String"
+		resultMap="VisaFreeHolidayMap">
+		select * from PUB_WORKDAY where day_date = #{dayDate}
 	</select>
 
 	<!-- 向 PUB_WORKDAY表插入数据 -->
 	<insert id="insertVisaFreeHoliday" parameterType="java.lang.String">
 		insert into
-		PUB_WORKDAY (uid,day_date,day_flag,remark)values
-		(#{uId},#{dayDate},#{dayFlag},#{remark})
+		PUB_WORKDAY
+		(uid,day_date,day_flag,remark,created_by,created_date,updated_by,updated_date)values
+		(#{uId},#{dayDate},#{dayFlag},#{remark},#{createdBy},date_format(now(),'%y-%m-%d'),#{updatedBy},date_format(now(),'%y-%m-%d'))
 	</insert>
 
 	<!-- 条件组合查询 -->
@@ -73,7 +77,7 @@
 	<!-- 删除 -->
 	<delete id="deleteVisaFreeHoliday" parameterType="java.lang.String">
 		delete from
-		PUB_WORKDAY where day_date=#{day}
+		PUB_WORKDAY where day_date=#{dayDate}
 	</delete>
 
 </mapper>

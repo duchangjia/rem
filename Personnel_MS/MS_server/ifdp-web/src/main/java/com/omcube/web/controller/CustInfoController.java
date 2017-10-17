@@ -76,7 +76,7 @@ public class CustInfoController {
      * @param userNO
      * @return
      */
-    @GetMapping("/queryCustInf/{userNo}")
+    @GetMapping("/queryCustInfoByUserNo/{userNo}")
     public Object queryCustInf(@PathVariable String userNo){
 	
 	if (StringUtils.isEmpty(userNo)) {
@@ -87,7 +87,7 @@ public class CustInfoController {
 	//从session 中获取uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	String uId = sysLoginCtrl.getuId();
-	CustInfoPO custInfo = custInfoService.queryCustInf(uId,userNo);
+	CustInfoPO custInfo = custInfoService.queryCustInfoByUserNo(uId,userNo);
 	return JSONResultUtil.setSuccess(custInfo);
     }
 
@@ -110,4 +110,19 @@ public class CustInfoController {
 	
     }   
    
+    @GetMapping(value = "/queryCustInfoByUserNo/{userNo}")
+    public Object queryCustInfoByUserNo(@PathVariable String userNo)
+    {
+	if (StringUtils.isEmpty(userNo)) {
+	    logger.error("the request userNo is null");
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request userNo is null");
+	}
+	//从session 获取uid 
+	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+	String uid = sysLoginCtrl.getuId();
+	logger.info(String.format("the request param uid:%s, userNo:%s", uid, userNo));
+	
+	CustInfoPO custInfoPO = custInfoService.queryCustInfoByUserNo(uid, userNo);
+	return JSONResultUtil.setSuccess(custInfoPO);
+    }
 }

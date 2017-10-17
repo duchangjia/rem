@@ -1,168 +1,168 @@
 package com.omcube.model.po;
 
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
-import com.omcube.util.ConstantUtil;
+import com.omcube.parameter.verification.Money;
+import com.omcube.parameter.verification.Scale;
 
 public class EpPayBaseInfoPO extends BasicPO {
 
-    @NotEmpty(message = "工号不能为空")
+    @NotBlank(message = "工号不能为空")
     @Length(max = 16, message = "工号最大长度16")
     private String userNo;
+    
+    @Money(allowZero = false,message = "基础工资精确到小数点后2位，且不能为0")
+    private double wagesBase; //基础工资
 
-    @Pattern(regexp = ConstantUtil.MONEY_REG, message = "基础工资最大精度到小数点后2位")
-    private double WagesBase; //基础工资
+    @Money(message = "绩效工资精确到小数点后2位")
+    private double wagesPerf;//绩效工资
 
-    @Pattern(regexp = ConstantUtil.MONEY_REG, message = "绩效工资最大精度到小数点后2位")
-    private double WagesPerf;//绩效工资
+    @Money(message = "岗位补贴精确到小数点后2位")
+    private double postPension;//岗位补贴
 
-    @Pattern(regexp = ConstantUtil.MONEY_REG, message = "岗位补贴最大精度到小数点后2位")
-    private double PostPension;//岗位补贴
+    @Money(message = "其他补贴精确到小数点后2位")
+    private double otherPension;//其他补贴
 
-    @Pattern(regexp = ConstantUtil.MONEY_REG, message = "其他补贴最大精度到小数点后2位")
-    private double OtherPension;//其他补贴
+    @Money(message = "养老保险基数精确到小数点后2位")
+    private double endmBase;//养老保险基数
 
-    @Pattern(regexp = ConstantUtil.MONEY_REG, message = "养老保险基数最大精度到小数点后2位")
-    private double EndmBase;//养老保险基数
+    @Money(message = "医疗保险基数精确到小数点后2位")
+    private double mediBase;//医疗保险基数
 
-    @Pattern(regexp = ConstantUtil.MONEY_REG, message = "医疗保险基数最大精度到小数点后2位")
-    private double MediBase;//医疗保险基数
+    @Money(message = "失业保险基数精确到小数点后2位")
+    private double unemBase;//失业保险基数
 
-    @Pattern(regexp = ConstantUtil.MONEY_REG, message = "失业保险基数最大精度到小数点后2位")
-    private double UnemBase;//失业保险基数
+    @Money(message = "工伤保险基数精确到小数点后2位")
+    private double emplBase;//工伤保险基数
 
-    @Pattern(regexp = ConstantUtil.MONEY_REG, message = "工伤保险基数最大精度到小数点后2位")
-    private double EmplBase;//工伤保险基数
+    @Money(message = "生育保险基数精确到小数点后2位")
+    private double mateBase;//生育保险基数
 
-    @Pattern(regexp = ConstantUtil.MONEY_REG, message = "生育保险基数最大精度到小数点后2位")
-    private double MatlBase;//生育保险基数
+    @Money(message = "公积金基数精确到小数点后2位")
+    private double houseBase;//公积金基数
+    
+    @Scale(message = "试用期比例精确到小数点后2位，且大于0，小于等于1")
+    private double probRatio;//试用期比例
 
-    @Pattern(regexp = ConstantUtil.MONEY_REG, message = "公积金基数最大精度到小数点后2位")
-    private double HouseBase;//公积金基数
-
-    @Pattern(regexp = ConstantUtil.MONEY_REG, message = "试用期比例最大精度到小数点后2位")
-    private double ProbRatio;//试用期比例
-
-    @NotEmpty(message = "保险缴纳标准不能为空")
+    @NotBlank(message = "保险缴纳标准不能为空")
     @Length(max = 15, message = "保险缴纳标准最大长度15")
-    private String WelcoeNo;//保险缴纳标准模板Id
+    private String welcoeNo;//保险缴纳标准模板Id
 
     @Length(max = 2000, message = "薪酬福利信息备注最大长度2000")
     private String remark;//基本工资超职级限制必须填备注
 
     public String getUserNo() {
-	return userNo;
+        return userNo;
     }
 
     public void setUserNo(String userNo) {
-	this.userNo = userNo;
+        this.userNo = userNo;
     }
 
     public double getWagesBase() {
-	return WagesBase;
+        return wagesBase;
     }
 
     public void setWagesBase(double wagesBase) {
-	WagesBase = wagesBase;
+        this.wagesBase = wagesBase;
     }
 
     public double getWagesPerf() {
-	return WagesPerf;
+        return wagesPerf;
     }
 
     public void setWagesPerf(double wagesPerf) {
-	WagesPerf = wagesPerf;
+        this.wagesPerf = wagesPerf;
     }
 
     public double getPostPension() {
-	return PostPension;
+        return postPension;
     }
 
     public void setPostPension(double postPension) {
-	PostPension = postPension;
+        this.postPension = postPension;
     }
 
     public double getOtherPension() {
-	return OtherPension;
+        return otherPension;
     }
 
     public void setOtherPension(double otherPension) {
-	OtherPension = otherPension;
+        this.otherPension = otherPension;
     }
 
     public double getEndmBase() {
-	return EndmBase;
+        return endmBase;
     }
 
     public void setEndmBase(double endmBase) {
-	EndmBase = endmBase;
+        this.endmBase = endmBase;
     }
 
     public double getMediBase() {
-	return MediBase;
+        return mediBase;
     }
 
     public void setMediBase(double mediBase) {
-	MediBase = mediBase;
+        this.mediBase = mediBase;
     }
 
     public double getUnemBase() {
-	return UnemBase;
+        return unemBase;
     }
 
     public void setUnemBase(double unemBase) {
-	UnemBase = unemBase;
+        this.unemBase = unemBase;
     }
 
     public double getEmplBase() {
-	return EmplBase;
+        return emplBase;
     }
 
     public void setEmplBase(double emplBase) {
-	EmplBase = emplBase;
+        this.emplBase = emplBase;
     }
 
-    public double getMatlBase() {
-	return MatlBase;
+    public double getMateBase() {
+        return mateBase;
     }
 
-    public void setMatlBase(double matlBase) {
-	MatlBase = matlBase;
+    public void setMateBase(double mateBase) {
+        this.mateBase = mateBase;
     }
 
     public double getHouseBase() {
-	return HouseBase;
+        return houseBase;
     }
 
     public void setHouseBase(double houseBase) {
-	HouseBase = houseBase;
+        this.houseBase = houseBase;
     }
 
     public double getProbRatio() {
-	return ProbRatio;
+        return probRatio;
     }
 
     public void setProbRatio(double probRatio) {
-	ProbRatio = probRatio;
+        this.probRatio = probRatio;
     }
 
     public String getWelcoeNo() {
-	return WelcoeNo;
+        return welcoeNo;
     }
 
     public void setWelcoeNo(String welcoeNo) {
-	WelcoeNo = welcoeNo;
+        this.welcoeNo = welcoeNo;
     }
 
     public String getRemark() {
-	return remark;
+        return remark;
     }
 
     public void setRemark(String remark) {
-	this.remark = remark;
+        this.remark = remark;
     }
-
+    
 }

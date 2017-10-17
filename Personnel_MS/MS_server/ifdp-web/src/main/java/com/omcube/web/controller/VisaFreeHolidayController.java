@@ -76,19 +76,19 @@ public class VisaFreeHolidayController {
 		}
 
 		// 校验新增的节假日是否存在
-		if (visaFreeHolidayService.queryVisaFreeHoliayByuId(
-				visaFreeHolidayPo.getuId()) != null) {
+		if (visaFreeHolidayService.queryVisaFreeHoliayByDate(
+				visaFreeHolidayPo.getDayDate()) != null) {
 			logger.error("the VisaFreeHoliay already exists");
 			return JSONResultUtil.setError(
 					ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
 					"the VisaFreeHoliay already exists");
 		}
-		
+
 		if (visaFreeHolidayService == null) {
 			visaFreeHolidayService = SpringUtil
 					.getBean(VisaFreeHolidayService.class);
 		}
-		
+
 		visaFreeHolidayService.insertVisaFreeHoliday(visaFreeHolidayPo);
 		return JSONResultUtil.setSuccess();
 	}
@@ -98,28 +98,38 @@ public class VisaFreeHolidayController {
 	@Cacheable(value = ConstantUtil.QUERY_CACHE)
 	public Object queryVisaFreeHoliayList(
 			QueryVisaFreeHolidayRequest queryVisaFreeHolidayRequest) {
-		
+
 		if (queryVisaFreeHolidayRequest == null) {
 			logger.error("the request body is null");
-			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
+			return JSONResultUtil.setError(
+					ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
+					"the request body is null");
 		}
-		
-		logger.info(String.format("the request body is %s:", queryVisaFreeHolidayRequest.toString()));
-		
-		QueryVisaFreeHolidayRequest queryVisaFreeHolidayparam = makeRequestPragram(queryVisaFreeHolidayRequest);
-		
-		logger.debug(String.format("the pageNum is  :%s and the pageSize is :%s", queryVisaFreeHolidayparam.getPageNum(),
-				queryVisaFreeHolidayparam.getPageSize()));
-		
+
+		logger.info(String.format("the request body is %s:",
+				queryVisaFreeHolidayRequest.toString()));
+
+		QueryVisaFreeHolidayRequest queryVisaFreeHolidayparam = makeRequestPragram(
+				queryVisaFreeHolidayRequest);
+
+		logger.debug(
+				String.format("the pageNum is  :%s and the pageSize is :%s",
+						queryVisaFreeHolidayparam.getPageNum(),
+						queryVisaFreeHolidayparam.getPageSize()));
+
 		Result<VisaFreeHolidayPo> result = new Result<>();
-		
-		//分页
-		Page<VisaFreeHolidayPo> page = PageHelper.startPage(queryVisaFreeHolidayRequest.getPageNum(), queryVisaFreeHolidayparam.getPageSize(), true);
-		List<VisaFreeHolidayPo> visaFreeHolidayInfos = visaFreeHolidayService.queryVisaFreeHoliayList(queryVisaFreeHolidayparam);
+
+		// 分页
+		Page<VisaFreeHolidayPo> page = PageHelper.startPage(
+				queryVisaFreeHolidayRequest.getPageNum(),
+				queryVisaFreeHolidayparam.getPageSize(), true);
+		List<VisaFreeHolidayPo> visaFreeHolidayInfos = visaFreeHolidayService
+				.queryVisaFreeHoliayList(queryVisaFreeHolidayparam);
 		long totalNum = page.getTotal();
 		result.setTotal(totalNum);
 		result.setModels(visaFreeHolidayInfos);
-		logger.debug(String.format("queryVisaFreeHoliday is end  total numbers is :%s", totalNum));
+		logger.debug(String.format(
+				"queryVisaFreeHoliday is end  total numbers is :%s", totalNum));
 
 		return JSONResultUtil.setSuccess(result);
 	}
@@ -128,30 +138,33 @@ public class VisaFreeHolidayController {
 			QueryVisaFreeHolidayRequest queryVisaFreeHolidayRequest) {
 
 		if (queryVisaFreeHolidayRequest.getPageNum() <= 0) {
-			queryVisaFreeHolidayRequest.setPageNum(ConstantUtil.DEFAULT_PAGE_NUM);
+			queryVisaFreeHolidayRequest
+					.setPageNum(ConstantUtil.DEFAULT_PAGE_NUM);
 		}
 		if (queryVisaFreeHolidayRequest.getPageSize() <= 0) {
-			queryVisaFreeHolidayRequest.setPageSize(ConstantUtil.DEFAULT_PAGE_SIZE);
+			queryVisaFreeHolidayRequest
+					.setPageSize(ConstantUtil.DEFAULT_PAGE_SIZE);
 		}
 		if (queryVisaFreeHolidayRequest.getPageSize() > 100) {
-			queryVisaFreeHolidayRequest.setPageSize(ConstantUtil.DEFAULT_MAX_PAGE_SIZE);
+			queryVisaFreeHolidayRequest
+					.setPageSize(ConstantUtil.DEFAULT_MAX_PAGE_SIZE);
 		}
-		
-		//从session 中获取信息
+
+		// 从session 中获取信息
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 		queryVisaFreeHolidayRequest.setuId(sysLoginCtrl.getuId());
 		return queryVisaFreeHolidayRequest;
 	}
 
-	// 删除
-	@RequestMapping(value = "/deleteVisaFreeHoliday/{day}", method = RequestMethod.GET)
-	public Object deleteVisaFreeHoliday(@PathVariable String day) {
-		if (StringUtils.isEmpty(day)) {
+	// 删除 ,在浏览器中测试能够通过,但用junit测试不通过
+	@RequestMapping(value = "/deleteVisaFreeHoliday/{dayDate}", method = RequestMethod.GET)
+	public Object deleteVisaFreeHoliday(@PathVariable String dayDate) {
+		if (StringUtils.isEmpty(dayDate)) {
 			logger.error("the request params organNo is null");
 			return JSONResultUtil.setError("F00002",
 					"the request params organNo is null");
 		}
-		visaFreeHolidayService.deleteVisaFreeHoliday(day);
+		visaFreeHolidayService.deleteVisaFreeHoliday(dayDate);
 		return JSONResultUtil.setSuccess();
 	}
 }

@@ -18,7 +18,6 @@
 		<result column="CREATED_DATE" property="createdDate"></result>
 		<result column="UPDATED_BY" property="updatedBy"></result>
 		<result column="UPDATED_DATE" property="updatedDate"></result>
-		<result column="ISDELETE" property="isDelete"></result>
 	</resultMap> 
 	
 	<!-- 新增员工工作经历信息 -->
@@ -30,8 +29,20 @@
 	     #{startTime},#{endTime},#{company},
 	     #{post1},#{duty},#{desc},
 	     #{createdBy},now(),#{updatedBy},
-	     now(),#{isDelete} 
+	     now() 
 	     )
 	</insert>
+	
+	<!-- 根据主键（用户编号，序号）删除员工工作经历信息 -->
+	<delete id="deleteEpCustWorkHis" parameterType="java.lang.String">
+	     delete from 
+	     EP_CUST_WORKHIS 
+	     where 
+	     UID=#{uId} 
+	     and 
+	     USER_NO=#{userNo} 
+	     and 
+	     WORKHIS_ID=#{workHisId}
+	</delete>
 	
 </mapper>         

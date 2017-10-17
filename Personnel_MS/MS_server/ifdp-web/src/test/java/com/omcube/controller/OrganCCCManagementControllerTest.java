@@ -1,6 +1,5 @@
 package com.omcube.controller;
 
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -21,47 +20,44 @@ import org.springframework.web.context.WebApplicationContext;
 public class OrganCCCManagementControllerTest {
 
 	@Autowired
-    private WebApplicationContext wac;
- 
+	private WebApplicationContext wac;
+
 	private MockMvc mockMvc;
-	
+
 	@Before
 	public void setUp() throws Exception {
 		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 	}
-	
-	//测试机构CCC的新增功能
+
+	// 测试机构CCC的新增功能
 	@Test
-	public void addOrgCCC() throws Exception{
+	public void addOrgCCC() throws Exception {
 
 		String result = mockMvc
-				.perform(post("/organ/addOrgCCC")
-						.param("uId", "0001")
-						.param("organNo", "0003")
-						.param("organName", "营销三部")
-						.param("costType","03" )
-						.param("costCode","112" )
-						.param("descr", "112")
+				.perform(post("/organ/addOrgCCC").param("uId", "0001")
+						.param("organNo", "0005").param("organName", "2")
+						.param("costType", "2").param("costCode", "2")
+						.param("descr", "2").param("createdBy", "人")
+						.param("updateBy", "额")
 						.contentType(MediaType.APPLICATION_JSON_UTF8))
-						.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+				.andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString();
 		System.out.println(result);
 	}
-	
-	//测试机构ccc修改功能
+
+	// 测试机构ccc修改功能
 	@Test
-    public void updateOrganCCCManagement() throws Exception {
+	public void updateOrganCCCManagement() throws Exception {
 
-	String result = mockMvc
-		.perform(put("/organ/updateOrganCCCManagement")
-		.param("uId", "0001")
-		.param("organNo", "0003")
-		.param("organName", "营销三部")
-		.param("costType", "01")
-		.param("costCode", "113")
-		.param("descr", "0000")
-		.contentType(MediaType.APPLICATION_JSON_UTF8))
-		.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+		String result = mockMvc
+				.perform(put("/organ/updateOrganCCCManagement")
+						.param("uId", "0001").param("organNo", "0003")
+						.param("organName", "营销三部").param("costType", "01")
+						.param("costCode", "113").param("descr", "0000")
+						.contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString();
 
-	System.out.println(result);
-    }
+		System.out.println(result);
+	}
 }
