@@ -5,19 +5,19 @@
             <div class="content-wrapper">
                 <div class="title"><span class="text">开票信息新增</span><button class="save" @click="save">保存</button></div>
                 <div class="content">
-                    <div class="item">
+                    <div class="item_group">
                         <span class="text">公司名称</span><el-select v-model="value" class="common"></el-select>
                         <span class="text">机构号</span><el-input :disabled="true"></el-input>
                     </div>
-                    <div class="item">
+                    <div class="item_group">
                         <span class="text">银行账户</span><el-input class="common"></el-input>
                         <span class="text">账户名称</span><el-input></el-input>
                     </div>
-                    <div class="item">
+                    <div class="item_group">
                         <span class="text">电话</span><el-input class="common special_1"></el-input>
                         <span class="text special_1_1">纳税人识别号</span><el-input></el-input>
                     </div>
-                    <div class="item">
+                    <div class="item_group">
                         <span class="text">地址</span><el-input class="common"></el-input>
                     </div>
                 </div>
@@ -85,9 +85,10 @@
                     bottom 20px
             .content
                 padding 42px 0 0 8px
-                .item
+                .item_group
                     margin-bottom 30px
                     height 40px
+                    line-height 40px
                     .text
                         font-family: PingFangSC-Regular;
                         font-size: 14px;
@@ -114,4 +115,15 @@
                             border-color: #ff9900;
                         .el-input__inner:hover
                             border-color: #ff9900;
+                    .el-select
+                        width 300px
+                        height 40px
+                        .el-input
+                            height 40px
+                            .el-input__inner
+                                height 100%
+                            .el-input__inner:focus
+                                border-color: #ff9900;
+                            .el-input__inner:hover
+                                border-color: #ff9900;
 </style>
