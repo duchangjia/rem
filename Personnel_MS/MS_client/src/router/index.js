@@ -49,18 +49,15 @@ export default new Router({
                         },
                         {
                             path: '/edit_department',
-                            name: 'edit_department',
-                            component: resolve => require(['../components/pages/system_Mgmt/edit_department.vue'], resolve)
+                                component: resolve => require(['../components/pages/system_Mgmt/edit_department.vue'], resolve)
                         },
                         {
                             path: '/add_person',
-                            name: 'add_person',
-                            component: resolve => require(['../components/pages/system_Mgmt/add_person.vue'], resolve)
+                                component: resolve => require(['../components/pages/system_Mgmt/add_person.vue'], resolve)
                         },
                         {
                             path: '/add_junior',
-                            name: 'add_junior',
-                            component: resolve => require(['../components/pages/system_Mgmt/add_junior.vue'], resolve)
+                                component: resolve => require(['../components/pages/system_Mgmt/add_junior.vue'], resolve)
                         }
                     ]
                 },
@@ -100,7 +97,34 @@ export default new Router({
                 {
                     path: '/argument_1',
                     component: resolve => require(['../components/pages/argument_Mgmt/argument_1.vue'], resolve),
+                	
+                },
+                {
+                    path: '/management_fun',
+                    component: resolve => require(['../components/pages/system_Mgmt/manage_fun.vue'], resolve),
                 	children: [
+	                	{
+	                		path: '/',
+	                		component: resolve => require(['../components/pages/system_Mgmt/fun.vue'], resolve)
+	                	},
+	                	{
+	                		path: '/edit_fun',
+	                		component: resolve => require(['../components/pages/system_Mgmt/edit_fun.vue'], resolve)
+	                	}
+                	]
+                },
+                {
+                    path: '/argument_2',
+                    component: resolve => require(['../components/pages/argument_Mgmt/argument_2.vue'], resolve),
+                	children: [
+                		{
+                			path:'/',
+                			component: resolve => require(['../components/pages/argument_Mgmt/arg_2.vue'], resolve)
+                		},
+                		{
+                			path:'/agency_argument',
+                			component: resolve => require(['../components/pages/argument_Mgmt/agency_argument.vue'], resolve)
+                		},
                 		{
                 			path:'/welfare_coefficient',
                 			component: resolve => require(['../components/pages/argument_Mgmt/welfare_coefficient.vue'], resolve)
@@ -126,34 +150,6 @@ export default new Router({
                 			component:resolve => require(['../components/pages/argument_Mgmt/add_rank.vue'],resolve)
                 		}
                 	]
-                },
-                {
-                    path: '/management_fun',
-                    component: resolve => require(['../components/pages/system_Mgmt/manage_fun.vue'], resolve),
-                	children: [
-	                	{
-	                		path: '/',
-	                		component: resolve => require(['../components/pages/system_Mgmt/fun.vue'], resolve)
-	                	},
-	                	{
-	                		path: '/edit_fun',
-	                		component: resolve => require(['../components/pages/system_Mgmt/edit_fun.vue'], resolve)
-	                	}
-                	]
-                },
-                {
-                    path: '/argument_2',
-                    component: resolve => require(['../components/pages/argument_Mgmt/arg_2.vue'], resolve),
-                    children: [
-                        {
-                            path: '/',
-                            component: resolve => require(['../components/pages/argument_Mgmt/argument_2.vue'], resolve)
-                        },
-                        {
-                            path: '/agency_argument',
-                            component: resolve => require(['../components/pages/argument_Mgmt/agency_argument.vue'], resolve)
-                        }
-                    ]
                 },
                 {
                     path: '/client',
