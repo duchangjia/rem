@@ -2,6 +2,8 @@ package com.omcube.model.po;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * 合同变更
  * @author Administrator
@@ -11,15 +13,25 @@ public class PactChange {
 	private String uId;
 	private String pactNo;
 	private String changeId;
-	private Date changeTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private String changeTime;
 	private String changeType;
 	private String changeContent;//变更内容
 	private String attachm;
 	private String remark;
 	private String createdBy;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private String createdDate;
 	private String updatedBy;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private String updatedDate;
+	private String isDelete;
+	public String getIsDelete() {
+		return isDelete;
+	}
+	public void setIsDelete(String isDelete) {
+		this.isDelete = isDelete;
+	}
 	public String getuId() {
 		return uId;
 	}
@@ -38,10 +50,10 @@ public class PactChange {
 	public void setChangeId(String changeId) {
 		this.changeId = changeId;
 	}
-	public Date getChangeTime() {
+	public String getChangeTime() {
 		return changeTime;
 	}
-	public void setChangeTime(Date changeTime) {
+	public void setChangeTime(String changeTime) {
 		this.changeTime = changeTime;
 	}
 	public String getChangeType() {

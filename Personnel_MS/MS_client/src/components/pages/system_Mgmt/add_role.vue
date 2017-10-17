@@ -1,77 +1,112 @@
 <template>
-    <div class="content-wrapper">
-        <el-col :span="24" class="titlebar">
-            <span class="title">新增角色</span>
-            <el-button type="primary" @click="handleAdd" class="toolBtn">保存</el-button>
-        </el-col>
-        <div class="add-wrapper role-msg">
-            <el-col :span="24" class="item-title">角色信息</el-col>
-            <el-form :inline="true" :model="formRoleMsg" :label-position="right" label-width="80px">
-                <el-col :span="12">
-                    <el-form-item label="角色ID">
-                        <el-input v-model="formRoleMsg.roleID"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="名称">
-                        <el-input v-model="formRoleMsg.roleName"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="状态">
-                        <el-input v-model="formRoleMsg.status"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="描述">
-                        <el-input v-model="formRoleMsg.descript"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-form>
-        </div>
-        <div class="add-wrapper auth-assign">
-            <el-col :span="24" class="item-title">权限分配</el-col>
-            <el-col :span="2" class="left">
-                <div>关联菜单</div>
-            </el-col>
-            <el-col :span="22" class="right">
-                <el-radio-group v-model="menuRadio" @change="handleCheckedMenusChange" class="menu">
-                    <el-radio-button label="系统管理" class="menu-item"></el-radio-button>
-                    <el-radio-button label="参数管理" class="menu-item"></el-radio-button>
-                    <el-radio-button label="客户关系" class="menu-item"></el-radio-button>
-                    <el-radio-button label="项目管理" class="menu-item"></el-radio-button>
-                    <el-radio-button label="业务管理" class="menu-item"></el-radio-button>
-                    <el-radio-button label="运营报表" class="menu-item"></el-radio-button>
-                </el-radio-group>
-
-                <div class="submenu">
-                    <el-checkbox-button :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" label="全部"></el-checkbox-button>
-                    <el-checkbox-group v-model="submenuCheckboxGroup" @change="handleCheckedSubmenusChange">
-                        <el-checkbox-button v-for="submenu in submenus" :label="submenu" :key="submenu" class="menu-item">{{submenu}}</el-checkbox-button>
-                    </el-checkbox-group>
+    <div class="add_role">
+        <current yiji="系统管理" erji="角色管理" sanji="新增角色">
+        </current>
+        <div class="content-wrapper">
+            <div class="titlebar">
+                <span class="title-text">新增角色</span>
+                <el-button type="primary" @click="handleAdd" class="toolBtn">保存</el-button>
+            </div>
+            <div class="add-wrapper role-msg">
+                <el-col :span="24" class="item-title">角色信息</el-col>
+                <el-form :inline="true" :model="formRoleMsg" :label-position="labelPosition" label-width="80px">
+                    <el-col :span="12">
+                        <el-form-item label="角色ID">
+                            <el-input v-model="formRoleMsg.roleID"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="名称">
+                            <el-input v-model="formRoleMsg.roleName"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="状态">
+                            <el-select v-model="formRoleMsg.status">
+                                <el-option label="启用" value="启用"></el-option>
+                                <el-option label="未启用" value="未启用"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="描述">
+                            <el-input v-model="formRoleMsg.descript"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-form>
+            </div>
+            <div class="add-wrapper auth-assign">
+                <el-col :span="24" class="item-title">权限分配</el-col>
+                <div class="context-menu">
+                    <el-col :span="2" class="leftside">
+                        <div>关联菜单</div>
+                    </el-col>
+                    <el-col :span="22" class="rightside">
+                        <div class="menu">
+                            <el-radio-group v-model="menuRadio" @change="handleCheckedMenusChange">
+                                <el-radio-button v-for="menu in menus" :label="menu" :key="menu" class="menu-item"></el-radio-button>
+                            </el-radio-group>
+                        </div>
+                        <div class="submenu" v-if="menuRadioFlag">
+                            <el-checkbox-button :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" label="全部" class="menu-item"></el-checkbox-button>
+                            <el-checkbox-group v-model="checkedSubmenus" @change="handleCheckedSubmenusChange">
+                                <el-checkbox-button v-for="submenu in submenus" :label="submenu" :key="submenu" class="menu-item">{{submenu}}</el-checkbox-button>
+                            </el-checkbox-group>
+                        </div>
+                    </el-col>
                 </div>
-            </el-col>
-            <el-col :span="2" class="left">
-                <div>功能权限</div>
-            </el-col>
-            <el-col :span="22" class="right">
+                <div class="func-permission" v-if="menuRadioFlag">
+                    <el-col :span="2" class="leftside">
+                        <div>功能权限</div>
+                    </el-col>
+                    <el-col :span="22" class="rightside">
+                        <el-row :gutter="20">
+                            <el-col :span="6">
+                                <div class="funcs-content">
+                                    <el-checkbox class="func-checkall">组织架构</el-checkbox>
+                                    <el-checkbox-group class="func-item">
+                                        <el-checkbox>新增机构信息</el-checkbox>
+                                        <el-checkbox>删除机构信息</el-checkbox>
+                                        <el-checkbox>新增机构信息</el-checkbox>
+                                        <el-checkbox>修改机构信息</el-checkbox>
+                                        <el-checkbox>查询机构列表</el-checkbox>
+                                        <el-checkbox>新增机构信息</el-checkbox>
+                                    </el-checkbox-group>
+                                </div>
+                            </el-col>
+                            <el-col :span="6">
+                                <div class="funcs-content">
+                                    <el-checkbox class="func-checkall">用户管理</el-checkbox>
+                                    <el-checkbox-group class="func-item">
+                                        <el-checkbox>用户管理1</el-checkbox>
+                                        <el-checkbox>用户管理2</el-checkbox>
+                                        <el-checkbox>用户管理3</el-checkbox>
+                                        <el-checkbox>用户管理4</el-checkbox>
+                                    </el-checkbox-group>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </el-col>
+                </div>
 
-            </el-col>
+            </div>
         </div>
     </div>
 </template>
 
 <script type='text/ecmascript-6'>
+const menuOptions = ['系统管理', '参数管理', '客户关系', '项目管理', '业务管理', '运营报表'];
 const submenuOptions1 = ['组织架构', '用户管理', '角色管理', '功能管理'];
 const submenuOptions2 = ['参数管理1', '参数管理2', '参数管理3'];
 const submenuOptions3 = ['客户关系1', '客户关系2', '客户关系3'];
 const submenuOptions4 = ['项目管理1', '项目管理2', '项目管理3', '项目管理4'];
 const submenuOptions5 = ['业务管理1', '业务管理2', '业务管理3', '业务管理4'];
 const submenuOptions6 = ['运营报表1', '运营报表2', '运营报表3', '运营报表4'];
-
+import current from '../../common/current_position.vue'
 export default {
     data() {
         return {
+            labelPosition: 'right',
             formRoleMsg: {
                 roleID: '',
                 roleName: '',
@@ -79,72 +114,77 @@ export default {
                 descript: ''
             },
             menuRadio: '系统管理',
+            menuRadioFlag: true,
+            menus: menuOptions,
 
-            checkAll: true,
-            checkedCities: ['组织架构', '用户管理'],
-            submenus: [],
-            isIndeterminate: true,
-            submenuCheckboxGroup: []
+            checkAll: false,
+            checkedSubmenus: ['组织架构', '用户管理'],
+            submenus: submenuOptions1,
+            isIndeterminate: true
         };
+    },
+    components: {
+        current,
     },
     methods: {
         handleCheckedMenusChange(value) {
+            if (value !== null) {
+                this.menuRadioFlag = true;
+            } else {
+                this.menuRadioFlag = false;
+            }
             if (value == '系统管理') {
+                this.checkAll = false;
                 this.submenus = submenuOptions1;
             } else if (value == '参数管理') {
+                this.checkAll = false;
                 this.submenus = submenuOptions2;
             } else if (value == '客户关系') {
+                this.checkAll = false;
                 this.submenus = submenuOptions3;
             } else if (value == '项目管理') {
+                this.checkAll = false;
                 this.submenus = submenuOptions4;
             } else if (value == '业务管理') {
+                this.checkAll = false;
                 this.submenus = submenuOptions5;
             } else if (value == '运营报表') {
+                this.checkAll = false;
                 this.submenus = submenuOptions6;
             }
         },
         handleCheckAllChange(event) {
-            this.submenuCheckboxGroup = event.target.checked ? submenuOptions1 : [];
+            this.checkedSubmenus = event.target.checked ? this.submenus : [];
             this.isIndeterminate = false;
         },
         handleCheckedSubmenusChange(value) {
             let checkedCount = value.length;
             this.checkAll = checkedCount === this.submenus.length;
             this.isIndeterminate = checkedCount > 0 && checkedCount < this.submenus.length;
+        },
+        handleAdd() {
+            let newRole = {};
+            newRole.roleID = this.formRoleMsg.roleID;
+            newRole.roleName = this.formRoleMsg.roleName;
+            newRole.status = this.formRoleMsg.status;
+            newRole.descript = this.formRoleMsg.descript;
+            console.dir(newRole);
         }
     }
 }
 </script>
 
+
 <style>
-.content-wrapper {
+.add_role {
+    padding: 0 0 20px 20px;
+}
+
+.add_role .content-wrapper {
     background: #ffffff;
-    padding: 0 20px 20px;
+    padding: 0 20px 0;
     color: #333333;
-}
-
-.content-wrapper .titlebar {
-    float: none;
-    height: 80px;
-    line-height: 80px;
-    font-size: 16px;
-    font-family: "PingFang SC";
-    border-bottom: 1px solid #eeeeee;
-}
-
-.content-wrapper .titlebar .toolBtn {
-    float: right;
-    margin-top: 20px;
-    border-radius: 0;
-    height: 40px;
-    line-height: 40px;
-    width: 120px;
-    background: #FF9900;
-    border: none;
-}
-
-.el-button {
-    padding: 0;
+    clear: both;
 }
 
 .add-wrapper .item-title {
@@ -152,7 +192,6 @@ export default {
     height: 56px;
     line-height: 56px;
     padding-left: 8px;
-    float: none;
 }
 
 .add-wrapper form {
@@ -164,13 +203,13 @@ export default {
     display: inline-block;
 }
 
-.add-wrapper .left {
+.add-wrapper .leftside {
     display: inline-block;
-    padding: 10px 0 10px 8px;
+    padding: 7px 0 7px 8px;
     color: #999999;
 }
 
-.add-wrapper .right {
+.add-wrapper .rightside {
     float: none;
     display: inline-block;
 }
@@ -178,7 +217,16 @@ export default {
 .add-wrapper label {
     font-weight: 400;
     color: #999999;
+    margin-bottom: 0;
+}
+
+.add-wrapper.role-msg label {
     margin-right: 14px;
+}
+
+.el-select-dropdown__item.selected,
+.el-select-dropdown__item.selected.hover {
+    background-color: #FF9900;
 }
 
 .add-wrapper .el-input__inner {
@@ -225,6 +273,7 @@ export default {
 
 .add-wrapper .submenu {
     padding: 10px;
+    margin-bottom: 20px;
     background: #F4F4F4;
 }
 
@@ -264,5 +313,57 @@ export default {
 
 .add-wrapper .submenu .el-checkbox-button.is-checked .el-checkbox-button__inner:hover {
     color: #ffffff;
+}
+
+
+.add-wrapper .func-permission .funcs-content {
+    background: #F8F8F8;
+    height: 312px;
+    margin-bottom: 20px;
+    /* padding: 0 20px; */
+}
+
+.add-wrapper .func-permission .funcs-content label {
+    color: #333333;
+}
+
+.add-wrapper .func-permission .funcs-content .func-item {
+    margin-top: 8px;
+}
+
+.add-wrapper .func-permission .funcs-content .el-checkbox {
+    display: block;
+    line-height: 36px;
+}
+
+.add-wrapper .func-permission .funcs-content .el-checkbox+.el-checkbox {
+    margin-left: 0;
+}
+
+.add-wrapper .func-permission .funcs-content .el-checkbox__input {
+    float: right;
+    margin-top: 8px;
+    margin-right: 20px;
+}
+
+.add-wrapper .func-permission .funcs-content .el-checkbox__label {
+    padding-left: 0;
+    font-family: "PingFangSC-Light";
+    margin-left: 20px;
+}
+
+.add-wrapper .func-permission .funcs-content .el-checkbox.func-checkall {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 1px solid #F1F1F1;
+}
+
+.add-wrapper .func-permission .funcs-content .el-checkbox.func-checkall .el-checkbox__input {
+    margin-top: 10px;
+}
+
+.add-wrapper .func-permission .funcs-content .el-checkbox.func-checkall .el-checkbox__label {
+    font-family: "PingFangSC-Regular";
+    font-size: 16px;
 }
 </style>

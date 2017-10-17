@@ -1,133 +1,196 @@
 <template>
     <div class="home_page">
-        <div class="location-wrapper">
-            <span class="current-location">当前位置：首页</span>
-            <span class="search"><input type="text" class="search-text"><i class="search-icon"></i></span>
-        </div>
-        <ul class="list">
-            <li class="list-item">
-                <img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">
-                <div class="des">
-                    <div class="count">321</div>
-                    <div class="text">项目一览</div>
-                </div>
-            </li>
-            <li class="list-item">
-                <img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">
-                <div class="des">
-                    <div class="count">321</div>
-                    <div class="text">项目一览</div>
-                </div>
-            </li>
-            <li class="list-item">
-                <img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">
-                <div class="des">
-                    <div class="count">321</div>
-                    <div class="text">项目一览</div>
-                </div>
-            </li>
-            <li class="list-item">
-                <img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">
-                <div class="des">
-                    <div class="count">321</div>
-                    <div class="text">项目一览</div>
-                </div>
-            </li>
-            <li class="list-item">
-                <img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">
-                <div class="des">
-                    <div class="count">321</div>
-                    <div class="text">项目一览</div>
-                </div>
-            </li>
-        </ul>
+        <!--<div class="location-wrapper">-->
+            <!--<span class="current-location">当前位置：首页</span>-->
+            <!--<span class="search"><input type="text" class="search-text"><i class="search-icon"></i></span>-->
+        <!--</div>-->
+        <current yiji="首页" class="test"></current>
+        <el-row>
+            <el-col :span="23">
+                <ul class="list">
+                    <li class="list-item" v-for="(item, index) in listObj.imgIcon">
+                        <img :src="`../../../static/img/home/${item}.png`" alt="" width="56" height="56">
+                        <div class="des">
+                            <div class="count">{{listObj.listData}}</div>
+                            <div class="text">{{listObj.listText[index]}}</div>
+                        </div>
+                    </li>
+                </ul>
+            </el-col>
+        </el-row>
+        <!--<ul class="list">-->
+            <!--<li class="list-item">-->
+                <!--<img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">-->
+                <!--<div class="des">-->
+                    <!--<div class="count">321</div>-->
+                    <!--<div class="text">项目一览</div>-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li class="list-item">-->
+                <!--<img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">-->
+                <!--<div class="des">-->
+                    <!--<div class="count">321</div>-->
+                    <!--<div class="text">项目一览</div>-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li class="list-item">-->
+                <!--<img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">-->
+                <!--<div class="des">-->
+                    <!--<div class="count">321</div>-->
+                    <!--<div class="text">项目一览</div>-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li class="list-item">-->
+                <!--<img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">-->
+                <!--<div class="des">-->
+                    <!--<div class="count">321</div>-->
+                    <!--<div class="text">项目一览</div>-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li class="list-item">-->
+                <!--<img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">-->
+                <!--<div class="des">-->
+                    <!--<div class="count">321</div>-->
+                    <!--<div class="text">项目一览</div>-->
+                <!--</div>-->
+            <!--</li>-->
+        <!--</ul>-->
+
+            <!--<div class="content-wrapper">-->
+        <el-row style="margin: 20px 0; overflow: hidden;" class="common-chart">
+            <el-col :span="12"><div class="content-left" id="myChart1"></div></el-col>
+            <el-col :span="12"><div class="content-right" id="myChart2"></div></el-col>
+        </el-row>
+        <el-row style="margin: 20px 0; overflow: hidden;" class="common-chart">
+            <el-col :span="12"><div class="content-left" id="myChart3"></div></el-col>
+            <el-col :span="12"><div class="content-right" id="myChart4"></div></el-col>
+        </el-row>
+            <!--</div>-->
+
+        <!--<div class="content-wrapper">-->
+            <!--<div class="content-left" id="myChart1"></div>-->
+            <!--<div class="content-right" id="myChart2"></div>-->
+        <!--</div>-->
+        <!--<div class="content-wrapper">-->
+            <!--<div class="content-left" id="myChart3"></div>-->
+            <!--<div class="content-right" id="myChart4"></div>-->
+        <!--</div>-->
         <div class="content-wrapper">
-            <div class="content-left" id="myChart1"></div>
-            <div class="content-right" id="myChart2"></div>
+            <el-row>
+                <el-col :span="12">
+                    <div class="content-left info-msg common">
+                        <div class="title-wrapper"><span class="title">提示信息</span><a href="#" class="more">MORE</a></div>
+                        <ul class="info-msg-list">
+                            <li class="info-msg-item" v-for="item in infoObj">
+                                <i class="info-msg-icon"></i>{{item.content}}<span class="text">{{item.date}}</span>
+                            </li>
+                            <!--<li class="info-msg-item">-->
+                                <!--<i class="info-msg-icon"></i>写点东西<span class="text">刚刚</span>-->
+                            <!--</li>-->
+                            <!--<li class="info-msg-item">-->
+                                <!--<i class="info-msg-icon"></i>写点东西<span class="text">刚刚</span>-->
+                            <!--</li>-->
+                            <!--<li class="info-msg-item">-->
+                                <!--<i class="info-msg-icon"></i>写点东西<span class="text">刚刚</span>-->
+                            <!--</li>-->
+                            <!--<li class="info-msg-item">-->
+                                <!--<i class="info-msg-icon"></i>写点东西<span class="text">刚刚</span>-->
+                            <!--</li>-->
+                        </ul>
+                    </div>
+                </el-col>
+                <el-col :span="12">
+                    <div class="content-right todo common">
+                        <div class="event">
+                            <div class="title-wrapper"><span class="title">代办事宜</span><a href="#" class="more">MORE</a></div>
+                            <ul class="todo-list-common">
+                                <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
+                                <li class="line"></li>
+                                <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
+                                <li class="line"></li>
+                                <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
+                            </ul>
+                        </div>
+                        <div class="remind">
+                            <div class="title-wrapper"><span class="title">信息提醒</span><a href="#" class="more">MORE</a></div>
+                            <ul class="todo-list-common">
+                                <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
+                                <li class="line"></li>
+                                <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
+                                <li class="line"></li>
+                                <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </el-col>
+            </el-row>
         </div>
-        <div class="content-wrapper">
-            <div class="content-left" id="myChart3"></div>
-            <div class="content-right" id="myChart4"></div>
-        </div>
-        <div class="content-wrapper">
-            <div class="content-left info-msg common">
-                <div class="title-wrapper"><span class="title">提示信息</span><a href="#" class="more">MORE</a></div>
-                    <ul class="info-msg-list">
-                        <li class="info-msg-item">
-                            <i class="info-msg-icon"></i>写点东西<span class="text">刚刚</span>
-                        </li>
-                        <li class="info-msg-item">
-                            <i class="info-msg-icon"></i>写点东西<span class="text">刚刚</span>
-                        </li>
-                        <li class="info-msg-item">
-                            <i class="info-msg-icon"></i>写点东西<span class="text">刚刚</span>
-                        </li>
-                        <li class="info-msg-item">
-                            <i class="info-msg-icon"></i>写点东西<span class="text">刚刚</span>
-                        </li>
-                        <li class="info-msg-item">
-                            <i class="info-msg-icon"></i>写点东西<span class="text">刚刚</span>
-                        </li>
-                    </ul>
-            </div>
-            <div class="content-right todo common">
-                <div class="event">
-                    <div class="title-wrapper"><span class="title">代办事宜</span><a href="#" class="more">MORE</a></div>
-                    <ul class="todo-list-common">
-                        <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
-                        <li class="line"></li>
-                        <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
-                        <li class="line"></li>
-                        <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
-                    </ul>
+        <el-row>
+            <el-col :span="23">
+                <div class="content-wrapper item-pro">
+                    <div class="pro-title">项目进度表</div>
+                    <el-table
+                            stripe
+                            :data="tableData"
+                            border
+                            style="width: 1040px">
+                        <el-table-column
+                                align="center"
+                                prop="date"
+                                label="日期"
+                                width="260">
+                        </el-table-column>
+                        <el-table-column
+                                align="center"
+                                prop="name"
+                                label="姓名"
+                                width="260">
+                        </el-table-column>
+                        <el-table-column
+                                align="center"
+                                label="地址">
+                            <template scope="scope">
+                                <el-progress :percentage="scope.row.progress"></el-progress>
+                            </template>
+                        </el-table-column>
+                    </el-table>
                 </div>
-                <div class="remind">
-                    <div class="title-wrapper"><span class="title">信息提醒</span><a href="#" class="more">MORE</a></div>
-                    <ul class="todo-list-common">
-                        <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
-                        <li class="line"></li>
-                        <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
-                        <li class="line"></li>
-                        <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="content-wrapper item-pro">
-            <div class="pro-title">项目进度表</div>
-            <el-table
-                    stripe
-                    :data="tableData"
-                    border
-                    style="width: 1040px">
-                <el-table-column
-                        align="center"
-                        prop="date"
-                        label="日期"
-                        width="260">
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        prop="name"
-                        label="姓名"
-                        width="260">
-                </el-table-column>
-                <el-table-column
-                        align="center"
-                        label="地址">
-                    <template scope="scope">
-                        <el-progress :percentage="scope.row.progress"></el-progress>
-                    </template>
-                </el-table-column>
-            </el-table>
-        </div>
+            </el-col>
+        </el-row>
     </div>
 </template>
 
 <script>
+    import current from '../common/current_position.vue'
     export default {
         data() {
             return {
+                listObj: {
+                    imgIcon: ['xmyl', 'xmlx', 'sqlx', 'jygl', 'rygl'],
+                    listText: ['项目一览', '项目立项', '售前立项', '经营管理', '人员管理'],
+                    listData: 321
+                },
+                infoObj: [
+                    {content: '写点东西', date: '刚刚'},
+                    {content: '写点东西', date: '刚刚'},
+                    {content: '写点东西', date: '刚刚'},
+                    {content: '写点东西', date: '刚刚'},
+                    {content: '写点东西', date: '刚刚'},
+                ],
+                todoObj: [
+                    {content: '写点东西', date: '2016-10-10'},
+                    {content: '写点东西', date: '2016-10-10'},
+                    {content: '写点东西', date: '2016-10-10'},
+                    {content: '写点东西', date: '2016-10-10'},
+                    {content: '写点东西', date: '2016-10-10'},
+                ],
+                remindObj: [
+                    {content: '写点东西', date: '2016-10-10'},
+                    {content: '写点东西', date: '2016-10-10'},
+                    {content: '写点东西', date: '2016-10-10'},
+                    {content: '写点东西', date: '2016-10-10'},
+                    {content: '写点东西', date: '2016-10-10'},
+                ],
                 tableData: [{
                     date: '2016-05-02',
                     name: '王小虎',
@@ -149,6 +212,9 @@
                     progress: 70,
                 }],
             }
+        },
+        components: {
+          current,
         },
         mounted() {
             this.drawLine1();
@@ -669,6 +735,9 @@
     .home_page ul{
         list-style: none;
     }
+    .home_page .test{
+        padding-left: 10px;
+    }
     .location-wrapper{
         margin: 20px 0;
         display: flex;
@@ -710,17 +779,13 @@
         display: flex;
     }
     .list-item{
-        float: left;
-        width: 216px;
+        flex: 1;
         height: 100px;
         background: #fff;
-        list-style: none;
-        box-sizing: border-box;
-        padding: 20px 20px 24px 20px;
+        padding: 20px 35px 24px 20px;
     }
     .list-item .des{
         float: right;
-        margin-left: 56px;
     }
     .list-item .count{
         float: right;
@@ -744,6 +809,21 @@
         margin: 20px 0;
         overflow: hidden;
     }
+    .common-chart .content-left{
+        width: 530px;
+        height: 344px;
+        background: #fff;
+        margin-right: 20px;
+        float: left;
+        box-sizing: border-box;
+    }
+    .common-chart .content-right{
+        width: 530px;
+        height: 344px;
+        background: #fff;
+        float: left;
+        box-sizing: border-box;
+    }
     .content-wrapper .content-left{
         width: 530px;
         height: 344px;
@@ -759,19 +839,19 @@
         float: left;
         box-sizing: border-box;
     }
-    .content-wrapper #myChart1{
+    .common-chart #myChart1{
         padding: 20px 30px 20px 20px;
         /*background: #fff !important;*/
     }
-    .content-wrapper #myChart2{
+    .common-chart #myChart2{
         padding: 20px 30px 38px 20px;
         /*background: #fff !important;*/
     }
-    .content-wrapper #myChart3{
+    .common-chart #myChart3{
         padding: 20px 30px 51px 20px;
         background: #fff !important;
     }
-    .content-wrapper #myChart4{
+    .common-chart #myChart4{
         padding: 20px 14px 30px 20px;
         background: #fff !important;
     }
@@ -871,7 +951,7 @@
         flex: 0 0 3px;
     }
     .item-pro{
-        width: 1080px;
+        /*width: 1080px;*/
         height: 324px;
         padding: 20px 20px 43px 20px;
         background: #fff;
