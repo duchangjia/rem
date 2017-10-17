@@ -23,29 +23,29 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="所属公司" prop="compOrgNo">
-							<el-select v-model="userDetail.compOrgNo" placeholder="所属公司">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+							<el-select v-model="comp" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
+								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="所属部门" prop="departOrgNo">
-							<el-select v-model="userDetail.departOrgNo" placeholder="所属部门">
-								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
+							<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
+								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="角色" prop="roleName">
-							<el-select v-model="userDetail.roleName" class="bg-white">
-								<el-option v-for="(item,k) in roleList" :key="item.roleNo" :label="item.roleName" :value="item.roleNo"></el-option>
+						<el-form-item label="角色" prop="roleNo">
+							<el-select v-model="role" value-key="roleNo" class="bg-white" @change="changeValue">
+								<el-option v-for="(item,k) in roleList" :key="item.roleNo" :label="item.roleName" :value="item"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="状态" prop="status">
 							<el-select v-model="userDetail.status" class="bg-white">
-								<el-option label="正常" value="1" checked></el-option>
+								<el-option label="正常" value="1"></el-option>
 								<el-option label="停用" value="0"></el-option>
 								<el-option label="锁定" value="2"></el-option>
 							</el-select>
@@ -74,15 +74,6 @@
 				</el-form>
 			</div>
 		</div>
-		  <!--<el-select v-model="value2" value-key  placeholder="请选择" @change="test()">
-		    <el-option
-		      v-for="item in options2"
-		      :key="item.value"
-		      :label="item.label"
-		      :value="item.value"
-		      :disabled="item.disabled">
-		    </el-option>
-		  </el-select>-->
 	</div>
 </template>
 
@@ -118,17 +109,29 @@
 				//用户详细信息
 				userDetail: {
 					userName: 'aaaaa',
-					userNo: '1',
-					compName: '1',
-					compOrgNo: 'p1',
-					departName: '1',
-					departOrgNo: 'p1',
-					roleName: '1',
-					status: '1',
+					userNo: '',
+					compName: '',
+					compOrgNo: '',
+					departName: '',
+					departOrgNo: '',
+					roleName: '',
+					status: '0',
 					mobile: '13513513513',
 					email: '123@123.com',
 					certNo: '1',
 					remark: '1'
+				},
+				comp: {
+					compName: '',
+					compOrgNo: ''	
+				},
+				depart: {
+					departName: '',
+					departOrgNo: ''
+				},
+				role: {
+					roleName: '',
+					roleNo: ''
 				},
 				//角色列表
 				roleList: [
@@ -159,25 +162,7 @@
 //					mobile: [
 ////						{ validator: checkMobile, trigger: 'blur'}
 //					]
-				},
-//				 options2: [{
-//		          value: '选项1',
-//		          label: '黄金糕'
-//		        }, {
-//		          value: '选项2',
-//		          label: '双皮奶',
-//		          disabled: true
-//		        }, {
-//		          value: '选项3',
-//		          label: '蚵仔煎'
-//		        }, {
-//		          value: '选项4',
-//		          label: '龙须面'
-//		        }, {
-//		          value: '选项5',
-//		          label: '北京烤鸭'
-//		        }],
-//		        value2: ''
+				}
 			}
 		},
 		components: {
@@ -197,6 +182,12 @@
 					console.log('UserDetail',res);
 					self.userDetail = res.data.data;
 					self.oldStatus = self.userDetail.status;
+					self.comp.compName = res.data.data.compName;
+					self.comp.compOrgNo = res.data.data.compOrgNo;
+					self.depart.departName = res.data.data.departName;
+					self.depart.departOrgNo = res.data.data.departOrgNo;
+					self.role.roleName = res.data.data.roleName;
+					self.role.roleNo = res.data.data.roleNo;
 					for(var i in self.userDetail){
 						self.olduserDetail[i] = self.userDetail[i];
 					}
@@ -208,10 +199,16 @@
 			
 		},
 		methods: {
-			test(){
-				console.log(this.value2);
-				console.log(this.value2);
-			},
+		 	changeValue(value) {
+		 		const self = this;
+	            console.log('value',value);
+				self.userDetail.compName = self.comp.compName;
+				self.userDetail.compOrgNo = self.comp.compOrgNo;
+				self.userDetail.departName = self.depart.departName;
+				self.userDetail.departOrgNo = self.depart.departOrgNo;
+				self.userDetail.roleName = self.role.roleName;
+				self.userDetail.roleNo = self.role.roleNo;
+	       },
 			//密码重置
 			resetPass() {
 				const self = this;
