@@ -31,7 +31,7 @@ public class PayBaseInfoControllerTest {
 	mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
-    @Test
+  //  @Test
     public void addPayBaseInfo() throws Exception
     {
 	String result = mockMvc.perform(post("/pay/addPayBaseInfo")
@@ -48,7 +48,7 @@ public class PayBaseInfoControllerTest {
 		.param("houseBase", "300")
 		.param("probRatio", "0.8")
 		.param("welcoeNo", "300")
-		.param("status", "2")
+		.param("status", "1")
 		.param("remark", "")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
@@ -56,5 +56,21 @@ public class PayBaseInfoControllerTest {
 
 	System.out.println(result);
     }
+    
+    @Test
+    public void queryPayBaseInfoList() throws Exception
+    {
+	String result = mockMvc.perform(get("/pay/queryPayBaseInfoList")
+		.param("pageNum", "1")
+		.param("pageSize", "2")
+		.param("userNo", "P0000001")
+		.param("userName", "亚当")
+		.contentType(MediaType.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk()).andReturn().getResponse()
+		.getContentAsString();
+
+	System.out.println(result);
+    }
+    
 
 }
