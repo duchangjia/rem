@@ -163,7 +163,7 @@ export default {
     margin-top: 20px;
     border-radius: 0;
     height: 40px;
-    line-height: 40px;
+    /* line-height: 40px; */
     width: 120px;
     background: #FF9900;
     border: none;

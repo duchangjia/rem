@@ -15,8 +15,8 @@
                     </el-form-item>
                     <el-form-item label="合同类型">
                         <el-select v-model="filters.pactType">
-                            <el-option label="有效" value="1"></el-option>
-                            <el-option label="无效" value="0"></el-option>
+                            <el-option label="劳动合同" value="1"></el-option>
+                            <el-option label="保密协议" value="0"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item style="margin-left:10px;">
@@ -107,7 +107,7 @@ export default {
                 })
         },
         pactTypeFormatter(row, column) {
-            return row.pactType == 1 ? '正式合同' : row.pactType == 0 ? '试用合同' : '异常';
+            return row.pactType == 1 ? '劳动合同' : row.pactType == 0 ? '保密协议' : '异常';
         },
         pactStatusFormatter(row, column) {
             return row.pactStatus == 1 ? '有效' : row.pactStatus == 0 ? '无效' : '异常';
