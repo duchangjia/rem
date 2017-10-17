@@ -20,5 +20,8 @@ public class EpCustEduHisServiceImpl implements EpCustEduHisService{
 	epCustEduHisMapper.insertEpCustEduHis(epCustEduHisPO);
     }
     
-
+    //根据主键(用户编号，序号)删除员工教育经历信息
+    public void deleteEpCustEduHis(EpCustEduHisPO epCustEduHisPO){
+	epCustEduHisMapper.deleteEpCustEduHis(epCustEduHisPO);
+    }
 }

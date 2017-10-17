@@ -9,16 +9,7 @@ public class EpCustWorkHisPO extends BasicPO{
     private String post1;     //职务
     private String duty;      //职责
     private String desc;      //描述
-    private String isDelete;  //是否删除
     
-    public String getIsDelete()
-    {
-        return isDelete;
-    }
-    public void setIsDelete(String isDelete)
-    {
-        this.isDelete = isDelete;
-    }
     public String getUserNo()
     {
         return userNo;
