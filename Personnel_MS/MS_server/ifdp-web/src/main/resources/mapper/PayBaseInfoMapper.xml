@@ -94,7 +94,7 @@
 			<if test="userName != null">
 				and ci.cust_name like '%${userName}%'
 			</if>
-			order by pb.user_no desc
+			order by pb.user_no
 	 </select>
 	 
 	 <select id="queryPayBaseInfoDetail" parameterType="java.lang.String" resultMap="queryPayBaseInfoDetailMap">
