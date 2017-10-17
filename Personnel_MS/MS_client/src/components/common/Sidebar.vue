@@ -162,6 +162,7 @@ export default {
 	watch: {
 		$route: function() {
 			//sidebar导航highlight随路由变化
+			console.log(this.$route.matched)
 			let path = this.$route.matched[1].path.substr(1);
 			this.itemActive = {};
 			this.itemActive[path] = 'is-active';

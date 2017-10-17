@@ -1,22 +1,34 @@
 package com.omcube.web.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.omcube.enumtype.PayBaseStatusEnum;
 import com.omcube.model.po.EpPayBaseInfoPO;
 import com.omcube.model.po.SysLoginCtrl;
+import com.omcube.model.request.QueryPayBaseInfoRequest;
+import com.omcube.model.response.PayBaseInfoListResponse;
+import com.omcube.model.response.UserListInfo;
 import com.omcube.service.PayBaseInfoService;
+import com.omcube.util.ConstantUtil;
 import com.omcube.util.ErrorCodeConstantUtil;
 import com.omcube.util.JSONResultUtil;
+import com.omcube.util.Result;
 import com.omcube.util.SysLoginCtrlUtil;
 
 /**
@@ -39,6 +51,7 @@ public class PayBaseInfoController {
      * @return
      */
     @PostMapping(value = "/addPayBaseInfo")
+    @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
     public Object addPayBaseInfo(@Valid EpPayBaseInfoPO epPayBaseInfo, BindingResult bindingResult) {
 	//参数校验
 	if (bindingResult.hasErrors()) {
@@ -73,5 +86,47 @@ public class PayBaseInfoController {
 	payBaseInfoService.addPayBaseInfo(epPayBaseInfo);
 
 	return JSONResultUtil.setSuccess();
+    }
+
+    @GetMapping(value = "/queryPayBaseInfoList")
+    @Cacheable(value = ConstantUtil.QUERY_CACHE)
+    public Object queryPayBaseInfoList(@Valid QueryPayBaseInfoRequest queryPayBaseInfoReq,
+	    BindingResult bindingResult) {
+	//参数校验
+	if (bindingResult.hasErrors()) {
+	    logger.error("the request params is invalid");
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
+		    bindingResult.getFieldError().getDefaultMessage());
+	}
+	//校正分页属性
+	checkPageParam(queryPayBaseInfoReq);
+	//获取缓存uid
+	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+	queryPayBaseInfoReq.setUid(sysLoginCtrl.getuId());
+	//分页返回
+	Result<PayBaseInfoListResponse> result = new Result<>();
+	Page<PayBaseInfoListResponse> page = PageHelper.startPage(queryPayBaseInfoReq.getPageNum(),
+		queryPayBaseInfoReq.getPageSize(), true);
+	List<PayBaseInfoListResponse> payBaseInfoList = payBaseInfoService.queryPayBaseInfoList(queryPayBaseInfoReq);
+	
+	long totalNum = page.getTotal();
+	result.setTotal(totalNum);
+	result.setModels(payBaseInfoList);
+	logger.debug(String.format("queryUser is end  total numbers is :%s", totalNum));
+	
+	return JSONResultUtil.setSuccess(result);
+
+    }
+
+    private void checkPageParam(QueryPayBaseInfoRequest queryPayBaseInfoReq) {
+	if (queryPayBaseInfoReq.getPageNum() <= 0) {
+	    queryPayBaseInfoReq.setPageNum(ConstantUtil.DEFAULT_PAGE_NUM);
+	}
+	if (queryPayBaseInfoReq.getPageSize() <= 0) {
+	    queryPayBaseInfoReq.setPageSize(ConstantUtil.DEFAULT_PAGE_SIZE);
+	}
+	if (queryPayBaseInfoReq.getPageSize() > 100) {
+	    queryPayBaseInfoReq.setPageSize(ConstantUtil.DEFAULT_MAX_PAGE_SIZE);
+	}
     }
 }
