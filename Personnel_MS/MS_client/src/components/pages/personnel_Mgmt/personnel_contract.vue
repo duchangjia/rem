@@ -119,16 +119,16 @@ label {
     overflow: hidden;
 }
 
-.add_contract .el-form-item__label {
+.add-wrapper .el-form-item__label {
     margin-right: 14px;
 }
 
-.add_contract .el-upload__input {
+.add-wrapper .el-upload__input {
     width: 300px;
     border: 1px solid #bfcbd9;
 }
 
-.add_contract .uploadBtn {
+.add-wrapper .uploadBtn {
     position: absolute;
     height: 38px;
     top: 0;

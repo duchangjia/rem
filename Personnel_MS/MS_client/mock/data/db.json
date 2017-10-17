@@ -368,27 +368,27 @@
     ]
   },
   "addRoleInfo": {
-    "roleName":"人事",
-    "roleDescr":"我是描述是描述是描述",
-    "status":"0"
+    "roleName": "人事",
+    "roleDescr": "我是描述是描述是描述",
+    "status": "0"
   },
   "modifyRoleInfo": {
-    "roleNo":"001",
-    "roleName":"人事",
-    "roleDescr":"我是描述是描述是描述" 
+    "roleNo": "001",
+    "roleName": "人事",
+    "roleDescr": "我是描述是描述是描述"
   },
   "deleteRoleInfo": {
-    "roleNo":"001"
+    "roleNo": "001"
   },
   "setRoleFunc": {
-    "roleNo":"001", 
-    "roleFuncSet": [ 
+    "roleNo": "001",
+    "roleFuncSet": [
       {
-        "bsnNo":"234332",
+        "bsnNo": "234332",
         "bsnSet": "1"
       },
       {
-        "bsnNo":"234332",
+        "bsnNo": "234332",
         "bsnSet": "1"
       }
     ]
@@ -398,7 +398,7 @@
     "pageRows": "7",
     "pageCount": "8",
     "totalRows": "50",
-    "pactListArray":[
+    "pactListArray": [
       {
         "pactNo": "001",
         "pactName": "一号合同",
@@ -464,5 +464,33 @@
         "pactEndTime": "2020-09-13 00:00:00"
       }
     ]
+  },
+  "querPactDtl": {
+    "pactNo": "004",
+    "paperPactNo":  "P004",
+    "pactName": "四号合同",
+    "organNo": "P001002",
+    "organName": "002公司",
+    "derpNo": "D001",
+    "derpName": "001部门",
+    "userNo": "d123",
+    "custName": "张铁牛",
+    "sex": "1",
+    "cert": "422000199012211222",
+    "pactType": "1",
+    "pactStatus": "1",
+    "signTime": "2017-09-13 00:00:00",
+    "pactStartTime": "2017-09-13 00:00:00",
+    "pactEndTime": "2020-09-13 00:00:00",
+    "pactExpires": "3",
+    "pactStopTime": "2018-09-20 00:00:00",
+    "stopReason": "世界那么大，我想去看看",
+    "autoupFlag": "true",
+    "attachm": "JS23293923988",
+    "remark": "走了就不会再回来了",
+    "createdBy": "李大仁",
+    "createdDate": "2017-09-13 00:00:00",
+    "updateBy": "李大仁",
+    "updateDate":"2017-10-09 00:00:00"
   }
 }
