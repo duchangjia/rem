@@ -66,11 +66,11 @@
                         subs: [
                             {
                                 index: 'argument_1',
-                                title: '参数管理1'
+                                title: '系统参数'
                             },
                             {
                                 index: 'argument_2',
-                                title: '参数管理2'
+                                title: '业务参数'
                             },
                         ]
                     },

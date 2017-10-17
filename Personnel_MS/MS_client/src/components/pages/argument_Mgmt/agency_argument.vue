@@ -1,0 +1,241 @@
+<template>
+    <div class="agency_argument">
+        <current yiji="参数管理" erji="业务参数" sanji="机构CCC管理" class="test"></current>
+        <el-col :span="24">
+            <div class="content-wrapper">
+                <div class="title"><span class="text">机构CCC管理</span></div>
+                <div class="content">
+                    <div class="search">
+                        <span class="text">查询条件</span>
+                        <input type="text">
+                        <el-button class="toolBtn">查询</el-button>
+                    </div>
+                    <table>
+                        <tr><td v-for="th in table.th">{{th}}</td></tr>
+                        <tr v-for="tds in table.td"><td v-for="td in tds">{{td}}</td><td><i class="el-icon-delete2"></i></td></tr>
+                    </table>
+                    <el-pagination
+                            @size-change="handleSizeChange"
+                            @current-change="handleCurrentChange"
+                            :page-size="10"
+                            layout="total,prev, pager, next, jumper"
+                            :total="100">
+                    </el-pagination>
+                </div>
+            </div>
+        </el-col>
+    </div>
+</template>
+
+<script type='text/ecmascript-6'>
+    import current from '../../common/current_position.vue'
+    export default {
+        data() {
+            return {
+                table: {
+                    num:[0,1,2,3,4,5],
+                    th:['机构ID', '机构名称', 'CCC类型', 'CCC值', '备注', '操作'],
+                    td:[
+                        {
+                            id: '001',
+                            name: '机构名称机构名称机构名称',
+                            type: '管理',
+                            zhi: 'XXXXXXXXXX',
+                            mark: 'XXX',
+                        },
+                        {
+                            id: '001',
+                            name: '机构名称机构名称机构名称',
+                            type: '管理',
+                            zhi: 'XXXXXXXXXX',
+                            mark: 'XXX',
+                        },
+                        {
+                            id: '001',
+                            name: '机构名称机构名称机构名称',
+                            type: '管理',
+                            zhi: 'XXXXXXXXXX',
+                            mark: 'XXX',
+                        },
+                        {
+                            id: '001',
+                            name: '机构名称机构名称机构名称',
+                            type: '管理',
+                            zhi: 'XXXXXXXXXX',
+                            mark: 'XXX',
+                        },
+                        {
+                            id: '001',
+                            name: '机构名称机构名称机构名称',
+                            type: '管理',
+                            zhi: 'XXXXXXXXXX',
+                            mark: 'XXX',
+                        },
+                        {
+                            id: '001',
+                            name: '机构名称机构名称机构名称',
+                            type: '管理',
+                            zhi: 'XXXXXXXXXX',
+                            mark: 'XXX',
+                        },
+                        {
+                            id: '001',
+                            name: '机构名称机构名称机构名称',
+                            type: '管理',
+                            zhi: 'XXXXXXXXXX',
+                            mark: 'XXX',
+                        },
+                        {
+                            id: '001',
+                            name: '机构名称机构名称机构名称',
+                            type: '管理',
+                            zhi: 'XXXXXXXXXX',
+                            mark: 'XXX',
+                        },
+                        {
+                            id: '001',
+                            name: '机构名称机构名称机构名称',
+                            type: '管理',
+                            zhi: 'XXXXXXXXXX',
+                            mark: 'XXX',
+                        },
+                        {
+                            id: '001',
+                            name: '机构名称机构名称机构名称',
+                            type: '管理',
+                            zhi: 'XXXXXXXXXX',
+                            mark: 'XXX',
+                        },
+                    ]
+                }
+            }
+        },
+        methods: {
+            handleSizeChange(val) {
+                console.log(val)
+            },
+            handleCurrentChange(val) {
+                console.log(val)
+            }
+        },
+        components: {
+            current,
+        }
+    }
+</script>
+
+<style scoped>
+    .agency_argument {
+        padding: 0 0 20px 20px;
+        overflow: hidden;
+        position: relative;
+    }
+    .agency_argument .test{
+        padding-left: 10px;
+    }
+    .content-wrapper{
+        background: #fff;
+        padding-left: 20px;
+        height: 746px;
+    }
+    .content-wrapper .title{
+        font-family: PingFangSC-Regular;
+        font-size: 16px;
+        color: #333333;
+        letter-spacing: 0;
+        height: 80px;
+        line-height: 80px;
+        border-bottom: 1px solid #f4f4f4;
+    }
+    .content-wrapper .title .text{
+        border-bottom:2px solid black;
+        display: inline-block;
+        height: 80px;
+    }
+    .content-wrapper .content{
+        padding-top: 42px;
+    }
+    .content-wrapper .content .search{
+    }
+    .content-wrapper .content .search .text{
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #999999;
+        letter-spacing: 0;
+    }
+    .content-wrapper .content .search input{
+        margin: 0 20px 0 30px;
+        width: 300px;
+        height: 40px;
+        border: 1px solid #EEEEEE;
+        border-radius: 4px;
+        text-indent: 1em;
+        outline: none;
+        vertical-align: middle;
+    }
+    .content-wrapper .content .search input:hover{
+        border: 1px solid orange;
+    }
+    .content-wrapper .content .search .toolBtn{
+        border-radius: 0;
+        height: 40px;
+        width: 120px;
+        background: #FF9900;
+        border: none;
+        vertical-align: middle;
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #FFFFFF;
+    }
+    .content table{
+        display: flex;
+        width: 100%;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #666666;
+        letter-spacing: 0;
+        flex-wrap: wrap;
+        border: 1px solid #f0f0f0;
+        border-collapse: collapse;
+    }
+    .content table td{
+        border: 1px solid #f0f0f0;
+    }
+    .content table tr{
+        width: 100%;
+        height: 40px;
+        display: flex;
+        line-height: 40px;
+    }
+    .content table tr:nth-child(odd){
+        background: #F8F8F8;
+    }
+    .content table tr:hover{
+        width: 100%;
+        height: 40px;
+        display: flex;
+        line-height: 40px;
+        background: #EEF1F6;
+    }
+    .content table tr:first-child{
+        background: #F4F4F4;
+        box-shadow: inset 0 1px 0 0 #EEEEEE;
+    }
+    .content table tr td{
+        flex: 1;
+        text-align: center;
+    }
+    .content table tr td:nth-child(2){
+        flex:2;
+    }
+    .agency_argument .el-pagination{
+        position: absolute;
+        right: 0;
+        bottom:40px;
+    }
+    .content .el-icon-delete2{
+        color: #ff9900;
+    }
+</style>

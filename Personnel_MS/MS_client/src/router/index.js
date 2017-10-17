@@ -49,15 +49,18 @@ export default new Router({
                         },
                         {
                             path: '/edit_department',
-                                component: resolve => require(['../components/pages/system_Mgmt/edit_department.vue'], resolve)
+                            name: 'edit_department',
+                            component: resolve => require(['../components/pages/system_Mgmt/edit_department.vue'], resolve)
                         },
                         {
                             path: '/add_person',
-                                component: resolve => require(['../components/pages/system_Mgmt/add_person.vue'], resolve)
+                            name: 'add_person',
+                            component: resolve => require(['../components/pages/system_Mgmt/add_person.vue'], resolve)
                         },
                         {
                             path: '/add_junior',
-                                component: resolve => require(['../components/pages/system_Mgmt/add_junior.vue'], resolve)
+                            name: 'add_junior',
+                            component: resolve => require(['../components/pages/system_Mgmt/add_junior.vue'], resolve)
                         }
                     ]
                 },
@@ -113,7 +116,17 @@ export default new Router({
                 },
                 {
                     path: '/argument_2',
-                    component: resolve => require(['../components/pages/argument_Mgmt/argument_2.vue'], resolve)
+                    component: resolve => require(['../components/pages/argument_Mgmt/arg_2.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/argument_Mgmt/argument_2.vue'], resolve)
+                        },
+                        {
+                            path: '/agency_argument',
+                            component: resolve => require(['../components/pages/argument_Mgmt/agency_argument.vue'], resolve)
+                        }
+                    ]
                 },
                 {
                     path: '/client',

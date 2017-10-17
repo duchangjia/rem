@@ -29,13 +29,22 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/ifdp': {
-        target: 'http://localhost:3000/',
-        // target: 'http://10.0.0.34:8888/',
-        changeOrigin: true,
-        secure: false,
-        pathRewrite: {
-          '^/ifdp': ''
-        },
+          target: 'http://localhost:3000/',
+          // target: 'http://10.0.0.34:8888/',
+          changeOrigin: true,
+          secure: false,
+          pathRewrite: {
+              '^/ifdp': ''
+          },
+      },
+      '/iem_hrm': {
+          target: 'http://10.0.0.41:8888/',
+          // target: 'http://10.0.0.34:8888/',
+          changeOrigin: true,
+          secure: false,
+          pathRewrite: {
+              '^/iem_hrm': ''
+          }
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
