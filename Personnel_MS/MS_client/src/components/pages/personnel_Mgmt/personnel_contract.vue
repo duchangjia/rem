@@ -48,7 +48,7 @@ export default {
     margin-top: 20px;
     border-radius: 0;
     height: 40px;
-    line-height: 40px;
+    /* line-height: 40px; */
     width: 120px;
     background: #FF9900;
     border: none;
@@ -78,8 +78,14 @@ export default {
 }
 
 .el-input__inner:focus,
-.el-textarea__inner:focus {
+.el-textarea__inner:focus,
+.el-select .el-input__inner:focus {
     border-color: #ff9900;
+}
+
+.el-select-dropdown__item.selected,
+.el-select-dropdown__item.selected.hover {
+    background-color: #FF9900;
 }
 
 label {
@@ -128,10 +134,10 @@ label {
     font-family: "PingFang SC";
 }
 
-/* .el-textarea__inner {
+.el-textarea__inner {
     border-radius: 0;
     width: 500px;
-} */
+}
 
 .toolbar.el-pagination {
     text-align: right;

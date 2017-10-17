@@ -101,10 +101,10 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="合同附件" prop="pactAttach">
-                            <el-input v-model="addPactMsg.pactAttach"></el-input>
-                            <!-- <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="fileList" :auto-upload="false">
+                            <!-- <el-input v-model="addPactMsg.pactAttach"></el-input> -->
+                            <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-preview="handlePreview" :on-remove="handleRemove" :auto-upload="false">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
-                            </el-upload> -->
+                            </el-upload>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
@@ -189,6 +189,7 @@ export default {
 .add_contract {
     padding: 0 0 20px 20px;
 }
+
 .add-wrapper form {
     font-size: 0;
     margin-top: 40px;
