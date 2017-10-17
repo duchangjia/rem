@@ -3,7 +3,7 @@
         <current yiji="参数管理" erji="业务参数" sanji="机构CCC管理" class="test"></current>
         <el-col :span="24">
             <div class="content-wrapper">
-                <div class="title"><span class="text">机构CCC管理</span></div>
+                <div class="title"><span class="text">机构CCC管理</span><button class="add" @click="add">新增</button></div>
                 <div class="content">
                     <div class="search">
                         <span class="text">查询条件</span>
@@ -116,7 +116,10 @@
             },
             handleCurrentChange(val) {
                 console.log(val)
-            }
+            },
+            add() {
+                this.$router.push('add_agency')
+            },
         },
         components: {
             current,
@@ -136,6 +139,7 @@
     .content-wrapper{
         background: #fff;
         padding-left: 20px;
+        padding-right: 20px;
         height: 746px;
     }
     .content-wrapper .title{
@@ -146,11 +150,27 @@
         height: 80px;
         line-height: 80px;
         border-bottom: 1px solid #f4f4f4;
+        position: relative;
     }
     .content-wrapper .title .text{
         border-bottom:2px solid black;
         display: inline-block;
         height: 80px;
+    }
+    .content-wrapper .title .add{
+        width: 120px;
+        height: 40px;
+        background: #FF9900;
+        border: 1px solid #FF9900;
+        outline: none;
+        font-family: PingFangSC-Regular;
+        font-size: 14px;
+        color: #FFFFFF;
+        line-height: 40px;
+        text-align: center;
+        position: absolute;
+        right: 0px;
+        bottom: 20px;
     }
     .content-wrapper .content{
         padding-top: 42px;

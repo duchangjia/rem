@@ -148,7 +148,27 @@ export default new Router({
                 		{
                 			path:'/add_rank',
                 			component:resolve => require(['../components/pages/argument_Mgmt/add_rank.vue'],resolve)
-                		}
+                		},
+                        {
+                            path:'/ticket_info',
+                            component:resolve => require(['../components/pages/argument_Mgmt/ticket_info.vue'],resolve)
+                        },
+                        {
+                            path:'/holiday_info',
+                            component:resolve => require(['../components/pages/argument_Mgmt/holiday_info.vue'],resolve)
+                        },
+                        {
+                            path:'/add_agency',
+                            component:resolve => require(['../components/pages/argument_Mgmt/add_agency.vue'],resolve)
+                        },
+                        {
+                            path:'/add_ticket',
+                            component:resolve => require(['../components/pages/argument_Mgmt/add_ticket.vue'],resolve)
+                        },
+                        {
+                            path:'/add_holiday',
+                            component:resolve => require(['../components/pages/argument_Mgmt/add_holiday.vue'],resolve)
+                        }
                 	]
                 },
                 {
