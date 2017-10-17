@@ -9,15 +9,15 @@
             </div>
             <div class="edit-wrapper">
                 <el-col :span="24" class="item-title">角色信息</el-col>
-                <el-form :inline="true" :model="formRoleMsg" label-width="80px" :rules="editRoleRules" ref="editForm">
+                <el-form :inline="true" :model="editRoleMsg" label-width="80px" :rules="editRoleRules" ref="editForm">
                     <el-col :span="12">
                         <el-form-item label="名称" prop="roleName">
-                            <el-input v-model="formRoleMsg.roleName" auto-complete="off"></el-input>
+                            <el-input v-model="editRoleMsg.roleName" auto-complete="off"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="岗位">
-                            <el-select v-model="formRoleMsg.job">
+                            <el-select v-model="editRoleMsg.job">
                                 <el-option label="普通员工" value="普通员工"></el-option>
                                 <el-option label="系统管理员" value="系统管理员"></el-option>
                                 <el-option label="经理" value="经理"></el-option>
@@ -26,14 +26,14 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="描述">
-                            <el-input type="textarea" v-model="formRoleMsg.roleDescr"></el-input>
+                            <el-input type="textarea" v-model="editRoleMsg.roleDescr"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="状态">
-                            <el-radio-group v-model="formRoleMsg.status">
-                                <el-radio label="正常"></el-radio>
-                                <el-radio label="停用"></el-radio>
+                            <el-radio-group v-model="editRoleMsg.status">
+                                <el-radio label="1">有效</el-radio>
+                                <el-radio label="0">无效</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -48,11 +48,12 @@ import current from '../../common/current_position.vue'
 export default {
     data() {
         return {
-            formRoleMsg: {
+            editRoleMsg: {
+                roleNo: '',
                 roleName: '',
-                job: '',
+                status: '',
                 roleDescr: '',
-                status: ''
+                job: '',
             },
             editRoleRules: {
                 roleName: [
@@ -61,25 +62,46 @@ export default {
             },
         };
     },
-    mounted() {
-        this.formRoleMsg.roleName = this.$route.query.roleName;
-        this.formRoleMsg.roleDescr = this.$route.query.roleDescr;
-    },
     components: {
         current,
+    },
+    created() {
+        const self = this;
+        let params = {
+            roleNo: self.$route.params.roleNo,
+            status: self.$route.params.status
+        }
+        console.log(params);
+        self.$axios.get('iemrole/role/queryRoleDetail', { params })
+            .then(function(res) {
+                console.log(res);
+                self.roleDetail = res.data.data;
+                self.editRoleMsg.roleNo = self.roleDetail.roleNo;
+                self.editRoleMsg.roleName = self.roleDetail.roleName;
+                self.editRoleMsg.roleDescr = self.roleDetail.roleDescr;
+                self.editRoleMsg.status = self.roleDetail.status;
+            }).catch(function(err) {
+                console.log('error');
+            })
     },
     methods: {
         handleEdit() {
             let editRole = {};
-            editRole.roleName = this.formRoleMsg.roleName;
-            editRole.job = this.formRoleMsg.job;
-            editRole.roleDescr = this.formRoleMsg.roleDescr;
-            editRole.status = this.formRoleMsg.status;
+            editRole.roleNo = this.editRoleMsg.roleNo;
+            editRole.roleName = this.editRoleMsg.roleName;
+            editRole.roleDescr = this.editRoleMsg.roleDescr;
+            editRole.status = this.editRoleMsg.status;
             console.dir(editRole);
+            this.$axios.put('/iemrole/role/modifyRoleInfo', editRole)
+                .then((res) => {
+                    console.log(res);
+                    if (res.data.code == 'S00000') this.$router.push('/management_role');
+                    else this.$message.error('编辑角色失败！');
+                }).catch(() => {
+                    this.$message.error('编辑角色失败！');
+                })
         }
     }
-
-
 }
 </script>
 
@@ -143,11 +165,16 @@ export default {
 }
 
 .edit-wrapper .el-input__inner:focus,
-.edit-wrapper .el-textarea__inner:focus{
+.edit-wrapper .el-textarea__inner:focus {
     border-color: #ff9900;
 }
 
 .edit-wrapper .el-radio__inner:hover {
     border-color: #ff9900;
+}
+
+.el-select-dropdown__item.selected,
+.el-select-dropdown__item.selected.hover {
+    background-color: #ff9900;
 }
 </style>

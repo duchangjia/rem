@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.omcube.model.mapper.PayBaseInfoMapper">
+	<insert id="addPayBaseInfo" parameterType="com.omcube.model.po.EpPayBaseInfoPO">
+		insert into 
+			EP_PAY_BASEINF 
+		values 
+		(
+			#{uId},
+			#{userNo},
+			#{wagesBase},
+			#{wagesPerf},
+			#{postPension},
+			#{otherPension},
+			#{endmBase},
+			#{mediBase},
+			#{unemBase},
+			#{emplBase},
+			#{mateBase},
+			#{houseBase},
+			#{probRatio},
+			#{welcoeNo},
+			#{status},
+			#{remark},
+			#{createdBy},
+			date_format(now(),'%y-%m-%d'),
+			#{updatedBy},
+			date_format(now(),'%y-%m-%d')
+		);
+	</insert>
+	
+	<select id="querySalaryTopByUserNo" parameterType="java.lang.String" resultType="java.lang.Double">
+ 		select 
+ 			cp.salary_top 
+ 		from EP_CLASSPARM_CTRL cp 
+			left join EP_CUST_INFO ci on cp.organ_no = ci.organ_no and cp.rank = ci.cust_class and cp.uid = ci.uid
+		where ci.uid = #{uid} and ci.user_no = #{userNo}; 
+	 </select>
+</mapper>

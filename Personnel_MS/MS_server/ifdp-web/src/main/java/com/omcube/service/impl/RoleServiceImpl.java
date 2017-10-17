@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,12 +16,9 @@ import com.omcube.model.mapper.SysMenuMapper;
 import com.omcube.model.mapper.SysRoleBsnMapper;
 import com.omcube.model.mapper.SysRoleMapper;
 import com.omcube.model.po.SysBsnPO;
-import com.omcube.model.po.SysMenuFuncPO;
-import com.omcube.model.po.SysMenuPO;
 import com.omcube.model.po.SysRoleBsnPO;
 import com.omcube.model.po.SysRolePO;
 import com.omcube.service.RoleService;
-import com.omcube.util.SpringUtil;
 
 /**
  * 角色管理的service实现类
@@ -57,30 +53,43 @@ public class RoleServiceImpl implements RoleService {
 	private SysRoleBsnMapper sysRoleBsnMapper;
 
 	/**
-	 * @see com.omcube.service.RoleService#getRoleAll(String)
+	 * @see com.omcube.service.RoleService#queryRoleList(String)
 	 */
 	@Override
-	public List<SysRolePO> getRoleAll(String uId) {
+	public List<SysRolePO> queryRoleList() {
 
-		if (sysRoleMapper == null) {
-			sysRoleMapper = SpringUtil.getBean(SysRoleMapper.class);
-		}
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("uId", "0001");
 
-		List<SysRolePO> roleInfos = sysRoleMapper.getRoleAll(uId);
+		List<SysRolePO> roleInfos = sysRoleMapper.queryRoleList(param);
 
 		return roleInfos;
 	}
 
 	/**
-	 * @see com.omcube.service.RoleService#addRole(SysRolePO)
+	 * @see com.omcube.service.RoleService#addRoleInfo(SysRolePO)
 	 */
 	@Override
-	public void addRole(SysRolePO sysRolePO) {
+	public void addRoleInfo(SysRolePO sysRolePO) throws Exception {
 
-		if (sysRoleMapper == null) {
-			sysRoleMapper = SpringUtil.getBean(SysRoleMapper.class);
+		// 判断输入参数的的合法性
+		if (StringUtils.isBlank(sysRolePO.getRoleName()) || StringUtils.isBlank(sysRolePO.getRoleDescr())
+				|| StringUtils.isBlank(sysRolePO.getStatus()) || sysRolePO.getRoleFuncSet().size() == 0) {
+			logger.error("the roleName,roleDescr,status is null");
+			throw new RuntimeException("输入角色信息非法!!");
 		}
 
+		// 添加角色时判断角色是否存在
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("uId", sysRolePO.getuId());
+		param.put("roleNo", sysRolePO.getRoleNo());
+
+		if (sysRoleMapper.queryRoleByRoleNo(param) != null) {
+			logger.error("the role is exist");
+			throw new RuntimeException("此角色已经存在");
+		}
+
+		// 添加角色
 		sysRolePO.setuId(sysRolePO.getuId());
 		sysRolePO.setRoleNo(sysRolePO.getRoleNo());
 		sysRolePO.setRoleName(sysRolePO.getRoleName());
@@ -90,99 +99,154 @@ public class RoleServiceImpl implements RoleService {
 		sysRolePO.setCreatedDate(new Date());
 		sysRolePO.setUpdatedBy("dj");
 		sysRolePO.setUpdatedDate(new Date());
-		
-		sysRoleMapper.addRole(sysRolePO);
-	}
 
-	/**
-	 * @see com.omcube.service.RoleService#getRoleByRoleNo(String, String)
-	 */
-	@Override
-	public SysRolePO getRoleByRoleNo(String uId, String roleNo) {
+		sysRoleMapper.addRoleInfo(sysRolePO);
 
-		if (sysRoleMapper == null) {
-			sysRoleMapper = SpringUtil.getBean(SysRoleMapper.class);
-		}
-		Map parem = new HashMap();
-		parem.put("uId", uId);
-		parem.put("roleNo", roleNo);
-		SysRolePO roleInfo = sysRoleMapper.getRoleByRoleNo(parem);
-
-		return roleInfo;
-	}
-
-	/**
-	 * @see com.omcube.service.RoleService#distributionRole(SysRolePO,SysMenuPO[])
-	 */
-	@Override
-	public void distributionRole(SysRolePO sysRolePO, List<SysMenuPO> menus) throws Exception {
-
-		// 查询对应的角色是否存在
-		Map param = new HashMap();
-		param.put("uId", sysRolePO.getuId());
-		param.put("roleNo", sysRolePO.getRoleNo());
-		sysRolePO = sysRoleMapper.getRoleByRoleNo(param);
-		if (sysRolePO == null) {
-			logger.error("this role is not exist");
-			throw new RuntimeException("此角色不存在");
-		}
-
-		for (SysMenuPO menu : menus) {
-			if (StringUtils.isBlank(menu.getuId()) || StringUtils.isBlank(menu.getSysNo())
-					|| StringUtils.isBlank(menu.getMenuNo())) {
-				logger.error("this menu is null");
-				throw new RuntimeException("菜单的Uid或者系统编号,菜单编号为空了.");
-			}
-			// 根据uid,系统编号,菜单编号查询这个菜单
-			SysMenuPO newMenu = sysMenuMapper.findMenuByUidAndSysNoAndMenuNo(menu);
-			if (newMenu == null) {
-				throw new RuntimeException("菜单编号错误");
+		// 分配权限
+		for (SysBsnPO func : sysRolePO.getRoleFuncSet()) {
+			if (StringUtils.isBlank(func.getuId()) || StringUtils.isBlank(func.getBsnNo())) {
+				logger.error("this SysBsnPO is null");
+				throw new RuntimeException("没有给角色分配的业务功能!!!");
 			}
 
-			// 向功能表中插入数据
-			SysBsnPO sysBsn = new SysBsnPO();
-			sysBsn.setuId(newMenu.getuId());
-			sysBsn.setBsnNo(String.valueOf(System.currentTimeMillis())); // 先暂定为当前毫秒值,以后根据具体规则生成
-			sysBsn.setInterfaceName("testInterfacer");
-			sysBsn.setMethodName("testMethed");
-			sysBsn.setServiceName(newMenu.getMenuName());
-			sysBsn.setStatus("1");
-			sysBsn.setBsnUrl("http://addBsn");
-			sysBsn.setRemark("insertBsn");
-			sysBsn.setCreatedBy("dj");
-			sysBsn.setCreatedDate(new Date());
-			sysBsn.setUpdatedBy("dj");
-			sysBsn.setUpdatedDate(new Date());
+			// 根据功能编号,和租户uid查询功能
+			SysBsnPO exFunc = sysBsnMapper.queryFuncByBsnNo(func);
 
-			sysBsnMapper.addBsn(sysBsn);
+			if (exFunc == null) {
+				logger.error("this SysBsnPO is null");
+				throw new RuntimeException("功能编号不存在");
+			}
 
-			// 添加角色功能表
+			// 向角色和功能表中插入数据.
 			SysRoleBsnPO sysRoleBsn = new SysRoleBsnPO();
-			sysRoleBsn.setSysRolePO(sysRolePO);
-			sysRoleBsn.setSysBsn(sysBsn);
+			sysRoleBsn.setSysRole(sysRolePO);
+			sysRoleBsn.setSysBsn(exFunc);
 			sysRoleBsn.setStatus("1");
 			sysRoleBsn.setCreatedBy("dj");
 			sysRoleBsn.setCreatedDate(new Date());
 			sysRoleBsn.setUpdatedBy("dj");
 			sysRoleBsn.setUpdatedDate(new Date());
 
-			sysRoleBsnMapper.addRoleBsn(sysRoleBsn);
+			// 关联角色和功能
+			sysRoleBsnMapper.addRoleBsnInfo(sysRoleBsn);
+		}
+	}
 
-			// 添加菜单功能的中间表
-			SysMenuFuncPO sysMenuFunc = new SysMenuFuncPO();
-			sysMenuFunc.setSysMenuPO(newMenu);
-			sysMenuFunc.setSysBsn(sysBsn);
-			sysMenuFunc.setStatus("1");
-			sysMenuFunc.setCreatedBy("dj");
-			sysMenuFunc.setCreatedDate(new Date());
-			sysMenuFunc.setUpdatedBy("dj");
-			sysMenuFunc.setUpdatedDate(new Date());
-			sysMenuFunc.setRemark("addMenuBsn");
+	/**
+	 * @see com.omcube.service.RoleService#queryRoleByRoleNo(String, String)
+	 */
+	@Override
+	public SysRolePO queryRoleByRoleNo(String roleNo) {
 
-			sysMenuFuncMapper.addMenuFunc(sysMenuFunc);
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("uId", "0001");
+		param.put("roleNo", roleNo);
+		SysRolePO roleInfo = sysRoleMapper.queryRoleByRoleNo(param);
+
+		return roleInfo;
+	}
+
+	/**
+	 * @see com.omcube.service.RoleService#setRoleFunc(SysRolePO)
+	 */
+	@Override
+	public void setRoleFunc(SysRolePO sysRolePO) throws Exception {
+
+		// 查询对应的角色是否存在
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("uId", sysRolePO.getuId());
+		param.put("roleNo", sysRolePO.getRoleNo());
+		SysRolePO exSysRolePO = sysRoleMapper.queryRoleByRoleNo(param);
+
+		if (exSysRolePO == null) {
+			logger.error("this role is not exist");
+			throw new RuntimeException("此角色不存在");
+		}
+
+		for (SysBsnPO func : sysRolePO.getRoleFuncSet()) {
+			if (StringUtils.isBlank(func.getuId()) || StringUtils.isBlank(func.getBsnNo())) {
+				logger.error("this SysBsnPO is null");
+				throw new RuntimeException("菜单的租户id,系统编号sysNo为空了");
+			}
+
+			// 根据功能编号,和租户uid查询功能
+			SysBsnPO exFunc = sysBsnMapper.queryFuncByBsnNo(func);
+
+			if (exFunc == null) {
+				logger.error("this SysBsnPO is null");
+				throw new RuntimeException("功能编号不存在");
+			}
+
+			// 向角色和功能表中插入数据.
+			SysRoleBsnPO sysRoleBsn = new SysRoleBsnPO();
+			sysRoleBsn.setSysRole(exSysRolePO);
+			sysRoleBsn.setSysBsn(exFunc);
+			sysRoleBsn.setStatus("1");
+			sysRoleBsn.setCreatedBy("dj");
+			sysRoleBsn.setCreatedDate(new Date());
+			sysRoleBsn.setUpdatedBy("dj");
+			sysRoleBsn.setUpdatedDate(new Date());
+
+			// 关联角色和功能
+			sysRoleBsnMapper.addRoleBsnInfo(sysRoleBsn);
 
 		}
 
+	}
+
+	/**
+	 * @see com.omcube.service.RoleService#modifyRoleInfo(SysRolePO)
+	 */
+	@Override
+	public void modifyRoleInfo(SysRolePO sysRolePO) throws Exception {
+
+		// 判断的角色的是否存在
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("uId", "0001");
+		params.put("roleNo", sysRolePO.getRoleNo());
+
+		SysRolePO newRole = sysRoleMapper.queryRoleByRoleNo(params);
+
+		if (newRole == null) {
+
+			logger.error("this role is not exist");
+			throw new RuntimeException("修改的角色不存在");
+		}
+
+		sysRolePO.setuId("0001");
+		sysRolePO.setUpdatedBy("dj");
+
+		sysRoleMapper.modifyRoleInfo(sysRolePO);
+	}
+
+	/**
+	 * @see com.omcube.service.RoleService#deleteRoleInfo(SysRolePO)
+	 */
+	@Override
+	public void deleteRoleInfo(SysRolePO sysRolePO) {
+
+		// 判断角色是否存在
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("uId", "0001");
+		param.put("roleNo", sysRolePO.getRoleNo());
+		SysRolePO newRole = sysRoleMapper.queryRoleByRoleNo(param);
+
+		if (newRole == null) {
+
+			logger.error("this role is null");
+			throw new RuntimeException("角色不存在");
+		}
+
+		sysRoleMapper.deleteRoleInfo(sysRolePO);
+	}
+
+	/**
+	 * @see com.omcube.service.RoleService#queryRoleDetail(SysRolePO)
+	 */
+	@Override
+	public Object queryRoleDetail(SysRolePO sysRolePO) {
+
+		return sysRoleMapper.queryRoleDetail(sysRolePO);
 	}
 
 }

@@ -124,7 +124,7 @@
     "totalRows": "1000",
     "operatorListInfo": [
       {
-        "userNo": "1",
+        "userNo": "P001",
         "userName": "小米",
         "certNo": "210001",
         "mobile": "123456",
@@ -135,11 +135,11 @@
         "departName": "行政部",
         "roleNo": "001",
         "roleName": "文员",
-        "status": "正常",
+        "status": "1",
         "remark": "备注"
       },
       {
-        "userNo": "2",
+        "userNo": "P002",
         "userName": "小心",
         "certNo": "135134",
         "mobile": "654321",
@@ -150,45 +150,45 @@
         "departName": "财务部",
         "roleNo": "角色编号",
         "roleName": "角色名称",
-        "status": "正常",
+        "status": "0",
         "remark": "备注"
       },
       {
-        "userNo": "用户编号",
-        "userName": "用户名",
-        "certNo": "证件号",
-        "mobile": "手机",
-        "email": "邮箱",
-        "compOrgNo": "所属公司机构号",
-        "compName": "所属公司名称",
-        "departOrgNo": "所属部门机构号",
-        "departName": "所属部门名称",
-        "roleNo": "角色编号",
-        "roleName": "角色名称",
-        "status": "状态",
+        "userNo": "P003",
+        "userName": "小米",
+        "certNo": "210001",
+        "mobile": "123456",
+        "email": "123@123.com",
+        "compOrgNo": "100",
+        "compName": "广州分公司",
+        "departOrgNo": "1001",
+        "departName": "行政部",
+        "roleNo": "001",
+        "roleName": "文员",
+        "status": "2",
         "remark": "备注"
       },
       {
-        "userNo": "用户编号",
-        "userName": "用户名",
-        "certNo": "证件号",
-        "mobile": "手机",
-        "email": "邮箱",
-        "compOrgNo": "所属公司机构号",
-        "compName": "所属公司名称",
-        "departOrgNo": "所属部门机构号",
-        "departName": "所属部门名称",
-        "roleNo": "角色编号",
-        "roleName": "角色名称",
-        "status": "状态",
+        "userNo": "P004",
+        "userName": "小米",
+        "certNo": "210001",
+        "mobile": "123456",
+        "email": "123@123.com",
+        "compOrgNo": "100",
+        "compName": "广州分公司",
+        "departOrgNo": "1001",
+        "departName": "行政部",
+        "roleNo": "001",
+        "roleName": "文员",
+        "status": "1",
         "remark": "备注"
       }
     ]
   },
   "queryOperatorDetail": {
-    "userNo": "用户编号",
-    "userName": "用户名",
-    "certNo": "证件号",
+    "userNo": "P001",
+    "userName": "小米",
+    "certNo": "20111",
     "mobile": "12312131234",
     "email": "123@123.com",
     "compOrgNo": "所属公司机构号",
@@ -197,7 +197,7 @@
     "departName": "所属部门名称",
     "roleNo": "角色编号",
     "roleName": "角色名称",
-    "status": "状态",
+    "status": "1",
     "remark": "备注",
     "createdBy": "创建人",
     "createdDate": "创建时间",
@@ -293,6 +293,9 @@
     }
   ],
   "queryRoleList": {
+    "pageIndex": "1",
+    "pageRows": "4",
+    "totalRows": "50",
     "roleListInfo": [
       {
         "roleNo": "001",
@@ -317,7 +320,7 @@
       {
         "roleNo": "003",
         "roleName": "出纳",
-        "roleDescr": "我是描述是描述是描述是描述是描述",
+        "roleDescr": "我是描述是描述是描述是描述",
         "status": "启动",
         "createdBy": "JINXIAO",
         "createdDate": "2017-09-13 00:00:00",
@@ -327,7 +330,7 @@
       {
         "roleNo": "004",
         "roleName": "系统管理员",
-        "roleDescr": "我是描述是描述是描述是描述是描述",
+        "roleDescr": "我是描述是描述是描述是描述",
         "status": "启动",
         "createdBy": "JINXIAO",
         "createdDate": "2017-09-13 00:00:00",
@@ -337,7 +340,7 @@
       {
         "roleNo": "005",
         "roleName": "人事",
-        "roleDescr": "我是描述是描述是描述是描述是描述",
+        "roleDescr": "我是描述是描述是描述是描述",
         "status": "启动",
         "createdBy": "JINXIAO",
         "createdDate": "2017-09-13 00:00:00",
@@ -349,7 +352,7 @@
   "queryRoleDetail": {
     "roleNo": "005",
     "roleName": "人事",
-    "roleDescr": "我是描述是描述是描述是描述是描述",
+    "roleDescr": "我是描述是描述是描述是描述",
     "status": "启动",
     "roleFuncInfo": [
       {
@@ -361,6 +364,104 @@
         "bsnNo": "234332",
         "bsnStatus": "0",
         "remark": "备注是啥就是啥"
+      }
+    ]
+  },
+  "addRoleInfo": {
+    "roleName":"人事",
+    "roleDescr":"我是描述是描述是描述",
+    "status":"0"
+  },
+  "modifyRoleInfo": {
+    "roleNo":"001",
+    "roleName":"人事",
+    "roleDescr":"我是描述是描述是描述" 
+  },
+  "deleteRoleInfo": {
+    "roleNo":"001"
+  },
+  "setRoleFunc": {
+    "roleNo":"001", 
+    "roleFuncSet": [ 
+      {
+        "bsnNo":"234332",
+        "bsnSet": "1"
+      },
+      {
+        "bsnNo":"234332",
+        "bsnSet": "1"
+      }
+    ]
+  },
+  "queryPactList": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "totalRows": "50",
+    "pactListArray":[
+      {
+        "pactNo": "001",
+        "pactName": "一号合同",
+        "pactType": "1",
+        "userNo": "a123",
+        "custName": "王二狗",
+        "cert": "422000199012211222",
+        "organNo": "P001001",
+        "organName": "001公司",
+        "derpNo": "D001",
+        "derpName": "001部门",
+        "pactStatus": "1",
+        "signTime": "2017-09-13 00:00:00",
+        "pactStartTime": "2017-09-13 00:00:00",
+        "pactEndTime": "2020-09-13 00:00:00"
+      },
+      {
+        "pactNo": "002",
+        "pactName": "二号合同",
+        "pactType": "1",
+        "userNo": "b123",
+        "custName": "李大锤",
+        "cert": "422000199012211222",
+        "organNo": "P001001",
+        "organName": "001公司",
+        "derpNo": "D002",
+        "derpName": "002部门",
+        "pactStatus": "1",
+        "signTime": "2017-09-20 00:00:00",
+        "pactStartTime": "2017-09-20 00:00:00",
+        "pactEndTime": "2020-09-20 00:00:00"
+      },
+      {
+        "pactNo": "003",
+        "pactName": "三号合同",
+        "pactType": "0",
+        "userNo": "c123",
+        "custName": "王二狗",
+        "cert": "422000199012211222",
+        "organNo": "P001001",
+        "organName": "003公司",
+        "derpNo": "D003",
+        "derpName": "003部门",
+        "pactStatus": "1",
+        "signTime": "2017-08-10 00:00:00",
+        "pactStartTime": "2017-08-10 00:00:00",
+        "pactEndTime": "2020-08-10 00:00:00"
+      },
+      {
+        "pactNo": "004",
+        "pactName": "四号合同",
+        "pactType": "1",
+        "userNo": "d123",
+        "custName": "张铁牛",
+        "cert": "422000199012211222",
+        "organNo": "P001002",
+        "organName": "002公司",
+        "derpNo": "D001",
+        "derpName": "001部门",
+        "pactStatus": "1",
+        "signTime": "2017-09-13 00:00:00",
+        "pactStartTime": "2017-09-13 00:00:00",
+        "pactEndTime": "2020-09-13 00:00:00"
       }
     ]
   }

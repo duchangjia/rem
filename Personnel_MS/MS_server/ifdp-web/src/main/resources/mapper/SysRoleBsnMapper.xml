@@ -4,10 +4,21 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.omcube.model.mapper.SysRoleBsnMapper">
 
-	<insert id="addRoleBsn" parameterType="com.omcube.model.po.SysRoleBsnPO">
-		INSERT INTO
-		ifdp_sys_rel_role_bsn
-		VALUES(#{sysRolePO.uId},#{sysRolePO.roleNo},#{sysBsn.bsnNo},#{status},#{createdBy},#{createdDate},#{updatedBy},#{updatedDate},#{remark})
+	<!-- 添加角色功能的对应关系 -->
+	<insert id="addRoleBsnInfo" parameterType="com.omcube.model.po.SysRoleBsnPO">
+		insert into
+			IFDP_SYS_REL_ROLE_BSN
+		values(
+			#{sysRole.uId},
+			#{sysRole.roleNo},
+			#{sysBsn.bsnNo},
+			#{status},
+			#{createdBy},
+			#{createdDate},
+			#{updatedBy},
+			#{updatedDate},
+			#{remark}
+		)
 	</insert>
 
 </mapper>

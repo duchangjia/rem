@@ -12,8 +12,7 @@ import com.github.pagehelper.PageHelper;
 @Configuration
 public class MybatisConf {
     @Bean
-    public PageHelper pageHelper()
-    {
+    public PageHelper pageHelper() {
 	System.out.println("MyBatisConfiguration.pageHelper()");
 	PageHelper pageHelper = new PageHelper();
 	Properties p = new Properties();

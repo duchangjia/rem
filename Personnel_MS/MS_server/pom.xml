@@ -19,7 +19,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.6.RELEASE</version>
+		<version>1.5.7.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -30,11 +30,9 @@
 		<ifdp.version>1.0.0</ifdp.version>
 		<fastjson.version>1.2.31</fastjson.version>
 		<commons.lang.version>3.6</commons.lang.version>
-
 		<quartz.version>2.3.0</quartz.version>
 	</properties>
 
-	<!-- 版本统一管理 -->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -46,6 +44,13 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.spring.platform</groupId>
+				<artifactId>platform-bom</artifactId>
+				<version>Brussels-SR5</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.commons</groupId>
@@ -76,15 +81,11 @@
 					<configuration>
 						<source>${java.version}</source>
 						<target>${java.version}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
 					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
 				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
-
 
 </project>

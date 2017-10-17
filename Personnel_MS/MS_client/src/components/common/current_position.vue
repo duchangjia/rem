@@ -42,6 +42,9 @@
               if(this.yiji==='系统管理'){
                   _link.push('/management_framework')
               }
+              if(this.yiji==='人事事务'){
+                  _link.push('/personnel_contract')
+              }
               if(this.erji==='用户管理'){
                   _link.push('/management_user')
               }
@@ -49,6 +52,9 @@
                   _link.push('/management_role')
               }if(this.erji==='功能管理'){
                   _link.push('/management_fun')
+              }
+              if(this.erji==='人事合同'){
+                  _link.push('/personnel_contract')
               }
               if(this.erji==='组织架构'){
                   _link.push('/management_framework')
@@ -74,7 +80,27 @@
               if(this.sanji==='功能编辑'){
               	 _link.push('/edit_fun')
               }
-
+              if(this.sanji==='新增合同'){
+              	 _link.push('/add_contract')
+              }
+              if(this.sanji==='福利缴纳系数设置'){
+              	_link.push('/welfare_coefficient')
+              }
+			  if(this.sanji==='个人所得税税率设置'){
+			  	_link.push('/tax_rate')
+			  }
+			  if(this.sanji==='职级薪酬标准设置'){
+			  	_link.push('/rank')
+			  }
+			  if(this.siji==='福利缴纳系数新增'){
+			  	_link.push('/add_welfare')
+			  }
+			  if(this.siji==='税率组新增'){
+			  	_link.push('/add_tax')
+			  }
+			  if(this.siji==='职级薪酬标准新增'){
+			  	_link.push('/add_rank')
+			  }
               this.link = _link
               this.breadItemLength = _link.length
               return this.link

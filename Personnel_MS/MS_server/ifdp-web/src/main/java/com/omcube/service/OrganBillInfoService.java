@@ -2,35 +2,44 @@ package com.omcube.service;
 
 import java.util.List;
 
-import com.omcube.model.po.EpOrganBillInfoPO;
+import com.omcube.model.po.OrganBillInfoPO;
 
 public interface OrganBillInfoService {
 	/**
-	 * 新增公司开票信息
+	 * 开票信息新增
 	 * 
 	 * @param epOrganBillInfoPO
 	 */
-	public void addOrganBillInfo(EpOrganBillInfoPO billInfoPO);
+	public void addBillInf(OrganBillInfoPO billInfoPO);
 
 	/**
-	 * 修改公司开票信息
+	 * 开票信息修改
 	 * 
 	 * @param billInfoPO
 	 */
-	public void updateOrganBillInfo(EpOrganBillInfoPO billInfoPO);
+	public void modBillInf(OrganBillInfoPO billInfoPO);
 
 	/**
 	 * 查询公司开票列表
 	 * 
 	 * @return
 	 */
-	public List<EpOrganBillInfoPO> queryBillInfoList(String uId);
+	public List<OrganBillInfoPO> queryBillInfoList(String uId);
 
 	/**
-	 * 通过公司名称查询公司开票信息列表
+	 * 通过公司名称模糊查询
 	 * 
 	 * @param organName
 	 * @return
 	 */
-	public List<EpOrganBillInfoPO> queryBillInfoByName(String uId, String organName);
+	public List<OrganBillInfoPO> queryBillInfoByName(String uId,String organName);
+	
+	/**
+	 * 开票信息详细信息查询
+	 * 
+	 * @param organNO
+	 * @return
+	 */
+	public OrganBillInfoPO queryBillInfDtl(String uId,String organNo);
+	
 }

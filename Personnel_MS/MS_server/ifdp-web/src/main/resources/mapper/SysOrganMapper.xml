@@ -10,61 +10,78 @@
    <resultMap type="com.omcube.model.po.OrganTree" id="OrganTree">
 		<result column="organ_no" property="id" javaType="java.lang.String" />
 		<result column="organ_name" property="name" javaType="java.lang.String" />
+		<result column="organ_level" property="organLevel" javaType="java.lang.String" />
 		<collection column="organ_no" property="childrenList" ofType="com.omcube.model.po.OrganTree"
 		 javaType="java.util.ArrayList" select="selectOrganChildrenById"/>
 	</resultMap>  
     <select id="queryOrganList" parameterType="java.lang.String" resultMap="OrganTree">   
-	     select organ_no,organ_name from IFDP_SYS_ORGAN_BASE where organ_no=#{organNo}       		
+	    select organ_no,organ_name,organ_level from IFDP_SYS_ORGAN_BASE where organ_no=#{organNo}       		
 	</select>	
 	<select id="selectOrganChildrenById" resultMap="OrganTree" parameterType="string">
-		 select organ_no,organ_name from IFDP_SYS_ORGAN_BASE where parent_no=#{organ_no} and organ_status='1'			
+		select organ_no,organ_name,organ_level from IFDP_SYS_ORGAN_BASE where parent_no=#{organ_no} and organ_status='1'			
 	</select>
 
+	<!--2.查询当前机构信息  -->
+ 	<select id="queryCurrentOrgan" parameterType="map" resultType="com.omcube.model.po.SysOrganPO">
+	 
+		select
+			organ_no as organNo,
+			organ_name as organName
+		from
+			IFDP_SYS_ORGAN_BASE
+		where
+			organ_no = #{organNo} 
+		and uid = #{uId}
+	 
+	</select>
 
-	<!--2.查询当前机构、上级机构及机构详情信息  -->
-    <select id="queryParentOrgan" parameterType="java.lang.String" resultType="com.omcube.model.po.SysOrganPO">          
-			select
-				o1.organ_no as organNo,
-				o1.organ_name as organName ,
-				o2.organ_name as organParentName,
-				o1.organ_type as organType,
-				o1.organ_status as organStatus,
-				od.organ_mge_name as organMgeName
-			from
-				IFDP_SYS_ORGAN_BASE o1,
-				IFDP_SYS_ORGAN_BASE o2,
-				SYS_ORGAN_DETAIL od
-			where
-				o1.organ_no = od.organ_no
-			and o1.uid = od.uid
-			and o1.parent_no = o2.organ_no
-			and o1.organ_no = #{organNo} 
+	<!--3.查询当前机构、上级机构及机构详情信息  -->
+    <select id="queryCurrentAndParentOrganDetail" parameterType="java.lang.String" resultType="com.omcube.model.po.SysOrganPO">          
+		
+		select 	  
+		  o1.organ_no as organNo,
+		  o1.organ_level as organLevel,
+		  o1.parent_no as parentNo,
+		  o1.organ_name as organName,
+		  o1.organ_type as organType,
+		  o1.organ_status as status,
+		  o2.organ_name as organParentName,
+		  od.organ_mge_id as organMgeId ,
+		  od.organ_mge_name as organMgeName    			
+		from
+		  	IFDP_SYS_ORGAN_BASE o1 
+		left outer join IFDP_SYS_ORGAN_BASE o2 
+		    on o1.parent_no = o2.organ_no 
+		left outer join SYS_ORGAN_DETAIL od 
+		    on o1.organ_no = od.organ_no 
+		    and o1.uid = od.uid 
+		where o1.organ_no =#{organNo} 
 	
     </select>
-    
-    
-    <!--3.查询当前机构、下级机构及机构详情信息  -->
-     <select id="queryChildOrgan" parameterType="java.lang.String" resultType="com.omcube.model.po.SysOrganPO"> 
-    
-			 select
-				o1.organ_name as organChildName,
-				o1.organ_type as organType,
-				o1.organ_status as organStatus,
-				od.organ_mge_name as organMgeName
-			from
-				IFDP_SYS_ORGAN_BASE o1,
-				SYS_ORGAN_DETAIL od
-			where
-				o1.organ_no = od.organ_no
+       
+    <!--4.查询当前机构的直属下级机构详情信息  -->
+     <select id="queryChildOrganDetail" parameterType="java.lang.String" resultType="com.omcube.model.po.SysOrganPO"> 
+   
+		select
+			o1.organ_no as organNo,
+			o1.organ_level as organLevel,
+			o1.organ_name as organChildName,
+			o1.organ_type as organType,
+			o1.organ_status as status,
+			od.organ_mge_id as organMgeId ,
+			od.organ_mge_name as organMgeName
+		from
+			IFDP_SYS_ORGAN_BASE o1
+		left outer join SYS_ORGAN_DETAIL od 
+			on o1.organ_no = od.organ_no
 			and o1.uid = od.uid
-			and parent_no = #{organNo} 
-			and o1.organ_status='1'
+		where
+			o1.parent_no = #{organNo} 
+			and o1.organ_status = '1'
     
     </select>
-    
-
-    
-    <!--4.查询机构下的人员信息 -->
+       
+    <!--5.查询机构下的人员信息 -->
     <select id="queryOrganMember" parameterType="java.lang.String" resultMap="SysUserMap"> 	    
 	    select * from IFDP_SYS_USER_BASE where organ_no=#{organNo} and status='1'   
     </select>
@@ -84,13 +101,13 @@
     </resultMap>
    
    
-     <!--5.根据机构编号删除机构 -->
+     <!--6.根据机构编号删除机构 -->
    <delete id="deleteOrganInfo" parameterType="java.lang.String" >
    
    		update IFDP_SYS_ORGAN_BASE set organ_status='0' where organ_no=#{organNo}  
     
    </delete>
-   <!--6.增加机构人员信息 -->
+   <!--7.增加机构人员信息 -->
     <insert id="addOrganMember" parameterType="com.omcube.model.po.SysUserPO">
 		    insert into IFDP_SYS_USER_BASE (
 					uid,user_no,log_name,cert_no,mobile_tel,email,organ_no,status,pswd,
@@ -105,7 +122,7 @@
 		     
     </insert>
     
-    <!--7.删除机构人员 -->
+    <!--8.删除机构人员 -->
     <delete id="deleteOrganMember" parameterType="java.lang.String" >
    
    		update IFDP_SYS_USER_BASE set status='0' where user_no=#{userNo}
@@ -116,14 +133,14 @@
 	      SELECT organ_no from IFDP_SYS_ORGAN_BASE where FIND_IN_SET(organ_no,queryChildrenOrganInfo(#{organNo}));
     </select>
     
-    <!--8.更新机构及机构详情信息 -->
+    <!--9.更新机构及机构详情信息 -->
     <update id="modifyOrgan" parameterType="com.omcube.model.po.SysOrganPO">
        	
     	update IFDP_SYS_ORGAN_BASE
 		set 
 			organ_name =#{ organName },
 			organ_type =#{ organType }, 
-			organ_status =#{ organStatus},
+			organ_status =#{ status},
 			updated_by=#{updatedBy},
 			updated_date=date_format(now(),'%y-%m-%d')
 		where
@@ -143,17 +160,15 @@
 			organ_no =#{ organNo }
     	
     </update>
-    
-    
-     <!--9.新增机构和机构详情信息-->
+       
+     <!--10.新增机构和机构详情信息-->
     <insert id="addOrgan" parameterType="com.omcube.model.po.SysOrganPO">
-   
 	    insert into IFDP_SYS_ORGAN_BASE
 	  	  		(uid,organ_no,organ_name,organ_type,organ_status,
 	    		parent_no,organ_level,organ_descr,org_path,created_by,
 	    		created_date,updated_by,updated_date) 
 	    	values(
-	    		#{uId},#{organNo},#{organName},#{organType},#{organStatus},
+	    		#{uId},#{organNo},#{organName},#{organType},#{status},
 	    		#{parentNo},#{organLevel},#{organDescr},#{organPath},#{createdBy},
 	    		date_format(now(),'%y-%m-%d'),#{updatedBy},date_format(now(),'%y-%m-%d')
 	    	)   

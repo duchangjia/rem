@@ -102,6 +102,7 @@
             },
             check() {
                 let value = this.$refs.inputSelect.value
+                console.log(value);
                 if (value !== '') {
                     this.isActive = false
                 }

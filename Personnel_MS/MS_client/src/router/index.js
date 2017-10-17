@@ -80,17 +80,18 @@ export default new Router({
                 },
                 {
                     path: '/management_role',
-                    component: resolve => require(['../components/pages/system_Mgmt/role.vue'], resolve),
+                    component: resolve => require(['../components/pages/system_Mgmt/manage_role.vue'], resolve),
                     children: [
                         {
                             path: '/',
-                            component: resolve => require(['../components/pages/system_Mgmt/manage_role.vue'], resolve)
+                            component: resolve => require(['../components/pages/system_Mgmt/query_role.vue'], resolve)
                         },
                         {
                             path: '/add_role',
                             component: resolve => require(['../components/pages/system_Mgmt/add_role.vue'], resolve)
                         },
                         {
+                            name: 'edit_role',
                             path: '/edit_role',
                             component: resolve => require(['../components/pages/system_Mgmt/edit_role.vue'], resolve)
                         }
@@ -98,7 +99,33 @@ export default new Router({
                 },
                 {
                     path: '/argument_1',
-                    component: resolve => require(['../components/pages/argument_Mgmt/argument_1.vue'], resolve)
+                    component: resolve => require(['../components/pages/argument_Mgmt/argument_1.vue'], resolve),
+                	children: [
+                		{
+                			path:'/welfare_coefficient',
+                			component: resolve => require(['../components/pages/argument_Mgmt/welfare_coefficient.vue'], resolve)
+                		},
+                		{
+                			path:'/add_welfare',
+                			component: resolve => require(['../components/pages/argument_Mgmt/add_welfare.vue'], resolve)
+                		},
+                		{
+                			path:'/tax_rate',
+                			component:resolve => require(['../components/pages/argument_Mgmt/tax_rate.vue'],resolve)
+                		},
+                		{
+                			path:'/add_tax',
+                			component:resolve => require(['../components/pages/argument_Mgmt/add_tax.vue'],resolve)
+                		},
+                		{
+                			path:'/rank',
+                			component:resolve => require(['../components/pages/argument_Mgmt/rank.vue'],resolve)
+                		},
+                		{
+                			path:'/add_rank',
+                			component:resolve => require(['../components/pages/argument_Mgmt/add_rank.vue'],resolve)
+                		}
+                	]
                 },
                 {
                     path: '/management_fun',
@@ -150,6 +177,20 @@ export default new Router({
                 {
                     path: '/statement_2',
                     component: resolve => require(['../components/pages/statement_STAT/statement_2.vue'], resolve)
+                },
+                {
+                    path: '/personnel_contract',
+                    component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/query_contract.vue'], resolve)
+                        },
+                        {
+                            path: '/add_contract',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/add_contract.vue'], resolve)
+                        }
+                    ]
                 }
             ]
         }
