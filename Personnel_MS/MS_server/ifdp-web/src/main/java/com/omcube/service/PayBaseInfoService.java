@@ -11,6 +11,8 @@ public interface PayBaseInfoService {
     void addPayBaseInfo(EpPayBaseInfoPO epPayBaseInfo);
 
     double querySalaryTopByUserNo(String uid, String userNo);
-    
+
     List<PayBaseInfoListResponse> queryPayBaseInfoList(QueryPayBaseInfoRequest queryPayBaseInfoReq);
+
+    EpPayBaseInfoPO queryPayBaseInfoDetail(String uid, String userNo);
 }

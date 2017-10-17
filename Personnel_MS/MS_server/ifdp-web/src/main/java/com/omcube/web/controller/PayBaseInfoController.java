@@ -6,12 +6,14 @@ import javax.validation.Valid;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +25,7 @@ import com.omcube.model.po.EpPayBaseInfoPO;
 import com.omcube.model.po.SysLoginCtrl;
 import com.omcube.model.request.QueryPayBaseInfoRequest;
 import com.omcube.model.response.PayBaseInfoListResponse;
+import com.omcube.model.response.UserDetailInfo;
 import com.omcube.model.response.UserListInfo;
 import com.omcube.service.PayBaseInfoService;
 import com.omcube.util.ConstantUtil;
@@ -118,6 +121,21 @@ public class PayBaseInfoController {
 
     }
 
+    @GetMapping(value = "/queryPayBaseInfoDetail/{userNo}")
+    public Object queryPayBaseInfoDetail(@PathVariable String userNo) {
+	if (StringUtils.isEmpty(userNo)) {
+	    logger.error("the request userNo is null");
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request userNo is null");
+	}
+	//从session 获取uid 
+	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+	String uid = sysLoginCtrl.getuId();
+	logger.info(String.format("the request param uid:%s, userNo:%s", uid, userNo));
+	EpPayBaseInfoPO epPayBaseInfo = payBaseInfoService.queryPayBaseInfoDetail(uid, userNo);
+
+	return JSONResultUtil.setSuccess(epPayBaseInfo);
+    }
+    
     private void checkPageParam(QueryPayBaseInfoRequest queryPayBaseInfoReq) {
 	if (queryPayBaseInfoReq.getPageNum() <= 0) {
 	    queryPayBaseInfoReq.setPageNum(ConstantUtil.DEFAULT_PAGE_NUM);

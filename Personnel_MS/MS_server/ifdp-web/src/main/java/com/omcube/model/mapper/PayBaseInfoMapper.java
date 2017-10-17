@@ -17,4 +17,6 @@ public interface PayBaseInfoMapper {
     double querySalaryTopByUserNo(@Param(value = "uid") String uid, @Param(value = "userNo") String userNo);
     
     List<PayBaseInfoListResponse> queryPayBaseInfoList(QueryPayBaseInfoRequest queryPayBaseInfoReq);
+    
+    EpPayBaseInfoPO queryPayBaseInfoDetail(@Param(value = "uid") String uid, @Param(value = "userNo") String userNo);
 }

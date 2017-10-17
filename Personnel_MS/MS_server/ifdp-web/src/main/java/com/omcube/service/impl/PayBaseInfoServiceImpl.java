@@ -38,4 +38,10 @@ public class PayBaseInfoServiceImpl implements PayBaseInfoService {
 
     }
 
+    @Override
+    public EpPayBaseInfoPO queryPayBaseInfoDetail(String uid, String userNo) {
+	
+	return payBaseInfoMapper.queryPayBaseInfoDetail(uid, userNo);
+    }
+
 }
