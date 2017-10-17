@@ -1,6 +1,7 @@
 package com.omcube.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.omcube.model.po.EpPayBaseInfoPO;
 import com.omcube.model.request.QueryPayBaseInfoRequest;
@@ -15,4 +16,8 @@ public interface PayBaseInfoService {
     List<PayBaseInfoListResponse> queryPayBaseInfoList(QueryPayBaseInfoRequest queryPayBaseInfoReq);
 
     EpPayBaseInfoPO queryPayBaseInfoDetail(String uid, String userNo);
+    
+    void updatePayBaseInfo(EpPayBaseInfoPO epPayBaseInfo);
+    
+    void deletePayBaseInfo(Map<String, String> params);
 }
