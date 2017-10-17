@@ -51,7 +51,7 @@
 			uid= #{uId} and organ_no = #{organNo}
 	</update>
 
-	<!-- 查询公司开票信息列表 -->
+	<!-- 公司开票信息列表查询 -->
 	<select id="queryBillInfoList" parameterType="java.lang.String"
 		resultMap="OrganBillInfoMap">
 		select * from EP_ORGAN_BILLINFO where UID = #{uId}

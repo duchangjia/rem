@@ -86,7 +86,36 @@
 			#{compactEndTime},#{probStartTime},#{probEndTime},#{recruitQuarry},#{lateLeaveTime},#{openBank},#{bankCardNo},#{endmAcct},#{mediAcct},#{mateAcct},
 			#{housAcct},#{attachm},#{remark},#{createdBy},now(),#{updatedBy},now()
 		)
-			
 	</insert>
 	
+	<!-- 员工基本信息修改 -->
+	<update id = "modCustInf" parameterType = "com.omcube.model.po.CustInfoPO">
+		update EP_CUST_INFO 
+		set 
+			cust_name=#{custName},organ_no=#{organNo},derp_no=#{derpNo},owner_ccc=#{ownerCCC},cert_type=#{certType},
+		 	cert_no=#{certNo},sex=#{sex},birthday=#{birthday},nation=#{nation},marital=#{marital},
+			politial=#{politial},education=#{education},degree=#{degree},grad_school=#{gradSchool},grad_time=#{gradTime},
+			major=#{major},line_manager=#{lineManager},origo=#{origo},home_addr=#{homeAddr},live_addr=#{liveAddr},
+			perm_addr=#{permAddr},mobile_no=#{mobileNo},teleph=#{teleph},home_teleph=#{homeTeleph},per_email=#{perEmail},
+			com_email=#{comEmail},atten=#{atten},atten_teleph=#{attenTeleph},qq_acct=#{qqAcct},one_inch=#{oneInch},
+			cust_type=#{custType},cust_post=#{custPost},cust_class=#{custClass},cust_status=#{custStatus},entry_time=#{entryTime},
+			leftjob_time=#{leftJobTime},work_time=#{workTime},proftitle_time=#{profTitleTime},compact_start_time=#{compactStartTime},prob_end_time=#{probEndTime},
+			recruit_quarry=#{recruitQuarry},late_leave_time=#{lateLeaveTime},open_bank=#{openBank},bank_card_no=#{bankCardNo},endm_acct=#{endmAcct},
+			medi_acct=#{mediAcct},mate_acct=#{mateAcct},hous_acct=#{housAcct},attachm=#{attachm},remark=#{remark},
+			updated_by=#{updatedBy},updated_date=now() 
+		where
+			uid=#{uId} and user_no=#{userNo}
+	</update>
+	
+	<!-- 员工基本信息查询 -->
+	<select id="queryCustInf" parameterType = "java.lang.String" resultMap="CustInfoMap">
+		select * from EP_CUST_INFO
+		where 
+			uid=#{uId} and user_no=#{userNo}
+	</select>
+	
+	<!-- 员工基本信息删除 -->
+	<update id = "delCustInf" parameterType = "java.lang.String">
+		update EP_CUST_INFO set cust_status = '04'
+	</update>
 </mapper>

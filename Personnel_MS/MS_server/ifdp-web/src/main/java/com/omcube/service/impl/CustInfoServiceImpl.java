@@ -17,4 +17,19 @@ public class CustInfoServiceImpl implements CustInfoService {
 	 custInfoMapper.insertCustInfo(custInfo);
     }
 
+    @Override
+    public void modCustInf(CustInfoPO custInfo) {
+	custInfoMapper.modCustInf(custInfo);
+    }
+
+    @Override
+    public CustInfoPO queryCustInf(String uId,String userNo) {
+	return custInfoMapper.queryCustInf(uId,userNo);
+    }
+
+    @Override
+    public void delCustInf(String uId, String userNo) {
+	custInfoMapper.delCustInf(uId, userNo);
+    }
+    
 }
