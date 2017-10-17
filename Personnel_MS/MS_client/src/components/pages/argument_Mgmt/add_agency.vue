@@ -5,11 +5,11 @@
             <div class="content-wrapper">
                 <div class="title"><span class="text">CCC新增</span><button class="save" @click="save">保存</button></div>
                 <div class="content">
-                    <div class="item">
+                    <div class="item_group">
                         <span class="text">机构名称</span><el-input class="common"></el-input>
                         <span class="text">CCC类型</span><el-select v-model="value" placeholder="请选择CCC类型"></el-select>
                     </div>
-                    <div class="item">
+                    <div class="item_group">
                         <span class="text">CCC值</span><el-input class="common"></el-input>
                         <span class="text">备注</span><el-input></el-input>
                     </div>
@@ -78,8 +78,10 @@
                     bottom 20px
             .content
                 padding 42px 0 0 8px
-                .item
+                .item_group
                     margin-bottom 30px
+                    height 40px
+                    line-height 40px
                     .text
                         font-family: PingFangSC-Regular;
                         font-size: 14px;
