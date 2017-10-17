@@ -189,6 +189,12 @@ public class PayBaseInfoController {
 	return JSONResultUtil.setSuccess();
     }
 
+    @GetMapping(value = "downLoadPayBaseTemplate/")
+    public void downLoadPayBaseTemplate()
+    {
+	
+    }
+    
     private void makeMap(String uid, String userNo, String updatedBy, Map<String, String> params) {
 	params.put("uid", uid);
 	params.put("userNo", userNo);

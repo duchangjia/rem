@@ -87,13 +87,14 @@
 		 	EP_PAY_BASEINF pb,
 		 	EP_CUST_INFO ci 
 		 where 
-		 	pb.user_no = ci.user_no and pb.pbase_status != 0 and pb.uid = #{uid}
+		 	pb.user_no = ci.user_no and pb.pbase_status != 0 and pb.uid = #{uid}  
 			<if test="userNo != null">
 				and pb.user_no like '%${userNo}%'
 			</if>
 			<if test="userName != null">
 				and ci.cust_name like '%${userName}%'
 			</if>
+			order by pb.user_no desc
 	 </select>
 	 
 	 <select id="queryPayBaseInfoDetail" parameterType="java.lang.String" resultMap="queryPayBaseInfoDetailMap">

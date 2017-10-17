@@ -58,14 +58,14 @@ public class PayBaseInfoControllerTest {
 	System.out.println(result);
     }
     
-    //@Test
+    @Test
     public void queryPayBaseInfoList() throws Exception
     {
 	String result = mockMvc.perform(get("/pay/queryPayBaseInfoList")
 		.param("pageNum", "1")
 		.param("pageSize", "2")
-		.param("userNo", "P0000001")
-		.param("userName", "亚当")
+		//.param("userNo", "P0000001")
+		//.param("userName", "亚当")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();
@@ -98,7 +98,7 @@ public class PayBaseInfoControllerTest {
 	System.out.println(result);
     }
     
-    @Test
+    //@Test
     public void deletePayBaseInfo() throws Exception
     {
 	String result = mockMvc.perform(delete("/pay/deletePayBaseInfo/P0000001")
