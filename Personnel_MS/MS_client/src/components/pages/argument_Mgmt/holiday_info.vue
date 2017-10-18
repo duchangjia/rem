@@ -5,7 +5,7 @@
             <div class="content-wrapper">
                 <div class="title"><span class="text">免签节假日维护</span><button class="add" @click="add">新增</button></div>
                 <div class="content">
-                    <div class="search"><span>日期</span><el-date-picker type="date" placeholder="选择日期"></el-date-picker><i>-</i><el-date-picker type="date" placeholder="选择日期"></el-date-picker>
+                    <div class="search"><span>日期</span><el-date-picker type="date" placeholder="选择日期" v-model="content.date1"></el-date-picker><i>-</i><el-date-picker type="date" v-model="content.date2" placeholder="选择日期"></el-date-picker>
                         <span class="special">类型</span><el-select v-model="value"></el-select>
                     </div>
                     <div class="button">
@@ -35,6 +35,10 @@
         data() {
           return {
               value: '',
+              content: {
+                date1: '',
+                date2: '',
+              },
               table: {
                   th:['日期', '类型', '备注', '创建ID', '创建时间', '操作'],
                   td:[
