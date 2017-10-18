@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.omcube.model.po.AttencePO;
+import com.omcube.service.AttenceService;
 import com.omcube.service.UserInfoService;
 import com.omcube.util.JSONResultUtil;
 import com.omcube.util.ReadExcel;
@@ -35,6 +36,10 @@ public class AttenceController {
     protected final Log logger = LogFactory.getLog(getClass());
     @Autowired
     private UserInfoService userInfoService;
+    @Autowired
+    private AttenceService attenceService;
+    
+    
  /*   @Value("${filePath}")  
     private String filePath; */ 
     
@@ -49,11 +54,12 @@ public class AttenceController {
     public Object download(String fileName, HttpServletRequest request,
             HttpServletResponse response) {
         System.out.println("控制台输出：走入下载");
+        System.out.println("制造冲突");
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         response.setHeader("Content-Disposition", "attachment;fileName="+ fileName);
         try {
-            String filePath="E:\\muban";
+            String filePath="E:\\upload";
             InputStream inputStream = new FileInputStream(new File(filePath+ File.separator + fileName));
             OutputStream os = response.getOutputStream();
             byte[] b = new byte[2048];
@@ -120,9 +126,7 @@ public class AttenceController {
         
         if(b){
              //迭代添加考勤信息（注：在Mybatis的相应映射文件中使用foreach标签进行批量添加）
-            for(AttencePO AttencePO:attenceList){
-                //这里可以做添加数据库的功能
-            }
+             attenceService.addAttenceTemplate(attenceList);	  	
              return JSONResultUtil.setSuccess();   
         }else{
              Msg ="批量导入EXCEL失败！";
