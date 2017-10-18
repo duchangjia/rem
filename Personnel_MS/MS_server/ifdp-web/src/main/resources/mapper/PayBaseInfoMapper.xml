@@ -56,7 +56,7 @@
 			#{houseBase},
 			#{probRatio},
 			#{welcoeNo},
-			#{status},
+			'1',
 			#{remark},
 			#{createdBy},
 			date_format(now(),'%y-%m-%d'),
@@ -98,7 +98,7 @@
 	 </select>
 	 
 	 <select id="queryPayBaseInfoDetail" parameterType="java.lang.String" resultMap="queryPayBaseInfoDetailMap">
- 		select * from EP_PAY_BASEINF where uid = #{uid} and user_no = #{userNo} 
+ 		select * from EP_PAY_BASEINF where uid = #{uid} and user_no = #{userNo} and pbase_status != 0
 	 </select>
 	 
 	 <update id="updatePayBaseInfo" parameterType="com.omcube.model.po.EpPayBaseInfoPO">
@@ -125,4 +125,12 @@
    		update EP_PAY_BASEINF set pbase_status='0', updated_by=#{updatedBy} where uid=#{uid} and user_no=#{userNo} 
     </update>
     
+    <select id="queryPayBaseInfoCount" parameterType="java.lang.String" resultType="long">
+ 		select count(*) from EP_PAY_BASEINF where uid = #{uid} and pbase_status != 0;
+	</select>
+	
+	<select id="queryPayBaseInfoLimit" resultMap="queryPayBaseInfoDetailMap">
+ 		select * from EP_PAY_BASEINF where pbase_status != 0 and uid = #{uid} limit #{startNum},#{size} 
+	 </select>
+	 
 </mapper>
