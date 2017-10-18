@@ -103,9 +103,9 @@ export default {
                 "pactType": self.filters.pactType
             }
             self.$axios.get('ifdp/queryPactList', { params: params })
-                .then(function(res) {
+                .then((res) => {
                     self.pactListInfo = res.data.data.pactListArray;
-                }).catch(function(err) {
+                }).catch(() => {
                     console.log('error');
                 })
         },
@@ -116,11 +116,10 @@ export default {
             return row.pactStatus == 1 ? '已生效' : row.pactStatus == 0 ? '未生效' : '异常';
         },
         handlePactDetail(index, row) {
-            const self = this;
             let params = {
                 "pactNo": row.pactNo
             }
-            self.$router.push({
+            this.$router.push({
                 name: 'detail_contract',
                 params: params
             });
@@ -138,7 +137,13 @@ export default {
             self.getPactList();
         },
         handleAdd() {
-            this.$router.push('/add_contract');
+            let params = {
+                "pactNo": row.pactNo
+            }
+            this.$router.push({
+                name: 'add_contract',
+                params: params
+            });
         },
         handleEdit(index, row) {
 
@@ -147,10 +152,22 @@ export default {
 
         },
         handleChange(index, row) {
-
+            let params = {
+                "pactNo": row.pactNo
+            }
+            this.$router.push({
+                name: 'add_pactChange',
+                params: params
+            });
         },
         handleRenew(index, row) {
-
+            let params = {
+                "pactNo": row.pactNo
+            }
+            this.$router.push({
+                name: 'add_pactRenew',
+                params: params
+            });
         },
         handleTerminate(index, row) {
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.omcube.model.mapper.AttenceMapper">
+  
+ 	<insert id="addAttenceTemplate">
+ 		insert into EP_ATTENCE_FLOW
+	 		(uid,attence_no,user_no,attence_time,attence_type,proj_no,task_time,
+	 		attence_status,remark,created_by,created_date,updated_by,updated_date)  
+        values   
+        
+        <foreach collection="attenceList" item="attence" separator=",">  
+        
+            (#{attence.uId},#{attence.attenceNo},#{attence.userNo},#{attence.attenceTime}
+            #{attence.attenceType},#{attence.projNo},#{attence.taskTime},#{attence.attenceStatus},#{attence.remark}
+            ,#{attence.createdBy},date_format(now(),'%y-%m-%d'),#{attence.updatedBy},date_format(now(),'%y-%m-%d'))  
+        </foreach>  
+ 	
+ 	</insert>
+</mapper>
