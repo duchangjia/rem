@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.omcube.model.mapper.CustContactMapper">
+	<!--返回结果映射 -->
+	<resultMap id="CustContactInfo" type="com.omcube.model.po.CustContactPO">
+		<id column="uid" property="uId"></id>
+		<id column="user_no" property="userNo"></id>
+		<id column="contacts_id" property="contactId"></id>
+		<result column="contacts_name" property="contactName" javaType="java.lang.String"></result>
+		<result column="relationship" property="relationship" javaType="java.lang.String"></result>
+		<result column="telphone" property="telphone" javaType="java.lang.String"></result>
+		<result column="profession" property="profession" javaType="java.lang.String"></result>
+		<result column="post" property="post" javaType="java.lang.String"></result>
+		<result column="addr" property="addr" javaType="java.lang.String"></result>
+		<result column="created_by" property="createdBy" javaType="java.lang.String"></result>
+		<result column="created_date" property="createdDate" javaType="java.util.Date"></result>
+		<result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
+		<result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
+	</resultMap>
+
+	<!--1.添加员工社会关系 -->
+	<insert id="addCustContact" parameterType="com.omcube.model.po.CustContactPO">
+		INSERT INTO EP_CUST_CONTACTS
+		(uid,user_no,contacts_id,contacts_name,relationship,telphone,profession,post,addr,created_by,created_date) 
+		VALUES(#{uId},#{userNo},#{contactId},#{contactName},#{relationship},#{telphone},#{profession},#{post},#{addr},#{createdBy},DATE_FORMAT(NOW(),'%y-%m-%d'))
+	</insert>
+	<!--2.更新员工关系  -->
+	<update id="updateCustContact" parameterType="com.omcube.model.po.CustContactPO">
+		UPDATE EP_CUST_CONTACTS
+		SET contacts_name = #{contactName},relationship= #{relationship},telphone= #{telphone},profession= #{profession},post= #{post},addr= #{addr},updated_by= #{updatedBy},updated_date = DATE_FORMAT(NOW(),'%y-%m-%d')
+		WHERE uid = #{uId} AND contacts_id = #{contactId} AND user_no = #{userNo}
+	</update>
+	<!--4.查询一个员工所有的关系  -->
+	<select id="queryCustContacts" resultMap="CustContactInfo">
+		SELECT uid,user_no,contacts_id,contacts_name,relationship,telphone,profession,post,addr 
+		FROM EP_CUST_CONTACTS 
+		WHERE uid = #{uId} AND user_no =#{userNo} ORDER BY contacts_id+0 ASC
+	</select>
+	<!--5.删除员工关系  -->
+	<delete id="deleteCustContact">
+		DELETE  FROM EP_CUST_CONTACTS 
+		WHERE uid=#{uId} AND user_no  =#{userNo} AND contacts_id =#{contactId}
+	</delete>
+	<!--6.查询一个员工的一个关系  -->
+	<select id="queryCustContact" resultMap="CustContactInfo">
+		SELECT uid,user_no,contacts_id,contacts_name,relationship,telphone,profession,post,addr 
+		FROM EP_CUST_CONTACTS 
+		WHERE uid = #{uId} AND user_no =#{userNo} AND contacts_id =#{contactId}
+	</select>
+	
+</mapper>
