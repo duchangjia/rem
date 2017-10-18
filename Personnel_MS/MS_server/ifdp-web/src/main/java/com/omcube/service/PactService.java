@@ -1,46 +1,39 @@
 package com.omcube.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import com.omcube.model.po.*;
 
-import com.omcube.model.mapper.SysPactMapper;
-import com.omcube.model.po.PactPO;
+public interface PactService {
 
-@Component // 泛指组件
-public class PactService {
-	@Autowired // 它可以对类成员变量、方法及构造函数进行标注，
-	private SysPactMapper pactMapper;
+	List<PactPO> getPactList(String derpNo, String custName, String pactType);
 
-	public List<PactPO> getPactList(String derpNo, String custName, String pactType) {
-		custName = "%" + custName + "%";
-		if (pactType == null) {
-			pactType = "%";
-		}
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("derpNo", derpNo);
-		params.put("custName", custName);
-		params.put("pactType", pactType);
-		return pactMapper.getPact(params);
-	}
+	Object getPactByPactNo(String pactNo);
 
-	public Object getPactByPactNo(String pactNo) {
-		return pactMapper.getPactByPactNo(pactNo);
-	}
+	List<PactChange> getPactChangeList(String pactNo);
 
-	public Object getPactChangeByPactNo(String pactNo) {
-		return pactMapper.getPactChangeByPactNo(pactNo);
-	}
+	Object getPactChangeDetail(String pactNo, String changeId);
 
-	public Object getPactRenewByPactNo(String pactNo) {
-		return pactMapper.getPactRenewByPactNo(pactNo);
-	}
+	List<PactRenew> getPactRenewList(String pactNo);
 
-	public void addPact(PactPO pactPO) {
-		pactMapper.addPact(pactPO);
-	}
+	Object getPactRenewDetail(String pactNo, String renewId);
+
+	void addPact(PactPO pactPO);
+
+	void addPactChange(PactChange pactChange);
+
+	void addPactRenew(PactRenew pactRenew);
+
+	void deletePact(String pactNo);
+
+	void deletePactChange(String pactNo, String changeId);
+
+	void deletePactRenew(String pactNo, String renewId);
+
+	void updatePact(PactPO pactPO);
+
+	void updatePactChange(PactChange pactChange);
+
+	void updatePactRenew(PactRenew pactRenew);
 
 }

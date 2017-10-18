@@ -132,6 +132,18 @@ table .el-button--danger:active {
     border-color: #ff4949;
 }
 
+.linkSpan {
+    color: #337ab7;
+    text-decoration: underline;
+}
+
+.linkSpan:hover {
+    cursor: pointer;
+}
+
+.add-wrapper {
+    overflow: hidden;
+}
 .add-wrapper form {
     font-size: 0;
     margin-top: 40px;
@@ -169,6 +181,28 @@ table .el-button--danger:active {
 .el-textarea__inner {
     border-radius: 0;
     width: 500px;
+}
+
+.el-date-table td.current:not(.disabled),
+.el-date-table td.end-date,
+.el-date-table td.start-date {
+    background-color: #ff9900!important;
+}
+.el-date-table td.today {
+    color: #ff9900;
+}
+.el-date-table td.today:before {
+    border-top: .5em solid #ff9900;
+}
+
+.el-checkbox__inner:focus,
+.el-checkbox__inner:hover {
+    border-color: #ff9900;
+}
+
+.el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: #ff9900;
+    border-color: #ff9900;
 }
 
 .toolbar.el-pagination {

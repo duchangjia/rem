@@ -28,7 +28,7 @@
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>=2*pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -194,10 +194,11 @@ border-bottom: 1px solid #EEEEEE;
 }
 .rank .el-table td:first-child{
 	cursor: pointer;
-}
-.rank .el-table td:first-child:hover{
 	color: #FF9900;
 }
+/*.rank .el-table td:first-child:hover{
+	color: #FF9900;
+}*/
 /*.rank .el-table--enable-row-hover .el-table__body tr:hover>td {
 	background-color: #f8f8f8;
 	background-clip: padding-box;

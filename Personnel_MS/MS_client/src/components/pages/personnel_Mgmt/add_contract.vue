@@ -152,7 +152,6 @@ export default {
             rules: {
                 userNo: [
                     { required: true, message: '请输入工号', trigger: 'blur' },
-                    // { validator: checkUserName, trigger: 'blur' }
                 ],
                 pactType: [
                     { required: true, message: '请选择合同类型', trigger: 'blur' },
@@ -182,6 +181,14 @@ export default {
             newPact.pactName = this.addPactMsg.pactName;
             newPact.organName = this.addPactMsg.organName;
             console.log(newPact);
+            this.$axios.post('/xxx/addPact', newPact)
+                .then((res) => {
+                    console.log(res);
+                    if (res.data.code == 'S00000') this.$router.push('/personnel_contract');
+                    else this.$message.error('新增合同失败！');
+                }).catch(() => {
+                    this.$message.error('新增合同失败！');
+                })
         }
     }
 }

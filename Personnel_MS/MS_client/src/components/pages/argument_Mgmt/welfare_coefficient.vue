@@ -8,22 +8,22 @@
 			</div>
 			<div class="content-inner">
 				<el-table :data="welfareList" border stripe style="width: 100%">
-					<el-table-column prop="modelNo" label="模版编号">
+					<el-table-column prop="applyNo" label="模版编号">
 						<template scope="scope">
-					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.modelNo }}</span>
+					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
 				      	</template>
 					</el-table-column>
-					<el-table-column prop="modelName" label="模版名称"></el-table-column>
-					<el-table-column prop="beiz" label="备注"></el-table-column>
-					<el-table-column prop="ID" label="创建ID"></el-table-column>
-					<el-table-column prop="time" label="创建时间"></el-table-column>
+					<el-table-column prop="applyName" label="模版名称"></el-table-column>
+					<el-table-column prop="remark" label="备注"></el-table-column>
+					<el-table-column prop="createdBy" label="创建createdBy"></el-table-column>
+					<el-table-column prop="createdDate" label="创建时间"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
 							<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>=2*pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -41,25 +41,25 @@ export default {
 			totalRows: 1,
 			welfareList: [
 				{
-					modelNo: "00001",
-					modelName: "广州地区缴纳",
-					beiz: "",
-					ID: "",
-					time: ""
+					applyNo: "00001",
+					applyName: "广州地区缴纳",
+					remark: "",
+					createdBy: "",
+					createdDate: ""
 				},
 				{
-					modelNo: "00002",
-					modelName: "深圳地区缴纳",
-					beiz: "",
-					ID: "",
-					time: ""
+					applyNo: "00002",
+					applyName: "深圳地区缴纳",
+					remark: "",
+					createdBy: "",
+					createdDate: ""
 				},
 				{
-					modelNo: "00003",
-					modelName: "东莞地区缴纳",
-					beiz: "",
-					ID: "",
-					time: ""
+					applyNo: "00003",
+					applyName: "东莞地区缴纳",
+					remark: "",
+					createdBy: "",
+					createdDate: ""
 				}
 			]
 		}
@@ -73,7 +73,7 @@ export default {
 			pageNum: 1,
 			pageSize: 4
 		}
-		self.$axios.get(baseURL+'/queryWelfareList',{params : params})
+		self.$axios.get(baseURL+'/queryInsurancePayTemplates',{params : params})
 			.then(function(res) {
 				console.log('res',res);
 				self.welfareList = res.data.data.WelfareList;
@@ -87,8 +87,8 @@ export default {
 			this.$router.push('/add_welfare');
 		},
 		handleEdit(index, row) {
-			console.log('index:'+index,'row.modelNo:'+row.modelNo);
-			sessionStorage.setItem('modelNo',row.modelNo);
+			console.log('index:'+index,'row.modelNo:'+row.applyNo);
+			sessionStorage.setItem('modelNo',row.applyNo);
             this.$router.push('/welfare_info');
 		},
 		handleDelete(index, row) {
@@ -100,7 +100,17 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-               self.$message({ type: 'success', message: '删除成功!' });
+            	let params = {
+            		
+            	};
+            	self.$axios.delete(baseURL+'/deleteInsurancePayTemplate')
+            		.then(function(res) {
+            			console.log(res);
+            			self.$message({ type: 'success', message: '删除成功!' });
+            		}).catch(function(err) {
+            			self.$message.error('删除失败');
+            		})
+               
             }).catch(() => {
                 self.$message('您已取消删除模版！');
             });
@@ -196,10 +206,11 @@ border-bottom: 1px solid #EEEEEE;
 }
 .welfare_coefficient .el-table td:first-child{
 	cursor: pointer;
-}
-.welfare_coefficient .el-table td:first-child:hover{
 	color: #FF9900;
 }
+/*.welfare_coefficient .el-table td:first-child:hover{
+	color: #FF9900;
+}*/
 /*.welfare_coefficient .el-table--enable-row-hover .el-table__body tr:hover>td {
 	background-color: #f8f8f8;
 	background-clip: padding-box;

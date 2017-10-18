@@ -45,15 +45,15 @@ public class ReadExcel {
    * @param fielName
    * @return
    */
-  public List<AttencePO> getExcelInfo(MultipartFile Mfile, UserInfoService userInfoService){
+  public List<AttencePO> getExcelInfo(MultipartFile Mfile, UserInfoService userInfoService) throws Exception{
       
       //把spring文件上传的MultipartFile转换成CommonsMultipartFile类型
        CommonsMultipartFile cf= (CommonsMultipartFile)Mfile; //获取本地存储路径
-       File file = new  File("E:\\muban");
+       File file = new  File("E:\\fileupload");
        //创建一个目录 （它的路径名由当前 File 对象指定，包括任一必须的父路径。）
        if (!file.exists()) file.mkdirs();
        //新建一个文件
-       File file1 = new File("E:\\muban" + new Date().getTime() + ".xls"); 
+       File file1 = new File("E:\\fileupload\\" + new Date().getTime() + ".xls"); 
        //将上传的文件写入新建的文件中
        try {
            cf.getFileItem().write(file1);
@@ -144,7 +144,7 @@ public class ReadExcel {
                 	   }
                        }          
                    }else if(c==2){      
-                      Date date = cell.getDateCellValue();//得到行中第二个值
+                      Date date = cell.getDateCellValue();//得到行中第三个值
                       sdf=new SimpleDateFormat("yyyy-mm-dd");
                       sdf.format(date);
                       attencePO.setAttenceTime(date);
@@ -164,7 +164,7 @@ public class ReadExcel {
            }
            
            attencePO.setuId(uId);
-           attencePO.setAttenceNo(UUID.randomUUID().toString().replace("_", ""));
+           attencePO.setAttenceNo(UUID.randomUUID().toString().replace("_", ""));//考勤编号暂定为UUID生成方式
            attenceList.add(attencePO);//添加对象到集合中
            
        }

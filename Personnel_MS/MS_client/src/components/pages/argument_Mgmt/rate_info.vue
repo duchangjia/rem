@@ -4,26 +4,26 @@
 		<div class="content">
 			<div class="title">
 				<span class="title-text">个人所得税税率详情</span>
-				<el-button type="primary" @click="addtax()">新增</el-button>
+				<el-button type="primary" @click="addRate()">新增</el-button>
 			</div>
 			<div class="content-inner">
-				<el-table :data="dataList" border stripe style="width: 100%">
-					<el-table-column prop="name" label="组名称">
+				<el-table :data="taxRateList" border stripe style="width: 100%">
+					<el-table-column prop="groupNo" label="组名称">
 						<!--<template scope="scope">
-					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.name }}</span>
+					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.groupNo }}</span>
 				      	</template>-->
 					</el-table-column>
-					<el-table-column prop="min_lev" label="下限"></el-table-column>
-					<el-table-column prop="max_lev" label="上限"></el-table-column>
-					<el-table-column prop="percent" label="百分比率（%）"></el-table-column>
-					<el-table-column prop="quickC" label="速算扣除数"></el-table-column>
+					<el-table-column prop="GroupLowerLimit" label="下限"></el-table-column>
+					<el-table-column prop="GroupLimit" label="上限"></el-table-column>
+					<el-table-column prop="percentRate" label="百分比率（%）"></el-table-column>
+					<el-table-column prop="quickCal" label="速算扣除数"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
 							<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>2*pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -32,26 +32,30 @@
 
 <script>
 import current from '../../common/current_position.vue'
+const baseURL = 'ifdp'
 export default {
 	data() {
 		return {
 			pageIndex: 1,
 			pageRows: 2,
 			totalRows: 10,
-			dataList: [
+			taxRateList: [
 				{
-					name: "1600起征",
-					min_lev: "1600",
-					max_lev: "3500",
-					percent: '5%',
-					quickC: '0.00'
+					"groupNo": "1600起征",
+					"groupId": "01001",
+					"applyNo": "0001",
+					"GroupLimit": "10000",
+					"GroupLowerLimit": "5000",
+					"remark": "xxxx",
+					"percentRate": "5%",
+					"quickCal": "0"
 				},
 				{
-					name: "3500起征",
-					min_lev: "3500",
-					max_lev: "5000",
-					percent: '7%',
-					quickC: '0.00'
+					groupNo: "3500起征",
+					GroupLowerLimit: "3500",
+					GroupLimit: "5000",
+					percentRate: '7%',
+					quickCal: '0.00'
 				}
 			]
 		}
@@ -59,9 +63,21 @@ export default {
 	components: {
 		current
 	},
+	created() {
+		const self = this;
+		let groupNo = sessionStorage.getItem('groupNo');
+		let pageNum = 1;
+		let pageSize = 2;
+		let params = {
+			"pageNum": pageNum,
+			"pageSize": pageSize,
+			groupNo: groupNo
+		};
+		self.selectTaxRateCtrl(pageNum, pageSize, params);
+	},
 	methods: {
-		addtax() {
-			this.$router.push('/add_tax');
+		addRate() {
+			this.$router.push('/add_rate');
 		},
 		handleDelete(index, row) {
             console.log('index',index);
@@ -71,14 +87,42 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-            	//操作
-               this.$message({ type: 'success', message: '删除成功!' });
+            	const self = this;
+            	self.$axios.delete(baseURL+'/deleteTaxRateCtrl')
+            		.then((res) => {
+            			console.log(res);
+            			this.$message({ type: 'success', message: '删除成功!' });
+            		}).catch((err) => {
+            			console.log(err);
+            		})
             }).catch(() => {
                 this.$message('您已取消删除模版！');
             });
         },
         handleCurrentChange(val) {
-			console.log(`当前页: ${val}`);
+			const self = this;
+			let groupNo = sessionStorage.getItem('groupNo');
+			let pageNum = val;
+			let pageSize = 2;
+			let params = {
+				"pageNum": pageNum,
+				"pageSize": pageSize,
+				groupNo: groupNo
+			};
+			self.selectTaxRateCtrl(pageNum, pageSize, params);
+		},
+		selectTaxRateCtrl(pageNum,pageSize,params) {
+			const self = this;
+			self.$axios.get(baseURL+'/selectTaxRateCtrl', { params: params})
+				.then(function(res) {
+					console.log(res);
+					self.taxRateList = res.data.data.list;
+					self.pageIndex = pageNum;
+					self.pageRows = pageSize;
+					self.totalRows = Number(res.data.data.total);
+				}).catch(function(err) {
+					console.log(err);
+				})
 		}
 	}
 }
@@ -270,6 +314,9 @@ border-bottom: 1px solid #EEEEEE;
 
 .rate_info .el-pagination button:hover {
 	color: #FF9900;
+}
+.rate_info .el-pagination button.disabled {
+    color: #e4e4e4;
 }
 .rate_info .el-pagination button.disabled:hover {
 	color: #e4e4e4;

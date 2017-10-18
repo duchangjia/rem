@@ -3,8 +3,8 @@
         <current yiji="人事事务" erji="人事合同" sanji="合同详情">
         </current>
         <div class="content-wrapper">
-            <el-tabs v-model="activeName" @tab-click="handleClick">
-                <el-tab-pane label="合同基本情况" name="first">
+            <el-tabs v-model="activeName" @tab-click="handleTabClick">
+                <el-tab-pane label="合同基本情况" name="basicPactMsg">
                     <div class="add-wrapper">
                         <el-form :inline="true" :model="basicPactMsg" :rules="rules" ref="basicPactMsg" :label-position="labelPosition" label-width="110px">
                             <el-col :span="24">
@@ -105,8 +105,8 @@
                             <el-col :span="12">
                                 <el-form-item label="合同附件" prop="attachm">
                                     <!-- <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-preview="handlePreview" :on-remove="handleRemove" :auto-upload="false">
-                                            <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
-                                        </el-upload> -->
+                                                                                                                    <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
+                                                                                                                </el-upload> -->
                                     <el-input v-model="basicPactMsg.attachm"></el-input>
                                 </el-form-item>
                             </el-col>
@@ -127,10 +127,79 @@
                             </el-col>
                         </el-form>
                     </div>
-
                 </el-tab-pane>
-                <el-tab-pane label="合同变更情况" name="second">合同变更情况</el-tab-pane>
-                <el-tab-pane label="合同续签情况" name="third">合同续签情况</el-tab-pane>
+
+                <el-tab-pane label="合同变更情况" name="changePactMsg">
+                    <div class="subtitlebar">
+                        <span class="title-text">合同变更情况</span>
+                        <el-button type="text" class="addBtn">新增</el-button>
+                    </div>
+                    <div class="add-wrapper">
+                        <el-table stripe :data="PChangeListInfo" border>
+                            <el-table-column align="center" prop="pactNo" label="合同编号">
+                            </el-table-column>
+                            <el-table-column align="center" prop="pactName" label="合同名称">
+                            </el-table-column>
+                            <el-table-column align="center" label="变更编号">
+                                <template scope="scope">
+                                    <span @click="handlePChangeDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.changeId }}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column align="center" prop="custName" label="姓名">
+                            </el-table-column>
+                            <el-table-column align="center" prop="organName" label="公司名称">
+                            </el-table-column>
+                            <el-table-column align="center" prop="derpName" label="部门名称">
+                            </el-table-column>
+                            <el-table-column align="center" prop="changeType" label="变更类型" :formatter="changeTypeFormatter">
+                            </el-table-column>
+                            <el-table-column align="center" prop="changeTime" label="变更时间">
+                            </el-table-column>
+                            <el-table-column align="center" label="操作" width="150">
+                                <template scope="scope">
+                                    <i class="icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
+                                    <i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </div>
+                </el-tab-pane>
+
+                <el-tab-pane label="合同续签情况" name="renewPactMsg">
+                    <div class="subtitlebar">
+                        <span class="title-text">合同续签情况</span>
+                        <el-button type="text" class="addBtn">新增</el-button>
+                    </div>
+                    <div class="add-wrapper">
+                        <el-table stripe :data="PRenewListInfo" border>
+                            <el-table-column align="center" prop="pactNo" label="合同编号">
+                            </el-table-column>
+                            <el-table-column align="center" prop="pactName" label="合同名称">
+                            </el-table-column>
+                            <el-table-column align="center" label="续签编号">
+                                <template scope="scope">
+                                    <span @click="handlePRenewDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.renewId }}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column align="center" prop="custName" label="姓名">
+                            </el-table-column>
+                            <el-table-column align="center" prop="organName" label="公司名称">
+                            </el-table-column>
+                            <el-table-column align="center" prop="derpName" label="部门名称">
+                            </el-table-column>
+                            <el-table-column align="center" prop="renewType" label="续签类型" :formatter="renewTypeFormatter">
+                            </el-table-column>
+                            <el-table-column align="center" prop="renewTime" label="续签时间">
+                            </el-table-column>
+                            <el-table-column align="center" label="操作" width="150">
+                                <template scope="scope">
+                                    <i class="icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
+                                    <i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </div>
+                </el-tab-pane>
             </el-tabs>
         </div>
     </div>
@@ -141,9 +210,15 @@ import current from '../../common/current_position.vue'
 export default {
     data() {
         return {
-            activeName: 'first',
+            activeName: '',
             labelPosition: 'right',
+            pactNo: '',
             basicPactMsg: {},
+            pageIndex: 1,
+            pageRows: 7,
+            totalRows: 20,
+            PChangeListInfo: [],
+            PRenewListInfo: [],
             checked: '',
             rules: {
                 pactType: [
@@ -168,23 +243,80 @@ export default {
         current,
     },
     created() {
-        const self = this;
-        let params = {
-            "pactNo": self.$route.params.pactNo
-        }
-        console.log(params.pactNo);
-        self.$axios.get('ifdp/querPactDtl', { params: params })
-            .then(function(res) {
-                console.log(res);
-                self.basicPactMsg = res.data.data;
-                self.checked = res.data.data.autoupFlag;
-            }).catch(function(err) {
-                console.log('error');
-            })
+        this.activeName = "basicPactMsg";
+        this.pactNo = this.$route.params.pactNo;
+        // 初始查合同基本详情
+        this.getPactDtl(this.pactNo);
     },
     methods: {
-        handleClick(tab, event) {
-            console.log(tab, event);
+        handleTabClick(tab, event) {
+            console.log(tab.name);
+            if (tab.name == 'changePactMsg') this.getPChangeList();
+            if (tab.name == 'renewPactMsg') this.getPRenewList();
+            if (tab.name == 'basicPactMsg') this.getPactDtl(this.pactNo);
+        },
+        getPactDtl(pactNo) {
+            const self = this;
+            let params = {
+                "pactNo": pactNo
+            }
+            self.$axios.get('ifdp/querPactDtl', { params: params })
+                .then((res) => {
+                    console.log(res);
+                    self.basicPactMsg = res.data.data;
+                    self.checked = res.data.data.autoupFlag;
+                }).catch(() => {
+                    console.log('error');
+                })
+        },
+        getPChangeList() {
+            const self = this;
+            let params = {
+                "pageIndex": self.pageIndex,
+                "pageRows": self.pageRows,
+                "pactNo": this.pactNo,
+                "changeId": ''
+            }
+            self.$axios.get('ifdp/queryPChangeList', { params: params })
+                .then((res) => {
+                    self.PChangeListInfo = res.data.data.PChangeListArray;
+                }).catch(() => {
+                    console.log('error');
+                })
+        },
+        getPRenewList() {
+            const self = this;
+            let params = {
+                "pageIndex": self.pageIndex,
+                "pageRows": self.pageRows,
+                "pactNo": this.pactNo,
+                "renewId": ''
+            }
+            self.$axios.get('ifdp/queryPRenewList', { params: params })
+                .then((res) => {
+                    self.PRenewListInfo = res.data.data.PRenewListArray;
+                }).catch(() => {
+                    console.log('error');
+                })
+
+        },
+        changeTypeFormatter(row, column) {
+            return row.changeType == 1 ? '条款变更' : row.changeType == 0 ? '啥啥变更' : '异常';
+        },
+        renewTypeFormatter(row, column) {
+            return row.changeType == 1 ? '合同延期' : row.changeType == 0 ? '啥啥续签' : '异常';
+        },
+        handleEdit(index, row) {
+
+        },
+        handleDelete(index, row) {
+
+        },
+        handlePChangeDetail(index, row) {
+
+        },
+        handlePRenewDetail(index, row) {
+            
         }
     }
 }
@@ -193,6 +325,10 @@ export default {
 <style>
 .detail_contract {
     padding: 0 0 20px 20px;
+}
+
+.el-tabs__item {
+    padding: 0 10px;
 }
 
 .el-tabs__item.is-active {
@@ -217,25 +353,46 @@ export default {
     margin-bottom: 20px;
 }
 
-.el-date-table td.current:not(.disabled),
-.el-date-table td.end-date,
-.el-date-table td.start-date {
-    background-color: #ff9900!important;
-}
-.el-date-table td.today {
-    color: #ff9900;
-}
-.el-date-table td.today:before {
-    border-top: .5em solid #ff9900;
+.content-wrapper .subtitlebar {
+    height: 24px;
+    line-height: 24px;
+    font-size: 14px;
+    font-family: "PingFangSC Regular";
+    padding-left: 10px;
+    margin: 20px 0;
 }
 
-.el-checkbox__inner:focus,
-.el-checkbox__inner:hover {
-    border-color: #ff9900;
+.content-wrapper .subtitlebar .title-text {
+    display: inline-block;
+    height: 24px;
+    position: relative;
+    color: #333333;
 }
 
-.el-checkbox__input.is-checked .el-checkbox__inner {
-    background-color: #ff9900;
-    border-color: #ff9900;
+.content-wrapper .subtitlebar .addBtn {
+    float: right;
+    color: #FF9900;
+    border: none;
+    padding: 5px;
+    padding-right: 0;
+}
+
+.icon-edit {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: url('../../../../static/img/common/edit.png') center no-repeat;
+}
+
+.icon-delete {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: url('../../../../static/img/common/delete.png') center no-repeat;
+}
+
+.icon-edit:hover,
+.icon-delete:hover {
+    cursor: pointer;
 }
 </style>
