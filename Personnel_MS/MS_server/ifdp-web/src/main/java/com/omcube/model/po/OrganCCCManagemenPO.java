@@ -10,14 +10,9 @@ public class OrganCCCManagemenPO extends BasicPO {
 	private String costType;
 	// ccc值
 	private String costCode;
-	// 备注
+	// 备注/描述
 	private String descr;
-	// 状态
-	private String status;
-	// 机构类型
-	private String organType;
-	// 机构级别
-	private String organLevel;
+	
 
 	public OrganCCCManagemenPO() {
 
@@ -63,27 +58,4 @@ public class OrganCCCManagemenPO extends BasicPO {
 		this.descr = descr;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getOrganType() {
-		return organType;
-	}
-
-	public void setOrganType(String organType) {
-		this.organType = organType;
-	}
-
-	public String getOrganLevel() {
-		return organLevel;
-	}
-
-	public void setOrganLevel(String organLevel) {
-		this.organLevel = organLevel;
-	}
 }

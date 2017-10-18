@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.omcube.model.mapper.EpCustEduHisMapper">
+	<resultMap type="com.omcube.model.po.EpCustEduHisPO" id="EpCustEduHisMap">
+		<id column="UID" property="uId"></id>
+		<id column="USER_NO" property="userNo"></id>
+		<id column="EDUHIS_ID" property="eduHisId"></id>
+		<result column="START_TIME" property="startTime"></result>
+		<result column="END_TIME" property="endTime"></result>
+		<result column="SCHOOL_NAME" property="schoolName"></result>
+		<result column="MAJOR" property="major"></result>
+		<result column="EDUCATION" property="education"></result>
+		<result column="DESC" property="desc"></result>
+		<result column="CREATED_BY" property="createdBy"></result>
+		<result column="CREATED_DATE" property="createdDate"></result>
+		<result column="UPDATED_BY" property="updatedBy"></result>
+		<result column="UPDATED_DATE" property="updatedDate"></result>
+	</resultMap> 
+	
+	<!-- 新增用户教育经历信息 -->
+	<insert id="insertEpCustEduHis" parameterType="com.omcube.model.po.EpCustEduHisPO">
+	   insert into 
+	   EP_CUST_EDUHIS
+	   values(
+	   #{uId},#{userNo},#{eduHisId}, 
+	   #{startTime},#{endTime},#{schoolName}, 
+	   #{major},#{education},#{desc}, 
+	   #{createdBy},now(),#{updatedBy},
+	   now()
+	   )
+	</insert>
+	
+	<!-- 根据主键(用户编号，序号)删除员工教育经历信息 -->
+	<delete id="deleteEpCustEduHis" parameterType="java.lang.String">
+	    delete from 
+	    EP_CUST_EDUHIS 
+	    where 
+	    UID=#{uId} 
+	    and 
+	    USER_NO=#{userNo} 
+	    and 
+	    EDUHIS_ID=#{eduHisId}
+	</delete>
+	
+</mapper>  	

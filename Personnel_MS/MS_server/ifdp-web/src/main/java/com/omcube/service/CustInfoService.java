@@ -9,4 +9,6 @@ public interface CustInfoService {
      * @return
      */
     public void insertCustInfo(CustInfoPO custInfo);
+    
+    CustInfoPO queryCustInfoByUserNo(String uid, String userNo);
 }

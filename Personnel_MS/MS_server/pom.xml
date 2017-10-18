@@ -31,8 +31,9 @@
 		<fastjson.version>1.2.31</fastjson.version>
 		<commons.lang.version>3.6</commons.lang.version>
 		<quartz.version>2.3.0</quartz.version>
+		<poi.version>3.14</poi.version> 
 	</properties>
-
+	
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -87,5 +88,4 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
 </project>

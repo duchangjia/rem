@@ -23,6 +23,12 @@ public class VisaFreeHolidayServiceImpl implements VisaFreeHolidayService {
 		return visaFreeHolidayMapper.queryVisaFreeHolidayList(uId);
 	}
 
+	//校验新增的免签节假日是否存在
+	@Override
+	public Object queryVisaFreeHoliayByDate(String dayDate) {
+		return visaFreeHolidayMapper.queryVisaFreeHoliayByDate(dayDate);
+	}
+	
 	// 新增
 	@Override
 	public void insertVisaFreeHoliday(VisaFreeHolidayPo visaFreeHolidayPo) {
@@ -31,15 +37,18 @@ public class VisaFreeHolidayServiceImpl implements VisaFreeHolidayService {
 
 	// 条件组合查询
 	@Override
-	public List<VisaFreeHolidayPo> queryVisaFreeHolidaysByCondition(
-			QueryVisaFreeHolidayRequest queryVisaFreeHolidayRequest) {
-		return visaFreeHolidayMapper
-				.queryVisaFreeHolidaysByCondition(queryVisaFreeHolidayRequest);
+	public List<VisaFreeHolidayPo> queryVisaFreeHoliayList(
+			QueryVisaFreeHolidayRequest queryVisaFreeHolidayparam) {
+		
+		return visaFreeHolidayMapper.queryVisaFreeHoliayList(queryVisaFreeHolidayparam);
 	}
+	
 
 	@Override
-	public void deleteVisaFreeHoliday(String day) {
-		visaFreeHolidayMapper.deleteVisaFreeHoliday(day);
+	public void deleteVisaFreeHoliday(String dayDate) {
+		visaFreeHolidayMapper.deleteVisaFreeHoliday(dayDate);
 	}
+
+
 
 }

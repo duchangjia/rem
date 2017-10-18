@@ -103,7 +103,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jta-narayana</artifactId>
 		</dependency>
+<<<<<<< HEAD
 		
+=======
+>>>>>>> 473e09242d4d8092165d8d225d6a8accf6f6159c
 		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
@@ -145,12 +148,19 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+<<<<<<< HEAD
 
 
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-core</artifactId>
 			<version>1.0.0</version>
+=======
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi.version}</version>
+>>>>>>> 473e09242d4d8092165d8d225d6a8accf6f6159c
 		</dependency>
 	</dependencies>
 	<properties>
