@@ -132,6 +132,9 @@ table .el-button--danger:active {
     border-color: #ff4949;
 }
 
+.add-wrapper {
+    overflow: hidden;
+}
 .add-wrapper form {
     font-size: 0;
     margin-top: 40px;

@@ -82,6 +82,35 @@
                     </el-col>
                 </el-form>
             </div>
+            <div class="add-wrapper">
+                <el-col :span="24" class="item-title">合同变更信息</el-col>
+                <el-form :inline="true" :model="addPChangeMsg" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                    <el-col :span="12">
+                        <el-form-item label="变更时间" prop="changeTime">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPChangeMsg.changeTime" style="width: 100%;"></el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="变更类别" prop="changeType">
+                            <el-select v-model="addPChangeMsg.changeType">
+                                <el-option label="条款变更" value="1"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="变更内容" prop="changeContent">
+                            <el-input type="textarea" v-model="addPChangeMsg.changeContent"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="附件" prop="attachm">
+                            <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+                                <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
+                            </el-upload>
+                        </el-form-item>
+                    </el-col>
+                </el-form>
+            </div>
         </div>
     </div>
 </template>
