@@ -132,6 +132,15 @@ table .el-button--danger:active {
     border-color: #ff4949;
 }
 
+.linkSpan {
+    color: #337ab7;
+    text-decoration: underline;
+}
+
+.linkSpan:hover {
+    cursor: pointer;
+}
+
 .add-wrapper {
     overflow: hidden;
 }

@@ -653,5 +653,126 @@
     "createdDate": "2017-09-13 00:00:00",
     "updateBy": "李大仁",
     "updateDate": "2017-10-09 00:00:00"
+  },
+  "queryPChangeList": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "totalRows": "50",
+    "PChangeListArray":[
+      {
+        "pactNo": "004",
+        "pactName": "四号合同",
+        "changeId": "change001",
+        "userNo": "d123",
+        "custName": "张铁牛",
+        "cert": "422000199012211222",
+        "organNo": "P001002",
+        "organName": "002公司",
+        "derpNo": "D001",
+        "derpName": "001部门",
+        "changeTime": "2017-09-13 00:00:00",
+        "changeType": "1"
+      },
+      {
+        "pactNo": "004",
+        "pactName": "四号合同",
+        "changeId": "change002",
+        "userNo": "d123",
+        "custName": "张铁牛",
+        "cert": "422000199012211222",
+        "organNo": "P001002",
+        "organName": "002公司",
+        "derpNo": "D001",
+        "derpName": "001部门",
+        "changeTime": "2017-08-13 00:00:00",
+        "changeType": "0"
+      }
+    ]
+  },
+  "queryPRenewList": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "totalRows": "50",
+    "PRenewListArray":[
+      {
+        "pactNo": "004",
+        "pactName": "四号合同",
+        "renewId": "renew001",
+        "userNo": "d123",
+        "custName": "张铁牛",
+        "cert": "422000199012211222",
+        "organNo": "P001002",
+        "organName": "002公司",
+        "derpNo": "D001",
+        "derpName": "001部门",
+        "renewTime": "2017-09-13 00:00:00",
+        "renewType": "1"
+      }
+    ]
+  },
+
+  "queryWelfareList": {
+    "total": "4",
+    "WelfareList": [
+      {
+        "modelNo": "00001",
+        "modelName": "深圳地区缴纳",
+        "beiz": "xxx",
+        "ID": "p00001",
+        "time": "0000"
+      },
+      {
+        "modelNo": "00002",
+        "modelName": "广州地区缴纳",
+        "beiz": "xxx",
+        "ID": "p00002",
+        "time": "000"
+      },
+      {
+        "modelNo": "00003",
+        "modelName": "汕尾地区缴纳",
+        "beiz": "xxx",
+        "ID": "p00003",
+        "time": "00"
+      },
+      {
+        "modelNo": "00004",
+        "modelName": "东莞地区缴纳",
+        "beiz": "xxx",
+        "ID": "p00004",
+        "time": "00"
+      }
+    ]
+  },
+  "queryWelfareInfo": {
+    "modelNo": "00001",
+    "modelName": "深圳地区缴纳",
+    "beiz": "xxx",
+    "yangl_gr": "1",
+    "yangl_gr_r": "1",
+    "yangl_dw": "1",
+    "yangl_dw_r": "1",
+    "yiliao_gr": "1",
+    "yiliao_gr_r": "1",
+    "yiliao_dw": "1",
+    "yiliao_dw_r": "1",
+    "shiye_gr": "1",
+    "shiye_gr_r": "1",
+    "shiye_dw": "1",
+    "shiye_dw_r": "1",
+    "gongs_gr": "",
+    "gongs_gr_r": "",
+    "gongs_dw": "",
+    "gongs_dw_r": "",
+    "shengy_gr": "",
+    "shengy_gr_r": "",
+    "shengy_dw": "",
+    "shengy_dw_r": "",
+    "zhuf_gr": "",
+    "zhuf_gr_r": "",
+    "zhuf_dw": "",
+    "zhuf_dw_r": ""
   }
 }

@@ -184,13 +184,4 @@ export default {
 .pact_mgmt {
     padding: 0 0 20px 20px;
 }
-
-.linkSpan {
-    color: #337ab7;
-    text-decoration: underline;
-}
-
-.linkSpan:hover {
-    cursor: pointer;
-}
 </style>

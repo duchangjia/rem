@@ -183,9 +183,9 @@ export default {
             //     .then((res) => {
             //         console.log(res);
             //         if (res.data.code == 'S00000') this.$router.push('/personnel_contract');
-            //         else this.$message.error('变更合同失败！');
+            //         else this.$message.error('续签合同失败！');
             //     }).catch(() => {
-            //         this.$message.error('变更合同失败！');
+            //         this.$message.error('续签合同失败！');
             //     })
         }
     }
