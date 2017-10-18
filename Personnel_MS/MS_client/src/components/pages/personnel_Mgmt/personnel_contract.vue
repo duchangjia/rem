@@ -138,6 +138,13 @@ table .el-button--danger:active {
     overflow: hidden;
 }
 
+.add-wrapper .item-title {
+    font-size: 14px;
+    height: 56px;
+    line-height: 56px;
+    padding-left: 8px;
+}
+
 .add-wrapper .el-form-item__label {
     margin-right: 14px;
 }

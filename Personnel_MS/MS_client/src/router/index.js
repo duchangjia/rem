@@ -215,6 +215,7 @@ export default new Router({
                             component: resolve => require(['../components/pages/personnel_Mgmt/query_contract.vue'], resolve)
                         },
                         {
+                            name: 'add_contract',
                             path: '/add_contract',
                             component: resolve => require(['../components/pages/personnel_Mgmt/add_contract.vue'], resolve)
                         },
@@ -224,26 +225,32 @@ export default new Router({
                             component: resolve => require(['../components/pages/personnel_Mgmt/detail_contract.vue'], resolve)
                         },
                         {
+                            name: 'add_pactChange',
                             path: '/add_pactChange',
                             component: resolve => require(['../components/pages/personnel_Mgmt/add_pactChange.vue'], resolve)
                         },
                         {
+                            name: 'detail_pactChange',
                             path: '/detail_pactChange',
                             component: resolve => require(['../components/pages/personnel_Mgmt/detail_pactChange.vue'], resolve)
                         },
                         {
+                            name: 'edit_pactChange',
                             path: '/edit_pactChange',
                             component: resolve => require(['../components/pages/personnel_Mgmt/edit_pactChange.vue'], resolve)
                         },
                         {
+                            name: 'add_pactRenew',
                             path: '/add_pactRenew',
                             component: resolve => require(['../components/pages/personnel_Mgmt/add_pactRenew.vue'], resolve)
                         },
                         {
+                            name: 'detail_pactRenew',
                             path: '/detail_pactRenew',
                             component: resolve => require(['../components/pages/personnel_Mgmt/detail_pactRenew.vue'], resolve)
                         },
                         {
+                            name: 'edit_pactRenew',
                             path: '/edit_pactRenew',
                             component: resolve => require(['../components/pages/personnel_Mgmt/edit_pactRenew.vue'], resolve)
                         }
