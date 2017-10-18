@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,7 +52,6 @@ public class AttenceController {
     @GetMapping(value = "/download")
     public Object download(String fileName, HttpServletRequest request,
             HttpServletResponse response) {
-        System.out.println("控制台输出：走入下载");
         System.out.println("制造冲突");
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
