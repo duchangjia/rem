@@ -5,6 +5,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.UnsupportedEncodingException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,13 +37,13 @@ public class CustInfoControllerTest {
      * @throws Exception
      */
     @Test
-    public void addOrganBillInfo() throws Exception {
+    public void insertCustInfo() throws Exception {
 	
 	String date = "2017-10-10";
 
 	String result = mockMvc
 		.perform(post("/CustInfo/insertCustInfo")
-		.param("custName", "亚当").param("organNo", "01")
+		.param("custName", "夏娃").param("organNo", "01")
 		.param("derpNo", "01").param("ownerCCC", "12345")
 		.param("certType", "01").param("certNo", "450421199093098833")
 		.param("sex", "01").param("birthday", "2017-09-09")
@@ -86,7 +88,7 @@ public class CustInfoControllerTest {
 	String result = mockMvc
 		.perform(put("/CustInfo/modCustInf")
 		.param("userNo", "P0000001")
-		.param("custName", "夏娃").param("organNo", "01")
+		.param("custName", "夏娃000").param("organNo", "01")
 		.param("derpNo", "01").param("ownerCCC", "12345")
 		.param("certType", "01").param("certNo", "450421199093098833")
 		.param("sex", "01").param("birthday", "2017-09-09")
@@ -134,10 +136,45 @@ public class CustInfoControllerTest {
 	System.out.println(result);
     }
     
+    /**
+     * 测试员工基本信息删除
+     * @throws Exception
+     */
     @Test
     public void delCustInf() throws Exception{
 	
 	String result = mockMvc.perform(put("/CustInfo/delCustInf/P0000001")
+		.contentType(MediaType.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk())
+		.andReturn().getResponse().getContentAsString();
+	
+	System.out.println(result);
+    }
+    
+    /**
+     * 测试直线经理查询
+     * @throws Exception
+     */
+    @Test
+    public void queryLineManager() throws Exception{
+	
+	String result = mockMvc.perform(get("/CustInfo/queryLineManager/P0000001")
+		.contentType(MediaType.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk())
+		.andReturn().getResponse().getContentAsString();
+	
+	System.out.println(result);
+    }
+    
+    /**
+     * 人事档案列表查询
+     * @throws Exception 
+     * @throws  
+     */
+    @Test
+    public void queryCustInfList() throws Exception{
+	
+	String result = mockMvc.perform(get("/CustInfo/queryCustInfList")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk())
 		.andReturn().getResponse().getContentAsString();

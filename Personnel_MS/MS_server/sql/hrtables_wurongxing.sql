@@ -6,209 +6,211 @@ drop table if exists EP_CUST_INFO;
 create table EP_CUST_INFO
 (
    UID                  VARCHAR(32) not null comment 'UID',
-   USER_NO              VARCHAR(16) not null comment 'ÓÃ»§±àºÅ',
-   CUST_NAME            VARCHAR(32) not null comment 'ÓÃ»§ÐÕÃû',
-   ORGAN_NO             VARCHAR(20) not null comment '¹«Ë¾ID',
-   DERP_NO              VARCHAR(20) not null comment '²¿ÃÅID',
-   OWNER_CCC            VARCHAR(32) not null comment 'ËùÊôCCC',
-   CERT_TYPE            VARCHAR(2) not null comment 'Ö¤¼þÀàÐÍ
-            ²ÎÊý±í£ºCERT_TYPE
-            01	Éí·ÝÖ¤
-            02	»§¿Ú±¾
-            03	»¤ÕÕ
-            04	Ê¿±ø»ò¾ü¹ÙÖ¤
-            99	ÆäËûÎ¨Ò»±êÊ¶ºÅ
+   USER_NO              VARCHAR(16) not null comment 'ï¿½Ã»ï¿½ï¿½ï¿½ï¿½',
+   CUST_NAME            VARCHAR(32) not null comment 'ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½',
+   ORGAN_NO             VARCHAR(20) not null comment 'ï¿½ï¿½Ë¾ID',
+   DERP_NO              VARCHAR(20) not null comment 'ï¿½ï¿½ï¿½ï¿½ID',
+   OWNER_CCC            VARCHAR(32) not null comment 'ï¿½ï¿½ï¿½ï¿½CCC',
+   CERT_TYPE            VARCHAR(2) not null comment 'Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½CERT_TYPE
+            01	ï¿½ï¿½ï¿½Ö¤
+            02	ï¿½ï¿½ï¿½Ú±ï¿½
+            03	ï¿½ï¿½ï¿½ï¿½
+            04	Ê¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤
+            99	ï¿½ï¿½ï¿½ï¿½Î¨Ò»ï¿½ï¿½Ê¶ï¿½ï¿½
             ',
-   CERT_NO              VARCHAR(20) not null comment 'Ö¤¼þºÅÂë',
-   SEX                  VARCHAR(2) not null comment 'ÐÔ±ð
-            ²ÎÊý±í£ºSEX
-            01	ÄÐ
+   CERT_NO              VARCHAR(20) not null comment 'Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+   SEX                  VARCHAR(2) not null comment 'ï¿½Ô±ï¿½
+            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SEX
+            01	ï¿½ï¿½
             02	Å®
-            99	ÆäËû',
-   BIRTHDAY             VARCHAR(15) not null comment '³öÉúÈÕÆÚ',
-   NATION               VARCHAR(15) not null comment 'Ãñ×å
-            ²ÎÊý±í£ºNATION
-            01	ºº×å
-            02	ÃÉ¹Å×å
-            03	»Ø×å
-            04	²Ø×å
-            05	Î¬Îá¶û×å
-            06	Ãç×å
-            07	ÒÍ×å
-            08	×³×å
-            09	²¼ÒÀ×å
-            10	³¯ÏÊ×å
-            11	Âú×å
-            12	¶±×å
-            13	Ñþ×å
-            14	°××å
-            15	ÍÁ¼Ò×å
-            16	¹þÄá×å
-            17	¹þÈø¿Ë×å
-            18	´ö×å
-            19	Àè×å
-            20	ÀüËÛ×å
-            21	Øô×å
-            22	î´×å
-            23	¸ßÉ½×å
-            24	À­ìï×å
-            25	Ë®×å
-            26	¶«Ïç×å
-            27	ÄÉÎ÷×å
-            28	¾°ÆÄ×å
-            29	¿Â¶û¿Ë×Î¡¡
-            30	ÍÁ×å
-            31	´ïÎÓ¶û×å
-            32	ØïÀÐ×å
-            33	Ç¼×å
-            34	²¼ÀÊ×å
-            35	ÈöÀ­×å
-            36	Ã«ÄÑ×å
-            37	ØîÀÐ×å
-            38	Îý²®×å
-            39	°¢²ý×å
-            40	ÆÕÃ××å
-            41	Ëþ¼ª¿Ë×å
-            42	Å­×å
-            43	ÎÚ×Î±ð¿Ë
-            44	¶íÂÞË¹×å
-            45	¶õÎÂ¿Ë×å
-            46	±ÀÁú×å
-            47	±£°²×å
-            48	Ô£¹Ì×å
-            49	¾©×å
-            50	ËþËþ¶û×å
-            51	¶ÀÁú×å
-            52	¶õÂ×´º×å
-            53	ºÕÕÜ×å
-            54	ÃÅ°Í×å
-            55	çó°Í×å
-            56	»ùÅµ×å
-            57	ÆäËû
-            58	Íâ¹úÑªÍ³ÖÐ¹ú¼®ÈËÊ¿
+            99	ï¿½ï¿½ï¿½ï¿½',
+   BIRTHDAY             VARCHAR(15) not null comment 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+   NATION               VARCHAR(15) not null comment 'ï¿½ï¿½ï¿½ï¿½
+            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½NATION
+            01	ï¿½ï¿½ï¿½ï¿½
+            02	ï¿½É¹ï¿½ï¿½ï¿½
+            03	ï¿½ï¿½ï¿½ï¿½
+            04	ï¿½ï¿½ï¿½ï¿½
+            05	Î¬ï¿½ï¿½ï¿½ï¿½ï¿½
+            06	ï¿½ï¿½ï¿½ï¿½
+            07	ï¿½ï¿½ï¿½ï¿½
+            08	×³ï¿½ï¿½
+            09	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            10	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            11	ï¿½ï¿½ï¿½ï¿½
+            12	ï¿½ï¿½ï¿½ï¿½
+            13	ï¿½ï¿½ï¿½ï¿½
+            14	ï¿½ï¿½ï¿½ï¿½
+            15	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            16	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            17	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            18	ï¿½ï¿½ï¿½ï¿½
+            19	ï¿½ï¿½ï¿½ï¿½
+            20	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            21	ï¿½ï¿½ï¿½ï¿½
+            22	ï¿½ï¿½ï¿½
+            23	ï¿½ï¿½É½ï¿½ï¿½
+            24	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            25	Ë®ï¿½ï¿½
+            26	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            27	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            28	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            29	ï¿½Â¶ï¿½ï¿½ï¿½ï¿½Î¡ï¿½
+            30	ï¿½ï¿½ï¿½ï¿½
+            31	ï¿½ï¿½ï¿½Ó¶ï¿½ï¿½ï¿½
+            32	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            33	Ç¼ï¿½ï¿½
+            34	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            35	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            36	Ã«ï¿½ï¿½ï¿½ï¿½
+            37	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            38	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            39	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            40	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            41	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            42	Å­ï¿½ï¿½
+            43	ï¿½ï¿½ï¿½Î±ï¿½ï¿½
+            44	ï¿½ï¿½ï¿½ï¿½Ë¹ï¿½ï¿½
+            45	ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½
+            46	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            47	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            48	Ô£ï¿½ï¿½ï¿½ï¿½
+            49	ï¿½ï¿½ï¿½ï¿½
+            50	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            51	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            52	ï¿½ï¿½ï¿½×´ï¿½ï¿½ï¿½
+            53	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            54	ï¿½Å°ï¿½ï¿½ï¿½
+            55	ï¿½ï¿½ï¿½ï¿½ï¿½
+            56	ï¿½ï¿½Åµï¿½ï¿½
+            57	ï¿½ï¿½ï¿½ï¿½
+            58	ï¿½ï¿½ï¿½ÑªÍ³ï¿½Ð¹ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿
             ',
-   MARITAL              VARCHAR(2) comment '»éÒö×´¿ö
-            ²ÎÊý±í£ºMARITAL
-            01	Î´»é
-            02	ÒÑ»é
-            03	ÀëÒì
-            04	²»Ïê
+   MARITAL              VARCHAR(2) comment 'ï¿½ï¿½ï¿½ï¿½×´ï¿½ï¿½
+            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½MARITAL
+            01	Î´ï¿½ï¿½
+            02	ï¿½Ñ»ï¿½
+            03	ï¿½ï¿½ï¿½ï¿½
+            04	ï¿½ï¿½ï¿½ï¿½
             ',
-   POLITIAL             VARCHAR(2) comment 'ÕþÖÎÃæÃ²
-            ²ÎÊý±í£ºPOLITIAL
-            01	ÈºÖÚ
-            02	ÍÅÔ±
-            03	µ³Ô±
-            99	ÆäËû
+   POLITIAL             VARCHAR(2) comment 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã²
+            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½POLITIAL
+            01	Èºï¿½ï¿½
+            02	ï¿½ï¿½Ô±
+            03	ï¿½ï¿½Ô±
+            99	ï¿½ï¿½ï¿½ï¿½
             ',
-   EDUCATION            VARCHAR(2) comment 'Ñ§Àú
-            ²ÎÊý±í£ºEDUCATION
-            01	¸ßÖÐÒÔÏÂ
-            02	¸ßÖÐ
-            03	´ó×¨
-            04	±¾¿Æ
+   EDUCATION            VARCHAR(2) comment 'Ñ§ï¿½ï¿½
+            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½EDUCATION
+            01	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            02	ï¿½ï¿½ï¿½ï¿½
+            03	ï¿½ï¿½×¨
+            04	ï¿½ï¿½ï¿½ï¿½
             05	Ë¶Ê¿
-            06	²©Ê¿
-            07	²©Ê¿ÒÔÉÏ
-            99	ÆäËû
+            06	ï¿½ï¿½Ê¿
+            07	ï¿½ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½
+            99	ï¿½ï¿½ï¿½ï¿½
             ',
    DEGREE               VARCHAR(12) comment 'Ñ§Î»
-            ²ÎÊý±í£ºDEGREE
-            01	¸ßÖÐÒÔÏÂ
-            02	¸ßÖÐ
-            03	´ó×¨
-            04	±¾¿Æ
+            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½DEGREE
+            01	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            02	ï¿½ï¿½ï¿½ï¿½
+            03	ï¿½ï¿½×¨
+            04	ï¿½ï¿½ï¿½ï¿½
             05	Ë¶Ê¿
-            06	²©Ê¿
-            07	²©Ê¿ÒÔÉÏ
-            99	ÆäËû
+            06	ï¿½ï¿½Ê¿
+            07	ï¿½ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½
+            99	ï¿½ï¿½ï¿½ï¿½
             ',
-   GRAD_SCHOOL          VARCHAR(64) comment '±ÏÒµÑ§Ð£',
-   GRAD_TIME            VARCHAR(15) comment '±ÏÒµÊ±¼ä',
+   GRAD_SCHOOL          VARCHAR(64) comment 'ï¿½ï¿½ÒµÑ§Ð£',
+   GRAD_TIME            VARCHAR(15) comment 'ï¿½ï¿½ÒµÊ±ï¿½ï¿½',
    MAJOR                VARCHAR(64) comment '×¨Òµ',
-   LINE_MANAGER         VARCHAR(15) comment 'Ö±Ïß¾­Àí',
-   ORIGO                VARCHAR(150) comment '¼®¹á',
-   HOME_ADDR            VARCHAR(150) comment '¼ÒÍ¥µØÖ·',
-   LIVE_ADDR            VARCHAR(150) comment '¾Ó×¡µØ',
-   PERM_ADDR            VARCHAR(150) comment '»§¿ÚµØÖ·',
-   MOBILE_NO            VARCHAR(11) comment 'ÊÖ»ú',
-   TELEPH               VARCHAR(32) comment 'µç»°',
-   HOME_TELEPH          VARCHAR(32) comment '¼ÒÍ¥µç»°',
-   PER_EMAIL            VARCHAR(64) comment '¸öÈËÓÊÏä',
-   COM_EMAIL            VARCHAR(64) comment '¹«Ë¾ÓÊÏä',
-   ATTEN                VARCHAR(32) comment '½ô¼±ÁªÏµÈË',
-   ATTEN_TELEPH         VARCHAR(32) comment '½ô¼±ÁªÏµÈËµç»°',
+   LINE_MANAGER         VARCHAR(15) comment 'Ö±ï¿½ß¾ï¿½ï¿½ï¿½',
+   ORIGO                VARCHAR(150) comment 'ï¿½ï¿½ï¿½ï¿½',
+   HOME_ADDR            VARCHAR(150) comment 'ï¿½ï¿½Í¥ï¿½ï¿½Ö·',
+   LIVE_ADDR            VARCHAR(150) comment 'ï¿½ï¿½×¡ï¿½ï¿½',
+   PERM_ADDR            VARCHAR(150) comment 'ï¿½ï¿½ï¿½Úµï¿½Ö·',
+   MOBILE_NO            VARCHAR(11) comment 'ï¿½Ö»ï¿½',
+   TELEPH               VARCHAR(32) comment 'ï¿½ç»°',
+   HOME_TELEPH          VARCHAR(32) comment 'ï¿½ï¿½Í¥ï¿½ç»°',
+   PER_EMAIL            VARCHAR(64) comment 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+   COM_EMAIL            VARCHAR(64) comment 'ï¿½ï¿½Ë¾ï¿½ï¿½ï¿½ï¿½',
+   ATTEN                VARCHAR(32) comment 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½',
+   ATTEN_TELEPH         VARCHAR(32) comment 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½Ëµç»°',
    QQ_ACCT              VARCHAR(20) comment 'QQ',
-   ONE_INCH             VARCHAR(100) comment 'Ãâ¹ÚÕÕÆ¬',
-   CUST_TYPE            VARCHAR(2) comment 'Ô±¹¤Àà±ð
-            ²ÎÊý±í£ºCUST_TYPE
-            01	ÔÚ±à
-            02	½èÓÃ
-            03	ºÏÍ¬ÖÆ
-            04	¼æÖ°
+   ONE_INCH             VARCHAR(100) comment 'ï¿½ï¿½ï¿½ï¿½ï¿½Æ¬',
+   CUST_TYPE            VARCHAR(2) comment 'Ô±ï¿½ï¿½ï¿½ï¿½ï¿½
+            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½CUST_TYPE
+            01	ï¿½Ú±ï¿½
+            02	ï¿½ï¿½ï¿½ï¿½
+            03	ï¿½ï¿½Í¬ï¿½ï¿½
+            04	ï¿½ï¿½Ö°
             05	ÊµÏ°
-            99	ÆäËû
+            99	ï¿½ï¿½ï¿½ï¿½
             ',
-   CUST_POST            VARCHAR(8) comment '¸ÚÎ»',
-   CUST_CLASS           VARCHAR(8) comment 'Ö°¼¶',
+   CUST_POST            VARCHAR(8) comment 'ï¿½ï¿½Î»',
+   CUST_CLASS           VARCHAR(8) comment 'Ö°ï¿½ï¿½',
    CUST_STATUS          VARCHAR(2) comment '×´Ì¬
-            ²ÎÊý±í£ºCUST_STATUS
-            01	ÊÔÓÃÆÚ
-            02	ºÏÍ¬ÆÚ
-            03	ÒÑÍËÐÝ
-            04	ÒÑÀëÖ°
-            05	Í£Ð½ÁôÖ°
+            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½CUST_STATUS
+            01	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            02	ï¿½ï¿½Í¬ï¿½ï¿½
+            03	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            04	ï¿½ï¿½ï¿½ï¿½Ö°
+            05	Í£Ð½ï¿½ï¿½Ö°
             ',
-   ENTRY_TIME           DATE comment 'ÈëÖ°Ê±¼ä',
-   LEFTJOB_TIME         DATE comment 'ÉÏ¸ÚÊ±¼ä',
-   WORK_TIME            DATE comment '¹¤×÷ÈÕÆÚ',
-   PROFTITLE_TIME       DATE comment 'Ö°³ÆÈÕÆÚ',
-   COMPACT_START_TIME   DATE comment 'ºÏÍ¬¿ªÊ¼',
-   COMPACT_END_TIME     DATE comment 'ºÏÍ¬ÖÕÖ¹',
-   PROB_START_TIME      DATE comment 'ÊÔÓÃ¿ªÊ¼',
-   PROB_END_TIME        DATE comment 'ÊÔÓÃ½áÊø',
-   RECRUIT_QUARRY       VARCHAR(2) comment 'ÕÐÆ¸À´Ô´
-            ²ÎÊý±í£ºRECRUIT_QUARRY
-            01	ÍøÉÏÕÐÆ¸
-            02	ÄÚ²¿ÍÆ¼ö
-            03	ÏÖ³¡ÕÐÆ¸
-            99	ÆäËû
+   ENTRY_TIME           DATE comment 'ï¿½ï¿½Ö°Ê±ï¿½ï¿½',
+   LEFTJOB_TIME         DATE comment 'ï¿½Ï¸ï¿½Ê±ï¿½ï¿½',
+   WORK_TIME            DATE comment 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+   PROFTITLE_TIME       DATE comment 'Ö°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+   COMPACT_START_TIME   DATE comment 'ï¿½ï¿½Í¬ï¿½ï¿½Ê¼',
+   COMPACT_END_TIME     DATE comment 'ï¿½ï¿½Í¬ï¿½ï¿½Ö¹',
+   PROB_START_TIME      DATE comment 'ï¿½ï¿½ï¿½Ã¿ï¿½Ê¼',
+   PROB_END_TIME        DATE comment 'ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½',
+   RECRUIT_QUARRY       VARCHAR(2) comment 'ï¿½ï¿½Æ¸ï¿½ï¿½Ô´
+            ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½RECRUIT_QUARRY
+            01	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¸
+            02	ï¿½Ú²ï¿½ï¿½Æ¼ï¿½
+            03	ï¿½Ö³ï¿½ï¿½ï¿½Æ¸
+            99	ï¿½ï¿½ï¿½ï¿½
             ',
-   LATE_LEAVE_TIME      DATE comment '×î½üÀëÖ°Ê±¼ä',
-   OPEN_BANK            VARCHAR(64) comment '¿ª»§ÒøÐÐ',
-   BANK_CARD_NO         VARCHAR(20) comment 'ÒøÐÐ¿¨ºÅ',
-   ENDM_ACCT            VARCHAR(32) comment 'ÑøÀÏ±£ÏÕÕËºÅ',
-   MEDI_ACCT            VARCHAR(32) comment 'Ò½±£ÕËºÅ',
-   MATE_ACCT            VARCHAR(32) comment 'ÉúÓýÕËºÅ',
-   HOUS_ACCT            VARCHAR(32) comment '¹«»ý½ðÕËºÅ',
-   ATTACHM              VARCHAR(100) comment '¸½¼þ',
-   REMARK               VARCHAR(2000) comment '±¸×¢',
-   CREATED_BY           VARCHAR2(100) comment '´´½¨ÈË',
-   CREATED_DATE         DATE comment '´´½¨Ê±¼ä',
-   UPDATED_BY           VARCHAR2(100) comment '¸üÐÂÈË',
-   UPDATED_DATE         DATE comment '¸üÐÂÊ±¼ä',
+   LATE_LEAVE_TIME      DATE comment 'ï¿½ï¿½ï¿½ï¿½ï¿½Ö°Ê±ï¿½ï¿½',
+   OPEN_BANK            VARCHAR(64) comment 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+   BANK_CARD_NO         VARCHAR(20) comment 'ï¿½ï¿½ï¿½Ð¿ï¿½ï¿½ï¿½',
+   ENDM_ACCT            VARCHAR(32) comment 'ï¿½ï¿½ï¿½Ï±ï¿½ï¿½ï¿½ï¿½Ëºï¿½',
+   MEDI_ACCT            VARCHAR(32) comment 'Ò½ï¿½ï¿½ï¿½Ëºï¿½',
+   MATE_ACCT            VARCHAR(32) comment 'ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½',
+   HOUS_ACCT            VARCHAR(32) comment 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½',
+   ATTACHM              VARCHAR(100) comment 'ï¿½ï¿½ï¿½ï¿½',
+   REMARK               VARCHAR(2000) comment 'ï¿½ï¿½×¢',
+   CREATED_BY           VARCHAR2(100) comment 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+   CREATED_DATE         DATE comment 'ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½',
+   UPDATED_BY           VARCHAR2(100) comment 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+   UPDATED_DATE         DATE comment 'ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½',
    primary key (UID, USER_NO)
 );
 
-alter table EP_CUST_INFO comment 'ÓÃ»§»ù´¡ÐÅÏ¢±í';
+alter table EP_CUST_INFO comment 'ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½';
 
 /*==============================================================*/
-/* Method: insertCustInfo    °´¹æÔòÐÂÔöÔ±¹¤±àºÅ                                         */
+/* Method: insertCustInfo    ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½ï¿½                                         */
 /*==============================================================*/
 DELIMITER $$
 
 CREATE
-   begin 
-    DECLARE maxUserNo varchar(8);
-    SELECT user_no into maxUserNo from EP_CUST_INFO where uid = new.uid order by user_no  desc limit 1;
-    if maxUserNo is null then 
-    set maxUserNo = 'P0000000';
-    end if ;
-    set new.user_no =  CONCAT('P',LPAD(right(maxUserNo,7)+1,7,'0'));
+    /*[DEFINER = { user | CURRENT_USER }]*/
+    TRIGGER `ifdp`.`insertCustInfo` BEFORE INSERT
+    ON `ifdp`.`EP_CUST_INFO`
+    FOR EACH ROW  BEGIN 
+    DECLARE maxUserNo VARCHAR(8);
+    SELECT user_no INTO maxUserNo FROM EP_CUST_INFO WHERE uid = new.uid ORDER BY user_no  DESC LIMIT 1;
+    IF maxUserNo IS NULL THEN 
+    SET maxUserNo = 'P0000000';
+    END IF ;
+    SET new.user_no =  CONCAT('P',LPAD(RIGHT(maxUserNo,7)+1,7,'0'));
    END$$
 
 DELIMITER ;
-
 
 drop table if exists EP_ORGAN_BILLINFO;
 
@@ -218,18 +220,18 @@ drop table if exists EP_ORGAN_BILLINFO;
 create table EP_ORGAN_BILLINFO
 (
    UID                  varchar(32) not null comment 'UID',
-   ORGAN_NO             varchar(20) not null comment '»ú¹¹ºÅ',
-   ORGAN_NAME           varchar(120) not null comment '¹«Ë¾Ãû³Æ',
-   ORGAN_TAXNO         varchar(20) not null comment 'ÄÉË°ÈË±àºÅ',
-   ORGAN_TEL            varchar(20) comment 'µç»°',
-   ORGAN_ACCT           varchar(32) comment 'ÕË»§',
-   ORGAN_ACCTNAME       varchar(120) comment 'ÕË»§Ãû³Æ',
-   ORGAN_ADDR           varchar(120) comment '¹«Ë¾µØÖ·',
-   CREATED_BY           varchar(20) not null comment '´´½¨ÈË',
-   CREATED_DATE         date not null comment '´´½¨Ê±¼ä',
-   UPDATED_BY           varchar(20) not null comment '¸üÐÂÈË',
-   UPDATED_DATE         date not null comment '¸üÐÂÊ±¼ä',
+   ORGAN_NO             varchar(20) not null comment 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+   ORGAN_NAME           varchar(120) not null comment 'ï¿½ï¿½Ë¾ï¿½ï¿½ï¿½ï¿½',
+   ORGAN_TAXNO         varchar(20) not null comment 'ï¿½ï¿½Ë°ï¿½Ë±ï¿½ï¿½',
+   ORGAN_TEL            varchar(20) comment 'ï¿½ç»°',
+   ORGAN_ACCT           varchar(32) comment 'ï¿½Ë»ï¿½',
+   ORGAN_ACCTNAME       varchar(120) comment 'ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ï¿½',
+   ORGAN_ADDR           varchar(120) comment 'ï¿½ï¿½Ë¾ï¿½ï¿½Ö·',
+   CREATED_BY           varchar(20) not null comment 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+   CREATED_DATE         date not null comment 'ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½',
+   UPDATED_BY           varchar(20) not null comment 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½',
+   UPDATED_DATE         date not null comment 'ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½',
    primary key (UID, ORGAN_NO)
 );
 
-alter table EP_ORGAN_BILLINFO comment '¹«Ë¾¿ªÆ±ÐÅÏ¢';
+alter table EP_ORGAN_BILLINFO comment 'ï¿½ï¿½Ë¾ï¿½ï¿½Æ±ï¿½ï¿½Ï¢';

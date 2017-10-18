@@ -1,8 +1,11 @@
 package com.omcube.web.controller;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,9 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.druid.util.StringUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.StringUtil;
 import com.omcube.model.po.CustInfoPO;
+import com.omcube.model.po.OrganBillInfoPO;
 import com.omcube.model.po.SysLoginCtrl;
 import com.omcube.service.CustInfoService;
+import com.omcube.util.ConstantUtil;
 import com.omcube.util.ErrorCodeConstantUtil;
 import com.omcube.util.JSONResultUtil;
 import com.omcube.util.SysLoginCtrlUtil;
@@ -24,16 +32,16 @@ public class CustInfoController {
 
     protected final Log logger = LogFactory.getLog(getClass());
     @Autowired
-    private CustInfoService custInfoService; 
-    
+    private CustInfoService custInfoService;
+
     /**
      * 员工基本信息新增
      * @param custInfo
      * @return
      */
     @PostMapping(value = "/insertCustInfo")
-    public Object insertCustInfo(CustInfoPO custInfo){
-	
+    public Object insertCustInfo(CustInfoPO custInfo) {
+
 	if (custInfo == null) {
 	    logger.error("the param custInfo is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the param custInfo is null");
@@ -45,19 +53,19 @@ public class CustInfoController {
 	custInfo.setuId(uId);
 	custInfo.setCreatedBy(userNO);
 	custInfo.setUpdatedBy(userNO);
-	
+
 	custInfoService.insertCustInfo(custInfo);
 	return JSONResultUtil.setSuccess(custInfo);
     }
-    
+
     /**
      * 员工基本信息修改
      * @param custInfo
      * @return
      */
     @PutMapping("/modCustInf")
-    public Object modCustInf(CustInfoPO custInfo){
-	
+    public Object modCustInf(CustInfoPO custInfo) {
+
 	if (custInfo == null) {
 	    logger.error("the request body is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
@@ -66,19 +74,20 @@ public class CustInfoController {
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	custInfo.setuId(sysLoginCtrl.getuId());
 	custInfo.setUpdatedBy(sysLoginCtrl.getUserNo());
-	
+
 	custInfoService.modCustInf(custInfo);
 	return JSONResultUtil.setSuccess();
     }
-    
+
     /**
      * 员工详细信息查询
      * @param userNO
      * @return
      */
     @GetMapping("/queryCustInfoByUserNo/{userNo}")
-    public Object queryCustInf(@PathVariable String userNo){
-	
+    @Cacheable(ConstantUtil.QUERY_CACHE)
+    public Object queryCustInf(@PathVariable String userNo) {
+
 	if (StringUtils.isEmpty(userNo)) {
 	    logger.error("the request param userNo is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
@@ -87,12 +96,17 @@ public class CustInfoController {
 	//从session 中获取uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	String uId = sysLoginCtrl.getuId();
-	CustInfoPO custInfo = custInfoService.queryCustInfoByUserNo(uId,userNo);
+	CustInfoPO custInfo = custInfoService.queryCustInfoByUserNo(uId, userNo);
 	return JSONResultUtil.setSuccess(custInfo);
     }
 
+    /**
+     * 员工基本信息删除
+     * @param userNo
+     * @return
+     */
     @PutMapping("/delCustInf/{userNo}")
-    public Object delCustInf(@PathVariable String userNo){
+    public Object delCustInf(@PathVariable String userNo) {
 	if (StringUtils.isEmpty(userNo)) {
 	    logger.error("the request param userNo is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
@@ -104,25 +118,48 @@ public class CustInfoController {
 	custInfoService.delCustInf(uId, userNo);
 	return JSONResultUtil.setSuccess();
     }
-   
-    //校验数据库参数  不能为null
-    public void checkNull(CustInfoPO custInfo){
+
+    /**
+     * 人事档案列表查询
+     * @return
+     */
+    @GetMapping(value = "/queryCustInfList")
+    @Cacheable(ConstantUtil.QUERY_CACHE)
+    public Object queryCustInfList(Integer pageNum,Integer pageSize) {
 	
-    }   
-   
-    @GetMapping(value = "/queryCustInfoByUserNo/{userNo}")
-    public Object queryCustInfoByUserNo(@PathVariable String userNo)
-    {
-	if (StringUtils.isEmpty(userNo)) {
-	    logger.error("the request userNo is null");
-	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request userNo is null");
-	}
-	//从session 获取uid 
+	//分页
+	pageNum = pageNum == null ? 1 : pageNum;
+	pageSize = pageSize ==null ? 5 : pageSize;
+	PageHelper.startPage(pageNum, pageSize, true);
+	
+	//从session 获取uids
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uid = sysLoginCtrl.getuId();
-	logger.info(String.format("the request param uid:%s, userNo:%s", uid, userNo));
+	String uId = sysLoginCtrl.getuId();
 	
-	CustInfoPO custInfoPO = custInfoService.queryCustInfoByUserNo(uid, userNo);
-	return JSONResultUtil.setSuccess(custInfoPO);
+	if (StringUtils.isEmpty(uId)) {
+	    logger.error("the param uId is null");
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the param uId is null");
+	}
+	List<CustInfoPO> list = custInfoService.queryCustInfList(uId);
+	PageInfo<CustInfoPO> pageInfo = new PageInfo<CustInfoPO>(list);
+
+	return JSONResultUtil.setSuccess(pageInfo);
+    }
+
+    /**
+     * 直线经理查询
+     * @param userNo
+     * @return
+     */
+    @GetMapping(value = "/queryLineManager/{userNo}")
+    @Cacheable(ConstantUtil.QUERY_CACHE)
+    public Object queryLineManager(@PathVariable String userNo) {
+
+	//从session 获取uid
+	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+	String uId = sysLoginCtrl.getuId();
+
+	String lineManager = custInfoService.queryLineManager(uId, userNo);
+	return JSONResultUtil.setSuccess(lineManager);
     }
 }

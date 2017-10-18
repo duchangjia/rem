@@ -111,8 +111,32 @@
 	<update id = "delCustInf" parameterType = "java.lang.String">
 		update EP_CUST_INFO set cust_status = '04'
 	</update>
+	
 	<!-- 员工基本信息查询 -->
 	 <select id="queryCustInfoByUserNo" parameterType="java.lang.String" resultMap="CustInfoMap">
-	 		select * from EP_CUST_INFO where uid = #{uid} and user_no = #{userNo}
+	 	select * from EP_CUST_INFO where uid = #{uId} and user_no = #{userNo}
+	 </select>
+	 
+	 <!-- 人事档案列表查询 -->
+	 <select id="queryCustInfList" parameterType="java.lang.String" resultMap="CustInfoMap">
+		SELECT
+			user_no,
+			cust_name,
+			organ_no,
+			derp_no,
+			sex,
+			cust_post,
+			cust_class,  
+			mobile_no,
+			entry_time,
+			cust_status
+		FROM EP_CUST_INFO
+		WHERE
+			uid = #{uId} ORDER BY updated_date DESC
+	 </select>
+	 
+	 <!-- 直线经理查询 -->
+	 <select id="queryLineManager" parameterType="java.lang.String" resultType="java.lang.String">
+	 	select line_manager from EP_CUST_INFO where uid = #{uId} and user_no = #{userNo}
 	 </select>
 </mapper>
