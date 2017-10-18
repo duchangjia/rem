@@ -217,25 +217,4 @@ export default {
     margin-bottom: 20px;
 }
 
-.el-date-table td.current:not(.disabled),
-.el-date-table td.end-date,
-.el-date-table td.start-date {
-    background-color: #ff9900!important;
-}
-.el-date-table td.today {
-    color: #ff9900;
-}
-.el-date-table td.today:before {
-    border-top: .5em solid #ff9900;
-}
-
-.el-checkbox__inner:focus,
-.el-checkbox__inner:hover {
-    border-color: #ff9900;
-}
-
-.el-checkbox__input.is-checked .el-checkbox__inner {
-    background-color: #ff9900;
-    border-color: #ff9900;
-}
 </style>

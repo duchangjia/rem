@@ -103,9 +103,9 @@ export default {
                 "pactType": self.filters.pactType
             }
             self.$axios.get('ifdp/queryPactList', { params: params })
-                .then(function(res) {
+                .then((res) => {
                     self.pactListInfo = res.data.data.pactListArray;
-                }).catch(function(err) {
+                }).catch(() => {
                     console.log('error');
                 })
         },
