@@ -113,6 +113,25 @@ label {
     margin-left: 0;
 }
 
+/* .el-button:active {
+    color: #ff9900;
+    border-color: #ff9900;
+} */
+table .el-button:focus, 
+table .el-button:hover,
+table .el-button:active {
+    color: #ff9900;
+    border-color: #ff9900;
+}
+
+table .el-button--danger:focus,
+table .el-button--danger:hover,
+table .el-button--danger:active {
+    color: #fff;
+    background-color: #ff4949;
+    border-color: #ff4949;
+}
+
 .add-wrapper form {
     font-size: 0;
     margin-top: 40px;

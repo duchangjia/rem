@@ -147,10 +147,10 @@ export default {
 
         },
         handleChange(index, row) {
-
+            this.$router.push('/add_pactChange');
         },
         handleRenew(index, row) {
-
+            this.$router.push('/add_pactRenew');
         },
         handleTerminate(index, row) {
 
