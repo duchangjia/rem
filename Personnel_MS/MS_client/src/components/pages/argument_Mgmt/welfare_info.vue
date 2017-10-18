@@ -9,102 +9,102 @@
 			</div>
 			<div class="content-inner">
 				<el-form ref="welfareInfo" :rules="rules" :model="welfareInfo" label-width="80px">
-					<el-form-item label="模版编号" prop="modelNo">
-					    <el-input v-model="welfareInfo.modelNo"></el-input>
+					<el-form-item label="模版编号" prop="applyNo">
+					    <el-input v-model="welfareInfo.applyNo"></el-input>
 				  	</el-form-item>
-					<el-form-item label="模版名称" prop="modelName">
-					    <el-input v-model="welfareInfo.modelName"></el-input>
+					<el-form-item label="模版名称" prop="applyName">
+					    <el-input v-model="welfareInfo.applyName"></el-input>
 				  	</el-form-item>
 					<el-form-item label="模版备注">
-					    <el-input v-model="welfareInfo.beiz"></el-input>
+					    <el-input v-model="welfareInfo.remark"></el-input>
 				  	</el-form-item>
 					<div class="form_box">
 						<div class="title">养老保险系数</div>
 						<div class="inner">
-							<el-form-item label="个人支付" prop="yangl_gr">
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.yangl_gr"></el-input>
+							<el-form-item label="个人支付" prop="perEndmRate">
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.perEndmRate"></el-input>
 							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.yangl_gr_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.perEndmFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="yangl_dw">
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.yangl_dw"></el-input>
+						  	<el-form-item label="个人支付" prop="comEndmRate">
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.comEndmRate"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.yangl_dw_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.comEndmFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
 					<div class="form_box">
 						<div class="title">医疗保险系数</div>
 						<div class="inner">
-							<el-form-item label="个人支付" prop="yiliao_gr">
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.yiliao_gr"></el-input>
+							<el-form-item label="个人支付" prop="perMediRate">
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.perMediRate"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.yiliao_gr_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.perMediFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="yiliao_dw">
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.yiliao_dw"></el-input>
+						  	<el-form-item label="个人支付" prop="comMediRate">
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.comMediRate"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.yiliao_dw_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.comMediFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
 					<div class="form_box">
 						<div class="title">失业保险系数</div>
 						<div class="inner">
-							<el-form-item label="个人支付" prop="shiye_gr">
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.shiye_gr"></el-input>
+							<el-form-item label="个人支付" prop="perUnemRate">
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.perUnemRate"></el-input>
 							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.shiye_gr_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.perUnemFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="shiye_dw">
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.shiye_dw"></el-input>
+						  	<el-form-item label="个人支付" prop="comUnemRate">
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.comUnemRate"></el-input>
 							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.shiye_dw_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.comUnemFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
 					<div class="form_box">
 						<div class="title">工伤保险系数</div>
 						<div class="inner">
-							<el-form-item label="个人支付" prop="gongs_gr">
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.gongs_gr"></el-input>
+							<el-form-item label="个人支付" prop="perEmplRate">
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.perEmplRate"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.gongs_gr_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.perEmplFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="gongs_dw">
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.gongs_dw"></el-input>
+						  	<el-form-item label="个人支付" prop="comEmplRate">
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.comEmplRate"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.gongs_dw_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.comEmplFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
 					<div class="form_box">
 						<div class="title">生育保险系数</div>
 						<div class="inner">
-							<el-form-item label="个人支付" prop="shengy_gr">
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.shengy_gr"></el-input>
+							<el-form-item label="个人支付" prop="perMateRate">
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.perMateRate"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.shengy_gr_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.perMateFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="shengy_dw">
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.shengy_dw"></el-input>
+						  	<el-form-item label="个人支付" prop="comMateRate">
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.comMateRate"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.shengy_dw_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.comMateFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
 					<div class="form_box">
 						<div class="title">住房公积金系数</div>
 						<div class="inner">
-							<el-form-item label="个人支付" prop="zhuf_gr">
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.zhuf_gr"></el-input>
+							<el-form-item label="个人支付" prop="perHousRate">
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.perHousRate"></el-input>
 							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.zhuf_gr_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.perHousFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="zhuf_dw">
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.zhuf_dw"></el-input>
+						  	<el-form-item label="个人支付" prop="comHousRate">
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.comHousRate"></el-input>
 						    	<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="welfareInfo.zhuf_dw_r"></el-input>
+						      	<el-input type="text" placeholder="" v-model="welfareInfo.comHousFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
@@ -121,72 +121,72 @@ export default {
 	data() {
 		return {
 			welfareInfo: {
-				modelNo: '',
-				modelName: '',
-				beiz: '',
-				yangl_gr: '',
-				yangl_gr_r: '',
-				yangl_dw: '',
-				yangl_dw_r: '',
-				yiliao_gr: '',
-				yiliao_gr_r: '',
-				yiliao_dw: '',
-				yiliao_dw_r: '',
-				shiye_gr: '',
-				shiye_gr_r: '',
-				shiye_dw: '',
-				shiye_dw_r: '',
-				gongs_gr: '',
-				gongs_gr_r: '',
-				gongs_dw: '',
-				gongs_dw_r: '',
-				shengy_gr: '',
-				shengy_gr_r: '',
-				shengy_dw: '',
-				shengy_dw_r: '',
-				zhuf_gr: '',
-				zhuf_gr_r: '',
-				zhuf_dw: '',
-				zhuf_dw_r: ''
+				applyNo: '',
+				applyName: '',
+				remark: '',
+				perEndmRate: '',
+				perEndmFixed: '',
+				comEndmRate: '',
+				comEndmFixed: '',
+				perMediRate: '',
+				perMediFixed: '',
+				comMediRate: '',
+				comMediFixed: '',
+				perUnemRate: '',
+				perUnemFixed: '',
+				comUnemRate: '',
+				comUnemFixed: '',
+				perEmplRate: '',
+				perEmplFixed: '',
+				comEmplRate: '',
+				comEmplFixed: '',
+				perMateRate: '',
+				perMateFixed: '',
+				comMateRate: '',
+				comMateFixed: '',
+				perHousRate: '',
+				perHousFixed: '',
+				comHousRate: '',
+				comHousFixed: ''
 			},
 			rules: {
-				name: [
+				applyName: [
 					{ required: true, message: '请输入模版名称', trigger: 'blur' }
 				],
-				yangl_gr: [
+				perEndmRate: [
 					{ required: true, message: '请输入养老保险个人支付系数', trigger: 'blur' }
 				],
-				yangl_dw: [
+				comEndmRate: [
 					{ required: true, message: '请输入养老保险单位支付系数', trigger: 'blur' }
 				],
-				yiliao_gr: [
+				perMediRate: [
 					{ required: true, message: '请输入医疗保险个人支付系数', trigger: 'blur' }
 				],
-				yiliao_dw: [
+				comMediRate: [
 					{ required: true, message: '请输入医疗保险单位支付系数', trigger: 'blur' }
 				],
-				shiye_gr: [
+				perUnemRate: [
 					{ required: true, message: '请输入失业保险个人支付系数', trigger: 'blur' }
 				],
-				shiye_dw: [
+				comUnemRate: [
 					{ required: true, message: '请输入失业保险单位支付系数', trigger: 'blur' }
 				],
-				gongs_gr: [
+				perEmplRate: [
 					{ required: true, message: '请输入工伤保险个人支付系数', trigger: 'blur' }
 				],
-				gongs_dw: [
+				comEmplRate: [
 					{ required: true, message: '请输入工伤保险单位支付系数', trigger: 'blur' }
 				],
-				shengy_gr: [
+				perMateRate: [
 					{ required: true, message: '请输入生育保险个人支付系数', trigger: 'blur' }
 				],
-				shengy_dw: [
+				comMateRate: [
 					{ required: true, message: '请输入生育保险单位支付系数', trigger: 'blur' }
 				],
-				zhuf_gr: [
+				perHousRate: [
 					{ required: true, message: '请输入住房公积金个人支付系数', trigger: 'blur' }
 				],
-				zhuf_dw: [
+				comHousRate: [
 					{ required: true, message: '请输入住房公积金单位支付系数', trigger: 'blur' }
 				]
 			}
@@ -197,9 +197,9 @@ export default {
 	},
 	created(){
 		const self = this;
-		let modelNo = sessionStorage.getItem('modelNo');
-		let param = { modelNo: modelNo };
-		self.$axios.get(baseURL+'/queryWelfareInfo',{ params : param })
+		let applyNo = sessionStorage.getItem('applyNo');
+		let param = { applyNo: applyNo };
+		self.$axios.get(baseURL+'/queryInsurancePayTemplate',{ params : param })
 			.then(function(res) {
 				console.log('res',res);
 				self.welfareInfo = res.data.data;

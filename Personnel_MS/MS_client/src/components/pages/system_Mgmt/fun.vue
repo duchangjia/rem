@@ -55,14 +55,8 @@
 						</el-table-column>
 					</el-table>
 				</div>
-				<el-pagination
-                   	@size-change="handleSizeChange"
-		      		@current-change="handleCurrentChange"
-			      	:current-page.sync="currentPage"
-			      	:page-size="100"
-			      	layout="prev, pager, next, jumper"
-			      	:total="1000">
-			    </el-pagination>
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
+				</el-pagination>
 			</div>
 		</div>
 	</div>
@@ -73,7 +67,9 @@
 	export default {
 		data() {
 			return {
-				currentPage: 5,
+				pageIndex: 1,
+				pageRows: 1,
+				totalRows: 5,
 				formData: {
 					dealName: '',
 					dealType: '',

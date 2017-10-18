@@ -146,8 +146,12 @@ export default new Router({
                 			component:resolve => require(['../components/pages/argument_Mgmt/rate_info.vue'],resolve)
                 		},
                 		{
-                			path:'/add_tax',
-                			component:resolve => require(['../components/pages/argument_Mgmt/add_tax.vue'],resolve)
+                			path:'/add_rateGroup',
+                			component:resolve => require(['../components/pages/argument_Mgmt/add_rateGroup.vue'],resolve)
+                		},
+                		{
+                			path:'/add_rate',
+                			component:resolve => require(['../components/pages/argument_Mgmt/add_rate.vue'],resolve)
                 		},
                 		{
                 			path:'/rank',
