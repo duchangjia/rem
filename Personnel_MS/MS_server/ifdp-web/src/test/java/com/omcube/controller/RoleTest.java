@@ -42,34 +42,7 @@ public class RoleTest {
 	}
 	
 	@Test
-	public void test() throws Exception{
-		
-		SysRolePO sysRolePO = new SysRolePO();
-		sysRolePO.setuId("0001");
-		sysRolePO.setRoleNo(String.valueOf(UUID.randomUUID().toString().split("-")));
-		sysRolePO.setRoleName("jun");
-		sysRolePO.setRoleDescr("测试");
-		sysRolePO.setStatus("1");
-		sysRolePO.setCreatedBy("jun");
-		sysRolePO.setCreatedDate(new Date());
-		sysRolePO.setUpdatedBy("jun");
-		sysRolePO.setUpdatedDate(new Date());
-		
-		roleService.addRoleInfo(sysRolePO);;
-	}
-
-	public static void main(String[] args) {
-		
-		SysRolePO sysRolePO = new SysRolePO();
-		sysRolePO.setuId("0001");
-		sysRolePO.setRoleNo(String.valueOf(UUID.randomUUID().toString().split("-")));
-		sysRolePO.setRoleName("jun");
-		sysRolePO.setRoleDescr("测试");
-		sysRolePO.setStatus("1");
-		sysRolePO.setCreatedBy("jun");
-		sysRolePO.setCreatedDate(new Date());
-		sysRolePO.setUpdatedBy("jun");
-		sysRolePO.setUpdatedDate(new Date());
+	public void test() {
 		
 
 	}
