@@ -9,11 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @RunWith(SpringRunner.class)
@@ -31,19 +28,15 @@ public class UserControllerTest {
 	mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
-    @Test
-    public void addCityInfoSuccessTestCase() throws Exception
+    //@Test
+    public void queryUser() throws Exception
     {
-
-	//"pageNum":1,"pageSize":1,"uid":"0001","organCompanyName":"魔方",
-	//"organDepartmentName":"上海办事处","userFeatureInfo":"admin@pactera.com"
-	String result = mockMvc.perform(get("/iem/user/queryUser")
+	String result = mockMvc.perform(get("/user/queryUserList")
 		.param("pageNum", "1")
 		.param("pageSize", "10")
 		.param("organCompanyName", "魔方")
-		.param("organDepartmentName", "上海办事处")
-		.param("userFeatureInfo", "admin@pactera.com")
-		.param("uid", "0001")
+		//.param("organDepartmentName", "上海办事处")
+		//.param("userFeatureInfo", "admin@pactera.com")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();
@@ -51,4 +44,24 @@ public class UserControllerTest {
 	System.out.println(result);
     }
 
+    @Test
+    public void updateUserInfo() throws Exception
+    {
+	String result = mockMvc.perform(put("/user/updateUserInfo")
+		.param("organCompanyNo", "p0")
+		.param("organDepartmentNo", "p1")
+		.param("roleNo", "COMMON")
+		.param("userNo", "2")
+		.param("userName", "jinQQQ")
+		.param("certNo", "431223199003013356")
+		.param("mobile", "13418760926")
+		.param("email", "11223@qq.com")
+		.param("remark", "qqqq")
+		.param("status", "1")
+		.contentType(MediaType.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk()).andReturn().getResponse()
+		.getContentAsString();
+
+	System.out.println(result);
+    }
 }

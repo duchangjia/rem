@@ -9,22 +9,23 @@
             <div class="department-info">
                 <!--<div class="text">部门信息</div>-->
                 <div class="item-common">
-                    <div><span class="label-common">部门编号</span><input type="text" value="10000" class="input-common input-dark"></div>
-                    <div><span class="label-common">部门名称</span><input type="text" value="互联网中心" class="input-common input-light"></div>
+                    <div><span class="label-common">部门编号</span><input type="text" v-model="content.organNo" class="input-common input-dark" disabled></div>
+                    <div><span class="label-common">部门名称</span><input type="text" v-model="content.organName" class="input-common input-light"></div>
                 </div>
                 <div class="item-common">
-                    <div><span class="label-common">上级部门</span><input type="text" value="10000" class="input-common input-dark"></div>
-                    <div><span class="label-common">部门主管</span><input type="text" value="主管" class="input-common input-light"></div>
+                    <div><span class="label-common">上级部门</span><input type="text" v-model="content.organParentName" class="input-common input-dark" disabled></div>
+                    <div><span class="label-common">部门主管</span><input type="text" v-model="content.organMgeName" class="input-common input-light"></div>
                 </div>
                 <div class="item-common">
                     <div><span class="label-common">部门类型</span><select  class="input-common input-select">
-                        <option value="一级部门">一级部门</option>
-                        <option value="二级部门">二级部门</option>
-                        <option value="三级部门">三级部门</option>
+                        <option value="01" :selected="content.organType=='01'">总公司</option>
+                        <option value="02" :selected="content.organType=='02'">分公司</option>
+                        <option value="03" :selected="content.organType=='03'">办事处</option>
+                        <option value="04" :selected="content.organType=='04'">部门</option>
                     </select></div>
-                    <div><span class="label-common">部门状态</span><select class="input-common input-select">
-                        <option value="正常">正常</option>
-                        <option value="正常">正常</option>
+                    <div v-show="content.status"><span class="label-common">部门状态</span><select class="input-common input-select">
+                        <option value="1" :selected="content.status=='1'">启用</option>
+                        <option  value="0" :selected="content.status=='0'">停用</option>
                     </select></div>
                 </div>
             </div>
@@ -35,14 +36,42 @@
 <script type='text/ecmascript-6'>
     import current from '../../common/current_position.vue'
     export default {
+        data() {
+          return {
+              content: {}
+          }
+        },
         components: {
             current,
         },
+        created() {
+            let index = window.sessionStorage.getItem('frame_queryNo')
+            this.$axios.get(`/iem_hrm/organ/queryCurrentAndParentOrganDetail/${index}`)
+                .then(res => {
+                    this.content = res.data.data
+                    console.log(res)
+                })
+                .catch( res=> {
+                    console.log('请求超时')
+                })
+        },
         methods: {
             save() {
-                console.log('test')
+                this.$axios.put('/iem_hrm/organ/modifyOrganInfo', this.content)
+                    .then(() => {
+                        this.$message({
+                            type: 'success',
+                            message: '编辑成功'
+                        });
+                    })
+                    .catch( ()=> {
+                        this.$message({
+                            type: 'error',
+                            message: '编辑失败,请稍后重试!'
+                        });
+                    })
             }
-        }
+        },
     }
 </script>
 
@@ -94,6 +123,10 @@
     font-size: 14px;
     color: #333333;
     letter-spacing: 0;
+}
+.edit-content .title .save:hover {
+    color: white;
+    background: orange;
 }
 .department-info{
     margin-top: 40px;

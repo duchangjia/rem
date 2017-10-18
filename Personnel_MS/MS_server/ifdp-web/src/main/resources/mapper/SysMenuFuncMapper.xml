@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omcube.model.mapper.SysMenuFuncMapper">
+
+	<!-- 添加菜单和业务功能的对应关系 -->
+	<insert id="addMenuFunc" parameterType="com.omcube.model.po.SysMenuFuncPO">
+		insert into
+			IFDP_SYS_MENU_FUNC
+		values
+		(
+			#{sysBsn.uId},
+			#{sysMenuPO.sysNo},
+			#{sysMenuPO.menuNo},
+			#{sysBsn.bsnNo},
+			#{createdBy},
+			#{createdDate},
+			#{updatedBy},
+			#{updatedDate},
+			#{remark}
+		)
+	</insert>
+
+</mapper>

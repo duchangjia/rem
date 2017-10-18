@@ -2,7 +2,6 @@ package com.omcube.model.po;
 
 import java.util.Date;
 
-
 public class BasicPO {
 	
     private String status; 
@@ -10,7 +9,7 @@ public class BasicPO {
     private Date updatedDate;  
     private String createdBy;
     private String updatedBy;
-    private String uId;//租户id
+    private String uId;//租户通过session获取
     
     public String getStatus() {
         return status;

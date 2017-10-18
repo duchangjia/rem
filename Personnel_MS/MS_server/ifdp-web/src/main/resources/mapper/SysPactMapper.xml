@@ -2,6 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<<<<<<< HEAD
 
 <mapper namespace="com.omcube.model.mapper.SysPactMapper">
 	<resultMap id="PactMap" type="com.omcube.model.po.PactPO">
@@ -391,4 +392,87 @@
     		AND
     		renew_id = #{renewId}
     </update>
+=======
+        
+<mapper namespace="com.omcube.model.mapper.SysPactMapper">
+    <resultMap id="PactMap" type="com.omcube.model.po.PactPO">
+        <id column="user_no" property="userNo"></id>
+        <result column="pact_no" property="pactNo" javaType="java.lang.String"></result>
+        <result column="paper_pact_no" property="paperPactNo" javaType="java.lang.String"></result>
+        <result column="pact_name" property="pactName" javaType="java.lang.String"></result>
+        <result column="organ_no" property="organNo" javaType="java.lang.String"></result>
+        <result column="derp_no" property="derpNo" javaType="java.lang.String"></result>
+        <result column="cust_name" property="custName" javaType="java.lang.String"></result>
+        <result column="sex" property="sex" javaType="java.lang.String"></result>
+        <result column="cert" property="cert" javaType="java.lang.String"></result>
+        <result column="pact_type" property="pactType" javaType="java.lang.String"></result>
+        <result column="sign_time" property="signTime" javaType="java.util.Date"></result>
+        <result column="pact_start_time" property="pactStartTime" javaType="java.util.Date"></result>
+        <result column="pact_end_time" property="pactEndTime" javaType="java.util.Date"></result>
+        <result column="pact_status" property="pactStatus" javaType="java.lang.String"></result>
+        <result column="pact_expires" property="pactExpires" javaType="java.lang.String"></result>
+        <result column="pact_stop_time" property="pactStopTime" javaType="java.util.Date"></result>
+        <result column="stop_reason" property="stopReason" javaType="java.lang.String"></result>
+        <result column="autoud_flag" property="autoudFlag" javaType="java.lang.String"></result>
+        <result column="attachm" property="attachm" javaType="java.lang.String"></result>
+        <result column="remark" property="remark" javaType="java.lang.String"></result>
+        <result column="greated_by" property="greatedBy" javaType="java.lang.String"></result>
+        <result column="greated_date" property="greatedDate" javaType="java.util.Date"></result>
+        <result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
+        <result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
+    </resultMap>
+    
+    <resultMap id="PactChangeMap" type="com.omcube.model.po.PactChange">
+        <id column="pact_no" property="pactNo"></id>
+        <result column="change_id" property="changeId" javaType="java.lang.String"></result>
+        <result column="change_time" property="changeTime" javaType="java.util.Date"></result>
+        <result column="change_type" property="changeType" javaType="java.lang.String"></result>
+        <result column="change_content" property="changeContent" javaType="java.lang.String"></result>
+        <result column="attachm" property="attachm" javaType="java.lang.String"></result>
+        <result column="remark" property="remark" javaType="java.lang.String"></result>
+        <result column="created_by" property="createdBy" javaType="java.lang.String"></result>
+        <result column="created_date" property="createdDate" javaType="java.util.Date"></result>
+        <result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
+        <result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
+    </resultMap>
+    
+    <resultMap id="PactRenewMap" type="com.omcube.model.po.PactRenew">
+        <id column="pact_no" property="pactNo"></id>
+        <result column="renew_id" property="renewId" javaType="java.lang.String"></result>
+        <result column="renew_time" property="renewTime" javaType="java.util.Date"></result>
+        <result column="renew_type" property="renewType" javaType="java.lang.String"></result>
+        <result column="renew_came_time" property="renewCameTime" javaType="java.util.Date"></result>
+        <result column="renew_lost_time" property="renewLostTime" javaType="java.util.Date"></result>
+        <result column="renew_content" property="renewContent" javaType="java.lang.String"></result>
+        <result column="attachm" property="attachm" javaType="java.lang.String"></result>
+        <result column="remark" property="remark" javaType="java.lang.String"></result>
+        <result column="created_by" property="createdBy" javaType="java.lang.String"></result>
+        <result column="created_date" property="createDate" javaType="java.util.Date"></result>
+        <result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
+        <result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
+    </resultMap>
+    
+    <!-- 分页查询合同 -->
+    <select id="getPact" resultMap="PactMap">
+    	select * FROM EP_PACT_INFO WHERE 1=1 and DERP_NO = #{derpNo} and CUST_NAME like #{custName}
+    	<if test="pactType != '' and pactType != null">
+    	 and PACT_TYPE = #{pactType}
+    	</if>
+    </select>
+    
+    <!-- 查询合同详情 -->
+    <select id="getPactByPactNo" resultMap="PactMap">
+    	select * FROM EP_PACT_INFO where PACT_NO = #{pactNo}
+    </select>
+    
+    <!-- 查询合同变更信息 -->
+    <select id="getPactChangeByPactNo" resultMap="PactChangeMap">
+    	select * from EP_PACT_CHANGE where PACT_NO = #{pactNo}
+    </select>
+    
+    <!-- 查询合同续签信息 -->
+    <select id="getPactRenewByPactNo" resultMap="PactRenewMap">
+    	select * from EP_PACT_RENEW where PACT_NO = #{pactNo}
+    </select>
+>>>>>>> e7c17c0817caa7792f108a702b4e93f22520f115
 </mapper>

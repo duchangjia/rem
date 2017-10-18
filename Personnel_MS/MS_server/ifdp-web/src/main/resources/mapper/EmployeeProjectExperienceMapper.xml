@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.omcube.model.mapper.EmployeeProjectExperienceMapper">
+
+	<resultMap type="com.omcube.model.po.EmployeeProjectExperiencePO"
+		id="EmployeeProjectExperienceMap">
+		<id column="uid" property="uId" />
+		<id column="user_no" property="userNo" />
+		<id column="project_id" property="projectId" />
+		<result column="start_time" property="startTime" javaType="java.util.Date" />
+		<result column="end_time" property="endTime" javaType="java.util.Date" />
+		<result column="project_name" property="projectName" javaType="java.lang.String" />
+		<result column="main_skill" property="mainSkill" javaType="java.lang.String" />
+		<result column="project_role" property="projectRole" javaType="java.lang.String" />
+		<result column="soft_env" property="softEnv" javaType="java.lang.String" />
+		<result column="custom" property="custom" javaType="java.lang.String" />
+		<result column="project_duty" property="projectDuty" javaType="java.lang.String" />
+		<result column="desc" property="desc" javaType="java.lang.String" />
+		<result column="created_by" property="createdBy" javaType="java.lang.String" />
+		<result column="created_date" property="createdDate" javaType="java.util.Date" />
+		<result column="updated_by" property="updatedBy" javaType="java.lang.String" />
+		<result column="updated_date" property="updatedDate" javaType="java.util.Date" />
+	</resultMap>
+
+	<!-- 查询反显项目经历信息 -->
+	<select id="queryEmployeeProjectExperienceInfo" parameterType="java.lang.String"
+		resultMap="EmployeeProjectExperienceMap">
+		SELECT
+		start_time ,
+		end_time ,
+		project_name ,
+		main_skill ,
+		project_role ,
+		soft_env ,
+		custom ,
+		project_duty ,
+		`desc`
+		FROM EP_CUST_PROHIS
+		WHERE
+
+		project_id=#{projectId}
+	</select>
+
+	<!-- 物理删除项目经历信息 -->
+	<delete id="deleteEmployeeProjectExperienceInfo" parameterType="java.lang.String">
+		delete from EP_CUST_PROHIS where project_id=#{projectId}
+	</delete>
+
+	<!-- 继续添加项目经历信息 -->
+	<insert id="addEmployeeProjectExperienceInfo" parameterType="com.omcube.model.po.EmployeeProjectExperiencePO">
+		insert into
+		EP_CUST_PROHIS
+		(uid,user_no,project_id,start_time,end_time,project_name,
+		main_skill,project_role,soft_env,custom,project_duty,`desc`)
+		values
+		(#{uId},#{userNo},#{projectId},#{startTime},#{endTime},#{projectName},
+		#{mainSkill},#{projectRole},#{softEnv},#{custom},#{projectDuty},#{desc})
+
+	</insert>
+
+	<!-- 添加项目经历信息的查询 -->
+	<select id="queryEmployeeProjectExperienceInfoByParam"
+		parameterType="String" resultMap="EmployeeProjectExperienceMap">
+		select *
+		from
+		EP_CUST_PROHIS
+		where
+		uid=#{uId}
+		and user_no=#{userNo}
+		and project_id=#{projectId}
+	</select>
+
+	<!-- 项目经历信息修改 -->
+	<update id="modEmpProExp" parameterType="com.omcube.model.po.EmployeeProjectExperiencePO">
+		update EP_CUST_PROHIS set
+		start_time=#{startTime},
+		end_time =#{endTime},
+		project_name=#{projectName},
+		main_skill=#{mainSkill},
+		project_role=#{projectRole},
+		soft_env=#{softEnv},
+		custom=#{custom},
+		project_duty=#{projectDuty},
+		`desc`=#{desc}
+		where
+		project_id=#{projectId}
+		<!-- 暂定给定uid user_No -->
+		and uid=#{uId}
+		and user_no=#{userNo}
+	</update>
+</mapper>

@@ -6,28 +6,28 @@
                 <span class="text">新增机构</span>
                 <el-button type="primary" @click="save" class="save">保存</el-button>
             </div>
-            <div class="department-info">
+            <div class="department-info" v-show="content">
                 <!--<div class="text">部门信息</div>-->
                 <div class="item-common">
-                    <div><span class="label-common">上级部门</span><input type="text" value="上海分公司" class="input-common input-dark"></div>
-                    <div><span class="label-common">机构类型</span><select class="input-common input-select" :class="{'input-test1':isActive, 'input-test2':!isActive}" @change="check" ref="inputSelect">
-                        <option value="" disabled selected>请选择机构类型</option>
-                        <option value="一级部门">一级部门</option>
-                        <option value="二级部门">二级部门</option>
-                        <option value="三级部门">三级部门</option>
+                    <div><span class="label-common">上级部门</span><input type="text" v-model="content.organName" class="input-common input-dark" disabled></div>
+                    <div v-show="content.organNo"><span class="label-common">机构类型</span><select v-model="content2.organType" class="input-common input-select" :class="{'input-test1':isActive, 'input-test2':!isActive}" @change="check" ref="inputSelect">
+                            <option value="" disabled selected>请选择机构类型</option>
+                            <option value="01" v-if="content.organNo.length < 1">总公司</option>
+                            <option value="02" v-if="content.organNo.length < 2">分公司</option>
+                            <option value="03" v-if="content.organNo.length < 2">办事处</option>
+                            <option value="04">部门</option>
                     </select></div>
                 </div>
                 <div class="item-common">
-                    <div><span class="label-common">部门编号</span><input type="text"  value="10000" class="input-common input-dark"></div>
-                    <div><span class="label-common">部门名称</span><input type="text" placeholder="请入部门名称" class="input-common input-light"></div>
+                    <div><span class="label-common">部门编号</span><input type="text"  v-model="content2.organNo" class="input-common input-dark"></div>
+                    <div><span class="label-common">部门名称</span><input type="text" placeholder="请入部门名称" class="input-common input-light" v-model="content2.organName"></div>
                 </div>
                 <div class="item-common">
-                    <div><span class="label-common">部门状态</span><select class="input-common input-select">
-                        <option value="正常">正常</option>
-                        <option value="正常">正常</option>
+                    <div><span class="label-common">部门状态</span><select v-model="content2.status" class="input-common input-select">
+                        <option value="1">启用</option>
+                        <option value="0">停用</option>
                     </select></div>
-                    <div><span class="label-common">部门主管</span><input type="text" placeholder="请输入部门主管姓名" class="input-common input-light"></div>
-
+                    <div><span class="label-common">部门主管</span><input type="text" placeholder="请输入部门主管姓名" class="input-common input-light" v-model="content2.organMgeName"></div>
                 </div>
             </div>
         </div>
@@ -36,21 +36,73 @@
 
 <script type='text/ecmascript-6'>
     import current from '../../common/current_position.vue'
+    import $ from '../../../../static/bower_components/jquery/dist/jquery.min'
     export default {
         data() {
             return {
-                isActive: true
+                isActive: true,
+                content: {},
+                content2: {
+                    parentNo: '',
+                    organName: '',
+                    organNo: '',
+                    organMgeName: '',
+                    organType: '',
+                    status: '1',
+                    organLevel: ''
+                }
             }
+        },
+        created() {
+            let index = window.sessionStorage.getItem('frame_queryNo')
+            this.content2.parentNo = index
+            this.$axios.get(`/iem_hrm/organ/queryCurrentAndParentOrganDetail/${index}`)
+                .then(res => {
+                    this.content = res.data.data
+                })
+                .catch( res=> {
+                    console.log('请求超时')
+                })
         },
         components: {
             current,
         },
         methods: {
             save() {
-                console.log('save')
+                this.content2.organLevel = this.content.organLevel
+//                $.ajax({
+//                    type:"POST",
+//                    url:"/iem_hrm/organ/addOrgan",
+//                    dataType:"json",
+//                    contentType:"application/json",
+//                    data:JSON.stringify(this.content2),
+//                    success:function(data){
+//                        console.log('add_junior')
+//                        console.log(data)
+//                    },
+//                    error: function () {
+//                        console.log('false')
+//                    }
+//                });
+                this.$axios.post('/iem_hrm/organ/addOrgan', this.content2)
+                    .then(res => {
+                        console.log('post')
+                        console.log(res)
+                        this.$message({
+                            type: 'success',
+                            message: '新增成功'
+                        })
+                    })
+                    .catch( res=> {
+                        this.$message({
+                            type: 'error',
+                            message: '新增失败,请稍后重试！'
+                        })
+                    })
             },
             check() {
                 let value = this.$refs.inputSelect.value
+                console.log(value);
                 if (value !== '') {
                     this.isActive = false
                 }
@@ -107,6 +159,10 @@
         font-size: 14px;
         color: #333333;
         letter-spacing: 0;
+    }
+    .edit-content .title .save:hover {
+        color: white;
+        background: orange;
     }
     .department-info{
         margin-top: 40px;

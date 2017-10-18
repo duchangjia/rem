@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.omcube.model.mapper.TaxRateGroupMapper">
+	<resultMap type="com.omcube.model.po.TaxRateGroupPO" id="TaxRateGroupMap">
+		<id column="UID" property="uId"></id>
+		<id column="GROUP_ID" property="groupId"></id>
+		<result column="GROUP_NO" property="groupNo"></result>
+		<result column="START_TIME" property="startTime"></result>
+		<result column="END_TIME" property="endTime"></result>
+		<result column="REMARK" property="remark"></result>
+		<result column="CREATED_BY" property="createdBy"></result>
+		<result column="CREATED_DATE" property="createdDate"></result>
+		<result column="UPDATED_BY" property="updatedBy"></result>
+		<result column="UPDATED_DATE" property="updatedDate"></result>
+		<result column="ISDELETE" property="isDelete"></result>
+	</resultMap>
+
+	<!-- 新增个人所得税税率组 -->
+	<insert id="addTaxRateGroup" parameterType="com.omcube.model.po.TaxRateGroupPO">
+		insert into
+		EP_TAXRATE_GROUP
+		values(
+		#{uId},#{groupId},#{groupNo},
+		#{startTime},#{endTime},#{remark},
+		#{createdBy},now(),#{updatedBy},
+		now(),#{isDelete}
+		)
+	</insert>
+
+	<!-- 查询所有个人所得税税率组 -->
+	<select id="findTaxRateGroup" parameterType="java.lang.String"
+		resultMap="TaxRateGroupMap">
+		select
+		UID,GROUP_ID,GROUP_NO,START_TIME,END_TIME,REMARK,
+		CREATED_BY,CREATED_DATE,UPDATED_BY,UPDATED_DATE
+		from
+		EP_TAXRATE_GROUP
+		where
+		UID=#{uId}
+	</select>
+
+	<!-- 根据主键（组ID）删除个人所得税税率组 -->
+	<update id="deleteTaxRateGroup" parameterType="java.lang.String">
+		update EP_TAXRATE_GROUP
+		set
+		ISDELETE='0'
+		where
+		UID=#{uId}
+		and
+		GROUP_ID=#{groupId}
+	</update>
+
+</mapper>        

@@ -1,27 +1,229 @@
 {
-  "user":{
-    "queryUser": {
-      "code": "S00000",
-      "data": {
-        "certNo": "123456",
-        "createdBy": "JINXIAO",
-        "createdDate": "2017-09-13 00:00:00",
-        "email": "admin@pactera.com",
-        "mobileTEL": "18910015767",
-        "organNo": "002",
-        "password": "",
-        "pwdLevel": "",
-        "remark": "admin用户",
-        "roles": "",
-        "status": "0",
-        "uId": "0001",
-        "updatedBy": "JINXIAO",
-        "updatedDate": "2017-09-20 00:00:00",
-        "userName": "jinx",
-        "userNo": "1"
-      },
-      "retMsg": "操作成功"
+  "user": [
+    {
+      "queryUser": {
+        "code": "S00000",
+        "data": {
+          "certNo": "123456",
+          "createdBy": "JINXIAO",
+          "createdDate": "2017-09-13 00:00:00",
+          "email": "admin@pactera.com",
+          "mobileTEL": "18910015767",
+          "organNo": "002",
+          "password": "",
+          "pwdLevel": "",
+          "remark": "admin用户",
+          "roles": "",
+          "status": "0",
+          "uId": "0001",
+          "updatedBy": "JINXIAO",
+          "updatedDate": "2017-09-20 00:00:00",
+          "userName": "jinx",
+          "userNo": "1"
+        },
+        "retMsg": "操作成功"
+      }
     }
+  ],
+  "companies": [
+    {
+      "company": "广州分公司",
+      "department": [
+        {
+          "name": "行政部",
+          "child_department": [
+            "行政一部",
+            "行政二部",
+            "行政三部"
+          ]
+        },
+        {
+          "name": "财务部",
+          "child_department": [
+            "财务一部",
+            "财务二部",
+            "财务三部"
+          ]
+        },
+        {
+          "name": "产品研发部",
+          "child_department": [
+            "产品研发一部",
+            "产品研发二部",
+            "产品研发三部"
+          ]
+        },
+        {
+          "name": "系统设计部",
+          "child_department": [
+            "系统设计一部",
+            "系统设计二部",
+            "系统设计三部"
+          ]
+        },
+        {
+          "name": "互联网中心",
+          "child_department": [
+            "互联网中一心",
+            "互联网中二心",
+            "互联网中三心"
+          ]
+        }
+      ]
+    },
+    {
+      "company": "上海分公司",
+      "department": [
+        {
+          "name": "行政部",
+          "child_department": [
+            "行政一部",
+            "行政二部",
+            "行政三部"
+          ]
+        },
+        {
+          "name": "财务部",
+          "child_department": [
+            "财务一部",
+            "财务二部",
+            "财务三部"
+          ]
+        },
+        {
+          "name": "产品研发部",
+          "child_department": [
+            "产品研发一部",
+            "产品研发二部",
+            "产品研发三部"
+          ]
+        },
+        {
+          "name": "系统设计部",
+          "child_department": [
+            "系统设计一部",
+            "系统设计二部",
+            "系统设计三部"
+          ]
+        },
+        {
+          "name": "互联网中心",
+          "child_department": [
+            "互联网中一心",
+            "互联网中二心",
+            "互联网中三心"
+          ]
+        }
+      ]
+    }
+  ],
+  "queryOperatorList": {
+    "pageIndex": "1",
+    "pageRows": "10",
+    "pageCount": "100",
+    "totalRows": "1000",
+    "operatorListInfo": [
+      {
+        "userNo": "P001",
+        "userName": "小米",
+        "certNo": "210001",
+        "mobile": "123456",
+        "email": "123@123.com",
+        "compOrgNo": "100",
+        "compName": "广州分公司",
+        "departOrgNo": "1001",
+        "departName": "行政部",
+        "roleNo": "001",
+        "roleName": "文员",
+        "status": "1",
+        "remark": "备注"
+      },
+      {
+        "userNo": "P002",
+        "userName": "小心",
+        "certNo": "135134",
+        "mobile": "654321",
+        "email": "321@123.com",
+        "compOrgNo": "200",
+        "compName": "深圳分公司",
+        "departOrgNo": "2002",
+        "departName": "财务部",
+        "roleNo": "角色编号",
+        "roleName": "角色名称",
+        "status": "0",
+        "remark": "备注"
+      },
+      {
+        "userNo": "P003",
+        "userName": "小米",
+        "certNo": "210001",
+        "mobile": "123456",
+        "email": "123@123.com",
+        "compOrgNo": "100",
+        "compName": "广州分公司",
+        "departOrgNo": "1001",
+        "departName": "行政部",
+        "roleNo": "001",
+        "roleName": "文员",
+        "status": "2",
+        "remark": "备注"
+      },
+      {
+        "userNo": "P004",
+        "userName": "小米",
+        "certNo": "210001",
+        "mobile": "123456",
+        "email": "123@123.com",
+        "compOrgNo": "100",
+        "compName": "广州分公司",
+        "departOrgNo": "1001",
+        "departName": "行政部",
+        "roleNo": "001",
+        "roleName": "文员",
+        "status": "1",
+        "remark": "备注"
+      }
+    ]
+  },
+  "queryOperatorDetail": {
+    "userNo": "P001",
+    "userName": "小米",
+    "certNo": "20111",
+    "mobile": "12312131234",
+    "email": "123@123.com",
+    "compOrgNo": "所属公司机构号",
+    "compName": "所属公司名称",
+    "departOrgNo": "所属部门机构号",
+    "departName": "所属部门名称",
+    "roleNo": "角色编号",
+    "roleName": "角色名称",
+    "status": "1",
+    "remark": "备注",
+    "createdBy": "创建人",
+    "createdDate": "创建时间",
+    "updateBy": "创建人",
+    "updateDate": "创建时间"
+  },
+  "modifyOperatorInfo": {
+    "userNo": "0001"
+  },
+  "deleteOperatorInfo": {
+    "userNo": "0002",
+    "status": "0"
+  },
+  "lockUnlockOperator": {
+    "userNo": "0001",
+    "status": "2"
+  },
+  "resetPassword": {
+    "userNo": "0001"
+  },
+  "changePassword": {
+    "userNo": "0001"
+  },
+  "checkuser": {
+    "username": "cyj",
+    "password": "111"
   },
   "posts": [
     {
@@ -47,12 +249,12 @@
       "title": "表格",
       "subs": [
         {
-              "index": "/home/basetable",
-              "title": "基础表格"
+          "index": "/home/basetable",
+          "title": "基础表格"
         },
         {
-              "index": "/home/vuetable",
-              "title": "Vue表格组件"
+          "index": "/home/vuetable",
+          "title": "Vue表格组件"
         }
       ]
     },
@@ -62,20 +264,20 @@
       "title": "表单",
       "subs": [
         {
-              "index": "/home/baseform",
-              "title": "基本表单"
+          "index": "/home/baseform",
+          "title": "基本表单"
         },
         {
-              "index": "/home/vueeditor",
-              "title": "编辑器"
+          "index": "/home/vueeditor",
+          "title": "编辑器"
         },
         {
-              "index": "/home/markdown",
-              "title": "markdown"
+          "index": "/home/markdown",
+          "title": "markdown"
         },
         {
-              "index": "/home/upload",
-              "title": "文件上传"
+          "index": "/home/upload",
+          "title": "文件上传"
         }
       ]
     },
@@ -89,5 +291,206 @@
       "index": "/home/drag",
       "title": "拖拽"
     }
-  ]
+  ],
+  "queryRoleList": {
+    "pageIndex": "1",
+    "pageRows": "4",
+    "totalRows": "50",
+    "roleListInfo": [
+      {
+        "roleNo": "001",
+        "roleName": "系统管理员",
+        "roleDescr": "我是描述是描述是描述是描述",
+        "status": "启动",
+        "createdBy": "JINXIAO",
+        "createdDate": "2017-09-13 00:00:00",
+        "updateBy": "aaa",
+        "updateDate": "2017-10-09 00:00:00"
+      },
+      {
+        "roleNo": "002",
+        "roleName": "经理",
+        "roleDescr": "我是描述是描述是描述是描述",
+        "status": "启动",
+        "createdBy": "JINXIAO",
+        "createdDate": "2017-09-13 00:00:00",
+        "updateBy": "aaa",
+        "updateDate": "2017-10-09 00:00:00"
+      },
+      {
+        "roleNo": "003",
+        "roleName": "出纳",
+        "roleDescr": "我是描述是描述是描述是描述",
+        "status": "启动",
+        "createdBy": "JINXIAO",
+        "createdDate": "2017-09-13 00:00:00",
+        "updateBy": "aaa",
+        "updateDate": "2017-10-09 00:00:00"
+      },
+      {
+        "roleNo": "004",
+        "roleName": "系统管理员",
+        "roleDescr": "我是描述是描述是描述是描述",
+        "status": "启动",
+        "createdBy": "JINXIAO",
+        "createdDate": "2017-09-13 00:00:00",
+        "updateBy": "aaa",
+        "updateDate": "2017-10-09 00:00:00"
+      },
+      {
+        "roleNo": "005",
+        "roleName": "人事",
+        "roleDescr": "我是描述是描述是描述是描述",
+        "status": "启动",
+        "createdBy": "JINXIAO",
+        "createdDate": "2017-09-13 00:00:00",
+        "updateBy": "aaa",
+        "updateDate": "2017-10-09 00:00:00"
+      }
+    ]
+  },
+  "queryRoleDetail": {
+    "roleNo": "005",
+    "roleName": "人事",
+    "roleDescr": "我是描述是描述是描述是描述",
+    "status": "启动",
+    "roleFuncInfo": [
+      {
+        "bsnNo": "678578",
+        "bsnStatus": "1",
+        "remark": "备注是啥"
+      },
+      {
+        "bsnNo": "234332",
+        "bsnStatus": "0",
+        "remark": "备注是啥就是啥"
+      }
+    ]
+  },
+  "addRoleInfo": {
+    "roleName": "人事",
+    "roleDescr": "我是描述是描述是描述",
+    "status": "0"
+  },
+  "modifyRoleInfo": {
+    "roleNo": "001",
+    "roleName": "人事",
+    "roleDescr": "我是描述是描述是描述"
+  },
+  "deleteRoleInfo": {
+    "roleNo": "001"
+  },
+  "setRoleFunc": {
+    "roleNo": "001",
+    "roleFuncSet": [
+      {
+        "bsnNo": "234332",
+        "bsnSet": "1"
+      },
+      {
+        "bsnNo": "234332",
+        "bsnSet": "1"
+      }
+    ]
+  },
+  "queryPactList": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "totalRows": "50",
+    "pactListArray": [
+      {
+        "pactNo": "001",
+        "pactName": "一号合同",
+        "pactType": "1",
+        "userNo": "a123",
+        "custName": "王二狗",
+        "cert": "422000199012211222",
+        "organNo": "P001001",
+        "organName": "001公司",
+        "derpNo": "D001",
+        "derpName": "001部门",
+        "pactStatus": "1",
+        "signTime": "2017-09-13 00:00:00",
+        "pactStartTime": "2017-09-13 00:00:00",
+        "pactEndTime": "2020-09-13 00:00:00"
+      },
+      {
+        "pactNo": "002",
+        "pactName": "二号合同",
+        "pactType": "1",
+        "userNo": "b123",
+        "custName": "李大锤",
+        "cert": "422000199012211222",
+        "organNo": "P001001",
+        "organName": "001公司",
+        "derpNo": "D002",
+        "derpName": "002部门",
+        "pactStatus": "1",
+        "signTime": "2017-09-20 00:00:00",
+        "pactStartTime": "2017-09-20 00:00:00",
+        "pactEndTime": "2020-09-20 00:00:00"
+      },
+      {
+        "pactNo": "003",
+        "pactName": "三号合同",
+        "pactType": "0",
+        "userNo": "c123",
+        "custName": "王二狗",
+        "cert": "422000199012211222",
+        "organNo": "P001001",
+        "organName": "003公司",
+        "derpNo": "D003",
+        "derpName": "003部门",
+        "pactStatus": "1",
+        "signTime": "2017-08-10 00:00:00",
+        "pactStartTime": "2017-08-10 00:00:00",
+        "pactEndTime": "2020-08-10 00:00:00"
+      },
+      {
+        "pactNo": "004",
+        "pactName": "四号合同",
+        "pactType": "1",
+        "userNo": "d123",
+        "custName": "张铁牛",
+        "cert": "422000199012211222",
+        "organNo": "P001002",
+        "organName": "002公司",
+        "derpNo": "D001",
+        "derpName": "001部门",
+        "pactStatus": "1",
+        "signTime": "2017-09-13 00:00:00",
+        "pactStartTime": "2017-09-13 00:00:00",
+        "pactEndTime": "2020-09-13 00:00:00"
+      }
+    ]
+  },
+  "querPactDtl": {
+    "pactNo": "004",
+    "paperPactNo":  "P004",
+    "pactName": "四号合同",
+    "organNo": "P001002",
+    "organName": "002公司",
+    "derpNo": "D001",
+    "derpName": "001部门",
+    "userNo": "d123",
+    "custName": "张铁牛",
+    "sex": "1",
+    "cert": "422000199012211222",
+    "pactType": "1",
+    "pactStatus": "1",
+    "signTime": "2017-09-13 00:00:00",
+    "pactStartTime": "2017-09-13 00:00:00",
+    "pactEndTime": "2020-09-13 00:00:00",
+    "pactExpires": "3",
+    "pactStopTime": "2018-09-20 00:00:00",
+    "stopReason": "世界那么大，我想去看看",
+    "autoupFlag": "true",
+    "attachm": "JS23293923988",
+    "remark": "走了就不会再回来了",
+    "createdBy": "李大仁",
+    "createdDate": "2017-09-13 00:00:00",
+    "updateBy": "李大仁",
+    "updateDate":"2017-10-09 00:00:00"
+  }
 }

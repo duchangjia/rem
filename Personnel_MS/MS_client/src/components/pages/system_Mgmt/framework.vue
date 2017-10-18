@@ -3,233 +3,446 @@
         <current yiji="系统管理" erji="组织架构" class="test"></current>
         <div class="framework-content">
            <div class="content-left">
-               <div class="content-left-title"><img  height="21px" src="../../../../static/img/common/home_logo.png" /><span class="text">深圳前海橙色魔方信息技术有限公司</span></div>
-               <ul class="list ">
-                   <li class="guangzhou common L">广州分公司<span class="count">(111)</span></li>
-                   <li class="shanghai common L">上海分公司<span class="count">(111)</span>
-                    <ul class="common-list ">
-                        <li class=" common dot">行政部<span class="count">(111)</span></li>
-                        <li class=" common dot">行政部<span class="count">(111)</span></li>
-                        <li class=" common dot">行政部<span class="count">(111)</span></li>
-                        <li class=" common dot">行政部<span class="count">(111)</span></li>
-                        <li class=" common dot">行政部<span class="count">(111)</span>
-                            <ul class="common-list-item">
-                                <li class="common dot">一部<span class="count">(111)</span></li>
-                                <li class="common dot">一部<span class="count">(111)</span></li>
-                                <li class="common dot">一部<span class="count">(111)</span></li>
-                            </ul>
-                        </li>
-                    </ul>
+               <div class="content-left-title" v-show="companies.name"><img  height="21px" src="../../../../static/img/common/home_logo.png" /><span class="head_quarters" @click="getInfo('0')">{{companies.name}}</span></div>
+               <ul class="list " v-show="companies" >
+                   <!--<li class="guangzhou common L">广州分公司<span class="count">(111)</span></li>-->
+                   <li class="shanghai common L" v-for="(company, $index) in companies.childrenList" :key="$index" @click.stop="collapse(company.id, $event, null)" :class="`L${company.id}`">{{company.name}}<span class="count">(111)</span>
+                        <ul class="common-list">
+                            <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
+                            <li class="common dot X" v-for="(department, index) in company.childrenList" :key="index" @click.stop="collapse(department.id, $event, company.id)" :class="`X${department.id}`">{{department.name || '你好'}}<span class="count">(111)</span>
+                                <ul class="common-list-item">
+                                    <li class="common dot J" v-for="childDepartment in department.childrenList" @click.stop="collapse(childDepartment.id, $event, company.id)" :class="`J${childDepartment.id}`">{{childDepartment.name}}<span class="count">(111)</span></li>
+                                    <!--<li class="common dot">一部<span class="count">(111)</span></li>-->
+                                </ul>
+                            </li>
+                        </ul>
                    </li>
                </ul>
            </div>
-           <div class="content-right">
-               <div class="title">
-                   <span class="text">互联网中心</span>
-                   <div class="button-wrapper" style="display: flex">
-                       <el-button class="del">删除</el-button>
-                       <el-button type="primary" @click="handleAdd('edit_department')" class="toolBtn">编辑</el-button>
-                   </div>
-               </div>
-               <div class="form1-wrapper">
-                   <span>上级机构</span><input type="text" value="上海分公司"><br>
-                   <span>主管</span><input type="text" value="上海分公司"><br>
-                   <span>类型</span><select value="">
-                   <option value="一级部门">一级部门</option>
-                   <option value="一级部门">一级部门</option>
-                   <option value="一级部门">一级部门</option></select><br>
-                   <span>状态</span><input type="text" value="上海分公司">
-               </div>
-               <div class="title" style="margin-top: 36px;">
-                   <span class="text">下级机构</span>
-                   <el-button type="primary" @click="handleAdd('add_junior')" class="toolBtn">新增</el-button>
-               </div>
-               <div class="table-wrapper" style="margin-top: 13px; text-align: right;">
-                   <!--<table>-->
-                       <!--<tr><td>名称</td><td>类型</td><td>主管</td><td>状态</td></tr>-->
-                       <!--<tr><td>研发部</td><td>三级部门</td><td>老王</td><td>正常</td></tr>-->
-                       <!--<tr><td>研发部</td><td>三级部门</td><td>老王</td><td>正常</td></tr>-->
-                       <!--<tr><td>研发部</td><td>三级部门</td><td>老王</td><td>正常</td></tr>-->
-                       <!--<tr><td>研发部</td><td>三级部门</td><td>老王</td><td>正常</td></tr>-->
-                       <!--<tr><td>研发部</td><td>三级部门</td><td>老王</td><td>正常</td></tr>-->
-                   <!--</table>-->
-                   <template>
-                       <el-table
-                               :data="tableData"
-                               border
-                               stripe
-                               >
-                               <el-table-column
-                                       prop="date"
-                                       label="名称"
-                                       align="center"
-                                       >
-                               </el-table-column>
-                               <el-table-column
-                                       prop="type"
-                                       label="类型"
-                                       align="center"
-                               >
-                               </el-table-column>
-                               <el-table-column
-                                       prop="name"
-                                       label="主管"
-                                       align="center"
-                                      >
-                               </el-table-column>
-                               <el-table-column
-                                       prop="address"
-                                       label="状态"
-                                       align="center">
-                               </el-table-column>
-                       </el-table>
-                   </template>
-                   <div class="block" style="margin-top: 40px; display: inline-block;">
-                       <el-pagination
-                               @size-change="handleSizeChange"
-                               @current-change="handleCurrentChange"
-                               :current-page.sync="currentPage3"
-                               :page-size="100"
-                               layout="prev, pager, next, jumper"
-                               :total="1000">
-                       </el-pagination>
-                   </div>
-               </div>
-               <div class="title" style="margin-top: 36px;">
-                   <span class="text">机构人员</span>
-                   <el-button type="primary" @click="handleAdd('add_person')" class="toolBtn">新增</el-button>
-               </div>
-               <div class="table-wrapper" style="margin-top: 13px; text-align: right;">
-                   <template>
-                       <el-table
-                               :data="tableData2"
-                               border
-                               stripe
-                       >
-                           <el-table-column
-                                   prop="user_name"
-                                   label="姓名"
-                                   align="center"
-                           >
-                           </el-table-column>
-                           <el-table-column
-                                   prop="user_num"
-                                   label="工号"
-                                   align="center"
-                           >
-                           </el-table-column>
-                           <el-table-column
-                                   prop="position"
-                                   label="职位"
-                                   align="center"
-                                   width="170"
-                           >
-                           </el-table-column>
-                           <el-table-column
-                                   prop="phone"
-                                   label="手机"
-                                   align="center">
-                           </el-table-column>
-                           <el-table-column
-                                   label="操作"
-                                   align="center">
-                               <template scope="scope">
-                                   <i class="el-icon-delete" style="color: #FF9900"></i>
-                               </template>
-                           </el-table-column>
-                       </el-table>
-                   </template>
-                   <div class="block" style="margin-top: 40px; display: inline-block;">
-                       <el-pagination
-                               @size-change="handleSizeChange"
-                               @current-change="handleCurrentChange"
-                               :current-page.sync="currentPage3"
-                               :page-size="100"
-                               layout="prev, pager, next, jumper"
-                               :total="1000">
-                       </el-pagination>
-                   </div>
-               </div>
-           </div>
+            <div class="content-right">
+                <div class="title">
+                    <span class="text text_special" v-show="content">{{content.organName}}</span>
+                    <div class="button-wrapper" style="display: flex">
+                        <el-button class="del" @click="del(content.organNo)">删除</el-button>
+                        <el-button type="primary" @click="handleAdd('edit_department', content.organNo)" class="toolBtn">编辑</el-button>
+                    </div>
+                </div>
+                <div class="form1-wrapper">
+                    <span>上级机构</span><input type="text" v-model="content.organParentName" disabled><br>
+                    <span>主管</span><input type="text" v-model="content.organMgeName" disabled><br>
+                    <span>类型</span><select value="" disabled>
+                    <option value=""></option>
+                    <option value="01" :selected="content.organType=='01'">总公司</option>
+                    <option value="02" :selected="content.organType=='02'">分公司</option>
+                    <option value="03" :selected="content.organType=='03'">办事处</option>
+                    <option value="04" :selected="content.organType=='04'">部门</option></select><br>
+                    <span>状态</span><select value="" disabled>
+                    <option value=""></option>
+                    <option value="1" :selected="content.status=='1'">启用</option>
+                    <option value="0" :selected="content.status=='0'">停用</option></select>
+                </div>
+                <div class="title" style="margin-top: 36px;">
+                    <span class="text">下级机构</span>
+                    <el-button type="primary" @click="handleAdd('add_junior', content.organNo)" class="toolBtn">新增</el-button>
+                </div>
+                <div class="table-wrapper" style="margin-top: 13px; text-align: right;" v-show="tableData.list">
+                    <template>
+                        <el-table
+                                :data="tableData.list"
+                                border
+                                stripe
+                        >
+                            <el-table-column
+                                    prop="organChildName"
+                                    label="名称"
+                                    align="center"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    label="类型"
+                                    align="center">
+                                <template scope="scope">
+                                    <span>{{ scope.row.organType === '01' ? '总公司': scope.row.organType === '02' ? '分公司': scope.row.organType === '03' ? '办事处': '部门'}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column
+                                    prop="organMgeName"
+                                    label="主管"
+                                    align="center"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    label="状态"
+                                    align="center">
+                                <template scope="scope">
+                                    <span>{{ scope.row.status === '1' ? '启用': '停用' }}</span>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                    <div class="block" style="margin-top: 40px; display: inline-block;" v-show="tableData">
+                        <el-pagination
+                                @size-change="handleSizeChange"
+                                @current-change="handleCurrentChange"
+                                :current-page.sync="tableData.pageNum"
+                                :page-size="tableData.pageSize"
+                                layout="total,prev, pager, next, jumper"
+                                :total="tableData.total">
+                        </el-pagination>
+                    </div>
+                </div>
+                <div class="title" style="margin-top: 36px;">
+                    <span class="text">机构人员</span>
+                    <el-button type="primary" @click="handleAdd('add_person', content.organNo)" class="toolBtn">新增</el-button>
+                </div>
+                <div class="table-wrapper" style="margin-top: 13px; text-align: right;" v-show="tableData2.list">
+                    <template>
+                        <el-table
+                                :data="tableData2.list"
+                                border
+                                stripe
+                                max-height="400"
+                        >
+                            <el-table-column
+                                    prop="userName"
+                                    label="姓名"
+                                    align="center"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="userNo"
+                                    label="工号"
+                                    align="center"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="remark"
+                                    label="职位"
+                                    align="center"
+                                    width="170"
+                            >
+                            </el-table-column>
+                            <el-table-column
+                                    prop="mobileTEL"
+                                    label="手机"
+                                    align="center">
+                            </el-table-column>
+                            <el-table-column
+                                    label="操作"
+                                    align="center">
+                                <template scope="scope">
+                                    <i class="el-icon-delete" style="color: #FF9900"></i>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                    <div class="block" style="margin-top: 40px; display: inline-block;" v-show="tableData2">
+                        <el-pagination
+                                @size-change="handleSizeChange"
+                                @current-change="handleCurrentChange2"
+                                :current-page.sync="tableData2.pageNum"
+                                :page-size="tableData2.pageSize"
+                                layout="total, prev, pager, next, jumper"
+                                :total="tableData2.total">
+                        </el-pagination>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script type='text/ecmascript-6'>
     import current from '../../common/current_position.vue'
+    import $ from '../../../../static/bower_components/jquery/dist/jquery.min'
     export default {
         data() {
             return {
+                content:'',
+                show: false,
+                companies: '',
                 currentPage3: 1,
-                tableData: [{
-                    date: '研发部',
-                    name: '王小虎',
-                    address: '正常',
-                    type: '三级部门'
-                }, {
-                    date: '研发部',
-                    name: '王小虎',
-                    address: '正常',
-                    type: '三级部门'
-                }, {
-                    date: '研发部',
-                    name: '王小虎',
-                    address: '正常',
-                    type: '三级部门'
-                }, {
-                    date: '研发部',
-                    name: '王小虎',
-                    address: '正常',
-                    type: '三级部门'
-                }, {
-                    date: '研发部',
-                    name: '王小虎',
-                    address: '正常',
-                    type: '三级部门'
-                }],
-                tableData2: [
-                    {
-                        user_num: 'P001',
-                        user_name: '王小虎',
-                        position: '高级软件开发工程师',
-                        phone: '13111111111',
-                    },
-                    {
-                        user_num: 'P001',
-                        user_name: '王小虎',
-                        position: '高级软件开发工程师',
-                        phone: '13111111111',
-                    },
-                    {
-                        user_num: 'P001',
-                        user_name: '王小虎',
-                        position: '高级软件开发工程师',
-                        phone: '13111111111',
-                    },
-                    {
-                        user_num: 'P001',
-                        user_name: '王小虎',
-                        position: '高级软件开发工程师',
-                        phone: '13111111111',
-                    },
-                    {
-                        user_num: 'P001',
-                        user_name: '王小虎',
-                        position: '高级软件开发工程师',
-                        phone: '13111111111',
-                    },
-                ]
+                tableData: '',
+                tableData2: ''
             }
+        },
+        created() {
+           let self = this
+            self.$axios.get('/iem_hrm/organ/queryOrganList/0')
+              .then( res => {
+                  self.companies = res.data.data[0]
+                  self.$nextTick(function () {
+                      var ulObj = $('.common-list')
+                      let length = ulObj.length
+                      for (let index=0;index<length;index++) {
+                          let obj = ulObj[index]
+                          if (index!=1) {
+                              $(obj).slideUp(0)
+                          }
+                      }
+                      $('.list>li:nth-child(2)').addClass('active')
+                  })
+              })
+              .catch( res=> {
+                  console.log('请求公司数据超时')
+              })
+            self.$axios.get('/iem_hrm/organ/queryCurrentAndParentOrganDetail/01')
+                .then( res => {
+                    self.content = res.data.data
+                })
+                .catch( res=> {
+                    console.log('请求公司详情数据超时')
+                })
+            self.$axios.get('/iem_hrm/organ/queryChildOrganDetail/01')
+                .then( res => {
+                    self.tableData = res.data.data
+                })
+                .catch( res=> {
+                    console.log('请求公司下级详情数据超时')
+                })
+            self.$axios.get('/iem_hrm/organ/queryOrganMember/01')
+                .then( res => {
+                    self.tableData2 = res.data.data
+                })
+                .catch( res=> {
+                    console.log('请求公司员工数据超时')
+                })
+        },
+//        watch: {
+//            companies: '_reload',
+//        },
+        beforeMount() {
+//            let self = this
+//           setTimeout(function () {
+//               self.content.title = $('.L0 .X0')[0].childNodes[0].nodeValue
+//               $('.L0 .X0').addClass('active')
+//               $('.L0').addClass('active')
+//               self.content.super = $('.L0')[0].childNodes[0].nodeValue
+//               self.tableData = []
+//               var lenght = $('.L0 .X0 li').length
+//               for (let i=0;i<lenght;i++) {
+//                   var dep = $('.L0 .X0 li')[i].childNodes[0].nodeValue
+//                   var obj = {
+//                       dep: dep,
+//                       name: '方清丽',
+//                       state: '正常',
+//                       type: '三级部门'
+//                   }
+//                   self.tableData.push(obj)
+//               }
+//           },200)
         },
         methods: {
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
             },
             handleCurrentChange(val) {
-                console.log(`当前页: ${val}`);
+                let index = this.content.organNo
+                let _self = this
+                _self.$axios.get(`/iem_hrm/organ/queryChildOrganDetail/${index}`, {params:{pageNum: val}})
+                    .then( res => {
+                        _self.tableData = res.data.data
+                    })
+                    .catch( res=> {
+                        console.log('请求公司下级详情数据超时222')
+                    })
             },
-            handleAdd(tt) {
+            handleCurrentChange2(val) {
+                let index = this.content.organNo
+                let _self = this
+                _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`, {params:{pageNum: val}})
+                    .then( res => {
+                        _self.tableData2 = res.data.data
+                    })
+                    .catch( res=> {
+                        console.log('请求公司员工详情数据超时222')
+                    })
+            },
+            handleAdd(tt, queryNo) {
+//                this.$store.dispatch('change_frame', this.content)
+                window.sessionStorage.setItem('frame_queryNo', queryNo)
                 this.$router.push(tt);
+            },
+            getInfo(index) {
+                const _self = this
+                _self.$axios.get(`/iem_hrm/organ/queryCurrentAndParentOrganDetail/${index}`)
+                    .then( res => {
+                        _self.content = res.data.data
+                    })
+                    .catch( res=> {
+                        console.log('请求公司详情数据超时')
+                    })
+                _self.$axios.get(`/iem_hrm/organ/queryChildOrganDetail/${index}`)
+                    .then( res => {
+                        _self.tableData = res.data.data
+                    })
+                    .catch( res=> {
+                        console.log('请求公司下级详情数据超时')
+                    })
+                _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
+                    .then( res => {
+                        _self.tableData2 = res.data.data
+                    })
+                    .catch( res=> {
+                        console.log('请求公司员工数据超时')
+                    })
+                $('.list').find('li').removeClass('active')
+                $('.head_quarters').addClass('active')
+            },
+            collapse(index, e, parent) {
+                let _self = this
+                var reg = /L/
+                var reg1 = /X/
+                var reg2 = /J/
+                if (reg.test(e.target.className)) {
+                    _self.$axios.get(`/iem_hrm/organ/queryCurrentAndParentOrganDetail/${index}`)
+                        .then( res => {
+                            _self.content = res.data.data
+                        })
+                        .catch( res=> {
+                            console.log('请求公司详情数据超时')
+                        })
+                    _self.$axios.get(`/iem_hrm/organ/queryChildOrganDetail/${index}`)
+                        .then( res => {
+                            _self.tableData = res.data.data
+                        })
+                        .catch( res=> {
+                            console.log('请求公司下级详情数据超时')
+                        })
+                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
+                        .then( res => {
+                            _self.tableData2 = res.data.data
+                        })
+                        .catch( res=> {
+                            console.log('请求公司员工数据超时')
+                        })
+                    $('.L'+ index + ' >ul').slideToggle('slow')
+                    $('.L'+ index).siblings().find('ul').slideUp('slow')
+                    $('.list').find('li').removeClass('active')
+                    $('.head_quarters').removeClass('active')
+                    $('.L'+ index).addClass('active')
+//                    $('.L'+ index).siblings().removeClass('active')
+                }
+                if (reg1.test(e.target.className) && parent!==null) {
+//                    console.log($('.L'+ parent+' .X'+ index)[0].childNodes[0].nodeValue)
+                    _self.$axios.get(`/iem_hrm/organ/queryCurrentAndParentOrganDetail/${index}`)
+                        .then( res => {
+                            _self.content = res.data.data
+                        })
+                        .catch( res=> {
+                            console.log('请求公司详情数据超时')
+                        })
+                    _self.$axios.get(`/iem_hrm/organ/queryChildOrganDetail/${index}`)
+                        .then( res => {
+                            _self.tableData = res.data.data
+                        })
+                        .catch( res=> {
+                            console.log('请求公司下级详情数据超时')
+                        })
+                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
+                        .then( res => {
+                            _self.tableData2 = res.data.data
+                        })
+                        .catch( res=> {
+                            console.log('请求公司员工数据超时')
+                        })
+//                    _self.content.title = $('.L'+ parent+' .X'+ index)[0].childNodes[0].nodeValue
+                    $('.list').find('li').removeClass('active')
+                    $('.head_quarters').removeClass('active')
+                    $('.L'+ parent+' .X'+ index).addClass('active')
+//                    $('.L'+ parent+' .X'+ index).parents('.L').addClass('active')
+//                    $('.L'+ parent+' .X'+ index).siblings().removeClass('active')
+//                    $('.L'+ parent+' .X'+ index).parents('.L').siblings().removeClass('active')
+//                    $('.L'+ parent+' .X'+ index).parents('.L').siblings().find('.common-list>li').removeClass('active')
+//                   var str = $('.L'+ parent+' .X'+ index).parents('.L' + parent)[0].childNodes[0].nodeValue
+//                    _self.content.super = str
+//                   var lenght = $('.L'+ parent+' .X'+ index + ' >ul>li').length
+//                    for (let i=0;i<lenght;i++) {
+//                       var dep = $('.L'+ parent+' .X'+ index + ' >ul>li')[i].childNodes[0].nodeValue
+//                       var obj = {
+//                           dep: dep,
+//                           name: '方清丽',
+//                           state: '正常',
+//                           type: '三级部门'
+//                       }
+//                        _self.tableData.push(obj)
+//                    }
+                    $('.L'+ parent+' .X'+ index + ' >ul').slideToggle('slow')
+                    $('.L'+ parent+' .X'+ index).siblings().find('ul').slideUp('slow')
+                }
+                if (reg2.test(e.target.className) && parent!==null) {
+                    _self.$axios.get(`/iem_hrm/organ/queryCurrentAndParentOrganDetail/${index}`)
+                        .then(res => {
+                            _self.content = res.data.data
+                        })
+                        .catch( res=> {
+                            console.log('请求公司详情数据超时')
+                        })
+                    _self.$axios.get(`/iem_hrm/organ/queryChildOrganDetail/${index}`)
+                        .then( res => {
+                            _self.tableData = res.data.data
+                        })
+                        .catch( res=> {
+                            console.log('请求公司下级详情数据超时')
+                        })
+                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
+                        .then( res => {
+                            _self.tableData2 = res.data.data
+                        })
+                        .catch( res=> {
+                            console.log('请求公司员工数据超时')
+                        })
+                    $('.list').find('li').removeClass('active')
+                    $('.head_quarters').removeClass('active')
+                    $('.L'+ parent+' .J'+ index).addClass('active')
+                }
+            },
+            _reload() {
+                console.log('reload')
+                this.$axios.get('/iem_hrm/organ/queryOrganList/0')
+                    .then( res => {
+                        console.log('reload.axios')
+                        console.log(res.data.data[0])
+                        return res.data.data[0]
+                    })
+                    .catch( res=> {
+                        console.log('请求公司数据超时')
+                    })
+            },
+            del(index) {
+                const self = this
+                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    self.$axios.delete(`/iem_hrm/organ/deleteOrganInfo/${index}`)
+                        .then(res => {
+                            if (res.data.retMsg !== "操作成功") {
+                                this.$message({
+                                    type: 'error',
+                                    message: res.data.retMsg
+                                });
+                            } else {
+                                this.$message({
+                                    type: 'success',
+                                    message: '删除成功!'
+                                });
+                                setTimeout(function () {
+                                    window.location.reload(true)
+                                },3000)
+                            }
+                        })
+                        .catch(res=>{
+                            console.log('删除失败')
+                        })
+
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
             }
         },
         components: {
@@ -271,7 +484,7 @@
     vertical-align: middle;
     margin-right: -54px;
 }
-.content-left .text{
+.content-left .head_quarters{
     font-family: PingFangSC-Regular;
     font-size: 16px;
     color: #333333;
@@ -281,6 +494,7 @@
     display: inline-block;
     margin-left: 6.7px;
     vertical-align: middle;
+    cursor: pointer;
 }
 .content-left .list{
     margin-top: 32px;
@@ -294,6 +508,7 @@
     line-height: 14px;
     margin-bottom: 20px;
     margin-right: 4px;
+    cursor: pointer;
 }
 .content-left ul>li:first-child{
     margin-top: 20px;
@@ -344,11 +559,14 @@ ul, li{
     font-size: 16px;
     color: #333333;
     letter-spacing: 0;
-    margin-right: 309px;
+    /*margin-right: 309px;*/
     border-bottom: 2px solid #363D47;
     height: 80px;
     line-height: 80px;
     width: 80px;
+}
+.content-right .title .text_special{
+    width: auto;
 }
 .content-right .title .del {
     border-radius: 0;
@@ -398,5 +616,15 @@ ul, li{
     text-indent: 1em;
     margin-bottom: 20px;
 }
+.active{
+    color: orange !important;
+}
+/*.fade-enter-active, .fade-leave-active {*/
+    /*transition: all .5s*/
+/*}*/
+/*.fade-enter, .fade-leave-to {*/
+    /*opacity: 0;*/
+    /*height: 0;*/
+/*}*/
 
 </style>

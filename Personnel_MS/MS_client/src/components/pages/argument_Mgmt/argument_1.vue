@@ -1,5 +1,9 @@
 <template>
-    <div>argument_1</div>
+    <div class="argument_1">
+		<transition name="move" mode="out-in">
+	        <router-view></router-view>
+	    </transition>
+	</div>
 </template>
 
 <script type='text/ecmascript-6'>
