@@ -18,7 +18,6 @@
             </div>
         </el-col>
     </div>
-
 </template>
 
 <script type='text/ecmascript-6'>
@@ -69,7 +68,11 @@
               		this.$router.push('tax_rate')
               	} else if(str=='12') {
               		this.$router.push('rank')
-              	}
+              	} else if(str=='01') {
+                    this.$router.push('holiday_info')
+                } else if(str=='02') {
+                    this.$router.push('ticket_info')
+                }
           },
         },
         components: {

@@ -56,12 +56,12 @@ public class PactControllerTest {
 		String as = "2013-11-21";
 		pactPO.setuId("0001");
 		pactPO.setPactNo("0003");
-		pactPO.setPaperPactNo("0003");
-		pactPO.setPactName("劳动合同");
+		pactPO.setPaperPactNo("0004");
+		pactPO.setPactName("劳动合同4");
 		pactPO.setOrganNo("0001");
 		pactPO.setDerpNo("0001");
 		pactPO.setUserNo("0003");
-		pactPO.setCustName("MITONG");
+		pactPO.setCustName("MITONG4");
 		pactPO.setSex("01");
 		pactPO.setCert("123214123");
 		pactPO.setPactType("01");
@@ -81,9 +81,6 @@ public class PactControllerTest {
 		pactPO.setUpdatedDate(as);
 		pactPO.setIsDelete("1");
 		System.out.println("看的到吧");
-		if (pactMapper == null) {
-			System.out.println("mapper没有获取到");
-		}
 		pactMapper.addPact(pactPO);
 	}
 

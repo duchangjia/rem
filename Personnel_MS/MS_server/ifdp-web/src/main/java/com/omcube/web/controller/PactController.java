@@ -14,14 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-<<<<<<< HEAD:Personnel_MS/MS_server/ifdp-web/src/main/java/com/omcube/controller/PactController.java
 import com.omcube.model.po.PactChange;
-=======
->>>>>>> e7c17c0817caa7792f108a702b4e93f22520f115:Personnel_MS/MS_server/ifdp-web/src/main/java/com/omcube/web/controller/PactController.java
 import com.omcube.model.po.PactPO;
 import com.omcube.model.po.PactRenew;
 import com.omcube.service.PactService;
-//import com.omcube.service.RoleService;
+import com.omcube.service.RoleService;
 import com.omcube.util.JSONResultUtil;
 
 
@@ -36,10 +33,9 @@ public class PactController {
 	@Autowired
 	private PactService pactService;
 	
-<<<<<<< HEAD:Personnel_MS/MS_server/ifdp-web/src/main/java/com/omcube/controller/PactController.java
 	//角色service
-	/*@Autowired
-	private RoleService roleService;*/
+	@Autowired
+	private RoleService roleService;
 	
 	/**
 	 * 第一次页面显示
@@ -56,13 +52,6 @@ public class PactController {
 			@RequestParam String derpNo, @RequestParam String custName, String pactType){
 		pageNum = pageNum == null ? 1 : pageNum;
 		pageSize = pageSize == null ? 10 : pageSize;
-=======
-	//第一次页面显示
-	@RequestMapping(value = "/queryPact",method= RequestMethod.GET)
-	public Object queryPact(HttpServletRequest request, Integer pageNum, Integer pageSize ,@RequestParam String derpNo, @RequestParam String custName, String pactType){
-		pageNum = pageNum == null ? 1 :pageNum;
-		pageSize = pageSize == null ? 3 : pageSize;
->>>>>>> e7c17c0817caa7792f108a702b4e93f22520f115:Personnel_MS/MS_server/ifdp-web/src/main/java/com/omcube/web/controller/PactController.java
 		PageHelper.startPage(pageNum, pageSize, true);
 		List<PactPO> list = pactService.getPactList(derpNo, custName, pactType);
 		PageInfo<PactPO> pageInfo = new PageInfo<PactPO>(list);
@@ -137,12 +126,15 @@ public class PactController {
 		return JSONResultUtil.setSuccess(pactService.getPactRenewDetail(pactNo, renewId));
 	}
 	
-/*	//合同添加时查询工号是否重复,uId需要后台给出
+	/**
+	 * 合同添加时查询工号是否重复,uId需要后台给出
+	 * @param roleNo
+	 * @return
+	 */
 	@GetMapping(value = "/queryUserByRoleNo")
 	public Object queryUserByRoleNo(@RequestParam String roleNo){
-		String uId = "";
-		return JSONResultUtil.setSuccess(roleService.getRoleByRoleNo(uId, roleNo));
-	}*/
+		return JSONResultUtil.setSuccess(roleService.queryRoleByRoleNo(roleNo));
+	}
 	
 	/**
 	 * 合同添加    isdelete前台传入
@@ -225,8 +217,4 @@ public class PactController {
 		pactService.updatePactRenew(pactRenew);
 	}
 	
-	//合同添加
-	public void addPact(PactPO pactPO){
-		pactService.addPact(pactPO);
-	}
 }

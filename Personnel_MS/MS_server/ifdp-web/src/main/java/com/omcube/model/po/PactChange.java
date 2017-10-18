@@ -20,7 +20,6 @@ public class PactChange {
 	private String attachm;
 	private String remark;
 	private String createdBy;
-<<<<<<< HEAD
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private String createdDate;
 	private String updatedBy;
@@ -33,11 +32,6 @@ public class PactChange {
 	public void setIsDelete(String isDelete) {
 		this.isDelete = isDelete;
 	}
-=======
-	private Date createdDate;
-	private String updatedBy;
-	private Date updatedDate;
->>>>>>> e7c17c0817caa7792f108a702b4e93f22520f115
 	public String getuId() {
 		return uId;
 	}
@@ -92,22 +86,22 @@ public class PactChange {
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
 	public String getUpdatedBy() {
 		return updatedBy;
 	}
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-	public Date getUpdatedDate() {
+	public String getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(String createdDate) {
+		this.createdDate = createdDate;
+	}
+	public String getUpdatedDate() {
 		return updatedDate;
 	}
-	public void setUpdatedDate(Date updatedDate) {
+	public void setUpdatedDate(String updatedDate) {
 		this.updatedDate = updatedDate;
 	}
 	

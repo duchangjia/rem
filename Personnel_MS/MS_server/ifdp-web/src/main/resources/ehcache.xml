@@ -1,7 +1,6 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="ehcache.xsd">
 
-<<<<<<< HEAD
     <cache name="users"
            maxEntriesLocalHeap="200"
            timeToLiveSeconds="600">
@@ -12,9 +11,7 @@
            timeToLiveSeconds="600">>
 	</cache>
 
-=======
 	<cache name="queryCache" maxEntriesLocalHeap="200" timeToLiveSeconds="600">
 	</cache>
 	
->>>>>>> e7c17c0817caa7792f108a702b4e93f22520f115
 </ehcache>

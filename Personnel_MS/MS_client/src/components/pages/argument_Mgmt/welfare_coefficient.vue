@@ -7,7 +7,7 @@
 				<el-button type="primary" @click="addWelfare()">新增</el-button>
 			</div>
 			<div class="content-inner">
-				<el-table :data="dataList" border stripe style="width: 100%">
+				<el-table :data="welfareList" border stripe style="width: 100%">
 					<el-table-column prop="modelNo" label="模版编号">
 						<template scope="scope">
 					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.modelNo }}</span>
@@ -23,7 +23,7 @@
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>2*pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>=2*pageRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -32,13 +32,14 @@
 
 <script>
 import current from '../../common/current_position.vue'
+const baseURL = 'ifdp'
 export default {
 	data() {
 		return {
 			pageIndex: 1,
 			pageRows: 2,
-			totalRows: 10,
-			dataList: [
+			totalRows: 1,
+			welfareList: [
 				{
 					modelNo: "00001",
 					modelName: "广州地区缴纳",
@@ -51,16 +52,14 @@ export default {
 					modelName: "深圳地区缴纳",
 					beiz: "",
 					ID: "",
-					time: "",
-					caoz: ""
+					time: ""
 				},
 				{
 					modelNo: "00003",
 					modelName: "东莞地区缴纳",
 					beiz: "",
 					ID: "",
-					time: "",
-					caoz: ""
+					time: ""
 				}
 			]
 		}
@@ -68,29 +67,49 @@ export default {
 	components: {
 		current
 	},
+	created() {
+		const self = this;
+		let params = {
+			pageNum: 1,
+			pageSize: 4
+		}
+		self.$axios.get(baseURL+'/queryWelfareList',{params : params})
+			.then(function(res) {
+				console.log('res',res);
+				self.welfareList = res.data.data.WelfareList;
+				self.totalRows = Number(res.data.data.total);
+			}).catch(function(err) {
+				console.log(err)
+			})
+	},
 	methods: {
 		addWelfare() {
 			this.$router.push('/add_welfare');
 		},
 		handleEdit(index, row) {
 			console.log('index:'+index,'row.modelNo:'+row.modelNo);
+			sessionStorage.setItem('modelNo',row.modelNo);
             this.$router.push('/welfare_info');
 		},
 		handleDelete(index, row) {
             console.log('index',index);
             console.log('row',row);
-            this.$confirm('此操作将会删除该条模版, 是否继续?', '提示', {
+            const self = this;
+            self.$confirm('此操作将会删除该条模版, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-               this.$message({ type: 'success', message: '删除成功!' });
+               self.$message({ type: 'success', message: '删除成功!' });
             }).catch(() => {
-                this.$message('您已取消删除模版！');
+                self.$message('您已取消删除模版！');
             });
         },
         handleCurrentChange(val) {
 			console.log('当前页',val);
+		},
+		queryWelfareLis() {
+			
 		}
 	}
 }
@@ -286,6 +305,9 @@ border-bottom: 1px solid #EEEEEE;
 
 .welfare_coefficient .el-pagination button:hover {
 	color: #FF9900;
+}
+.welfare_coefficient .el-pagination button.disabled {
+    color: #e4e4e4;
 }
 .welfare_coefficient .el-pagination button.disabled:hover {
 	color: #e4e4e4;

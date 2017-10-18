@@ -34,7 +34,6 @@ public class PactPO {
 	private String autoudFlag;//是否自动更新标志
 	private String attachm;//附件
 	private String remark;//备注
-<<<<<<< HEAD
 	private String createdBy;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private String createdDate;
@@ -48,12 +47,6 @@ public class PactPO {
 	public void setIsDelete(String idDelete) {
 		this.isDelete = idDelete;
 	}
-=======
-	private String greatedBy;
-	private Date greatedDate;
-	private String updatedBy;
-	private Date updatedDate;
->>>>>>> e7c17c0817caa7792f108a702b4e93f22520f115
 	public String getPactNo() {
 		return pactNo;
 	}
