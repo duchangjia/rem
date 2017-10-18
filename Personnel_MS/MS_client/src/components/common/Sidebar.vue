@@ -156,10 +156,9 @@ export default {
 	},
 	computed: {
 		onRoutes() {
-		    console.log(this.$route.path)
-			var str = this.$route.path.replace('/', '')
-			console.log(str)
-			return this.$route.path.replace('/', '');
+		    //保持左侧菜单激活状态
+			let reg = /\//g
+			return this.$route.matched[1].path.replace(reg, '');
 		}
 	},
 	watch: {
