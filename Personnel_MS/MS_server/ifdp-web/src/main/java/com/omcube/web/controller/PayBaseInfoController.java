@@ -228,12 +228,6 @@ public class PayBaseInfoController {
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	String uid = sysLoginCtrl.getuId();
 
-	//校验用户信息是否录入
-	if (!checkCustInfo(uid, epPayBaseInfo.getUserNo())) {
-	    logger.error("the user is not Entry the personnel system yet");
-	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
-		    "the user is not Entr the personnel system yet");
-	}
 	//校验保险缴纳标准 模板是否录入福利缴纳系数控制表
 	if (!checkWelcoeNo(uid, epPayBaseInfo.getWelcoeNo())) {
 	    logger.error("the WelcoeNo not Entry the welcoe control table yet");
