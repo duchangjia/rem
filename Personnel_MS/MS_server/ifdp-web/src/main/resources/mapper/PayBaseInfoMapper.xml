@@ -62,7 +62,7 @@
 			date_format(now(),'%y-%m-%d'),
 			#{updatedBy},
 			date_format(now(),'%y-%m-%d')
-		);
+		)
 	</insert>
 	
 	<select id="querySalaryTopByUserNo" parameterType="java.lang.String" resultType="java.lang.Double">
@@ -132,5 +132,36 @@
 	<select id="queryPayBaseInfoLimit" resultMap="queryPayBaseInfoDetailMap">
  		select * from EP_PAY_BASEINF where pbase_status != 0 and uid = #{uid} limit #{startNum},#{size} 
 	 </select>
+	 
+	 <insert id="addPayBaseInfoList">
+ 		insert into 
+			EP_PAY_BASEINF 
+		values   
+        <foreach collection="payBaseInfoList" item="com.omcube.model.po.EpPayBaseInfoPO" separator="UNION ALL">  
+         (
+            #{uId},
+			#{userNo},
+			#{wagesBase},
+			#{wagesPerf},
+			#{postPension},
+			#{otherPension},
+			#{endmBase},
+			#{mediBase},
+			#{unemBase},
+			#{emplBase},
+			#{mateBase},
+			#{houseBase},
+			#{probRatio},
+			#{welcoeNo},
+			'1',
+			#{remark},
+			#{createdBy},
+			date_format(now(),'%y-%m-%d'),
+			#{updatedBy},
+			date_format(now(),'%y-%m-%d')
+          )  
+        </foreach>  
+ 	
+ 	</insert>
 	 
 </mapper>

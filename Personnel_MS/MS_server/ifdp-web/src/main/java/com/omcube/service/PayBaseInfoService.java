@@ -24,4 +24,6 @@ public interface PayBaseInfoService {
     long queryPayBaseInfoCount(String uid);
 
     List<EpPayBaseInfoPO> queryPayBaseInfoLimit(long startNum, long size,String uid);
+    
+    void addPayBaseInfoList(List<EpPayBaseInfoPO> payBaseInfoList);
 }
