@@ -3,23 +3,24 @@
         <current yiji="人事事务" erji="人事合同" sanji="合同详情">
         </current>
         <div class="content-wrapper">
+            <!-- <el-button type="primary" class="toolBtn">保存</el-button> -->
             <el-tabs v-model="activeName" @tab-click="handleTabClick">
                 <el-tab-pane label="合同基本情况" name="basicPactMsg">
                     <div class="add-wrapper">
                         <el-form :inline="true" :model="basicPactMsg" :rules="rules" ref="basicPactMsg" :label-position="labelPosition" label-width="110px">
                             <el-col :span="24">
                                 <el-form-item label="合同编号" prop="pactNo">
-                                    <el-input v-model="basicPactMsg.pactNo"></el-input>
+                                    <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="纸质合同编号" prop="paperPactNo">
-                                    <el-input v-model="basicPactMsg.paperPactNo"></el-input>
+                                    <el-input v-model="basicPactMsg.paperPactNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="合同名称" prop="pactName">
-                                    <el-input v-model="basicPactMsg.pactName"></el-input>
+                                    <el-input v-model="basicPactMsg.pactName" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -40,7 +41,7 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="工号" prop="userNo">
-                                    <el-input v-model="basicPactMsg.userNo"></el-input>
+                                    <el-input v-model="basicPactMsg.userNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -49,7 +50,7 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="性别" prop="sex">
+                                <el-form-item label="性别" prop="sex" :disabled="true">
                                     <el-select v-model="basicPactMsg.sex">
                                         <el-option label="男" value="1"></el-option>
                                         <el-option label="女" value="0"></el-option>
@@ -57,8 +58,8 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="身份证" prop="cert">
-                                    <el-input v-model="basicPactMsg.cert"></el-input>
+                                <el-form-item label="身份证" prop="cert" :disabled="true">
+                                    <el-input v-model="basicPactMsg.cert" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -206,193 +207,201 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import current from '../../common/current_position.vue'
+import current from "../../common/current_position.vue";
 export default {
-    data() {
-        return {
-            activeName: '',
-            labelPosition: 'right',
-            pactNo: '',
-            basicPactMsg: {},
-            pageIndex: 1,
-            pageRows: 7,
-            totalRows: 20,
-            PChangeListInfo: [],
-            PRenewListInfo: [],
-            checked: '',
-            rules: {
-                pactType: [
-                    { required: true, message: '请选择合同类型', trigger: 'blur' },
-                ],
-                signTime: [
-                    { required: true, message: '请选择签订日期', trigger: 'blur' },
-                ],
-                pactStartTime: [
-                    { required: true, message: '请选择合同开始日期', trigger: 'blur' },
-                ],
-                pactEndTime: [
-                    { required: true, message: '请选择合同结束日期', trigger: 'blur' },
-                ],
-                pactStatus: [
-                    { required: true, message: '请选择合同状态', trigger: 'blur' },
-                ]
-            }
-        };
+  data() {
+    return {
+      activeName: "",
+      labelPosition: "right",
+      pactNo: "",
+      basicPactMsg: {},
+      pageIndex: 1,
+      pageRows: 7,
+      totalRows: 20,
+      PChangeListInfo: [],
+      PRenewListInfo: [],
+      checked: "",
+      rules: {
+        pactType: [{ required: true, message: "请选择合同类型", trigger: "blur" }],
+        signTime: [{ required: true, message: "请选择签订日期", trigger: "blur" }],
+        pactStartTime: [
+          { required: true, message: "请选择合同开始日期", trigger: "blur" }
+        ],
+        pactEndTime: [
+          { required: true, message: "请选择合同结束日期", trigger: "blur" }
+        ],
+        pactStatus: [{ required: true, message: "请选择合同状态", trigger: "blur" }]
+      }
+    };
+  },
+  components: {
+    current
+  },
+  created() {
+    this.activeName = "basicPactMsg";
+    this.pactNo = this.$route.params.pactNo;
+    // 初始查合同基本详情
+    this.getPactDtl(this.pactNo);
+  },
+  methods: {
+    handleTabClick(tab, event) {
+      console.log(tab.name);
+      if (tab.name == "changePactMsg") this.getPChangeList();
+      if (tab.name == "renewPactMsg") this.getPRenewList();
+      if (tab.name == "basicPactMsg") this.getPactDtl(this.pactNo);
     },
-    components: {
-        current,
+    getPactDtl(pactNo) {
+      const self = this;
+      let params = {
+        pactNo: pactNo
+      };
+      self.$axios
+        .get("ifdp/querPactDtl", { params: params })
+        .then(res => {
+          console.log(res);
+          self.basicPactMsg = res.data.data;
+          self.checked = res.data.data.autoupFlag;
+        })
+        .catch(() => {
+          console.log("error");
+        });
     },
-    created() {
-        this.activeName = "basicPactMsg";
-        this.pactNo = this.$route.params.pactNo;
-        // 初始查合同基本详情
-        this.getPactDtl(this.pactNo);
+    getPChangeList() {
+      const self = this;
+      let params = {
+        pageIndex: self.pageIndex,
+        pageRows: self.pageRows,
+        pactNo: this.pactNo,
+        changeId: ""
+      };
+      self.$axios
+        .get("ifdp/queryPChangeList", { params: params })
+        .then(res => {
+          self.PChangeListInfo = res.data.data.PChangeListArray;
+        })
+        .catch(() => {
+          console.log("error");
+        });
     },
-    methods: {
-        handleTabClick(tab, event) {
-            console.log(tab.name);
-            if (tab.name == 'changePactMsg') this.getPChangeList();
-            if (tab.name == 'renewPactMsg') this.getPRenewList();
-            if (tab.name == 'basicPactMsg') this.getPactDtl(this.pactNo);
-        },
-        getPactDtl(pactNo) {
-            const self = this;
-            let params = {
-                "pactNo": pactNo
-            }
-            self.$axios.get('ifdp/querPactDtl', { params: params })
-                .then((res) => {
-                    console.log(res);
-                    self.basicPactMsg = res.data.data;
-                    self.checked = res.data.data.autoupFlag;
-                }).catch(() => {
-                    console.log('error');
-                })
-        },
-        getPChangeList() {
-            const self = this;
-            let params = {
-                "pageIndex": self.pageIndex,
-                "pageRows": self.pageRows,
-                "pactNo": this.pactNo,
-                "changeId": ''
-            }
-            self.$axios.get('ifdp/queryPChangeList', { params: params })
-                .then((res) => {
-                    self.PChangeListInfo = res.data.data.PChangeListArray;
-                }).catch(() => {
-                    console.log('error');
-                })
-        },
-        getPRenewList() {
-            const self = this;
-            let params = {
-                "pageIndex": self.pageIndex,
-                "pageRows": self.pageRows,
-                "pactNo": this.pactNo,
-                "renewId": ''
-            }
-            self.$axios.get('ifdp/queryPRenewList', { params: params })
-                .then((res) => {
-                    self.PRenewListInfo = res.data.data.PRenewListArray;
-                }).catch(() => {
-                    console.log('error');
-                })
-
-        },
-        changeTypeFormatter(row, column) {
-            return row.changeType == 1 ? '条款变更' : row.changeType == 0 ? '啥啥变更' : '异常';
-        },
-        renewTypeFormatter(row, column) {
-            return row.changeType == 1 ? '合同延期' : row.changeType == 0 ? '啥啥续签' : '异常';
-        },
-        handleEdit(index, row) {
-
-        },
-        handleDelete(index, row) {
-
-        },
-        handlePChangeDetail(index, row) {
-
-        },
-        handlePRenewDetail(index, row) {
-            
-        }
-    }
-}
+    getPRenewList() {
+      const self = this;
+      let params = {
+        pageIndex: self.pageIndex,
+        pageRows: self.pageRows,
+        pactNo: this.pactNo,
+        renewId: ""
+      };
+      self.$axios
+        .get("ifdp/queryPRenewList", { params: params })
+        .then(res => {
+          self.PRenewListInfo = res.data.data.PRenewListArray;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+    changeTypeFormatter(row, column) {
+      return row.changeType == 1 ? "条款变更" : row.changeType == 0 ? "啥啥变更" : "异常";
+    },
+    renewTypeFormatter(row, column) {
+      return row.renewType == 1 ? "合同延期" : row.renewType == 0 ? "啥啥续签" : "异常";
+    },
+    handleEdit(index, row) {
+      if (this.activeName == "changePactMsg")
+        this.$router.push({
+          name: "edit_pactChange",
+          params: {
+            "pactNo": row.pactNo,
+            "changeId": row.changeId
+          }
+        });
+      if (this.activeName == "renewPactMsg")
+        this.$router.push({
+          name: "edit_pactRenew",
+          params: {
+            "pactNo": row.pactNo,
+            "renewId": row.renewId
+          }
+        });
+    },
+    handleDelete(index, row) {},
+    handlePChangeDetail(index, row) {},
+    handlePRenewDetail(index, row) {}
+  }
+};
 </script>
 
 <style>
 .detail_contract {
-    padding: 0 0 20px 20px;
+  padding: 0 0 20px 20px;
 }
 
 .el-tabs__item {
-    padding: 0 10px;
+  padding: 0 10px;
 }
 
 .el-tabs__item.is-active {
-    color: #333333;
+  color: #333333;
 }
 
 .el-tabs__active-bar {
-    background-color: #333333;
-    height: 2px;
+  background-color: #333333;
+  height: 2px;
 }
 
 .el-tabs__item:first-of-type {
-    padding-left: 0;
+  padding-left: 0;
 }
 
 .el-tabs__header {
-    height: 80px;
-    line-height: 80px;
-    font-size: 16px;
-    font-family: "PingFang SC";
-    border-bottom: 1px solid #eeeeee;
-    margin-bottom: 20px;
+  height: 80px;
+  line-height: 80px;
+  font-size: 16px;
+  font-family: "PingFang SC";
+  border-bottom: 1px solid #eeeeee;
+  margin-bottom: 20px;
 }
 
 .content-wrapper .subtitlebar {
-    height: 24px;
-    line-height: 24px;
-    font-size: 14px;
-    font-family: "PingFangSC Regular";
-    padding-left: 10px;
-    margin: 20px 0;
+  height: 24px;
+  line-height: 24px;
+  font-size: 14px;
+  font-family: "PingFangSC Regular";
+  padding-left: 10px;
+  margin: 20px 0;
 }
 
 .content-wrapper .subtitlebar .title-text {
-    display: inline-block;
-    height: 24px;
-    position: relative;
-    color: #333333;
+  display: inline-block;
+  height: 24px;
+  position: relative;
+  color: #333333;
 }
 
 .content-wrapper .subtitlebar .addBtn {
-    float: right;
-    color: #FF9900;
-    border: none;
-    padding: 5px;
-    padding-right: 0;
+  float: right;
+  color: #ff9900;
+  border: none;
+  padding: 5px;
+  padding-right: 0;
 }
 
 .icon-edit {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    background: url('../../../../static/img/common/edit.png') center no-repeat;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url("../../../../static/img/common/edit.png") center no-repeat;
 }
 
 .icon-delete {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    background: url('../../../../static/img/common/delete.png') center no-repeat;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: url("../../../../static/img/common/delete.png") center no-repeat;
 }
 
 .icon-edit:hover,
 .icon-delete:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 </style>
