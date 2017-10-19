@@ -1,0 +1,179 @@
+<template>
+    <div class="edit_contract">
+        <current yiji="人事事务" erji="人事合同" sanji="合同修改">
+        </current>
+        <div class="content-wrapper">
+            <div class="titlebar">
+                <span class="title-text">合同修改</span>
+                <el-button type="primary" @click="handleAdd" class="toolBtn">保存</el-button>
+            </div>
+            <div class="add-wrapper">
+                <el-form :inline="true" :model="editPactMsg" :rules="rules" ref="editPactMsg" :label-position="labelPosition" label-width="110px">
+                    <el-col :span="24">
+                        <el-form-item label="合同编号" prop="pactNo">
+                            <el-input v-model="editPactMsg.pactNo" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="纸质合同编号" prop="paperPactNo">
+                            <el-input v-model="editPactMsg.paperPactNo" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="合同名称" prop="pactName">
+                            <el-input v-model="editPactMsg.pactName" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="公司名称" prop="organName">
+                            <el-select v-model="editPactMsg.organName">
+                                <el-option label="总公司" value="1"></el-option>
+                                <el-option label="深圳分公司" value="0"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="部门名称" prop="derpName">
+                            <el-select v-model="editPactMsg.derpName">
+                                <el-option label="财务部" value="1"></el-option>
+                                <el-option label="技术部" value="0"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="工号" prop="userNo">
+                            <el-input v-model="editPactMsg.userNo" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="员工姓名" prop="custName">
+                            <el-input v-model="editPactMsg.custName"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="性别" prop="sex" :disabled="true">
+                            <el-select v-model="editPactMsg.sex">
+                                <el-option label="男" value="1"></el-option>
+                                <el-option label="女" value="0"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="身份证" prop="cert" :disabled="true">
+                            <el-input v-model="editPactMsg.cert" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="合同类型" prop="pactType">
+                            <el-select v-model="editPactMsg.pactType">
+                                <el-option label="劳动合同" value="1"></el-option>
+                                <el-option label="保密协议" value="0"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="签订日期" prop="signTime">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.signTime" style="width: 100%;"></el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="合同开始日期" prop="pactStartTime">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.pactStartTime" style="width: 100%;"></el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="合同结束日期" prop="pactEndTime">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.pactEndTime" style="width: 100%;"></el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="合同状态" prop="pactStatus">
+                            <el-select v-model="editPactMsg.pactStatus">
+                                <el-option label="已生效" value="1"></el-option>
+                                <el-option label="未生效" value="0"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="合同年限" prop="pactExpires">
+                            <el-input v-model="editPactMsg.pactExpires"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="终止日期" prop="pactStopTime">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.pactStopTime" style="width: 100%;"></el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="合同附件" prop="attachm">
+                            <!-- <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-preview="handlePreview" :on-remove="handleRemove" :auto-upload="false">
+                                                                                                            <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
+                                                                                                        </el-upload> -->
+                            <el-input v-model="editPactMsg.attachm"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="终止原因" prop="stopReason">
+                            <el-input type="textarea" v-model="editPactMsg.stopReason"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="备注" prop="remark">
+                            <el-input type="textarea" v-model="editPactMsg.remark"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label=" " prop="autoupFlag">
+                            <el-checkbox v-model="checked">自动更新员工资料</el-checkbox>
+                        </el-form-item>
+                    </el-col>
+                </el-form>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script type='text/ecmascript-6'>
+import current from "../../common/current_position.vue";
+export default {
+  data() {
+    return {
+      labelPosition: "right",
+      pactNo: '',
+      editPactMsg: {}
+    };
+  },
+  components: {
+    current
+  },
+  created() {
+    this.pactNo = this.$route.params.pactNo;
+    // 初始查合同基本详情
+    this.getPactDtl(this.pactNo);
+  },
+  methods: {
+    getPactDtl(pactNo) {
+      const self = this;
+      let params = {
+        pactNo: pactNo
+      };
+      self.$axios
+        .get("ifdp/querPactDtl", { params: params })
+        .then(res => {
+          console.log(res);
+          self.editPactMsg = res.data.data;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+    handleAdd() {}
+  }
+};
+</script>
+
+<style>
+.edit_contract {
+  padding: 0 0 20px 20px;
+}
+</style>

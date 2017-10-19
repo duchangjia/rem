@@ -311,22 +311,38 @@ export default {
         this.$router.push({
           name: "edit_pactChange",
           params: {
-            "pactNo": row.pactNo,
-            "changeId": row.changeId
+            pactNo: row.pactNo,
+            changeId: row.changeId
           }
         });
       if (this.activeName == "renewPactMsg")
         this.$router.push({
           name: "edit_pactRenew",
           params: {
-            "pactNo": row.pactNo,
-            "renewId": row.renewId
+            pactNo: row.pactNo,
+            renewId: row.renewId
           }
         });
     },
     handleDelete(index, row) {},
-    handlePChangeDetail(index, row) {},
-    handlePRenewDetail(index, row) {}
+    handlePChangeDetail(index, row) {
+      this.$router.push({
+        name: "detail_pactChange",
+        params: {
+          pactNo: row.pactNo,
+          changeId: row.changeId
+        }
+      });
+    },
+    handlePRenewDetail(index, row) {
+      this.$router.push({
+        name: "detail_pactRenew",
+        params: {
+          pactNo: row.pactNo,
+          renewId: row.renewId
+        }
+      });
+    }
   }
 };
 </script>

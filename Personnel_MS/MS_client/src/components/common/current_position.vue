@@ -86,8 +86,11 @@ export default {
             if (this.sanji === '功能编辑') {
                 _link.push('/edit_fun')
             }
-            if (this.sanji === '新增合同') {
+            if (this.sanji === '合同新增') {
                 _link.push('/add_contract')
+            }
+            if (this.sanji === '合同修改') {
+                _link.push('/edit_contract')
             }
             if (this.sanji === '合同详情') {
                 _link.push('/detail_contract')

@@ -1,6 +1,6 @@
 <template>
     <div class="add_contract">
-        <current yiji="人事事务" erji="人事合同" sanji="新增合同">
+        <current yiji="人事事务" erji="人事合同" sanji="合同新增">
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
@@ -101,7 +101,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="合同附件" prop="attachm">
-                            <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-preview="handlePreview" :on-remove="handleRemove" :auto-upload="false">
+                            <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
                         </el-form-item>
