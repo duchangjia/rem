@@ -204,7 +204,7 @@ border-bottom: 1px solid #EEEEEE;
 .welfare_coefficient .el-table th {
 	text-align: center;
 }
-.welfare_coefficient .el-table td:first-child{
+.welfare_coefficient .el-table td:first-child span {
 	cursor: pointer;
 	color: #FF9900;
 }

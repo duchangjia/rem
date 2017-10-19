@@ -528,13 +528,13 @@
 		"comHousFixed": ""
 	},
 	"addInsurancePayTemplate": {
-		"code": "S000000"
+		"applyNo": "S000000"
 	},
 	"updateInsurancePayTemplate": {
-		"code": "S000000"
+		"applyNo": "S000000"
 	},
 	"deleteInsurancePayTemplate": {
-		"code": "S000000"
+		"applyNo": "S000000"
 	},
 	"selectTaxRateGroup": {
 		"total": "3",
@@ -567,10 +567,10 @@
 		]
 	},
 	"insertTaxRateGroup": {
-		"code": "S000000"
+		"applyNo": "S000000"
 	},
 	"deleteTaxRateGroup": {
-		"code": "S000000"
+		"applyNo": "S000000"
 	},
 	"selectTaxRateCtrl": {
 		"total": "4",
@@ -618,10 +618,71 @@
 		]
 	},
 	"insertTaxRateCtrl": {
-		"code": "S000000"
+		"applyNo": "S000000"
 	},
 	"deleteTaxRateCtrl": {
-		"code": "S000000"
+		"applyNo": "S000000"
+	},
+	"queryCParmList": {
+		"total": "3",
+		"list": [
+			{
+				"applyNo": "p55001",
+				"applyName": "xxxxxx",
+				"compName": "xxxx",
+				"rank": "B10-高级开发软件工程师",
+				"salaryFloor": "5000.00",
+				"salaryTop": "10000.00",
+				"businessStandard": "50",
+				"remark": "xxx",
+				"createdId": "001",
+				"createdTime": "2017-10-10"
+			},
+			{
+				"applyNo": "p55002",
+				"applyName": "xxxxxx",
+				"compName": "xxxx",
+				"rank": "B10-高级开发软件工程师",
+				"salaryFloor": "5000.00",
+				"salaryTop": "10000.00",
+				"businessStandard": "50",
+				"remark": "xxx",
+				"createdId": "001",
+				"createdTime": "2017-10-10"
+			},
+			{
+				"applyNo": "p55003",
+				"applyName": "xxxxxx",
+				"compName": "xxxx",
+				"rank": "B10-高级开发软件工程师",
+				"salaryFloor": "5000.00",
+				"salaryTop": "10000.00",
+				"businessStandard": "50",
+				"remark": "xxx",
+				"createdId": "001",
+				"createdTime": "2017-10-10"
+			}
+			
+		]
+	},
+	"queryCParmDtl": {
+		"applyNo": "p55003",
+		"applyName": "xxxxxx",
+		"compName": "xxxx",
+		"rank": "B10-高级开发软件工程师",
+		"salaryFloor": "5000.00",
+		"salaryTop": "10000.00",
+		"businessStandard": "50",
+		"remark": "xxx"
+	},
+	"modCparm":{
+		"applyNo": "S000000"
+	},
+	"addCparm": {
+		"applyNo": "S000000"
+	},
+	"delCparm": {
+		"applyNo": "S000000"
 	},
   "querPactDtl": {
     "pactNo": "004",

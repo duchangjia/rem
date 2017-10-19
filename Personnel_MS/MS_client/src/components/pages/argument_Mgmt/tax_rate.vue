@@ -210,7 +210,7 @@ border-bottom: 1px solid #EEEEEE;
 .tax_rate .el-table th {
 	text-align: center;
 }
-.tax_rate .el-table td:first-child{
+.tax_rate .el-table td:first-child span{
 	cursor: pointer;
 	color: #FF9900;
 }
