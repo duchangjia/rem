@@ -52,7 +52,6 @@ public class AttenceController {
     @GetMapping(value = "/download")
     public Object download(String fileName, HttpServletRequest request,
             HttpServletResponse response) {
-        System.out.println("制造冲突");
         response.setCharacterEncoding("utf-8");
         response.setContentType("multipart/form-data");
         response.setHeader("Content-Disposition", "attachment;fileName="+ fileName);
