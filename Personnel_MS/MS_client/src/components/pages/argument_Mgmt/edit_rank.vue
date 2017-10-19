@@ -91,7 +91,7 @@ export default {
 	created() {
 		const self = this;
 		let applyNo = self.$route.params.applyNo;
-		let param = {
+		let params = {
 			applyNo: applyNo
 		}
 		self.queryCParmDtl(params);
@@ -122,7 +122,7 @@ export default {
 		//查询税率组
 		queryCParmDtl(params) {
 			const self = this;
-			self.$axios.get(baseURL+'/queryCParmDtl',{params: param})
+			self.$axios.get(baseURL+'/queryCParmDtl',{params: params})
 			.then((res) => {
 				console.log(res);
 				self.cParmDetal = res.data.data;
