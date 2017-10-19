@@ -1,6 +1,6 @@
 <template>
     <div class="detail_contract">
-        <current yiji="人事事务" erji="人事合同" sanji="合同详情">
+        <current yiji="人事事务" erji="人事合同" sanji="合同详情" :activeTab="activeName">
         </current>
         <div class="content-wrapper">
             <!-- <el-button type="primary" class="toolBtn">保存</el-button> -->
@@ -246,6 +246,7 @@ export default {
   methods: {
     handleTabClick(tab, event) {
       console.log(tab.name);
+      this.activeName = tab.name
       if (tab.name == "changePactMsg") this.getPChangeList();
       if (tab.name == "renewPactMsg") this.getPRenewList();
       if (tab.name == "basicPactMsg") this.getPactDtl(this.pactNo);
