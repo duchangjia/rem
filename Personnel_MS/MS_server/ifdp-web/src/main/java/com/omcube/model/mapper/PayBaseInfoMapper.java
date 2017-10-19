@@ -30,4 +30,5 @@ public interface PayBaseInfoMapper {
     List<EpPayBaseInfoPO> queryPayBaseInfoLimit(@Param(value = "startNum") long startNum,
 	    @Param(value = "size") long size, @Param(value = "uid") String uid);
 
+    void addPayBaseInfoList(@Param(value = "payBaseInfoList") List<EpPayBaseInfoPO> payBaseInfoList);
 }

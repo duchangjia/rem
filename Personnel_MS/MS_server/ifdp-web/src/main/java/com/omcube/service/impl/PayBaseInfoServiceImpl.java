@@ -60,4 +60,9 @@ public class PayBaseInfoServiceImpl implements PayBaseInfoService {
 	return payBaseInfoMapper.queryPayBaseInfoLimit(startNum, size, uid);
     }
 
+    @Override
+    public void addPayBaseInfoList(List<EpPayBaseInfoPO> payBaseInfoList) {
+	payBaseInfoMapper.addPayBaseInfoList(payBaseInfoList);
+    }
+
 }

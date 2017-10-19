@@ -1,6 +1,9 @@
 package com.omcube.model.po;
 
-
+/**
+ * 薪酬基本信息表
+ * 别更改字段顺序
+ */
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 

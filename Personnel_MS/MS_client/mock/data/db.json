@@ -393,6 +393,226 @@
       }
     ]
   },
+  "queryInsurancePayTemplates": {
+    "total": "4",
+    "WelfareList": [
+      {
+        "applyNo": "10001",
+        "applyName": "深圳地区缴纳",
+        "remark": "xxx",
+        "createdBy": "p00001",
+        "createdDate": "0000"
+      },
+      {
+        "applyNo": "10002",
+        "applyName": "广州地区缴纳",
+        "remark": "xxx",
+        "createdBy": "p00002",
+        "createdDate": "000"
+      },
+      {
+        "applyNo": "10003",
+        "applyName": "汕尾地区缴纳",
+        "remark": "xxx",
+        "createdBy": "p00003",
+        "createdDate": "00"
+      },
+      {
+        "applyNo": "10004",
+        "applyName": "东莞地区缴纳",
+        "remark": "xxx",
+        "createdBy": "p00004",
+        "createdDate": "00"
+      }
+    ]
+  },
+  "queryInsurancePayTemplate": {
+    "applyNo": "0001",
+    "applyName": "深圳地区缴纳",
+    "remark": "xxx",
+    "perEndmRate": "1",
+    "perEndmFixed": "1",
+    "comEndmRate": "1",
+    "comEndmFixed": "1",
+    "perMediRate": "1",
+    "perMediFixed": "1",
+    "comMediRate": "1",
+    "comMediFixed": "1",
+    "perUnemRate": "1",
+    "perUnemFixed": "1",
+    "comUnemRate": "1",
+    "comUnemFixed": "1",
+    "perEmplRate": "",
+    "perEmplFixed": "",
+    "comEmplRate": "",
+    "comEmplFixed": "",
+    "perMateRate": "",
+    "perMateFixed": "",
+    "comMateRate": "",
+    "comMateFixed": "",
+    "perHousRate": "",
+    "perHousFixed": "",
+    "comHousRate": "",
+    "comHousFixed": ""
+  },
+  "addInsurancePayTemplate": {
+    "code": "S000000"
+  },
+  "updateInsurancePayTemplate": {
+    "code": "S000000"
+  },
+  "deleteInsurancePayTemplate": {
+    "code": "S000000"
+  },
+  "selectTaxRateGroup": {
+    "total": "3",
+    "list": [
+      {
+        "groupId": "001016",
+        "groupNo": "1600qiz",
+        "startTime": "2017-08-18",
+        "endTime": "2017-10-20",
+        "createTime": "2017-08-10",
+        "remark": "xxxx"
+      },
+      {
+        "groupId": "001017",
+        "groupNo": "一一",
+        "startTime": "2017-08-18",
+        "endTime": "2017-10-20",
+        "createTime": "2017-08-10",
+        "createId": "000111",
+        "remark": "xxxx"
+      },
+      {
+        "groupId": "001018",
+        "groupNo": "一一",
+        "startTime": "2017-08-18",
+        "endTime": "2017-10-20",
+        "createTime": "2017-08-10",
+        "remark": "xxxx"
+      }
+    ]
+  },
+  "insertTaxRateGroup": {
+    "code": "S000000"
+  },
+  "deleteTaxRateGroup": {
+    "code": "S000000"
+  },
+  "selectTaxRateCtrl": {
+    "total": "4",
+    "list": [
+      {
+        "groupNo": "1600",
+        "groupId": "01001",
+        "applyNo": "0001",
+        "GroupLimit": "10000",
+        "GroupLowerLimit": "5000",
+        "remark": "xxxx",
+        "percentRate": "5%",
+        "quickCal": "0"
+      },
+      {
+        "groupNo": "1600",
+        "groupId": "01001",
+        "applyNo": "0001",
+        "GroupLimit": "10000",
+        "GroupLowerLimit": "5000",
+        "remark": "xxxx",
+        "percentRate": "5%",
+        "quickCal": "0"
+      },
+      {
+        "groupNo": "1600",
+        "groupId": "01001",
+        "applyNo": "0001",
+        "GroupLimit": "10000",
+        "GroupLowerLimit": "5000",
+        "remark": "xxxx",
+        "percentRate": "5%",
+        "quickCal": "0"
+      },
+      {
+        "groupN0": "1600",
+        "groupId": "01001",
+        "applyNo": "0001",
+        "GroupLimit": "10000",
+        "GroupLowerLimit": "5000",
+        "remark": "xxxx",
+        "percentRate": "5%",
+        "quickCal": "0"
+      }
+    ]
+  },
+  "insertTaxRateCtrl": {
+    "code": "S000000"
+  },
+  "deleteTaxRateCtrl": {
+    "code": "S000000"
+  },
+  "queryWelfareList": {
+    "total": "4",
+    "WelfareList": [
+      {
+        "modelNo": "00001",
+        "modelName": "深圳地区缴纳",
+        "beiz": "xxx",
+        "ID": "p00001",
+        "time": "0000"
+      },
+      {
+        "modelNo": "00002",
+        "modelName": "广州地区缴纳",
+        "beiz": "xxx",
+        "ID": "p00002",
+        "time": "000"
+      },
+      {
+        "modelNo": "00003",
+        "modelName": "汕尾地区缴纳",
+        "beiz": "xxx",
+        "ID": "p00003",
+        "time": "00"
+      },
+      {
+        "modelNo": "00004",
+        "modelName": "东莞地区缴纳",
+        "beiz": "xxx",
+        "ID": "p00004",
+        "time": "00"
+      }
+    ]
+  },
+  "queryWelfareInfo": {
+    "modelNo": "00001",
+    "modelName": "深圳地区缴纳",
+    "beiz": "xxx",
+    "yangl_gr": "1",
+    "yangl_gr_r": "1",
+    "yangl_dw": "1",
+    "yangl_dw_r": "1",
+    "yiliao_gr": "1",
+    "yiliao_gr_r": "1",
+    "yiliao_dw": "1",
+    "yiliao_dw_r": "1",
+    "shiye_gr": "1",
+    "shiye_gr_r": "1",
+    "shiye_dw": "1",
+    "shiye_dw_r": "1",
+    "gongs_gr": "",
+    "gongs_gr_r": "",
+    "gongs_dw": "",
+    "gongs_dw_r": "",
+    "shengy_gr": "",
+    "shengy_gr_r": "",
+    "shengy_dw": "",
+    "shengy_dw_r": "",
+    "zhuf_gr": "",
+    "zhuf_gr_r": "",
+    "zhuf_dw": "",
+    "zhuf_dw_r": ""
+  },
   "queryPactList": {
     "pageIndex": "1",
     "pageRows": "7",
@@ -723,7 +943,7 @@
     "pageRows": "7",
     "pageCount": "8",
     "totalRows": "50",
-    "PChangeListArray":[
+    "PChangeListArray": [
       {
         "pactNo": "004",
         "pactName": "四号合同",
@@ -754,12 +974,35 @@
       }
     ]
   },
+  "queryPChangeDtl": {
+    "pactNo": "004",
+    "pactName": "四号合同",
+    "changeId": "change002",
+    "userNo": "d123",
+    "custName": "张铁牛",
+    "cert": "422000199012211222",
+    "organNo": "P001002",
+    "organName": "002公司",
+    "derpNo": "D001",
+    "derpName": "001部门",
+    "custPost": "软件开发工程师",
+    "custClass": "Java开发",
+    "changeTime": "2017-08-13 00:00:00",
+    "changeType": "1",
+    "changeContent": "变更了变更了变更了变更了变更了",
+    "attachm": "JS23293923988",
+    "remark": "走了就不会再回来了",
+    "createdBy": "李大仁",
+    "createdDate": "2017-09-13 00:00:00",
+    "updateBy": "李大仁",
+    "updateDate": "2017-10-09 00:00:00"
+  },
   "queryPRenewList": {
     "pageIndex": "1",
     "pageRows": "7",
     "pageCount": "8",
     "totalRows": "50",
-    "PRenewListArray":[
+    "PRenewListArray": [
       {
         "pactNo": "004",
         "pactName": "四号合同",
@@ -776,67 +1019,27 @@
       }
     ]
   },
-
-  "queryWelfareList": {
-    "total": "4",
-    "WelfareList": [
-      {
-        "modelNo": "00001",
-        "modelName": "深圳地区缴纳",
-        "beiz": "xxx",
-        "ID": "p00001",
-        "time": "0000"
-      },
-      {
-        "modelNo": "00002",
-        "modelName": "广州地区缴纳",
-        "beiz": "xxx",
-        "ID": "p00002",
-        "time": "000"
-      },
-      {
-        "modelNo": "00003",
-        "modelName": "汕尾地区缴纳",
-        "beiz": "xxx",
-        "ID": "p00003",
-        "time": "00"
-      },
-      {
-        "modelNo": "00004",
-        "modelName": "东莞地区缴纳",
-        "beiz": "xxx",
-        "ID": "p00004",
-        "time": "00"
-      }
-    ]
-  },
-  "queryWelfareInfo": {
-    "modelNo": "00001",
-    "modelName": "深圳地区缴纳",
-    "beiz": "xxx",
-    "yangl_gr": "1",
-    "yangl_gr_r": "1",
-    "yangl_dw": "1",
-    "yangl_dw_r": "1",
-    "yiliao_gr": "1",
-    "yiliao_gr_r": "1",
-    "yiliao_dw": "1",
-    "yiliao_dw_r": "1",
-    "shiye_gr": "1",
-    "shiye_gr_r": "1",
-    "shiye_dw": "1",
-    "shiye_dw_r": "1",
-    "gongs_gr": "",
-    "gongs_gr_r": "",
-    "gongs_dw": "",
-    "gongs_dw_r": "",
-    "shengy_gr": "",
-    "shengy_gr_r": "",
-    "shengy_dw": "",
-    "shengy_dw_r": "",
-    "zhuf_gr": "",
-    "zhuf_gr_r": "",
-    "zhuf_dw": "",
-    "zhuf_dw_r": ""
+  "queryPRenewDtl": {
+    "pactNo": "004",
+    "pactName": "四号合同",
+    "renewId": "renew001",
+    "userNo": "d123",
+    "custName": "张铁牛",
+    "cert": "422000199012211222",
+    "organNo": "P001002",
+    "organName": "002公司",
+    "derpNo": "D001",
+    "derpName": "001部门",
+    "custPost": "软件开发工程师",
+    "custClass": "Java开发",
+    "renewTime": "2017-08-13 00:00:00",
+    "renewType": "1",
+    "renewContent": "续签啊续签啊续签啊续签个鬼",
+    "attachm": "JS23293923988",
+    "remark": "走了就不会再回来了",
+    "createdBy": "李大仁",
+    "createdDate": "2017-09-13 00:00:00",
+    "updateBy": "李大仁",
+    "updateDate": "2017-10-09 00:00:00"
   }
 }

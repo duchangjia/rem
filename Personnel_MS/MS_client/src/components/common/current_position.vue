@@ -104,7 +104,7 @@ export default {
                 _link.push('/edit_contract')
             }
             if (this.sanji === '合同详情') {
-                _link.push('/detail_contract')
+                _link.push('detail_contract')
             }
             if (this.sanji === '合同变更') {
                 _link.push('/add_pactChange')
