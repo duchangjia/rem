@@ -1,6 +1,6 @@
 <template>
     <div class="detail_contract">
-        <current yiji="人事事务" erji="人事合同" sanji="合同详情" :activeTab="activeName">
+        <current yiji="人事事务" erji="人事合同" sanji="合同详情">
         </current>
         <div class="content-wrapper">
             <!-- <el-button type="primary" class="toolBtn">保存</el-button> -->
@@ -201,6 +201,7 @@
                         </el-table>
                     </div>
                 </el-tab-pane>
+
             </el-tabs>
         </div>
     </div>
@@ -358,72 +359,4 @@ export default {
   padding: 0 0 20px 20px;
 }
 
-.el-tabs__item {
-  padding: 0 10px;
-}
-
-.el-tabs__item.is-active {
-  color: #333333;
-}
-
-.el-tabs__active-bar {
-  background-color: #333333;
-  height: 2px;
-}
-
-.el-tabs__item:first-of-type {
-  padding-left: 0;
-}
-
-.el-tabs__header {
-  height: 80px;
-  line-height: 80px;
-  font-size: 16px;
-  font-family: "PingFang SC";
-  border-bottom: 1px solid #eeeeee;
-  margin-bottom: 20px;
-}
-
-.content-wrapper .subtitlebar {
-  height: 24px;
-  line-height: 24px;
-  font-size: 14px;
-  font-family: "PingFangSC Regular";
-  padding-left: 10px;
-  margin: 20px 0;
-}
-
-.content-wrapper .subtitlebar .title-text {
-  display: inline-block;
-  height: 24px;
-  position: relative;
-  color: #333333;
-}
-
-.content-wrapper .subtitlebar .addBtn {
-  float: right;
-  color: #ff9900;
-  border: none;
-  padding: 5px;
-  padding-right: 0;
-}
-
-.icon-edit {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  background: url("../../../../static/img/common/edit.png") center no-repeat;
-}
-
-.icon-delete {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  background: url("../../../../static/img/common/delete.png") center no-repeat;
-}
-
-.icon-edit:hover,
-.icon-delete:hover {
-  cursor: pointer;
-}
 </style>
