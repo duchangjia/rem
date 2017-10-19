@@ -175,9 +175,9 @@ export default {
         })
         .catch(() => {
           console.log("error");
-        });
-    },
-    handleAdd() {}
+        }); 
+    }
+    
   }
 };
 </script>
