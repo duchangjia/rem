@@ -83,32 +83,32 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">合同变更信息</el-col>
-                <el-form :inline="true" :model="detailPChangeMsg" :rules="rules" ref="detailPChangeMsg" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="detailPChangeMsg" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
                     <el-col :span="12">
                         <el-form-item label="变更时间" prop="changeTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPChangeMsg.changeTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPChangeMsg.changeTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="变更类别" prop="changeType">
-                            <el-select v-model="detailPChangeMsg.changeType">
+                            <el-select v-model="detailPChangeMsg.changeType" :disabled="true">
                                 <el-option label="条款变更" value="1"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="变更内容" prop="changeContent">
-                            <el-input type="textarea" v-model="detailPChangeMsg.changeContent"></el-input>
+                            <el-input type="textarea" v-model="detailPChangeMsg.changeContent" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="最新更新人" prop="updateBy">
-                            <el-input v-model="detailPChangeMsg.updateBy"></el-input>
+                            <el-input v-model="detailPChangeMsg.updateBy" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="最新更新时间" prop="updateDate">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPChangeMsg.updateDate" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPChangeMsg.updateDate" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">

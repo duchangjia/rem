@@ -4,7 +4,7 @@
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
-                <span class="title-text">新增合同</span>
+                <span class="title-text">合同新增</span>
                 <el-button type="primary" @click="handleAdd" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
@@ -185,9 +185,9 @@ export default {
                 .then((res) => {
                     console.log(res);
                     if (res.data.code == 'S00000') this.$router.push('/personnel_contract');
-                    else this.$message.error('新增合同失败！');
+                    else this.$message.error('合同新增失败！');
                 }).catch(() => {
-                    this.$message.error('新增合同失败！');
+                    this.$message.error('合同新增失败！');
                 })
         }
     }

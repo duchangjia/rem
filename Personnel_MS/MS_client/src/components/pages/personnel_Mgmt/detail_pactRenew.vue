@@ -83,32 +83,32 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">合同续签信息</el-col>
-                <el-form :inline="true" :model="detailPRenewMsg" :rules="rules" ref="detailPRenewMsg" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="detailPRenewMsg" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
                     <el-col :span="12">
                         <el-form-item label="续签时间" prop="renewTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPRenewMsg.renewTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPRenewMsg.renewTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="续签类别" prop="renewType">
-                            <el-select v-model="detailPRenewMsg.renewType">
+                            <el-select v-model="detailPRenewMsg.renewType" :disabled="true">
                                 <el-option label="合同延期" value="1"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="续签生效时间" prop="renewTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPRenewMsg.renewTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPRenewMsg.renewTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="续签失效时间" prop="renewEndTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPRenewMsg.renewTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPRenewMsg.renewTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="续签内容" prop="renewContent">
-                            <el-input type="textarea" v-model="detailPRenewMsg.renewContent"></el-input>
+                            <el-input type="textarea" v-model="detailPRenewMsg.renewContent" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
