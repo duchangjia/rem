@@ -224,6 +224,11 @@ export default new Router({
                             component: resolve => require(['../components/pages/personnel_Mgmt/add_contract.vue'], resolve)
                         },
                         {
+                            name: 'edit_contract',
+                            path: '/edit_contract',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/edit_contract.vue'], resolve)
+                        },
+                        {
                             name: 'detail_contract',
                             path: '/detail_contract',
                             component: resolve => require(['../components/pages/personnel_Mgmt/detail_contract.vue'], resolve)

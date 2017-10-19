@@ -1,6 +1,6 @@
 <template>
     <div class="edit_pactChange">
-        <current yiji="人事事务" erji="人事合同" sanji="合同变更修改">
+        <current yiji="人事事务" erji="人事合同" sanji="合同详情" siji="合同变更修改">
         </current>
         <div class="content-wrapper">
             <div class="titlebar">

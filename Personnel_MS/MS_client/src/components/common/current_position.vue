@@ -86,8 +86,11 @@ export default {
             if (this.sanji === '功能编辑') {
                 _link.push('/edit_fun')
             }
-            if (this.sanji === '新增合同') {
+            if (this.sanji === '合同新增') {
                 _link.push('/add_contract')
+            }
+            if (this.sanji === '合同修改') {
+                _link.push('/edit_contract')
             }
             if (this.sanji === '合同详情') {
                 _link.push('/detail_contract')
@@ -95,22 +98,11 @@ export default {
             if (this.sanji === '合同变更') {
                 _link.push('/add_pactChange')
             }
-            if (this.sanji === '合同变更详情') {
-                _link.push('/detail_pactChange')
-            }
-            if (this.sanji === '合同变更修改') {
-                _link.push('/edit_pactChange')
-            }
+            
             if (this.sanji === '合同续签') {
                 _link.push('/add_pactRenew')
             }
-            if (this.sanji === '合同续签详情') {
-                _link.push('/detail_pactRenew')
-            }
-            if (this.sanji === '合同续签修改') {
-                _link.push('/edit_pactRenew')
-            }
-
+            
             if (this.sanji === '机构CCC管理') {
                 _link.push('/agency_argument')
             }
@@ -146,6 +138,18 @@ export default {
             }
             if (this.siji === '开票信息新增') {
                 _link.push('/add_ticket')
+            }
+            if (this.siji === '合同变更详情') {
+                _link.push('/detail_pactChange')
+            }
+            if (this.siji === '合同变更修改') {
+                _link.push('/edit_pactChange')
+            }
+            if (this.siji === '合同续签详情') {
+                _link.push('/detail_pactRenew')
+            }
+            if (this.siji === '合同续签修改') {
+                _link.push('/edit_pactRenew')
             }
             this.link = _link
             this.breadItemLength = _link.length
