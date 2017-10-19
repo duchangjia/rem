@@ -94,14 +94,7 @@ export default {
 		let param = {
 			applyNo: applyNo
 		}
-		console.log(applyNo);
-		self.$axios.get(baseURL+'/queryCParmDtl',{params: param})
-		.then((res) => {
-			console.log(res);
-			self.cParmDetal = res.data.data;
-		}).catch((err) => {
-			console.log(err);
-		})
+		self.queryCParmDtl(params);
 	},
 	methods: {
 		save(formName) {
@@ -118,19 +111,35 @@ export default {
 						businessStandard: self.cParmDetal.businessStandard,
 						remark: self.cParmDetal.remark
 	          		}
-	          		self.$axios.put(baseURL+'/modCparm', params)
-	          			.then((res) => {
-	          				console.log(res);
-	          				this.$message({ message: '税率组修改成功', type: 'success' });
-	          			}).catch((err) => {
-	          				console.log(err);
-	          			})
+	          		self.modCparm(params);
 	           	 	
 	          	} else {
 	            	this.$message.error('修改失败');
 	            	return false;
 	          	}
 	        });
+		},
+		//查询税率组
+		queryCParmDtl(params) {
+			const self = this;
+			self.$axios.get(baseURL+'/queryCParmDtl',{params: param})
+			.then((res) => {
+				console.log(res);
+				self.cParmDetal = res.data.data;
+			}).catch((err) => {
+				console.log(err);
+			})
+		},
+		//修改税率组
+		modCparm(params) {
+			const self = this;
+			self.$axios.put(baseURL+'/modCparm', params)
+  			.then((res) => {
+  				console.log(res);
+  				self.$message({ message: '税率组修改成功', type: 'success' });
+  			}).catch((err) => {
+  				console.log(err);
+  			})
 		}
 	}
 }

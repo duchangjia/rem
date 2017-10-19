@@ -623,6 +623,9 @@
 	"deleteTaxRateCtrl": {
 		"applyNo": "S000000"
 	},
+	"updaTeTaxRateCtrl": {
+		"applyNo": "S000000"
+	},
 	"queryCParmList": {
 		"total": "3",
 		"list": [

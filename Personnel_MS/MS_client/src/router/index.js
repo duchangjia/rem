@@ -157,6 +157,11 @@ export default new Router({
                 			component:resolve => require(['../components/pages/argument_Mgmt/add_rateGroup.vue'],resolve)
                 		},
                 		{
+                			name:'edit_rate',
+                			path:'/edit_rate',
+                			component:resolve => require(['../components/pages/argument_Mgmt/edit_rate.vue'],resolve)
+                		},
+                		{
                 			name:'add_rate',
                 			path:'/add_rate',
                 			component:resolve => require(['../components/pages/argument_Mgmt/add_rate.vue'],resolve)

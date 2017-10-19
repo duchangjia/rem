@@ -1,30 +1,27 @@
 <template>
-	<div class="add_rateGroup">
-		<current yiji="参数管理" erji="业务参数" sanji="个人所得税税率设置" siji="个人所得税税率详情" wuji="税率新增"></current>
+	<div class="edit_rate">
+		<current yiji="参数管理" erji="业务参数" sanji="个人所得税税率设置" siji="个人所得税税率详情" wuji="税率修改"></current>
 		<div class="content">
 			<div class="title">
-				<span class="title-text">税率新增</span>
-				<el-button type="primary" class="conserve" @click="save('formdata')">保存</el-button>
+				<span class="title-text">税率修改</span>
+				<el-button type="primary" class="conserve" @click="save('rateInfo')">保存</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
+				<el-form ref="rateInfo" :rules="rules" :model="rateInfo" label-width="80px">
 					<el-form-item label="组名称" prop="groupNo">
-					    <el-input v-model="formdata.groupNo"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="编号" prop="applyNo">
-					    <el-input v-model="formdata.applyNo"></el-input>
+					    <el-input v-model="rateInfo.groupNo"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="下限" prop="GroupLowerLimit">
-					    <el-input v-model="formdata.GroupLowerLimit"></el-input>
+					    <el-input v-model="rateInfo.GroupLowerLimit"></el-input>
 				  	</el-form-item>
 					<el-form-item label="上限" prop="GroupLimit">
-					    <el-input v-model="formdata.GroupLimit"></el-input>
+					    <el-input v-model="rateInfo.GroupLimit"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="百分率" prop="percentRate">
-					    <el-input v-model="formdata.percentRate"></el-input>
+					    <el-input v-model="rateInfo.percentRate"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="速算扣除率" prop="quickCal">
-					    <el-input v-model="formdata.quickCal" placeholder='自动计算'></el-input>
+					    <el-input v-model="rateInfo.quickCal" placeholder='自动计算'></el-input>
 				  	</el-form-item>
 				</el-form>
 			</div>
@@ -40,16 +37,15 @@ export default {
 		var checkGroupLimit = (rule, value, callback) => {
 	        if (value === '') {
 	          	callback(new Error('上限不能为空'));
-	        } else if (Number(value) <= Number(this.formdata.GroupLowerLimit)) {
+	        } else if (Number(value) <= Number(this.rateInfo.GroupLowerLimit)) {
 	          	callback(new Error('上限值必须大于下限值!'));
 	        } else {
 	          	callback();
 	        }
       	};
 		return {
-			formdata: {
+			rateInfo: {
 				groupNo: "",
-				applyNo: "",
 				GroupLimit: '',
 				GroupLowerLimit: '',
 				percentRate: '',
@@ -77,32 +73,36 @@ export default {
 	components: {
 		current
 	},
+	created() {
+		this.rateInfo = this.$route.params;
+	},
 	methods: {
 		save(formName) {
 		 	this.$refs[formName].validate((valid) => {
 	          	if (valid) {
 	          		const self = this;
 	          		let params = {
-	          			groupNo: self.formdata.groupNo,
-						GroupLimit: self.formdata.GroupLimit,
-						GroupLowerLimit: self.formdata.GroupLowerLimit,
-						percentRate: self.formdata.percentRate
+	          			applyNo: self.rateInfo.applyNo,
+	          			groupId: self.rateInfo.groupId,
+						GroupLimit: self.rateInfo.GroupLimit,
+						GroupLowerLimit: self.rateInfo.GroupLowerLimit,
+						isDelete: "1"
 	          		};
 	          		self.insertTaxRateCtrl(params);
 	          		
 	          	} else {
-	            	this.$message.error('新增失败');
+	            	this.$message.error('修改失败');
 	            	return false;
 	          	}
 	        });
 		},
-		//新增税率
+		//修改税率
 		insertTaxRateCtrl(params) {
 			const self = this;
-			self.$axios.post(baseURL+'/insertTaxRateCtrl', params)
+			self.$axios.put(baseURL+'/updaTeTaxRateCtrl', params)
   			.then((res) => {
   				console.log(res);
-  				this.$message({ message: '税率新增成功', type: 'success' });
+  				this.$message({ message: '税率修改成功', type: 'success' });
   			})
 		}
 	}
@@ -110,23 +110,23 @@ export default {
 </script>
 
 <style>
-.add_rateGroup {
+.edit_rate {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
 }
-.add_rateGroup .content {
+.edit_rate .content {
 	width: 100%;
 	min-height: 510px;
 	padding: 0px 20px;
 	background: #ffffff;
 	clear: both;
 }
-.add_rateGroup .content .title {
+.edit_rate .content .title {
 border-bottom: 1px solid #EEEEEE;
 }
 
-.add_rateGroup .content .title .title-text {
+.edit_rate .content .title .title-text {
 	display: inline-block;
 	position: relative;
 	padding: 29px 0px;
@@ -134,7 +134,7 @@ border-bottom: 1px solid #EEEEEE;
 	letter-spacing: 0;
 }
 
-.add_rateGroup .content .title .title-text:after {
+.edit_rate .content .title .title-text:after {
 	content: '';
 	position: absolute;
 	left: 0;
@@ -144,10 +144,10 @@ border-bottom: 1px solid #EEEEEE;
 	background: #333333;
 }
 
-.add_rateGroup .content-inner {
+.edit_rate .content-inner {
 	padding: 40px 0px;
 }
-.add_rateGroup .conserve {
+.edit_rate .conserve {
 	float: right;
 	margin-top: 20px;
 	background: #F4F4F4;
@@ -158,7 +158,7 @@ border-bottom: 1px solid #EEEEEE;
 	width: 120px;
 	height: 40px;
 }
-.add_rateGroup .el-input__inner {
+.edit_rate .el-input__inner {
     border: 1px solid #EEEEEE;
     color: #999999;
     width: 300px;
@@ -172,7 +172,7 @@ border-bottom: 1px solid #EEEEEE;
 .el-date-editor.el-input .el-input__inner {
     margin-left: 0px;
 }
-.add_rateGroup .el-form-item__label {
+.edit_rate .el-form-item__label {
     text-align: right;
     vertical-align: middle;
     float: left;
@@ -182,7 +182,7 @@ border-bottom: 1px solid #EEEEEE;
     padding: 11px 0px 11px 0;
     box-sizing: border-box;
 }
-.add_rateGroup .el-form-item__error {
+.edit_rate .el-form-item__error {
     padding-left: 30px;
 }
 </style>

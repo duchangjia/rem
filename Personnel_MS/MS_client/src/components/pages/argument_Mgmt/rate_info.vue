@@ -9,9 +9,9 @@
 			<div class="content-inner">
 				<el-table :data="taxRateList" border stripe style="width: 100%">
 					<el-table-column prop="groupNo" label="组名称">
-						<!--<template scope="scope">
+						<template scope="scope">
 					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.groupNo }}</span>
-				      	</template>-->
+				      	</template>
 					</el-table-column>
 					<el-table-column prop="GroupLowerLimit" label="下限"></el-table-column>
 					<el-table-column prop="GroupLimit" label="上限"></el-table-column>
@@ -65,13 +65,13 @@ export default {
 	},
 	created() {
 		const self = this;
-		let groupNo = sessionStorage.getItem('groupNo');
+		let groupNo = self.$route.params.groupNo;
+		let groupId = self.$route.params.groupId;
 		let pageNum = 1;
 		let pageSize = 2;
 		let params = {
 			"pageNum": pageNum,
-			"pageSize": pageSize,
-			groupNo: groupNo
+			"pageSize": pageSize
 		};
 		self.selectTaxRateCtrl(pageNum, pageSize, params);
 	},
@@ -79,24 +79,39 @@ export default {
 		addRate() {
 			this.$router.push('/add_rate');
 		},
+		handleEdit(index, row) {
+			console.log('row:',row);
+            this.$router.push({
+            	name: 'edit_rate',
+            	params: {
+            		groupNo: row.groupNo,
+            		groupId: row.groupId,
+            		applyNo: row.applyNo,
+            		GroupLimit: row.GroupLimit,
+            		GroupLowerLimit: row.GroupLowerLimit,
+            		remark: row.remark,
+            		percentRate: row.percentRate,
+            		quickCal: row.quickCal
+            	}
+            });
+		},
 		handleDelete(index, row) {
+        	const self = this;
             console.log('index',index);
             console.log('row',row);
-            this.$confirm('此操作将会删除该条模版, 是否继续?', '提示', {
+            self.$confirm('此操作将会删除该条税率模版, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-            	const self = this;
-            	self.$axios.delete(baseURL+'/deleteTaxRateCtrl')
-            		.then((res) => {
-            			console.log(res);
-            			this.$message({ type: 'success', message: '删除成功!' });
-            		}).catch((err) => {
-            			console.log(err);
-            		})
+            	let params = {
+            		groupId: self.taxRateList.groupId,
+            		applyId: self.taxRateList.applyId
+            	};
+            	self.deleteTaxRateCtrl(params);
+            	
             }).catch(() => {
-                this.$message('您已取消删除模版！');
+                self.$message('您已取消操作！');
             });
         },
         handleCurrentChange(val) {
@@ -111,6 +126,7 @@ export default {
 			};
 			self.selectTaxRateCtrl(pageNum, pageSize, params);
 		},
+		//查询个税列表
 		selectTaxRateCtrl(pageNum,pageSize,params) {
 			const self = this;
 			self.$axios.get(baseURL+'/selectTaxRateCtrl', { params: params})
@@ -123,6 +139,17 @@ export default {
 				}).catch(function(err) {
 					console.log(err);
 				})
+		},
+		//删除个税税率
+		deleteTaxRateCtrl(params) {
+			const self = this;
+			self.$axios.delete(baseURL+'/deleteTaxRateCtrl')
+    		.then((res) => {
+    			console.log(res);
+    			this.$message({ type: 'success', message: '删除成功!' });
+    		}).catch((err) => {
+    			console.log(err);
+    		})
 		}
 	}
 }
@@ -208,7 +235,10 @@ border-bottom: 1px solid #EEEEEE;
 .rate_info .el-table th {
 	text-align: center;
 }
-
+.rate_info .el-table td:first-child span{
+	cursor: pointer;
+	color: #FF9900;
+}
 /*.rate_info .el-table--enable-row-hover .el-table__body tr:hover>td {
 	background-color: #f8f8f8;
 	background-clip: padding-box;

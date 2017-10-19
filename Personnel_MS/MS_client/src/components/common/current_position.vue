@@ -135,11 +135,20 @@ export default {
             if (this.siji === '福利缴纳系数新增') {
                 _link.push('/add_welfare')
             }
+            if (this.siji === '福利缴纳系数详情') {
+            	_link.push('/welfare_info')
+            }
+            if (this.siji === '个人所得税税率详情') {
+            	_link.push('/rate_info')
+            }
             if (this.siji === '税率组新增') {
-                _link.push('/add_tax')
+                _link.push('/add_rateGroup')
             }
             if (this.siji === '职级薪酬标准新增') {
                 _link.push('/add_rank')
+            }
+            if (this.siji === '职级薪酬标准修改') {
+            	_link.push('/edit_rank')
             }
             if (this.siji === 'CCC新增') {
                 _link.push('/add_agency')
@@ -161,6 +170,12 @@ export default {
             }
             if (this.siji === '合同续签修改') {
                 _link.push('/edit_pactRenew')
+            }
+            if (this.wuji === '税率新增') {
+            	_link.push('/add_rate')
+            }
+            if (this.wuji === '税率修改') {
+            	_link.push('/edit_rate')
             }
             this.link = _link
             this.breadItemLength = _link.length
