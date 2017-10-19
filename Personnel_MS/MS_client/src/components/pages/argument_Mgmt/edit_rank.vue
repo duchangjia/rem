@@ -4,35 +4,35 @@
 		<div class="content">
 			<div class="title">
 				<span class="title-text">职级薪酬标准修改</span>
-				<el-button type="primary" class="conserve" @click="save('formdata')">保存</el-button>
+				<el-button type="primary" class="conserve" @click="save('cParmDetal')">保存</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="120px">
+				<el-form ref="cParmDetal" :rules="rules" :model="cParmDetal" label-width="120px">
 					<el-form-item label="模版编号" prop="applyNo">
-					    <el-input v-model="formdata.applyNo" :disabled="true"></el-input>
+					    <el-input v-model="cParmDetal.applyNo" :disabled="true"></el-input>
 				  	</el-form-item>
 					<el-form-item label="公司名称" prop="compName">
-					    <el-input v-model="formdata.compName" :disabled="true"></el-input>
+					    <el-input v-model="cParmDetal.compName" :disabled="true"></el-input>
 				  	</el-form-item>
 					<el-form-item label="模版名称" prop="applyName">
-					    <el-input v-model="formdata.applyName" placeholder=""></el-input>
+					    <el-input v-model="cParmDetal.applyName" placeholder=""></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="职级" prop="rank">
-				  		<el-select v-model="formdata.rank">
+				  		<el-select v-model="cParmDetal.rank">
 							<el-option v-for="item in rankList" :key="item" :value="item"></el-option>
 						</el-select>
 				  	</el-form-item>
 				  	<el-form-item label="薪资标准下线" prop="salaryFloor">
-					    <el-input v-model="formdata.salaryFloor"></el-input>
+					    <el-input v-model="cParmDetal.salaryFloor"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="薪资标准上线" prop="salaryTop">
-					    <el-input v-model="formdata.salaryTop"></el-input>
+					    <el-input v-model="cParmDetal.salaryTop"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="出差标准（人/天）">
-					    <el-input v-model="formdata.businessStandard"></el-input>
+					    <el-input v-model="cParmDetal.businessStandard"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="备注">
-					    <el-input v-model="formdata.remark"></el-input>
+					    <el-input v-model="cParmDetal.remark"></el-input>
 				  	</el-form-item>
 				</el-form>
 			</div>
@@ -48,14 +48,14 @@ export default {
 		var checkSalaryTop = (rule, value, callback) => {
 	        if (value === '') {
 	          	callback(new Error('请输入薪资标准上线'));
-	        } else if (Number(value) <= Number(this.formdata.salaryFloor)) {
+	        } else if (Number(value) <= Number(this.cParmDetal.salaryFloor)) {
 	          	callback(new Error('上限值必须大于下限值!'));
 	        } else {
 	          	callback();
 	        }
       	};
 		return {
-			formdata: {
+			cParmDetal: {
 				applyNo: "",
 				compName: "",
 				applyName: "",
@@ -88,27 +88,42 @@ export default {
 	components: {
 		current
 	},
+	created() {
+		const self = this;
+		let applyNo = self.$route.params.applyNo;
+		let param = {
+			applyNo: applyNo
+		}
+		console.log(applyNo);
+		self.$axios.get(baseURL+'/queryCParmDtl',{params: param})
+		.then((res) => {
+			console.log(res);
+			self.cParmDetal = res.data.data;
+		}).catch((err) => {
+			console.log(err);
+		})
+	},
 	methods: {
 		save(formName) {
 			const self = this;
 		 	this.$refs[formName].validate((valid) => {
 	          	if (valid) {
 	          		let params = {
-	          			applyNo: self.formdata.applyNo,
-						compName: self.formdata.compName,
-						applyName: self.formdata.applyName,
-						rank: self.formdata.rank,
-						salaryFloor: self.formdata.salaryFloor,
-						salaryTop: self.formdata.salaryTop,
-						businessStandard: self.formdata.businessStandard,
-						remark: self.formdata.remark
+	          			applyNo: self.cParmDetal.applyNo,
+						compName: self.cParmDetal.compName,
+						applyName: self.cParmDetal.applyName,
+						rank: self.cParmDetal.rank,
+						salaryFloor: self.cParmDetal.salaryFloor,
+						salaryTop: self.cParmDetal.salaryTop,
+						businessStandard: self.cParmDetal.businessStandard,
+						remark: self.cParmDetal.remark
 	          		}
 	          		self.$axios.put(baseURL+'/modCparm', params)
 	          			.then((res) => {
 	          				console.log(res);
 	          				this.$message({ message: '税率组修改成功', type: 'success' });
 	          			}).catch((err) => {
-	          				console.log(err)
+	          				console.log(err);
 	          			})
 	           	 	
 	          	} else {

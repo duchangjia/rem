@@ -80,17 +80,8 @@ export default {
 			"pageNum": pageNum,
 			"pageSize": pageSize
 		};
+		//查询职级薪酬列表
 		self.queryCParmList(pageNum,pageSize,params);
-//		self.$axios.get(baseURL+'/queryCParmList', {params})
-//			.then((res) => {
-//				console.log(res);
-//				self.dataList = res.data.data.list;
-//				self.pageIndex = pageNum;
-//				self.pageRows = pageSize;
-//				self.totalRows = Number(res.data.data.total);
-//			}).catch((err) => {
-//				console.log(err);
-//			})
 	},
 	components: {
 		current
@@ -102,7 +93,12 @@ export default {
 		handleEdit(index, row) {
 			console.log('index',index);
             console.log('row.applyNo',row.applyNo);
-            this.$router.push('/edit_rank');
+            this.$router.push({
+            	name: 'edit_rank',
+            	params: {
+            		applyNo: row.applyNo
+            	}
+            });
 		},
 		handleDelete(index, row) {
             console.log('index',index);
@@ -116,6 +112,7 @@ export default {
             	let params = {
             		
             	};
+            	//删除职级模版
             	self.$axios.delete(baseURL+'/delCparm',params)
             		.then(function(res) {
             			self.$message({ type: 'success', message: '删除成功!' });
@@ -136,6 +133,7 @@ export default {
 				"pageNum": pageNum,
 				"pageSize": pageSize
 			};
+			//查询职级薪酬列表
 			self.queryCParmList(pageNum,pageSize,params);
 			
 		},
