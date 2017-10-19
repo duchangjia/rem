@@ -57,8 +57,8 @@
                         <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                         <el-button size="small" @click="handleChange(scope.$index, scope.row)">变更</el-button>
                         <el-button size="small" @click="handleRenew(scope.$index, scope.row)">续签</el-button>
-                        <el-button size="small" @click="handleTerminate(scope.$index, scope.row)">解除</el-button>
-                        <el-button size="small" @click="handleProbation(scope.$index, scope.row)">试用</el-button>
+                        <!-- <el-button size="small" @click="handleTerminate(scope.$index, scope.row)">解除</el-button>
+                        <el-button size="small" @click="handleProbation(scope.$index, scope.row)">试用</el-button> -->
                     </template>
                 </el-table-column>
             </el-table>

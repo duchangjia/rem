@@ -238,15 +238,20 @@ export default {
     current
   },
   created() {
-    this.activeName = "basicPactMsg";
     this.pactNo = this.$route.params.pactNo;
-    // 初始查合同基本详情
-    this.getPactDtl(this.pactNo);
+    if (this.$route.params.activeTab) {
+      this.activeName = this.$route.params.activeTab;
+      if (this.activeName == "changePactMsg") this.getPChangeList();
+      if (this.activeName == "renewPactMsg") this.getPRenewList();
+    } else {
+      this.activeName = "basicPactMsg";
+      this.getPactDtl(this.pactNo); // 初始查合同基本详情
+    }
   },
   methods: {
     handleTabClick(tab, event) {
       console.log(tab.name);
-      this.activeName = tab.name
+      this.activeName = tab.name;
       if (tab.name == "changePactMsg") this.getPChangeList();
       if (tab.name == "renewPactMsg") this.getPRenewList();
       if (tab.name == "basicPactMsg") this.getPactDtl(this.pactNo);
