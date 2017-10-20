@@ -59,6 +59,64 @@
 		<result column="UPDATED_BY" property="updatedBy" javaType="java.lang.String"></result>
 	</resultMap>
 
+	<resultMap type="com.omcube.model.po.EpPayChageInfPO" id="EpPayChageInfPOMap">
+		<id column="UID" property="uid"></id>
+		<id column="USER_NO" property="userNo"></id>
+		<id column="APPLY_NO" property="applyNo"></id>
+		<result column="O_WAGES_BASE" property="oWagesBase" javaType="java.lang.Double"></result>
+		<result column="O_WAGES_PERF" property="oWagesPerf" javaType="java.lang.Double"></result>
+		<result column="O_POST_PENSION" property="oPostPension"
+			javaType="java.lang.Double"></result>
+		<result column="O_OTHER_PENSION" property="oOtherPension"
+			javaType="java.lang.Double"></result>
+		<result column="O_ENDM_BASE" property="oEndmBase" javaType="java.lang.Double"></result>
+		<result column="O_MEDI_BASE" property="oMediBase" javaType="java.lang.Double"></result>
+		<result column="O_UNEM_BASE" property="oUnemBase" javaType="java.lang.Double"></result>
+		<result column="O_EMPL_BASE" property="oEmplBase" javaType="java.lang.Double"></result>
+		<result column="O_MATE_BASE" property="oMateBase" javaType="java.lang.Double"></result>
+		<result column="O_HOUSE_BASE" property="oHouseBase" javaType="java.lang.Double"></result>
+		<result column="O_WELCOE_NO" property="oWelcoeNo" javaType="java.lang.String"></result>
+		<result column="N_WAGES_BASE" property="nWagesBase" javaType="java.lang.Double"></result>
+		<result column="N_WAGES_PERF" property="nWagesPerf" javaType="java.lang.Double"></result>
+		<result column="N_POST_PENSION" property="nPostPension"
+			javaType="java.lang.Double"></result>
+		<result column="N_OTHER_PENSION" property="nOtherPension"
+			javaType="java.lang.Double"></result>
+		<result column="N_ENDM_BASE" property="nEndmBase" javaType="java.lang.Double"></result>
+		<result column="N_MEDI_BASE" property="nMediBase" javaType="java.lang.Double"></result>
+		<result column="N_UNEM_BASE" property="nUnemBase" javaType="java.lang.Double"></result>
+		<result column="N_EMPL_BASE" property="nEmplBase" javaType="java.lang.Double"></result>
+		<result column="N_MATE_BASE" property="nMateBase" javaType="java.lang.Double"></result>
+		<result column="N_HOUSE_BASE" property="nHouseBase" javaType="java.lang.Double"></result>
+		<result column="N_WELCOE_NO" property="nWelcoeNo" javaType="java.lang.String"></result>
+		<result column="CHAGE_STATUS" property="chageStatus" javaType="java.lang.String"></result>
+		<result column="REMARK" property="remark" javaType="java.lang.String"></result>
+		<result column="CREATED_BY" property="createdBy" javaType="java.lang.String"></result>
+		<result column="CREATED_DATE" property="createdDate" javaType="java.util.Date"></result>
+		<result column="UPDATED_BY" property="updatedBy" javaType="java.lang.String"></result>
+		<result column="UPDATED_DATE" property="updatedDate" javaType="java.util.Date"></result>
+	</resultMap>
+
+
+	<resultMap type="com.omcube.model.po.EpCustPayFlowPO" id="EpCustPayFlowMap">
+		<id column="UID" property="uid"></id>
+		<id column="USER_NO" property="userNo"></id>
+		<id column="GRP_NO" property="grpNo"></id>
+		<result column="PER_ENDM_PAY" property="perEndmPay" javaType="java.lang.Double"></result>
+		<result column="PER_MEDI_PAY" property="perMediPay" javaType="java.lang.Double"></result>
+		<result column="PER_UNEM_PAY" property="perUnemPay" javaType="java.lang.Double"></result>
+		<result column="PER_EMPL_PAY" property="perEmplPay" javaType="java.lang.Double"></result>
+		<result column="PER_MATE_PAY" property="perMatePay" javaType="java.lang.Double"></result>
+		<result column="PER_HOUSE_PAY" property="perHousePay" javaType="java.lang.Double"></result>
+		<result column="COM_ENDM_PAY" property="comEndmPay" javaType="java.lang.Double"></result>
+		<result column="COM_MEDI_PAY" property="comMediPay" javaType="java.lang.Double"></result>
+		<result column="COM_UNEM_PAY" property="comUnemPay" javaType="java.lang.Double"></result>
+		<result column="COM_EMPL_PAY" property="comEmplPay" javaType="java.lang.Double"></result>
+		<result column="COM_MATE_PAY" property="comMatePay" javaType="java.lang.Double"></result>
+		<result column="COM_HOUSE_PAY" property="comHousePay" javaType="java.lang.Double"></result>
+		<result column="PAY_STATUS" property="payStatus" javaType="java.lang.String"></result>
+	</resultMap>
+
 	<!-- 调薪管理列表查询 -->
 	<select id="selectListEpPayChageInf" parameterType="java.lang.String"
 		resultMap="EpPayChageInfMap">
@@ -86,7 +144,120 @@
 		#{endTime}
 	</select>
 
+	<!-- 调薪管理详情查询 -->
+	<select id="selectDetailEpPayChageInf" parameterType="java.lang.String"
+		resultMap="EpPayChageInfMap">
+		select
+		pc.UID,
+		ci.ORGAN_NO,
+		ci.DERP_NO,
+		ci.USER_NO,
+		ci.CUST_NAME,
+		ci.CUST_POST,
+		ci.CUST_CLASS,
+		pc.APPLY_NO,
+		pc.O_WAGES_BASE,
+		pc.O_WAGES_PERF,
+		pc.O_POST_PENSION,
+		pc.O_OTHER_PENSION,
+		pc.O_ENDM_BASE,
+		pc.O_MEDI_BASE,
+		pc.O_UNEM_BASE,
+		pc.O_EMPL_BASE,
+		pc.O_MATE_BASE,
+		pc.O_HOUSE_BASE,
+		pc.O_WELCOE_NO,
+		pc.N_WAGES_BASE,
+		pc.N_WAGES_PERF,
+		pc.N_POST_PENSION,
+		pc.N_OTHER_PENSION,
+		pc.N_ENDM_BASE,
+		pc.N_MEDI_BASE,
+		pc.N_UNEM_BASE,
+		pc.N_EMPL_BASE,
+		pc.N_MATE_BASE,
+		pc.N_HOUSE_BASE,
+		pc.N_WELCOE_NO,
+		cf.PER_ENDM_PAY,
+		cf.PER_MEDI_PAY,
+		cf.PER_UNEM_PAY,
+		cf.PER_EMPL_PAY,
+		cf.PER_MATE_PAY,
+		cf.PER_HOUSE_PAY,
+		cf.COM_ENDM_PAY,
+		cf.COM_MEDI_PAY,
+		cf.COM_UNEM_PAY,
+		cf.COM_EMPL_PAY,
+		cf.COM_MATE_PAY,
+		cf.COM_HOUSE_PAY,
+		pc.REMARK
+		from
+		EP_PAY_CHAGEINF pc
+		inner join
+		EP_CUST_INFO ci
+		on
+		pc.UID = ci.UID
+		and
+		pc.USER_NO = ci.USER_NO
+		inner join
+		EP_CUSTPAY_FLOW cf
+		on
+		pc.UID=cf.UID
+		and
+		pc.USER_NO=cf.USER_NO
+		where
+		pc.UID=#{uid}
+		and
+		pc.APPLY_NO=#{applyNo}
+	</select>
 
+	<!-- 调薪管理新增用户调薪信息 -->
+	<insert id="insertEpPayChageInf" parameterType="com.omcube.model.po.EpPayChageInfPO">
+		insert into
+		EP_PAY_CHAGEINF(
+		UID,USER_NO,APPLY_NO,
+		O_WAGES_BASE,O_WAGES_PERF,O_POST_PENSION,O_OTHER_PENSION,
+		O_ENDM_BASE,O_MEDI_BASE,O_UNEM_BASE,O_EMPL_BASE,
+		O_MATE_BASE,O_HOUSE_BASE,O_WELCOE_NO,
+		N_WAGES_BASE,N_WAGES_PERF,N_POST_PENSION,N_OTHER_PENSION,
+		N_ENDM_BASE,N_MEDI_BASE,N_UNEM_BASE,N_EMPL_BASE,
+		N_MATE_BASE,N_HOUSE_BASE,N_WELCOE_NO,
+		CHAGE_STATUS,REMARK,
+		CREATED_BY,CREATED_DATE,UPDATED_BY,UPDATED_DATE
+		)
+		values(
+		#{uid},#{userNo},#{applyNo},
+		#{oWagesBase},#{oWagesPerf},#{oPostPension},#{oOtherPension},
+		#{oEndmBase},#{oMediBase},#{oUnemBase},#{oEmplBase},
+		#{oMateBase},#{oHouseBase},#{oWelcoeNo},
+		#{nWagesBase},#{nWagesPerf},#{nPostPension},#{nOtherPension},
+		#{nEndmBase},#{nMediBase},#{nUnemBase},#{nEmplBase},
+		#{nMateBase},#{nHouseBase},#{nWelcoeNo},
+		#{chageStatus},#{remark},
+		#{createdBy},now(),#{updatedBy},now()
+		)
 
+	</insert>
+	
+	<!-- 调薪管理新增用户保险信息 -->
+	<insert id="insertEpCustPayFlow" parameterType="com.omcube.model.po.EpCustPayFlowPO">
+	    insert into 
+	    EP_CUSTPAY_FLOW(
+	    UID,GRP_NO,USER_NO,
+	    PER_ENDM_PAY,PER_MEDI_PAY,PER_UNEM_PAY,
+	    PER_EMPL_PAY,PER_MATE_PAY,PER_HOUSE_PAY,
+	    COM_ENDM_PAY,COM_MEDI_PAY,COM_UNEM_PAY,
+	    COM_EMPL_PAY,COM_MATE_PAY,COM_HOUSE_PAY,
+	    PAY_STATUS
+	    )
+	    values(
+	    #{uid},#{grpNo},#{userNo},
+	    #{perEndmPay},#{perMediPay},#{perUnemPay},
+	    #{perEmplPay},#{perMatePay},#{perHousePay},
+	    #{comEndmPay},#{comMediPay},#{comUnemPay},
+	    #{comEmplPay},#{comMatePay},#{comHousePay},
+	    #{payStatus}
+	    )
+	</insert>
 
 </mapper>        

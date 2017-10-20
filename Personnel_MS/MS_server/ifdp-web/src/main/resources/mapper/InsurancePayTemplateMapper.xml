@@ -6,7 +6,7 @@
 <mapper namespace="com.omcube.model.mapper.InsurancePayTemplateMapper">
 	<!--返回结果映射 -->
 	<resultMap id="InsurancePayTemplateInfo" type="com.omcube.model.po.InsurancePayTemplatePO">
-		<id column="uid" property="uId"></id>
+		<id column="uid" property="uid"></id>
 		<id column="apply_no" property="applyNo"></id>
 		<result column="apply_name" property="applyName" javaType="java.lang.String"></result>
 		<result column="per_endm_rate" property="perEndmRate" javaType="java.lang.Double"></result>
@@ -59,7 +59,7 @@
 		EP_WELCOE_CTRL
 		(uid,apply_no,apply_name,per_endm_rate,per_endm_fixed,com_endm_rate,com_endm_fixed,per_medi_rate,per_medi_fixed,com_medi_rate,com_medi_fixed,per_unem_rate,per_unem_fixed,com_unem_rate,com_unem_fixed,per_empl_rate,per_empl_fixed,com_empl_rate,com_empl_fixed,per_mate_rate,per_mate_fixed,com_mate_rate,com_mate_fixed,per_hous_rate,per_hous_fixed,com_hous_rate,com_hous_fixed,remark,created_by,created_date,template_status)
 		VALUES
-		(#{uId},null,#{applyName},#{perEndmRate},#{perEndmFixed},#{comEndmRate},#{comEndmFixed},#{perMediRate},#{perMediFixed},#{comMediRate},#{comMediFixed},
+		(#{uid},null,#{applyName},#{perEndmRate},#{perEndmFixed},#{comEndmRate},#{comEndmFixed},#{perMediRate},#{perMediFixed},#{comMediRate},#{comMediFixed},
 		#{perUnemRate},#{perUnemFixed},#{comUnemRate},#{comUnemFixed},#{perEmplRate},#{perEmplFixed},#{comEmplRate},#{comEmplFixed},#{perMateRate},#{perMateFixed},#{comMateRate},
 		#{comMateFixed},#{perHousRate},#{perHousFixed},#{comHousRate},#{comHousFixed},#{remark},#{createdBy},DATE_FORMAT(NOW(),'%y-%m-%d'),'1')
 	</insert>
@@ -70,7 +70,7 @@
 		EP_WELCOE_CTRL set
 		apply_name=#{applyName},per_endm_rate=#{perEndmRate},per_endm_fixed=#{perEndmFixed},com_endm_rate=#{comEndmRate},com_endm_fixed=#{comEndmFixed},per_medi_rate=#{perMediRate},per_medi_fixed=#{perMediFixed},com_medi_rate=#{comMediRate},com_medi_fixed=#{comMediFixed},per_unem_rate=#{perUnemRate},per_unem_fixed=#{perUnemFixed},com_unem_rate=#{comUnemRate},com_unem_fixed=#{comUnemFixed},per_empl_rate=#{perEmplRate},per_empl_fixed=#{perEmplFixed},com_empl_rate=#{comEmplRate},com_empl_fixed=#{comEmplFixed},per_mate_rate=#{perMateRate},per_mate_fixed=#{perMateFixed},com_mate_rate=#{comMateRate},
 		com_mate_fixed=#{comMateFixed},per_hous_rate=#{perHousRate},per_hous_fixed=#{perHousFixed},com_hous_rate=#{comHousRate},com_hous_fixed=#{comHousFixed},remark=#{remark},created_by=#{updatedBy},created_date=DATE_FORMAT(NOW(),'%y-%m-%d')
-		WHERE uid = #{uId} and apply_no = #{applyNo}
+		WHERE uid = #{uid} and apply_no = #{applyNo}
 	</update>
 
 	<!--根据uid和applyNo查询某个模板的详细信息 -->
@@ -79,7 +79,7 @@
 		SELECT
 		uid,apply_no,apply_name,per_endm_rate,per_endm_fixed,com_endm_rate,com_endm_fixed,per_medi_rate,per_medi_fixed,com_medi_rate,com_medi_fixed,per_unem_rate,per_unem_fixed,com_unem_rate,com_unem_fixed,per_empl_rate,per_empl_fixed,com_empl_rate,com_empl_fixed,per_mate_rate,per_mate_fixed,com_mate_rate,com_mate_fixed,per_hous_rate,per_hous_fixed,com_hous_rate,com_hous_fixed,remark,created_by,created_date,updated_by,updated_date,template_status
 		FROM EP_WELCOE_CTRL
-		WHERE uid= #{uId} AND apply_no= #{applyNo}
+		WHERE uid= #{uid} AND apply_no= #{applyNo}
 	</select>
 
 	<!--获取所有的模板列表 -->
@@ -88,13 +88,13 @@
 		SELECT
 		uid,apply_no,apply_name,remark,created_by,created_date 
 		FROM EP_WELCOE_CTRL 
-		WHERE UID = #{uId} AND template_status = 1
+		WHERE UID = #{uid} AND template_status = 1
 	</select>
 
 	<!--获取最大的applyNo模板编号 -->
 	<select id="queryMaxApplyNo" parameterType="java.lang.String"
 		resultType="java.lang.String">
-		SELECT apply_no FROM EP_WELCOE_CTRL WHERE uid = #{uId}
+		SELECT apply_no FROM EP_WELCOE_CTRL WHERE uid = #{uid}
 		ORDER
 		BY apply_no
 		DESC LIMIT 1
@@ -103,7 +103,7 @@
 		UPDATE
 		EP_WELCOE_CTRL 
 		SET template_status = 0,updated_by=#{updatedBy},updated_date = DATE_FORMAT(NOW(),'%y-%m-%d') 
-		WHERE uid =#{uId} AND apply_no = #{applyNo}
+		WHERE uid =#{uid} AND apply_no = #{applyNo}
 	</update>
 
 </mapper>

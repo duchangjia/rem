@@ -28,41 +28,24 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/ifdp': {
-          target: 'http://localhost:3000/',
-          // target: 'http://10.0.0.34:8888/',
+        '/api': {
+            target: 'http://10.0.0.242:5555/',
+            // target: 'http://10.0.0.34:8888/',
+            changeOrigin: true,
+            secure: false,
+            pathRewrite: {
+                '^/api': '/api'
+            },
+        },
+      '/iem_hrm': {
+          target: 'http://10.0.0.242:8888/',
+//        target: 'http://10.0.0.34:8888/',
           changeOrigin: true,
           secure: false,
           pathRewrite: {
-              '^/ifdp': ''
-          },
+              '^/iem_hrm': ''
+          }
       },
-      // '/iem_hrm': {
-      //     target: 'http://10.0.0.41:8888/',
-      //     // target: 'http://10.0.0.34:8888/',
-      //     changeOrigin: true,
-      //     secure: false,
-      //     pathRewrite: {
-      //         '^/iem_hrm': ''
-      //     }
-      // },
-//    '/iemrole': {
-//      target: 'http://192.168.1.105:8888/',
-//      changeOrigin: true,
-//      secure: false,
-//      pathRewrite: {
-//        '^/iemrole': ''
-//      }
-//    }
-//    '/iem_hrm': {
-//        target: 'http://10.0.0.41:8888/',
-//        // target: 'http://10.0.0.34:8888/',
-//        changeOrigin: true,
-//        secure: false,
-//        pathRewrite: {
-//            '^/iem_hrm': ''
-//        }
-//    }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README

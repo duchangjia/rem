@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.druid.util.StringUtils;
@@ -48,7 +47,7 @@ public class OrganBillInfoController {
     /**
      * 开票信息新增	
      * 
-     * @param uId
+     * @param uid
      * @return
      * @throws ParseException
      */
@@ -91,9 +90,9 @@ public class OrganBillInfoController {
 
 	//从session 获取uid  userNo 并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 	String userNo = sysLoginCtrl.getUserNo();
-	billInfo.setUid(uId);
+	billInfo.setUid(uid);
 	billInfo.setUpdatedBy(userNo);
 
 	if (billInfo != null) {
@@ -106,7 +105,7 @@ public class OrganBillInfoController {
     /**
      * 查询公司开票信息列表
      * 
-     * @param uId
+     * @param uid
      * @param request
      * @param pageNum
      * @param pageSize
@@ -118,12 +117,12 @@ public class OrganBillInfoController {
 
 	//从session 获取uid  并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 
-	if (StringUtils.isEmpty(uId)) {
-	    logger.error("the request param uId is null");
+	if (StringUtils.isEmpty(uid)) {
+	    logger.error("the request param uid is null");
 	    return JSONResultUtil.setError("ErrorCodeConstantUtil.REQUEST_INVALID_ERR",
-		    "the request param uId is null");
+		    "the request param uid is null");
 	}
 
 	//分页
@@ -131,7 +130,7 @@ public class OrganBillInfoController {
 	pageSize = pageSize == null ? 5 : pageSize;
 	PageHelper.startPage(pageNum, pageSize, true);
 
-	List<OrganBillInfoPO> billInfoPOList = billInfoService.queryBillInfoList(uId);
+	List<OrganBillInfoPO> billInfoPOList = billInfoService.queryBillInfoList(uid);
 	PageInfo<OrganBillInfoPO> pageInfo = new PageInfo<OrganBillInfoPO>(billInfoPOList);
 
 	return JSONResultUtil.setSuccess(pageInfo);
@@ -140,7 +139,7 @@ public class OrganBillInfoController {
     /**
      * 根据名称模糊查询开票信息
      * 
-     * @param uId
+     * @param uid
      * @param organName
      * @param request
      * @param pageNum
@@ -153,14 +152,14 @@ public class OrganBillInfoController {
 
 	//从session 获取uid  并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 
 	//分页
 	pageNum = pageNum == null ? 1 : pageNum;
 	pageSize = pageSize == null ? 5 : pageSize;
 	PageHelper.startPage(pageNum, pageSize, true);
 
-	List<OrganBillInfoPO> billInfoPOList = billInfoService.queryBillInfoByName(uId, organName);
+	List<OrganBillInfoPO> billInfoPOList = billInfoService.queryBillInfoByName(uid, organName);
 	PageInfo<OrganBillInfoPO> pageInfo = new PageInfo<OrganBillInfoPO>(billInfoPOList);
 
 	return JSONResultUtil.setSuccess(pageInfo);
@@ -184,8 +183,8 @@ public class OrganBillInfoController {
 
 	//从session 获取uid  并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
-	OrganBillInfoPO billInfoPO = billInfoService.queryBillInfDtl(uId, organNo);
+	String uid = sysLoginCtrl.getUid();
+	OrganBillInfoPO billInfoPO = billInfoService.queryBillInfDtl(uid, organNo);
 	return JSONResultUtil.setSuccess(billInfoPO);
     }
 

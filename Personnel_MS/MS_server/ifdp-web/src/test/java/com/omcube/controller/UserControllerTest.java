@@ -28,15 +28,15 @@ public class UserControllerTest {
 	mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
-    //@Test
+    @Test
     public void queryUser() throws Exception
     {
 	String result = mockMvc.perform(get("/user/queryUserList")
 		.param("pageNum", "1")
 		.param("pageSize", "10")
-		.param("organCompanyName", "魔方")
+		//.param("organCompanyName", "魔方")
 		//.param("organDepartmentName", "上海办事处")
-		//.param("userFeatureInfo", "admin@pactera.com")
+		.param("userFeatureInfo", "1")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();
@@ -44,7 +44,7 @@ public class UserControllerTest {
 	System.out.println(result);
     }
 
-    @Test
+   // @Test
     public void updateUserInfo() throws Exception
     {
 	String result = mockMvc.perform(put("/user/updateUserInfo")

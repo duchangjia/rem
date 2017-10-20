@@ -5,7 +5,7 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">合同修改</span>
-                <el-button type="primary" @click="handleAdd" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="editPactMsg" :rules="rules" ref="editPactMsg" :label-position="labelPosition" label-width="110px">
@@ -21,7 +21,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="合同名称" prop="pactName">
-                            <el-input v-model="editPactMsg.pactName" :disabled="true"></el-input>
+                            <el-input v-model="editPactMsg.pactName"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -51,7 +51,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="性别" prop="sex" :disabled="true">
+                        <el-form-item label="性别" prop="sex">
                             <el-select v-model="editPactMsg.sex">
                                 <el-option label="男" value="1"></el-option>
                                 <el-option label="女" value="0"></el-option>
@@ -59,8 +59,8 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="身份证" prop="cert" :disabled="true">
-                            <el-input v-model="editPactMsg.cert" :disabled="true"></el-input>
+                        <el-form-item label="身份证" prop="cert">
+                            <el-input v-model="editPactMsg.cert"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -139,8 +139,15 @@ export default {
   data() {
     return {
       labelPosition: "right",
-      pactNo: '',
-      editPactMsg: {}
+      pactNo: "",
+      editPactMsg: {},
+      rules: {
+        pactType: [{ required: true, message: "请选择合同类型", trigger: "blur" }],
+        signTime: [{ type: 'date', required: true, message: '请选择签订日期', trigger: 'change' }],
+        pactStartTime: [{ type: 'date', required: true, message: '请选择合同开始日期', trigger: 'change' }],
+        pactEndTime: [{ type: 'date', required: true, message: '请选择合同结束日期', trigger: 'change' }],
+        pactStatus: [{ required: true, message: "请选择合同状态", trigger: "blur" }]
+      }
     };
   },
   components: {
@@ -149,16 +156,16 @@ export default {
   created() {
     this.pactNo = this.$route.params.pactNo;
     // 初始查合同基本详情
-    this.getPactDtl(this.pactNo);
+    this.getPactDtl();
   },
   methods: {
-    getPactDtl(pactNo) {
+    getPactDtl() {
       const self = this;
       let params = {
-        pactNo: pactNo
+        pactNo: this.pactNo
       };
       self.$axios
-        .get("ifdp/querPactDtl", { params: params })
+        .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
           console.log(res);
           self.editPactMsg = res.data.data;
@@ -167,7 +174,24 @@ export default {
           console.log("error");
         });
     },
-    handleAdd() {}
+    handleSave() {
+      let editPact = {};
+      editPact.pactNo = this.editPactMsg.pactNo;
+      editPact.paperPactNo = this.editPactMsg.paperPactNo;
+      editPact.pactName = this.editPactMsg.pactName;
+      console.log(editPact);
+      this.$axios
+        .post("/iem_hrm/pact/updatePact", editPact)
+        .then(res => {
+          console.log(res);
+          if (res.data.code == "S00000")
+            this.$router.push("/personnel_contract");
+          else this.$message.error("合同修改失败！");
+        })
+        .catch(() => {
+          this.$message.error("合同修改失败！");
+        });
+    }
   }
 };
 </script>

@@ -5,7 +5,7 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">合同续签</span>
-                <el-button type="primary" @click="handleAdd" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
@@ -137,10 +137,8 @@ export default {
         remark: ""
       },
       rules: {
-        renewTime: [{ required: true, message: "请选择续签生效日期", trigger: "blur" }],
-        renewEndTime: [
-          { required: true, message: "请选择续签失效日期", trigger: "blur" }
-        ],
+        renewTime: [{ type: 'date', required: true, message: '请选择续签生效日期', trigger: 'change' }],
+        renewEndTime: [{ type: 'date', required: true, message: '请选择续签失效日期', trigger: 'change' }],
         renewType: [{ required: true, message: "请选择续签类别", trigger: "blur" }],
         renewContent: [{ required: true, message: "请输入续签内容", trigger: "blur" }]
       }
@@ -156,7 +154,7 @@ export default {
     };
     console.log(params.pactNo);
     self.$axios
-      .get("ifdp/querPactDtl", { params: params })
+      .get("/iem_hrm/pact/queryPactDetail", { params: params })
       .then(res => {
         self.basicPactMsg = res.data.data;
         console.log(self.basicPactMsg);
@@ -166,7 +164,7 @@ export default {
       });
   },
   methods: {
-    handleAdd() {
+    handleSave() {
       let newPRenew = {};
       newPRenew.pactNo = this.basicPactMsg.pactNo;
       newPRenew.renewTime = this.addPRenewMsg.renewTime;
@@ -176,7 +174,7 @@ export default {
       newPRenew.attachm = this.addPRenewMsg.attachm;
       console.log(newPRenew);
       this.$axios
-        .post("/xxx/addPRenew", newPRenew)
+        .post("/iem_hrm/pact/addPactRenew", newPRenew)
         .then(res => {
           console.log(res);
           if (res.data.code == "S00000")

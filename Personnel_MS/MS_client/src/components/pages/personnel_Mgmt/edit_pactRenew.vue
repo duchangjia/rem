@@ -5,7 +5,7 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">合同续签修改</span>
-                <el-button type="primary" @click="handleAdd" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
@@ -132,10 +132,8 @@ export default {
       basicPactMsg: {},
       editPRenewMsg: {},
       rules: {
-        renewTime: [{ required: true, message: "请选择续签生效日期", trigger: "blur" }],
-        renewEndTime: [
-          { required: true, message: "续签失效日期必须大于续签生效日期", trigger: "blur" }
-        ],
+        renewTime: [{ type: 'date', required: true, message: '请选择续签生效日期', trigger: 'change' }],
+        renewEndTime: [{ type: 'date', required: true, message: '请选择续签失效日期', trigger: 'change' }],
         renewType: [{ required: true, message: "请选择续签类别", trigger: "blur" }],
         renewContent: [{ required: true, message: "请输入续签内容", trigger: "blur" }]
       }
@@ -148,7 +146,7 @@ export default {
     this.pactNo = this.$route.params.pactNo;
     this.renewId = this.$route.params.renewId;
     this.getPactDtl(this.pactNo);
-    this.getPChangeDtl();
+    this.getPRenewDtl();
   },
   methods: {
     getPactDtl(pactNo) {
@@ -157,7 +155,7 @@ export default {
         pactNo: self.pactNo
       };
       self.$axios
-        .get("ifdp/querPactDtl", { params: params })
+        .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
           self.basicPactMsg = res.data.data;
         })
@@ -165,14 +163,14 @@ export default {
           console.log("error");
         });
     },
-    getPChangeDtl(pactNo) {
+    getPRenewDtl(pactNo) {
       const self = this;
       let params = {
         pactNo: self.pactNo,
         renewId: self.renewId
       };
       self.$axios
-        .get("ifdp/queryPChangeDtl", { params: params })
+        .get("/iem_hrm/pact/queryPactRenewDetail", { params: params })
         .then(res => {
           console.log(res);
           self.editPRenewMsg = res.data.data;
@@ -181,7 +179,7 @@ export default {
           console.log("error");
         });
     },
-    handleAdd() {
+    handleSave() {
       let newPRenew = {};
       newPRenew.pactNo = this.pactNo;
       newPRenew.renewId = this.renewId;
@@ -189,7 +187,7 @@ export default {
       newPRenew.renewType = this.editPRenewMsg.renewType;
       newPRenew.renewContent = this.editPRenewMsg.renewContent;
       this.$axios
-        .post("/xxx/modPRenew", newPRenew)
+        .post("/iem_hrm/pact/updatePactRenew", newPRenew)
         .then(res => {
           console.log(res);
           if (res.data.code == "S00000")

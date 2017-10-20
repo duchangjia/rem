@@ -10,7 +10,7 @@
 				<el-table :data="dataList" border stripe style="width: 100%">
 					<el-table-column prop="applyNo" label="模版编号">
 						<template scope="scope">
-					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
+					        <span class="link" @click="handleEdit(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
 				      	</template>
 					</el-table-column>
 					<el-table-column prop="applyName" label="模版名称"></el-table-column>
@@ -37,7 +37,7 @@
 
 <script>
 import current from '../../common/current_position.vue'
-const baseURL = 'ifdp'
+const baseURL = 'iem_hrm'
 export default {
 	data() {
 		return {
@@ -233,9 +233,14 @@ border-bottom: 1px solid #EEEEEE;
 .rank_wrap .el-table th {
 	text-align: center;
 }
-.rank_wrap .el-table td:first-child span {
+/*.rank_wrap .el-table td:first-child span {
 	cursor: pointer;
 	color: #FF9900;
+}*/
+.rank_wrap .link {
+	cursor: pointer;
+    color: #337ab7;
+    text-decoration: underline;
 }
 /*.rank_wrap .el-table td:first-child:hover{
 	color: #FF9900;

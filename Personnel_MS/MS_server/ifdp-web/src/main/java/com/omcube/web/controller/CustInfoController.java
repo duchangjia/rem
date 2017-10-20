@@ -46,9 +46,9 @@ public class CustInfoController {
 	}
 	//从session获取登录信息
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 	String userNO = sysLoginCtrl.getUserNo();
-	custInfo.setUid(uId);
+	custInfo.setUid(uid);
 	custInfo.setCreatedBy(userNO);
 	custInfo.setUpdatedBy(userNO);
 
@@ -93,8 +93,8 @@ public class CustInfoController {
 	}
 	//从session 中获取uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
-	CustInfoPO custInfo = custInfoService.queryCustInfoByUserNo(uId, userNo);
+	String uid = sysLoginCtrl.getUid();
+	CustInfoPO custInfo = custInfoService.queryCustInfoByUserNo(uid, userNo);
 	return JSONResultUtil.setSuccess(custInfo);
     }
 
@@ -112,8 +112,8 @@ public class CustInfoController {
 	}
 	//从session 中获取uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
-	custInfoService.delCustInf(uId, userNo);
+	String uid = sysLoginCtrl.getUid();
+	custInfoService.delCustInf(uid, userNo);
 	return JSONResultUtil.setSuccess();
     }
 
@@ -127,18 +127,18 @@ public class CustInfoController {
 
 	//从session 获取uids
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 
-	if (StringUtils.isEmpty(uId)) {
-	    logger.error("the param uId is null");
-	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the param uId is null");
+	if (StringUtils.isEmpty(uid)) {
+	    logger.error("the param uid is null");
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the param uid is null");
 	}
 
 	//分页
 	pageNum = pageNum == null ? 1 : pageNum;
 	pageSize = pageSize == null ? 5 : pageSize;
 	PageHelper.startPage(pageNum, pageSize, true);
-	List<CustInfoPO> list = custInfoService.queryCustInfList(uId);
+	List<CustInfoPO> list = custInfoService.queryCustInfList(uid);
 	PageInfo<CustInfoPO> pageInfo = new PageInfo<CustInfoPO>(list);
 
 	return JSONResultUtil.setSuccess(pageInfo);
@@ -155,9 +155,9 @@ public class CustInfoController {
 
 	//从session 获取uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 
-	String lineManager = custInfoService.queryLineManager(uId, userNo);
+	String lineManager = custInfoService.queryLineManager(uid, userNo);
 	return JSONResultUtil.setSuccess(lineManager);
     }
 
@@ -172,9 +172,13 @@ public class CustInfoController {
 
 	//从session 获取uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+<<<<<<< HEAD
 	String uId = sysLoginCtrl.getUid();
+=======
+	String uid = sysLoginCtrl.getUid();
+>>>>>>> d9051828ad73f623e57e2ccecec572f0258dd1d6
 
-	List<CustInfoPO> custInfoList = custInfoService.queryCustInfBySelf(uId, userNo);
+	List<CustInfoPO> custInfoList = custInfoService.queryCustInfBySelf(uid, userNo);
 	return JSONResultUtil.setSuccess(custInfoList);
     }
 

@@ -31,7 +31,7 @@
                         <span @click="handlePactDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.pactNo }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" prop="pactName" label="合同名称">
+                <el-table-column align="center" prop="paperPactNo" label="纸质合同编号">
                 </el-table-column>
                 <el-table-column align="center" prop="userNo" label="工号">
                 </el-table-column>
@@ -62,7 +62,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows">
+            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
             </el-pagination>
         </div>
     </div>
@@ -77,9 +77,9 @@ export default {
         name: "",
         pactType: ""
       },
-      pageIndex: 1,
-      pageRows: 7,
-      totalRows: 20,
+      pageNum: 1,
+      pageSize: 7,
+      totalRows: 1,
       pactListInfo: []
     };
   },
@@ -87,25 +87,25 @@ export default {
     current
   },
   created() {
-    const self = this;
-    self.filters.name = "";
-    self.filters.pactType = "";
-    //初始查询合同列表
-    self.getPactList();
+    this.filters.name = "";
+    this.filters.pactType = "";
+    this.getPactList(); //初始查询合同列表
   },
   methods: {
     getPactList() {
       const self = this;
       let params = {
-        pageIndex: self.pageIndex,
-        pageRows: self.pageRows,
+        pageNum: self.pageNum,
+        pageSize: self.pageSize,
         custName: self.filters.name,
         pactType: self.filters.pactType
       };
       self.$axios
-        .get("ifdp/queryPactList", { params: params })
+        .get("/iem_hrm/pact/queryPactList", { params: params })
         .then(res => {
-          self.pactListInfo = res.data.data.pactListArray;
+          console.log(res);
+          self.pactListInfo = res.data.data.list;
+          self.totalRows = res.data.data.total;
         })
         .catch(() => {
           console.log("error");
@@ -117,28 +117,26 @@ export default {
     pactStatusFormatter(row, column) {
       return row.pactStatus == 1 ? "已生效" : row.pactStatus == 0 ? "未生效" : "异常";
     },
+    dateFormat(row, column) {
+      
+    },
     handlePactDetail(index, row) {
-      let params = {
-        pactNo: row.pactNo
-      };
       this.$router.push({
         name: "detail_contract",
-        params: params
+        params: {
+          pactNo: row.pactNo
+        }
       });
     },
     handleCurrentChange(val) {
-      const self = this;
-      self.pageIndex = val;
-      //分页查询合同列表
-      self.getPactList();
+      this.pageNum = val;
+      this.getPactList(); //分页查询合同列表
     },
     handleQuery() {
-      const self = this;
       console.log(
         "name:" + self.filters.name + " pactType:" + self.filters.pactType
       );
-      //根据条件查询合同列表
-      self.getPactList();
+      this.getPactList(); //根据条件查询合同列表
     },
     handleAdd() {
       this.$router.push({
@@ -153,7 +151,32 @@ export default {
         }
       });
     },
-    handleDelete(index, row) {},
+    handleDelete(index, row) {
+      let targetPact = {};
+      targetPact.pactNo = row.pactNo;
+      console.log(targetPact);
+      this.$confirm("此操作将会删除该条合同, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$axios
+            .delete("/iem_hrm/pact/deletePact?pactNo=" + targetPact.pactNo, targetPact)
+            .then(res => {
+              console.log(res);
+              if (res.data.code == "S00000")
+                this.$message({ type: "success", message: "删除成功!" });
+              else this.$message.error("删除合同失败！");
+            })
+            .catch(() => {
+              this.$message.error("删除合同失败！");
+            });
+        })
+        .catch(() => {
+          this.$message("您已取消删除合同！");
+        });
+    },
     handlePChange(index, row) {
       this.$router.push({
         name: "add_pactChange",

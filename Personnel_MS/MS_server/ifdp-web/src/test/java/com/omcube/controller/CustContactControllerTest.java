@@ -42,7 +42,7 @@ public class CustContactControllerTest {
     public void addCustContact() throws UnsupportedEncodingException, Exception{
     	String result = mockMvc.perform(post("/CustContact/addCustContact")
     			.param("userNo", "P0000001")
-    			.param("contactId", "10")
+    			.param("contactId", "11")
     			.param("contactName", "孙悟空")
     			.param("relationship", "朋友")
     			.param("telphone", "13311312311")
@@ -63,7 +63,7 @@ public class CustContactControllerTest {
     public void updateCustContact() throws UnsupportedEncodingException, Exception{
 	String result = mockMvc.perform(put("/CustContact/updateCustContact")
 			.param("userNo", "P0000001")
-			.param("contactId", "10")
+			.param("contactId", "11")
 			.param("contactName", "houzi")
 			.param("relationship", "上级")
 			.param("telphone", "13311312322")
@@ -124,7 +124,7 @@ public class CustContactControllerTest {
      */
     @Test
     public void deleteCustContact() throws UnsupportedEncodingException, Exception{
-	String result = mockMvc.perform(delete("/CustContact/deleteCustContact/P0000001/7")		
+	String result = mockMvc.perform(delete("/CustContact/deleteCustContact/P0000001/11")		
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();

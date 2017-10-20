@@ -67,7 +67,7 @@ public class RankSalaryTemplateControllerTest {
 	System.out.println(result);
     }
     /**
-     * 3.根据uId，organNo和applyNo查询单个职级薪酬模板
+     * 3.根据uid，organNo和applyNo查询单个职级薪酬模板
      * @throws UnsupportedEncodingException
      * @throws Exception
      */
@@ -87,27 +87,27 @@ public class RankSalaryTemplateControllerTest {
     @Test
     public void modCparm() throws UnsupportedEncodingException, Exception{
 	String result = mockMvc.perform(put("/RankSalaryTemplate/modCparm")
-		.param("applyNo", "1121110007")
+		.param("applyNo", "1121110006")
 		.param("organNo", "112111")
-		.param("applyName", "重庆分公司总经理薪资模板")  
-		.param("rank", "B5-中级级开发软件工程师")
-		.param("salaryTop", "30000")
-		.param("salaryFloor", "20000")
-		.param("businessStandard", "400")	
-		.param("remark", "重庆分公司总经理薪资模板")		
+		.param("applyName", "1重庆分公司总经理薪资模板")  
+		.param("rank", "B5-中级级开发软件工程师1")
+		.param("salaryTop", "300001")
+		.param("salaryFloor", "200001")
+		.param("businessStandard", "4001")	
+		.param("remark", "1重庆分公司总经理薪资模板")		
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();
 	System.out.println(result);
     }
     /**
-     * 5.根据uId，organNo和applyNo删除相应的职级薪酬模板
+     * 5.根据uid，organNo和applyNo删除相应的职级薪酬模板
      * @throws UnsupportedEncodingException
      * @throws Exception
      */
     @Test
     public void delCparm() throws UnsupportedEncodingException, Exception{
-	String result = mockMvc.perform(delete("/RankSalaryTemplate/delCparm/112111/1121110007")	
+	String result = mockMvc.perform(delete("/RankSalaryTemplate/delCparm/112111/1121110006")	
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();

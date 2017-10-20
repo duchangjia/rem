@@ -159,10 +159,16 @@ public class EPLeaveMangerController {
 	@GetMapping(value = "/queryLeaveInfos")
 	public Object queryLeaveInfos(QueryLeaveRequest queryLeaveRequest, HttpServletResponse response) {
 
+<<<<<<< HEAD
 		if (queryLeaveRequest == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
+=======
+		
+		FileInputStream fis = null;
+		BufferedInputStream bis = null;
+>>>>>>> d9051828ad73f623e57e2ccecec572f0258dd1d6
 
 		try {
 			EPLeaveInfoPO LeaveInfoPO = epLeaveMangerService.queryLeaveInfos(queryLeaveRequest);
