@@ -5,7 +5,7 @@
 
 <mapper namespace="com.omcube.model.mapper.EpCustWorkHisMapper">
 	<resultMap type="com.omcube.model.po.EpCustWorkHisPO" id="EpCustWorkHisMap">
-		<id column="UID" property="uId"></id>
+		<id column="UID" property="uid"></id>
 		<id column="USER_NO" property="userNo"></id>
 		<id column="WORKHIS_ID" property="workHisId"></id>
 		<result column="START_TIME" property="startTime"></result>
@@ -25,7 +25,7 @@
 		insert into
 		EP_CUST_WORKHIS
 		values(
-		#{uId},#{userNo},#{workHisId},
+		#{uid},#{userNo},#{workHisId},
 		#{startTime},#{endTime},#{company},
 		#{post1},#{duty},#{desc},
 		#{createdBy},now(),#{updatedBy},
@@ -38,7 +38,7 @@
 		delete from
 		EP_CUST_WORKHIS
 		where
-		UID=#{uId}
+		UID=#{uid}
 		and
 		USER_NO=#{userNo}
 		and

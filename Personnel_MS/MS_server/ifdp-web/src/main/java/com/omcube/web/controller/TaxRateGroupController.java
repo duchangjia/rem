@@ -36,11 +36,11 @@ public class TaxRateGroupController {
 	@GetMapping(value = "/selectTaxRateGroup")
 	@Cacheable(value = "queryCache")
 	public Object findTaxRateGroup(HttpServletRequest request, Integer pageNum,
-			Integer pageSize, String uId) {
+			Integer pageSize, String uid) {
 		pageNum = pageNum == null ? 1 : pageNum;
 		pageSize = pageSize == null ? 3 : pageSize;
 		PageHelper.startPage(pageNum, pageSize, true);
-		List<TaxRateGroupPO> list = taxRateGroupService.findTaxRateGroup(uId);
+		List<TaxRateGroupPO> list = taxRateGroupService.findTaxRateGroup(uid);
 		PageInfo<TaxRateGroupPO> pageInfo = new PageInfo<TaxRateGroupPO>(list);
 		return JSONResultUtil.setSuccess(pageInfo);
 	}

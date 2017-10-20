@@ -6,7 +6,7 @@
 <mapper namespace="com.omcube.model.mapper.EpPayChageInfMapper">
 	<resultMap type="com.omcube.model.response.EpPayChageInfResponse"
 		id="EpPayChageInfMap">
-		<id column="UID" property="uId"></id>
+		<id column="UID" property="uid"></id>
 		<id column="USER_NO" property="userNo"></id>
 		<result column="APPLY_NO" property="applyNo" javaType="java.lang.String"></result>
 		<result column="ORGAN_NO" property="organNo" javaType="java.lang.String"></result>

@@ -12,7 +12,7 @@ public interface TaxRateGroupMapper {
 	void addTaxRateGroup(TaxRateGroupPO taxRateGroupPO);
 
 	// 查询所有个人所得税税率组
-	List<TaxRateGroupPO> findTaxRateGroup(String uId);
+	List<TaxRateGroupPO> findTaxRateGroup(String uid);
 
 	// 根据主键（组ID）删除个人所得税税率组
 	void deleteTaxRateGroup(TaxRateGroupPO taxRateGroupPO);

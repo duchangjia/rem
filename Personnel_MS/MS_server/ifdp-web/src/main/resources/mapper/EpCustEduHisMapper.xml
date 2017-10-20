@@ -5,7 +5,7 @@
 
 <mapper namespace="com.omcube.model.mapper.EpCustEduHisMapper">
 	<resultMap type="com.omcube.model.po.EpCustEduHisPO" id="EpCustEduHisMap">
-		<id column="UID" property="uId"></id>
+		<id column="uid" property="uid"></id>
 		<id column="USER_NO" property="userNo"></id>
 		<id column="EDUHIS_ID" property="eduHisId"></id>
 		<result column="START_TIME" property="startTime"></result>
@@ -25,7 +25,7 @@
 		insert into
 		EP_CUST_EDUHIS
 		values(
-		#{uId},#{userNo},#{eduHisId},
+		#{uid},#{userNo},#{eduHisId},
 		#{startTime},#{endTime},#{schoolName},
 		#{major},#{education},#{desc},
 		#{createdBy},now(),#{updatedBy},
@@ -38,7 +38,7 @@
 		delete from
 		EP_CUST_EDUHIS
 		where
-		UID=#{uId}
+		UID=#{uid}
 		and
 		USER_NO=#{userNo}
 		and

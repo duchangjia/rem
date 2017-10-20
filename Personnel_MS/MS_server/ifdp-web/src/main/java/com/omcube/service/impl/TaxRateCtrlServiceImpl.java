@@ -25,8 +25,8 @@ public class TaxRateCtrlServiceImpl implements TaxRateCtrlService {
 
 	// 查询所有个人所得税税率
 	@Override
-	public List<TaxRateCtrlPO> findTaxRateCtrl(String uId) {
-		return taxRateCtrlMapper.findTaxRateCtrl(uId);
+	public List<TaxRateCtrlPO> findTaxRateCtrl(String uid) {
+		return taxRateCtrlMapper.findTaxRateCtrl(uid);
 	}
 
 	// 根据主键（组ID，编号）删除个人所得税税率

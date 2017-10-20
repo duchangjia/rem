@@ -9,7 +9,7 @@ public interface TaxRateGroupService {
 	public void addTaxRateGroup(TaxRateGroupPO taxRateGroupPO);
 
 	// 查询所有个人所得税税率组
-	public List<TaxRateGroupPO> findTaxRateGroup(String uId);
+	public List<TaxRateGroupPO> findTaxRateGroup(String uid);
 
 	// 根据主键（组ID）删除个人所得税税率组
 	public void deleteTaxRateGroup(TaxRateGroupPO taxRateGroupPO);

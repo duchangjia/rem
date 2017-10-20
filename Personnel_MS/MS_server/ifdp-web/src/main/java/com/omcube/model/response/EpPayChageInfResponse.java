@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class EpPayChageInfResponse {
 
-	private String uId;
+	private String uid;
 	private String applyNo;
 	private String organNo;
 	private String derpNo;
@@ -55,11 +55,11 @@ public class EpPayChageInfResponse {
 	private String createdBy;
 	private String updatedBy;
 
-	public String getuId() {
-		return uId;
+	public String getuid() {
+		return uid;
 	}
-	public void setuId(String uId) {
-		this.uId = uId;
+	public void setuid(String uid) {
+		this.uid = uid;
 	}
 	public String getOrganNo() {
 		return organNo;

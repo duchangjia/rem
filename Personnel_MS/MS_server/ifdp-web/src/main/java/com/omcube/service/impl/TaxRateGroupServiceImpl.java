@@ -25,8 +25,8 @@ public class TaxRateGroupServiceImpl implements TaxRateGroupService {
 
 	// 查询所有个人所得税税率组
 	@Override
-	public List<TaxRateGroupPO> findTaxRateGroup(String uId) {
-		return taxRateGroupMapper.findTaxRateGroup(uId);
+	public List<TaxRateGroupPO> findTaxRateGroup(String uid) {
+		return taxRateGroupMapper.findTaxRateGroup(uid);
 
 	}
 
