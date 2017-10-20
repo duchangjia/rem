@@ -144,7 +144,7 @@ export default {
     this.pactNo = this.$route.params.pactNo;
     this.renewId = this.$route.params.renewId;
     this.getPactDtl(this.pactNo);
-    this.getPChangeDtl();
+    this.getPRenewDtl();
   },
   methods: {
     getPactDtl(pactNo) {
@@ -153,7 +153,7 @@ export default {
         pactNo: self.pactNo
       };
       self.$axios
-        .get("ifdp/querPactDtl", { params: params })
+        .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
           self.basicPactMsg = res.data.data;
         })
@@ -161,14 +161,14 @@ export default {
           console.log("error");
         });
     },
-    getPChangeDtl(pactNo) {
+    getPRenewDtl(pactNo) {
       const self = this;
       let params = {
         pactNo: self.pactNo,
         renewId: self.renewId
       };
       self.$axios
-        .get("ifdp/queryPRenewDtl", { params: params })
+        .get("/iem_hrm/pact/queryPactRenewDetail", { params: params })
         .then(res => {
           console.log(res);
           self.detailPRenewMsg = res.data.data;

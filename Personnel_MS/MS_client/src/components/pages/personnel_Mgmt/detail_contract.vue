@@ -274,7 +274,7 @@ export default {
         pactNo: pactNo
       };
       self.$axios
-        .get("ifdp/querPactDtl", { params: params })
+        .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
           console.log(res);
           self.basicPactMsg = res.data.data;
@@ -293,7 +293,7 @@ export default {
         changeId: ""
       };
       self.$axios
-        .get("ifdp/queryPChangeList", { params: params })
+        .get("/iem_hrm/pact/queryPactChangeList", { params: params })
         .then(res => {
           self.PChangeListInfo = res.data.data.PChangeListArray;
         })
@@ -310,7 +310,7 @@ export default {
         renewId: ""
       };
       self.$axios
-        .get("ifdp/queryPRenewList", { params: params })
+        .get("/iem_hrm/pact/queryPactRenewList", { params: params })
         .then(res => {
           self.PRenewListInfo = res.data.data.PRenewListArray;
         })
@@ -355,7 +355,7 @@ export default {
         })
           .then(() => {
             this.$axios
-              .delete("/iem_hrm/delPChange?pactNo=" + targetPChange.pactNo + "&changeId=" + targetPChange.changeId, targetPChange)
+              .delete("/iem_hrm/pact/deletePactChange?pactNo=" + targetPChange.pactNo + "&changeId=" + targetPChange.changeId, targetPChange)
               .then(res => {
                 console.log(res);
                 if (res.data.code == "S00000")
@@ -382,7 +382,7 @@ export default {
         })
           .then(() => {
             this.$axios
-              .delete("/iem_hrm/delPRenew?pactNo=" + targetPRenew.pactNo + "&renewId=" + targetPRenew.renewId, targetPRenew)
+              .delete("/iem_hrm/pact/deletePactRenew?pactNo=" + targetPRenew.pactNo + "&renewId=" + targetPRenew.renewId, targetPRenew)
               .then(res => {
                 console.log(res);
                 if (res.data.code == "S00000")

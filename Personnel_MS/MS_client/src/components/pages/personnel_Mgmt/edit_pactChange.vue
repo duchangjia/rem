@@ -5,7 +5,7 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">合同变更修改</span>
-                <el-button type="primary" @click="handleAdd" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
@@ -127,7 +127,7 @@ export default {
       basicPactMsg: {},
       editPChangeMsg: {},
       rules: {
-        changeTime: [{ required: true, message: "请选择变更日期", trigger: "blur" }],
+        changeTime: [{ type: 'date', required: true, message: '请选择变更日期', trigger: 'change' }],
         changeType: [{ required: true, message: "请选择变更类别", trigger: "blur" }],
         changeContent: [{ required: true, message: "请输入变更内容", trigger: "blur" }]
       }
@@ -149,7 +149,7 @@ export default {
         pactNo: self.pactNo
       };
       self.$axios
-        .get("ifdp/querPactDtl", { params: params })
+        .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
           self.basicPactMsg = res.data.data;
         })
@@ -164,7 +164,7 @@ export default {
         changeId: self.changeId
       };
       self.$axios
-        .get("ifdp/queryPChangeDtl", { params: params })
+        .get("/iem_hrm/pact/queryPactChangeDetail", { params: params })
         .then(res => {
           console.log(res);
           self.editPChangeMsg = res.data.data;
@@ -173,7 +173,7 @@ export default {
           console.log("error");
         });
     },
-    handleAdd() {
+    handleSave() {
       let newPChange = {};
       newPChange.pactNo = this.pactNo;
       newPChange.changeId = this.changeId;
@@ -181,7 +181,7 @@ export default {
       newPChange.changeType = this.editPChangeMsg.changeType;
       newPChange.changeContent = this.editPChangeMsg.changeContent;
       this.$axios
-        .post("/iem_hrm/modPChange", newPChange)
+        .post("/iem_hrm/pact/updatePactChange", newPChange)
         .then(res => {
           console.log(res);
           if (res.data.code == "S00000")

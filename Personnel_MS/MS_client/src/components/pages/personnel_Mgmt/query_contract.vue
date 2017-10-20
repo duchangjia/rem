@@ -101,7 +101,7 @@ export default {
         pactType: self.filters.pactType
       };
       self.$axios
-        .get("ifdp/queryPactList", { params: params })
+        .get("/iem_hrm/pact/queryPactList", { params: params })
         .then(res => {
           self.pactListInfo = res.data.data.pactListArray;
         })
@@ -114,6 +114,9 @@ export default {
     },
     pactStatusFormatter(row, column) {
       return row.pactStatus == 1 ? "已生效" : row.pactStatus == 0 ? "未生效" : "异常";
+    },
+    dateFormat(row, column) {
+      
     },
     handlePactDetail(index, row) {
       this.$router.push({
@@ -157,7 +160,7 @@ export default {
       })
         .then(() => {
           this.$axios
-            .delete("/iem_hrm/delPact?pactNo=" + targetPact.pactNo, targetPact)
+            .delete("/iem_hrm/pact/deletePact?pactNo=" + targetPact.pactNo, targetPact)
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000")
