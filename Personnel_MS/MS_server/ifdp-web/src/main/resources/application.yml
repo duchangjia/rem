@@ -25,8 +25,8 @@ security:
 logging:
   file: log/ifdp-web.log
   level:
-    org.springframework.web: debug
-    org.springframework.security: debug
+    org.springframework.web: info
+    org.springframework.security: info
     com.omcube: debug
 
 mybatis:
