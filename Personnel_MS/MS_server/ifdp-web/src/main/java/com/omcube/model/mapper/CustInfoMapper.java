@@ -6,15 +6,16 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.omcube.model.po.CustInfoPO;
+
 @Mapper
 public interface CustInfoMapper {
-    
+
     /**
      * 员工基本资料新增
      * @param custInfo
      */
-    public void insertCustInfo(CustInfoPO custInfo); 
-    
+    public void insertCustInfo(CustInfoPO custInfo);
+
     /**
      * 员工基本资料修改
      * @param custInfo
@@ -25,26 +26,41 @@ public interface CustInfoMapper {
      * 员工基本信息查询
      * @param userNo
      */
-    CustInfoPO queryCustInfoByUserNo(@Param(value = "uId") String uId,@Param(value = "userNo") String userNo);
-    
+    CustInfoPO queryCustInfoByUserNo(@Param(value = "uid") String uid, @Param(value = "userNo") String userNo);
+
     /**
      * 员工基本信息删除
-     * @param uId
+     * @param uid
      * @param userNo
      */
-    public void delCustInf(@Param("uId") String uId,@Param("userNo") String userNo);
-    
+    public void delCustInf(@Param("uid") String uid, @Param("userNo") String userNo);
+
     /**
      * 人事档案列表查询
      * @return
      */
-    public List<CustInfoPO> queryCustInfList(String uId);
-    
+    public List<CustInfoPO> queryCustInfList(String uid);
+
     /**
      * 直线经理查询
-     * @param uId
+     * @param uid
      * @param userNo
      * @return
      */
-    public String queryLineManager(@Param("uId") String uId,@Param("userNo") String userNo);
+    public String queryLineManager(@Param("uid") String uid, @Param("userNo") String userNo);
+
+    /**
+     * 员工自助_员工信息查询
+     * @param uid
+     * @param userNo
+     * @return
+     */
+    public List<CustInfoPO> queryCustInfBySelf(@Param("uid") String uid, @Param("userNo") String userNo);
+
+    /**
+     * 员工自助_员工便捷查询
+     * @return
+     */
+    public List<CustInfoPO> queryCustInfByNameAndNo(CustInfoPO custInfo);
+
 }
