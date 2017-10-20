@@ -93,5 +93,50 @@
  	</delete>
  	
  	
+ 	<!-- <update id="">
+ 	
+ 		update EP_TRAVEL_FLOW
+		
+		<set>
+			<if test="travelStartTime!=null">
+				travel_start_time=#{travelStartTime},
+			</if>
+			<if test="travelEndTime!=null">
+				travel_end_time=#{travelEndTime},
+			</if>
+			
+			<if test="travelStartCity!=null">
+				travel_start_city=#{travelStartCity},
+			</if>
+			
+			<if test="travelArrivalCity!=null">
+				travel_arrival_city=#{travelArrivalCity},
+			</if>
+			
+			<if test="travelType!=null">
+				travel_type=#{travelType},
+			</if>
+			
+			<if test="travelDays!=null">
+				travel_days=#{travelDays},
+			</if>
+				
+			<if test="travelSTD!=null">
+				travel_std=#{travelSTD},
+			</if>
+			<if test="remark!=null">
+				remark=#{remark},
+			</if>
+			
+			<if test="attachm!=null">
+				attachm=#{attachm},
+			</if>
+		
+		</set>	
+		where user_no=#{userNo} and uid=#｛uid｝
+	</update>
+ 		
+ 	 -->
+ 	
  	
 </mapper>

@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.omcube.model.po.OrganTree;
@@ -29,7 +27,6 @@ import com.omcube.model.po.SysUserPO;
 import com.omcube.model.response.UserDetailInfo;
 import com.omcube.service.OrganService;
 import com.omcube.service.UserInfoService;
-import com.omcube.service.UserService;
 import com.omcube.util.ConstantUtil;
 import com.omcube.util.ErrorCodeConstantUtil;
 import com.omcube.util.JSONResultUtil;
@@ -285,11 +282,22 @@ public class OrganController {
 	}
 	logger.info(String.format("the request body is %s:", sysOrganPO.toString()));
 
+	if (!StringUtils.isEmpty(sysOrganPO.getOrganNo())) {
+
+	    SysOrganPO sysCurrentOrgan = organService.queryCurrentOrgan(sysOrganPO.getOrganNo());
+
+	    if (!StringUtils.isEmpty(sysCurrentOrgan)) {
+
+		return JSONResultUtil.setError("F00002", "该机构号已存在");
+	    }
+	}
+
 	String organLevel = sysOrganPO.getOrganLevel();
 	if (StringUtils.isEmpty(organLevel)) {
 	    logger.error("the organLevel is null");
 	    return JSONResultUtil.setError("F00002", "the request params organLevel is null");
 	}
+
 	//获取系统管理人员的uid和userNo
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	String uid = sysLoginCtrl.getUid();

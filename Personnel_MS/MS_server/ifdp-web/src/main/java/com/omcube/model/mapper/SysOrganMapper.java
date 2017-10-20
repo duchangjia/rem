@@ -1,6 +1,7 @@
 package com.omcube.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,7 +14,7 @@ public interface SysOrganMapper {
 
     List<OrganTree> queryOrganList(String organNo);
 
-    SysOrganPO queryCurrentOrgan(String organNo);
+    SysOrganPO queryCurrentOrgan(Map<String, Object> paraMap);
 
     SysOrganPO queryCurrentAndParentOrganDetail(String organNo);
 
