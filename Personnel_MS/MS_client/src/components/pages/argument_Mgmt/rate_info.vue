@@ -4,26 +4,26 @@
 		<div class="content">
 			<div class="title">
 				<span class="title-text">个人所得税税率详情</span>
-				<el-button type="primary" @click="addtax()">新增</el-button>
+				<el-button type="primary" @click="addRate()">新增</el-button>
 			</div>
 			<div class="content-inner">
-				<el-table :data="dataList" border stripe style="width: 100%">
-					<el-table-column prop="name" label="组名称">
-						<!--<template scope="scope">
-					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.name }}</span>
-				      	</template>-->
+				<el-table :data="taxRateList" border stripe style="width: 100%">
+					<el-table-column prop="groupNo" label="组名称">
+						<template scope="scope">
+					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.groupNo }}</span>
+				      	</template>
 					</el-table-column>
-					<el-table-column prop="min_lev" label="下限"></el-table-column>
-					<el-table-column prop="max_lev" label="上限"></el-table-column>
-					<el-table-column prop="percent" label="百分比率（%）"></el-table-column>
-					<el-table-column prop="quickC" label="速算扣除数"></el-table-column>
+					<el-table-column prop="GroupLowerLimit" label="下限"></el-table-column>
+					<el-table-column prop="GroupLimit" label="上限"></el-table-column>
+					<el-table-column prop="percentRate" label="百分比率（%）"></el-table-column>
+					<el-table-column prop="quickCal" label="速算扣除数"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
 							<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>2*pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -32,26 +32,30 @@
 
 <script>
 import current from '../../common/current_position.vue'
+const baseURL = 'ifdp'
 export default {
 	data() {
 		return {
 			pageIndex: 1,
 			pageRows: 2,
 			totalRows: 10,
-			dataList: [
+			taxRateList: [
 				{
-					name: "1600起征",
-					min_lev: "1600",
-					max_lev: "3500",
-					percent: '5%',
-					quickC: '0.00'
+					"groupNo": "1600起征",
+					"groupId": "01001",
+					"applyNo": "0001",
+					"GroupLimit": "10000",
+					"GroupLowerLimit": "5000",
+					"remark": "xxxx",
+					"percentRate": "5%",
+					"quickCal": "0"
 				},
 				{
-					name: "3500起征",
-					min_lev: "3500",
-					max_lev: "5000",
-					percent: '7%',
-					quickC: '0.00'
+					groupNo: "3500起征",
+					GroupLowerLimit: "3500",
+					GroupLimit: "5000",
+					percentRate: '7%',
+					quickCal: '0.00'
 				}
 			]
 		}
@@ -59,26 +63,93 @@ export default {
 	components: {
 		current
 	},
+	created() {
+		const self = this;
+		let groupNo = self.$route.params.groupNo;
+		let groupId = self.$route.params.groupId;
+		let pageNum = 1;
+		let pageSize = 2;
+		let params = {
+			"pageNum": pageNum,
+			"pageSize": pageSize
+		};
+		self.selectTaxRateCtrl(pageNum, pageSize, params);
+	},
 	methods: {
-		addtax() {
-			this.$router.push('/add_tax');
+		addRate() {
+			this.$router.push('/add_rate');
+		},
+		handleEdit(index, row) {
+			console.log('row:',row);
+            this.$router.push({
+            	name: 'edit_rate',
+            	params: {
+            		groupNo: row.groupNo,
+            		groupId: row.groupId,
+            		applyNo: row.applyNo,
+            		GroupLimit: row.GroupLimit,
+            		GroupLowerLimit: row.GroupLowerLimit,
+            		remark: row.remark,
+            		percentRate: row.percentRate,
+            		quickCal: row.quickCal
+            	}
+            });
 		},
 		handleDelete(index, row) {
+        	const self = this;
             console.log('index',index);
             console.log('row',row);
-            this.$confirm('此操作将会删除该条模版, 是否继续?', '提示', {
+            self.$confirm('此操作将会删除该条税率模版, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-            	//操作
-               this.$message({ type: 'success', message: '删除成功!' });
+            	let params = {
+            		groupId: self.taxRateList.groupId,
+            		applyId: self.taxRateList.applyId
+            	};
+            	self.deleteTaxRateCtrl(params);
+            	
             }).catch(() => {
-                this.$message('您已取消删除模版！');
+                self.$message('您已取消操作！');
             });
         },
         handleCurrentChange(val) {
-			console.log(`当前页: ${val}`);
+			const self = this;
+			let groupNo = sessionStorage.getItem('groupNo');
+			let pageNum = val;
+			let pageSize = 2;
+			let params = {
+				"pageNum": pageNum,
+				"pageSize": pageSize,
+				groupNo: groupNo
+			};
+			self.selectTaxRateCtrl(pageNum, pageSize, params);
+		},
+		//查询个税列表
+		selectTaxRateCtrl(pageNum,pageSize,params) {
+			const self = this;
+			self.$axios.get(baseURL+'/selectTaxRateCtrl', { params: params})
+				.then(function(res) {
+					console.log(res);
+					self.taxRateList = res.data.data.list;
+					self.pageIndex = pageNum;
+					self.pageRows = pageSize;
+					self.totalRows = Number(res.data.data.total);
+				}).catch(function(err) {
+					console.log(err);
+				})
+		},
+		//删除个税税率
+		deleteTaxRateCtrl(params) {
+			const self = this;
+			self.$axios.delete(baseURL+'/deleteTaxRateCtrl')
+    		.then((res) => {
+    			console.log(res);
+    			this.$message({ type: 'success', message: '删除成功!' });
+    		}).catch((err) => {
+    			console.log(err);
+    		})
 		}
 	}
 }
@@ -164,7 +235,10 @@ border-bottom: 1px solid #EEEEEE;
 .rate_info .el-table th {
 	text-align: center;
 }
-
+.rate_info .el-table td:first-child span{
+	cursor: pointer;
+	color: #FF9900;
+}
 /*.rate_info .el-table--enable-row-hover .el-table__body tr:hover>td {
 	background-color: #f8f8f8;
 	background-clip: padding-box;
@@ -270,6 +344,9 @@ border-bottom: 1px solid #EEEEEE;
 
 .rate_info .el-pagination button:hover {
 	color: #FF9900;
+}
+.rate_info .el-pagination button.disabled {
+    color: #e4e4e4;
 }
 .rate_info .el-pagination button.disabled:hover {
 	color: #e4e4e4;

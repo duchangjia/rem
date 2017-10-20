@@ -148,7 +148,7 @@ public class OrganBillInfoController {
      */
     @GetMapping(value = "/queryBillInfoByName/{organName}")
     @Cacheable(ConstantUtil.QUERY_CACHE)
-    public Object queryBillInfoByName(@PathVariable String organName, Integer pageNum, Integer pageSize) {
+    public Object queryBillInfoByName(@PathVariable String organName,Integer pageNum,Integer pageSize) {
 
 	//从session 获取uid  并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
@@ -164,7 +164,7 @@ public class OrganBillInfoController {
 
 	return JSONResultUtil.setSuccess(pageInfo);
     }
-
+    
     /**
      * 开票信息详细信息查询
      * 

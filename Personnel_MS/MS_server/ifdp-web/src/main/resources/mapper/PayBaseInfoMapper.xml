@@ -56,13 +56,13 @@
 			#{houseBase},
 			#{probRatio},
 			#{welcoeNo},
-			#{status},
+			'1',
 			#{remark},
 			#{createdBy},
 			date_format(now(),'%y-%m-%d'),
 			#{updatedBy},
 			date_format(now(),'%y-%m-%d')
-		);
+		)
 	</insert>
 	
 	<select id="querySalaryTopByUserNo" parameterType="java.lang.String" resultType="java.lang.Double">
@@ -94,11 +94,11 @@
 			<if test="userName != null">
 				and ci.cust_name like '%${userName}%'
 			</if>
-			order by pb.user_no desc
+			order by pb.user_no
 	 </select>
 	 
 	 <select id="queryPayBaseInfoDetail" parameterType="java.lang.String" resultMap="queryPayBaseInfoDetailMap">
- 		select * from EP_PAY_BASEINF where uid = #{uid} and user_no = #{userNo} 
+ 		select * from EP_PAY_BASEINF where uid = #{uid} and user_no = #{userNo} and pbase_status != 0
 	 </select>
 	 
 	 <update id="updatePayBaseInfo" parameterType="com.omcube.model.po.EpPayBaseInfoPO">
@@ -125,4 +125,43 @@
    		update EP_PAY_BASEINF set pbase_status='0', updated_by=#{updatedBy} where uid=#{uid} and user_no=#{userNo} 
     </update>
     
+    <select id="queryPayBaseInfoCount" parameterType="java.lang.String" resultType="long">
+ 		select count(*) from EP_PAY_BASEINF where uid = #{uid} and pbase_status != 0;
+	</select>
+	
+	<select id="queryPayBaseInfoLimit" resultMap="queryPayBaseInfoDetailMap">
+ 		select * from EP_PAY_BASEINF where pbase_status != 0 and uid = #{uid} limit #{startNum},#{size} 
+	 </select>
+	 
+	 <insert id="addPayBaseInfoList">
+ 		insert into 
+			EP_PAY_BASEINF 
+		values   
+        <foreach collection="payBaseInfoList" item="com.omcube.model.po.EpPayBaseInfoPO" separator="UNION ALL">  
+         (
+            #{uId},
+			#{userNo},
+			#{wagesBase},
+			#{wagesPerf},
+			#{postPension},
+			#{otherPension},
+			#{endmBase},
+			#{mediBase},
+			#{unemBase},
+			#{emplBase},
+			#{mateBase},
+			#{houseBase},
+			#{probRatio},
+			#{welcoeNo},
+			'1',
+			#{remark},
+			#{createdBy},
+			date_format(now(),'%y-%m-%d'),
+			#{updatedBy},
+			date_format(now(),'%y-%m-%d')
+          )  
+        </foreach>  
+ 	
+ 	</insert>
+	 
 </mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.omcube.model.mapper.EpAssetInfMapper">
+	<!--返回结果映射 -->
+	<resultMap id="EpAssetInf" type="com.omcube.model.po.EpAssetInfPO">
+		<id column="uid" property="uId"></id>
+		<id column="asset_no" property="assetNo"></id>
+		<result column="organ_no" property="organNo" javaType="java.lang.String"></result>
+		<result column="derp_no" property="derpNo" javaType="java.lang.String"></result>
+		<result column="apply_user_no" property="applyUserNo" javaType="java.lang.String"></result>
+		<result column="buy_apply_no" property="buyApplyNo" javaType="java.lang.String"></result>
+		<result column="buy_unit_price" property="buyUnitPrice" javaType="java.lang.Double"></result>
+		<result column="buy_num" property="buyNum" javaType="java.lang.Integer"></result>
+		<result column="stock_num" property="stockNum" javaType="java.lang.Integer"></result>
+		<result column="buy_amount" property="buyAmount" javaType="java.lang.Double"></result>
+		<result column="mfrs" property="mfrs" javaType="java.lang.String"></result>
+		<result column="supplier" property="supplier" javaType="java.lang.String"></result>
+		<result column="asset_type" property="assetType" javaType="java.lang.String"></result>
+		<result column="asset_name" property="assetName" javaType="java.lang.String"></result>
+		<result column="faxfree_time" property="faxfreeTime" javaType="java.util.Date"></result>
+		<result column="sn_no" property="snNo" javaType="java.lang.String"></result>
+		<result column="derp_limit" property="derpLimit" javaType="java.lang.String"></result>
+		<result column="spec_type" property="specType" javaType="java.lang.String"></result>
+		<result column="factory_time" property="factoryTime" javaType="java.util.Date"></result>
+		<result column="attachm" property="attachm" javaType="java.lang.String"></result>
+		<result column="asset_status" property="status" javaType="java.lang.String"></result>
+		<result column="remark" property="remark" javaType="java.lang.String"></result>
+		<result column="created_by" property="createdBy" javaType="java.lang.String"></result>
+		<result column="created_date" property="createdDate" javaType="java.util.Date"></result>
+		<result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
+		<result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
+	</resultMap>
+
+	<!--1.添加资产信息 -->
+	<insert id="addEpAssetInf" parameterType="com.omcube.model.po.EpAssetInfPO">
+		INSERT INTO EP_ASSET_INF(uid,asset_no,organ_no,derp_no,apply_user_no,
+			buy_apply_no,buy_unit_price,buy_num,stock_num,buy_amount,
+			mfrs,supplier,asset_type,asset_name,faxfree_time,
+			sn_no,derp_limit,spec_type,factory_time,attachm,asset_status,
+			remark,created_by,created_date)
+		VALUES(#{uId},#{assetNo},#{organNo},#{derpNo},#{applyUserNo},
+			#{buyApplyNo},#{buyUnitPrice},#{buyNum},#{stockNum},#{buyAmount},
+			#{mfrs},#{supplier},#{assetType},#{assetName},#{faxfreeTime},
+			#{snNo},#{derpLimit},#{specType},#{factoryTime},#{attachm},
+			#{status},#{remark},#{createdBy},DATE_FORMAT(NOW(),'%y-%m-%d'))
+	</insert>
+	<!--2.根据uid和资产编号assetNo查询资产的详细信息  -->
+	<select id = "queryEpAssetInf" resultMap="EpAssetInf">
+		SELECT uid,asset_no,organ_no,derp_no,apply_user_no,
+			buy_apply_no,buy_unit_price,buy_num,stock_num,buy_amount,
+			mfrs,supplier,asset_type,asset_name,faxfree_time,
+			sn_no,derp_limit,spec_type,factory_time,attachm,asset_status,
+			remark,updated_by,updated_date
+		FROM EP_ASSET_INF 
+		WHERE uid = #{uId}  AND asset_no = #{assetNo}
+	</select>
+	<!--3.修改资产信息  -->
+	<update id = "updateEpAssetInf" parameterType="com.omcube.model.po.EpAssetInfPO">
+		UPDATE EP_ASSET_INF 
+		SET organ_no=#{organNo},derp_no=#{derpNo},apply_user_no=#{applyUserNo},
+			buy_apply_no =#{buyApplyNo},buy_unit_price = #{buyUnitPrice},buy_num = #{buyNum},stock_num =#{stockNum},buy_amount = #{buyAmount},
+			mfrs = #{mfrs},supplier = #{supplier},asset_type = #{assetType},asset_name = #{assetName},faxfree_time = #{faxfreeTime},
+			sn_no = #{snNo},derp_limit = #{derpLimit},spec_type = #{specType},factory_time = #{factoryTime},attachm = #{attachm},asset_status = #{status},
+			remark = #{remark},updated_by = #{updatedBy},updated_date = DATE_FORMAT(NOW(),'%y-%m-%d')
+		WHERE uid =#{uId} AND asset_no=#{assetNo}
+	</update>
+	
+	<select id = "queryEpAssetInfs" parameterType="com.omcube.model.po.EpAssetInfPO" resultMap="EpAssetInf">
+		SELECT uid,asset_no,organ_no,derp_no,apply_user_no,
+			buy_unit_price,buy_num,stock_num,buy_amount,
+			asset_name,asset_type,
+			asset_status,
+			created_by,created_date
+		FROM EP_ASSET_INF 
+		WHERE uid = #{uId}  
+		<if test = " assetNo != null and assetNo != ''">
+			AND asset_no = #{assetNo}
+		</if>
+		<if test = " assetType != null and assetType != ''">
+			AND asset_type = #{assetType}
+		</if>
+		<if test = " assetName != null and assetName != ''">
+			AND asset_name like concat('%',#{assetName},'%') 
+		</if>
+		<if test = " status != null and status != ''">
+			AND asset_status =  #{status}
+		</if>
+	</select>
+	
+</mapper>

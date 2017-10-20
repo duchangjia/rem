@@ -16,8 +16,14 @@ public interface PayBaseInfoService {
     List<PayBaseInfoListResponse> queryPayBaseInfoList(QueryPayBaseInfoRequest queryPayBaseInfoReq);
 
     EpPayBaseInfoPO queryPayBaseInfoDetail(String uid, String userNo);
-    
+
     void updatePayBaseInfo(EpPayBaseInfoPO epPayBaseInfo);
-    
+
     void deletePayBaseInfo(Map<String, String> params);
+
+    long queryPayBaseInfoCount(String uid);
+
+    List<EpPayBaseInfoPO> queryPayBaseInfoLimit(long startNum, long size,String uid);
+    
+    void addPayBaseInfoList(List<EpPayBaseInfoPO> payBaseInfoList);
 }

@@ -21,5 +21,64 @@
 			#{remark}
 		)
 	</insert>
+	
+	<!-- 2.获取功能表中的功能编号/功能名称/状态 -->
+	<select id="getFuncQueryConditions" resultType="com.omcube.model.po.SysBsnPO" >
+	
+		select bsn_no as bsnNo ,method_name as methodName,status from IFDP_SYS_BSN 
+	
+	</select>
+	
+	<!-- 获取菜单表中的系统编号 -->
+	<select id="getMenuQueryConditions" resultType="com.omcube.model.po.SysMenuPO">
+	
+		select sys_no as sysNo from IFDP_SYS_MENU
+	
+	</select>
+	
+
+
+	<!-- 3.获取功能列表 -->
+	<select id="queryFuncList" parameterType="com.omcube.model.request.QueryFuncRequest" resultType="com.omcube.model.response.FuncResponse">		
+		select 
+		  m.sys_no as sysNo,
+		  f.bsn_no as bsnNo,
+		  f.method_name as methodName,
+		  f.interface as interfaceName,
+		  f.bsn_url as bsnUrl,
+		  f.status as status,
+		  f.remark as remark,
+		  f.created_by as createdBy,
+		  f.created_date as createdDate,
+		  f.updated_date as updatedDate,
+		  f.updated_by as updatedBy 
+		from
+		  IFDP_SYS_BSN f 
+		  left outer join IFDP_SYS_MENU_FUNC fm 
+		    on f.bsn_no = fm.bsn_no 
+		  left outer join IFDP_SYS_MENU m 
+		    on fm.sys_no = m.sys_no  
+		  	and fm.menu_no = m.menu_no 
+	   	where f.uid = #{uid}
+	   	
+   	   <if test="sysNo != null and sysNo!=''">
+			and m.sys_no =#{sysNo}
+		</if>
+		<if test="bsnNo != null and bsnNo != ''">
+			and f.bsn_no = #{bsnNo}
+		</if>
+		<if test="methodName != null and methodName!=''">
+			and f.method_name like '%${methodName}%'
+		</if>
+		<if test="status != null and status!=''">
+			and f.status =#{status}
+		</if>
+	</select>
+	
+	
+	
+	
+	
+	
 
 </mapper>

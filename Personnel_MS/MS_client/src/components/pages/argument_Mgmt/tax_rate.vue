@@ -4,27 +4,27 @@
 		<div class="content">
 			<div class="title">
 				<span class="title-text">个人所得税税率设置</span>
-				<el-button type="primary" @click="addtax()">新增</el-button>
+				<el-button type="primary" @click="addRateGroup()">新增</el-button>
 			</div>
 			<div class="content-inner">
-				<el-table :data="dataList" border stripe style="width: 100%">
-					<el-table-column prop="name" label="组名称">
+				<el-table :data="taxRateGroupList" border stripe style="width: 100%">
+					<el-table-column prop="groupNo" label="组名称">
 						<template scope="scope">
-					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.name }}</span>
+					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.groupNo }}</span>
 				      	</template>
 					</el-table-column>
-					<el-table-column prop="beiz" label="备注"></el-table-column>
-					<el-table-column prop="create_date" label="生效日期"></el-table-column>
-					<el-table-column prop="del_date" label="失效日期"></el-table-column>
-					<el-table-column prop="createdId" label="创建ID"></el-table-column>
-					<el-table-column prop="create_time" label="创建时间"></el-table-column>
+					<el-table-column prop="remark" label="备注"></el-table-column>
+					<el-table-column prop="startTime" label="生效日期"></el-table-column>
+					<el-table-column prop="endTime" label="失效日期"></el-table-column>
+					<el-table-column prop="createId" label="创建ID"></el-table-column>
+					<el-table-column prop="createTime" label="创建时间"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
 							<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>2*pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -33,28 +33,29 @@
 
 <script>
 import current from '../../common/current_position.vue'
+const baseURL = 'ifdp'
 export default {
 	data() {
 		return {
 			pageIndex: 1,
-			pageRows: 2,
-			totalRows: 10,
-			dataList: [
+			pageRows: 1,
+			totalRows: 1,
+			taxRateGroupList: [
 				{
-					name: "1600起征",
-					beiz: "xxxx",
-					create_date: "",
-					del_date: "",
-					createdId: '',
-					create_time: ''
+					groupNo: "1600起征",
+					remark: "xxxx",
+					startTime: "",
+					endTime: "",
+					createId: '',
+					createTime: ''
 				},
 				{
-					name: "3500起征",
-					beiz: "xxxx",
-					create_date: "",
-					del_date: "",
-					createdId: '',
-					create_time: ''
+					groupNo: "3500起征",
+					remark: "xxxx",
+					startTime: "",
+					endTime: "",
+					createId: '',
+					createTime: ''
 				}
 			]
 		}
@@ -62,13 +63,29 @@ export default {
 	components: {
 		current
 	},
+	created() {
+		const self = this;
+		let pageNum = 1;
+		let pageSize = 2;
+		let params = {
+			"pageNum": pageNum,
+			"pageSize": pageSize
+		};
+		self.selectTaxRateGroup(pageNum, pageSize, params);
+	},
 	methods: {
-		addtax() {
-			this.$router.push('/add_tax');
+		addRateGroup() {
+			this.$router.push('/add_rateGroup');
 		},
 		handleEdit(index, row) {
-			console.log('index:'+index,'row.modelNo:'+row.modelNo);
-            this.$router.push('/rate_info');
+			console.log('row:',row);
+            this.$router.push({
+            	name: 'rate_info',
+            	params: {
+            		groupNo: row.groupNo,
+            		groupId: row.groupId
+            	}
+            });
 		},
 		handleDelete(index, row) {
             console.log('index',index);
@@ -78,14 +95,50 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-            	//操作
-               this.$message({ type: 'success', message: '删除成功!' });
+            	const self = this;
+            	let params = {
+            		
+            	};
+            	self.deleteTaxRateGroup(params);
             }).catch(() => {
                 this.$message('您已取消删除模版！');
             });
         },
         handleCurrentChange(val) {
-			console.log(`当前页: ${val}`);
+			console.log('当前页', val);
+			const self = this;
+			let pageNum = val;
+			let pageSize = 2;
+			let params = {
+				"pageNum": pageNum,
+				"pageSize": pageSize
+			};
+			self.selectTaxRateGroup(pageNum,pageSize,params);
+		},
+		//查询个税组列表
+		selectTaxRateGroup(pageNum,pageSize,params) {
+			const self = this;
+			self.$axios.get(baseURL+'/selectTaxRateGroup',{ params: params })
+				.then(function(res) {
+					console.log(res);
+					self.taxRateGroupList = res.data.data.list;
+					self.pageIndex = pageNum;
+					self.pageRows = pageSize;
+					self.totalRows = Number(res.data.data.total);
+				}).catch(function(err) {
+					console.log('error')
+				})
+		},
+		//删除个税组
+		deleteTaxRateGroup(params) {
+			const self = this;
+        	self.$axios.delete(baseURL+'/deleteTaxRateGroup')
+    		.then((res) => {
+    			console.log(res);
+    			this.$message({ type: 'success', message: '删除成功!' });
+    		}).catch((err) => {
+    			console.log(err);
+    		})
 		}
 	}
 }
@@ -171,12 +224,13 @@ border-bottom: 1px solid #EEEEEE;
 .tax_rate .el-table th {
 	text-align: center;
 }
-.tax_rate .el-table td:first-child{
+.tax_rate .el-table td:first-child span{
 	cursor: pointer;
-}
-.tax_rate .el-table td:first-child:hover{
 	color: #FF9900;
 }
+/*.tax_rate .el-table td:first-child:hover{
+	color: #FF9900;
+}*/
 /*.tax_rate .el-table--enable-row-hover .el-table__body tr:hover>td {
 	background-color: #f8f8f8;
 	background-clip: padding-box;
@@ -282,6 +336,9 @@ border-bottom: 1px solid #EEEEEE;
 
 .tax_rate .el-pagination button:hover {
 	color: #FF9900;
+}
+.tax_rate .el-pagination button.disabled {
+    color: #e4e4e4;
 }
 .tax_rate .el-pagination button.disabled:hover {
 	color: #e4e4e4;

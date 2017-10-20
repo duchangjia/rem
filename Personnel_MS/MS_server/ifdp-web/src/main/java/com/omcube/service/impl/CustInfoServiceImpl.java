@@ -1,5 +1,7 @@
 package com.omcube.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +20,27 @@ public class CustInfoServiceImpl implements CustInfoService {
     }
 
     @Override
-    public CustInfoPO queryCustInfoByUserNo(String uid, String userNo) {
-	return custInfoMapper.queryCustInfoByUserNo(uid, userNo);
+    public void modCustInf(CustInfoPO custInfo) {
+	custInfoMapper.modCustInf(custInfo);
+    }
+
+    @Override
+    public void delCustInf(String uId, String userNo) {
+	custInfoMapper.delCustInf(uId, userNo);
+    }
+    
+    public CustInfoPO queryCustInfoByUserNo(String uId, String userNo) {
+	return custInfoMapper.queryCustInfoByUserNo(uId, userNo);
+    }
+
+    @Override
+    public List<CustInfoPO> queryCustInfList(String uId) {
+	return custInfoMapper.queryCustInfList(uId);
+    }
+
+    @Override
+    public String queryLineManager(String uId, String userNo) {
+	return custInfoMapper.queryLineManager(uId, userNo);
     }
 
 }

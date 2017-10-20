@@ -2,85 +2,393 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-        
+
 <mapper namespace="com.omcube.model.mapper.SysPactMapper">
-    <resultMap id="PactMap" type="com.omcube.model.po.PactPO">
-        <id column="user_no" property="userNo"></id>
-        <result column="pact_no" property="pactNo" javaType="java.lang.String"></result>
-        <result column="paper_pact_no" property="paperPactNo" javaType="java.lang.String"></result>
-        <result column="pact_name" property="pactName" javaType="java.lang.String"></result>
-        <result column="organ_no" property="organNo" javaType="java.lang.String"></result>
-        <result column="derp_no" property="derpNo" javaType="java.lang.String"></result>
-        <result column="cust_name" property="custName" javaType="java.lang.String"></result>
-        <result column="sex" property="sex" javaType="java.lang.String"></result>
-        <result column="cert" property="cert" javaType="java.lang.String"></result>
-        <result column="pact_type" property="pactType" javaType="java.lang.String"></result>
-        <result column="sign_time" property="signTime" javaType="java.util.Date"></result>
-        <result column="pact_start_time" property="pactStartTime" javaType="java.util.Date"></result>
-        <result column="pact_end_time" property="pactEndTime" javaType="java.util.Date"></result>
-        <result column="pact_status" property="pactStatus" javaType="java.lang.String"></result>
-        <result column="pact_expires" property="pactExpires" javaType="java.lang.String"></result>
-        <result column="pact_stop_time" property="pactStopTime" javaType="java.util.Date"></result>
-        <result column="stop_reason" property="stopReason" javaType="java.lang.String"></result>
-        <result column="autoud_flag" property="autoudFlag" javaType="java.lang.String"></result>
-        <result column="attachm" property="attachm" javaType="java.lang.String"></result>
-        <result column="remark" property="remark" javaType="java.lang.String"></result>
-        <result column="greated_by" property="greatedBy" javaType="java.lang.String"></result>
-        <result column="greated_date" property="greatedDate" javaType="java.util.Date"></result>
-        <result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
-        <result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
-    </resultMap>
-    
-    <resultMap id="PactChangeMap" type="com.omcube.model.po.PactChange">
-        <id column="pact_no" property="pactNo"></id>
-        <result column="change_id" property="changeId" javaType="java.lang.String"></result>
-        <result column="change_time" property="changeTime" javaType="java.util.Date"></result>
-        <result column="change_type" property="changeType" javaType="java.lang.String"></result>
-        <result column="change_content" property="changeContent" javaType="java.lang.String"></result>
-        <result column="attachm" property="attachm" javaType="java.lang.String"></result>
-        <result column="remark" property="remark" javaType="java.lang.String"></result>
-        <result column="created_by" property="createdBy" javaType="java.lang.String"></result>
-        <result column="created_date" property="createdDate" javaType="java.util.Date"></result>
-        <result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
-        <result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
-    </resultMap>
-    
-    <resultMap id="PactRenewMap" type="com.omcube.model.po.PactRenew">
-        <id column="pact_no" property="pactNo"></id>
-        <result column="renew_id" property="renewId" javaType="java.lang.String"></result>
-        <result column="renew_time" property="renewTime" javaType="java.util.Date"></result>
-        <result column="renew_type" property="renewType" javaType="java.lang.String"></result>
-        <result column="renew_came_time" property="renewCameTime" javaType="java.util.Date"></result>
-        <result column="renew_lost_time" property="renewLostTime" javaType="java.util.Date"></result>
-        <result column="renew_content" property="renewContent" javaType="java.lang.String"></result>
-        <result column="attachm" property="attachm" javaType="java.lang.String"></result>
-        <result column="remark" property="remark" javaType="java.lang.String"></result>
-        <result column="created_by" property="createdBy" javaType="java.lang.String"></result>
-        <result column="created_date" property="createDate" javaType="java.util.Date"></result>
-        <result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
-        <result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
-    </resultMap>
-    
-    <!-- 分页查询合同 -->
-    <select id="getPact" resultMap="PactMap">
-    	select * FROM EP_PACT_INFO WHERE 1=1 and DERP_NO = #{derpNo} and CUST_NAME like #{custName}
-    	<if test="pactType != '' and pactType != null">
-    	 and PACT_TYPE = #{pactType}
-    	</if>
+	<resultMap id="PactMap" type="com.omcube.model.po.PactPO">
+		<id column="uid" property="uId"></id>
+		<id column="user_no" property="userNo"></id>
+		<result column="pact_no" property="pactNo" javaType="java.lang.String"></result>
+		<result column="paper_pact_no" property="paperPactNo" javaType="java.lang.String"></result>
+		<result column="pact_name" property="pactName" javaType="java.lang.String"></result>
+		<result column="organ_no" property="organNo" javaType="java.lang.String"></result>
+		<result column="derp_no" property="derpNo" javaType="java.lang.String"></result>
+		<result column="cust_name" property="custName" javaType="java.lang.String"></result>
+		<result column="sex" property="sex" javaType="java.lang.String"></result>
+		<result column="cert" property="cert" javaType="java.lang.String"></result>
+		<result column="pact_type" property="pactType" javaType="java.lang.String"></result>
+		<result column="sign_time" property="signTime" javaType="java.util.Date"></result>
+		<result column="pact_start_time" property="pactStartTime"
+			javaType="java.util.Date"></result>
+		<result column="pact_end_time" property="pactEndTime" javaType="java.util.Date"></result>
+		<result column="pact_status" property="pactStatus" javaType="java.lang.String"></result>
+		<result column="pact_expires" property="pactExpires" javaType="java.lang.String"></result>
+		<result column="pact_stop_time" property="pactStopTime"
+			javaType="java.util.Date"></result>
+		<result column="stop_reason" property="stopReason" javaType="java.lang.String"></result>
+		<result column="autoud_flag" property="autoudFlag" javaType="java.lang.String"></result>
+		<result column="attachm" property="attachm" javaType="java.lang.String"></result>
+		<result column="remark" property="remark" javaType="java.lang.String"></result>
+		<result column="greated_by" property="greatedBy" javaType="java.lang.String"></result>
+		<result column="greated_date" property="greatedDate" javaType="java.util.Date"></result>
+		<result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
+		<result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
+		<result column="isdelete" property="isDelete" javaType="java.lang.String"></result>
+	</resultMap>
+
+	<resultMap id="PactChangeMap" type="com.omcube.model.po.PactChange">
+		<id column="pact_no" property="pactNo"></id>
+		<result column="uid" property="uId" javaType="java.lang.String"></result>
+		<result column="change_id" property="changeId" javaType="java.lang.String"></result>
+		<result column="change_time" property="changeTime" javaType="java.util.Date"></result>
+		<result column="change_type" property="changeType" javaType="java.lang.String"></result>
+		<result column="change_content" property="changeContent"
+			javaType="java.lang.String"></result>
+		<result column="attachm" property="attachm" javaType="java.lang.String"></result>
+		<result column="remark" property="remark" javaType="java.lang.String"></result>
+		<result column="created_by" property="createdBy" javaType="java.lang.String"></result>
+		<result column="created_date" property="createdDate" javaType="java.util.Date"></result>
+		<result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
+		<result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
+		<result column="isdelete" property="isDelete" javaType="java.lang.String"></result>
+	</resultMap>
+
+	<resultMap id="PactRenewMap" type="com.omcube.model.po.PactRenew">
+		<id column="pact_no" property="pactNo"></id>
+		<result column="uid" property="uId" javaType="java.lang.String"></result>
+		<result column="renew_id" property="renewId" javaType="java.lang.String"></result>
+		<result column="renew_time" property="renewTime" javaType="java.util.Date"></result>
+		<result column="renew_type" property="renewType" javaType="java.lang.String"></result>
+		<result column="renew_came_time" property="renewCameTime"
+			javaType="java.util.Date"></result>
+		<result column="renew_lost_time" property="renewLostTime"
+			javaType="java.util.Date"></result>
+		<result column="renew_content" property="renewContent"
+			javaType="java.lang.String"></result>
+		<result column="attachm" property="attachm" javaType="java.lang.String"></result>
+		<result column="remark" property="remark" javaType="java.lang.String"></result>
+		<result column="created_by" property="createdBy" javaType="java.lang.String"></result>
+		<result column="created_date" property="createDate" javaType="java.util.Date"></result>
+		<result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
+		<result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
+		<result column="isdelete" property="isDelete" javaType="java.lang.String"></result>
+	</resultMap>
+	
+	<!-- 分页查询合同 -->
+	<select id="queryPactList" resultMap="PactMap">
+		select * FROM EP_PACT_INFO
+		WHERE
+		1=1
+		AND
+		uid = #{uId}
+		AND
+		derp_no =
+		#{derpNo}
+		<if test="custName != '' and custName != null">
+			AND
+			cust_name like #{custName}
+		</if>
+		<if test="pactType != '' and pactType != null">
+			AND pact_type = #{pactType}
+		</if>
+		ORDER BY
+		updated_date DESC
+	</select>
+
+	<!-- 查询合同详情 -->
+	<select id="getPactByPactNo" resultMap="PactMap">
+		select * FROM
+		EP_PACT_INFO
+		WHERE
+		1=1
+		AND
+		pact_no = #{pactNo}
+	</select>
+	
+	<!-- 查询合同变更情况 -->
+	<select id="getPactChangeList" resultMap="PactChangeMap">
+		select * from EP_PACT_CHANGE
+		WHERE
+		1=1
+		AND
+		uid = #{uId}
+		AND
+		pact_no = #{pactNo}
+		ORDER BY
+		updated_date DESC
+	</select>
+
+	<!-- 查询合同变更信息详情 -->
+	<select id="getPactChangeDetail" resultMap="PactChangeMap">
+		select * from
+		EP_PACT_CHANGE
+		WHERE
+		1=1
+		AND
+		uid = #{uId}
+		AND
+		pact_no = #{pactNo}
+		AND
+		change_id = #{changeId}
+	</select>
+
+	<!-- 查询合同续签情况 -->
+	<select id="getPactRenewList" resultMap="PactMap">
+		select * from
+		EP_PACT_RENEW
+		WHERE
+		1=1
+		AND
+		uid = #{uId}
+		AND
+		pact_no = #{pactNo}
+		ORDER BY
+		updated_date DESC
+	</select>
+	
+	<!-- 查询合同续签详情 -->
+    <select id="getPactRenewDetail" resultMap="PactRenewMap">
+    	select * from EP_PACT_RENEW
+    	WHERE
+    	1=1
+    	AND
+    	uid = #{uId}
+    	AND
+    	pact_no = #{pactNo}
+    	AND
+    	renew_id = #{renewId}
     </select>
     
-    <!-- 查询合同详情 -->
-    <select id="getPactByPactNo" resultMap="PactMap">
-    	select * FROM EP_PACT_INFO where PACT_NO = #{pactNo}
-    </select>
+    <!-- 合同添加 -->
+    <insert id="addPact" parameterType="com.omcube.model.po.PactPO">
+		insert into EP_PACT_INFO (
+			uid,
+			pact_no,
+			paper_pact_no,
+			pact_name,
+			organ_no,
+			derp_no,
+			user_no,
+			cust_name,
+			sex,
+			cert,
+			pact_type,
+			sign_time,
+			pact_start_time,
+			pact_end_time,
+			pact_status,
+			pact_expires,
+			pact_stop_time,
+			stop_reason,
+			autoud_flag,
+			attachm,
+			remark,
+			created_by,
+			created_date,
+			updated_by,
+			updated_date,
+			isdelete
+		)
+		VALUES
+		(
+			#{uId},
+			#{pactNo},
+			#{paperPactNo},
+			#{pactName},
+			#{organNo},
+			#{derpNo},
+			#{userNo},
+			#{custName},
+			#{sex},
+			#{cert},
+			#{pactType},
+			#{signTime},
+			#{pactStartTime},
+			#{pactEndTime},
+			#{pactStatus},
+			#{pactExpires},
+			#{pactStopTime},
+			#{stopReason},
+			#{autoudFlag},
+			#{attachm},
+			#{remark},
+			#{createdBy},
+			date_format(now(),'%y-%m-%d'),
+			#{updatedBy},
+			date_format(now(),'%y-%m-%d'),
+			#{isDelete}
+		)
+    </insert>
     
-    <!-- 查询合同变更信息 -->
-    <select id="getPactChangeByPactNo" resultMap="PactChangeMap">
-    	select * from EP_PACT_CHANGE where PACT_NO = #{pactNo}
-    </select>
+    <!-- 合同变更信息添加 -->
+    <insert id="addPactChange" parameterType="com.omcube.model.po.PactChange">
+    	insert into EP_PACT_CHANGE (
+    		uid,
+    		pact_no,
+    		change_id,
+    		change_time,
+    		change_type,
+    		change_content,
+    		attachm,
+    		remark,
+    		created_by,
+    		created_date,
+    		updated_by,
+    		updated_date,
+    		isdelete
+    	)
+    	VALUES(
+    		#{uId},
+    		#{pactNo},
+    		#{changeId},
+    		#{changeTime},
+    		#{changeType},
+    		#{changeContent},
+    		#{attachm},
+    		#{remark},
+    		#{createdBy},
+    		date_format(now(),'%y-%m-%d'),
+    		#{updatedBy},
+    		date_format(now(),'%y-%m-%d'),
+    		#{isDelete}
+    	)
+    </insert>
     
-    <!-- 查询合同续签信息 -->
-    <select id="getPactRenewByPactNo" resultMap="PactRenewMap">
-    	select * from EP_PACT_RENEW where PACT_NO = #{pactNo}
-    </select>
+    <!-- 合同续签信息的添加 -->
+    <insert id="addPactRenew" parameterType="com.omcube.model.po.PactRenew">
+    	insert into EP_PACT_RENEW (
+    		uid,
+    		pact_no,
+    		renew_id,
+    		renew_time,
+    		renew_type,
+    		renew_came_time,
+    		renew_lost_time,
+    		renew_content,
+    		attachm,
+    		remark,
+    		created_by,
+    		created_date,
+    		updated_by,
+    		updated_date,
+    		isdelete
+    	)
+    	VALUES(
+    		#{uId},
+    		#{pactNo},
+    		#{renewId},
+    		#{renewTime},
+    		#{renewType},
+    		#{renewCameTime},
+    		#{renewLostTime},
+    		#{renewContent},
+    		#{attachm},
+    		#{remark},
+    		#{createdBy},
+    		date_format(now(),'%y-%m-%d'),
+    		#{updatedBy},
+    		date_format(now(),'%y-%m-%d'),
+    		#{isDelete}
+    	)
+    </insert>
+    
+    <!-- 删除合同 -->
+    <update id = "deletePact" parameterType = "map">
+    	update EP_PACT_INFO set
+    		isdelete = #{isDelete}
+    	where
+    		uid = #{uId}
+    		AND
+    		pact_no = #{pactNo}
+    </update>
+    
+    <!-- 删除合同变更信息 -->
+    <update id = "deletePactChange" parameterType = "map">
+    	update EP_PACT_CHANGE set
+    		isdelete = #{isDelete}
+    	where
+    		uid = #{uId}
+    		AND
+    		pact_no = #{pactNo}
+    		AND
+    		change_id = #{changeId}
+    </update>
+    
+    <!-- 删除合同续约信息 -->
+    <update id = "deletePactRenew" parameterType = "map">
+    	update EP_PACT_RENEW set
+    		isdelete = #{isDelete}
+    	where
+    		uid = #{uId}
+    		AND
+    		pact_no = #{pactNo}
+    		AND
+    		renew_id = #{renewId}
+    </update>
+    
+    <!-- 修改合同信息 -->
+    <update id = "updatePact" parameterType = "com.omcube.model.po.PactPO">
+    	update EP_PACT_INFO set
+			paper_pact_no = #{paperPactNo},
+			pact_name = #{pactName},
+			organ_no = #{organNo},
+			derp_no = #{derpNo},
+			pact_type = #{pactType},
+			sign_time = #{signTime},
+			pact_start_time = #{pactStartTime},
+			pact_end_time = #{pactEndTime},
+			pact_status = #{pactStatus},
+			pact_expires = #{pactExpires},
+			pact_stop_time = #{pactStopTime},
+			stop_reason = #{stopReason},
+			attachm = #{attachm},
+			remark = #{remark},
+			created_by = #{createdBy},
+			created_date = #{createdDate},
+			updated_by = #{updatedBy},
+			updated_date = #{updatedDate}
+    	where
+    		uid = #{uId}
+    		AND
+    		pact_no = #{pactNo}
+    </update>
+    
+    <!-- 修改合同变更信息 -->
+    <update id = "updatePactChange" parameterType = "com.omcube.model.po.PactChange">
+    	update EP_PACT_CHANGE set
+    		change_time = #{changeTime},
+    		change_type = #{changeType},
+    		change_content = #{changeContent},
+    		attachm = #{attachm},
+    		remark = #{remark},
+    		created_by = #{createdBy},
+    		created_date = #{createdDate},
+    		updated_by = #{updatedBy},
+    		updated_date = #{updatedDate}
+    	where
+    		uid = #{uId}
+    		AND
+    		pact_no = #{pactNo}
+    		AND
+    		change_id = #{changeId}
+    </update>
+    
+    <!-- 修改合同续约信息 -->
+    <update id = "updatePactRenew" parameterType = "com.omcube.model.po.PactRenew">
+    	update EP_PACT_RENEW set
+    		renew_time = #{renewTime},
+    		renew_type = #{renewType},
+    		renew_came_time = #{renewCameTime},
+    		renew_lost_time = #{renewLostTime},
+    		renew_content = #{renewContent},
+    		attachm = #{attachm},
+    		remark = #{remark},
+    		created_by = #{createdBy},
+    		updated_by = #{updatedBy}
+    	where
+    		uid = #{uId}
+    		AND
+    		pact_no = #{pactNo}
+    		AND
+    		renew_id = #{renewId}
+    </update>
 </mapper>

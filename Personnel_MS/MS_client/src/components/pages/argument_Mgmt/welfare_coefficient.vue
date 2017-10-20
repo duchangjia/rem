@@ -7,23 +7,23 @@
 				<el-button type="primary" @click="addWelfare()">新增</el-button>
 			</div>
 			<div class="content-inner">
-				<el-table :data="dataList" border stripe style="width: 100%">
-					<el-table-column prop="modelNo" label="模版编号">
+				<el-table :data="welfareList" border stripe style="width: 100%">
+					<el-table-column prop="applyNo" label="模版编号">
 						<template scope="scope">
-					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.modelNo }}</span>
+					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
 				      	</template>
 					</el-table-column>
-					<el-table-column prop="modelName" label="模版名称"></el-table-column>
-					<el-table-column prop="beiz" label="备注"></el-table-column>
-					<el-table-column prop="ID" label="创建ID"></el-table-column>
-					<el-table-column prop="time" label="创建时间"></el-table-column>
+					<el-table-column prop="applyName" label="模版名称"></el-table-column>
+					<el-table-column prop="remark" label="备注"></el-table-column>
+					<el-table-column prop="createdBy" label="创建createdBy"></el-table-column>
+					<el-table-column prop="createdDate" label="创建时间"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
 							<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>2*pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -32,35 +32,34 @@
 
 <script>
 import current from '../../common/current_position.vue'
+const baseURL = 'ifdp'
 export default {
 	data() {
 		return {
 			pageIndex: 1,
 			pageRows: 2,
-			totalRows: 10,
-			dataList: [
+			totalRows: 1,
+			welfareList: [
 				{
-					modelNo: "00001",
-					modelName: "广州地区缴纳",
-					beiz: "",
-					ID: "",
-					time: ""
+					applyNo: "00001",
+					applyName: "广州地区缴纳",
+					remark: "",
+					createdBy: "",
+					createdDate: ""
 				},
 				{
-					modelNo: "00002",
-					modelName: "深圳地区缴纳",
-					beiz: "",
-					ID: "",
-					time: "",
-					caoz: ""
+					applyNo: "00002",
+					applyName: "深圳地区缴纳",
+					remark: "",
+					createdBy: "",
+					createdDate: ""
 				},
 				{
-					modelNo: "00003",
-					modelName: "东莞地区缴纳",
-					beiz: "",
-					ID: "",
-					time: "",
-					caoz: ""
+					applyNo: "00003",
+					applyName: "东莞地区缴纳",
+					remark: "",
+					createdBy: "",
+					createdDate: ""
 				}
 			]
 		}
@@ -68,29 +67,81 @@ export default {
 	components: {
 		current
 	},
+	created() {
+		const self = this;
+		let pageNum = 1,
+			pageSize = 4;
+		let params = {
+			pageNum: pageNum,
+			pageSize: pageSize
+		}
+		//查询福利缴纳系数模版列表
+		self.queryInsurancePayTemplates(pageNum,pageSize,params);
+	},
 	methods: {
 		addWelfare() {
 			this.$router.push('/add_welfare');
 		},
 		handleEdit(index, row) {
-			console.log('index:'+index,'row.modelNo:'+row.modelNo);
-            this.$router.push('/welfare_info');
+			console.log('index:'+index,'row.modelNo:'+row.applyNo);
+            this.$router.push({
+            	name: 'welfare_info',
+            	params: {
+            		applyNo: row.applyNo
+            	}
+            });
 		},
 		handleDelete(index, row) {
-            console.log('index',index);
-            console.log('row',row);
-            this.$confirm('此操作将会删除该条模版, 是否继续?', '提示', {
+            const self = this;
+            self.$confirm('此操作将会删除该条模版, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-               this.$message({ type: 'success', message: '删除成功!' });
+            	let params = {
+            		
+            	};
+            	//删除福利系数模版
+            	self.deleteInsurancePayTemplate(params);
             }).catch(() => {
-                this.$message('您已取消删除模版！');
+                self.$message('您已取消删除模版！');
             });
         },
         handleCurrentChange(val) {
 			console.log('当前页',val);
+			const self = this;
+			let pageNum = val,
+				pageSize = 4;
+			let params = {
+				pageNum: pageNum,
+				pageSize: pageSize
+			}
+			//查询分页福利缴纳系数模版列表
+			self.queryInsurancePayTemplates(pageNum,pageSize,params);
+		},
+		queryInsurancePayTemplates(pageNum,pageSize,params) {
+			const self = this;
+			self.$axios.get(baseURL+'/queryInsurancePayTemplates',{params : params})
+			.then(function(res) {
+				console.log('res',res);
+				self.welfareList = res.data.data.WelfareList;
+				self.totalRows = Number(res.data.data.total);
+				self.pageIndex = pageNum;
+				self.pageRows = pageSize;
+				self.totalRows = Number(res.data.data.total);
+			}).catch(function(err) {
+				console.log(err)
+			})
+		},
+		deleteInsurancePayTemplate(params) {
+			const self = this;
+			self.$axios.delete(baseURL+'/deleteInsurancePayTemplate')
+    		.then(function(res) {
+    			console.log(res);
+    			self.$message({ type: 'success', message: '删除成功!' });
+    		}).catch(function(err) {
+    			self.$message.error('删除失败');
+    		})
 		}
 	}
 }
@@ -175,12 +226,13 @@ border-bottom: 1px solid #EEEEEE;
 .welfare_coefficient .el-table th {
 	text-align: center;
 }
-.welfare_coefficient .el-table td:first-child{
+.welfare_coefficient .el-table td:first-child span {
 	cursor: pointer;
-}
-.welfare_coefficient .el-table td:first-child:hover{
 	color: #FF9900;
 }
+/*.welfare_coefficient .el-table td:first-child:hover{
+	color: #FF9900;
+}*/
 /*.welfare_coefficient .el-table--enable-row-hover .el-table__body tr:hover>td {
 	background-color: #f8f8f8;
 	background-clip: padding-box;
@@ -286,6 +338,9 @@ border-bottom: 1px solid #EEEEEE;
 
 .welfare_coefficient .el-pagination button:hover {
 	color: #FF9900;
+}
+.welfare_coefficient .el-pagination button.disabled {
+    color: #e4e4e4;
 }
 .welfare_coefficient .el-pagination button.disabled:hover {
 	color: #e4e4e4;

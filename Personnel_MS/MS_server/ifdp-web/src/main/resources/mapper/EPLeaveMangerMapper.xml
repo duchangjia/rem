@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.omcube.model.mapper.EPLeaveMangerMapper">
+
+	<resultMap id="EPLeaveMap" type="com.omcube.model.po.EPLeaveInfoPO">
+
+		<id column="UID" property="uId"></id>
+		<id column="APPLY_NO" property="applyNo"></id>
+		<result column="LEAVE_START_TIME" property="leaveStartTime" javaType="java.util.Date"></result>
+		<result column="LEAVE_END_TIME" property="leaveEndTime" javaType="java.util.Date"></result>
+		<result column="LEAVE_TYPE" property="leaveType" javaType="java.lang.String"></result>
+		<result column="TIME_SHEET" property="timeSheet" javaType="java.lang.Double"></result>
+		<result column="AUTH_FLOW" property="authFlow" javaType="java.lang.String"></result>
+		<result column="AUTH_STATUS" property="authStatus" javaType="java.lang.String"></result>
+		<result column="AUTH_VIEW" property="authView" javaType="java.lang.String"></result>
+		<result column="ATTACHM" property="attachm" javaType="java.lang.String"></result>
+		<result column="REMARK" property="remark" javaType="java.lang.String"></result>
+		<result column="CREATED_BY" property="createdBy" javaType="java.lang.String"></result>
+		<result column="CREATED_DATE" property="createdDate" javaType="java.util.Date"></result>
+		<result column="UPDATED_BY" property="updatedBy" javaType="java.lang.String"></result>
+		<result column="UPDATED_DATE" property="updatedDate" javaType="java.util.Date"></result>
+
+		<!-- 员工详情对象的映射 -->
+		<association property="custInfoPO" javaType="com.omcube.model.po.CustInfoPO">
+			<id column="USER_NO" property="userNo"></id>
+			<result column="CUST_NAME" property="custName" javaType="java.lang.String"></result>
+			<result column="ORGAN_NO" property="organNo" javaType="java.lang.String"></result>
+			<result column="DERP_NO" property="derpNo" javaType="java.lang.String"></result>
+			<result column="OWNER_CCC" property="ownerCCC" javaType="java.lang.String"></result>
+			<result column="CERT_TYPE" property="certType" javaType="java.lang.String"></result>
+			<result column="CERT_NO" property="certNo" javaType="java.lang.String"></result>
+			<result column="SEX" property="sex" javaType="java.lang.String"></result>
+			<result column="BIRTHDAY" property="birthday" javaType="java.lang.String"></result>
+			<result column="NATION" property="nation" javaType="java.lang.String"></result>
+			<result column="MARITAL" property="marital" javaType="java.lang.String"></result>
+			<result column="POLITIAL" property="politial" javaType="java.lang.String"></result>
+			<result column="EDUCATION" property="education" javaType="java.lang.String"></result>
+			<result column="DEGREE" property="degree" javaType="java.lang.String"></result>
+			<result column="GRAD_SCHOOL" property="gradSchool" javaType="java.lang.String"></result>
+			<result column="GRAD_TIME" property="gradTime" javaType="java.lang.String"></result>
+			<result column="MAJOR" property="major" javaType="java.lang.String"></result>
+			<result column="LINE_MANAGER" property="lineManager" javaType="java.lang.String"></result>
+			<result column="ORIGO" property="origo" javaType="java.lang.String"></result>
+			<result column="HOME_ADDR" property="homeAddr" javaType="java.lang.String"></result>
+			<result column="LIVE_ADDR" property="liveAddr" javaType="java.lang.String"></result>
+			<result column="PER_EMAIL" property="permAddr" javaType="java.lang.String"></result>
+			<result column="MOBILE_NO" property="mobileNo" javaType="java.lang.String"></result>
+			<result column="TELEPH" property="teleph" javaType="java.lang.String"></result>
+			<result column="HOME_TELEPH" property="homeTeleph" javaType="java.lang.String"></result>
+			<result column="PER_EMAIL" property="perEmail" javaType="java.lang.String"></result>
+			<result column="COM_EMAIL" property="comEmail" javaType="java.lang.String"></result>
+			<result column="ATTEN" property="atten" javaType="java.lang.String"></result>
+			<result column="ATTEN_TELEPH" property="attenTeleph" javaType="java.lang.String"></result>
+			<result column="QQ_ACCT" property="qqAcct" javaType="java.lang.String"></result>
+			<result column="ONE_INCH" property="oneLine" javaType="java.lang.String"></result>
+			<result column="CUST_TYPE" property="custType" javaType="java.lang.String"></result>
+			<result column="CUST_POST" property="custPost" javaType="java.lang.String"></result>
+			<result column="CUST_CLASS" property="custClass" javaType="java.lang.String"></result>
+			<result column="CUST_STATUS" property="custStatus" javaType="java.lang.String"></result>
+			<result column="ENTRY_TIME" property="entryTime" javaType="java.util.Date"></result>
+			<result column="LEFTJOB_TIME" property="leftJobTime" javaType="java.util.Date"></result>
+			<result column="WORK_TIME" property="workTime" javaType="java.util.Date"></result>
+			<result column="PROFTITLE_TIME" property="profTitleTime" javaType="java.util.Date"></result>
+			<result column="COMPACT_START_TIME" property="compactStartTime" javaType="java.util.Date"></result>
+			<result column="COMPACT_END_TIME" property="compactEndTime" javaType="java.util.Date"></result>
+			<result column="PROB_START_TIME" property="probStartTime" javaType="java.util.Date"></result>
+			<result column="PROB_END_TIME" property="probEndTime" javaType="java.util.Date"></result>
+			<result column="RECRUIT_QUARRY" property="recruitQuarry" javaType="java.lang.String"></result>
+			<result column="LATE_LEAVE_TIME" property="lateLeaveTime" javaType="java.util.Date"></result>
+			<result column="OPEN_BANK" property="openBank" javaType="java.lang.String"></result>
+			<result column="BANK_CARD_NO" property="bankCardNo" javaType="java.lang.String"></result>
+			<result column="ENDM_ACCT" property="endmAcct" javaType="java.lang.String"></result>
+			<result column="MEDI_ACCT" property="mediAcct" javaType="java.lang.String"></result>
+			<result column="MATE_ACCT" property="mateAcct" javaType="java.lang.String"></result>
+			<result column="HOUS_ACCT" property="housAcct" javaType="java.lang.String"></result>
+        </association>
+
+
+	</resultMap>
+	<!-- 通过请假的编号查询 -->
+	<select id="queryLeaveInfo" parameterType="map"
+		resultType="com.omcube.model.po.EPLeaveInfoPO">
+		select *
+		from
+		EP_LEAVE_FLOW
+		where
+		UID = #{uId} and APPLY_NO = #{applyNo}
+	</select>
+
+	<!-- 请假详细信息的添加 -->
+	<insert id="addLeaveInfo" parameterType="com.omcube.model.po.EPLeaveInfoPO">
+		insert into
+			EP_LEAVE_FLOW
+		values(
+			#{uId},
+			#{applyNo},
+			#{userNo},
+			#{leaveStartTime},
+			#{leaveEndTime},
+			#{leaveType},
+			#{timeSheet},
+			#{authFlow},
+			#{authStatus},
+			#{authView},
+			#{attachm},
+			#{remark},
+			#{createdBy},
+			date_format(now(),'%y-%m-%d'),
+			#{updatedBy},
+			date_format(now(),'%y-%m-%d')
+		)
+	</insert>
+
+	<!-- 请假详情列表的查询 -->
+	<select id="queryLeaveList" parameterType="com.omcube.model.po.EPLeaveInfoPO" resultMap="EPLeaveMap">
+		select  
+			le.APPLY_NO,
+			cu.ORGAN_NO,
+			cu.DERP_NO,
+			cu.USER_NO,
+			cu.CUST_NAME,
+			le.LEAVE_TYPE,
+			le.LEAVE_START_TIME,
+			le.LEAVE_END_TIME,
+			le.CREATED_BY,
+			le.CREATED_DATE 
+		from 
+			EP_CUST_INFO cu ,EP_LEAVE_FLOW le 
+		where 
+			cu.USER_NO= le.USER_NO 
+		and 
+			le.UID = cu.UID = '0001'
+		and
+			ORGAN_NO = #{organNo} 
+		and 
+			DERP_NO= #{derpNo} 
+		order by 
+			le.APPLY_NO desc
+	</select>
+	
+	<!-- 请假详情的查询 -->
+	<select id="queryLeaveInfos" parameterType="com.omcube.model.po.EPLeaveInfoPO" resultMap="EPLeaveMap">
+		select  
+			le.APPLY_NO,
+			cu.ORGAN_NO,
+			cu.DERP_NO,
+			cu.USER_NO,
+			cu.CUST_NAME,
+			le.LEAVE_TYPE,
+			le.LEAVE_START_TIME,
+			le.LEAVE_END_TIME,
+			le.CREATED_BY,
+			le.CREATED_DATE 
+		from 
+			EP_CUST_INFO cu ,EP_LEAVE_FLOW le 
+		where 
+			cu.USER_NO = le.USER_NO = #{userNo}
+		and 
+			le.UID = cu.UID = '0001'
+		and
+			ORGAN_NO = #{organNo} 
+		and 
+			DERP_NO= #{derpNo} 
+		and 
+			(LEAVE_START_TIME &gt; #{leaveStartTime} AND LEAVE_END_TIME &lt; #{leaveEndTime}) 
+		or  
+			(LEAVE_START_TIME &lt; #{leaveStartTime} AND LEAVE_END_TIME &gt; #{leaveEndTime}) 
+		order by 
+			le.APPLY_NO desc
+	</select>
+	
+	<!-- 请假详情的删除 -->
+	<delete id="deleteLeaveInfo" parameterType="com.omcube.model.po.EPLeaveInfoPO">
+		delete from 
+			EP_LEAVE_FLOW 
+		where 
+			APPLY_N0 = #{applyNo} and UID = #{uid}	
+	</delete>
+	
+	<!-- 请假详情的修改 -->
+	<update id="modifyLeaveInfo" parameterType="com.omcube.model.po.SysRolePO">
+		update
+			EP_LEAVE_FLOW
+		set
+			LEAVE_START_TIME = #{leaveStartTime},
+			LEAVE_END_TIME = #{leaveEndTime},
+			LEAVE_TYPE = #{leaveType},
+			TIME_SHEET = #{timeSheet},
+			ATTACHM = #{attachm},
+			REMARK = #{remark}
+		where
+			UID = #{uId} and APPLY_N0 = #{applyNo}
+	</update>
+	
+
+</mapper>

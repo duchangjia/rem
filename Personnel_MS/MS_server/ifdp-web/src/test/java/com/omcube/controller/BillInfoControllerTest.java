@@ -97,7 +97,7 @@ public class BillInfoControllerTest {
     public void queryBillInfoByName() throws Exception {
 
 	String result = mockMvc
-		.perform(get("/organBillInfo/queryBillInfoByName/杭州")
+		.perform(get("/organBillInfo/queryBillInfoByName/")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
