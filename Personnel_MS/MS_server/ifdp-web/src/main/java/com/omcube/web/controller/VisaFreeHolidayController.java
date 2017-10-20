@@ -38,22 +38,22 @@ public class VisaFreeHolidayController {
 	private VisaFreeHolidayService visaFreeHolidayService;
 
 	// 查询所有列表
-	@GetMapping(value = "queryVisaFreeHolidayList/{uId}")
+	@GetMapping(value = "queryVisaFreeHolidayList/{uid}")
 	@Cacheable(value = "queryCache")
-	public Object queryVisaFreeHolidayList(@PathVariable String uId,
+	public Object queryVisaFreeHolidayList(@PathVariable String uid,
 			Integer pageSize, Integer pageNum) {
 		// 判断传入参数是否为空,若为空则返回错误信息
-		if (StringUtils.isEmpty(uId)) {
-			logger.error("the request params uId is null");
+		if (StringUtils.isEmpty(uid)) {
+			logger.error("the request params uid is null");
 			return JSONResultUtil.setError("F00002",
-					"the request params uId is null");
+					"the request params uid is null");
 		}
 		// 使用pagehelper插件进行分页查询
 		pageNum = pageNum == null ? 1 : pageNum;
 		pageSize = pageSize == null ? 5 : pageSize;
 		PageHelper.startPage(pageNum, pageSize, true);
 		List<VisaFreeHolidayPo> VisaFreeHolidays = visaFreeHolidayService
-				.queryVisaFreeHolidayList(uId);
+				.queryVisaFreeHolidayList(uid);
 		PageInfo<VisaFreeHolidayPo> pageInfo = new PageInfo<VisaFreeHolidayPo>(
 				VisaFreeHolidays);
 		return JSONResultUtil.setSuccess(pageInfo);
@@ -152,7 +152,7 @@ public class VisaFreeHolidayController {
 
 		// 从session 中获取信息
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-		queryVisaFreeHolidayRequest.setuId(sysLoginCtrl.getUid());
+		queryVisaFreeHolidayRequest.setUid(sysLoginCtrl.getUid());
 		return queryVisaFreeHolidayRequest;
 	}
 

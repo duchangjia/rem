@@ -6,7 +6,7 @@
 <!-- 查询所有列表 -->
 <mapper namespace="com.omcube.model.mapper.VisaFreeHolidayMapper">
 	<resultMap id="VisaFreeHolidayMap" type="com.omcube.model.po.VisaFreeHolidayPo">
-		<id column="uid" property="uId" />
+		<id column="uid" property="uid" />
 		<id column="user_no" property="userNo" />
 		<result column="day_date" property="dayDate" javaType="java.lang.String" />
 		<result column="day_flag" property="dayFlag" javaType="java.lang.String"></result>
@@ -30,7 +30,7 @@
 		from
 		PUB_WORKDAY
 		where
-		UID=#{uId}
+		uid=#{uid}
 	</select>
 
 	<!-- 校验新增的免签节假日是否存在 -->
@@ -44,7 +44,7 @@
 		insert into
 		PUB_WORKDAY
 		(uid,day_date,day_flag,remark,created_by,created_date,updated_by,updated_date)values
-		(#{uId},#{dayDate},#{dayFlag},#{remark},#{createdBy},date_format(now(),'%y-%m-%d'),#{updatedBy},date_format(now(),'%y-%m-%d'))
+		(#{uid},#{dayDate},#{dayFlag},#{remark},#{createdBy},date_format(now(),'%y-%m-%d'),#{updatedBy},date_format(now(),'%y-%m-%d'))
 	</insert>
 
 	<!-- 条件组合查询 -->
@@ -61,7 +61,7 @@
 		from
 		PUB_WORKDAY
 		<where>
-			uid=#{uId}
+			uid=#{uid}
 			<if test="startDate!=null">
 				and day_date like '%${startDate}%'
 			</if>
