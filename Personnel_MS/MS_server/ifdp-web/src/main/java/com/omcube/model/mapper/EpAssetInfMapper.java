@@ -30,6 +30,21 @@ public interface EpAssetInfMapper {
      */
     void updateEpAssetInf(EpAssetInfPO epAssetInf);
 
+    /**
+     * 4.高级查询资产列表
+     * @param epAssetInf
+     * @param userNo
+     * @return
+     */
     List<EpAssetInfPO> queryEpAssetInfs(EpAssetInfPO epAssetInf);
+
+    /**
+     * 5.删除资产信息
+     * @param assetNo
+     * @param uid
+     * @param updatedBy
+     */
+    void deleteEpAssetInf(@Param("assetNo") String assetNo, @Param("uid") String uid,
+	    @Param("updatedBy") String updatedBy);
 
 }

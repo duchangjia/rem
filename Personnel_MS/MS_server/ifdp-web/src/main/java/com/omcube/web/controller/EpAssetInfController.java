@@ -1,11 +1,23 @@
 package com.omcube.web.controller;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
+import java.util.UUID;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +51,8 @@ public class EpAssetInfController {
      */
     @PostMapping(value = "/addEpAssetInf")
     @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-    public Object addEpAssetInf(EpAssetInfPO epAssetInf/*, @RequestParam("file") MultipartFile file*/) {
+    public Object addEpAssetInf(EpAssetInfPO epAssetInf,
+	    @RequestParam(value = "file", required = false) MultipartFile file) {
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	String uid = sysLoginCtrl.getUid();
@@ -57,27 +70,36 @@ public class EpAssetInfController {
 		    "the param uid,assetNo,organNo,derpNo or applyUserNo is null");
 	}
 	//文件上传
-	/*if (file.isEmpty()) {
-	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "Upload files to empty!");
+	if (file != null) {
+	    //获取UUID
+	    String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+	    //获取文件名
+	    String fileName = file.getOriginalFilename();
+	    //获取文件类型
+	    int index = fileName.lastIndexOf(".");
+	    String type = fileName.substring(index);
+	    //获取文件路径
+	    String path = "d:/fileUpload";
+	    //获取带文件名的绝对路径
+	    path=path + "/" + uuid+ type;
+	    //创建UUID唯一文件
+	    File dest = new File(path);
+	    if (!dest.getParentFile().exists()) {
+		dest.getParentFile().mkdir();
+	    }
+	    try {
+		file.transferTo(dest);
+	    }
+	    catch (IllegalStateException e) {
+		e.printStackTrace();
+	    }
+	    catch (IOException e) {
+		e.printStackTrace();
+	    }
+	    //将上传文件路径写入epAssetInf
+	    epAssetInf.setAttachm(path);
 	}
-	String fileName = file.getOriginalFilename();
-	int size = (int) file.getSize();
-	System.out.println(fileName + "--->" + size);
-	String path = "d:/fileUpload";
-	File dest = new File(path + "/" + fileName);
-	if (!dest.getParentFile().exists()) {
-	    dest.getParentFile().mkdir();
-	}
-	try {
-	    file.transferTo(dest);
-	}
-	catch (IllegalStateException e) {
-	    e.printStackTrace();
-	}
-	catch (IOException e) {
-	    e.printStackTrace();
-	}*/
-
+	//执行添加操作
 	epAssetInfService.addEpAssetInf(epAssetInf);
 	return JSONResultUtil.setSuccess();
     }
@@ -89,7 +111,7 @@ public class EpAssetInfController {
      */
     @GetMapping(value = "queryEpAssetInf/{assetNo}")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
-    public Object queryEpAssetInf(@PathVariable String assetNo) {
+    public Object queryEpAssetInf(@PathVariable(value = "assetNo") String assetNo) {
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	String uid = sysLoginCtrl.getUid();
@@ -129,12 +151,20 @@ public class EpAssetInfController {
 	return JSONResultUtil.setSuccess();
     }
 
-    @GetMapping(value = "queryEpAssetInfs")
+    /**
+     * 4.高级查询资产列表
+     * @param pageNum
+     * @param pageSize
+     * @param epAssetInf
+     * @return
+     */
+    @GetMapping(value = "/queryEpAssetInfs")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
     public Object queryEpAssetInfs(Integer pageNum, Integer pageSize, EpAssetInfPO epAssetInf) {
-	//从session 获取uid 
+	//从session 获取uid ,userNo
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 	String uid = sysLoginCtrl.getUid();
+	//String userNo = sysLoginCtrl.getUserNo();
 	epAssetInf.setUid(uid);
 	if (StringUtils.isEmpty(epAssetInf)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
@@ -143,5 +173,90 @@ public class EpAssetInfController {
 	List<EpAssetInfPO> epAssetInfs = epAssetInfService.queryEpAssetInfs(epAssetInf);
 	PageInfo<EpAssetInfPO> pageInfo = new PageInfo<EpAssetInfPO>(epAssetInfs);
 	return JSONResultUtil.setSuccess(pageInfo);
+    }
+
+    /**
+     * 5.删除资产信息
+     * @param assetNo
+     * @return
+     */
+    @DeleteMapping(value = "/deleteEpAssetInf/{assetNo}")
+    @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
+    public Object deleteEpAssetInf(@PathVariable String assetNo) {
+	//从session 获取uid ,updatedBy
+	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+	String uid = sysLoginCtrl.getUid();
+	String updatedBy = sysLoginCtrl.getUpdatedBy();
+	if (StringUtils.isEmpty(assetNo) || StringUtils.isEmpty(uid)) {
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
+		    "the param assetNo or uid is null");
+	}
+	epAssetInfService.deleteEpAssetInf(assetNo, uid, updatedBy);
+	return JSONResultUtil.setSuccess();
+    }
+
+    /**
+     * 6.资产信息的附件下载
+     * @param request
+     * @param response
+     * @param fileUrl
+     * @return
+     */
+    @GetMapping(value = "/downloadFile")
+    public Object downloadFile(HttpServletRequest request, HttpServletResponse response, String fileUrl) {
+	if (StringUtils.isEmpty(fileUrl)) {
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the param fileUrl is null");
+	}
+	int index = fileUrl.lastIndexOf("/");
+	String fileName = fileUrl.substring(index + 1);
+	if (fileName != null) {
+	    File file = new File(fileUrl);
+	    if (file.exists()) {
+		response.setContentType(/*"application/force-download"*/"application/octet-stream");// 设置强制下载不打开
+		try {
+		    response.addHeader("Content-Disposition",
+			    "attachment;fileName=" + URLEncoder.encode(fileName, "UTF-8"));// 设置文件名	
+		}
+		catch (UnsupportedEncodingException e) {
+		    e.printStackTrace();
+		}
+		byte[] buffer = new byte[1024];
+		FileInputStream fis = null;
+		BufferedInputStream bis = null;
+		try {
+		    fis = new FileInputStream(file);
+		    bis = new BufferedInputStream(fis);
+		    OutputStream os = response.getOutputStream();
+		    int i = bis.read(buffer);
+		    while (i != -1) {
+			os.write(buffer, 0, i);
+			i = bis.read(buffer);
+		    }
+		    System.out.println("success");
+		}
+		catch (Exception e) {
+		    e.printStackTrace();
+		}
+		finally {
+		    if (bis != null) {
+			try {
+			    bis.close();
+			}
+			catch (IOException e) {
+			    e.printStackTrace();
+			}
+		    }
+		    if (fis != null) {
+			try {
+			    fis.close();
+			}
+			catch (IOException e) {
+			    e.printStackTrace();
+			}
+		    }
+		}
+	    }
+	}
+	return null;
     }
 }
