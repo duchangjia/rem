@@ -31,7 +31,7 @@
                         <span @click="handlePactDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.pactNo }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" prop="pactName" label="合同名称">
+                <el-table-column align="center" prop="paperPactNo" label="纸质合同编号">
                 </el-table-column>
                 <el-table-column align="center" prop="userNo" label="工号">
                 </el-table-column>
@@ -62,7 +62,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows">
+            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
             </el-pagination>
         </div>
     </div>
@@ -77,9 +77,9 @@ export default {
         name: "",
         pactType: ""
       },
-      pageIndex: 1,
-      pageRows: 7,
-      totalRows: 20,
+      pageNum: 1,
+      pageSize: 7,
+      totalRows: 1,
       pactListInfo: []
     };
   },
@@ -95,15 +95,17 @@ export default {
     getPactList() {
       const self = this;
       let params = {
-        pageIndex: self.pageIndex,
-        pageRows: self.pageRows,
+        pageNum: self.pageNum,
+        pageSize: self.pageSize,
         custName: self.filters.name,
         pactType: self.filters.pactType
       };
       self.$axios
         .get("/iem_hrm/pact/queryPactList", { params: params })
         .then(res => {
-          self.pactListInfo = res.data.data.pactListArray;
+          console.log(res);
+          self.pactListInfo = res.data.data.list;
+          self.totalRows = res.data.data.total;
         })
         .catch(() => {
           console.log("error");
@@ -127,7 +129,7 @@ export default {
       });
     },
     handleCurrentChange(val) {
-      this.pageIndex = val;
+      this.pageNum = val;
       this.getPactList(); //分页查询合同列表
     },
     handleQuery() {
