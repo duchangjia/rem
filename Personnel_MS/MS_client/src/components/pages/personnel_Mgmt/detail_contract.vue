@@ -353,7 +353,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .detail_contract {
   padding: 0 0 20px 20px;
 }

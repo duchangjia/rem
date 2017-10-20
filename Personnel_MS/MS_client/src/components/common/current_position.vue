@@ -38,7 +38,6 @@ export default {
                 this.$router.push({
                     name: aa,
                     params: {
-                        pactNo:'',
                         activeTab: this.activeTab
                     }
                 })

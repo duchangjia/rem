@@ -79,7 +79,7 @@
             }
         },
         created() {
-            this.$axios.get('/iifdp_1/api/auth/code/image', {headers:{deviceId: '12345'},responseType: 'blob'})
+            this.$axios.get('/api/api/auth/code/image', {headers:{deviceId: '12345'},responseType: 'blob'})
                 .then( res => {
                     let reader = new FileReader()
                     reader.onload = (e => {
@@ -96,7 +96,7 @@
         },
         methods: {
             changeCode() {
-              this.$axios.get('/iifdp_1/api/auth/code/image', {headers:{deviceId: '12345'},responseType: 'blob'})
+              this.$axios.get('/api/api/auth/code/image', {headers:{deviceId: '12345'},responseType: 'blob'})
                   .then( res => {
                       let reader = new FileReader()
                       reader.onload = (e => {
@@ -120,13 +120,6 @@
 //                        })
                     	//吐丝提示
 //						Bus.$emit('showToast','正在努力加载中...');
-//						setTimeout(function () {
-//                            let data = {
-//                                username: self.ruleForm.username,
-//                                password: self.ruleForm.password,
-//                                imageCode: self.ruleForm.imageCode,
-//                            }
-//                            console.log(data)
                         var params = new URLSearchParams();
                         params.append('username', self.ruleForm.username);
                         params.append('password', self.ruleForm.password);
@@ -136,7 +129,7 @@
 //                        dataType:"json",
 //                    contentType:"application/json",
 //                    data:JSON.stringify(this.content2),
-                            self.$axios.post('/iifdp_1/api/auth/authentication/login', params, {
+                            self.$axios.post('/api/api/auth/authentication/login', params, {
                                 auth:{
                                     username:'iem_cloud',
                                     password:'thisissecret'
@@ -165,7 +158,6 @@
                                     self.fullscreenLoading = false
                                     console.log(e)
                                 })
-//                        },2000)
                     } else {
 //                        self.content = '登录失败！请填写正确的账号和密码'
 //                        console.log(self.content,self.title,self.$refs.errtip)
