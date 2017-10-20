@@ -5,7 +5,7 @@ import java.util.Date;
 import com.omcube.model.po.BasicPO;
 
 public class TravelResponse extends BasicPO {
-
+ 
     private String applyNo; //出差编号
     private String organNo;//公司编号
     private String deptNo;//部门编号
