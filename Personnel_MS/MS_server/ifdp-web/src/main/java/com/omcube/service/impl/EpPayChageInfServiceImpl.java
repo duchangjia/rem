@@ -16,10 +16,17 @@ public class EpPayChageInfServiceImpl implements EpPayChageInfService {
 	@Autowired
 	private EpPayChageInfMapper epPayChageInfMapper;
 
-	// 列表查询调薪信息
+	// 调薪信息列表查询
 	@Override
 	public List<EpPayChageInfResponse> selectListEpPayChageInf(String startTime,
 			String endTime) {
 		return epPayChageInfMapper.selectListEpPayChageInf(startTime, endTime);
+	}
+
+	// 调薪管理详情查询
+	public EpPayChageInfResponse selectDetailEpPayChageInf(
+			EpPayChageInfResponse epPayChageInfResponse) {
+		return epPayChageInfMapper
+				.selectDetailEpPayChageInf(epPayChageInfResponse);
 	}
 }

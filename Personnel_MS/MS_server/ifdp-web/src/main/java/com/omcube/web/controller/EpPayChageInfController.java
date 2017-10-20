@@ -23,7 +23,7 @@ public class EpPayChageInfController {
 	@Autowired
 	private EpPayChageInfService epPayChageInfService;
 
-	// 列表查询调薪信息
+	// 调薪信息列表查询
 	@GetMapping(value = "/selectListEpPayChageInf")
 	@Cacheable(value = "queryCache")
 	public Object selectListEpPayChageInf(HttpServletRequest request,
@@ -40,4 +40,12 @@ public class EpPayChageInfController {
 
 	}
 
+	// 调薪信息详情查询
+	@GetMapping(value = "/selectDetailEpPayChageInf")
+	@Cacheable(value = "queryCache")
+	public EpPayChageInfResponse selectDetailEpPayChageInf(
+			EpPayChageInfResponse epPayChageInfResponse) {
+		return epPayChageInfService
+				.selectDetailEpPayChageInf(epPayChageInfResponse);
+	}
 }
