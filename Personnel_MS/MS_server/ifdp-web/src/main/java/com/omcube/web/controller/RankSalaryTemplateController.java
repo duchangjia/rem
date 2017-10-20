@@ -27,59 +27,66 @@ import com.omcube.util.JSONResultUtil;
 import com.omcube.util.SysLoginCtrlUtil;
 
 @RestController
-@RequestMapping(value="/RankSalaryTemplate")
+@RequestMapping(value = "/RankSalaryTemplate")
 public class RankSalaryTemplateController {
     @Autowired
-    private RankSalaryTemplateService rankSalaryTemplateService ;
+    private RankSalaryTemplateService rankSalaryTemplateService;
+
     /**
      * 1.添加职级薪酬标准模板
      * @param rankSalaryTemplate
      * @return
      */
-    @PostMapping(value="/addCparm")
+    @PostMapping(value = "/addCparm")
     @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-    public Object addCparm(RankSalaryTemplatePO rankSalaryTemplate){
-	//从session中获取uId createdBy
+    public Object addCparm(RankSalaryTemplatePO rankSalaryTemplate) {
+	//从session中获取uid createdBy
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
-	String createdBy=sysLoginCtrl.getCreatedBy();
-	//将uId createdBy放进对象中
-	rankSalaryTemplate.setUid(uId);
+	String uid = sysLoginCtrl.getUid();
+	String createdBy = sysLoginCtrl.getCreatedBy();
+	//将uid createdBy放进对象中
+	rankSalaryTemplate.setUid(uid);
 	rankSalaryTemplate.setCreatedBy(createdBy);
-	if(StringUtils.isEmpty(rankSalaryTemplate)||StringUtils.isEmpty(rankSalaryTemplate.getUid())||StringUtils.isEmpty(rankSalaryTemplate.getOrganNo())||StringUtils.isEmpty(rankSalaryTemplate.getSalaryTop())){
-	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request param uId , organNo or salaryTop is null");
+	if (StringUtils.isEmpty(rankSalaryTemplate) || StringUtils.isEmpty(rankSalaryTemplate.getUid())
+		|| StringUtils.isEmpty(rankSalaryTemplate.getOrganNo())
+		|| StringUtils.isEmpty(rankSalaryTemplate.getSalaryTop())) {
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
+		    "the request param uid , organNo or salaryTop is null");
 	}
-	if(StringUtils.isEmpty(rankSalaryTemplate.getSalaryFloor())){
+	if (StringUtils.isEmpty(rankSalaryTemplate.getSalaryFloor())) {
 	    rankSalaryTemplate.setSalaryFloor(0.0);
 	}
-	if(rankSalaryTemplate.getSalaryFloor()>rankSalaryTemplate.getSalaryTop()){
+	if (rankSalaryTemplate.getSalaryFloor() > rankSalaryTemplate.getSalaryTop()) {
 	    return JSONResultUtil.setError("", "the  param salaryFloor > the  param salaryTop");
 	}
 	rankSalaryTemplateService.addRankSalaryTemplate(rankSalaryTemplate);
 	return JSONResultUtil.setSuccess();
     }
+
     /**
-     * 2.根据uId和organNo查询职级薪酬标准模板列表
+     * 2.根据uid和organNo查询职级薪酬标准模板列表
      * @param request
      * @param pageNum
      * @param pageSize
-     * @param uId
+     * @param uid
      * @param organNo
      * @return
      */
-    @GetMapping(value="queryCParmList/{pageNum}/{pageSize}/{organNo}")
+    @GetMapping(value = "queryCParmList/{pageNum}/{pageSize}/{organNo}")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
-    public Object queryCParmList(HttpServletRequest request ,@PathVariable Integer pageNum,@PathVariable Integer pageSize,@PathVariable String organNo){
-	//从session中获取uId 
+    public Object queryCParmList(HttpServletRequest request, @PathVariable Integer pageNum,
+	    @PathVariable Integer pageSize, @PathVariable String organNo) {
+	//从session中获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 	//将查询条件封装到对象中
 	RankSalaryTemplatePO rankSalaryTemplate = new RankSalaryTemplatePO();
 	rankSalaryTemplate.setOrganNo(organNo);
-	rankSalaryTemplate.setUid(uId);
+	rankSalaryTemplate.setUid(uid);
 	//判断查询条件是否为空
-	if(StringUtils.isEmpty(rankSalaryTemplate.getUid())||StringUtils.isEmpty(rankSalaryTemplate.getOrganNo())){
-	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request param uId or organNo is null");
+	if (StringUtils.isEmpty(rankSalaryTemplate.getUid()) || StringUtils.isEmpty(rankSalaryTemplate.getOrganNo())) {
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
+		    "the request param uid or organNo is null");
 	}
 	PageHelper.startPage(pageNum, pageSize, true);
 	List<RankSalaryTemplatePO> rankSalaryTemplates = rankSalaryTemplateService
@@ -87,86 +94,94 @@ public class RankSalaryTemplateController {
 	PageInfo<RankSalaryTemplatePO> pageInfo = new PageInfo<RankSalaryTemplatePO>(rankSalaryTemplates);
 	return JSONResultUtil.setSuccess(pageInfo);
     }
+
     /**
-     * 3.根据uId，organNo和applyNo查询单个职级薪酬模板
+     * 3.根据uid，organNo和applyNo查询单个职级薪酬模板
      * @param request
-     * @param uId
+     * @param uid
      * @param organNo
      * @param applyNo
      * @return
      */
-    @GetMapping(value="queryCParmDtl/{organNo}/{applyNo}")
+    @GetMapping(value = "queryCParmDtl/{organNo}/{applyNo}")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
-    public Object queryCParmDtl(@PathVariable(value="organNo") String organNo,@PathVariable(value="applyNo") String applyNo){
-	//从session中获取uId 
+    public Object queryCParmDtl(@PathVariable(value = "organNo") String organNo,
+	    @PathVariable(value = "applyNo") String applyNo) {
+	//从session中获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 	//将查询条件封装到对象中
 	RankSalaryTemplatePO rankSalaryTemplate = new RankSalaryTemplatePO();
 	rankSalaryTemplate.setOrganNo(organNo);
-	rankSalaryTemplate.setUid(uId);
+	rankSalaryTemplate.setUid(uid);
 	rankSalaryTemplate.setApplyNo(applyNo);
 	//判断查询条件是否为空
-	if(StringUtils.isEmpty(rankSalaryTemplate.getUid())||StringUtils.isEmpty(rankSalaryTemplate.getApplyNo())){
-	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request param uId ,applyNo or organNo is null");
+	if (StringUtils.isEmpty(rankSalaryTemplate.getUid()) || StringUtils.isEmpty(rankSalaryTemplate.getApplyNo())) {
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
+		    "the request param uid ,applyNo or organNo is null");
 	}
 	return JSONResultUtil.setSuccess(rankSalaryTemplateService.queryRankSalaryTemplate(rankSalaryTemplate));
     }
+
     /**
-     * 3.根据uId和applyNo查询单个职级薪酬模板
+     * 3.根据uid和applyNo查询单个职级薪酬模板
      * @param applyNo
      * @return
      */
-    @GetMapping(value="queryCParmDtl/{applyNo}")
+    @GetMapping(value = "queryCParmDtl/{applyNo}")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
-    public Object queryCParmDtl(@PathVariable(value="applyNo") String applyNo){
+    public Object queryCParmDtl(@PathVariable(value = "applyNo") String applyNo) {
 	return queryCParmDtl(null, applyNo);
     }
+
     /**
      * 4.修改职级薪酬标准模板
      * @param rankSalaryTemplate
      * @return
      */
-    @PutMapping(value="modCparm")
+    @PutMapping(value = "modCparm")
     @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-    public Object modCparm(RankSalaryTemplatePO rankSalaryTemplate){
-	//从session中获取uId updatedBy
+    public Object modCparm(RankSalaryTemplatePO rankSalaryTemplate) {
+	//从session中获取uid updatedBy
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
-	String updatedBy =sysLoginCtrl.getUpdatedBy();
-	//将uId updatedBy放入对象中
-	rankSalaryTemplate.setUid(uId);
+	String uid = sysLoginCtrl.getUid();
+	String updatedBy = sysLoginCtrl.getUpdatedBy();
+	//将uid updatedBy放入对象中
+	rankSalaryTemplate.setUid(uid);
 	rankSalaryTemplate.setUpdatedBy(updatedBy);
 	//判断主要字段是否为空
-	if(StringUtils.isEmpty(rankSalaryTemplate.getUid())||StringUtils.isEmpty(rankSalaryTemplate.getOrganNo())||StringUtils.isEmpty(rankSalaryTemplate.getApplyNo())){
-	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request param uId ,applyNo or organNo is null");
+	if (StringUtils.isEmpty(rankSalaryTemplate.getUid()) || StringUtils.isEmpty(rankSalaryTemplate.getOrganNo())
+		|| StringUtils.isEmpty(rankSalaryTemplate.getApplyNo())) {
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
+		    "the request param uid ,applyNo or organNo is null");
 	}
 	rankSalaryTemplateService.updateRankSalaryTemplate(rankSalaryTemplate);
 	return JSONResultUtil.setSuccess();
     }
+
     /**
-     * 5.根据uId，organNo和applyNo删除相应的职级薪酬标准模板
+     * 5.根据uid，organNo和applyNo删除相应的职级薪酬标准模板
      * @param request
-     * @param uId
+     * @param uid
      * @param organNo
      * @param applyNo
      * @return
      */
-    @DeleteMapping(value="delCparm/{organNo}/{applyNo}")
+    @DeleteMapping(value = "delCparm/{organNo}/{applyNo}")
     @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-    public Object delCparm(HttpServletRequest request,@PathVariable String organNo,@PathVariable String applyNo){
-	//从session中获取uId updatedBy
+    public Object delCparm(HttpServletRequest request, @PathVariable String organNo, @PathVariable String applyNo) {
+	//从session中获取uid updatedBy
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
-	String updatedBy =sysLoginCtrl.getUpdatedBy();
+	String uid = sysLoginCtrl.getUid();
+	String updatedBy = sysLoginCtrl.getUpdatedBy();
 	//将删除条件和修改项封入对象
 	RankSalaryTemplatePO rankSalaryTemplate = new RankSalaryTemplatePO();
 	rankSalaryTemplate.setOrganNo(organNo);
-	rankSalaryTemplate.setUid(uId);
+	rankSalaryTemplate.setUid(uid);
 	rankSalaryTemplate.setApplyNo(applyNo);
 	rankSalaryTemplate.setUpdatedBy(updatedBy);
 	rankSalaryTemplateService.deleteRankSalaryTemplate(rankSalaryTemplate);
 	return JSONResultUtil.setSuccess();
     }
-    
+
 }

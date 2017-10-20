@@ -6,7 +6,7 @@
 <mapper namespace="com.omcube.model.mapper.RankSalaryTemplateMapper">
 	<!--返回结果映射 -->
 	<resultMap id="RankSalaryTemplateInfo" type="com.omcube.model.po.RankSalaryTemplatePO">
-		<id column="uid" property="uId"></id>
+		<id column="uid" property="uid"></id>
 		<id column="apply_no" property="applyNo"></id>
 		<result column="organ_no" property="organNo" javaType="java.lang.String"></result>
 		<result column="apply_name" property="applyName" javaType="java.lang.String"></result>
@@ -27,21 +27,21 @@
 		INSERT INTO 
 		EP_CLASSPARM_CTRL
 		(uid,organ_no,apply_no,apply_name,rank,salary_top,salary_floor,business_standard,remark,created_by,created_date,template_status) 
-		VALUES(#{uId},#{organNo},#{applyNo},#{applyName},#{rank},#{salaryTop},#{salaryFloor},#{businessStandard},#{remark},#{createdBy},DATE_FORMAT(NOW(),'%y-%m-%d'),1)
+		VALUES(#{uid},#{organNo},#{applyNo},#{applyName},#{rank},#{salaryTop},#{salaryFloor},#{businessStandard},#{remark},#{createdBy},DATE_FORMAT(NOW(),'%y-%m-%d'),1)
 	</insert>
 	<!--2.查询职级薪酬标准模板列表  -->
 	<select id="queryRankSalaryTemplates" parameterType="com.omcube.model.po.RankSalaryTemplatePO" resultMap="RankSalaryTemplateInfo">
 		SELECT 
 		uid,organ_no,apply_no,apply_name,rank,salary_top,salary_floor,business_standard,remark,created_by,created_date 
 		FROM EP_CLASSPARM_CTRL
-		WHERE uid = #{uId} AND organ_no = #{organNo} AND template_status =1
+		WHERE uid = #{uid} AND organ_no = #{organNo} AND template_status =1
 	</select>
-	<!--3.根据uId，organNo和applyNo查询单个职级薪酬模板  -->
+	<!--3.根据uid，organNo和applyNo查询单个职级薪酬模板  -->
 	<select id="queryRankSalaryTemplate" parameterType="com.omcube.model.po.RankSalaryTemplatePO" resultMap="RankSalaryTemplateInfo">
 		SELECT 
 		uid,organ_no,apply_no,apply_name,rank,salary_top,salary_floor,business_standard,remark
 		FROM EP_CLASSPARM_CTRL
-		WHERE uid = #{uId}  AND template_status =1 AND apply_no = #{applyNo}
+		WHERE uid = #{uid}  AND template_status =1 AND apply_no = #{applyNo}
 		<if test="organNo != null and organNo != ''" >
 			AND organ_no = #{organNo}
 		</if>
@@ -50,12 +50,12 @@
 	<update id="updateRankSalaryTemplate" parameterType="com.omcube.model.po.RankSalaryTemplatePO">
 		UPDATE EP_CLASSPARM_CTRL 
 		SET apply_name = #{applyName},rank = #{rank},salary_top = #{salaryTop},salary_floor = #{salaryFloor},business_standard = #{businessStandard},remark = #{remark},updated_by = #{updatedBy},updated_date = DATE_FORMAT(NOW(),'%y-%m-%d') 
-		WHERE uid = #{uId} AND organ_no = #{organNo} AND template_status =1 AND apply_no = #{applyNo}
+		WHERE uid = #{uid} AND organ_no = #{organNo} AND template_status =1 AND apply_no = #{applyNo}
 	</update>
-	<!--5.根据uId，organNo和applyNo删除相应的职级薪酬模板  -->
+	<!--5.根据uid，organNo和applyNo删除相应的职级薪酬模板  -->
 	<update id="deleteRankSalaryTemplate" parameterType="com.omcube.model.po.RankSalaryTemplatePO">
 		UPDATE EP_CLASSPARM_CTRL 
 		SET template_status =0,updated_by = #{updatedBy},updated_date = DATE_FORMAT(NOW(),'%y-%m-%d') 
-		WHERE uid = #{uId} AND organ_no = #{organNo} AND template_status =1 AND apply_no = #{applyNo}
+		WHERE uid = #{uid} AND organ_no = #{organNo} AND template_status =1 AND apply_no = #{applyNo}
 	</update>
 </mapper>

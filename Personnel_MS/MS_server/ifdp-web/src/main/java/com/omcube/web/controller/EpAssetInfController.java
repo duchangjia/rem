@@ -1,7 +1,5 @@
 package com.omcube.web.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +39,12 @@ public class EpAssetInfController {
      */
     @PostMapping(value = "/addEpAssetInf")
     @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-    public Object addEpAssetInf(EpAssetInfPO epAssetInf, @RequestParam("file") MultipartFile file) {
+    public Object addEpAssetInf(EpAssetInfPO epAssetInf/*, @RequestParam("file") MultipartFile file*/) {
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 	String createdBy = sysLoginCtrl.getCreatedBy();
-	epAssetInf.setUid(uId);
+	epAssetInf.setUid(uid);
 	epAssetInf.setCreatedBy(createdBy);
 	//校验
 	if (StringUtils.isEmpty(epAssetInf)) {
@@ -56,7 +54,7 @@ public class EpAssetInfController {
 		|| StringUtils.isEmpty(epAssetInf.getOrganNo()) || StringUtils.isEmpty(epAssetInf.getDerpNo())
 		|| StringUtils.isEmpty(epAssetInf.getApplyUserNo())) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
-		    "the param uId,assetNo,organNo,derpNo or applyUserNo is null");
+		    "the param uid,assetNo,organNo,derpNo or applyUserNo is null");
 	}
 	//文件上传
 	/*if (file.isEmpty()) {
@@ -94,12 +92,12 @@ public class EpAssetInfController {
     public Object queryEpAssetInf(@PathVariable String assetNo) {
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
-	if (StringUtils.isEmpty(uId) || StringUtils.isEmpty(assetNo)) {
+	String uid = sysLoginCtrl.getUid();
+	if (StringUtils.isEmpty(uid) || StringUtils.isEmpty(assetNo)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
-		    "the param uId or assetNo is null");
+		    "the param uid or assetNo is null");
 	}
-	return JSONResultUtil.setSuccess(epAssetInfService.queryEpAssetInf(uId, assetNo));
+	return JSONResultUtil.setSuccess(epAssetInfService.queryEpAssetInf(uid, assetNo));
     }
 
     /**
@@ -112,10 +110,10 @@ public class EpAssetInfController {
     public Object updateEpAssetInf(EpAssetInfPO epAssetInf) {
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 	String updatedBy = sysLoginCtrl.getUpdatedBy();
 	//将获取到的uid 和 updatedBy放入到epAssetInf
-	epAssetInf.setUid(uId);
+	epAssetInf.setUid(uid);
 	epAssetInf.setUpdatedBy(updatedBy);
 	//校验
 	if (StringUtils.isEmpty(epAssetInf)) {
@@ -125,7 +123,7 @@ public class EpAssetInfController {
 		|| StringUtils.isEmpty(epAssetInf.getOrganNo()) || StringUtils.isEmpty(epAssetInf.getDerpNo())
 		|| StringUtils.isEmpty(epAssetInf.getApplyUserNo())) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
-		    "the param uId,assetNo,organNo,derpNo or applyUserNo is null");
+		    "the param uid,assetNo,organNo,derpNo or applyUserNo is null");
 	}
 	epAssetInfService.updateEpAssetInf(epAssetInf);
 	return JSONResultUtil.setSuccess();
@@ -136,8 +134,8 @@ public class EpAssetInfController {
     public Object queryEpAssetInfs(Integer pageNum, Integer pageSize, EpAssetInfPO epAssetInf) {
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
-	epAssetInf.setUid(uId);
+	String uid = sysLoginCtrl.getUid();
+	epAssetInf.setUid(uid);
 	if (StringUtils.isEmpty(epAssetInf)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	}

@@ -14,7 +14,7 @@ import com.omcube.service.CustContcatService;
 public class CustContactServiceImpl implements CustContcatService {
     @Autowired
     private CustContactMapper custContactMapper;
-    
+
     /**
      * 1.添加员工社会关系
      */
@@ -27,7 +27,6 @@ public class CustContactServiceImpl implements CustContcatService {
      */
     public void updateCustContact(CustContactPO custContact) {
 	custContactMapper.updateCustContact(custContact);
-	
     }
 
     /**
@@ -38,29 +37,27 @@ public class CustContactServiceImpl implements CustContcatService {
 	for (CustContactPO custContactPO : list) {
 	    custContactMapper.addCustContact(custContactPO);
 	}
-	
     }
 
     /**
      * 4.查询一个员工所有的关系
      */
-    public Object queryCustContacts(String uId, String userNo) {
-	return custContactMapper.queryCustContacts(uId,userNo);
+    public Object queryCustContacts(String uid, String userNo) {
+	return custContactMapper.queryCustContacts(uid, userNo);
     }
 
     /**
      * 5.删除员工关系
      */
-    public void deleteCustContact(String uId, String userNo, String contactId) {
-	custContactMapper.deleteCustContact( uId,  userNo,  contactId);
-	
+    public void deleteCustContact(String uid, String userNo, String contactId) {
+	custContactMapper.deleteCustContact(uid, userNo, contactId);
     }
 
     /**
      * 6.查询一个员工的一个关系
      */
-    public Object queryCustContact(String uId, String userNo, String contactId) {
-	return custContactMapper.queryCustContact(uId,userNo,contactId);
+    public Object queryCustContact(String uid, String userNo, String contactId) {
+	return custContactMapper.queryCustContact(uid, userNo, contactId);
     }
 
 }

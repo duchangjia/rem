@@ -58,7 +58,7 @@ public class InsurancePayTemplateControllerTest {
     public void addInsurancePayTemplate() throws UnsupportedEncodingException, Exception{
     	String result = mockMvc.perform(post("/InsurancePayTemplate/addInsurancePayTemplate")
     			.param("applyNo", "")
-    			.param("applyName", "北京地区缴纳")
+    			.param("applyName", "北京1地区缴纳")
     			.param("perEndmRate", "7.2")
     			.param("perEndmFixed", "560")
     			.param("comEndmRate", "4.5")
