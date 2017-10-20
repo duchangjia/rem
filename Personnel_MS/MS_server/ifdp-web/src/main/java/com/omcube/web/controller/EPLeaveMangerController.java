@@ -4,8 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
@@ -23,11 +21,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.omcube.model.po.EPLeaveInfoPO;
+import com.omcube.model.po.SysLoginCtrl;
 import com.omcube.service.EPLeaveMangerService;
 import com.omcube.util.ConstantUtil;
 import com.omcube.util.ErrorCodeConstantUtil;
+import com.omcube.util.GetNumUtil;
 import com.omcube.util.JSONResultUtil;
 import com.omcube.util.Result;
+import com.omcube.util.SysLoginCtrlUtil;
 
 /**
  * 请假详情管理controller
@@ -60,22 +61,24 @@ public class EPLeaveMangerController {
 		}
 
 		// 请假编号的生成
-		String applyNo = String.valueOf(System.currentTimeMillis()); // 请假编号暂时使用当前的毫秒值代替
-		epLeaveInfoPO.setuId("0001");
+		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+		String uid = sysLoginCtrl.getuId();
+		String applyNo = GetNumUtil.getNo();
+		epLeaveInfoPO.setuId(uid);
 		epLeaveInfoPO.setApplyNo(applyNo);
 
 		try {
 			if (!file.isEmpty()) {
 				// 获的文件名
 				String fileName = file.getOriginalFilename();
-				// 将文件名保存到数据库
-				epLeaveInfoPO.setAttachm(fileName);
 				// 获的文件的后缀
-				String fileSuffix = fileName.substring(fileName.lastIndexOf("."));
+				// String fileSuffix =
+				// fileName.substring(fileName.lastIndexOf("."));
 				// 文件上传的路劲
-				String filePath = "e://attachm//";
+				String filePath = "e://leave//";
 
 				File newFile = new File(filePath + fileName);
+				epLeaveInfoPO.setAttachm(fileName.toString());
 
 				if (!newFile.getParentFile().exists()) {
 					newFile.getParentFile().mkdirs();
@@ -150,13 +153,15 @@ public class EPLeaveMangerController {
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
 
-		// 获的文件的名字
-		String fileName = epLeaveInfoPO.getAttachm();
 		FileInputStream fis = null;
 		BufferedInputStream bis = null;
 
 		try {
 			// 文件的下载
+			EPLeaveInfoPO LeaveInfoPO = epLeaveMangerService.queryLeaveInfos(epLeaveInfoPO);
+			String attachm = LeaveInfoPO.getAttachm();
+			String fileName = attachm.substring(attachm.lastIndexOf("//"));
+
 			if (fileName != null) {
 				String filePath = "e://attachm//";
 				File file = new File(filePath, fileName);
@@ -182,7 +187,6 @@ public class EPLeaveMangerController {
 			}
 
 			// 查询
-			EPLeaveInfoPO LeaveInfoPO = epLeaveMangerService.queryLeaveInfos(epLeaveInfoPO);
 			return JSONResultUtil.setSuccess(LeaveInfoPO);
 
 		} catch (Exception e) {
@@ -261,6 +265,7 @@ public class EPLeaveMangerController {
 				String filePath = "e://attachm//";
 
 				File newFile = new File(filePath + fileName);
+				epLeaveInfoPO.setAttachm(fileName.toString());
 
 				if (!newFile.getParentFile().exists()) {
 					newFile.getParentFile().mkdirs();

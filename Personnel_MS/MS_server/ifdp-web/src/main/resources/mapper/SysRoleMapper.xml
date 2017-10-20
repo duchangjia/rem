@@ -6,7 +6,7 @@
 <mapper namespace="com.omcube.model.mapper.SysRoleMapper">
 	<resultMap id="SysRoleMap" type="com.omcube.model.po.SysRolePO">
 	
-		<id column="UID" property="uId"></id>
+		<id column="UID" property="uid"></id>
 		<id column="ROLE_NO" property="roleNo"></id>
 		<result column="ROLE_NAME" property="roleName" javaType="java.lang.String"></result>
 		<result column="ROLE_DESCR" property="roleDescr" javaType="java.lang.String"></result>
@@ -38,7 +38,7 @@
 		from
 			IFDP_SYS_ROLE
 		where
-			UID = #{uId}
+			UID = #{uid}
 	</select>
 
 	<!-- 角色的添加 -->
@@ -46,7 +46,7 @@
 		insert into
 			IFDP_SYS_ROLE
 		values(
-			#{uId},
+			#{uid},
 			#{roleNo},
 			#{roleName},
 			#{roleDescr},
@@ -69,7 +69,7 @@
 			UPDATED_BY = #{updatedBy},
 			UPDATED_DATE = date_format(now(),'%y-%m-%d')
 		where
-			UID = #{uId} and ROLE_NO = #{roleNo}
+			UID = #{uid} and ROLE_NO = #{roleNo}
 	</update>
 
 	<!-- 修改角色时的数据回显 -->
@@ -78,7 +78,7 @@
 		from
 			IFDP_SYS_ROLE
 		where
-			UID = #{uId} and ROLE_NO = #{roleNo}
+			UID = #{uid} and ROLE_NO = #{roleNo}
 	</select>
 
 	<!-- 删除角色 -->
@@ -88,7 +88,7 @@
 		set
 			ROLE_STATUS='0'
 		where
-			UID='0001' and ROLE_NO=#{roleNo}
+			UID=#{uid} and ROLE_NO=#{roleNo}
 	</update>
 	
 	<!-- 角色详情的查询 -->
@@ -118,7 +118,7 @@
 		and 
 			ro.`ROLE_STATUS`=1 
 		and
-			ro.`UID`=bs.`UID`=0001
+			ro.`UID`=bs.`UID`=#{uid}
 	</select>
 	
 	

@@ -5,7 +5,7 @@
 <mapper namespace="com.omcube.model.mapper.SysBsnMapper">
 
 	<resultMap id="SysBsnMap" type="com.omcube.model.po.SysBsnPO">
-		<id column="UID" property="uId"></id>
+		<id column="UID" property="uid"></id>
 		<id column="BSN_NO" property="bsnNo"></id>
 		<result column="INTERFACE" property="interfaceName" javaType="java.lang.String"></result>
 		<result column="METHOD_NAME" property="methodName" javaType="java.lang.String"></result>
@@ -19,13 +19,13 @@
 		<result column="BSN_URL" property="bsnUrl" javaType="java.lang.String"></result>
 	</resultMap>
 	
-	<!-- 根据uId,功能编号bsnNo查询对应业务功能 -->
+	<!-- 根据uid,功能编号bsnNo查询对应业务功能 -->
 	<select id="queryFuncByBsnNo" parameterType="com.omcube.model.po.SysBsnPO" resultMap="SysBsnMap">
 		select * 
 		from 
 			IFDP_SYS_BSN 
 		where 
-			UID = '0001' 
+			UID = #{uid} 
 			and BSN_NO = #{bsnNo}
 	</select>
 	
@@ -34,7 +34,7 @@
 		insert into 
 			IFDP_SYS_BSN
 		values(
-			#{uId},
+			#{uid},
 			#{bsnNo},
 			#{interfaceName},
 			#{methodName},
