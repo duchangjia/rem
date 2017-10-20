@@ -163,6 +163,8 @@
                                 </template>
                             </el-table-column>
                         </el-table>
+                        <el-pagination class="toolbar" @current-change="handlePChangePage" :current-page.sync="pChangePage.pageIndex" :page-size="pChangePage.pageRows" layout="prev, pager, next, jumper" :total="pChangePage.totalRows" v-show="pChangePage.totalRows>pChangePage.pageRows">
+                        </el-pagination>
                     </div>
                 </el-tab-pane>
 
@@ -199,6 +201,8 @@
                                 </template>
                             </el-table-column>
                         </el-table>
+                        <el-pagination class="toolbar" @current-change="handlePRenewPage" :current-page.sync="pRenewPage.pageIndex" :page-size="pRenewPage.pageRows" layout="prev, pager, next, jumper" :total="pRenewPage.totalRows" v-show="pRenewPage.totalRows>pRenewPage.pageRows">
+                        </el-pagination>
                     </div>
                 </el-tab-pane>
 
@@ -216,11 +220,18 @@ export default {
       labelPosition: "right",
       pactNo: "",
       basicPactMsg: {},
-      pageIndex: 1,
-      pageRows: 7,
-      totalRows: 20,
       PChangeListInfo: [],
       PRenewListInfo: [],
+      pChangePage: {
+        pageIndex: 1,
+        pageRows: 7,
+        totalRows: 20
+      },
+      pRenewPage: {
+        pageIndex: 1,
+        pageRows: 7,
+        totalRows: 20
+      },
       checked: "",
       rules: {
         pactType: [{ required: true, message: "请选择合同类型", trigger: "blur" }],
@@ -276,9 +287,9 @@ export default {
     getPChangeList() {
       const self = this;
       let params = {
-        pageIndex: self.pageIndex,
-        pageRows: self.pageRows,
-        pactNo: this.pactNo,
+        pageIndex: self.pChangePage.pageIndex,
+        pageRows: self.pChangePage.pageRows,
+        pactNo: self.pactNo,
         changeId: ""
       };
       self.$axios
@@ -293,9 +304,9 @@ export default {
     getPRenewList() {
       const self = this;
       let params = {
-        pageIndex: self.pageIndex,
-        pageRows: self.pageRows,
-        pactNo: this.pactNo,
+        pageIndex: self.pRenewPage.pageIndex,
+        pageRows: self.pRenewPage.pageRows,
+        pactNo: self.pactNo,
         renewId: ""
       };
       self.$axios
@@ -331,7 +342,62 @@ export default {
           }
         });
     },
-    handleDelete(index, row) {},
+    handleDelete(index, row) {
+      if (this.activeName == "changePactMsg") {
+        let targetPChange = {};
+        targetPChange.pactNo = row.pactNo;
+        targetPChange.changeId = row.changeId;
+        console.log(targetPChange);
+        this.$confirm("此操作将会删除该条合同变更, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.$axios
+              .delete("/iem_hrm/delPChange?pactNo=" + targetPChange.pactNo + "&changeId=" + targetPChange.changeId, targetPChange)
+              .then(res => {
+                console.log(res);
+                if (res.data.code == "S00000")
+                  this.$message({ type: "success", message: "删除成功!" });
+                else this.$message.error("删除合同变更失败！");
+              })
+              .catch(() => {
+                this.$message.error("删除合同变更失败！");
+              });
+          })
+          .catch(() => {
+            this.$message("您已取消删除合同变更！");
+          });
+      }
+      if (this.activeName == "renewPactMsg") {
+        let targetPRenew = {};
+        targetPRenew.pactNo = row.pactNo;
+        targetPRenew.renewId = row.renewId;
+        console.log(targetPRenew);
+        this.$confirm("此操作将会删除该条合同续签, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.$axios
+              .delete("/iem_hrm/delPRenew?pactNo=" + targetPRenew.pactNo + "&renewId=" + targetPRenew.renewId, targetPRenew)
+              .then(res => {
+                console.log(res);
+                if (res.data.code == "S00000")
+                  this.$message({ type: "success", message: "删除成功!" });
+                else this.$message.error("删除合同续签失败！");
+              })
+              .catch(() => {
+                this.$message.error("删除合同续签失败！");
+              });
+          })
+          .catch(() => {
+            this.$message("您已取消删除合同续签！");
+          });
+      }
+    },
     handleAddPChange() {
       this.$router.push({
         name: "add_pactChange",
@@ -365,12 +431,20 @@ export default {
           renewId: row.renewId
         }
       });
+    },
+    handlePChangePage(val) {
+      this.pChangePage.pageIndex = val;
+      this.getPChangeList(); //分页查询合同变更列表
+    },
+    handlePRenewPage(val) {
+      this.pRenewPage.pageIndex = val;
+      this.getPRenewList(); //分页查询合同变更列表
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 .detail_contract {
   padding: 0 0 20px 20px;
 }

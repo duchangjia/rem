@@ -166,7 +166,7 @@ export default {
       newPChange.attachm = this.addPChangeMsg.attachm;
       console.log(newPChange);
       this.$axios
-        .post("/xxx/addPChange", newPChange)
+        .post("/iem_hrm/addPChange", newPChange)
         .then(res => {
           console.log(res);
           if (res.data.code == "S00000")

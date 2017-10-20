@@ -3,9 +3,6 @@ package com.omcube.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.print.attribute.standard.RequestingUserName;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import com.omcube.model.mapper.EPLeaveMangerMapper;
 import com.omcube.model.po.EPLeaveInfoPO;
+import com.omcube.model.po.SysLoginCtrl;
 import com.omcube.service.EPLeaveMangerService;
+import com.omcube.util.SysLoginCtrlUtil;
 
 /**
  * 请假管理的service的实现类
@@ -45,7 +44,7 @@ public class EPLeaveMangerServiceImpl implements EPLeaveMangerService {
 		if (!StringUtils.isEmpty(epLeaveInfoPO.getApplyNo())) {
 			// 根据请假的编号查询数据库中是否已经存在
 			Map<String, String> param = new HashMap<String, String>();
-			param.put("uId", "0001");
+			param.put("uid", epLeaveInfoPO.getUid());
 			param.put("applyNo", epLeaveInfoPO.getApplyNo());
 			if (epLeaveMangerMapper.queryLeaveInfo(param) == null) {
 
@@ -82,7 +81,9 @@ public class EPLeaveMangerServiceImpl implements EPLeaveMangerService {
 	public void deleteLeaveInfo(EPLeaveInfoPO epLeaveInfoPO) throws Exception {
 
 		Map<String, String> param = new HashMap<String, String>();
-		param.put("uId", "0001");
+		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+		String uid = sysLoginCtrl.getUid();
+		param.put("uid", uid);
 		param.put("applyNo", epLeaveInfoPO.getApplyNo());
 		EPLeaveInfoPO leaveInfo = epLeaveMangerMapper.queryLeaveInfo(param);
 
@@ -98,7 +99,9 @@ public class EPLeaveMangerServiceImpl implements EPLeaveMangerService {
 	public void modifyLeaveInfo(EPLeaveInfoPO epLeaveInfoPO) {
 
 		Map<String, String> param = new HashMap<String, String>();
-		param.put("uId", "0001");
+		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+		String uid = sysLoginCtrl.getUid();
+		param.put("uid", uid);
 		param.put("applyNo", epLeaveInfoPO.getApplyNo());
 		EPLeaveInfoPO leaveInfo = epLeaveMangerMapper.queryLeaveInfo(param);
 

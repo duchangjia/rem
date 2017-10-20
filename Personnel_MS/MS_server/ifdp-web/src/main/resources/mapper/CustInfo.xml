@@ -5,7 +5,7 @@
 <mapper namespace="com.omcube.model.mapper.CustInfoMapper">
 
 	<resultMap id="CustInfoMap" type="com.omcube.model.po.CustInfoPO">
-		<id column="uid" property="uId"></id>
+		<id column="uid" property="uid"></id>
 		<id column="user_no" property="userNo"></id>
 		<result column="cust_name" property="custName" javaType="java.lang.String"></result>
 		<result column="organ_no" property="organNo" javaType="java.lang.String"></result>
@@ -46,7 +46,7 @@
 		<result column="work_time" property="workTime" javaType="java.util.Date"></result>
 		<result column="proftitle_time" property="profTitleTime" javaType="java.util.Date"></result>
 		<result column="compact_start_time" property="compactStartTime" javaType="java.util.Date"></result>
-		<result column="compact_end_time" property="compactEndTime" javaType="java.util.Date"></result>
+		<result column="compact_end_time" property="compactEndTime"	javaType="java.util.Date"></result>
 		<result column="prob_start_time" property="probStartTime" javaType="java.util.Date"></result>
 		<result column="prob_end_time" property="probEndTime" javaType="java.util.Date"></result>
 		<result column="recruit_quarry" property="recruitQuarry" javaType="java.lang.String"></result>
@@ -64,13 +64,14 @@
 		<result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
 		<result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
 	</resultMap>
-	
-	<insert id = "insertCustInfo" parameterType = "com.omcube.model.po.CustInfoPO" >
-    
-        <selectKey resultType="java.lang.String" keyProperty="userNo" order="AFTER">  
-      		 SELECT user_no  FROM EP_CUST_INFO ORDER BY user_no DESC LIMIT 1
-   	 	</selectKey>  
-		
+
+	<insert id="insertCustInfo" parameterType="com.omcube.model.po.CustInfoPO">
+
+		<selectKey resultType="java.lang.String" keyProperty="userNo"
+			order="AFTER">
+			select user_no from EP_CUST_INFO ORDER BY user_no DESC LIMIT 1
+		</selectKey>
+
 		insert into EP_CUST_INFO(
 			uid,user_no,cust_name,organ_no,derp_no,owner_ccc,cert_type,cert_no,sex,birthday,nation,
 			marital,politial,education,degree,grad_school,grad_time,major,line_manager,origo,home_addr,
@@ -79,21 +80,20 @@
 			compact_end_time,prob_start_time,prob_end_time,recruit_quarry,late_leave_time,open_bank,bank_card_no,endm_acct,medi_acct,mate_acct,
 			hous_acct,attachm,remark,created_by,created_date,updated_by,updated_date)
 		values (
-			#{uId},#{userNo},#{custName},#{organNo},#{derpNo},#{ownerCCC},#{certType},#{certNo},#{sex},#{birthday},#{nation},
+			#{uid},#{userNo},#{custName},#{organNo},#{derpNo},#{ownerCCC},#{certType},#{certNo},#{sex},#{birthday},#{nation},
 			#{marital},#{politial},#{education},#{degree},#{gradSchool},#{gradTime},#{major},#{lineManager},#{origo},#{homeAddr},
 			#{liveAddr},#{permAddr},#{mobileNo},#{teleph},#{homeTeleph},#{perEmail},#{comEmail},#{atten},#{attenTeleph},#{qqAcct},
 			#{oneInch},#{custType},#{custPost},#{custClass},#{custStatus},#{entryTime},#{leftJobTime},#{workTime},#{profTitleTime},#{compactStartTime},
 			#{compactEndTime},#{probStartTime},#{probEndTime},#{recruitQuarry},#{lateLeaveTime},#{openBank},#{bankCardNo},#{endmAcct},#{mediAcct},#{mateAcct},
-			#{housAcct},#{attachm},#{remark},#{createdBy},now(),#{updatedBy},now()
-		)
+			#{housAcct},#{attachm},#{remark},#{createdBy},now(),#{updatedBy},now())
 	</insert>
-	
+
 	<!-- 员工基本信息修改 -->
-	<update id = "modCustInf" parameterType = "com.omcube.model.po.CustInfoPO">
-		update EP_CUST_INFO 
-		set 
+	<update id="modCustInf" parameterType="com.omcube.model.po.CustInfoPO">
+		update EP_CUST_INFO
+		set
 			cust_name=#{custName},organ_no=#{organNo},derp_no=#{derpNo},owner_ccc=#{ownerCCC},cert_type=#{certType},
-		 	cert_no=#{certNo},sex=#{sex},birthday=#{birthday},nation=#{nation},marital=#{marital},
+			cert_no=#{certNo},sex=#{sex},birthday=#{birthday},nation=#{nation},marital=#{marital},
 			politial=#{politial},education=#{education},degree=#{degree},grad_school=#{gradSchool},grad_time=#{gradTime},
 			major=#{major},line_manager=#{lineManager},origo=#{origo},home_addr=#{homeAddr},live_addr=#{liveAddr},
 			perm_addr=#{permAddr},mobile_no=#{mobileNo},teleph=#{teleph},home_teleph=#{homeTeleph},per_email=#{perEmail},
@@ -102,41 +102,99 @@
 			leftjob_time=#{leftJobTime},work_time=#{workTime},proftitle_time=#{profTitleTime},compact_start_time=#{compactStartTime},prob_end_time=#{probEndTime},
 			recruit_quarry=#{recruitQuarry},late_leave_time=#{lateLeaveTime},open_bank=#{openBank},bank_card_no=#{bankCardNo},endm_acct=#{endmAcct},
 			medi_acct=#{mediAcct},mate_acct=#{mateAcct},hous_acct=#{housAcct},attachm=#{attachm},remark=#{remark},
-			updated_by=#{updatedBy},updated_date=now() 
+			updated_by=#{updatedBy},updated_date=now()
 		where
-			uid=#{uId} and user_no=#{userNo}
+			uid=#{uid} and user_no=#{userNo}
 	</update>
-	
+
 	<!-- 员工基本信息删除 -->
-	<update id = "delCustInf" parameterType = "java.lang.String">
+	<update id="delCustInf" parameterType="java.lang.String">
 		update EP_CUST_INFO set cust_status = '04'
 	</update>
-	
+
 	<!-- 员工基本信息查询 -->
-	 <select id="queryCustInfoByUserNo" parameterType="java.lang.String" resultMap="CustInfoMap">
-	 	select * from EP_CUST_INFO where uid = #{uId} and user_no = #{userNo}
-	 </select>
-	 
-	 <!-- 人事档案列表查询 -->
-	 <select id="queryCustInfList" parameterType="java.lang.String" resultMap="CustInfoMap">
-		SELECT
+	<select id="queryCustInfoByUserNo" parameterType="java.lang.String"
+		resultMap="CustInfoMap">
+		select * from EP_CUST_INFO where uid = #{uid} and user_no = #{userNo}
+	</select>
+
+	<!-- 人事档案列表查询 -->
+	<select id="queryCustInfList" parameterType="java.lang.String"
+		resultMap="CustInfoMap">
+		select
 			user_no,
 			cust_name,
 			organ_no,
 			derp_no,
 			sex,
 			cust_post,
-			cust_class,  
+			cust_class,
 			mobile_no,
 			entry_time,
 			cust_status
-		FROM EP_CUST_INFO
-		WHERE
-			uid = #{uId} ORDER BY updated_date DESC
-	 </select>
-	 
-	 <!-- 直线经理查询 -->
-	 <select id="queryLineManager" parameterType="java.lang.String" resultType="java.lang.String">
-	 	select line_manager from EP_CUST_INFO where uid = #{uId} and user_no = #{userNo}
-	 </select>
+		from EP_CUST_INFO
+		where
+			uid = #{uid} 
+		ORDER BY updated_date DESC
+	</select>
+
+	<!-- 直线经理查询 -->
+	<select id="queryLineManager" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		select line_manager 
+		from EP_CUST_INFO 
+		where 
+			uid = #{uid} and user_no = #{userNo}
+	</select>
+
+	<resultMap type="com.omcube.model.po.CustInfoPO" id="CustInfoAssertMap"
+		extends="CustInfoMap">
+		<collection property="assetInfList" ofType="com.omcube.model.po.AssetUsePO">
+			<id column="uid" property="uid" javaType="java.lang.String" />
+			<id column="apply_no" property="applyNo" javaType="java.lang.String" />
+			<result column="asset_no" property="assetNo" javaType="java.lang.String" />
+			<result column="apply_user_no" property="applyUserNo"
+				javaType="java.lang.String" />
+		</collection>
+	</resultMap>
+	<!-- 员工自助_员工信息查询 -->
+	<select id="queryCustInfBySelf" parameterType="java.lang.String"
+		resultMap="CustInfoAssertMap">
+		select 
+			eci.user_no,
+			eci.cust_name,
+			eci.line_manager,
+			eci.derp_no,
+			eci.cust_post,
+			eci.cust_class,
+			eci.organ_no,
+			eci.entry_time,
+			eci.mobile_no,
+			eaf.asset_no
+		from EP_ASSETUSER_FLOW eaf
+		LEFT OUTER JOIN EP_CUST_INFO eci
+		ON 	eci.uid = eaf.uid
+		and eci.user_no = eaf.apply_user_no
+		where eci.uid = #{uid}
+		and eci.user_no = #{userNo}
+	</select>
+
+	<!-- 员工自助_员工便捷查询 -->
+	<select id="queryCustInfByNameAndNo" parameterType="com.omcube.model.po.CustInfoPO"
+		resultMap="CustInfoMap">
+		select 
+			cust_name,
+			user_no,
+			derp_no,
+			cust_post,
+			com_email
+		from EP_CUST_INFO
+		where 1=1
+		<if test="userNo != '' and userNo != null">
+			and user_no = #{userNo}
+		</if>
+		<if test="custName != '' and custName != null">
+			and cust_name = #{custName}
+		</if>
+	</select>
 </mapper>

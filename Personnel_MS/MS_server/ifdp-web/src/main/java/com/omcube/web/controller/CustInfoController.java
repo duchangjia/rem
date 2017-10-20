@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.StringUtil;
 import com.omcube.model.po.CustInfoPO;
-import com.omcube.model.po.OrganBillInfoPO;
 import com.omcube.model.po.SysLoginCtrl;
 import com.omcube.service.CustInfoService;
 import com.omcube.util.ConstantUtil;
@@ -48,9 +46,9 @@ public class CustInfoController {
 	}
 	//从session获取登录信息
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 	String userNO = sysLoginCtrl.getUserNo();
-	custInfo.setUid(uId);
+	custInfo.setUid(uid);
 	custInfo.setCreatedBy(userNO);
 	custInfo.setUpdatedBy(userNO);
 
@@ -95,8 +93,8 @@ public class CustInfoController {
 	}
 	//从session 中获取uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
-	CustInfoPO custInfo = custInfoService.queryCustInfoByUserNo(uId, userNo);
+	String uid = sysLoginCtrl.getUid();
+	CustInfoPO custInfo = custInfoService.queryCustInfoByUserNo(uid, userNo);
 	return JSONResultUtil.setSuccess(custInfo);
     }
 
@@ -114,8 +112,8 @@ public class CustInfoController {
 	}
 	//从session 中获取uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
-	custInfoService.delCustInf(uId, userNo);
+	String uid = sysLoginCtrl.getUid();
+	custInfoService.delCustInf(uid, userNo);
 	return JSONResultUtil.setSuccess();
     }
 
@@ -123,24 +121,24 @@ public class CustInfoController {
      * 人事档案列表查询
      * @return
      */
-    @GetMapping(value = "/queryCustInfList")
+    @GetMapping(value = "/queryCustInfList/")
     @Cacheable(ConstantUtil.QUERY_CACHE)
-    public Object queryCustInfList(Integer pageNum,Integer pageSize) {
-	
-	//分页
-	pageNum = pageNum == null ? 1 : pageNum;
-	pageSize = pageSize ==null ? 5 : pageSize;
-	PageHelper.startPage(pageNum, pageSize, true);
-	
+    public Object queryCustInfList(Integer pageNum, Integer pageSize) {
+
 	//从session 获取uids
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
-	
-	if (StringUtils.isEmpty(uId)) {
-	    logger.error("the param uId is null");
-	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the param uId is null");
+	String uid = sysLoginCtrl.getUid();
+
+	if (StringUtils.isEmpty(uid)) {
+	    logger.error("the param uid is null");
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the param uid is null");
 	}
-	List<CustInfoPO> list = custInfoService.queryCustInfList(uId);
+
+	//分页
+	pageNum = pageNum == null ? 1 : pageNum;
+	pageSize = pageSize == null ? 5 : pageSize;
+	PageHelper.startPage(pageNum, pageSize, true);
+	List<CustInfoPO> list = custInfoService.queryCustInfList(uid);
 	PageInfo<CustInfoPO> pageInfo = new PageInfo<CustInfoPO>(list);
 
 	return JSONResultUtil.setSuccess(pageInfo);
@@ -157,9 +155,51 @@ public class CustInfoController {
 
 	//从session 获取uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 
-	String lineManager = custInfoService.queryLineManager(uId, userNo);
+	String lineManager = custInfoService.queryLineManager(uid, userNo);
 	return JSONResultUtil.setSuccess(lineManager);
+    }
+
+    /**
+     * 员工自助_员工信息查询
+     * @param userNo
+     * @return
+     */
+    @GetMapping(value = "/queryCustInfBySelf/{userNo}")
+    @Cacheable(ConstantUtil.QUERY_CACHE)
+    public Object queryCustInfBySelf(@PathVariable String userNo) {
+
+	//从session 获取uid
+	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+	String uid = sysLoginCtrl.getUid();
+
+	List<CustInfoPO> custInfoList = custInfoService.queryCustInfBySelf(uid, userNo);
+	return JSONResultUtil.setSuccess(custInfoList);
+    }
+
+    /**
+     * 员工自助_员工便捷查询
+     * @param custInfo
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    @GetMapping(value = "/queryCustInfByNameAndNo")
+    @Cacheable(ConstantUtil.QUERY_CACHE)
+    public Object queryCustInfByNameAndNo(CustInfoPO custInfo, Integer pageNum, Integer pageSize) {
+
+	//从session 获取uid
+	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+	String uid = sysLoginCtrl.getUid();
+	custInfo.setUid(uid);
+	//分页
+	pageNum = pageNum == null ? 1 : pageNum;
+	pageSize = pageSize == null ? 5 : pageSize;
+	PageHelper.startPage(pageNum, pageSize, true);
+	List<CustInfoPO> custInfoList = custInfoService.queryCustInfByNameAndNo(custInfo);
+	PageInfo<CustInfoPO> pageInfo = new PageInfo<CustInfoPO>(custInfoList);
+
+	return JSONResultUtil.setSuccess(pageInfo);
     }
 }

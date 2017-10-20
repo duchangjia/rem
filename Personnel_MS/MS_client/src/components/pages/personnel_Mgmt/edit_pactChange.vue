@@ -181,7 +181,7 @@ export default {
       newPChange.changeType = this.editPChangeMsg.changeType;
       newPChange.changeContent = this.editPChangeMsg.changeContent;
       this.$axios
-        .post("/xxx/modPChange", newPChange)
+        .post("/iem_hrm/modPChange", newPChange)
         .then(res => {
           console.log(res);
           if (res.data.code == "S00000")

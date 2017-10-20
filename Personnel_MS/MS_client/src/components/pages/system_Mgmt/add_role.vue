@@ -124,7 +124,7 @@ export default {
     // created() {
     //     const self = this;
     //     let params = {};
-    //     self.$axios.get('iemrole/role/setRoleFunc', { params: params })
+    //     self.$axios.get('/iem_hrm/role/setRoleFunc', { params: params })
     //         .then(function(res) {
     //             console.log(res);
     //         }).catch(function(err) {
@@ -173,7 +173,7 @@ export default {
             newRole.status = this.addRoleMsg.status;
             newRole.roleDescr = this.addRoleMsg.roleDescr;
             console.log(newRole);
-            this.$axios.post('/iemrole/role/addRoleInfo', newRole)
+            this.$axios.post('/iem_hrm/role/addRoleInfo', newRole)
                 .then((res) => {
                     console.log(res);
                     if (res.data.code == 'S00000') this.$router.push('/management_role');

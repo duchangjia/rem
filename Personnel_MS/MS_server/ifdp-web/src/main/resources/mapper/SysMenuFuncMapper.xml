@@ -10,7 +10,7 @@
 			IFDP_SYS_MENU_FUNC
 		values
 		(
-			#{sysBsn.uId},
+			#{sysBsn.uid},
 			#{sysMenuPO.sysNo},
 			#{sysMenuPO.menuNo},
 			#{sysBsn.bsnNo},

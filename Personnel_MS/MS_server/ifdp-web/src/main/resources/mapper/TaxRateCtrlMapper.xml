@@ -6,7 +6,7 @@
 
 <mapper namespace="com.omcube.model.mapper.TaxRateCtrlMapper">
 	<resultMap type="com.omcube.model.po.TaxRateCtrlPO" id="TaxRateCtrlMap">
-		<id column="UID" property="uid"></id>
+		<id column="UID" property=""></id>
 		<id column="GROUP_ID" property="groupId"></id>
 		<id column="APPLY_NO" property="applyNo"></id>
 		<result column="GROUP_LIMIT" property="groupLimit"></result>

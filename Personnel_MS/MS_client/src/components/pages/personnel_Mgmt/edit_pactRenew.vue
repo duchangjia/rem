@@ -189,7 +189,7 @@ export default {
       newPRenew.renewType = this.editPRenewMsg.renewType;
       newPRenew.renewContent = this.editPRenewMsg.renewContent;
       this.$axios
-        .post("/xxx/modPRenew", newPRenew)
+        .post("/iem_hrm/modPRenew", newPRenew)
         .then(res => {
           console.log(res);
           if (res.data.code == "S00000")
