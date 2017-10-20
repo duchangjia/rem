@@ -17,6 +17,7 @@ import com.github.pagehelper.PageInfo;
 import com.omcube.model.po.TaxRateGroupPO;
 import com.omcube.service.TaxRateGroupService;
 import com.omcube.util.JSONResultUtil;
+import com.omcube.util.SysLoginCtrlUtil;
 
 @RestController
 @RequestMapping(value = "/taxRateGroup")
@@ -40,7 +41,8 @@ public class TaxRateGroupController {
 		pageNum = pageNum == null ? 1 : pageNum;
 		pageSize = pageSize == null ? 3 : pageSize;
 		PageHelper.startPage(pageNum, pageSize, true);
-		List<TaxRateGroupPO> list = taxRateGroupService.findTaxRateGroup(uid);
+		List<TaxRateGroupPO> list = taxRateGroupService.findTaxRateGroup(
+				SysLoginCtrlUtil.getSysLoginCtrlBySession().getUid());
 		PageInfo<TaxRateGroupPO> pageInfo = new PageInfo<TaxRateGroupPO>(list);
 		return JSONResultUtil.setSuccess(pageInfo);
 	}
@@ -48,6 +50,8 @@ public class TaxRateGroupController {
 	// 根据主键（组ID）删除个人所得税税率组
 	@DeleteMapping(value = "/deleteTaxRateGroup")
 	public Object deleteTaxRateGroup(TaxRateGroupPO taxRateGroupPO) {
+		taxRateGroupPO
+				.setUid(SysLoginCtrlUtil.getSysLoginCtrlBySession().getUid());
 		taxRateGroupService.deleteTaxRateGroup(taxRateGroupPO);
 		return JSONResultUtil.setSuccess();
 	}

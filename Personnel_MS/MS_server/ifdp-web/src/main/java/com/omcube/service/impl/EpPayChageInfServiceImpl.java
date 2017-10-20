@@ -45,4 +45,14 @@ public class EpPayChageInfServiceImpl implements EpPayChageInfService {
 		custInfoMapper.insertCustInfo(custInfo);
 	}
 
+	//调薪管理删除用户调薪信息
+	public void deleteEpPayChageInf(EpPayChageInfPO epPayChageInfPO){
+		epPayChageInfMapper.deleteEpPayChageInf(epPayChageInfPO);
+	}
+	
+	//调薪管理修改用户调薪信息
+	public void updateEpPayChageInf(EpPayChageInfPO epPayChageInfPO){
+		epPayChageInfMapper.updateEpPayChageInf(epPayChageInfPO);
+	}
+	
 }

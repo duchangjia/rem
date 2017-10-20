@@ -26,5 +26,10 @@ public interface EpPayChageInfMapper {
 
 	// 调薪管理新增用户保险信息
 	void insertEpCustPayFlow(EpCustPayFlowPO epCustPayFlowPO);
+	
+	//调薪管理删除用户调薪信息
+	void deleteEpPayChageInf(EpPayChageInfPO epPayChageInfPO);
 
+	//调薪管理修改用户调薪信息
+	void updateEpPayChageInf(EpPayChageInfPO epPayChageInfPO);
 }

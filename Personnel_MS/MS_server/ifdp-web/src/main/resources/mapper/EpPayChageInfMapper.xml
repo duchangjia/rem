@@ -238,26 +238,55 @@
 		)
 
 	</insert>
-	
+
 	<!-- 调薪管理新增用户保险信息 -->
 	<insert id="insertEpCustPayFlow" parameterType="com.omcube.model.po.EpCustPayFlowPO">
-	    insert into 
-	    EP_CUSTPAY_FLOW(
-	    UID,GRP_NO,USER_NO,
-	    PER_ENDM_PAY,PER_MEDI_PAY,PER_UNEM_PAY,
-	    PER_EMPL_PAY,PER_MATE_PAY,PER_HOUSE_PAY,
-	    COM_ENDM_PAY,COM_MEDI_PAY,COM_UNEM_PAY,
-	    COM_EMPL_PAY,COM_MATE_PAY,COM_HOUSE_PAY,
-	    PAY_STATUS
-	    )
-	    values(
-	    #{uid},#{grpNo},#{userNo},
-	    #{perEndmPay},#{perMediPay},#{perUnemPay},
-	    #{perEmplPay},#{perMatePay},#{perHousePay},
-	    #{comEndmPay},#{comMediPay},#{comUnemPay},
-	    #{comEmplPay},#{comMatePay},#{comHousePay},
-	    #{payStatus}
-	    )
+		insert into
+		EP_CUSTPAY_FLOW(
+		UID,GRP_NO,USER_NO,
+		PER_ENDM_PAY,PER_MEDI_PAY,PER_UNEM_PAY,
+		PER_EMPL_PAY,PER_MATE_PAY,PER_HOUSE_PAY,
+		COM_ENDM_PAY,COM_MEDI_PAY,COM_UNEM_PAY,
+		COM_EMPL_PAY,COM_MATE_PAY,COM_HOUSE_PAY,
+		PAY_STATUS
+		)
+		values(
+		#{uid},#{grpNo},#{userNo},
+		#{perEndmPay},#{perMediPay},#{perUnemPay},
+		#{perEmplPay},#{perMatePay},#{perHousePay},
+		#{comEndmPay},#{comMediPay},#{comUnemPay},
+		#{comEmplPay},#{comMatePay},#{comHousePay},
+		#{payStatus}
+		)
 	</insert>
+
+	<!-- 调薪管理删除用户调薪信息 -->
+	<delete id="deleteEpPayChageInf" parameterType="com.omcube.model.po.EpPayChageInfPO">
+		delete from
+		EP_PAY_CHAGEINF
+		where
+		UID=#{uid}
+		and
+		USER_NO=#{userNo}
+		and
+		APPLY_NO=#{applyNo}
+	</delete>
+
+	<!-- 调薪管理修改用户调薪信息 -->
+	<update id="updateEpPayChageInf" parameterType="com.omcube.model.po.EpPayChageInfPO">
+		update
+		EP_PAY_CHAGEINF
+		set
+		N_WAGES_BASE=#{nWagesBase},N_WAGES_PERF=#{nWagesPerf},
+		N_POST_PENSION=#{nPostPension},N_OTHER_PENSION=#{nOtherPension},
+		N_ENDM_BASE=#{nEndmBase},N_MEDI_BASE=#{nMediBase},
+		N_UNEM_BASE=#{nUnemBase},N_EMPL_BASE=#{nEmplBase},
+		N_MATE_BASE=#{nMateBase},N_HOUSE_BASE=#{nHouseBase},
+		N_WELCOE_NO=#{nWelcoeNo}
+		where
+		UID=#{uid}
+		and
+		APPLY_NO=#{applyNo}
+	</update>
 
 </mapper>        
