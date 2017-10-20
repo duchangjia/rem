@@ -37,14 +37,13 @@ import com.omcube.util.SysLoginCtrlUtil;
 
 @RestController
 @RequestMapping(value = "/organ")
-
 public class OrganController {
 
     protected final Log logger = LogFactory.getLog(getClass());
 
     @Autowired
     private OrganService organService;
-    
+
     @Autowired
     private UserInfoService userInfoService;
 
@@ -56,10 +55,8 @@ public class OrganController {
      */
     @GetMapping(value = "/queryOrganList/{organNo}")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
-    public Object queryOrganTreeList(@PathVariable String organNo)
-    {
-	if (StringUtils.isEmpty(organNo))
-	{
+    public Object queryOrganTreeList(@PathVariable String organNo) {
+	if (StringUtils.isEmpty(organNo)) {
 	    logger.error("the request params organNo is null");
 	    return JSONResultUtil.setError("F00002", "the request params organNo is null");
 	}
@@ -76,19 +73,16 @@ public class OrganController {
      */
     @GetMapping(value = "/queryCurrentOrgan/{organNo}")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
-    public Object queryCurrentOrgan(@PathVariable String organNo)
-    {
+    public Object queryCurrentOrgan(@PathVariable String organNo) {
 
-	if (StringUtils.isEmpty(organNo))
-	{
+	if (StringUtils.isEmpty(organNo)) {
 	    logger.error("the request params organNo is null");
 	    return JSONResultUtil.setError("F00002", "the request params organNo is null");
 	}
 
 	SysOrganPO sysOrganPO = organService.queryCurrentOrgan(organNo);
 
-	if (StringUtils.isEmpty(sysOrganPO))
-	{
+	if (StringUtils.isEmpty(sysOrganPO)) {
 	    logger.error("sysOrganPO is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "当前机构不存在");
 	}
@@ -98,7 +92,7 @@ public class OrganController {
 
     /**
      * 3.查询当前机构、上级机构及机构详情信息
-
+    
      * url:/organ/queryOrganAndParentOrganDetail/organNo
      * @param organ_no
      * @return
@@ -109,12 +103,10 @@ public class OrganController {
 
     {
 
-	if (StringUtils.isEmpty(organNo))
-	{
+	if (StringUtils.isEmpty(organNo)) {
 	    logger.error("the request params organNo is null");
 	    return JSONResultUtil.setError("F00002", "the request params organNo is null");
 	}
-
 
 	SysOrganPO sysOrganPO = organService.queryCurrentAndParentOrganDetail(organNo);
 
@@ -131,11 +123,9 @@ public class OrganController {
     @GetMapping(value = "/queryChildOrganDetail/{organNo}")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
     public Object queryChildOrganDetail(HttpServletRequest request, Integer pageNum, Integer pageSize,
-	    @PathVariable String organNo)
-    {
+	    @PathVariable String organNo) {
 
-	if (StringUtils.isEmpty(organNo))
-	{
+	if (StringUtils.isEmpty(organNo)) {
 	    logger.error("the request params organNo is null");
 	    return JSONResultUtil.setError("F00002", "the request params organNo is null");
 	}
@@ -158,11 +148,9 @@ public class OrganController {
     @GetMapping(value = "/queryOrganMember/{organNo}")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
     public Object queryOrganMember(HttpServletRequest request, Integer pageNum, Integer pageSize,
-	    @PathVariable String organNo)
-    {
+	    @PathVariable String organNo) {
 
-	if (StringUtils.isEmpty(organNo))
-	{
+	if (StringUtils.isEmpty(organNo)) {
 	    logger.error("the request params organNo is null");
 	    return JSONResultUtil.setError("F00002", "the request params organNo is null");
 	}
@@ -183,14 +171,12 @@ public class OrganController {
      * @param organNo
      * @return
      */
-   
+
     @DeleteMapping(value = "/deleteOrganInfo/{organNo}")
     @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-    public Object deleteOrganInfo(@PathVariable String organNo)
-    {
+    public Object deleteOrganInfo(@PathVariable String organNo) {
 
-	if (StringUtils.isEmpty(organNo))
-	{
+	if (StringUtils.isEmpty(organNo)) {
 	    logger.error("the request params organNo is null");
 	    return JSONResultUtil.setError("F00002", "the request params organNo is null");
 	}
@@ -198,14 +184,12 @@ public class OrganController {
 	List<SysOrganPO> organChildlist = organService.queryChildOrganDetail(organNo);
 	List<SysUserPO> organMemberList = organService.queryOrganMember(organNo);
 
-	if (organChildlist.size() > 0)
-	{
+	if (organChildlist.size() > 0) {
 
 	    return JSONResultUtil.setError("F00002", "该机构下尚有子机构，请进行撤销或合并");
 	}
 
-	if (organMemberList.size() > 0)
-	{
+	if (organMemberList.size() > 0) {
 
 	    return JSONResultUtil.setError("F00002", "该机构下尚有人员，请进行撤销或合并");
 	}
@@ -224,16 +208,14 @@ public class OrganController {
      */
     @PostMapping(value = "/addOrganMember")
     @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-    public Object addOrganMember(@RequestBody SysUserPO sysUserPO)
-    {
+    public Object addOrganMember(@RequestBody SysUserPO sysUserPO) {
 
-	if (sysUserPO == null)
-	{
+	if (sysUserPO == null) {
 	    logger.error("the request body is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	}
 	logger.info(String.format("the request body is %s:", sysUserPO.toString()));
-	
+
 	organService.addOrganMember(sysUserPO);
 
 	return JSONResultUtil.setSuccess();
@@ -248,11 +230,9 @@ public class OrganController {
      */
     @DeleteMapping(value = "/deleteOrganMember/{userNo}")
     @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-    public Object deleteOrganUser(@PathVariable String userNo)
-    {
+    public Object deleteOrganUser(@PathVariable String userNo) {
 
-	if (StringUtils.isEmpty(userNo))
-	{
+	if (StringUtils.isEmpty(userNo)) {
 	    logger.error("the request params organNo is null");
 	    return JSONResultUtil.setError("F00002", "the request params userNo is null");
 	}
@@ -270,20 +250,18 @@ public class OrganController {
      */
     @PutMapping(value = "/modifyOrganInfo")
     @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-    public Object modifyOrganInfo(@RequestBody SysOrganPO sysOrganPO)
-    {
+    public Object modifyOrganInfo(@RequestBody SysOrganPO sysOrganPO) {
 
-	if (sysOrganPO == null)
-	{
+	if (sysOrganPO == null) {
 	    logger.error("the request body is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	}
 	logger.info(String.format("the request body is %s:", sysOrganPO.toString()));
-	
+
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uid = sysLoginCtrl.getUid();
 	String userNo = sysLoginCtrl.getUserNo();
-	UserDetailInfo userDetailInfo = userInfoService.queryUserDetail(uId,userNo);
+	UserDetailInfo userDetailInfo = userInfoService.queryUserDetail(uid, userNo);
 	//添加更新机构人员
 	sysOrganPO.setUpdatedBy(userDetailInfo.getUserName());
 	organService.modifyOrganInfo(sysOrganPO);
@@ -297,35 +275,32 @@ public class OrganController {
      * @param sysOrganPO
      * @return
      */
-    @PostMapping(value="/addOrgan")
+    @PostMapping(value = "/addOrgan")
     @CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-    public Object addOrgan(@RequestBody SysOrganPO sysOrganPO)
-    {
+    public Object addOrgan(@RequestBody SysOrganPO sysOrganPO) {
 
-	if (sysOrganPO == null)
-	{
+	if (sysOrganPO == null) {
 	    logger.error("the request body is null");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	}
 	logger.info(String.format("the request body is %s:", sysOrganPO.toString()));
-	
+
 	String organLevel = sysOrganPO.getOrganLevel();
-	if (StringUtils.isEmpty(organLevel))
-	{
+	if (StringUtils.isEmpty(organLevel)) {
 	    logger.error("the organLevel is null");
 	    return JSONResultUtil.setError("F00002", "the request params organLevel is null");
 	}
 	//获取系统管理人员的uid和userNo
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uid = sysLoginCtrl.getUid();
 	String userNo = sysLoginCtrl.getUserNo();
-	UserDetailInfo userDetailInfo = userInfoService.queryUserDetail(uId,userNo);
+	UserDetailInfo userDetailInfo = userInfoService.queryUserDetail(uid, userNo);
 	sysOrganPO.setCreatedBy(userDetailInfo.getUserName());
 	sysOrganPO.setUpdatedBy(userDetailInfo.getUserName());
-	sysOrganPO.setuId(uId);
-	
+	sysOrganPO.setUid(uid);
+
 	//获取当前机构的organLevel,创建子机构级别
-	int newOrganLevel = Integer.parseInt(organLevel)+1;
+	int newOrganLevel = Integer.parseInt(organLevel) + 1;
 	sysOrganPO.setOrganLevel(String.valueOf(newOrganLevel));
 	organService.addOrgan(sysOrganPO);
 	return JSONResultUtil.setSuccess();

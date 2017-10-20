@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.omcube.model.mapper.EpTravelMangerMapper">
+  
+ 	<select id="queryTravelList" parameterType="com.omcube.model.request.QueryTravelRequest" resultType="com.omcube.model.response.TravelResponse">
+ 	
+		select 
+		  t.apply_no as applyNo ,
+		  c.organ_no as organNo,
+		  c.derp_no as deptNo,
+		  o1.organ_name as companyname,
+		  o2.organ_name as deptname ,
+		  c.user_no as userNo,
+		  c.cust_name as custName,
+		  c.cust_post as custPost,
+		  c.cust_class as custClass,
+		  t.travel_type as travelType,
+		  t.travel_start_time as travelStartTime,
+		  t.travel_end_time as travelEndTime, 
+		  t.travel_start_city as travelStartCity,
+		  t.travel_arrival_city as travelArrivalCity,
+		  t.travel_days as travelDays,
+		  t.travel_std as travelSTD,
+		  t.remark as remark,
+		  t.attachm as attachm,
+		  t.created_by as createdBy,
+		  t.created_date as createdDate
+		  from (select   * from EP_CUST_INFO where organ_no = #{organNo}) c 
+		inner join IFDP_SYS_ORGAN_BASE o1 
+		  on c.organ_no = o1.organ_no 
+		inner join IFDP_SYS_ORGAN_BASE o2 
+		  on c.derp_no = o2.organ_no 
+		inner join EP_TRAVEL_FLOW t
+		 on c.user_no=t.user_no 	 
+		where t.uid=#{uid} 
+		 
+			 <if test="userNo != null and userNo!=''">
+				and c.user_no =#{userNo}
+			</if>
+			
+			 <if test="travelStartTime != null and travelStartTime!=''">
+				and t.travel_start_time &gt; #{travelStartTime}
+			</if>
+			
+			<if test="travelEndTime != null and travelEndTime!=''">
+				and t.travel_end_time &lt; #{travelEndTime}
+			</if>
+			
+			 order by t.apply_no desc
+	 	
+ 	</select>
+ 	
+ 	 <select id="getTravelInfoByUserNo" parameterType="com.omcube.model.request.QueryTravelRequest" resultType="com.omcube.model.response.TravelResponse">
+	 		select 
+			  t.apply_no as applyNo ,
+			  c.organ_no as organNo,
+			  c.derp_no as deptNo,
+			  o1.organ_name as companyname,
+			  o2.organ_name as deptname ,
+			  c.user_no as userNo,
+			  c.cust_name as custName,
+			  c.cust_post as custPost,
+			  c.cust_class as custClass,
+			  t.travel_type as travelType,
+			  t.travel_start_time as travelStartTime,
+			  t.travel_end_time as travelEndTime, 
+			  t.travel_start_city as travelStartCity,
+			  t.travel_arrival_city as travelArrivalCity,
+			  t.travel_days as travelDays,
+			  t.travel_std as travelSTD,
+			  t.remark as remark,
+			  t.attachm as attachm,
+			  t.created_by as createdBy,
+			  t.created_date as createdDate
+			  from EP_CUST_INFO c
+			inner join IFDP_SYS_ORGAN_BASE o1 
+			  on c.organ_no = o1.organ_no 
+			inner join IFDP_SYS_ORGAN_BASE o2 
+			  on c.derp_no = o2.organ_no 
+			inner join EP_TRAVEL_FLOW t
+			 on c.user_no=t.user_no 	 
+			where t.uid=#{uid} and c.user_no=#{userNo}
+ 	
+ 	</select>
+ 	
+ 	<delete id="deleteTravel" parameterType="com.omcube.model.request.QueryTravelRequest">
+ 	
+ 		delete from EP_TRAVEL_FLOW where uid=#{uid} and apply_no=#{applyNo}
+ 	
+ 	</delete>
+ 	
+ 	
+ 	
+</mapper>

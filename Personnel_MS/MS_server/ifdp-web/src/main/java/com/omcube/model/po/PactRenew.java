@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  *
  */
 public class PactRenew {
-	private String uId;
+	private String uid;
 	private String pactNo;
 	private String renewId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -34,11 +34,11 @@ public class PactRenew {
 	public void setIsDelete(String isDelete) {
 		this.isDelete = isDelete;
 	}
-	public String getuId() {
-		return uId;
+	public String getUid() {
+		return uid;
 	}
-	public void setuId(String uId) {
-		this.uId = uId;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	public String getPactNo() {
 		return pactNo;

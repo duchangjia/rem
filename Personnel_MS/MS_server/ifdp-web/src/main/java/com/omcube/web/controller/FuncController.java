@@ -71,7 +71,7 @@ public class FuncController {
 	    return JSONResultUtil.setError("F00002", "the requestBody queryFuncRequest is null");
 	}	
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	queryFuncRequest.setUid(sysLoginCtrl.getuId());
+	queryFuncRequest.setUid(sysLoginCtrl.getUid());
 	
 	if (queryFuncRequest.getPageNum() <= 0) {
 	    queryFuncRequest.setPageNum(ConstantUtil.DEFAULT_PAGE_NUM);

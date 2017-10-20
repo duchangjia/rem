@@ -1,7 +1,5 @@
 package com.omcube.web.controller;
 
-
-
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,34 +19,35 @@ import com.omcube.service.TaxRateGroupService;
 import com.omcube.util.JSONResultUtil;
 
 @RestController
-@RequestMapping(value="/taxRateGroup")
+@RequestMapping(value = "/taxRateGroup")
 public class TaxRateGroupController {
 
 	@Autowired
 	private TaxRateGroupService taxRateGroupService;
-	
+
 	// 新增个人所得税税率组
-	@PostMapping(value="/insertTaxRateGroup")
-	public Object saveTaxRateGroup(TaxRateGroupPO taxRateGroupPO){
-		taxRateGroupService.addTaxRateGroup(taxRateGroupPO);	
-		return  JSONResultUtil.setSuccess();
+	@PostMapping(value = "/insertTaxRateGroup")
+	public Object saveTaxRateGroup(TaxRateGroupPO taxRateGroupPO) {
+		taxRateGroupService.addTaxRateGroup(taxRateGroupPO);
+		return JSONResultUtil.setSuccess();
 	}
-	
+
 	// 查询所有个人所得税税率组
-	@GetMapping(value="/selectTaxRateGroup")
-	@Cacheable(value="queryCache")
-	public Object findTaxRateGroup(HttpServletRequest request, Integer pageNum, Integer pageSize ,String uId){
+	@GetMapping(value = "/selectTaxRateGroup")
+	@Cacheable(value = "queryCache")
+	public Object findTaxRateGroup(HttpServletRequest request, Integer pageNum,
+			Integer pageSize, String uid) {
 		pageNum = pageNum == null ? 1 : pageNum;
 		pageSize = pageSize == null ? 3 : pageSize;
-        PageHelper.startPage(pageNum, pageSize,true);
-		List<TaxRateGroupPO> list = taxRateGroupService.findTaxRateGroup(uId);
+		PageHelper.startPage(pageNum, pageSize, true);
+		List<TaxRateGroupPO> list = taxRateGroupService.findTaxRateGroup(uid);
 		PageInfo<TaxRateGroupPO> pageInfo = new PageInfo<TaxRateGroupPO>(list);
 		return JSONResultUtil.setSuccess(pageInfo);
-	}	
-	
+	}
+
 	// 根据主键（组ID）删除个人所得税税率组
-	@DeleteMapping(value="/deleteTaxRateGroup")
-	public Object deleteTaxRateGroup(TaxRateGroupPO taxRateGroupPO){
+	@DeleteMapping(value = "/deleteTaxRateGroup")
+	public Object deleteTaxRateGroup(TaxRateGroupPO taxRateGroupPO) {
 		taxRateGroupService.deleteTaxRateGroup(taxRateGroupPO);
 		return JSONResultUtil.setSuccess();
 	}

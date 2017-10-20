@@ -117,7 +117,7 @@ public class ReadExcel {
        //创建日期转换器
        SimpleDateFormat sdf = null;  
        
-       String uId = SysLoginCtrlUtil.getSysLoginCtrlBySession().getuId();
+       String uId = SysLoginCtrlUtil.getSysLoginCtrlBySession().getUid();
        List<AttencePO> attenceList=new ArrayList<AttencePO>();//声明一个对象集合
        AttencePO attencePO;//声明一个对象
        
@@ -163,7 +163,7 @@ public class ReadExcel {
       
            }
            
-           attencePO.setuId(uId);
+           attencePO.setUid(uId);
            attencePO.setAttenceNo(UUID.randomUUID().toString().replace("_", ""));//考勤编号暂定为UUID生成方式
            attenceList.add(attencePO);//添加对象到集合中
            

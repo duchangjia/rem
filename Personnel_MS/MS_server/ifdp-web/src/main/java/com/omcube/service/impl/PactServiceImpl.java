@@ -1,4 +1,4 @@
-package com.omcube.serviceImpl;
+package com.omcube.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,17 +18,17 @@ public class PactServiceImpl implements PactService{
 	
 	private final String isDelete = "0";
 	//uid租户ID
-	private final String aUId = "0001";
+	private final String auid = "0001";
 	
 	@Override
 	public List<PactPO> getPactList(String derpNo, String custName, String pactType) {
-		String uId = aUId;
+		String uid = auid;
 		custName = "%" + custName + "%";
 		if (pactType == null) {
 			pactType = "%";
 		}
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("uId", uId);
+		params.put("uid", uid);
 		params.put("derpNo", derpNo);
 		params.put("custName", custName);
 		params.put("pactType", pactType);
@@ -37,27 +37,27 @@ public class PactServiceImpl implements PactService{
 
 	@Override
 	public Object getPactByPactNo(String pactNo) {
-		String uId = aUId;
+		String uid = auid;
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("uId", uId);
+		params.put("uid", uid);
 		params.put("pactNo", pactNo);
 		return pactMapper.getPactByPactNo(params);
 	}
 	
 	@Override
 	public List<PactChange> getPactChangeList(String pactNo) {
-		String uId = aUId;
+		String uid = auid;
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("uId", uId);
+		params.put("uid", uid);
 		params.put("pactNo", pactNo);
 		return pactMapper.getPactChangeList(params);
 	}
 	
 	@Override
 	public Object getPactChangeDetail(String pactNo, String changeId) {
-		String uId = aUId;
+		String uid = auid;
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("uId", uId);
+		params.put("uid", uid);
 		params.put("pactNo", pactNo);
 		params.put("changeId", changeId);
 		return pactMapper.getPactChangeDetail(params);
@@ -65,18 +65,18 @@ public class PactServiceImpl implements PactService{
 	
 	@Override
 	public List<PactRenew> getPactRenewList(String pactNo) {
-		String uId = aUId;
+		String uid = auid;
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("uId", uId);
+		params.put("uid", uid);
 		params.put("pactNo", pactNo);
 		return pactMapper.getPactRenewList(params);
 	}
 	
 	@Override
 	public Object getPactRenewDetail(String pactNo, String renewId) {
-		String uId = aUId;
+		String uid = auid;
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("uId", uId);
+		params.put("uid", uid);
 		params.put("pactNo", pactNo);
 		params.put("renewId", renewId);
 		return pactMapper.getPactRenewDetail(params);
@@ -84,28 +84,28 @@ public class PactServiceImpl implements PactService{
 	
 	@Override
 	public void addPact(PactPO pactPO) {
-		pactPO.setuId(aUId);
+		pactPO.setUid(auid);
 		pactMapper.addPact(pactPO);
 	}
 
 	@Override
 	public void addPactChange(PactChange pactChange) {
-		pactChange.setuId(aUId);
+		pactChange.setUid(auid);
 		pactMapper.addPactChange(pactChange);
 	}
 
 	@Override
 	public void addPactRenew(PactRenew pactRenew) {
-		pactRenew.setuId(aUId);
+		pactRenew.setUid(auid);
 		pactMapper.addPactRenew(pactRenew);
 	}
 
 	@Override
 	public void deletePact(String pactNo) {
-		String uId = aUId;
+		String uid = auid;
 		String isDelete = "0";
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("uId", uId);
+		params.put("uid", uid);
 		params.put("pactNo", pactNo);
 		params.put("isDelete", isDelete);
 		pactMapper.deletePact(params);
@@ -113,10 +113,10 @@ public class PactServiceImpl implements PactService{
 
 	@Override
 	public void deletePactChange(String pactNo, String changeId) {
-		String uId = aUId;
+		String uid = auid;
 		String isDelete = "0";
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("uId", uId);
+		params.put("uid", uid);
 		params.put("pactNo", pactNo);
 		params.put("changeId", changeId);
 		params.put("isDelete", isDelete);
@@ -125,10 +125,10 @@ public class PactServiceImpl implements PactService{
 
 	@Override
 	public void deletePactRenew(String pactNo, String renewId) {
-		String uId = aUId;
+		String uid = auid;
 		String isDelete = "0";
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("uId", uId);
+		params.put("uid", uid);
 		params.put("pactNo", pactNo);
 		params.put("renewId", renewId);
 		params.put("isDelete", isDelete);
@@ -137,19 +137,19 @@ public class PactServiceImpl implements PactService{
 
 	@Override
 	public void updatePact(PactPO pactPO) {
-		pactPO.setuId(aUId);
+		pactPO.setUid(auid);
 		pactMapper.updatePact(pactPO);
 	}
 
 	@Override
 	public void updatePactChange(PactChange pactChange) {
-		pactChange.setuId(aUId);
+		pactChange.setUid(auid);
 		pactMapper.updatePactChange(pactChange);
 	}
 
 	@Override
 	public void updatePactRenew(PactRenew pactRenew) {
-		pactRenew.setuId(aUId);
+		pactRenew.setUid(auid);
 		pactMapper.updatePactRenew(pactRenew);
 	}
 	

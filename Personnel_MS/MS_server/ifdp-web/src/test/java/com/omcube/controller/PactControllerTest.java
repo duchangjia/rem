@@ -54,7 +54,7 @@ public class PactControllerTest {
 	public void testAddPact() {
 		PactPO pactPO = new PactPO();
 		String as = "2013-11-21";
-		pactPO.setuId("0001");
+		pactPO.setUid("0001");
 		pactPO.setPactNo("0003");
 		pactPO.setPaperPactNo("0004");
 		pactPO.setPactName("劳动合同4");
@@ -88,7 +88,7 @@ public class PactControllerTest {
 	public void testAddPactChange() {
 		PactChange pactChange = new PactChange();
 		String date = "2017-10-22";
-		pactChange.setuId("0001");
+		pactChange.setUid("0001");
 		pactChange.setPactNo("0002");
 		pactChange.setChangeId("0003");
 		pactChange.setChangeTime(date);
@@ -107,7 +107,7 @@ public class PactControllerTest {
 		PactRenew pactRenew = new PactRenew();
 		String date = "2013-01-31";
 		String datel = "2017-01-31";
-		pactRenew.setuId("0001");
+		pactRenew.setUid("0001");
 		pactRenew.setPactNo("0001");
 		pactRenew.setRenewId("0003");
 		pactRenew.setRenewTime(date);
@@ -154,7 +154,7 @@ public class PactControllerTest {
 	public void testUpdatePact() {
 		PactPO pactPO = new PactPO();
 		String as = "2013-11-21";
-		pactPO.setuId("0001");
+		pactPO.setUid("0001");
 		pactPO.setPactNo("0003");
 		pactPO.setPaperPactNo("0003");
 		pactPO.setPactName("劳动合同");
@@ -187,7 +187,7 @@ public class PactControllerTest {
 	public void testUpdatePactChange(){
 		PactChange pactChange = new PactChange();
 		String date = "2017-10-22";
-		pactChange.setuId("0001");
+		pactChange.setUid("0001");
 		pactChange.setPactNo("0002");
 		pactChange.setChangeId("0003");
 		pactChange.setChangeTime(date);
@@ -207,7 +207,7 @@ public class PactControllerTest {
 		PactRenew pactRenew = new PactRenew();
 		String date = "2013-01-31";
 		String datel = "2017-01-31";
-		pactRenew.setuId("0001");
+		pactRenew.setUid("0001");
 		pactRenew.setPactNo("0001");
 		pactRenew.setRenewId("0003");
 		pactRenew.setRenewTime(date);
