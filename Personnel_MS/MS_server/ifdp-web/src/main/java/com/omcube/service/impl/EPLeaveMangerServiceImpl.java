@@ -44,7 +44,7 @@ public class EPLeaveMangerServiceImpl implements EPLeaveMangerService {
 		if (!StringUtils.isEmpty(epLeaveInfoPO.getApplyNo())) {
 			// 根据请假的编号查询数据库中是否已经存在
 			Map<String, String> param = new HashMap<String, String>();
-			param.put("uid", epLeaveInfoPO.getuId());
+			param.put("uid", epLeaveInfoPO.getUid());
 			param.put("applyNo", epLeaveInfoPO.getApplyNo());
 			if (epLeaveMangerMapper.queryLeaveInfo(param) == null) {
 
@@ -82,7 +82,7 @@ public class EPLeaveMangerServiceImpl implements EPLeaveMangerService {
 
 		Map<String, String> param = new HashMap<String, String>();
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-		String uid = sysLoginCtrl.getuId();
+		String uid = sysLoginCtrl.getUid();
 		param.put("uid", uid);
 		param.put("applyNo", epLeaveInfoPO.getApplyNo());
 		EPLeaveInfoPO leaveInfo = epLeaveMangerMapper.queryLeaveInfo(param);
@@ -100,7 +100,7 @@ public class EPLeaveMangerServiceImpl implements EPLeaveMangerService {
 
 		Map<String, String> param = new HashMap<String, String>();
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-		String uid = sysLoginCtrl.getuId();
+		String uid = sysLoginCtrl.getUid();
 		param.put("uid", uid);
 		param.put("applyNo", epLeaveInfoPO.getApplyNo());
 		EPLeaveInfoPO leaveInfo = epLeaveMangerMapper.queryLeaveInfo(param);

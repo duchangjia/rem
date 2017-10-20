@@ -61,9 +61,9 @@ public class EpWorkOtController {
 
 		// 生成加班的编号
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-		String uid = sysLoginCtrl.getuId();
+		String uid = sysLoginCtrl.getUid();
 		String applyNo = GetNumUtil.getNo();
-		epWorkOtPO.setuId(uid);
+		epWorkOtPO.setUid(uid);
 		epWorkOtPO.setApplyNo(applyNo);
 
 		// 文件的上传

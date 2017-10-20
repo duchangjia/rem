@@ -93,13 +93,10 @@ public class RoleController {
 		logger.info(String.format("the request body is %s:", sysRolePO.toString()));
 
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-		String uid = sysLoginCtrl.getuId();
+		String uid = sysLoginCtrl.getUid();
 		String roleNo = String.valueOf(System.currentTimeMillis()); // 角色的编号暂时使用当前的毫秒值代替
-<<<<<<< HEAD
-		sysRolePO.setuId(uid);
-=======
+		sysRolePO.setUid(uid);
 		sysRolePO.setUid("0001");
->>>>>>> 490763ad5853edb8a8fc718d3d447cd0c1681518
 		sysRolePO.setRoleNo(roleNo);
 
 		try {

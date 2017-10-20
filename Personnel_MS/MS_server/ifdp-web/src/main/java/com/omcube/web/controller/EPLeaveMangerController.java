@@ -61,15 +61,11 @@ public class EPLeaveMangerController {
 		}
 
 		// 请假编号的生成
-<<<<<<< HEAD
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-		String uid = sysLoginCtrl.getuId();
+		String uid = sysLoginCtrl.getUid();
 		String applyNo = GetNumUtil.getNo();
-		epLeaveInfoPO.setuId(uid);
-=======
-		String applyNo = String.valueOf(System.currentTimeMillis()); // 请假编号暂时使用当前的毫秒值代替
+		epLeaveInfoPO.setUid(uid);
 		epLeaveInfoPO.setUid("0001");
->>>>>>> 490763ad5853edb8a8fc718d3d447cd0c1681518
 		epLeaveInfoPO.setApplyNo(applyNo);
 
 		try {

@@ -53,7 +53,7 @@ public class EPWorkOtServiceImpl implements EPWorkOtService {
 
 		Map<String, String> param = new HashMap<String, String>();
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-		String uid = sysLoginCtrl.getuId();
+		String uid = sysLoginCtrl.getUid();
 		param.put("uid", uid);
 		param.put("applyNo", epWorkOtPO.getApplyNo());
 		EPWorkOtPO workOtInfo = epWorkOtMapper.queryWorkOtInfo(param);
@@ -74,7 +74,7 @@ public class EPWorkOtServiceImpl implements EPWorkOtService {
 
 		Map<String, String> param = new HashMap<String, String>();
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-		String uid = sysLoginCtrl.getuId();
+		String uid = sysLoginCtrl.getUid();
 		param.put("uid", uid);
 		param.put("applyNo", epWorkOtPO.getApplyNo());
 		EPWorkOtPO workOtInfo = epWorkOtMapper.queryWorkOtInfo(param);

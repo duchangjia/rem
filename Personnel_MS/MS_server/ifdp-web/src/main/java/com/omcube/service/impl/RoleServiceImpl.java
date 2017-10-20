@@ -62,7 +62,7 @@ public class RoleServiceImpl implements RoleService {
 
 		Map<String, String> param = new HashMap<String, String>();
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-		String uid = sysLoginCtrl.getuId();
+		String uid = sysLoginCtrl.getUid();
 		param.put("uid", uid);
 
 		List<SysRolePO> roleInfos = sysRoleMapper.queryRoleList(param);
@@ -85,11 +85,8 @@ public class RoleServiceImpl implements RoleService {
 
 		// 添加角色时判断角色是否存在
 		Map<String, String> param = new HashMap<String, String>();
-<<<<<<< HEAD
-		param.put("uid", sysRolePO.getuId());
-=======
+		param.put("uid", sysRolePO.getUid());
 		param.put("uId", sysRolePO.getUid());
->>>>>>> 490763ad5853edb8a8fc718d3d447cd0c1681518
 		param.put("roleNo", sysRolePO.getRoleNo());
 
 		if (sysRoleMapper.queryRoleByRoleNo(param) != null) {
@@ -148,7 +145,7 @@ public class RoleServiceImpl implements RoleService {
 
 		Map<String, String> param = new HashMap<String, String>();
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-		String uid = sysLoginCtrl.getuId();
+		String uid = sysLoginCtrl.getUid();
 		param.put("uid", uid);
 		param.put("roleNo", roleNo);
 		SysRolePO roleInfo = sysRoleMapper.queryRoleByRoleNo(param);
@@ -164,11 +161,8 @@ public class RoleServiceImpl implements RoleService {
 
 		// 查询对应的角色是否存在
 		Map<String, String> param = new HashMap<String, String>();
-<<<<<<< HEAD
-		param.put("uid", sysRolePO.getuId());
-=======
+		param.put("uid", sysRolePO.getUid());
 		param.put("uId", sysRolePO.getUid());
->>>>>>> 490763ad5853edb8a8fc718d3d447cd0c1681518
 		param.put("roleNo", sysRolePO.getRoleNo());
 		SysRolePO exSysRolePO = sysRoleMapper.queryRoleByRoleNo(param);
 
@@ -217,7 +211,7 @@ public class RoleServiceImpl implements RoleService {
 		// 判断的角色的是否存在
 		Map<String, String> params = new HashMap<String, String>();
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-		String uid = sysLoginCtrl.getuId();
+		String uid = sysLoginCtrl.getUid();
 		params.put("uid", uid);
 		params.put("roleNo", sysRolePO.getRoleNo());
 
@@ -229,11 +223,8 @@ public class RoleServiceImpl implements RoleService {
 			throw new RuntimeException("修改的角色不存在");
 		}
 
-<<<<<<< HEAD
-		sysRolePO.setuId(uid);
-=======
+		sysRolePO.setUid(uid);
 		sysRolePO.setUid("0001");
->>>>>>> 490763ad5853edb8a8fc718d3d447cd0c1681518
 		sysRolePO.setUpdatedBy("dj");
 
 		sysRoleMapper.modifyRoleInfo(sysRolePO);
@@ -248,7 +239,7 @@ public class RoleServiceImpl implements RoleService {
 		// 判断角色是否存在
 		Map<String, String> param = new HashMap<String, String>();
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-		String uid = sysLoginCtrl.getuId();
+		String uid = sysLoginCtrl.getUid();
 		param.put("uid", uid);
 		param.put("roleNo", sysRolePO.getRoleNo());
 		SysRolePO newRole = sysRoleMapper.queryRoleByRoleNo(param);
