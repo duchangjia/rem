@@ -72,7 +72,7 @@ export default {
             status: self.$route.params.status
         }
         console.log(params);
-        self.$axios.get('iemrole/role/queryRoleDetail', { params })
+        self.$axios.get('/iem_hrm/role/queryRoleDetail', { params })
             .then(function(res) {
                 console.log(res);
                 self.roleDetail = res.data.data;
@@ -92,7 +92,7 @@ export default {
             editRole.roleDescr = this.editRoleMsg.roleDescr;
             editRole.status = this.editRoleMsg.status;
             console.dir(editRole);
-            this.$axios.put('/iemrole/role/modifyRoleInfo', editRole)
+            this.$axios.put('/iem_hrm/role/modifyRoleInfo', editRole)
                 .then((res) => {
                     console.log(res);
                     if (res.data.code == 'S00000') this.$router.push('/management_role');

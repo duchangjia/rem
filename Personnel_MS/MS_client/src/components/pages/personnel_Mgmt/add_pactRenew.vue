@@ -176,7 +176,7 @@ export default {
       newPRenew.attachm = this.addPRenewMsg.attachm;
       console.log(newPRenew);
       this.$axios
-        .post("/xxx/addPRenew", newPRenew)
+        .post("/iem_hrm/addPRenew", newPRenew)
         .then(res => {
           console.log(res);
           if (res.data.code == "S00000")
