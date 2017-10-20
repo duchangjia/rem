@@ -1,5 +1,5 @@
 server:
-  port: 8888
+  port: 8887
 
 spring:
   datasource:
@@ -23,11 +23,12 @@ security:
     enabled : false
 
 logging:
-  file: log/ifdp-web.log
-  level:
-    org.springframework.web: info
-    org.springframework.security: info
-    com.omcube: debug
+  #file: log/ifdp-web.log
+  config: classpath:log_config.xml
+ # level:
+  #  org.springframework.web: info
+  #  org.springframework.security: info
+  #  com.omcube: debug
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

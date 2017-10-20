@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="10 seconds">
+
+	<contextName>hr_ifdp</contextName>
+	
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+	
+	<!-- ifdpWeb文件路径 -->
+	<property name="IFDP_WEB" value="server_logs"/>
+	
+	 <!-- 文件输出格式 -->
+    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"/>
+	
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>${PATTERN}</pattern>
+		</layout>
+	</appender>
+	
+	<appender name="ifdpWeb" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!--<Encoding>UTF-8</Encoding>-->
+		<File>${IFDP_WEB}/ifdpWeb.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${IFDP_WEB}/ifdpWeb.%d{yyyy-MM-dd}-%i.log</FileNamePattern>
+			<MaxHistory>10</MaxHistory>
+			<TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<MaxFileSize>100MB</MaxFileSize>
+			</TimeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>${PATTERN}</pattern>
+		</layout>
+	</appender>
+		
+	<root level="info">
+	  <appender-ref ref="console" />
+	  <appender-ref ref="ifdpWeb" />
+	</root>	
+	
+	 <logger name="com.omcube" level="debug" additivity="false">
+        <appender-ref ref="ifdpWeb"/>
+    </logger>
+	
+	
+	<logger name="org.springframework.web" level="info" />
+	<logger name="org.springframework.security" level="info" />
+		
+</configuration>
