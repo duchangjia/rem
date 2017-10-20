@@ -18,31 +18,31 @@
 		<result column="CREATED_DATE" property="createdDate"></result>
 		<result column="UPDATED_BY" property="updatedBy"></result>
 		<result column="UPDATED_DATE" property="updatedDate"></result>
-	</resultMap> 
-	
+	</resultMap>
+
 	<!-- 新增用户教育经历信息 -->
 	<insert id="insertEpCustEduHis" parameterType="com.omcube.model.po.EpCustEduHisPO">
-	   insert into 
-	   EP_CUST_EDUHIS
-	   values(
-	   #{uId},#{userNo},#{eduHisId}, 
-	   #{startTime},#{endTime},#{schoolName}, 
-	   #{major},#{education},#{desc}, 
-	   #{createdBy},now(),#{updatedBy},
-	   now()
-	   )
+		insert into
+		EP_CUST_EDUHIS
+		values(
+		#{uId},#{userNo},#{eduHisId},
+		#{startTime},#{endTime},#{schoolName},
+		#{major},#{education},#{desc},
+		#{createdBy},now(),#{updatedBy},
+		now()
+		)
 	</insert>
-	
+
 	<!-- 根据主键(用户编号，序号)删除员工教育经历信息 -->
 	<delete id="deleteEpCustEduHis" parameterType="java.lang.String">
-	    delete from 
-	    EP_CUST_EDUHIS 
-	    where 
-	    UID=#{uId} 
-	    and 
-	    USER_NO=#{userNo} 
-	    and 
-	    EDUHIS_ID=#{eduHisId}
+		delete from
+		EP_CUST_EDUHIS
+		where
+		UID=#{uId}
+		and
+		USER_NO=#{userNo}
+		and
+		EDUHIS_ID=#{eduHisId}
 	</delete>
-	
+
 </mapper>  	

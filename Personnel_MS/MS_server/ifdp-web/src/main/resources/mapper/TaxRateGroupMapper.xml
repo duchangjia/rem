@@ -44,7 +44,8 @@
 
 	<!-- 根据主键（组ID）删除个人所得税税率组 -->
 	<update id="deleteTaxRateGroup" parameterType="java.lang.String">
-		update EP_TAXRATE_GROUP
+		update
+		EP_TAXRATE_GROUP
 		set
 		ISDELETE='0'
 		where

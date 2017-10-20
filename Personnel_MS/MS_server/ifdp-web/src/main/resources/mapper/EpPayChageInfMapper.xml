@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.omcube.model.mapper.EpPayChageInfMapper">
+	<resultMap type="com.omcube.model.response.EpPayChageInfResponse"
+		id="EpPayChageInfMap">
+		<id column="UID" property="uId"></id>
+		<id column="USER_NO" property="userNo"></id>
+		<result column="APPLY_NO" property="applyNo" javaType="java.lang.String"></result>
+		<result column="ORGAN_NO" property="organNo" javaType="java.lang.String"></result>
+		<result column="DERP_NO" property="derpNo" javaType="java.lang.String"></result>
+		<result column="CUST_NAME" property="custName" javaType="java.lang.String"></result>
+		<result column="CUST_POST" property="custPost" javaType="java.lang.String"></result>
+		<result column="CUST_CLASS" property="custClass" javaType="java.lang.String"></result>
+		<result column="O_WAGES_BASE" property="oWagesBase" javaType="java.lang.Double"></result>
+		<result column="O_WAGES_PERF" property="oWagesPerf" javaType="java.lang.Double"></result>
+		<result column="O_POST_PENSION" property="oPostPension"
+			javaType="java.lang.Double"></result>
+		<result column="O_OTHER_PENSION" property="oOtherPension"
+			javaType="java.lang.Double"></result>
+		<result column="O_ENDM_BASE" property="oEndmBase" javaType="java.lang.Double"></result>
+		<result column="O_MEDI_BASE" property="oMediBase" javaType="java.lang.Double"></result>
+		<result column="O_UNEM_BASE" property="oUnemBase" javaType="java.lang.Double"></result>
+		<result column="O_EMPL_BASE" property="oEmplBase" javaType="java.lang.Double"></result>
+		<result column="O_MATE_BASE" property="oMateBase" javaType="java.lang.Double"></result>
+		<result column="O_HOUSE_BASE" property="oHouseBase" javaType="java.lang.Double"></result>
+		<result column="O_WELCOE_NO" property="oWelcoeNo" javaType="java.lang.String"></result>
+		<result column="N_WAGES_BASE" property="nWagesBase" javaType="java.lang.Double"></result>
+		<result column="N_WAGES_PERF" property="nWagesPerf" javaType="java.lang.Double"></result>
+		<result column="N_POST_PENSION" property="nPostPension"
+			javaType="java.lang.Double"></result>
+		<result column="N_OTHER_PENSION" property="nOtherPension"
+			javaType="java.lang.Double"></result>
+		<result column="N_ENDM_BASE" property="nEndmBase" javaType="java.lang.Double"></result>
+		<result column="N_MEDI_BASE" property="nMediBase" javaType="java.lang.Double"></result>
+		<result column="N_UNEM_BASE" property="nUnemBase" javaType="java.lang.Double"></result>
+		<result column="N_EMPL_BASE" property="nEmplBase" javaType="java.lang.Double"></result>
+		<result column="N_MATE_BASE" property="nMateBase" javaType="java.lang.Double"></result>
+		<result column="N_HOUSE_BASE" property="nHouseBase" javaType="java.lang.Double"></result>
+		<result column="N_WELCOE_NO" property="nWelcoeNo" javaType="java.lang.String"></result>
+		<result column="REMARK" property="remark" javaType="java.lang.String"></result>
+		<result column="PER_ENDM_PAY" property="perEndmPay" javaType="java.lang.Double"></result>
+		<result column="PER_MEDI_PAY" property="perMediPay" javaType="java.lang.Double"></result>
+		<result column="PER_UNEM_PAY" property="perUnemPay" javaType="java.lang.Double"></result>
+		<result column="PER_EMPL_PAY" property="perEmplPay" javaType="java.lang.Double"></result>
+		<result column="PER_MATE_PAY" property="perMatePay" javaType="java.lang.Double"></result>
+		<result column="PER_HOUSE_PAY" property="perHousePay" javaType="java.lang.Double"></result>
+		<result column="COM_ENDM_PAY" property="comEndmPay" javaType="java.lang.Double"></result>
+		<result column="COM_MEDI_PAY" property="comMediPay" javaType="java.lang.Double"></result>
+		<result column="COM_UNEM_PAY" property="comUnemPay" javaType="java.lang.Double"></result>
+		<result column="COM_EMPL_PAY" property="comEmplPay" javaType="java.lang.Double"></result>
+		<result column="COM_MATE_PAY" property="comMatePay" javaType="java.lang.Double"></result>
+		<result column="COM_HOUSE_PAY" property="comHousePay" javaType="java.lang.Double"></result>
+		<result column="CREATED_DATE" property="createdDate" javaType="java.util.Date"></result>
+		<result column="UPDATED_DATE" property="updatedDate" javaType="java.util.Date"></result>
+		<result column="CREATED_BY" property="createdBy" javaType="java.lang.String"></result>
+		<result column="UPDATED_BY" property="updatedBy" javaType="java.lang.String"></result>
+	</resultMap>
+
+	<!-- 调薪管理列表查询 -->
+	<select id="selectListEpPayChageInf" parameterType="java.lang.String"
+		resultMap="EpPayChageInfMap">
+		select
+		pc.APPLY_NO,
+		pc.USER_NO,
+		ci.CUST_NAME,
+		pc.N_WAGES_BASE,
+		pc.N_WAGES_PERF,
+		pc.N_POST_PENSION,
+		pc.O_OTHER_PENSION,
+		pc.CREATED_DATE
+		from
+		EP_PAY_CHAGEINF pc
+		inner join
+		EP_CUST_INFO ci
+		on
+		pc.UID = ci.UID
+		and
+		pc.USER_NO = ci.USER_NO
+		where
+		pc.CREATED_DATE
+		between
+		#{startTime} and
+		#{endTime}
+	</select>
+
+
+
+
+</mapper>        
