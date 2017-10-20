@@ -152,7 +152,7 @@ public class VisaFreeHolidayController {
 
 		// 从session 中获取信息
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-		queryVisaFreeHolidayRequest.setuId(sysLoginCtrl.getuId());
+		queryVisaFreeHolidayRequest.setuId(sysLoginCtrl.getUid());
 		return queryVisaFreeHolidayRequest;
 	}
 

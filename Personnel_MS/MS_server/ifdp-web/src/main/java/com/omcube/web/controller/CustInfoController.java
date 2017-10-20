@@ -48,9 +48,9 @@ public class CustInfoController {
 	}
 	//从session获取登录信息
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	String userNO = sysLoginCtrl.getUserNo();
-	custInfo.setuId(uId);
+	custInfo.setUid(uId);
 	custInfo.setCreatedBy(userNO);
 	custInfo.setUpdatedBy(userNO);
 
@@ -72,7 +72,7 @@ public class CustInfoController {
 	}
 	//从session中获取登录信息
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	custInfo.setuId(sysLoginCtrl.getuId());
+	custInfo.setUid(sysLoginCtrl.getUid());
 	custInfo.setUpdatedBy(sysLoginCtrl.getUserNo());
 
 	custInfoService.modCustInf(custInfo);
@@ -95,7 +95,7 @@ public class CustInfoController {
 	}
 	//从session 中获取uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	CustInfoPO custInfo = custInfoService.queryCustInfoByUserNo(uId, userNo);
 	return JSONResultUtil.setSuccess(custInfo);
     }
@@ -114,7 +114,7 @@ public class CustInfoController {
 	}
 	//从session 中获取uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	custInfoService.delCustInf(uId, userNo);
 	return JSONResultUtil.setSuccess();
     }
@@ -134,7 +134,7 @@ public class CustInfoController {
 	
 	//从session 获取uids
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	
 	if (StringUtils.isEmpty(uId)) {
 	    logger.error("the param uId is null");
@@ -157,7 +157,7 @@ public class CustInfoController {
 
 	//从session 获取uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 
 	String lineManager = custInfoService.queryLineManager(uId, userNo);
 	return JSONResultUtil.setSuccess(lineManager);

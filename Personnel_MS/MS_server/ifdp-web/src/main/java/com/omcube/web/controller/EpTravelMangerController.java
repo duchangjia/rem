@@ -82,7 +82,7 @@ public class EpTravelMangerController {
 	    }
 		logger.info(String.format("the request body is %s:", queryTravelRequest.toString()));
 		
-		queryTravelRequest.setUid(SysLoginCtrlUtil.getSysLoginCtrlBySession().getuId());
+		queryTravelRequest.setUid(SysLoginCtrlUtil.getSysLoginCtrlBySession().getUid());
 		TravelResponse travelInfo = epTravelMangerService.getTravelInfoByUserNo(queryTravelRequest);
 		
 		return JSONResultUtil.setSuccess(travelInfo);
@@ -106,7 +106,7 @@ public class EpTravelMangerController {
 	    }
 		logger.info(String.format("the request body is %s:", epTravelPO.toString()));
 		
-		epTravelPO.setuId(SysLoginCtrlUtil.getSysLoginCtrlBySession().getuId());
+		epTravelPO.setUid(SysLoginCtrlUtil.getSysLoginCtrlBySession().getUid());
 		
 		try {
 			if (!file.isEmpty()) {
@@ -156,7 +156,7 @@ public class EpTravelMangerController {
 		    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	    }
 		logger.info(String.format("the request body is %s:", queryTravelRequest.toString()));		
-		queryTravelRequest.setUid(SysLoginCtrlUtil.getSysLoginCtrlBySession().getuId());
+		queryTravelRequest.setUid(SysLoginCtrlUtil.getSysLoginCtrlBySession().getUid());
 		epTravelMangerService.deleteTravel(queryTravelRequest);	
 		return JSONResultUtil.setSuccess();
     
@@ -180,7 +180,7 @@ public class EpTravelMangerController {
 		
 		//从session 中获取登录信息
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-		queryTravelRequest.setUid(sysLoginCtrl.getuId());
+		queryTravelRequest.setUid(sysLoginCtrl.getUid());
 
 		return queryTravelRequest;
 	    }

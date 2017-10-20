@@ -61,7 +61,7 @@ public class EPLeaveMangerController {
 
 		// 请假编号的生成
 		String applyNo = String.valueOf(System.currentTimeMillis()); // 请假编号暂时使用当前的毫秒值代替
-		epLeaveInfoPO.setuId("0001");
+		epLeaveInfoPO.setUid("0001");
 		epLeaveInfoPO.setApplyNo(applyNo);
 
 		try {

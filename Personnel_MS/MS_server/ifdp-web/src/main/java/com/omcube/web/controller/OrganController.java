@@ -281,7 +281,7 @@ public class OrganController {
 	logger.info(String.format("the request body is %s:", sysOrganPO.toString()));
 	
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	String userNo = sysLoginCtrl.getUserNo();
 	UserDetailInfo userDetailInfo = userInfoService.queryUserDetail(uId,userNo);
 	//添加更新机构人员
@@ -317,12 +317,12 @@ public class OrganController {
 	}
 	//获取系统管理人员的uid和userNo
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	String userNo = sysLoginCtrl.getUserNo();
 	UserDetailInfo userDetailInfo = userInfoService.queryUserDetail(uId,userNo);
 	sysOrganPO.setCreatedBy(userDetailInfo.getUserName());
 	sysOrganPO.setUpdatedBy(userDetailInfo.getUserName());
-	sysOrganPO.setuId(uId);
+	sysOrganPO.setUid(uId);
 	
 	//获取当前机构的organLevel,创建子机构级别
 	int newOrganLevel = Integer.parseInt(organLevel)+1;

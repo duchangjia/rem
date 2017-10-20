@@ -44,15 +44,15 @@ public class EpAssetInfController {
     public Object addEpAssetInf(EpAssetInfPO epAssetInf, @RequestParam("file") MultipartFile file) {
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	String createdBy = sysLoginCtrl.getCreatedBy();
-	epAssetInf.setuId(uId);
+	epAssetInf.setUid(uId);
 	epAssetInf.setCreatedBy(createdBy);
 	//校验
 	if (StringUtils.isEmpty(epAssetInf)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	}
-	if (StringUtils.isEmpty(epAssetInf.getuId()) || StringUtils.isEmpty(epAssetInf.getAssetNo())
+	if (StringUtils.isEmpty(epAssetInf.getUid()) || StringUtils.isEmpty(epAssetInf.getAssetNo())
 		|| StringUtils.isEmpty(epAssetInf.getOrganNo()) || StringUtils.isEmpty(epAssetInf.getDerpNo())
 		|| StringUtils.isEmpty(epAssetInf.getApplyUserNo())) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
@@ -94,7 +94,7 @@ public class EpAssetInfController {
     public Object queryEpAssetInf(@PathVariable String assetNo) {
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	if (StringUtils.isEmpty(uId) || StringUtils.isEmpty(assetNo)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
 		    "the param uId or assetNo is null");
@@ -112,16 +112,16 @@ public class EpAssetInfController {
     public Object updateEpAssetInf(EpAssetInfPO epAssetInf) {
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	String updatedBy = sysLoginCtrl.getUpdatedBy();
 	//将获取到的uid 和 updatedBy放入到epAssetInf
-	epAssetInf.setuId(uId);
+	epAssetInf.setUid(uId);
 	epAssetInf.setUpdatedBy(updatedBy);
 	//校验
 	if (StringUtils.isEmpty(epAssetInf)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	}
-	if (StringUtils.isEmpty(epAssetInf.getuId()) || StringUtils.isEmpty(epAssetInf.getAssetNo())
+	if (StringUtils.isEmpty(epAssetInf.getUid()) || StringUtils.isEmpty(epAssetInf.getAssetNo())
 		|| StringUtils.isEmpty(epAssetInf.getOrganNo()) || StringUtils.isEmpty(epAssetInf.getDerpNo())
 		|| StringUtils.isEmpty(epAssetInf.getApplyUserNo())) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
@@ -136,8 +136,8 @@ public class EpAssetInfController {
     public Object queryEpAssetInfs(Integer pageNum, Integer pageSize, EpAssetInfPO epAssetInf) {
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
-	epAssetInf.setuId(uId);
+	String uId = sysLoginCtrl.getUid();
+	epAssetInf.setUid(uId);
 	if (StringUtils.isEmpty(epAssetInf)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	}

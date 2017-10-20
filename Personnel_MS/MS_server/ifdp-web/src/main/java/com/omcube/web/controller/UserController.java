@@ -89,7 +89,7 @@ public class UserController {
 	
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uid = sysLoginCtrl.getuId();
+	String uid = sysLoginCtrl.getUid();
 	logger.info(String.format("the request param uid:%s, userNo:%s", uid, userNo));
 	UserDetailInfo userInfos = userService.queryUserDetail(uid, userNo);
 
@@ -153,7 +153,7 @@ public class UserController {
 	}
 	//session 获取登录信息
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	updateUserReq.setUid(sysLoginCtrl.getuId());
+	updateUserReq.setUid(sysLoginCtrl.getUid());
 	updateUserReq.setUpdatedBy(sysLoginCtrl.getUserName());
 	return null;
     }
@@ -212,7 +212,7 @@ public class UserController {
 	}
 	//从session 中获取登录信息
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	queryUserReq.setUid(sysLoginCtrl.getuId());
+	queryUserReq.setUid(sysLoginCtrl.getUid());
 
 	return queryUserReq;
     }

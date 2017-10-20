@@ -91,7 +91,7 @@ public class RoleController {
 		logger.info(String.format("the request body is %s:", sysRolePO.toString()));
 
 		String roleNo = String.valueOf(System.currentTimeMillis()); // 角色的编号暂时使用当前的毫秒值代替
-		sysRolePO.setuId("0001");
+		sysRolePO.setUid("0001");
 		sysRolePO.setRoleNo(roleNo);
 
 		try {
