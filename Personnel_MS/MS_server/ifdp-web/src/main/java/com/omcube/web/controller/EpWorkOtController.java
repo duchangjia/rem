@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.omcube.model.po.EPWorkOtPO;
 import com.omcube.model.po.SysLoginCtrl;
+import com.omcube.model.request.QueryWorkOt;
+import com.omcube.model.response.WorkOtResponse;
 import com.omcube.service.EPWorkOtService;
 import com.omcube.util.ConstantUtil;
 import com.omcube.util.ErrorCodeConstantUtil;
@@ -52,9 +55,9 @@ public class EpWorkOtController {
 	 */
 	@PostMapping(value = "/addWorkOtInfo")
 	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-	public Object addWorkOtInfo(EPWorkOtPO epWorkOtPO) {
+	public Object addWorkOtInfo(@RequestBody WorkOtResponse workOtResponse) {
 
-		if (epWorkOtPO == null) {
+		if (workOtResponse == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
@@ -63,11 +66,11 @@ public class EpWorkOtController {
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 		String uid = sysLoginCtrl.getUid();
 		String applyNo = GetNumUtil.getNo();
-		epWorkOtPO.setUid(uid);
-		epWorkOtPO.setApplyNo(applyNo);
+		workOtResponse.setUid(uid);
+		workOtResponse.setApplyNo(applyNo);
 
 		// 文件的上传
-		MultipartFile file = epWorkOtPO.getFile();
+		MultipartFile file = workOtResponse.getFile();
 		try {
 			if (!file.isEmpty()) {
 				// 获的文件名
@@ -78,7 +81,7 @@ public class EpWorkOtController {
 				String filePath = "e://workot//";
 				File newFile = new File(filePath + fileName);
 				// 将文件名保存到数据库
-				epWorkOtPO.setAttachm(newFile.toString());
+				workOtResponse.setAttachm(newFile.toString());
 
 				if (!newFile.getParentFile().exists()) {
 					newFile.getParentFile().mkdirs();
@@ -87,7 +90,7 @@ public class EpWorkOtController {
 				file.transferTo(newFile);
 			}
 
-			epWorkOtService.addWorkOtInfo(epWorkOtPO);
+			epWorkOtService.addWorkOtInfo(workOtResponse);
 			return JSONResultUtil.setSuccess();
 
 		} catch (Exception e) {
@@ -105,15 +108,15 @@ public class EpWorkOtController {
 	 */
 	@PutMapping(value = "/modifyWorkOtInfo")
 	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-	public Object modifyWorkOtInfo(EPWorkOtPO epWorkOtPO) {
+	public Object modifyWorkOtInfo(WorkOtResponse workOtResponse) {
 
-		if (epWorkOtPO == null) {
+		if (workOtResponse == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
 
 		// 文件的上传
-		MultipartFile file = epWorkOtPO.getFile();
+		MultipartFile file = workOtResponse.getFile();
 		try {
 			if (!file.isEmpty()) {
 				// 获的文件名
@@ -125,7 +128,7 @@ public class EpWorkOtController {
 
 				File newFile = new File(filePath + fileName);
 				// 将文件名保存到数据库
-				epWorkOtPO.setAttachm(newFile.toString());
+				workOtResponse.setAttachm(newFile.toString());
 
 				if (!newFile.getParentFile().exists()) {
 					newFile.getParentFile().mkdirs();
@@ -134,7 +137,7 @@ public class EpWorkOtController {
 				file.transferTo(newFile);
 			}
 
-			epWorkOtService.modifyWorkOtInfo(epWorkOtPO);
+			epWorkOtService.modifyWorkOtInfo(workOtResponse);
 
 			return JSONResultUtil.setSuccess();
 
@@ -154,15 +157,15 @@ public class EpWorkOtController {
 	 */
 	@DeleteMapping(value = "/deleteWorkOtInfo")
 	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-	public Object deleteWorkOtInfo(EPWorkOtPO epWorkOtPO) {
+	public Object deleteWorkOtInfo(QueryWorkOt queryWorkOt) {
 
-		if (epWorkOtPO == null) {
+		if (queryWorkOt == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
 
 		try {
-			epWorkOtService.deleteWorkOtInfo(epWorkOtPO);
+			epWorkOtService.deleteWorkOtInfo(queryWorkOt);
 			return JSONResultUtil.setSuccess();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -179,9 +182,9 @@ public class EpWorkOtController {
 	 * @return
 	 */
 	@GetMapping(value = "/queryWorkOtInfos")
-	public Object queryWorkOtInfos(EPWorkOtPO epWorkOtPO, HttpServletResponse response) {
+	public Object queryWorkOtInfos(QueryWorkOt queryWorkOt, HttpServletResponse response) {
 
-		if (epWorkOtPO == null) {
+		if (queryWorkOt == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
@@ -191,7 +194,7 @@ public class EpWorkOtController {
 
 		try {
 			// 查询加班的详情
-			EPWorkOtPO epWorkInfos = epWorkOtService.queryWorkOtInfos(epWorkOtPO);
+			EPWorkOtPO epWorkInfos = epWorkOtService.queryWorkOtInfos(queryWorkOt);
 			String attachm = epWorkInfos.getAttachm();
 			String fileName = attachm.substring(attachm.lastIndexOf("//"));
 
@@ -253,17 +256,17 @@ public class EpWorkOtController {
 	 * @return
 	 */
 	@GetMapping(value = "/queryWorkOtList")
-	public Object queryWorkOtList(EPWorkOtPO epWorkOtPO) {
+	public Object queryWorkOtList(QueryWorkOt queryWorkOt) {
 
 		// 入参的校验
-		if (epWorkOtPO == null) {
+		if (queryWorkOt == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
 
 		// 分页信息的校验
-		Integer pageNum = epWorkOtPO.getPageNum();
-		Integer pageSize = epWorkOtPO.getPageSize();
+		Integer pageNum = queryWorkOt.getPageNum();
+		Integer pageSize = queryWorkOt.getPageSize();
 
 		if (pageNum <= 0) {
 			pageNum = ConstantUtil.DEFAULT_PAGE_NUM;
@@ -276,11 +279,11 @@ public class EpWorkOtController {
 		}
 
 		// 返回的结果集
-		Result<EPWorkOtPO> result = new Result<>();
+		Result<WorkOtResponse> result = new Result<>();
 
-		Page<EPWorkOtPO> page = PageHelper.startPage(pageNum, pageSize, true);
+		Page<WorkOtResponse> page = PageHelper.startPage(pageNum, pageSize, true);
 
-		List<EPWorkOtPO> oworkOtList = epWorkOtService.queryWorkOtList(epWorkOtPO);
+		List<WorkOtResponse> oworkOtList = epWorkOtService.queryWorkOtList(queryWorkOt);
 
 		long totalNum = page.getTotal();
 		result.setTotal(totalNum);

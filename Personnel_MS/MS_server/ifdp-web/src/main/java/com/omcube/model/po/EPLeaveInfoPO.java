@@ -13,10 +13,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class EPLeaveInfoPO extends BasicPO {
 
 	private String applyNo; // 请假的详情的编号
-	private CustInfoPO custInfoPO; // 员工的详情
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private String userNo; // 员工的编号
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date leaveStartTime; // 请假开始的时间
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 	private Date leaveEndTime; // 请假结束的时间
 	private String leaveType; // 请假的类型
 	private double timeSheet; // 请假的工时
@@ -34,12 +34,12 @@ public class EPLeaveInfoPO extends BasicPO {
 		this.applyNo = applyNo;
 	}
 
-	public CustInfoPO getCustInfoPO() {
-		return custInfoPO;
+	public String getUserNo() {
+		return userNo;
 	}
 
-	public void setCustInfoPO(CustInfoPO custInfoPO) {
-		this.custInfoPO = custInfoPO;
+	public void setUserNo(String userNo) {
+		this.userNo = userNo;
 	}
 
 	public Date getLeaveStartTime() {

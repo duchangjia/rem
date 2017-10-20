@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.omcube.model.mapper.EPWorkOtMapper;
 import com.omcube.model.po.EPWorkOtPO;
 import com.omcube.model.po.SysLoginCtrl;
+import com.omcube.model.request.QueryWorkOt;
+import com.omcube.model.response.WorkOtResponse;
 import com.omcube.service.EPWorkOtService;
 import com.omcube.util.SysLoginCtrlUtil;
 
@@ -31,31 +33,31 @@ public class EPWorkOtServiceImpl implements EPWorkOtService {
 	private EPWorkOtMapper epWorkOtMapper;
 
 	/**
-	 * @see com.omcube.service.EPWorkOtService#addWorkOtInfo(EPWorkOtPO)
+	 * @see com.omcube.service.EPWorkOtService#addWorkOtInfo(WorkOtResponse)
 	 */
 	@Override
-	public void addWorkOtInfo(EPWorkOtPO epWorkOtPO) throws Exception {
+	public void addWorkOtInfo(WorkOtResponse workOtResponse) throws Exception {
 
 		// 查询对应的员工是否存在
-		if (StringUtils.isBlank(epWorkOtPO.getCustInfoPO().getUserNo())) {
+		if (StringUtils.isBlank(workOtResponse.getUserNo())) {
 			logger.error("the userNo is null");
 			throw new RuntimeException("此员工不存在!!!");
 		}
 
-		epWorkOtMapper.addWorkOtInfo(epWorkOtPO);
+		epWorkOtMapper.addWorkOtInfo(workOtResponse);
 	}
 
 	/**
-	 * @see com.omcube.service.EPWorkOtService#modifyWorkOtInfo(EPWorkOtPO)
+	 * @see com.omcube.service.EPWorkOtService#modifyWorkOtInfo(WorkOtResponse)
 	 */
 	@Override
-	public void modifyWorkOtInfo(EPWorkOtPO epWorkOtPO) {
+	public void modifyWorkOtInfo(WorkOtResponse workOtResponse) {
 
 		Map<String, String> param = new HashMap<String, String>();
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 		String uid = sysLoginCtrl.getUid();
 		param.put("uid", uid);
-		param.put("applyNo", epWorkOtPO.getApplyNo());
+		param.put("applyNo", workOtResponse.getApplyNo());
 		EPWorkOtPO workOtInfo = epWorkOtMapper.queryWorkOtInfo(param);
 
 		if (workOtInfo == null) {
@@ -63,20 +65,20 @@ public class EPWorkOtServiceImpl implements EPWorkOtService {
 			throw new RuntimeException("此加班详情不存在!!!");
 		}
 
-		epWorkOtMapper.modifyWorkOtInfo(epWorkOtPO);
+		epWorkOtMapper.modifyWorkOtInfo(workOtResponse);
 	}
 
 	/**
-	 * @see com.omcube.service.EPWorkOtService#deleteWorkOtInfo(EPWorkOtPO)
+	 * @see com.omcube.service.EPWorkOtService#deleteWorkOtInfo(QueryWorkOt)
 	 */
 	@Override
-	public void deleteWorkOtInfo(EPWorkOtPO epWorkOtPO) throws Exception {
+	public void deleteWorkOtInfo(QueryWorkOt wQueryWorkOt) throws Exception {
 
 		Map<String, String> param = new HashMap<String, String>();
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 		String uid = sysLoginCtrl.getUid();
 		param.put("uid", uid);
-		param.put("applyNo", epWorkOtPO.getApplyNo());
+		param.put("applyNo", wQueryWorkOt.getApplyNo());
 		EPWorkOtPO workOtInfo = epWorkOtMapper.queryWorkOtInfo(param);
 
 		if (workOtInfo == null) {
@@ -84,17 +86,17 @@ public class EPWorkOtServiceImpl implements EPWorkOtService {
 			throw new RuntimeException("此加班详情不存在!!!");
 		}
 
-		epWorkOtMapper.deleteWorkOtInfo(epWorkOtPO);
+		epWorkOtMapper.deleteWorkOtInfo(wQueryWorkOt);
 
 	}
 
 	/**
-	 * @see com.omcube.service.EPWorkOtService#queryWorkOtInfos(EPWorkOtPO)
+	 * @see com.omcube.service.EPWorkOtService#queryWorkOtInfos(QueryWorkOt)
 	 */
 	@Override
-	public EPWorkOtPO queryWorkOtInfos(EPWorkOtPO epWorkOtPO) throws Exception {
+	public EPWorkOtPO queryWorkOtInfos(QueryWorkOt queryWorkOt) throws Exception {
 
-		EPWorkOtPO workOtInfo = epWorkOtMapper.queryWorkOtInfos(epWorkOtPO);
+		EPWorkOtPO workOtInfo = epWorkOtMapper.queryWorkOtInfos(queryWorkOt);
 
 		if (workOtInfo == null) {
 			logger.error("the workotInfo is null");
@@ -108,9 +110,9 @@ public class EPWorkOtServiceImpl implements EPWorkOtService {
 	 * @see com.omcube.service.EPWorkOtService#queryWorkOtList(EPWorkOtPO)
 	 */
 	@Override
-	public List<EPWorkOtPO> queryWorkOtList(EPWorkOtPO epWorkOtPO) {
+	public List<WorkOtResponse> queryWorkOtList(QueryWorkOt queryWorkOt) {
 
-		List<EPWorkOtPO> workOtList = epWorkOtMapper.queryWorkOtList(epWorkOtPO);
+		List<WorkOtResponse> workOtList = epWorkOtMapper.queryWorkOtList(queryWorkOt);
 
 		return workOtList;
 	}

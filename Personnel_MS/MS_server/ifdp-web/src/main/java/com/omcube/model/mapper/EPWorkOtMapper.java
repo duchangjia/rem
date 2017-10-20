@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 import com.omcube.model.po.EPWorkOtPO;
+import com.omcube.model.request.QueryWorkOt;
+import com.omcube.model.response.WorkOtResponse;
 
 /**
  * 加班管理的mapper接口
@@ -21,27 +23,27 @@ public interface EPWorkOtMapper {
 	 * @return
 	 */
 	EPWorkOtPO queryWorkOtInfo(Map<String, String> param);
-	
+
 	/**
 	 * 加班详情的添加
 	 * 
 	 * @param epWorkOtPO
 	 */
-	void addWorkOtInfo(EPWorkOtPO epWorkOtPO);
+	void addWorkOtInfo(WorkOtResponse workOtResponse);
 
 	/**
 	 * 加班的详情的修改
 	 * 
 	 * @param epWorkOtPO
 	 */
-	void modifyWorkOtInfo(EPWorkOtPO epWorkOtPO);
+	void modifyWorkOtInfo(WorkOtResponse workOtResponse);
 
 	/**
 	 * 加班详情的删除
 	 * 
 	 * @param epWorkOtPO
 	 */
-	void deleteWorkOtInfo(EPWorkOtPO epWorkOtPO);
+	void deleteWorkOtInfo(QueryWorkOt queryWorkOt);
 
 	/**
 	 * 加班的详情的查询
@@ -49,7 +51,7 @@ public interface EPWorkOtMapper {
 	 * @param epWorkOtPO
 	 * @return
 	 */
-	EPWorkOtPO queryWorkOtInfos(EPWorkOtPO epWorkOtPO);
+	EPWorkOtPO queryWorkOtInfos(QueryWorkOt queryWorkOt);
 
 	/**
 	 * 加班列表的查询
@@ -57,7 +59,6 @@ public interface EPWorkOtMapper {
 	 * @param epWorkOtPO
 	 * @return
 	 */
-	List<EPWorkOtPO> queryWorkOtList(EPWorkOtPO epWorkOtPO);
-
+	List<WorkOtResponse> queryWorkOtList(QueryWorkOt queryWorkOt);
 
 }

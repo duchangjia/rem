@@ -23,62 +23,6 @@
 		<result column="UPDATED_BY" property="updatedBy" javaType="java.lang.String"></result>
 		<result column="UPDATED_DATE" property="updatedDate" javaType="java.util.Date"></result>
 
-		<!-- 员工详情对象的映射 -->
-		<association property="custInfoPO" javaType="com.omcube.model.po.CustInfoPO">
-			<id column="USER_NO" property="userNo"></id>
-			<result column="CUST_NAME" property="custName" javaType="java.lang.String"></result>
-			<result column="ORGAN_NO" property="organNo" javaType="java.lang.String"></result>
-			<result column="DERP_NO" property="derpNo" javaType="java.lang.String"></result>
-			<result column="OWNER_CCC" property="ownerCCC" javaType="java.lang.String"></result>
-			<result column="CERT_TYPE" property="certType" javaType="java.lang.String"></result>
-			<result column="CERT_NO" property="certNo" javaType="java.lang.String"></result>
-			<result column="SEX" property="sex" javaType="java.lang.String"></result>
-			<result column="BIRTHDAY" property="birthday" javaType="java.lang.String"></result>
-			<result column="NATION" property="nation" javaType="java.lang.String"></result>
-			<result column="MARITAL" property="marital" javaType="java.lang.String"></result>
-			<result column="POLITIAL" property="politial" javaType="java.lang.String"></result>
-			<result column="EDUCATION" property="education" javaType="java.lang.String"></result>
-			<result column="DEGREE" property="degree" javaType="java.lang.String"></result>
-			<result column="GRAD_SCHOOL" property="gradSchool" javaType="java.lang.String"></result>
-			<result column="GRAD_TIME" property="gradTime" javaType="java.lang.String"></result>
-			<result column="MAJOR" property="major" javaType="java.lang.String"></result>
-			<result column="LINE_MANAGER" property="lineManager" javaType="java.lang.String"></result>
-			<result column="ORIGO" property="origo" javaType="java.lang.String"></result>
-			<result column="HOME_ADDR" property="homeAddr" javaType="java.lang.String"></result>
-			<result column="LIVE_ADDR" property="liveAddr" javaType="java.lang.String"></result>
-			<result column="PER_EMAIL" property="permAddr" javaType="java.lang.String"></result>
-			<result column="MOBILE_NO" property="mobileNo" javaType="java.lang.String"></result>
-			<result column="TELEPH" property="teleph" javaType="java.lang.String"></result>
-			<result column="HOME_TELEPH" property="homeTeleph" javaType="java.lang.String"></result>
-			<result column="PER_EMAIL" property="perEmail" javaType="java.lang.String"></result>
-			<result column="COM_EMAIL" property="comEmail" javaType="java.lang.String"></result>
-			<result column="ATTEN" property="atten" javaType="java.lang.String"></result>
-			<result column="ATTEN_TELEPH" property="attenTeleph" javaType="java.lang.String"></result>
-			<result column="QQ_ACCT" property="qqAcct" javaType="java.lang.String"></result>
-			<result column="ONE_INCH" property="oneLine" javaType="java.lang.String"></result>
-			<result column="CUST_TYPE" property="custType" javaType="java.lang.String"></result>
-			<result column="CUST_POST" property="custPost" javaType="java.lang.String"></result>
-			<result column="CUST_CLASS" property="custClass" javaType="java.lang.String"></result>
-			<result column="CUST_STATUS" property="custStatus" javaType="java.lang.String"></result>
-			<result column="ENTRY_TIME" property="entryTime" javaType="java.util.Date"></result>
-			<result column="LEFTJOB_TIME" property="leftJobTime" javaType="java.util.Date"></result>
-			<result column="WORK_TIME" property="workTime" javaType="java.util.Date"></result>
-			<result column="PROFTITLE_TIME" property="profTitleTime" javaType="java.util.Date"></result>
-			<result column="COMPACT_START_TIME" property="compactStartTime" javaType="java.util.Date"></result>
-			<result column="COMPACT_END_TIME" property="compactEndTime" javaType="java.util.Date"></result>
-			<result column="PROB_START_TIME" property="probStartTime" javaType="java.util.Date"></result>
-			<result column="PROB_END_TIME" property="probEndTime" javaType="java.util.Date"></result>
-			<result column="RECRUIT_QUARRY" property="recruitQuarry" javaType="java.lang.String"></result>
-			<result column="LATE_LEAVE_TIME" property="lateLeaveTime" javaType="java.util.Date"></result>
-			<result column="OPEN_BANK" property="openBank" javaType="java.lang.String"></result>
-			<result column="BANK_CARD_NO" property="bankCardNo" javaType="java.lang.String"></result>
-			<result column="ENDM_ACCT" property="endmAcct" javaType="java.lang.String"></result>
-			<result column="MEDI_ACCT" property="mediAcct" javaType="java.lang.String"></result>
-			<result column="MATE_ACCT" property="mateAcct" javaType="java.lang.String"></result>
-			<result column="HOUS_ACCT" property="housAcct" javaType="java.lang.String"></result>
-        </association>
-
-
 	</resultMap>
 	<!-- 通过请假的编号查询 -->
 	<select id="queryLeaveInfo" parameterType="map"
@@ -91,7 +35,7 @@
 	</select>
 
 	<!-- 请假详细信息的添加 -->
-	<insert id="addLeaveInfo" parameterType="com.omcube.model.po.EPLeaveInfoPO">
+	<insert id="addLeaveInfo" parameterType="com.omcube.model.response.LeaveResponse">
 		insert into
 			EP_LEAVE_FLOW
 		values(
@@ -108,70 +52,41 @@
 			#{attachm},
 			#{remark},
 			#{createdBy},
-			date_format(now(),'%y-%m-%d'),
-			#{updatedBy},
 			date_format(now(),'%y-%m-%d')
 		)
 	</insert>
 
 	<!-- 请假详情列表的查询 -->
-	<select id="queryLeaveList" parameterType="com.omcube.model.po.EPLeaveInfoPO" resultMap="EPLeaveMap">
-		select  
-			le.APPLY_NO,
-			cu.ORGAN_NO,
-			cu.DERP_NO,
-			cu.USER_NO,
-			cu.CUST_NAME,
-			le.LEAVE_TYPE,
-			le.LEAVE_START_TIME,
-			le.LEAVE_END_TIME,
-			le.CREATED_BY,
-			le.CREATED_DATE 
-		from 
-			EP_CUST_INFO cu ,EP_LEAVE_FLOW le 
-		where 
-			cu.USER_NO= le.USER_NO 
-		and 
-			le.UID = cu.UID = #{uid}
-		and
-			ORGAN_NO = #{organNo} 
-		and 
-			DERP_NO= #{derpNo} 
-		order by 
-			le.APPLY_NO desc
-	</select>
-	
-	<!-- 请假详情的查询 -->
-	<select id="queryLeaveInfos" parameterType="com.omcube.model.po.EPLeaveInfoPO" resultMap="EPLeaveMap">
-		SELECT 
-			l.APPLY_NO AS applyNo ,
-			c.ORGAN_NO AS organNo,
-			c.DERP_NO AS deptNo,
-			o1.ORGAN_NAME AS companyname,
-			o2.ORGAN_NAME AS deptname ,
-			c.USER_NO AS userNo,
-			c.CUST_NAME AS custName,
-			l.LEAVE_TYPE AS LEAVE_TYPE,
-			l.LEAVE_START_TIME AS LEAVE_START_TIME,
-			l.LEAVE_END_TIME AS LEAVE_END_TIME,
-			l.AUTH_FLOW AS AUTH_FLOW,
-			l.REMARK AS remark,
-			l.ATTACHM AS attachm,
-			l.CREATED_BY AS createdBy,
-			l.CREATED_DATE AS createdDate
-		FROM (SELECT * FROM EP_CUST_INFO WHERE organ_no = #{organNo}) c 
-		INNER JOIN IFDP_SYS_ORGAN_BASE o1
-		ON c.organ_no = o1.organ_no 
-		INNER JOIN IFDP_SYS_ORGAN_BASE o2 
-		ON c.derp_no = o2.organ_no 
-		INNER JOIN EP_LEAVE_FLOW l
-		ON c.user_no=l.user_no 	 
-		WHERE l.uid=#{uid}
+	<select id="queryLeaveList" parameterType="com.omcube.model.request.QueryLeaveRequest" resultType="com.omcube.model.response.LeaveResponse">
+		select 
+			l.APPLY_NO as applyNo,
+			c.ORGAN_NO as organNo,
+			c.DERP_NO as deptNo,
+			o1.ORGAN_NAME as companyname,
+			o2.ORGAN_NAME as deptname,
+			c.USER_NO as userNo,
+			c.CUST_NAME as custName,
+			l.LEAVE_TYPE as LEAVE_TYPE,
+			l.LEAVE_START_TIME as LEAVE_START_TIME,
+			l.LEAVE_END_TIME as LEAVE_END_TIME,
+			l.TIME_SHEET as TIME_SHEET,
+			l.REMARK as remark,
+			l.ATTACHM as attachm,
+			l.CREATED_BY as createdBy,
+			l.CREATED_DATE as createdDate
+		from (select * from EP_CUST_INFO where ORGAN_NO = #{organNo}) c 
+		inner join IFDP_SYS_ORGAN_BASE o1
+		on c.ORGAN_NO = o1.ORGAN_NO 
+		inner join IFDP_SYS_ORGAN_BASE o2 
+		on c.DERP_NO = o2.ORGAN_NO 
+		inner join EP_LEAVE_FLOW l
+		on c.USER_NO=l.USER_NO 	 
+		where l.UID=#{uid}
 		<if test="userNo != null and userNo!=''">
-			and c.user_no =#{userNo}
+			and c.USER_NO =#{userNo}
 		</if>
 			
-		<if test="leaveStartTime != null and leaveStartTime!=''">
+		<if test="leaveStartTime != null and leaveStartTime != ''">
 			and l.LEAVE_START_TIME &gt; #{leaveStartTime}
 		</if>
 			
@@ -179,11 +94,40 @@
 			and l.LEAVE_END_TIME &lt; #{leaveEndTime}
 		</if>
 			
-	    order by l.apply_no desc
+	    order by l.APPLY_NO desc
+	</select>
+	
+	<!-- 请假详情的查询 -->
+	<select id="queryLeaveInfos" parameterType="com.omcube.model.request.QueryLeaveRequest" resultType="com.omcube.model.response.LeaveResponse">
+		select 
+			l.APPLY_NO AS applyNo,
+			c.ORGAN_NO AS organNo,
+			c.DERP_NO AS deptNo,
+			o1.ORGAN_NAME AS companyname,
+			o2.ORGAN_NAME AS deptname,
+			c.USER_NO AS userNo,
+			c.CUST_NAME AS custName,
+			l.LEAVE_TYPE AS LEAVE_TYPE,
+			l.LEAVE_START_TIME AS LEAVE_START_TIME,
+			l.LEAVE_END_TIME AS LEAVE_END_TIME,
+			l.TIME_SHEET AS TIME_SHEET,
+			l.REMARK AS remark,
+			l.ATTACHM AS attachm,
+			l.CREATED_BY AS createdBy,
+			l.CREATED_DATE AS createdDate
+		from EP_CUST_INFO c
+		inner join IFDP_SYS_ORGAN_BASE o1 
+		on c.ORGAN_NO = o1.ORGAN_NO 
+		inner join IFDP_SYS_ORGAN_BASE o2 
+		on c.DERP_NO = o2.ORGAN_NO 
+		inner join EP_LEAVE_FLOW l
+		on c.USER_NO=l.USER_NO 	 
+		where l.UID=#{uid} and c.USER_NO=#{userNo}
+		
 	</select>
 	
 	<!-- 请假详情的删除 -->
-	<delete id="deleteLeaveInfo" parameterType="com.omcube.model.po.EPLeaveInfoPO">
+	<delete id="deleteLeaveInfo" parameterType="com.omcube.model.request.QueryLeaveRequest">
 		delete from 
 			EP_LEAVE_FLOW 
 		where 
@@ -191,7 +135,7 @@
 	</delete>
 	
 	<!-- 请假详情的修改 -->
-	<update id="modifyLeaveInfo" parameterType="com.omcube.model.po.SysRolePO">
+	<update id="modifyLeaveInfo" parameterType="com.omcube.model.request.QueryLeaveRequest">
 		update
 			EP_LEAVE_FLOW
 		set

@@ -12,6 +12,8 @@ import org.springframework.util.StringUtils;
 import com.omcube.model.mapper.EPLeaveMangerMapper;
 import com.omcube.model.po.EPLeaveInfoPO;
 import com.omcube.model.po.SysLoginCtrl;
+import com.omcube.model.request.QueryLeaveRequest;
+import com.omcube.model.response.LeaveResponse;
 import com.omcube.service.EPLeaveMangerService;
 import com.omcube.util.SysLoginCtrlUtil;
 
@@ -31,24 +33,24 @@ public class EPLeaveMangerServiceImpl implements EPLeaveMangerService {
 	private EPLeaveMangerMapper epLeaveMangerMapper;
 
 	/**
-	 * @see com.omcube.service.EPLeaveMangerService#addLeaveInfo(EPLeaveInfoPO)
+	 * @see com.omcube.service.EPLeaveMangerService#addLeaveInfo(LeaveResponse)
 	 */
 	@Override
-	public void addLeaveInfo(EPLeaveInfoPO epLeaveInfoPO) throws Exception {
+	public void addLeaveInfo(LeaveResponse leaveResponse) throws Exception {
 
-		if (StringUtils.isEmpty(epLeaveInfoPO.getCustInfoPO().getUserNo())) {
+		if (StringUtils.isEmpty(leaveResponse.getUserNo())) {
 			logger.error("the userNo is null");
 			throw new RuntimeException("此员工不存在!!!");
 		}
 
-		if (!StringUtils.isEmpty(epLeaveInfoPO.getApplyNo())) {
+		if (!StringUtils.isEmpty(leaveResponse.getApplyNo())) {
 			// 根据请假的编号查询数据库中是否已经存在
 			Map<String, String> param = new HashMap<String, String>();
-			param.put("uid", epLeaveInfoPO.getUid());
-			param.put("applyNo", epLeaveInfoPO.getApplyNo());
+			param.put("uid", leaveResponse.getUid());
+			param.put("applyNo", leaveResponse.getApplyNo());
 			if (epLeaveMangerMapper.queryLeaveInfo(param) == null) {
 
-				epLeaveMangerMapper.addLeaveInfo(epLeaveInfoPO);
+				epLeaveMangerMapper.addLeaveInfo(leaveResponse);
 			}
 
 		}
@@ -56,35 +58,35 @@ public class EPLeaveMangerServiceImpl implements EPLeaveMangerService {
 	}
 
 	/**
-	 * @see com.omcube.service.EPLeaveMangerService#queryLeaveList(EPLeaveInfoPO)
+	 * @see com.omcube.service.EPLeaveMangerService#queryLeaveList(QueryLeaveRequest)
 	 */
 	@Override
-	public List<EPLeaveInfoPO> queryLeaveList(EPLeaveInfoPO epLeaveInfoPO) {
+	public List<LeaveResponse> queryLeaveList(QueryLeaveRequest queryLeaveRequest) {
 
-		List<EPLeaveInfoPO> leaveList = epLeaveMangerMapper.queryLeaveList(epLeaveInfoPO);
+		List<LeaveResponse> leaveList = epLeaveMangerMapper.queryLeaveList(queryLeaveRequest);
 		return leaveList;
 	}
 
 	/**
-	 * @see com.omcube.service.EPLeaveMangerService#addLeaveInfo(EPLeaveInfoPO)
+	 * @see com.omcube.service.EPLeaveMangerService#queryLeaveInfos(QueryLeaveRequest)
 	 */
 	@Override
-	public EPLeaveInfoPO queryLeaveInfos(EPLeaveInfoPO epLeaveInfoPO) {
+	public EPLeaveInfoPO queryLeaveInfos(QueryLeaveRequest queryLeaveRequest) {
 
-		return epLeaveMangerMapper.queryLeaveInfos(epLeaveInfoPO);
+		return epLeaveMangerMapper.queryLeaveInfos(queryLeaveRequest);
 	}
 
 	/**
 	 * @see com.omcube.service.EPLeaveMangerService#deleteLeaveInfo(EPLeaveInfoPO)
 	 */
 	@Override
-	public void deleteLeaveInfo(EPLeaveInfoPO epLeaveInfoPO) throws Exception {
+	public void deleteLeaveInfo(QueryLeaveRequest queryLeaveRequest) throws Exception {
 
 		Map<String, String> param = new HashMap<String, String>();
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 		String uid = sysLoginCtrl.getUid();
 		param.put("uid", uid);
-		param.put("applyNo", epLeaveInfoPO.getApplyNo());
+		param.put("applyNo", queryLeaveRequest.getApplyNo());
 		EPLeaveInfoPO leaveInfo = epLeaveMangerMapper.queryLeaveInfo(param);
 
 		if (leaveInfo == null) {
@@ -92,17 +94,20 @@ public class EPLeaveMangerServiceImpl implements EPLeaveMangerService {
 			throw new RuntimeException("此请假详情不存在!!!");
 		}
 
-		epLeaveMangerMapper.deleteLeaveInfo(epLeaveInfoPO);
+		epLeaveMangerMapper.deleteLeaveInfo(queryLeaveRequest);
 	}
 
+	/**
+	 * @see com.omcube.service.EPLeaveMangerService#modifyLeaveInfo(QueryLeaveRequest)
+	 */
 	@Override
-	public void modifyLeaveInfo(EPLeaveInfoPO epLeaveInfoPO) {
+	public void modifyLeaveInfo(LeaveResponse leaveResponse) {
 
 		Map<String, String> param = new HashMap<String, String>();
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 		String uid = sysLoginCtrl.getUid();
 		param.put("uid", uid);
-		param.put("applyNo", epLeaveInfoPO.getApplyNo());
+		param.put("applyNo", leaveResponse.getApplyNo());
 		EPLeaveInfoPO leaveInfo = epLeaveMangerMapper.queryLeaveInfo(param);
 
 		if (leaveInfo == null) {
@@ -110,7 +115,7 @@ public class EPLeaveMangerServiceImpl implements EPLeaveMangerService {
 			throw new RuntimeException("此请假详情不存在!!!");
 		}
 
-		epLeaveMangerMapper.modifyLeaveInfo(epLeaveInfoPO);
+		epLeaveMangerMapper.modifyLeaveInfo(leaveResponse);
 
 	}
 }

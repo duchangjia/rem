@@ -172,7 +172,7 @@ public class CustInfoController {
 
 	//从session 获取uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 
 	List<CustInfoPO> custInfoList = custInfoService.queryCustInfBySelf(uId, userNo);
 	return JSONResultUtil.setSuccess(custInfoList);
@@ -191,8 +191,8 @@ public class CustInfoController {
 
 	//从session 获取uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
-	custInfo.setuId(uId);
+	String uid = sysLoginCtrl.getUid();
+	custInfo.setUid(uid);
 	//分页
 	pageNum = pageNum == null ? 1 : pageNum;
 	pageSize = pageSize == null ? 5 : pageSize;
