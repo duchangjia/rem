@@ -32,7 +32,7 @@ public class EpCustEduHisControllerTest {
     @Test
     public void testInsertEpCustEduHis() throws Exception {
 	String result = mockMvc.perform(post("/epCustEduHis/insertEpCustEduHis")
-    		.param("uId", "001")
+    		.param("uid", "001")
     		.param("userNo", "001002")
     		.param("eduHisId", "3")
     		.param("startTime", "2016-08-18")
@@ -53,7 +53,7 @@ public class EpCustEduHisControllerTest {
     @Test
     public void testDeleteEpCustEduHis() throws Exception{
 	String result = mockMvc.perform(post("/epCustEduHis/deleteEpCustEduHis")
-    		.param("uId", "001")
+    		.param("uid", "001")
     		.param("userNo", "001002")
     		.param("eduHisId", "3")
     		.contentType(MediaType.APPLICATION_JSON_UTF8))
