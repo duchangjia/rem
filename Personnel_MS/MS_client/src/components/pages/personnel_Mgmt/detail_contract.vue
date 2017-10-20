@@ -7,7 +7,7 @@
             <el-tabs v-model="activeName" @tab-click="handleTabClick">
                 <el-tab-pane label="合同基本情况" name="basicPactMsg">
                     <div class="add-wrapper">
-                        <el-form :inline="true" :model="basicPactMsg" :rules="rules" ref="basicPactMsg" :label-position="labelPosition" label-width="110px">
+                        <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
                             <el-col :span="24">
                                 <el-form-item label="合同编号" prop="pactNo">
                                     <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
@@ -163,7 +163,7 @@
                                 </template>
                             </el-table-column>
                         </el-table>
-                        <el-pagination class="toolbar" @current-change="handlePChangePage" :current-page.sync="pChangePage.pageIndex" :page-size="pChangePage.pageRows" layout="prev, pager, next, jumper" :total="pChangePage.totalRows" v-show="pChangePage.totalRows>pChangePage.pageRows">
+                        <el-pagination class="toolbar" @current-change="handlePChangePage" :current-page.sync="pChangePage.pageNum" :page-size="pChangePage.pageSize" layout="prev, pager, next, jumper" :total="pChangePage.totalRows" v-show="pChangePage.totalRows>pChangePage.pageSize">
                         </el-pagination>
                     </div>
                 </el-tab-pane>
@@ -201,7 +201,7 @@
                                 </template>
                             </el-table-column>
                         </el-table>
-                        <el-pagination class="toolbar" @current-change="handlePRenewPage" :current-page.sync="pRenewPage.pageIndex" :page-size="pRenewPage.pageRows" layout="prev, pager, next, jumper" :total="pRenewPage.totalRows" v-show="pRenewPage.totalRows>pRenewPage.pageRows">
+                        <el-pagination class="toolbar" @current-change="handlePRenewPage" :current-page.sync="pRenewPage.pageNum" :page-size="pRenewPage.pageSize" layout="prev, pager, next, jumper" :total="pRenewPage.totalRows" v-show="pRenewPage.totalRows>pRenewPage.pageSize">
                         </el-pagination>
                     </div>
                 </el-tab-pane>
@@ -223,27 +223,16 @@ export default {
       PChangeListInfo: [],
       PRenewListInfo: [],
       pChangePage: {
-        pageIndex: 1,
-        pageRows: 7,
+        pageNum: 1,
+        pageSize: 7,
         totalRows: 20
       },
       pRenewPage: {
-        pageIndex: 1,
-        pageRows: 7,
+        pageNum: 1,
+        pageSize: 7,
         totalRows: 20
       },
-      checked: "",
-      rules: {
-        pactType: [{ required: true, message: "请选择合同类型", trigger: "blur" }],
-        signTime: [{ required: true, message: "请选择签订日期", trigger: "blur" }],
-        pactStartTime: [
-          { required: true, message: "请选择合同开始日期", trigger: "blur" }
-        ],
-        pactEndTime: [
-          { required: true, message: "请选择合同结束日期", trigger: "blur" }
-        ],
-        pactStatus: [{ required: true, message: "请选择合同状态", trigger: "blur" }]
-      }
+      checked: ""
     };
   },
   components: {
@@ -274,7 +263,7 @@ export default {
         pactNo: pactNo
       };
       self.$axios
-        .get("ifdp/querPactDtl", { params: params })
+        .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
           console.log(res);
           self.basicPactMsg = res.data.data;
@@ -287,15 +276,17 @@ export default {
     getPChangeList() {
       const self = this;
       let params = {
-        pageIndex: self.pChangePage.pageIndex,
-        pageRows: self.pChangePage.pageRows,
+        pageNum: self.pChangePage.pageNum,
+        pageSize: self.pChangePage.pageSize,
         pactNo: self.pactNo,
         changeId: ""
       };
       self.$axios
-        .get("ifdp/queryPChangeList", { params: params })
+        .get("/iem_hrm/pact/queryPactChangeList", { params: params })
         .then(res => {
-          self.PChangeListInfo = res.data.data.PChangeListArray;
+          console.log(res);
+          self.PChangeListInfo = res.data.data.list;
+          self.pChangePage.totalRows = res.data.total;
         })
         .catch(() => {
           console.log("error");
@@ -304,15 +295,18 @@ export default {
     getPRenewList() {
       const self = this;
       let params = {
-        pageIndex: self.pRenewPage.pageIndex,
-        pageRows: self.pRenewPage.pageRows,
-        pactNo: self.pactNo,
+        pageNum: self.pRenewPage.pageNum,
+        pageSize: self.pRenewPage.pageSize,
+        // pactNo: self.pactNo,
+        pactNo: "0001",        
         renewId: ""
       };
       self.$axios
-        .get("ifdp/queryPRenewList", { params: params })
+        .get("/iem_hrm/pact/queryPactRenewList", { params: params })
         .then(res => {
-          self.PRenewListInfo = res.data.data.PRenewListArray;
+          console.log(res);
+          self.PRenewListInfo = res.data.data.list;
+          self.pRenewPage.totalRows = res.data.total;
         })
         .catch(() => {
           console.log("error");
@@ -355,7 +349,13 @@ export default {
         })
           .then(() => {
             this.$axios
-              .delete("/iem_hrm/delPChange?pactNo=" + targetPChange.pactNo + "&changeId=" + targetPChange.changeId, targetPChange)
+              .delete(
+                "/iem_hrm/pact/deletePactChange?pactNo=" +
+                  targetPChange.pactNo +
+                  "&changeId=" +
+                  targetPChange.changeId,
+                targetPChange
+              )
               .then(res => {
                 console.log(res);
                 if (res.data.code == "S00000")
@@ -382,7 +382,13 @@ export default {
         })
           .then(() => {
             this.$axios
-              .delete("/iem_hrm/delPRenew?pactNo=" + targetPRenew.pactNo + "&renewId=" + targetPRenew.renewId, targetPRenew)
+              .delete(
+                "/iem_hrm/pact/deletePactRenew?pactNo=" +
+                  targetPRenew.pactNo +
+                  "&renewId=" +
+                  targetPRenew.renewId,
+                targetPRenew
+              )
               .then(res => {
                 console.log(res);
                 if (res.data.code == "S00000")
@@ -433,11 +439,11 @@ export default {
       });
     },
     handlePChangePage(val) {
-      this.pChangePage.pageIndex = val;
+      this.pChangePage.pageNum = val;
       this.getPChangeList(); //分页查询合同变更列表
     },
     handlePRenewPage(val) {
-      this.pRenewPage.pageIndex = val;
+      this.pRenewPage.pageNum = val;
       this.getPRenewList(); //分页查询合同变更列表
     }
   }

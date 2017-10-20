@@ -2,6 +2,7 @@ package com.omcube.model.po;
 
 import java.util.Date;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -13,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class EPWorkOtPO extends BasicPO {
 
 	private String applyNo; // 加班编号
-	private CustInfoPO custInfoPO; // 用户
+	private String userNo; // 员工的编号
 	private Date workotStartTime; // 加班开始时间
 	private Date workotEndTime; // 加班结束时间
 	private String workotType; // 加班的类型,参数:01有薪加班02调休加班
@@ -23,48 +24,21 @@ public class EPWorkOtPO extends BasicPO {
 	private String authView; // 审批意见
 	private String attachm; // 附件
 	private String remark; // 备注
-	private MultipartFile file; // 文件的上传
-	private Integer pageNum; // 当前页
-	private Integer pageSize; // 每页显示的页数
-
-	public Integer getPageNum() {
-		return pageNum;
-	}
-
-	public void setPageNum(Integer pageNum) {
-		this.pageNum = pageNum;
-	}
-
-	public Integer getPageSize() {
-		return pageSize;
-	}
-
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
-	}
 
 	public String getApplyNo() {
 		return applyNo;
-	}
-
-	public MultipartFile getFile() {
-		return file;
-	}
-
-	public void setFile(MultipartFile file) {
-		this.file = file;
 	}
 
 	public void setApplyNo(String applyNo) {
 		this.applyNo = applyNo;
 	}
 
-	public CustInfoPO getCustInfoPO() {
-		return custInfoPO;
+	public String getUserNo() {
+		return userNo;
 	}
 
-	public void setCustInfoPO(CustInfoPO custInfoPO) {
-		this.custInfoPO = custInfoPO;
+	public void setUserNo(String userNo) {
+		this.userNo = userNo;
 	}
 
 	public Date getWorkotStartTime() {

@@ -68,7 +68,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="签订日期" prop="signTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.signTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.signTime" @change="getTime" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -151,13 +151,9 @@ export default {
       rules: {
         userNo: [{ required: true, message: "请输入工号", trigger: "blur" }],
         pactType: [{ required: true, message: "请选择合同类型", trigger: "blur" }],
-        signTime: [{ required: true, message: "请选择签订日期", trigger: "blur" }],
-        pactStartTime: [
-          { required: true, message: "请选择合同开始日期", trigger: "blur" }
-        ],
-        pactEndTime: [
-          { required: true, message: "请选择合同结束日期", trigger: "blur" }
-        ],
+        signTime: [{ type: 'date', required: true, message: '请选择签订日期', trigger: 'change' }],
+        pactStartTime: [{ type: 'date', required: true, message: '请选择合同开始日期', trigger: 'change' }],
+        pactEndTime: [{ type: 'date', required: true, message: '请选择合同结束日期', trigger: 'change' }],
         pactStatus: [{ required: true, message: "请选择合同状态", trigger: "blur" }]
       }
     };
@@ -166,14 +162,20 @@ export default {
     current
   },
   methods: {
+    getTime(date) {
+      console.log(this);
+      this.addPactMsg.signTime = date;
+      console.log(this.addPactMsg.signTime);
+    },
     handleSave() {
       let newPact = {};
       newPact.paperPactNo = this.addPactMsg.paperPactNo;
       newPact.pactName = this.addPactMsg.pactName;
       newPact.organName = this.addPactMsg.organName;
+      newPact.signTime = this.addPactMsg.signTime;
       console.log(newPact);
       this.$axios
-        .post("/iem_hrm/addPact", newPact)
+        .post("/iem_hrm/pact/addPact", newPact)
         .then(res => {
           console.log(res);
           if (res.data.code == "S00000")

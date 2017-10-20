@@ -5,7 +5,7 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">合同变更</span>
-                <el-button type="primary" @click="handleAdd" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
@@ -131,7 +131,7 @@ export default {
         remark: ""
       },
       rules: {
-        changeTime: [{ required: true, message: "请选择变更日期", trigger: "blur" }],
+        changeTime: [{ type: 'date', required: true, message: '请选择变更日期', trigger: 'change' }],
         changeType: [{ required: true, message: "请选择变更类别", trigger: "blur" }],
         changeContent: [{ required: true, message: "请输入变更内容", trigger: "blur" }]
       }
@@ -147,7 +147,7 @@ export default {
     };
     console.log(params.pactNo);
     self.$axios
-      .get("ifdp/querPactDtl", { params: params })
+      .get("/iem_hrm/pact/queryPactDetail", { params: params })
       .then(res => {
         self.basicPactMsg = res.data.data;
         console.log(self.basicPactMsg);
@@ -157,7 +157,7 @@ export default {
       });
   },
   methods: {
-    handleAdd() {
+    handleSave() {
       let newPChange = {};
       newPChange.pactNo = this.basicPactMsg.pactNo;
       newPChange.changeTime = this.addPChangeMsg.changeTime;
@@ -166,7 +166,7 @@ export default {
       newPChange.attachm = this.addPChangeMsg.attachm;
       console.log(newPChange);
       this.$axios
-        .post("/iem_hrm/addPChange", newPChange)
+        .post("/iem_hrm/pact/addPactChange", newPChange)
         .then(res => {
           console.log(res);
           if (res.data.code == "S00000")

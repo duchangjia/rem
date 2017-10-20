@@ -67,7 +67,7 @@
 			remark = #{remark},updated_by = #{updatedBy},updated_date = DATE_FORMAT(NOW(),'%y-%m-%d')
 		WHERE uid =#{uid} AND asset_no=#{assetNo}
 	</update>
-	
+	<!--4.高级查询资产列表  -->
 	<select id = "queryEpAssetInfs" parameterType="com.omcube.model.po.EpAssetInfPO" resultMap="EpAssetInf">
 		SELECT uid,asset_no,organ_no,derp_no,apply_user_no,
 			buy_unit_price,buy_num,stock_num,buy_amount,
@@ -89,5 +89,13 @@
 			AND asset_status =  #{status}
 		</if>
 	</select>
+	<!--5.删除资产信息  -->	
+	<update id = "deleteEpAssetInf">
+		UPDATE EP_ASSET_INF 
+		SET asset_status = 0,
+			updated_by = #{updatedBy},
+			updated_date = DATE_FORMAT(NOW(),'%y-%m-%d')
+		WHERE uid =#{uid} AND asset_no=#{assetNo}
+	</update>
 	
 </mapper>

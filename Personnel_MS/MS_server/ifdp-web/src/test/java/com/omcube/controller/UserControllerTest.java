@@ -36,7 +36,7 @@ public class UserControllerTest {
 		.param("pageSize", "10")
 		//.param("organCompanyName", "魔方")
 		//.param("organDepartmentName", "上海办事处")
-		//.param("userFeatureInfo", "admin@pactera.com")
+		.param("userFeatureInfo", "1")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();

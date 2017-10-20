@@ -143,13 +143,9 @@ export default {
       editPactMsg: {},
       rules: {
         pactType: [{ required: true, message: "请选择合同类型", trigger: "blur" }],
-        signTime: [{ required: true, message: "请选择签订日期", trigger: "blur" }],
-        pactStartTime: [
-          { required: true, message: "请选择合同开始日期", trigger: "blur" }
-        ],
-        pactEndTime: [
-          { required: true, message: "请选择合同结束日期", trigger: "blur" }
-        ],
+        signTime: [{ type: 'date', required: true, message: '请选择签订日期', trigger: 'change' }],
+        pactStartTime: [{ type: 'date', required: true, message: '请选择合同开始日期', trigger: 'change' }],
+        pactEndTime: [{ type: 'date', required: true, message: '请选择合同结束日期', trigger: 'change' }],
         pactStatus: [{ required: true, message: "请选择合同状态", trigger: "blur" }]
       }
     };
@@ -169,7 +165,7 @@ export default {
         pactNo: this.pactNo
       };
       self.$axios
-        .get("ifdp/querPactDtl", { params: params })
+        .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
           console.log(res);
           self.editPactMsg = res.data.data;
@@ -185,7 +181,7 @@ export default {
       editPact.pactName = this.editPactMsg.pactName;
       console.log(editPact);
       this.$axios
-        .post("/iem_hrm/modPact", editPact)
+        .post("/iem_hrm/pact/updatePact", editPact)
         .then(res => {
           console.log(res);
           if (res.data.code == "S00000")

@@ -2,6 +2,8 @@ package com.omcube.service;
 
 import java.util.List;
 import com.omcube.model.po.EPLeaveInfoPO;
+import com.omcube.model.request.QueryLeaveRequest;
+import com.omcube.model.response.LeaveResponse;
 
 /**
  * 请假管理的service接口
@@ -17,7 +19,7 @@ public interface EPLeaveMangerService {
 	 * @param epLeaveInfoPO
 	 * @throws Exception
 	 */
-	void addLeaveInfo(EPLeaveInfoPO epLeaveInfoPO) throws Exception;
+	void addLeaveInfo(LeaveResponse leaveResponse) throws Exception;
 
 	/**
 	 * 请假详情的列表查询
@@ -25,7 +27,7 @@ public interface EPLeaveMangerService {
 	 * @param epLeaveInfoPO
 	 * @return
 	 */
-	List<EPLeaveInfoPO> queryLeaveList(EPLeaveInfoPO epLeaveInfoPO);
+	List<LeaveResponse> queryLeaveList(QueryLeaveRequest queryLeaveRequest);
 
 	/**
 	 * 请假的详情的查询
@@ -33,7 +35,7 @@ public interface EPLeaveMangerService {
 	 * @param epLeaveInfoPO
 	 * @return
 	 */
-	EPLeaveInfoPO queryLeaveInfos(EPLeaveInfoPO epLeaveInfoPO);
+	EPLeaveInfoPO queryLeaveInfos(QueryLeaveRequest queryLeaveRequest);
 
 	/**
 	 * 请假的详情的删除
@@ -41,13 +43,13 @@ public interface EPLeaveMangerService {
 	 * @param epLeaveInfoPO
 	 * @throws Exception
 	 */
-	void deleteLeaveInfo(EPLeaveInfoPO epLeaveInfoPO) throws Exception;
+	void deleteLeaveInfo(QueryLeaveRequest queryLeaveRequest) throws Exception;
 
 	/**
 	 * 请假的详情的修改
 	 * 
 	 * @param epLeaveInfoPO
 	 */
-	void modifyLeaveInfo(EPLeaveInfoPO epLeaveInfoPO);
+	void modifyLeaveInfo(LeaveResponse leaveResponse);
 
 }

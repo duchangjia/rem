@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import com.omcube.model.po.EPLeaveInfoPO;
+import com.omcube.model.request.QueryLeaveRequest;
+import com.omcube.model.response.LeaveResponse;
 
 /**
  * 请假管理的dao接口
@@ -28,7 +30,7 @@ public interface EPLeaveMangerMapper {
 	 * 
 	 * @param epLeaveInfoPO
 	 */
-	void addLeaveInfo(EPLeaveInfoPO epLeaveInfoPO);
+	void addLeaveInfo(LeaveResponse leaveResponse);
 
 	/**
 	 * 请假的列表的查询
@@ -36,7 +38,7 @@ public interface EPLeaveMangerMapper {
 	 * @param epLeaveInfoPO
 	 * @return
 	 */
-	List<EPLeaveInfoPO> queryLeaveList(EPLeaveInfoPO epLeaveInfoPO);
+	List<LeaveResponse> queryLeaveList(QueryLeaveRequest queryLeaveRequest);
 
 	/**
 	 * 请假的详情的查询
@@ -44,20 +46,20 @@ public interface EPLeaveMangerMapper {
 	 * @param epLeaveInfoPO
 	 * @return
 	 */
-	EPLeaveInfoPO queryLeaveInfos(EPLeaveInfoPO epLeaveInfoPO);
+	EPLeaveInfoPO queryLeaveInfos(QueryLeaveRequest queryLeaveRequest);
 
 	/**
 	 * 请假详情的删除
 	 * 
 	 * @param epLeaveInfoPO
 	 */
-	void deleteLeaveInfo(EPLeaveInfoPO epLeaveInfoPO);
+	void deleteLeaveInfo(QueryLeaveRequest queryLeaveRequest);
 
 	/**
 	 * 请假详情的修改
 	 * 
 	 * @param epLeaveInfoPO
 	 */
-	void modifyLeaveInfo(EPLeaveInfoPO epLeaveInfoPO);
+	void modifyLeaveInfo(LeaveResponse leaveResponse);
 
 }

@@ -45,6 +45,8 @@ public class LeaveControllerTest {
     	
 	String result = mockMvc.perform(post("/leave/addLeaveInfo")
     			.param("userNo", "1004")
+    			.param("leaveStartTime", "2017-09-10 08:30")
+    			.param("leaveEndTime", "2017-09-13 09:30")
     			.param("leaveType", "3")
     			.param("timeSheet", "23")
     			.param("authFlow", "0006")

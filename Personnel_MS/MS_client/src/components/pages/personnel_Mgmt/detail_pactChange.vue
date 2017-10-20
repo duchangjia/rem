@@ -153,7 +153,7 @@ export default {
         pactNo: self.pactNo
       };
       self.$axios
-        .get("ifdp/querPactDtl", { params: params })
+        .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
           self.basicPactMsg = res.data.data;
         })
@@ -168,7 +168,7 @@ export default {
         changeId: self.changeId
       };
       self.$axios
-        .get("ifdp/queryPChangeDtl", { params: params })
+        .get("/iem_hrm/pact/queryPactChangeDetail", { params: params })
         .then(res => {
           console.log(res);
           self.detailPChangeMsg = res.data.data;

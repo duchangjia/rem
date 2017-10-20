@@ -26,6 +26,20 @@ public interface EpAssetInfService {
      */
     void updateEpAssetInf(EpAssetInfPO epAssetInf);
 
+    /**
+     * 4.高级查询资产列表
+     * @param epAssetInf
+     * @param userNo
+     * @return
+     */
     List<EpAssetInfPO> queryEpAssetInfs(EpAssetInfPO epAssetInf);
+
+    /**
+     * 5.删除资产信息
+     * @param assetNo
+     * @param uid
+     * @param updatedBy
+     */
+    void deleteEpAssetInf(String assetNo, String uid, String updatedBy);
 
 }
