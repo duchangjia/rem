@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.omcube.model.mapper.SysCustShifthisMapper">
+	<resultMap id="CustShifthisMap" type="com.omcube.model.po.CustShifthis">
+		<id column="uid" property="uId"></id>
+		<id column="user_no" property="userNo"></id>
+		<id column="workhis_id" property="workhisId"></id>
+		<result column="shift_type" property="shiftType" javaType="java.lang.String"></result>
+		<result column="shift_came_time" property="shiftCameTime" javaType="java.util.Date"></result>
+		<result column="old_org_id" property="oldOrgId" javaType="java.lang.String"></result>
+		<result column="new_org_id" property="new_org_id" javaType="java.lang.String"></result>
+		<result column="old_deprt_id" property="oldDeprtId" javaType="java.lang.String"></result>
+		<result column="new_deprt_id" property="newDeprtId" javaType="java.lang.String"></result>
+		<result column="old_line_manager" property="oldLineManager" javaType="java.lang.String"></result>
+		<result column="new_line_manager" property="newLineManager" javaType="java.lang.String"></result>
+		<result column="old_post" property="oldPost" javaType="java.lang.String"></result>
+		<result column="new_post" property="newPost" javaType="java.lang.String"></result>
+		<result column="old_class" property="oldClass" javaType="java.lang.String"></result>
+		<result column="new_class" property="newClass" javaType="java.lang.String"></result>
+		<result column="shift_reason" property="shiftReason" javaType="java.lang.String"></result>
+		<result column="attachm" property="attachm" javaType="java.lang.String"></result>
+		<result column="created_by" property="createdBy" javaType="java.lang.String"></result>
+		<result column="created_date" property="createdDate" javaType="java.util.Date"></result>
+		<result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
+		<result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
+	</resultMap>
+	
+	<!-- 分页查询合同 -->
+	<select id="queryCustShifthisList" resultMap="CustShifthisMap">
+		select * FROM EP_CUST_SHIFTHIS
+		WHERE
+		1=1
+		AND
+		uid = #{uid}
+		AND
+		user_no = #{userNo}
+		<!-- 逻辑写好 -->
+		<if test="startTime != '' and custName != null">
+			AND
+			cust_name like #{custName}
+		</if>
+		<if test="pactType != '' and pactType != null">
+			AND pact_type = #{pactType}
+		</if>
+		ORDER BY
+		updated_date DESC
+	</select>
+
+	<!-- 查询人事调动详情 -->
+	<select id="getCustShifthisDetail" resultMap="CustShifthisMap">
+		select * FROM
+		EP_CUST_SHIFTHIS
+		WHERE
+		uid = #{uid}
+		AND
+		user_no = #{userNo}
+		AND
+		workhis_id = #{workhisId}
+	</select>
+    
+    <!-- 人事调动添加 -->
+    <insert id="addCustShifthis" parameterType="com.omcube.model.po.CustShifthis">
+		insert into EP_CUST_SHIFTHIS (
+			uid,
+			user_no,
+			workhis_id,
+			shift_type,
+			shift_came_time,
+			old_org_id,
+			new_org_id,
+			old_deprt_id,
+			new_deprt_id,
+			old_line_manager,
+			new_line_manager,
+			old_post,
+			new_post,
+			old_class,
+			new_class,
+			shift_reason,
+			attachm,
+			created_by,
+			created_date,
+			updated_by,
+			updated_date
+		)
+		VALUES
+		(
+			#{uid},
+			#{userNo},
+			#{workhisId},
+			#{shiftType},
+			#{shiftCameTime},
+			#{oldOrgId},
+			#{newOrgId},
+			#{oldDeprtId},
+			#{newDeprtId},
+			#{oldLineManager},
+			#{newLineManager},
+			#{oldPost},
+			#{newPost},
+			#{oldClass},
+			#{newClass},
+			#{shiftReason},
+			#{attachm},
+			#{createdBy},
+			#{createdDate},
+			#{updatedBy},
+			#{updatedDate}
+		)
+    </insert>
+    
+    <!-- 修改人事调动信息 -->
+    <update id = "updateCustShifthis" parameterType = "com.omcube.model.po.CustShifthis">
+    	update EP_CUST_SHIFTHIS set
+			shift_type = #{shiftType},
+			shift_came_time = #{shiftCameTime},
+			old_org_id = #{oldOrgId},
+			new_org_id = #{newOrgId},
+			old_deprt_id = #{oldDeprtId},
+			new_deprt_id = #{newDeprtId},
+			old_line_manager = #{oldLineManager},
+			new_line_manager = #{newLineManager},
+			old_post = #{oldPost},
+			new_post = #{newPost},
+			old_class = #{oldClass},
+			new_class = #{newClass},
+			shift_reason = #{shiftReason},
+			attachm = #{attachm},
+			created_by = #{createdBy},
+			created_date = #{createdDate},
+			updated_by = #{updatedBy},
+			updated_date = #{updatedDate}
+    	where
+    		uid = #{uid}
+    		AND
+    		user_no = #{userNo}
+    		AND
+    		workhis_id = #{workhisId}
+    </update>
+</mapper>

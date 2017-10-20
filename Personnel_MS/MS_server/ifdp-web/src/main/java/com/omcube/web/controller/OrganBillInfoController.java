@@ -56,9 +56,9 @@ public class OrganBillInfoController {
 
 	//从session 获取uid  userNo 并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uid = sysLoginCtrl.getuId();
+	String uid = sysLoginCtrl.getUid();
 	String userNo = sysLoginCtrl.getUserNo();
-	billInfo.setuId(uid);
+	billInfo.setUid(uid);
 	billInfo.setCreatedBy(userNo);
 	billInfo.setUpdatedBy(userNo);
 
@@ -69,13 +69,13 @@ public class OrganBillInfoController {
 	}
 
 	//校验是否重复开票
-	if (billInfoService.queryBillInfDtl(billInfo.getuId(),billInfo.getOrganNo()) != null) {
+	if (billInfoService.queryBillInfDtl(billInfo.getUid(),billInfo.getOrganNo()) != null) {
 	    logger.error("the organ already exists");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the billInfo already exists");
 	}
 
 	billInfoService.addBillInf(billInfo);
-	logger.info("uid:" + billInfo.getuId() + "organName" + billInfo.getOrganName() + "新增公司信息成功");
+	logger.info("uid:" + billInfo.getUid() + "organName" + billInfo.getOrganName() + "新增公司信息成功");
 	return JSONResultUtil.setSuccess();
     }
 
@@ -90,9 +90,9 @@ public class OrganBillInfoController {
 
 	//从session 获取uid  userNo 并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	String userNo = sysLoginCtrl.getUserNo();
-	billInfo.setuId(uId);
+	billInfo.setUid(uId);
 	billInfo.setUpdatedBy(userNo);
 	
 	if (billInfo != null) {
@@ -117,7 +117,7 @@ public class OrganBillInfoController {
 
 	//从session 获取uid  并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 		
 	if (StringUtils.isEmpty(uId)) {
 	    logger.error("the request param uId is null");
@@ -152,7 +152,7 @@ public class OrganBillInfoController {
 
 	//从session 获取uid  并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	
 	//分页
 	pageNum = pageNum == null ? 1 : pageNum;
@@ -177,7 +177,7 @@ public class OrganBillInfoController {
 
 	//从session 获取uid  并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	OrganBillInfoPO billInfoPO = billInfoService.queryBillInfDtl(uId,organNo);
 	return JSONResultUtil.setSuccess(billInfoPO);
     }

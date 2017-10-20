@@ -9,7 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
  *
  */
 public class PactPO {
-	private String uId;
+	private String uid;
 	private String pactNo;
 	private String paperPactNo;
 	private String pactName;
@@ -71,11 +71,11 @@ public class PactPO {
 	public void setOrganNo(String organNo) {
 		this.organNo = organNo;
 	}
-	public String getuId() {
-		return uId;
+	public String getUid() {
+		return uid;
 	}
-	public void setuId(String uId) {
-		this.uId = uId;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	public String getCreatedBy() {
 		return createdBy;

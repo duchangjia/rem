@@ -55,7 +55,7 @@ public class InsurancePayTemplateController {
     public Object queryInsurancePayTemplates(@PathVariable Integer pageNum, @PathVariable  Integer pageSize) {
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	// 判断传入参数是否为空,若为空则返回错误信息
 	if (StringUtils.isEmpty(uId) || StringUtils.isEmpty(pageNum) || StringUtils.isEmpty(pageSize)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
@@ -79,7 +79,7 @@ public class InsurancePayTemplateController {
     public Object addInsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate) {
 	//从session 获取uid  userNo
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	String userNo = sysLoginCtrl.getUserNo();
 	if (StringUtils.isEmpty(insurancePayTemplate)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "request body is null");
@@ -103,7 +103,7 @@ public class InsurancePayTemplateController {
     public Object queryInsurancePayTemplate(@PathVariable String applyNo) {
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	// 判断传入参数是否为空,若为空则返回错误信息
 	if (StringUtils.isEmpty(uId) || StringUtils.isEmpty(applyNo)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "param uId or applyNo is null");
@@ -125,7 +125,7 @@ public class InsurancePayTemplateController {
     public Object updateInsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate) {
 	//从session 获取uid  userNo
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	String userNo = sysLoginCtrl.getUserNo();
 	if (StringUtils.isEmpty(insurancePayTemplate)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
@@ -152,7 +152,7 @@ public class InsurancePayTemplateController {
     public Object deleteInsurancePayTemplate(@PathVariable String applyNo) {
 	//从session 获取uid  userNo
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	String userNo = sysLoginCtrl.getUserNo();
 	if (StringUtils.isEmpty(uId) || StringUtils.isEmpty(applyNo) || StringUtils.isEmpty(userNo)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,

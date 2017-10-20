@@ -41,12 +41,12 @@ public class RankSalaryTemplateController {
     public Object addCparm(RankSalaryTemplatePO rankSalaryTemplate){
 	//从session中获取uId createdBy
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	String createdBy=sysLoginCtrl.getCreatedBy();
 	//将uId createdBy放进对象中
-	rankSalaryTemplate.setuId(uId);
+	rankSalaryTemplate.setUid(uId);
 	rankSalaryTemplate.setCreatedBy(createdBy);
-	if(StringUtils.isEmpty(rankSalaryTemplate)||StringUtils.isEmpty(rankSalaryTemplate.getuId())||StringUtils.isEmpty(rankSalaryTemplate.getOrganNo())||StringUtils.isEmpty(rankSalaryTemplate.getSalaryTop())){
+	if(StringUtils.isEmpty(rankSalaryTemplate)||StringUtils.isEmpty(rankSalaryTemplate.getUid())||StringUtils.isEmpty(rankSalaryTemplate.getOrganNo())||StringUtils.isEmpty(rankSalaryTemplate.getSalaryTop())){
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request param uId , organNo or salaryTop is null");
 	}
 	if(StringUtils.isEmpty(rankSalaryTemplate.getSalaryFloor())){
@@ -72,13 +72,13 @@ public class RankSalaryTemplateController {
     public Object queryCParmList(HttpServletRequest request ,@PathVariable Integer pageNum,@PathVariable Integer pageSize,@PathVariable String organNo){
 	//从session中获取uId 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	//将查询条件封装到对象中
 	RankSalaryTemplatePO rankSalaryTemplate = new RankSalaryTemplatePO();
 	rankSalaryTemplate.setOrganNo(organNo);
-	rankSalaryTemplate.setuId(uId);
+	rankSalaryTemplate.setUid(uId);
 	//判断查询条件是否为空
-	if(StringUtils.isEmpty(rankSalaryTemplate.getuId())||StringUtils.isEmpty(rankSalaryTemplate.getOrganNo())){
+	if(StringUtils.isEmpty(rankSalaryTemplate.getUid())||StringUtils.isEmpty(rankSalaryTemplate.getOrganNo())){
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request param uId or organNo is null");
 	}
 	PageHelper.startPage(pageNum, pageSize, true);
@@ -100,14 +100,14 @@ public class RankSalaryTemplateController {
     public Object queryCParmDtl(@PathVariable(value="organNo") String organNo,@PathVariable(value="applyNo") String applyNo){
 	//从session中获取uId 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	//将查询条件封装到对象中
 	RankSalaryTemplatePO rankSalaryTemplate = new RankSalaryTemplatePO();
 	rankSalaryTemplate.setOrganNo(organNo);
-	rankSalaryTemplate.setuId(uId);
+	rankSalaryTemplate.setUid(uId);
 	rankSalaryTemplate.setApplyNo(applyNo);
 	//判断查询条件是否为空
-	if(StringUtils.isEmpty(rankSalaryTemplate.getuId())||StringUtils.isEmpty(rankSalaryTemplate.getApplyNo())){
+	if(StringUtils.isEmpty(rankSalaryTemplate.getUid())||StringUtils.isEmpty(rankSalaryTemplate.getApplyNo())){
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request param uId ,applyNo or organNo is null");
 	}
 	return JSONResultUtil.setSuccess(rankSalaryTemplateService.queryRankSalaryTemplate(rankSalaryTemplate));
@@ -132,13 +132,13 @@ public class RankSalaryTemplateController {
     public Object modCparm(RankSalaryTemplatePO rankSalaryTemplate){
 	//从session中获取uId updatedBy
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	String updatedBy =sysLoginCtrl.getUpdatedBy();
 	//将uId updatedBy放入对象中
-	rankSalaryTemplate.setuId(uId);
+	rankSalaryTemplate.setUid(uId);
 	rankSalaryTemplate.setUpdatedBy(updatedBy);
 	//判断主要字段是否为空
-	if(StringUtils.isEmpty(rankSalaryTemplate.getuId())||StringUtils.isEmpty(rankSalaryTemplate.getOrganNo())||StringUtils.isEmpty(rankSalaryTemplate.getApplyNo())){
+	if(StringUtils.isEmpty(rankSalaryTemplate.getUid())||StringUtils.isEmpty(rankSalaryTemplate.getOrganNo())||StringUtils.isEmpty(rankSalaryTemplate.getApplyNo())){
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request param uId ,applyNo or organNo is null");
 	}
 	rankSalaryTemplateService.updateRankSalaryTemplate(rankSalaryTemplate);
@@ -157,12 +157,12 @@ public class RankSalaryTemplateController {
     public Object delCparm(HttpServletRequest request,@PathVariable String organNo,@PathVariable String applyNo){
 	//从session中获取uId updatedBy
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	String updatedBy =sysLoginCtrl.getUpdatedBy();
 	//将删除条件和修改项封入对象
 	RankSalaryTemplatePO rankSalaryTemplate = new RankSalaryTemplatePO();
 	rankSalaryTemplate.setOrganNo(organNo);
-	rankSalaryTemplate.setuId(uId);
+	rankSalaryTemplate.setUid(uId);
 	rankSalaryTemplate.setApplyNo(applyNo);
 	rankSalaryTemplate.setUpdatedBy(updatedBy);
 	rankSalaryTemplateService.deleteRankSalaryTemplate(rankSalaryTemplate);
