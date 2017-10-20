@@ -9,7 +9,7 @@ import com.omcube.model.po.CustContactPO;
 
 @Mapper
 public interface CustContactMapper {
-    
+
     /**
      * 1.添加员工社会关系
      * @param custContact
@@ -21,27 +21,29 @@ public interface CustContactMapper {
      * @param custContact
      */
     void updateCustContact(CustContactPO custContact);
-    
+
     /**
      * 4.查询一个员工所有的关系
-     * @param uId
+     * @param uid
      * @param userNo
      * @return
      */
-    List<CustContactPO> queryCustContacts(@Param("uId") String uId,@Param("userNo") String userNo);
+    List<CustContactPO> queryCustContacts(@Param("uid") String uid, @Param("userNo") String userNo);
 
     /**
      * 5.删除员工关系
      */
-    void deleteCustContact(@Param("uId") String uId,@Param("userNo") String userNo,@Param("contactId") String contactId);
-    
+    void deleteCustContact(@Param("uid") String uid, @Param("userNo") String userNo,
+	    @Param("contactId") String contactId);
+
     /**
      * 6.查询一个员工的一个关系
-     * @param uId
+     * @param uid
      * @param userNo
      * @param contactId
      * @return
      */
-    Object queryCustContact(@Param("uId") String uId,@Param("userNo") String userNo,@Param("contactId") String contactId);
+    Object queryCustContact(@Param("uid") String uid, @Param("userNo") String userNo,
+	    @Param("contactId") String contactId);
 
 }

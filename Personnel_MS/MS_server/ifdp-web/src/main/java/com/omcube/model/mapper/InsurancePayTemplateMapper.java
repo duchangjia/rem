@@ -9,7 +9,7 @@ import com.omcube.model.po.InsurancePayTemplatePO;
 public interface InsurancePayTemplateMapper {
 
     // 通过uid查询所有的保险缴纳模板列表
-    public List<InsurancePayTemplatePO> queryInsurancePayTemplates(String uId);
+    public List<InsurancePayTemplatePO> queryInsurancePayTemplates(String uid);
 
     // 添加保险纳税模板
     void addInsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate);
@@ -21,8 +21,8 @@ public interface InsurancePayTemplateMapper {
     public InsurancePayTemplatePO queryInsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate);
 
     // 获取最大的模板编号
-    public String queryMaxApplyNo(String uId);
-    
+    public String queryMaxApplyNo(String uid);
+
     //删除保险缴纳模板
     public void deleteInsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate);
 }

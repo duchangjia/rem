@@ -6,7 +6,7 @@
 <mapper namespace="com.omcube.model.mapper.EpAssetInfMapper">
 	<!--返回结果映射 -->
 	<resultMap id="EpAssetInf" type="com.omcube.model.po.EpAssetInfPO">
-		<id column="uid" property="uId"></id>
+		<id column="uid" property="uid"></id>
 		<id column="asset_no" property="assetNo"></id>
 		<result column="organ_no" property="organNo" javaType="java.lang.String"></result>
 		<result column="derp_no" property="derpNo" javaType="java.lang.String"></result>
@@ -41,7 +41,7 @@
 			mfrs,supplier,asset_type,asset_name,faxfree_time,
 			sn_no,derp_limit,spec_type,factory_time,attachm,asset_status,
 			remark,created_by,created_date)
-		VALUES(#{uId},#{assetNo},#{organNo},#{derpNo},#{applyUserNo},
+		VALUES(#{uid},#{assetNo},#{organNo},#{derpNo},#{applyUserNo},
 			#{buyApplyNo},#{buyUnitPrice},#{buyNum},#{stockNum},#{buyAmount},
 			#{mfrs},#{supplier},#{assetType},#{assetName},#{faxfreeTime},
 			#{snNo},#{derpLimit},#{specType},#{factoryTime},#{attachm},
@@ -55,7 +55,7 @@
 			sn_no,derp_limit,spec_type,factory_time,attachm,asset_status,
 			remark,updated_by,updated_date
 		FROM EP_ASSET_INF 
-		WHERE uid = #{uId}  AND asset_no = #{assetNo}
+		WHERE uid = #{uid}  AND asset_no = #{assetNo}
 	</select>
 	<!--3.修改资产信息  -->
 	<update id = "updateEpAssetInf" parameterType="com.omcube.model.po.EpAssetInfPO">
@@ -65,7 +65,7 @@
 			mfrs = #{mfrs},supplier = #{supplier},asset_type = #{assetType},asset_name = #{assetName},faxfree_time = #{faxfreeTime},
 			sn_no = #{snNo},derp_limit = #{derpLimit},spec_type = #{specType},factory_time = #{factoryTime},attachm = #{attachm},asset_status = #{status},
 			remark = #{remark},updated_by = #{updatedBy},updated_date = DATE_FORMAT(NOW(),'%y-%m-%d')
-		WHERE uid =#{uId} AND asset_no=#{assetNo}
+		WHERE uid =#{uid} AND asset_no=#{assetNo}
 	</update>
 	
 	<select id = "queryEpAssetInfs" parameterType="com.omcube.model.po.EpAssetInfPO" resultMap="EpAssetInf">
@@ -75,7 +75,7 @@
 			asset_status,
 			created_by,created_date
 		FROM EP_ASSET_INF 
-		WHERE uid = #{uId}  
+		WHERE uid = #{uid}  
 		<if test = " assetNo != null and assetNo != ''">
 			AND asset_no = #{assetNo}
 		</if>

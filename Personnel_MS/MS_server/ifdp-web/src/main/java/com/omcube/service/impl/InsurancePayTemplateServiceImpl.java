@@ -13,20 +13,19 @@ import com.omcube.service.InsurancePayTemplateService;
 import com.omcube.util.JSONResultUtil;
 
 @Component
-public class InsurancePayTemplateServiceImpl implements InsurancePayTemplateService{
+public class InsurancePayTemplateServiceImpl implements InsurancePayTemplateService {
 
     protected final Log logger = LogFactory.getLog(getClass());
     @Autowired
     private InsurancePayTemplateMapper insurancePayTemplateMapper;
-    
+
     /**
      * 1.通过uid查询所有的保险缴纳模板列表
-     * @param uId
+     * @param uid
      * @return
      */
-    public List<InsurancePayTemplatePO> queryInsurancePayTemplates(String uId)
-    {
-	return insurancePayTemplateMapper.queryInsurancePayTemplates(uId);
+    public List<InsurancePayTemplatePO> queryInsurancePayTemplates(String uid) {
+	return insurancePayTemplateMapper.queryInsurancePayTemplates(uid);
     }
 
     /**
@@ -34,29 +33,25 @@ public class InsurancePayTemplateServiceImpl implements InsurancePayTemplateServ
      * @param insurancePayTemplate
      * @return
      */
-    public Object addInsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate)
-    {
+    public Object addInsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate) {
 	// 获取最大模板编号applyNo
-	String string = insurancePayTemplateMapper.queryMaxApplyNo(insurancePayTemplate.getuId());
-	if (string == null || string.length() == 0)
-	{
+	String string = insurancePayTemplateMapper.queryMaxApplyNo(insurancePayTemplate.getUid());
+	if (string == null || string.length() == 0) {
 	    string = "0";
 	}
 	int num = Integer.parseInt(string);
 	num++;
-	if (num < 10000)
-	{
+	if (num < 10000) {
 	    string = "" + num;
 	}
-	else
-	{
+	else {
 	    return JSONResultUtil.setError("", "新增模板编号超过4位数");
 	}
 	// 添加保险纳税模板
-	logger.info("uId为" + insurancePayTemplate.getuId() + ",用户编号为" + insurancePayTemplate.getApplyNo() + "准备添加编号为"
+	logger.info("uid为" + insurancePayTemplate.getUid() + ",用户编号为" + insurancePayTemplate.getApplyNo() + "准备添加编号为"
 		+ insurancePayTemplate.getApplyNo() + "的保险缴纳模板");
 	insurancePayTemplateMapper.addInsurancePayTemplate(insurancePayTemplate);
-	logger.info("uId为" + insurancePayTemplate.getuId() + ",用户编号为" + insurancePayTemplate.getApplyNo() + "成功添加了编号为"
+	logger.info("uid为" + insurancePayTemplate.getUid() + ",用户编号为" + insurancePayTemplate.getApplyNo() + "成功添加了编号为"
 		+ insurancePayTemplate.getApplyNo() + "的保险缴纳模板");
 	return JSONResultUtil.setSuccess();
     }
@@ -66,27 +61,23 @@ public class InsurancePayTemplateServiceImpl implements InsurancePayTemplateServ
      * @param insurancePayTemplate
      * @return
      */
-    public InsurancePayTemplatePO queryInsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate)
-    {
+    public InsurancePayTemplatePO queryInsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate) {
 	return insurancePayTemplateMapper.queryInsurancePayTemplate(insurancePayTemplate);
     }
-    
+
     /**
      * 4.修改保险纳税模板
      * @param insurancePayTemplate
      */
-    public void updateINsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate)
-    {
+    public void updateINsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate) {
 	insurancePayTemplateMapper.updateInsurancePayTemplate(insurancePayTemplate);
     }
 
     /**
      * 5.删除保险缴纳系数模板
      */
-    public void deleteInsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate)
-    {
+    public void deleteInsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate) {
 	insurancePayTemplateMapper.deleteInsurancePayTemplate(insurancePayTemplate);
     }
-
 
 }

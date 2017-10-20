@@ -86,7 +86,72 @@
 		#{endTime}
 	</select>
 
-
+	<!-- 调薪管理详情查询 -->
+	<select id="selectDetailEpPayChageInf" parameterType="java.lang.String"
+		resultMap="EpPayChageInfMap">
+		select
+		pc.UID,
+		ci.ORGAN_NO,
+		ci.DERP_NO,
+		ci.USER_NO,
+		ci.CUST_NAME,
+		ci.CUST_POST,
+		ci.CUST_CLASS,
+		pc.APPLY_NO,
+		pc.O_WAGES_BASE,
+		pc.O_WAGES_PERF,
+		pc.O_POST_PENSION,
+		pc.O_OTHER_PENSION,
+		pc.O_ENDM_BASE,
+		pc.O_MEDI_BASE,
+		pc.O_UNEM_BASE,
+		pc.O_EMPL_BASE,
+		pc.O_MATE_BASE,
+		pc.O_HOUSE_BASE,
+		pc.O_WELCOE_NO,
+		pc.N_WAGES_BASE,
+		pc.N_WAGES_PERF,
+		pc.N_POST_PENSION,
+		pc.N_OTHER_PENSION,
+		pc.N_ENDM_BASE,
+		pc.N_MEDI_BASE,
+		pc.N_UNEM_BASE,
+		pc.N_EMPL_BASE,
+		pc.N_MATE_BASE,
+		pc.N_HOUSE_BASE,
+		pc.N_WELCOE_NO,
+		cf.PER_ENDM_PAY,
+		cf.PER_MEDI_PAY,
+		cf.PER_UNEM_PAY,
+		cf.PER_EMPL_PAY,
+		cf.PER_MATE_PAY,
+		cf.PER_HOUSE_PAY,
+		cf.COM_ENDM_PAY,
+		cf.COM_MEDI_PAY,
+		cf.COM_UNEM_PAY,
+		cf.COM_EMPL_PAY,
+		cf.COM_MATE_PAY,
+		cf.COM_HOUSE_PAY,
+		pc.REMARK
+		from
+		EP_PAY_CHAGEINF pc
+		inner join
+		EP_CUST_INFO ci
+		on
+		pc.UID = ci.UID
+		and
+		pc.USER_NO = ci.USER_NO
+		inner join
+		EP_CUSTPAY_FLOW cf
+		on
+		pc.UID=cf.UID
+		and
+		pc.USER_NO=cf.USER_NO
+		where
+		pc.UID=#{uid}
+		and
+		pc.APPLY_NO=#{applyNo}
+	</select>
 
 
 </mapper>        

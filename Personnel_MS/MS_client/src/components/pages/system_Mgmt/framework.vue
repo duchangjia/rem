@@ -6,12 +6,12 @@
                <div class="content-left-title" v-show="companies.name"><img  height="21px" src="../../../../static/img/common/home_logo.png" /><span class="head_quarters" @click="getInfo('0')">{{companies.name}}</span></div>
                <ul class="list " v-show="companies" >
                    <!--<li class="guangzhou common L">广州分公司<span class="count">(111)</span></li>-->
-                   <li class="shanghai common L" v-for="(company, $index) in companies.childrenList" :key="$index" @click.stop="collapse(company.id, $event, null)" :class="`L${company.id}`">{{company.name}}<span class="count">(111)</span>
+                   <li class="shanghai common L" v-for="(company, $index) in companies.childrenList" :key="$index" @click.stop="collapse(company.id, $event, null)" :class="`L${company.id}`">{{company.name}}<span class="count"></span>
                         <ul class="common-list">
                             <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
-                            <li class="common dot X" v-for="(department, index) in company.childrenList" :key="index" @click.stop="collapse(department.id, $event, company.id)" :class="`X${department.id}`">{{department.name || '你好'}}<span class="count">(111)</span>
+                            <li class="common dot X" v-for="(department, index) in company.childrenList" :key="index" @click.stop="collapse(department.id, $event, company.id)" :class="`X${department.id}`">{{department.name || '你好'}}<span class="count"></span>
                                 <ul class="common-list-item">
-                                    <li class="common dot J" v-for="childDepartment in department.childrenList" @click.stop="collapse(childDepartment.id, $event, company.id)" :class="`J${childDepartment.id}`">{{childDepartment.name}}<span class="count">(111)</span></li>
+                                    <li class="common dot J" v-for="childDepartment in department.childrenList" @click.stop="collapse(childDepartment.id, $event, company.id)" :class="`J${childDepartment.id}`">{{childDepartment.name}}<span class="count"></span></li>
                                     <!--<li class="common dot">一部<span class="count">(111)</span></li>-->
                                 </ul>
                             </li>

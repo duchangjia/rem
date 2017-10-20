@@ -6,7 +6,7 @@
 <mapper namespace="com.omcube.model.mapper.CustContactMapper">
 	<!--返回结果映射 -->
 	<resultMap id="CustContactInfo" type="com.omcube.model.po.CustContactPO">
-		<id column="uid" property="uId"></id>
+		<id column="uid" property="uid"></id>
 		<id column="user_no" property="userNo"></id>
 		<id column="contacts_id" property="contactId"></id>
 		<result column="contacts_name" property="contactName" javaType="java.lang.String"></result>
@@ -25,30 +25,30 @@
 	<insert id="addCustContact" parameterType="com.omcube.model.po.CustContactPO">
 		INSERT INTO EP_CUST_CONTACTS
 		(uid,user_no,contacts_id,contacts_name,relationship,telphone,profession,post,addr,created_by,created_date) 
-		VALUES(#{uId},#{userNo},#{contactId},#{contactName},#{relationship},#{telphone},#{profession},#{post},#{addr},#{createdBy},DATE_FORMAT(NOW(),'%y-%m-%d'))
+		VALUES(#{uid},#{userNo},#{contactId},#{contactName},#{relationship},#{telphone},#{profession},#{post},#{addr},#{createdBy},DATE_FORMAT(NOW(),'%y-%m-%d'))
 	</insert>
 	<!--2.更新员工关系  -->
 	<update id="updateCustContact" parameterType="com.omcube.model.po.CustContactPO">
 		UPDATE EP_CUST_CONTACTS
 		SET contacts_name = #{contactName},relationship= #{relationship},telphone= #{telphone},profession= #{profession},post= #{post},addr= #{addr},updated_by= #{updatedBy},updated_date = DATE_FORMAT(NOW(),'%y-%m-%d')
-		WHERE uid = #{uId} AND contacts_id = #{contactId} AND user_no = #{userNo}
+		WHERE uid = #{uid} AND contacts_id = #{contactId} AND user_no = #{userNo}
 	</update>
 	<!--4.查询一个员工所有的关系  -->
 	<select id="queryCustContacts" resultMap="CustContactInfo">
 		SELECT uid,user_no,contacts_id,contacts_name,relationship,telphone,profession,post,addr 
 		FROM EP_CUST_CONTACTS 
-		WHERE uid = #{uId} AND user_no =#{userNo} ORDER BY contacts_id+0 ASC
+		WHERE uid = #{uid} AND user_no =#{userNo} ORDER BY contacts_id+0 ASC
 	</select>
 	<!--5.删除员工关系  -->
 	<delete id="deleteCustContact">
 		DELETE  FROM EP_CUST_CONTACTS 
-		WHERE uid=#{uId} AND user_no  =#{userNo} AND contacts_id =#{contactId}
+		WHERE uid=#{uid} AND user_no  =#{userNo} AND contacts_id =#{contactId}
 	</delete>
 	<!--6.查询一个员工的一个关系  -->
 	<select id="queryCustContact" resultMap="CustContactInfo">
 		SELECT uid,user_no,contacts_id,contacts_name,relationship,telphone,profession,post,addr 
 		FROM EP_CUST_CONTACTS 
-		WHERE uid = #{uId} AND user_no =#{userNo} AND contacts_id =#{contactId}
+		WHERE uid = #{uid} AND user_no =#{userNo} AND contacts_id =#{contactId}
 	</select>
 	
 </mapper>

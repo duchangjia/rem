@@ -152,7 +152,7 @@ public class PayBaseInfoController {
 
     private boolean checkWelcoeNo(String uid, String welcoeNo) {
 	InsurancePayTemplatePO payTemplate = new InsurancePayTemplatePO();
-	payTemplate.setuId(uid);
+	payTemplate.setUid(uid);
 	payTemplate.setApplyNo(welcoeNo);
 	InsurancePayTemplatePO payTemplateResult = insurancePayTemplateService.queryInsurancePayTemplate(payTemplate);
 	if (payTemplateResult == null) {

@@ -18,32 +18,40 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest
 public class EpPayChageInfControllerTest {
 
-	  @Autowired
-	    private WebApplicationContext wac;
+	@Autowired
+	private WebApplicationContext wac;
 
-	    private MockMvc mockMvc;
-	    
-	    @Before
-	    public void setup()
-	    {
+	private MockMvc mockMvc;
+
+	@Before
+	public void setup() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-	    }
-	    
-	    //测试列表查询调薪信息
-	    @Test
-	    public void testEpPayChageInf() throws Exception{
-	    	String result = mockMvc.perform(get("/epPayChageInf/selectListEpPayChageInf")
-	    			.param("startTime", "2017-10-16")
-	    			.param("endTime", "2017-10-20")
-	    			.contentType(MediaType.APPLICATION_JSON_UTF8))
-	    			.andExpect(status().isOk()).andReturn().getResponse()
-	    			.getContentAsString();
-	    	        System.out.println(result);
-	    	
-	    }
-	    
-	    
-	    
-	    
-	    
+	}
+
+	// 测试调薪信息列表查询
+	@Test
+	public void testListEpPayChageInf() throws Exception {
+		String result = mockMvc
+				.perform(get("/epPayChageInf/selectListEpPayChageInf")
+						.param("startTime", "2017-10-16")
+						.param("endTime", "2017-10-20")
+						.contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString();
+		System.out.println(result);
+
+	}
+
+	// 测试调薪信息详情查询
+	@Test
+	public void testDetailEpPayChageInf() throws Exception {
+		String result = mockMvc
+				.perform(get("/epPayChageInf/selectDetailEpPayChageInf")
+						.param("uid", "0001")
+						.param("applyNo", "000101")
+						.contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().isOk()).andReturn().getResponse()
+				.getContentAsString();
+		System.out.println(result);
+	}
 }

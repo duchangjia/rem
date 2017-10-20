@@ -11,7 +11,7 @@ public interface CustContcatService {
      * @param custContact
      */
     void addCustContact(CustContactPO custContact);
-    
+
     /**
      * 2.更新员工关系
      * @param custContact
@@ -23,29 +23,29 @@ public interface CustContcatService {
      * @param list
      */
     void addCustContacts(List<CustContactPO> list);
-    
+
     /**
      * 4.查询一个员工所有的关系
-     * @param uId
+     * @param uid
      * @param userNo
      * @return
      */
-    Object queryCustContacts(String uId, String userNo);
+    Object queryCustContacts(String uid, String userNo);
 
     /**
      * 5.删除员工关系
-     * @param uId
+     * @param uid
      * @param userNo
      * @param contactId
      */
-    void deleteCustContact(String uId, String userNo, String contactId);
-    
+    void deleteCustContact(String uid, String userNo, String contactId);
+
     /**
      * 6.查询一个员工的一个关系
-     * @param uId
+     * @param uid
      * @param userNo
      * @param contactId
      * @return
      */
-    Object queryCustContact(String uId, String userNo, String contactId);
+    Object queryCustContact(String uid, String userNo, String contactId);
 }

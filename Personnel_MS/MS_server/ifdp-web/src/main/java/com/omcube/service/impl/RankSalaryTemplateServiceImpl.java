@@ -17,44 +17,36 @@ public class RankSalaryTemplateServiceImpl implements RankSalaryTemplateService 
     /**
      * 1.添加职级薪酬标准模板
      */
-    public void addRankSalaryTemplate(RankSalaryTemplatePO rankSalaryTemplate)
-    {
+    public void addRankSalaryTemplate(RankSalaryTemplatePO rankSalaryTemplate) {
 	rankSalaryTemplateServiceMapper.addRankSalaryTemplate(rankSalaryTemplate);
-	
     }
 
     /**
      * 2.查询职级薪酬标准模板列表
      */
-    public List<RankSalaryTemplatePO> queryRankSalaryTemplates(RankSalaryTemplatePO rankSalaryTemplate)
-    {
+    public List<RankSalaryTemplatePO> queryRankSalaryTemplates(RankSalaryTemplatePO rankSalaryTemplate) {
 	return rankSalaryTemplateServiceMapper.queryRankSalaryTemplates(rankSalaryTemplate);
     }
 
     /**
-     * 3.根据uId，organNo和applyNo查询单个职级薪酬模板
+     * 3.根据uid，organNo和applyNo查询单个职级薪酬模板
      */
-    public Object queryRankSalaryTemplate(RankSalaryTemplatePO rankSalaryTemplate)
-    {
+    public Object queryRankSalaryTemplate(RankSalaryTemplatePO rankSalaryTemplate) {
 	return rankSalaryTemplateServiceMapper.queryRankSalaryTemplate(rankSalaryTemplate);
     }
 
     /**
      * 4.修改职级薪酬标准模板
      */
-    public void updateRankSalaryTemplate(RankSalaryTemplatePO rankSalaryTemplate)
-    {
+    public void updateRankSalaryTemplate(RankSalaryTemplatePO rankSalaryTemplate) {
 	rankSalaryTemplateServiceMapper.updateRankSalaryTemplate(rankSalaryTemplate);
-	
     }
 
     /**
-     * 5.根据uId，organNo和applyNo删除相应的职级薪酬模板
+     * 5.根据uid，organNo和applyNo删除相应的职级薪酬模板
      */
-    public void deleteRankSalaryTemplate(RankSalaryTemplatePO rankSalaryTemplate)
-    {
+    public void deleteRankSalaryTemplate(RankSalaryTemplatePO rankSalaryTemplate) {
 	rankSalaryTemplateServiceMapper.deleteRankSalaryTemplate(rankSalaryTemplate);
-	
     }
-    
+
 }

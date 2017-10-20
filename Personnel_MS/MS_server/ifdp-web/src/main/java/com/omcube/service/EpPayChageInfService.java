@@ -6,6 +6,11 @@ import com.omcube.model.response.EpPayChageInfResponse;
 
 public interface EpPayChageInfService {
 
-	//列表查询调薪信息
-	public List<EpPayChageInfResponse> selectListEpPayChageInf(String startTime,String endTime);
+	// 调薪信息列表查询
+	public List<EpPayChageInfResponse> selectListEpPayChageInf(String startTime,
+			String endTime);
+
+	// 调薪管理详情查询
+	public EpPayChageInfResponse selectDetailEpPayChageInf(
+			EpPayChageInfResponse epPayChageInfResponse);
 }

@@ -1,6 +1,9 @@
 package com.omcube.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +12,7 @@ import com.omcube.model.po.OrganTree;
 import com.omcube.model.po.SysOrganPO;
 import com.omcube.model.po.SysUserPO;
 import com.omcube.service.OrganService;
+import com.omcube.util.SysLoginCtrlUtil;
 
 @Service
 public class OrganServiceImpl implements OrganService {
@@ -26,8 +30,11 @@ public class OrganServiceImpl implements OrganService {
     @Override
     public SysOrganPO queryCurrentOrgan(String organNo)
     {
-
-	return sysOrganMapper.queryCurrentOrgan(organNo);
+	Map<String, Object> paraMap= new HashMap<>();
+	String uid = SysLoginCtrlUtil.getSysLoginCtrlBySession().getUid();
+	paraMap.put("uid", uid);
+	paraMap.put("organNo", organNo);
+	return sysOrganMapper.queryCurrentOrgan(paraMap);
     }
     
     
@@ -42,6 +49,8 @@ public class OrganServiceImpl implements OrganService {
     @Override
     public List<SysOrganPO> queryChildOrganDetail(String organNo)
     {
+	
+	
 
 	return sysOrganMapper.queryChildOrganDetail(organNo);
     }

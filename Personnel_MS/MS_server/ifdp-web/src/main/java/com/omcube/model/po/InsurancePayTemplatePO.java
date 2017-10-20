@@ -1,11 +1,8 @@
 package com.omcube.model.po;
 
-import java.io.Serializable;
-import java.util.Date;
 
 
-public class InsurancePayTemplatePO implements Serializable {
-	private String uId;//UID
+public class InsurancePayTemplatePO extends BasicPO {
 	private String applyNo;//申请号(模板编号)
 	private String applyName;//模板名称
 	private Double perEndmRate;//个人养老保险百分比
@@ -33,20 +30,8 @@ public class InsurancePayTemplatePO implements Serializable {
 	private Double comHousRate;//公司住房公积金百分比
 	private Double comHousFixed;//公司住房公积金固定额
 	private String remark ;//备注
-	private String createdBy;//创建人
-	private Date createdDate;//创建时间
-	private String updatedBy;//更新人
-	private Date updatedDate;//更新时间
 	public InsurancePayTemplatePO(){}
 	
-	public String getuId() {
-		return uId;
-	}
-
-	public void setuId(String uId) {
-		this.uId = uId;
-	}
-
 	public String getApplyNo() {
 		return applyNo;
 	}
@@ -208,30 +193,6 @@ public class InsurancePayTemplatePO implements Serializable {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-	public String getCreatedBy() {
-		return createdBy;
-	}
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
-	public String getUpdatedBy() {
-		return updatedBy;
-	}
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy;
-	}
-	public Date getUpdatedDate() {
-		return updatedDate;
-	}
-	public void setUpdatedDate(Date updatedDate) {
-		this.updatedDate = updatedDate;
 	}
 	
 }

@@ -43,28 +43,28 @@ public class InsurancePayTemplateController {
     private InsurancePayTemplateService insurancePayTemplateService;
 
     /**
-     * 1.通过uId查询所有的保险缴纳模板列表
+     * 1.通过uid查询所有的保险缴纳模板列表
      * 
-     * @param uId
+     * @param uid
      * @param pageNum
      * @param pageSize
      * @return
      */
     @GetMapping(value = "/queryInsurancePayTemplates/{pageNum}/{pageSize}")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
-    public Object queryInsurancePayTemplates(@PathVariable Integer pageNum, @PathVariable  Integer pageSize) {
+    public Object queryInsurancePayTemplates(@PathVariable Integer pageNum, @PathVariable Integer pageSize) {
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 	// 判断传入参数是否为空,若为空则返回错误信息
-	if (StringUtils.isEmpty(uId) || StringUtils.isEmpty(pageNum) || StringUtils.isEmpty(pageSize)) {
+	if (StringUtils.isEmpty(uid) || StringUtils.isEmpty(pageNum) || StringUtils.isEmpty(pageSize)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
-		    "the param uId,pageNum or pageSize is null");
+		    "the param uid,pageNum or pageSize is null");
 	}
 	// 使用pagehelper插件进行分页查询
 	PageHelper.startPage(pageNum, pageSize, true);
 	List<InsurancePayTemplatePO> insurancePayTemplates = insurancePayTemplateService
-		.queryInsurancePayTemplates(uId);
+		.queryInsurancePayTemplates(uid);
 	PageInfo<InsurancePayTemplatePO> pageInfo = new PageInfo<InsurancePayTemplatePO>(insurancePayTemplates);
 	return JSONResultUtil.setSuccess(pageInfo);
     }
@@ -79,22 +79,22 @@ public class InsurancePayTemplateController {
     public Object addInsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate) {
 	//从session 获取uid  userNo
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 	String userNo = sysLoginCtrl.getUserNo();
 	if (StringUtils.isEmpty(insurancePayTemplate)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "request body is null");
 	}
 	//将获取的uid  userNo放进实例
-	insurancePayTemplate.setuId(uId);
+	insurancePayTemplate.setUid(uid);
 	insurancePayTemplate.setCreatedBy(userNo);
 	// 返回查询结果 和信息
 	return insurancePayTemplateService.addInsurancePayTemplate(insurancePayTemplate);
     }
 
     /**
-     * 3.根据uId和模板编号applyNo详细查询单个保险缴纳模板
+     * 3.根据uid和模板编号applyNo详细查询单个保险缴纳模板
      * 
-     * @param uId
+     * @param uid
      * @param applyNo
      * @return
      */
@@ -103,13 +103,13 @@ public class InsurancePayTemplateController {
     public Object queryInsurancePayTemplate(@PathVariable String applyNo) {
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 	// 判断传入参数是否为空,若为空则返回错误信息
-	if (StringUtils.isEmpty(uId) || StringUtils.isEmpty(applyNo)) {
-	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "param uId or applyNo is null");
+	if (StringUtils.isEmpty(uid) || StringUtils.isEmpty(applyNo)) {
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "param uid or applyNo is null");
 	}
 	InsurancePayTemplatePO insurancePayTemplate = new InsurancePayTemplatePO();
-	insurancePayTemplate.setuId(uId);
+	insurancePayTemplate.setUid(uid);
 	insurancePayTemplate.setApplyNo(applyNo);
 	// 返回查询结果 和信息
 	return JSONResultUtil.setSuccess(insurancePayTemplateService.queryInsurancePayTemplate(insurancePayTemplate));
@@ -125,24 +125,24 @@ public class InsurancePayTemplateController {
     public Object updateInsurancePayTemplate(InsurancePayTemplatePO insurancePayTemplate) {
 	//从session 获取uid  userNo
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 	String userNo = sysLoginCtrl.getUserNo();
 	if (StringUtils.isEmpty(insurancePayTemplate)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 	}
 	//将获取到的uid  userNo放入实例
-	insurancePayTemplate.setuId(uId);
+	insurancePayTemplate.setUid(uid);
 	insurancePayTemplate.setUpdatedBy(userNo);
-	if (StringUtils.isEmpty(insurancePayTemplate.getuId())
+	if (StringUtils.isEmpty(insurancePayTemplate.getUid())
 		|| StringUtils.isEmpty(insurancePayTemplate.getApplyNo())) {
-	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "param uId or applyNo is null");
+	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "param uid or applyNo is null");
 	}
 	insurancePayTemplateService.updateINsurancePayTemplate(insurancePayTemplate);
 	return JSONResultUtil.setSuccess();
     }
 
     /**
-     * 5.根据uId和applyNo删除模板
+     * 5.根据uid和applyNo删除模板
      * 
      * @param insurancePayTemplate
      * @return
@@ -152,15 +152,15 @@ public class InsurancePayTemplateController {
     public Object deleteInsurancePayTemplate(@PathVariable String applyNo) {
 	//从session 获取uid  userNo
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getUid();
+	String uid = sysLoginCtrl.getUid();
 	String userNo = sysLoginCtrl.getUserNo();
-	if (StringUtils.isEmpty(uId) || StringUtils.isEmpty(applyNo) || StringUtils.isEmpty(userNo)) {
+	if (StringUtils.isEmpty(uid) || StringUtils.isEmpty(applyNo) || StringUtils.isEmpty(userNo)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
-		    "param uId , applyNo or userNo is null");
+		    "param uid , applyNo or userNo is null");
 	}
 	InsurancePayTemplatePO insurancePayTemplate = new InsurancePayTemplatePO();
-	insurancePayTemplate.setuId(uId);
-	System.out.println(insurancePayTemplate.getuId());
+	insurancePayTemplate.setUid(uid);
+	System.out.println(insurancePayTemplate.getUid());
 	insurancePayTemplate.setApplyNo(applyNo);
 	insurancePayTemplate.setUpdatedBy(userNo);
 	insurancePayTemplateService.deleteInsurancePayTemplate(insurancePayTemplate);
