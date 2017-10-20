@@ -44,7 +44,7 @@
 <script type='text/ecmascript-6'>
 import Bus from '../../../common/Bus.js'
 import current from '../../common/current_position.vue'
-const baseURL = 'iem'
+const baseURL = 'iem_hrm'
 export default {
 	data() {
 		return {

@@ -10,7 +10,7 @@
 				<el-table :data="taxRateGroupList" border stripe style="width: 100%">
 					<el-table-column prop="groupNo" label="组名称">
 						<template scope="scope">
-					        <span @click="handleEdit(scope.$index, scope.row)">{{ scope.row.groupNo }}</span>
+					        <span class="link" @click="handleEdit(scope.$index, scope.row)">{{ scope.row.groupNo }}</span>
 				      	</template>
 					</el-table-column>
 					<el-table-column prop="remark" label="备注"></el-table-column>
@@ -33,7 +33,7 @@
 
 <script>
 import current from '../../common/current_position.vue'
-const baseURL = 'ifdp'
+const baseURL = 'iem_hrm'
 export default {
 	data() {
 		return {
@@ -224,9 +224,14 @@ border-bottom: 1px solid #EEEEEE;
 .tax_rate .el-table th {
 	text-align: center;
 }
-.tax_rate .el-table td:first-child span{
+/*.tax_rate .el-table td:first-child span{
 	cursor: pointer;
 	color: #FF9900;
+}*/
+.tax_rate .link {
+	cursor: pointer;
+    color: #337ab7;
+    text-decoration: underline;
 }
 /*.tax_rate .el-table td:first-child:hover{
 	color: #FF9900;

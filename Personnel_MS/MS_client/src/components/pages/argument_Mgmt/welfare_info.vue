@@ -4,13 +4,12 @@
 		<div class="content">
 			<div class="title">
 				<span class="title-text">福利缴纳系数详情</span>
-				<!--<el-button type="primary" class="conserve" @click="save('welfareInfo')">保存</el-button>-->
-				<el-button type="primary" class="conserve" @click="back">返回</el-button>			
+				<el-button type="primary" class="conserve" @click="save('welfareInfo')">保存</el-button>			
 			</div>
 			<div class="content-inner">
 				<el-form ref="welfareInfo" :rules="rules" :model="welfareInfo" label-width="80px">
 					<el-form-item label="模版编号" prop="applyNo">
-					    <el-input v-model="welfareInfo.applyNo"></el-input>
+					    <el-input v-model="welfareInfo.applyNo" :disabled="true"></el-input>
 				  	</el-form-item>
 					<el-form-item label="模版名称" prop="applyName">
 					    <el-input v-model="welfareInfo.applyName"></el-input>
@@ -116,7 +115,7 @@
 
 <script>
 import current from '../../common/current_position.vue'
-const baseURL = 'ifdp'
+const baseURL = 'iem_hrm'
 export default {
 	data() {
 		return {
@@ -208,22 +207,56 @@ export default {
 			})
 	},
 	methods: {
-		back() {
-			this.$router.push('welfare_coefficient')
+		save(formName) {
+			const self = this;
+		 	this.$refs[formName].validate((valid) => {
+	          	if (valid) {
+	          		let params = {
+	          			applyNo: self.welfareInfo.applyNo,
+						applyName: self.welfareInfo.applyName,
+						remark: self.welfareInfo.remark,
+						perEndmRate: self.welfareInfo.perEndmRate,
+						perEndmFixed: self.welfareInfo.perEndmFixed,
+						comEndmRate: self.welfareInfo.comEndmRate,
+						comEndmFixed: self.welfareInfo.comEndmFixed,
+						perMediRate: self.welfareInfo.perMediRate,
+						perMediFixed: self.welfareInfo.perMediFixed,
+						comMediRate: self.welfareInfo.comMediRate,
+						comMediFixed: self.welfareInfo.comMediFixed,
+						perUnemRate: self.welfareInfo.perUnemRate,
+						perUnemFixed: self.welfareInfo.perUnemFixed,
+						comUnemRate: self.welfareInfo.comUnemRate,
+						comUnemFixed: self.welfareInfo.comUnemFixed,
+						perEmplRate: self.welfareInfo.perEmplRate,
+						perEmplFixed: self.welfareInfo.perEmplFixed,
+						comEmplRate: self.welfareInfo.comEmplRate,
+						comEmplFixed: self.welfareInfo.comEmplFixed,
+						perMateRate: self.welfareInfo.perMateRate,
+						perMateFixed: self.welfareInfo.perMateFixed,
+						comMateRate: self.welfareInfo.comMateRate,
+						comMateFixed: self.welfareInfo.comMateFixed,
+						perHousRate: self.welfareInfo.perHouseRate,
+						perHousFixed: self.welfareInfo.perHousFixed,
+						comHousRate: self.welfareInfo.comHousRate,
+						comHousFixed: self.welfareInfo.comHousFixed
+	          		}
+	          		self.$axios.put(baseURL+'/updateInsurancePayTemplate',params)
+	          			.then((res) => {
+	          				console.log(res);
+	          				
+	          			}).catch((err) => {
+	          				console.log(err)
+	          			})
+	           	 	this.$message({
+			          	message: '福利缴纳系数修改成功',
+			          	type: 'success'
+			        });
+	          	} else {
+	            	this.$message.error('修改失败');
+	            	return false;
+	          	}
+	        });
 		}
-//		save(formName) {
-//		 	this.$refs[formName].validate((valid) => {
-//	          	if (valid) {
-//	           	 	this.$message({
-//			          	message: '福利缴纳系数新增成功',
-//			          	type: 'success'
-//			        });
-//	          	} else {
-//	            	this.$message.error('新增失败');
-//	            	return false;
-//	          	}
-//	        });
-//		}
 	}
 }
 </script>

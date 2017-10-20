@@ -39,7 +39,7 @@
 
 <script>
 	import current from '../../common/current_position.vue'
-	const baseURL = 'ifdp'
+	const baseURL = 'iem_hrm'
 	export default {
 		data() {
 			var checkMax_level = (rule, value, callback) => {
