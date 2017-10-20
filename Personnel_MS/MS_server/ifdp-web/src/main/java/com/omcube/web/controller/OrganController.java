@@ -96,9 +96,7 @@ public class OrganController {
      */
     @GetMapping(value = "/queryCurrentAndParentOrganDetail/{organNo}")
     @Cacheable(value = ConstantUtil.QUERY_CACHE)
-    public Object queryCurrentAndParentOrganDetail(@PathVariable String organNo)
-
-    {
+    public Object queryCurrentAndParentOrganDetail(@PathVariable String organNo){
 
 	if (StringUtils.isEmpty(organNo)) {
 	    logger.error("the request params organNo is null");
