@@ -14,10 +14,10 @@
                         <el-form-item prop="password">
                             <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
                         </el-form-item>
-                        <div class="code-wrapper">
-                            <el-input type="text" placeholder="请输入验证码" class="last-input" v-model="ruleForm.imageCode"></el-input><span class="check-code" @click="changeCode"><img
-                                :src="pic" alt=""></span>
-                        </div>
+                        <el-form-item class="code-wrapper" prop="imageCode">
+                            <el-input  placeholder="请输入验证码" class="last-input" v-model="ruleForm.imageCode" @keyup.enter.native="submitForm('ruleForm')"></el-input><span class="check-code" @click="changeCode"><img
+                                :src="pic"></span>
+                        </el-form-item>
                         <div class="error" style="display: none">帐号或密码错</div>
                         <el-button class="tijiao" @click="submitForm('ruleForm')">登录</el-button>
                         <a class="text" href="#">忘记密码</a>
@@ -74,12 +74,15 @@
                     ],
                     password: [
                         { required: true, message: '请输入密码', trigger: 'blur' }
-                    ]
+                    ],
+                    imageCode: [
+                        { required: true, message: '请输入验证码', trigger: 'blur' }
+                    ],
                 }
             }
         },
         created() {
-            this.$axios.get('/api/auth/code/image', {headers:{deviceId: '12345'},responseType: 'blob'})
+            this.$axios.get('/api/auth/code/image', {responseType: 'blob'})
                 .then( res => {
                     let reader = new FileReader()
                     reader.onload = (e => {
@@ -96,7 +99,7 @@
         },
         methods: {
             changeCode() {
-              this.$axios.get('/api/auth/code/image', {headers:{deviceId: '12345'},responseType: 'blob'})
+              this.$axios.get('/api/auth/code/image', {responseType: 'blob'})
                   .then( res => {
                       let reader = new FileReader()
                       reader.onload = (e => {
@@ -134,14 +137,11 @@
                                     username:'iem_cloud',
                                     password:'thisissecret'
                                 },
-                                headers:{deviceId: '12345'}
                             })
                                 .then( function (res) {
 //                                    let result = res.data.data
                                     let access_token = res.data.access_token
                                     let refresh_token = res.data.refresh_token
-                                    console.log(res, access_token,refresh_token)
-                                    console.log(res, access_token,refresh_token)
                                     window.localStorage.setItem('access_token', JSON.stringify(access_token))
                                     window.localStorage.setItem('refresh_token', JSON.stringify(refresh_token))
                                     if(true){
@@ -157,6 +157,17 @@
                                 .catch( function (e) {
                                     self.fullscreenLoading = false
                                     console.log(e)
+                                    self.$axios.get('/api/auth/code/image', {responseType: 'blob'})
+                                        .then( res => {
+                                            let reader = new FileReader()
+                                            reader.onload = (e => {
+                                                self.pic = e.target.result
+                                            })
+                                            reader.readAsDataURL(res.data)
+                                        })
+                                        .catch( (e)=> {
+                                            console.log(e)
+                                        })
                                 })
                     } else {
 //                        self.content = '登录失败！请填写正确的账号和密码'
@@ -298,7 +309,7 @@
         height: 100%;
     }
     #wrap .form-content .code-wrapper{
-        margin: 0 auto 16px auto;
+        margin: 0 auto 23px auto;
         box-sizing: border-box;
         width: 260px;
     }
@@ -319,13 +330,13 @@
         width: 90px;
         height: 40px;
         display: inline-block;
-        vertical-align: middle;
+        /*vertical-align: middle;*/
         text-align: center;
         line-height: 40px;
-        font-family: PingFangSC-Regular;
-        font-size: 18px;
-        color: #282828;
-        letter-spacing: 4px;
+        /*font-family: PingFangSC-Regular;*/
+        /*font-size: 18px;*/
+        /*color: #282828;*/
+        /*letter-spacing: 4px;*/
     }
     #wrap .form-content .error{
         width: 71px;

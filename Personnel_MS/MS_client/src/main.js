@@ -11,7 +11,7 @@ import Bus from './common/Bus.js';
 
 
 //Vue.config.productionTip = false
-
+axios.defaults.headers['deviceId'] = '12345';
 Vue.use(ElementUI);
 Vue.prototype.$axios = axios;
 Vue.prototype.$echarts = echarts;
