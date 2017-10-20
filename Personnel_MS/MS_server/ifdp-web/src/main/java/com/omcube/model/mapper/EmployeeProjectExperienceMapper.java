@@ -21,7 +21,7 @@ public interface EmployeeProjectExperienceMapper {
 
 	// 增加项目经历信息的查询
 	EmployeeProjectExperiencePO queryEmployeeProjectExperienceInfoByParam(
-			@Param(value = "uId") String uId,
+			@Param(value = "uid") String uid,
 			@Param(value = "userNo") String userNo,
 			@Param(value = "projectId") String projectId);
 

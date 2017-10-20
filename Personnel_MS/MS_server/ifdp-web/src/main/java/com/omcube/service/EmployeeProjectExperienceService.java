@@ -17,7 +17,7 @@ public interface EmployeeProjectExperienceService {
 
 	// 增加项目经历信息的查询
 	EmployeeProjectExperiencePO queryEmployeeProjectExperienceInfoByParam(
-			String uId, String userNo, String projectId);
+			String uid, String userNo, String projectId);
 
 	// 项目经历信息修改
 	void modEmpProExp(EmployeeProjectExperiencePO employeeProjectExperiencePO);

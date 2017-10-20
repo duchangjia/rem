@@ -1,7 +1,5 @@
 package com.omcube.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -51,7 +49,7 @@ public class EmployeeProjectExperienceServiceImpl
 
 		// 添加项目经历信息的时候判断要添加的项目经历信息是否存在数据库中
 		// Map<String, String> param = new HashMap<String, String>();
-		// param.put("uId", employeeProjectExperiencePO.getuId());
+		// param.put("uid", employeeProjectExperiencePO.getUid());
 		// param.put("userNo", employeeProjectExperiencePO.getUserNo());
 		// param.put("projectId", employeeProjectExperiencePO.getProjectId());
 
@@ -94,14 +92,14 @@ public class EmployeeProjectExperienceServiceImpl
 
 	@Override
 	public EmployeeProjectExperiencePO queryEmployeeProjectExperienceInfoByParam(
-			String uId, String userNo, String projectId) {
+			String uid, String userNo, String projectId) {
 		if (employeeProjectExperienceMapper == null) {
 			employeeProjectExperienceMapper = SpringUtil
 					.getBean(EmployeeProjectExperienceMapper.class);
 		}
 
 		return employeeProjectExperienceMapper
-				.queryEmployeeProjectExperienceInfoByParam(uId, userNo,
+				.queryEmployeeProjectExperienceInfoByParam(uid, userNo,
 						projectId);
 	}
 
