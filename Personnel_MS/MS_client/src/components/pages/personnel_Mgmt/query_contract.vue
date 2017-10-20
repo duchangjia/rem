@@ -55,10 +55,10 @@
                     <template scope="scope">
                         <el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
                         <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                        <el-button size="small" @click="handleChange(scope.$index, scope.row)">变更</el-button>
-                        <el-button size="small" @click="handleRenew(scope.$index, scope.row)">续签</el-button>
-                        <el-button size="small" @click="handleTerminate(scope.$index, scope.row)">解除</el-button>
-                        <el-button size="small" @click="handleProbation(scope.$index, scope.row)">试用</el-button>
+                        <el-button size="small" @click="handlePChange(scope.$index, scope.row)">变更</el-button>
+                        <el-button size="small" @click="handlePRenew(scope.$index, scope.row)">续签</el-button>
+                        <!-- <el-button size="small" @click="handleTerminate(scope.$index, scope.row)">解除</el-button>
+                        <el-button size="small" @click="handleProbation(scope.$index, scope.row)">试用</el-button> -->
                     </template>
                 </el-table-column>
             </el-table>
@@ -69,119 +69,116 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import current from '../../common/current_position.vue'
+import current from "../../common/current_position.vue";
 export default {
-    data() {
-        return {
-            filters: {
-                name: '',
-                pactType: ''
-            },
-            pageIndex: 1,
-            pageRows: 7,
-            totalRows: 20,
-            pactListInfo: []
+  data() {
+    return {
+      filters: {
+        name: "",
+        pactType: ""
+      },
+      pageIndex: 1,
+      pageRows: 7,
+      totalRows: 20,
+      pactListInfo: []
+    };
+  },
+  components: {
+    current
+  },
+  created() {
+    const self = this;
+    self.filters.name = "";
+    self.filters.pactType = "";
+    //初始查询合同列表
+    self.getPactList();
+  },
+  methods: {
+    getPactList() {
+      const self = this;
+      let params = {
+        pageIndex: self.pageIndex,
+        pageRows: self.pageRows,
+        custName: self.filters.name,
+        pactType: self.filters.pactType
+      };
+      self.$axios
+        .get("ifdp/queryPactList", { params: params })
+        .then(res => {
+          self.pactListInfo = res.data.data.pactListArray;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+    pactTypeFormatter(row, column) {
+      return row.pactType == 1 ? "劳动合同" : row.pactType == 0 ? "保密协议" : "异常";
+    },
+    pactStatusFormatter(row, column) {
+      return row.pactStatus == 1 ? "已生效" : row.pactStatus == 0 ? "未生效" : "异常";
+    },
+    handlePactDetail(index, row) {
+      let params = {
+        pactNo: row.pactNo
+      };
+      this.$router.push({
+        name: "detail_contract",
+        params: params
+      });
+    },
+    handleCurrentChange(val) {
+      const self = this;
+      self.pageIndex = val;
+      //分页查询合同列表
+      self.getPactList();
+    },
+    handleQuery() {
+      const self = this;
+      console.log(
+        "name:" + self.filters.name + " pactType:" + self.filters.pactType
+      );
+      //根据条件查询合同列表
+      self.getPactList();
+    },
+    handleAdd() {
+      this.$router.push({
+        name: "add_contract"
+      });
+    },
+    handleEdit(index, row) {
+      this.$router.push({
+        name: "edit_contract",
+        params: {
+          pactNo: row.pactNo
         }
+      });
     },
-    components: {
-        current,
-    },
-    created() {
-        const self = this;
-        self.filters.name = '';
-        self.filters.pactType = '';
-        //初始查询合同列表
-        self.getPactList();
-    },
-    methods: {
-        getPactList() {
-            const self = this;
-            let params = {
-                "pageIndex": self.pageIndex,
-                "pageRows": self.pageRows,
-                "custName": self.filters.name,
-                "pactType": self.filters.pactType
-            }
-            self.$axios.get('ifdp/queryPactList', { params: params })
-                .then((res) => {
-                    self.pactListInfo = res.data.data.pactListArray;
-                }).catch(() => {
-                    console.log('error');
-                })
-        },
-        pactTypeFormatter(row, column) {
-            return row.pactType == 1 ? '劳动合同' : row.pactType == 0 ? '保密协议' : '异常';
-        },
-        pactStatusFormatter(row, column) {
-            return row.pactStatus == 1 ? '已生效' : row.pactStatus == 0 ? '未生效' : '异常';
-        },
-        handlePactDetail(index, row) {
-            let params = {
-                "pactNo": row.pactNo
-            }
-            this.$router.push({
-                name: 'detail_contract',
-                params: params
-            });
-        },
-        handleCurrentChange(val) {
-            const self = this;
-            self.pageIndex = val;
-            //分页查询合同列表
-            self.getPactList();
-        },
-        handleQuery() {
-            const self = this;
-            console.log('name:' + self.filters.name + ' pactType:' + self.filters.pactType);
-            //根据条件查询合同列表
-            self.getPactList();
-        },
-        handleAdd() {
-            let params = {
-                "pactNo": row.pactNo
-            }
-            this.$router.push({
-                name: 'add_contract',
-                params: params
-            });
-        },
-        handleEdit(index, row) {
-
-        },
-        handleDelete(index, row) {
-
-        },
-        handleChange(index, row) {
-            let params = {
-                "pactNo": row.pactNo
-            }
-            this.$router.push({
-                name: 'add_pactChange',
-                params: params
-            });
-        },
-        handleRenew(index, row) {
-            let params = {
-                "pactNo": row.pactNo
-            }
-            this.$router.push({
-                name: 'add_pactRenew',
-                params: params
-            });
-        },
-        handleTerminate(index, row) {
-
-        },
-        handleProbation(index, row) {
-
+    handleDelete(index, row) {},
+    handlePChange(index, row) {
+      this.$router.push({
+        name: "add_pactChange",
+        params: {
+          pactNo: row.pactNo
         }
-    }
-}
+      });
+    },
+    handlePRenew(index, row) {
+      this.$router.push({
+        name: "add_pactRenew",
+        params: {
+          pactNo: row.pactNo
+        }
+      });
+    },
+    handleTerminate(index, row) {},
+    handleProbation(index, row) {}
+  }
+};
 </script>
 
 
 <style>
 .pact_mgmt {
-    padding: 0 0 20px 20px;
+  padding: 0 0 20px 20px;
 }
 </style>

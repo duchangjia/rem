@@ -122,46 +122,62 @@ export default new Router({
                 			component: resolve => require(['../components/pages/argument_Mgmt/arg_2.vue'], resolve)
                 		},
                 		{
+                			name:'agency_argument',
                 			path:'/agency_argument',
                 			component: resolve => require(['../components/pages/argument_Mgmt/agency_argument.vue'], resolve)
                 		},
                 		{
+                			name:'welfare_coefficient',
                 			path:'/welfare_coefficient',
                 			component: resolve => require(['../components/pages/argument_Mgmt/welfare_coefficient.vue'], resolve)
                 		},
                 		{
+                			name:'welfare_info',
                 			path:'/welfare_info',
                 			component: resolve => require(['../components/pages/argument_Mgmt/welfare_info.vue'], resolve)
                 		},
                 		{
+                			name:'add_welfare',
                 			path:'/add_welfare',
                 			component: resolve => require(['../components/pages/argument_Mgmt/add_welfare.vue'], resolve)
                 		},
                 		{
+                			name:'tax_rate',
                 			path:'/tax_rate',
                 			component:resolve => require(['../components/pages/argument_Mgmt/tax_rate.vue'],resolve)
                 		},
                 		{
+                			name:'rate_info',
                 			path:'/rate_info',
                 			component:resolve => require(['../components/pages/argument_Mgmt/rate_info.vue'],resolve)
                 		},
                 		{
+                			name:'add_rateGroup',
                 			path:'/add_rateGroup',
                 			component:resolve => require(['../components/pages/argument_Mgmt/add_rateGroup.vue'],resolve)
                 		},
                 		{
+                			name:'edit_rate',
+                			path:'/edit_rate',
+                			component:resolve => require(['../components/pages/argument_Mgmt/edit_rate.vue'],resolve)
+                		},
+                		{
+                			name:'add_rate',
                 			path:'/add_rate',
                 			component:resolve => require(['../components/pages/argument_Mgmt/add_rate.vue'],resolve)
                 		},
                 		{
+                			name:'rank',
                 			path:'/rank',
                 			component:resolve => require(['../components/pages/argument_Mgmt/rank.vue'],resolve)
                 		},
                 		{
+                			name:'edit_rank',
                 			path:'/edit_rank',
                 			component:resolve => require(['../components/pages/argument_Mgmt/edit_rank.vue'],resolve)
                 		},
                 		{
+                			name:'add_rank',
                 			path:'/add_rank',
                 			component:resolve => require(['../components/pages/argument_Mgmt/add_rank.vue'],resolve)
                 		},
@@ -222,6 +238,11 @@ export default new Router({
                             name: 'add_contract',
                             path: '/add_contract',
                             component: resolve => require(['../components/pages/personnel_Mgmt/add_contract.vue'], resolve)
+                        },
+                        {
+                            name: 'edit_contract',
+                            path: '/edit_contract',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/edit_contract.vue'], resolve)
                         },
                         {
                             name: 'detail_contract',

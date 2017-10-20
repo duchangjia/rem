@@ -9,7 +9,7 @@ public class BasicPO {
     private Date updatedDate;  
     private String createdBy;
     private String updatedBy;
-    private String uId;//租户通过session获取
+    private String uid;//租户通过session获取
     
     public String getStatus() {
         return status;
@@ -51,13 +51,14 @@ public class BasicPO {
 		this.updatedBy = updatedBy;
 	}
 
-	public String getuId() {
-		return uId;
+	public String getUid() {
+		return uid;
 	}
 
-	public void setuId(String uId) {
-		this.uId = uId;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
+
 }
 
 

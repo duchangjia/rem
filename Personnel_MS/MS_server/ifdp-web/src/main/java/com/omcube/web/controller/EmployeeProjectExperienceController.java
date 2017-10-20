@@ -83,7 +83,7 @@ public class EmployeeProjectExperienceController {
 
 		// 校验数据库中是否存在要添加的信息
 		EmployeeProjectExperiencePO databaseEmployeeProjectExperiencePO = queryEmployeeProjectExperienceInfoByParam(
-				employeeProjectExperiencePO.getuId(),
+				employeeProjectExperiencePO.getUid(),
 				employeeProjectExperiencePO.getUserNo(),
 				employeeProjectExperiencePO.getProjectId());
 

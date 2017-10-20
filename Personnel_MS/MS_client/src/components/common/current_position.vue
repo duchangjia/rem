@@ -9,6 +9,7 @@
                     <el-breadcrumb-item v-if="sanji" :to="{ path: links[2] }" class="test1">{{sanji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if="siji" :to="{ path: links[3] }" class="test1">{{siji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if="wuji" :to="{ path: links[4] }" class="test1">{{wuji}}</el-breadcrumb-item>
+                    <el-breadcrumb-item v-if='false'>{{activeTab}}</el-breadcrumb-item>
                 </el-breadcrumb>
             </el-col>
             <el-col :span="2" v-show="breadItemLength>1">
@@ -33,7 +34,17 @@ export default {
         jump() {
             let aa = this.link[this.breadItemLength - 2]
             if (!aa) return false
-            this.$router.push(aa)
+            if(this.activeTab){
+                this.$router.push({
+                    name: aa,
+                    params: {
+                        pactNo:'',
+                        activeTab: this.activeTab
+                    }
+                })
+            } else {
+                this.$router.push(aa)
+            }
         },
     },
     computed: {
@@ -86,31 +97,23 @@ export default {
             if (this.sanji === '功能编辑') {
                 _link.push('/edit_fun')
             }
-            if (this.sanji === '新增合同') {
+            if (this.sanji === '合同新增') {
                 _link.push('/add_contract')
             }
+            if (this.sanji === '合同修改') {
+                _link.push('/edit_contract')
+            }
             if (this.sanji === '合同详情') {
-                _link.push('/detail_contract')
+                _link.push('detail_contract')
             }
             if (this.sanji === '合同变更') {
                 _link.push('/add_pactChange')
             }
-            if (this.sanji === '合同变更详情') {
-                _link.push('/detail_pactChange')
-            }
-            if (this.sanji === '合同变更修改') {
-                _link.push('/edit_pactChange')
-            }
+            
             if (this.sanji === '合同续签') {
                 _link.push('/add_pactRenew')
             }
-            if (this.sanji === '合同续签详情') {
-                _link.push('/detail_pactRenew')
-            }
-            if (this.sanji === '合同续签修改') {
-                _link.push('/edit_pactRenew')
-            }
-
+            
             if (this.sanji === '机构CCC管理') {
                 _link.push('/agency_argument')
             }
@@ -132,11 +135,20 @@ export default {
             if (this.siji === '福利缴纳系数新增') {
                 _link.push('/add_welfare')
             }
+            if (this.siji === '福利缴纳系数详情') {
+            	_link.push('/welfare_info')
+            }
+            if (this.siji === '个人所得税税率详情') {
+            	_link.push('/rate_info')
+            }
             if (this.siji === '税率组新增') {
-                _link.push('/add_tax')
+                _link.push('/add_rateGroup')
             }
             if (this.siji === '职级薪酬标准新增') {
                 _link.push('/add_rank')
+            }
+            if (this.siji === '职级薪酬标准修改') {
+            	_link.push('/edit_rank')
             }
             if (this.siji === 'CCC新增') {
                 _link.push('/add_agency')
@@ -146,6 +158,24 @@ export default {
             }
             if (this.siji === '开票信息新增') {
                 _link.push('/add_ticket')
+            }
+            if (this.siji === '合同变更详情') {
+                _link.push('/detail_pactChange')
+            }
+            if (this.siji === '合同变更修改') {
+                _link.push('/edit_pactChange')
+            }
+            if (this.siji === '合同续签详情') {
+                _link.push('/detail_pactRenew')
+            }
+            if (this.siji === '合同续签修改') {
+                _link.push('/edit_pactRenew')
+            }
+            if (this.wuji === '税率新增') {
+            	_link.push('/add_rate')
+            }
+            if (this.wuji === '税率修改') {
+            	_link.push('/edit_rate')
             }
             this.link = _link
             this.breadItemLength = _link.length
@@ -170,6 +200,10 @@ export default {
             default: ''
         },
         wuji: {
+            type: String,
+            default: ''
+        },
+        activeTab: {
             type: String,
             default: ''
         },

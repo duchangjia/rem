@@ -11,25 +11,25 @@
 					<el-form-item label="公司名称" prop="compName">
 					    <el-input v-model="formdata.compName"></el-input>
 				  	</el-form-item>
-					<el-form-item label="模版名称" prop="modelName">
-					    <el-input v-model="formdata.modelName" placeholder="yyyy-mm-dd"></el-input>
+					<el-form-item label="模版名称" prop="applyName">
+					    <el-input v-model="formdata.applyName" placeholder="yyyy-mm-dd"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="职级" prop="ranks">
-				  		<el-select v-model="formdata.ranks">
-							<el-option v-for="item in ranksList" :key="item" :value="item"></el-option>
+				  	<el-form-item label="职级" prop="rank">
+				  		<el-select v-model="formdata.rank">
+							<el-option v-for="item in rankList" :key="item" :value="item"></el-option>
 						</el-select>
 				  	</el-form-item>
-				  	<el-form-item label="薪资标准下线" prop="min_level">
-					    <el-input v-model="formdata.min_level"></el-input>
+				  	<el-form-item label="薪资标准下线" prop="salaryFloor">
+					    <el-input v-model="formdata.salaryFloor"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="薪资标准上线" prop="max_level">
-					    <el-input v-model="formdata.max_level"></el-input>
+				  	<el-form-item label="薪资标准上线" prop="salaryTop">
+					    <el-input v-model="formdata.salaryTop"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="出差标准（人/天）">
-					    <el-input v-model="formdata.busStandard"></el-input>
+					    <el-input v-model="formdata.businessStandard"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="备注">
-					    <el-input v-model="formdata.beiz"></el-input>
+					    <el-input v-model="formdata.remark"></el-input>
 				  	</el-form-item>
 				</el-form>
 			</div>
@@ -39,12 +39,13 @@
 
 <script>
 import current from '../../common/current_position.vue'
+const baseURL = 'ifdp'
 export default {
 	data() {
 		var checkMax_level = (rule, value, callback) => {
 	        if (value === '') {
 	          	callback(new Error('请输入薪资标准上线'));
-	        } else if (Number(value) <= Number(this.formdata.min_level)) {
+	        } else if (Number(value) <= Number(this.formdata.salaryFloor)) {
 	          	callback(new Error('上限值必须大于下限值!'));
 	        } else {
 	          	callback();
@@ -53,28 +54,28 @@ export default {
 		return {
 			formdata: {
 				compName: '',
-				modelName: "",
-				ranks: '',
-				min_level: '5000',
-				max_level: '10000',
-				busStandard: '',
-				beiz: ""
+				applyName: "",
+				rank: '',
+				salaryFloor: '5000',
+				salaryTop: '10000',
+				businessStandard: '',
+				remark: ""
 			},
-			ranksList: ['B10-高级开发软件工程师','B5-中级开发软件工程师','B5-UI'],
+			rankList: ['B10-高级开发软件工程师','B5-中级开发软件工程师','B5-UI'],
 			rules: {
 				compName: [
 					{ required: true, message: '公司名称不能为空', trigger: 'blur' }
 				],
-				modelName: [
+				applyName: [
 					{ required: true, message: '模版名称不能为空', trigger: 'blur' }
 				],
-				ranks: [
+				rank: [
 					{ required: true, message: '职级不能为空', trigger: 'blur' }
 				],
-				min_level: [
+				salaryFloor: [
 					{ required: true, message: '薪资标准下线不能为空', trigger: 'blur' }
 				],
-				max_level: [
+				salaryTop: [
 					{ validator: checkMax_level, trigger: 'blur' }
 				]
 			}
@@ -85,15 +86,30 @@ export default {
 	},
 	methods: {
 		save(formName) {
-		 	this.$refs[formName].validate((valid) => {
+			const self = this;
+		 	self.$refs[formName].validate((valid) => {
 	          	if (valid) {
-	          		//操作
-	           	 	this.$message({
-			          	message: '税率组新增成功',
-			          	type: 'success'
-			        });
+	          		let params = {
+	          			organNo: "11-11",
+	          			applyNo: self.formdata.applyNo,
+						compName: self.formdata.compName,
+						applyName: self.formdata.applyName,
+						rank: self.formdata.rank,
+						salaryFloor: self.formdata.salaryFloor,
+						salaryTop: self.formdata.salaryTop,
+						businessStandard: self.formdata.businessStandard,
+						remark: self.formdata.remark
+	          		}
+	          		self.$axios.post(baseURL+'/addCparm', params)
+	          			.then((res) => {
+	          				console.log(res);
+	          				self.$message({ message: '税率组新增成功', type: 'success' });
+	          			}).catch((err) => {
+	          				console.log(err)
+	          			})
+	           	 	
 	          	} else {
-	            	this.$message.error('新增失败');
+	            	self.$message.error('新增失败');
 	            	return false;
 	          	}
 	        });

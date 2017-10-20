@@ -4,28 +4,28 @@
 		<div class="content">
 			<div class="title">
 				<span class="title-text">福利缴纳系数新增</span>
-				<el-button type="primary" class="conserve" @click="save('formdata')">保存</el-button>
+				<el-button type="primary" class="conserve" @click="save('insurancePayTemplateData')">保存</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
+				<el-form ref="insurancePayTemplateData" :rules="rules" :model="insurancePayTemplateData" label-width="80px">
 					<el-form-item label="模版名称" prop="applyName">
-					    <el-input v-model="formdata.applyName"></el-input>
+					    <el-input v-model="insurancePayTemplateData.applyName"></el-input>
 				  	</el-form-item>
 					<el-form-item label="模版备注">
-					    <el-input v-model="formdata.remark"></el-input>
+					    <el-input v-model="insurancePayTemplateData.remark"></el-input>
 				  	</el-form-item>
 					<div class="form_box">
 						<div class="title">养老保险系数</div>
 						<div class="inner">
 							<el-form-item label="个人支付" prop="perEndmRate">
-						      	<el-input type="text" placeholder="" v-model="formdata.perEndmRate"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perEndmRate"></el-input>
 							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.perEndmFixed"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perEndmFixed"></el-input>
 						  	</el-form-item>
 						  	<el-form-item label="个人支付" prop="comEndmRate">
-						      	<el-input type="text" placeholder="" v-model="formdata.comEndmRate"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEndmRate"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.comEndmFixed"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEndmFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
@@ -33,14 +33,14 @@
 						<div class="title">医疗保险系数</div>
 						<div class="inner">
 							<el-form-item label="个人支付" prop="perMediRate">
-						      	<el-input type="text" placeholder="" v-model="formdata.perMediRate"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perMediRate"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.perMediFixed"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perMediFixed"></el-input>
 						  	</el-form-item>
 						  	<el-form-item label="个人支付" prop="comMediRate">
-						      	<el-input type="text" placeholder="" v-model="formdata.comMediRate"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMediRate"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.comMediFixed"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMediFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
@@ -48,14 +48,14 @@
 						<div class="title">失业保险系数</div>
 						<div class="inner">
 							<el-form-item label="个人支付" prop="perUnemRate">
-						      	<el-input type="text" placeholder="" v-model="formdata.perUnemRate"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perUnemRate"></el-input>
 							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.perUnemFixed"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perUnemFixed"></el-input>
 						  	</el-form-item>
 						  	<el-form-item label="个人支付" prop="comUnemRate">
-						      	<el-input type="text" placeholder="" v-model="formdata.comUnemRate"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comUnemRate"></el-input>
 							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.comUnemFixed"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comUnemFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
@@ -63,14 +63,14 @@
 						<div class="title">工伤保险系数</div>
 						<div class="inner">
 							<el-form-item label="个人支付" prop="perEmplRate">
-						      	<el-input type="text" placeholder="" v-model="formdata.perEmplRate"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perEmplRate"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.perEmplFixed"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perEmplFixed"></el-input>
 						  	</el-form-item>
 						  	<el-form-item label="个人支付" prop="comEmplRate">
-						      	<el-input type="text" placeholder="" v-model="formdata.comEmplRate"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEmplRate"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.comEmplFixed"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEmplFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
@@ -78,14 +78,14 @@
 						<div class="title">生育保险系数</div>
 						<div class="inner">
 							<el-form-item label="个人支付" prop="perMateRate">
-						      	<el-input type="text" placeholder="" v-model="formdata.perMateRate"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perMateRate"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.perMateFixed"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perMateFixed"></el-input>
 						  	</el-form-item>
 						  	<el-form-item label="个人支付" prop="comMateRate">
-						      	<el-input type="text" placeholder="" v-model="formdata.comMateRate"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMateRate"></el-input>
 								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.comMateFixed"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMateFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
@@ -93,14 +93,14 @@
 						<div class="title">住房公积金系数</div>
 						<div class="inner">
 							<el-form-item label="个人支付" prop="perHousRate">
-						      	<el-input type="text" placeholder="" v-model="formdata.perHousRate"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perHousRate"></el-input>
 							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.perHousFixed"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perHousFixed"></el-input>
 						  	</el-form-item>
 						  	<el-form-item label="个人支付" prop="comHousRate">
-						      	<el-input type="text" placeholder="" v-model="formdata.comHousRate"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comHousRate"></el-input>
 						    	<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="formdata.comHousFixed"></el-input>
+						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comHousFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
@@ -116,7 +116,7 @@ const baseURL = 'ifdp'
 export default {
 	data() {
 		return {
-			formdata: {
+			insurancePayTemplateData: {
 				applyNo: "",
 				applyName: '',
 				remark: '',
@@ -197,26 +197,30 @@ export default {
 		 	self.$refs[formName].validate((valid) => {
 	          	if (valid) {
 	          		let params = {
-						applyName: self.formdata.applyName,
-						remark: self.formdata.remark,
-						perEndmRate: self.formdata.perEndmRate,
-						perEndmFixed: self.formdata.perEndmFixed,
-						comEndmRate: self.formdata.comEndmRate,
-						comEndmFixed: self.formdata.comEndmFixed,
+						applyName: self.insurancePayTemplateData.applyName,
+						remark: self.insurancePayTemplateData.remark,
+						perEndmRate: self.insurancePayTemplateData.perEndmRate,
+						perEndmFixed: self.insurancePayTemplateData.perEndmFixed,
+						comEndmRate: self.insurancePayTemplateData.comEndmRate,
+						comEndmFixed: self.insurancePayTemplateData.comEndmFixed,
 	          		};
-	          		self.$axios.post(baseURL+'/addInsurancePayTemplate', params)
-	          			.then(function(res) {
-	          				console.log(res)
-	          				self.$message({ message: '福利缴纳系数新增成功', type: 'success' });
-	          			}).catch(function(err) {
-	          				self.$message.error('新增失败');
-	          			})
-	           	 	
+	          		//新增福利系数模版
+	          		self.addInsurancePayTemplate(params);
 	          	} else {
 	            	self.$message.error('新增失败');
 	            	return false;
 	          	}
 	        });
+		},
+		addInsurancePayTemplate(params) {
+			const self = this;
+			self.$axios.post(baseURL+'/addInsurancePayTemplate', params)
+  			.then(function(res) {
+  				console.log(res)
+  				self.$message({ message: '福利缴纳系数新增成功', type: 'success' });
+  			}).catch(function(err) {
+  				self.$message.error('新增失败');
+  			})
 		}
 	}
 }

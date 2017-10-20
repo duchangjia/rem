@@ -27,7 +27,7 @@ public class BillInfoControllerTest {
 
     @Before
     public void setUp() {
-	
+
 	mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
@@ -40,14 +40,10 @@ public class BillInfoControllerTest {
 
 	String result = mockMvc
 		.perform(post("/organBillInfo/addBillInf")
-		.param("organNo", "0002")
-		.param("organName", "橙色魔方")
-		.param("organTaxNo", "6666")
-		.param("organTel", "12306")
-		.param("organAcct", "8888")
-		.param("organAcctname", "橙色")
-		.param("organAddr", "福田")
-		.contentType(MediaType.APPLICATION_JSON_UTF8))
+			.param("organNo", "0002").param("organName", "橙色魔方")
+			.param("organTaxNo", "6666").param("organTel", "12306").param("organAcct", "8888")
+			.param("organAcctname", "橙色").param("organAddr", "福田")
+			.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
 	System.out.println(result);
@@ -62,14 +58,14 @@ public class BillInfoControllerTest {
 
 	String result = mockMvc
 		.perform(put("/organBillInfo/modBillInf")
-		.param("organNo", "0002")
-		.param("organName", "橙色魔方方方")
-		.param("organTaxNo", "0000")
-		.param("organTel", "0000")
-		.param("organAcct", "0000")
-		.param("organAcctname", "魔方")
-		.param("organAddr", "深圳")
-		.contentType(MediaType.APPLICATION_JSON_UTF8))
+			.param("organNo", "0002")
+			.param("organName", "橙色魔方方方")
+			.param("organTaxNo", "0000")
+			.param("organTel", "0000")
+			.param("organAcct", "0000")
+			.param("organAcctname", "魔方")
+			.param("organAddr", "深圳")
+			.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
 	System.out.println(result);
@@ -84,7 +80,7 @@ public class BillInfoControllerTest {
 
 	String result = mockMvc
 		.perform(get("/organBillInfo/queryBillInfoList")
-		.contentType(MediaType.APPLICATION_JSON_UTF8))
+			.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 	System.out.println(result);
     }
@@ -97,8 +93,8 @@ public class BillInfoControllerTest {
     public void queryBillInfoByName() throws Exception {
 
 	String result = mockMvc
-		.perform(get("/organBillInfo/queryBillInfoByName/杭州")
-		.contentType(MediaType.APPLICATION_JSON_UTF8))
+		.perform(get("/organBillInfo/queryBillInfoByName/")
+			.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
 
 	System.out.println(result);
@@ -112,9 +108,9 @@ public class BillInfoControllerTest {
     public void queryBillInfDtl() throws Exception {
 	String result = mockMvc
 		.perform(get("/organBillInfo/queryBillInfDtl/10001")
-		.contentType(MediaType.APPLICATION_JSON_UTF8))
+			.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
-	
+
 	System.out.println(result);
     }
 }

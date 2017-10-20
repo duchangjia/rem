@@ -85,7 +85,11 @@ public class RoleServiceImpl implements RoleService {
 
 		// 添加角色时判断角色是否存在
 		Map<String, String> param = new HashMap<String, String>();
+<<<<<<< HEAD
 		param.put("uid", sysRolePO.getuId());
+=======
+		param.put("uId", sysRolePO.getUid());
+>>>>>>> 490763ad5853edb8a8fc718d3d447cd0c1681518
 		param.put("roleNo", sysRolePO.getRoleNo());
 
 		if (sysRoleMapper.queryRoleByRoleNo(param) != null) {
@@ -94,7 +98,7 @@ public class RoleServiceImpl implements RoleService {
 		}
 
 		// 添加角色
-		sysRolePO.setuId(sysRolePO.getuId());
+		sysRolePO.setUid(sysRolePO.getUid());
 		sysRolePO.setRoleNo(sysRolePO.getRoleNo());
 		sysRolePO.setRoleName(sysRolePO.getRoleName());
 		sysRolePO.setStatus(sysRolePO.getStatus());
@@ -108,7 +112,7 @@ public class RoleServiceImpl implements RoleService {
 
 		// 分配权限
 		for (SysBsnPO func : sysRolePO.getRoleFuncSet()) {
-			if (StringUtils.isBlank(func.getuId()) || StringUtils.isBlank(func.getBsnNo())) {
+			if (StringUtils.isBlank(func.getUid()) || StringUtils.isBlank(func.getBsnNo())) {
 				logger.error("this SysBsnPO is null");
 				throw new RuntimeException("没有给角色分配的业务功能!!!");
 			}
@@ -160,7 +164,11 @@ public class RoleServiceImpl implements RoleService {
 
 		// 查询对应的角色是否存在
 		Map<String, String> param = new HashMap<String, String>();
+<<<<<<< HEAD
 		param.put("uid", sysRolePO.getuId());
+=======
+		param.put("uId", sysRolePO.getUid());
+>>>>>>> 490763ad5853edb8a8fc718d3d447cd0c1681518
 		param.put("roleNo", sysRolePO.getRoleNo());
 		SysRolePO exSysRolePO = sysRoleMapper.queryRoleByRoleNo(param);
 
@@ -170,7 +178,7 @@ public class RoleServiceImpl implements RoleService {
 		}
 
 		for (SysBsnPO func : sysRolePO.getRoleFuncSet()) {
-			if (StringUtils.isBlank(func.getuId()) || StringUtils.isBlank(func.getBsnNo())) {
+			if (StringUtils.isBlank(func.getUid()) || StringUtils.isBlank(func.getBsnNo())) {
 				logger.error("this SysBsnPO is null");
 				throw new RuntimeException("菜单的租户id,系统编号sysNo为空了");
 			}
@@ -221,7 +229,11 @@ public class RoleServiceImpl implements RoleService {
 			throw new RuntimeException("修改的角色不存在");
 		}
 
+<<<<<<< HEAD
 		sysRolePO.setuId(uid);
+=======
+		sysRolePO.setUid("0001");
+>>>>>>> 490763ad5853edb8a8fc718d3d447cd0c1681518
 		sysRolePO.setUpdatedBy("dj");
 
 		sysRoleMapper.modifyRoleInfo(sysRolePO);

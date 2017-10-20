@@ -32,6 +32,20 @@
     export default {
         data() {
             return {
+                test222:[
+                    {
+                        color:'orange',
+                        content: 1
+                    },
+                    {
+                        color:'yellow',
+                        content: 1
+                    },
+                    {
+                        color:'gold',
+                        content: 1
+                    }
+                ],
                 table: {
                     th:['公司名称', '纳税人识别号', '银行账户', '账户名称', '操作'],
                     td:[
@@ -164,10 +178,10 @@
                         background: #F4F4F4;
                         box-shadow: inset 0 1px 0 0 #EEEEEE;
                     td
-                        flex: 2;
+                        flex: 2
                         text-align: center;
                     td:nth-child(1)
-                        flex:3;
+                        flex:3
                     td:nth-child(3)
                         flex 3
                 .el-icon-delete2
@@ -201,4 +215,8 @@
             .el-pagination__editor:focus
                 outline none
                 border-color #ff9900
+        _:-ms-lang(x), td
+                display: flex;
+                align-items center
+                justify-content center
 </style>

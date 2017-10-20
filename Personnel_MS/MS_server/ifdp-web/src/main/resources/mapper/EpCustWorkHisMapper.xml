@@ -5,7 +5,7 @@
 
 <mapper namespace="com.omcube.model.mapper.EpCustWorkHisMapper">
 	<resultMap type="com.omcube.model.po.EpCustWorkHisPO" id="EpCustWorkHisMap">
-		<id column="UID" property="uId"></id>
+		<id column="UID" property="uid"></id>
 		<id column="USER_NO" property="userNo"></id>
 		<id column="WORKHIS_ID" property="workHisId"></id>
 		<result column="START_TIME" property="startTime"></result>
@@ -18,31 +18,31 @@
 		<result column="CREATED_DATE" property="createdDate"></result>
 		<result column="UPDATED_BY" property="updatedBy"></result>
 		<result column="UPDATED_DATE" property="updatedDate"></result>
-	</resultMap> 
-	
+	</resultMap>
+
 	<!-- 新增员工工作经历信息 -->
 	<insert id="insertEpCustWorkHis" parameterType="com.omcube.model.po.EpCustWorkHisPO">
-	     insert into 
-	     EP_CUST_WORKHIS
-	     values(
-	     #{uId},#{userNo},#{workHisId},
-	     #{startTime},#{endTime},#{company},
-	     #{post1},#{duty},#{desc},
-	     #{createdBy},now(),#{updatedBy},
-	     now() 
-	     )
+		insert into
+		EP_CUST_WORKHIS
+		values(
+		#{uid},#{userNo},#{workHisId},
+		#{startTime},#{endTime},#{company},
+		#{post1},#{duty},#{desc},
+		#{createdBy},now(),#{updatedBy},
+		now()
+		)
 	</insert>
-	
+
 	<!-- 根据主键（用户编号，序号）删除员工工作经历信息 -->
 	<delete id="deleteEpCustWorkHis" parameterType="java.lang.String">
-	     delete from 
-	     EP_CUST_WORKHIS 
-	     where 
-	     UID=#{uId} 
-	     and 
-	     USER_NO=#{userNo} 
-	     and 
-	     WORKHIS_ID=#{workHisId}
+		delete from
+		EP_CUST_WORKHIS
+		where
+		UID=#{uid}
+		and
+		USER_NO=#{userNo}
+		and
+		WORKHIS_ID=#{workHisId}
 	</delete>
-	
+
 </mapper>         

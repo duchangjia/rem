@@ -49,4 +49,20 @@ public class PayBaseInfoServiceImpl implements PayBaseInfoService {
     public void deletePayBaseInfo(Map<String, String> params) {
 	payBaseInfoMapper.deletePayBaseInfo(params);
     }
+
+    @Override
+    public long queryPayBaseInfoCount(String uid) {
+	return payBaseInfoMapper.queryPayBaseInfoCount(uid);
+    }
+
+    @Override
+    public List<EpPayBaseInfoPO> queryPayBaseInfoLimit(long startNum, long size, String uid) {
+	return payBaseInfoMapper.queryPayBaseInfoLimit(startNum, size, uid);
+    }
+
+    @Override
+    public void addPayBaseInfoList(List<EpPayBaseInfoPO> payBaseInfoList) {
+	payBaseInfoMapper.addPayBaseInfoList(payBaseInfoList);
+    }
+
 }

@@ -3,6 +3,7 @@ package com.omcube.web.controller;
 import java.text.ParseException;
 import java.util.List;
 
+import org.apache.commons.digester.annotations.rules.AttributeCallParam;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.druid.util.StringUtils;
@@ -56,9 +58,9 @@ public class OrganBillInfoController {
 
 	//从session 获取uid  userNo 并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uid = sysLoginCtrl.getuId();
+	String uid = sysLoginCtrl.getUid();
 	String userNo = sysLoginCtrl.getUserNo();
-	billInfo.setuId(uid);
+	billInfo.setUid(uid);
 	billInfo.setCreatedBy(userNo);
 	billInfo.setUpdatedBy(userNo);
 
@@ -69,13 +71,13 @@ public class OrganBillInfoController {
 	}
 
 	//校验是否重复开票
-	if (billInfoService.queryBillInfDtl(billInfo.getuId(),billInfo.getOrganNo()) != null) {
+	if (billInfoService.queryBillInfDtl(billInfo.getUid(),billInfo.getOrganNo()) != null) {
 	    logger.error("the organ already exists");
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the billInfo already exists");
 	}
 
 	billInfoService.addBillInf(billInfo);
-	logger.info("uid:" + billInfo.getuId() + "organName" + billInfo.getOrganName() + "新增公司信息成功");
+	logger.info("uid:" + billInfo.getUid() + "organName" + billInfo.getOrganName() + "新增公司信息成功");
 	return JSONResultUtil.setSuccess();
     }
 
@@ -90,11 +92,11 @@ public class OrganBillInfoController {
 
 	//从session 获取uid  userNo 并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	String userNo = sysLoginCtrl.getUserNo();
-	billInfo.setuId(uId);
+	billInfo.setUid(uId);
 	billInfo.setUpdatedBy(userNo);
-	
+
 	if (billInfo != null) {
 	    billInfoService.modBillInf(billInfo);
 	}
@@ -117,19 +119,19 @@ public class OrganBillInfoController {
 
 	//从session 获取uid  并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
-		
+	String uId = sysLoginCtrl.getUid();
+
 	if (StringUtils.isEmpty(uId)) {
 	    logger.error("the request param uId is null");
 	    return JSONResultUtil.setError("ErrorCodeConstantUtil.REQUEST_INVALID_ERR",
 		    "the request param uId is null");
 	}
-	
+
 	//分页
 	pageNum = pageNum == null ? 1 : pageNum;
 	pageSize = pageSize == null ? 5 : pageSize;
 	PageHelper.startPage(pageNum, pageSize, true);
-	
+
 	List<OrganBillInfoPO> billInfoPOList = billInfoService.queryBillInfoList(uId);
 	PageInfo<OrganBillInfoPO> pageInfo = new PageInfo<OrganBillInfoPO>(billInfoPOList);
 
@@ -152,17 +154,23 @@ public class OrganBillInfoController {
 
 	//从session 获取uid  并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
-	
+	String uId = sysLoginCtrl.getUid();
+
 	//分页
 	pageNum = pageNum == null ? 1 : pageNum;
 	pageSize = pageSize == null ? 5 : pageSize;
 	PageHelper.startPage(pageNum, pageSize, true);
-	
-	List<OrganBillInfoPO> billInfoPOList = billInfoService.queryBillInfoByName(uId,organName);
+
+	List<OrganBillInfoPO> billInfoPOList = billInfoService.queryBillInfoByName(uId, organName);
 	PageInfo<OrganBillInfoPO> pageInfo = new PageInfo<OrganBillInfoPO>(billInfoPOList);
 
 	return JSONResultUtil.setSuccess(pageInfo);
+    }
+
+    //organName参数为空
+    @GetMapping(value = "/queryBillInfoByName")
+    public Object queryBillInfoByName(Integer pageNum, Integer pageSize) {
+	return queryBillInfoByName(null, pageNum, pageSize);
     }
 
     /**
@@ -177,10 +185,9 @@ public class OrganBillInfoController {
 
 	//从session 获取uid  并赋值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
-	OrganBillInfoPO billInfoPO = billInfoService.queryBillInfDtl(uId,organNo);
+	String uId = sysLoginCtrl.getUid();
+	OrganBillInfoPO billInfoPO = billInfoService.queryBillInfDtl(uId, organNo);
 	return JSONResultUtil.setSuccess(billInfoPO);
     }
 
-    
 }

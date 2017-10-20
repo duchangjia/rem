@@ -258,4 +258,9 @@
     .content .el-icon-delete2{
         color: #ff9900;
     }
+    _:-ms-lang(x), td {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 </style>

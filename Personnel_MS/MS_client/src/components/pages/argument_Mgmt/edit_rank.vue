@@ -4,35 +4,35 @@
 		<div class="content">
 			<div class="title">
 				<span class="title-text">职级薪酬标准修改</span>
-				<el-button type="primary" class="conserve" @click="save('formdata')">保存</el-button>
+				<el-button type="primary" class="conserve" @click="save('cParmDetal')">保存</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="120px">
-					<el-form-item label="模版编号" prop="modelNo">
-					    <el-input v-model="formdata.modelNo" :disabled="true"></el-input>
+				<el-form ref="cParmDetal" :rules="rules" :model="cParmDetal" label-width="120px">
+					<el-form-item label="模版编号" prop="applyNo">
+					    <el-input v-model="cParmDetal.applyNo" :disabled="true"></el-input>
 				  	</el-form-item>
 					<el-form-item label="公司名称" prop="compName">
-					    <el-input v-model="formdata.compName" :disabled="true"></el-input>
+					    <el-input v-model="cParmDetal.compName" :disabled="true"></el-input>
 				  	</el-form-item>
-					<el-form-item label="模版名称" prop="modelName">
-					    <el-input v-model="formdata.modelName" placeholder=""></el-input>
+					<el-form-item label="模版名称" prop="applyName">
+					    <el-input v-model="cParmDetal.applyName" placeholder=""></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="职级" prop="ranks">
-				  		<el-select v-model="formdata.ranks">
-							<el-option v-for="item in ranksList" :key="item" :value="item"></el-option>
+				  	<el-form-item label="职级" prop="rank">
+				  		<el-select v-model="cParmDetal.rank">
+							<el-option v-for="item in rankList" :key="item" :value="item"></el-option>
 						</el-select>
 				  	</el-form-item>
-				  	<el-form-item label="薪资标准下线" prop="min_level">
-					    <el-input v-model="formdata.min_level"></el-input>
+				  	<el-form-item label="薪资标准下线" prop="salaryFloor">
+					    <el-input v-model="cParmDetal.salaryFloor"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="薪资标准上线" prop="max_level">
-					    <el-input v-model="formdata.max_level"></el-input>
+				  	<el-form-item label="薪资标准上线" prop="salaryTop">
+					    <el-input v-model="cParmDetal.salaryTop"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="出差标准（人/天）">
-					    <el-input v-model="formdata.busStandard"></el-input>
+					    <el-input v-model="cParmDetal.businessStandard"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="备注">
-					    <el-input v-model="formdata.beiz"></el-input>
+					    <el-input v-model="cParmDetal.remark"></el-input>
 				  	</el-form-item>
 				</el-form>
 			</div>
@@ -42,44 +42,45 @@
 
 <script>
 import current from '../../common/current_position.vue'
+const baseURL = 'ifdp'
 export default {
 	data() {
-		var checkMax_level = (rule, value, callback) => {
+		var checkSalaryTop = (rule, value, callback) => {
 	        if (value === '') {
 	          	callback(new Error('请输入薪资标准上线'));
-	        } else if (Number(value) <= Number(this.formdata.min_level)) {
+	        } else if (Number(value) <= Number(this.cParmDetal.salaryFloor)) {
 	          	callback(new Error('上限值必须大于下限值!'));
 	        } else {
 	          	callback();
 	        }
       	};
 		return {
-			formdata: {
-				modelNo: '',
-				compName: '',
-				modelName: "",
-				ranks: '',
-				min_level: '5000',
-				max_level: '10000',
-				busStandard: '',
-				beiz: ""
+			cParmDetal: {
+				applyNo: "",
+				compName: "",
+				applyName: "",
+				rank: "",
+				salaryFloor: "",
+				salaryTop: "",
+				businessStandard: "",
+				remark: ""
 			},
-			ranksList: ['B10-高级开发软件工程师','B5-中级开发软件工程师','B5-UI'],
+			rankList: ['B10-高级开发软件工程师','B5-中级开发软件工程师','B5-UI'],
 			rules: {
 //				compName: [
 //					{ required: true, message: '公司名称不能为空', trigger: 'blur' }
 //				],
-				modelName: [
+				applyName: [
 					{ required: true, message: '模版名称不能为空', trigger: 'blur' }
 				],
-				ranks: [
+				rank: [
 					{ required: true, message: '职级不能为空', trigger: 'blur' }
 				],
-				min_level: [
+				salaryFloor: [
 					{ required: true, message: '薪资标准下线不能为空', trigger: 'blur' }
 				],
-				max_level: [
-					{ required: true, validator: checkMax_level, trigger: 'blur' }
+				salaryTop: [
+					{ required: true, validator: checkSalaryTop, trigger: 'blur' }
 				]
 			}
 		}
@@ -87,20 +88,58 @@ export default {
 	components: {
 		current
 	},
+	created() {
+		const self = this;
+		let applyNo = self.$route.params.applyNo;
+		let params = {
+			applyNo: applyNo
+		}
+		self.queryCParmDtl(params);
+	},
 	methods: {
 		save(formName) {
+			const self = this;
 		 	this.$refs[formName].validate((valid) => {
 	          	if (valid) {
-	          		//操作
-	           	 	this.$message({
-			          	message: '税率组新增成功',
-			          	type: 'success'
-			        });
+	          		let params = {
+	          			applyNo: self.cParmDetal.applyNo,
+						compName: self.cParmDetal.compName,
+						applyName: self.cParmDetal.applyName,
+						rank: self.cParmDetal.rank,
+						salaryFloor: self.cParmDetal.salaryFloor,
+						salaryTop: self.cParmDetal.salaryTop,
+						businessStandard: self.cParmDetal.businessStandard,
+						remark: self.cParmDetal.remark
+	          		}
+	          		self.modCparm(params);
+	           	 	
 	          	} else {
-	            	this.$message.error('新增失败');
+	            	this.$message.error('修改失败');
 	            	return false;
 	          	}
 	        });
+		},
+		//查询税率组
+		queryCParmDtl(params) {
+			const self = this;
+			self.$axios.get(baseURL+'/queryCParmDtl',{params: params})
+			.then((res) => {
+				console.log(res);
+				self.cParmDetal = res.data.data;
+			}).catch((err) => {
+				console.log(err);
+			})
+		},
+		//修改税率组
+		modCparm(params) {
+			const self = this;
+			self.$axios.put(baseURL+'/modCparm', params)
+  			.then((res) => {
+  				console.log(res);
+  				self.$message({ message: '税率组修改成功', type: 'success' });
+  			}).catch((err) => {
+  				console.log(err);
+  			})
 		}
 	}
 }

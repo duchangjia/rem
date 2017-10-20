@@ -31,7 +31,7 @@
 			IFDP_SYS_ORGAN_BASE
 		where
 			organ_no = #{organNo} 
-		and uid = #{uId}
+		and uid = #{uid}
 	 
 	</select>
 
@@ -115,7 +115,7 @@
 				)
 			values
 				(
-					#{uId},#{userNo},#{userName},#{certNo},#{mobileTEL},#{email},
+					#{uid},#{userNo},#{userName},#{certNo},#{mobileTEL},#{email},
 					#{organNo},#{status},#{password},#{pwdLevel},#{remark},#{createdBy},
 					date_format(now(),'%y-%m-%d'),#{updatedBy},date_format(now(),'%y-%m-%d')
 				)
@@ -168,7 +168,7 @@
 	    		parent_no,organ_level,organ_descr,org_path,created_by,
 	    		created_date,updated_by,updated_date) 
 	    	values(
-	    		#{uId},#{organNo},#{organName},#{organType},#{status},
+	    		#{uid},#{organNo},#{organName},#{organType},#{status},
 	    		#{parentNo},#{organLevel},#{organDescr},#{organPath},#{createdBy},
 	    		date_format(now(),'%y-%m-%d'),#{updatedBy},date_format(now(),'%y-%m-%d')
 	    	)   
@@ -179,7 +179,7 @@
 	    insert into SYS_ORGAN_DETAIL(uid,organ_no,org_reg_addr,organ_con_addr,organ_man,organ_tel,
 	    	organ_email,organ_mge_id,organ_mge_name,organ_descr,created_by,created_date,updated_by,updated_date) 
 	    	values(
-	    		#{uId},#{organNo},#{orgRegAddr},#{organConAddr},#{organMan},#{organTel},#{organEmail},
+	    		#{uid},#{organNo},#{orgRegAddr},#{organConAddr},#{organMan},#{organTel},#{organEmail},
 	    		#{organMgeId},#{organMgeName},#{organDescr},#{createdBy},date_format(now(),'%y-%m-%d'),
 	    		#{updatedBy},date_format(now(),'%y-%m-%d')
 	    	)

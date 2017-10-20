@@ -3,28 +3,29 @@
         <current yiji="人事事务" erji="人事合同" sanji="合同详情">
         </current>
         <div class="content-wrapper">
+            <!-- <el-button type="primary" class="toolBtn">保存</el-button> -->
             <el-tabs v-model="activeName" @tab-click="handleTabClick">
                 <el-tab-pane label="合同基本情况" name="basicPactMsg">
                     <div class="add-wrapper">
                         <el-form :inline="true" :model="basicPactMsg" :rules="rules" ref="basicPactMsg" :label-position="labelPosition" label-width="110px">
                             <el-col :span="24">
                                 <el-form-item label="合同编号" prop="pactNo">
-                                    <el-input v-model="basicPactMsg.pactNo"></el-input>
+                                    <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="纸质合同编号" prop="paperPactNo">
-                                    <el-input v-model="basicPactMsg.paperPactNo"></el-input>
+                                    <el-input v-model="basicPactMsg.paperPactNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="合同名称" prop="pactName">
-                                    <el-input v-model="basicPactMsg.pactName"></el-input>
+                                    <el-input v-model="basicPactMsg.pactName" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="公司名称" prop="organName">
-                                    <el-select v-model="basicPactMsg.organName">
+                                    <el-select v-model="basicPactMsg.organName" :disabled="true">
                                         <el-option label="总公司" value="1"></el-option>
                                         <el-option label="深圳分公司" value="0"></el-option>
                                     </el-select>
@@ -32,7 +33,7 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="部门名称" prop="derpName">
-                                    <el-select v-model="basicPactMsg.derpName">
+                                    <el-select v-model="basicPactMsg.derpName" :disabled="true">
                                         <el-option label="财务部" value="1"></el-option>
                                         <el-option label="技术部" value="0"></el-option>
                                     </el-select>
@@ -40,17 +41,17 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="工号" prop="userNo">
-                                    <el-input v-model="basicPactMsg.userNo"></el-input>
+                                    <el-input v-model="basicPactMsg.userNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="员工姓名" prop="custName">
-                                    <el-input v-model="basicPactMsg.custName"></el-input>
+                                    <el-input v-model="basicPactMsg.custName" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="性别" prop="sex">
-                                    <el-select v-model="basicPactMsg.sex">
+                                    <el-select v-model="basicPactMsg.sex" :disabled="true">
                                         <el-option label="男" value="1"></el-option>
                                         <el-option label="女" value="0"></el-option>
                                     </el-select>
@@ -58,12 +59,12 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="身份证" prop="cert">
-                                    <el-input v-model="basicPactMsg.cert"></el-input>
+                                    <el-input v-model="basicPactMsg.cert" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="合同类型" prop="pactType">
-                                    <el-select v-model="basicPactMsg.pactType">
+                                    <el-select v-model="basicPactMsg.pactType" :disabled="true">
                                         <el-option label="劳动合同" value="1"></el-option>
                                         <el-option label="保密协议" value="0"></el-option>
                                     </el-select>
@@ -71,22 +72,22 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="签订日期" prop="signTime">
-                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.signTime" style="width: 100%;"></el-date-picker>
+                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.signTime" :disabled="true" style="width: 100%;"></el-date-picker>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="合同开始日期" prop="pactStartTime">
-                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStartTime" style="width: 100%;"></el-date-picker>
+                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStartTime" :disabled="true" style="width: 100%;"></el-date-picker>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="合同结束日期" prop="pactEndTime">
-                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactEndTime" style="width: 100%;"></el-date-picker>
+                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactEndTime" :disabled="true" style="width: 100%;"></el-date-picker>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="合同状态" prop="pactStatus">
-                                    <el-select v-model="basicPactMsg.pactStatus">
+                                    <el-select v-model="basicPactMsg.pactStatus" :disabled="true">
                                         <el-option label="已生效" value="1"></el-option>
                                         <el-option label="未生效" value="0"></el-option>
                                     </el-select>
@@ -94,12 +95,12 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="合同年限" prop="pactExpires">
-                                    <el-input v-model="basicPactMsg.pactExpires"></el-input>
+                                    <el-input v-model="basicPactMsg.pactExpires" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="终止日期" prop="pactStopTime">
-                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStopTime" style="width: 100%;"></el-date-picker>
+                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStopTime" :disabled="true" style="width: 100%;"></el-date-picker>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -112,12 +113,12 @@
                             </el-col>
                             <el-col :span="24">
                                 <el-form-item label="终止原因" prop="stopReason">
-                                    <el-input type="textarea" v-model="basicPactMsg.stopReason"></el-input>
+                                    <el-input type="textarea" v-model="basicPactMsg.stopReason" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="24">
                                 <el-form-item label="备注" prop="remark">
-                                    <el-input type="textarea" v-model="basicPactMsg.remark"></el-input>
+                                    <el-input type="textarea" v-model="basicPactMsg.remark" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="24">
@@ -132,7 +133,7 @@
                 <el-tab-pane label="合同变更情况" name="changePactMsg">
                     <div class="subtitlebar">
                         <span class="title-text">合同变更情况</span>
-                        <el-button type="text" class="addBtn">新增</el-button>
+                        <el-button type="text" @click="handleAddPChange" class="addBtn">新增</el-button>
                     </div>
                     <div class="add-wrapper">
                         <el-table stripe :data="PChangeListInfo" border>
@@ -168,7 +169,7 @@
                 <el-tab-pane label="合同续签情况" name="renewPactMsg">
                     <div class="subtitlebar">
                         <span class="title-text">合同续签情况</span>
-                        <el-button type="text" class="addBtn">新增</el-button>
+                        <el-button type="text" @click="handleAddPRenew" class="addBtn">新增</el-button>
                     </div>
                     <div class="add-wrapper">
                         <el-table stripe :data="PRenewListInfo" border>
@@ -200,199 +201,177 @@
                         </el-table>
                     </div>
                 </el-tab-pane>
+
             </el-tabs>
         </div>
     </div>
 </template>
 
 <script type='text/ecmascript-6'>
-import current from '../../common/current_position.vue'
+import current from "../../common/current_position.vue";
 export default {
-    data() {
-        return {
-            activeName: '',
-            labelPosition: 'right',
-            pactNo: '',
-            basicPactMsg: {},
-            pageIndex: 1,
-            pageRows: 7,
-            totalRows: 20,
-            PChangeListInfo: [],
-            PRenewListInfo: [],
-            checked: '',
-            rules: {
-                pactType: [
-                    { required: true, message: '请选择合同类型', trigger: 'blur' },
-                ],
-                signTime: [
-                    { required: true, message: '请选择签订日期', trigger: 'blur' },
-                ],
-                pactStartTime: [
-                    { required: true, message: '请选择合同开始日期', trigger: 'blur' },
-                ],
-                pactEndTime: [
-                    { required: true, message: '请选择合同结束日期', trigger: 'blur' },
-                ],
-                pactStatus: [
-                    { required: true, message: '请选择合同状态', trigger: 'blur' },
-                ]
-            }
-        };
-    },
-    components: {
-        current,
-    },
-    created() {
-        this.activeName = "basicPactMsg";
-        this.pactNo = this.$route.params.pactNo;
-        // 初始查合同基本详情
-        this.getPactDtl(this.pactNo);
-    },
-    methods: {
-        handleTabClick(tab, event) {
-            console.log(tab.name);
-            if (tab.name == 'changePactMsg') this.getPChangeList();
-            if (tab.name == 'renewPactMsg') this.getPRenewList();
-            if (tab.name == 'basicPactMsg') this.getPactDtl(this.pactNo);
-        },
-        getPactDtl(pactNo) {
-            const self = this;
-            let params = {
-                "pactNo": pactNo
-            }
-            self.$axios.get('ifdp/querPactDtl', { params: params })
-                .then((res) => {
-                    console.log(res);
-                    self.basicPactMsg = res.data.data;
-                    self.checked = res.data.data.autoupFlag;
-                }).catch(() => {
-                    console.log('error');
-                })
-        },
-        getPChangeList() {
-            const self = this;
-            let params = {
-                "pageIndex": self.pageIndex,
-                "pageRows": self.pageRows,
-                "pactNo": this.pactNo,
-                "changeId": ''
-            }
-            self.$axios.get('ifdp/queryPChangeList', { params: params })
-                .then((res) => {
-                    self.PChangeListInfo = res.data.data.PChangeListArray;
-                }).catch(() => {
-                    console.log('error');
-                })
-        },
-        getPRenewList() {
-            const self = this;
-            let params = {
-                "pageIndex": self.pageIndex,
-                "pageRows": self.pageRows,
-                "pactNo": this.pactNo,
-                "renewId": ''
-            }
-            self.$axios.get('ifdp/queryPRenewList', { params: params })
-                .then((res) => {
-                    self.PRenewListInfo = res.data.data.PRenewListArray;
-                }).catch(() => {
-                    console.log('error');
-                })
-
-        },
-        changeTypeFormatter(row, column) {
-            return row.changeType == 1 ? '条款变更' : row.changeType == 0 ? '啥啥变更' : '异常';
-        },
-        renewTypeFormatter(row, column) {
-            return row.changeType == 1 ? '合同延期' : row.changeType == 0 ? '啥啥续签' : '异常';
-        },
-        handleEdit(index, row) {
-
-        },
-        handleDelete(index, row) {
-
-        },
-        handlePChangeDetail(index, row) {
-
-        },
-        handlePRenewDetail(index, row) {
-            
-        }
+  data() {
+    return {
+      activeName: "",
+      labelPosition: "right",
+      pactNo: "",
+      basicPactMsg: {},
+      pageIndex: 1,
+      pageRows: 7,
+      totalRows: 20,
+      PChangeListInfo: [],
+      PRenewListInfo: [],
+      checked: "",
+      rules: {
+        pactType: [{ required: true, message: "请选择合同类型", trigger: "blur" }],
+        signTime: [{ required: true, message: "请选择签订日期", trigger: "blur" }],
+        pactStartTime: [
+          { required: true, message: "请选择合同开始日期", trigger: "blur" }
+        ],
+        pactEndTime: [
+          { required: true, message: "请选择合同结束日期", trigger: "blur" }
+        ],
+        pactStatus: [{ required: true, message: "请选择合同状态", trigger: "blur" }]
+      }
+    };
+  },
+  components: {
+    current
+  },
+  created() {
+    this.pactNo = this.$route.params.pactNo;
+    if (this.$route.params.activeTab) {
+      this.activeName = this.$route.params.activeTab;
+      if (this.activeName == "changePactMsg") this.getPChangeList();
+      if (this.activeName == "renewPactMsg") this.getPRenewList();
+    } else {
+      this.activeName = "basicPactMsg";
+      this.getPactDtl(this.pactNo); // 初始查合同基本详情
     }
-}
+  },
+  methods: {
+    handleTabClick(tab, event) {
+      console.log(tab.name);
+      this.activeName = tab.name;
+      if (tab.name == "changePactMsg") this.getPChangeList();
+      if (tab.name == "renewPactMsg") this.getPRenewList();
+      if (tab.name == "basicPactMsg") this.getPactDtl(this.pactNo);
+    },
+    getPactDtl(pactNo) {
+      const self = this;
+      let params = {
+        pactNo: pactNo
+      };
+      self.$axios
+        .get("ifdp/querPactDtl", { params: params })
+        .then(res => {
+          console.log(res);
+          self.basicPactMsg = res.data.data;
+          self.checked = res.data.data.autoupFlag;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+    getPChangeList() {
+      const self = this;
+      let params = {
+        pageIndex: self.pageIndex,
+        pageRows: self.pageRows,
+        pactNo: this.pactNo,
+        changeId: ""
+      };
+      self.$axios
+        .get("ifdp/queryPChangeList", { params: params })
+        .then(res => {
+          self.PChangeListInfo = res.data.data.PChangeListArray;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+    getPRenewList() {
+      const self = this;
+      let params = {
+        pageIndex: self.pageIndex,
+        pageRows: self.pageRows,
+        pactNo: this.pactNo,
+        renewId: ""
+      };
+      self.$axios
+        .get("ifdp/queryPRenewList", { params: params })
+        .then(res => {
+          self.PRenewListInfo = res.data.data.PRenewListArray;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+    changeTypeFormatter(row, column) {
+      return row.changeType == 1 ? "条款变更" : row.changeType == 0 ? "啥啥变更" : "异常";
+    },
+    renewTypeFormatter(row, column) {
+      return row.renewType == 1 ? "合同延期" : row.renewType == 0 ? "啥啥续签" : "异常";
+    },
+    handleEdit(index, row) {
+      if (this.activeName == "changePactMsg")
+        this.$router.push({
+          name: "edit_pactChange",
+          params: {
+            pactNo: row.pactNo,
+            changeId: row.changeId
+          }
+        });
+      if (this.activeName == "renewPactMsg")
+        this.$router.push({
+          name: "edit_pactRenew",
+          params: {
+            pactNo: row.pactNo,
+            renewId: row.renewId
+          }
+        });
+    },
+    handleDelete(index, row) {},
+    handleAddPChange() {
+      this.$router.push({
+        name: "add_pactChange",
+        params: {
+          pactNo: this.pactNo
+        }
+      });
+    },
+    handleAddPRenew() {
+      this.$router.push({
+        name: "add_pactRenew",
+        params: {
+          pactNo: this.pactNo
+        }
+      });
+    },
+    handlePChangeDetail(index, row) {
+      this.$router.push({
+        name: "detail_pactChange",
+        params: {
+          pactNo: row.pactNo,
+          changeId: row.changeId
+        }
+      });
+    },
+    handlePRenewDetail(index, row) {
+      this.$router.push({
+        name: "detail_pactRenew",
+        params: {
+          pactNo: row.pactNo,
+          renewId: row.renewId
+        }
+      });
+    }
+  }
+};
 </script>
 
 <style>
 .detail_contract {
-    padding: 0 0 20px 20px;
-}
-
-.el-tabs__item {
-    padding: 0 10px;
-}
-
-.el-tabs__item.is-active {
-    color: #333333;
-}
-
-.el-tabs__active-bar {
-    background-color: #333333;
-    height: 2px;
-}
-
-.el-tabs__item:first-of-type {
-    padding-left: 0;
-}
-
-.el-tabs__header {
-    height: 80px;
-    line-height: 80px;
-    font-size: 16px;
-    font-family: "PingFang SC";
-    border-bottom: 1px solid #eeeeee;
-    margin-bottom: 20px;
-}
-
-.content-wrapper .subtitlebar {
-    height: 24px;
-    line-height: 24px;
-    font-size: 14px;
-    font-family: "PingFangSC Regular";
-    padding-left: 10px;
-    margin: 20px 0;
-}
-
-.content-wrapper .subtitlebar .title-text {
-    display: inline-block;
-    height: 24px;
-    position: relative;
-    color: #333333;
-}
-
-.content-wrapper .subtitlebar .addBtn {
-    float: right;
-    color: #FF9900;
-    border: none;
-    padding: 5px;
-    padding-right: 0;
-}
-
-.icon-edit {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    background: url('../../../../static/img/common/edit.png') center no-repeat;
-}
-
-.icon-delete {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    background: url('../../../../static/img/common/delete.png') center no-repeat;
-}
-
-.icon-edit:hover,
-.icon-delete:hover {
-    cursor: pointer;
+  padding: 0 0 20px 20px;
 }
 </style>

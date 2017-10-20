@@ -225,5 +225,9 @@
             .el-pagination__editor:focus
                 outline none
                 border-color #ff9900
+        _:-ms-lang(x), td
+            display: flex;
+            align-items center
+            justify-content center
 
 </style>

@@ -24,4 +24,11 @@ public interface PayBaseInfoMapper {
     void updatePayBaseInfo(EpPayBaseInfoPO epPayBaseInfo);
 
     void deletePayBaseInfo(Map<String, String> params);
+
+    long queryPayBaseInfoCount(String uid);
+
+    List<EpPayBaseInfoPO> queryPayBaseInfoLimit(@Param(value = "startNum") long startNum,
+	    @Param(value = "size") long size, @Param(value = "uid") String uid);
+
+    void addPayBaseInfoList(@Param(value = "payBaseInfoList") List<EpPayBaseInfoPO> payBaseInfoList);
 }

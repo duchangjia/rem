@@ -10,19 +10,19 @@ import com.omcube.service.EpCustWorkHisService;
 
 @Service
 @Transactional
-public class EpCustWorkHisServiceImpl implements EpCustWorkHisService{
+public class EpCustWorkHisServiceImpl implements EpCustWorkHisService {
 
-    @Autowired
-    private EpCustWorkHisMapper epCustWorkHisMapper;
-    
-    //新增员工工作信息
-    @Override
-    public void insertEpCustWorkHis(EpCustWorkHisPO epCustWorkHisPO){
-	epCustWorkHisMapper.insertEpCustWorkHis(epCustWorkHisPO);
-    }
-    
-    //根据主键（用户编号，序号）删除员工工作经历信息
-    public void deleteEpCustWorkHis(EpCustWorkHisPO epCustWorkHisPO){
-	epCustWorkHisMapper.deleteEpCustWorkHis(epCustWorkHisPO);
-    }
+	@Autowired
+	private EpCustWorkHisMapper epCustWorkHisMapper;
+
+	// 新增员工工作信息
+	@Override
+	public void insertEpCustWorkHis(EpCustWorkHisPO epCustWorkHisPO) {
+		epCustWorkHisMapper.insertEpCustWorkHis(epCustWorkHisPO);
+	}
+
+	// 根据主键（用户编号，序号）删除员工工作经历信息
+	public void deleteEpCustWorkHis(EpCustWorkHisPO epCustWorkHisPO) {
+		epCustWorkHisMapper.deleteEpCustWorkHis(epCustWorkHisPO);
+	}
 }
