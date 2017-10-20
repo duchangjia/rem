@@ -6,7 +6,7 @@ public class QueryVisaFreeHolidayRequest {
 	
     private int pageSize;//每页多少条
 	
-	private String uId;
+	private String uid;
 	// 开始日期
 	private String startDate;
 	// 结束日期
@@ -27,11 +27,11 @@ public class QueryVisaFreeHolidayRequest {
 		this.pageSize = pageSize;
 	}
 
-	public String getuId() {
-		return uId;
+	public String getUid() {
+		return uid;
 	}
-	public void setuId(String uId) {
-		this.uId = uId;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	public String getStartDate() {
 		return startDate;
