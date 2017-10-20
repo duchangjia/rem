@@ -99,7 +99,7 @@ export default {
 		//修改税率
 		insertTaxRateCtrl(params) {
 			const self = this;
-			self.$axios.put(baseURL+'/updaTeTaxRateCtrl', params)
+			self.$axios.put(baseURL+'/taxRateCtrl/updaTeTaxRateCtrl', params)
   			.then((res) => {
   				console.log(res);
   				this.$message({ message: '税率修改成功', type: 'success' });

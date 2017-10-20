@@ -38,7 +38,7 @@ export default {
 	data() {
 		return {
 			pageIndex: 1,
-			pageRows: 1,
+			pageRows: 5,
 			totalRows: 1,
 			taxRateGroupList: [
 				{
@@ -66,7 +66,7 @@ export default {
 	created() {
 		const self = this;
 		let pageNum = 1;
-		let pageSize = 2;
+		let pageSize = self.pageRows;
 		let params = {
 			"pageNum": pageNum,
 			"pageSize": pageSize
@@ -88,8 +88,6 @@ export default {
             });
 		},
 		handleDelete(index, row) {
-            console.log('index',index);
-            console.log('row',row);
             this.$confirm('此操作将会删除该条模版, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -97,7 +95,7 @@ export default {
             }).then(() => {
             	const self = this;
             	let params = {
-            		
+            		groupId: row.groupId
             	};
             	self.deleteTaxRateGroup(params);
             }).catch(() => {
@@ -105,10 +103,9 @@ export default {
             });
         },
         handleCurrentChange(val) {
-			console.log('当前页', val);
 			const self = this;
 			let pageNum = val;
-			let pageSize = 2;
+			let pageSize = self.pageRows;
 			let params = {
 				"pageNum": pageNum,
 				"pageSize": pageSize
@@ -118,24 +115,26 @@ export default {
 		//查询个税组列表
 		selectTaxRateGroup(pageNum,pageSize,params) {
 			const self = this;
-			self.$axios.get(baseURL+'/selectTaxRateGroup',{ params: params })
+			self.$axios.get(baseURL+'/taxRateGroup/selectTaxRateGroup',{params: params})
 				.then(function(res) {
 					console.log(res);
 					self.taxRateGroupList = res.data.data.list;
 					self.pageIndex = pageNum;
-					self.pageRows = pageSize;
 					self.totalRows = Number(res.data.data.total);
 				}).catch(function(err) {
-					console.log('error')
+					console.log(err)
 				})
 		},
 		//删除个税组
 		deleteTaxRateGroup(params) {
 			const self = this;
-        	self.$axios.delete(baseURL+'/deleteTaxRateGroup')
+        	self.$axios.delete(baseURL+'/taxRateGroup/deleteTaxRateGroup',params)
     		.then((res) => {
     			console.log(res);
-    			this.$message({ type: 'success', message: '删除成功!' });
+    			if(res.data.code==="S00000") {
+    				this.$message({ type: 'success', message: '删除成功!' });
+    			}
+    			
     		}).catch((err) => {
     			console.log(err);
     		})

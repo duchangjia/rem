@@ -11,14 +11,14 @@
 					<el-form-item label="组名称" prop="groupNo">
 					    <el-input v-model="formdata.groupNo"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="组名称" prop="groupId">
+				  	<el-form-item label="组ID" prop="groupId">
 					    <el-input v-model="formdata.groupId"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="生效日期" prop="startTime">
-			        	<el-date-picker type="date" v-model="formdata.startTime"></el-date-picker>
+			        	<el-date-picker type="date" v-model="formdata.startTime" @change="changeStartTime"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="失效日期" prop="endTime">
-			        	<el-date-picker type="date" placeholder="如无，则不填" v-model="formdata.endTime"></el-date-picker>
+			        	<el-date-picker type="date" placeholder="如无，则不填" v-model="formdata.endTime" @change="changeEndTime"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="备注">
 					    <el-input v-model="formdata.remark"></el-input>
@@ -50,7 +50,7 @@ export default {
 					{ required: true, message: '组ID不能为空', trigger: 'blur' }
 				],
 				startTime: [
-					{ type: 'date', required: true, message: '生效日期不能为空', trigger: 'blur' }
+//					{ type: 'date', required: true, message: '生效日期不能为空', trigger: 'blur' }
 				]
 			}
 		}
@@ -59,16 +59,25 @@ export default {
 		current
 	},
 	methods: {
+		changeStartTime(time) {
+			this.formdata.startTime = time;
+		},
+		changeEndTime(time) {
+			this.formdata.endTime = time;
+		},
 		save(formName) {
+			const self = this;
 		 	this.$refs[formName].validate((valid) => {
 	          	if (valid) {
-	          		const self = this;
+	          		console.log(self.formdata.groupId);
+	          		console.log(self.formdata.startTime);
+	          		console.log(self.formdata.endTime);
 	          		let params = {
-	          			groupNo: self.groupNo,
-	          			groupId: self.groupId,
-						startTime: self.startTime,
-						endTime: self.endTime,
-						remark: self.remark
+	          			groupNo: self.formdata.groupNo,
+	          			groupId: self.formdata.groupId,
+						startTime: self.formdata.startTime,
+						endTime: self.formdata.endTime,
+						remark: self.formdata.remark
 	          		};
 	          		self.insertTaxRateGroup(params);
 	          		
@@ -80,7 +89,7 @@ export default {
 		},
 		insertTaxRateGroup(params) {
 			const self = this;
-			self.$axios.post(baseURL+'/insertTaxRateGroup', params)
+			self.$axios.post(baseURL+'/taxRateGroup/insertTaxRateGroup', params)
   			.then((res) => {
   				console.log(res);
   				
