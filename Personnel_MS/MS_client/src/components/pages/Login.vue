@@ -79,7 +79,7 @@
             }
         },
         created() {
-            this.$axios.get('/api/api/auth/code/image', {headers:{deviceId: '12345'},responseType: 'blob'})
+            this.$axios.get('/api/auth/code/image', {headers:{deviceId: '12345'},responseType: 'blob'})
                 .then( res => {
                     let reader = new FileReader()
                     reader.onload = (e => {
@@ -96,7 +96,7 @@
         },
         methods: {
             changeCode() {
-              this.$axios.get('/api/api/auth/code/image', {headers:{deviceId: '12345'},responseType: 'blob'})
+              this.$axios.get('/api/auth/code/image', {headers:{deviceId: '12345'},responseType: 'blob'})
                   .then( res => {
                       let reader = new FileReader()
                       reader.onload = (e => {
@@ -129,7 +129,7 @@
 //                        dataType:"json",
 //                    contentType:"application/json",
 //                    data:JSON.stringify(this.content2),
-                            self.$axios.post('/api/api/auth/authentication/login', params, {
+                            self.$axios.post('/api/auth/authentication/login', params, {
                                 auth:{
                                     username:'iem_cloud',
                                     password:'thisissecret'
