@@ -24,8 +24,12 @@
 					</div>
 				</el-form>
 				<div class="info">
-					<el-table :data="operatorList" border stripe style="width: 100%" @cell-click="resetUserInfo">
-						<el-table-column prop="userNo" label="工号"></el-table-column>
+					<el-table :data="operatorList" border stripe style="width: 100%">
+						<el-table-column prop="userNo" label="工号">
+							<template scope="scope">
+						        <span class="link" @click="handleEdit(scope.$index, scope.row)">{{ scope.row.userNo }}</span>
+					      	</template>
+						</el-table-column>
 						<el-table-column prop="userName" label="姓名"></el-table-column>
 						<el-table-column prop="compName" label="所属公司"></el-table-column>
 						<el-table-column prop="departName" label="部门"></el-table-column>
@@ -48,22 +52,30 @@ const baseURL = 'iem_hrm'
 export default {
 	data() {
 		return {
-			oldPage: 0,
 			pageIndex: 1,
-			pageRows: 1,
+			pageRows: 5,
 			totalRows: 1,
 			ruleForm2: {
 				company: '',
 				department: '',
 				user: ''
 			},
-			operatorList: [],
+			operatorList: [
+				{
+					userNo: "p011111",
+					userName: "asda",
+					compName: "mofang",
+					departName: "xinzhen",
+					roleNo: "xinzhen",
+					mobile: "135135135135",
+					status: "xxxx"
+				}
+			],
 			rules: {
 				company: [],
 				department: [],
 				user: [
 					{ required: true, message: '工号/姓名/手机/邮箱四者必输其一', trigger: 'blur' },
-
 				]
 			}
 		};
@@ -73,37 +85,40 @@ export default {
 	},
 	created() {
 		const self = this;
-		let pageNum = 1;
-		let pageSize = 3;
+		let pageNum = self.pageIndex;
+		let pageSize = self.pageRows;
 		let params = {
 			"pageNum": pageNum,
-			"pageSize": pageSize,
-			"organCompanyName": "魔方",
-			"organDepartmentName":"魔方分公司深圳分公司",
-			"userFeatureInfo":"11223@qq.com"
+			"pageSize": pageSize
 		}
 		//查询用户列表
 		self.queryUserList(pageNum,pageSize,params);
 	},
 	methods: {
-		//查询用户详细信息
+		handleEdit(index, row) {
+			console.log('row:',row);
+			sessionStorage.setItem('user', row.userNo);
+            this.$router.push('user-info');
+		},
+		//查询
 		queryForm(formName) {
 			const self = this;
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
 					let user = self.ruleForm2.user;
 					self.operatorList = [];
-					self.$axios.get(baseURL+'/user/queryUserDetail/'+user)
-						.then(function(res) {
-							console.log(res);
-							self.operatorList.push(res.data.data);
-							self.pageIndex = 0;
-							self.pageRows = 0;
-							self.totalRows = 0;
-							sessionStorage.setItem('userMsg',JSON.stringify(self.operatorList[0]));
-						}).catch(function(err) {
-							self.$message.error('查询失败');
-						})
+					let pageNum = self.pageIndex;
+					let pageSize = self.pageRows;
+					let params = {
+						"pageNum": pageNum,
+						"pageSize": pageSize,
+						"organCompanyName": self.ruleForm2.company,
+						"organDepartmentName": self.ruleForm2.department,
+						"userFeatureInfo": self.ruleForm2.user
+					}
+					//查询用户列表
+					self.queryUserList(pageNum,pageSize,params);
+					
 				} else {
 					console.log('error submit!!');
 					return false;
@@ -111,40 +126,22 @@ export default {
 			});
 		},
 		//重置
-		resetForm(formName) {
-			const self = this;
-			self.$refs[formName].validate((valid) => {
-				if(valid){
-					sessionStorage.setItem('user', self.ruleForm2.user);
-					self.$router.push('/user-info');
-				}
-			})
+		resetForm() {
+			this.ruleForm2.company = '';
+			this.ruleForm2.department = '';
+			this.ruleForm2.user = '';
 		},
 		handleCurrentChange(val) {
 			console.log(`当前页: ${val}`);
 			const self = this;
-//			let oldPage = 1;
 			let pageNum = val;
-			let pageSize = 3;
+			let pageSize = self.pageRows;
 			let params = {
 				"pageNum": pageNum,
-				"pageSize": pageSize,
-				"organCompanyName": "魔方",
-//				"organDepartmentName":"魔方分公司深圳分公司",
-//				"userFeatureInfo":"11223@qq.com"
+				"pageSize": pageSize
 			}
 			//查询用户列表
-//			if(pageNum!==self.oldPage){
-//				console.log('oldPage',oldPage)
-//				console.log('pageNum',pageNum)
-				self.queryUserList(pageNum,pageSize,params);
-//			}
-		},
-		resetUserInfo(row, column, cell, event) {
-			if (column.property === 'userNo') {
-				this.$router.push('/management_user/user-info');
-			}
-
+			self.queryUserList(pageNum,pageSize,params);
 		},
 		queryUserList(pageNum,pageSize,params) {
 			let self = this;
@@ -153,8 +150,6 @@ export default {
 				console.log('UserList',res);
 				self.operatorList = res.data.data.models;
 				self.pageIndex = pageNum;
-				self.pageRows = pageSize;
-//				self.oldPage = self.pageIndex;
 				self.totalRows = Number(res.data.data.total);
 			}).catch(function(err) {
 				console.log(err);
@@ -298,6 +293,11 @@ export default {
 }
 .user-query .el-table td:first-child{
 	cursor: pointer;
+}
+.user-query .link {
+	cursor: pointer;
+    color: #337ab7;
+    text-decoration: underline;
 }
 .user-query .el-table td:first-child:hover{
 	color: #FF9900;

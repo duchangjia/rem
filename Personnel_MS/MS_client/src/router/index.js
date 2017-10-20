@@ -72,6 +72,10 @@ export default new Router({
                         {
                             path: '/user-info',
                             component: resolve => require(['../components/pages/system_Mgmt/user-info.vue'], resolve)
+                        },
+                        {
+                            path: '/test',
+                            component: resolve => require(['../components/pages/system_Mgmt/test.vue'], resolve)
                         }
                     ]
                 },

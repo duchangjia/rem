@@ -22,7 +22,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="所属公司" prop="compOrgNo">
+						<el-form-item label="所属公司">
 							<el-select v-model="comp" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
 								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
 							</el-select>
@@ -135,20 +135,21 @@
 				},
 				//角色列表
 				roleList: [
-					{roleName: '行政经理',roleNo: '01'},
-					{roleName: '财务经理',roleNo: '02'},
-					{roleName: '行政文员',roleNo: '03'}
+					{roleName: "管理员",roleNo: "ROLE_ANONYMOUS"},
+					{roleName: "普通人员",roleNo: "COMMON"},
+					{roleName: '',roleNo: ""}
 				],
 				//部门列表
 				departList: [
-					{departName: '行政部',departOrgNo: 'p1'},
-					{departName: '财务部',departOrgNo: 'p2'}
+					{departName: "上海魔方分公司",departOrgNo: '01'},
+					{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
+					{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
 				],
 				//公司列表
 				compList: [
-					{compName: '上海分公司',compOrgNo: 'p1'},
-					{compName: '深圳分公司',compOrgNo: 'p2'},
-					{compName: '广州分公司',compOrgNo: 'p3'}
+					{compName: "上海魔方分公司",compOrgNo: '01'},
+					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
+					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
 				],
 				rules: {
 					userName: [
@@ -169,25 +170,26 @@
 			current
 		},
 		created(){
+			console.log(this.comp)
 			const self = this;
 			let user = sessionStorage.getItem('user');
-			let userMsg = JSON.parse(sessionStorage.getItem('userMsg'));
-			if(userMsg){
-//				console.log('userMsg',userMsg);
-				self.userDetail = userMsg;
-			}else {
-//				console.log('user',user);
-				self.$axios.get(baseURL+'/user/queryUserDetail/'+user)
+			self.$axios.get(baseURL+'/user/queryUserDetail/'+user)
 				.then(function(res){
 					console.log('UserDetail',res);
 					self.userDetail = res.data.data;
 					self.oldStatus = self.userDetail.status;
-					self.comp.compName = res.data.data.compName;
-					self.comp.compOrgNo = res.data.data.compOrgNo;
-					self.depart.departName = res.data.data.departName;
-					self.depart.departOrgNo = res.data.data.departOrgNo;
-					self.role.roleName = res.data.data.roleName;
-					self.role.roleNo = res.data.data.roleNo;
+					self.comp = {
+		        		compOrgNo: res.data.data.compOrgNo,
+		        		compName: res.data.data.compName
+		        	}
+					self.depart = {
+						departName: res.data.data.departName,
+						departOrgNo: res.data.data.departOrgNo
+					}
+					self.role = {
+						roleName: res.data.data.roleName,
+						roleNo: res.data.data.roleNo
+					}
 					for(var i in self.userDetail){
 						self.olduserDetail[i] = self.userDetail[i];
 					}
@@ -195,7 +197,7 @@
 				.catch(function(err){
 					console.log(err)
 				})
-			}
+			
 			
 		},
 		methods: {
