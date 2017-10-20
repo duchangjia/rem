@@ -6,7 +6,7 @@
 
 <mapper namespace="com.omcube.model.mapper.TaxRateCtrlMapper">
 	<resultMap type="com.omcube.model.po.TaxRateCtrlPO" id="TaxRateCtrlMap">
-		<id column="UID" property="uId"></id>
+		<id column="UID" property=""></id>
 		<id column="GROUP_ID" property="groupId"></id>
 		<id column="APPLY_NO" property="applyNo"></id>
 		<result column="GROUP_LIMIT" property="groupLimit"></result>
@@ -26,7 +26,7 @@
 		insert into
 		EP_TAXRATE_CTRL
 		values(
-		#{uId},#{groupId},#{applyNo},
+		#{uid},#{groupId},#{applyNo},
 		#{groupLimit},#{groupLowerLimit},
 		#{percentRate},#{quickCal},
 		#{remark},#{createdBy},now(),
@@ -44,7 +44,7 @@
 		from
 		EP_TAXRATE_CTRL
 		where
-		UID=#{uId}
+		UID=#{uid}
 	</select>
 
 	<!-- 根据主键（组ID，编号）删除个人所得税税率 -->
@@ -54,7 +54,7 @@
 		set
 		ISDELETE='0'
 		where
-		UID=#{uId}
+		UID=#{uid}
 		and
 		GROUP_ID=#{groupId}
 		and
@@ -66,13 +66,13 @@
 		update
 		EP_TAXRATE_CTRL
 		set
-		UID=#{uId},GROUP_ID=#{groupId},APPLY_NO=#{applyNo},
+		UID=#{uid},GROUP_ID=#{groupId},APPLY_NO=#{applyNo},
 		GROUP_LIMIT=#{groupLimit},GROUP_LOWER_LIMIT=#{groupLowerLimit},
 		PERCENT_RATE=#{percentRate},QUICK_CAL=#{quickCal},
 		REMARK=#{remark},UPDATED_DATE=#{updatedBy},
 		UPDATED_DATE=now(),ISDELETE=#{isDelete}
 		where
-		UID=#{uId}
+		UID=#{uid}
 		and
 		GROUP_ID=#{groupId}
 		and

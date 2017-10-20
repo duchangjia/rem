@@ -2,16 +2,16 @@ package com.omcube.model.po;
 
 import java.math.BigDecimal;
 
-public class TaxRateCtrlPO extends BasicPO{
-    private String     groupId;         //组id
-    private String     applyNo;         //编号
-    private String     remark;          //备注
-    private BigDecimal groupLimit;      //上限
-    private BigDecimal groupLowerLimit; //下限
-    private BigDecimal percentRate;     //百分比率
-    private BigDecimal quickCal;        //速算扣除数
-    private String     isDelete;        //是否删除
-    
+public class TaxRateCtrlPO extends BasicPO {
+	private String groupId; // 组id
+	private String applyNo; // 编号
+	private String remark; // 备注
+	private BigDecimal groupLimit; // 上限
+	private BigDecimal groupLowerLimit; // 下限
+	private BigDecimal percentRate; // 百分比率
+	private BigDecimal quickCal; // 速算扣除数
+	private String isDelete; // 是否删除
+
 	public String getIsDelete() {
 		return isDelete;
 	}
@@ -59,5 +59,5 @@ public class TaxRateCtrlPO extends BasicPO{
 	}
 	public void setQuickCal(BigDecimal quickCal) {
 		this.quickCal = quickCal;
-	}    
+	}
 }

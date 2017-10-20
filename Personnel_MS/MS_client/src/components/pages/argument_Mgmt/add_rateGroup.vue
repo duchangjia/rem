@@ -11,6 +11,9 @@
 					<el-form-item label="组名称" prop="groupNo">
 					    <el-input v-model="formdata.groupNo"></el-input>
 				  	</el-form-item>
+				  	<el-form-item label="组名称" prop="groupId">
+					    <el-input v-model="formdata.groupId"></el-input>
+				  	</el-form-item>
 				  	<el-form-item label="生效日期" prop="startTime">
 			        	<el-date-picker type="date" v-model="formdata.startTime"></el-date-picker>
 			      	</el-form-item>
@@ -34,6 +37,7 @@ export default {
 		return {
 			formdata: {
 				groupNo: "",
+				groupId: "",
 				startTime: "",
 				endTime: "",
 				remark: ""
@@ -41,6 +45,9 @@ export default {
 			rules: {
 				groupNo: [
 					{ required: true, message: '组名称不能为空', trigger: 'blur' }
+				],
+				groupId: [
+					{ required: true, message: '组ID不能为空', trigger: 'blur' }
 				],
 				startTime: [
 					{ type: 'date', required: true, message: '生效日期不能为空', trigger: 'blur' }
@@ -58,24 +65,29 @@ export default {
 	          		const self = this;
 	          		let params = {
 	          			groupNo: self.groupNo,
+	          			groupId: self.groupId,
 						startTime: self.startTime,
 						endTime: self.endTime,
 						remark: self.remark
 	          		};
-	          		self.$axios.post(baseURL+'/insertTaxRateGroup', params)
-	          			.then((res) => {
-	          				console.log(res);
-	          				
-	          				self.$message({ message: '税率组新增成功', type: 'success' });
-	          			}).catch((err) => {
-	          				console.log('err');
-	          			})
-	           	 	
+	          		self.insertTaxRateGroup(params);
+	          		
 	          	} else {
 	            	this.$message.error('新增失败');
 	            	return false;
 	          	}
 	        });
+		},
+		insertTaxRateGroup(params) {
+			const self = this;
+			self.$axios.post(baseURL+'/insertTaxRateGroup', params)
+  			.then((res) => {
+  				console.log(res);
+  				
+  				self.$message({ message: '税率组新增成功', type: 'success' });
+  			}).catch((err) => {
+  				console.log('err');
+  			})
 		}
 	}
 }

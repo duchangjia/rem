@@ -36,7 +36,7 @@ public class TaxRateCtrlControllerTest {
     public void testAddTaxRateCtrl() throws Exception
     {
 	String result = mockMvc.perform(post("/taxRateCtrl/insertTaxRateCtrl")
-		.param("uId", "001")
+		.param("uid", "001")
 		.param("groupId", "001001")
 		.param("applyNo", "001001008")
 		.param("GroupLimit", "10100.00")
@@ -53,7 +53,7 @@ public class TaxRateCtrlControllerTest {
     public void testDeleteTaxRateCtrl() throws Exception
     {
 	String result = mockMvc.perform(delete("/taxRateCtrl/deleteTaxRateCtrl")
-		.param("uId", "001")
+		.param("uid", "001")
 		.param("groupId", "001001")
 		.param("applyNo", "001001007")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -68,7 +68,7 @@ public class TaxRateCtrlControllerTest {
     public void testUpdateTaxRateCtrl() throws Exception
     {
 	String result = mockMvc.perform(put("/taxRateCtrl/updaTeTaxRateCtrl")
-		.param("uId", "001")
+		.param("uid", "001")
 		.param("groupId", "001001")
 		.param("applyNo", "001001008")
 		.param("GroupLimit", "10000.00")
@@ -87,7 +87,7 @@ public class TaxRateCtrlControllerTest {
     public void testSelectTaxRateCtrl() throws Exception
     {
 	String result = mockMvc.perform(get("/taxRateCtrl/selectTaxRateCtrl")
-		.param("uId", "001")
+		.param("uid", "001")
 		.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk()).andReturn().getResponse()
 		.getContentAsString();

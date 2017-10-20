@@ -13,14 +13,17 @@ spring:
         enabled: false
     
   redis:
-    host: localhost
+    host: 10.0.0.242
     port: 6379
+    password: $ifdp@2017
+    
 
 security:
   basic:
     enabled : false
 
 logging:
+  file: log/ifdp-web.log
   level:
     org.springframework.web: debug
     org.springframework.security: debug

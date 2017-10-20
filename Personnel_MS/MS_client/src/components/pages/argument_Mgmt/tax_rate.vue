@@ -78,9 +78,14 @@ export default {
 			this.$router.push('/add_rateGroup');
 		},
 		handleEdit(index, row) {
-			console.log('index:'+index,'row.groupNo:'+row.groupNo);
-			sessionStorage.setItem('groupNo',row.groupNo);
-            this.$router.push('/rate_info');
+			console.log('row:',row);
+            this.$router.push({
+            	name: 'rate_info',
+            	params: {
+            		groupNo: row.groupNo,
+            		groupId: row.groupId
+            	}
+            });
 		},
 		handleDelete(index, row) {
             console.log('index',index);
@@ -91,13 +96,10 @@ export default {
                 type: 'warning'
             }).then(() => {
             	const self = this;
-            	self.$axios.delete(baseURL+'/deleteTaxRateGroup')
-            		.then((res) => {
-            			console.log(res);
-            			this.$message({ type: 'success', message: '删除成功!' });
-            		}).catch((err) => {
-            			console.log(err);
-            		})
+            	let params = {
+            		
+            	};
+            	self.deleteTaxRateGroup(params);
             }).catch(() => {
                 this.$message('您已取消删除模版！');
             });
@@ -113,6 +115,7 @@ export default {
 			};
 			self.selectTaxRateGroup(pageNum,pageSize,params);
 		},
+		//查询个税组列表
 		selectTaxRateGroup(pageNum,pageSize,params) {
 			const self = this;
 			self.$axios.get(baseURL+'/selectTaxRateGroup',{ params: params })
@@ -125,6 +128,17 @@ export default {
 				}).catch(function(err) {
 					console.log('error')
 				})
+		},
+		//删除个税组
+		deleteTaxRateGroup(params) {
+			const self = this;
+        	self.$axios.delete(baseURL+'/deleteTaxRateGroup')
+    		.then((res) => {
+    			console.log(res);
+    			this.$message({ type: 'success', message: '删除成功!' });
+    		}).catch((err) => {
+    			console.log(err);
+    		})
 		}
 	}
 }
@@ -210,7 +224,7 @@ border-bottom: 1px solid #EEEEEE;
 .tax_rate .el-table th {
 	text-align: center;
 }
-.tax_rate .el-table td:first-child{
+.tax_rate .el-table td:first-child span{
 	cursor: pointer;
 	color: #FF9900;
 }

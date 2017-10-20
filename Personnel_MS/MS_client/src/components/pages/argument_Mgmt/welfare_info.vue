@@ -197,7 +197,7 @@ export default {
 	},
 	created(){
 		const self = this;
-		let applyNo = sessionStorage.getItem('applyNo');
+		let applyNo = self.$route.params.applyNo;
 		let param = { applyNo: applyNo };
 		self.$axios.get(baseURL+'/queryInsurancePayTemplate',{ params : param })
 			.then(function(res) {

@@ -26,18 +26,18 @@ public class OrganBillInfoServiceImpl implements OrganBillInfoService {
     }
 
     @Override
-    public List<OrganBillInfoPO> queryBillInfoList(String uId) {
-	return billiInfoMapper.queryBillInfoList(uId);
+    public List<OrganBillInfoPO> queryBillInfoList(String uid) {
+	return billiInfoMapper.queryBillInfoList(uid);
     }
 
     @Override
-    public List<OrganBillInfoPO> queryBillInfoByName(String uId,String organName) {
-	return billiInfoMapper.queryBillInfoByName(uId,organName);
+    public List<OrganBillInfoPO> queryBillInfoByName(String uid, String organName) {
+	return billiInfoMapper.queryBillInfoByName(uid, organName);
     }
 
     @Override
-    public OrganBillInfoPO queryBillInfDtl(String uId, String organNo) {
-	return billiInfoMapper.queryBillInfDtl(uId, organNo);
+    public OrganBillInfoPO queryBillInfDtl(String uid, String organNo) {
+	return billiInfoMapper.queryBillInfDtl(uid, organNo);
     }
 
 }

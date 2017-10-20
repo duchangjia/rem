@@ -40,16 +40,16 @@ public class CustContactController {
     public Object addCustContact(CustContactPO custContact){
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	String createdBy = sysLoginCtrl.getCreatedBy();
-	custContact.setuId(uId);
+	custContact.setUid(uId);
 	custContact.setCreatedBy(createdBy);
 	//校验
 	if(StringUtils.isEmpty(custContact)){
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
 		    "the request body is null");
 	}
-	if (StringUtils.isEmpty(custContact.getuId()) || StringUtils.isEmpty(custContact.getUserNo()) || StringUtils.isEmpty(custContact.getContactId())) {
+	if (StringUtils.isEmpty(custContact.getUid()) || StringUtils.isEmpty(custContact.getUserNo()) || StringUtils.isEmpty(custContact.getContactId())) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
 		    "the param uId,userNo or contactId is null");
 	}
@@ -62,7 +62,7 @@ public class CustContactController {
 		    stringErrorFormat(custContact.getContactName()));
 	}
 	//查询插入的数据是否已存在
-	if(custContactService.queryCustContact(custContact.getuId(), custContact.getUserNo(), custContact.getContactId()) != null){
+	if(custContactService.queryCustContact(custContact.getUid(), custContact.getUserNo(), custContact.getContactId()) != null){
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
 		    "Some data already exists!");
 	}
@@ -80,16 +80,16 @@ public class CustContactController {
     public Object updateCustContact(CustContactPO custContact){
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	String updatedBy = sysLoginCtrl.getUpdatedBy();
-	custContact.setuId(uId);
+	custContact.setUid(uId);
 	custContact.setUpdatedBy(updatedBy);
 	//校验
 	if(StringUtils.isEmpty(custContact)){
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
 		    "the request body is null");
 	}
-	if (StringUtils.isEmpty(custContact.getuId()) || StringUtils.isEmpty(custContact.getUserNo()) || StringUtils.isEmpty(custContact.getContactId())) {
+	if (StringUtils.isEmpty(custContact.getUid()) || StringUtils.isEmpty(custContact.getUserNo()) || StringUtils.isEmpty(custContact.getContactId())) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
 		    "the param uId,userNo or contactId is null");
 	}
@@ -103,7 +103,7 @@ public class CustContactController {
 	}
 	//
 	//查询更新的数据是否存在
-	if(custContactService.queryCustContact(custContact.getuId(), custContact.getUserNo(), custContact.getContactId()) == null){
+	if(custContactService.queryCustContact(custContact.getUid(), custContact.getUserNo(), custContact.getContactId()) == null){
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
 		    "Data needed to be updated does not exist!");
 	}
@@ -167,7 +167,7 @@ public class CustContactController {
     public Object queryCustContacts(@PathVariable String userNo){
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	if(StringUtils.isEmpty(uId) || StringUtils.isEmpty(userNo)){
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
 		    "the param uId or userNo is null");
@@ -185,7 +185,7 @@ public class CustContactController {
     public Object deleteCustContact(@PathVariable String userNo,@PathVariable String contactId ){
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uId = sysLoginCtrl.getuId();
+	String uId = sysLoginCtrl.getUid();
 	if (StringUtils.isEmpty(uId) || StringUtils.isEmpty(userNo) || StringUtils.isEmpty(contactId)) {
 	    return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR,
 		    "the param uId,userNo or contactId is null");

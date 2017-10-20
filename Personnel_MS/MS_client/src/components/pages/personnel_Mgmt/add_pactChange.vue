@@ -116,74 +116,73 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import current from '../../common/current_position.vue'
+import current from "../../common/current_position.vue";
 export default {
-    data() {
-        return {
-            labelPosition: 'right',
-            basicPactMsg: {},
-            addPChangeMsg: {
-                pactNo: '',
-                changeTime: '',
-                changeType: '',
-                changeContent: '',
-                attachm: '',
-                remark: ''
-            },
-            rules: {
-                changeTime: [
-                    { required: true, message: '请选择变更日期', trigger: 'blur' },
-                ],
-                changeType: [
-                    { required: true, message: '请选择变更类别', trigger: 'blur' },
-                ],
-                changeContent: [
-                    { required: true, message: '请输入变更内容', trigger: 'blur' },
-                ]
-            }
-        };
-    },
-    components: {
-        current,
-    },
-    created() {
-        const self = this;
-        let params = {
-            "pactNo": self.$route.params.pactNo
-        }
-        console.log(params.pactNo);
-        self.$axios.get('ifdp/querPactDtl', { params: params })
-            .then((res) => {
-                self.basicPactMsg = res.data.data;
-                console.log(self.basicPactMsg);
-            }).catch(() => {
-                console.log('error');
-            })
-    },
-    methods: {
-        handleAdd() {
-            let newPChange = {};
-            newPChange.pactNo = this.basicPactMsg.pactNo;
-            newPChange.changeTime = this.addPChangeMsg.changeTime;
-            newPChange.changeType = this.addPChangeMsg.changeType;
-            newPChange.changeContent = this.addPChangeMsg.changeContent;
-            newPChange.attachm = this.addPChangeMsg.attachm;
-            console.log(newPChange);
-            // this.$axios.post('/xxx/addPChange', newPChange)
-            //     .then((res) => {
-            //         console.log(res);
-            //         if (res.data.code == 'S00000') this.$router.push('/personnel_contract');
-            //         else this.$message.error('变更合同失败！');
-            //     }).catch(() => {
-            //         this.$message.error('变更合同失败！');
-            //     })
-        }
+  data() {
+    return {
+      labelPosition: "right",
+      basicPactMsg: {},
+      addPChangeMsg: {
+        pactNo: "",
+        changeTime: "",
+        changeType: "",
+        changeContent: "",
+        attachm: "",
+        remark: ""
+      },
+      rules: {
+        changeTime: [{ required: true, message: "请选择变更日期", trigger: "blur" }],
+        changeType: [{ required: true, message: "请选择变更类别", trigger: "blur" }],
+        changeContent: [{ required: true, message: "请输入变更内容", trigger: "blur" }]
+      }
+    };
+  },
+  components: {
+    current
+  },
+  created() {
+    const self = this;
+    let params = {
+      pactNo: self.$route.params.pactNo
+    };
+    console.log(params.pactNo);
+    self.$axios
+      .get("ifdp/querPactDtl", { params: params })
+      .then(res => {
+        self.basicPactMsg = res.data.data;
+        console.log(self.basicPactMsg);
+      })
+      .catch(() => {
+        console.log("error");
+      });
+  },
+  methods: {
+    handleAdd() {
+      let newPChange = {};
+      newPChange.pactNo = this.basicPactMsg.pactNo;
+      newPChange.changeTime = this.addPChangeMsg.changeTime;
+      newPChange.changeType = this.addPChangeMsg.changeType;
+      newPChange.changeContent = this.addPChangeMsg.changeContent;
+      newPChange.attachm = this.addPChangeMsg.attachm;
+      console.log(newPChange);
+      this.$axios
+        .post("/iem_hrm/addPChange", newPChange)
+        .then(res => {
+          console.log(res);
+          if (res.data.code == "S00000")
+            this.$router.push("/personnel_contract");
+          else this.$message.error("合同变更新增失败！");
+        })
+        .catch(() => {
+          this.$message.error("合同变更新增失败！");
+        });
     }
-}
+  }
+};
 </script>
 
 <style>
 .add_pactChange {
-    padding: 0 0 20px 20px;
+  padding: 0 0 20px 20px;
 }
 </style>

@@ -69,18 +69,14 @@ export default {
 	},
 	created() {
 		const self = this;
+		let pageNum = 1,
+			pageSize = 4;
 		let params = {
-			pageNum: 1,
-			pageSize: 4
+			pageNum: pageNum,
+			pageSize: pageSize
 		}
-		self.$axios.get(baseURL+'/queryInsurancePayTemplates',{params : params})
-			.then(function(res) {
-				console.log('res',res);
-				self.welfareList = res.data.data.WelfareList;
-				self.totalRows = Number(res.data.data.total);
-			}).catch(function(err) {
-				console.log(err)
-			})
+		//查询福利缴纳系数模版列表
+		self.queryInsurancePayTemplates(pageNum,pageSize,params);
 	},
 	methods: {
 		addWelfare() {
@@ -88,12 +84,14 @@ export default {
 		},
 		handleEdit(index, row) {
 			console.log('index:'+index,'row.modelNo:'+row.applyNo);
-			sessionStorage.setItem('modelNo',row.applyNo);
-            this.$router.push('/welfare_info');
+            this.$router.push({
+            	name: 'welfare_info',
+            	params: {
+            		applyNo: row.applyNo
+            	}
+            });
 		},
 		handleDelete(index, row) {
-            console.log('index',index);
-            console.log('row',row);
             const self = this;
             self.$confirm('此操作将会删除该条模版, 是否继续?', '提示', {
                 confirmButtonText: '确定',
@@ -103,23 +101,47 @@ export default {
             	let params = {
             		
             	};
-            	self.$axios.delete(baseURL+'/deleteInsurancePayTemplate')
-            		.then(function(res) {
-            			console.log(res);
-            			self.$message({ type: 'success', message: '删除成功!' });
-            		}).catch(function(err) {
-            			self.$message.error('删除失败');
-            		})
-               
+            	//删除福利系数模版
+            	self.deleteInsurancePayTemplate(params);
             }).catch(() => {
                 self.$message('您已取消删除模版！');
             });
         },
         handleCurrentChange(val) {
 			console.log('当前页',val);
+			const self = this;
+			let pageNum = val,
+				pageSize = 4;
+			let params = {
+				pageNum: pageNum,
+				pageSize: pageSize
+			}
+			//查询分页福利缴纳系数模版列表
+			self.queryInsurancePayTemplates(pageNum,pageSize,params);
 		},
-		queryWelfareLis() {
-			
+		queryInsurancePayTemplates(pageNum,pageSize,params) {
+			const self = this;
+			self.$axios.get(baseURL+'/queryInsurancePayTemplates',{params : params})
+			.then(function(res) {
+				console.log('res',res);
+				self.welfareList = res.data.data.WelfareList;
+				self.totalRows = Number(res.data.data.total);
+				self.pageIndex = pageNum;
+				self.pageRows = pageSize;
+				self.totalRows = Number(res.data.data.total);
+			}).catch(function(err) {
+				console.log(err)
+			})
+		},
+		deleteInsurancePayTemplate(params) {
+			const self = this;
+			self.$axios.delete(baseURL+'/deleteInsurancePayTemplate')
+    		.then(function(res) {
+    			console.log(res);
+    			self.$message({ type: 'success', message: '删除成功!' });
+    		}).catch(function(err) {
+    			self.$message.error('删除失败');
+    		})
 		}
 	}
 }
@@ -204,7 +226,7 @@ border-bottom: 1px solid #EEEEEE;
 .welfare_coefficient .el-table th {
 	text-align: center;
 }
-.welfare_coefficient .el-table td:first-child{
+.welfare_coefficient .el-table td:first-child span {
 	cursor: pointer;
 	color: #FF9900;
 }

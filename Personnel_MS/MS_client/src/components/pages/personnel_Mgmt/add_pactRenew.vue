@@ -121,79 +121,78 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import current from '../../common/current_position.vue'
+import current from "../../common/current_position.vue";
 export default {
-    data() {
-        return {
-            labelPosition: 'right',
-            basicPactMsg: {},
-            addPRenewMsg: {
-                pactNo: '',
-                renewTime: '',
-                renewEndTime: '',
-                renewType: '',
-                renewContent: '',
-                attachm: '',
-                remark: ''
-            },
-            rules: {
-                renewTime: [
-                    { required: true, message: '请选择续签生效日期', trigger: 'blur' },
-                ],
-                renewEndTime: [
-                    { required: true, message: '请选择续签失效日期', trigger: 'blur' },
-                ],
-                renewType: [
-                    { required: true, message: '请选择续签类别', trigger: 'blur' },
-                ],
-                renewContent: [
-                    { required: true, message: '请输入续签内容', trigger: 'blur' },
-                ]
-            }
-        };
-    },
-    components: {
-        current,
-    },
-    created() {
-        const self = this;
-        let params = {
-            "pactNo": self.$route.params.pactNo
-        }
-        console.log(params.pactNo);
-        self.$axios.get('ifdp/querPactDtl', { params: params })
-            .then((res) => {
-                self.basicPactMsg = res.data.data;
-                console.log(self.basicPactMsg);
-            }).catch(() => {
-                console.log('error');
-            })
-    },
-    methods: {
-        handleAdd() {
-            let newPRenew = {};
-            newPRenew.pactNo = this.basicPactMsg.pactNo;
-            newPRenew.renewTime = this.addPRenewMsg.renewTime;
-            newPRenew.renewEndTime = this.addPRenewMsg.renewEndTime;
-            newPRenew.renewType = this.addPRenewMsg.renewType;
-            newPRenew.renewContent = this.addPRenewMsg.renewContent;
-            newPRenew.attachm = this.addPRenewMsg.attachm;
-            console.log(newPRenew);
-            // this.$axios.post('/xxx/addPRenew', newPRenew)
-            //     .then((res) => {
-            //         console.log(res);
-            //         if (res.data.code == 'S00000') this.$router.push('/personnel_contract');
-            //         else this.$message.error('续签合同失败！');
-            //     }).catch(() => {
-            //         this.$message.error('续签合同失败！');
-            //     })
-        }
+  data() {
+    return {
+      labelPosition: "right",
+      basicPactMsg: {},
+      addPRenewMsg: {
+        pactNo: "",
+        renewTime: "",
+        renewEndTime: "",
+        renewType: "",
+        renewContent: "",
+        attachm: "",
+        remark: ""
+      },
+      rules: {
+        renewTime: [{ required: true, message: "请选择续签生效日期", trigger: "blur" }],
+        renewEndTime: [
+          { required: true, message: "请选择续签失效日期", trigger: "blur" }
+        ],
+        renewType: [{ required: true, message: "请选择续签类别", trigger: "blur" }],
+        renewContent: [{ required: true, message: "请输入续签内容", trigger: "blur" }]
+      }
+    };
+  },
+  components: {
+    current
+  },
+  created() {
+    const self = this;
+    let params = {
+      pactNo: self.$route.params.pactNo
+    };
+    console.log(params.pactNo);
+    self.$axios
+      .get("ifdp/querPactDtl", { params: params })
+      .then(res => {
+        self.basicPactMsg = res.data.data;
+        console.log(self.basicPactMsg);
+      })
+      .catch(() => {
+        console.log("error");
+      });
+  },
+  methods: {
+    handleAdd() {
+      let newPRenew = {};
+      newPRenew.pactNo = this.basicPactMsg.pactNo;
+      newPRenew.renewTime = this.addPRenewMsg.renewTime;
+      newPRenew.renewEndTime = this.addPRenewMsg.renewEndTime;
+      newPRenew.renewType = this.addPRenewMsg.renewType;
+      newPRenew.renewContent = this.addPRenewMsg.renewContent;
+      newPRenew.attachm = this.addPRenewMsg.attachm;
+      console.log(newPRenew);
+      this.$axios
+        .post("/iem_hrm/addPRenew", newPRenew)
+        .then(res => {
+          console.log(res);
+          if (res.data.code == "S00000")
+            this.$router.push("/personnel_contract");
+          else this.$message.error("合同续签新增失败！");
+        })
+        .catch(() => {
+          this.$message.error("合同续签新增失败！");
+        });
     }
-}
+  }
+};
 </script>
 
 <style>
 .add_pactRenew {
-    padding: 0 0 20px 20px;
+  padding: 0 0 20px 20px;
 }
 </style>

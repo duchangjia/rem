@@ -9,7 +9,7 @@
 		insert into
 			IFDP_SYS_REL_ROLE_BSN
 		values(
-			#{sysRole.uId},
+			#{sysRole.uid},
 			#{sysRole.roleNo},
 			#{sysBsn.bsnNo},
 			#{status},

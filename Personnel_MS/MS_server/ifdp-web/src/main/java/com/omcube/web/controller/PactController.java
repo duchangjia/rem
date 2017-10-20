@@ -49,7 +49,7 @@ public class PactController {
 	 */
 	@GetMapping(value = "/queryPactList")
 	public Object queryPactList(HttpServletRequest request, Integer pageNum, Integer pageSize ,
-			@RequestParam String derpNo, @RequestParam String custName, String pactType){
+			@RequestParam String derpNo, @RequestParam String custName,@RequestParam String pactType){
 		pageNum = pageNum == null ? 1 : pageNum;
 		pageSize = pageSize == null ? 10 : pageSize;
 		PageHelper.startPage(pageNum, pageSize, true);

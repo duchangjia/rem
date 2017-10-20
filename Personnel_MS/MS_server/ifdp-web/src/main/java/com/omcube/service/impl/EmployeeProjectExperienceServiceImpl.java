@@ -57,14 +57,14 @@ public class EmployeeProjectExperienceServiceImpl
 
 		if (employeeProjectExperienceMapper
 				.queryEmployeeProjectExperienceInfoByParam(
-						employeeProjectExperiencePO.getuId(),
+						employeeProjectExperiencePO.getUid(),
 						employeeProjectExperiencePO.getUserNo(),
 						employeeProjectExperiencePO.getProjectId()) != null) {
 			logger.error("the EmployeeProjectExperience is exist");
 			throw new RuntimeException("此项目信息已经存在");
 		}
 		employeeProjectExperiencePO
-				.setuId(employeeProjectExperiencePO.getuId());
+				.setUid(employeeProjectExperiencePO.getUid());
 		employeeProjectExperiencePO
 				.setUserNo(employeeProjectExperiencePO.getUserNo());
 		employeeProjectExperiencePO

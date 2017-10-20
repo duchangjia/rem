@@ -6,7 +6,7 @@
 <mapper namespace="com.omcube.model.mapper.SysMenuMapper">
 
 	<resultMap id="SysMenuMap" type="com.omcube.model.po.SysMenuPO">
-		<id column="UID" property="uId"></id>
+		<id column="UID" property="uid"></id>
 		<id column="SYS_NO" property="sysNo"></id>
 		<id column="MENU_NO" property="menuNo"></id>
 		<result column="MENU_NAME" property="menuName" javaType="java.lang.String"></result>
@@ -30,7 +30,7 @@
 		from 
 			IFDP_SYS_MENU 
 		where 
-			UID = #{uId} 
+			UID = #{uid} 
 			and SYS_NO = #{sysNo} 
 			and MENU_NO = #{menuNo}
 	</select>

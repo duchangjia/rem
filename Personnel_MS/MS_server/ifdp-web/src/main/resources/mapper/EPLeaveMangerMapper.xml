@@ -7,7 +7,7 @@
 
 	<resultMap id="EPLeaveMap" type="com.omcube.model.po.EPLeaveInfoPO">
 
-		<id column="UID" property="uId"></id>
+		<id column="UID" property="uid"></id>
 		<id column="APPLY_NO" property="applyNo"></id>
 		<result column="LEAVE_START_TIME" property="leaveStartTime" javaType="java.util.Date"></result>
 		<result column="LEAVE_END_TIME" property="leaveEndTime" javaType="java.util.Date"></result>
@@ -87,7 +87,7 @@
 		from
 		EP_LEAVE_FLOW
 		where
-		UID = #{uId} and APPLY_NO = #{applyNo}
+		UID = #{uid} and APPLY_NO = #{applyNo}
 	</select>
 
 	<!-- 请假详细信息的添加 -->
@@ -95,7 +95,7 @@
 		insert into
 			EP_LEAVE_FLOW
 		values(
-			#{uId},
+			#{uid},
 			#{applyNo},
 			#{userNo},
 			#{leaveStartTime},
@@ -132,7 +132,7 @@
 		where 
 			cu.USER_NO= le.USER_NO 
 		and 
-			le.UID = cu.UID = '0001'
+			le.UID = cu.UID = #{uid}
 		and
 			ORGAN_NO = #{organNo} 
 		and 
@@ -143,33 +143,43 @@
 	
 	<!-- 请假详情的查询 -->
 	<select id="queryLeaveInfos" parameterType="com.omcube.model.po.EPLeaveInfoPO" resultMap="EPLeaveMap">
-		select  
-			le.APPLY_NO,
-			cu.ORGAN_NO,
-			cu.DERP_NO,
-			cu.USER_NO,
-			cu.CUST_NAME,
-			le.LEAVE_TYPE,
-			le.LEAVE_START_TIME,
-			le.LEAVE_END_TIME,
-			le.CREATED_BY,
-			le.CREATED_DATE 
-		from 
-			EP_CUST_INFO cu ,EP_LEAVE_FLOW le 
-		where 
-			cu.USER_NO = le.USER_NO = #{userNo}
-		and 
-			le.UID = cu.UID = '0001'
-		and
-			ORGAN_NO = #{organNo} 
-		and 
-			DERP_NO= #{derpNo} 
-		and 
-			(LEAVE_START_TIME &gt; #{leaveStartTime} AND LEAVE_END_TIME &lt; #{leaveEndTime}) 
-		or  
-			(LEAVE_START_TIME &lt; #{leaveStartTime} AND LEAVE_END_TIME &gt; #{leaveEndTime}) 
-		order by 
-			le.APPLY_NO desc
+		SELECT 
+			l.APPLY_NO AS applyNo ,
+			c.ORGAN_NO AS organNo,
+			c.DERP_NO AS deptNo,
+			o1.ORGAN_NAME AS companyname,
+			o2.ORGAN_NAME AS deptname ,
+			c.USER_NO AS userNo,
+			c.CUST_NAME AS custName,
+			l.LEAVE_TYPE AS LEAVE_TYPE,
+			l.LEAVE_START_TIME AS LEAVE_START_TIME,
+			l.LEAVE_END_TIME AS LEAVE_END_TIME,
+			l.AUTH_FLOW AS AUTH_FLOW,
+			l.REMARK AS remark,
+			l.ATTACHM AS attachm,
+			l.CREATED_BY AS createdBy,
+			l.CREATED_DATE AS createdDate
+		FROM (SELECT * FROM EP_CUST_INFO WHERE organ_no = #{organNo}) c 
+		INNER JOIN IFDP_SYS_ORGAN_BASE o1
+		ON c.organ_no = o1.organ_no 
+		INNER JOIN IFDP_SYS_ORGAN_BASE o2 
+		ON c.derp_no = o2.organ_no 
+		INNER JOIN EP_LEAVE_FLOW l
+		ON c.user_no=l.user_no 	 
+		WHERE l.uid=#{uid}
+		<if test="userNo != null and userNo!=''">
+			and c.user_no =#{userNo}
+		</if>
+			
+		<if test="leaveStartTime != null and leaveStartTime!=''">
+			and l.LEAVE_START_TIME &gt; #{leaveStartTime}
+		</if>
+			
+		<if test="leaveEndTime != null and leaveEndTime != ''">
+			and l.LEAVE_END_TIME &lt; #{leaveEndTime}
+		</if>
+			
+	    order by l.apply_no desc
 	</select>
 	
 	<!-- 请假详情的删除 -->
@@ -192,7 +202,7 @@
 			ATTACHM = #{attachm},
 			REMARK = #{remark}
 		where
-			UID = #{uId} and APPLY_N0 = #{applyNo}
+			UID = #{uid} and APPLY_N0 = #{applyNo}
 	</update>
 	
 

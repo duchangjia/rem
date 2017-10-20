@@ -5,7 +5,7 @@
 
 <mapper namespace="com.omcube.model.mapper.TaxRateGroupMapper">
 	<resultMap type="com.omcube.model.po.TaxRateGroupPO" id="TaxRateGroupMap">
-		<id column="UID" property="uId"></id>
+		<id column="UID" property="uid"></id>
 		<id column="GROUP_ID" property="groupId"></id>
 		<result column="GROUP_NO" property="groupNo"></result>
 		<result column="START_TIME" property="startTime"></result>
@@ -23,7 +23,7 @@
 		insert into
 		EP_TAXRATE_GROUP
 		values(
-		#{uId},#{groupId},#{groupNo},
+		#{uid},#{groupId},#{groupNo},
 		#{startTime},#{endTime},#{remark},
 		#{createdBy},now(),#{updatedBy},
 		now(),#{isDelete}
@@ -39,16 +39,17 @@
 		from
 		EP_TAXRATE_GROUP
 		where
-		UID=#{uId}
+		UID=#{uid}
 	</select>
 
 	<!-- 根据主键（组ID）删除个人所得税税率组 -->
 	<update id="deleteTaxRateGroup" parameterType="java.lang.String">
-		update EP_TAXRATE_GROUP
+		update
+		EP_TAXRATE_GROUP
 		set
 		ISDELETE='0'
 		where
-		UID=#{uId}
+		UID=#{uid}
 		and
 		GROUP_ID=#{groupId}
 	</update>

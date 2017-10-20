@@ -55,8 +55,8 @@
                     <template scope="scope">
                         <el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
                         <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                        <el-button size="small" @click="handleChange(scope.$index, scope.row)">变更</el-button>
-                        <el-button size="small" @click="handleRenew(scope.$index, scope.row)">续签</el-button>
+                        <el-button size="small" @click="handlePChange(scope.$index, scope.row)">变更</el-button>
+                        <el-button size="small" @click="handlePRenew(scope.$index, scope.row)">续签</el-button>
                         <!-- <el-button size="small" @click="handleTerminate(scope.$index, scope.row)">解除</el-button>
                         <el-button size="small" @click="handleProbation(scope.$index, scope.row)">试用</el-button> -->
                     </template>
@@ -87,11 +87,9 @@ export default {
     current
   },
   created() {
-    const self = this;
-    self.filters.name = "";
-    self.filters.pactType = "";
-    //初始查询合同列表
-    self.getPactList();
+    this.filters.name = "";
+    this.filters.pactType = "";
+    this.getPactList(); //初始查询合同列表
   },
   methods: {
     getPactList() {
@@ -118,27 +116,22 @@ export default {
       return row.pactStatus == 1 ? "已生效" : row.pactStatus == 0 ? "未生效" : "异常";
     },
     handlePactDetail(index, row) {
-      let params = {
-        pactNo: row.pactNo
-      };
       this.$router.push({
         name: "detail_contract",
-        params: params
+        params: {
+          pactNo: row.pactNo
+        }
       });
     },
     handleCurrentChange(val) {
-      const self = this;
-      self.pageIndex = val;
-      //分页查询合同列表
-      self.getPactList();
+      this.pageIndex = val;
+      this.getPactList(); //分页查询合同列表
     },
     handleQuery() {
-      const self = this;
       console.log(
         "name:" + self.filters.name + " pactType:" + self.filters.pactType
       );
-      //根据条件查询合同列表
-      self.getPactList();
+      this.getPactList(); //根据条件查询合同列表
     },
     handleAdd() {
       this.$router.push({
@@ -153,8 +146,33 @@ export default {
         }
       });
     },
-    handleDelete(index, row) {},
-    handleChange(index, row) {
+    handleDelete(index, row) {
+      let targetPact = {};
+      targetPact.pactNo = row.pactNo;
+      console.log(targetPact);
+      this.$confirm("此操作将会删除该条合同, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$axios
+            .delete("/iem_hrm/delPact?pactNo=" + targetPact.pactNo, targetPact)
+            .then(res => {
+              console.log(res);
+              if (res.data.code == "S00000")
+                this.$message({ type: "success", message: "删除成功!" });
+              else this.$message.error("删除合同失败！");
+            })
+            .catch(() => {
+              this.$message.error("删除合同失败！");
+            });
+        })
+        .catch(() => {
+          this.$message("您已取消删除合同！");
+        });
+    },
+    handlePChange(index, row) {
       this.$router.push({
         name: "add_pactChange",
         params: {
@@ -162,7 +180,7 @@ export default {
         }
       });
     },
-    handleRenew(index, row) {
+    handlePRenew(index, row) {
       this.$router.push({
         name: "add_pactRenew",
         params: {

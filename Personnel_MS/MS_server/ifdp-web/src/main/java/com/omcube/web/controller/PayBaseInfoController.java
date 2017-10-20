@@ -100,7 +100,7 @@ public class PayBaseInfoController {
 	}
 	//从session中获取缓存值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uid = sysLoginCtrl.getuId();
+	String uid = sysLoginCtrl.getUid();
 	//前表格是否有该用户信息
 	if (!checkPayBaseIsExist(uid, epPayBaseInfo.getUserNo())) {
 	    logger.error("the user is in pay base info table yet");
@@ -126,7 +126,7 @@ public class PayBaseInfoController {
 		    "the remark is must not be null when the wage base is over the salary top");
 	}
 
-	epPayBaseInfo.setuId(uid);
+	epPayBaseInfo.setUid(uid);
 	epPayBaseInfo.setCreatedBy(sysLoginCtrl.getUserName());
 	epPayBaseInfo.setUpdatedBy(sysLoginCtrl.getUserName());
 	payBaseInfoService.addPayBaseInfo(epPayBaseInfo);
@@ -184,7 +184,7 @@ public class PayBaseInfoController {
 	checkPageParam(queryPayBaseInfoReq);
 	//获取缓存uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	queryPayBaseInfoReq.setUid(sysLoginCtrl.getuId());
+	queryPayBaseInfoReq.setUid(sysLoginCtrl.getUid());
 	//分页返回
 	Result<PayBaseInfoListResponse> result = new Result<>();
 	Page<PayBaseInfoListResponse> page = PageHelper.startPage(queryPayBaseInfoReq.getPageNum(),
@@ -208,7 +208,7 @@ public class PayBaseInfoController {
 	}
 	//从session 获取uid 
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uid = sysLoginCtrl.getuId();
+	String uid = sysLoginCtrl.getUid();
 	logger.info(String.format("the request param uid:%s, userNo:%s", uid, userNo));
 	EpPayBaseInfoPO epPayBaseInfo = payBaseInfoService.queryPayBaseInfoDetail(uid, userNo);
 
@@ -226,7 +226,7 @@ public class PayBaseInfoController {
 	}
 	//从session中获取缓存值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uid = sysLoginCtrl.getuId();
+	String uid = sysLoginCtrl.getUid();
 
 	//校验保险缴纳标准 模板是否录入福利缴纳系数控制表
 	if (!checkWelcoeNo(uid, epPayBaseInfo.getWelcoeNo())) {
@@ -241,7 +241,7 @@ public class PayBaseInfoController {
 		    "the remark is must not be null when the wage base is over the salary top");
 	}
 
-	epPayBaseInfo.setuId(uid);
+	epPayBaseInfo.setUid(uid);
 	epPayBaseInfo.setUpdatedBy(sysLoginCtrl.getUserName());
 
 	//更新
@@ -259,7 +259,7 @@ public class PayBaseInfoController {
 	}
 	//session 获取值
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-	String uid = sysLoginCtrl.getuId();
+	String uid = sysLoginCtrl.getUid();
 	String updatedBy = sysLoginCtrl.getUserName();
 
 	Map<String, String> params = new HashMap<String, String>();
@@ -279,7 +279,7 @@ public class PayBaseInfoController {
 	//定义标题
 	String[] headers = getPayBaseInfoHeaders();
 	//查询总条数每sheet 20000
-	String uid = SysLoginCtrlUtil.getSysLoginCtrlBySession().getuId();
+	String uid = SysLoginCtrlUtil.getSysLoginCtrlBySession().getUid();
 	long count = payBaseInfoService.queryPayBaseInfoCount(uid);
 	int totalsheets = (int) (count % CONTANT_TWENTY_THS > 0 ? count / CONTANT_TWENTY_THS + 1
 		: count / CONTANT_TWENTY_THS);
@@ -466,7 +466,7 @@ public class PayBaseInfoController {
 	}
 	List<EpPayBaseInfoPO> payBaseInfoList = new ArrayList<EpPayBaseInfoPO>();
 	EpPayBaseInfoPO epPayBaseInfoPO;
-	String uid = SysLoginCtrlUtil.getSysLoginCtrlBySession().getuId();
+	String uid = SysLoginCtrlUtil.getSysLoginCtrlBySession().getUid();
 
 	//循环Excel行数
 	for (int i = 1; i < totalRows; i++) {
@@ -530,7 +530,7 @@ public class PayBaseInfoController {
 	    }
 	    epPayBaseInfoPO.setRemark(remark);
 
-	    epPayBaseInfoPO.setuId(uid);
+	    epPayBaseInfoPO.setUid(uid);
 	    epPayBaseInfoPO.setCreatedBy(SysLoginCtrlUtil.getSysLoginCtrlBySession().getUserName());
 	    epPayBaseInfoPO.setUpdatedBy(SysLoginCtrlUtil.getSysLoginCtrlBySession().getUserName());
 

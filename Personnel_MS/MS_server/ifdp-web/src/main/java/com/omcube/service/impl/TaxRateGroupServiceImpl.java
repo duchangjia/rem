@@ -12,27 +12,27 @@ import com.omcube.service.TaxRateGroupService;
 
 @Service
 @Transactional
-public class TaxRateGroupServiceImpl implements TaxRateGroupService{
-	
+public class TaxRateGroupServiceImpl implements TaxRateGroupService {
+
 	@Autowired
 	private TaxRateGroupMapper taxRateGroupMapper;
-	
+
 	// 新增个人所得税税率组
 	@Override
-	public void addTaxRateGroup(TaxRateGroupPO taxRateGroupPO){
+	public void addTaxRateGroup(TaxRateGroupPO taxRateGroupPO) {
 		taxRateGroupMapper.addTaxRateGroup(taxRateGroupPO);
 	}
-	
+
 	// 查询所有个人所得税税率组
 	@Override
-	public List<TaxRateGroupPO> findTaxRateGroup(String uId){
-		return taxRateGroupMapper.findTaxRateGroup(uId);
-		
+	public List<TaxRateGroupPO> findTaxRateGroup(String uid) {
+		return taxRateGroupMapper.findTaxRateGroup(uid);
+
 	}
-		
+
 	// 根据主键（组ID）删除个人所得税税率组
 	@Override
-	public void deleteTaxRateGroup(TaxRateGroupPO taxRateGroupPO){
+	public void deleteTaxRateGroup(TaxRateGroupPO taxRateGroupPO) {
 		taxRateGroupMapper.deleteTaxRateGroup(taxRateGroupPO);
 	}
 }

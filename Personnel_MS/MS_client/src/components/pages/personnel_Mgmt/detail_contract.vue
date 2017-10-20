@@ -1,6 +1,6 @@
 <template>
     <div class="detail_contract">
-        <current yiji="人事事务" erji="人事合同" sanji="合同详情" :activeTab="activeName">
+        <current yiji="人事事务" erji="人事合同" sanji="合同详情">
         </current>
         <div class="content-wrapper">
             <!-- <el-button type="primary" class="toolBtn">保存</el-button> -->
@@ -25,7 +25,7 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="公司名称" prop="organName">
-                                    <el-select v-model="basicPactMsg.organName">
+                                    <el-select v-model="basicPactMsg.organName" :disabled="true">
                                         <el-option label="总公司" value="1"></el-option>
                                         <el-option label="深圳分公司" value="0"></el-option>
                                     </el-select>
@@ -33,7 +33,7 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="部门名称" prop="derpName">
-                                    <el-select v-model="basicPactMsg.derpName">
+                                    <el-select v-model="basicPactMsg.derpName" :disabled="true">
                                         <el-option label="财务部" value="1"></el-option>
                                         <el-option label="技术部" value="0"></el-option>
                                     </el-select>
@@ -46,25 +46,25 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="员工姓名" prop="custName">
-                                    <el-input v-model="basicPactMsg.custName"></el-input>
+                                    <el-input v-model="basicPactMsg.custName" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="性别" prop="sex" :disabled="true">
-                                    <el-select v-model="basicPactMsg.sex">
+                                <el-form-item label="性别" prop="sex">
+                                    <el-select v-model="basicPactMsg.sex" :disabled="true">
                                         <el-option label="男" value="1"></el-option>
                                         <el-option label="女" value="0"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="身份证" prop="cert" :disabled="true">
+                                <el-form-item label="身份证" prop="cert">
                                     <el-input v-model="basicPactMsg.cert" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="合同类型" prop="pactType">
-                                    <el-select v-model="basicPactMsg.pactType">
+                                    <el-select v-model="basicPactMsg.pactType" :disabled="true">
                                         <el-option label="劳动合同" value="1"></el-option>
                                         <el-option label="保密协议" value="0"></el-option>
                                     </el-select>
@@ -72,22 +72,22 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="签订日期" prop="signTime">
-                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.signTime" style="width: 100%;"></el-date-picker>
+                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.signTime" :disabled="true" style="width: 100%;"></el-date-picker>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="合同开始日期" prop="pactStartTime">
-                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStartTime" style="width: 100%;"></el-date-picker>
+                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStartTime" :disabled="true" style="width: 100%;"></el-date-picker>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="合同结束日期" prop="pactEndTime">
-                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactEndTime" style="width: 100%;"></el-date-picker>
+                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactEndTime" :disabled="true" style="width: 100%;"></el-date-picker>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="合同状态" prop="pactStatus">
-                                    <el-select v-model="basicPactMsg.pactStatus">
+                                    <el-select v-model="basicPactMsg.pactStatus" :disabled="true">
                                         <el-option label="已生效" value="1"></el-option>
                                         <el-option label="未生效" value="0"></el-option>
                                     </el-select>
@@ -95,12 +95,12 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="合同年限" prop="pactExpires">
-                                    <el-input v-model="basicPactMsg.pactExpires"></el-input>
+                                    <el-input v-model="basicPactMsg.pactExpires" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="终止日期" prop="pactStopTime">
-                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStopTime" style="width: 100%;"></el-date-picker>
+                                    <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStopTime" :disabled="true" style="width: 100%;"></el-date-picker>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -113,12 +113,12 @@
                             </el-col>
                             <el-col :span="24">
                                 <el-form-item label="终止原因" prop="stopReason">
-                                    <el-input type="textarea" v-model="basicPactMsg.stopReason"></el-input>
+                                    <el-input type="textarea" v-model="basicPactMsg.stopReason" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="24">
                                 <el-form-item label="备注" prop="remark">
-                                    <el-input type="textarea" v-model="basicPactMsg.remark"></el-input>
+                                    <el-input type="textarea" v-model="basicPactMsg.remark" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="24">
@@ -133,7 +133,7 @@
                 <el-tab-pane label="合同变更情况" name="changePactMsg">
                     <div class="subtitlebar">
                         <span class="title-text">合同变更情况</span>
-                        <el-button type="text" class="addBtn">新增</el-button>
+                        <el-button type="text" @click="handleAddPChange" class="addBtn">新增</el-button>
                     </div>
                     <div class="add-wrapper">
                         <el-table stripe :data="PChangeListInfo" border>
@@ -163,13 +163,15 @@
                                 </template>
                             </el-table-column>
                         </el-table>
+                        <el-pagination class="toolbar" @current-change="handlePChangePage" :current-page.sync="pChangePage.pageIndex" :page-size="pChangePage.pageRows" layout="prev, pager, next, jumper" :total="pChangePage.totalRows" v-show="pChangePage.totalRows>pChangePage.pageRows">
+                        </el-pagination>
                     </div>
                 </el-tab-pane>
 
                 <el-tab-pane label="合同续签情况" name="renewPactMsg">
                     <div class="subtitlebar">
                         <span class="title-text">合同续签情况</span>
-                        <el-button type="text" class="addBtn">新增</el-button>
+                        <el-button type="text" @click="handleAddPRenew" class="addBtn">新增</el-button>
                     </div>
                     <div class="add-wrapper">
                         <el-table stripe :data="PRenewListInfo" border>
@@ -199,8 +201,11 @@
                                 </template>
                             </el-table-column>
                         </el-table>
+                        <el-pagination class="toolbar" @current-change="handlePRenewPage" :current-page.sync="pRenewPage.pageIndex" :page-size="pRenewPage.pageRows" layout="prev, pager, next, jumper" :total="pRenewPage.totalRows" v-show="pRenewPage.totalRows>pRenewPage.pageRows">
+                        </el-pagination>
                     </div>
                 </el-tab-pane>
+
             </el-tabs>
         </div>
     </div>
@@ -215,11 +220,18 @@ export default {
       labelPosition: "right",
       pactNo: "",
       basicPactMsg: {},
-      pageIndex: 1,
-      pageRows: 7,
-      totalRows: 20,
       PChangeListInfo: [],
       PRenewListInfo: [],
+      pChangePage: {
+        pageIndex: 1,
+        pageRows: 7,
+        totalRows: 20
+      },
+      pRenewPage: {
+        pageIndex: 1,
+        pageRows: 7,
+        totalRows: 20
+      },
       checked: "",
       rules: {
         pactType: [{ required: true, message: "请选择合同类型", trigger: "blur" }],
@@ -275,9 +287,9 @@ export default {
     getPChangeList() {
       const self = this;
       let params = {
-        pageIndex: self.pageIndex,
-        pageRows: self.pageRows,
-        pactNo: this.pactNo,
+        pageIndex: self.pChangePage.pageIndex,
+        pageRows: self.pChangePage.pageRows,
+        pactNo: self.pactNo,
         changeId: ""
       };
       self.$axios
@@ -292,9 +304,9 @@ export default {
     getPRenewList() {
       const self = this;
       let params = {
-        pageIndex: self.pageIndex,
-        pageRows: self.pageRows,
-        pactNo: this.pactNo,
+        pageIndex: self.pRenewPage.pageIndex,
+        pageRows: self.pRenewPage.pageRows,
+        pactNo: self.pactNo,
         renewId: ""
       };
       self.$axios
@@ -330,7 +342,78 @@ export default {
           }
         });
     },
-    handleDelete(index, row) {},
+    handleDelete(index, row) {
+      if (this.activeName == "changePactMsg") {
+        let targetPChange = {};
+        targetPChange.pactNo = row.pactNo;
+        targetPChange.changeId = row.changeId;
+        console.log(targetPChange);
+        this.$confirm("此操作将会删除该条合同变更, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.$axios
+              .delete("/iem_hrm/delPChange?pactNo=" + targetPChange.pactNo + "&changeId=" + targetPChange.changeId, targetPChange)
+              .then(res => {
+                console.log(res);
+                if (res.data.code == "S00000")
+                  this.$message({ type: "success", message: "删除成功!" });
+                else this.$message.error("删除合同变更失败！");
+              })
+              .catch(() => {
+                this.$message.error("删除合同变更失败！");
+              });
+          })
+          .catch(() => {
+            this.$message("您已取消删除合同变更！");
+          });
+      }
+      if (this.activeName == "renewPactMsg") {
+        let targetPRenew = {};
+        targetPRenew.pactNo = row.pactNo;
+        targetPRenew.renewId = row.renewId;
+        console.log(targetPRenew);
+        this.$confirm("此操作将会删除该条合同续签, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.$axios
+              .delete("/iem_hrm/delPRenew?pactNo=" + targetPRenew.pactNo + "&renewId=" + targetPRenew.renewId, targetPRenew)
+              .then(res => {
+                console.log(res);
+                if (res.data.code == "S00000")
+                  this.$message({ type: "success", message: "删除成功!" });
+                else this.$message.error("删除合同续签失败！");
+              })
+              .catch(() => {
+                this.$message.error("删除合同续签失败！");
+              });
+          })
+          .catch(() => {
+            this.$message("您已取消删除合同续签！");
+          });
+      }
+    },
+    handleAddPChange() {
+      this.$router.push({
+        name: "add_pactChange",
+        params: {
+          pactNo: this.pactNo
+        }
+      });
+    },
+    handleAddPRenew() {
+      this.$router.push({
+        name: "add_pactRenew",
+        params: {
+          pactNo: this.pactNo
+        }
+      });
+    },
     handlePChangeDetail(index, row) {
       this.$router.push({
         name: "detail_pactChange",
@@ -348,6 +431,14 @@ export default {
           renewId: row.renewId
         }
       });
+    },
+    handlePChangePage(val) {
+      this.pChangePage.pageIndex = val;
+      this.getPChangeList(); //分页查询合同变更列表
+    },
+    handlePRenewPage(val) {
+      this.pRenewPage.pageIndex = val;
+      this.getPRenewList(); //分页查询合同变更列表
     }
   }
 };
@@ -356,74 +447,5 @@ export default {
 <style scoped>
 .detail_contract {
   padding: 0 0 20px 20px;
-}
-
-.el-tabs__item {
-  padding: 0 10px;
-}
-
-.el-tabs__item.is-active {
-  color: #333333;
-}
-
-.el-tabs__active-bar {
-  background-color: #333333;
-  height: 2px;
-}
-
-.el-tabs__item:first-of-type {
-  padding-left: 0;
-}
-
-.el-tabs__header {
-  height: 80px;
-  line-height: 80px;
-  font-size: 16px;
-  font-family: "PingFang SC";
-  border-bottom: 1px solid #eeeeee;
-  margin-bottom: 20px;
-}
-
-.content-wrapper .subtitlebar {
-  height: 24px;
-  line-height: 24px;
-  font-size: 14px;
-  font-family: "PingFangSC Regular";
-  padding-left: 10px;
-  margin: 20px 0;
-}
-
-.content-wrapper .subtitlebar .title-text {
-  display: inline-block;
-  height: 24px;
-  position: relative;
-  color: #333333;
-}
-
-.content-wrapper .subtitlebar .addBtn {
-  float: right;
-  color: #ff9900;
-  border: none;
-  padding: 5px;
-  padding-right: 0;
-}
-
-.icon-edit {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  background: url("../../../../static/img/common/edit.png") center no-repeat;
-}
-
-.icon-delete {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-  background: url("../../../../static/img/common/delete.png") center no-repeat;
-}
-
-.icon-edit:hover,
-.icon-delete:hover {
-  cursor: pointer;
 }
 </style>

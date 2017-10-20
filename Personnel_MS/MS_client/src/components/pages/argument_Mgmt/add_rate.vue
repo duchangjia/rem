@@ -1,6 +1,6 @@
 <template>
 	<div class="add_rateGroup">
-		<current yiji="参数管理" erji="业务参数" sanji="个人所得税税率设置" siji="税率新增"></current>
+		<current yiji="参数管理" erji="业务参数" sanji="个人所得税税率设置" siji="个人所得税税率详情" wuji="税率新增"></current>
 		<div class="content">
 			<div class="title">
 				<span class="title-text">税率新增</span>
@@ -10,6 +10,9 @@
 				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
 					<el-form-item label="组名称" prop="groupNo">
 					    <el-input v-model="formdata.groupNo"></el-input>
+				  	</el-form-item>
+				  	<el-form-item label="编号" prop="applyNo">
+					    <el-input v-model="formdata.applyNo"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="下限" prop="GroupLowerLimit">
 					    <el-input v-model="formdata.GroupLowerLimit"></el-input>
@@ -46,6 +49,7 @@ export default {
 		return {
 			formdata: {
 				groupNo: "",
+				applyNo: "",
 				GroupLimit: '',
 				GroupLowerLimit: '',
 				percentRate: '',
@@ -84,16 +88,22 @@ export default {
 						GroupLowerLimit: self.formdata.GroupLowerLimit,
 						percentRate: self.formdata.percentRate
 	          		};
-	          		self.$axios.post(baseURL+'/insertTaxRateCtrl', params)
-	          			.then((res) => {
-	          				console.log(res);
-	          				this.$message({ message: '税率组新增成功', type: 'success' });
-	          			})
+	          		self.insertTaxRateCtrl(params);
+	          		
 	          	} else {
 	            	this.$message.error('新增失败');
 	            	return false;
 	          	}
 	        });
+		},
+		//新增税率
+		insertTaxRateCtrl(params) {
+			const self = this;
+			self.$axios.post(baseURL+'/insertTaxRateCtrl', params)
+  			.then((res) => {
+  				console.log(res);
+  				this.$message({ message: '税率新增成功', type: 'success' });
+  			})
 		}
 	}
 }

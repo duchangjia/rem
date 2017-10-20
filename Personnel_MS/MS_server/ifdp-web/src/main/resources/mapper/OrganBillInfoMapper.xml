@@ -5,13 +5,14 @@
 <mapper namespace="com.omcube.model.mapper.OrganBillInfoMapper">
 
 	<resultMap id="OrganBillInfoMap" type="com.omcube.model.po.OrganBillInfoPO">
-		<id column="uid" property="uId"></id>
+		<id column="uid" property="uid"></id>
 		<id column="organ_no" property="organNo"></id>
 		<result column="organ_name" property="organName" javaType="java.lang.String"></result>
 		<result column="organ_taxno" property="organTaxNo" javaType="java.lang.String"></result>
 		<result column="organ_tel" property="organTel" javaType="java.lang.String"></result>
 		<result column="organ_acct" property="organAcct" javaType="java.lang.String"></result>
-		<result column="organ_acctname" property="organAcctname" javaType="java.lang.String"></result>
+		<result column="organ_acctname" property="organAcctname"
+			javaType="java.lang.String"></result>
 		<result column="organ_addr" property="organAddr" javaType="java.lang.String"></result>
 		<result column="created_by" property="createdBy" javaType="java.lang.String"></result>
 		<result column="created_date" property="createdDate" javaType="java.util.Date"></result>
@@ -21,14 +22,15 @@
 
 	<!-- 开票信息新增 -->
 	<insert id="addBillInf" parameterType="com.omcube.model.po.OrganBillInfoPO">
-		insert into EP_ORGAN_BILLINFO(
+		insert into
+		EP_ORGAN_BILLINFO(
 			uid,organ_no,organ_name,organ_taxno,
 			organ_tel,organ_acct,organ_acctname,organ_addr,
 			created_by,created_date,
 			updated_by,updated_date
-		) 
+		)
 		values(
-			#{uId},#{organNo},#{organName},#{organTaxNo},
+			#{uid},#{organNo},#{organName},#{organTaxNo},
 			#{organTel},#{organAcct},#{organAcctname},#{organAddr},
 			#{createdBy},now(),
 			#{updatedBy},now()
@@ -36,8 +38,8 @@
 	</insert>
 
 	<!-- 开票信息修改 -->
-	<update id="modBillInf" parameterType="com.omcube.model.po.OrganBillInfoPO" >
-		update EP_ORGAN_BILLINFO 
+	<update id="modBillInf" parameterType="com.omcube.model.po.OrganBillInfoPO">
+		update EP_ORGAN_BILLINFO
 		set
 			organ_name = #{organName},
 			organ_taxno = #{organTaxNo},
@@ -47,33 +49,34 @@
 			organ_addr = #{organAddr},
 			updated_by = #{updatedBy},
 			updated_date = now()
-		where 
-			uid= #{uId} and organ_no = #{organNo}
+		where
+			uid= #{uid} and organ_no = #{organNo}
 	</update>
 
 	<!-- 公司开票信息列表查询 -->
 	<select id="queryBillInfoList" parameterType="java.lang.String"
 		resultMap="OrganBillInfoMap">
-		select * from EP_ORGAN_BILLINFO where UID = #{uId}
+		select * from EP_ORGAN_BILLINFO where UID = #{uid}
 	</select>
 
 	<!-- 通过公司名称模糊查询公司开票信息列表 -->
-	<select id="queryBillInfoByName" parameterType="java.lang.String" resultMap="OrganBillInfoMap">
-		select * from EP_ORGAN_BILLINFO
-		where 1=1
-		<if test="uId != null">
-			and uid=#{uId}
+	<select id="queryBillInfoByName" parameterType="java.lang.String"
+		resultMap="OrganBillInfoMap">
+		select * from EP_ORGAN_BILLINFO where 1=1
+		<if test="uid != null">
+			and uid=#{uid}
 		</if>
 		<if test="organName != '' and organName != null">
 			and organ_name like concat("%",#{organName},"%")
 		</if>
 	</select>
-	
+
 	<!-- 开票信息详细信息查询 -->
-	<select id = "queryBillInfDtl" parameterType = "java.lang.String" resultMap = "OrganBillInfoMap">
+	<select id="queryBillInfDtl" parameterType="java.lang.String"
+		resultMap="OrganBillInfoMap">
 		select * from EP_ORGAN_BILLINFO
 		where
-		uid = #{uId} and organ_no = #{organNo}
+			uid = #{uid} and organ_no = #{organNo}
 	</select>
-	
+
 </mapper>
