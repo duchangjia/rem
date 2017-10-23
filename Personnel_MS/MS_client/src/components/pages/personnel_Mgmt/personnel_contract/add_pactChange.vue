@@ -1,10 +1,11 @@
 <template>
-    <div class="detail_pactChange">
-        <current yiji="人事事务" erji="人事合同" sanji="合同详情" siji="合同变更详情" :activeTab="activeName">
+    <div class="add_pactChange">
+        <current yiji="人事事务" erji="人事合同" sanji="合同变更">
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
-                <span class="title-text">合同变更详情</span>
+                <span class="title-text">合同变更</span>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
@@ -83,32 +84,22 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">合同变更信息</el-col>
-                <el-form :inline="true" :model="detailPChangeMsg" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="addPChangeMsg" :rules="rules" ref="addPChangeMsg" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
                     <el-col :span="12">
                         <el-form-item label="变更时间" prop="changeTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPChangeMsg.changeTime" :disabled="true" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPChangeMsg.changeTime" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="变更类别" prop="changeType">
-                            <el-select v-model="detailPChangeMsg.changeType" :disabled="true">
+                            <el-select v-model="addPChangeMsg.changeType">
                                 <el-option label="条款变更" value="1"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="变更内容" prop="changeContent">
-                            <el-input type="textarea" v-model="detailPChangeMsg.changeContent" :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="最新更新人" prop="updateBy">
-                            <el-input v-model="detailPChangeMsg.updateBy" :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="最新更新时间" prop="updateDate">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPChangeMsg.updateDate" :disabled="true" style="width: 100%;"></el-date-picker>
+                            <el-input type="textarea" v-model="addPChangeMsg.changeContent"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
@@ -125,65 +116,73 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import current from "../../common/current_position.vue";
+import current from "../../../common/current_position.vue";
 export default {
   data() {
     return {
       labelPosition: "right",
-      activeName: "changePactMsg",
-      pactNo: "",
-      changeId: "",
       basicPactMsg: {},
-      detailPChangeMsg: {}
+      addPChangeMsg: {
+        pactNo: "",
+        changeTime: "",
+        changeType: "",
+        changeContent: "",
+        attachm: "",
+        remark: ""
+      },
+      rules: {
+        changeTime: [{ type: 'date', required: true, message: '请选择变更日期', trigger: 'change' }],
+        changeType: [{ required: true, message: "请选择变更类别", trigger: "blur" }],
+        changeContent: [{ required: true, message: "请输入变更内容", trigger: "blur" }]
+      }
     };
   },
   components: {
     current
   },
   created() {
-    this.pactNo = this.$route.params.pactNo;
-    this.changeId = this.$route.params.changeId;
-    this.getPactDtl(this.pactNo);
-    this.getPChangeDtl();
+    const self = this;
+    let params = {
+      pactNo: self.$route.params.pactNo
+    };
+    console.log(params.pactNo);
+    self.$axios
+      .get("/iem_hrm/pact/queryPactDetail", { params: params })
+      .then(res => {
+        self.basicPactMsg = res.data.data;
+        console.log(self.basicPactMsg);
+      })
+      .catch(() => {
+        console.log("error");
+      });
   },
   methods: {
-    getPactDtl(pactNo) {
-      const self = this;
-      let params = {
-        pactNo: self.pactNo
-      };
-      self.$axios
-        .get("/iem_hrm/pact/queryPactDetail", { params: params })
-        .then(res => {
-          self.basicPactMsg = res.data.data;
-        })
-        .catch(() => {
-          console.log("error");
-        });
-    },
-    getPChangeDtl(pactNo) {
-      const self = this;
-      let params = {
-        pactNo: self.pactNo,
-        changeId: self.changeId
-      };
-      self.$axios
-        .get("/iem_hrm/pact/queryPactChangeDetail", { params: params })
+    handleSave() {
+      let newPChange = {};
+      newPChange.pactNo = this.basicPactMsg.pactNo;
+      newPChange.changeTime = this.addPChangeMsg.changeTime;
+      newPChange.changeType = this.addPChangeMsg.changeType;
+      newPChange.changeContent = this.addPChangeMsg.changeContent;
+      newPChange.attachm = this.addPChangeMsg.attachm;
+      console.log(newPChange);
+      this.$axios
+        .post("/iem_hrm/pact/addPactChange", newPChange)
         .then(res => {
           console.log(res);
-          self.detailPChangeMsg = res.data.data;
+          if (res.data.code == "S00000")
+            this.$router.push("/personnel_contract");
+          else this.$message.error("合同变更新增失败！");
         })
         .catch(() => {
-          console.log("error");
-        }); 
+          this.$message.error("合同变更新增失败！");
+        });
     }
-    
   }
 };
 </script>
 
 <style>
-.detail_pactChange {
+.add_pactChange {
   padding: 0 0 20px 20px;
 }
 </style>

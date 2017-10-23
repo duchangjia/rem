@@ -3,9 +3,12 @@ package com.omcube.web.controller;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +19,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.omcube.model.po.EPLeaveInfoPO;
 import com.omcube.model.po.SysLoginCtrl;
+import com.omcube.model.request.QueryLeaveRequest;
+import com.omcube.model.response.LeaveResponse;
 import com.omcube.service.EPLeaveMangerService;
 import com.omcube.util.ConstantUtil;
 import com.omcube.util.ErrorCodeConstantUtil;
@@ -53,20 +59,20 @@ public class EPLeaveMangerController {
 	 */
 	@PostMapping(value = "/addLeaveInfo")
 	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-	public Object addLeaveInfo(@RequestBody EPLeaveInfoPO epLeaveInfoPO, MultipartFile file) {
+	public Object addLeaveInfo(LeaveResponse leaveResponse, @RequestParam("file") MultipartFile file) {
 
-		if (epLeaveInfoPO == null) {
+		if (leaveResponse == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
 
-		// 请假编号的生成
+		// 从session获的uid
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
+		// 请假编号的生成
 		String uid = sysLoginCtrl.getUid();
 		String applyNo = GetNumUtil.getNo();
-		epLeaveInfoPO.setUid(uid);
-		epLeaveInfoPO.setUid("0001");
-		epLeaveInfoPO.setApplyNo(applyNo);
+		leaveResponse.setUid(uid);
+		leaveResponse.setApplyNo(applyNo);
 
 		try {
 			if (!file.isEmpty()) {
@@ -79,7 +85,8 @@ public class EPLeaveMangerController {
 				String filePath = "e://leave//";
 
 				File newFile = new File(filePath + fileName);
-				epLeaveInfoPO.setAttachm(fileName.toString());
+
+				leaveResponse.setAttachm(fileName.toString());
 
 				if (!newFile.getParentFile().exists()) {
 					newFile.getParentFile().mkdirs();
@@ -88,7 +95,7 @@ public class EPLeaveMangerController {
 				file.transferTo(newFile);
 			}
 
-			epLeaveMangerService.addLeaveInfo(epLeaveInfoPO);
+			epLeaveMangerService.addLeaveInfo(leaveResponse);
 
 			return JSONResultUtil.setSuccess();
 
@@ -106,9 +113,18 @@ public class EPLeaveMangerController {
 	 * @return
 	 */
 	@GetMapping(value = "/queryLeaveList")
-	public Object queryLeaveList(EPLeaveInfoPO epLeaveInfoPO, Integer pageNum, Integer pageSize) {
+	public Object queryLeaveList(QueryLeaveRequest queryLeaveRequest) {
+
+		// 入参的校验
+		if (queryLeaveRequest == null) {
+			logger.error("the request body is null");
+			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
+		}
 
 		// 分页信息的校验
+		Integer pageNum = queryLeaveRequest.getPageNum();
+		Integer pageSize = queryLeaveRequest.getPageSize();
+
 		if (pageNum <= 0) {
 			pageNum = ConstantUtil.DEFAULT_PAGE_NUM;
 		}
@@ -119,18 +135,12 @@ public class EPLeaveMangerController {
 			pageSize = ConstantUtil.DEFAULT_MAX_PAGE_SIZE;
 		}
 
-		// 入参的校验
-		if (epLeaveInfoPO == null) {
-			logger.error("the request body is null");
-			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
-		}
-
 		// 返回的结果集
-		Result<EPLeaveInfoPO> result = new Result<>();
+		Result<LeaveResponse> result = new Result<LeaveResponse>();
 
-		Page<EPLeaveInfoPO> page = PageHelper.startPage(pageNum, pageSize, true);
+		Page<LeaveResponse> page = PageHelper.startPage(pageNum, pageSize, true);
 
-		List<EPLeaveInfoPO> leaveList = epLeaveMangerService.queryLeaveList(epLeaveInfoPO);
+		List<LeaveResponse> leaveList = epLeaveMangerService.queryLeaveList(queryLeaveRequest);
 
 		long totalNum = page.getTotal();
 		result.setTotal(totalNum);
@@ -147,26 +157,119 @@ public class EPLeaveMangerController {
 	 * @return
 	 */
 	@GetMapping(value = "/queryLeaveInfos")
-	public Object queryLeaveInfos(EPLeaveInfoPO epLeaveInfoPO, HttpServletResponse response) {
+	public Object queryLeaveInfos(QueryLeaveRequest queryLeaveRequest) {
+
+		if (queryLeaveRequest == null) {
+			logger.error("the request body is null");
+			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
+		}
+
+		try {
+			EPLeaveInfoPO LeaveInfoPO = epLeaveMangerService.queryLeaveInfos(queryLeaveRequest);
+			return JSONResultUtil.setSuccess(LeaveInfoPO);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "query leaveInfo fail!!!");
+	}
+
+	/**
+	 * 请假详情的删除
+	 * 
+	 * @param epLeaveInfoPO
+	 * @return
+	 */
+	@DeleteMapping(value = "/deleteLeaveInfo")
+	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
+	public Object deleteLeaveInfo(QueryLeaveRequest queryLeaveRequest) {
+
+		if (queryLeaveRequest == null) {
+			logger.error("the request body is null");
+			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
+		}
+
+		try {
+			epLeaveMangerService.deleteLeaveInfo(queryLeaveRequest);
+			return JSONResultUtil.setSuccess();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "delete leaveInfo fail");
+
+	}
+
+	/**
+	 * 请假详情的修改
+	 * 
+	 * @param epLeaveInfoPO
+	 * @return
+	 */
+	@PutMapping(value = "/modifyLeaveInfo")
+	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
+	public Object modifyLeaveInfo(@RequestBody EPLeaveInfoPO epLeaveInfoPO,
+			@RequestParam(value = "file ") MultipartFile file) {
 
 		if (epLeaveInfoPO == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
 
+		try {
+			if (!file.isEmpty()) {
+				// 获的文件名
+				String fileName = file.getOriginalFilename();
+				// 获的文件的后缀 String fileSuffix = fileName.substring(fileName.lastIndexOf("."));
+				// 文件上传的路劲
+				String filePath = "e://attachm//";
+				File newFile = new File(filePath + fileName);
+				epLeaveInfoPO.setAttachm(newFile.toString());
+
+				if (!newFile.getParentFile().exists()) {
+					newFile.getParentFile().mkdirs();
+				}
+
+				file.transferTo(newFile);
+			}
+
+			epLeaveMangerService.modifyLeaveInfo(epLeaveInfoPO);
+
+			return JSONResultUtil.setSuccess();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "update leaveInfo fail");
+	}
+
+	/**
+	 * 附件的下载
+	 * 
+	 * @param request
+	 * @param response
+	 * @param fileUrl
+	 * @return
+	 */
+	@GetMapping(value = "/downLoadFile")
+	public Object downLoadFile(HttpServletRequest request, HttpServletResponse response, String fileUrl) {
+
+		if (StringUtils.isBlank(fileUrl)) {
+			logger.error("the request body is null");
+			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the fileUrl is not exist");
+		}
+
 		FileInputStream fis = null;
 		BufferedInputStream bis = null;
+		// 获的文件的名
+		int index = fileUrl.lastIndexOf("/");
+		String fileName = fileUrl.substring(index + 1);
 
-		try {
-			// 文件的下载
-			EPLeaveInfoPO LeaveInfoPO = epLeaveMangerService.queryLeaveInfos(epLeaveInfoPO);
-			String attachm = LeaveInfoPO.getAttachm();
-			String fileName = attachm.substring(attachm.lastIndexOf("//"));
+		if (!StringUtils.isBlank(fileName)) {
+			File file = new File(fileUrl);
 
-			if (fileName != null) {
-				String filePath = "e://attachm//";
-				File file = new File(filePath, fileName);
-
+			try {
 				if (file.exists()) {
 					// 设置下载不打开文件
 					response.setContentType("application/force-download");
@@ -185,104 +288,30 @@ public class EPLeaveMangerController {
 						len = bis.read(buffer);
 					}
 				}
-			}
-
-			// 查询
-			return JSONResultUtil.setSuccess(LeaveInfoPO);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (bis != null) {
-				try {
-					bis.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				if (fis != null) {
+				return JSONResultUtil.setSuccess();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (bis != null) {
 					try {
-						fis.close();
+						bis.close();
 					} catch (Exception e) {
 						e.printStackTrace();
+					}
+
+					if (fis != null) {
+						try {
+							fis.close();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
 
 		}
 
-		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "query leaveInfo fail!!!");
-	}
+		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "file downLoad fail ");
 
-	/**
-	 * 请假详情的删除
-	 * 
-	 * @param epLeaveInfoPO
-	 * @return
-	 */
-	@DeleteMapping(value = "/deleteLeaveInfo")
-	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-	public Object deleteLeaveInfo(EPLeaveInfoPO epLeaveInfoPO) {
-
-		if (epLeaveInfoPO == null) {
-			logger.error("the request body is null");
-			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
-		}
-
-		try {
-			epLeaveMangerService.deleteLeaveInfo(epLeaveInfoPO);
-			return JSONResultUtil.setSuccess();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "delete leaveInfo fail");
-
-	}
-
-	/**
-	 * 请假详情的修改
-	 * 
-	 * @param epLeaveInfoPO
-	 * @return
-	 */
-	@PutMapping(value = "/modifyLeaveInfo")
-	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-	public Object modifyLeaveInfo(EPLeaveInfoPO epLeaveInfoPO, MultipartFile file) {
-
-		if (epLeaveInfoPO == null) {
-			logger.error("the request body is null");
-			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
-		}
-
-		try {
-			if (!file.isEmpty()) {
-				// 获的文件名
-				String fileName = file.getOriginalFilename();
-				// 将文件名保存到数据库
-				epLeaveInfoPO.setAttachm(fileName);
-				// 获的文件的后缀
-				String fileSuffix = fileName.substring(fileName.lastIndexOf("."));
-				// 文件上传的路劲
-				String filePath = "e://attachm//";
-
-				File newFile = new File(filePath + fileName);
-				epLeaveInfoPO.setAttachm(fileName.toString());
-
-				if (!newFile.getParentFile().exists()) {
-					newFile.getParentFile().mkdirs();
-				}
-
-				file.transferTo(newFile);
-			}
-
-			epLeaveMangerService.modifyLeaveInfo(epLeaveInfoPO);
-
-			return JSONResultUtil.setSuccess();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "update leaveInfo fail");
 	}
 }

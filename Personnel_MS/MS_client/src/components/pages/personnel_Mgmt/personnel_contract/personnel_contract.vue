@@ -262,14 +262,14 @@ table .el-button--danger:active {
   display: inline-block;
   width: 24px;
   height: 24px;
-  background: url("../../../../static/img/common/edit.png") center no-repeat;
+  background: url("../../../../../static/img/common/edit.png") center no-repeat;
 }
 
 .icon-delete {
   display: inline-block;
   width: 24px;
   height: 24px;
-  background: url("../../../../static/img/common/delete.png") center no-repeat;
+  background: url("../../../../../static/img/common/delete.png") center no-repeat;
 }
 
 .icon-edit:hover,

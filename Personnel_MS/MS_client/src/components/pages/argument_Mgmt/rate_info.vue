@@ -129,7 +129,7 @@ export default {
 		//查询个税列表
 		selectTaxRateCtrl(pageNum,pageSize,params) {
 			const self = this;
-			self.$axios.get(baseURL+'/selectTaxRateCtrl', { params: params})
+			self.$axios.get(baseURL+'/taxRateCtrl/selectTaxRateCtrl', { params: params})
 				.then(function(res) {
 					console.log(res);
 					self.taxRateList = res.data.data.list;
@@ -143,7 +143,7 @@ export default {
 		//删除个税税率
 		deleteTaxRateCtrl(params) {
 			const self = this;
-			self.$axios.delete(baseURL+'/deleteTaxRateCtrl')
+			self.$axios.delete(baseURL+'/taxRateCtrl/deleteTaxRateCtrl')
     		.then((res) => {
     			console.log(res);
     			this.$message({ type: 'success', message: '删除成功!' });

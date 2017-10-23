@@ -8,7 +8,7 @@ import com.omcube.model.request.QueryVisaFreeHolidayRequest;
 public interface VisaFreeHolidayService {
 
 	// 查询所有列表
-	List<VisaFreeHolidayPo> queryVisaFreeHolidayList(String uId);
+	List<VisaFreeHolidayPo> queryVisaFreeHolidayList(String uid);
 
 	// 校验新增的免签节假日是否存在
 	Object queryVisaFreeHoliayByDate(String dayDate);

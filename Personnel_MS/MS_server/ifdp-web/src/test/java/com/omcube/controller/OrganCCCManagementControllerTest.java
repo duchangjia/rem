@@ -34,11 +34,10 @@ public class OrganCCCManagementControllerTest {
 	public void addOrgCCC() throws Exception {
 
 		String result = mockMvc
-				.perform(post("/organ/addOrgCCC").param("uId", "0001")
-						.param("organNo", "0005").param("organName", "2")
-						.param("costType", "2").param("costCode", "2")
-						.param("descr", "2").param("createdBy", "人")
-						.param("updateBy", "额")
+				.perform(post("/organ/addOrgCCC")
+						.param("organName", "魔方分公司")
+						.param("costType", "03").param("costCode", "r")
+						.param("descr", "h")
 						.contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(status().isOk()).andReturn().getResponse()
 				.getContentAsString();

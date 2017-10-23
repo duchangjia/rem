@@ -1,6 +1,7 @@
 package com.omcube.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,7 @@ public class EpCustWorkHisController {
 	}
 
 	// 根据主键（用户编号，序号）删除员工工作经历信息
-	@PostMapping(value = "deleteEpCustEduHis")
+	@DeleteMapping(value = "deleteEpCustEduHis")
 	public Object deleteEpCustWorkHis(EpCustWorkHisPO epCustWorkHisPO) {
 		epCustWorkHisService.deleteEpCustWorkHis(epCustWorkHisPO);
 		return JSONResultUtil.setSuccess();

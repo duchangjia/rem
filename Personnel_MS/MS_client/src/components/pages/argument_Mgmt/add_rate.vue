@@ -99,7 +99,7 @@ export default {
 		//新增税率
 		insertTaxRateCtrl(params) {
 			const self = this;
-			self.$axios.post(baseURL+'/insertTaxRateCtrl', params)
+			self.$axios.post(baseURL+'/taxRateCtrl/insertTaxRateCtrl', params)
   			.then((res) => {
   				console.log(res);
   				this.$message({ message: '税率新增成功', type: 'success' });

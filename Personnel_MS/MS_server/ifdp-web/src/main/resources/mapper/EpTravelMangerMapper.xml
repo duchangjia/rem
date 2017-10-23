@@ -4,7 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
 <mapper namespace="com.omcube.model.mapper.EpTravelMangerMapper">
-  
+
+  <!-- 根据机构号查询该机构下的出差信息 -->
  	<select id="queryTravelList" parameterType="com.omcube.model.request.QueryTravelRequest" resultType="com.omcube.model.response.TravelResponse">
  	
 		select 
@@ -34,7 +35,7 @@
 		inner join IFDP_SYS_ORGAN_BASE o2 
 		  on c.derp_no = o2.organ_no 
 		inner join EP_TRAVEL_FLOW t
-		 on c.user_no=t.user_no 	 
+		   on c.user_no=t.user_no 	 
 		where t.uid=#{uid} 
 		 
 			 <if test="userNo != null and userNo!=''">
@@ -53,7 +54,8 @@
 	 	
  	</select>
  	
- 	 <select id="getTravelInfoByUserNo" parameterType="com.omcube.model.request.QueryTravelRequest" resultType="com.omcube.model.response.TravelResponse">
+ 	<!-- 根据出差编号查询出差详情 -->
+ 	 <select id="getTravelInfoByApplyNo" parameterType="com.omcube.model.request.QueryTravelRequest" resultType="com.omcube.model.response.TravelResponse">
 	 		select 
 			  t.apply_no as applyNo ,
 			  c.organ_no as organNo,
@@ -75,6 +77,8 @@
 			  t.attachm as attachm,
 			  t.created_by as createdBy,
 			  t.created_date as createdDate
+			  t.updated_by as updatedBy,
+			  t.updated_date as updatedDate
 			  from EP_CUST_INFO c
 			inner join IFDP_SYS_ORGAN_BASE o1 
 			  on c.organ_no = o1.organ_no 
@@ -82,18 +86,48 @@
 			  on c.derp_no = o2.organ_no 
 			inner join EP_TRAVEL_FLOW t
 			 on c.user_no=t.user_no 	 
-			where t.uid=#{uid} and c.user_no=#{userNo}
+			where t.uid=#{uid} and t.apply_no=#{ApplyNo}
  	
  	</select>
  	
+ 	
+ 	<!-- 根据员工编号查询员工详情 -->
+ 	 <select id="getUseInfoByUserNo" parameterType="com.omcube.model.request.QueryTravelRequest" resultType="com.omcube.model.response.TravelResponse">
+	 		select 
+			  c.user_no as userNo,
+			  c.organ_no as organNo,
+			  c.derp_no as deptNo,
+			  o1.organ_name as companyname,
+			  o2.organ_name as deptname ,
+			  c.cust_name as custName,
+			  c.cust_post as custPost,
+			  c.cust_class as custClass
+			  from EP_CUST_INFO c
+			inner join IFDP_SYS_ORGAN_BASE o1 
+			  on c.organ_no = o1.organ_no 
+			inner join IFDP_SYS_ORGAN_BASE o2 
+			  on c.derp_no = o2.organ_no	 
+			where c.uid=#{uid} and c.user_no=#{userNo}
+ 	
+ 	</select>
+ 	
+ 	
+ 	<!-- 根据出差编号查询出差单表信息 -->
+ 	<select id="queryTravel" parameterType="map" resultType="com.omcube.model.po.EpTravelPO">
+		
+		select * from EP_TRAVEL_FLOW where uid = #{uid} and apply_no = #{applyNo}
+		
+	</select>
+ 	
+ 	<!-- 根据出差编号删除出差信息 -->
  	<delete id="deleteTravel" parameterType="com.omcube.model.request.QueryTravelRequest">
  	
  		delete from EP_TRAVEL_FLOW where uid=#{uid} and apply_no=#{applyNo}
  	
  	</delete>
  	
- 	
- 	<!-- <update id="">
+ 	<!-- 根据出差编号更新出差信息 -->
+ 	<update id="modifyTravelInfo" parameterType="com.omcube.model.po.EpTravelPO">
  	
  		update EP_TRAVEL_FLOW
 		
@@ -130,13 +164,33 @@
 			
 			<if test="attachm!=null">
 				attachm=#{attachm},
-			</if>
-		
+			</if>	
+			<if test="updatedBy!=null">
+				updated_by=#{updatedBy},
+			</if>	
+			
+				updated_date=date_format(now(),'%y-%m-%d'),	
 		</set>	
-		where user_no=#{userNo} and uid=#｛uid｝
+		
+		where apply_no=#{applyNo} and uid=#｛uid｝
+		
 	</update>
  		
- 	 -->
+	<insert id="addTravelInfo" parameterType="com.omcube.model.po.EpTravelPO">
+	
+		insert into EP_TRAVEL_FLOW
+			(uid,apply_no,user_no,travel_start_time,travel_end_time,
+			travel_std,travel_type,travel_start_city,travel_arrival_city,
+			travel_days,attachm,remark,created_by,created_date,updated_by,updated_date)
+		values(
+		
+			#{uid},#{applyNo},#{userNo},#{travelStartTime},#{travelEndTime},#{travelSTD},
+			#{travelType},#{travelStartCity},#{travelArrivalCity},#{travelDays},#{attachm},
+			#{remark},#{createdBy},date_format(now(),'%y-%m-%d'),#{updatedBy},date_format(now(),'%y-%m-%d')
+				
+		)
+	
+	</insert>
  	
  	
 </mapper>

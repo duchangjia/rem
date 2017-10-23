@@ -3,9 +3,14 @@ package com.omcube.web.controller;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +19,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.omcube.model.po.EPWorkOtPO;
 import com.omcube.model.po.SysLoginCtrl;
+import com.omcube.model.request.QueryWorkOt;
+import com.omcube.model.response.WorkOtResponse;
 import com.omcube.service.EPWorkOtService;
 import com.omcube.util.ConstantUtil;
 import com.omcube.util.ErrorCodeConstantUtil;
@@ -52,9 +61,9 @@ public class EpWorkOtController {
 	 */
 	@PostMapping(value = "/addWorkOtInfo")
 	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-	public Object addWorkOtInfo(EPWorkOtPO epWorkOtPO) {
+	public Object addWorkOtInfo(@RequestBody WorkOtResponse workOtResponse, @RequestParam("file") MultipartFile file) {
 
-		if (epWorkOtPO == null) {
+		if (workOtResponse == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
@@ -63,11 +72,9 @@ public class EpWorkOtController {
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 		String uid = sysLoginCtrl.getUid();
 		String applyNo = GetNumUtil.getNo();
-		epWorkOtPO.setUid(uid);
-		epWorkOtPO.setApplyNo(applyNo);
+		workOtResponse.setUid(uid);
+		workOtResponse.setApplyNo(applyNo);
 
-		// 文件的上传
-		MultipartFile file = epWorkOtPO.getFile();
 		try {
 			if (!file.isEmpty()) {
 				// 获的文件名
@@ -78,7 +85,7 @@ public class EpWorkOtController {
 				String filePath = "e://workot//";
 				File newFile = new File(filePath + fileName);
 				// 将文件名保存到数据库
-				epWorkOtPO.setAttachm(newFile.toString());
+				workOtResponse.setAttachm(newFile.toString());
 
 				if (!newFile.getParentFile().exists()) {
 					newFile.getParentFile().mkdirs();
@@ -87,7 +94,7 @@ public class EpWorkOtController {
 				file.transferTo(newFile);
 			}
 
-			epWorkOtService.addWorkOtInfo(epWorkOtPO);
+			epWorkOtService.addWorkOtInfo(workOtResponse);
 			return JSONResultUtil.setSuccess();
 
 		} catch (Exception e) {
@@ -105,15 +112,14 @@ public class EpWorkOtController {
 	 */
 	@PutMapping(value = "/modifyWorkOtInfo")
 	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-	public Object modifyWorkOtInfo(EPWorkOtPO epWorkOtPO) {
+	public Object modifyWorkOtInfo(@RequestBody WorkOtResponse workOtResponse,
+			@RequestParam(value = "file ") MultipartFile file) {
 
-		if (epWorkOtPO == null) {
+		if (workOtResponse == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
 
-		// 文件的上传
-		MultipartFile file = epWorkOtPO.getFile();
 		try {
 			if (!file.isEmpty()) {
 				// 获的文件名
@@ -125,7 +131,7 @@ public class EpWorkOtController {
 
 				File newFile = new File(filePath + fileName);
 				// 将文件名保存到数据库
-				epWorkOtPO.setAttachm(newFile.toString());
+				workOtResponse.setAttachm(newFile.toString());
 
 				if (!newFile.getParentFile().exists()) {
 					newFile.getParentFile().mkdirs();
@@ -134,7 +140,7 @@ public class EpWorkOtController {
 				file.transferTo(newFile);
 			}
 
-			epWorkOtService.modifyWorkOtInfo(epWorkOtPO);
+			epWorkOtService.modifyWorkOtInfo(workOtResponse);
 
 			return JSONResultUtil.setSuccess();
 
@@ -154,15 +160,15 @@ public class EpWorkOtController {
 	 */
 	@DeleteMapping(value = "/deleteWorkOtInfo")
 	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-	public Object deleteWorkOtInfo(EPWorkOtPO epWorkOtPO) {
+	public Object deleteWorkOtInfo(QueryWorkOt queryWorkOt) {
 
-		if (epWorkOtPO == null) {
+		if (queryWorkOt == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
 
 		try {
-			epWorkOtService.deleteWorkOtInfo(epWorkOtPO);
+			epWorkOtService.deleteWorkOtInfo(queryWorkOt);
 			return JSONResultUtil.setSuccess();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -179,27 +185,94 @@ public class EpWorkOtController {
 	 * @return
 	 */
 	@GetMapping(value = "/queryWorkOtInfos")
-	public Object queryWorkOtInfos(EPWorkOtPO epWorkOtPO, HttpServletResponse response) {
+	public Object queryWorkOtInfos(QueryWorkOt queryWorkOt) {
 
-		if (epWorkOtPO == null) {
+		if (queryWorkOt == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
 
-		FileInputStream fis = null;
-		BufferedInputStream bis = null;
-
 		try {
 			// 查询加班的详情
-			EPWorkOtPO epWorkInfos = epWorkOtService.queryWorkOtInfos(epWorkOtPO);
-			String attachm = epWorkInfos.getAttachm();
-			String fileName = attachm.substring(attachm.lastIndexOf("//"));
+			EPWorkOtPO epWorkInfos = epWorkOtService.queryWorkOtInfos(queryWorkOt);
+			return JSONResultUtil.setSuccess(epWorkInfos);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "query workOtInfo fail!!!");
+	}
 
-			// 文件的下载
-			if (fileName != null) {
-				String filePath = "e://attachm//";
-				File file = new File(filePath, fileName);
+	/**
+	 * 加班详情列表的查询
+	 * 
+	 * @param epWorkOtPO
+	 * @return
+	 */
+	@GetMapping(value = "/queryWorkOtList")
+	public Object queryWorkOtList(QueryWorkOt queryWorkOt) {
 
+		// 入参的校验
+		if (queryWorkOt == null) {
+			logger.error("the request body is null");
+			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
+		}
+
+		// 分页信息的校验
+		Integer pageNum = queryWorkOt.getPageNum();
+		Integer pageSize = queryWorkOt.getPageSize();
+
+		if (pageNum <= 0) {
+			pageNum = ConstantUtil.DEFAULT_PAGE_NUM;
+		}
+		if (pageSize <= 0) {
+			pageSize = ConstantUtil.DEFAULT_PAGE_SIZE;
+		}
+		if (pageSize > 100) {
+			pageSize = ConstantUtil.DEFAULT_MAX_PAGE_SIZE;
+		}
+
+		// 返回的结果集
+		Result<WorkOtResponse> result = new Result<WorkOtResponse>();
+
+		Page<WorkOtResponse> page = PageHelper.startPage(pageNum, pageSize, true);
+
+		List<WorkOtResponse> oworkOtList = epWorkOtService.queryWorkOtList(queryWorkOt);
+
+		long totalNum = page.getTotal();
+		result.setTotal(totalNum);
+		result.setModels(oworkOtList);
+
+		return JSONResultUtil.setSuccess(result);
+	}
+	
+	/**
+	 * 附件的下载
+	 * 
+	 * @param request
+	 * @param response
+	 * @param fileUrl
+	 * @return
+	 */
+	@GetMapping(value = "/downLoadFile")
+	public Object downLoadFile(HttpServletRequest request, HttpServletResponse response, String fileUrl) {
+
+		if (StringUtils.isBlank(fileUrl)) {
+			logger.error("the request body is null");
+			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the fileUrl is not exist");
+		}
+
+		FileInputStream fis = null;
+		BufferedInputStream bis = null;
+		// 获的文件的名
+		int index = fileUrl.lastIndexOf("/");
+		String fileName = fileUrl.substring(index + 1);
+
+		if (!StringUtils.isBlank(fileName)) {
+			File file = new File(fileUrl);
+
+			try {
 				if (file.exists()) {
 					// 设置下载不打开文件
 					response.setContentType("application/force-download");
@@ -218,75 +291,30 @@ public class EpWorkOtController {
 						len = bis.read(buffer);
 					}
 				}
-			}
-
-			return JSONResultUtil.setSuccess(epWorkInfos);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (bis != null) {
-				try {
-					bis.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				if (fis != null) {
+				return JSONResultUtil.setSuccess();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (bis != null) {
 					try {
-						fis.close();
+						bis.close();
 					} catch (Exception e) {
 						e.printStackTrace();
+					}
+
+					if (fis != null) {
+						try {
+							fis.close();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}
 
 		}
 
-		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "query workOtInfo fail!!!");
-	}
-
-	/**
-	 * 加班详情列表的查询
-	 * 
-	 * @param epWorkOtPO
-	 * @return
-	 */
-	@GetMapping(value = "/queryWorkOtList")
-	public Object queryWorkOtList(EPWorkOtPO epWorkOtPO) {
-
-		// 入参的校验
-		if (epWorkOtPO == null) {
-			logger.error("the request body is null");
-			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
-		}
-
-		// 分页信息的校验
-		Integer pageNum = epWorkOtPO.getPageNum();
-		Integer pageSize = epWorkOtPO.getPageSize();
-
-		if (pageNum <= 0) {
-			pageNum = ConstantUtil.DEFAULT_PAGE_NUM;
-		}
-		if (pageSize <= 0) {
-			pageSize = ConstantUtil.DEFAULT_PAGE_SIZE;
-		}
-		if (pageSize > 100) {
-			pageSize = ConstantUtil.DEFAULT_MAX_PAGE_SIZE;
-		}
-
-		// 返回的结果集
-		Result<EPWorkOtPO> result = new Result<>();
-
-		Page<EPWorkOtPO> page = PageHelper.startPage(pageNum, pageSize, true);
-
-		List<EPWorkOtPO> oworkOtList = epWorkOtService.queryWorkOtList(epWorkOtPO);
-
-		long totalNum = page.getTotal();
-		result.setTotal(totalNum);
-		result.setModels(oworkOtList);
-
-		return JSONResultUtil.setSuccess(result);
+		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "file downLoad fail ");
 
 	}
 

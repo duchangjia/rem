@@ -20,4 +20,9 @@ public interface EpPayChageInfService {
 	//调薪管理新增用户信息
 	public void insertEpPayChageInf(EpPayChageInfPO epPayChageInfPO,CustInfoPO custInfo,EpCustPayFlowPO epCustPayFlowPO);
 	
+	//调薪管理删除用户调薪信息
+	public void deleteEpPayChageInf(EpPayChageInfPO epPayChageInfPO);
+	
+	//调薪管理修改用户调薪信息
+	public void updateEpPayChageInf(EpPayChageInfPO epPayChageInfPO);
 }

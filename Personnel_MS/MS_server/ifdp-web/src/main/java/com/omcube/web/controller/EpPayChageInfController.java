@@ -6,8 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +21,7 @@ import com.omcube.model.po.EpPayChageInfPO;
 import com.omcube.model.response.EpPayChageInfResponse;
 import com.omcube.service.EpPayChageInfService;
 import com.omcube.util.JSONResultUtil;
+import com.omcube.util.SysLoginCtrlUtil;
 
 @RestController
 @RequestMapping(value = "/epPayChageInf")
@@ -59,6 +62,20 @@ public class EpPayChageInfController {
 			CustInfoPO custInfo, EpCustPayFlowPO epCustPayFlowPO) {
 		epPayChageInfService.insertEpPayChageInf(epPayChageInfPO, custInfo,
 				epCustPayFlowPO);
+		return JSONResultUtil.setSuccess();
+	}
+	
+	// 调薪管理删除用户调薪信息
+	@DeleteMapping(value="deleteEpPayChageInf")
+	public Object deleteEpPayChageInf(EpPayChageInfPO epPayChageInfPO){
+		epPayChageInfPO.setUid(SysLoginCtrlUtil.getSysLoginCtrlBySession().getUid());
+		return JSONResultUtil.setSuccess();
+	}
+	
+	//调薪管理修改用户调薪信息
+	@PutMapping(value="updateEpPayChageInf")
+	public Object updateEpPayChageInf(EpPayChageInfPO epPayChageInfPO){
+		epPayChageInfPO.setUid(SysLoginCtrlUtil.getSysLoginCtrlBySession().getUid());
 		return JSONResultUtil.setSuccess();
 	}
 }
