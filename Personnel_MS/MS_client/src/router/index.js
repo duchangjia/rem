@@ -287,11 +287,16 @@ export default new Router({
                 },
                 {
                     path: '/personnel_transfer',
-                    component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer.vue'], resolve),
+                    component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/personnel_transfer.vue'], resolve),
                     children: [
                         {
                             path: '/',
-                            component: resolve => require(['../components/pages/personnel_Mgmt/query_transfer.vue'], resolve)
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/query_transfer.vue'], resolve)
+                        },
+                        {
+                        	name: 'detail_transfer',
+                            path: '/detail_transfer',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/detail_transfer.vue'], resolve)
                         }
                     ]
                 }
