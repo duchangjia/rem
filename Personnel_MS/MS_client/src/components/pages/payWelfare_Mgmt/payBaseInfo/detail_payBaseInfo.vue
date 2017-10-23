@@ -222,7 +222,6 @@ export default {
     this.userNo = this.$route.params.userNo;
     this.getPayBaseInfoDetail(); //初始查询薪酬基数列表
     this.getInsurancePayTemp(); //初始查询保险缴纳标准
-
   },
   methods: {
     getPayBaseInfoDetail() {
@@ -236,7 +235,6 @@ export default {
         .then(res => {
           console.log(res);
           self.payBaseInfoDetail = res.data.data;
-          // self.welcoeNo = self.payBaseInfoDetail.welcoeNo;
         })
         .catch(() => {
           console.log("error");
