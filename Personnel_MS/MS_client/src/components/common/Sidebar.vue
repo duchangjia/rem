@@ -95,16 +95,12 @@ export default {
 				{
 					icon: 'icon-xmgl',
 					index: '5',
-					title: '项目管理',
+					title: '薪酬福利',
 					subs: [
 						{
-							index: 'project_1',
-							title: '项目管理1'
-						},
-						{
-							index: 'project_2',
-							title: '项目管理2'
-						},
+							index: 'payBasicInfo_setting',
+							title: '薪酬基数设置'
+						}
 					]
 				},
 				{

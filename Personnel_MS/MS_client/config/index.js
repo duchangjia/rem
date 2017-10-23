@@ -28,34 +28,36 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        '/api': {
-            target: 'http://10.0.0.242:5555/',
-            // target: 'http://10.0.0.34:8888/',
-            changeOrigin: true,
-            secure: false,
-            pathRewrite: {
-                '^/api': '/api'
-            },
+      '/api': {
+        target: 'http://10.0.0.242:5555/',
+        // target: 'http://10.0.0.34:8888/',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/api': '/api'
         },
-//       '/iem_hrm': {
-//           target: 'http://10.0.0.242:8888/',
-// //        target: 'http://10.0.0.34:8888/',
-//           changeOrigin: true,
-//           secure: false,
-//           pathRewrite: {
-//               '^/iem_hrm': ''
-//           }
-//       },
-        '/iem_hrm': {
-//        target: 'http://10.0.0.242:8888/',
-//        target: 'http://10.0.0.34:8888/',
-            target: 'http://10.0.0.29:8888/',
-            changeOrigin: true,
-            secure: false,
-            pathRewrite: {
-                '^/iem_hrm': ''
-            }
+      },
+      //       '/iem_hrm': {
+      //           target: 'http://10.0.0.242:8888/',
+      // //        target: 'http://10.0.0.34:8888/',
+      //           changeOrigin: true,
+      //           secure: false,
+      //           pathRewrite: {
+      //               '^/iem_hrm': ''
+      //           }
+      //       },
+      '/iem_hrm': {
+        //        target: 'http://10.0.0.242:8888/',
+        //        target: 'http://10.0.0.34:8888/',
+        // target: 'http://10.0.0.30:8888/',
+        target: 'http://10.0.0.29:8888/',
+
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/iem_hrm': ''
         }
+      }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README

@@ -58,6 +58,10 @@ export default {
             if (this.yiji === '参数管理') {
                 _link.push('/argument_1')
             }
+            if (this.yiji === '薪酬福利') {
+                _link.push('/payBasicInfo_setting')
+            }
+
             if (this.erji === '用户管理') {
                 _link.push('/management_user')
             }
@@ -75,6 +79,10 @@ export default {
             if (this.erji === '业务参数') {
                 _link.push('/argument_2')
             }
+            if (this.erji === '薪酬基数设置') {
+                _link.push('/payBasicInfo_setting')
+            }
+
             if (this.sanji === '编辑部门') {
                 _link.push('/edit_department')
             }
@@ -107,12 +115,10 @@ export default {
             }
             if (this.sanji === '合同变更') {
                 _link.push('/add_pactChange')
-            }
-            
+            }  
             if (this.sanji === '合同续签') {
                 _link.push('/add_pactRenew')
-            }
-            
+            }       
             if (this.sanji === '机构CCC管理') {
                 _link.push('/agency_argument')
             }
@@ -131,6 +137,16 @@ export default {
             if (this.sanji === '职级薪酬标准设置') {
                 _link.push('/rank')
             }
+            if (this.sanji === '薪酬基数新增') {
+                _link.push('/add_payBasicInfo')
+            }
+            if (this.sanji === '薪酬基数修改') {
+                _link.push('/edit_payBasicInfo')
+            }
+            if (this.sanji === '薪酬基数详情') {
+                _link.push('/detail_payBasicInfo')
+            }
+
             if (this.siji === '福利缴纳系数新增') {
                 _link.push('/add_welfare')
             }
