@@ -1,5 +1,5 @@
 <template>
-    <div class="pact_mgmt">
+    <div class="paybaseinfo_mgmt">
         <current yiji="薪酬福利" erji="薪酬基数设置">
         </current>
         <div class="content-wrapper">
@@ -25,7 +25,7 @@
             <el-table stripe :data="payBaseInfoList" border>
                 <el-table-column align="center" label="工号">
                     <template scope="scope">
-                        <span @click="handlePactDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.userNo }}</span>
+                        <span @click="handlePayBaseInfoDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.userNo }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" prop="custName" label="姓名">
@@ -44,16 +44,15 @@
                 </el-table-column>
                 <el-table-column align="center" prop="entryTime" label="录入时间">
                 </el-table-column>
-                <el-table-column align="center" label="操作" width="150">
+                <el-table-column align="center" label="操作">
                     <template scope="scope">
-                        <el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-                        <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                        <i class="icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
+                        <i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
                     </template>
                 </el-table-column>
             </el-table>
             <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
             </el-pagination>
-
         </div>
     </div>
 </template>
@@ -96,29 +95,79 @@ export default {
         .then(res => {
           console.log(res);
           self.payBaseInfoList = res.data.data.payBaseInfoArray;
-          self.totalRows = res.data.data.total;
+          self.totalRows = Number(res.data.data.total);
         })
         .catch(() => {
           console.log("error");
         });
     },
-    handlePayBaseInfoDetail(index, row) {},
-    handleCurrentChange(val) {},
-    handleQuery() {},
+    handlePayBaseInfoDetail(index, row) {
+      this.$router.push({
+        name: "detail_payBaseInfo",
+        params: {
+          userNo: row.userNo
+        }
+      });
+    },
+    handleCurrentChange(val) {
+      this.pageNum = val;
+      this.getPayBaseInfoList(); //分页查询薪酬基数列表
+    },
+    handleQuery() {
+      console.log(
+        "userNo:" + self.filters.userNo + " custName:" + self.filters.custName
+      );
+      this.getPayBaseInfoList(); //根据条件查询薪酬基数列表
+    },
     handleAdd() {
       this.$router.push({
         name: "add_payBaseInfo"
       });
     },
-    handleEdit(index, row) {},
-    handleDelete(index, row) {}
+    handleEdit(index, row) {
+      this.$router.push({
+        name: "edit_payBaseInfo",
+        params: {
+          userNo: row.userNo
+        }
+      });
+    },
+    handleDelete(index, row) {
+      let targetPayBaseInfo = {};
+      targetPayBaseInfo.userNo = row.userNo;
+      console.log(targetPayBaseInfo);
+      this.$confirm("此操作将会删除该条薪酬基数信息, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$axios
+            .delete(
+              "/iem_hrm/pay/deletePayBaseInfo?userNo=" + targetPayBaseInfo.userNo,
+              targetPayBaseInfo
+            )
+            .then(res => {
+              console.log(res);
+              if (res.data.code == "S00000")
+                this.$message({ type: "success", message: "删除成功!" });
+              else this.$message.error("删除薪酬基数信息失败！");
+            })
+            .catch(() => {
+              this.$message.error("删除薪酬基数信息失败！");
+            });
+        })
+        .catch(() => {
+          this.$message("您已取消删除薪酬基数信息！");
+        });
+    }
   }
 };
 </script>
 
 
 <style>
-.pact_mgmt {
+.paybaseinfo_mgmt {
   padding: 0 0 20px 20px;
 }
 </style>
