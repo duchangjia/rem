@@ -50,8 +50,8 @@ module.exports = {
         //        target: 'http://10.0.0.242:8888/',
         //        target: 'http://10.0.0.34:8888/',
         // target: 'http://10.0.0.30:8888/',
-        target: 'http://10.0.0.29:8888/',
-
+        // target: 'http://10.0.0.29:8888/',
+        target: 'http://localhost:3000/',
         changeOrigin: true,
         secure: false,
         pathRewrite: {

@@ -98,7 +98,7 @@ export default {
 					title: '薪酬福利',
 					subs: [
 						{
-							index: 'payBasicInfo_setting',
+							index: 'payBaseInfo_setting',
 							title: '薪酬基数设置'
 						}
 					]

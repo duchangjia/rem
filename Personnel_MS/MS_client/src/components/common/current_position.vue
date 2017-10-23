@@ -59,7 +59,7 @@ export default {
                 _link.push('/argument_1')
             }
             if (this.yiji === '薪酬福利') {
-                _link.push('/payBasicInfo_setting')
+                _link.push('/payBaseInfo_setting')
             }
 
             if (this.erji === '用户管理') {
@@ -80,7 +80,7 @@ export default {
                 _link.push('/argument_2')
             }
             if (this.erji === '薪酬基数设置') {
-                _link.push('/payBasicInfo_setting')
+                _link.push('/payBaseInfo_setting')
             }
 
             if (this.sanji === '编辑部门') {
@@ -138,13 +138,13 @@ export default {
                 _link.push('/rank')
             }
             if (this.sanji === '薪酬基数新增') {
-                _link.push('/add_payBasicInfo')
+                _link.push('/add_payBaseInfo')
             }
             if (this.sanji === '薪酬基数修改') {
-                _link.push('/edit_payBasicInfo')
+                _link.push('/edit_payBaseInfo')
             }
             if (this.sanji === '薪酬基数详情') {
-                _link.push('/detail_payBasicInfo')
+                _link.push('/detail_payBaseInfo')
             }
 
             if (this.siji === '福利缴纳系数新增') {

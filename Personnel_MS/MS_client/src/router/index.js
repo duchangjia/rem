@@ -279,27 +279,27 @@ export default new Router({
                     ]
                 },
                 {
-                    path: '/payBasicInfo_setting',
-                    component: resolve => require(['../components/pages/payWelfare_Mgmt/payBasicInfo/payBasicInfo_setting.vue'], resolve),
+                    path: '/payBaseInfo_setting',
+                    component: resolve => require(['../components/pages/payWelfare_Mgmt/payBaseInfo/payBaseInfo_setting.vue'], resolve),
                     children: [
                         {
                             path: '/',
-                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payBasicInfo/query_payBasicInfo.vue'], resolve)
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payBaseInfo/query_payBaseInfo.vue'], resolve)
                         },
                         {
-                            name: 'add_payBasicInfo',
-                            path: '/add_payBasicInfo',
-                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payBasicInfo/add_payBasicInfo.vue'], resolve)
+                            name: 'add_payBaseInfo',
+                            path: '/add_payBaseInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payBaseInfo/add_payBaseInfo.vue'], resolve)
                         },
                         {
-                            name: 'edit_payBasicInfo',
-                            path: '/edit_payBasicInfo',
-                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payBasicInfo/edit_payBasicInfo.vue'], resolve)
+                            name: 'edit_payBaseInfo',
+                            path: '/edit_payBaseInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payBaseInfo/edit_payBaseInfo.vue'], resolve)
                         },
                         {
-                            name: 'detail_payBasicInfo',
-                            path: '/detail_payBasicInfo',
-                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payBasicInfo/detail_payBasicInfo.vue'], resolve)
+                            name: 'detail_payBaseInfo',
+                            path: '/detail_payBaseInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payBaseInfo/detail_payBaseInfo.vue'], resolve)
                         }
                     ]
                 }

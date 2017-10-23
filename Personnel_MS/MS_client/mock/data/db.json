@@ -1041,5 +1041,61 @@
     "createdDate": "2017-09-13 00:00:00",
     "updateBy": "李大仁",
     "updateDate": "2017-10-09 00:00:00"
+  },
+  "queryPayBaseInfoList": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "total": "50",
+    "payBaseInfoArray": [
+      {
+        "userNo": "001",
+        "custName": "王二狗",
+        "cert": "422000199012211222",
+        "wagesBase": "8000",
+        "wagesPerf": "5000",
+        "postPension": "1500",
+        "otherPension": "800",
+        "endmBase": "3000",
+        "houseBase": "3000",
+        "entryTime": "2017-09-13 00:00:00"
+      },
+      {
+        "userNo": "002",
+        "custName": "李大锤",
+        "cert": "422000199012211222",
+        "wagesBase": "6000",
+        "wagesPerf": "3000",
+        "postPension": "1000",
+        "otherPension": "800",
+        "endmBase": "3000",
+        "houseBase": "3000",
+        "entryTime": "2017-09-13 00:00:00"
+      },
+      {
+        "userNo": "003",
+        "custName": "张铁蛋",
+        "cert": "422000199012211222",
+        "wagesBase": "7500",
+        "wagesPerf": "3000",
+        "postPension": "1500",
+        "otherPension": "800",
+        "endmBase": "3000",
+        "houseBase": "3000",
+        "entryTime": "2017-09-13 00:00:00"
+      },
+      {
+        "userNo": "004",
+        "custName": "李大帅",
+        "cert": "422000199012211222",
+        "wagesBase": "5000",
+        "wagesPerf": "3000",
+        "postPension": "1500",
+        "otherPension": "800",
+        "endmBase": "3000",
+        "houseBase": "3000",
+        "entryTime": "2017-09-13 00:00:00"
+      }
+    ]
   }
 }
