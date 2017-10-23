@@ -73,7 +73,8 @@ public class EPLeaveMangerServiceImpl implements EPLeaveMangerService {
 	@Override
 	public EPLeaveInfoPO queryLeaveInfos(QueryLeaveRequest queryLeaveRequest) {
 
-		return epLeaveMangerMapper.queryLeaveInfos(queryLeaveRequest);
+		EPLeaveInfoPO leaveInfos = epLeaveMangerMapper.queryLeaveInfos(queryLeaveRequest);
+		return leaveInfos;
 	}
 
 	/**
@@ -98,16 +99,16 @@ public class EPLeaveMangerServiceImpl implements EPLeaveMangerService {
 	}
 
 	/**
-	 * @see com.omcube.service.EPLeaveMangerService#modifyLeaveInfo(QueryLeaveRequest)
+	 * @see com.omcube.service.EPLeaveMangerService#modifyLeaveInfo(EPLeaveInfoPO)
 	 */
 	@Override
-	public void modifyLeaveInfo(LeaveResponse leaveResponse) {
+	public void modifyLeaveInfo(EPLeaveInfoPO epLeaveInfoPO) {
 
 		Map<String, String> param = new HashMap<String, String>();
 		SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
 		String uid = sysLoginCtrl.getUid();
 		param.put("uid", uid);
-		param.put("applyNo", leaveResponse.getApplyNo());
+		param.put("applyNo", epLeaveInfoPO.getApplyNo());
 		EPLeaveInfoPO leaveInfo = epLeaveMangerMapper.queryLeaveInfo(param);
 
 		if (leaveInfo == null) {
@@ -115,7 +116,7 @@ public class EPLeaveMangerServiceImpl implements EPLeaveMangerService {
 			throw new RuntimeException("此请假详情不存在!!!");
 		}
 
-		epLeaveMangerMapper.modifyLeaveInfo(leaveResponse);
+		epLeaveMangerMapper.modifyLeaveInfo(epLeaveInfoPO);
 
 	}
 }

@@ -35,7 +35,7 @@
 		inner join IFDP_SYS_ORGAN_BASE o2 
 		  on c.derp_no = o2.organ_no 
 		inner join EP_TRAVEL_FLOW t
-		 on c.user_no=t.user_no 	 
+		   on c.user_no=t.user_no 	 
 		where t.uid=#{uid} 
 		 
 			 <if test="userNo != null and userNo!=''">

@@ -39,7 +39,7 @@ public class LeaveControllerTest {
      * 
      * @throws Exception
      */
-    @Test
+   // @Test
     public void addLeaveInfo() throws Exception
     {
     	

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.Page;
@@ -58,7 +59,7 @@ public class EPLeaveMangerController {
 	 */
 	@PostMapping(value = "/addLeaveInfo")
 	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-	public Object addLeaveInfo(@RequestBody LeaveResponse leaveResponse) {
+	public Object addLeaveInfo(LeaveResponse leaveResponse, @RequestParam("file") MultipartFile file) {
 
 		if (leaveResponse == null) {
 			logger.error("the request body is null");
@@ -73,8 +74,6 @@ public class EPLeaveMangerController {
 		leaveResponse.setUid(uid);
 		leaveResponse.setApplyNo(applyNo);
 
-		// 文件的上传
-		MultipartFile file = leaveResponse.getFile();
 		try {
 			if (!file.isEmpty()) {
 				// 获的文件名
@@ -86,6 +85,7 @@ public class EPLeaveMangerController {
 				String filePath = "e://leave//";
 
 				File newFile = new File(filePath + fileName);
+
 				leaveResponse.setAttachm(fileName.toString());
 
 				if (!newFile.getParentFile().exists()) {
@@ -136,7 +136,7 @@ public class EPLeaveMangerController {
 		}
 
 		// 返回的结果集
-		Result<LeaveResponse> result = new Result<>();
+		Result<LeaveResponse> result = new Result<LeaveResponse>();
 
 		Page<LeaveResponse> page = PageHelper.startPage(pageNum, pageSize, true);
 
@@ -157,18 +157,12 @@ public class EPLeaveMangerController {
 	 * @return
 	 */
 	@GetMapping(value = "/queryLeaveInfos")
-	public Object queryLeaveInfos(QueryLeaveRequest queryLeaveRequest, HttpServletResponse response) {
+	public Object queryLeaveInfos(QueryLeaveRequest queryLeaveRequest) {
 
-<<<<<<< HEAD
 		if (queryLeaveRequest == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
-=======
-		
-		FileInputStream fis = null;
-		BufferedInputStream bis = null;
->>>>>>> d9051828ad73f623e57e2ccecec572f0258dd1d6
 
 		try {
 			EPLeaveInfoPO LeaveInfoPO = epLeaveMangerService.queryLeaveInfos(queryLeaveRequest);
@@ -214,27 +208,23 @@ public class EPLeaveMangerController {
 	 */
 	@PutMapping(value = "/modifyLeaveInfo")
 	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-	public Object modifyLeaveInfo(LeaveResponse leaveResponse) {
+	public Object modifyLeaveInfo(@RequestBody EPLeaveInfoPO epLeaveInfoPO,
+			@RequestParam(value = "file ") MultipartFile file) {
 
-		if (leaveResponse == null) {
+		if (epLeaveInfoPO == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
 
-		MultipartFile file = leaveResponse.getFile();
 		try {
 			if (!file.isEmpty()) {
 				// 获的文件名
 				String fileName = file.getOriginalFilename();
-				// 将文件名保存到数据库
-				leaveResponse.setAttachm(fileName);
-				// 获的文件的后缀
-				String fileSuffix = fileName.substring(fileName.lastIndexOf("."));
+				// 获的文件的后缀 String fileSuffix = fileName.substring(fileName.lastIndexOf("."));
 				// 文件上传的路劲
 				String filePath = "e://attachm//";
-
 				File newFile = new File(filePath + fileName);
-				leaveResponse.setAttachm(fileName.toString());
+				epLeaveInfoPO.setAttachm(newFile.toString());
 
 				if (!newFile.getParentFile().exists()) {
 					newFile.getParentFile().mkdirs();
@@ -243,7 +233,7 @@ public class EPLeaveMangerController {
 				file.transferTo(newFile);
 			}
 
-			epLeaveMangerService.modifyLeaveInfo(leaveResponse);
+			epLeaveMangerService.modifyLeaveInfo(epLeaveInfoPO);
 
 			return JSONResultUtil.setSuccess();
 

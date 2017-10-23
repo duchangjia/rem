@@ -3,9 +3,14 @@ package com.omcube.web.controller;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.Page;
@@ -55,7 +61,7 @@ public class EpWorkOtController {
 	 */
 	@PostMapping(value = "/addWorkOtInfo")
 	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-	public Object addWorkOtInfo(@RequestBody WorkOtResponse workOtResponse) {
+	public Object addWorkOtInfo(@RequestBody WorkOtResponse workOtResponse, @RequestParam("file") MultipartFile file) {
 
 		if (workOtResponse == null) {
 			logger.error("the request body is null");
@@ -69,8 +75,6 @@ public class EpWorkOtController {
 		workOtResponse.setUid(uid);
 		workOtResponse.setApplyNo(applyNo);
 
-		// 文件的上传
-		MultipartFile file = workOtResponse.getFile();
 		try {
 			if (!file.isEmpty()) {
 				// 获的文件名
@@ -108,15 +112,14 @@ public class EpWorkOtController {
 	 */
 	@PutMapping(value = "/modifyWorkOtInfo")
 	@CacheEvict(value = ConstantUtil.QUERY_CACHE, allEntries = true)
-	public Object modifyWorkOtInfo(WorkOtResponse workOtResponse) {
+	public Object modifyWorkOtInfo(@RequestBody WorkOtResponse workOtResponse,
+			@RequestParam(value = "file ") MultipartFile file) {
 
 		if (workOtResponse == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
 
-		// 文件的上传
-		MultipartFile file = workOtResponse.getFile();
 		try {
 			if (!file.isEmpty()) {
 				// 获的文件名
@@ -182,70 +185,22 @@ public class EpWorkOtController {
 	 * @return
 	 */
 	@GetMapping(value = "/queryWorkOtInfos")
-	public Object queryWorkOtInfos(QueryWorkOt queryWorkOt, HttpServletResponse response) {
+	public Object queryWorkOtInfos(QueryWorkOt queryWorkOt) {
 
 		if (queryWorkOt == null) {
 			logger.error("the request body is null");
 			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the request body is null");
 		}
 
-		FileInputStream fis = null;
-		BufferedInputStream bis = null;
-
 		try {
 			// 查询加班的详情
 			EPWorkOtPO epWorkInfos = epWorkOtService.queryWorkOtInfos(queryWorkOt);
-			String attachm = epWorkInfos.getAttachm();
-			String fileName = attachm.substring(attachm.lastIndexOf("//"));
-
-			// 文件的下载
-			if (fileName != null) {
-				String filePath = "e://attachm//";
-				File file = new File(filePath, fileName);
-
-				if (file.exists()) {
-					// 设置下载不打开文件
-					response.setContentType("application/force-download");
-					// 设置文件名
-					response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
-
-					byte[] buffer = new byte[1024];
-					fis = new FileInputStream(file);
-					bis = new BufferedInputStream(fis);
-					OutputStream ops = response.getOutputStream();
-
-					// 读写文件
-					int len = bis.read(buffer);
-					while (len != -1) {
-						ops.write(buffer, 0, len);
-						len = bis.read(buffer);
-					}
-				}
-			}
-
 			return JSONResultUtil.setSuccess(epWorkInfos);
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (bis != null) {
-				try {
-					bis.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				if (fis != null) {
-					try {
-						fis.close();
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-
 		}
-
+		
 		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "query workOtInfo fail!!!");
 	}
 
@@ -279,7 +234,7 @@ public class EpWorkOtController {
 		}
 
 		// 返回的结果集
-		Result<WorkOtResponse> result = new Result<>();
+		Result<WorkOtResponse> result = new Result<WorkOtResponse>();
 
 		Page<WorkOtResponse> page = PageHelper.startPage(pageNum, pageSize, true);
 
@@ -290,6 +245,76 @@ public class EpWorkOtController {
 		result.setModels(oworkOtList);
 
 		return JSONResultUtil.setSuccess(result);
+	}
+	
+	/**
+	 * 附件的下载
+	 * 
+	 * @param request
+	 * @param response
+	 * @param fileUrl
+	 * @return
+	 */
+	@GetMapping(value = "/downLoadFile")
+	public Object downLoadFile(HttpServletRequest request, HttpServletResponse response, String fileUrl) {
+
+		if (StringUtils.isBlank(fileUrl)) {
+			logger.error("the request body is null");
+			return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "the fileUrl is not exist");
+		}
+
+		FileInputStream fis = null;
+		BufferedInputStream bis = null;
+		// 获的文件的名
+		int index = fileUrl.lastIndexOf("/");
+		String fileName = fileUrl.substring(index + 1);
+
+		if (!StringUtils.isBlank(fileName)) {
+			File file = new File(fileUrl);
+
+			try {
+				if (file.exists()) {
+					// 设置下载不打开文件
+					response.setContentType("application/force-download");
+					// 设置文件名
+					response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
+
+					byte[] buffer = new byte[1024];
+					fis = new FileInputStream(file);
+					bis = new BufferedInputStream(fis);
+					OutputStream ops = response.getOutputStream();
+
+					// 读写文件
+					int len = bis.read(buffer);
+					while (len != -1) {
+						ops.write(buffer, 0, len);
+						len = bis.read(buffer);
+					}
+				}
+				return JSONResultUtil.setSuccess();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (bis != null) {
+					try {
+						bis.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+					if (fis != null) {
+						try {
+							fis.close();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+
+		}
+
+		return JSONResultUtil.setError(ErrorCodeConstantUtil.REQUEST_INVALID_ERR, "file downLoad fail ");
 
 	}
 
