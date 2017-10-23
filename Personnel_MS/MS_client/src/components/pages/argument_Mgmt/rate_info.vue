@@ -37,8 +37,8 @@ export default {
 	data() {
 		return {
 			pageIndex: 1,
-			pageRows: 2,
-			totalRows: 10,
+			pageRows: 5,
+			totalRows: 0,
 			taxRateList: [
 				{
 					"groupNo": "1600起征",
@@ -67,8 +67,8 @@ export default {
 		const self = this;
 		let groupNo = self.$route.params.groupNo;
 		let groupId = self.$route.params.groupId;
-		let pageNum = 1;
-		let pageSize = 2;
+		let pageNum = self.pageIndex;
+		let pageSize = self.pageRows;
 		let params = {
 			"pageNum": pageNum,
 			"pageSize": pageSize
@@ -106,7 +106,7 @@ export default {
             }).then(() => {
             	let params = {
             		groupId: self.taxRateList.groupId,
-            		applyId: self.taxRateList.applyId
+            		applyNo: self.taxRateList.applyNo
             	};
             	self.deleteTaxRateCtrl(params);
             	
@@ -118,11 +118,10 @@ export default {
 			const self = this;
 			let groupNo = sessionStorage.getItem('groupNo');
 			let pageNum = val;
-			let pageSize = 2;
+			let pageSize = self.pageRows;
 			let params = {
 				"pageNum": pageNum,
-				"pageSize": pageSize,
-				groupNo: groupNo
+				"pageSize": pageSize
 			};
 			self.selectTaxRateCtrl(pageNum, pageSize, params);
 		},
@@ -134,7 +133,6 @@ export default {
 					console.log(res);
 					self.taxRateList = res.data.data.list;
 					self.pageIndex = pageNum;
-					self.pageRows = pageSize;
 					self.totalRows = Number(res.data.data.total);
 				}).catch(function(err) {
 					console.log(err);
@@ -143,7 +141,7 @@ export default {
 		//删除个税税率
 		deleteTaxRateCtrl(params) {
 			const self = this;
-			self.$axios.delete(baseURL+'/taxRateCtrl/deleteTaxRateCtrl')
+			self.$axios.delete(baseURL+'/taxRateCtrl/deleteTaxRateCtrl', params)
     		.then((res) => {
     			console.log(res);
     			this.$message({ type: 'success', message: '删除成功!' });

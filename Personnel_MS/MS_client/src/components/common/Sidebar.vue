@@ -74,6 +74,10 @@ export default {
 						{
 							index: 'personnel_contract',
 							title: '人事合同'
+						},
+						{
+							index: 'personnel_transfer',
+							title: '人事调动'
 						}
 					]
 				},

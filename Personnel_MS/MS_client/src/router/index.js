@@ -284,6 +284,16 @@ export default new Router({
                             component: resolve => require(['../components/pages/personnel_Mgmt/edit_pactRenew.vue'], resolve)
                         }
                     ]
+                },
+                {
+                    path: '/personnel_transfer',
+                    component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/query_transfer.vue'], resolve)
+                        }
+                    ]
                 }
             ]
         }

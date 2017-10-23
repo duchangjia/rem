@@ -76,8 +76,9 @@ export default {
 	          			groupNo: self.formdata.groupNo,
 	          			groupId: self.formdata.groupId,
 						startTime: self.formdata.startTime,
-						endTime: self.formdata.endTime,
-						remark: self.formdata.remark
+						isDelete: "1"
+//						endTime: self.formdata.endTime,
+//						remark: self.formdata.remark
 	          		};
 	          		self.insertTaxRateGroup(params);
 	          		

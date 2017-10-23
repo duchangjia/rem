@@ -86,6 +86,7 @@ export default {
 	          			groupId: self.rateInfo.groupId,
 						GroupLimit: self.rateInfo.GroupLimit,
 						GroupLowerLimit: self.rateInfo.GroupLowerLimit,
+						remark: self.rateInfo.remark,
 						isDelete: "1"
 	          		};
 	          		self.insertTaxRateCtrl(params);
@@ -103,6 +104,8 @@ export default {
   			.then((res) => {
   				console.log(res);
   				this.$message({ message: '税率修改成功', type: 'success' });
+  			}).catch((err) => {
+  				console.log('error')
   			})
 		}
 	}
