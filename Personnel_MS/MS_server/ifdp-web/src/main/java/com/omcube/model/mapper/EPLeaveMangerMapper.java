@@ -60,6 +60,6 @@ public interface EPLeaveMangerMapper {
 	 * 
 	 * @param epLeaveInfoPO
 	 */
-	void modifyLeaveInfo(LeaveResponse leaveResponse);
+	void modifyLeaveInfo(EPLeaveInfoPO epLeaveInfoPO);
 
 }

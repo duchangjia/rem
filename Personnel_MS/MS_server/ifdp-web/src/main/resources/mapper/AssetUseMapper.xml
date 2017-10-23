@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.omcube.model.mapper.AssetUseMapper">
+	<resultMap id="AssetUseMap" type="com.omcube.model.po.AssetUsePO">
+		<id column="uid" property="uid"></id>
+		<id column="apply_no" property="applyNo"></id>
+		<result column="organ_no" property="organNo" javaType="java.lang.String"></result>
+		<result column="organ_name" property="organName" javaType="java.lang.String"></result>
+		<result column="derp_no" property="derpNo" javaType="java.lang.String"></result>
+		<result column="organ_name" property="derpName" javaType="java.lang.String"></result>
+		<result column="owner_ccc" property="ccc" javaType="java.lang.String"></result>
+
+		<result column="apply_user_no" property="applyUserNo" javaType="java.lang.String"></result>
+		<result column="asset_no" property="assetNo" javaType="java.lang.String"></result>
+		<result column="apply_type" property="applyType" javaType="java.lang.String"></result>
+		<result column="apply_num" property="applyNum" javaType="java.lang.String"></result>
+		<result column="apply_time" property="applyTime" javaType="java.util.Date"></result>
+		<result column="apply_status" property="status" javaType="java.lang.String"></result>
+		<result column="remark" property="remark" javaType="java.lang.String"></result>
+		<result column="attachm" property="attachm" javaType="java.lang.String" />
+		<result column="created_by" property="createdBy" javaType="java.lang.String"></result>
+		<result column="created_date" property="createdDate" javaType="java.util.Date"></result>
+		<result column="updated_by" property="updatedBy" javaType="java.lang.String"></result>
+		<result column="updated_date" property="updatedDate" javaType="java.util.Date"></result>
+
+		<result column="cust_name" property="custName" javaType="java.lang.String"></result>
+		<result column="mobile_no" property="mobileNo" javaType="java.lang.String"></result>
+		<result column="cust_post" property="custPost" javaType="java.lang.String"></result>
+		<result column="cust_class" property="custClass" javaType="java.lang.String"></result>
+		<result column="buy_unit_price" property="buyUnitPrice"
+			javaType="java.lang.String"></result>
+		<result column="stock_num" property="stockNum" javaType="java.lang.String"></result>
+		<result column="buy_amount" property="buyAmount" javaType="java.lang.String"></result>
+		<result column="mfrs" property="mfrs" javaType="java.lang.String"></result>
+		<result column="supplier" property="supplier" javaType="java.lang.String"></result>
+		<result column="asset_type" property="assetType" javaType="java.lang.String"></result>
+		<result column="asset_name" property="assetName" javaType="java.lang.String"></result>
+		<result column="sn_no" property="snNo" javaType="java.lang.String"></result>
+		<result column="spec_type" property="specType" javaType="java.lang.String"></result>
+		<result column="factory_time" property="factoryTime" javaType="java.lang.String"></result>
+		<result column="faxfree_time" property="faxFreeTime" javaType="java.lang.String"></result>
+		<result column="remark" property="configInstr" javaType="java.lang.String"></result>
+
+
+	</resultMap>
+
+	<!-- 查询反显用户信息 -->
+	<select id="queryAssetUserByApplyUserNo" parameterType="java.lang.String"
+		resultMap="AssetUseMap">
+		select 
+			cust_name,mobile_no,cust_post,cust_class 
+		from
+			EP_CUST_INFO 
+		where
+			uid=#{uid} and user_no=#{applyUserNo} and
+			organ_no=#{organNo} and
+			derp_no=#{derpNo} and owner_ccc =#{ccc}
+	</select>
+
+	<!-- 查询反显资产信息 -->
+	<select id="queryAssetUserByAssetNo" parameterType="java.lang.String"
+		resultMap="AssetUseMap">
+		select
+			buy_unit_price,stock_num,buy_amount,mfrs,supplier,asset_type,
+			asset_name,sn_no,spec_type,factory_time,faxfree_time,remark
+		from
+			EP_ASSET_INF
+		where
+			uid=#{uid}
+			and asset_no=#{assetNo}
+	</select>
+
+	<!-- 新增资产使用信息 -->
+	<insert id="addAssetUseINF" parameterType="com.omcube.model.po.AssetUsePO">
+		insert into
+			EP_ASSETUSER_FLOW
+			(uid,apply_no,asset_no,organ_no,derp_no,ccc,apply_user_no,apply_type,
+			apply_num,apply_time,apply_status,remark,created_by,created_date,updated_by,updated_date)
+		values
+			(#{uid},#{applyNo},#{assetNo},#{organNo},#{derpNo},#{ccc},#{applyUserNo},#{applyType},
+			#{applyNum},#{applyTime},#{status},#{remark},#{createdBy},now(),#{updatedBy},now())
+	</insert>
+
+	<!-- 资产使用信息修改 -->
+	<update id="modAssUse" parameterType="com.omcube.model.po.AssetUsePO">
+		update 
+			EP_ASSETUSER_FLOW
+		set
+			apply_user_no=#{applyUserNo},organ_no=#{organNo},derp_no=#{derpNo},ccc=#{ccc},
+			asset_no=#{assetNo},apply_type=#{applyType},apply_num=#{applyNum},
+			apply_time=#{applyTime},apply_status=#{status},remark=#{remark},updated_by=#{updatedBy},
+			updated_date=now()
+		WHERE
+			uid=#{uid} and
+			apply_no=#{applyNo}
+	</update>
+
+	<!-- 逻辑删除资产使用信息 -->
+	<update id="delAssUse" parameterType="String">
+		update EP_ASSETUSER_FLOW
+		set
+		apply_status='0'
+		where
+		apply_no=#{applyNo} and
+		uid=#{uid}
+	</update>
+
+	<!-- 查询资产使用列表 -->
+	<select id="queryAssUseList" parameterType="com.omcube.model.request.QueryAssetUseRequest"
+		resultMap="AssetUseMap">
+	 
+		select 
+			eaf.apply_no ,eaf.asset_no ,eai.asset_type ,
+			eai.asset_name,eaf.apply_num ,eaf.apply_type ,
+			o1.organ_name,o2.organ_name,eaf.apply_user_no ,
+			eci.cust_name ,eaf.apply_time 
+		from 
+			EP_ASSETUSER_FLOW eaf
+		inner join 
+			IFDP_SYS_ORGAN_BASE o1 
+		on 
+			eaf.organ_no = o1.organ_no
+		inner join 
+			IFDP_SYS_ORGAN_BASE o2
+		on 
+			eaf.derp_no = o2.organ_no
+		inner join 
+			EP_CUST_INFO eci
+		on 
+			eaf.apply_user_no = eci.user_no
+		inner join 
+			EP_ASSET_INF  eai
+		on 
+			eaf.`ASSET_NO`=eai.`ASSET_NO`
+		where
+			eaf.uid=#{uid}
+			
+		<if test="assetName !=null and assetName!=''">
+			and eai.asset_name=#{assetName}
+		</if>
+		<if test="assetType !=null and assetType!=''">
+			and eai.asset_type =#{assetType}
+		</if>
+		<if test="assetNo !=null and assetNo!=''">
+			and eai.asset_no =#{assetNo}
+		</if>
+		<!--  
+		<if test="applyUserNo !=null and applyUserNo=''">
+			and eaf.apply_user_no=#{applyUserNo}
+		</if>
+		-->
+	</select>
+</mapper>

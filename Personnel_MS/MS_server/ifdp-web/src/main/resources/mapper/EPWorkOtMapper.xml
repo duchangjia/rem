@@ -5,25 +5,6 @@
 
 <mapper namespace="com.omcube.model.mapper.EPWorkOtMapper">
 
-	<resultMap id="EPWorkOtMap" type="com.omcube.model.po.EPWorkOtPO">
-		<id column="UID" property="uid"></id>
-		<id column="APPLY_NO" property="applyNo"></id>
-		<result column="WORKOT_START_TIME" property="workotStartTime" javaType="java.util.Date"></result>
-		<result column="WORKOT_END_TIME" property="workotEndTime" javaType="java.util.Date"></result>
-		<result column="WORKOT_TYPE" property="workotType" javaType="java.lang.String"></result>
-		<result column="TIME_SHEET" property="timeSheet" javaType="java.lang.Double"></result>
-		<result column="AUTH_FLOW" property="authFlow" javaType="java.lang.String"></result>
-		<result column="AUTH_STATUS" property="authStatus" javaType="java.lang.String"></result>
-		<result column="AUTH_VIEW" property="authView" javaType="java.lang.String"></result>
-		<result column="ATTACHM" property="attachm" javaType="java.lang.String"></result>
-		<result column="REMARK" property="remark" javaType="java.lang.String"></result>
-		<result column="CREATED_BY" property="createdBy" javaType="java.lang.String"></result>
-		<result column="CREATED_DATE" property="createdDate" javaType="java.util.Date"></result>
-		<result column="UPDATED_BY" property="updatedBy" javaType="java.lang.String"></result>
-		<result column="UPDATED_DATE" property="updatedDate" javaType="java.util.Date"></result>
-
-	</resultMap>
-	
 	<!-- 通过加班的编号查询加班详情 -->
 	<select id="queryWorkOtInfo" parameterType="map" resultType="com.omcube.model.po.EPWorkOtPO">
 		select *
@@ -40,7 +21,7 @@
 			(
 			UID,APPLY_NO,USER_NO,WORKOT_START_TIME,WORKOT_END_TIME,WORKOT_TYPE,
 			TIME_SHEET,AUTH_FLOW,AUTH_STATUS,AUTH_VIEW,ATTACHM,REMARK,CREATED_BY,
-			CREATED_DATE
+			CREATED_DATE,UPDATED_BY,UPDATED_DATE
 			)
 		value(
 			#{uid},
@@ -56,6 +37,8 @@
 			#{attachm},
 			#{remark},
 			#{createdBy},
+			date_format(now(),'%y-%m-%d'),
+			#{updatedBy},
 			date_format(now(),'%y-%m-%d')
 		)
 	</insert>
@@ -129,7 +112,17 @@
 			w.ATTACHM AS attachm,
 			w.CREATED_BY AS createdBy,
 			w.CREATED_DATE AS createdDate
-		from (select * from EP_CUST_INFO where ORGAN_NO = #{organNo}) c 
+		from (
+		select * from EP_CUST_INFO 
+			<where>
+				<if test="organType == '01' or organType == '02' or organType == '03'">
+					ORGAN_NO = #{organNo}
+				</if>
+				<if test="organType == '04'">
+					DERP_NO = #{organNo}
+				</if>
+			</where>
+		) c 
 		inner join IFDP_SYS_ORGAN_BASE o1
 		on c.ORGAN_NO = o1.ORGAN_NO 
 		inner join IFDP_SYS_ORGAN_BASE o2 
@@ -148,7 +141,6 @@
 		<if test="workotEndTime != null and workotEndTime != ''">
 			and w.WORKOT_END_TIME &lt; #{workotEndTime}
 		</if>
-			
 	    order by w.APPLY_NO desc
 	</select>
 

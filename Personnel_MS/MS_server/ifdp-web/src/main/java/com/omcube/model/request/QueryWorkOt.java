@@ -18,9 +18,9 @@ public class QueryWorkOt {
 	private String userNo; // 用户编号
 	private String applyNo; // 加班编号
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date workotStartTime; // 请假开始日期
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date workotEndTime; // 请假结束日期
 
 	public int getPageNum() {

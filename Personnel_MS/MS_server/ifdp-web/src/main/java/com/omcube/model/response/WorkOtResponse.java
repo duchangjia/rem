@@ -1,10 +1,6 @@
 package com.omcube.model.response;
 
-import java.util.Date;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.omcube.model.po.BasicPO;
+import com.omcube.model.po.EPWorkOtPO;
 
 /**
  * 加班的管理的响应实体类
@@ -12,9 +8,8 @@ import com.omcube.model.po.BasicPO;
  * @author dangjun
  * @version 1.0
  */
-public class WorkOtResponse extends BasicPO {
+public class WorkOtResponse extends EPWorkOtPO {
 
-	private String applyNo; // 加班编号
 	private String organNo; // 公司编号
 	private String deptNo; // 部门编号
 	private String companyName; // 公司名称
@@ -23,23 +18,6 @@ public class WorkOtResponse extends BasicPO {
 	private String custName; // 姓名
 	private String custPost; // 岗位
 	private String custClass; // 职级
-	private String workotType; // 加班类型
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-	private Date workotStartTime; // 加班开始时间
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-	private Date workotEndTime; // 加班结束时间
-	private double timeSheet; // 加班工时
-	private String remark; // 备注
-	private String attachm; // 附件
-	private MultipartFile file; // 文件的上传
-
-	public String getApplyNo() {
-		return applyNo;
-	}
-
-	public void setApplyNo(String applyNo) {
-		this.applyNo = applyNo;
-	}
 
 	public String getOrganNo() {
 		return organNo;
@@ -103,62 +81,6 @@ public class WorkOtResponse extends BasicPO {
 
 	public void setCustClass(String custClass) {
 		this.custClass = custClass;
-	}
-
-	public String getWorkotType() {
-		return workotType;
-	}
-
-	public void setWorkotType(String workotType) {
-		this.workotType = workotType;
-	}
-
-	public Date getWorkotStartTime() {
-		return workotStartTime;
-	}
-
-	public void setWorkotStartTime(Date workotStartTime) {
-		this.workotStartTime = workotStartTime;
-	}
-
-	public Date getWorkotEndTime() {
-		return workotEndTime;
-	}
-
-	public void setWorkotEndTime(Date workotEndTime) {
-		this.workotEndTime = workotEndTime;
-	}
-
-	public double getTimeSheet() {
-		return timeSheet;
-	}
-
-	public void setTimeSheet(double timeSheet) {
-		this.timeSheet = timeSheet;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-	public String getAttachm() {
-		return attachm;
-	}
-
-	public void setAttachm(String attachm) {
-		this.attachm = attachm;
-	}
-
-	public MultipartFile getFile() {
-		return file;
-	}
-
-	public void setFile(MultipartFile file) {
-		this.file = file;
 	}
 
 }

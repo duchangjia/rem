@@ -196,7 +196,7 @@
 </script>
 
 <style>
-    #wrap .el-loading-mask{
+    .el-loading-mask{
         background-color: rgba(0,0,0,.5);
     }
     #wrap .login-wrap{

@@ -134,7 +134,7 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import current from "../../common/current_position.vue";
+import current from "../../../common/current_position.vue";
 export default {
   data() {
     return {

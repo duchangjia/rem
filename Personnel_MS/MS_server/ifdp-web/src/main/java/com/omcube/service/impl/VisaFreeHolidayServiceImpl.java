@@ -18,9 +18,9 @@ public class VisaFreeHolidayServiceImpl implements VisaFreeHolidayService {
 
 	// 查询所有列表
 	@Override
-	public List<VisaFreeHolidayPo> queryVisaFreeHolidayList(String uId) {
+	public List<VisaFreeHolidayPo> queryVisaFreeHolidayList(String uid) {
 
-		return visaFreeHolidayMapper.queryVisaFreeHolidayList(uId);
+		return visaFreeHolidayMapper.queryVisaFreeHolidayList(uid);
 	}
 
 	//校验新增的免签节假日是否存在

@@ -172,11 +172,7 @@ public class CustInfoController {
 
 	//从session 获取uid
 	SysLoginCtrl sysLoginCtrl = SysLoginCtrlUtil.getSysLoginCtrlBySession();
-<<<<<<< HEAD
-	String uId = sysLoginCtrl.getUid();
-=======
 	String uid = sysLoginCtrl.getUid();
->>>>>>> d9051828ad73f623e57e2ccecec572f0258dd1d6
 
 	List<CustInfoPO> custInfoList = custInfoService.queryCustInfBySelf(uid, userNo);
 	return JSONResultUtil.setSuccess(custInfoList);

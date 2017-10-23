@@ -1,10 +1,6 @@
 package com.omcube.model.response;
 
-import java.util.Date;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.omcube.model.po.BasicPO;
+import com.omcube.model.po.EPLeaveInfoPO;
 
 /**
  * 请假的管理的响应实体类
@@ -12,9 +8,8 @@ import com.omcube.model.po.BasicPO;
  * @author dangjun
  * @version 1.0
  */
-public class LeaveResponse extends BasicPO {
+public class LeaveResponse extends EPLeaveInfoPO {
 
-	private String applyNo; // 请假编号
 	private String organNo; // 公司编号
 	private String deptNo; // 部门编号
 	private String companyName; // 公司名称
@@ -23,31 +18,6 @@ public class LeaveResponse extends BasicPO {
 	private String custName; // 姓名
 	private String custPost; // 岗位
 	private String custClass; // 职级
-	private String leaveType; // 请假类型
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-	private Date leaveStartTime; // 请假开始时间
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-	private Date leaveEndTime; // 请假结束时间
-	private double timeSheet; // 请假工时
-	private String remark; // 备注
-	private String attachm; // 附件
-	private MultipartFile file; // 文件的上传
-
-	public MultipartFile getFile() {
-		return file;
-	}
-
-	public void setFile(MultipartFile file) {
-		this.file = file;
-	}
-
-	public String getApplyNo() {
-		return applyNo;
-	}
-
-	public void setApplyNo(String applyNo) {
-		this.applyNo = applyNo;
-	}
 
 	public String getOrganNo() {
 		return organNo;
@@ -111,54 +81,6 @@ public class LeaveResponse extends BasicPO {
 
 	public void setCustClass(String custClass) {
 		this.custClass = custClass;
-	}
-
-	public String getLeaveType() {
-		return leaveType;
-	}
-
-	public void setLeaveType(String leaveType) {
-		this.leaveType = leaveType;
-	}
-
-	public Date getLeaveStartTime() {
-		return leaveStartTime;
-	}
-
-	public void setLeaveStartTime(Date leaveStartTime) {
-		this.leaveStartTime = leaveStartTime;
-	}
-
-	public Date getLeaveEndTime() {
-		return leaveEndTime;
-	}
-
-	public void setLeaveEndTime(Date leaveEndTime) {
-		this.leaveEndTime = leaveEndTime;
-	}
-
-	public double getTimeSheet() {
-		return timeSheet;
-	}
-
-	public void setTimeSheet(double timeSheet) {
-		this.timeSheet = timeSheet;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-
-	public String getAttachm() {
-		return attachm;
-	}
-
-	public void setAttachm(String attachm) {
-		this.attachm = attachm;
 	}
 
 }

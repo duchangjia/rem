@@ -1,10 +1,10 @@
 <template>
-    <div class="detail_pactRenew">
-        <current yiji="人事事务" erji="人事合同" sanji="合同详情" siji="合同续签详情" :activeTab="activeName">
+    <div class="detail_pactChange">
+        <current yiji="人事事务" erji="人事合同" sanji="合同详情" siji="合同变更详情" :activeTab="activeName">
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
-                <span class="title-text">合同续签详情</span>
+                <span class="title-text">合同变更详情</span>
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
@@ -19,12 +19,12 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="上次生效时间" prop="signTime">
+                        <el-form-item label="合同签约时间" prop="signTime">
                             <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.signTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="上次到期时间" prop="pactStopTime">
+                        <el-form-item label="合同终止时间" prop="pactStopTime">
                             <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStopTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
@@ -82,33 +82,33 @@
                 </el-form>
             </div>
             <div class="add-wrapper">
-                <el-col :span="24" class="item-title">合同续签信息</el-col>
-                <el-form :inline="true" :model="detailPRenewMsg" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-col :span="24" class="item-title">合同变更信息</el-col>
+                <el-form :inline="true" :model="detailPChangeMsg" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
                     <el-col :span="12">
-                        <el-form-item label="续签时间" prop="renewTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPRenewMsg.renewTime" :disabled="true" style="width: 100%;"></el-date-picker>
+                        <el-form-item label="变更时间" prop="changeTime">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPChangeMsg.changeTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="续签类别" prop="renewType">
-                            <el-select v-model="detailPRenewMsg.renewType" :disabled="true">
-                                <el-option label="合同延期" value="1"></el-option>
+                        <el-form-item label="变更类别" prop="changeType">
+                            <el-select v-model="detailPChangeMsg.changeType" :disabled="true">
+                                <el-option label="条款变更" value="1"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="续签生效时间" prop="renewTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPRenewMsg.renewTime" :disabled="true" style="width: 100%;"></el-date-picker>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="续签失效时间" prop="renewEndTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPRenewMsg.renewTime" :disabled="true" style="width: 100%;"></el-date-picker>
-                        </el-form-item>
-                    </el-col>
                     <el-col :span="24">
-                        <el-form-item label="续签内容" prop="renewContent">
-                            <el-input type="textarea" v-model="detailPRenewMsg.renewContent" :disabled="true"></el-input>
+                        <el-form-item label="变更内容" prop="changeContent">
+                            <el-input type="textarea" v-model="detailPChangeMsg.changeContent" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="最新更新人" prop="updateBy">
+                            <el-input v-model="detailPChangeMsg.updateBy" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="最新更新时间" prop="updateDate">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPChangeMsg.updateDate" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
@@ -125,16 +125,16 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import current from "../../common/current_position.vue";
+import current from "../../../common/current_position.vue";
 export default {
   data() {
     return {
       labelPosition: "right",
-      activeName: "renewPactMsg",
+      activeName: "changePactMsg",
       pactNo: "",
       changeId: "",
       basicPactMsg: {},
-      detailPRenewMsg: {}
+      detailPChangeMsg: {}
     };
   },
   components: {
@@ -142,9 +142,9 @@ export default {
   },
   created() {
     this.pactNo = this.$route.params.pactNo;
-    this.renewId = this.$route.params.renewId;
+    this.changeId = this.$route.params.changeId;
     this.getPactDtl(this.pactNo);
-    this.getPRenewDtl();
+    this.getPChangeDtl();
   },
   methods: {
     getPactDtl(pactNo) {
@@ -161,28 +161,29 @@ export default {
           console.log("error");
         });
     },
-    getPRenewDtl(pactNo) {
+    getPChangeDtl(pactNo) {
       const self = this;
       let params = {
         pactNo: self.pactNo,
-        renewId: self.renewId
+        changeId: self.changeId
       };
       self.$axios
-        .get("/iem_hrm/pact/queryPactRenewDetail", { params: params })
+        .get("/iem_hrm/pact/queryPactChangeDetail", { params: params })
         .then(res => {
           console.log(res);
-          self.detailPRenewMsg = res.data.data;
+          self.detailPChangeMsg = res.data.data;
         })
         .catch(() => {
           console.log("error");
-        });
+        }); 
     }
+    
   }
 };
 </script>
 
 <style>
-.detail_pactRenew {
+.detail_pactChange {
   padding: 0 0 20px 20px;
 }
 </style>

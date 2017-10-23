@@ -110,10 +110,10 @@ public class EmployeeProjectExperienceController {
 	// 添加项目经历信息的查询
 	@Cacheable
 	public EmployeeProjectExperiencePO queryEmployeeProjectExperienceInfoByParam(
-			String uId, String userNo, String projectId) {
+			String uid, String userNo, String projectId) {
 
 		return employeeProjectExperienceService
-				.queryEmployeeProjectExperienceInfoByParam(uId, userNo,
+				.queryEmployeeProjectExperienceInfoByParam(uid, userNo,
 						projectId);
 	}
 

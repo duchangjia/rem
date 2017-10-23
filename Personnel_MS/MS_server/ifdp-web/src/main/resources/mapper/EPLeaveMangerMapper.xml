@@ -5,40 +5,25 @@
 
 <mapper namespace="com.omcube.model.mapper.EPLeaveMangerMapper">
 
-	<resultMap id="EPLeaveMap" type="com.omcube.model.po.EPLeaveInfoPO">
-
-		<id column="UID" property="uid"></id>
-		<id column="APPLY_NO" property="applyNo"></id>
-		<result column="LEAVE_START_TIME" property="leaveStartTime" javaType="java.util.Date"></result>
-		<result column="LEAVE_END_TIME" property="leaveEndTime" javaType="java.util.Date"></result>
-		<result column="LEAVE_TYPE" property="leaveType" javaType="java.lang.String"></result>
-		<result column="TIME_SHEET" property="timeSheet" javaType="java.lang.Double"></result>
-		<result column="AUTH_FLOW" property="authFlow" javaType="java.lang.String"></result>
-		<result column="AUTH_STATUS" property="authStatus" javaType="java.lang.String"></result>
-		<result column="AUTH_VIEW" property="authView" javaType="java.lang.String"></result>
-		<result column="ATTACHM" property="attachm" javaType="java.lang.String"></result>
-		<result column="REMARK" property="remark" javaType="java.lang.String"></result>
-		<result column="CREATED_BY" property="createdBy" javaType="java.lang.String"></result>
-		<result column="CREATED_DATE" property="createdDate" javaType="java.util.Date"></result>
-		<result column="UPDATED_BY" property="updatedBy" javaType="java.lang.String"></result>
-		<result column="UPDATED_DATE" property="updatedDate" javaType="java.util.Date"></result>
-
-	</resultMap>
 	<!-- 通过请假的编号查询 -->
-	<select id="queryLeaveInfo" parameterType="map"
-		resultType="com.omcube.model.po.EPLeaveInfoPO">
+	<select id="queryLeaveInfo" parameterType="map" resultType="com.omcube.model.po.EPLeaveInfoPO">
 		select *
 		from
-		EP_LEAVE_FLOW
+			EP_LEAVE_FLOW
 		where
-		UID = #{uid} and APPLY_NO = #{applyNo}
+			UID = #{uid} and APPLY_NO = #{applyNo}
 	</select>
 
 	<!-- 请假详细信息的添加 -->
 	<insert id="addLeaveInfo" parameterType="com.omcube.model.response.LeaveResponse">
 		insert into
 			EP_LEAVE_FLOW
-		values(
+			(
+			UID,APPLY_NO,USER_NO,LEAVE_START_TIME,LEAVE_END_TIME,LEAVE_TYPE,
+			TIME_SHEET,AUTH_FLOW,AUTH_STATUS,AUTH_VIEW,ATTACHM,REMARK,CREATED_BY,
+			CREATED_DATE,UPDATED_BY,UPDATED_DATE
+			)
+		value(
 			#{uid},
 			#{applyNo},
 			#{userNo},
@@ -52,6 +37,8 @@
 			#{attachm},
 			#{remark},
 			#{createdBy},
+			date_format(now(),'%y-%m-%d'),
+			#{updatedBy},
 			date_format(now(),'%y-%m-%d')
 		)
 	</insert>
@@ -74,7 +61,18 @@
 			l.ATTACHM as attachm,
 			l.CREATED_BY as createdBy,
 			l.CREATED_DATE as createdDate
-		from (select * from EP_CUST_INFO where ORGAN_NO = #{organNo}) c 
+		from 
+		(
+		select * from EP_CUST_INFO 
+			<where>
+				<if test="organType == '01' or organType == '02' or organType == '03'">
+					ORGAN_NO = #{organNo}
+				</if>
+				<if test="organType == '04'">
+					DERP_NO = #{organNo}
+				</if>
+			</where>
+		) c 
 		inner join IFDP_SYS_ORGAN_BASE o1
 		on c.ORGAN_NO = o1.ORGAN_NO 
 		inner join IFDP_SYS_ORGAN_BASE o2 
@@ -93,7 +91,6 @@
 		<if test="leaveEndTime != null and leaveEndTime != ''">
 			and l.LEAVE_END_TIME &lt; #{leaveEndTime}
 		</if>
-			
 	    order by l.APPLY_NO desc
 	</select>
 	
@@ -135,7 +132,7 @@
 	</delete>
 	
 	<!-- 请假详情的修改 -->
-	<update id="modifyLeaveInfo" parameterType="com.omcube.model.request.QueryLeaveRequest">
+	<update id="modifyLeaveInfo" parameterType="com.omcube.model.po.EPLeaveInfoPO">
 		update
 			EP_LEAVE_FLOW
 		set
