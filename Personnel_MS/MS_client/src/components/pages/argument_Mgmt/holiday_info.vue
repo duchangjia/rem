@@ -14,7 +14,7 @@
                     </div>
                     <table>
                         <tr><td v-for="th in table.th">{{th}}</td></tr>
-                        <tr v-for="tds in table.td"><td v-for="td in tds">{{td}}</td><td><i class="el-icon-delete2"></i></td></tr>
+                        <tr v-for="tds in table.td"><td v-for="td in tds">{{td}}</td><td><i class="el-icon-delete2" @click="del"></i></td></tr>
                     </table>
                     <el-pagination
                             @size-change="handleSizeChange"
@@ -68,6 +68,9 @@
             add() {
                 this.$router.push('add_holiday')
             },
+            del() {
+
+            }
         },
         components: {
             current,
@@ -168,7 +171,7 @@
                     margin-bottom: 40px;
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
-                    color: #666666;
+                    color: #333;
                     letter-spacing: 0;
                     flex-wrap: wrap;
                     border: 1px solid #f0f0f0;
@@ -191,11 +194,13 @@
                     tr:first-child
                         background: #F4F4F4;
                         box-shadow: inset 0 1px 0 0 #EEEEEE;
+                        color #666
                     td
                         flex: 1;
                         text-align center
                 .el-icon-delete2
                     color: #ff9900;
+                    cursor pointer
         .el-pagination
             position: absolute;
             right: 45px;

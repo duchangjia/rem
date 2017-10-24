@@ -284,6 +284,24 @@ export default new Router({
                             component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/edit_pactRenew.vue'], resolve)
                         }
                     ]
+                },
+                {
+                    path: '/personnel_archives',
+                    component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/personnel_archives.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/query_archives.vue'], resolve)
+                        },
+                        {
+                            path: '/add_archives',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/add_archives.vue'], resolve)
+                        },
+                        {
+                            path: '/archives_detail',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/archives_detail.vue'], resolve)
+                        },
+                    ]
                 }
             ]
         }

@@ -74,7 +74,11 @@ export default {
 						{
 							index: 'personnel_contract',
 							title: '人事合同'
-						}
+						},
+                        {
+                            index: 'personnel_archives',
+                            title: '人事档案'
+                        }
 					]
 				},
 				{

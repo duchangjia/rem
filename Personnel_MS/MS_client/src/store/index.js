@@ -7,7 +7,9 @@ import getters from './getters'
 Vue.use(Vuex)
 
 const state = {
-    frame_content:''
+    change_frame: '',
+    user: '',
+    token: null,
 }
 
 export default new Vuex.Store({
