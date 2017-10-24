@@ -42,7 +42,7 @@
 			AND
 			cust_name like #{custName}
 		</if>
-		<if test="pactType != '' and pactType != null">
+		<if test="startTime != '' and startTime != null and endTime != '' and endTime != null">
 			AND pact_type = #{pactType}
 		</if>
 		ORDER BY

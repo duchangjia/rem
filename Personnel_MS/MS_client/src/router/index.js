@@ -120,103 +120,96 @@ export default new Router({
                 {
                     path: '/argument_2',
                     component: resolve => require(['../components/pages/argument_Mgmt/argument_2.vue'], resolve),
-                	children: [
-                		{
-                			path:'/',
-                			component: resolve => require(['../components/pages/argument_Mgmt/arg_2.vue'], resolve)
-                		},
-                		{
-                			name:'agency_argument',
-                			path:'/agency_argument',
-                			component: resolve => require(['../components/pages/argument_Mgmt/agency_argument.vue'], resolve)
-                		},
-                		{
-                			name:'welfare_coefficient',
-                			path:'/welfare_coefficient',
-                			component: resolve => require(['../components/pages/argument_Mgmt/welfare_coefficient.vue'], resolve)
-                		},
-                		{
-                			name:'welfare_info',
-                			path:'/welfare_info',
-                			component: resolve => require(['../components/pages/argument_Mgmt/welfare_info.vue'], resolve)
-                		},
-                		{
-                			name:'add_welfare',
-                			path:'/add_welfare',
-                			component: resolve => require(['../components/pages/argument_Mgmt/add_welfare.vue'], resolve)
-                		},
-                		{
-                			name:'tax_rate',
-                			path:'/tax_rate',
-                			component:resolve => require(['../components/pages/argument_Mgmt/tax_rate.vue'],resolve)
-                		},
-                		{
-                			name:'rate_info',
-                			path:'/rate_info',
-                			component:resolve => require(['../components/pages/argument_Mgmt/rate_info.vue'],resolve)
-                		},
-                		{
-                			name:'add_rateGroup',
-                			path:'/add_rateGroup',
-                			component:resolve => require(['../components/pages/argument_Mgmt/add_rateGroup.vue'],resolve)
-                		},
-                		{
-                			name:'edit_rate',
-                			path:'/edit_rate',
-                			component:resolve => require(['../components/pages/argument_Mgmt/edit_rate.vue'],resolve)
-                		},
-                		{
-                			name:'add_rate',
-                			path:'/add_rate',
-                			component:resolve => require(['../components/pages/argument_Mgmt/add_rate.vue'],resolve)
-                		},
-                		{
-                			name:'rank',
-                			path:'/rank',
-                			component:resolve => require(['../components/pages/argument_Mgmt/rank.vue'],resolve)
-                		},
-                		{
-                			name:'edit_rank',
-                			path:'/edit_rank',
-                			component:resolve => require(['../components/pages/argument_Mgmt/edit_rank.vue'],resolve)
-                		},
-                		{
-                			name:'add_rank',
-                			path:'/add_rank',
-                			component:resolve => require(['../components/pages/argument_Mgmt/add_rank.vue'],resolve)
-                		},
+                    children: [
                         {
-                            path:'/ticket_info',
-                            component:resolve => require(['../components/pages/argument_Mgmt/ticket_info.vue'],resolve)
+                            path: '/',
+                            component: resolve => require(['../components/pages/argument_Mgmt/arg_2.vue'], resolve)
                         },
                         {
-                            path:'/holiday_info',
-                            component:resolve => require(['../components/pages/argument_Mgmt/holiday_info.vue'],resolve)
+                            name: 'agency_argument',
+                            path: '/agency_argument',
+                            component: resolve => require(['../components/pages/argument_Mgmt/agency_argument.vue'], resolve)
                         },
                         {
-                            path:'/add_agency',
-                            component:resolve => require(['../components/pages/argument_Mgmt/add_agency.vue'],resolve)
+                            name: 'welfare_coefficient',
+                            path: '/welfare_coefficient',
+                            component: resolve => require(['../components/pages/argument_Mgmt/welfare_coefficient.vue'], resolve)
                         },
                         {
-                            path:'/add_ticket',
-                            component:resolve => require(['../components/pages/argument_Mgmt/add_ticket.vue'],resolve)
+                            name: 'welfare_info',
+                            path: '/welfare_info',
+                            component: resolve => require(['../components/pages/argument_Mgmt/welfare_info.vue'], resolve)
                         },
                         {
-                            path:'/add_holiday',
-                            component:resolve => require(['../components/pages/argument_Mgmt/add_holiday.vue'],resolve)
+                            name: 'add_welfare',
+                            path: '/add_welfare',
+                            component: resolve => require(['../components/pages/argument_Mgmt/add_welfare.vue'], resolve)
+                        },
+                        {
+                            name: 'tax_rate',
+                            path: '/tax_rate',
+                            component: resolve => require(['../components/pages/argument_Mgmt/tax_rate.vue'], resolve)
+                        },
+                        {
+                            name: 'rate_info',
+                            path: '/rate_info',
+                            component: resolve => require(['../components/pages/argument_Mgmt/rate_info.vue'], resolve)
+                        },
+                        {
+                            name: 'add_rateGroup',
+                            path: '/add_rateGroup',
+                            component: resolve => require(['../components/pages/argument_Mgmt/add_rateGroup.vue'], resolve)
+                        },
+                        {
+                            name: 'edit_rate',
+                            path: '/edit_rate',
+                            component: resolve => require(['../components/pages/argument_Mgmt/edit_rate.vue'], resolve)
+                        },
+                        {
+                            name: 'add_rate',
+                            path: '/add_rate',
+                            component: resolve => require(['../components/pages/argument_Mgmt/add_rate.vue'], resolve)
+                        },
+                        {
+                            name: 'rank',
+                            path: '/rank',
+                            component: resolve => require(['../components/pages/argument_Mgmt/rank.vue'], resolve)
+                        },
+                        {
+                            name: 'edit_rank',
+                            path: '/edit_rank',
+                            component: resolve => require(['../components/pages/argument_Mgmt/edit_rank.vue'], resolve)
+                        },
+                        {
+                            name: 'add_rank',
+                            path: '/add_rank',
+                            component: resolve => require(['../components/pages/argument_Mgmt/add_rank.vue'], resolve)
+                        },
+                        {
+                            path: '/ticket_info',
+                            component: resolve => require(['../components/pages/argument_Mgmt/ticket_info.vue'], resolve)
+                        },
+                        {
+                            path: '/holiday_info',
+                            component: resolve => require(['../components/pages/argument_Mgmt/holiday_info.vue'], resolve)
+                        },
+                        {
+                            path: '/add_agency',
+                            component: resolve => require(['../components/pages/argument_Mgmt/add_agency.vue'], resolve)
+                        },
+                        {
+                            path: '/add_ticket',
+                            component: resolve => require(['../components/pages/argument_Mgmt/add_ticket.vue'], resolve)
+                        },
+                        {
+                            path: '/add_holiday',
+                            component: resolve => require(['../components/pages/argument_Mgmt/add_holiday.vue'], resolve)
                         }
                     ]
                 },
                 {
                     path: '/client',
                     component: resolve => require(['../components/pages/client_Relationship/client.vue'], resolve)
-                }, {
-                    path: '/project_1',
-                    component: resolve => require(['../components/pages/project_Mgmt/project_1.vue'], resolve)
-                },
-                {
-                    path: '/project_2',
-                    component: resolve => require(['../components/pages/project_Mgmt/project_2.vue'], resolve)
                 },
                 {
                     path: '/business',
@@ -301,8 +294,35 @@ export default new Router({
                             path: '/archives_detail',
                             component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/archives_detail.vue'], resolve)
                         },
+
+                    ]
+                },
+                {
+                    path: '/payBaseInfo_setting',
+                    component: resolve => require(['../components/pages/payWelfare_Mgmt/payBaseInfo/payBaseInfo_setting.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payBaseInfo/query_payBaseInfo.vue'], resolve)
+                        },
+                        {
+                            name: 'add_payBaseInfo',
+                            path: '/add_payBaseInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payBaseInfo/add_payBaseInfo.vue'], resolve)
+                        },
+                        {
+                            name: 'edit_payBaseInfo',
+                            path: '/edit_payBaseInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payBaseInfo/edit_payBaseInfo.vue'], resolve)
+                        },
+                        {
+                            name: 'detail_payBaseInfo',
+                            path: '/detail_payBaseInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payBaseInfo/detail_payBaseInfo.vue'], resolve)
+                        }
                     ]
                 }
+
             ]
         }
     ]

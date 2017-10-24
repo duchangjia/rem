@@ -13,10 +13,10 @@ public interface SysPactMapper {
 	
 	
 	//查询合同    通过部门去查询
-	List<PactPO> queryPactList(Map<String, String> params);
+	List<PactPO> getPactList(Map<String, String> params);
 	
 	//查询合同基本信息
-	PactPO getPactByPactNo(Map<String, String> params);
+	PactPO getPactDetail(Map<String, String> params);
 	
 	//查询合同变更情况
 	List<PactChange> getPactChangeList(Map<String, String> params);
