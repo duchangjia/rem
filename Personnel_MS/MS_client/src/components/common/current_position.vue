@@ -76,13 +76,16 @@ export default {
             if (this.erji === '人事合同') {
                 _link.push('/personnel_contract')
             }
+            if (this.erji === '人事调动') {
+            	_link.push('/personnel_transfer')
+            }
             if (this.erji === '业务参数') {
                 _link.push('/argument_2')
             }
             if (this.erji === '薪酬基数设置') {
                 _link.push('/payBaseInfo_setting')
             }
-
+			
             if (this.sanji === '编辑部门') {
                 _link.push('/edit_department')
             }
@@ -146,7 +149,31 @@ export default {
             if (this.sanji === '薪酬基数详情') {
                 _link.push('/detail_payBaseInfo')
             }
-
+            if (this.sanji === '人事调动明细查询') {
+                _link.push('/detail_transfer')
+            }
+            if (this.sanji === '人事调动详情') {
+                _link.push('/transfer_info')
+            }
+            if (this.sanji === '人事调动修改') {
+                _link.push('/edit_transfer')
+            }
+            if (this.sanji === '人事调动新增') {
+                _link.push('/add_transfer')
+            }
+            if (this.sanji === '员工离职明细查询') {
+                _link.push('/detail_dimission')
+            }
+            if (this.sanji === '员工离职详情') {
+                _link.push('/dimission_info')
+            }
+            if (this.sanji === '员工离职修改') {
+                _link.push('/edit_dimission')
+            }
+            if (this.sanji === '员工离职新增') {
+                _link.push('/add_dimission')
+            }
+				
             if (this.siji === '福利缴纳系数新增') {
                 _link.push('/add_welfare')
             }

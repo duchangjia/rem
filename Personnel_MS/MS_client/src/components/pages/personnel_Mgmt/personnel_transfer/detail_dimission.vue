@@ -1,9 +1,9 @@
 <template>
 	<div class="transfer_wrap">
-		<current yiji="人事事务" erji="人事调动" sanji="人事调动明细查询"></current>
+		<current yiji="人事事务" erji="人事调动" sanji="员工离职明细查询"></current>
 		<div class="content">
 			<div class="title">
-				<span class="title-text">人事调动明细查询</span>
+				<span class="title-text">员工离职明细查询</span>
 				<el-button type="primary" class="title_button" @click="handleAddTransfer()">新增</el-button>
 			</div>
 			<div class="content-inner">
@@ -37,24 +37,23 @@
 						</el-form-item>
 					</div>
 					<div class="button-wrap">
-						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
-						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
+							<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
+							<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
 				<div class="info">
 					<el-table :data="transferDataList" border stripe style="width: 100%">
-						<el-table-column prop="diaodongNo" label="调动编号">
+						<el-table-column prop="lizhiNo" label="调动编号">
 							<template scope="scope">
-						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.diaodongNo }}</span>
+						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.lizhiNo }}</span>
 					      	</template>
 						</el-table-column>
 						<el-table-column prop="userNo" label="工号"></el-table-column>
 						<el-table-column prop="userName" label="姓名"></el-table-column>
-						<el-table-column prop="oldCompName" label="原公司名称"></el-table-column>
-						<el-table-column prop="oldDepartName" label="原部门名称"></el-table-column>
-						<el-table-column prop="diaodongType" label="调动类型"></el-table-column>
-						<el-table-column prop="diaodongDate" label="调动日期"></el-table-column>
-						<el-table-column prop="shengxiaoDate" label="调动生效日期"></el-table-column>
+						<el-table-column prop="compName" label="公司名称"></el-table-column>
+						<el-table-column prop="departName" label="部门名称"></el-table-column>
+						<el-table-column prop="lizhiType" label="离职类型"></el-table-column>
+						<el-table-column prop="lizhiDate" label="离职日期"></el-table-column>
 						<el-table-column align="center" label="操作" width="150">
 							<template scope="scope">
 								<span class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></span>
@@ -111,24 +110,23 @@ export default {
 			],
 			transferDataList: [
 				{
-					diaodongNo: "001001",
+					lizhiNo: "001001",
 					userNo: "p011111",
 					userName: "sdsd",
-					oldCompName: "",
-					oldDepartName: "",
-					diaodongType: "",
-					diaodongDate: "",
-					shengxiaoDate: ""
+					compName: "xx",
+					departName: "xx",
+					lizhiType: "xx",
+					lizhiDate: "2017-10-01"
 				},
 				{
-					diaodongNo: "001001",
+					lizhiNo: "001001",
 					userNo: "p011111",
 					userName: "sdsd",
-					oldCompName: "xx",
-					oldDepartName: "xxx",
-					diaodongType: "xx",
-					diaodongDate: "xx",
-					shengxiaoDate: "xxx"
+					compName: "",
+					departName: "",
+					lizhiType: "",
+					lizhiDate: "",
+					shengxiaoDate: ""
 				}
 			],
 			rules: {
@@ -158,7 +156,7 @@ export default {
 			this.ruleForm2.endDate = val;
 		},
 		handleAddTransfer() {
-			this.$router.push('/add_transfer');
+			this.$router.push('/add_dimission');
 		},
 		changeValue(value) {
 		 		const self = this;
@@ -167,18 +165,18 @@ export default {
 		handleEdit(index, row) {
 			console.log('row:',row);
             this.$router.push({
-            	name: "edit_transfer",
+            	name: "edit_dimission",
             	params: {
-            		diaodongNo: row.diaodongNo
+            		lizhiNo: row.lizhiNo
             	}
             });
 		},
 		handleInfo(index, row) {
 			console.log('row:',row);
 			this.$router.push({
-				name: "transfer_info",
+				name: "dimission_info",
 				params: {
-					diaodongNo: row.diaodongNo
+					lizhiNo: row.lizhiNo
 				}
 			})
 			

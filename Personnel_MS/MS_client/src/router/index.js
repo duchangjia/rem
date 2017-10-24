@@ -287,9 +287,49 @@ export default new Router({
                             component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/query_transfer.vue'], resolve)
                         },
                         {
+                        	name: 'personnel_info',
+                            path: '/personnel_info',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/personnel_info.vue'], resolve)
+						},
+						{
                         	name: 'detail_transfer',
                             path: '/detail_transfer',
                             component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/detail_transfer.vue'], resolve)
+						},
+						{
+                        	name: 'transfer_info',
+                            path: '/transfer_info',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/transfer_info.vue'], resolve)
+						},
+						{
+                        	name: 'edit_transfer',
+                            path: '/edit_transfer',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/edit_transfer.vue'], resolve)
+						},
+						{
+                        	name: 'add_transfer',
+                            path: '/add_transfer',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/add_transfer.vue'], resolve)
+						},
+						{
+                        	name: 'detail_dimission',
+                            path: '/detail_dimission',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/detail_dimission.vue'], resolve)
+						},
+						{
+                        	name: 'dimission_info',
+                            path: '/dimission_info',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/dimission_info.vue'], resolve)
+						},
+						{
+                        	name: 'edit_dimission',
+                            path: '/edit_dimission',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/edit_dimission.vue'], resolve)
+						},
+						{
+                        	name: 'add_dimission',
+                            path: '/add_dimission',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/add_dimission.vue'], resolve)
 						}
                     ]
                 },

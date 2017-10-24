@@ -60,8 +60,8 @@
 				</el-table-column>
 				<el-table-column align="center" label="操作" width="150">
 					<template scope="scope">
-						<el-button size="small" @click="handleEdit(scope.$index, scope.row)">调动</el-button>
-						<el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">离职</el-button>
+						<el-button size="small" @click="handleTransfer(scope.$index, scope.row)">调动</el-button>
+						<el-button size="small" type="danger" @click="handDimission(scope.$index, scope.row)">离职</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -165,7 +165,7 @@
 			},
 			handleDetail(index, row) {
 				this.$router.push({
-					name: "detail_transfer",
+					name: "personnel_info",
 					params: {
 						userNo: row.userNo
 					}
@@ -186,16 +186,21 @@
 			handleCurrentChange(val) {
 				this.pageNum = val;
 			},
-			handleEdit(index, row) {
+			handleTransfer(index, row) {
 				this.$router.push({
-					name: "edit_contract",
+					name: "detail_transfer",
 					params: {
 						userNo: row.userNo
 					}
 				});
 			},
-			handleDelete(index, row) {
-
+			handDimission(index, row) {
+				this.$router.push({
+					name: "detail_dimission",
+					params: {
+						userNo: row.userNo
+					}
+				})
 			},
 			changeValue(value) {
 		 		const self = this;
@@ -289,4 +294,5 @@
 		background-color: #FF9900;
 		border-color: #FF9900;
 	}
+	
 </style>

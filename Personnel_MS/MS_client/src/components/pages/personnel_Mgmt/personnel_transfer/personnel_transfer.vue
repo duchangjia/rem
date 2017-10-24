@@ -342,5 +342,7 @@ table .el-button--danger:active {
 .el-message-box__headerbtn:hover .el-message-box__close {
   color: #ff9900;
 }
+
+
 </style>
 

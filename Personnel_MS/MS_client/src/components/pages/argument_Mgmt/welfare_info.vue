@@ -310,10 +310,9 @@ border-bottom: 1px solid #EEEEEE;
 }
 .welfare_info .form_box .title{
 	padding: 11px 0px 11px 10px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 	color: #999999;
-	background: #F4F4F4;
-	border-top: 1px solid #EEEEEE;
+	border-bottom: none;
 }
 .welfare_info .form_box .plus {
 	margin-left: 10px;
