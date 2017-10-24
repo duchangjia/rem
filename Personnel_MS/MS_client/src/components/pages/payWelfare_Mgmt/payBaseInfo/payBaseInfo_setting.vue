@@ -77,8 +77,18 @@ export default {};
 
 .el-input__inner:focus,
 .el-textarea__inner:focus,
-.el-select .el-input__inner:focus {
+.el-select .el-input__inner:focus,
+.el-input-group__append:focus, 
+.el-input-group__prepend:focus {
   border-color: #ff9900;
+}
+
+.el-input-group--append .el-input__inner {
+  width: 253px;
+}
+
+.el-input-group--prepend .el-input__inner, .el-input-group__append {
+  border-radius: 0;
 }
 
 .el-select-dropdown__item.selected,

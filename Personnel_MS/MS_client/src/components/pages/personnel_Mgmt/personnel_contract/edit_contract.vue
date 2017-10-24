@@ -5,10 +5,10 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">合同修改</span>
-                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave('editPactMsgRules')" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="editPactMsg" :rules="rules" ref="editPactMsg" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="editPactMsg" :rules="rules" ref="editPactMsgRules" :label-position="labelPosition" label-width="110px">
                     <el-col :span="24">
                         <el-form-item label="合同编号" prop="pactNo">
                             <el-input v-model="editPactMsg.pactNo" :disabled="true"></el-input>
@@ -142,11 +142,11 @@ export default {
       pactNo: "",
       editPactMsg: {},
       rules: {
-        pactType: [{ required: true, message: "请选择合同类型", trigger: "blur" }],
-        signTime: [{ type: 'date', required: true, message: '请选择签订日期', trigger: 'change' }],
-        pactStartTime: [{ type: 'date', required: true, message: '请选择合同开始日期', trigger: 'change' }],
-        pactEndTime: [{ type: 'date', required: true, message: '请选择合同结束日期', trigger: 'change' }],
-        pactStatus: [{ required: true, message: "请选择合同状态", trigger: "blur" }]
+        pactType: [{ required: true, message: "合同类型不能为空", trigger: "change" }],
+        signTime: [{ type: "date", required: true, message: "签订日期不能为空", trigger: "change" }],
+        pactStartTime: [{ type: "date", required: true, message: "合同开始日期不能为空", trigger: "change" }],
+        pactEndTime: [{ type: "date", required: true, message: "合同结束日期不能为空", trigger: "change"}],
+        pactStatus: [{ required: true, message: "合同状态不能为空", trigger: "change" }]
       }
     };
   },
@@ -174,23 +174,30 @@ export default {
           console.log("error");
         });
     },
-    handleSave() {
-      let editPact = {};
-      editPact.pactNo = this.editPactMsg.pactNo;
-      editPact.paperPactNo = this.editPactMsg.paperPactNo;
-      editPact.pactName = this.editPactMsg.pactName;
-      console.log(editPact);
-      this.$axios
-        .post("/iem_hrm/pact/updatePact", editPact)
-        .then(res => {
-          console.log(res);
-          if (res.data.code == "S00000")
-            this.$router.push("/personnel_contract");
-          else this.$message.error("合同修改失败！");
-        })
-        .catch(() => {
-          this.$message.error("合同修改失败！");
-        });
+    handleSave(editPactMsgRules) {
+      this.$refs[editPactMsgRules].validate(valid => {
+        if (valid) {
+          let editPact = {};
+          editPact.pactNo = this.editPactMsg.pactNo;
+          editPact.paperPactNo = this.editPactMsg.paperPactNo;
+          editPact.pactName = this.editPactMsg.pactName;
+          console.log(editPact);
+          this.$axios
+            .post("/iem_hrm/pact/updatePact", editPact)
+            .then(res => {
+              console.log(res);
+              if (res.data.code == "S00000")
+                this.$router.push("/personnel_contract");
+              else this.$message.error("合同修改失败！");
+            })
+            .catch(() => {
+              this.$message.error("合同修改失败！");
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     }
   }
 };
