@@ -1,20 +1,25 @@
 <template>
-    <div class="holiday_argument">
-        <current yiji="参数管理" erji="业务参数" sanji="免签节假日维护" class="test"></current>
+    <div class="query_archives">
+        <current yiji="人事事务" erji="人事档案" class="test"></current>
         <el-col :span="24">
             <div class="content-wrapper">
-                <div class="title"><span class="text">免签节假日维护</span><button class="add" @click="add">新增</button></div>
+                <div class="title"><span class="text">人事档案</span><button class="add" @click="add">新增</button></div>
                 <div class="content">
-                    <div class="search"><span>日期</span><el-date-picker type="date" placeholder="选择日期" v-model="content.date1"></el-date-picker><i>-</i><el-date-picker type="date" v-model="content.date2" placeholder="选择日期"></el-date-picker>
-                        <span class="special">类型</span><el-select v-model="value"></el-select>
+                    <div class="item-wrapper">
+                        <span class="text">公司</span><el-select v-model="value" class="common"></el-select>
+                        <span class="text">部门</span><el-select v-model="value" class="common"></el-select>
+                        <span class="text">员工</span><el-input placeholder="工号或姓名"></el-input>
+                    </div>
+                    <div class="item-wrapper">
+                        <span class="text">状态</span><el-select v-model="value" class="common"></el-select>
                     </div>
                     <div class="button">
                         <button class="special_1">重置</button>
                         <button>查询</button>
                     </div>
                     <table>
-                        <tr><td v-for="th in table.th">{{th}}</td></tr>
-                        <tr v-for="tds in table.td"><td v-for="td in tds">{{td}}</td><td><i class="el-icon-delete2" @click="del"></i></td></tr>
+                        <tr><td v-for="th in table.th" >{{th}}</td></tr>
+                        <tr v-for="tds in table.td"><td v-for="td in tds" :title="td">{{td}}</td><td @click="see" class="see">查看</td></tr>
                     </table>
                     <el-pagination
                             @size-change="handleSizeChange"
@@ -30,56 +35,60 @@
 </template>
 
 <script type='text/ecmascript-6'>
-    import current from '../../common/current_position.vue'
+    import current from "../../../common/current_position.vue";
     export default {
         data() {
           return {
               value: '',
-              content: {
-                date1: '',
-                date2: '',
-              },
               table: {
-                  th:['日期', '类型', '备注', '创建ID', '创建时间', '操作'],
+                  th:['工号', '姓名', '公司名称', '部门名称', '性别', '岗位', '手机', '入职时间', '状态', '资产'],
                   td:[
                       {
-                          data: '2010-1-1',
-                          type: 'xxx',
-                          mark: 'TTT',
-                          createId: 'XXXXXXXXXX',
-                          createTime: '2010-1-1',
+                          user_No: 'P0000008',
+                          user_name: '张三李四王老五',
+                          company_name: '深圳前海橙色魔方技术有限公司深圳前海橙色魔方技术有限公司',
+                          department_name: '部门名称部门名称',
+                          sex: '男',
+                          position: 'JAVA开发',
+                          phone: '13333333333',
+                          in_time: '2019/01/01',
+                          status: '离职',
                       },
                       {
-                          data: '2010-1-1',
-                          type: 'xxx',
-                          mark: 'TTT',
-                          createId: 'XXXXXXXXXX',
-                          createTime: '2010-1-1',
+                          user_No: 'P0000008',
+                          user_name: '张三李四王老五',
+                          company_name: '深圳前海橙色魔方技术有限公司',
+                          department_name: '部门名称部门名称',
+                          sex: '男',
+                          position: 'JAVA开发',
+                          phone: '13333333333',
+                          in_time: '2019/01/01',
+                          status: '离职',
                       },]  }
           }
         },
+        components: {
+            current
+        },
         methods: {
-            handleSizeChange(val) {
-                console.log(val)
-            },
-            handleCurrentChange(val) {
-                console.log(val)
-            },
             add() {
-                this.$router.push('add_holiday')
+                this.$router.push('add_archives')
             },
-            del() {
+            handleSizeChange() {
+
+            },
+            handleCurrentChange() {
+
+            },
+            see() {
 
             }
         },
-        components: {
-            current,
-        }
     }
 </script>
 
 <style lang='stylus' rel='stylesheet/stylus'>
-    .holiday_argument
+    .query_archives
         padding: 0 0 20px 20px;
         overflow: hidden;
         position: relative;
@@ -89,7 +98,7 @@
             background: #fff;
             padding-left: 20px;
             padding-right 20px
-            height: 824px;
+            height: 886px;
             .title
                 font-family: PingFangSC-Regular;
                 font-size: 16px;
@@ -119,17 +128,22 @@
                     bottom 20px
             .content
                 padding-top: 42px;
-                .search
-                    i
-                        margin 0 10px
-                    span
+                .item-wrapper
+                    padding 0 22px 0 28px
+                    margin-bottom 20px
+                    .text
                         margin-right 30px
-                    .special
-                        margin-left 80px
-                    .el-date-editor
-                        width: 200px
-                        height: 40px
+                        font-family: PingFangSC-Regular;
+                        font-size: 14px;
+                        color: #999999;
+                        letter-spacing: 0;
+                    .common
+                        margin-right 108px
+                    .el-input
+                        width 200px
+                        height 40px
                         .el-input__inner
+                            width 100%
                             height 100%
                             &:hover
                                 border-color #ff9900
@@ -141,14 +155,15 @@
                         .el-input
                             height 100%
                             .el-input__inner
+                                width 100%
                                 height 100%
                                 &:hover
                                     border-color #ff9900
                                 &:focus
                                     border-color #ff9900
                 .button
+                    margin 40px 0
                     padding-left 380px
-                    margin 40px 0px
                     button
                         width: 120px
                         height 40px
@@ -176,13 +191,20 @@
                     flex-wrap: wrap;
                     border: 1px solid #f0f0f0;
                     border-collapse: collapse;
+                    table-layout: fixed
                     td
                         border: 1px solid #f0f0f0;
+                        white-space: nowrap
+                        overflow hidden
+                        text-overflow ellipsis
                     tr
                         width: 100%;
                         height: 40px;
                         display: flex;
                         line-height: 40px;
+                        td:first-child:hover
+                            text-decoration underline
+                            cursor pointer
                     tr:nth-child(odd)
                         background: #F8F8F8;
                     tr:hover
@@ -195,12 +217,31 @@
                         background: #F4F4F4;
                         box-shadow: inset 0 1px 0 0 #EEEEEE;
                         color #666
+                        td:first-child:hover
+                            text-decoration none
+                            cursor auto
                     td
                         flex: 1;
                         text-align center
-                .el-icon-delete2
-                    color: #ff9900;
-                    cursor pointer
+                    td:nth-child(3)
+                        flex 4
+                    td:nth-child(4)
+                        flex 4
+                    td:nth-child(1)
+                        flex 2
+                    td:nth-child(2)
+                        flex 2
+                    td:nth-child(6)
+                        flex 2
+                    td:nth-child(7)
+                        flex 2
+                    td:nth-child(8)
+                        flex 2
+                    .see
+                        color #ff9900
+                        cursor pointer
+                        &:hover
+                            text-decoration underline
         .el-pagination
             position: absolute;
             right: 45px;
@@ -234,5 +275,4 @@
             display: flex;
             align-items center
             justify-content center
-
 </style>

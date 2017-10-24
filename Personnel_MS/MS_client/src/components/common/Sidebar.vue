@@ -78,7 +78,11 @@ export default {
 						{
 							index: 'personnel_transfer',
 							title: '人事调动'
-						}
+						},
+                        {
+                            index: 'personnel_archives',
+                            title: '人事档案'
+                        }
 					]
 				},
 				{

@@ -81,6 +81,10 @@ export default {};
   border-color: #ff9900;
 }
 
+.el-input-group--append .el-input__inner {
+  width: 253px;
+}
+
 .el-select-dropdown__item.selected,
 .el-select-dropdown__item.selected.hover {
   background-color: #ff9900;
@@ -269,7 +273,8 @@ table .el-button--danger:active {
   display: inline-block;
   width: 24px;
   height: 24px;
-  background: url("../../../../../static/img/common/delete.png") center no-repeat;
+  background: url("../../../../../static/img/common/delete.png") center
+    no-repeat;
 }
 
 .icon-edit:hover,

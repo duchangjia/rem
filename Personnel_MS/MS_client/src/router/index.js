@@ -210,7 +210,7 @@ export default new Router({
                 {
                     path: '/client',
                     component: resolve => require(['../components/pages/client_Relationship/client.vue'], resolve)
-                }, 
+                },
                 {
                     path: '/business',
                     component: resolve => require(['../components/pages/business_Mgmt/business.vue'], resolve)
@@ -331,6 +331,25 @@ export default new Router({
                             path: '/add_dimission',
                             component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/add_dimission.vue'], resolve)
 						}
+					]
+				},
+                {
+                    path: '/personnel_archives',
+                    component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/personnel_archives.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/query_archives.vue'], resolve)
+                        },
+                        {
+                            path: '/add_archives',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/add_archives.vue'], resolve)
+                        },
+                        {
+                            path: '/archives_detail',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/archives_detail.vue'], resolve)
+                        },
+
                     ]
                 },
                 {

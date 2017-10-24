@@ -5,10 +5,10 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">合同新增</span>
-                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave('addPactMsgRules')" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="addPactMsg" :rules="rules" ref="addPactMsg" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="addPactMsg" :rules="rules" ref="addPactMsgRules" :label-position="labelPosition" label-width="110px">
                     <el-col :span="12">
                         <el-form-item label="纸质合同编号" prop="paperPactNo">
                             <el-input v-model="addPactMsg.paperPactNo"></el-input>
@@ -37,7 +37,9 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="工号" prop="userNo">
-                            <el-input v-model="addPactMsg.userNo"></el-input>
+                            <el-input v-model="addPactMsg.userNo">
+                                <el-button slot="append" icon="search" @click="searchUserNo"></el-button>
+                            </el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -149,12 +151,12 @@ export default {
         remark: ""
       },
       rules: {
-        userNo: [{ required: true, message: "请输入工号", trigger: "blur" }],
-        pactType: [{ required: true, message: "请选择合同类型", trigger: "blur" }],
-        signTime: [{ type: 'date', required: true, message: '请选择签订日期', trigger: 'change' }],
-        pactStartTime: [{ type: 'date', required: true, message: '请选择合同开始日期', trigger: 'change' }],
-        pactEndTime: [{ type: 'date', required: true, message: '请选择合同结束日期', trigger: 'change' }],
-        pactStatus: [{ required: true, message: "请选择合同状态", trigger: "blur" }]
+        userNo: [{ required: true, message: "工号不能为空", trigger: "blur" }],
+        pactType: [{ required: true, message: "合同类型不能为空", trigger: "change" }],
+        signTime: [{ type: "date", required: true, message: "签订日期不能为空", trigger: "change" }],
+        pactStartTime: [{ type: "date", required: true, message: "合同开始日期不能为空", trigger: "change" }],
+        pactEndTime: [{ type: "date", required: true, message: "合同结束日期不能为空", trigger: "change"}],
+        pactStatus: [{ required: true, message: "合同状态不能为空", trigger: "change" }]
       }
     };
   },
@@ -162,29 +164,39 @@ export default {
     current
   },
   methods: {
+    searchUserNo() {
+      // 查询工号
+    },
     getTime(date) {
       console.log(this);
       this.addPactMsg.signTime = date;
       console.log(this.addPactMsg.signTime);
     },
-    handleSave() {
-      let newPact = {};
-      newPact.paperPactNo = this.addPactMsg.paperPactNo;
-      newPact.pactName = this.addPactMsg.pactName;
-      newPact.organName = this.addPactMsg.organName;
-      newPact.signTime = this.addPactMsg.signTime;
-      console.log(newPact);
-      this.$axios
-        .post("/iem_hrm/pact/addPact", newPact)
-        .then(res => {
-          console.log(res);
-          if (res.data.code == "S00000")
-            this.$router.push("/personnel_contract");
-          else this.$message.error("合同新增失败！");
-        })
-        .catch(() => {
-          this.$message.error("合同新增失败！");
-        });
+    handleSave(addPactMsgRules) {
+      this.$refs[addPactMsgRules].validate(valid => {
+        if (valid) {
+          let newPact = {};
+          newPact.paperPactNo = this.addPactMsg.paperPactNo;
+          newPact.pactName = this.addPactMsg.pactName;
+          newPact.organName = this.addPactMsg.organName;
+          newPact.signTime = this.addPactMsg.signTime;
+          console.log(newPact);
+          this.$axios
+            .post("/iem_hrm/pact/addPact", newPact)
+            .then(res => {
+              console.log(res);
+              if (res.data.code == "S00000")
+                this.$router.push("/personnel_contract");
+              else this.$message.error("合同新增失败！");
+            })
+            .catch(() => {
+              this.$message.error("合同新增失败！");
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     }
   }
 };
