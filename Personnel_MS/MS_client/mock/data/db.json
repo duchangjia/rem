@@ -429,31 +429,31 @@
   "queryInsurancePayTemplate": {
     "applyNo": "0001",
     "applyName": "深圳地区缴纳",
-    "remark": "xxx",
-    "perEndmRate": "1",
-    "perEndmFixed": "1",
-    "comEndmRate": "1",
-    "comEndmFixed": "1",
-    "perMediRate": "1",
-    "perMediFixed": "1",
-    "comMediRate": "1",
-    "comMediFixed": "1",
-    "perUnemRate": "1",
-    "perUnemFixed": "1",
-    "comUnemRate": "1",
-    "comUnemFixed": "1",
-    "perEmplRate": "",
-    "perEmplFixed": "",
-    "comEmplRate": "",
-    "comEmplFixed": "",
-    "perMateRate": "",
-    "perMateFixed": "",
-    "comMateRate": "",
-    "comMateFixed": "",
-    "perHousRate": "",
-    "perHousFixed": "",
-    "comHousRate": "",
-    "comHousFixed": ""
+    "perEndmRate": "10%",
+    "perEndmFixed": "5000.00",
+    "comEndmRate": "20%",
+    "comEndmFixed": "5500.00",
+    "perMediRate": "5%",
+    "perMediFixed": "500.00",
+    "comMediRate": "7%",
+    "comMediFixed": "3000.00",
+    "perUnemRate": "10%",
+    "perUnemFixed": "2000.00",
+    "comUnemRate": "15%",
+    "comUnemFixed": "1000.00",
+    "perEmplRate": "4%",
+    "perEmplFixed": "500.00",
+    "comEmplRate": "20%",
+    "comEmplFixed": "1500.00",
+    "perMateRate": "30%",
+    "perMateFixed": "3000.00",
+    "comMateRate": "50%",
+    "comMateFixed": "5000.00",
+    "perHousRate": "10%",
+    "perHousFixed": "1000.00",
+    "comHousRate": "15%",
+    "comHousFixed": "1500.00",
+    "remark": "xxxxxx"    
   },
   "addInsurancePayTemplate": {
     "code": "S000000"
@@ -464,86 +464,11 @@
   "deleteInsurancePayTemplate": {
     "code": "S000000"
   },
-  "selectTaxRateGroup": {
-    "total": "3",
-    "list": [
-      {
-        "groupId": "001016",
-        "groupNo": "1600qiz",
-        "startTime": "2017-08-18",
-        "endTime": "2017-10-20",
-        "createTime": "2017-08-10",
-        "remark": "xxxx"
-      },
-      {
-        "groupId": "001017",
-        "groupNo": "一一",
-        "startTime": "2017-08-18",
-        "endTime": "2017-10-20",
-        "createTime": "2017-08-10",
-        "createId": "000111",
-        "remark": "xxxx"
-      },
-      {
-        "groupId": "001018",
-        "groupNo": "一一",
-        "startTime": "2017-08-18",
-        "endTime": "2017-10-20",
-        "createTime": "2017-08-10",
-        "remark": "xxxx"
-      }
-    ]
-  },
   "insertTaxRateGroup": {
     "code": "S000000"
   },
   "deleteTaxRateGroup": {
     "code": "S000000"
-  },
-  "selectTaxRateCtrl": {
-    "total": "4",
-    "list": [
-      {
-        "groupNo": "1600",
-        "groupId": "01001",
-        "applyNo": "0001",
-        "GroupLimit": "10000",
-        "GroupLowerLimit": "5000",
-        "remark": "xxxx",
-        "percentRate": "5%",
-        "quickCal": "0"
-      },
-      {
-        "groupNo": "1600",
-        "groupId": "01001",
-        "applyNo": "0001",
-        "GroupLimit": "10000",
-        "GroupLowerLimit": "5000",
-        "remark": "xxxx",
-        "percentRate": "5%",
-        "quickCal": "0"
-      },
-      {
-        "groupNo": "1600",
-        "groupId": "01001",
-        "applyNo": "0001",
-        "GroupLimit": "10000",
-        "GroupLowerLimit": "5000",
-        "remark": "xxxx",
-        "percentRate": "5%",
-        "quickCal": "0"
-      },
-      {
-        "groupN0": "1600",
-        "groupId": "01001",
-        "applyNo": "0001",
-        "GroupLimit": "10000",
-        "GroupLowerLimit": "5000",
-        "remark": "xxxx",
-        "percentRate": "5%",
-        "quickCal": "0"
-      }
-    ]
   },
   "insertTaxRateCtrl": {
     "code": "S000000"
@@ -685,68 +610,7 @@
       }
     ]
   },
-  "queryInsurancePayTemplates": {
-  	"total": "4",
-  	"WelfareList": [
-  		{
-  			"applyNo": "10001",
-				"applyName": "深圳地区缴纳",
-				"remark": "xxx",
-				"createdBy": "p00001",
-				"createdDate": "0000"
-  		},
-  		{
-  			"applyNo": "10002",
-				"applyName": "广州地区缴纳",
-				"remark": "xxx",
-				"createdBy": "p00002",
-				"createdDate": "000"
-  		},
-  		{
-  			"applyNo": "10003",
-				"applyName": "汕尾地区缴纳",
-				"remark": "xxx",
-				"createdBy": "p00003",
-				"createdDate": "00"
-  		},
-  		{
-  			"applyNo": "10004",
-				"applyName": "东莞地区缴纳",
-				"remark": "xxx",
-				"createdBy": "p00004",
-				"createdDate": "00"
-  		}
-  	]
-  },
-  "queryInsurancePayTemplate": {
-  	"applyNo": "0001",
-		"applyName": "深圳地区缴纳",
-		"remark": "xxx",
-		"perEndmRate": "1",
-		"perEndmFixed": "1",
-		"comEndmRate": "1",
-		"comEndmFixed": "1",
-		"perMediRate": "1",
-		"perMediFixed": "1",
-		"comMediRate": "1",
-		"comMediFixed": "1",
-		"perUnemRate": "1",
-		"perUnemFixed": "1",
-		"comUnemRate": "1",
-		"comUnemFixed": "1",
-		"perEmplRate": "",
-		"perEmplFixed": "",
-		"comEmplRate": "",
-		"comEmplFixed": "",
-		"perMateRate": "",
-		"perMateFixed": "",
-		"comMateRate": "",
-		"comMateFixed": "",
-		"perHousRate": "",
-		"perHousFixed": "",
-		"comHousRate": "",
-		"comHousFixed": ""
-	},
+  
 	"addInsurancePayTemplate": {
 		"applyNo": "S000000"
 	},
@@ -1039,6 +903,96 @@
     "remark": "走了就不会再回来了",
     "createdBy": "李大仁",
     "createdDate": "2017-09-13 00:00:00",
+    "updateBy": "李大仁",
+    "updateDate": "2017-10-09 00:00:00"
+  },
+  "queryPayBaseInfoList": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "total": "50",
+    "payBaseInfoArray": [
+      {
+        "userNo": "001",
+        "custName": "王二狗",
+        "cert": "422000199012211222",
+        "wagesBase": "8000.00",
+        "wagesPerf": "5000.00",
+        "postPension": "1500.00",
+        "otherPension": "800.00",
+        "endmBase": "3000.00",
+        "houseBase": "3000.00",
+        "welcoeNo": "1",
+        "entryTime": "2017-09-13 00:00:00",
+        "remark":"能力突出的"
+      },
+      {
+        "userNo": "002",
+        "custName": "李大锤",
+        "cert": "422000199012211222",
+        "wagesBase": "6000.00",
+        "wagesPerf": "3000.00",
+        "postPension": "1000.00",
+        "otherPension": "800.00",
+        "endmBase": "3000.00",
+        "houseBase": "3000.00",
+        "welcoeNo": "1",
+        "entryTime": "2017-09-13 00:00:00",
+        "remark":"能力突出"
+      },
+      {
+        "userNo": "003",
+        "custName": "张铁蛋",
+        "cert": "422000199012211222",
+        "wagesBase": "7500.00",
+        "wagesPerf": "3000.00",
+        "postPension": "1500.00",
+        "otherPension": "800.00",
+        "endmBase": "3000.00",
+        "houseBase": "3000.00",
+        "welcoeNo": "1",
+        "entryTime": "2017-09-13 00:00:00",
+        "remark":"能力突出突出突出突出"
+      },
+      {
+        "userNo": "004",
+        "custName": "李大帅",
+        "cert": "422000199012211222",
+        "wagesBase": "5000.00",
+        "wagesPerf": "3000.00",
+        "postPension": "1500.00",
+        "otherPension": "800.00",
+        "endmBase": "3000.00",
+        "houseBase": "3000.00",
+        "welcoeNo": "1",
+        "entryTime": "2017-09-13 00:00:00",
+        "remark":""
+      }
+    ]
+  },
+  "queryPayBaseInfoDetail": {
+    "userNo": "004",
+    "custName": "李大帅",
+    "organName": "0",
+    "derpName": "0",
+    "custPost": "软件开发工程师",
+    "custClass": "Java开发",
+    "rank": "B10-高级开发工程师",
+    "cert": "422000199012211222",
+    "wagesBase": "5000.00",
+    "wagesPerf": "3000.00",
+    "postPension": "1500.00",
+    "otherPension": "800.00",
+    "endmBase": "3000.00",
+    "mediBase": "5000.00",
+    "unemBase": "2300.00",
+    "emplBase": "5000.00",
+    "mateBase": "5000.00",
+    "houseBase": "3000.00",
+    "probRatio": "80%",
+    "welcoeNo": "1",
+    "entryTime": "2017-09-13 00:00:00",
+    "remark":"备注个啥啥啥啥啥",
     "updateBy": "李大仁",
     "updateDate": "2017-10-09 00:00:00"
   }
