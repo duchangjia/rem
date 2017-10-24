@@ -74,28 +74,16 @@
 	</resultMap>
 
 	<!-- 分页查询合同 -->
-	<select id="queryPactList" resultMap="PactMap">
+	<select id="getPactList" resultMap="PactMap">
 		select * FROM EP_PACT_INFO
 		WHERE
-		1=1
-		AND
 		uid = #{uid}
-		AND
-		derp_no =
-		#{derpNo}
-		<if test="custName != '' and custName != null">
-			AND
-			cust_name like #{custName}
-		</if>
-		<if test="pactType != '' and pactType != null">
-			AND pact_type = #{pactType}
-		</if>
 		ORDER BY
 		updated_date DESC
 	</select>
 
 	<!-- 查询合同详情 -->
-	<select id="getPactByPactNo" resultMap="PactMap">
+	<select id="getPactDetail" resultMap="PactMap">
 		select * FROM
 		EP_PACT_INFO
 		WHERE
@@ -159,8 +147,7 @@
 		AND
 		pact_no = #{pactNo}
 		AND
-		renew_id
-		= #{renewId}
+		renew_id = #{renewId}
 	</select>
 
 	<!-- 合同添加 -->

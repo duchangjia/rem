@@ -4,7 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class CustShifthis {
 	private String uid;
-	private String custNo;
+	private String userNo;
 	private String workhisId;
 	private String shiftType;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -26,18 +26,18 @@ public class CustShifthis {
 	private String createdDate;
 	private String updatedBy;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String uodatedDate;
+	private String updatedDate;
 	public String getUid() {
 		return uid;
 	}
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
-	public String getCustNo() {
-		return custNo;
+	public String getuserNo() {
+		return userNo;
 	}
-	public void setCustNo(String custNo) {
-		this.custNo = custNo;
+	public void setuserNo(String userNo) {
+		this.userNo = userNo;
 	}
 	public String getWorkhisId() {
 		return workhisId;
@@ -147,10 +147,10 @@ public class CustShifthis {
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-	public String getUodatedDate() {
-		return uodatedDate;
+	public String getupdatedDate() {
+		return updatedDate;
 	}
-	public void setUodatedDate(String uodatedDate) {
-		this.uodatedDate = uodatedDate;
+	public void setupdatedDate(String updatedDate) {
+		this.updatedDate = updatedDate;
 	}
 }

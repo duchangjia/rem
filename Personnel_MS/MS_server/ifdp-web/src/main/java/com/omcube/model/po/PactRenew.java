@@ -1,5 +1,7 @@
 package com.omcube.model.po;
 
+import java.util.Date;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -12,21 +14,21 @@ public class PactRenew {
 	private String pactNo;
 	private String renewId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String renewTime;
+	private Date renewTime;
 	private String renewType;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String renewCameTime;
+	private Date renewCameTime;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String renewLostTime;
+	private Date renewLostTime;
 	private String renewContent;
 	private String attachm;
 	private String remark;
 	private String createdBy;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String createdDate;
+	private Date createdDate;
 	private String updatedBy;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String updatedDate;
+	private Date updatedDate;
 	private String isDelete;
 	public String getIsDelete() {
 		return isDelete;
@@ -52,10 +54,10 @@ public class PactRenew {
 	public void setRenewId(String renewId) {
 		this.renewId = renewId;
 	}
-	public String getRenewTime() {
+	public Date getRenewTime() {
 		return renewTime;
 	}
-	public void setRenewTime(String renewTime) {
+	public void setRenewTime(Date renewTime) {
 		this.renewTime = renewTime;
 	}
 	public String getRenewType() {
@@ -64,16 +66,16 @@ public class PactRenew {
 	public void setRenewType(String renewType) {
 		this.renewType = renewType;
 	}
-	public String getRenewCameTime() {
+	public Date getRenewCameTime() {
 		return renewCameTime;
 	}
-	public void setRenewCameTime(String renewCameTime) {
+	public void setRenewCameTime(Date renewCameTime) {
 		this.renewCameTime = renewCameTime;
 	}
-	public String getRenewLostTime() {
+	public Date getRenewLostTime() {
 		return renewLostTime;
 	}
-	public void setRenewLostTime(String renewLostTime) {
+	public void setRenewLostTime(Date renewLostTime) {
 		this.renewLostTime = renewLostTime;
 	}
 	public String getRenewContent() {
@@ -100,22 +102,22 @@ public class PactRenew {
 	public void setCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 	}
-	public String getCreateString() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
-	public void setCreateString(String createString) {
-		this.createdDate = createString;
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
-	public String getupdatedBy() {
+	public String getUpdatedBy() {
 		return updatedBy;
 	}
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-	public String getUpdatedDate() {
+	public Date getUpdatedDate() {
 		return updatedDate;
 	}
-	public void setUpStringdString(String updatedDate) {
+	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
 	}
 	
