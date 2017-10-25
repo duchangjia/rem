@@ -108,6 +108,10 @@ export default {
 						{
 							index: 'payBaseInfo_setting',
 							title: '薪酬基数设置'
+						},
+						{
+							index: 'payChange_manage',
+							title: '调薪管理'
 						}
 					]
 				},
