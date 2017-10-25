@@ -1,6 +1,6 @@
 <template>
 	<div class="transfer_info_wrap">
-		<current yiji="人事事务" erji="人事调动" sanji="员工离职详情">
+		<current yiji="人事事务" erji="人事调动" sanji="员工离职明细查询" siji="员工离职详情">
 		</current>
 		<div class="content">
 			<div class="title">

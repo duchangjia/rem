@@ -152,27 +152,10 @@ export default {
             if (this.sanji === '人事调动明细查询') {
                 _link.push('/detail_transfer')
             }
-            if (this.sanji === '人事调动详情') {
-                _link.push('/transfer_info')
-            }
-            if (this.sanji === '人事调动修改') {
-                _link.push('/edit_transfer')
-            }
-            if (this.sanji === '人事调动新增') {
-                _link.push('/add_transfer')
-            }
             if (this.sanji === '员工离职明细查询') {
                 _link.push('/detail_dimission')
             }
-            if (this.sanji === '员工离职详情') {
-                _link.push('/dimission_info')
-            }
-            if (this.sanji === '员工离职修改') {
-                _link.push('/edit_dimission')
-            }
-            if (this.sanji === '员工离职新增') {
-                _link.push('/add_dimission')
-            }
+            
 				
             if (this.siji === '福利缴纳系数新增') {
                 _link.push('/add_welfare')
@@ -213,6 +196,25 @@ export default {
             if (this.siji === '合同续签修改') {
                 _link.push('/edit_pactRenew')
             }
+            if (this.siji === '人事调动详情') {
+                _link.push('/transfer_info')
+            }
+            if (this.siji === '人事调动修改') {
+                _link.push('/edit_transfer')
+            }
+            if (this.siji === '人事调动新增') {
+                _link.push('/add_transfer')
+            }
+            if (this.siji === '员工离职详情') {
+                _link.push('/dimission_info')
+            }
+            if (this.siji === '员工离职修改') {
+                _link.push('/edit_dimission')
+            }
+            if (this.siji === '员工离职新增') {
+                _link.push('/add_dimission')
+            }
+            
             if (this.wuji === '税率新增') {
             	_link.push('/add_rate')
             }

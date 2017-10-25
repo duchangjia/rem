@@ -43,7 +43,7 @@
 								<el-col :span="8">
 									<el-form-item label="民族">
 										<el-select v-model="formInline1.nation">
-											<el-option v-for="item in nationList" :label="item" :value="item"></el-option>
+											<el-option v-for="item in nationList" :key="item" :label="item" :value="item"></el-option>
 										</el-select>
 									</el-form-item>
 								</el-col
@@ -151,56 +151,56 @@
 								<el-col :span="8">
 									<el-form-item label="公司名称">
 										<el-select v-model="formInline1.organNo">
-											<el-option v-for="item in organList" :label="item.organName" :value="item.organNo"></el-option>
+											<el-option v-for="item in organList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 										</el-select>
 									</el-form-item>
 								</el-col>
 								<el-col :span="8">
 									<el-form-item label="部门名称">
 										<el-select v-model="formInline1.derpNo">
-											<el-option v-for="item in derpList" :label="item.derpName" :value="item.derpNo"></el-option>
+											<el-option v-for="item in derpList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 										</el-select>
 									</el-form-item>
 								</el-col>
 								<el-col :span="8">
 									<el-form-item label="CCC">
 										<el-select v-model="formInline1.ownerCCC">
-											<el-option v-for="item in CCCList" :label="item" :value="item"></el-option>
+											<el-option v-for="item in CCCList" :key="item" :label="item" :value="item"></el-option>
 										</el-select>
 									</el-form-item>
 								</el-col>
 								<el-col :span="8">
 									<el-form-item label="直线经理">
 										<el-select v-model="formInline1.lineManager">
-											<el-option v-for="item in lineManagerList" :label="item" :value="item"></el-option>
+											<el-option v-for="item in lineManagerList" :key="item" :label="item" :value="item"></el-option>
 										</el-select>
 									</el-form-item>
 								</el-col>
 								<el-col :span="8">
 									<el-form-item label="员工类别">
 										<el-select v-model="formInline1.custType">
-											<el-option v-for="item in custTypeList" :label="item.custTypeName" value="item.custType"></el-option>
+											<el-option v-for="item in custTypeList" :key="item.custType" :label="item.custTypeName" value="item.custType"></el-option>
 										</el-select>
 									</el-form-item>
 								</el-col>
 								<el-col :span="8">
 									<el-form-item label="岗位">
 										<el-select v-model="formInline1.custPost">
-											<el-option v-for="item in custPostList" :label="item" :value="item"></el-option>
+											<el-option v-for="item in custPostList" :key="item" :label="item" :value="item"></el-option>
 										</el-select>
 									</el-form-item>
 								</el-col>
 								<el-col :span="8">
 									<el-form-item label="职级">
 										<el-select v-model="formInline1.custClass">
-											<el-option v-for="item in custClassList" :label="item" :value="item"></el-option>
+											<el-option v-for="item in custClassList" :key="item" :label="item" :value="item"></el-option>
 										</el-select>
 									</el-form-item>
 								</el-col>
 								<el-col :span="8">
 									<el-form-item label="员工状态">
 										<el-select v-model="formInline1.custStatus">
-											<el-option v-for="item in custStatusList" :label="item" :value="item"></el-option>
+											<el-option v-for="item in custStatusList" :key="item" :label="item" :value="item"></el-option>
 										</el-select>
 									</el-form-item>
 								</el-col>
@@ -302,7 +302,7 @@
 					<div class="subtitlebar">
 						<span class="title-text">成员信息</span>
 					</div>
-					<div class="add-wrapper" v-for="(listItem, key) in guanxiFormDataList">
+					<div class="add-wrapper" v-for="(listItem, key) in guanxiFormDataList" >
 						<div class="add-title">
 							<span class="title-text">关系人{{key+1}}</span>
 							<!--<span class="icon-close"></span>-->
@@ -316,7 +316,7 @@
 							<el-col :span="8">
 								<el-form-item label="与本人关系">
 									<el-select v-model="listItem.guanxi">
-										<el-option v-for="item in guanxiList" :label="item" :value="item"></el-option>
+										<el-option v-for="item in guanxiList" :key="item" :label="item" :value="item"></el-option>
 									</el-select>
 								</el-form-item>
 							</el-col>
