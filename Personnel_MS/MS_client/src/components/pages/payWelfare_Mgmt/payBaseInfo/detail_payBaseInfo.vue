@@ -220,7 +220,7 @@ export default {
   },
   created() {
     this.userNo = this.$route.params.userNo;
-    this.getPayBaseInfoDetail(); //初始查询薪酬基数列表
+    this.getPayBaseInfoDetail(); //初始查询薪酬基数信息
     this.getInsurancePayTemp(); //初始查询保险缴纳标准
   },
   methods: {

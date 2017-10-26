@@ -1,0 +1,176 @@
+<template>
+    <div class="paychange_mgmt">
+        <current yiji="薪酬福利" erji="调薪管理" sanji="调薪查询">
+        </current>
+        <div class="content-wrapper">
+            <el-col :span="24" class="titlebar">
+                <span class="title-text">调薪查询</span>
+                <el-button type="primary" @click="handleAdd" class="toolBtn">调薪</el-button>
+            </el-col>
+
+            <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+                <el-form :inline="true" :model="filters">
+                    <el-form-item label="开始时间" prop="startTime">
+                        <el-date-picker type="date" placeholder="选择日期" v-model="filters.startTime" style="width: 100%;"></el-date-picker>
+                    </el-form-item>
+                    <el-form-item label="结束时间" prop="endTime">
+                        <el-date-picker type="date" placeholder="选择日期" v-model="filters.endTime" style="width: 100%;"></el-date-picker>
+                    </el-form-item>
+                    <el-form-item style="margin-left:10px;">
+                        <el-button type="primary" @click="handleQuery" class="queryBtn">查询</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-col>
+
+            <el-table stripe :data="payChangeInfoList" border>
+                <el-table-column align="center" label="调薪编号">
+                    <template scope="scope">
+                        <span @click="handlePayChangeInfoDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.applyNo }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" prop="userNo" label="工号">
+                </el-table-column>
+                <el-table-column align="center" prop="custName" label="姓名">
+                </el-table-column>
+                <el-table-column align="center" prop="nWagesBase" label="调整后基本工资">
+                </el-table-column>
+                <el-table-column align="center" prop="nWagesPerf" label="调整后绩效工资">
+                </el-table-column>
+                <el-table-column align="center" prop="nPostPension" label="调整后岗位津贴">
+                </el-table-column>
+                <el-table-column align="center" prop="nOtherPension" label="调整后其他补贴">
+                </el-table-column>
+                <el-table-column align="center" prop="entryTime" label="录入时间">
+                </el-table-column>
+                <el-table-column align="center" label="操作">
+                    <template scope="scope">
+                        <i class="icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
+                        <i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
+                    </template>
+                </el-table-column>
+            </el-table>
+            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+            </el-pagination>
+        </div>
+    </div>
+</template>
+
+<script type='text/ecmascript-6'>
+import current from "../../../common/current_position.vue";
+export default {
+  data() {
+    return {
+      filters: {
+        startTime: "",
+        endTime: ""
+      },
+      pageNum: 1,
+      pageSize: 7,
+      totalRows: 30,
+      payChangeInfoList: []
+    };
+  },
+  components: {
+    current
+  },
+  created() {
+    this.filters.startTime = "";
+    this.filters.endTime = "";
+    this.getPayChangeInfoList(); //初始查询薪酬基数列表
+  },
+  methods: {
+    getPayChangeInfoList() {
+      const self = this;
+      let params = {
+        pageNum: self.pageNum,
+        pageSize: self.pageSize,
+        startTime: self.filters.startTime,
+        endTime: self.filters.endTime
+      };
+      self.$axios
+        // .get("/iem_hrm/pay/selectListEpPayChageInfo", { params: params })
+        .get("/iem_hrm/selectListEpPayChageInfo", { params: params })
+        .then(res => {
+          console.log(res);
+          self.payChangeInfoList = res.data.data.epPayChageInfoList;
+          self.totalRows = Number(res.data.data.total);
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+    handlePayChangeInfoDetail(index, row) {
+      this.$router.push({
+        name: "detail_payChangeInfo",
+        params: {
+          userNo: row.applyNo
+        }
+      });
+    },
+    handleCurrentChange(val) {
+      this.pageNum = val;
+      this.getPayChangeInfoList(); //分页查询调薪基数列表
+    },
+    handleQuery() {
+      console.log(
+        "startTime:" +
+          self.filters.startTime +
+          " endTime:" +
+          self.filters.endTime
+      );
+      this.getPayChangeInfoList(); //根据条件查询调薪基数列表
+    },
+    handleAdd() {
+      this.$router.push({
+        name: "add_payChangeInfo"
+      });
+    },
+    handleEdit(index, row) {
+      this.$router.push({
+        name: "edit_payChangeInfo",
+        params: {
+          applyNo: row.applyNo,
+          userNo: row.userNo
+        }
+      });
+    },
+    handleDelete(index, row) {
+      let targetPayChangeInfo = {};
+      targetPayChangeInfo.applyNo = row.applyNo;
+      console.log(targetPayChangeInfo);
+      this.$confirm("此操作将会删除该条薪酬基数信息, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$axios
+            .delete(
+              "/iem_hrm/pay/deleteEpPayChageInf?applyNo=" +
+                targetPayChangeInfo.applyNo,
+              targetPayChangeInfo
+            )
+            .then(res => {
+              console.log(res);
+              if (res.data.code == "S00000")
+                this.$message({ type: "success", message: "删除成功!" });
+              else this.$message.error("删除调薪信息失败！");
+            })
+            .catch(() => {
+              this.$message.error("删除调薪信息失败！");
+            });
+        })
+        .catch(() => {
+          this.$message("您已取消删除调薪信息！");
+        });
+    }
+  }
+};
+</script>
+
+
+<style>
+.paychange_mgmt {
+  padding: 0 0 20px 20px;
+}
+</style>

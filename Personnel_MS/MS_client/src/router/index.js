@@ -386,6 +386,41 @@ export default new Router({
                             component: resolve => require(['../components/pages/payWelfare_Mgmt/payBaseInfo/detail_payBaseInfo.vue'], resolve)
                         }
                     ]
+                },
+                {
+                    path: '/payChange_manage',
+                    component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/payChange_manage.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/query_custInfo.vue'], resolve)
+                        },
+                        {
+                            name: 'query_custInfo',
+                            path: '/query_custInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/query_custInfo.vue'], resolve)
+                        },
+                        {
+                            name: 'query_payChangeInfo',
+                            path: '/query_payChangeInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/query_payChangeInfo.vue'], resolve)
+                        },
+                        {
+                            name: 'detail_payChangeInfo',
+                            path: '/detail_payChangeInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/detail_payChangeInfo.vue'], resolve)
+                        },
+                        {
+                            name: 'add_payChangeInfo',
+                            path: '/add_payChangeInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/add_payChangeInfo.vue'], resolve)
+                        },
+                        {
+                            name: 'edit_payChangeInfo',
+                            path: '/edit_payChangeInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/edit_payChangeInfo.vue'], resolve)
+                        }
+                    ]
                 }
 
             ]
