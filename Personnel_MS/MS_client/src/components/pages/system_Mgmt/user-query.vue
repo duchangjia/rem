@@ -35,7 +35,7 @@
 						<el-table-column prop="departName" label="部门"></el-table-column>
 						<el-table-column prop="roleNo" label="角色"></el-table-column>
 						<el-table-column prop="mobile" label="手机"></el-table-column>
-						<el-table-column prop="status" label="状态"></el-table-column>
+						<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
 					</el-table>
 				</div>
 				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
@@ -95,6 +95,9 @@ export default {
 		self.queryUserList(pageNum,pageSize,params);
 	},
 	methods: {
+		statusFormatter(row, column) {
+	      return row.status == 1 ? "正常" : row.pactStatus == 0 ? "停用" : "锁定";
+	    },
 		handleEdit(index, row) {
 			console.log('row:',row);
 			sessionStorage.setItem('user', row.userNo);

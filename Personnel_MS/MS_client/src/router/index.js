@@ -212,8 +212,18 @@ export default new Router({
                     component: resolve => require(['../components/pages/client_Relationship/client.vue'], resolve)
                 },
                 {
-                    path: '/business',
-                    component: resolve => require(['../components/pages/business_Mgmt/business.vue'], resolve)
+                    path: '/attendance_record',
+                    component: resolve => require(['../components/pages/attendance_Mgmt/attendanceRecord/attendance_record.vue'], resolve),
+                    children: [
+                    	{
+                    		path: '/',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/attendanceRecord/attendance_query.vue'], resolve),
+                    	},
+                    	{
+                    		path: '/attendance_import',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/attendanceRecord/attendance_import.vue'], resolve),
+                    	}
+                    ]
                 },
                 {
                     path: '/statement_1',
@@ -284,7 +294,7 @@ export default new Router({
                     children: [
                         {
                             path: '/',
-                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/query_transfer.vue'], resolve)
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/query_personnel.vue'], resolve)
                         },
                         {
                         	name: 'personnel_info',

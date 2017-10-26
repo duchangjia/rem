@@ -8,13 +8,13 @@
 			</div>
 			<div class="content-inner">
 				<el-table :data="taxRateList" border stripe style="width: 100%">
-					<el-table-column prop="groupNo" label="组名称">
+					<el-table-column prop="applyNo" label="编号">
 						<template scope="scope">
-					        <span class="link" @click="handleEdit(scope.$index, scope.row)">{{ scope.row.groupNo }}</span>
+					        <span class="link" @click="handleEdit(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
 				      	</template>
 					</el-table-column>
-					<el-table-column prop="GroupLowerLimit" label="下限"></el-table-column>
-					<el-table-column prop="GroupLimit" label="上限"></el-table-column>
+					<el-table-column prop="groupLowerLimit" label="下限"></el-table-column>
+					<el-table-column prop="groupLimit" label="上限"></el-table-column>
 					<el-table-column prop="percentRate" label="百分比率（%）"></el-table-column>
 					<el-table-column prop="quickCal" label="速算扣除数"></el-table-column>
 					<el-table-column label="操作">
@@ -41,19 +41,19 @@ export default {
 			totalRows: 0,
 			taxRateList: [
 				{
-					"groupNo": "1600起征",
+					"applyNo": "1600起征",
 					"groupId": "01001",
 					"applyNo": "0001",
-					"GroupLimit": "10000",
-					"GroupLowerLimit": "5000",
+					"groupLimit": "10000",
+					"groupLowerLimit": "5000",
 					"remark": "xxxx",
 					"percentRate": "5%",
 					"quickCal": "0"
 				},
 				{
-					groupNo: "3500起征",
-					GroupLowerLimit: "3500",
-					GroupLimit: "5000",
+					applyNo: "3500起征",
+					groupLowerLimit: "3500",
+					groupLimit: "5000",
 					percentRate: '7%',
 					quickCal: '0.00'
 				}
@@ -65,7 +65,7 @@ export default {
 	},
 	created() {
 		const self = this;
-		let groupNo = self.$route.params.groupNo;
+		let applyNo = self.$route.params.applyNo;
 		let groupId = self.$route.params.groupId;
 		let pageNum = self.pageIndex;
 		let pageSize = self.pageRows;
@@ -84,11 +84,11 @@ export default {
             this.$router.push({
             	name: 'edit_rate',
             	params: {
-            		groupNo: row.groupNo,
+            		applyNo: row.applyNo,
             		groupId: row.groupId,
             		applyNo: row.applyNo,
-            		GroupLimit: row.GroupLimit,
-            		GroupLowerLimit: row.GroupLowerLimit,
+            		groupLimit: row.groupLimit,
+            		groupLowerLimit: row.groupLowerLimit,
             		remark: row.remark,
             		percentRate: row.percentRate,
             		quickCal: row.quickCal
@@ -116,7 +116,7 @@ export default {
         },
         handleCurrentChange(val) {
 			const self = this;
-			let groupNo = sessionStorage.getItem('groupNo');
+			let applyNo = sessionStorage.getItem('applyNo');
 			let pageNum = val;
 			let pageSize = self.pageRows;
 			let params = {
@@ -128,7 +128,7 @@ export default {
 		//查询个税列表
 		selectTaxRateCtrl(pageNum,pageSize,params) {
 			const self = this;
-			self.$axios.get(baseURL+'/taxRateCtrl/selectTaxRateCtrl', { params: params})
+			self.$axios.get(baseURL+'/taxRateCtrl/queryRateList', { params: params})
 				.then(function(res) {
 					console.log(res);
 					self.taxRateList = res.data.data.list;
@@ -141,10 +141,15 @@ export default {
 		//删除个税税率
 		deleteTaxRateCtrl(params) {
 			const self = this;
-			self.$axios.delete(baseURL+'/taxRateCtrl/deleteTaxRateCtrl', params)
+			self.$axios.put(baseURL+'/taxRateCtrl/delRate', params)
     		.then((res) => {
     			console.log(res);
-    			this.$message({ type: 'success', message: '删除成功!' });
+    			if(res.data.code === "S00000") {
+    				this.$message({ type: 'success', message: '删除成功!' });
+    			} else {
+    				console.log(err);
+    			}
+    			
     		}).catch((err) => {
     			console.log(err);
     		})

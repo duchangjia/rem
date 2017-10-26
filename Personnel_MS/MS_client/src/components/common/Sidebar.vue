@@ -113,8 +113,14 @@ export default {
 				},
 				{
 					icon: 'icon-ywgl',
-					index: 'business',
-					title: '业务管理',
+					index: '6',
+					title: '考勤管理',
+					subs: [
+						{
+							index: 'attendance_record',
+							title: '考勤记录管理'
+						}
+					]
 				},
 				{
 					icon: 'icon-khgx',

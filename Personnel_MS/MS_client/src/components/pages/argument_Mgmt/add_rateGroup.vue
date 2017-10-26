@@ -76,9 +76,10 @@ export default {
 	          			groupNo: self.formdata.groupNo,
 	          			groupId: self.formdata.groupId,
 						startTime: self.formdata.startTime,
-						isDelete: "1"
-//						endTime: self.formdata.endTime,
-//						remark: self.formdata.remark
+						endTime: self.formdata.endTime,
+						remark: self.formdata.remark,
+//						createdBy: "sadsad",
+//						updatedBy: "dfsdd"
 	          		};
 	          		self.insertTaxRateGroup(params);
 	          		
@@ -90,13 +91,13 @@ export default {
 		},
 		insertTaxRateGroup(params) {
 			const self = this;
-			self.$axios.post(baseURL+'/taxRateGroup/insertTaxRateGroup', params)
+			self.$axios.post(baseURL+'/taxRateGroup/addRGroup', params)
   			.then((res) => {
   				console.log(res);
   				
   				self.$message({ message: '税率组新增成功', type: 'success' });
   			}).catch((err) => {
-  				console.log('err');
+  				console.log('error');
   			})
 		}
 	}

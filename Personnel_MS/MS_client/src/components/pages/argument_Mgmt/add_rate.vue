@@ -14,11 +14,11 @@
 				  	<el-form-item label="编号" prop="applyNo">
 					    <el-input v-model="formdata.applyNo"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="下限" prop="GroupLowerLimit">
-					    <el-input v-model="formdata.GroupLowerLimit"></el-input>
+				  	<el-form-item label="下限" prop="groupLowerLimit">
+					    <el-input v-model="formdata.groupLowerLimit"></el-input>
 				  	</el-form-item>
-					<el-form-item label="上限" prop="GroupLimit">
-					    <el-input v-model="formdata.GroupLimit"></el-input>
+					<el-form-item label="上限" prop="groupLimit">
+					    <el-input v-model="formdata.groupLimit"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="百分率" prop="percentRate">
 					    <el-input v-model="formdata.percentRate"></el-input>
@@ -37,10 +37,10 @@ import current from '../../common/current_position.vue'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
-		var checkGroupLimit = (rule, value, callback) => {
+		var checkgroupLimit = (rule, value, callback) => {
 	        if (value === '') {
 	          	callback(new Error('上限不能为空'));
-	        } else if (Number(value) <= Number(this.formdata.GroupLowerLimit)) {
+	        } else if (Number(value) <= Number(this.formdata.groupLowerLimit)) {
 	          	callback(new Error('上限值必须大于下限值!'));
 	        } else {
 	          	callback();
@@ -50,8 +50,8 @@ export default {
 			formdata: {
 				groupNo: "",
 				applyNo: "",
-				GroupLimit: '',
-				GroupLowerLimit: '',
+				groupLimit: '',
+				groupLowerLimit: '',
 				percentRate: '',
 				quickCal: ''
 			},
@@ -62,10 +62,10 @@ export default {
 				startTime: [
 					{ type: 'date', required: true, message: '生效日期不能为空', trigger: 'blur' }
 				],
-				GroupLimit: [
-					{ required: true, validator: checkGroupLimit, trigger: 'blur' }
+				groupLimit: [
+					{ required: true, validator: checkgroupLimit, trigger: 'blur' }
 				],
-				GroupLowerLimit: [
+				groupLowerLimit: [
 					{ required: true, message: '下限不能为空', trigger: 'blur' }
 				],
 				percentRate: [
@@ -84,9 +84,14 @@ export default {
 	          		const self = this;
 	          		let params = {
 	          			groupNo: self.formdata.groupNo,
-						GroupLimit: self.formdata.GroupLimit,
-						GroupLowerLimit: self.formdata.GroupLowerLimit,
-						percentRate: self.formdata.percentRate
+	          			applyNo: self.formdata.applyNo,
+						groupLimit: self.formdata.groupLimit,
+						groupLowerLimit: self.formdata.groupLowerLimit,
+						percentRate: self.formdata.percentRate,
+						quickCal: self.formdata.quickCal,
+						isDelete: "1",
+						createdBy: "dfdf",
+						updatedBy: "asdsa"
 	          		};
 	          		self.insertTaxRateCtrl(params);
 	          		
@@ -99,7 +104,7 @@ export default {
 		//新增税率
 		insertTaxRateCtrl(params) {
 			const self = this;
-			self.$axios.post(baseURL+'/taxRateCtrl/insertTaxRateCtrl', params)
+			self.$axios.post(baseURL+'/taxRateCtrl/addRate', params)
   			.then((res) => {
   				console.log(res);
   				this.$message({ message: '税率新增成功', type: 'success' });

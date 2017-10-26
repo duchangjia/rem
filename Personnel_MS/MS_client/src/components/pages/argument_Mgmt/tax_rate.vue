@@ -17,7 +17,7 @@
 					<el-table-column prop="startTime" label="生效日期"></el-table-column>
 					<el-table-column prop="endTime" label="失效日期"></el-table-column>
 					<el-table-column prop="createId" label="创建ID"></el-table-column>
-					<el-table-column prop="createTime" label="创建时间"></el-table-column>
+					<el-table-column prop="createdDate" label="创建时间"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
 							<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
@@ -47,7 +47,7 @@ export default {
 					startTime: "",
 					endTime: "",
 					createId: '',
-					createTime: ''
+					createdDate: ''
 				},
 				{
 					groupNo: "3500起征",
@@ -55,7 +55,7 @@ export default {
 					startTime: "",
 					endTime: "",
 					createId: '',
-					createTime: ''
+					createdDate: ''
 				}
 			]
 		}
@@ -95,7 +95,7 @@ export default {
             }).then(() => {
             	const self = this;
             	let params = {
-            		groupId: row.groupId
+            		groupNo: row.groupNo
             	};
             	self.deleteTaxRateGroup(params);
             }).catch(() => {
@@ -115,7 +115,7 @@ export default {
 		//查询个税组列表
 		selectTaxRateGroup(pageNum,pageSize,params) {
 			const self = this;
-			self.$axios.get(baseURL+'/taxRateGroup/selectTaxRateGroup',{params: params})
+			self.$axios.get(baseURL+'/taxRateGroup/queryRGroupList',{params: params})
 				.then(function(res) {
 					console.log(res);
 					self.taxRateGroupList = res.data.data.list;
@@ -128,15 +128,17 @@ export default {
 		//删除个税组
 		deleteTaxRateGroup(params) {
 			const self = this;
-        	self.$axios.delete(baseURL+'/taxRateGroup/deleteTaxRateGroup',params)
+        	self.$axios.put(baseURL+'/taxRateGroup/delRGroup',params)
     		.then((res) => {
     			console.log(res);
     			if(res.data.code==="S00000") {
     				this.$message({ type: 'success', message: '删除成功!' });
+    			} else {
+    				console.log('error');
     			}
     			
     		}).catch((err) => {
-    			console.log(err);
+    			console.log('error');
     		})
 		}
 	}

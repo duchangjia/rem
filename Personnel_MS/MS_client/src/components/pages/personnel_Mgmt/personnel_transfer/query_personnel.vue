@@ -11,13 +11,11 @@
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="58px" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-form-item label="公司" prop="company">
-							<!--<el-input type="text" v-model="ruleForm2.company"></el-input>-->
 							<el-select v-model="comp" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
 								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="部门" prop="department">
-							<!--<el-input type="text" v-model="ruleForm2.department"></el-input>-->
 							<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
 							</el-select>
@@ -73,6 +71,7 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
+	const baseURL = 'iem_hrm'
 	export default {
 		data() {
 			return {
@@ -148,9 +147,15 @@
 			current
 		},
 		created() {
-			this.ruleForm2.userName = "";
-			this.ruleForm2.userNo = "";
-
+			const self = this;
+			let pageNum = self.pageNum;
+			let pageSize = self.pageSize;
+			let params = {
+				pageNum: pageNum,
+				pageSize: pageSize
+			}
+			//查询员工列表
+			self.queryList(pageNum,pageSize,params);
 		},
 		methods: {
 			pactTypeFormatter(row, column) {
@@ -163,14 +168,7 @@
 				this.ruleForm2.userNo = '';
 				this.ruleForm2.userName = '';
 			},
-			handleDetail(index, row) {
-				this.$router.push({
-					name: "personnel_info",
-					params: {
-						userNo: row.userNo
-					}
-				});
-			},
+			//查询
 			queryForm(formName) {
 				const self = this;
 				self.$refs[formName].validate((valid) => {
@@ -183,17 +181,40 @@
 					}
 				});
 			},
-			handleCurrentChange(val) {
-				this.pageNum = val;
+			//详情
+			handleDetail(index, row) {
+				this.$router.push({
+					name: "personnel_info",
+					params: {
+						userNo: row.userNo
+					}
+				});
 			},
+			//分页
+			handleCurrentChange(val) {
+				const self = this;
+				let pageNum = val;
+				let pageSize = self.pageSize;
+				let params = {
+					pageNum: pageNum,
+					pageSize: pageSize
+				}
+				//分页查询员工列表
+				self.queryList(pageNum,pageSize,params);
+				
+			},
+			//调动
 			handleTransfer(index, row) {
+				const self = this;
 				this.$router.push({
 					name: "detail_transfer",
 					params: {
 						userNo: row.userNo
 					}
 				});
+				
 			},
+			//离职
 			handDimission(index, row) {
 				this.$router.push({
 					name: "detail_dimission",
@@ -201,6 +222,7 @@
 						userNo: row.userNo
 					}
 				})
+				
 			},
 			changeValue(value) {
 		 		const self = this;
@@ -212,6 +234,18 @@
 //				self.userDetail.roleName = self.role.roleName;
 //				self.userDetail.roleNo = self.role.roleNo;
 	       },
+	       queryList(pageNum,pageSize,params) {
+				let self = this;
+				self.$axios.get(baseURL+'', {params: params})
+				.then(function(res) {
+					console.log('UserList',res);
+					self.transferDataList = res.data.data.models;
+					self.pageNum = pageNum;
+					self.totalRows = Number(res.data.data.total);
+				}).catch(function(err) {
+					console.log(err);
+				})
+			}
 		}
 	};
 </script>

@@ -18,7 +18,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="工号" prop="userNo">
-							<el-input v-model="userDetail.userNo" :disabled="true"></el-input>
+							<el-input v-model="userDetail.userNo" ></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
@@ -170,9 +170,9 @@
 			current
 		},
 		created(){
-			console.log(this.comp)
 			const self = this;
 			let user = sessionStorage.getItem('user');
+			console.log('user',user);
 			self.$axios.get(baseURL+'/user/queryUserDetail/'+user)
 				.then(function(res){
 					console.log('UserDetail',res);

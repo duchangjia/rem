@@ -684,6 +684,19 @@
 	.detail_transfer .el-radio-button {
 	    margin-right: 20px;
 	}
+	/*.el-radio-button:first-child .el-radio-button__inner {
+	    border-left: none;
+	}*/
+	.detail_transfer .el-radio-button__inner:hover {
+	    color: #FF9900;
+	    border-color: #FF9900;
+	}
+	.detail_transfer .el-radio-button__orig-radio:checked+.el-radio-button__inner {
+	    color: #FFFFFF;
+	    background-color: #FF9900;
+	    border-color: #FF9900;
+	    box-shadow: none;
+	}
 	.detail_transfer .el-radio-button__inner {
 		border: 1px solid #EEEEEE;
 		border-radius: 4px!important;
@@ -729,14 +742,14 @@
 	  top: 0;
 	  right: 0;
 	  margin: 0;
-	  border: 1px solid #ff9900;
+	  border: 1px solid #FF9900;
 	  border-radius: 0;
-	  background: #ff9900;
+	  background: #FF9900;
 	  font-family: "PingFang SC";
 	}
 	.detail_transfer .el-upload__input {
 	    margin-left: 30px;
-	    border: 1px solid #eeeeee;
+	    border: 1px solid #EEEEEE;
 	    display: none;
 	}
 </style>

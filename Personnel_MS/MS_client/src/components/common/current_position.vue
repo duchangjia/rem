@@ -77,7 +77,7 @@ export default {
                 _link.push('/personnel_contract')
             }
             if (this.erji === '人事调动') {
-            	_link.push('/personnel_transfer')
+            	_link.push('/query_personnel')
             }
             if (this.erji === '业务参数') {
                 _link.push('/argument_2')
