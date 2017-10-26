@@ -158,7 +158,8 @@ export default {
             time.getTime() < Date.now() - 8.64e7 ||
             time.getTime() < new Date(that.editPactMsg.pactStartTime).getTime()
           );
-        },
+        }
+      },
       rules: {
         pactType: [{ required: true, message: "合同类型不能为空", trigger: "change" }],
         signTime: [{ type: "date", required: true, message: "签订日期不能为空", trigger: "change" }],
