@@ -11,10 +11,10 @@
             <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
                 <el-form :inline="true" :model="filters">
                     <el-form-item label="开始时间" prop="startTime">
-                        <el-date-picker type="date" placeholder="选择日期" v-model="filters.startTime" style="width: 100%;"></el-date-picker>
+                        <el-date-picker type="date" placeholder="选择日期" v-model="filters.startTime" :picker-options="startTimeOption" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="结束时间" prop="endTime">
-                        <el-date-picker type="date" placeholder="选择日期" v-model="filters.endTime" style="width: 100%;"></el-date-picker>
+                        <el-date-picker type="date" placeholder="选择日期" v-model="filters.endTime" :picker-options="endTimeOption" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                     <el-form-item style="margin-left:10px;">
                         <el-button type="primary" @click="handleQuery" class="queryBtn">查询</el-button>
@@ -59,6 +59,7 @@
 import current from "../../../common/current_position.vue";
 export default {
   data() {
+    let that = this;
     return {
       filters: {
         startTime: "",
@@ -67,7 +68,17 @@ export default {
       pageNum: 1,
       pageSize: 7,
       totalRows: 30,
-      payChangeInfoList: []
+      payChangeInfoList: [],
+      startTimeOption: {
+        disabledDate(time) {
+          // return time.getTime() < Date.now() - 8.64e7;
+        }
+      },
+      endTimeOption: {
+        disabledDate(time) {
+          return time.getTime() < new Date(that.filters.startTime).getTime();
+        }
+      },
     };
   },
   components: {
