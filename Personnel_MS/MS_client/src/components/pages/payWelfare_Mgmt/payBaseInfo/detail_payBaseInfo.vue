@@ -7,41 +7,41 @@
                 <span class="title-text">薪酬基数详情</span>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="payBaseInfoDetail" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
                     <el-col :span="12">
-                        <el-form-item label="公司" prop="organName">
-                            <el-select v-model="payBaseInfoDetail.organName" :disabled="true">
-                                <el-option label="总公司" value="1"></el-option>
-                                <el-option label="深圳分公司" value="0"></el-option>
+                        <el-form-item label="公司" prop="organNo">
+                            <el-select v-model="custInfo.organNo" :disabled="true">
+                                <el-option label="总公司" value="p0"></el-option>
+                                <el-option label="深圳分公司" value="p01"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="部门" prop="derpName">
-                            <el-select v-model="payBaseInfoDetail.derpName" :disabled="true">
-                                <el-option label="财务部" value="1"></el-option>
-                                <el-option label="技术部" value="0"></el-option>
+                        <el-form-item label="部门" prop="derpNo">
+                            <el-select v-model="custInfo.derpNo" :disabled="true">
+                                <el-option label="财务部" value="p1"></el-option>
+                                <el-option label="技术部" value="p01"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="工号" prop="userNo">
-                            <el-input v-model="payBaseInfoDetail.userNo" :disabled="true"></el-input>
+                            <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="姓名" prop="custName">
-                            <el-input v-model="payBaseInfoDetail.custName" :disabled="true"></el-input>
+                            <el-input v-model="custInfo.custName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="职务" prop="custClass">
-                            <el-input v-model="payBaseInfoDetail.custClass" :disabled="true"></el-input>
+                        <el-form-item label="职务" prop="custPost">
+                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="职级" prop="rank">
-                            <el-input v-model="payBaseInfoDetail.rank" :disabled="true"></el-input>
+                        <el-form-item label="职级" prop="custClass">
+                            <el-input v-model="custInfo.custClass" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -107,8 +107,8 @@
                     <el-col :span="12">
                       <el-form-item label="保险缴纳标准" prop="welcoeNo">
                             <el-select v-model="payBaseInfoDetail.welcoeNo" @change="welcoeNoChange">
-                                <el-option label="广州标准" value="1"></el-option>
-                                <el-option label="深圳标准" value="0"></el-option>
+                                <el-option label="广州标准" value="0001"></el-option>
+                                <el-option label="深圳标准" value="0002"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col> 
@@ -182,12 +182,12 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="最新更新人" prop="updateBy">
+                        <el-form-item label="最新更新人" prop="updatedBy">
                             <el-input v-model="payBaseInfoDetail.updateBy" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="最新更新时间" prop="updateDate">
+                        <el-form-item label="最新更新时间" prop="updatedDate">
                             <el-date-picker type="date" placeholder="选择日期" v-model="payBaseInfoDetail.updateDate" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
@@ -209,6 +209,7 @@ export default {
     return {
       labelPosition: "right",
       userNo: "",
+      custInfo: {},
       payBaseInfoDetail: {},
       insurancePayTemp: {}
     };
@@ -218,18 +219,29 @@ export default {
   },
   created() {
     this.userNo = this.$route.params.userNo;
+    this.getCustInfo(); //初始查询用户信息
     this.getPayBaseInfoDetail(); //初始查询薪酬基数信息
     this.getInsurancePayTemp(); //初始查询保险缴纳标准
   },
   methods: {
+    getCustInfo() {
+      const self = this;
+      let userNo = self.userNo;
+      self.$axios
+        .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
+        .then(res => {
+          console.log(res);
+          self.custInfo = res.data.data;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
     getPayBaseInfoDetail() {
       const self = this;
-      let params = {
-        userNo: self.userNo
-      };
+      let userNo = self.userNo;
       self.$axios
-        // .get("/iem_hrm/pay/queryPayBaseInfoDetail", { params: params })
-        .get("/iem_hrm/queryPayBaseInfoDetail", { params: params })
+        .get("/iem_hrm/pay/queryPayBaseInfoDetail/" + userNo)
         .then(res => {
           console.log(res);
           self.payBaseInfoDetail = res.data.data;
@@ -240,12 +252,11 @@ export default {
     },
     getInsurancePayTemp() {
       const self = this;
-      let params = {
-        applyNo: self.payBaseInfoDetail.welcoeNo
-      };
+      let applyNo = self.payBaseInfoDetail.welcoeNo;
       self.$axios
-        // .get("/iem_hrm/InsurancePayTemplate/queryInsurancePayTemplate", { params: params })
-        .get("/iem_hrm/queryInsurancePayTemplate", { params: params })
+        .get(
+          "/iem_hrm/InsurancePayTemplate/queryInsurancePayTemplate/" + applyNo
+        )
         .then(res => {
           console.log("已经请求保险缴纳标准回来了", res);
           self.insurancePayTemp = res.data.data;
