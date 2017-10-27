@@ -8,41 +8,41 @@
                 <el-button type="primary" @click="handleSave('editPayBaseInfoRules')" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="editPayBaseInfo" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
                     <el-col :span="12">
-                        <el-form-item label="公司" prop="organName">
-                            <el-select v-model="editPayBaseInfo.organName">
-                                <el-option label="总公司" value="1"></el-option>
-                                <el-option label="深圳分公司" value="0"></el-option>
+                        <el-form-item label="公司" prop="organNo">
+                            <el-select v-model="custInfo.organNo">
+                                <el-option label="总公司" value="p0"></el-option>
+                                <el-option label="深圳分公司" value="p01"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="部门" prop="derpName">
-                            <el-select v-model="editPayBaseInfo.derpName">
-                                <el-option label="财务部" value="1"></el-option>
-                                <el-option label="技术部" value="0"></el-option>
+                        <el-form-item label="部门" prop="derpNo">
+                            <el-select v-model="custInfo.derpNo">
+                                <el-option label="财务部" value="p1"></el-option>
+                                <el-option label="技术部" value="p01"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="工号" prop="userNo">
-                            <el-input v-model="editPayBaseInfo.userNo" :disabled="true"></el-input>
+                            <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="姓名" prop="custName">
-                            <el-input v-model="editPayBaseInfo.custName"></el-input>
+                            <el-input v-model="custInfo.custName"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="职务" prop="custClass">
-                            <el-input v-model="editPayBaseInfo.custClass"></el-input>
+                        <el-form-item label="职务" prop="custPost">
+                            <el-input v-model="custInfo.custPost"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="职级" prop="rank">
-                            <el-input v-model="editPayBaseInfo.rank"></el-input>
+                        <el-form-item label="职级" prop="custClass">
+                            <el-input v-model="custInfo.custClass"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -108,8 +108,8 @@
                     <el-col :span="12">
                       <el-form-item label="保险缴纳标准" prop="welcoeNo">
                             <el-select v-model="editPayBaseInfo.welcoeNo" @change="welcoeNoChange">
-                                <el-option label="广州标准" value="1"></el-option>
-                                <el-option label="深圳标准" value="0"></el-option>
+                                <el-option label="广州标准" value="0001"></el-option>
+                                <el-option label="深圳标准" value="0002"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col> 
@@ -203,6 +203,7 @@ export default {
     return {
       labelPosition: "right",
       userNo: "",
+      custInfo: {},
       editPayBaseInfo: {},
       insurancePayTemp: {},
       rules: {
@@ -260,21 +261,32 @@ export default {
   },
   created() {
     this.userNo = this.$route.params.userNo;
+    this.getCustInfo(); //初始查询用户信息
     this.getPayBaseInfoDetail(); //初始查询薪酬基数详情
     this.getInsurancePayTemp(); //初始查询保险缴纳标准
   },
   methods: {
-    getPayBaseInfoDetail() {
+    getCustInfo() {
       const self = this;
-      let params = {
-        userNo: self.userNo
-      };
+      let userNo = self.userNo;
       self.$axios
-        // .get("/iem_hrm/pay/queryPayBaseInfoDetail", { params: params })
-        .get("/iem_hrm/queryPayBaseInfoDetail", { params: params })
+        .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
         .then(res => {
           console.log(res);
+          self.custInfo = res.data.data;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+    getPayBaseInfoDetail() {
+      const self = this;
+      let userNo = self.userNo;
+      self.$axios
+        .get("/iem_hrm/pay/queryPayBaseInfoDetail/" + userNo)
+        .then(res => {
           self.editPayBaseInfo = res.data.data;
+          console.log(self.editPayBaseInfo);
         })
         .catch(() => {
           console.log("error");
@@ -282,12 +294,11 @@ export default {
     },
     getInsurancePayTemp() {
       const self = this;
-      let params = {
-        applyNo: self.editPayBaseInfo.welcoeNo
-      };
+      let applyNo = self.editPayBaseInfo.welcoeNo;
       self.$axios
-        // .get("/iem_hrm/InsurancePayTemplate/queryInsurancePayTemplate", { params: params })
-        .get("/iem_hrm/queryInsurancePayTemplate", { params: params })
+        .get(
+          "/iem_hrm/InsurancePayTemplate/queryInsurancePayTemplate/" + applyNo
+        )
         .then(res => {
           console.log("已经请求保险缴纳标准回来了", res);
           self.insurancePayTemp = res.data.data;
@@ -297,8 +308,10 @@ export default {
         });
     },
     welcoeNoChange(val) {
-      this.editPayBaseInfo.welcoeNo = val;
-      this.getInsurancePayTemp(); //根据参数值查询保险缴纳标准
+      const self = this;
+      console.log(val);
+      self.editPayBaseInfo.welcoeNo = val;
+      self.getInsurancePayTemp(); //根据参数值查询保险缴纳标准
     },
     handleFileUpload(file, fileList) {
       // this.fileList3 = fileList.slice(-3);
@@ -308,11 +321,24 @@ export default {
     handleSave(editPayBaseInfoRules) {
       this.$refs[editPayBaseInfoRules].validate(valid => {
         if (valid) {
-          let editPayBaseInfo = this.editPayBaseInfo;
+          let editPayBaseInfo = {};
+          editPayBaseInfo.userNo = this.editPayBaseInfo.userNo;
+          editPayBaseInfo.wagesBase = this.editPayBaseInfo.wagesBase;
+          editPayBaseInfo.wagesPerf = this.editPayBaseInfo.wagesPerf;
+          editPayBaseInfo.postPension = this.editPayBaseInfo.postPension;
+          editPayBaseInfo.otherPension = this.editPayBaseInfo.otherPension;
+          editPayBaseInfo.endmBase = this.editPayBaseInfo.endmBase;
+          editPayBaseInfo.mediBase = this.editPayBaseInfo.mediBase;
+          editPayBaseInfo.unemBase = this.editPayBaseInfo.unemBase;
+          editPayBaseInfo.emplBase = this.editPayBaseInfo.emplBase;
+          editPayBaseInfo.mateBase = this.editPayBaseInfo.mateBase;
+          editPayBaseInfo.houseBase = this.editPayBaseInfo.houseBase;
+          editPayBaseInfo.probRatio = this.editPayBaseInfo.probRatio;    
+          editPayBaseInfo.welcoeNo = this.editPayBaseInfo.welcoeNo;   
+          editPayBaseInfo.remark = this.editPayBaseInfo.remark;                
           console.log(editPayBaseInfo);
           this.$axios
-            // .post("/iem_hrm/pay/updatePayBaseInfo", editPayBaseInfo)
-            .post("/iem_hrm/updatePayBaseInfo", editPayBaseInfo)
+            .put("/iem_hrm/pay/updatePayBaseInfo", editPayBaseInfo)
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000")

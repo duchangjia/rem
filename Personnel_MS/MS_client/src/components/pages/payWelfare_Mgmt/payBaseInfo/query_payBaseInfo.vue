@@ -34,7 +34,7 @@
                         <span @click="handlePayBaseInfoDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.userNo }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" prop="custName" label="姓名">
+                <el-table-column align="center" prop="userName" label="姓名">
                 </el-table-column>
                 <el-table-column align="center" prop="wagesBase" label="基本工资">
                 </el-table-column>
@@ -48,7 +48,7 @@
                 </el-table-column>
                 <el-table-column align="center" prop="houseBase" label="公积金基数">
                 </el-table-column>
-                <el-table-column align="center" prop="entryTime" label="录入时间">
+                <el-table-column align="center" prop="createdDate" label="录入时间">
                 </el-table-column>
                 <el-table-column align="center" label="操作">
                     <template scope="scope">
@@ -86,21 +86,22 @@ export default {
     this.filters.custName = "";
     this.getPayBaseInfoList(); //初始查询薪酬基数列表
   },
-  methods: {
+  methods: { 
     getPayBaseInfoList() {
       const self = this;
       let params = {
         pageNum: self.pageNum,
-        pageSize: self.pageSize,
-        userNo: self.filters.userNo,
-        custName: self.filters.custName
+        pageSize: self.pageSize
+        // userNo: self.filters.userNo,
+        // custName: self.filters.custName
       };
       self.$axios
-        // .get("/iem_hrm/pay/queryPayBaseInfoList", { params: params })
-        .get("/iem_hrm/queryPayBaseInfoList", { params: params })
+        .get("/iem_hrm/pay/queryPayBaseInfoList", { params: params })
+        // .get("/iem_hrm/queryPayBaseInfoList", { params: params })
         .then(res => {
           console.log(res);
-          self.payBaseInfoList = res.data.data.payBaseInfoArray;
+          self.payBaseInfoList = res.data.data.models;
+          // self.payBaseInfoList = res.data.data.payBaseInfoArray;
           self.totalRows = Number(res.data.data.total);
         })
         .catch(() => {
