@@ -85,8 +85,8 @@ export default {
 	          		let params = {
 	          			groupId: self.formdata.groupId,
 	          			remark: "xxxx",
-						groupLimit: self.formdata.groupLimit,
-						groupLowerLimit: self.formdata.groupLowerLimit,
+						GroupLimit: self.formdata.groupLimit,
+						GroupLowerLimit: self.formdata.groupLowerLimit,
 						percentRate: self.formdata.percentRate,
 						quickCal: self.formdata.quickCal,
 						isDelete: "1"

@@ -10,7 +10,10 @@
 				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
 					<el-form-item label="组名称" prop="groupName">
 					    <el-input v-model="formdata.groupName"></el-input>
-				  </el-form-item>
+				  	</el-form-item>
+				  	<el-form-item label="起征点">
+					    <el-input v-model="formdata.taxThreshold"></el-input>
+				  	</el-form-item>
 				  	<el-form-item label="生效日期" prop="startTime">
 			        	<el-date-picker type="date" v-model="formdata.startTime" @change="changeStartTime"></el-date-picker>
 			      	</el-form-item>
@@ -37,7 +40,8 @@ export default {
 				groupId: "",
 				startTime: "",
 				endTime: "",
-				remark: ""
+				remark: "",
+				taxThreshold: ""
 			},
 			rules: {
 				groupName: [
@@ -66,23 +70,14 @@ export default {
 			const self = this;
 		 	this.$refs[formName].validate((valid) => {
 	          	if (valid) {
-	          		console.log(self.formdata.groupId);
-	          		console.log(typeof self.formdata.startTime);
-	          		console.log(self.formdata.endTime);
 	          		let params = {
 	          			groupName: self.formdata.groupName,
 						startTime: self.formdata.startTime,
 						endTime: self.formdata.endTime,
 						remark: self.formdata.remark,
 						isDelete: "1",
-						taxThreshold: "2345"
+						taxThreshold: self.formdata.taxThreshold
 	          		};
-//	          		let params = new URLSearchParams();
-//	          		params.append("groupName", self.formdata.groupName);
-//	          		params.append("startTime", self.formdata.startTime);
-//	          		params.append("endTime", self.formdata.endTime);
-//	          		params.append("remark", self.formdata.remark);
-//	          		params.append("isDelete", "1");
 	          		
 	          		self.insertTaxRateGroup(params);
 	          		
