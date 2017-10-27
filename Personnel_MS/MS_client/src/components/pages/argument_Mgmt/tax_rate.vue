@@ -8,9 +8,9 @@
 			</div>
 			<div class="content-inner">
 				<el-table :data="taxRateGroupList" border stripe style="width: 100%">
-					<el-table-column prop="groupNo" label="组名称">
+					<el-table-column prop="groupName" label="组名称">
 						<template scope="scope">
-					        <span class="link" @click="handleEdit(scope.$index, scope.row)">{{ scope.row.groupNo }}</span>
+					        <span class="link" @click="handleEdit(scope.$index, scope.row)">{{ scope.row.groupName }}</span>
 				      	</template>
 					</el-table-column>
 					<el-table-column prop="remark" label="备注"></el-table-column>
@@ -42,7 +42,7 @@ export default {
 			totalRows: 1,
 			taxRateGroupList: [
 				{
-					groupNo: "1600起征",
+					groupName: "1600起征",
 					remark: "xxxx",
 					startTime: "",
 					endTime: "",
@@ -50,7 +50,7 @@ export default {
 					createdDate: ''
 				},
 				{
-					groupNo: "3500起征",
+					groupName: "3500起征",
 					remark: "xxxx",
 					startTime: "",
 					endTime: "",
@@ -81,7 +81,7 @@ export default {
             this.$router.push({
             	name: 'rate_info',
             	params: {
-            		groupNo: row.groupNo,
+            		groupName: row.groupName,
             		groupId: row.groupId
             	}
             });
@@ -94,7 +94,7 @@ export default {
             }).then(() => {
             	const self = this;
             	let params = {
-            		groupNo: row.groupNo
+            		groupName: row.groupName
             	};
             	self.deleteTaxRateGroup(params);
             }).catch(() => {

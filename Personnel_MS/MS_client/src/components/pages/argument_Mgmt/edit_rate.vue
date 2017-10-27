@@ -77,7 +77,7 @@ export default {
 					{ required: true, validator: checkgroupLowerLimit, trigger: 'blur' }
 				],
 				percentRate: [
-					{ required: true, message: '百分率不能为空', trigger: 'blur' }
+//					{ required: true, message: '百分率不能为空', trigger: 'blur' }
 				]
 			}
 		}
@@ -99,22 +99,13 @@ export default {
 	          			groupId: self.rateInfo.groupId,
 						groupLimit: self.rateInfo.groupLimit,
 						groupLowerLimit: self.rateInfo.groupLowerLimit,
+						percentRate: self.rateInfo.percentRate,
+						quickCal: self.rateInfo.quickCal,
 						remark: self.rateInfo.remark,
 						isDelete: "1"
 	          		};
 	          		self.modifyRate(params);
 	          		
-	          		
-//	          		private String groupId; // 组id             not null
-//	private String applyNo; // 编号               not null
-//	private String remark; // 备注
-//	private BigDecimal groupLimit; // 上限            not null
-//	private BigDecimal groupLowerLimit; // 下限           not null
-//	private BigDecimal percentRate; // 百分比率
-//	private BigDecimal quickCal; // 速算扣除数
-//	private String isDelete; // 是否删除                   not null
-//private String createdBy; //创建人
-//private String updatedBy; //更新人
 	          	} else {
 	            	this.$message.error('修改失败');
 	            	return false;

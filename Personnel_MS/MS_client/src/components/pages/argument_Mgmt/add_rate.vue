@@ -10,10 +10,7 @@
 				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
 					<el-form-item label="组名称" prop="groupId">
 					    <el-input v-model="formdata.groupId"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="编号" prop="applyNo">
-					    <el-input v-model="formdata.applyNo"></el-input>
-				  	</el-form-item>
+				  </el-form-item>
 				  	<el-form-item label="下限" prop="groupLowerLimit">
 					    <el-input v-model="formdata.groupLowerLimit"></el-input>
 				  	</el-form-item>
@@ -70,6 +67,9 @@ export default {
 				],
 				percentRate: [
 					{ required: true, message: '百分率不能为空', trigger: 'blur' }
+				],
+				quickCal: [
+					{ required: true, message: '数算扣除数不能为空', trigger: 'blur' }
 				]
 			}
 		}
@@ -84,28 +84,15 @@ export default {
 	          		const self = this;
 	          		let params = {
 	          			groupId: self.formdata.groupId,
-//	          			applyNo: self.formdata.applyNo,
-//	          			remark: "xxxx",
+	          			remark: "xxxx",
 						groupLimit: self.formdata.groupLimit,
 						groupLowerLimit: self.formdata.groupLowerLimit,
 						percentRate: self.formdata.percentRate,
-						quickCal: self.formdata.quickCal
-//						isDelete: "1",
-//						createdBy: "dfdf",
-//						updatedBy: "asdsa"
+						quickCal: self.formdata.quickCal,
+						isDelete: "1"
 	          		};
 	          		self.insertTaxRateCtrl(params);
 	          		
-//	          		private String groupId; // 组id                not null
-//	private String applyNo; // 编号                not null
-//	private String remark; // 备注
-//	private BigDecimal groupLimit; // 上限             not null
-//	private BigDecimal groupLowerLimit; // 下限          not null
-//	private BigDecimal percentRate; // 百分比率
-//	private BigDecimal quickCal; // 速算扣除数
-//	private String isDelete; // 是否删除                   not null
-//private String createdBy; //创建人
-//private String updatedBy; //更新人
 	          	} else {
 	            	this.$message.error('新增失败');
 	            	return false;
@@ -118,6 +105,7 @@ export default {
 			self.$axios.post(baseURL+'/taxRateCtrl/addRate', params)
   			.then((res) => {
   				console.log("addRate",res);
+  				self.formdata.applyNo = res.data.data;
   				this.$message({ message: '税率新增成功', type: 'success' });
   			})
 		}

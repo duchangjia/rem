@@ -8,14 +8,26 @@
 			<div class="content-inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="58px" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-form-item label="公司" prop="company">
+						<!--<el-form-item label="公司" prop="company">
 							<el-input type="text" v-model="ruleForm2.company"></el-input>
 						</el-form-item>
 						<el-form-item label="部门" prop="department">
 							<el-input type="text" v-model="ruleForm2.department"></el-input>
+						</el-form-item>-->
+						<el-form-item label="机构" prop="company">
+							<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
+								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+							</el-select>
 						</el-form-item>
 						<el-form-item label="用户" prop="user">
 							<el-input type="text" v-model="ruleForm2.user" placeholder="工号/姓名/手机/邮箱"></el-input>
+						</el-form-item>
+						<el-form-item label="状态" prop="status">
+							<el-select v-model="ruleForm2.status" class="bg-white">
+								<el-option label="正常" value="1"></el-option>
+								<el-option label="停用" value="0"></el-option>
+								<el-option label="锁定" value="2"></el-option>
+							</el-select>
 						</el-form-item>
 					</div>
 					<div class="button-wrap">
@@ -27,18 +39,18 @@
 					<el-table :data="operatorList" border stripe style="width: 100%">
 						<el-table-column prop="userNo" label="工号">
 							<template scope="scope">
-						        <span class="link" @click="handleEdit(scope.$index, scope.row)">{{ scope.row.userNo }}</span>
+						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.userNo }}</span>
 					      	</template>
 						</el-table-column>
-						<el-table-column prop="userName" label="姓名"></el-table-column>
 						<el-table-column prop="compName" label="所属公司"></el-table-column>
 						<el-table-column prop="departName" label="部门"></el-table-column>
+						<el-table-column prop="userName" label="姓名"></el-table-column>
 						<el-table-column prop="roleNo" label="角色"></el-table-column>
 						<el-table-column prop="mobile" label="手机"></el-table-column>
 						<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageRows" layout="prev, pager, next, jumper" :total="pageSize" v-show="pageSize>pageRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -46,18 +58,18 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import Bus from '../../../common/Bus.js'
 import current from '../../common/current_position.vue'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
 		return {
-			pageIndex: 1,
+			pageNum: 1,
 			pageRows: 5,
-			totalRows: 1,
+			pageSize: 1,
+			queryFormFlag: false,
 			ruleForm2: {
-				company: '',
-				department: '',
+				organNo: '',
+				status: '',
 				user: ''
 			},
 			operatorList: [
@@ -70,6 +82,16 @@ export default {
 					mobile: "135135135135",
 					status: "xxxx"
 				}
+			],
+			comp: {
+				compName: '',
+				compOrgNo: ''
+			},
+			//公司列表
+			compList: [
+				{compName: "上海魔方分公司",compOrgNo: '01'},
+				{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
+				{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
 			],
 			rules: {
 				company: [],
@@ -85,23 +107,30 @@ export default {
 	},
 	created() {
 		const self = this;
-		let pageNum = self.pageIndex;
+		let pageNum = self.pageNum;
 		let pageSize = self.pageRows;
 		let params = {
 			"pageNum": pageNum,
 			"pageSize": pageSize
 		}
 		//查询用户列表
+		self.queryFormFlag = false;
 		self.queryUserList(pageNum,pageSize,params);
 	},
 	methods: {
 		statusFormatter(row, column) {
-	      return row.status == 1 ? "正常" : row.pactStatus == 0 ? "停用" : "锁定";
+	      return row.status == 1 ? "正常" : row.status == 0 ? "停用" : "锁定";
 	    },
-		handleEdit(index, row) {
+	    //详情页
+	    handleInfo(index, row) {
 			console.log('row:',row);
 			sessionStorage.setItem('user', row.userNo);
-            this.$router.push('user-info');
+            this.$router.push({
+            	name: 'edit_userM',
+            	params: {
+            		user: row.userNo
+            	}
+            });
 		},
 		//查询
 		queryForm(formName) {
@@ -110,16 +139,17 @@ export default {
 				if (valid) {
 					let user = self.ruleForm2.user;
 					self.operatorList = [];
-					let pageNum = self.pageIndex;
+					let pageNum = self.pageNum;
 					let pageSize = self.pageRows;
 					let params = {
 						"pageNum": pageNum,
 						"pageSize": pageSize,
-						"organCompanyName": self.ruleForm2.company,
-						"organDepartmentName": self.ruleForm2.department,
+						"organNo": self.ruleForm2.organNo,
+						"status": self.ruleForm2.status,
 						"userFeatureInfo": self.ruleForm2.user
 					}
 					//查询用户列表
+					self.queryFormFlag = true;
 					self.queryUserList(pageNum,pageSize,params);
 					
 				} else {
@@ -128,6 +158,16 @@ export default {
 				}
 			});
 		},
+		changeValue(value) {
+	 		const self = this;
+            console.log('value',value);
+//				self.userDetail.compName = self.comp.compName;
+//				self.userDetail.compOrgNo = self.comp.compOrgNo;
+//				self.userDetail.departName = self.depart.departName;
+//				self.userDetail.departOrgNo = self.depart.departOrgNo;
+//				self.userDetail.roleName = self.role.roleName;
+//				self.userDetail.roleNo = self.role.roleNo;
+       },
 		//重置
 		resetForm() {
 			this.ruleForm2.company = '';
@@ -135,15 +175,25 @@ export default {
 			this.ruleForm2.user = '';
 		},
 		handleCurrentChange(val) {
-			console.log(`当前页: ${val}`);
 			const self = this;
 			let pageNum = val;
 			let pageSize = self.pageRows;
-			let params = {
-				"pageNum": pageNum,
-				"pageSize": pageSize
+			if(!self.queryFormFlag) {
+				let params = {
+					"pageNum": pageNum,
+					"pageSize": pageSize
+				}
+			} else {
+				let params = {
+					"pageNum": pageNum,
+					"pageSize": pageSize,
+					"organNo": self.ruleForm2.organNo,
+					"status": self.ruleForm2.status,
+					"userFeatureInfo": self.ruleForm2.user
+				}
 			}
-			//查询用户列表
+			
+			//分页查询用户列表
 			self.queryUserList(pageNum,pageSize,params);
 		},
 		queryUserList(pageNum,pageSize,params) {
@@ -152,8 +202,8 @@ export default {
 			.then(function(res) {
 				console.log('UserList',res);
 				self.operatorList = res.data.data.models;
-				self.pageIndex = pageNum;
-				self.totalRows = Number(res.data.data.total);
+				self.pageNum = pageNum;
+				self.pageSize = Number(res.data.data.total);
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -294,16 +344,10 @@ export default {
 .user-query .el-table th {
 	text-align: center;
 }
-.user-query .el-table td:first-child{
-	cursor: pointer;
-}
 .user-query .link {
 	cursor: pointer;
     color: #337ab7;
     text-decoration: underline;
-}
-.user-query .el-table td:first-child:hover{
-	color: #FF9900;
 }
 /*.user-query .el-table--enable-row-hover .el-table__body tr:hover>td {
 	background-color: #f8f8f8;
@@ -340,7 +384,21 @@ export default {
 	position: absolute;
 	background-color: transparent;
 }*/
-
+.icon_edit {
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	background: url(../../../../static/img/common/edit.png) no-repeat;
+	cursor: pointer;
+	margin-top: 1px;
+}
+.icon_delete {
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	background: url(../../../../static/img/common/delete.png) no-repeat;
+	cursor: pointer;
+}
 .el-pagination {
 	text-align: right;
 	margin-top: 40px;

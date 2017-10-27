@@ -13,38 +13,38 @@
 				<el-form :inline="true" :model="userDetail" :rules="rules" ref="userDetail" label-width="80px">
 					<el-col :span="12">
 						<el-form-item label="姓名" prop="userName">
-							<el-input v-model="userDetail.userName" ref="user"></el-input>
+							<el-input v-model="userDetail.userName" ref="user" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="工号" prop="userNo">
-							<el-input v-model="userDetail.userNo" ></el-input>
+							<el-input v-model="userDetail.userNo" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="所属公司">
-							<el-select v-model="comp" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
+							<el-select v-model="comp" value-key="compOrgNo" placeholder="所属公司" @change="changeValue" :disabled="true">
 								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="所属部门" prop="departOrgNo">
-							<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
+							<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue" :disabled="true">
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="角色" prop="roleNo">
-							<el-select v-model="role" value-key="roleNo" class="bg-white" @change="changeValue">
+							<el-select v-model="userDetail.roles" multiple value-key="roleNo" class="bg-white" @change="changeValue">
 								<el-option v-for="(item,k) in roleList" :key="item.roleNo" :label="item.roleName" :value="item"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="状态" prop="status">
-							<el-select v-model="userDetail.status" class="bg-white">
+							<el-select v-model="userDetail.status" :disabled="true">
 								<el-option label="正常" value="1"></el-option>
 								<el-option label="停用" value="0"></el-option>
 								<el-option label="锁定" value="2"></el-option>
@@ -53,7 +53,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="手机" prop="mobile">
-							<el-input v-model="userDetail.mobile" :disabled="false"></el-input>
+							<el-input v-model="userDetail.mobile" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
@@ -93,28 +93,18 @@
 	              	callback();
 	            }
 	      	};
-//	      	var checkMobile = (rule, value, callback) => {
-//	      		let MOCILE_REG = /^[1][3578]\\d{9}$/;
-//	      		if (!value) {
-//	      			callback(new Error('手机号不能为空'));
-//	      		} else if (!MOCILE_REG.test(value)) {
-//	      			callback(new Error('请输入正确的手机号'))
-//	      		}else {
-//	              	callback();
-//	            }
-//	      	};
 			return {
 				oldStatus: 1,
 				olduserDetail: {},
 				//用户详细信息
 				userDetail: {
 					userName: 'aaaaa',
-					userNo: '',
+					userNo: 'p001',
 					compName: '',
 					compOrgNo: '',
 					departName: '',
 					departOrgNo: '',
-					roleName: '',
+					roles: [{roleName: "财务经理",roleNo: "p101"}],
 					status: '0',
 					mobile: '13513513513',
 					email: '123@123.com',
@@ -135,9 +125,9 @@
 				},
 				//角色列表
 				roleList: [
-					{roleName: "管理员",roleNo: "ROLE_ANONYMOUS"},
-					{roleName: "普通人员",roleNo: "COMMON"},
-					{roleName: '',roleNo: ""}
+					{roleName: "财务经理",roleNo: "p101"},
+					{roleName: "人事经理",roleNo: "p102"},
+					{roleName: "管理员",roleNo: "112"}
 				],
 				//部门列表
 				departList: [
@@ -219,20 +209,8 @@
 		          	cancelButtonText: '取消',
 		          	type: 'warning'
 		      	}).then(() => {
-		          	self.$axios.put(baseURL+'/resetPassword',{userNo: self.userDetail.userNo})
-		          	.then(function(res){
-		          		console.log('resetPassword',res);
-		          		if (res.status===200){
-		          			self.$message({
-				            	type: 'success',
-				            	message: '新密码已发送至邮箱，请查收!'
-				          	});
-		          		} else {
-		          			self.$message.error('密码重置失败');
-		          		}
-		          	}).catch(function(err){
-		          		self.$message.error('密码重置失败');
-		          	})
+		      		//重置密码
+		          	self.resetPassword(params);
 		        }).catch(() => {
 		          	self.$message({
 		            	type: 'info',
@@ -246,17 +224,15 @@
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
 						let detailChange = false;
+						let roles = self.userDetail.roles;
+						let roleNoes = [];
+						for(let k in roles) {
+							roleNoes.push(roles[k].roleNo);
+						}
 						let params = {
-							"organCompanyNo": self.userDetail.compOrgNo,
-							"organDepartmentNo": self.userDetail.departOrgNo,
-							"roleNo": self.userDetail.roleNo,
+							"roleNoes": roleNoes,
 							"userNo": self.userDetail.userNo,
-							"userName": self.userDetail.userName,
-							"certNo": self.userDetail.certNo,
-							"mobile": self.userDetail.mobile,
-							"email": self.userDetail.email,
-							"remark": self.userDetail.remark,
-							"status": self.userDetail.status
+							"remark": self.userDetail.remark
 						}
 						for(let k in self.userDetail){
 							if(self.olduserDetail[k]!==self.userDetail[k]){
@@ -264,22 +240,8 @@
 							}
 						}
 						if(detailChange===true){//判断是否有修改信息
-							console.log('compName',self.userDetail.compName)
-							console.log('compOrgNo',self.userDetail.compOrgNo)
-							self.$axios.put(baseURL+'/user/updateUserInfo',params)
-							.then(function(res){
-								console.log('updateUserInfo',res);
-								if(res.data.code=="S00000"){
-									self.$alert('信息修改成功', '提示', {
-							          	confirmButtonText: '确定'
-						        	});
-								} else {
-									self.$message.error('信息修改失败');
-								}
-							})
-							.catch(function(err){
-								self.$message.error('信息修改失败');
-							})
+							//修改用户
+							self.updateUserInfo(params);
 						}else{
 							self.$alert('你还未修改信息', '提示', {
 					          	confirmButtonText: '确定'
@@ -290,6 +252,36 @@
 						return false;
 					}
 				});
+			},
+			updateUserInfo(params) {
+				const self = this;
+				self.$axios.put(baseURL+'/user/updateUserInfo',params)
+				.then(function(res){
+					console.log('updateUserInfo',res);
+					if(res.data.code=="S00000"){
+						self.$alert('信息修改成功', '提示', {
+				          	confirmButtonText: '确定'
+			        	});
+					} else {
+						self.$message.error('信息修改失败');
+					}
+				})
+				.catch(function(err){
+					self.$message.error('信息修改失败');
+				})
+			},
+			resetPassword(params) {
+				const self = this;
+				self.$axios.put(baseURL+'/resetPassword',{userNo: self.userDetail.userNo})
+	          	.then(function(res){
+	          		console.log('resetPassword',res);
+	          			self.$message({
+			            	type: 'success',
+			            	message: '新密码已发送至邮箱，请查收!'
+			          	});
+	          	}).catch(function(err){
+	          		self.$message.error('密码重置失败');
+	          	})
 			}
 		}
 	}

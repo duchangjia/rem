@@ -8,17 +8,14 @@
 			</div>
 			<div class="content-inner">
 				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
-					<el-form-item label="组名称" prop="groupNo">
-					    <el-input v-model="formdata.groupNo"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="组ID" prop="groupId">
-					    <el-input v-model="formdata.groupId"></el-input>
-				  	</el-form-item>
+					<el-form-item label="组名称" prop="groupName">
+					    <el-input v-model="formdata.groupName"></el-input>
+				  </el-form-item>
 				  	<el-form-item label="生效日期" prop="startTime">
 			        	<el-date-picker type="date" v-model="formdata.startTime" @change="changeStartTime"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="失效日期" prop="endTime">
-			        	<el-date-picker type="date" placeholder="如无，则不填" v-model="formdata.endTime" @change="changeEndTime"></el-date-picker>
+			        	<el-date-picker type="date" v-model="formdata.endTime" @change="changeEndTime"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="备注">
 					    <el-input v-model="formdata.remark"></el-input>
@@ -36,21 +33,21 @@ export default {
 	data() {
 		return {
 			formdata: {
-				groupNo: "",
+				groupName: "",
 				groupId: "",
 				startTime: "",
 				endTime: "",
 				remark: ""
 			},
 			rules: {
-				groupNo: [
+				groupName: [
 					{ required: true, message: '组名称不能为空', trigger: 'blur' }
 				],
-				groupId: [
-					{ required: true, message: '组ID不能为空', trigger: 'blur' }
-				],
 				startTime: [
-//					{ type: 'date', required: true, message: '生效日期不能为空', trigger: 'blur' }
+					{  required: true, message: '生效日期不能为空', trigger: 'change' }
+				],
+				endTime: [
+					{  required: true, message: '失效日期不能为空', trigger: 'change' }
 				]
 			}
 		}
@@ -70,28 +67,25 @@ export default {
 		 	this.$refs[formName].validate((valid) => {
 	          	if (valid) {
 	          		console.log(self.formdata.groupId);
-	          		console.log(self.formdata.startTime);
+	          		console.log(typeof self.formdata.startTime);
 	          		console.log(self.formdata.endTime);
 	          		let params = {
-	          			groupNo: self.formdata.groupNo,
-	          			groupId: self.formdata.groupId,
+	          			groupName: self.formdata.groupName,
 						startTime: self.formdata.startTime,
-//						endTime: self.formdata.endTime,
-//						remark: self.formdata.remark,
-						isDelete: "1"
-//						createdBy: "sadsad",
-//						updatedBy: "dfsdd"
+						endTime: self.formdata.endTime,
+						remark: self.formdata.remark,
+						isDelete: "1",
+						taxThreshold: "2345"
 	          		};
+//	          		let params = new URLSearchParams();
+//	          		params.append("groupName", self.formdata.groupName);
+//	          		params.append("startTime", self.formdata.startTime);
+//	          		params.append("endTime", self.formdata.endTime);
+//	          		params.append("remark", self.formdata.remark);
+//	          		params.append("isDelete", "1");
+	          		
 	          		self.insertTaxRateGroup(params);
 	          		
-//	          		private String groupId; // 组ID                not null
-//	private String groupNo; // 组名称              not null
-//	private String startTime; // 生效时间
-//	private String endTime; // 失效时间
-//	private String remark; // 备注
-//	private String isDelete; // 是否删除              not null
-//private String createdBy; //创建人
-//private String updatedBy; //更新人
 	          	} else {
 	            	this.$message.error('新增失败');
 	            	return false;
