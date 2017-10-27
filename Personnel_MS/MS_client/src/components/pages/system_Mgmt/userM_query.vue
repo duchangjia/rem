@@ -192,7 +192,6 @@ export default {
 					"userFeatureInfo": self.ruleForm2.user
 				}
 			}
-			
 			//分页查询用户列表
 			self.queryUserList(pageNum,pageSize,params);
 		},

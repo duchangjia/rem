@@ -185,11 +185,12 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="附件" prop="attachm">
-                            <el-upload class="upload-demo" ref="upload" action="" :show-file-list="false" :auto-upload="false">
+                        <el-form-item label="附件">
+				  		    <el-input v-model="addPayBaseInfo.attachm"></el-input>
+				  		    <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
-                        </el-form-item>
+				  	    </el-form-item>
                     </el-col>
                 </el-form>
             </div>
@@ -222,6 +223,7 @@ export default {
         houseBase: "",
         probRatio: "",
         welcoeNo: "",
+        attachm: "",
         remark: ""
       },
       insurancePayTemp: {},
@@ -313,6 +315,11 @@ export default {
     welcoeNoChange(val) {
       this.addPayBaseInfo.welcoeNo = val;
       this.getInsurancePayTemp(); //根据参数值计算保险缴纳标准
+    },
+    handleFileUpload(file, fileList) {
+      // this.fileList3 = fileList.slice(-3);
+      console.log(file);
+      this.addPayBaseInfo.attachm = file.name;
     },
     handleSave(addPayBaseInfoRules) {
       this.$refs[addPayBaseInfoRules].validate(valid => {

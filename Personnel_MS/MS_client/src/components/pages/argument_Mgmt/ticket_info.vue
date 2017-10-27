@@ -12,7 +12,7 @@
                     </div>
                     <table>
                         <tr><td v-for="th in table.th">{{th}}</td></tr>
-                        <tr v-for="tds in table.td"><td v-for="td in tds">{{td}}</td><td><i class="el-icon-delete2" @click="del"></i></td></tr>
+                        <tr v-for="tds in table.td"><td v-for="td in tds">{{td}}</td><td><i class="el-icon-edit" @click="edit"></i></td></tr>
                     </table>
                     <el-pagination
                             @size-change="handleSizeChange"
@@ -60,8 +60,32 @@
                             userId: '机构名称机构名称机构名称',
                             account: '管理',
                             accountName: 'XXXXXXXXXX',
-                        },]  }
+                        },
+                        ]
+                }
             }
+        },
+        created() {
+            let self = this
+            this.$axios.get('/iem_hrm/organBillInfo/queryBillInfoList')
+                .then(res => {
+                    console.log(res)
+                    res.data.data.list.map(obj => {
+                        return {
+                            organNo: obj.organNo,
+                            organName: obj.organName,
+                            organTaxNo: obj.organTaxNo,
+                            organTel: obj.organTel,
+                            organAcctname: obj.organAcctname,
+                            organAcct: obj.organAcct,
+                            organAddr: obj.organAddr,
+                        }
+                    })
+                    this.table.td = res.data.data.list
+                })
+                .catch(e => {
+                    console.log(e)
+                })
         },
         methods: {
             handleSizeChange(val) {

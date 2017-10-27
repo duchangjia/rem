@@ -109,10 +109,11 @@
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="附件" prop="attachm">
-                            <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+				  		    <el-input v-model="addPRenewMsg.attachm"></el-input>
+				  		    <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
-                        </el-form-item>
+				  	    </el-form-item>
                     </el-col>
                 </el-form>
             </div>
@@ -137,8 +138,22 @@ export default {
         remark: ""
       },
       rules: {
-        renewTime: [{ type: 'date', required: true, message: '请选择续签生效日期', trigger: 'change' }],
-        renewEndTime: [{ type: 'date', required: true, message: '请选择续签失效日期', trigger: 'change' }],
+        renewTime: [
+          {
+            type: "date",
+            required: true,
+            message: "请选择续签生效日期",
+            trigger: "change"
+          }
+        ],
+        renewEndTime: [
+          {
+            type: "date",
+            required: true,
+            message: "请选择续签失效日期",
+            trigger: "change"
+          }
+        ],
         renewType: [{ required: true, message: "请选择续签类别", trigger: "blur" }],
         renewContent: [{ required: true, message: "请输入续签内容", trigger: "blur" }]
       }
@@ -164,6 +179,11 @@ export default {
       });
   },
   methods: {
+    handleFileUpload(file, fileList) {
+      // this.fileList3 = fileList.slice(-3);
+      console.log(file);
+      this.addPRenewMsg.attachm = file.name;
+    },
     handleSave() {
       let newPRenew = {};
       newPRenew.pactNo = this.basicPactMsg.pactNo;

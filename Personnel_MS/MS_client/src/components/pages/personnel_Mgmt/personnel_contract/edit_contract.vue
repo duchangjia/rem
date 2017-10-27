@@ -105,12 +105,12 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="合同附件" prop="attachm">
-                            <!-- <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-preview="handlePreview" :on-remove="handleRemove" :auto-upload="false">
-                                                                                                            <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
-                                                                                                        </el-upload> -->
-                            <el-input v-model="editPactMsg.attachm"></el-input>
-                        </el-form-item>
+                        <el-form-item label="合同附件">
+				  		    <el-input v-model="editPactMsg.attachm"></el-input>
+				  		    <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+                                <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
+                            </el-upload>
+				  	    </el-form-item>
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="终止原因" prop="stopReason">
@@ -184,7 +184,8 @@ export default {
         pactNo: this.pactNo
       };
       self.$axios
-        .get("/iem_hrm/pact/queryPactDetail", { params: params })
+        // .get("/iem_hrm/pact/queryPactDetail", { params: params })
+        .get("/iem_hrm/queryPactDetail", { params: params })        
         .then(res => {
           console.log(res);
           self.editPactMsg = res.data.data;
@@ -192,6 +193,11 @@ export default {
         .catch(() => {
           console.log("error");
         });
+    },
+    handleFileUpload(file, fileList) {
+      // this.fileList3 = fileList.slice(-3);
+      console.log(file);
+      this.editPactMsg.attachm = file.name;
     },
     handleSave(editPactMsgRules) {
       this.$refs[editPactMsgRules].validate(valid => {

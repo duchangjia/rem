@@ -1,33 +1,33 @@
 <template>
     <div class="social_relation_item">
-        <div :class="{'bg_color':ruleFrom.isShow,'bg_color2':!ruleFrom.isShow}">
+        <div :class="{'bg_color':!isShowEdit,'bg_color2':isShowEdit}">
             <el-form :model="ruleFrom" :rules="rules" :ref="`ruleFrom${relationNum}`" label-width="100px">
                 <div class="title">
-                    <span>关系人{{relationNum*1 + 1}}</span><i :class="{'el-icon-close':ruleFrom.isShow,'el-icon-edit':!ruleFrom.isShow}" @click="delOrEdit(ruleFrom.isShow,relationNum)"></i>
+                    <span>关系人{{relationNumber}}</span><i :class="{'el-icon-close':!isShowEdit,'el-icon-edit':isShowEdit}" @click="delOrEdit(isShowEdit,relationNum)"></i>
                 </div>
                 <el-col :span="8">
-                    <el-form-item label="姓名" prop="member_name">
-                        <el-input v-model="ruleFrom.member_name" :disabled="!ruleFrom.isShow"></el-input>
+                    <el-form-item label="姓名" prop="contactName">
+                        <el-input v-model="ruleFrom.contactName" :disabled="isShowEdit"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
                     <el-form-item label="与本人关系" prop="relationship">
-                        <el-input v-model="ruleFrom.relationship" :disabled="!ruleFrom.isShow"></el-input>
+                        <el-input v-model="ruleFrom.relationship" :disabled="isShowEdit"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                    <el-form-item label="联系电话" prop="member_phone">
-                        <el-input v-model="ruleFrom.member_phone" :disabled="!ruleFrom.isShow"></el-input>
+                    <el-form-item label="联系电话" prop="telphone">
+                        <el-input v-model="ruleFrom.telphone" :disabled="isShowEdit"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
                     <el-form-item label="职业">
-                        <el-input v-model="ruleFrom.member_job" :disabled="!ruleFrom.isShow"></el-input>
+                        <el-input v-model="ruleFrom.profession" :disabled="isShowEdit"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="16">
                     <el-form-item label="地址" class="address">
-                        <el-input v-model="ruleFrom.address" class="address_special" :disabled="!ruleFrom.isShow"></el-input>
+                        <el-input v-model="ruleFrom.addr" class="address_special" :disabled="isShowEdit"></el-input>
                     </el-form-item>
                 </el-col>
             </el-form>
@@ -41,11 +41,13 @@
             ruleFrom: {
                 type: Object,
                 default: {
-                    member_name: '',
+                    contactId: '',
+                    contactName: '',
                     relationship: '',
-                    member_phone: '',
-                    member_job: '',
-                    address: '',
+                    telphone: '',
+                    profession: '',
+                    post: '',
+                    addr: '',
                     isShow: true
                 },
             },
@@ -54,16 +56,23 @@
                 default: 0
             },
         },
+        computed: {
+            relationNumber() {
+                this.ruleFrom.contactId = this.relationNum*1+1
+                return this.relationNum*1+1
+            }
+        },
         data() {
             return {
+                isShowEdit: true,
                 rules: {
-                    member_name: [
+                    contactName: [
                         {required: true, message: '请输入姓名', trigger: 'blur'}
                     ],
                     relationship: [
                         {required: true, message: '请输入与本人关系', trigger: 'blur'}
                     ],
-                    member_phone: [
+                    telphone: [
                         {required: true, message: '请输入联系电话', trigger: 'blur'}
                     ],
                 }
@@ -71,9 +80,9 @@
         },
         methods: {
             delOrEdit(isShow,relationNum) {
-                if(isShow)  this.$emit('del_item', relationNum)
-                if(!isShow) {
-                    this.$emit('edit_item', relationNum)
+                if(!isShow)  this.$emit('del_item', relationNum)
+                if(isShow) {
+                    this.isShowEdit = !this.isShowEdit
                 }
 
             },

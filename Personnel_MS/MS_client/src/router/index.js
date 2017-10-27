@@ -70,11 +70,6 @@ export default new Router({
                             component: resolve => require(['../components/pages/system_Mgmt/userM_query.vue'], resolve)
                         },
                         {
-                        	name: 'userM_info',
-                            path: '/userM_info',
-                            component: resolve => require(['../components/pages/system_Mgmt/userM_info.vue'], resolve)
-                        },
-                        {
                         	name: 'edit_userM',
                             path: '/edit_userM',
                             component: resolve => require(['../components/pages/system_Mgmt/edit_userM.vue'], resolve)
