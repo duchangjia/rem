@@ -12,13 +12,13 @@
                             <el-input v-model="ruleForm.username" placeholder="请输入用户名"></el-input>
                         </el-form-item>
                         <el-form-item prop="password">
-                            <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')"></el-input>
+                            <el-input type="password" placeholder="请输入密码" v-model="ruleForm.password" @keyup.enter.native="submitForm('ruleForm')" auto-complete="off"></el-input>
                         </el-form-item>
                         <el-form-item class="code-wrapper" prop="imageCode">
-                            <el-input  placeholder="请输入验证码" class="last-input" v-model="ruleForm.imageCode" @keyup.enter.native="submitForm('ruleForm')"></el-input><span class="check-code" @click="changeCode"><img
+                            <el-input  placeholder="请输入验证码" class="last-input" v-model="ruleForm.imageCode" @keyup.enter.native="submitForm('ruleForm')" @focus="errorMsg=''"></el-input><span class="check-code" @click="changeCode"><img
                                 :src="pic"></span>
                         </el-form-item>
-                        <div class="error" style="display: none">帐号或密码错</div>
+                        <div class="error" v-show="errorMsg">{{errorMsg}}</div>
                         <el-button class="tijiao" @click="submitForm('ruleForm')">登录</el-button>
                         <a class="text" href="#">忘记密码</a>
                     </el-form>
@@ -60,9 +60,19 @@
 	import errtip from './errTip.vue'
     export default {
         data: function(){
+            var validateimageCode = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入验证码'));
+                } else if (value !== '') {
+                    callback(new Error('验证码不匹配'));
+                } else {
+                    callback();
+                }
+            }
             return {
                 fullscreenLoading: false,
                 pic:'',
+                errorMsg: '',
                 ruleForm: {
                     username: '',
                     password: '',
@@ -82,16 +92,27 @@
             }
         },
         created() {
-            this.$axios.get('/api/auth/code/image', {responseType: 'blob'})
+            let self = this
+            self.$axios.get('/api/auth/code/image', {responseType: 'blob'})
                 .then( res => {
                     let reader = new FileReader()
+                    reader.readAsDataURL(res.data)
                     reader.onload = (e => {
                         this.pic = e.target.result
                     })
-                    reader.readAsDataURL(res.data)
                 })
                 .catch( (e)=> {
-                    console.log(e)
+                    self.$axios.get('/api/auth/code/image', {responseType: 'blob'})
+                        .then( res => {
+                            let reader = new FileReader()
+                            reader.readAsDataURL(res.data)
+                            reader.onload = (e => {
+                                self.pic = e.target.result
+                            })
+                        })
+                        .catch( (e)=> {
+                            console.log(e)
+                        })
                 })
         },
         components: {
@@ -156,6 +177,7 @@
                                 })
                                 .catch( function (e) {
                                     self.fullscreenLoading = false
+                                    self.errorMsg = e.content
                                     console.log(e)
                                     self.$axios.get('/api/auth/code/image', {responseType: 'blob'})
                                         .then( res => {
@@ -339,9 +361,8 @@
         /*letter-spacing: 4px;*/
     }
     #wrap .form-content .error{
-        width: 71px;
         height: 14px;
-        margin: 0 auto 10px 35px;
+        margin: -20px auto 10px 35px;
         font-family: PingFangSC-Regular;
         font-size: 12px;
         color: #FF6666;

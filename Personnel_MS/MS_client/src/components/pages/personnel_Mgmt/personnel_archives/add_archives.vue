@@ -50,7 +50,7 @@
                                                 <el-radio-group v-model="ruleForm.marriage">
                                                     <el-radio-button label="未婚"></el-radio-button>
                                                     <el-radio-button label="已婚" class="special"></el-radio-button>
-                                                    <el-radio-button label="离异" class="special"></el-radio-button>
+                                                    <el-radio-button label="离异"></el-radio-button>
                                                 </el-radio-group>
                                             </el-form-item>
                                         </el-col>
@@ -71,11 +71,11 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="政治面貌" prop="politics" class="politics_special">
+                                            <el-form-item label="政治面貌" prop="politics" class="marriage_special">
                                                 <el-radio-group v-model="ruleForm.politics">
                                                     <el-radio-button label="党员"></el-radio-button>
                                                     <el-radio-button label="团员" class="special"></el-radio-button>
-                                                    <el-radio-button label="群众" class="special"></el-radio-button>
+                                                    <el-radio-button label="群众"></el-radio-button>
                                                 </el-radio-group>
                                             </el-form-item>
                                         </el-col>
@@ -303,11 +303,12 @@
                                         <span>成员信息</span><span class="text" @click="add_item">添加</span>
                                     </div>
                                     <div class="second_content_wrapper" id="secondContentWrapper">
-                                        <socialRelationItem v-for="(item, index) in social_item" :ruleFrom="item" :relationNum="index" @del_item="delRelationItem" @edit_item="editRelationItem"></socialRelationItem>
+                                        <socialRelationItem v-for="(item, index) in social_item.lists" :ruleFrom="item" :relationNum="index" @del_item="delRelationItem"
+                                        :ref="`ruleFrom${index}`"></socialRelationItem>
                                     </div>
                                 </div>
                             </el-tab-pane>
-                            <el-tab-pane label="工作经历" name="third">
+                            <el-tab-pane label="工作经历" name="third" class="third_special">
                                 <div class="third-wrapper">
                                     <div class="title"><span>工作经历</span><span  class="text" @click="add_experience">添加</span></div>
                                     <div class="from-wrapper">
@@ -334,6 +335,33 @@
                                             </div>
                                         </el-form>
                                     </div>
+                                    <div class="work_list">
+                                        <div class="mask"></div>
+                                        <div class="line1">
+                                            <div class="line1_title">
+                                                <span class="circle"></span>
+                                                <span>深圳前海橙色魔方技术有限公司</span>
+                                                <span class="line1_time">2015/09 - 2017/10<i class="el-icon-edit"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="zhiwei">UI设计师</div>
+                                        <div class="description">
+                                            这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里
+                                        </div>
+                                    </div>
+                                    <div class="work_list">
+                                        <div class="line1">
+                                            <div class="line1_title">
+                                                <span class="circle"></span>
+                                                <span>深圳前海橙色魔方技术有限公司</span>
+                                                <span class="line1_time">2015/09 - 2017/10<i class="el-icon-edit"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="zhiwei">UI设计师</div>
+                                        <div class="description">
+                                            这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里
+                                        </div>
+                                    </div>
                                 </div>
                             </el-tab-pane>
                             <el-tab-pane label="教育背景" name="fourth">教育背景</el-tab-pane>
@@ -345,12 +373,10 @@
                                             list-type="picture-card"
                                             :on-preview="handlePictureCardPreview"
                                             :on-remove="handleRemove"
-                                            multiple
-                                    >
+                                            multiple>
                                         <i class="el-icon-plus"></i>
-                                        <div class="el-upload__text" slot="tip">添加照片/文件</div>
-                                        <div class="el-upload__text" slot="tip">按住Ctrl可多选</div>
-                                        <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                                        <div class="upload_text_text">添加照片/文件<br>按住Ctrl可多选</div>
+                                        <!--<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
                                     </el-upload>
                                     <el-dialog v-model="dialogVisible" size="tiny">
                                         <img width="100%" :src="dialogImageUrl" alt="">
@@ -361,7 +387,7 @@
                     </template>
                     
                 </div>
-                <button class="add" @click="save">保存</button>
+                <button class="add" @click="save(tabName)" v-show="tabName=='first'||tabName=='second'||tabName=='sixth'">{{tabName=='sixth'?'全部下载':'保存'}}</button>
             </div>
         </el-col>
     </div>
@@ -375,15 +401,22 @@
           return {
               dialogImageUrl: '',
               dialogVisible: false,
-              social_item:[{
-                  member_name: '',
-                  relationship: '',
-                  member_phone: '',
-                  member_job: '',
-                  address: '',
-                  isShow: true,
-              },],
-              activeName: 'third',
+              social_item:{
+                  userNo:'P0000003',
+                  lists:[
+                      {
+                          contactId: '',
+                          contactName: '',
+                          relationship: '',
+                          telphone: '',
+                          profession: '',
+                          post: '',
+                          addr: '',
+                      },
+                  ]
+              },
+              activeName: 'second',
+              tabName:'',
               ruleForm: {
                   username: '',
                   userId: '',
@@ -558,6 +591,26 @@
         components: {
             current,socialRelationItem
         },
+        created() {
+            let self = this
+            this.$axios.get('/queryCustContancts')
+                .then(res=>{
+                    console.log(res)
+                })
+                .catch(e=>{
+                    console.log('調用queryCustContancts失敗')
+                })
+//            this.$axios.get('/iem_hrm/CustContact/queryCustContacts', {params:{
+//                userNo:'P0000001'
+//            }})
+//                .then(res=>{
+////                    self.social_item =
+//                    console.log(res)
+//                })
+//                .catch(e=>{
+//                    console.log(e)
+//                })
+        },
         methods: {
             handleRemove(file, fileList) {
                 console.log(file, fileList);
@@ -566,39 +619,159 @@
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             },
-            handleClick() {
-
+            handleClick(tab, event) {
+                console.log(tab, event);
+                this.tabName = tab.name
             },
-            save() {
-                this.social_item.forEach((item)=>{
-                    item.isShow = false
-                })
+            save(tabName) {
+//                this.social_item.forEach((item)=>{
+//                    item.isShow = false
+//                })
+//                if('first' === tabName){
+//
+//                }
+                console.log('second')
+                let socialItemLength = this.social_item.lists.length
+                this.social_item.lists = []
+                for (let i=0;i<socialItemLength;i++){
+                    console.log(this.$refs['ruleFrom'+i][0].ruleFrom)
+                    this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
+                }
+//                var params = new URLSearchParams();
+//                params.append('userNo', this.social_item.userNo);
+//                params.append('list', this.social_item.lists);
+//                params.append('contactName', item.contactName);
+//                params.append('relationship', item.relationship);
+//                params.append('telphone', item.telphone);
+//                params.append('profession', item.profession);
+//                params.append('post', item.post);
+//                params.append('addr', item.addr);
+//                params.append('isShow', item.isShow);
+//                let item2 = {
+//                    userNo:'P0000003',
+//                    list:[{
+//                        contactId: '1',
+//                        contactName: '小芳',
+//                        relationship: '兄妹',
+//                        telphone: '13711111111',
+//                        profession: '医生',
+//                        post: '医生',
+//                        addr: '深圳',
+//                        isShow: true
+//                    },
+//                        {
+//                            contactId: '2',
+//                            contactName: '小芳',
+//                            relationship: '兄妹',
+//                            telphone: '13711111111',
+//                            profession: '医生',
+//                            post: '医生',
+//                            addr: '深圳',
+//                            isShow: true
+//                        }
+//                    ]
+//                }
+//                var params = new URLSearchParams();
+//                params.append('userNo', 'P0000003');
+//                params.append('lists', this.social_item.lists);
+                let data = {
+                    userNo:'P0000003',
+                    lists:[
+                        {
+                            contactId: '1',
+                            contactName: '小妹妹',
+                            relationship: '朋友',
+                            telphone: '13444444444',
+                            profession: '医生',
+                            post: '医生',
+                            addr: '深圳',
+                        },
+                        {
+                            contactId: '2',
+                            contactName: '小哥哥',
+                            relationship: '同学',
+                            telphone: '13444444444',
+                            profession: '老板',
+                            post: '老板',
+                            addr: '美国',
+                        }
+                    ]
+                }
+                var params = new URLSearchParams();
+                params.append('userNo', 'P0000003');
+                params.append('lists', data.lists);
+                let item = {
+                    userNo:'P0000003',
+                    'lists[0].contactId':'1',
+                    'lists[0].contactName':'小芳方',
+                    'lists[0].relationship':'兄弟',
+                    'lists[0].telphone':'13766666666',
+                    'lists[0].profession':'医生',
+                    'lists[0].post':'医生',
+                    'lists[0].addr':'深圳',
+//                    [
+//                        {
+//                            contactId: '1',
+//                            contactName: 'ww',
+//                            relationship: 'ww',
+//                            telphone: 'ww',
+//                            profession: 'ww',
+//                            post: 'ww',
+//                            addr: 'ww',
+//                            isShow: true
+//                        },
+//                        {
+//                            contactId: '2',
+//                            contactName: 'tt',
+//                            relationship: 'tt',
+//                            telphone: 'tt',
+//                            profession: 'wttw',
+//                            post: 'wttw',
+//                            addr: 'wttw',
+//                            isShow: true
+//                        }
+//                    ]
+                }
+                    console.log(this.social_item.lists)
+                    console.log(this.social_item)
+                    this.$axios.post('/iem_hrm/CustContact/saveCustContacts', data)
+                        .then(res=>{
+                            console.log(res)
+                            console.log('关系成功')
+                        })
+                        .catch(e=>{
+                            console.log('失败')
+                            console.log(e)
+                        })
             },
             add_item() {
-                console.log(111)
+                console.log('add_item')
 
                 let item = {
-                        member_name: '',
+                        contactId: '',
+                        contactName: '',
                         relationship: '',
-                        member_phone: '',
-                        member_job: '',
-                        address: '',
+                        telphone: '',
+                        profession: '',
+                        post: '',
+                        addr: '',
                         isShow: true
                     }
 //                new socialRelationItem().$mount().$appendTo('#secondContentWrapper')
-                this.social_item.push(item)
+                this.social_item.lists.push(item)
+
             },
             delRelationItem(relationNum) {
-                this.social_item.splice(relationNum,1)
+                this.social_item.lists.splice(relationNum,1)
             },
-            editRelationItem(relationNum) {
-                this.social_item[relationNum].isShow = true
-            },
+//            editRelationItem(relationNum) {
+//                this.social_item[relationNum].isShow = true
+//            },
             add_experience() {
 
             },
             delWorkItem() {
-                
+
             }
         },
     }
@@ -619,6 +792,8 @@
                 letter-spacing: 0;
                 padding-left 20px
                 padding-right 20px
+                .el-tabs__content
+                    overflow visible
                 .el-tabs__header
                     margin 0
                     height 80px
@@ -687,9 +862,10 @@
                         height 40px
                         margin-bottom 0
                         .el-radio-button__orig-radio:checked+.el-radio-button__inner
-                            background: #fff;
+                            background: #f90;
                             border-color #ff9900
-                            box-shadow: none;
+                            color #fff
+                            box-shadow none
                         .el-radio-button__inner
                             width 100%
                             height 100%
@@ -698,19 +874,21 @@
                             font-size: 14px;
                             color: #333333;
                             letter-spacing: 0;
+                            border 1px solid #bfcbd9;
+                            padding 12px 15px
                     .gender_special
                         .special
                             .el-radio-button__inner
                                 margin-left 20px
-                                border-left none
-                    .marriage_special
+                    .marriage_special, politics_special
                         .el-radio-button
                             width 54px
                             height 40px
                             margin-bottom 0
                         .el-radio-button__orig-radio:checked+.el-radio-button__inner
-                            background: #fff;
+                            background: #f90;
                             border-color #ff9900
+                            color #fff
                             box-shadow: none;
                         .el-radio-button__inner
                             width 100%
@@ -720,10 +898,10 @@
                             font-size: 14px;
                             color: #333333;
                             letter-spacing: 0;
+                            border 1px solid #bfcbd9;
+                            padding 12px 10px
                         .special
-                            .el-radio-button__inner
-                                margin-left 19px
-                                border-left none
+                                margin 0 19px
                     .text
                         padding-left 8px
                         margin 40px 0
@@ -768,7 +946,7 @@
                     min-height 570px
                     padding-bottom 20px
                     .title
-                        padding 42px 8px
+                        padding 42px 8px 0 8px
                         font-family: PingFangSC-Regular;
                         font-size: 14px;
                         color: #333333;
@@ -780,6 +958,7 @@
                             &:hover
                                 text-decoration underline
                     .from-wrapper
+                        margin-top 40px
                         .el-form
                             padding 40px 20px
                             background: #F4F4F4;
@@ -836,12 +1015,84 @@
                                 &:hover
                                     color #f90
                                     text-decoration underline
+                    .work_list
+                        padding-top 40px
+                        border-left 2px solid #EEE
+                        position relative
+                        .mask
+                            width: 2px
+                            height: 40px
+                            position absolute
+                            left -2px
+                            top 0
+                            background: #fff;
+                        .line1_title
+                            font-size: 14px;
+                            color: #333333;
+                            letter-spacing: 0;
+                            transform translateX(-5px)
+                            .circle
+                                display inline-block
+                                width: 8px
+                                height: 8px
+                                border-radius 50%
+                                background: #f90;
+                                margin-right 7px
+                                vertical-align middle
+                            .line1_time
+                                float right
+                                color: #999
+                                .el-icon-edit
+                                    color #f90
+                                    width: 16px
+                                    height: 14px
+                                    margin-left 20px
+                                    cursor pointer
+                                    &:hover
+                                        text-decoration underline
+                        .zhiwei
+                            margin 10px 0 20px 0
+                            padding-left 13px
+                            font-family: PingFangSC-Regular;
+                            font-size: 14px;
+                            color: #999999;
+                            letter-spacing: 0;
+                        .description
+                            padding-left 13px
+                            font-family: PingFangSC-Regular;
+                            font-size: 14px;
+                            color: #999999;
+                            letter-spacing: 0;
+
                 .sixth_wrapper
                     min-height 570px
                     padding 20px 0
+                    .el-upload-list--picture-card .el-upload-list__item
+                        width: 200px
+                        height: 274px
+                        padding-bottom 26px
+                        box-sizing border-box
+                    .el-upload-list--picture-card .el-upload-list__item-name
+                        display block
+                        position absolute
+                        bottom 0
                     .el-upload--picture-card
                         width: 200px
                         height: 274px
+                        padding-top 90px
+                        line-height 0
+                        .el-icon-plus
+                            font-size 40px
+                        .upload_text_text
+                            padding-top 5px
+                            font-family: PingFangSC-Regular;
+                            font-size: 18px;
+                            color: #999999;
+                            letter-spacing: 0;
+                            line-height: 20px;
+                        .el-upload__input
+                            display none
+
             .add
                 width: 120px
                 height 40px

@@ -19,7 +19,7 @@
                     </div>
                     <table>
                         <tr><td v-for="th in table.th" >{{th}}</td></tr>
-                        <tr v-for="tds in table.td"><td v-for="td in tds" :title="td">{{td}}</td><td @click="see" class="see">查看</td></tr>
+                        <tr v-for="tds in table.td"><td v-for="td in tds" :title="td">{{td}}</td><td @click="dialogTableVisible = true" class="see">查看</td></tr>
                     </table>
                     <el-pagination
                             @size-change="handleSizeChange"
@@ -31,6 +31,26 @@
                 </div>
             </div>
         </el-col>
+        <div class="dialog-wrapper">
+
+            <el-dialog title="个人资产查询" :visible.sync="dialogTableVisible">
+                <div class="tishi">若实际使用的IT资产情况与以下显示信息不符，还请及时与XXXXXX联系核实并更改以确保您名下资产的准确性</div>
+                <el-table :data="gridData"
+                          stripe
+                          border
+                          max-height="250"
+                          >
+                    <el-table-column property="num" label="序号" align="center"></el-table-column>
+                    <el-table-column property="propp" label="资产属性" align="center"></el-table-column>
+                    <el-table-column property="oldaddress" label="旧编码" align="center"></el-table-column>
+                    <el-table-column property="newaddress" label="资产编码" align="center" min-width="150"></el-table-column>
+                    <el-table-column property="company" label="公司" align="center"  min-width="250"></el-table-column>
+                    <el-table-column property="momey" label="资产类型" align="center" min-width="150"></el-table-column>
+                    <el-table-column property="city" label="存放城市" align="center"></el-table-column>
+                    <el-table-column property="people" label="使用人" align="center"></el-table-column>
+                </el-table>
+            </el-dialog>
+        </div>
     </div>
 </template>
 
@@ -39,6 +59,19 @@
     export default {
         data() {
           return {
+              dialogTableVisible: false,
+              gridData: [
+                  {
+                      num: '111289',
+                      propp: 'IT资产',
+                      oldaddress: '',
+                      newaddress: 'BAB1400898 1518 弄',
+                      company: '深圳前海橙色魔方技术有限公司 1518 弄',
+                      momey: '笔记本电脑',
+                      city: '深圳 1518 弄',
+                      people: '张三 1518 弄',
+                  },
+              ],
               value: '',
               table: {
                   th:['工号', '姓名', '公司名称', '部门名称', '性别', '岗位', '手机', '入职时间', '状态', '资产'],
@@ -92,6 +125,21 @@
         padding: 0 0 20px 20px;
         overflow: hidden;
         position: relative;
+        .dialog-wrapper
+            .el-dialog--small
+                width 85%
+                .el-dialog__header
+                    background: #f4f4f4;
+                    height 60px
+                    .el-dialog__close
+                        color #f90
+            .tishi
+                font-family: PingFangSC-Light;
+                font-size: 14px;
+                color: #FF6666;
+                padding-bottom 30px
+            .el-table .cell, .el-table th>div
+                padding 0
         .test
             padding-left: 10px;
         .content-wrapper
