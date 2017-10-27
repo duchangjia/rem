@@ -75,6 +75,10 @@ export default {
 							index: 'personnel_contract',
 							title: '人事合同'
 						},
+						{
+							index: 'personnel_transfer',
+							title: '人事调动'
+						},
                         {
                             index: 'personnel_archives',
                             title: '人事档案'
@@ -104,6 +108,10 @@ export default {
 						{
 							index: 'payBaseInfo_setting',
 							title: '薪酬基数设置'
+						},
+						{
+							index: 'payChange_manage',
+							title: '调薪管理'
 						}
 					]
 				},

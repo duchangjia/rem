@@ -192,11 +192,9 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="附件" prop="attachm">
-                            <el-upload class="upload-demo" ref="upload" action="" :show-file-list="false" :auto-upload="false">
-                                <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
-                            </el-upload>
-                        </el-form-item>
+                        <el-form-item label="附件" prop="attachm" style="width:100%;">
+					        <el-button class="downloadBtn" @click="downloadFile">下载</el-button>
+				  	    </el-form-item>
                     </el-col>
                 </el-form>
             </div>
@@ -220,7 +218,7 @@ export default {
   },
   created() {
     this.userNo = this.$route.params.userNo;
-    this.getPayBaseInfoDetail(); //初始查询薪酬基数列表
+    this.getPayBaseInfoDetail(); //初始查询薪酬基数信息
     this.getInsurancePayTemp(); //初始查询保险缴纳标准
   },
   methods: {
@@ -249,7 +247,7 @@ export default {
         // .get("/iem_hrm/InsurancePayTemplate/queryInsurancePayTemplate", { params: params })
         .get("/iem_hrm/queryInsurancePayTemplate", { params: params })
         .then(res => {
-          console.log('已经请求保险缴纳标准回来了', res);
+          console.log("已经请求保险缴纳标准回来了", res);
           self.insurancePayTemp = res.data.data;
         })
         .catch(() => {
@@ -259,7 +257,8 @@ export default {
     welcoeNoChange(val) {
       this.payBaseInfoDetail.welcoeNo = val;
       this.getInsurancePayTemp(); //根据参数值查询保险缴纳标准
-    }
+    },
+    downloadFile() {}
   }
 };
 </script>

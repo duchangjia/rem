@@ -78,7 +78,7 @@ export default {};
 .el-input__inner:focus,
 .el-textarea__inner:focus,
 .el-select .el-input__inner:focus,
-.el-input-group__append:focus, 
+.el-input-group__append:focus,
 .el-input-group__prepend:focus {
   border-color: #ff9900;
 }
@@ -87,7 +87,8 @@ export default {};
   width: 253px;
 }
 
-.el-input-group--prepend .el-input__inner, .el-input-group__append {
+.el-input-group--prepend .el-input__inner,
+.el-input-group__append {
   border-radius: 0;
 }
 
@@ -169,17 +170,28 @@ table .el-button--danger:active {
   margin-right: 14px;
 }
 
+.add-wrapper .upload-demo {
+  height: 0;
+}
+
 .add-wrapper .el-upload__input {
-  width: 300px;
-  border: 1px solid #bfcbd9;
+  display: none;
 }
 
 .add-wrapper .uploadBtn {
   position: absolute;
-  height: 38px;
+  height: 40px;
   top: 0;
   right: 0;
   margin: 0;
+  border: 1px solid #ff9900;
+  border-radius: 0;
+  background: #ff9900;
+  font-family: "PingFang SC";
+}
+.add-wrapper .downloadBtn {
+  height: 40px;
+  color: #ffffff;  
   border: 1px solid #ff9900;
   border-radius: 0;
   background: #ff9900;
@@ -279,12 +291,59 @@ table .el-button--danger:active {
   display: inline-block;
   width: 24px;
   height: 24px;
-  background: url("../../../../../static/img/common/delete.png") center no-repeat;
+  background: url("../../../../../static/img/common/delete.png") center
+    no-repeat;
+}
+
+.icon-import {
+  display: inline-block;
+  border: none;
+  width: 40px;
+  height: 40px;
+  background: url("../../../../../static/img/common/batch-import0.png") center
+    no-repeat;
+}
+
+.icon-export {
+  display: inline-block;
+  border: none;
+  width: 40px;
+  height: 40px;
+  background: url("../../../../../static/img/common/batch-export0.png") center
+    no-repeat;
+}
+
+.icon-download {
+  display: inline-block;
+  border: none;
+  width: 40px;
+  height: 40px;
+  background: url("../../../../../static/img/common/template-download0.png")
+    center no-repeat;
 }
 
 .icon-edit:hover,
-.icon-delete:hover {
+.icon-delete:hover,
+.icon-import:hover,
+.icon-export:hover,
+.icon-download:hover {
   cursor: pointer;
+}
+
+.span-icon {
+  float: left;
+  border: none;
+  margin-top: 20px;
+  margin-right: 10px;
+}
+.span-icon:nth-of-type(2) {
+  margin-right: 20px;
+}
+.titlebar .upload-demo {
+  line-height: 32px;
+}
+.titlebar .upload-demo .el-upload__input {
+  display: none;
 }
 
 .toolbar.el-pagination {

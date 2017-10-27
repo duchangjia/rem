@@ -279,6 +279,61 @@ export default new Router({
                     ]
                 },
                 {
+                    path: '/personnel_transfer',
+                    component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/personnel_transfer.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/query_transfer.vue'], resolve)
+                        },
+                        {
+                        	name: 'personnel_info',
+                            path: '/personnel_info',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/personnel_info.vue'], resolve)
+						},
+						{
+                        	name: 'detail_transfer',
+                            path: '/detail_transfer',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/detail_transfer.vue'], resolve)
+						},
+						{
+                        	name: 'transfer_info',
+                            path: '/transfer_info',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/transfer_info.vue'], resolve)
+						},
+						{
+                        	name: 'edit_transfer',
+                            path: '/edit_transfer',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/edit_transfer.vue'], resolve)
+						},
+						{
+                        	name: 'add_transfer',
+                            path: '/add_transfer',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/add_transfer.vue'], resolve)
+						},
+						{
+                        	name: 'detail_dimission',
+                            path: '/detail_dimission',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/detail_dimission.vue'], resolve)
+						},
+						{
+                        	name: 'dimission_info',
+                            path: '/dimission_info',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/dimission_info.vue'], resolve)
+						},
+						{
+                        	name: 'edit_dimission',
+                            path: '/edit_dimission',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/edit_dimission.vue'], resolve)
+						},
+						{
+                        	name: 'add_dimission',
+                            path: '/add_dimission',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/add_dimission.vue'], resolve)
+						}
+					]
+				},
+                {
                     path: '/personnel_archives',
                     component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/personnel_archives.vue'], resolve),
                     children: [
@@ -319,6 +374,41 @@ export default new Router({
                             name: 'detail_payBaseInfo',
                             path: '/detail_payBaseInfo',
                             component: resolve => require(['../components/pages/payWelfare_Mgmt/payBaseInfo/detail_payBaseInfo.vue'], resolve)
+                        }
+                    ]
+                },
+                {
+                    path: '/payChange_manage',
+                    component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/payChange_manage.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/query_custInfo.vue'], resolve)
+                        },
+                        {
+                            name: 'query_custInfo',
+                            path: '/query_custInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/query_custInfo.vue'], resolve)
+                        },
+                        {
+                            name: 'query_payChangeInfo',
+                            path: '/query_payChangeInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/query_payChangeInfo.vue'], resolve)
+                        },
+                        {
+                            name: 'detail_payChangeInfo',
+                            path: '/detail_payChangeInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/detail_payChangeInfo.vue'], resolve)
+                        },
+                        {
+                            name: 'add_payChangeInfo',
+                            path: '/add_payChangeInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/add_payChangeInfo.vue'], resolve)
+                        },
+                        {
+                            name: 'edit_payChangeInfo',
+                            path: '/edit_payChangeInfo',
+                            component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/edit_payChangeInfo.vue'], resolve)
                         }
                     ]
                 }
