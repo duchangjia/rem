@@ -8,8 +8,8 @@
 			</div>
 			<div class="content-inner">
 				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
-					<el-form-item label="组名称" prop="groupNo">
-					    <el-input v-model="formdata.groupNo"></el-input>
+					<el-form-item label="组名称" prop="groupId">
+					    <el-input v-model="formdata.groupId"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="编号" prop="applyNo">
 					    <el-input v-model="formdata.applyNo"></el-input>
@@ -48,7 +48,7 @@ export default {
       	};
 		return {
 			formdata: {
-				groupNo: "",
+				groupId: "",
 				applyNo: "",
 				groupLimit: '',
 				groupLowerLimit: '',
@@ -56,7 +56,7 @@ export default {
 				quickCal: ''
 			},
 			rules: {
-				groupNo: [
+				groupId: [
 					{ required: true, message: '组名称不能为空', trigger: 'blur' }
 				],
 				startTime: [
@@ -83,18 +83,29 @@ export default {
 	          	if (valid) {
 	          		const self = this;
 	          		let params = {
-	          			groupNo: self.formdata.groupNo,
-	          			applyNo: self.formdata.applyNo,
+	          			groupId: self.formdata.groupId,
+//	          			applyNo: self.formdata.applyNo,
+//	          			remark: "xxxx",
 						groupLimit: self.formdata.groupLimit,
 						groupLowerLimit: self.formdata.groupLowerLimit,
 						percentRate: self.formdata.percentRate,
-						quickCal: self.formdata.quickCal,
-						isDelete: "1",
-						createdBy: "dfdf",
-						updatedBy: "asdsa"
+						quickCal: self.formdata.quickCal
+//						isDelete: "1",
+//						createdBy: "dfdf",
+//						updatedBy: "asdsa"
 	          		};
 	          		self.insertTaxRateCtrl(params);
 	          		
+//	          		private String groupId; // 组id                not null
+//	private String applyNo; // 编号                not null
+//	private String remark; // 备注
+//	private BigDecimal groupLimit; // 上限             not null
+//	private BigDecimal groupLowerLimit; // 下限          not null
+//	private BigDecimal percentRate; // 百分比率
+//	private BigDecimal quickCal; // 速算扣除数
+//	private String isDelete; // 是否删除                   not null
+//private String createdBy; //创建人
+//private String updatedBy; //更新人
 	          	} else {
 	            	this.$message.error('新增失败');
 	            	return false;
@@ -106,7 +117,7 @@ export default {
 			const self = this;
 			self.$axios.post(baseURL+'/taxRateCtrl/addRate', params)
   			.then((res) => {
-  				console.log(res);
+  				console.log("addRate",res);
   				this.$message({ message: '税率新增成功', type: 'success' });
   			})
 		}

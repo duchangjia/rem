@@ -28,7 +28,7 @@
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -41,8 +41,8 @@ const baseURL = 'iem_hrm'
 export default {
 	data() {
 		return {
-			pageIndex: 1,
-			pageRows: 2,
+			pageNum: 1,
+			pageSize: 2,
 			totalRows: 1,
 			dataList: [
 				{
@@ -78,7 +78,8 @@ export default {
 		let pageSize = 2;
 		let params = {
 			"pageNum": pageNum,
-			"pageSize": pageSize
+			"pageSize": pageSize,
+			organNo: "112111"	//???
 		};
 		//查询职级薪酬列表
 		self.queryCParmList(pageNum,pageSize,params);
@@ -125,13 +126,13 @@ export default {
             });
         },
         handleCurrentChange(val) {
-			console.log('当前页',val);
 			const self = this;
 			let pageNum = val;
 			let pageSize = 2;
 			let params = {
 				"pageNum": pageNum,
-				"pageSize": pageSize
+				"pageSize": pageSize,
+				organNo: "112111"	//???
 			};
 			//查询职级薪酬列表
 			self.queryCParmList(pageNum,pageSize,params);
@@ -139,12 +140,12 @@ export default {
 		},
 		queryCParmList(pageNum,pageSize,params) {
 			const self = this;
-			self.$axios.get(baseURL+'/queryCParmList', {params})
+			self.$axios.get(baseURL+'/RankSalaryTemplate/queryCParmList', {params})
 			.then((res) => {
 				console.log(res);
 				self.dataList = res.data.data.list;
-				self.pageIndex = pageNum;
-				self.pageRows = pageSize;
+				self.pageNum = pageNum;
+				self.pageSize = pageSize;
 				self.totalRows = Number(res.data.data.total);
 			}).catch((err) => {
 				console.log(err);

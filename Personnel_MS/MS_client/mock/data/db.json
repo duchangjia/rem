@@ -1094,5 +1094,11 @@
     "nHouseBase": "600.00",
     "nWelcoeNo": "0",
     "remark": "我是调薪的备注"
+  },
+  "addRate": {
+		"groupId": "0000000"
+  },
+  "upload": {
+  	"code": "000000"
   }
 }

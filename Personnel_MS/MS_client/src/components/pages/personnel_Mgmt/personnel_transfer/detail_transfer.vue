@@ -70,8 +70,8 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import current from '../../../common/current_position.vue'
-const baseURL = 'iem_hrm'
+import current from '../../../common/current_position.vue';
+const baseURL = 'iem_hrm';
 export default {
 	data() {
 		return {
@@ -172,6 +172,7 @@ export default {
             this.$router.push({
             	name: "edit_transfer",
             	params: {
+					userNo: row.userNo,
             		workhisId: row.workhisId
             	}
             });
@@ -181,6 +182,7 @@ export default {
 			this.$router.push({
 				name: "transfer_info",
 				params: {
+					userNo: row.userNo,
 					workhisId: row.workhisId
 				}
 			})
@@ -234,16 +236,17 @@ export default {
 			//查询调动列表
 			self.queryCustShifthisList(pageNum,pageSize,params);
 		},
+		//人事调动列表查询
 		queryCustShifthisList(pageNum,pageSize,params) {
 			let self = this;
 			self.$axios.get(baseURL+'/custShifthis/queryCustShifthisList', {params: params})
 			.then(function(res) {
-				console.log('UserList',res);
-				self.transferDataList = res.data.data.models;
+				console.log('CustShifthisList',res);
+
 				self.pageNum = pageNum;
 				self.totalRows = Number(res.data.data.total);
 			}).catch(function(err) {
-				console.log(err);
+				console.log('error');
 			})
 		}
 	}

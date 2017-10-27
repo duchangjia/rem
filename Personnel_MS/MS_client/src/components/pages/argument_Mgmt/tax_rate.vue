@@ -78,7 +78,6 @@ export default {
 			this.$router.push('/add_rateGroup');
 		},
 		handleEdit(index, row) {
-			console.log('row:',row);
             this.$router.push({
             	name: 'rate_info',
             	params: {
@@ -117,7 +116,7 @@ export default {
 			const self = this;
 			self.$axios.get(baseURL+'/taxRateGroup/queryRGroupList',{params: params})
 				.then(function(res) {
-					console.log(res);
+					console.log("queryRGroupList",res);
 					self.taxRateGroupList = res.data.data.list;
 					self.pageIndex = pageNum;
 					self.totalRows = Number(res.data.data.total);
@@ -130,7 +129,7 @@ export default {
 			const self = this;
         	self.$axios.put(baseURL+'/taxRateGroup/delRGroup',params)
     		.then((res) => {
-    			console.log(res);
+    			console.log("queryRateList",res);
     			if(res.data.code==="S00000") {
     				this.$message({ type: 'success', message: '删除成功!' });
     			} else {

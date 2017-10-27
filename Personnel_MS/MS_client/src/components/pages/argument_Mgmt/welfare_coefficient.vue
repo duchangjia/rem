@@ -23,7 +23,7 @@
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -36,8 +36,8 @@ const baseURL = 'iem_hrm'
 export default {
 	data() {
 		return {
-			pageIndex: 1,
-			pageRows: 2,
+			pageNum: 1,
+			pageSize: 5,
 			totalRows: 1,
 			welfareList: [
 				{
@@ -69,8 +69,8 @@ export default {
 	},
 	created() {
 		const self = this;
-		let pageNum = 1,
-			pageSize = 4;
+		let pageNum = self.pageNum,
+			pageSize = self.pageSize;
 		let params = {
 			pageNum: pageNum,
 			pageSize: pageSize
@@ -111,31 +111,33 @@ export default {
 			console.log('当前页',val);
 			const self = this;
 			let pageNum = val,
-				pageSize = 4;
+				pageSize = self.pageSize;
 			let params = {
 				pageNum: pageNum,
 				pageSize: pageSize
 			}
-			//查询分页福利缴纳系数模版列表
+			//分页查询福利缴纳系数模版列表
 			self.queryInsurancePayTemplates(pageNum,pageSize,params);
 		},
+		//查询福利缴纳系数模版列表
 		queryInsurancePayTemplates(pageNum,pageSize,params) {
 			const self = this;
-			self.$axios.get(baseURL+'/queryInsurancePayTemplates',{params : params})
+			self.$axios.get(baseURL+'/InsurancePayTemplate/queryInsurancePayTemplates',{params : params})
 			.then(function(res) {
 				console.log('res',res);
 				self.welfareList = res.data.data.WelfareList;
 				self.totalRows = Number(res.data.data.total);
-				self.pageIndex = pageNum;
-				self.pageRows = pageSize;
+				self.pageNum = pageNum;
+				self.pageSize = pageSize;
 				self.totalRows = Number(res.data.data.total);
 			}).catch(function(err) {
 				console.log(err)
 			})
 		},
+		//删除保险系数缴纳模板
 		deleteInsurancePayTemplate(params) {
 			const self = this;
-			self.$axios.delete(baseURL+'/deleteInsurancePayTemplate')
+			self.$axios.delete(baseURL+'/InsurancePayTemplate/deleteInsurancePayTemplate')
     		.then(function(res) {
     			console.log(res);
     			self.$message({ type: 'success', message: '删除成功!' });

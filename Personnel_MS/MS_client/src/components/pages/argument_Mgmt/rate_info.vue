@@ -80,7 +80,6 @@ export default {
 			this.$router.push('/add_rate');
 		},
 		handleEdit(index, row) {
-			console.log('row:',row);
             this.$router.push({
             	name: 'edit_rate',
             	params: {
@@ -97,8 +96,6 @@ export default {
 		},
 		handleDelete(index, row) {
         	const self = this;
-            console.log('index',index);
-            console.log('row',row);
             self.$confirm('此操作将会删除该条税率模版, 是否继续?', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -130,7 +127,7 @@ export default {
 			const self = this;
 			self.$axios.get(baseURL+'/taxRateCtrl/queryRateList', { params: params})
 				.then(function(res) {
-					console.log(res);
+					console.log("queryRateList",res);
 					self.taxRateList = res.data.data.list;
 					self.pageIndex = pageNum;
 					self.totalRows = Number(res.data.data.total);

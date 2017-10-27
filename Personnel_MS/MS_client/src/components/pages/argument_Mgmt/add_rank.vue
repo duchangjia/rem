@@ -53,6 +53,7 @@
 			};
 			return {
 				formdata: {
+					organNo: "",
 					compName: '',
 					applyName: "",
 					rank: '',
@@ -99,9 +100,9 @@
 				self.$refs[formName].validate((valid) => {
 					if(valid) {
 						let params = {
-							organNo: "11-11",
+							organNo: self.formdata.organNo,
 							applyNo: self.formdata.applyNo,
-							compName: self.formdata.compName,
+//							compName: self.formdata.compName,
 							applyName: self.formdata.applyName,
 							rank: self.formdata.rank,
 							salaryFloor: self.formdata.salaryFloor,
@@ -109,7 +110,7 @@
 							businessStandard: self.formdata.businessStandard,
 							remark: self.formdata.remark
 						}
-						self.$axios.post(baseURL + '/addCparm', params)
+						self.$axios.post(baseURL + '/RankSalaryTemplate/addCparm', params)
 							.then((res) => {
 								console.log(res);
 								self.$message({

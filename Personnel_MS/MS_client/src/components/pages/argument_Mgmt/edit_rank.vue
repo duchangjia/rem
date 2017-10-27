@@ -102,6 +102,11 @@
 			let params = {
 				applyNo: applyNo
 			}
+//			let params = {
+//				organNo: "112111",
+//				appllyNo: "1121110002"
+//			}
+			//查询单个职级薪酬模板
 			self.queryCParmDtl(params);
 		},
 		methods: {
@@ -111,7 +116,8 @@
 					if(valid) {
 						let params = {
 							applyNo: self.cParmDetal.applyNo,
-							compName: self.cParmDetal.compName,
+//							compName: self.cParmDetal.compName,
+//							organNo: "112112",
 							applyName: self.cParmDetal.applyName,
 							rank: self.cParmDetal.rank,
 							salaryFloor: self.cParmDetal.salaryFloor,
@@ -119,6 +125,7 @@
 							businessStandard: self.cParmDetal.businessStandard,
 							remark: self.cParmDetal.remark
 						}
+						//修改职级薪酬标准模板
 						self.modCparm(params);
 
 					} else {
@@ -130,7 +137,7 @@
 			//查询税率组
 			queryCParmDtl(params) {
 				const self = this;
-				self.$axios.get(baseURL + '/queryCParmDtl', {
+				self.$axios.get(baseURL + '/RankSalaryTemplate/queryCParmDtl', {
 						params: params
 					})
 					.then((res) => {
@@ -144,7 +151,7 @@
 			//修改税率组
 			modCparm(params) {
 				const self = this;
-				self.$axios.put(baseURL + '/modCparm', params)
+				self.$axios.put(baseURL + '/RankSalaryTemplate/modCparm', params)
 				.then((res) => {
 					console.log(res);
 					self.$message({

@@ -76,13 +76,22 @@ export default {
 	          			groupNo: self.formdata.groupNo,
 	          			groupId: self.formdata.groupId,
 						startTime: self.formdata.startTime,
-						endTime: self.formdata.endTime,
-						remark: self.formdata.remark,
+//						endTime: self.formdata.endTime,
+//						remark: self.formdata.remark,
+						isDelete: "1"
 //						createdBy: "sadsad",
 //						updatedBy: "dfsdd"
 	          		};
 	          		self.insertTaxRateGroup(params);
 	          		
+//	          		private String groupId; // 组ID                not null
+//	private String groupNo; // 组名称              not null
+//	private String startTime; // 生效时间
+//	private String endTime; // 失效时间
+//	private String remark; // 备注
+//	private String isDelete; // 是否删除              not null
+//private String createdBy; //创建人
+//private String updatedBy; //更新人
 	          	} else {
 	            	this.$message.error('新增失败');
 	            	return false;

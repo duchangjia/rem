@@ -198,9 +198,9 @@ export default {
 		const self = this;
 		let applyNo = self.$route.params.applyNo;
 		let param = { applyNo: applyNo };
-		self.$axios.get(baseURL+'/queryInsurancePayTemplate',{ params : param })
+		self.$axios.get(baseURL+'/InsurancePayTemplate/queryInsurancePayTemplate',{ params : param })
 			.then(function(res) {
-				console.log('res',res);
+				console.log('queryInsurancePayTemplate',res);
 				self.welfareInfo = res.data.data;
 			}).catch(function(err) {
 				console.log('err');
@@ -240,9 +240,9 @@ export default {
 						comHousRate: self.welfareInfo.comHousRate,
 						comHousFixed: self.welfareInfo.comHousFixed
 	          		}
-	          		self.$axios.put(baseURL+'/updateInsurancePayTemplate',params)
+	          		self.$axios.put(baseURL+'/InsurancePayTemplate/updateInsurancePayTemplate',params)
 	          			.then((res) => {
-	          				console.log(res);
+	          				console.log("updateInsurancePayTemplate",res);
 	          				
 	          			}).catch((err) => {
 	          				console.log(err)

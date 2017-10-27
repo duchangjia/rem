@@ -158,9 +158,6 @@
 			self.queryList(pageNum,pageSize,params);
 		},
 		methods: {
-			pactTypeFormatter(row, column) {
-				return row.pactType == 1 ? "劳动合同" : row.pactType == 0 ? "保密协议" : "异常";
-			},
 			//重置
 			resetForm() {
 				this.comp = {};
@@ -181,7 +178,7 @@
 					}
 				});
 			},
-			//详情
+			//员工详情
 			handleDetail(index, row) {
 				this.$router.push({
 					name: "personnel_info",
@@ -203,7 +200,7 @@
 				self.queryList(pageNum,pageSize,params);
 				
 			},
-			//调动
+			//员工调动
 			handleTransfer(index, row) {
 				const self = this;
 				this.$router.push({
@@ -214,7 +211,7 @@
 				});
 				
 			},
-			//离职
+			//员工离职
 			handDimission(index, row) {
 				this.$router.push({
 					name: "detail_dimission",

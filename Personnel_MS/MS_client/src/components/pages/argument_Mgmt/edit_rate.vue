@@ -23,6 +23,9 @@
 				  	<el-form-item label="速算扣除率" prop="quickCal">
 					    <el-input v-model="rateInfo.quickCal" placeholder='自动计算'></el-input>
 				  	</el-form-item>
+				  	<el-form-item label="备注" prop="remark">
+					    <el-input v-model="rateInfo.remark"></el-input>
+				  	</el-form-item>
 				</el-form>
 			</div>
 		</div>
@@ -101,6 +104,17 @@ export default {
 	          		};
 	          		self.modifyRate(params);
 	          		
+	          		
+//	          		private String groupId; // 组id             not null
+//	private String applyNo; // 编号               not null
+//	private String remark; // 备注
+//	private BigDecimal groupLimit; // 上限            not null
+//	private BigDecimal groupLowerLimit; // 下限           not null
+//	private BigDecimal percentRate; // 百分比率
+//	private BigDecimal quickCal; // 速算扣除数
+//	private String isDelete; // 是否删除                   not null
+//private String createdBy; //创建人
+//private String updatedBy; //更新人
 	          	} else {
 	            	this.$message.error('修改失败');
 	            	return false;

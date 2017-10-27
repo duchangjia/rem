@@ -90,6 +90,7 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
+	const baseURL = 'iem_hrm';
 	export default {
 		data() {
 			return {
@@ -149,7 +150,14 @@
 			current
 		},
 		created() {
-			
+			let userNo = this.$route.params.userNo;
+			let workhisId = this.$route.params.workhisId;
+			let params = {
+				userNo: userNo,
+				workhisId: workhisId
+			}
+			//人事调动详情查询
+			this.queryCustShifthisInfo(params);
 		},
 		methods: {
 			changeValue(value) {
@@ -159,14 +167,14 @@
 	      	download() {
 		      	
 	      	},
-			queryCustShifthisInfo(pageNum,pageSize,params) {
+			queryCustShifthisInfo(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/custShifthis/queryCustShifthisDetail', {params: params})
 				.then(function(res) {
-					console.log('UserList',res);
-					self.transferDataList = res.data.data.models;
-					self.pageNum = pageNum;
-					self.totalRows = Number(res.data.data.total);
+					console.log('CustShifthisDetail',res);
+
+//					self.pageNum = pageNum;
+//					self.totalRows = Number(res.data.data.total);
 				}).catch(function(err) {
 					console.log(err);
 				})

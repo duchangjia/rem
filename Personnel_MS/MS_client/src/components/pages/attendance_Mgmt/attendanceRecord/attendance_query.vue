@@ -4,7 +4,16 @@
 		<div class="content">
 			<div class="title">
 				<span class="title-text">考勤数据查询</span>
-				<el-button type="primary" class="title_button" @click="handleImport()">导入</el-button>
+				<!--<el-button type="primary" class="title_button" @click="handleImport()">导入</el-button>-->
+				<div class="imExport-btn">
+					<!--<span class="icon-import" @click="importExcel"></span>-->
+					<el-upload class="upload-demo imExport-btn-item" :on-change="handleChange" :before-upload="beforeAvatarUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+                        <span class="icon-import" slot="trigger" @click="importExcel"></span>
+                   	</el-upload>
+					<span class="icon-export imExport-btn-item" @click="exportExcel"></span>
+					<span class="icon-download imExport-btn-item" @click="downloadTemplate"></span>
+				</div>
+				
 			</div>
 			<div class="content-inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
@@ -18,6 +27,9 @@
 							<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
 							</el-select>
+						</el-form-item>
+						<el-form-item label="工号" prop="userNo">
+							<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
 						</el-form-item>
 						<el-form-item label="考勤开始时间" prop="startDate">
 							<el-date-picker
@@ -76,6 +88,7 @@ export default {
 			ruleForm2: {
 				compOrgNo: '',
 				departOrgNo: '',
+				userNo: "",
 				startDate: "",
 				endDate: ''
 			},
@@ -135,6 +148,10 @@ export default {
 		current
 	},
 	methods: {
+		handleChange(file, fileList) {
+//		    this.fileList3 = fileList.slice(-3);
+			console.log(file);
+      	},
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;
 		},
@@ -166,6 +183,9 @@ export default {
 				}
 			})
 			
+		},
+		beforeAvatarUpload(file) {
+			console.log("before",file)
 		},
 		//查询
 		queryForm(formName) {
@@ -199,6 +219,18 @@ export default {
 			}
 			
 		},
+		//导入
+		importExcel() {
+			
+		},
+		//导出
+		exportExcel() {
+			
+		},
+		//下载模版
+		downloadTemplate() {
+			
+		},
 		queryUserList(pageNum,pageSize,params) {
 			let self = this;
 			self.$axios.get(baseURL+'/user/queryUserList', {params: params})
@@ -216,4 +248,31 @@ export default {
 </script>
 
 <style>
+.imExport-btn {
+	float: right;
+	margin-top: 32px;
+}
+.imExport-btn .imExport-btn-item{
+	display: inline-block;
+	margin-left: 40px;
+	cursor: pointer;
+}
+.icon-import {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(../../../../../static/img/common/batch-import0.png);
+}
+.icon-export {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(../../../../../static/img/common/batch-export0.png);
+}
+.icon-download {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(../../../../../static/img/common/template-download0.png);
+}
 </style>
