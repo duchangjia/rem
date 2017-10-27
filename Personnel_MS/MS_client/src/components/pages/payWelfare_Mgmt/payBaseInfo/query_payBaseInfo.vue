@@ -5,9 +5,15 @@
         <div class="content-wrapper">
             <el-col :span="24" class="titlebar">
                 <span class="title-text">薪酬基数设置</span>
-                <el-button type="primary" @click="handleAdd" class="toolBtn">新增</el-button>
+                <div style="float:right;">
+                  <el-upload class="upload-demo span-icon" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false">
+                    <el-button class="icon-import" @click="handleImport" title="批量导入"></el-button>
+                  </el-upload>
+                  <el-button class="span-icon icon-export" @click="handleExport" title="导出"></el-button>
+                  <el-button class="span-icon icon-download" @click="handleDownload" title="模板下载"></el-button>                  
+                  <el-button type="primary" @click="handleAdd" class="toolBtn">新增</el-button>
+                </div>
             </el-col>
-
             <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
                 <el-form :inline="true" :model="filters">
                     <el-form-item label="工号">
@@ -119,6 +125,19 @@ export default {
       );
       this.getPayBaseInfoList(); //根据条件查询薪酬基数列表
     },
+    handleImport() {},
+    handleExport() {
+      const self = this;
+      self.$axios
+        .get("/iem_hrm/pay/payBaseDataExport", { params: params })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+    handleDownload() {},
     handleAdd() {
       this.$router.push({
         name: "add_payBaseInfo"
@@ -144,7 +163,8 @@ export default {
         .then(() => {
           this.$axios
             .delete(
-              "/iem_hrm/pay/deletePayBaseInfo?userNo=" + targetPayBaseInfo.userNo,
+              "/iem_hrm/pay/deletePayBaseInfo?userNo=" +
+                targetPayBaseInfo.userNo,
               targetPayBaseInfo
             )
             .then(res => {

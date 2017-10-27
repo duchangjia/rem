@@ -70,17 +70,17 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="签订日期" prop="signTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.signTime" @change="getTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.signTime" @change="pickTime" :picker-options="pactSignOption" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="合同开始日期" prop="pactStartTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStartTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStartTime" :picker-options="pactStartOption" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="合同结束日期" prop="pactEndTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactEndTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactEndTime" :picker-options="pactEndOption" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -128,6 +128,7 @@
 import current from "../../../common/current_position.vue";
 export default {
   data() {
+    let that = this;
     return {
       labelPosition: "right",
       addPactMsg: {
@@ -150,12 +151,51 @@ export default {
         stopReason: "",
         remark: ""
       },
+      pactSignOption: {
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 8.64e7;
+        }
+      },
+      pactStartOption: {
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 8.64e7;
+        }
+      },
+      pactEndOption: {
+        disabledDate(time) {
+          return (
+            time.getTime() < Date.now() - 8.64e7 ||
+            time.getTime() < new Date(that.addPactMsg.pactStartTime).getTime()
+          );
+        }
+      },
       rules: {
         userNo: [{ required: true, message: "工号不能为空", trigger: "blur" }],
         pactType: [{ required: true, message: "合同类型不能为空", trigger: "change" }],
-        signTime: [{ type: "date", required: true, message: "签订日期不能为空", trigger: "change" }],
-        pactStartTime: [{ type: "date", required: true, message: "合同开始日期不能为空", trigger: "change" }],
-        pactEndTime: [{ type: "date", required: true, message: "合同结束日期不能为空", trigger: "change"}],
+        signTime: [
+          {
+            type: "date",
+            required: true,
+            message: "签订日期不能为空",
+            trigger: "change"
+          }
+        ],
+        pactStartTime: [
+          {
+            type: "date",
+            required: true,
+            message: "合同开始日期不能为空",
+            trigger: "change"
+          }
+        ],
+        pactEndTime: [
+          {
+            type: "date",
+            required: true,
+            message: "合同结束日期不能为空",
+            trigger: "change"
+          }
+        ],
         pactStatus: [{ required: true, message: "合同状态不能为空", trigger: "change" }]
       }
     };
@@ -167,10 +207,11 @@ export default {
     searchUserNo() {
       // 查询工号
     },
-    getTime(date) {
-      console.log(this);
-      this.addPactMsg.signTime = date;
-      console.log(this.addPactMsg.signTime);
+    pickTime(date) {
+      let self = this;
+      console.log(date);
+      self.addPactMsg.signTime = date;
+      console.log(self.addPactMsg.signTime);
     },
     handleSave(addPactMsgRules) {
       this.$refs[addPactMsgRules].validate(valid => {
