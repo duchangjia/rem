@@ -104,12 +104,9 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="合同附件" prop="attachm">
-                                    <!-- <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-preview="handlePreview" :on-remove="handleRemove" :auto-upload="false">
-                                                                                                                    <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
-                                                                                                                </el-upload> -->
-                                    <el-input v-model="basicPactMsg.attachm"></el-input>
-                                </el-form-item>
+                                <el-form-item label="附件" prop="attachm">
+					                <el-button class="downloadBtn" @click="downloadFile">下载</el-button>
+				  	            </el-form-item>
                             </el-col>
                             <el-col :span="24">
                                 <el-form-item label="终止原因" prop="stopReason">
@@ -263,7 +260,8 @@ export default {
         pactNo: pactNo
       };
       self.$axios
-        .get("/iem_hrm/pact/queryPactDetail", { params: params })
+        // .get("/iem_hrm/pact/queryPactDetail", { params: params })
+        .get("/iem_hrm/queryPactDetail", { params: params })        
         .then(res => {
           console.log(res);
           self.basicPactMsg = res.data.data;
@@ -282,10 +280,12 @@ export default {
         changeId: ""
       };
       self.$axios
-        .get("/iem_hrm/pact/queryPactChangeList", { params: params })
+        // .get("/iem_hrm/pact/queryPactChangeList", { params: params })
+        .get("/iem_hrm/queryPactChangeList", { params: params })        
         .then(res => {
           console.log(res);
-          self.PChangeListInfo = res.data.data.list;
+        //   self.PChangeListInfo = res.data.data.list;
+          self.PChangeListInfo = res.data.data.PChangeListArray;          
           self.pChangePage.totalRows = res.data.total;
         })
         .catch(() => {
@@ -298,20 +298,23 @@ export default {
         pageNum: self.pRenewPage.pageNum,
         pageSize: self.pRenewPage.pageSize,
         // pactNo: self.pactNo,
-        pactNo: "0001",        
+        pactNo: "0001",
         renewId: ""
       };
       self.$axios
-        .get("/iem_hrm/pact/queryPactRenewList", { params: params })
+        // .get("/iem_hrm/pact/queryPactRenewList", { params: params })
+        .get("/iem_hrm/queryPactRenewList", { params: params })        
         .then(res => {
           console.log(res);
-          self.PRenewListInfo = res.data.data.list;
+        //   self.PRenewListInfo = res.data.data.list;
+          self.PRenewListInfo = res.data.data.PRenewListArray;          
           self.pRenewPage.totalRows = res.data.total;
         })
         .catch(() => {
           console.log("error");
         });
     },
+    downloadFile() {},
     changeTypeFormatter(row, column) {
       return row.changeType == 1 ? "条款变更" : row.changeType == 0 ? "啥啥变更" : "异常";
     },

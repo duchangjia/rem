@@ -103,10 +103,11 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="合同附件" prop="attachm">
-                            <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+				  		    <el-input v-model="addPactMsg.attachm"></el-input>
+				  		    <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
-                        </el-form-item>
+				  	    </el-form-item>
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="终止原因" prop="stopReason">
@@ -212,6 +213,11 @@ export default {
       console.log(date);
       self.addPactMsg.signTime = date;
       console.log(self.addPactMsg.signTime);
+    },
+    handleFileUpload(file, fileList) {
+      // this.fileList3 = fileList.slice(-3);
+      console.log(file);
+      this.addPactMsg.attachm = file.name;
     },
     handleSave(addPactMsgRules) {
       this.$refs[addPactMsgRules].validate(valid => {

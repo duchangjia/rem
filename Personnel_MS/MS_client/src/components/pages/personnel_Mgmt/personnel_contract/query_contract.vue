@@ -101,10 +101,12 @@ export default {
         pactType: self.filters.pactType
       };
       self.$axios
-        .get("/iem_hrm/pact/queryPactList", { params: params })
+        // .get("/iem_hrm/pact/queryPactList", { params: params })
+        .get("/iem_hrm/queryPactList", { params: params })        
         .then(res => {
           console.log(res);
-          self.pactListInfo = res.data.data.list;
+          // self.pactListInfo = res.data.data.list;
+          self.pactListInfo = res.data.data.pactListArray;
           self.totalRows = res.data.data.total;
         })
         .catch(() => {

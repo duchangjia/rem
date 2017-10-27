@@ -170,17 +170,28 @@ table .el-button--danger:active {
   margin-right: 14px;
 }
 
+.add-wrapper .upload-demo {
+  height: 0;
+}
+
 .add-wrapper .el-upload__input {
-  width: 300px;
-  border: 1px solid #bfcbd9;
+  display: none;
 }
 
 .add-wrapper .uploadBtn {
   position: absolute;
-  height: 38px;
+  height: 40px;
   top: 0;
   right: 0;
   margin: 0;
+  border: 1px solid #ff9900;
+  border-radius: 0;
+  background: #ff9900;
+  font-family: "PingFang SC";
+}
+.add-wrapper .downloadBtn {
+  height: 40px;
+  color: #ffffff;  
   border: 1px solid #ff9900;
   border-radius: 0;
   background: #ff9900;
