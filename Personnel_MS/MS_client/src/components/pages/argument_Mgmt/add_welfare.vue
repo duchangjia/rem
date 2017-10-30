@@ -219,11 +219,16 @@ export default {
 						perMateFixed: self.insurancePayTemplateData.perMateFixed,
 						comMateRate: self.insurancePayTemplateData.comMateRate,
 						comMateFixed: self.insurancePayTemplateData.comMateFixed,
-						perHousRate: self.insurancePayTemplateData.perHouseRate,
+						perHousRate: self.insurancePayTemplateData.perHousRate,
 						perHousFixed: self.insurancePayTemplateData.perHousFixed,
 						comHousRate: self.insurancePayTemplateData.comHousRate,
 						comHousFixed: self.insurancePayTemplateData.comHousFixed
 	          		};
+	          		for(let k in params) {
+						if(k.match('Rate')) {
+							params[k] = params[k]/100;
+						}
+					}
 	          		//新增福利系数模版
 	          		self.addInsurancePayTemplate(params);
 	          	} else {

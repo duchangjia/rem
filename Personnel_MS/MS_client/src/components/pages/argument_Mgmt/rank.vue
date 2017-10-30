@@ -7,6 +7,18 @@
 				<el-button type="primary" @click="addWelfare()">新增</el-button>
 			</div>
 			<div class="content-inner">
+				<el-form :model="ruleForm2" :inline="true" ref="ruleForm2" label-width="58px" class="demo-ruleForm">
+					<div class="input-wrap">
+						<el-form-item label="机构" prop="organNo">
+							<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" >
+								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+							</el-select>
+						</el-form-item>
+						<div class="button-wrap">
+							<el-button type="primary" class="queryForm" @click="queryForm('ruleForm2')">查询</el-button>
+						</div>
+					</div>
+				</el-form>
 				<el-table :data="dataList" border stripe style="width: 100%">
 					<el-table-column prop="applyNo" label="模版编号">
 						<template scope="scope">
@@ -42,8 +54,12 @@ export default {
 	data() {
 		return {
 			pageNum: 1,
-			pageSize: 2,
+			pageSize: 5,
 			totalRows: 1,
+			queryFormFlag: false,
+			ruleForm2: {
+				organNo: ""
+			},
 			dataList: [
 				{
 					applyNo: "00001",
@@ -69,17 +85,23 @@ export default {
 					createdId: "002",
 					createdTime: ""
 				}
+			],
+			//公司列表
+			compList: [
+				{compName: "上海魔方分公司",compOrgNo: '01'},
+				{compName: "魔方分公司深圳分公司",compOrgNo: '03'},
+				{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '02'}
 			]
 		}
 	},
 	created() {
 		const self = this;
-		let pageNum = 1;
-		let pageSize = 2;
+		self.queryFormFlag = false;
+		let pageNum = self.pageNum;
+		let pageSize = self.pageSize;
 		let params = {
 			"pageNum": pageNum,
-			"pageSize": pageSize,
-			organNo: "112111"	//???
+			"pageSize": pageSize
 		};
 		//查询职级薪酬列表
 		self.queryCParmList(pageNum,pageSize,params);
@@ -91,19 +113,32 @@ export default {
 		addWelfare() {
 			this.$router.push('/add_rank');
 		},
+		queryForm() {
+			const self = this;
+			let pageNum = self.pageNum;
+			let pageSize = self.pageSize;
+			let params = {
+				"pageNum": pageNum,
+				"pageSize": pageSize,
+				organNo: self.ruleForm2.organNo
+			};
+			if(self.ruleForm2.organNo) {
+				//查询职级薪酬列表
+				self.queryFormFlag = true;
+				self.queryCParmList(pageNum,pageSize,params);
+			}
+			
+		},
 		handleEdit(index, row) {
-			console.log('index',index);
-            console.log('row.applyNo',row.applyNo);
             this.$router.push({
             	name: 'edit_rank',
             	params: {
-            		applyNo: row.applyNo
+            		applyNo: row.applyNo,
+            		organNo: row.organNo
             	}
             });
 		},
 		handleDelete(index, row) {
-            console.log('index',index);
-            console.log('row',row);
             const self = this;
             self.$confirm('此操作将会删除该条模版, 是否继续?', '提示', {
                 confirmButtonText: '确定',
@@ -111,45 +146,65 @@ export default {
                 type: 'warning'
             }).then(() => {
             	let params = {
-            		
+            		organNo: row.organNo,
+            		applyNo: row.applyNo
             	};
             	//删除职级模版
-            	self.$axios.delete(baseURL+'/delCparm',params)
-            		.then(function(res) {
-            			self.$message({ type: 'success', message: '删除成功!' });
-            		}).catch(function(err) {
-            			self.$message.error('删除模版失败！');
-            		})
+            	self.deleteCparm(params);
                	
             }).catch(() => {
-                self.$message('您已取消删除模版！');
-            });
+            	self.$message({ type: 'info', message: '您已取消操作!' });
+            })
         },
         handleCurrentChange(val) {
 			const self = this;
 			let pageNum = val;
-			let pageSize = 2;
-			let params = {
-				"pageNum": pageNum,
-				"pageSize": pageSize,
-				organNo: "112111"	//???
-			};
-			//查询职级薪酬列表
+			let pageSize = self.pageSize;
+			let params = {};
+			console.log('queryFormFlag',self.queryFormFlag);
+			if(self.queryFormFlag) {
+				console.log('1');
+				params = {
+					"pageNum": pageNum,
+					"pageSize": pageSize,
+					organNo: self.ruleForm2.organNo	
+				};
+			} else {
+				params = {
+					"pageNum": pageNum,
+					"pageSize": pageSize
+				};
+				console.log(params);
+			}
+			
+			//分页查询职级薪酬列表
 			self.queryCParmList(pageNum,pageSize,params);
 			
 		},
 		queryCParmList(pageNum,pageSize,params) {
 			const self = this;
-			self.$axios.get(baseURL+'/RankSalaryTemplate/queryCParmList', {params})
+			self.$axios.get(baseURL+'/RankSalaryTemplate/queryCParmList', {params: params})
 			.then((res) => {
-				console.log(res);
+				console.log('list',res);
 				self.dataList = res.data.data.list;
 				self.pageNum = pageNum;
-				self.pageSize = pageSize;
 				self.totalRows = Number(res.data.data.total);
 			}).catch((err) => {
 				console.log(err);
 			})
+		},
+		deleteCparm(params) {
+			const self = this;
+			self.$axios.delete(baseURL + '/RankSalaryTemplate/delCparm/' + params.organNo + '/'+params.applyNo)
+    		.then(function(res) {
+    			console.log('del',res);
+    			if(res.data.code === "S00000") {
+    				self.$message({ type: 'success', message: '删除成功!' });
+    			}
+    			
+    		}).catch(function(err) {
+    			self.$message.error('删除模版失败！');
+    		})
 		}
 	}
 }
@@ -206,8 +261,8 @@ border-bottom: 1px solid #EEEEEE;
 	border-radius: 0px;
 }
 
-.rank_wrap .el-button.resetform {
-	margin-right: 20px;
+.rank_wrap .el-button.queryForm {
+	margin-top: 0px;
 }
 
 .rank_wrap .el-button--primary {
@@ -217,6 +272,12 @@ border-bottom: 1px solid #EEEEEE;
 }
 .rank_wrap .content-inner {
 	padding: 40px 0px;
+}
+.rank_wrap .button-wrap {
+	display: inline-block;
+	width: 260px;
+	clear: both;
+	font-size: 0px;
 }
 /*.rank_wrap .el-table {
 	background-color: #fff;

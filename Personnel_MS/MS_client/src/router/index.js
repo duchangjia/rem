@@ -217,8 +217,34 @@ export default new Router({
                     		component: resolve => require(['../components/pages/attendance_Mgmt/attendanceRecord/attendance_query.vue'], resolve),
                     	},
                     	{
+                    		name: 'attendance_import',
                     		path: '/attendance_import',
                     		component: resolve => require(['../components/pages/attendance_Mgmt/attendanceRecord/attendance_import.vue'], resolve),
+                    	}
+                    ]
+                },
+                {
+                    path: '/travel_management',
+                    component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/travel_management.vue'], resolve),
+                    children: [
+                    	{
+                    		path: '/',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/travel_query.vue'], resolve),
+                    	},
+                    	{
+                    		name: 'travel_info',
+                    		path: '/travel_info',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/travel_info.vue'], resolve),
+                    	},
+                    	{
+                    		name: 'edit_travel',
+                    		path: '/edit_travel',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/edit_travel.vue'], resolve),
+                    	},
+                    	{
+                    		name: 'add_travel',
+                    		path: '/add_travel',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/add_travel.vue'], resolve),
                     	}
                     ]
                 },

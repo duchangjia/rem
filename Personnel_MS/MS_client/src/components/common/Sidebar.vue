@@ -123,6 +123,18 @@ export default {
 						{
 							index: 'attendance_record',
 							title: '考勤记录管理'
+						},
+						{
+							index: 'travel_management',
+							title: '出差管理'
+						},
+						{
+							index: 'leave_management',
+							title: '请假管理'
+						},
+						{
+							index: 'overtime_management',
+							title: '加班管理'
 						}
 					]
 				},

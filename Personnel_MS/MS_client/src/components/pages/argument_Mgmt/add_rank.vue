@@ -8,11 +8,16 @@
 			</div>
 			<div class="content-inner">
 				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="120px">
-					<el-form-item label="公司名称" prop="compName">
+					<!--<el-form-item label="公司名称" prop="compName">
 						<el-input v-model="formdata.compName"></el-input>
+					</el-form-item>-->
+					<el-form-item label="公司名称">
+						<el-select v-model="formdata.organNo" value-key="compOrgNo">
+							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+						</el-select>
 					</el-form-item>
 					<el-form-item label="模版名称" prop="applyName">
-						<el-input v-model="formdata.applyName" placeholder="yyyy-mm-dd"></el-input>
+						<el-input v-model="formdata.applyName"></el-input>
 					</el-form-item>
 					<el-form-item label="职级" prop="rank">
 						<el-select v-model="formdata.rank">
@@ -63,6 +68,12 @@
 					remark: ""
 				},
 				rankList: ['B10-高级开发软件工程师', 'B5-中级开发软件工程师', 'B5-UI'],
+				//公司列表
+				compList: [
+					{compName: "上海魔方分公司",compOrgNo: '01'},
+					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
+					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
+				],
 				rules: {
 					compName: [{
 						required: true,
@@ -101,8 +112,6 @@
 					if(valid) {
 						let params = {
 							organNo: self.formdata.organNo,
-							applyNo: self.formdata.applyNo,
-//							compName: self.formdata.compName,
 							applyName: self.formdata.applyName,
 							rank: self.formdata.rank,
 							salaryFloor: self.formdata.salaryFloor,
@@ -110,22 +119,27 @@
 							businessStandard: self.formdata.businessStandard,
 							remark: self.formdata.remark
 						}
-						self.$axios.post(baseURL + '/RankSalaryTemplate/addCparm', params)
-							.then((res) => {
-								console.log(res);
-								self.$message({
-									message: '税率组新增成功',
-									type: 'success'
-								});
-							}).catch((err) => {
-								console.log(err)
-							})
+						//新增职级模版
+						self.addCparm(params);
 
 					} else {
 						self.$message.error('新增失败');
 						return false;
 					}
 				});
+			},
+			addCparm(params) {
+				const self = this;
+				self.$axios.post(baseURL + '/RankSalaryTemplate/addCparm', params)
+				.then((res) => {
+					console.log('addCparm',res);
+					self.$message({
+						message: '税率组新增成功',
+						type: 'success'
+					});
+				}).catch((err) => {
+					console.log('error')
+				})
 			}
 		}
 	}
