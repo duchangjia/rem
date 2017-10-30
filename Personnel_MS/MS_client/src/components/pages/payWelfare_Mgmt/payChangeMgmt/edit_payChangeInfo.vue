@@ -10,18 +10,18 @@
             <div class="add-wrapper">
                 <el-form :inline="true" :model="payChangeDetail" :label-position="labelPosition" label-width="110px">
                     <el-col :span="12">
-                        <el-form-item label="公司" prop="organName">
-                            <el-select v-model="payChangeDetail.organName">
-                                <el-option label="总公司" value="1"></el-option>
-                                <el-option label="深圳分公司" value="0"></el-option>
+                        <el-form-item label="公司" prop="organNo">
+                            <el-select v-model="payChangeDetail.organNo">
+                                <el-option label="总公司" value="0"></el-option>
+                                <el-option label="深圳分公司" value="01"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="申请部门" prop="derpName">
-                            <el-select v-model="payChangeDetail.derpName">
-                                <el-option label="财务部" value="1"></el-option>
-                                <el-option label="技术部" value="0"></el-option>
+                        <el-form-item label="申请部门" prop="derpNo">
+                            <el-select v-model="payChangeDetail.derpNo">
+                                <el-option label="财务部" value="01"></el-option>
+                                <el-option label="技术部" value="001"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -259,6 +259,7 @@ export default {
     return {
       labelPosition: "right",
       userNo: "",
+      applyNo: "",
       checked: "true",
       payChangeDetail: {},
       insurancePayTemp: {},
@@ -314,17 +315,23 @@ export default {
     current
   },
   created() {
-    this.getPayChangeDetail(); //初始查询调薪基数信息
+    this.userNo = this.$route.params.userNo;
+    this.applyNo = this.$route.params.applyNo;
+    this.getPayChangeDetail(); //查询调薪基数信息
   },
   methods: {
     getPayChangeDetail() {
       const self = this;
+      let params = {
+        applyNo: self.applyNo
+      };
       self.$axios
-        // .get("/iem_hrm/pay/selectDetailEpPayChageInf", { params: params })
-        .get("/iem_hrm/selectDetailEpPayChageInf")
+        .get("/iem_hrm/epPayChageInf/queryDetailEpPayChageInf", {
+          params: params
+        })
         .then(res => {
           console.log(res);
-          self.payChangeDetail = res.data.data;
+          self.payChangeDetail = res.data;
         })
         .catch(() => {
           console.log("error");
@@ -332,12 +339,11 @@ export default {
     },
     getInsurancePayTemp() {
       const self = this;
-      let params = {
-        applyNo: self.payChangeDetail.nWelcoeNo
-      };
+      let applyNo = self.payChangeDetail.nWelcoeNo;
       self.$axios
-        // .get("/iem_hrm/InsurancePayTemplate/queryInsurancePayTemplate", { params: params })
-        .get("/iem_hrm/queryInsurancePayTemplate", { params: params })
+        .get(
+          "/iem_hrm/InsurancePayTemplate/queryInsurancePayTemplate/" + applyNo
+        )
         .then(res => {
           console.log("已经请求保险缴纳标准回来了", res);
           self.insurancePayTemp = res.data.data;
@@ -355,18 +361,31 @@ export default {
     handleSave(payChangeDetailRules) {
       this.$refs[payChangeDetailRules].validate(valid => {
         if (valid) {
-          let editPayChangeDetail = this.payChangeDetail;
+          let editPayChangeDetail = {};
+          editPayChangeDetail.applyNo = this.payChangeDetail.applyNo;
+          editPayChangeDetail.nWagesBase = this.payChangeDetail.nWagesBase;
+          editPayChangeDetail.nWagesPerf = this.payChangeDetail.nWagesPerf;
+          editPayChangeDetail.nPostPension = this.payChangeDetail.nPostPension;
+          editPayChangeDetail.nOtherPension = this.payChangeDetail.nOtherPension;
+          editPayChangeDetail.nEndmBase = this.payChangeDetail.nEndmBase;
+          editPayChangeDetail.nMediBase = this.payChangeDetail.nMediBase;
+          editPayChangeDetail.nUnemBase = this.payChangeDetail.nUnemBase;
+          editPayChangeDetail.nEmplBase = this.payChangeDetail.nEmplBase;
+          editPayChangeDetail.nMateBase = this.payChangeDetail.nMateBase;
+          editPayChangeDetail.nHouseBase = this.payChangeDetail.nHouseBase;
+          editPayChangeDetail.nWelcoeNo = this.payChangeDetail.nWelcoeNo;
           console.log(editPayChangeDetail);
           this.$axios
-            .post("/iem_hrm/pay/updateEpPayChageInf", editPayChangeDetail)
+            .put("/iem_hrm/epPayChageInf/modEpPayChageInf", editPayChangeDetail)
             .then(res => {
               console.log(res);
-              if (res.data.code == "S00000")
+              if (res.data.code == "S00000") {
+                this.$message({ type: "success", message: "调薪基数修改成功!" });
                 this.$router.push("/query_payChangeInfo");
-              else this.$message.error("薪酬基数修改失败！");
+              } else this.$message.error("调薪基数修改失败！");
             })
             .catch(() => {
-              this.$message.error("薪酬基数修改失败！");
+              this.$message.error("调薪基数修改失败！");
             });
         } else {
           console.log("error submit!!");

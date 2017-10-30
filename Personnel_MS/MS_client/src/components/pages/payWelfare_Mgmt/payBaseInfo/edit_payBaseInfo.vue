@@ -117,7 +117,8 @@
                 <el-form :inline="true" :model="insurancePayTemp" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="12">
                       <el-form-item label="养老保险(个人)" prop="perEndmFixed">
-                            <el-input v-model="insurancePayTemp.perEndmFixed"></el-input>
+                            <el-input></el-input>
+                            <!-- <el-input v-model="insurancePayTemp.perEndmFixed"></el-input>                             -->
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">

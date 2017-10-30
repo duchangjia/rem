@@ -8,43 +8,43 @@
                 <el-button type="primary" @click="handleSave('addPayBaseInfoRules')" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="addPayBaseInfo" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
                     <el-col :span="12">
-                        <el-form-item label="公司" prop="organName">
-                            <el-select v-model="addPayBaseInfo.organName">
-                                <el-option label="总公司" value="1"></el-option>
-                                <el-option label="深圳分公司" value="0"></el-option>
+                        <el-form-item label="公司" prop="organNo">
+                            <el-select v-model="custInfo.organNo">
+                                <el-option label="总公司" value="p0"></el-option>
+                                <el-option label="深圳分公司" value="p01"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="部门" prop="derpName">
-                            <el-select v-model="addPayBaseInfo.derpName">
-                                <el-option label="财务部" value="1"></el-option>
-                                <el-option label="技术部" value="0"></el-option>
+                        <el-form-item label="部门" prop="derpNo">
+                            <el-select v-model="custInfo.derpNo">
+                                <el-option label="财务部" value="p1"></el-option>
+                                <el-option label="技术部" value="p01"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="工号" prop="userNo">
-                            <el-input v-model="addPayBaseInfo.userNo">
+                            <el-input v-model="custInfo.userNo" @change="userNoChange">
                                 <el-button slot="append" icon="search" @click="searchUserNo"></el-button>
                             </el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="姓名" prop="custName">
-                            <el-input v-model="addPayBaseInfo.custName"></el-input>
+                            <el-input v-model="custInfo.custName"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="职务" prop="custClass">
-                            <el-input v-model="addPayBaseInfo.custClass"></el-input>
+                        <el-form-item label="职务" prop="custPost">
+                            <el-input v-model="custInfo.custPost"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="职级" prop="rank">
-                            <el-input v-model="addPayBaseInfo.rank"></el-input>
+                        <el-form-item label="职级" prop="custClass">
+                            <el-input v-model="custInfo.custClass"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -110,8 +110,8 @@
                     <el-col :span="12">
                         <el-form-item label="保险缴纳标准" prop="welcoeNo">
                             <el-select v-model="addPayBaseInfo.welcoeNo" @change="welcoeNoChange">
-                                <el-option label="广州标准" value="1"></el-option>
-                                <el-option label="深圳标准" value="0"></el-option>
+                                <el-option label="广州标准" value="0001"></el-option>
+                                <el-option label="深圳标准" value="0002"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col> 
@@ -204,13 +204,16 @@ export default {
   data() {
     return {
       labelPosition: "right",
-      addPayBaseInfo: {
+      custInfo: {
         userNo: "",
         custName: "",
-        organName: "",
-        derpName: "",
-        custClass: "",
-        rank: "",
+        organNo: "",
+        derpNo: "",
+        custpost: "",
+        custClass: ""
+      },
+      addPayBaseInfo: {
+        userNo: "",
         wagesBase: "",
         wagesPerf: "",
         postPension: "",
@@ -281,14 +284,26 @@ export default {
     current
   },
   methods: {
+    getCustInfo() {
+      const self = this;
+      let userNo = self.custInfo.userNo;
+      self.$axios
+        .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
+        .then(res => {
+          console.log(res);
+          self.custInfo = res.data.data;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
     getInsurancePayTemp() {
       const self = this;
-      let params = {
-        applyNo: self.addPayBaseInfo.welcoeNo
-      };
+      let applyNo = self.addPayBaseInfo.welcoeNo;
       self.$axios
-        // .get("/iem_hrm/InsurancePayTemplate/queryInsurancePayTemplate", { params: params })
-        .get("/iem_hrm/queryInsurancePayTemplate", { params: params })
+        .get(
+          "/iem_hrm/InsurancePayTemplate/queryInsurancePayTemplate/" + applyNo
+        )
         .then(res => {
           console.log("已经请求保险缴纳标准回来了", res);
           self.insurancePayTemp = res.data.data;
@@ -298,7 +313,13 @@ export default {
         });
     },
     searchUserNo() {
-      // 查询工号
+      const self = this;
+      self.custInfo.userNo = "P004"; // 查询工号，应从接口查出
+      self.addPayBaseInfo.userNo = self.custInfo.userNo;
+      self.getCustInfo(); //查询用户信息
+    },
+    userNoChange(val) {
+      this.getCustInfo(); //查询用户信息
     },
     wagesBaseChange() {
       let salaryTop = 1500; // 该职级薪资上限，应从接口查出
@@ -313,11 +334,12 @@ export default {
       }
     },
     welcoeNoChange(val) {
-      this.addPayBaseInfo.welcoeNo = val;
-      this.getInsurancePayTemp(); //根据参数值计算保险缴纳标准
+      const self = this;
+      self.addPayBaseInfo.welcoeNo = val;
+      console.log(val);
+      self.getInsurancePayTemp(); //根据参数值计算保险缴纳标准
     },
     handleFileUpload(file, fileList) {
-      // this.fileList3 = fileList.slice(-3);
       console.log(file);
       this.addPayBaseInfo.attachm = file.name;
     },
