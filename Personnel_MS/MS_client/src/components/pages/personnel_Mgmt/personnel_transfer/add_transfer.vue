@@ -10,13 +10,13 @@
 			<div class="content-inner">
 				<el-form ref="formdata" :inline="true"  :rules="rules" :model="formdata" label-width="100px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="comp" value-key="compOrgNo" @change="changeValue">
-							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
+					    <el-select v-model="formdata.oldOrgId" value-key="compOrgNo" @change="changeValue">
+							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 						</el-select>
 				  	</el-form-item>
 					<el-form-item label="部门名称">
-					    <el-select v-model="depart" value-key="departOrgNo" @change="changeValue">
-							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
+					    <el-select v-model="formdata.oldDeprtId" value-key="departOrgNo" @change="changeValue">
+							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 						</el-select>
 				  	</el-form-item>
 					<el-form-item label="工号">
@@ -26,31 +26,31 @@
 					    <el-input v-model="formdata.custName"></el-input>
 				  	</el-form-item>
 				  	<div class="info-title">调动信息</div>
-				  	<el-form-item label="调动类型" prop="diaodongType">
-					    <el-select v-model="formdata.diaodongType" value-key="diaodongType" @change="changeValue">
-							<el-option v-for="item in diaodongTypeList" :key="item" :label="item" :value="item"></el-option>
+				  	<el-form-item label="调动类型" prop="shiftType">
+					    <el-select v-model="formdata.shiftType" value-key="shiftType" @change="changeValue">
+							<el-option v-for="item in shiftTypeList" :key="item" :label="item" :value="item"></el-option>
 						</el-select>
 				  	</el-form-item>
-				  	<el-form-item label="调动生效时间" prop="shengxiaoDate">
-					    <el-input v-model="formdata.shengxiaoDate"></el-input>
+				  	<el-form-item label="调动生效时间" prop="shiftCameTime">
+					    <el-input v-model="formdata.shiftCameTime"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="原公司名称">
-					    <el-select v-model="comp" value-key="compOrgNo" @change="changeValue">
-							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
+					    <el-select v-model="formdata.oldOrgId" value-key="compOrgNo" @change="changeValue">
+							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 						</el-select>
 				  	</el-form-item>
 				  	<el-form-item label="新公司名称" prop="newcompOrgNo">
-					    <el-select v-model="formdata.newcompOrgNo" value-key="newcompOrgNo" @change="changeValue">
+					    <el-select v-model="formdata.newOrgId" value-key="newcompOrgNo" @change="changeValue">
 							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 						</el-select>
 				  	</el-form-item>
 				  	<el-form-item label="原部门名称">
-					    <el-select v-model="formdata.departOrgNo" value-key="departOrgNo" @change="changeValue">
+					    <el-select v-model="formdata.oldDeprtId" value-key="departOrgNo" @change="changeValue">
 							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 						</el-select>
 				  	</el-form-item>
 				  	<el-form-item label="新部门名称" prop="newdepartOrgNo">
-					    <el-select v-model="formdata.newdepartOrgNo" value-key="newdepartOrgNo" @change="changeValue">
+					    <el-select v-model="formdata.newDeprtId" value-key="newdepartOrgNo" @change="changeValue">
 							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 						</el-select>
 				  	</el-form-item>
@@ -61,23 +61,23 @@
 					    <el-input v-model="formdata.newLineManager"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="原岗位">
-					    <el-input v-model="formdata.oldCustPost"></el-input>
+					    <el-input v-model="formdata.oldPost"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="新岗位" prop="newCustPost">
-					    <el-input v-model="formdata.newCustPost"></el-input>
+				  	<el-form-item label="新岗位" prop="newPost">
+					    <el-input v-model="formdata.newPost"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="原职级">
-					    <el-input v-model="formdata.oldCustClass"></el-input>
+					    <el-input v-model="formdata.oldClass"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="新职级" prop="newCustClass">
-					    <el-input v-model="formdata.newCustClass"></el-input>
+				  	<el-form-item label="新职级" prop="newClass">
+					    <el-input v-model="formdata.newClass"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="调动原因" prop="diaodongyuanying">
+				  	<el-form-item label="调动原因" prop="shiftReason">
 					    <el-input
 						  type="textarea"
 						  :autosize="{ minRows: 5, maxRows: 5}"
 						  placeholder="请输入内容"
-						  v-model="formdata.diaodongyuanying">
+						  v-model="formdata.shiftReason">
 						</el-input>
 				  	</el-form-item>
 				  	<el-form-item label="附件" style="width: 100%;">
@@ -93,48 +93,49 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
+	const baseURL = 'iem_hrm';
 	export default {
 		data() {
 			return {
 				formdata: {
-					compOrgNo: "",
-					compName: "",
-					departName: "",
-					departOrgNo: "",
-					newcompOrgNo: "",
-					newcompName: "",
-					newdepartName: "",
-					newdepartOrgNo: "",
+					oldOrgId: "",
+//					compName: "",
+//					departName: "",
+					oldDeprtId: "",
+					newOrgId: "",
+//					newcompName: "",
+//					newdepartName: "",
+					newDeprtId: "",
 					custName: "",
 					userNo: "",
-					diaodongType: "",
-					shengxiaoDate: "",
+					shiftType: "",
+					shiftCameTime: "",
 					oldLineManager: "",
 					newLineManager: "",
-					oldCustPost: "",
-					newCustPost: "",
-					oldCustClass: "",
-					newCustClass: "",
-					diaodongyuanying: "",
+					oldPost: "",
+					newPost: "",
+					oldClass: "",
+					newClass: "",
+					shiftReason: "",
 					attachm: ""
 				},
 				
-				comp: {
-					compName: '',
-					compOrgNo: ''
-				},
-				newcomp: {
-					newcompName: '',
-					newcompOrgNo: ''
-				},
-				depart: {
-					departName: '',
-					departOrgNo: ''
-				},
-				newdepart: {
-					newdepartName: '',
-					newdepartOrgNo: ''
-				},
+//				oldcomp: {
+//					compName: '',
+//					compOrgNo: ''
+//				},
+//				newcomp: {
+//					newcompName: '',
+//					newcompOrgNo: ''
+//				},
+//				olddepart: {
+//					departName: '',
+//					departOrgNo: ''
+//				},
+//				newdepart: {
+//					newdepartName: '',
+//					newdepartOrgNo: ''
+//				},
 				//部门列表
 				departList: [
 					{departName: "上海魔方分公司",departOrgNo: '01'},
@@ -147,30 +148,30 @@
 					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
 					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
 				],
-				diaodongTypeList: ['晋升','调动','平调','轮岗','工资调整'],
+				shiftTypeList: ['晋升','调动','平调','轮岗','工资调整'],
 			 	rules: {
-		          	diaodongType: [
+		          	shiftType: [
 		            	{ required: true, message: '调动类型不能为空', trigger: 'blur' }
 	          		],
-		          	shengxiaoDate: [
+		          	shiftCameTime: [
 		          		{ required: true, message: '生效日期不能为空', trigger: 'blur' }
 		          	],
-		          	newcompOrgNo: [
+		          	newOrgId: [
 		          		{ required: true, message: '新公司名不能为空', trigger: 'blur' }
 		          	],
-		          	newdepartOrgNo: [
+		          	newDeprtId: [
 	          			{ required: true, message: '新部门名不能为空', trigger: 'blur' }
 		          	],
 					newLineManager: [
 						{ required: true, message: '新直线经理不能为空', trigger: 'blur' }
 					],
-					newCustPost: [
+					newPost: [
 						{ required: true, message: '新岗位不能为空', trigger: 'blur' }
 					],
-					newCustClass: [
+					newClass: [
 						{ required: true, message: '新职级不能为空', trigger: 'blur' }
 					],
-					diaodongyuanying: [
+					shiftReason: [
 						{ required: true, message: '调动原因不能为空', trigger: 'blur' }
 					]
 				}
@@ -192,6 +193,7 @@
 			changeValue(value) {
 		 		const self = this;
 	            console.log('value',value);
+	            console.log(this.formdata.newDeprtId)
 	      	},
 	      	download() {
 		      	
@@ -200,14 +202,43 @@
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						console.log('新增成功');
+						console.log('valid');
+						let params = {
+							oldOrgId: self.formdata.oldOrgId,
+							oldDeprtId: self.formdata.oldDeprtId,
+							newOrgId: self.formdata.newOrgId,
+							newDeprtId: self.formdata.newDeprtId,
+							custName: self.formdata.custName,
+							userNo: self.formdata.userNo,
+							shiftType: self.formdata.shiftType,
+							shiftCameTime: self.formdata.shiftCameTime,
+							oldLineManager: self.formdata.oldLineManager,
+							newLineManager: self.formdata.newLineManager,
+							oldPost: self.formdata.oldPost,
+							newPost: self.formdata.newPost,
+							oldClass: self.formdata.oldClass,
+							newClass: self.formdata.newClass,
+							shiftReason: self.formdata.shiftReason,
+							attachm: self.formdata.attachm
+						}
+						self.addCustShif(params);
 						
-
 					} else {
-						this.$message.error('新增失败');
+						this.$message.error('failvalid');
 						return false;
 					}
 				});
+			},
+			//人事调动添加
+			addCustShif(params) {
+				let self = this;
+				self.$axios.post(baseURL+'/custShifthis/addCustShifthis',params)
+				.then(function(res) {
+					console.log('addCustShif',res);
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
 			}
 		}
 	};

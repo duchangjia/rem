@@ -203,7 +203,32 @@ export default {
 						perEndmFixed: self.insurancePayTemplateData.perEndmFixed,
 						comEndmRate: self.insurancePayTemplateData.comEndmRate,
 						comEndmFixed: self.insurancePayTemplateData.comEndmFixed,
+						perMediRate: self.insurancePayTemplateData.perMediRate,
+						perMediFixed: self.insurancePayTemplateData.perMediFixed,
+						comMediRate: self.insurancePayTemplateData.comMediRate,
+						comMediFixed: self.insurancePayTemplateData.comMediFixed,
+						perUnemRate: self.insurancePayTemplateData.perUnemRate,
+						perUnemFixed: self.insurancePayTemplateData.perUnemFixed,
+						comUnemRate: self.insurancePayTemplateData.comUnemRate,
+						comUnemFixed: self.insurancePayTemplateData.comUnemFixed,
+						perEmplRate: self.insurancePayTemplateData.perEmplRate,
+						perEmplFixed: self.insurancePayTemplateData.perEmplFixed,
+						comEmplRate: self.insurancePayTemplateData.comEmplRate,
+						comEmplFixed: self.insurancePayTemplateData.comEmplFixed,
+						perMateRate: self.insurancePayTemplateData.perMateRate,
+						perMateFixed: self.insurancePayTemplateData.perMateFixed,
+						comMateRate: self.insurancePayTemplateData.comMateRate,
+						comMateFixed: self.insurancePayTemplateData.comMateFixed,
+						perHousRate: self.insurancePayTemplateData.perHousRate,
+						perHousFixed: self.insurancePayTemplateData.perHousFixed,
+						comHousRate: self.insurancePayTemplateData.comHousRate,
+						comHousFixed: self.insurancePayTemplateData.comHousFixed
 	          		};
+	          		for(let k in params) {
+						if(k.match('Rate')) {
+							params[k] = params[k]/100;
+						}
+					}
 	          		//新增福利系数模版
 	          		self.addInsurancePayTemplate(params);
 	          	} else {
@@ -214,7 +239,7 @@ export default {
 		},
 		addInsurancePayTemplate(params) {
 			const self = this;
-			self.$axios.post(baseURL+'/addInsurancePayTemplate', params)
+			self.$axios.post(baseURL+'/InsurancePayTemplate/addInsurancePayTemplate', params)
   			.then(function(res) {
   				console.log(res)
   				self.$message({ message: '福利缴纳系数新增成功', type: 'success' });

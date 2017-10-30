@@ -81,36 +81,82 @@ export default {
   methods: {
     getCustInfoList() {
       const self = this;
-      let params = {
-        pageNum: self.pageNum,
-        pageSize: self.pageSize,
-        userNo: self.filters.userNo,
-        custName: self.filters.custName
-      };
-      self.$axios
-        .get("/iem_hrm/queryCustInfoList", { params: params })
-        .then(res => {
-          console.log(res);
-          self.custInfoList = res.data.data.custInfoList;
-          self.totalRows = Number(res.data.data.total);
-        })
-        .catch(() => {
-          console.log("error");
-        });
+      // let params = {
+      //   pageNum: self.pageNum,
+      //   pageSize: self.pageSize,
+      //   userNo: self.filters.userNo,
+      //   custName: self.filters.custName
+      // };
+      // self.$axios
+      //   .get("/iem_hrm/CustInfo/queryCustInfList")
+      //   .then(res => {
+      //     console.log(res);
+      //     self.custInfoList = res.data.data;
+      //   })
+      //   .catch(() => {
+      //     console.log("error");
+      //   });
+      self.custInfoList = [
+        {
+          userNo: "P001",
+          custName: "李大帅",
+          organName: "深圳橙色魔方",
+          derpName: "技术部",
+          sex: "1",
+          custPost: "软件开发工程师",
+          custClass: "Java开发",
+          mobileNo: "15877778777",
+          custStatus: "02"
+        },
+        {
+          userNo: "P002",
+          custName: "张铁蛋",
+          organName: "深圳分公司",
+          derpName: "技术部",
+          sex: "0",
+          custPost: "软件开发工程师",
+          custClass: "前端开发",
+          mobileNo: "13856478777",
+          custStatus: "02"
+        },
+        {
+          userNo: "P003",
+          custName: "王大锤",
+          organName: "深圳分公司",
+          derpName: "研发部",
+          sex: "1",
+          custPost: "软件设计师",
+          custClass: "UI设计师",
+          mobileNo: "14723243278",
+          custStatus: "01"
+        }
+      ];
+    },
+    getCustInfo() {
+      const self = this;
+      let userNo = self.userNo;
     },
     custSexFormatter(row, column) {
-        return row.sex == 0 ? "男" : row.sex == 1 ? "女" : "异常";
+      return row.sex == 0 ? "男" : row.sex == 1 ? "女" : "异常";
     },
     custStatusFormatter(row, column) {
-        return row.custStatus == 0 ? "离职" : row.custStatus == 1 ? "在职" : row.custStatus == 2 ? "试用" : "异常";
+      return row.custStatus == "01"
+        ? "试用"
+        : row.custStatus == "02"
+          ? "在职"
+          : row.custStatus == "03"
+            ? "退休"
+            : row.custStatus == "04"
+              ? "离职"
+              : row.custStatus == "05" ? "停薪留职" : "异常";
     },
     handleCustInfoDetail(index, row) {
-    //   this.$router.push({
-    //     name: "detail_payBaseInfo",
-    //     params: {
-    //       userNo: row.userNo
-    //     }
-    //   });
+      //   this.$router.push({
+      //     name: "detail_payBaseInfo",
+      //     params: {
+      //       userNo: row.userNo
+      //     }
+      //   });
     },
     handleCurrentChange(val) {
       this.pageNum = val;

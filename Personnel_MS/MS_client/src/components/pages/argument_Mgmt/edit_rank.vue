@@ -11,8 +11,13 @@
 					<el-form-item label="模版编号" prop="applyNo">
 						<el-input v-model="cParmDetal.applyNo" :disabled="true"></el-input>
 					</el-form-item>
-					<el-form-item label="公司名称" prop="compName">
+					<!--<el-form-item label="公司名称" prop="compName">
 						<el-input v-model="cParmDetal.compName" :disabled="true"></el-input>
+					</el-form-item>-->
+					<el-form-item label="公司名称">
+						<el-select v-model="cParmDetal.organNo" value-key="compOrgNo" :disabled="true">
+							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+						</el-select>
 					</el-form-item>
 					<el-form-item label="模版名称" prop="applyName">
 						<el-input v-model="cParmDetal.applyName" placeholder=""></el-input>
@@ -54,6 +59,15 @@
 					callback();
 				}
 			};
+			var checksalaryFloor = (rule, value, callback) => {
+				if(value === '') {
+					callback(new Error('请输入薪资标准下线'));
+				} else if(Number(value) >= Number(this.cParmDetal.SalaryTop)) {
+					callback(new Error('下限值必须小于上限值!'));
+				} else {
+					callback();
+				}
+			};
 			return {
 				cParmDetal: {
 					applyNo: "",
@@ -66,6 +80,14 @@
 					remark: ""
 				},
 				rankList: ['B10-高级开发软件工程师', 'B5-中级开发软件工程师', 'B5-UI'],
+				//公司列表
+				compList: [
+					{compName: "上海魔方分公司",compOrgNo: '01'},
+					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
+					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'},
+					{compName: "上海魔方分公司",compOrgNo: '1002'},
+					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '1001'}
+				],
 				rules: {
 					//				compName: [
 					//					{ required: true, message: '公司名称不能为空', trigger: 'blur' }
@@ -82,7 +104,7 @@
 					}],
 					salaryFloor: [{
 						required: true,
-						message: '薪资标准下线不能为空',
+						validator: checksalaryFloor,
 						trigger: 'blur'
 					}],
 					salaryTop: [{
@@ -99,9 +121,16 @@
 		created() {
 			const self = this;
 			let applyNo = self.$route.params.applyNo;
+			let organNo = self.$route.params.organNo;
 			let params = {
-				applyNo: applyNo
+				applyNo: applyNo,
+				organNo: organNo
 			}
+//			let params = {
+//				organNo: "112111",
+//				appllyNo: "1121110002"
+//			}
+			//查询单个职级薪酬模板
 			self.queryCParmDtl(params);
 		},
 		methods: {
@@ -111,7 +140,7 @@
 					if(valid) {
 						let params = {
 							applyNo: self.cParmDetal.applyNo,
-							compName: self.cParmDetal.compName,
+							organNo: self.cParmDetal.organNo,
 							applyName: self.cParmDetal.applyName,
 							rank: self.cParmDetal.rank,
 							salaryFloor: self.cParmDetal.salaryFloor,
@@ -119,6 +148,7 @@
 							businessStandard: self.cParmDetal.businessStandard,
 							remark: self.cParmDetal.remark
 						}
+						//修改职级薪酬标准模板
 						self.modCparm(params);
 
 					} else {
@@ -127,30 +157,26 @@
 					}
 				});
 			},
-			//查询税率组
 			queryCParmDtl(params) {
 				const self = this;
-				self.$axios.get(baseURL + '/queryCParmDtl', {
-						params: params
-					})
+				self.$axios.get(baseURL + '/RankSalaryTemplate/queryCParmDtl/' + params.organNo + '/' + params.applyNo)
 					.then((res) => {
-						console.log(res);
+						console.log('CParmDtl',res);
 						self.cParmDetal = res.data.data;
 						
 					}).catch((err) => {
 						console.log(err);
 					})
 			},
-			//修改税率组
 			modCparm(params) {
 				const self = this;
-				self.$axios.put(baseURL + '/modCparm', params)
+				self.$axios.put(baseURL + '/RankSalaryTemplate/modCparm', params)
 				.then((res) => {
-					console.log(res);
-					self.$message({
-						message: '税率组修改成功',
-						type: 'success'
-					});
+					console.log('modCparm',res);
+					if(res.data.code === "S00000") {
+						self.$message({ message: '税率组修改成功', type: 'success' });
+					}
+					
 				}).catch((err) => {
 					console.log(err);
 				})

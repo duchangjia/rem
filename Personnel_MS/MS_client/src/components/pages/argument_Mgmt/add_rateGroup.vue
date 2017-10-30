@@ -8,17 +8,17 @@
 			</div>
 			<div class="content-inner">
 				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
-					<el-form-item label="组名称" prop="groupNo">
-					    <el-input v-model="formdata.groupNo"></el-input>
+					<el-form-item label="组名称" prop="groupName">
+					    <el-input v-model="formdata.groupName"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="组ID" prop="groupId">
-					    <el-input v-model="formdata.groupId"></el-input>
+				  	<el-form-item label="起征点">
+					    <el-input v-model="formdata.taxThreshold"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="生效日期" prop="startTime">
 			        	<el-date-picker type="date" v-model="formdata.startTime" @change="changeStartTime"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="失效日期" prop="endTime">
-			        	<el-date-picker type="date" placeholder="如无，则不填" v-model="formdata.endTime" @change="changeEndTime"></el-date-picker>
+			        	<el-date-picker type="date" v-model="formdata.endTime" @change="changeEndTime"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="备注">
 					    <el-input v-model="formdata.remark"></el-input>
@@ -36,21 +36,22 @@ export default {
 	data() {
 		return {
 			formdata: {
-				groupNo: "",
+				groupName: "",
 				groupId: "",
 				startTime: "",
 				endTime: "",
-				remark: ""
+				remark: "",
+				taxThreshold: ""
 			},
 			rules: {
-				groupNo: [
+				groupName: [
 					{ required: true, message: '组名称不能为空', trigger: 'blur' }
 				],
-				groupId: [
-					{ required: true, message: '组ID不能为空', trigger: 'blur' }
-				],
 				startTime: [
-//					{ type: 'date', required: true, message: '生效日期不能为空', trigger: 'blur' }
+					{  required: true, message: '生效日期不能为空', trigger: 'change' }
+				],
+				endTime: [
+					{  required: true, message: '失效日期不能为空', trigger: 'change' }
 				]
 			}
 		}
@@ -69,17 +70,15 @@ export default {
 			const self = this;
 		 	this.$refs[formName].validate((valid) => {
 	          	if (valid) {
-	          		console.log(self.formdata.groupId);
-	          		console.log(self.formdata.startTime);
-	          		console.log(self.formdata.endTime);
 	          		let params = {
-	          			groupNo: self.formdata.groupNo,
-	          			groupId: self.formdata.groupId,
+	          			groupName: self.formdata.groupName,
 						startTime: self.formdata.startTime,
-						isDelete: "1"
-//						endTime: self.formdata.endTime,
-//						remark: self.formdata.remark
+						endTime: self.formdata.endTime,
+						remark: self.formdata.remark,
+						isDelete: "1",
+						taxThreshold: self.formdata.taxThreshold
 	          		};
+	          		
 	          		self.insertTaxRateGroup(params);
 	          		
 	          	} else {
@@ -90,13 +89,13 @@ export default {
 		},
 		insertTaxRateGroup(params) {
 			const self = this;
-			self.$axios.post(baseURL+'/taxRateGroup/insertTaxRateGroup', params)
+			self.$axios.post(baseURL+'/taxRateGroup/addRGroup', params)
   			.then((res) => {
   				console.log(res);
   				
   				self.$message({ message: '税率组新增成功', type: 'success' });
   			}).catch((err) => {
-  				console.log('err');
+  				console.log('error');
   			})
 		}
 	}

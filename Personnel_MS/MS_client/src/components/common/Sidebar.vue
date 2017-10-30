@@ -117,8 +117,26 @@ export default {
 				},
 				{
 					icon: 'icon-ywgl',
-					index: 'business',
-					title: '业务管理',
+					index: '6',
+					title: '考勤管理',
+					subs: [
+						{
+							index: 'attendance_record',
+							title: '考勤记录管理'
+						},
+						{
+							index: 'travel_management',
+							title: '出差管理'
+						},
+						{
+							index: 'leave_management',
+							title: '请假管理'
+						},
+						{
+							index: 'overtime_management',
+							title: '加班管理'
+						}
+					]
 				},
 				{
 					icon: 'icon-khgx',

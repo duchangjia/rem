@@ -9,12 +9,12 @@
 			<div class="content-inner">
 				<el-form ref="formdata" :inline="true" :model="formdata" label-width="90px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="comp" value-key="compOrgNo" @change="changeValue">
+					    <el-select v-model="oldcomp" value-key="oldOrgId" @change="changeValue">
 							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
 						</el-select>
 				  	</el-form-item>
 					<el-form-item label="部门名称">
-					    <el-select v-model="depart" value-key="departOrgNo" @change="changeValue">
+					    <el-select v-model="olddepart" value-key="oldDeprtId" @change="changeValue">
 							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
 						</el-select>
 				  	</el-form-item>
@@ -26,30 +26,30 @@
 				  	</el-form-item>
 				  	<div class="info-title">调动信息</div>
 				  	<el-form-item label="调动类型">
-					    <el-select v-model="formdata.diaodongType" value-key="diaodongType" @change="changeValue">
-							<el-option v-for="item in diaodongTypeList" :key="item" :label="item" :value="item"></el-option>
+					    <el-select v-model="formdata.shiftType" value-key="shiftType" @change="changeValue">
+							<el-option v-for="item in shiftTypeList" :key="item" :label="item" :value="item"></el-option>
 						</el-select>
 				  	</el-form-item>
 				  	<el-form-item label="调动生效时间">
-					    <el-input v-model="formdata.shengxiaoDate"></el-input>
+					    <el-input v-model="formdata.shiftCameTime"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="原公司名称">
-					    <el-select v-model="comp" value-key="compOrgNo" @change="changeValue">
+					    <el-select v-model="oldcomp" value-key="oldOrgId" @change="changeValue">
 							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
 						</el-select>
 				  	</el-form-item>
 				  	<el-form-item label="新公司名称">
-					    <el-select v-model="newcomp" value-key="compOrgNo" @change="changeValue">
+					    <el-select v-model="newcomp" value-key="newOrgId" @change="changeValue">
 							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
 						</el-select>
 				  	</el-form-item>
 				  	<el-form-item label="原部门名称">
-					    <el-select v-model="depart" value-key="departOrgNo" @change="changeValue">
+					    <el-select v-model="olddepart" value-key="oldDeprtId" @change="changeValue">
 							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
 						</el-select>
 				  	</el-form-item>
 				  	<el-form-item label="新部门名称">
-					    <el-select v-model="newdepart" value-key="departOrgNo" @change="changeValue">
+					    <el-select v-model="newdepart" value-key="newDeprtId" @change="changeValue">
 							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
 						</el-select>
 				  	</el-form-item>
@@ -60,23 +60,23 @@
 					    <el-input v-model="formdata.newLineManager"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="原岗位">
-					    <el-input v-model="formdata.oldCustPost"></el-input>
+					    <el-input v-model="formdata.oldPost"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="新岗位">
-					    <el-input v-model="formdata.newCustPost"></el-input>
+					    <el-input v-model="formdata.newPost"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="原职级">
-					    <el-input v-model="formdata.oldCustClass"></el-input>
+					    <el-input v-model="formdata.oldClass"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="新职级">
-					    <el-input v-model="formdata.newCustClass"></el-input>
+					    <el-input v-model="formdata.newClass"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="调动原因">
 					    <el-input
 						  type="textarea"
 						  :autosize="{ minRows: 5, maxRows: 5}"
 						  placeholder="请输入内容"
-						  v-model="formdata.diaodongyuanying">
+						  v-model="formdata.shiftReason">
 						</el-input>
 				  	</el-form-item>
 				  	<el-form-item label="附件" style="width:100%;">
@@ -90,46 +90,46 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
+	const baseURL = 'iem_hrm';
 	export default {
 		data() {
 			return {
 				formdata: {
-					compOrgNo: "",
-					compName: "",
-					departName: "",
-					departOrgNo: "",
-					newcompOrgNo: "",
-					newcompName: "",
-					newdepartName: "",
-					newdepartOrgNo: "",
-					custName: "",
-					userNo: "",
-					diaodongType: "",
-					shengxiaoDate: "",
-					oldLineManager: "",
-					newLineManager: "",
-					oldCustPost: "",
-					newCustPost: "",
-					oldCustClass: "",
-					newCustClass: "",
-					diaodongyuanying: ""
+					oldOrgId: "01",
+//					compName: "",
+//					departName: "",
+					oldDeprtId: "01",
+					newOrgId: "02",
+//					newcompName: "",
+//					newdepartName: "",
+					newDeprtId: "02",
+					custName: "sfsd",
+					userNo: "14241134",
+					shiftType: "晋升",
+					shiftCameTime: "243243",
+					oldLineManager: "dsad",
+					newLineManager: "sdsad",
+					oldPost: "",
+					newPost: "",
+					oldClass: "",
+					newClass: "",
+					shiftReason: ""
 				},
-				
-				comp: {
+				oldcomp: {
 					compName: '',
-					compOrgNo: ''
+					compOrgNo: '01'
 				},
 				newcomp: {
 					compName: '',
-					compOrgNo: ''
+					compOrgNo: '0'
 				},
-				depart: {
+				olddepart: {
 					departName: '',
-					departOrgNo: ''
+					departOrgNo: '01'
 				},
 				newdepart: {
 					departName: '',
-					departOrgNo: ''
+					departOrgNo: '0'
 				},
 				//部门列表
 				departList: [
@@ -143,14 +143,21 @@
 					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
 					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
 				],
-				diaodongTypeList: ['晋升','调动','平调','轮岗','工资调整'],
+				shiftTypeList: ['晋升','调动','平调','轮岗','工资调整'],
 			};
 		},
 		components: {
 			current
 		},
 		created() {
-			
+			let userNo = this.$route.params.userNo;
+			let workhisId = this.$route.params.workhisId;
+			let params = {
+				userNo: userNo,
+				workhisId: workhisId
+			}
+			//人事调动详情查询
+			this.queryCustShifthisInfo(params);
 		},
 		methods: {
 			changeValue(value) {
@@ -159,7 +166,19 @@
 	      	},
 	      	download() {
 		      	
-	      	}
+	      	},
+			queryCustShifthisInfo(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/custShifthis/queryCustShifthisDetail', {params: params})
+				.then(function(res) {
+					console.log('CustShifthisDetail',res);
+
+//					self.pageNum = pageNum;
+//					self.totalRows = Number(res.data.data.total);
+				}).catch(function(err) {
+					console.log(err);
+				})
+			}
 		}
 	};
 </script>

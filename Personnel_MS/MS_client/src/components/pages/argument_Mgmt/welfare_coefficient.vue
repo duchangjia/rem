@@ -7,7 +7,7 @@
 				<el-button type="primary" @click="addWelfare()">新增</el-button>
 			</div>
 			<div class="content-inner">
-				<el-table :data="welfareList" border stripe style="width: 100%">
+				<el-table :data="payTemplatesList" border stripe style="width: 100%">
 					<el-table-column prop="applyNo" label="模版编号">
 						<template scope="scope">
 					        <span class="link" @click="handleEdit(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
@@ -23,7 +23,7 @@
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -36,10 +36,10 @@ const baseURL = 'iem_hrm'
 export default {
 	data() {
 		return {
-			pageIndex: 1,
-			pageRows: 2,
+			pageNum: 1,
+			pageSize: 5,
 			totalRows: 1,
-			welfareList: [
+			payTemplatesList: [
 				{
 					applyNo: "00001",
 					applyName: "广州地区缴纳",
@@ -69,8 +69,8 @@ export default {
 	},
 	created() {
 		const self = this;
-		let pageNum = 1,
-			pageSize = 4;
+		let pageNum = self.pageNum,
+			pageSize = self.pageSize;
 		let params = {
 			pageNum: pageNum,
 			pageSize: pageSize
@@ -99,10 +99,11 @@ export default {
                 type: 'warning'
             }).then(() => {
             	let params = {
-            		
+            		applyNo: row.applyNo
             	};
             	//删除福利系数模版
             	self.deleteInsurancePayTemplate(params);
+            	
             }).catch(() => {
                 self.$message('您已取消删除模版！');
             });
@@ -111,34 +112,40 @@ export default {
 			console.log('当前页',val);
 			const self = this;
 			let pageNum = val,
-				pageSize = 4;
+				pageSize = self.pageSize;
 			let params = {
 				pageNum: pageNum,
 				pageSize: pageSize
 			}
-			//查询分页福利缴纳系数模版列表
+			//分页查询福利缴纳系数模版列表
 			self.queryInsurancePayTemplates(pageNum,pageSize,params);
 		},
+		//查询福利缴纳系数模版列表
 		queryInsurancePayTemplates(pageNum,pageSize,params) {
 			const self = this;
-			self.$axios.get(baseURL+'/queryInsurancePayTemplates',{params : params})
+			self.$axios.get(baseURL+'/InsurancePayTemplate/queryInsurancePayTemplates/'+ pageNum + '/' + pageSize)
 			.then(function(res) {
 				console.log('res',res);
-				self.welfareList = res.data.data.WelfareList;
-				self.totalRows = Number(res.data.data.total);
-				self.pageIndex = pageNum;
-				self.pageRows = pageSize;
-				self.totalRows = Number(res.data.data.total);
+				if(res.data.code === "S00000") {
+					self.payTemplatesList = res.data.data.list;
+					self.pageNum = pageNum;
+					self.totalRows = Number(res.data.data.total);
+				}
+				
 			}).catch(function(err) {
 				console.log(err)
 			})
 		},
+		//删除保险系数缴纳模板
 		deleteInsurancePayTemplate(params) {
 			const self = this;
-			self.$axios.delete(baseURL+'/deleteInsurancePayTemplate')
+			self.$axios.delete(baseURL+'/InsurancePayTemplate/deleteInsurancePayTemplate/' + params.applyNo)
     		.then(function(res) {
     			console.log(res);
-    			self.$message({ type: 'success', message: '删除成功!' });
+    			if(res.data.code === "S00000") {
+    				self.$message({ type: 'success', message: '删除成功!' });
+    			}
+    			
     		}).catch(function(err) {
     			self.$message.error('删除失败');
     		})

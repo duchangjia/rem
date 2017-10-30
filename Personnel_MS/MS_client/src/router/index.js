@@ -67,15 +67,12 @@ export default new Router({
                     children: [
                         {
                             path: '/',
-                            component: resolve => require(['../components/pages/system_Mgmt/user-query.vue'], resolve)
+                            component: resolve => require(['../components/pages/system_Mgmt/userM_query.vue'], resolve)
                         },
                         {
-                            path: '/user-info',
-                            component: resolve => require(['../components/pages/system_Mgmt/user-info.vue'], resolve)
-                        },
-                        {
-                            path: '/test',
-                            component: resolve => require(['../components/pages/system_Mgmt/test.vue'], resolve)
+                        	name: 'edit_userM',
+                            path: '/edit_userM',
+                            component: resolve => require(['../components/pages/system_Mgmt/edit_userM.vue'], resolve)
                         }
                     ]
                 },
@@ -217,8 +214,44 @@ export default new Router({
                     component: resolve => require(['../components/pages/client_Relationship/client.vue'], resolve)
                 },
                 {
-                    path: '/business',
-                    component: resolve => require(['../components/pages/business_Mgmt/business.vue'], resolve)
+                    path: '/attendance_record',
+                    component: resolve => require(['../components/pages/attendance_Mgmt/attendanceRecord/attendance_record.vue'], resolve),
+                    children: [
+                    	{
+                    		path: '/',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/attendanceRecord/attendance_query.vue'], resolve),
+                    	},
+                    	{
+                    		name: 'attendance_import',
+                    		path: '/attendance_import',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/attendanceRecord/attendance_import.vue'], resolve),
+                    	}
+                    ]
+                },
+                {
+                    path: '/travel_management',
+                    component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/travel_management.vue'], resolve),
+                    children: [
+                    	{
+                    		path: '/',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/travel_query.vue'], resolve),
+                    	},
+                    	{
+                    		name: 'travel_info',
+                    		path: '/travel_info',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/travel_info.vue'], resolve),
+                    	},
+                    	{
+                    		name: 'edit_travel',
+                    		path: '/edit_travel',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/edit_travel.vue'], resolve),
+                    	},
+                    	{
+                    		name: 'add_travel',
+                    		path: '/add_travel',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/add_travel.vue'], resolve),
+                    	}
+                    ]
                 },
                 {
                     path: '/statement_1',
@@ -289,7 +322,7 @@ export default new Router({
                     children: [
                         {
                             path: '/',
-                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/query_transfer.vue'], resolve)
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/query_personnel.vue'], resolve)
                         },
                         {
                         	name: 'personnel_info',

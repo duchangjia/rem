@@ -19,17 +19,17 @@
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
 							</el-select>
 						</el-form-item>
-						<el-form-item label="开始时间" prop="startDate">
+						<el-form-item label="开始时间" prop="startTime">
 							<el-date-picker
-						      v-model="ruleForm2.startDate"
+						      v-model="ruleForm2.startTime"
 						      type="date"
 						      placeholder="选择日期"
 						      :picker-options="pickerOptions0" @change="changeStartTime">
 						   </el-date-picker>
 						</el-form-item>
-						<el-form-item label="结束时间" prop="endDate">
+						<el-form-item label="结束时间" prop="endTime">
 							<el-date-picker
-						      v-model="ruleForm2.endDate"
+						      v-model="ruleForm2.endTime"
 						      type="date"
 						      placeholder="选择日期"
 						      :picker-options="pickerOptions0" @change="changeEndTime">
@@ -43,9 +43,9 @@
 				</el-form>
 				<div class="info">
 					<el-table :data="transferDataList" border stripe style="width: 100%">
-						<el-table-column prop="diaodongNo" label="调动编号">
+						<el-table-column prop="workhisId" label="调动编号">
 							<template scope="scope">
-						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.diaodongNo }}</span>
+						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.workhisId }}</span>
 					      	</template>
 						</el-table-column>
 						<el-table-column prop="userNo" label="工号"></el-table-column>
@@ -62,7 +62,7 @@
 						</el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -70,8 +70,8 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import current from '../../../common/current_position.vue'
-const baseURL = 'iem_hrm'
+import current from '../../../common/current_position.vue';
+const baseURL = 'iem_hrm';
 export default {
 	data() {
 		return {
@@ -80,14 +80,14 @@ export default {
 	            return time.getTime() < Date.now() - 8.64e7;
 	          }
 	       	},
-			pageIndex: 1,
-			pageRows: 5,
+			pageNum: 1,
+			pageSize: 5,
 			totalRows: 2,
 			ruleForm2: {
 				compOrgNo: '',
 				departOrgNo: '',
-				startDate: "",
-				endDate: ''
+				startTime: "",
+				endTime: ''
 			},
 			comp: {
 				compName: '',
@@ -111,7 +111,7 @@ export default {
 			],
 			transferDataList: [
 				{
-					diaodongNo: "001001",
+					workhisId: "001001",
 					userNo: "p011111",
 					userName: "sdsd",
 					oldCompName: "",
@@ -121,7 +121,7 @@ export default {
 					shengxiaoDate: ""
 				},
 				{
-					diaodongNo: "001001",
+					workhisId: "001001",
 					userNo: "p011111",
 					userName: "sdsd",
 					oldCompName: "xx",
@@ -142,20 +142,23 @@ export default {
 	},
 	created() {
 		const self = this;
-		let pageNum = self.pageIndex;
-		let pageSize = self.pageRows;
+		let pageNum = self.pageNum;
+		let pageSize = self.pageSize;
+		let userNo = self.$route.params.userNo;
 		let params = {
 			"pageNum": pageNum,
-			"pageSize": pageSize
+			"pageSize": pageSize,
+			userNo: userNo
 		}
-		
+		//查询调动列表
+		self.queryCustShifthisList(pageNum,pageSize,params);
 	},
 	methods: {
 		changeStartTime(val) {
-			this.ruleForm2.startDate = val;
+			this.ruleForm2.startTime = val;
 		},
 		changeEndTime(val) {
-			this.ruleForm2.endDate = val;
+			this.ruleForm2.endTime = val;
 		},
 		handleAddTransfer() {
 			this.$router.push('/add_transfer');
@@ -169,7 +172,8 @@ export default {
             this.$router.push({
             	name: "edit_transfer",
             	params: {
-            		diaodongNo: row.diaodongNo
+					userNo: row.userNo,
+            		workhisId: row.workhisId
             	}
             });
 		},
@@ -178,7 +182,8 @@ export default {
 			this.$router.push({
 				name: "transfer_info",
 				params: {
-					diaodongNo: row.diaodongNo
+					userNo: row.userNo,
+					workhisId: row.workhisId
 				}
 			})
 			
@@ -186,10 +191,24 @@ export default {
 		//查询
 		queryForm(formName) {
 			const self = this;
-			console.log(this.ruleForm2.startDate)
+			console.log(this.ruleForm2.startTime)
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
 					console.log('submit')
+					const self = this;
+					let pageNum = self.pageNum;
+					let pageSize = self.pageSize;
+					let userNo = self.$route.params.userNo;
+					let params = {
+						"pageNum": pageNum,
+						"pageSize": pageSize,
+						userNo: userNo,
+						workhisId: '',
+						startTime: this.ruleForm2.startTime,
+						endTime: this.ruleForm2.endTime
+					}
+					//条件查询调动列表
+					self.queryCustShifthisList(pageNum,pageSize,params);
 					
 				} else {
 					console.log('error submit!!');
@@ -201,30 +220,33 @@ export default {
 		resetForm() {
 			this.comp = {};
 			this.depart = {};
-			this.ruleForm2.startDate = '';
-			this.ruleForm2.endDate = '';
+			this.ruleForm2.startTime = '';
+			this.ruleForm2.endTime = '';
 		},
 		handleCurrentChange(val) {
-			console.log(`当前页: ${val}`);
 			const self = this;
 			let pageNum = val;
-			let pageSize = self.pageRows;
+			let pageSize = self.pageSize;
+			let userNo = self.$route.params.userNo;
 			let params = {
 				"pageNum": pageNum,
-				"pageSize": pageSize
+				"pageSize": pageSize,
+				userNo: userNo
 			}
-			
+			//查询调动列表
+			self.queryCustShifthisList(pageNum,pageSize,params);
 		},
-		queryUserList(pageNum,pageSize,params) {
+		//人事调动列表查询
+		queryCustShifthisList(pageNum,pageSize,params) {
 			let self = this;
-			self.$axios.get(baseURL+'/user/queryUserList', {params: params})
+			self.$axios.get(baseURL+'/custShifthis/queryCustShifthisList', {params: params})
 			.then(function(res) {
-				console.log('UserList',res);
-				self.transferDataList = res.data.data.models;
-				self.pageIndex = pageNum;
+				console.log('CustShifthisList',res);
+
+				self.pageNum = pageNum;
 				self.totalRows = Number(res.data.data.total);
 			}).catch(function(err) {
-				console.log(err);
+				console.log('error');
 			})
 		}
 	}

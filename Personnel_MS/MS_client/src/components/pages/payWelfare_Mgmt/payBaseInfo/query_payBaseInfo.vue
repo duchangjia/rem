@@ -34,7 +34,7 @@
                         <span @click="handlePayBaseInfoDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.userNo }}</span>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" prop="custName" label="姓名">
+                <el-table-column align="center" prop="userName" label="姓名">
                 </el-table-column>
                 <el-table-column align="center" prop="wagesBase" label="基本工资">
                 </el-table-column>
@@ -48,7 +48,7 @@
                 </el-table-column>
                 <el-table-column align="center" prop="houseBase" label="公积金基数">
                 </el-table-column>
-                <el-table-column align="center" prop="entryTime" label="录入时间">
+                <el-table-column align="center" prop="createdDate" label="录入时间">
                 </el-table-column>
                 <el-table-column align="center" label="操作">
                     <template scope="scope">
@@ -96,12 +96,11 @@ export default {
         custName: self.filters.custName
       };
       self.$axios
-        // .get("/iem_hrm/pay/queryPayBaseInfoList", { params: params })
-        .get("/iem_hrm/queryPayBaseInfoList", { params: params })
+        .get("/iem_hrm/pay/queryPayBaseInfoList", { params: params })
         .then(res => {
           console.log(res);
-          self.payBaseInfoList = res.data.data.payBaseInfoArray;
-          self.totalRows = Number(res.data.data.total);
+          self.payBaseInfoList = res.data.data.models;
+          self.totalRows = res.data.data.total;
         })
         .catch(() => {
           console.log("error");
@@ -121,7 +120,7 @@ export default {
     },
     handleQuery() {
       console.log(
-        "userNo:" + self.filters.userNo + " custName:" + self.filters.custName
+        "userNo:" + this.filters.userNo + " custName:" + this.filters.custName
       );
       this.getPayBaseInfoList(); //根据条件查询薪酬基数列表
     },
@@ -152,9 +151,8 @@ export default {
       });
     },
     handleDelete(index, row) {
-      let targetPayBaseInfo = {};
-      targetPayBaseInfo.userNo = row.userNo;
-      console.log(targetPayBaseInfo);
+      const self = this;
+      let userNo = row.userNo;
       this.$confirm("此操作将会删除该条薪酬基数信息, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -162,15 +160,13 @@ export default {
       })
         .then(() => {
           this.$axios
-            .delete(
-              "/iem_hrm/pay/deletePayBaseInfo?userNo=" +
-                targetPayBaseInfo.userNo,
-              targetPayBaseInfo
-            )
+            .delete("/iem_hrm/pay/deletePayBaseInfo/" + userNo)
             .then(res => {
               console.log(res);
-              if (res.data.code == "S00000")
+              if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "删除成功!" });
+                this.getPayBaseInfoList();
+              }
               else this.$message.error("删除薪酬基数信息失败！");
             })
             .catch(() => {

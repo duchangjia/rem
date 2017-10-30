@@ -8,20 +8,23 @@
 			</div>
 			<div class="content-inner">
 				<el-form ref="rateInfo" :rules="rules" :model="rateInfo" label-width="80px">
-					<el-form-item label="组名称" prop="groupNo">
-					    <el-input v-model="rateInfo.groupNo"></el-input>
+					<el-form-item label="组名称" prop="applyNo">
+					    <el-input v-model="rateInfo.applyNo"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="下限" prop="GroupLowerLimit">
-					    <el-input v-model="rateInfo.GroupLowerLimit"></el-input>
+				  	<el-form-item label="下限" prop="groupLowerLimit">
+					    <el-input v-model="rateInfo.groupLowerLimit"></el-input>
 				  	</el-form-item>
-					<el-form-item label="上限" prop="GroupLimit">
-					    <el-input v-model="rateInfo.GroupLimit"></el-input>
+					<el-form-item label="上限" prop="groupLimit">
+					    <el-input v-model="rateInfo.groupLimit"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="百分率" prop="percentRate">
 					    <el-input v-model="rateInfo.percentRate"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="速算扣除率" prop="quickCal">
 					    <el-input v-model="rateInfo.quickCal" placeholder='自动计算'></el-input>
+				  	</el-form-item>
+				  	<el-form-item label="备注" prop="remark">
+					    <el-input v-model="rateInfo.remark"></el-input>
 				  	</el-form-item>
 				</el-form>
 			</div>
@@ -34,38 +37,47 @@ import current from '../../common/current_position.vue'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
-		var checkGroupLimit = (rule, value, callback) => {
+		var checkgroupLimit = (rule, value, callback) => {
 	        if (value === '') {
 	          	callback(new Error('上限不能为空'));
-	        } else if (Number(value) <= Number(this.rateInfo.GroupLowerLimit)) {
+	        } else if (Number(value) <= Number(this.rateInfo.groupLowerLimit)) {
 	          	callback(new Error('上限值必须大于下限值!'));
 	        } else {
 	          	callback();
 	        }
       	};
+      	var checkgroupLowerLimit = (rule, value, callback) => {
+      		if (value === '') {
+	          	callback(new Error('下限不能为空'));
+	        } else if (Number(value) >= Number(this.rateInfo.groupLimit)) {
+	          	callback(new Error('下限值必须小于上限值!'));
+	        } else {
+	          	callback();
+	        }
+      	}
 		return {
 			rateInfo: {
-				groupNo: "",
-				GroupLimit: '',
-				GroupLowerLimit: '',
+				applyNo: "",
+				groupLimit: '',
+				groupLowerLimit: '',
 				percentRate: '',
 				quickCal: ''
 			},
 			rules: {
-				groupNo: [
-					{ required: true, message: '组名称不能为空', trigger: 'blur' }
+				applyNo: [
+					{ required: true, message: '编号不能为空', trigger: 'blur' }
 				],
 				startTime: [
 					{ type: 'date', required: true, message: '生效日期不能为空', trigger: 'blur' }
 				],
-				GroupLimit: [
-					{ required: true, validator: checkGroupLimit, trigger: 'blur' }
+				groupLimit: [
+					{ required: true, validator: checkgroupLimit, trigger: 'blur' }
 				],
-				GroupLowerLimit: [
-					{ required: true, message: '下限不能为空', trigger: 'blur' }
+				groupLowerLimit: [
+					{ required: true, validator: checkgroupLowerLimit, trigger: 'blur' }
 				],
 				percentRate: [
-					{ required: true, message: '百分率不能为空', trigger: 'blur' }
+//					{ required: true, message: '百分率不能为空', trigger: 'blur' }
 				]
 			}
 		}
@@ -75,6 +87,7 @@ export default {
 	},
 	created() {
 		this.rateInfo = this.$route.params;
+		console.log(this.rateInfo)
 	},
 	methods: {
 		save(formName) {
@@ -84,12 +97,14 @@ export default {
 	          		let params = {
 	          			applyNo: self.rateInfo.applyNo,
 	          			groupId: self.rateInfo.groupId,
-						GroupLimit: self.rateInfo.GroupLimit,
-						GroupLowerLimit: self.rateInfo.GroupLowerLimit,
+						groupLimit: self.rateInfo.groupLimit,
+						groupLowerLimit: self.rateInfo.groupLowerLimit,
+						percentRate: self.rateInfo.percentRate,
+						quickCal: self.rateInfo.quickCal,
 						remark: self.rateInfo.remark,
 						isDelete: "1"
 	          		};
-	          		self.insertTaxRateCtrl(params);
+	          		self.modifyRate(params);
 	          		
 	          	} else {
 	            	this.$message.error('修改失败');
@@ -98,12 +113,17 @@ export default {
 	        });
 		},
 		//修改税率
-		insertTaxRateCtrl(params) {
+		modifyRate(params) {
 			const self = this;
-			self.$axios.put(baseURL+'/taxRateCtrl/updaTeTaxRateCtrl', params)
+			self.$axios.put(baseURL+'/taxRateCtrl/modRate', params)
   			.then((res) => {
   				console.log(res);
-  				this.$message({ message: '税率修改成功', type: 'success' });
+  				if(res.data.code === "S00000") {
+  					this.$message({ message: '税率修改成功', type: 'success' });
+  				} else {
+  					console.log('error')
+  				}
+  				
   			}).catch((err) => {
   				console.log('error')
   			})
