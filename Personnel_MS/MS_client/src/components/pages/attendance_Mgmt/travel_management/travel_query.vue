@@ -1,5 +1,5 @@
 <template>
-	<div class="content_wrap">
+	<div class="travel_query">
 		<current yiji="考勤管理" erji="出差管理" sanji="出差查询"></current>
 		<div class="content">
 			<div class="title">
@@ -238,5 +238,262 @@ export default {
 </script>
 
 <style>
+.travel_query {
+	padding-left: 20px;
+    padding-bottom: 20px;
+	width: 100%;
+}
 
+.travel_query .content {
+	width: 100%;
+	padding: 0px 20px;
+	background: #ffffff;
+	clear: both;
+}
+
+.travel_query .content .title {
+	border-bottom: 1px solid #EEEEEE;
+}
+
+.travel_query .content .title .title-text {
+	display: inline-block;
+	position: relative;
+	padding: 29px 0px;
+	font-size: 16px;
+}
+
+.travel_query .content .title .title-text:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: -1px;
+	width: 100%;
+	height: 2px;
+	background: #333333;
+}
+.travel_query .title_button {
+	float: right;
+	margin-top: 20px;
+}
+.travel_query .content-inner {
+	padding: 40px 0px;
+}
+
+.travel_query .el-form-item__label {
+	text-align: left;
+	vertical-align: middle;
+	float: left;
+	font-size: 14px;
+	color: #999999;
+	line-height: 1;
+	padding: 11px 12px 11px 0;
+	box-sizing: border-box;
+}
+
+.travel_query .input-wrap .el-form-item {
+	margin-right: 80px;
+	float: left;
+}
+
+.travel_query .el-form-item {
+	margin-bottom: 40px;
+}
+
+.travel_query .el-input,
+.travel_query .el-input__inner {
+	width: 200px;
+	display: inline-block;
+}
+
+.travel_query .el-form-item__content {
+	line-height: 36px;
+	position: relative;
+	font-size: 14px;
+}
+
+.travel_query .button-wrap {
+	margin: 0px auto 40px;
+	width: 260px;
+	clear: both;
+	font-size: 0px;
+}
+
+.travel_query .el-input__inner {
+	border-radius: 4px;
+	border: 1px solid #EEEEEE;
+	color: #333333;
+	padding: 19px 10px;
+	transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+}
+
+.travel_query .el-input__inner:hover {
+	border-color: #FF9900;
+}
+
+.travel_query .el-button {
+	display: inline-block;
+	line-height: 1;
+	white-space: nowrap;
+	cursor: pointer;
+	background: #fff;
+	border: 1px solid #FF9900;
+	color: #FF9900;
+	padding: 12px 45px;
+	border-radius: 0px;
+}
+
+.travel_query .el-button.resetform {
+	margin-right: 20px;
+}
+
+.travel_query .el-button--primary {
+	color: #fff;
+	background-color: #FF9900;
+	border-color: #FF9900;
+}
+.el-button+.el-button {
+    margin-left: 0px;
+}
+.travel_query .el-table td,
+.travel_query .el-table th {
+	text-align: center;
+}
+.travel_query .el-table td:first-child{
+	cursor: pointer;
+}
+.travel_query .link {
+	cursor: pointer;
+    color: #337ab7;
+    text-decoration: underline;
+}
+.travel_query .el-table td:first-child:hover{
+	color: #FF9900;
+}
+
+.travel_query .el-table th {
+	white-space: nowrap;
+	overflow: hidden;
+	background-color: #f4f4f4;
+	text-align: center;
+	box-shadow: inset 0 1px 0 0 #EEEEEE;
+}
+.icon_edit {
+	width: 14px;
+	height: 14px;
+	cursor: pointer;
+	display: inline-block;
+	background: url(../../../../../static/img/common/edit.png);
+}
+.icon_delete {
+	width: 14px;
+	height: 16px;
+	cursor: pointer;
+	display: inline-block;
+	margin-left: 20px;
+	background: url(../../../../../static/img/common/delete.png);
+}
+
+.travel_query .el-pagination {
+	text-align: right;
+	margin-top: 40px;
+	margin-right: 40px;
+	color: #282828;
+}
+
+.travel_query .el-pager li.active {
+	border-color: #FF9900;
+	background-color: #FF9900;
+	color: #fff;
+	cursor: default;
+}
+
+.travel_query .el-pager li {
+	padding: 0 4px;
+	border-right: 0;
+	background: #fff;
+	font-size: 12px;
+	letter-spacing: -0.39px;
+	min-width: 24px;
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+}
+
+.travel_query .el-pager li:last-child {
+	border-right: 1px solid #EEEEEE;
+}
+
+.travel_query .el-pagination button,
+.travel_query .el-pagination span {
+	display: inline-block;
+	font-size: 12px;
+	letter-spacing: -0.39px;
+	min-width: 24px;
+	height: 24px;
+	color: #282828;
+	line-height: 24px;
+	vertical-align: top;
+	box-sizing: border-box;
+}
+
+.travel_query .el-pager li:hover {
+	color: #FF9900;
+}
+.travel_query .el-pager li.active {
+    border-color: #ff9900;
+    background-color: #ff9900;
+    color: #fff;
+    cursor: default;
+}
+.travel_query .el-pager li.active:hover {
+	cursor: pointer;
+	color: #ffffff;
+}
+
+.travel_query .el-pagination button:hover {
+	color: #FF9900;
+}
+.travel_query .el-pagination button.disabled:hover {
+	color: #e4e4e4;
+}
+
+.travel_query .el-pagination__editor {
+	border: 1px solid #EEEEEE;
+	border-radius: 2px;
+	padding: 2px 0px;
+	width: 24px;
+	min-width: 24px;
+}
+
+.travel_query .el-pagination__editor:focus {
+	outline: 0;
+	border-color: #FF9900;
+}
+
+.travel_query .el-pagination .btn-next,
+.travel_query .el-pagination .btn-prev {
+	border: 1px solid #EEEEEE;
+	color: #282828;
+}
+
+.travel_query .el-autocomplete-suggestion__wrap,
+.travel_query .el-pager li {
+	border: 1px solid #EEEEEE;
+}
+
+.travel_query .el-pager li.btn-quicknext,
+.travel_query .el-pager li.btn-quickprev {
+	line-height: 28px;
+	color: #282828;
+}
+.travel_query .el-upload__input {
+    display: none;
+}
+.travel_query .btn_wrap {
+	margin-top: 30px;
+}
+.travel_query .upload_btn {
+	display: inline-block;
+	left: 100%;
+}
 </style>

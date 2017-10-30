@@ -1,57 +1,75 @@
 <template>
-	<div class="edit_transfer_wrap">
+	<div class="content_wrap">
 		<current yiji="考勤管理" erji="出差管理" sanji="出差新增">
 		</current>
 		<div class="content">
 			<div class="title">
 				<span class="title-text">出差新增</span>
-				<el-button type="primary" class="conserve" @click="save('formdata')">保存</el-button>
+				<el-button type="primary" class="conserve" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form ref="formdata" :inline="true"  :rules="rules" :model="formdata" label-width="100px">
+				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="formdata.oldOrgId" value-key="compOrgNo" @change="changeValue">
+					    <el-select v-model="formdata2.orgId" value-key="compOrgNo" @change="changeValue">
 							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 						</el-select>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-					    <el-select v-model="formdata.oldDeprtId" value-key="departOrgNo" @change="changeValue">
+					    <el-select v-model="formdata2.deprtId" value-key="departOrgNo" @change="changeValue">
 							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 						</el-select>
 				  	</el-form-item>
+				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">  	
 					<el-form-item label="工号">
-					    <el-input v-model="formdata.userNo"></el-input>
-				  	</el-form-item>
+					    <el-input v-model="formdata1.userNo"></el-input>
+					    <el-button class="queryUserBtn" type="primary" @click="queryUserInfo">查询</el-button>
+				 	</el-form-item>
 				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata.custName"></el-input>
+					    <el-input v-model="formdata1.custName"></el-input>
 				  	</el-form-item>
+				  	<el-form-item label="岗位">
+					    <el-input v-model="formdata1.custPost"></el-input>
+				  	</el-form-item>
+				  	<el-form-item label="职级">
+					    <el-input v-model="formdata1.custClass"></el-input>
+				  	</el-form-item>
+				</el-form>
+
 				  	<div class="info-title">出差信息</div>
-				  	<el-form-item label="出差开始时间" prop="startTime">
-			        	<el-date-picker type="date" v-model="formdata.startTime" @change="changeStartTime"></el-date-picker>
+				  	<el-form-item label="出差开始时间" prop="travelStartTime">
+			        	<el-date-picker type="date" v-model="formdata2.travelStartTime" @change="changeStartTime"></el-date-picker>
 			      	</el-form-item>
-			      	<el-form-item label="出差结束时间" prop="startTime">
-			        	<el-date-picker type="date" v-model="formdata.startTime" @change="changeStartTime"></el-date-picker>
+				  	<el-form-item label="出差结束时间" prop="travelEndTime">
+			        	<el-date-picker type="date" v-model="formdata2.travelEndTime" @change="changeEndTime"></el-date-picker>
 			      	</el-form-item>
-				  	<el-form-item label="出差类型" prop="shiftType">
-					    <el-select v-model="formdata.shiftType" value-key="shiftType" @change="changeValue">
-							<el-option v-for="item in shiftTypeList" :key="item" :label="item" :value="item"></el-option>
+				  	<el-form-item label="出差类型" prop="travelType">
+					    <el-select v-model="formdata2.travelType" value-key="travelType" @change="changeValue">
+							<el-option v-for="item in travelTypeList" :key="item" :label="item" :value="item"></el-option>
 						</el-select>
 				  	</el-form-item>
 				  	<el-form-item label="出差城市">
-					    <el-input v-model="formdata.oldLineManager"></el-input>
-					    <el-input v-model="formdata.oldLineManager"></el-input>
+					    <el-input class="travelCity" v-model="formdata2.travelStartCity" placeholder="出发城市"></el-input>
+					    <span class="travelCity_line" >-</span>
+					    <el-input class="travelCity" v-model="formdata2.travelArrivalCity" placeholder="到达城市"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="调动原因" prop="chucaiRemark">
+				  	<el-form-item label="出差天数">
+					    <el-input v-model="formdata2.travelDays"></el-input>
+				  	</el-form-item>
+				  	<el-form-item label="差补标准">
+					    <el-input v-model="formdata2.travelSTD"></el-input>
+				  	</el-form-item>
+				  	<el-form-item class="remark" label="出差备注" prop="remark">
 					    <el-input
 						  type="textarea"
 						  :autosize="{ minRows: 5, maxRows: 5}"
 						  placeholder="请输入内容"
-						  v-model="formdata.shiftReason">
+						  v-model="formdata2.remark">
 						</el-input>
 				  	</el-form-item>
 				  	<el-form-item label="附件" style="width: 100%;">
+			  		 	<el-input v-model="formdata2.attachm"></el-input>
 				  		<el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
-                            <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
+                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
                         </el-upload>
 				  	</el-form-item>
 				</el-form>
@@ -66,26 +84,23 @@
 	export default {
 		data() {
 			return {
-				formdata: {
-					oldOrgId: "",
-//					compName: "",
-//					departName: "",
-					oldDeprtId: "",
-					newOrgId: "",
-//					newcompName: "",
-//					newdepartName: "",
-					newDeprtId: "",
-					custName: "",
+				formdata1: {
 					userNo: "",
-					shiftType: "",
-					shiftCameTime: "",
-					oldLineManager: "",
-					newLineManager: "",
-					oldPost: "",
-					newPost: "",
-					oldClass: "",
-					newClass: "",
-					shiftReason: "",
+					custName: "",
+					custPost: "",
+					custClass: "",
+				},
+				formdata2: {
+					orgId: "01",
+					deprtId: "",
+					travelStartTime: "",
+					travelEndTime: "",
+					travelType: "",
+					travelStartCity: "",
+					travelArrivalCity: "",
+					travelDays: "",
+					travelSTD: "",
+					remark: "",
 					attachm: ""
 				},
 				
@@ -117,32 +132,11 @@
 					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
 					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
 				],
-				shiftTypeList: ['晋升','调动','平调','轮岗','工资调整'],
+				travelTypeList: ['业务拓展','项目实施','会议','其他'],
 			 	rules: {
-		          	shiftType: [
-		            	{ required: true, message: '调动类型不能为空', trigger: 'blur' }
-	          		],
-		          	shiftCameTime: [
-		          		{ required: true, message: '生效日期不能为空', trigger: 'blur' }
-		          	],
-		          	newOrgId: [
-		          		{ required: true, message: '新公司名不能为空', trigger: 'blur' }
-		          	],
-		          	newDeprtId: [
-	          			{ required: true, message: '新部门名不能为空', trigger: 'blur' }
-		          	],
-					newLineManager: [
-						{ required: true, message: '新直线经理不能为空', trigger: 'blur' }
-					],
-					newPost: [
-						{ required: true, message: '新岗位不能为空', trigger: 'blur' }
-					],
-					newClass: [
-						{ required: true, message: '新职级不能为空', trigger: 'blur' }
-					],
-					shiftReason: [
-						{ required: true, message: '调动原因不能为空', trigger: 'blur' }
-					]
+		          	travelType: [
+		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
+	          		]
 				}
 			}
 		},
@@ -153,19 +147,19 @@
 			
 		},
 		methods: {
-			handleRemove(file, fileList) {
-		        console.log(file, fileList);
-	      	},
-	      	handlePreview(file) {
-		        console.log(file);
-	      	},
+			changeStartTime(time) {
+				this.formdata2.travelStartTime = time;
+			},
+			changeEndTime(time) {
+				this.formdata2.travelEndTime = time;
+			},
 			changeValue(value) {
 		 		const self = this;
 	            console.log('value',value);
-	            console.log(this.formdata.newDeprtId)
 	      	},
-	      	download() {
-		      	
+	      	queryUserInfo() {
+	      		this.formdata1.userNo;
+	      		
 	      	},
 	      	save(formName) {
 				const self = this;
@@ -173,24 +167,9 @@
 					if(valid) {
 						console.log('valid');
 						let params = {
-							oldOrgId: self.formdata.oldOrgId,
-							oldDeprtId: self.formdata.oldDeprtId,
-							newOrgId: self.formdata.newOrgId,
-							newDeprtId: self.formdata.newDeprtId,
-							custName: self.formdata.custName,
-							userNo: self.formdata.userNo,
-							shiftType: self.formdata.shiftType,
-							shiftCameTime: self.formdata.shiftCameTime,
-							oldLineManager: self.formdata.oldLineManager,
-							newLineManager: self.formdata.newLineManager,
-							oldPost: self.formdata.oldPost,
-							newPost: self.formdata.newPost,
-							oldClass: self.formdata.oldClass,
-							newClass: self.formdata.newClass,
-							shiftReason: self.formdata.shiftReason,
-							attachm: self.formdata.attachm
+							
 						}
-						self.addCustShif(params);
+						self.addTravelInfo(params);
 						
 					} else {
 						this.$message.error('failvalid');
@@ -198,12 +177,11 @@
 					}
 				});
 			},
-			//人事调动添加
-			addCustShif(params) {
+			addTravelInfo(params) {
 				let self = this;
-				self.$axios.post(baseURL+'/custShifthis/addCustShifthis',params)
+				self.$axios.post(baseURL+'/travel/addTravelInfo',params)
 				.then(function(res) {
-					console.log('addCustShif',res);
+					console.log('addTravelInfo',res);
 					
 				}).catch(function(err) {
 					console.log('error');
@@ -213,102 +191,12 @@
 	};
 </script>
 
-<style>
-.edit_transfer_wrap {
-	padding-left: 20px;
-    padding-bottom: 20px;
-	width: 100%;
-}
-.edit_transfer_wrap .content {
-	width: 100%;
-	padding: 0px 20px;
-	background: #ffffff;
-	clear: both;
-}
-.edit_transfer_wrap .content .title {
-	border-bottom: 1px solid #EEEEEE;
-}
+<style scoped>
 
-.edit_transfer_wrap .content .title .title-text {
-	display: inline-block;
-	position: relative;
-	padding: 29px 0px;
-	font-size: 16px;
-}
-
-.edit_transfer_wrap .content .title .title-text:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
-}
-
-.edit_transfer_wrap .content-inner {
-	padding: 40px 0px;
-}	
-.edit_transfer_wrap .info-title{
-	padding: 11px 0px 11px 10px;
-    margin-bottom: 30px;
-	color: #999999;
-	border-bottom: none;
-}
-.edit_transfer_wrap .el-input__inner {
-    border: 1px solid #EEEEEE;
-    color: #999999;
-    width: 300px;
+.queryUserBtn {
+    position: absolute;
+    right: 0;
+    top: 0;
     height: 40px;
-    margin-left: 30px;
 }
-.edit_transfer_wrap .el-form-item {
-	padding-left: 20px;
-}
-.edit_transfer_wrap .el-form-item__label {
-    text-align: right;
-    vertical-align: middle;
-    float: left;
-    font-size: 14px;
-    color: #999999;
-    line-height: 1;
-    padding: 11px 0px 11px 0;
-    box-sizing: border-box;
-}
-.edit_transfer_wrap .el-textarea__inner {
-    margin-left: 30px;
-}
-.edit_transfer_wrap .file_button {
-	color: #FF9900;
-	font-size: 14px;
-}
-.edit_transfer_wrap .el-form-item__error {
-    left: 30px;
-}
-.edit_transfer_wrap .uploadBtn {
-  position: absolute;
-  height: 38px;
-  top: 0;
-  right: 0;
-  margin: 0;
-  border: 1px solid #ff9900;
-  border-radius: 0;
-  background: #ff9900;
-  font-family: "PingFang SC";
-}
-.edit_transfer_wrap .el-upload__input {
-    margin-left: 30px;
-    border: 1px solid #eeeeee;
-}
-.edit_transfer_wrap .conserve {
-		float: right;
-		margin-top: 20px;
-		background: #F4F4F4;
-		border: 1px solid #F4F4F4;
-		border-radius: 0px;
-		font-size: 14px;
-		color: #333333;
-		width: 120px;
-		height: 40px;
-	}
 </style>
