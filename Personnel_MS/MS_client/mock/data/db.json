@@ -546,6 +546,7 @@
     "pactListArray": [
       {
         "pactNo": "001",
+        "paperPactNo": "p001",
         "pactName": "一号合同",
         "pactType": "1",
         "userNo": "a123",
@@ -562,6 +563,7 @@
       },
       {
         "pactNo": "002",
+        "paperPactNo": "p002",
         "pactName": "二号合同",
         "pactType": "1",
         "userNo": "b123",
@@ -578,6 +580,7 @@
       },
       {
         "pactNo": "003",
+        "paperPactNo": "p003",
         "pactName": "三号合同",
         "pactType": "0",
         "userNo": "c123",
@@ -594,6 +597,7 @@
       },
       {
         "pactNo": "004",
+        "paperPactNo": "p004",
         "pactName": "四号合同",
         "pactType": "1",
         "userNo": "d123",
@@ -769,7 +773,7 @@
   "delCparm": {
     "applyNo": "S000000"
   },
-  "querPactDtl": {
+  "queryPactDetail": {
     "pactNo": "004",
     "paperPactNo": "P004",
     "pactName": "四号合同",
@@ -800,7 +804,7 @@
     "updateBy": "李大仁",
     "updateDate": "2017-10-09 00:00:00"
   },
-  "queryPChangeList": {
+  "queryPactChangeList": {
     "pageIndex": "1",
     "pageRows": "7",
     "pageCount": "8",
@@ -836,7 +840,7 @@
       }
     ]
   },
-  "queryPChangeDtl": {
+  "queryPactChangeDetail": {
     "pactNo": "004",
     "pactName": "四号合同",
     "changeId": "change002",
@@ -859,7 +863,7 @@
     "updateBy": "李大仁",
     "updateDate": "2017-10-09 00:00:00"
   },
-  "queryPRenewList": {
+  "queryPactRenewList": {
     "pageIndex": "1",
     "pageRows": "7",
     "pageCount": "8",
@@ -881,7 +885,7 @@
       }
     ]
   },
-  "queryPRenewDtl": {
+  "queryPactRenewDetail": {
     "pactNo": "004",
     "pactName": "四号合同",
     "renewId": "renew001",
@@ -1003,35 +1007,35 @@
       {
         "userNo": "001",
         "custName": "李大帅",
-        "organName": "0",
-        "derpName": "0",
+        "organName": "总公司",
+        "derpName": "研发部",
         "sex": "1",
         "custPost": "软件开发工程师",
         "custClass": "Java开发",
         "mobileNo": "15877778777",
-        "custStatus": "在职"
+        "custStatus": "0"
       },
       {
         "userNo": "002",
         "custName": "张铁蛋",
-        "organName": "0",
-        "derpName": "0",
+        "organName": "总公司",
+        "derpName": "技术部",
         "sex": "0",
         "custPost": "软件开发工程师",
         "custClass": "前端开发",
         "mobileNo": "13856478777",
-        "custStatus": "试用"
+        "custStatus": "1"
       },
       {
         "userNo": "003",
         "custName": "王大锤",
-        "organName": "1",
-        "derpName": "0",
+        "organName": "深圳分公司",
+        "derpName": "技术部",
         "sex": "1",
         "custPost": "软件设计师",
         "custClass": "UI设计师",
         "mobileNo": "14723243278",
-        "custStatus": "在职"
+        "custStatus": "2"
       }
     ]
   },
@@ -1244,5 +1248,37 @@
         "addr": "南山区"
       }
     ]
+  },
+  "selectDetailEpPayChageInf": {
+    "applyNo": "0001",
+    "organName": "深圳分公司",
+    "derpName": "技术部",
+    "userNo": "001",
+    "custName": "李大帅",
+    "custPost": "软件设计师",
+    "custClass": "UI设计师",
+    "oWagesBase": "7000.00",
+    "oWagesPerf": "2000.00",
+    "oPostPension": "800.00",
+    "oOtherPension": "600.00",
+    "oEndmBase": "600.00",
+    "oMediBase": "600.00",
+    "oUnemBase": "600.00",
+    "oEmplBase": "600.00",
+    "oMateBase": "600.00",
+    "oHouseBase": "600.00",
+    "oWelcoeNo": "1",
+    "nWagesBase": "9000.00",
+    "nWagesPerf": "2500.00",
+    "nPostPension": "800.00",
+    "nOtherPension": "600.00",
+    "nEndmBase": "600.00",
+    "nMediBase": "600.00",
+    "nUnemBase": "600.00",
+    "nEmplBase": "600.00",
+    "nMateBase": "600.00",
+    "nHouseBase": "600.00",
+    "nWelcoeNo": "0",
+    "remark": "我是调薪的备注"
   }
 }

@@ -198,6 +198,11 @@ export default new Router({
                             component: resolve => require(['../components/pages/argument_Mgmt/add_agency.vue'], resolve)
                         },
                         {
+                            path: '/modify_agency',
+                            name: 'modify_agency',
+                            component: resolve => require(['../components/pages/argument_Mgmt/modify_agency.vue'], resolve)
+                        },
+                        {
                             path: '/add_ticket',
                             component: resolve => require(['../components/pages/argument_Mgmt/add_ticket.vue'], resolve)
                         },

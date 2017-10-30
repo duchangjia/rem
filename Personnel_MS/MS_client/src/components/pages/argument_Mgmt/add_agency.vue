@@ -6,12 +6,34 @@
                 <div class="title"><span class="text">CCC新增</span><button class="save" @click="save">保存</button></div>
                 <div class="content">
                     <div class="item_group">
-                        <span class="text">机构名称</span><el-input class="common"></el-input>
-                        <span class="text">CCC类型</span><el-select v-model="value" placeholder="请选择CCC类型"></el-select>
+                        <span class="text">机构名称</span><div style="display: inline-block; position: relative">
+                            <el-input class="common" v-model="obj.organName" @blur="check(obj.organName, 1)" @focus="hidden(1)"></el-input>
+                            <div class='fade_check' ref="mybox">{{rules.organName}}</div>
+                        </div>
+                        <span class="text">CCC类型</span><div style="display: inline-block; position: relative">
+                            <el-select placeholder="请选择CCC类型" v-model="obj.costType" @change="hidden(2)">
+                                <el-option
+                                        label="管理CCC"
+                                        value="01">
+                                </el-option>
+                                <el-option
+                                        label="售前CCC"
+                                        value="02">
+                                </el-option>
+                                <el-option
+                                        label="项目CCC"
+                                        value="03">
+                                </el-option>
+                            </el-select>
+                        <div style="position: absolute; top:35px;color: #ff4949" v-show="rules.costType">{{rules.costType}}</div>
+                    </div>
                     </div>
                     <div class="item_group">
-                        <span class="text">CCC值</span><el-input class="common"></el-input>
-                        <span class="text">备注</span><el-input></el-input>
+                        <span class="text">CCC值</span><div style="display: inline-block; position: relative">
+                            <el-input class="common" v-model="obj.costCode" @blur="check(obj.costCode, 3)" @focus="hidden(3)"></el-input>
+                            <div style="position: absolute; top:35px;color: #ff4949" v-show="rules.costCode">{{rules.costCode}}</div>
+                        </div>
+                        <span class="text">备注</span><el-input v-model="obj.descr"></el-input>
                     </div>
                 </div>
             </div>
@@ -24,12 +46,71 @@
     export default {
         data() {
             return {
-                value: ''
+                obj: {
+                    organName: '',
+                    costType: '',
+                    costCode: '',
+                    descr: '',
+                },
+                rules:{
+                    organName: '',
+                    costCode: '',
+                    costType: '',
+                }
             }
         },
         methods: {
+            check(value, num) {
+                if(!value&&num==1){
+                    this.rules.organName = '请输入机构名称'
+                    this.$refs.mybox.style.transition = 'height 2s'
+                }
+                if(!value&&num==3){
+                    this.rules.costCode = '请输入CCC值'
+                }
+                if(!value&&num==2){
+                    this.rules.costType = '请选择CCC类型'
+                }
+            },
+            hidden(num) {
+                if(num==1)this.rules.organName = ''
+                if(num==3)this.rules.costCode = ''
+                if(num==2)this.rules.costType = ''
+            },
           save(){
-
+            let self = this
+              let a = !this.obj.organName
+              let b = !this.obj.costCode
+              let c = !this.obj.costType
+              if(this.obj.organName&&this.obj.costCode&&this.obj.costType){
+                  this.$axios.post('/iem_hrm/organ/addOrgCCC', this.obj)
+                      .then(res => {
+                          let result = res.data.retMsg
+                          if(result==='操作成功'){
+                              self.$message({
+                                  message: result,
+                                  type: 'success'
+                              });
+                          } else {
+                              self.$message({
+                                  message: result,
+                                  type: 'error'
+                              });
+                          }
+                      })
+                      .catch(e=>{
+                          console.log('新增CCC失败', e)
+                      })
+              }else{
+                  if(a)this.rules.organName = '请输入机构名称'
+                  if(b)this.rules.costCode = '请输入CCC值'
+                  if(c)this.rules.costType = '请选择CCC类型'
+                  self.$message({
+                      message: '请输入完整信息',
+                      type: 'error'
+                  });
+                  return false
+              }
           }
         },
         components: {
@@ -76,6 +157,9 @@
                     position absolute
                     right 0px
                     bottom 20px
+                    &:hover
+                        background: #f90;
+                        color #fff
             .content
                 padding 42px 0 0 8px
                 .item_group
@@ -95,6 +179,14 @@
                         text-align right
                     .common
                         margin-right 120px
+                    .fade_check
+                        position absolute
+                        top:35px
+                        color #ff4949
+                        height 0
+                    .fade_check_animation
+                        transition height .5s
+                        height 5px
                     .el-input
                         width 300px
                         height 40px

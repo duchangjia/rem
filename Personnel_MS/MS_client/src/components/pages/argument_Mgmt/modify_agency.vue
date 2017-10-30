@@ -1,26 +1,30 @@
 <template>
-    <div class="add_ticket">
-        <current yiji="参数管理" erji="业务参数" sanji="公司开票信息维护" siji="开票信息新增" class="test"></current>
+    <div class="modify_agency">
+        <current yiji="参数管理" erji="业务参数" sanji="机构CCC管理" siji="CCC修改" class="test"></current>
         <el-col :span="24">
             <div class="content-wrapper">
-                <div class="title"><span class="text">开票信息新增</span><button class="save" @click="save">保存</button></div>
+                <div class="title"><span class="text">CCC修改</span><button class="save" @click="save">保存</button></div>
                 <div class="content">
                     <div class="item_group">
-                        <span class="text">公司名称</span><el-select class="common" v-model="info.organName">
-
+                        <span class="text">机构名称</span><el-input class="common" v-model="obj.organName" :disabled="true"></el-input>
+                        <span class="text">CCC类型</span><el-select placeholder="请选择CCC类型" v-model="obj.costType">
+                        <el-option
+                                label="管理CCC"
+                                value="01">
+                        </el-option>
+                        <el-option
+                                label="售前CCC"
+                                value="02">
+                        </el-option>
+                        <el-option
+                                label="项目CCC"
+                                value="03">
+                        </el-option>
                     </el-select>
-                        <span class="text">机构号</span><el-input :disabled="true" v-model="info.organNo"></el-input>
                     </div>
                     <div class="item_group">
-                        <span class="text">银行账户</span><el-input class="common" v-model="info.organAcct"></el-input>
-                        <span class="text">账户名称</span><el-input v-model="info.organAcctname"></el-input>
-                    </div>
-                    <div class="item_group">
-                        <span class="text">电话</span><el-input class="common special_1" v-model="info.organTel"></el-input>
-                        <span class="text special_1_1">纳税人识别号</span><el-input v-model="info.organTaxNo"></el-input>
-                    </div>
-                    <div class="item_group">
-                        <span class="text">地址</span><el-input class="common" v-model="info.organAddr"></el-input>
+                        <span class="text">CCC值</span><el-input class="common" v-model="obj.costCode"></el-input>
+                        <span class="text">备注</span><el-input v-model="obj.descr"></el-input>
                     </div>
                 </div>
             </div>
@@ -33,21 +37,51 @@
     export default {
         data() {
             return {
-                info: {
-                    organAcct: '',
-                    organAcctname: '',
-                    organTel: '',
-                    organTaxNo: '',
-                    organAddr: '',
-                    organNo: '',
+                obj: {
                     organName: '',
+                    costType: '',
+                    costCode: '',
+                    descr: '',
                 }
             }
+        },
+        created() {
+            let self = this
+            let organNo = this.$route.query.organNo
+            let costType = this.$route.query.costType
+          this.$axios.get(`/iem_hrm/organ/queryOrganCCCManagementByOrganNoAndCostType/${organNo}/${costType}`)
+              .then(res => {
+                  self.obj.organName = res.data.data.organName
+                  self.obj.costType = res.data.data.costType
+                  self.obj.costCode = res.data.data.costCode
+                  self.obj.descr = res.data.data.descr
+                  self.obj.organNo = res.data.data.organNo
+              })
+              .catch(e=>{
+                  console.log(e)
+              })
         },
         methods: {
             save(){
                 let self = this
-//                this.$axios.post('/iem_hrm/organBillInfo/addBillInf')
+                this.$axios.put('/iem_hrm/organ/modOrgCCC', this.obj)
+                    .then(res => {
+                        let result = res.data.resMsg
+                        if(result==='操作成功'){
+                            self.$message({
+                                message: '修改成功',
+                                type: 'success'
+                            });
+                        }else {
+                            self.$message({
+                                message: result,
+                                type: 'error'
+                            });
+                        }
+                    })
+                    .catch(e=>{
+                        console.log('修改CCC失败', e)
+                    })
             }
         },
         components: {
@@ -57,7 +91,7 @@
 </script>
 
 <style lang='stylus' rel='stylesheet/stylus'>
-    .add_ticket
+    .modify_agency
         padding: 0 0 20px 20px;
         overflow: hidden;
         position: relative;
@@ -94,6 +128,9 @@
                     position absolute
                     right 0px
                     bottom 20px
+                    &:hover
+                        background: #f90;
+                        color #fff
             .content
                 padding 42px 0 0 8px
                 .item_group
@@ -111,12 +148,8 @@
                         height 40px
                         line-height 40px
                         text-align right
-                    .special_1_1
-                        width 100px
                     .common
                         margin-right 120px
-                    .special_1
-                        margin-right 80px
                     .el-input
                         width 300px
                         height 40px
@@ -126,15 +159,5 @@
                             border-color: #ff9900;
                         .el-input__inner:hover
                             border-color: #ff9900;
-                    .el-select
-                        width 300px
-                        height 40px
-                        .el-input
-                            height 40px
-                            .el-input__inner
-                                height 100%
-                            .el-input__inner:focus
-                                border-color: #ff9900;
-                            .el-input__inner:hover
-                                border-color: #ff9900;
+
 </style>

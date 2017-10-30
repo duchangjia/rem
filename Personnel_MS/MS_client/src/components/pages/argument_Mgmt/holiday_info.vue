@@ -14,7 +14,14 @@
                     </div>
                     <table>
                         <tr><td v-for="th in table.th">{{th}}</td></tr>
-                        <tr v-for="tds in table.td"><td v-for="td in tds">{{td}}</td><td><i class="el-icon-delete2" @click="del"></i></td></tr>
+                        <tr v-for="tds in table.td">
+                            <td>{{tds.dayDate}}</td>
+                            <td>{{tds.dayFlag}}</td>
+                            <td>{{tds.remark}}</td>
+                            <td>{{tds.createdBy}}</td>
+                            <td>{{tds.createdDate}}</td>
+                            <td><i class="el-icon-delete2" @click="del"></i></td>
+                        </tr>
                     </table>
                     <el-pagination
                             @size-change="handleSizeChange"
@@ -57,6 +64,25 @@
                           createTime: '2010-1-1',
                       },]  }
           }
+        },
+        created() {
+          let self = this
+          self.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList')
+              .then(res => {
+                console.log(res)
+                  self.table.td = res.data.data.models.map(item=>{
+                      return {
+                          createdBy: item.createdBy,
+                          createdDate: item.createdDate,
+                          dayDate: item.dayDate,
+                          dayFlag: item.dayFlag,
+                          remark: item.remark,
+                      }
+                  })
+              })
+              .catch(e=>{
+                  console.log(e)
+              })
         },
         methods: {
             handleSizeChange(val) {

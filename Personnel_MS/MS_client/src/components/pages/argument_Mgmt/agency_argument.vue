@@ -12,7 +12,15 @@
                     </div>
                     <table>
                         <tr><td v-for="th in table.th">{{th}}</td></tr>
-                        <tr v-for="tds in table.td"><td v-for="td in tds">{{td}}</td><td><i class="el-icon-delete2" @click="del"></i></td></tr>
+                        <tr v-for="tds in table.td">
+                            <td>{{tds.organNo}}</td>
+                            <td>{{tds.organName}}</td>
+                            <td>{{tds.costType==='01'?'管理CCC':tds.costType==='02'?'售前CCC':'项目CCC'}}</td>
+                            <td>{{tds.costCode}}</td>
+                            <td>{{tds.descr}}</td>
+                            <td><i class="el-icon-edit" @click="link(tds.organNo, tds.costType)"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <i class="el-icon-delete2" @click="del(tds.organNo)"></i></td>
+                        </tr>
                     </table>
                     <el-pagination
                             @size-change="handleSizeChange"
@@ -33,7 +41,6 @@
         data() {
             return {
                 table: {
-                    num:[0,1,2,3,4,5],
                     th:['机构ID', '机构名称', 'CCC类型', 'CCC值', '备注', '操作'],
                     td:[
                         {
@@ -110,6 +117,25 @@
                 }
             }
         },
+        created() {
+          let self = this
+          self.$axios.get('/iem_hrm/organ/queryOrgCCCList')
+              .then(res => {
+                  console.log(res)
+                  this.table.td = res.data.data.models.map(item=>{
+                      return {
+                          costCode:item.costCode,
+                          costType:item.costType,
+                          descr:item.descr,
+                          organName:item.organName,
+                          organNo:item.organNo,
+                      }
+                  })
+              })
+              .catch(e => {
+                  console.log('获取ccc列表失败',e)
+              })
+        },
         methods: {
             handleSizeChange(val) {
                 console.log(val)
@@ -120,8 +146,51 @@
             add() {
                 this.$router.push('add_agency')
             },
-            del() {
+            link(num, type) {
+                this.$router.push({
+                    name: 'modify_agency',
+                    query: {
+                        organNo: num,
+                        costType: type,
+                    }
+                })
+            },
+            del(num) {
+                let self = this
+                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    self.$axios.get(`/iem_hrm/organ/delOrgCCC/${num}`)
+                        .then(res => {
+                            let result = res.data.retMsg
+                            if(result==="操作成功"){
+                                self.$message({
+                                    type: 'success',
+                                    message: '删除成功!'
+                                });
+                            }else{
+                                self.$message({
+                                    type: 'error',
+                                    message: result
+                                });
+                            }
 
+                        })
+                        .catch(e => {
+                            this.$message({
+                                type: 'info',
+                                message: '删除失败!'
+                            });
+                            console.log(e)
+                        })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
             }
         },
         components: {
@@ -259,7 +328,7 @@
         right: 0;
         bottom:40px;
     }
-    .content .el-icon-delete2{
+    .content .el-icon-delete2, .content .el-icon-edit{
         color: #ff9900;
         cursor: pointer;
     }

@@ -201,6 +201,9 @@ export default {
             if (this.siji === 'CCC新增') {
                 _link.push('/add_agency')
             }
+            if (this.siji === 'CCC修改') {
+                _link.push('/modify_agency')
+            }
             if (this.siji === '节假日新增') {
                 _link.push('/add_holiday')
             }
