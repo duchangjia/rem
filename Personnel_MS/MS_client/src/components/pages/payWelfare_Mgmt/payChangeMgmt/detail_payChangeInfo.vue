@@ -9,18 +9,18 @@
             <div class="add-wrapper">
                 <el-form :inline="true" :model="payChangeDetail" :label-position="labelPosition" label-width="110px">
                     <el-col :span="12">
-                        <el-form-item label="公司" prop="organName">
-                            <el-select v-model="payChangeDetail.organName" :disabled="true">
-                                <el-option label="总公司" value="1"></el-option>
-                                <el-option label="深圳分公司" value="0"></el-option>
+                        <el-form-item label="公司" prop="organNo">
+                            <el-select v-model="payChangeDetail.organNo" :disabled="true">
+                                <el-option label="总公司" value="0"></el-option>
+                                <el-option label="深圳分公司" value="01"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="申请部门" prop="derpName">
-                            <el-select v-model="payChangeDetail.derpName" :disabled="true">
-                                <el-option label="财务部" value="1"></el-option>
-                                <el-option label="技术部" value="0"></el-option>
+                        <el-form-item label="申请部门" prop="derpNo">
+                            <el-select v-model="payChangeDetail.derpNo" :disabled="true">
+                                <el-option label="财务部" value="01"></el-option>
+                                <el-option label="技术部" value="001"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -164,7 +164,7 @@
                     </el-col> 
                     <el-col :span="24">
                         <el-form-item label="保险缴纳标准" prop="nWelcoeNo">
-                            <el-select v-model="payChangeDetail.nWelcoeNo" @change="nWelcoeNoChange">
+                            <el-select v-model="payChangeDetail.nWelcoeNo">
                                 <el-option label="广州标准" value="1"></el-option>
                                 <el-option label="深圳标准" value="0"></el-option>
                             </el-select>
@@ -253,6 +253,7 @@ export default {
     return {
       labelPosition: "right",
       userNo: "",
+      applyNo: "",
       checked: "true",
       payChangeDetail: {},
       insurancePayTemp: {}
@@ -262,18 +263,24 @@ export default {
     current
   },
   created() {
+    this.userNo = this.$route.params.userNo;
+    this.applyNo = this.$route.params.applyNo;
     this.getPayChangeDetail(); //初始查询调薪基数信息
     this.getInsurancePayTemp(); // 初始查询保险缴纳标准
   },
   methods: {
     getPayChangeDetail() {
       const self = this;
+      let params = {
+        applyNo: self.applyNo
+      };
       self.$axios
-        // .get("/iem_hrm/pay/selectDetailEpPayChageInf", { params: params })
-        .get("/iem_hrm/selectDetailEpPayChageInf")
+        .get("/iem_hrm/epPayChageInf/queryDetailEpPayChageInf", {
+          params: params
+        })
         .then(res => {
           console.log(res);
-          self.payChangeDetail = res.data.data;
+          self.payChangeDetail = res.data;
         })
         .catch(() => {
           console.log("error");

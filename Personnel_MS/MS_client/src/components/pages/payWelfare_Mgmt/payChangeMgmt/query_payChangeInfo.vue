@@ -40,7 +40,7 @@
                 </el-table-column>
                 <el-table-column align="center" prop="nOtherPension" label="调整后其他补贴">
                 </el-table-column>
-                <el-table-column align="center" prop="entryTime" label="录入时间">
+                <el-table-column align="center" prop="updatedDate" label="录入时间">
                 </el-table-column>
                 <el-table-column align="center" label="操作">
                     <template scope="scope">
@@ -69,6 +69,7 @@ export default {
       pageSize: 7,
       totalRows: 30,
       payChangeInfoList: [],
+      userNo: "",
       startTimeOption: {
         disabledDate(time) {
           // return time.getTime() < Date.now() - 8.64e7;
@@ -99,12 +100,12 @@ export default {
         endTime: self.filters.endTime
       };
       self.$axios
-        // .get("/iem_hrm/pay/selectListEpPayChageInfo", { params: params })
-        .get("/iem_hrm/selectListEpPayChageInfo", { params: params })
+        .get("/iem_hrm/epPayChageInf/queryEpPayChageInfListAll", { params: params })
         .then(res => {
           console.log(res);
-          self.payChangeInfoList = res.data.data.epPayChageInfoList;
-          self.totalRows = Number(res.data.data.total);
+          self.payChangeInfoList = res.data.data.list;
+          self.userNo = self.payChangeInfoList[0].userNo;
+          self.totalRows = res.data.data.total;
         })
         .catch(() => {
           console.log("error");
@@ -114,7 +115,7 @@ export default {
       this.$router.push({
         name: "detail_payChangeInfo",
         params: {
-          userNo: row.applyNo
+          applyNo: row.applyNo
         }
       });
     },
@@ -133,7 +134,10 @@ export default {
     },
     handleAdd() {
       this.$router.push({
-        name: "add_payChangeInfo"
+        name: "add_payChangeInfo",
+        params: {
+          userNo: this.userNo
+        }
       });
     },
     handleEdit(index, row) {
@@ -141,15 +145,16 @@ export default {
         name: "edit_payChangeInfo",
         params: {
           applyNo: row.applyNo,
-          userNo: row.userNo
+          userNo: this.userNo
         }
       });
     },
     handleDelete(index, row) {
       let targetPayChangeInfo = {};
       targetPayChangeInfo.applyNo = row.applyNo;
+      targetPayChangeInfo.userNo = this.userNo;
       console.log(targetPayChangeInfo);
-      this.$confirm("此操作将会删除该条薪酬基数信息, 是否继续?", "提示", {
+      this.$confirm("此操作将会删除该条调薪信息, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -157,14 +162,16 @@ export default {
         .then(() => {
           this.$axios
             .delete(
-              "/iem_hrm/pay/deleteEpPayChageInf?applyNo=" +
-                targetPayChangeInfo.applyNo,
+              "/iem_hrm/epPayChageInf/delEpPayChageInf?applyNo=" +
+                targetPayChangeInfo.applyNo + "&userNo=" + targetPayChangeInfo.userNo,
               targetPayChangeInfo
             )
             .then(res => {
               console.log(res);
-              if (res.data.code == "S00000")
+              if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "删除成功!" });
+                this.getPayChangeInfoList();
+              }
               else this.$message.error("删除调薪信息失败！");
             })
             .catch(() => {
