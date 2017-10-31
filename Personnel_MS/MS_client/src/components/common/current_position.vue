@@ -61,6 +61,9 @@ export default {
             if (this.yiji === '薪酬福利') {
                 _link.push('/payBaseInfo_setting')
             }
+            if (this.yiji === '资产管理') {
+                _link.push('/assetReq_manage')
+            }
 
             if (this.erji === '用户管理') {
                 _link.push('/management_user')
@@ -87,6 +90,9 @@ export default {
             }
             if (this.erji === '调薪管理') {
                 _link.push('/payChange_manage')
+            }
+            if (this.erji === '资产登记管理') {
+                _link.push('/assetReq_manage')
             }
 			
             if (this.sanji === '编辑部门') {
@@ -179,6 +185,9 @@ export default {
             if (this.sanji === '员工离职新增') {
                 _link.push('/add_dimission')
             }
+            if (this.sanji === '资产信息查询') {
+                _link.push('/query_asset')
+            }
 				
             if (this.siji === '福利缴纳系数新增') {
                 _link.push('/add_welfare')
@@ -230,6 +239,15 @@ export default {
             }
             if (this.siji === '调薪基数修改') {
                 _link.push('/edit_payChangeInfo')
+            }
+            if (this.siji === '资产详情') {
+                _link.push('/detail_asset')
+            }
+            if (this.siji === '资产新增') {
+                _link.push('/add_asset')
+            }
+            if (this.siji === '资产修改') {
+                _link.push('/edit_asset')
             }
 
             if (this.wuji === '税率新增') {

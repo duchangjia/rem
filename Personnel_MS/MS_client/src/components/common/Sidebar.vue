@@ -139,25 +139,21 @@ export default {
 					]
 				},
 				{
+					icon: 'icon-tjbb',
+					index: '7',
+					title: '资产管理',
+					subs: [
+						{
+							index: 'assetReq_manage',
+							title: '资产登记管理'
+						}
+					]
+				},
+				{
 					icon: 'icon-khgx',
 					index: 'client',
 					title: '客户关系'
 				},
-				{
-					icon: 'icon-tjbb',
-					index: '8',
-					title: '统计报表',
-					subs: [
-						{
-							index: 'statement_1',
-							title: '统计报表1'
-						},
-						{
-							index: 'statement_2',
-							title: '统计报表2'
-						},
-					]
-				}
 				
 			]
 

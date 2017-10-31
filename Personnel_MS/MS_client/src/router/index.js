@@ -449,6 +449,36 @@ export default new Router({
                             component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/edit_payChangeInfo.vue'], resolve)
                         }
                     ]
+                },
+                {
+                    path: '/assetReq_manage',
+                    component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/assetReq_manage.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/query_asset.vue'], resolve)
+                        },
+                        {
+                            name: 'query_asset',
+                            path: '/query_asset',
+                            component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/query_asset.vue'], resolve)
+                        },
+                        {
+                            name: 'detail_asset',
+                            path: '/detail_asset',
+                            component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/detail_asset.vue'], resolve)
+                        },
+                        {
+                            name: 'add_asset',
+                            path: '/add_asset',
+                            component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/add_asset.vue'], resolve)
+                        },
+                        {
+                            name: 'edit_asset',
+                            path: '/edit_asset',
+                            component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/edit_asset.vue'], resolve)
+                        }
+                    ]
                 }
 
             ]

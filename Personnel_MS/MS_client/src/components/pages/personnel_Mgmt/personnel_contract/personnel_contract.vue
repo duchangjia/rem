@@ -55,7 +55,6 @@ export default {};
 .content-wrapper .queryBtn {
   border-radius: 0;
   height: 40px;
-  line-height: 40px;
   width: 120px;
   background: #ff9900;
   border: none;
