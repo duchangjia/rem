@@ -1,13 +1,13 @@
 <template>
 	<div class="travel_query">
-		<current yiji="考勤管理" erji="出差管理" sanji="出差查询"></current>
+		<current yiji="考勤管理" erji="出差管理"></current>
 		<div class="content">
 			<div class="title">
-				<span class="title-text">出差查询</span>
+				<span class="title-text">出差管理</span>
 				<el-button type="primary" class="title_button" @click="handleAdd">新增</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="80px" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-form-item label="公司" prop="compName">
 							<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
@@ -22,7 +22,7 @@
 						<el-form-item label="工号" prop="userNo">
 							<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
 						</el-form-item>
-						<el-form-item label="出差开始时间" prop="startDate">
+						<el-form-item label="出差开始时间" prop="startDate" label-width="100px">
 							<el-date-picker
 						      v-model="ruleForm2.startDate"
 						      type="date"
@@ -30,7 +30,7 @@
 						      :picker-options="pickerOptions0" @change="changeStartTime">
 						   </el-date-picker>
 						</el-form-item>
-						<el-form-item label="出差结束时间" prop="endDate">
+						<el-form-item label="出差结束时间" prop="endDate" label-width="100px">
 							<el-date-picker
 						      v-model="ruleForm2.endDate"
 						      type="date"
@@ -55,7 +55,7 @@
 						<el-table-column prop="departName" label="部门名称"></el-table-column>
 						<el-table-column prop="userNo" label="工号"></el-table-column>
 						<el-table-column prop="userName" label="姓名"></el-table-column>
-						<el-table-column prop="travelType" label="出差类型"></el-table-column>
+						<el-table-column prop="travelType" label="出差类型" :formatter="travelTypeFormatter"></el-table-column>
 						<el-table-column prop="travelStartTime" label="出差开始时间"></el-table-column>
 						<el-table-column prop="travelEndTime" label="出差结束时间"></el-table-column>
 						<el-table-column prop="luruBy" label="录入人"></el-table-column>
@@ -104,7 +104,7 @@ export default {
 					departName: "shanghaifen",
 					userNo: "001", 
 					userName: "小名",
-					travelType: "",
+					travelType: "01",
 					travelStartTime: "2017-10-10",
 					travelEndTime: "2017-10-19",
 					luruBy: "",
@@ -152,6 +152,25 @@ export default {
 //		this.queryTravelList(pageNum,pageSize,params);
 	},
 	methods: {
+		travelTypeFormatter(row, column) {
+	    	let travelType = '';
+	    	switch(row.travelType){
+				case '01':
+				  travelType = '业务拓展'
+				  break;
+				case '02':
+				  travelType = '项目实施'
+				  break;
+				case '03':
+				  travelType = '会议'
+				  break;
+				case '99':
+				  travelType = '其他'
+				  break;
+				default:
+			}
+	    	return travelType;
+		},
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;
 		},

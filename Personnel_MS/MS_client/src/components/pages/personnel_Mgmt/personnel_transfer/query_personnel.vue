@@ -59,7 +59,7 @@
 				<el-table-column align="center" label="操作" width="150">
 					<template scope="scope">
 						<el-button size="small" @click="handleTransfer(scope.$index, scope.row)">调动</el-button>
-						<el-button size="small" type="danger" @click="handDimission(scope.$index, scope.row)">离职</el-button>
+						<el-button size="small" @click="handDimission(scope.$index, scope.row)">离职</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

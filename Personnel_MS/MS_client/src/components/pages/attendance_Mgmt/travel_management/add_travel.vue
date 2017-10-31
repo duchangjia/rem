@@ -44,7 +44,7 @@
 			      	</el-form-item>
 				  	<el-form-item label="出差类型" prop="travelType">
 					    <el-select v-model="formdata2.travelType" value-key="travelType" @change="changeValue">
-							<el-option v-for="item in travelTypeList" :key="item" :label="item" :value="item"></el-option>
+							<el-option v-for="item in travelTypeList" :key="item.travelNo" :label="item.label" :value="item.travelNo"></el-option>
 						</el-select>
 				  	</el-form-item>
 				  	<el-form-item label="出差城市">
@@ -132,7 +132,12 @@
 					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
 					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
 				],
-				travelTypeList: ['业务拓展','项目实施','会议','其他'],
+				travelTypeList: [
+					{label: "业务拓展", travelNo: "01"},
+					{label: "项目实施", travelNo: "02"},
+					{label: "会议", travelNo: "03"},
+					{label: "其他", travelNo: "99"}
+				],
 			 	rules: {
 		          	travelType: [
 		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }

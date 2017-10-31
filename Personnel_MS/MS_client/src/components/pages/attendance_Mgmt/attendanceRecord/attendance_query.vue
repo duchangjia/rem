@@ -1,9 +1,9 @@
 <template>
 	<div class="content_wrap">
-		<current yiji="考勤管理" erji="考勤数据查询"></current>
+		<current yiji="考勤管理" erji="考勤记录管理"></current>
 		<div class="content">
 			<div class="title">
-				<span class="title-text">考勤数据查询</span>
+				<span class="title-text">考勤记录管理</span>
 				<!--<el-button type="primary" class="title_button" @click="handleImport()">导入</el-button>-->
 				<div class="imExport-btn">
 					<!--<span class="icon-import" @click="handleImport"></span>-->
@@ -16,7 +16,7 @@
 				
 			</div>
 			<div class="content-inner">
-				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="80px" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-form-item label="公司" prop="compName">
 							<el-select v-model="comp" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
@@ -31,7 +31,7 @@
 						<el-form-item label="工号" prop="userNo">
 							<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
 						</el-form-item>
-						<el-form-item label="考勤开始时间" prop="startDate">
+						<el-form-item label="考勤开始时间" prop="startDate" label-width="100px">
 							<el-date-picker
 						      v-model="ruleForm2.startDate"
 						      type="date"
@@ -39,7 +39,7 @@
 						      :picker-options="pickerOptions0" @change="changeStartTime">
 						   </el-date-picker>
 						</el-form-item>
-						<el-form-item label="考勤结束时间" prop="endDate">
+						<el-form-item label="考勤结束时间" prop="endDate" label-width="100px">
 							<el-date-picker
 						      v-model="ruleForm2.endDate"
 						      type="date"
@@ -58,7 +58,7 @@
 						<el-table-column prop="userNo" label="工号"></el-table-column>
 						<el-table-column prop="userName" label="姓名"></el-table-column>
 						<el-table-column prop="attenceTime" label="考勤日期"></el-table-column>
-						<el-table-column prop="attenceType" label="类型"></el-table-column>
+						<el-table-column prop="attenceType" label="类型" :formatter="attenceTypeFormatter"></el-table-column>
 						<el-table-column prop="projNo" label="项目ID"></el-table-column>
 						<el-table-column prop="taskTime" label="工时"></el-table-column>
 						<el-table-column prop="luruBy" label="录入人"></el-table-column>
@@ -118,7 +118,7 @@ export default {
 					userNo: "p011111",//用户编号 
 					userName: "sdsd",
 					attenceTime: "2017-09-09",//考勤日期 
-					attenceType: "xx",//考勤类型	
+					attenceType: "01",//考勤类型	
 					projNo: "3221",//项目ID
 					taskTime: "8",//工时
 					attenceStatus: "xx",//状态
@@ -131,7 +131,7 @@ export default {
 					userNo: "p011111",//用户编号 
 					userName: "sdsd",
 					attenceTime: "",//考勤日期 
-					attenceType: "",//考勤类型	
+					attenceType: "02",//考勤类型	
 					projNo: "",//项目ID
 					taskTime: "",//工时
 					attenceStatus: "",//状态
@@ -148,6 +148,30 @@ export default {
 		current
 	},
 	methods: {
+		attenceTypeFormatter(row, column) {
+//	      return row.attenceType == '01' ? "迟到早退" : row.attenceType == 0 ? "停用" : "锁定";
+	    	let attence = '';
+	    	switch(row.attenceType){
+				case '01':
+				  attence = '迟到早退'
+				  break;
+				case '02':
+				  attence = '旷工'
+				  break;
+				case '03':
+				  attence = '事假'
+				  break;
+				case '04':
+				  attence = '病假'
+				  break;
+				case '05':
+				  attence = '产假'
+				  break;
+				default:
+				  
+			}
+	    	return attence;
+		},
 		handleChange(file, fileList) {
 //		    this.fileList3 = fileList.slice(-3);
 			console.log(file);
@@ -164,26 +188,7 @@ export default {
 		changeValue(value) {
 		 		const self = this;
 	            console.log('value',value);
-	    },
-		handleEdit(index, row) {
-			console.log('row:',row);
-            this.$router.push({
-            	name: "edit_transfer",
-            	params: {
-            		diaodongNo: row.diaodongNo
-            	}
-            });
-		},
-		handleInfo(index, row) {
-			console.log('row:',row);
-			this.$router.push({
-				name: "transfer_info",
-				params: {
-					diaodongNo: row.diaodongNo
-				}
-			})
-			
-		},
+	   	},
 		beforeAvatarUpload(file) {
 			console.log("before",file)
 		},

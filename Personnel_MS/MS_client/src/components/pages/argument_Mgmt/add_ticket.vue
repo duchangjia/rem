@@ -6,19 +6,21 @@
                 <div class="title"><span class="text">开票信息新增</span><button class="save" @click="save">保存</button></div>
                 <div class="content">
                     <div class="item_group">
-                        <span class="text">公司名称</span><el-select v-model="value" class="common"></el-select>
-                        <span class="text">机构号</span><el-input :disabled="true"></el-input>
+                        <span class="text">公司名称</span><el-select class="common" v-model="info.organName">
+
+                    </el-select>
+                        <span class="text">机构号</span><el-input :disabled="true" v-model="info.organNo"></el-input>
                     </div>
                     <div class="item_group">
-                        <span class="text">银行账户</span><el-input class="common"></el-input>
-                        <span class="text">账户名称</span><el-input></el-input>
+                        <span class="text">银行账户</span><el-input class="common" v-model="info.organAcct"></el-input>
+                        <span class="text">账户名称</span><el-input v-model="info.organAcctname"></el-input>
                     </div>
                     <div class="item_group">
-                        <span class="text">电话</span><el-input class="common special_1"></el-input>
-                        <span class="text special_1_1">纳税人识别号</span><el-input></el-input>
+                        <span class="text">电话</span><el-input class="common special_1" v-model="info.organTel"></el-input>
+                        <span class="text special_1_1">纳税人识别号</span><el-input v-model="info.organTaxNo"></el-input>
                     </div>
                     <div class="item_group">
-                        <span class="text">地址</span><el-input class="common"></el-input>
+                        <span class="text">地址</span><el-input class="common" v-model="info.organAddr"></el-input>
                     </div>
                 </div>
             </div>
@@ -31,12 +33,21 @@
     export default {
         data() {
             return {
-                value: ''
+                info: {
+                    organAcct: '',
+                    organAcctname: '',
+                    organTel: '',
+                    organTaxNo: '',
+                    organAddr: '',
+                    organNo: '',
+                    organName: '',
+                }
             }
         },
         methods: {
             save(){
-
+                let self = this
+//                this.$axios.post('/iem_hrm/organBillInfo/addBillInf')
             }
         },
         components: {

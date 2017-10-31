@@ -61,13 +61,17 @@ export default {
             if (this.yiji === '薪酬福利') {
                 _link.push('/payBaseInfo_setting')
             }
+            if (this.yiji === '考勤管理') {
+            	_link.push('/attendance_record')
+            }
 
             if (this.erji === '用户管理') {
                 _link.push('/management_user')
             }
             if (this.erji === '角色管理') {
                 _link.push('/management_role')
-            } if (this.erji === '功能管理') {
+            } 
+            if (this.erji === '功能管理') {
                 _link.push('/management_fun')
             }
             if (this.erji === '组织架构') {
@@ -88,6 +92,18 @@ export default {
             if (this.erji === '调薪管理') {
                 _link.push('/payChange_manage')
             }
+			if (this.erji === '考勤记录管理') {
+				_link.push('/attendance_record')
+			}
+			if (this.erji === '出差管理') {
+				_link.push('/travel_management')
+			}
+			if (this.erji === '请假管理') {
+				_link.push('/leave_management')
+			}
+			if (this.erji === '加班管理') {
+				_link.push('/overtime_management')
+			}
 			
             if (this.sanji === '编辑部门') {
                 _link.push('/edit_department')
@@ -105,7 +121,7 @@ export default {
                 _link.push('/edit_role')
             }
             if (this.sanji === '用户信息') {
-                _link.push('/user-info')
+                _link.push('/edit_userM')
             }
             if (this.sanji === '功能编辑') {
                 _link.push('/edit_fun')
@@ -158,28 +174,56 @@ export default {
             if (this.sanji === '人事调动明细查询') {
                 _link.push('/detail_transfer')
             }
-            if (this.sanji === '人事调动详情') {
-                _link.push('/transfer_info')
-            }
-            if (this.sanji === '人事调动修改') {
-                _link.push('/edit_transfer')
-            }
-            if (this.sanji === '人事调动新增') {
-                _link.push('/add_transfer')
-            }
             if (this.sanji === '员工离职明细查询') {
                 _link.push('/detail_dimission')
             }
-            if (this.sanji === '员工离职详情') {
+            if (this.sanji === '出差新增') {
+                _link.push('/add_travel')
+            }
+            if (this.sanji === '出差详情') {
+                _link.push('/travel_info')
+            }
+            if (this.sanji === '出差修改') {
+                _link.push('/edit_travel')
+            }
+            if (this.sanji === '请假新增') {
+                _link.push('/add_leave')
+            }
+            if (this.sanji === '请假详情') {
+                _link.push('/leave_info')
+            }
+            if (this.sanji === '请假修改') {
+                _link.push('/edit_leave')
+            }
+            if (this.sanji === '加班新增') {
+                _link.push('/add_overtime')
+            }
+            if (this.sanji === '加班详情') {
+                _link.push('/overtime_info')
+            }
+            if (this.sanji === '加班修改') {
+                _link.push('/edit_overtime')
+            }
+            
+            
+            if (this.siji === '人事调动详情') {
+                _link.push('/transfer_info')
+            }
+            if (this.siji === '人事调动修改') {
+                _link.push('/edit_transfer')
+            }
+            if (this.siji === '人事调动新增') {
+                _link.push('/add_transfer')
+            }
+            if (this.siji === '员工离职详情') {
                 _link.push('/dimission_info')
             }
-            if (this.sanji === '员工离职修改') {
+            if (this.siji === '员工离职修改') {
                 _link.push('/edit_dimission')
             }
-            if (this.sanji === '员工离职新增') {
+            if (this.siji === '员工离职新增') {
                 _link.push('/add_dimission')
             }
-				
             if (this.siji === '福利缴纳系数新增') {
                 _link.push('/add_welfare')
             }
@@ -200,6 +244,9 @@ export default {
             }
             if (this.siji === 'CCC新增') {
                 _link.push('/add_agency')
+            }
+            if (this.siji === 'CCC修改') {
+                _link.push('/modify_agency')
             }
             if (this.siji === '节假日新增') {
                 _link.push('/add_holiday')

@@ -1,13 +1,13 @@
 <template>
-	<div class="travel_query">
-		<current yiji="考勤管理" erji="请假管理" sanji="请假查询"></current>
+	<div class="leave_query">
+		<current yiji="考勤管理" erji="请假管理"></current>
 		<div class="content">
 			<div class="title">
-				<span class="title-text">请假查询</span>
+				<span class="title-text">请假管理</span>
 				<el-button type="primary" class="title_button" @click="handleAdd">新增</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="80px" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-form-item label="公司" prop="compName">
 							<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
@@ -32,7 +32,7 @@
 						      	@change="changeDate">
 						    </el-date-picker>
 						</el-form-item>-->
-						<el-form-item label="请假开始时间" prop="startDate">
+						<el-form-item label="请假开始时间" prop="startDate" label-width="100px">
 							<el-date-picker
 						      v-model="ruleForm2.startDate"
 						      type="date"
@@ -40,7 +40,7 @@
 						      :picker-options="pickerOptions0" @change="changeStartTime">
 						   </el-date-picker>
 						</el-form-item>
-						<el-form-item label="请假结束时间" prop="endDate">
+						<el-form-item label="请假结束时间" prop="endDate" label-width="100px">
 							<el-date-picker
 						      v-model="ruleForm2.endDate"
 						      type="date"
@@ -65,7 +65,7 @@
 						<el-table-column prop="departName" label="部门名称"></el-table-column>
 						<el-table-column prop="userNo" label="工号"></el-table-column>
 						<el-table-column prop="userName" label="姓名"></el-table-column>
-						<el-table-column prop="leaveType" label="请假类型"></el-table-column>
+						<el-table-column prop="leaveType" label="请假类型" :formatter="leaveTypeFormatter"></el-table-column>
 						<el-table-column prop="leaveStartTime" label="请假开始时间"></el-table-column>
 						<el-table-column prop="leaveEndTime" label="请假结束时间"></el-table-column>
 						<el-table-column prop="luruBy" label="录入人"></el-table-column>
@@ -115,7 +115,7 @@ export default {
 					departName: "shanghaifen",
 					userNo: "001", 
 					userName: "小名",
-					leaveType: "",
+					leaveType: "02",
 					leaveStartTime: "2017-10-10",
 					leaveEndTime: "2017-10-19",
 					luruBy: "",
@@ -160,13 +160,9 @@ export default {
 			"pageSize": pageSize
 		}
 		//请假列表查询
-		
+		this.queryTravelList(pageNum,pageSize,params);
 	},
 	methods: {
-//		changeDate(val) {
-//			console.log(val)
-//			console.log(this.ruleForm2.value9)
-//		},
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;
 		},
@@ -240,7 +236,7 @@ export default {
 					};
 					
 					//请假列表查询
-					
+					self.queryTravelList(pageNum,pageSize,params);
 					
 				} else {
 					console.log('error submit!!');
@@ -250,8 +246,8 @@ export default {
 		},
 		//重置
 		resetForm() {
-			this.comp = {};
-			this.depart = {};
+			this.ruleForm2.organNo = '';
+			this.ruleForm2.departOrgNo = '';
 			this.ruleForm2.startDate = '';
 			this.ruleForm2.endDate = '';
 		},
@@ -277,7 +273,7 @@ export default {
 		},
 		queryTravelList(pageNum,pageSize,params) {
 			let self = this;
-			self.$axios.get(baseURL+'/travel/queryTravelList', {params: params})
+			self.$axios.get(baseURL+'/leave/queryLeaveList', {params: params})
 			.then(function(res) {
 				console.log('queryTravelList',res);
 				self.transferDataList = res.data.data.models;
@@ -289,44 +285,99 @@ export default {
 		},
 		deleteTravel(params) {
 			let self = this;
-			self.$axios.delete(baseURL+'/travel/deleteTravel', params)
+			self.$axios.delete(baseURL+'/leave/deleteLeaveInfo', params)
 			.then(function(res) {
 				console.log('deleteTravel',res);
 				
 			}).catch(function(err) {
 				console.log(err);
 			})
+		},
+		leaveTypeFormatter(row, column) {
+	    	let leaveType = '';
+	    	switch(row.leaveType){
+				case '01':
+				  leaveType = '有薪休假'
+				  break;
+				case '02':
+				  leaveType = '事假'
+				  break;
+				case '03':
+				  leaveType = '病假'
+				  break;
+				case '04':
+				  leaveType = '因公外出'
+				  break;
+				case '05':
+				  leaveType = '出差'
+				  break;
+				case '06':
+				  leaveType = '婚假'
+				  break;
+				case '07':
+				  leaveType = '生育产假'
+				  break;
+				case '08':
+				  leaveType = '哺乳假'
+				  break;
+				case '09':
+				  leaveType = '护理假'
+				  break;
+				case '10':
+				  leaveType = '流产假'
+				  break;
+				case '11':
+				  leaveType = '产前检查'
+				  break;
+				case '12':
+				  leaveType = '丧假'
+				  break;
+				case '13':
+				  leaveType = '忘打卡'
+				  break;
+				case '14':
+				  leaveType = '忘带卡'
+				  break;
+				case '15':
+				  leaveType = '特殊'
+				  break;
+				case '16':
+				  leaveType = '调休假'
+				  break;
+				default:
+			}
+	    	return leaveType;
 		}
 	}
 }
 </script>
 
 <style>
-.travel_query {
+.leave_query {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
 }
 
-.travel_query .content {
+.leave_query .content {
 	width: 100%;
 	padding: 0px 20px;
 	background: #ffffff;
 	clear: both;
 }
 
-.travel_query .content .title {
+.leave_query .content .title {
 	border-bottom: 1px solid #EEEEEE;
 }
 
-.travel_query .content .title .title-text {
+.leave_query .content .title .title-text {
 	display: inline-block;
 	position: relative;
 	padding: 29px 0px;
 	font-size: 16px;
 }
 
-.travel_query .content .title .title-text:after {
+.leave_query .content .title .title-text:after {
 	content: '';
 	position: absolute;
 	left: 0;
@@ -335,15 +386,15 @@ export default {
 	height: 2px;
 	background: #333333;
 }
-.travel_query .title_button {
+.leave_query .title_button {
 	float: right;
 	margin-top: 20px;
 }
-.travel_query .content-inner {
+.leave_query .content-inner {
 	padding: 40px 0px;
 }
 
-.travel_query .el-form-item__label {
+.leave_query .el-form-item__label {
 	text-align: left;
 	vertical-align: middle;
 	float: left;
@@ -354,35 +405,35 @@ export default {
 	box-sizing: border-box;
 }
 
-.travel_query .input-wrap .el-form-item {
+.leave_query .input-wrap .el-form-item {
 	margin-right: 80px;
 	float: left;
 }
 
-.travel_query .el-form-item {
+.leave_query .el-form-item {
 	margin-bottom: 40px;
 }
 
-.travel_query .el-input,
-.travel_query .el-input__inner {
+.leave_query .el-input,
+.leave_query .el-input__inner {
 	width: 200px;
 	display: inline-block;
 }
 
-.travel_query .el-form-item__content {
+.leave_query .el-form-item__content {
 	line-height: 36px;
 	position: relative;
 	font-size: 14px;
 }
 
-.travel_query .button-wrap {
+.leave_query .button-wrap {
 	margin: 0px auto 40px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;
 }
 
-.travel_query .el-input__inner {
+.leave_query .el-input__inner {
 	border-radius: 4px;
 	border: 1px solid #EEEEEE;
 	color: #333333;
@@ -390,11 +441,11 @@ export default {
 	transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
 }
 
-.travel_query .el-input__inner:hover {
+.leave_query .el-input__inner:hover {
 	border-color: #FF9900;
 }
 
-.travel_query .el-button {
+.leave_query .el-button {
 	display: inline-block;
 	line-height: 1;
 	white-space: nowrap;
@@ -406,11 +457,11 @@ export default {
 	border-radius: 0px;
 }
 
-.travel_query .el-button.resetform {
+.leave_query .el-button.resetform {
 	margin-right: 20px;
 }
 
-.travel_query .el-button--primary {
+.leave_query .el-button--primary {
 	color: #fff;
 	background-color: #FF9900;
 	border-color: #FF9900;
@@ -418,23 +469,23 @@ export default {
 .el-button+.el-button {
     margin-left: 0px;
 }
-.travel_query .el-table td,
-.travel_query .el-table th {
+.leave_query .el-table td,
+.leave_query .el-table th {
 	text-align: center;
 }
-.travel_query .el-table td:first-child{
+.leave_query .el-table td:first-child{
 	cursor: pointer;
 }
-.travel_query .link {
+.leave_query .link {
 	cursor: pointer;
     color: #337ab7;
     text-decoration: underline;
 }
-.travel_query .el-table td:first-child:hover{
+.leave_query .el-table td:first-child:hover{
 	color: #FF9900;
 }
 
-.travel_query .el-table th {
+.leave_query .el-table th {
 	white-space: nowrap;
 	overflow: hidden;
 	background-color: #f4f4f4;
@@ -457,21 +508,21 @@ export default {
 	background: url(../../../../../static/img/common/delete.png);
 }
 
-.travel_query .el-pagination {
+.leave_query .el-pagination {
 	text-align: right;
 	margin-top: 40px;
 	margin-right: 40px;
 	color: #282828;
 }
 
-.travel_query .el-pager li.active {
+.leave_query .el-pager li.active {
 	border-color: #FF9900;
 	background-color: #FF9900;
 	color: #fff;
 	cursor: default;
 }
 
-.travel_query .el-pager li {
+.leave_query .el-pager li {
 	padding: 0 4px;
 	border-right: 0;
 	background: #fff;
@@ -483,12 +534,12 @@ export default {
 	text-align: center;
 }
 
-.travel_query .el-pager li:last-child {
+.leave_query .el-pager li:last-child {
 	border-right: 1px solid #EEEEEE;
 }
 
-.travel_query .el-pagination button,
-.travel_query .el-pagination span {
+.leave_query .el-pagination button,
+.leave_query .el-pagination span {
 	display: inline-block;
 	font-size: 12px;
 	letter-spacing: -0.39px;
@@ -500,28 +551,28 @@ export default {
 	box-sizing: border-box;
 }
 
-.travel_query .el-pager li:hover {
+.leave_query .el-pager li:hover {
 	color: #FF9900;
 }
-.travel_query .el-pager li.active {
+.leave_query .el-pager li.active {
     border-color: #ff9900;
     background-color: #ff9900;
     color: #fff;
     cursor: default;
 }
-.travel_query .el-pager li.active:hover {
+.leave_query .el-pager li.active:hover {
 	cursor: pointer;
 	color: #ffffff;
 }
 
-.travel_query .el-pagination button:hover {
+.leave_query .el-pagination button:hover {
 	color: #FF9900;
 }
-.travel_query .el-pagination button.disabled:hover {
+.leave_query .el-pagination button.disabled:hover {
 	color: #e4e4e4;
 }
 
-.travel_query .el-pagination__editor {
+.leave_query .el-pagination__editor {
 	border: 1px solid #EEEEEE;
 	border-radius: 2px;
 	padding: 2px 0px;
@@ -529,34 +580,34 @@ export default {
 	min-width: 24px;
 }
 
-.travel_query .el-pagination__editor:focus {
+.leave_query .el-pagination__editor:focus {
 	outline: 0;
 	border-color: #FF9900;
 }
 
-.travel_query .el-pagination .btn-next,
-.travel_query .el-pagination .btn-prev {
+.leave_query .el-pagination .btn-next,
+.leave_query .el-pagination .btn-prev {
 	border: 1px solid #EEEEEE;
 	color: #282828;
 }
 
-.travel_query .el-autocomplete-suggestion__wrap,
-.travel_query .el-pager li {
+.leave_query .el-autocomplete-suggestion__wrap,
+.leave_query .el-pager li {
 	border: 1px solid #EEEEEE;
 }
 
-.travel_query .el-pager li.btn-quicknext,
-.travel_query .el-pager li.btn-quickprev {
+.leave_query .el-pager li.btn-quicknext,
+.leave_query .el-pager li.btn-quickprev {
 	line-height: 28px;
 	color: #282828;
 }
-.travel_query .el-upload__input {
+.leave_query .el-upload__input {
     display: none;
 }
-.travel_query .btn_wrap {
+.leave_query .btn_wrap {
 	margin-top: 30px;
 }
-.travel_query .upload_btn {
+.leave_query .upload_btn {
 	display: inline-block;
 	left: 100%;
 }

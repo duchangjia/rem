@@ -195,6 +195,11 @@ export default new Router({
                             component: resolve => require(['../components/pages/argument_Mgmt/add_agency.vue'], resolve)
                         },
                         {
+                            path: '/modify_agency',
+                            name: 'modify_agency',
+                            component: resolve => require(['../components/pages/argument_Mgmt/modify_agency.vue'], resolve)
+                        },
+                        {
                             path: '/add_ticket',
                             component: resolve => require(['../components/pages/argument_Mgmt/add_ticket.vue'], resolve)
                         },
@@ -270,6 +275,31 @@ export default new Router({
                     		name: 'add_leave',
                     		path: '/add_leave',
                     		component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/add_leave.vue'], resolve),
+                    	}
+                    ]
+                },
+                {
+                    path: '/overtime_management',
+                    component: resolve => require(['../components/pages/attendance_Mgmt/overtime_management/overtime_management.vue'], resolve),
+                    children: [
+                    	{
+                    		path: '/',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/overtime_management/overtime_query.vue'], resolve),
+                    	},
+                    	{
+                    		name: 'overtime_info',
+                    		path: '/overtime_info',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/overtime_management/overtime_info.vue'], resolve),
+                    	},
+                    	{
+                    		name: 'edit_overtime',
+                    		path: '/edit_overtime',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/overtime_management/edit_overtime.vue'], resolve),
+                    	},
+                    	{
+                    		name: 'add_overtime',
+                    		path: '/add_overtime',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/overtime_management/add_overtime.vue'], resolve),
                     	}
                     ]
                 },

@@ -1,10 +1,10 @@
 <template>
 	<div class="travelC_wrap">
-		<current yiji="考勤管理" erji="出差管理" sanji="出差详情">
+		<current yiji="考勤管理" erji="出差管理" sanji="出差修改">
 		</current>
 		<div class="content">
 			<div class="title">
-				<span class="title-text">出差详情</span>
+				<span class="title-text">出差修改</span>
 			</div>
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
@@ -18,20 +18,20 @@
 							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 						</el-select>
 				  	</el-form-item>
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">  	
+				<!--<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">-->  	
 					<el-form-item label="工号">
-					    <el-input v-model="formdata1.userNo"></el-input>
+					    <el-input v-model="formdata2.userNo"></el-input>
 				 	</el-form-item>
 				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata1.custName"></el-input>
+					    <el-input v-model="formdata2.custName"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="岗位">
-					    <el-input v-model="formdata1.custPost"></el-input>
+					    <el-input v-model="formdata2.custPost"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="职级">
-					    <el-input v-model="formdata1.custClass"></el-input>
+					    <el-input v-model="formdata2.custClass"></el-input>
 				  	</el-form-item>
-				</el-form>
+				<!--</el-form>-->
 
 				  	<div class="info-title">出差信息</div>
 				  	<el-form-item label="出差开始时间" prop="travelStartTime">
@@ -42,7 +42,7 @@
 			      	</el-form-item>
 				  	<el-form-item label="出差类型" prop="travelType">
 					    <el-select v-model="formdata2.travelType" value-key="travelType" @change="changeValue">
-							<el-option v-for="item in travelTypeList" :key="item" :label="item" :value="item"></el-option>
+							<el-option v-for="item in travelTypeList" :key="item.travelNo" :label="item.label" :value="item.travelNo"></el-option>
 						</el-select>
 				  	</el-form-item>
 				  	<el-form-item label="出差城市">
@@ -85,14 +85,14 @@
 		data() {
 			return {
 				formdata1: {
-					userNo: "",
-					custName: "",
-					custPost: "",
-					custClass: "",
 				},
 				formdata2: {
 					orgId: "01",
 					deprtId: "",
+					userNo: "",
+					custName: "",
+					custPost: "",
+					custClass: "",
 					travelStartTime: "",
 					travelEndTime: "",
 					travelType: "",
@@ -134,7 +134,12 @@
 					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
 					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
 				],
-				travelTypeList: ['业务拓展','项目实施','会议','其他'],
+				travelTypeList: [
+					{label: "业务拓展", travelNo: "01"},
+					{label: "项目实施", travelNo: "02"},
+					{label: "会议", travelNo: "03"},
+					{label: "其他", travelNo: "99"}
+				],
 			 	rules: {
 			 		travelStartTime: [
 			 			{ required: true, message: '出差开始时间不能为空', trigger: 'blur' }
@@ -187,23 +192,23 @@
 						console.log('valid');
 						let params = {
 							applyNo: self.formdata2.applyNo, //出差编号
-	   						organNo: self.formdata2.applyNo,//公司编号
-	    					deptNo: self.formdata2.applyNo,//部门编号
-						    companyName: self.formdata2.applyNo,//公司名称
-						    deptName: self.formdata2.applyNo,//部门名称
-						    userNo: self.formdata2.applyNo,//工号
-						    custName: self.formdata2.applyNo,//姓名
-						    custPost: self.formdata2.applyNo,//岗位
-						    custClass: self.formdata2.applyNo,//职级
-						    travelType: self.formdata2.applyNo,//出差类型
-						    travelStartTime: self.formdata2.applyNo,//出差开始时间	
-						    travelEndTime: self.formdata2.applyNo, //出差结束时间
-						    travelStartCity: self.formdata2.applyNo,//出差开始城市	
-						    travelArrivalCity: self.formdata2.applyNo,//出差到达城市
-						    travelDays: self.formdata2.applyNo, //出差天数  
-						    travelSTD: self.formdata2.applyNo,//差补标准
-						    remark: self.formdata2.applyNo,//备注
-						    attachm: self.formdata2.applyNo//附件
+	   						organNo: self.formdata2.organNo,//公司编号
+	    					deptNo: self.formdata2.deptNo,//部门编号
+						    companyName: self.formdata2.companyName,//公司名称
+						    deptName: self.formdata2.deptName,//部门名称
+						    userNo: self.formdata2.userNo,//工号
+						    custName: self.formdata2.custName,//姓名
+						    custPost: self.formdata2.custPost,//岗位
+						    custClass: self.formdata2.custClass,//职级
+						    travelType: self.formdata2.travelType,//出差类型
+						    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
+						    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
+						    travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
+						    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
+						    travelDays: self.formdata2.travelDays, //出差天数  
+						    travelSTD: self.formdata2.travelSTD,//差补标准
+						    remark: self.formdata2.remark,//备注
+						    attachm: self.formdata2.attachm//附件
 						}
 						//查询出差详细信息
 						self.modifyTravelInfo(params);

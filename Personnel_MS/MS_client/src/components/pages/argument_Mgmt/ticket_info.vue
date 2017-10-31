@@ -12,7 +12,13 @@
                     </div>
                     <table>
                         <tr><td v-for="th in table.th">{{th}}</td></tr>
-                        <tr v-for="tds in table.td"><td v-for="td in tds">{{td}}</td><td><i class="el-icon-edit" @click="edit"></i></td></tr>
+                        <tr v-for="tds in table.td">
+                            <td>{{tds.organName}}</td>
+                            <td>{{tds.organTaxNo}}</td>
+                            <td>{{tds.organAcct}}</td>
+                            <td>{{tds.organAcctname}}</td>
+                            <td><i class="el-icon-edit" @click="edit"></i></td>
+                        </tr>
                     </table>
                     <el-pagination
                             @size-change="handleSizeChange"
@@ -49,18 +55,18 @@
                 table: {
                     th:['公司名称', '纳税人识别号', '银行账户', '账户名称', '操作'],
                     td:[
-                        {
-                            companyId: '001',
-                            userId: '机构名称机构名称机构名称',
-                            account: '管理',
-                            accountName: 'XXXXXXXXXX',
-                        },
-                        {
-                            companyId: '001',
-                            userId: '机构名称机构名称机构名称',
-                            account: '管理',
-                            accountName: 'XXXXXXXXXX',
-                        },
+//                        {
+//                            companyId: '001',
+//                            userId: '机构名称机构名称机构名称',
+//                            account: '管理',
+//                            accountName: 'XXXXXXXXXX',
+//                        },
+//                        {
+//                            companyId: '001',
+//                            userId: '机构名称机构名称机构名称',
+//                            account: '管理',
+//                            accountName: 'XXXXXXXXXX',
+//                        },
                         ]
                 }
             }
@@ -69,19 +75,8 @@
             let self = this
             this.$axios.get('/iem_hrm/organBillInfo/queryBillInfoList')
                 .then(res => {
-                    console.log(res)
-                    res.data.data.list.map(obj => {
-                        return {
-                            organNo: obj.organNo,
-                            organName: obj.organName,
-                            organTaxNo: obj.organTaxNo,
-                            organTel: obj.organTel,
-                            organAcctname: obj.organAcctname,
-                            organAcct: obj.organAcct,
-                            organAddr: obj.organAddr,
-                        }
-                    })
-                    this.table.td = res.data.data.list
+                    console.log(res.data.data.list)
+                    self.table.td = res.data.data.list
                 })
                 .catch(e => {
                     console.log(e)
@@ -97,7 +92,7 @@
             add() {
                 this.$router.push('add_ticket')
             },
-            del() {
+            edit() {
 
             }
         },
@@ -212,9 +207,10 @@
                         flex:3
                     td:nth-child(3)
                         flex 3
-                .el-icon-delete2
+                .el-icon-delete2, .el-icon-edit
                     color: #ff9900;
                     cursor pointer
+                    text-decoration underline
         .el-pagination
             position: absolute;
             right: 45px;
