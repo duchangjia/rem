@@ -330,8 +330,8 @@ export default {
   },
   created() {
     this.userNo = this.$route.params.userNo;
-    this.getCustInfo(); // 查询获取用户信息
-    this.getPayBaseInfoDetail(); // 查询获取用户信息
+    this.getCustInfo(); // 查询用户信息
+    this.getPayBaseInfoDetail(); // 查询获取调整前薪酬信息
   },
   methods: {
     getCustInfo() {

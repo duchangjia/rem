@@ -3,7 +3,6 @@
         <current yiji="人事事务" erji="人事合同" sanji="合同详情">
         </current>
         <div class="content-wrapper">
-            <!-- <el-button type="primary" class="toolBtn">保存</el-button> -->
             <el-tabs v-model="activeName" @tab-click="handleTabClick">
                 <el-tab-pane label="合同基本情况" name="basicPactMsg">
                     <div class="add-wrapper">
@@ -24,18 +23,18 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="公司名称" prop="organName">
-                                    <el-select v-model="basicPactMsg.organName" :disabled="true">
-                                        <el-option label="总公司" value="1"></el-option>
-                                        <el-option label="深圳分公司" value="0"></el-option>
+                                <el-form-item label="公司名称" prop="organNo">
+                                    <el-select v-model="basicPactMsg.organNo" :disabled="true">
+                                        <el-option label="总公司" value="0001"></el-option>
+                                        <el-option label="深圳分公司" value="0002"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="部门名称" prop="derpName">
-                                    <el-select v-model="basicPactMsg.derpName" :disabled="true">
-                                        <el-option label="财务部" value="1"></el-option>
-                                        <el-option label="技术部" value="0"></el-option>
+                                <el-form-item label="部门名称" prop="derpNo">
+                                    <el-select v-model="basicPactMsg.derpNo" :disabled="true">
+                                        <el-option label="财务部" value="0001"></el-option>
+                                        <el-option label="技术部" value="0002"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
@@ -52,8 +51,8 @@
                             <el-col :span="12">
                                 <el-form-item label="性别" prop="sex">
                                     <el-select v-model="basicPactMsg.sex" :disabled="true">
-                                        <el-option label="男" value="1"></el-option>
-                                        <el-option label="女" value="0"></el-option>
+                                        <el-option label="男" value="01"></el-option>
+                                        <el-option label="女" value="02"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
@@ -65,8 +64,8 @@
                             <el-col :span="12">
                                 <el-form-item label="合同类型" prop="pactType">
                                     <el-select v-model="basicPactMsg.pactType" :disabled="true">
-                                        <el-option label="劳动合同" value="1"></el-option>
-                                        <el-option label="保密协议" value="0"></el-option>
+                                        <el-option label="劳动合同" value="01"></el-option>
+                                        <el-option label="保密协议" value="02"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
@@ -88,8 +87,8 @@
                             <el-col :span="12">
                                 <el-form-item label="合同状态" prop="pactStatus">
                                     <el-select v-model="basicPactMsg.pactStatus" :disabled="true">
-                                        <el-option label="已生效" value="1"></el-option>
-                                        <el-option label="未生效" value="0"></el-option>
+                                        <el-option label="已生效" value="01"></el-option>
+                                        <el-option label="未生效" value="02"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
@@ -119,8 +118,8 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="24">
-                                <el-form-item label=" " prop="autoupFlag">
-                                    <el-checkbox v-model="checked">自动更新员工资料</el-checkbox>
+                                <el-form-item label=" ">
+                                    <el-checkbox v-model="checked" @change="">自动更新员工资料</el-checkbox>
                                 </el-form-item>
                             </el-col>
                         </el-form>
@@ -145,9 +144,10 @@
                             </el-table-column>
                             <el-table-column align="center" prop="custName" label="姓名">
                             </el-table-column>
-                            <el-table-column align="center" prop="organName" label="公司名称">
+                            <el-table-column align="center" prop="organNo" label="公司名称" :formatter="organFormatter">
                             </el-table-column>
-                            <el-table-column align="center" prop="derpName" label="部门名称">
+                            <el-table-column align="center" prop="derpNo" label="部门名称" :formatter="derpFormatter">
+                            </el-table-column>
                             </el-table-column>
                             <el-table-column align="center" prop="changeType" label="变更类型" :formatter="changeTypeFormatter">
                             </el-table-column>
@@ -183,9 +183,9 @@
                             </el-table-column>
                             <el-table-column align="center" prop="custName" label="姓名">
                             </el-table-column>
-                            <el-table-column align="center" prop="organName" label="公司名称">
+                            <el-table-column align="center" prop="organNo" label="公司名称" :formatter="organFormatter">
                             </el-table-column>
-                            <el-table-column align="center" prop="derpName" label="部门名称">
+                            <el-table-column align="center" prop="derpNo" label="部门名称" :formatter="derpFormatter">
                             </el-table-column>
                             <el-table-column align="center" prop="renewType" label="续签类型" :formatter="renewTypeFormatter">
                             </el-table-column>
@@ -229,7 +229,7 @@ export default {
         pageSize: 7,
         totalRows: 20
       },
-      checked: ""
+      checked: ''
     };
   },
   components: {
@@ -243,7 +243,7 @@ export default {
       if (this.activeName == "renewPactMsg") this.getPRenewList();
     } else {
       this.activeName = "basicPactMsg";
-      this.getPactDtl(this.pactNo); // 初始查合同基本详情
+      this.getPactDtl(); // 初始查合同基本详情
     }
   },
   methods: {
@@ -252,20 +252,19 @@ export default {
       this.activeName = tab.name;
       if (tab.name == "changePactMsg") this.getPChangeList();
       if (tab.name == "renewPactMsg") this.getPRenewList();
-      if (tab.name == "basicPactMsg") this.getPactDtl(this.pactNo);
+      if (tab.name == "basicPactMsg") this.getPactDtl();
     },
-    getPactDtl(pactNo) {
+    getPactDtl() {
       const self = this;
       let params = {
-        pactNo: pactNo
+        pactNo: self.pactNo
       };
       self.$axios
-        // .get("/iem_hrm/pact/queryPactDetail", { params: params })
-        .get("/iem_hrm/queryPactDetail", { params: params })        
+        .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
           console.log(res);
           self.basicPactMsg = res.data.data;
-          self.checked = res.data.data.autoupFlag;
+          self.basicPactMsg.autoudFlag == '01' ? self.checked = 'true': self.checked = 'false';
         })
         .catch(() => {
           console.log("error");
@@ -280,12 +279,10 @@ export default {
         changeId: ""
       };
       self.$axios
-        // .get("/iem_hrm/pact/queryPactChangeList", { params: params })
-        .get("/iem_hrm/queryPactChangeList", { params: params })        
+        .get("/iem_hrm/pact/queryPactChangeList", { params: params })
         .then(res => {
           console.log(res);
-        //   self.PChangeListInfo = res.data.data.list;
-          self.PChangeListInfo = res.data.data.PChangeListArray;          
+          self.PChangeListInfo = res.data.data.list;
           self.pChangePage.totalRows = res.data.total;
         })
         .catch(() => {
@@ -297,17 +294,15 @@ export default {
       let params = {
         pageNum: self.pRenewPage.pageNum,
         pageSize: self.pRenewPage.pageSize,
-        // pactNo: self.pactNo,
-        pactNo: "0001",
+        pactNo: self.pactNo,
+        // pactNo: "0001",
         renewId: ""
       };
       self.$axios
-        // .get("/iem_hrm/pact/queryPactRenewList", { params: params })
-        .get("/iem_hrm/queryPactRenewList", { params: params })        
+        .get("/iem_hrm/pact/queryPactRenewList", { params: params })
         .then(res => {
           console.log(res);
-        //   self.PRenewListInfo = res.data.data.list;
-          self.PRenewListInfo = res.data.data.PRenewListArray;          
+          self.PRenewListInfo = res.data.data.list;
           self.pRenewPage.totalRows = res.data.total;
         })
         .catch(() => {
@@ -315,11 +310,24 @@ export default {
         });
     },
     downloadFile() {},
+
+    organFormatter(row, column) {
+      return row.organNo == "0001"
+        ? "总公司"
+        : row.organNo == "0002" ? "深圳分公司" : "异常";
+    },
+    derpFormatter(row, column) {
+        return row.derpNo == "0001" ? "技术部" : row.derpNo == "0002" ? "财务部" : "异常";
+    },
     changeTypeFormatter(row, column) {
-      return row.changeType == 1 ? "条款变更" : row.changeType == 0 ? "啥啥变更" : "异常";
+      return row.changeType == "01"
+        ? "条款变更"
+        : row.changeType == "02" ? "啥啥变更" : "异常";
     },
     renewTypeFormatter(row, column) {
-      return row.renewType == 1 ? "合同延期" : row.renewType == 0 ? "啥啥续签" : "异常";
+      return row.renewType == "01"
+        ? "合同延期"
+        : row.renewType == "02" ? "啥啥续签" : "异常";
     },
     handleEdit(index, row) {
       if (this.activeName == "changePactMsg")
@@ -341,10 +349,6 @@ export default {
     },
     handleDelete(index, row) {
       if (this.activeName == "changePactMsg") {
-        let targetPChange = {};
-        targetPChange.pactNo = row.pactNo;
-        targetPChange.changeId = row.changeId;
-        console.log(targetPChange);
         this.$confirm("此操作将会删除该条合同变更, 是否继续?", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
@@ -354,15 +358,14 @@ export default {
             this.$axios
               .delete(
                 "/iem_hrm/pact/deletePactChange?pactNo=" +
-                  targetPChange.pactNo +
+                  row.pactNo +
                   "&changeId=" +
-                  targetPChange.changeId,
-                targetPChange
+                  row.changeId
               )
               .then(res => {
                 console.log(res);
                 if (res.data.code == "S00000")
-                  this.$message({ type: "success", message: "删除成功!" });
+                  this.$message({ type: "success", message: "删除合同变更成功!" });
                 else this.$message.error("删除合同变更失败！");
               })
               .catch(() => {
@@ -374,10 +377,6 @@ export default {
           });
       }
       if (this.activeName == "renewPactMsg") {
-        let targetPRenew = {};
-        targetPRenew.pactNo = row.pactNo;
-        targetPRenew.renewId = row.renewId;
-        console.log(targetPRenew);
         this.$confirm("此操作将会删除该条合同续签, 是否继续?", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
@@ -387,10 +386,9 @@ export default {
             this.$axios
               .delete(
                 "/iem_hrm/pact/deletePactRenew?pactNo=" +
-                  targetPRenew.pactNo +
+                  row.pactNo +
                   "&renewId=" +
-                  targetPRenew.renewId,
-                targetPRenew
+                  row.renewId
               )
               .then(res => {
                 console.log(res);

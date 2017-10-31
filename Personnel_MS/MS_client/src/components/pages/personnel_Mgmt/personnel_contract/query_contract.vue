@@ -11,12 +11,12 @@
             <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
                 <el-form :inline="true" :model="filters">
                     <el-form-item label="姓名">
-                        <el-input v-model="filters.name" placeholder="请输入姓名"></el-input>
+                        <el-input v-model="filters.custName" placeholder="请输入姓名"></el-input>
                     </el-form-item>
                     <el-form-item label="合同类型">
                         <el-select v-model="filters.pactType">
-                            <el-option label="劳动合同" value="1"></el-option>
-                            <el-option label="保密协议" value="0"></el-option>
+                            <el-option label="劳动合同" value="01"></el-option>
+                            <el-option label="保密协议" value="02"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item style="margin-left:10px;">
@@ -37,9 +37,9 @@
                 </el-table-column>
                 <el-table-column align="center" prop="custName" label="姓名">
                 </el-table-column>
-                <el-table-column align="center" prop="organName" label="公司名称">
+                <el-table-column align="center" prop="organNo" label="公司名称" :formatter="organFormatter">
                 </el-table-column>
-                <el-table-column align="center" prop="derpName" label="部门名称">
+                <el-table-column align="center" prop="derpNo" label="部门名称" :formatter="derpFormatter">
                 </el-table-column>
                 <el-table-column align="center" prop="pactType" label="合同类型" :formatter="pactTypeFormatter">
                 </el-table-column>
@@ -74,7 +74,7 @@ export default {
   data() {
     return {
       filters: {
-        name: "",
+        custName: "",
         pactType: ""
       },
       pageNum: 1,
@@ -87,7 +87,7 @@ export default {
     current
   },
   created() {
-    this.filters.name = "";
+    this.filters.custName = "";
     this.filters.pactType = "";
     this.getPactList(); //初始查询合同列表
   },
@@ -97,27 +97,31 @@ export default {
       let params = {
         pageNum: self.pageNum,
         pageSize: self.pageSize,
-        custName: self.filters.name,
+        custName: self.filters.custName,
         pactType: self.filters.pactType
       };
       self.$axios
-        // .get("/iem_hrm/pact/queryPactList", { params: params })
-        .get("/iem_hrm/queryPactList", { params: params })        
+        .get("/iem_hrm/pact/queryPactList", { params: params })
         .then(res => {
           console.log(res);
-          // self.pactListInfo = res.data.data.list;
-          self.pactListInfo = res.data.data.pactListArray;
+          self.pactListInfo = res.data.data.list;
           self.totalRows = res.data.data.total;
         })
         .catch(() => {
           console.log("error");
         });
     },
+    organFormatter(row, column) {
+      return row.organNo == "0001" ? "总公司" : row.organNo == "0002" ? "深圳分公司" : "异常";
+    },
+    derpFormatter(row, column) {
+      return row.derpNo == "0001" ? "技术部" : row.derpNo == "0002" ? "财务部" : "异常";
+    },
     pactTypeFormatter(row, column) {
-      return row.pactType == 1 ? "劳动合同" : row.pactType == 0 ? "保密协议" : "异常";
+      return row.pactType == "01" ? "劳动合同" : row.pactType == "02" ? "保密协议" : "异常";
     },
     pactStatusFormatter(row, column) {
-      return row.pactStatus == 1 ? "已生效" : row.pactStatus == 0 ? "未生效" : "异常";
+      return row.pactStatus == "01" ? "已生效" : row.pactStatus == "02" ? "未生效" : "异常";
     },
     dateFormat(row, column) {
       
@@ -136,7 +140,7 @@ export default {
     },
     handleQuery() {
       console.log(
-        "name:" + self.filters.name + " pactType:" + self.filters.pactType
+        "custName:" + this.filters.custName + " pactType:" + this.filters.pactType
       );
       this.getPactList(); //根据条件查询合同列表
     },

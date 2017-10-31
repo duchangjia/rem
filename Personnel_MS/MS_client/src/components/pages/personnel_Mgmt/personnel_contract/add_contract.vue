@@ -20,18 +20,18 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="公司名称" prop="organName">
-                            <el-select v-model="addPactMsg.organName">
-                                <el-option label="总公司" value="1"></el-option>
-                                <el-option label="深圳分公司" value="0"></el-option>
+                        <el-form-item label="公司名称" prop="organNo">
+                            <el-select v-model="addPactMsg.organNo">
+                                <el-option label="总公司" value="0001"></el-option>
+                                <el-option label="深圳分公司" value="0002"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="部门名称" prop="derpName">
-                            <el-select v-model="addPactMsg.derpName">
-                                <el-option label="财务部" value="1"></el-option>
-                                <el-option label="技术部" value="0"></el-option>
+                        <el-form-item label="部门名称" prop="derpNo">
+                            <el-select v-model="addPactMsg.derpNo">
+                                <el-option label="财务部" value="0001"></el-option>
+                                <el-option label="技术部" value="0002"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -50,8 +50,8 @@
                     <el-col :span="12">
                         <el-form-item label="性别" prop="sex">
                             <el-select v-model="addPactMsg.sex">
-                                <el-option label="男" value="1"></el-option>
-                                <el-option label="女" value="0"></el-option>
+                                <el-option label="男" value="01"></el-option>
+                                <el-option label="女" value="02"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -63,8 +63,8 @@
                     <el-col :span="12">
                         <el-form-item label="合同类型" prop="pactType">
                             <el-select v-model="addPactMsg.pactType">
-                                <el-option label="劳动合同" value="1"></el-option>
-                                <el-option label="保密协议" value="0"></el-option>
+                                <el-option label="劳动合同" value="01"></el-option>
+                                <el-option label="保密协议" value="02"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -86,8 +86,8 @@
                     <el-col :span="12">
                         <el-form-item label="合同状态" prop="pactStatus">
                             <el-select v-model="addPactMsg.pactStatus">
-                                <el-option label="已生效" value="1"></el-option>
-                                <el-option label="未生效" value="0"></el-option>
+                                <el-option label="已生效" value="01"></el-option>
+                                <el-option label="未生效" value="02"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -173,30 +173,9 @@ export default {
       rules: {
         userNo: [{ required: true, message: "工号不能为空", trigger: "blur" }],
         pactType: [{ required: true, message: "合同类型不能为空", trigger: "change" }],
-        signTime: [
-          {
-            type: "date",
-            required: true,
-            message: "签订日期不能为空",
-            trigger: "change"
-          }
-        ],
-        pactStartTime: [
-          {
-            type: "date",
-            required: true,
-            message: "合同开始日期不能为空",
-            trigger: "change"
-          }
-        ],
-        pactEndTime: [
-          {
-            type: "date",
-            required: true,
-            message: "合同结束日期不能为空",
-            trigger: "change"
-          }
-        ],
+        signTime: [{ type: "date", required: true, message: "签订日期不能为空", trigger: "change" }],
+        pactStartTime: [{ type: "date", required: true, message: "合同开始日期不能为空", trigger: "change"}],
+        pactEndTime: [{ type: "date", required: true, message: "合同结束日期不能为空", trigger: "change" }],
         pactStatus: [{ required: true, message: "合同状态不能为空", trigger: "change" }]
       }
     };
