@@ -10,29 +10,29 @@ export default {
 </script>
 
 <style>
-.content_wrap {
+.travelC_wrap {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
 }
-.content_wrap .content {
+.travelC_wrap .content {
 	width: 100%;
 	padding: 0px 20px;
 	background: #ffffff;
 	clear: both;
 }
-.content_wrap .content .title {
+.travelC_wrap .content .title {
 	border-bottom: 1px solid #EEEEEE;
 }
 
-.content_wrap .content .title .title-text {
+.travelC_wrap .content .title .title-text {
 	display: inline-block;
 	position: relative;
 	padding: 29px 0px;
 	font-size: 16px;
 }
 
-.content_wrap .content .title .title-text:after {
+.travelC_wrap .content .title .title-text:after {
 	content: '';
 	position: absolute;
 	left: 0;
@@ -42,43 +42,48 @@ export default {
 	background: #333333;
 }
 
-.content_wrap .content-inner {
+.travelC_wrap .content-inner {
 	padding: 40px 0px;
 }	
-.content_wrap .info-title{
+.travelC_wrap .info-title{
 	padding: 11px 0px 11px 10px;
     margin-bottom: 30px;
 	color: #999999;
 	border-bottom: none;
 }
 
-.content_wrap .el-form-item {
+.travelC_wrap .el-form-item {
 	padding-left: 20px;
 }
-.content_wrap .el-form-item__content {
+.travelC_wrap .el-form-item__content {
     width: 300px;
     margin-left: 30px;
 }
-.content_wrap .el-input__inner {
+.travelC_wrap .el-input, 
+.travelC_wrap .el-input__inner {
+    width: 300px;
+    display: inline-block;
+}
+.travelC_wrap .el-input__inner {
     border: 1px solid #EEEEEE;
     color: #999999;
     width: 300px;
     height: 40px;
 }
-.content_wrap .el-date-editor.el-input {
+.travelC_wrap .el-date-editor.el-input {
     width: 300px;
 }
-.content_wrap .travelCity {
+.travelC_wrap .travelCity {
 	display: inline-block;
 	width: 120px;
 }
-.content_wrap .travelCity .el-input__inner{
+.travelC_wrap .travelCity .el-input__inner{
 	width: 120px;
 }
-.content_wrap .travelCity_line {
+.travelC_wrap .travelCity_line {
 	padding: 0px 23px;
 }
-.content_wrap .el-form-item__label {
+.travelC_wrap .el-form-item__label {
     text-align: right;
     vertical-align: middle;
     float: left;
@@ -88,14 +93,14 @@ export default {
     padding: 11px 0px 11px 0;
     box-sizing: border-box;
 }
-.content_wrap .file_button {
+.travelC_wrap .file_button {
 	color: #FF9900;
 	font-size: 14px;
 }
-.content_wrap .el-form-item__error {
+.travelC_wrap .el-form-item__error {
     left: 30px;
 }
-.content_wrap .uploadBtn {
+.travelC_wrap .uploadBtn {
   position: absolute;
   height: 40px;
   top: 0;
@@ -106,12 +111,12 @@ export default {
   background: #ff9900;
   font-family: "PingFang SC";
 }
-.content_wrap .el-upload__input {
+.travelC_wrap .el-upload__input {
     margin-left: 30px;
     border: 1px solid #eeeeee;
     display: none;
 }
-.content_wrap .conserve {
+.travelC_wrap .conserve {
 	float: right;
 	margin-top: 20px;
 	background: #F4F4F4;
@@ -122,16 +127,16 @@ export default {
 	width: 120px;
 	height: 40px;
 }
-.content_wrap .el-button--primary {
+.travelC_wrap .el-button--primary {
 	color: #fff;
 	background-color: #FF9900;
 	border-color: #FF9900;
 }
-.content_wrap .remark {
+.travelC_wrap .remark {
 	width: 82%;
 	display: flex!important;
 }
-.content_wrap .remark .el-form-item__content {
+.travelC_wrap .remark .el-form-item__content {
 	flex: 1;
 }
 </style>

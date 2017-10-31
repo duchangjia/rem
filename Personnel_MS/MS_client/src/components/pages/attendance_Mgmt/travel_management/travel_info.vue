@@ -1,5 +1,5 @@
 <template>
-	<div class="content_wrap">
+	<div class="travelC_wrap">
 		<current yiji="考勤管理" erji="出差管理" sanji="出差详情">
 		</current>
 		<div class="content">
@@ -73,7 +73,7 @@
 					    <el-input v-model="formdata2.updateTime"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="附件" style="width:100%;">
-					    <el-button class="file_button" @click="download">下载</el-button>
+					    <el-button class="file_button" @click="handleDownload">下载</el-button>
 				  	</el-form-item>
 				  	<!--<el-form-item label="附件" style="width: 100%;">
 			  		 	<el-input v-model="formdata2.attachm"></el-input>
@@ -155,7 +155,12 @@
 			current
 		},
 		created() {
-			
+			let applyNo = this.$route.params.applyNo;
+			let userNo = this.$route.params.userNo;
+			let params = {
+				applyNo: applyNo
+			}
+			this.travelInfo(params);
 		},
 		methods: {
 			changeStartTime(time) {
@@ -168,21 +173,19 @@
 		 		const self = this;
 	            console.log('value',value);
 	      	},
-	      	queryUserInfo() {
-	      		this.formdata1.userNo;
-	      		
-	      	},
-	      	download() {
-	      		
+	      	handleDownload() {
+	      		const self = this;
+	      		let params = {
+	      			
+	      		}
+	      		//下载附件
+				self.downloadFile(params);
 	      	},
 	      	save(formName) {
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
 						console.log('valid');
-						let params = {
-							
-						}
 						
 						
 					} else {
@@ -191,11 +194,21 @@
 					}
 				});
 			},
-			addTravelInfo(params) {
-				let self = this;
-				self.$axios.post(baseURL+'/travel/addTravelInfo',params)
+			travelInfo(params) {
+				const self = this;
+				self.$axios.get(baseURL+'/travel/getTravelInfoByUserNo',{params: params})
 				.then(function(res) {
-					console.log('addTravelInfo',res);
+					console.log('travelInfo',res);
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			downloadFile(params) {
+				const self = this;
+				self.$axios.get(baseURL+'/travel/downloadFile',{params: params})
+				.then(function(res) {
+					console.log('downloadFile',res);
 					
 				}).catch(function(err) {
 					console.log('error');

@@ -6,12 +6,12 @@
 				<span class="title-text">考勤数据查询</span>
 				<!--<el-button type="primary" class="title_button" @click="handleImport()">导入</el-button>-->
 				<div class="imExport-btn">
-					<!--<span class="icon-import" @click="importExcel"></span>-->
+					<!--<span class="icon-import" @click="handleImport"></span>-->
 					<el-upload class="upload-demo imExport-btn-item" :on-change="handleChange" :before-upload="beforeAvatarUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
-                        <span class="icon-import" slot="trigger" @click="importExcel"></span>
+                        <span class="icon-import" slot="trigger" @click="handleImport"></span>
                    	</el-upload>
-					<span class="icon-export imExport-btn-item" @click="exportExcel"></span>
-					<span class="icon-download imExport-btn-item" @click="downloadTemplate"></span>
+					<span class="icon-export imExport-btn-item" @click="handleExport"></span>
+					<span class="icon-download imExport-btn-item" @click="handleDownloadTemplate"></span>
 				</div>
 				
 			</div>
@@ -220,15 +220,15 @@ export default {
 			
 		},
 		//导入
-		importExcel() {
+		handleImport() {
 			
 		},
 		//导出
-		exportExcel() {
+		handleExport() {
 			
 		},
 		//下载模版
-		downloadTemplate() {
+		handleDownloadTemplate() {
 			
 		},
 		queryUserList(pageNum,pageSize,params) {

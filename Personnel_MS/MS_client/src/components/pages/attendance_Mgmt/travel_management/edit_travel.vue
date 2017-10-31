@@ -1,5 +1,5 @@
 <template>
-	<div class="content_wrap">
+	<div class="travelC_wrap">
 		<current yiji="考勤管理" erji="出差管理" sanji="出差详情">
 		</current>
 		<div class="content">
@@ -155,7 +155,12 @@
 			current
 		},
 		created() {
-			
+			let applyNo = this.$route.params.applyNo;
+			let userNo = this.$route.params.userNo;
+			let params = {
+				applyNo: applyNo
+			}
+			this.travelInfo(params);
 		},
 		methods: {
 			changeStartTime(time) {
@@ -181,9 +186,27 @@
 					if(valid) {
 						console.log('valid');
 						let params = {
-							
+							applyNo: self.formdata2.applyNo, //出差编号
+	   						organNo: self.formdata2.applyNo,//公司编号
+	    					deptNo: self.formdata2.applyNo,//部门编号
+						    companyName: self.formdata2.applyNo,//公司名称
+						    deptName: self.formdata2.applyNo,//部门名称
+						    userNo: self.formdata2.applyNo,//工号
+						    custName: self.formdata2.applyNo,//姓名
+						    custPost: self.formdata2.applyNo,//岗位
+						    custClass: self.formdata2.applyNo,//职级
+						    travelType: self.formdata2.applyNo,//出差类型
+						    travelStartTime: self.formdata2.applyNo,//出差开始时间	
+						    travelEndTime: self.formdata2.applyNo, //出差结束时间
+						    travelStartCity: self.formdata2.applyNo,//出差开始城市	
+						    travelArrivalCity: self.formdata2.applyNo,//出差到达城市
+						    travelDays: self.formdata2.applyNo, //出差天数  
+						    travelSTD: self.formdata2.applyNo,//差补标准
+						    remark: self.formdata2.applyNo,//备注
+						    attachm: self.formdata2.applyNo//附件
 						}
-						
+						//查询出差详细信息
+						self.modifyTravelInfo(params);
 						
 					} else {
 						this.$message.error('failvalid');
@@ -191,11 +214,21 @@
 					}
 				});
 			},
-			addTravelInfo(params) {
+			travelInfo(params) {
 				let self = this;
-				self.$axios.post(baseURL+'/travel/addTravelInfo',params)
+				self.$axios.get(baseURL+'/travel/getTravelInfoByUserNo',{params: params})
 				.then(function(res) {
-					console.log('addTravelInfo',res);
+					console.log('travelInfo',res);
+					self.formdata2 = res.data.data;
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			modifyTravelInfo(params) {
+				let self = this;
+				self.$axios.put(baseURL+'/travel/modifyTravelInfo',params)
+				.then(function(res) {
+					console.log('modifyTravelInfo',res);
 					
 				}).catch(function(err) {
 					console.log('error');

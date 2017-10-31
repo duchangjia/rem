@@ -89,7 +89,7 @@ export default {
 						GroupLowerLimit: self.formdata.groupLowerLimit,
 						percentRate: self.formdata.percentRate,
 						quickCal: self.formdata.quickCal,
-						isDelete: "1"
+//						isDelete: "1"
 	          		};
 	          		self.insertTaxRateCtrl(params);
 	          		

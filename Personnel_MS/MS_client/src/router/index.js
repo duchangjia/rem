@@ -249,6 +249,31 @@ export default new Router({
                     ]
                 },
                 {
+                    path: '/leave_management',
+                    component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/leave_management.vue'], resolve),
+                    children: [
+                    	{
+                    		path: '/',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/leave_query.vue'], resolve),
+                    	},
+                    	{
+                    		name: 'leave_info',
+                    		path: '/leave_info',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/leave_info.vue'], resolve),
+                    	},
+                    	{
+                    		name: 'edit_leave',
+                    		path: '/edit_leave',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/edit_leave.vue'], resolve),
+                    	},
+                    	{
+                    		name: 'add_leave',
+                    		path: '/add_leave',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/add_leave.vue'], resolve),
+                    	}
+                    ]
+                },
+                {
                     path: '/statement_1',
                     component: resolve => require(['../components/pages/statement_STAT/statement_1.vue'], resolve)
                 },

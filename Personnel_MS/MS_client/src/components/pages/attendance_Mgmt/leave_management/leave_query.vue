@@ -1,9 +1,9 @@
 <template>
 	<div class="travel_query">
-		<current yiji="考勤管理" erji="出差管理" sanji="出差查询"></current>
+		<current yiji="考勤管理" erji="请假管理" sanji="请假查询"></current>
 		<div class="content">
 			<div class="title">
-				<span class="title-text">出差查询</span>
+				<span class="title-text">请假查询</span>
 				<el-button type="primary" class="title_button" @click="handleAdd">新增</el-button>
 			</div>
 			<div class="content-inner">
@@ -22,7 +22,17 @@
 						<el-form-item label="工号" prop="userNo">
 							<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
 						</el-form-item>
-						<el-form-item label="出差开始时间" prop="startDate">
+						<!--<el-form-item label="日期" prop="startDate">
+							<el-date-picker
+						      	v-model="ruleForm2.value9"
+						      	type="daterange"
+						      	start-placeholder="开始日期"
+						      	end-placeholder="结束日期"
+						      	default-value="2010-10-01"
+						      	@change="changeDate">
+						    </el-date-picker>
+						</el-form-item>-->
+						<el-form-item label="请假开始时间" prop="startDate">
 							<el-date-picker
 						      v-model="ruleForm2.startDate"
 						      type="date"
@@ -30,7 +40,7 @@
 						      :picker-options="pickerOptions0" @change="changeStartTime">
 						   </el-date-picker>
 						</el-form-item>
-						<el-form-item label="出差结束时间" prop="endDate">
+						<el-form-item label="请假结束时间" prop="endDate">
 							<el-date-picker
 						      v-model="ruleForm2.endDate"
 						      type="date"
@@ -46,7 +56,7 @@
 				</el-form>
 				<div class="info">
 					<el-table :data="transferDataList" border stripe style="width: 100%">
-						<el-table-column prop="applyNo" label="出差编号">
+						<el-table-column prop="applyNo" label="请假编号">
 							<template scope="scope">
 						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
 					      	</template>
@@ -55,9 +65,9 @@
 						<el-table-column prop="departName" label="部门名称"></el-table-column>
 						<el-table-column prop="userNo" label="工号"></el-table-column>
 						<el-table-column prop="userName" label="姓名"></el-table-column>
-						<el-table-column prop="travelType" label="出差类型"></el-table-column>
-						<el-table-column prop="travelStartTime" label="出差开始时间"></el-table-column>
-						<el-table-column prop="travelEndTime" label="出差结束时间"></el-table-column>
+						<el-table-column prop="leaveType" label="请假类型"></el-table-column>
+						<el-table-column prop="leaveStartTime" label="请假开始时间"></el-table-column>
+						<el-table-column prop="leaveEndTime" label="请假结束时间"></el-table-column>
 						<el-table-column prop="luruBy" label="录入人"></el-table-column>
 						<el-table-column prop="lurunTime" label="录入时间"></el-table-column>
 						<el-table-column label="操作" width="150">
@@ -95,7 +105,8 @@ export default {
 				departOrgNo: '',
 				userNo: "",
 				startDate: "",
-				endDate: ''
+				endDate: '',
+				value9: ""
 			},
 			transferDataList: [
 				{
@@ -104,9 +115,9 @@ export default {
 					departName: "shanghaifen",
 					userNo: "001", 
 					userName: "小名",
-					travelType: "",
-					travelStartTime: "2017-10-10",
-					travelEndTime: "2017-10-19",
+					leaveType: "",
+					leaveStartTime: "2017-10-10",
+					leaveEndTime: "2017-10-19",
 					luruBy: "",
 					lurunTime: ""
 				}
@@ -148,10 +159,14 @@ export default {
 			"pageNum": pageNum,
 			"pageSize": pageSize
 		}
-		//出差列表查询
-//		this.queryTravelList(pageNum,pageSize,params);
+		//请假列表查询
+		
 	},
 	methods: {
+//		changeDate(val) {
+//			console.log(val)
+//			console.log(this.ruleForm2.value9)
+//		},
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;
 		},
@@ -163,12 +178,12 @@ export default {
 	            console.log('value',value);
 	    },
 	    handleAdd() {
-	    	this.$router.push('/add_travel');
+	    	this.$router.push('/add_leave');
 	    },
 		handleEdit(index, row) {
 			console.log('row:',row);
             this.$router.push({
-            	name: "edit_travel",
+            	name: "edit_leave",
             	params: {
             		applyNo: row.applyNo,
 					userNo: row.userNo
@@ -178,7 +193,7 @@ export default {
 		handleInfo(index, row) {
 			console.log('row:',row);
 			this.$router.push({
-				name: "travel_info",
+				name: "leave_info",
 				params: {
 					applyNo: row.applyNo,
 					userNo: row.userNo
@@ -197,7 +212,7 @@ export default {
 					userNo: row.userNo
 				}
             	//删除
-				self.deleteTravel(params);
+				
             	
             }).catch(() => {
                 this.$message('您已取消操作！');
@@ -220,12 +235,12 @@ export default {
 						organNo: self.ruleForm2.organNo,
 						userNo: self.ruleForm2.userNo,
 //						applyNo: self.ruleForm2.applyNo,
-						travelStartTime: self.ruleForm2.travelStartTime,
-						travelEndTime: self.ruleForm2.travelEndTime
+						leaveStartTime: self.ruleForm2.leaveStartTime,
+						leaveEndTime: self.ruleForm2.leaveEndTime
 					};
 					
-					//出差列表查询
-					this.queryTravelList(pageNum,pageSize,params);
+					//请假列表查询
+					
 					
 				} else {
 					console.log('error submit!!');

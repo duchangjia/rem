@@ -178,6 +178,7 @@ export default {
 			const self = this;
 			let pageNum = val;
 			let pageSize = self.pageRows;
+			let params = {};
 			if(!self.queryFormFlag) {
 				let params = {
 					"pageNum": pageNum,

@@ -69,7 +69,8 @@ export default {
 		let pageSize = self.pageRows;
 		let params = {
 			"pageNum": pageNum,
-			"pageSize": pageSize
+			"pageSize": pageSize,
+			isDelete: "1"
 		};
 		self.selectTaxRateGroup(pageNum, pageSize, params);
 	},
@@ -98,7 +99,7 @@ export default {
             	};
             	self.deleteTaxRateGroup(params);
             }).catch(() => {
-                this.$message('您已取消删除模版！');
+                this.$message('您已取消操作！');
             });
         },
         handleCurrentChange(val) {

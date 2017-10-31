@@ -1,5 +1,5 @@
 <template>
-	<div class="content_wrap">
+	<div class="travelC_wrap">
 		<current yiji="考勤管理" erji="出差管理" sanji="出差新增">
 		</current>
 		<div class="content">
@@ -10,12 +10,12 @@
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="formdata2.orgId" value-key="compOrgNo" @change="changeValue">
+					    <el-select v-model="formdata2.organNo" value-key="compOrgNo" @change="changeValue">
 							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 						</el-select>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-					    <el-select v-model="formdata2.deprtId" value-key="departOrgNo" @change="changeValue">
+					    <el-select v-model="formdata2.deptNo" value-key="departOrgNo" @change="changeValue">
 							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 						</el-select>
 				  	</el-form-item>
@@ -68,7 +68,7 @@
 				  	</el-form-item>
 				  	<el-form-item label="附件" style="width: 100%;">
 			  		 	<el-input v-model="formdata2.attachm"></el-input>
-				  		<el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+				  		<el-upload class="upload-demo" ref="upload" :on-change="changefile" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
                             <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
                         </el-upload>
 				  	</el-form-item>
@@ -91,8 +91,8 @@
 					custClass: "",
 				},
 				formdata2: {
-					orgId: "01",
-					deprtId: "",
+					organNo: "01",
+					deptNo: "",
 					travelStartTime: "",
 					travelEndTime: "",
 					travelType: "",
@@ -147,6 +147,10 @@
 			
 		},
 		methods: {
+			changefile(file, fileList) {
+				console.log(file);
+				this.formdata2.attachm = file.name;
+			},
 			changeStartTime(time) {
 				this.formdata2.travelStartTime = time;
 			},
@@ -158,8 +162,12 @@
 	            console.log('value',value);
 	      	},
 	      	queryUserInfo() {
-	      		this.formdata1.userNo;
-	      		
+	      		let userNo = this.formdata1.userNo;
+	      		let params = {
+	      			userNo: userNo
+	      		}
+	      		//根据员工编号查询员工信息
+	      		this.getUseInfoByUserNo(params);
 	      	},
 	      	save(formName) {
 				const self = this;
@@ -167,8 +175,26 @@
 					if(valid) {
 						console.log('valid');
 						let params = {
-							
+//							applyNo: self.formdata2.applyNo, //出差编号
+	   						organNo: self.formdata2.organNo,//公司编号
+	    					deptNo: self.formdata2.deptNo,//部门编号
+						    companyName: self.formdata2.companyName,//公司名称
+						    deptName: self.formdata2.deptName,//部门名称
+						    userNo: self.formdata1.userNo,//工号
+						    custName: self.formdata1.custName,//姓名
+						    custPost: self.formdata1.custPost,//岗位
+						    custClass: self.formdata1.custClass,//职级
+						    travelType: self.formdata2.travelType,//出差类型
+						    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
+						    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
+						    travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
+						    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
+						    travelDays: self.formdata2.travelDays, //出差天数  
+						    travelSTD: self.formdata2.travelSTD,//差补标准
+						    remark: self.formdata2.remark,//备注
+						    attachm: self.formdata2.attachm//附件
 						}
+						//新增出差信息
 						self.addTravelInfo(params);
 						
 					} else {
@@ -176,6 +202,16 @@
 						return false;
 					}
 				});
+			},
+			getUseInfoByUserNo(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/travel/getUseInfoByUserNo/',{params: params})
+				.then(function(res) {
+					console.log('getUseInfoByUserNo',res);
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
 			},
 			addTravelInfo(params) {
 				let self = this;
