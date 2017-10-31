@@ -1286,5 +1286,58 @@
   },
   "upload": {
   	"code": "000000"
+  },
+  "queryEpAssetInfs": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "total": "50",
+    "list": [
+      {
+        "assetNo": "a001",
+        "assetName": "ThinkPad t430s",
+        "assetType": "03",
+        "buyUnitPrice": "4000",
+        "buyNum": "50",
+        "buyAmount": "200000",
+        "stockNum": "15",
+        "assetStatus": "02",
+        "organNo": "001",
+        "derpNo": "001",
+        "applyUserNo": "U0001",
+        "updateBy": "李大仁",
+        "updateDate": "2017-10-09 00:00:00"
+      },
+      {
+        "assetNo": "a002",
+        "assetName": "宜家拉克边桌",
+        "assetType": "02",
+        "buyUnitPrice": "49",
+        "buyNum": "100",
+        "buyAmount": "9800",
+        "stockNum": "42",
+        "assetStatus": "04",
+        "organNo": "001",
+        "derpNo": "002",
+        "applyUserNo": "U0012",
+        "updateBy": "李大仁",
+        "updateDate": "2017-10-31 00:00:00"
+      },
+      {
+        "assetNo": "a003",
+        "assetName": "晨光笔记本",
+        "assetType": "02",
+        "buyUnitPrice": "15",
+        "buyNum": "1000",
+        "buyAmount": "15000",
+        "stockNum": "370",
+        "assetStatus": "02",
+        "organNo": "002",
+        "derpNo": "002",
+        "applyUserNo": "U0001",
+        "updateBy": "李大仁",
+        "updateDate": "2017-10-09 00:00:00"
+      }
+    ]
   }
 }

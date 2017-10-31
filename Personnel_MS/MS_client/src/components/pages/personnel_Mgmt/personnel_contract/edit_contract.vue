@@ -25,18 +25,18 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="公司名称" prop="organName">
-                            <el-select v-model="editPactMsg.organName">
-                                <el-option label="总公司" value="1"></el-option>
-                                <el-option label="深圳分公司" value="0"></el-option>
+                        <el-form-item label="公司名称" prop="organNo">
+                            <el-select v-model="editPactMsg.organNo">
+                                <el-option label="总公司" value="0001"></el-option>
+                                <el-option label="深圳分公司" value="0002"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="部门名称" prop="derpName">
-                            <el-select v-model="editPactMsg.derpName">
-                                <el-option label="财务部" value="1"></el-option>
-                                <el-option label="技术部" value="0"></el-option>
+                        <el-form-item label="部门名称" prop="derpNo">
+                            <el-select v-model="editPactMsg.derpNo">
+                                <el-option label="财务部" value="0001"></el-option>
+                                <el-option label="技术部" value="0002"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -53,8 +53,8 @@
                     <el-col :span="12">
                         <el-form-item label="性别" prop="sex">
                             <el-select v-model="editPactMsg.sex">
-                                <el-option label="男" value="1"></el-option>
-                                <el-option label="女" value="0"></el-option>
+                                <el-option label="男" value="01"></el-option>
+                                <el-option label="女" value="02"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -66,31 +66,31 @@
                     <el-col :span="12">
                         <el-form-item label="合同类型" prop="pactType">
                             <el-select v-model="editPactMsg.pactType">
-                                <el-option label="劳动合同" value="1"></el-option>
-                                <el-option label="保密协议" value="0"></el-option>
+                                <el-option label="劳动合同" value="01"></el-option>
+                                <el-option label="保密协议" value="02"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="签订日期" prop="signTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.signTime" :picker-options="pactSignOption" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.signTime" :picker-options="pactSignOption" @change="signTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="合同开始日期" prop="pactStartTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.pactStartTime" :picker-options="pactStartOption" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.pactStartTime" :picker-options="pactStartOption" @change="pactStartTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="合同结束日期" prop="pactEndTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.pactEndTime" :picker-options="pactEndOption" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.pactEndTime" :picker-options="pactEndOption" @change="pactEndTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="合同状态" prop="pactStatus">
                             <el-select v-model="editPactMsg.pactStatus">
-                                <el-option label="已生效" value="1"></el-option>
-                                <el-option label="未生效" value="0"></el-option>
+                                <el-option label="已生效" value="01"></el-option>
+                                <el-option label="未生效" value="02"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -101,7 +101,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="终止日期" prop="pactStopTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.pactStopTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.pactStopTime" @change="pactStopTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -124,7 +124,7 @@
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label=" " prop="autoupFlag">
-                            <el-checkbox v-model="checked">自动更新员工资料</el-checkbox>
+                            <el-checkbox v-model="editPactMsg.autoudFlag">自动更新员工资料</el-checkbox>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -162,9 +162,30 @@ export default {
       },
       rules: {
         pactType: [{ required: true, message: "合同类型不能为空", trigger: "change" }],
-        signTime: [{ type: "date", required: true, message: "签订日期不能为空", trigger: "change" }],
-        pactStartTime: [{ type: "date", required: true, message: "合同开始日期不能为空", trigger: "change" }],
-        pactEndTime: [{ type: "date", required: true, message: "合同结束日期不能为空", trigger: "change"}],
+        signTime: [
+          {
+            type: "date",
+            required: true,
+            message: "签订日期不能为空",
+            trigger: "change"
+          }
+        ],
+        pactStartTime: [
+          {
+            type: "date",
+            required: true,
+            message: "合同开始日期不能为空",
+            trigger: "change"
+          }
+        ],
+        pactEndTime: [
+          {
+            type: "date",
+            required: true,
+            message: "合同结束日期不能为空",
+            trigger: "change"
+          }
+        ],
         pactStatus: [{ required: true, message: "合同状态不能为空", trigger: "change" }]
       }
     };
@@ -184,8 +205,7 @@ export default {
         pactNo: this.pactNo
       };
       self.$axios
-        // .get("/iem_hrm/pact/queryPactDetail", { params: params })
-        .get("/iem_hrm/queryPactDetail", { params: params })        
+        .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
           console.log(res);
           self.editPactMsg = res.data.data;
@@ -195,25 +215,34 @@ export default {
         });
     },
     handleFileUpload(file, fileList) {
-      // this.fileList3 = fileList.slice(-3);
       console.log(file);
       this.editPactMsg.attachm = file.name;
+    },
+    signTimeChange(val) {
+      this.editPactMsg.signTime = val;
+    },
+    pactStartTimeChange(val) {
+      this.editPactMsg.pactStartTime = val;
+    },
+    pactEndTimeChange(val) {
+      this.editPactMsg.pactEndTime = val;
+    },
+    pactStopTimeChange(val) {
+      this.editPactMsg.pactStopTime = val;
     },
     handleSave(editPactMsgRules) {
       this.$refs[editPactMsgRules].validate(valid => {
         if (valid) {
-          let editPact = {};
-          editPact.pactNo = this.editPactMsg.pactNo;
-          editPact.paperPactNo = this.editPactMsg.paperPactNo;
-          editPact.pactName = this.editPactMsg.pactName;
+          let editPact = this.editPactMsg;
           console.log(editPact);
           this.$axios
             .post("/iem_hrm/pact/updatePact", editPact)
             .then(res => {
               console.log(res);
-              if (res.data.code == "S00000")
+              if (res.data.code == "S00000") {
+                this.$message({ type: "success", message: "合同修改成功!" });
                 this.$router.push("/personnel_contract");
-              else this.$message.error("合同修改失败！");
+              } else this.$message.error("合同修改失败！");
             })
             .catch(() => {
               this.$message.error("合同修改失败！");
