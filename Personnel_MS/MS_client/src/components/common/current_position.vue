@@ -9,6 +9,7 @@
                     <el-breadcrumb-item v-if="sanji" :to="{ path: links[2] }" class="test1">{{sanji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if="siji" :to="{ path: links[3] }" class="test1">{{siji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if="wuji" :to="{ path: links[4] }" class="test1">{{wuji}}</el-breadcrumb-item>
+                    <el-breadcrumb-item v-if="liuji" :to="{ path: links[5] }" class="test1">{{liuji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if='false'>{{activeTab}}</el-breadcrumb-item>
                 </el-breadcrumb>
             </el-col>
@@ -264,6 +265,9 @@ export default {
             if (this.siji === '开票信息新增') {
                 _link.push('/add_ticket')
             }
+            if (this.siji === '开票信息修改') {
+                _link.push('/edit_ticket')
+            }
             if (this.siji === '合同变更详情') {
                 _link.push('/detail_pactChange')
             }
@@ -324,6 +328,10 @@ export default {
             default: ''
         },
         wuji: {
+            type: String,
+            default: ''
+        },
+        liuji: {
             type: String,
             default: ''
         },

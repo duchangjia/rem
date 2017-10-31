@@ -6,10 +6,10 @@
                 <div class="title"><span class="text">节假日新增</span><button class="save" @click="save">保存</button></div>
                 <el-form ref="form" :model="content" class="content" :rules="rules">
                     <div>
-                        <el-form-item class="item_group" prop="date2">
-                            <span class="text">日期</span><el-date-picker type="date" class="common" v-model="content.dayDate" placeholder="选择日期" value-format="yyyyMMdd"></el-date-picker>
+                        <el-form-item class="item_group">
+                            <span class="text">日期</span><el-date-picker type="date" class="common" v-model="content.dayDate" placeholder="选择日期"></el-date-picker>
                         </el-form-item>
-                        <el-form-item class="item_group" prop="region">
+                        <el-form-item class="item_group" prop="dayFlag">
                             <span class="text">类型</span><el-select v-model="content.dayFlag">
                             <el-option
                                     label="法定节假日"
@@ -26,7 +26,7 @@
                         <!--</el-form-item>-->
                     </div>
                     <div>
-                        <el-form-item class="item_group" prop="remark">
+                        <el-form-item class="item_group">
                             <span class="text">备注</span><el-input v-model="content.remark" class="common"></el-input>
                         </el-form-item>
                     </div>
@@ -38,6 +38,7 @@
 
 <script type='text/ecmascript-6'>
     import current from '../../common/current_position.vue'
+    import moment from 'moment'
     export default {
         data() {
             return {
@@ -47,24 +48,14 @@
                     remark: '',
                 },
                 rules: {
-                    name: [
-                        { required: true, message: '请输入活动名称', trigger: 'blur' },
-                        { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-                    ],
                     region: [
                         { required: true, message: '请选择类型', trigger: 'change' }
                     ],
-                    date1: [
+                    dayDate: [
                         { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
                     ],
                     date2: [
                         { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-                    ],
-                    type: [
-                        { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
-                    ],
-                    resource: [
-                        { required: true, message: '请选择活动资源', trigger: 'change' }
                     ],
                     remark: [
                         { required: true, message: '请输入备注', trigger: 'blur' }
@@ -74,16 +65,34 @@
         },
         methods: {
             save(){
-                console.log(this.content)
-//                console.log(this.content)
-//                this.$axios.post('/iem_hrm/visaFreeHoliday/insertVisaFreeHoliay', this.content)
-//                    .then(res=>{
-//                        console.log(res)
-//                    })
-//                    .catch(e=>{
-//                        console.log(e)
-//                    })
-            }
+                    let self = this
+                    self.$refs.form.validate((valid) => {
+                        if (valid) {
+                            let date = moment(self.content.dayDate).format('YYYYMMDD')
+                            self.content.dayDate = date
+                        self.$axios.post('/iem_hrm/visaFreeHoliday/insertVisaFreeHoliay', self.content)
+                            .then(res=>{
+                                let result = res.data.retMsg
+                                if("操作成功"===result) {
+                                    self.$message({
+                                        message: result,
+                                        type: 'success'
+                                    });
+                                }else {
+                                    self.$message({
+                                        message: result,
+                                        type: 'error'
+                                    });
+                                }
+                                console.log(res)
+                            })
+                            .catch(e=>{
+                                console.log(e)
+                            })
+                        }
+                    })
+            },
+
         },
         components: {
             current,
@@ -129,6 +138,9 @@
                     position absolute
                     right 0px
                     bottom 20px
+                    &:hover
+                        background: #f90;
+                        color #fff
             .content
                 padding 42px 0 0 8px
                 .item_group

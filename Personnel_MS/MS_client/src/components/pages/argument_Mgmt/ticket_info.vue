@@ -17,15 +17,15 @@
                             <td>{{tds.organTaxNo}}</td>
                             <td>{{tds.organAcct}}</td>
                             <td>{{tds.organAcctname}}</td>
-                            <td><i class="el-icon-edit" @click="edit"></i></td>
+                            <td><i class="el-icon-edit" @click="edit(tds.organNo)"></i></td>
                         </tr>
                     </table>
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
-                            :page-size="10"
+                            :page-size="obj.pageSize"
                             layout="total,prev, pager, next, jumper"
-                            :total="100">
+                            :total="obj.total">
                     </el-pagination>
                 </div>
             </div>
@@ -38,6 +38,10 @@
     export default {
         data() {
             return {
+                obj:{
+                  total: 0,
+                    pageSize: 0
+                },
                 test222:[
                     {
                         color:'orange',
@@ -75,7 +79,11 @@
             let self = this
             this.$axios.get('/iem_hrm/organBillInfo/queryBillInfoList')
                 .then(res => {
+                    console.log(res)
                     console.log(res.data.data.list)
+                    self.obj.total = res.data.data.total
+                    self.obj.pageSize = res.data.data.pageSize
+
                     self.table.td = res.data.data.list
                 })
                 .catch(e => {
@@ -88,12 +96,24 @@
             },
             handleCurrentChange(val) {
                 console.log(val)
+                let self = this
+                this.$axios.get('/iem_hrm/organBillInfo/queryBillInfoList',{params:{pageNum:val}})
+                    .then(res => {
+                        console.log(res)
+                        console.log(res.data.data.list)
+                        self.obj.total = res.data.data.total
+                        self.obj.pageSize = res.data.data.pageSize
+                        self.table.td = res.data.data.list
+                    })
+                    .catch(e => {
+                        console.log(e)
+                    })
             },
             add() {
                 this.$router.push('add_ticket')
             },
-            edit() {
-
+            edit(value) {
+                this.$router.push({name: 'edit_ticket', query:{organNo:value}})
             }
         },
         components: {

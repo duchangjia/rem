@@ -84,7 +84,6 @@
                         <el-pagination
                                 @size-change="handleSizeChange"
                                 @current-change="handleCurrentChange"
-                                :current-page.sync="tableData.pageNum"
                                 :page-size="tableData.pageSize"
                                 layout="total,prev, pager, next, jumper"
                                 :total="tableData.total">
@@ -140,7 +139,6 @@
                         <el-pagination
                                 @size-change="handleSizeChange"
                                 @current-change="handleCurrentChange2"
-                                :current-page.sync="tableData2.pageNum"
                                 :page-size="tableData2.pageSize"
                                 layout="total, prev, pager, next, jumper"
                                 :total="tableData2.total">
@@ -247,10 +245,7 @@
                     _self.$axios.get(`/iem_hrm/organ/queryChildOrganDetail/${index}`, {params:{pageNum: val}})
                         .then( res => {
                             _self.tableData = res.data.data
-                            console.log(_self.tableData)
-                            if (!_self.tableData.total) {
-                                _self.tableData.total = 1
-                            }
+
                         })
                         .catch( res=> {
                             console.log('请求公司下级详情数据超时222')
@@ -264,9 +259,7 @@
                 _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`, {params:{pageNum: val}})
                     .then( res => {
                         _self.tableData2 = res.data.data
-                        if (!_self.tableData2.total) {
-                            _self.tableData2.pageNum = 0
-                        }
+
                     })
                     .catch( res=> {
                         console.log('请求公司员工详情数据超时222')

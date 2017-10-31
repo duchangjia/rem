@@ -204,6 +204,11 @@ export default new Router({
                             component: resolve => require(['../components/pages/argument_Mgmt/add_ticket.vue'], resolve)
                         },
                         {
+                            path: '/edit_ticket',
+                            name: 'edit_ticket',
+                            component: resolve => require(['../components/pages/argument_Mgmt/edit_ticket.vue'], resolve)
+                        },
+                        {
                             path: '/add_holiday',
                             component: resolve => require(['../components/pages/argument_Mgmt/add_holiday.vue'], resolve)
                         }
