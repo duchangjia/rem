@@ -113,10 +113,8 @@
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="附件" prop="attachm">
-                            <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
-                                <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
-                            </el-upload>
-                        </el-form-item>
+					        <el-button class="downloadBtn" @click="downloadFile">下载</el-button>
+				  	    </el-form-item>
                     </el-col>
                 </el-form>
             </div>
@@ -153,7 +151,8 @@ export default {
         pactNo: self.pactNo
       };
       self.$axios
-        .get("/iem_hrm/pact/queryPactDetail", { params: params })
+        // .get("/iem_hrm/pact/queryPactDetail", { params: params })
+        .get("/iem_hrm/queryPactDetail", { params: params })        
         .then(res => {
           self.basicPactMsg = res.data.data;
         })
@@ -168,7 +167,8 @@ export default {
         renewId: self.renewId
       };
       self.$axios
-        .get("/iem_hrm/pact/queryPactRenewDetail", { params: params })
+        // .get("/iem_hrm/pact/queryPactRenewDetail", { params: params })
+        .get("/iem_hrm/queryPactRenewDetail", { params: params })        
         .then(res => {
           console.log(res);
           self.detailPRenewMsg = res.data.data;
@@ -176,7 +176,8 @@ export default {
         .catch(() => {
           console.log("error");
         });
-    }
+    },
+    downloadFile() {}
   }
 };
 </script>

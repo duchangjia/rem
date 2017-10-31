@@ -5,10 +5,10 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">合同新增</span>
-                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave('addPactMsgRules')" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="addPactMsg" :rules="rules" ref="addPactMsg" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="addPactMsg" :rules="rules" ref="addPactMsgRules" :label-position="labelPosition" label-width="110px">
                     <el-col :span="12">
                         <el-form-item label="纸质合同编号" prop="paperPactNo">
                             <el-input v-model="addPactMsg.paperPactNo"></el-input>
@@ -37,7 +37,9 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="工号" prop="userNo">
-                            <el-input v-model="addPactMsg.userNo"></el-input>
+                            <el-input v-model="addPactMsg.userNo">
+                                <el-button slot="append" icon="search" @click="searchUserNo"></el-button>
+                            </el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -68,17 +70,17 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="签订日期" prop="signTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.signTime" @change="getTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.signTime" @change="pickTime" :picker-options="pactSignOption" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="合同开始日期" prop="pactStartTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStartTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStartTime" :picker-options="pactStartOption" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="合同结束日期" prop="pactEndTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactEndTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactEndTime" :picker-options="pactEndOption" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -101,10 +103,11 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="合同附件" prop="attachm">
-                            <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+				  		    <el-input v-model="addPactMsg.attachm"></el-input>
+				  		    <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
-                        </el-form-item>
+				  	    </el-form-item>
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="终止原因" prop="stopReason">
@@ -126,6 +129,7 @@
 import current from "../../../common/current_position.vue";
 export default {
   data() {
+    let that = this;
     return {
       labelPosition: "right",
       addPactMsg: {
@@ -148,13 +152,52 @@ export default {
         stopReason: "",
         remark: ""
       },
+      pactSignOption: {
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 8.64e7;
+        }
+      },
+      pactStartOption: {
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 8.64e7;
+        }
+      },
+      pactEndOption: {
+        disabledDate(time) {
+          return (
+            time.getTime() < Date.now() - 8.64e7 ||
+            time.getTime() < new Date(that.addPactMsg.pactStartTime).getTime()
+          );
+        }
+      },
       rules: {
-        userNo: [{ required: true, message: "请输入工号", trigger: "blur" }],
-        pactType: [{ required: true, message: "请选择合同类型", trigger: "blur" }],
-        signTime: [{ type: 'date', required: true, message: '请选择签订日期', trigger: 'change' }],
-        pactStartTime: [{ type: 'date', required: true, message: '请选择合同开始日期', trigger: 'change' }],
-        pactEndTime: [{ type: 'date', required: true, message: '请选择合同结束日期', trigger: 'change' }],
-        pactStatus: [{ required: true, message: "请选择合同状态", trigger: "blur" }]
+        userNo: [{ required: true, message: "工号不能为空", trigger: "blur" }],
+        pactType: [{ required: true, message: "合同类型不能为空", trigger: "change" }],
+        signTime: [
+          {
+            type: "date",
+            required: true,
+            message: "签订日期不能为空",
+            trigger: "change"
+          }
+        ],
+        pactStartTime: [
+          {
+            type: "date",
+            required: true,
+            message: "合同开始日期不能为空",
+            trigger: "change"
+          }
+        ],
+        pactEndTime: [
+          {
+            type: "date",
+            required: true,
+            message: "合同结束日期不能为空",
+            trigger: "change"
+          }
+        ],
+        pactStatus: [{ required: true, message: "合同状态不能为空", trigger: "change" }]
       }
     };
   },
@@ -162,29 +205,45 @@ export default {
     current
   },
   methods: {
-    getTime(date) {
-      console.log(this);
-      this.addPactMsg.signTime = date;
-      console.log(this.addPactMsg.signTime);
+    searchUserNo() {
+      // 查询工号
     },
-    handleSave() {
-      let newPact = {};
-      newPact.paperPactNo = this.addPactMsg.paperPactNo;
-      newPact.pactName = this.addPactMsg.pactName;
-      newPact.organName = this.addPactMsg.organName;
-      newPact.signTime = this.addPactMsg.signTime;
-      console.log(newPact);
-      this.$axios
-        .post("/iem_hrm/pact/addPact", newPact)
-        .then(res => {
-          console.log(res);
-          if (res.data.code == "S00000")
-            this.$router.push("/personnel_contract");
-          else this.$message.error("合同新增失败！");
-        })
-        .catch(() => {
-          this.$message.error("合同新增失败！");
-        });
+    pickTime(date) {
+      let self = this;
+      console.log(date);
+      self.addPactMsg.signTime = date;
+      console.log(self.addPactMsg.signTime);
+    },
+    handleFileUpload(file, fileList) {
+      // this.fileList3 = fileList.slice(-3);
+      console.log(file);
+      this.addPactMsg.attachm = file.name;
+    },
+    handleSave(addPactMsgRules) {
+      this.$refs[addPactMsgRules].validate(valid => {
+        if (valid) {
+          let newPact = {};
+          newPact.paperPactNo = this.addPactMsg.paperPactNo;
+          newPact.pactName = this.addPactMsg.pactName;
+          newPact.organName = this.addPactMsg.organName;
+          newPact.signTime = this.addPactMsg.signTime;
+          console.log(newPact);
+          this.$axios
+            .post("/iem_hrm/pact/addPact", newPact)
+            .then(res => {
+              console.log(res);
+              if (res.data.code == "S00000")
+                this.$router.push("/personnel_contract");
+              else this.$message.error("合同新增失败！");
+            })
+            .catch(() => {
+              this.$message.error("合同新增失败！");
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     }
   }
 };

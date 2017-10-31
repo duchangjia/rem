@@ -81,6 +81,10 @@ export default {};
   border-color: #ff9900;
 }
 
+.el-input-group--append .el-input__inner {
+  width: 253px;
+}
+
 .el-select-dropdown__item.selected,
 .el-select-dropdown__item.selected.hover {
   background-color: #ff9900;
@@ -159,17 +163,29 @@ table .el-button--danger:active {
   margin-right: 14px;
 }
 
+.add-wrapper .upload-demo {
+  height: 0;
+}
+
 .add-wrapper .el-upload__input {
-  width: 300px;
-  border: 1px solid #bfcbd9;
+  display: none;
 }
 
 .add-wrapper .uploadBtn {
   position: absolute;
-  height: 38px;
+  height: 40px;
   top: 0;
   right: 0;
   margin: 0;
+  border: 1px solid #ff9900;
+  border-radius: 0;
+  background: #ff9900;
+  font-family: "PingFang SC";
+}
+
+.add-wrapper .downloadBtn {
+  height: 40px;
+  color: #ffffff;  
   border: 1px solid #ff9900;
   border-radius: 0;
   background: #ff9900;
@@ -269,7 +285,8 @@ table .el-button--danger:active {
   display: inline-block;
   width: 24px;
   height: 24px;
-  background: url("../../../../../static/img/common/delete.png") center no-repeat;
+  background: url("../../../../../static/img/common/delete.png") center
+    no-repeat;
 }
 
 .icon-edit:hover,

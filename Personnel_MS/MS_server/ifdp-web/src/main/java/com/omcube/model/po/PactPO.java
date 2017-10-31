@@ -1,6 +1,8 @@
 package com.omcube.model.po;
 
 
+import java.util.Date;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -21,31 +23,31 @@ public class PactPO {
 	private String cert;
 	private String pactType;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String signTime;
+	private Date signTime;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String pactStartTime;
+	private Date pactStartTime;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String pactEndTime;
+	private Date pactEndTime;
 	private String pactStatus;
 	private String pactExpires;//合同年限
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String pactStopTime;//终止日期
+	private Date pactStopTime;//终止日期
 	private String stopReason;//终止原因
 	private String autoudFlag;//是否自动更新标志
 	private String attachm;//附件
 	private String remark;//备注
 	private String createdBy;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String createdDate;
+	private Date createdDate;
 	private String updatedBy;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String updatedDate;
+	private Date updatedDate;
 	private String isDelete;
-	public String getIsDelete() {
-		return isDelete;
+	public String getUid() {
+		return uid;
 	}
-	public void setIsDelete(String idDelete) {
-		this.isDelete = idDelete;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	public String getPactNo() {
 		return pactNo;
@@ -70,36 +72,6 @@ public class PactPO {
 	}
 	public void setOrganNo(String organNo) {
 		this.organNo = organNo;
-	}
-	public String getUid() {
-		return uid;
-	}
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
-	public String getCreatedBy() {
-		return createdBy;
-	}
-	public void setCreatedBy(String greatedBy) {
-		this.createdBy = greatedBy;
-	}
-	public String getCreatedDate() {
-		return createdDate;
-	}
-	public void setCreatedDate(String greatedDate) {
-		this.createdDate = greatedDate;
-	}
-	public String getUpdatedBy() {
-		return updatedBy;
-	}
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy;
-	}
-	public String getUpdatedDate() {
-		return updatedDate;
-	}
-	public void setUpdatedDate(String updatedDate) {
-		this.updatedDate = updatedDate;
 	}
 	public String getDerpNo() {
 		return derpNo;
@@ -137,22 +109,22 @@ public class PactPO {
 	public void setPactType(String pactType) {
 		this.pactType = pactType;
 	}
-	public String getSignTime() {
+	public Date getSignTime() {
 		return signTime;
 	}
-	public void setSignTime(String signTime) {
+	public void setSignTime(Date signTime) {
 		this.signTime = signTime;
 	}
-	public String getPactStartTime() {
+	public Date getPactStartTime() {
 		return pactStartTime;
 	}
-	public void setPactStartTime(String pactStartTime) {
+	public void setPactStartTime(Date pactStartTime) {
 		this.pactStartTime = pactStartTime;
 	}
-	public String getPactEndTime() {
+	public Date getPactEndTime() {
 		return pactEndTime;
 	}
-	public void setPactEndTime(String pactEndTime) {
+	public void setPactEndTime(Date pactEndTime) {
 		this.pactEndTime = pactEndTime;
 	}
 	public String getPactStatus() {
@@ -167,10 +139,10 @@ public class PactPO {
 	public void setPactExpires(String pactExpires) {
 		this.pactExpires = pactExpires;
 	}
-	public String getPactStopTime() {
+	public Date getPactStopTime() {
 		return pactStopTime;
 	}
-	public void setPactStopTime(String pactStopTime) {
+	public void setPactStopTime(Date pactStopTime) {
 		this.pactStopTime = pactStopTime;
 	}
 	public String getStopReason() {
@@ -196,6 +168,36 @@ public class PactPO {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+	public String getIsDelete() {
+		return isDelete;
+	}
+	public void setIsDelete(String isDelete) {
+		this.isDelete = isDelete;
 	}
 	
 }

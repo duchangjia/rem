@@ -8,16 +8,16 @@
 			</div>
 			<div class="content-inner">
 				<el-table :data="taxRateGroupList" border stripe style="width: 100%">
-					<el-table-column prop="groupNo" label="组名称">
+					<el-table-column prop="groupName" label="组名称">
 						<template scope="scope">
-					        <span class="link" @click="handleEdit(scope.$index, scope.row)">{{ scope.row.groupNo }}</span>
+					        <span class="link" @click="handleEdit(scope.$index, scope.row)">{{ scope.row.groupName }}</span>
 				      	</template>
 					</el-table-column>
 					<el-table-column prop="remark" label="备注"></el-table-column>
 					<el-table-column prop="startTime" label="生效日期"></el-table-column>
 					<el-table-column prop="endTime" label="失效日期"></el-table-column>
 					<el-table-column prop="createId" label="创建ID"></el-table-column>
-					<el-table-column prop="createTime" label="创建时间"></el-table-column>
+					<el-table-column prop="createdDate" label="创建时间"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
 							<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
@@ -42,20 +42,20 @@ export default {
 			totalRows: 1,
 			taxRateGroupList: [
 				{
-					groupNo: "1600起征",
+					groupName: "1600起征",
 					remark: "xxxx",
 					startTime: "",
 					endTime: "",
 					createId: '',
-					createTime: ''
+					createdDate: ''
 				},
 				{
-					groupNo: "3500起征",
+					groupName: "3500起征",
 					remark: "xxxx",
 					startTime: "",
 					endTime: "",
 					createId: '',
-					createTime: ''
+					createdDate: ''
 				}
 			]
 		}
@@ -78,11 +78,10 @@ export default {
 			this.$router.push('/add_rateGroup');
 		},
 		handleEdit(index, row) {
-			console.log('row:',row);
             this.$router.push({
             	name: 'rate_info',
             	params: {
-            		groupNo: row.groupNo,
+            		groupName: row.groupName,
             		groupId: row.groupId
             	}
             });
@@ -95,7 +94,7 @@ export default {
             }).then(() => {
             	const self = this;
             	let params = {
-            		groupId: row.groupId
+            		groupName: row.groupName
             	};
             	self.deleteTaxRateGroup(params);
             }).catch(() => {
@@ -115,9 +114,9 @@ export default {
 		//查询个税组列表
 		selectTaxRateGroup(pageNum,pageSize,params) {
 			const self = this;
-			self.$axios.get(baseURL+'/taxRateGroup/selectTaxRateGroup',{params: params})
+			self.$axios.get(baseURL+'/taxRateGroup/queryRGroupList',{params: params})
 				.then(function(res) {
-					console.log(res);
+					console.log("queryRGroupList",res);
 					self.taxRateGroupList = res.data.data.list;
 					self.pageIndex = pageNum;
 					self.totalRows = Number(res.data.data.total);
@@ -128,15 +127,17 @@ export default {
 		//删除个税组
 		deleteTaxRateGroup(params) {
 			const self = this;
-        	self.$axios.delete(baseURL+'/taxRateGroup/deleteTaxRateGroup',params)
+        	self.$axios.put(baseURL+'/taxRateGroup/delRGroup',params)
     		.then((res) => {
-    			console.log(res);
+    			console.log("queryRateList",res);
     			if(res.data.code==="S00000") {
     				this.$message({ type: 'success', message: '删除成功!' });
+    			} else {
+    				console.log('error');
     			}
     			
     		}).catch((err) => {
-    			console.log(err);
+    			console.log('error');
     		})
 		}
 	}

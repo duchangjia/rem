@@ -6,19 +6,28 @@
                 <div class="title"><span class="text">节假日新增</span><button class="save" @click="save">保存</button></div>
                 <el-form ref="form" :model="content" class="content" :rules="rules">
                     <div>
-                        <el-form-item class="item_group" prop="date1">
-                            <span class="text">开始日期</span><el-date-picker type="date" class="common" v-model="content.date1" placeholder="选择日期"></el-date-picker>
-                        </el-form-item>
                         <el-form-item class="item_group" prop="date2">
-                            <span class="text">结束日期</span><el-date-picker type="date" v-model="content.date2" placeholder="选择日期"></el-date-picker>
+                            <span class="text">日期</span><el-date-picker type="date" class="common" v-model="content.dayDate" placeholder="选择日期" value-format="yyyyMMdd"></el-date-picker>
                         </el-form-item>
+                        <el-form-item class="item_group" prop="region">
+                            <span class="text">类型</span><el-select v-model="content.dayFlag">
+                            <el-option
+                                    label="法定节假日"
+                                    value="1">
+                            </el-option>
+                            <el-option
+                                    label="正常工作日"
+                                    value="2">
+                            </el-option>
+                        </el-select>
+                        </el-form-item>
+                        <!--<el-form-item class="item_group" prop="date2">-->
+                            <!--<span class="text">结束日期</span><el-date-picker type="date" v-model="content.date2" placeholder="选择日期"></el-date-picker>-->
+                        <!--</el-form-item>-->
                     </div>
                     <div>
-                        <el-form-item class="item_group" prop="region">
-                            <span class="text">类型</span><el-select v-model="content.type" class="common"></el-select>
-                        </el-form-item>
                         <el-form-item class="item_group" prop="remark">
-                            <span class="text">备注</span><el-input v-model="content.mark"></el-input>
+                            <span class="text">备注</span><el-input v-model="content.remark" class="common"></el-input>
                         </el-form-item>
                     </div>
                 </el-form>
@@ -32,15 +41,10 @@
     export default {
         data() {
             return {
-                form: {
-                    date1: '',
-                    date2: '',
-                },
                 content: {
-                    date1: '',
-                    date2: '',
-                    type: '',
-                    mark: '',
+                    dayDate: '',
+                    dayFlag: '',
+                    remark: '',
                 },
                 rules: {
                     name: [
@@ -70,7 +74,15 @@
         },
         methods: {
             save(){
-
+                console.log(this.content)
+//                console.log(this.content)
+//                this.$axios.post('/iem_hrm/visaFreeHoliday/insertVisaFreeHoliay', this.content)
+//                    .then(res=>{
+//                        console.log(res)
+//                    })
+//                    .catch(e=>{
+//                        console.log(e)
+//                    })
             }
         },
         components: {

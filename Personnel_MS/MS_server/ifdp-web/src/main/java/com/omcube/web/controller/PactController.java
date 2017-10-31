@@ -48,13 +48,13 @@ public class PactController {
 	 * @return
 	 */
 	@GetMapping(value = "/queryPactList")
-	public Object queryPactList(HttpServletRequest request, Integer pageNum, Integer pageSize ,
-			@RequestParam String derpNo, @RequestParam String custName,@RequestParam String pactType){
+	public Object queryPactList( Integer pageNum, Integer pageSize ,
+			String derpNo, String custName, String pactType){
 		pageNum = pageNum == null ? 1 : pageNum;
 		pageSize = pageSize == null ? 10 : pageSize;
 		PageHelper.startPage(pageNum, pageSize, true);
-		List<PactPO> list = pactService.getPactList(derpNo, custName, pactType);
-		PageInfo<PactPO> pageInfo = new PageInfo<PactPO>(list);
+		List<PactPO> pactListArray = pactService.getPactList(derpNo, custName, pactType);
+		PageInfo<PactPO> pageInfo = new PageInfo<PactPO>(pactListArray);
 		return JSONResultUtil.setSuccess(pageInfo);
 	}
 	
@@ -81,8 +81,8 @@ public class PactController {
 		pageNum = pageNum == null ? 1 : pageNum;
 		pageSize = pageSize == null ? 10 :pageSize;
 		PageHelper.startPage(pageNum, pageSize, true);
-		List<PactChange> list = pactService.getPactChangeList(pactNo);
-		PageInfo<PactChange> pageInfo = new PageInfo<PactChange>(list);
+		List<PactChange> pChangeListArray = pactService.getPactChangeList(pactNo);
+		PageInfo<PactChange> pageInfo = new PageInfo<PactChange>(pChangeListArray);
 		return JSONResultUtil.setSuccess(pageInfo);
 	}
 	
@@ -110,8 +110,8 @@ public class PactController {
 		pageNum = pageNum == null ? 1 : pageNum;
 		pageSize = pageSize == null ? 10 :pageSize;
 		PageHelper.startPage(pageNum, pageSize, true);
-		List<PactRenew> list = pactService.getPactRenewList(pactNo);
-		PageInfo<PactRenew> pageInfo = new PageInfo<PactRenew>(list);
+		List<PactRenew> pRenewListArray = pactService.getPactRenewList(pactNo);
+		PageInfo<PactRenew> pageInfo = new PageInfo<PactRenew>(pRenewListArray);
 		return JSONResultUtil.setSuccess(pageInfo);
 	}
 	

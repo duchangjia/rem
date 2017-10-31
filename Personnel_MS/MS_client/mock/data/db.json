@@ -429,31 +429,31 @@
   "queryInsurancePayTemplate": {
     "applyNo": "0001",
     "applyName": "深圳地区缴纳",
-    "remark": "xxx",
-    "perEndmRate": "1",
-    "perEndmFixed": "1",
-    "comEndmRate": "1",
-    "comEndmFixed": "1",
-    "perMediRate": "1",
-    "perMediFixed": "1",
-    "comMediRate": "1",
-    "comMediFixed": "1",
-    "perUnemRate": "1",
-    "perUnemFixed": "1",
-    "comUnemRate": "1",
-    "comUnemFixed": "1",
-    "perEmplRate": "",
-    "perEmplFixed": "",
-    "comEmplRate": "",
-    "comEmplFixed": "",
-    "perMateRate": "",
-    "perMateFixed": "",
-    "comMateRate": "",
-    "comMateFixed": "",
-    "perHousRate": "",
-    "perHousFixed": "",
-    "comHousRate": "",
-    "comHousFixed": ""
+    "perEndmRate": "10%",
+    "perEndmFixed": "5000.00",
+    "comEndmRate": "20%",
+    "comEndmFixed": "5500.00",
+    "perMediRate": "5%",
+    "perMediFixed": "500.00",
+    "comMediRate": "7%",
+    "comMediFixed": "3000.00",
+    "perUnemRate": "10%",
+    "perUnemFixed": "2000.00",
+    "comUnemRate": "15%",
+    "comUnemFixed": "1000.00",
+    "perEmplRate": "4%",
+    "perEmplFixed": "500.00",
+    "comEmplRate": "20%",
+    "comEmplFixed": "1500.00",
+    "perMateRate": "30%",
+    "perMateFixed": "3000.00",
+    "comMateRate": "50%",
+    "comMateFixed": "5000.00",
+    "perHousRate": "10%",
+    "perHousFixed": "1000.00",
+    "comHousRate": "15%",
+    "comHousFixed": "1500.00",
+    "remark": "xxxxxx"
   },
   "addInsurancePayTemplate": {
     "code": "S000000"
@@ -464,86 +464,11 @@
   "deleteInsurancePayTemplate": {
     "code": "S000000"
   },
-  "selectTaxRateGroup": {
-    "total": "3",
-    "list": [
-      {
-        "groupId": "001016",
-        "groupNo": "1600qiz",
-        "startTime": "2017-08-18",
-        "endTime": "2017-10-20",
-        "createTime": "2017-08-10",
-        "remark": "xxxx"
-      },
-      {
-        "groupId": "001017",
-        "groupNo": "一一",
-        "startTime": "2017-08-18",
-        "endTime": "2017-10-20",
-        "createTime": "2017-08-10",
-        "createId": "000111",
-        "remark": "xxxx"
-      },
-      {
-        "groupId": "001018",
-        "groupNo": "一一",
-        "startTime": "2017-08-18",
-        "endTime": "2017-10-20",
-        "createTime": "2017-08-10",
-        "remark": "xxxx"
-      }
-    ]
-  },
   "insertTaxRateGroup": {
     "code": "S000000"
   },
   "deleteTaxRateGroup": {
     "code": "S000000"
-  },
-  "selectTaxRateCtrl": {
-    "total": "4",
-    "list": [
-      {
-        "groupNo": "1600",
-        "groupId": "01001",
-        "applyNo": "0001",
-        "GroupLimit": "10000",
-        "GroupLowerLimit": "5000",
-        "remark": "xxxx",
-        "percentRate": "5%",
-        "quickCal": "0"
-      },
-      {
-        "groupNo": "1600",
-        "groupId": "01001",
-        "applyNo": "0001",
-        "GroupLimit": "10000",
-        "GroupLowerLimit": "5000",
-        "remark": "xxxx",
-        "percentRate": "5%",
-        "quickCal": "0"
-      },
-      {
-        "groupNo": "1600",
-        "groupId": "01001",
-        "applyNo": "0001",
-        "GroupLimit": "10000",
-        "GroupLowerLimit": "5000",
-        "remark": "xxxx",
-        "percentRate": "5%",
-        "quickCal": "0"
-      },
-      {
-        "groupN0": "1600",
-        "groupId": "01001",
-        "applyNo": "0001",
-        "GroupLimit": "10000",
-        "GroupLowerLimit": "5000",
-        "remark": "xxxx",
-        "percentRate": "5%",
-        "quickCal": "0"
-      }
-    ]
   },
   "insertTaxRateCtrl": {
     "code": "S000000"
@@ -621,6 +546,7 @@
     "pactListArray": [
       {
         "pactNo": "001",
+        "paperPactNo": "p001",
         "pactName": "一号合同",
         "pactType": "1",
         "userNo": "a123",
@@ -637,6 +563,7 @@
       },
       {
         "pactNo": "002",
+        "paperPactNo": "p002",
         "pactName": "二号合同",
         "pactType": "1",
         "userNo": "b123",
@@ -653,6 +580,7 @@
       },
       {
         "pactNo": "003",
+        "paperPactNo": "p003",
         "pactName": "三号合同",
         "pactType": "0",
         "userNo": "c123",
@@ -669,6 +597,7 @@
       },
       {
         "pactNo": "004",
+        "paperPactNo": "p004",
         "pactName": "四号合同",
         "pactType": "1",
         "userNo": "d123",
@@ -685,229 +614,166 @@
       }
     ]
   },
-  "queryInsurancePayTemplates": {
-  	"total": "4",
-  	"WelfareList": [
-  		{
-  			"applyNo": "10001",
-				"applyName": "深圳地区缴纳",
-				"remark": "xxx",
-				"createdBy": "p00001",
-				"createdDate": "0000"
-  		},
-  		{
-  			"applyNo": "10002",
-				"applyName": "广州地区缴纳",
-				"remark": "xxx",
-				"createdBy": "p00002",
-				"createdDate": "000"
-  		},
-  		{
-  			"applyNo": "10003",
-				"applyName": "汕尾地区缴纳",
-				"remark": "xxx",
-				"createdBy": "p00003",
-				"createdDate": "00"
-  		},
-  		{
-  			"applyNo": "10004",
-				"applyName": "东莞地区缴纳",
-				"remark": "xxx",
-				"createdBy": "p00004",
-				"createdDate": "00"
-  		}
-  	]
+  "addInsurancePayTemplate": {
+    "applyNo": "S000000"
   },
-  "queryInsurancePayTemplate": {
-  	"applyNo": "0001",
-		"applyName": "深圳地区缴纳",
-		"remark": "xxx",
-		"perEndmRate": "1",
-		"perEndmFixed": "1",
-		"comEndmRate": "1",
-		"comEndmFixed": "1",
-		"perMediRate": "1",
-		"perMediFixed": "1",
-		"comMediRate": "1",
-		"comMediFixed": "1",
-		"perUnemRate": "1",
-		"perUnemFixed": "1",
-		"comUnemRate": "1",
-		"comUnemFixed": "1",
-		"perEmplRate": "",
-		"perEmplFixed": "",
-		"comEmplRate": "",
-		"comEmplFixed": "",
-		"perMateRate": "",
-		"perMateFixed": "",
-		"comMateRate": "",
-		"comMateFixed": "",
-		"perHousRate": "",
-		"perHousFixed": "",
-		"comHousRate": "",
-		"comHousFixed": ""
-	},
-	"addInsurancePayTemplate": {
-		"applyNo": "S000000"
-	},
-	"updateInsurancePayTemplate": {
-		"applyNo": "S000000"
-	},
-	"deleteInsurancePayTemplate": {
-		"applyNo": "S000000"
-	},
-	"selectTaxRateGroup": {
-		"total": "3",
-		"list": [
-			{
-				"groupId": "001016",
-				"groupNo": "1600qiz",
-				"startTime": "2017-08-18",
-				"endTime": "2017-10-20",
-				"createTime": "2017-08-10",
-				"remark": "xxxx"
-			},
-			{
-				"groupId": "001017",
-				"groupNo": "一一",
-				"startTime": "2017-08-18",
-				"endTime": "2017-10-20",
-				"createTime": "2017-08-10",
-				"createId": "000111",
-				"remark": "xxxx"
-			},
-			{
-				"groupId": "001018",
-				"groupNo": "一一",
-				"startTime": "2017-08-18",
-				"endTime": "2017-10-20",
-				"createTime": "2017-08-10",
-				"remark": "xxxx"
-			}
-		]
-	},
-	"insertTaxRateGroup": {
-		"applyNo": "S000000"
-	},
-	"deleteTaxRateGroup": {
-		"applyNo": "S000000"
-	},
-	"selectTaxRateCtrl": {
-		"total": "4",
-		"list": [
-			{
-				"groupNo": "1600",
-				"groupId": "01001",
-				"applyNo": "0001",
-				"GroupLimit": "10000",
-				"GroupLowerLimit": "5000",
-				"remark": "xxxx",
-				"percentRate": "5%",
-				"quickCal": "0"
-			},
-			{
-				"groupNo": "1600",
-				"groupId": "01001",
-				"applyNo": "0001",
-				"GroupLimit": "10000",
-				"GroupLowerLimit": "5000",
-				"remark": "xxxx",
-				"percentRate": "5%",
-				"quickCal": "0"
-			},
-			{
-				"groupNo": "1600",
-				"groupId": "01001",
-				"applyNo": "0001",
-				"GroupLimit": "10000",
-				"GroupLowerLimit": "5000",
-				"remark": "xxxx",
-				"percentRate": "5%",
-				"quickCal": "0"
-			},
-			{
-				"groupN0": "1600",
-				"groupId": "01001",
-				"applyNo": "0001",
-				"GroupLimit": "10000",
-				"GroupLowerLimit": "5000",
-				"remark": "xxxx",
-				"percentRate": "5%",
-				"quickCal": "0"
-			}
-		]
-	},
-	"insertTaxRateCtrl": {
-		"applyNo": "S000000"
-	},
-	"deleteTaxRateCtrl": {
-		"applyNo": "S000000"
-	},
-	"updaTeTaxRateCtrl": {
-		"applyNo": "S000000"
-	},
-	"queryCParmList": {
-		"total": "3",
-		"list": [
-			{
-				"applyNo": "p55001",
-				"applyName": "xxxxxx",
-				"compName": "xxxx",
-				"rank": "B10-高级开发软件工程师",
-				"salaryFloor": "5000.00",
-				"salaryTop": "10000.00",
-				"businessStandard": "50",
-				"remark": "xxx",
-				"createdId": "001",
-				"createdTime": "2017-10-10"
-			},
-			{
-				"applyNo": "p55002",
-				"applyName": "xxxxxx",
-				"compName": "xxxx",
-				"rank": "B10-高级开发软件工程师",
-				"salaryFloor": "5000.00",
-				"salaryTop": "10000.00",
-				"businessStandard": "50",
-				"remark": "xxx",
-				"createdId": "001",
-				"createdTime": "2017-10-10"
-			},
-			{
-				"applyNo": "p55003",
-				"applyName": "xxxxxx",
-				"compName": "xxxx",
-				"rank": "B10-高级开发软件工程师",
-				"salaryFloor": "5000.00",
-				"salaryTop": "10000.00",
-				"businessStandard": "50",
-				"remark": "xxx",
-				"createdId": "001",
-				"createdTime": "2017-10-10"
-			}
-			
-		]
-	},
-	"queryCParmDtl": {
-		"applyNo": "p55003",
-		"applyName": "xxxxxx",
-		"compName": "xxxx",
-		"rank": "B10-高级开发软件工程师",
-		"salaryFloor": "5000.00",
-		"salaryTop": "10000.00",
-		"businessStandard": "50",
-		"remark": "xxx"
-	},
-	"modCparm":{
-		"applyNo": "S000000"
-	},
-	"addCparm": {
-		"applyNo": "S000000"
-	},
-	"delCparm": {
-		"applyNo": "S000000"
-	},
-  "querPactDtl": {
+  "updateInsurancePayTemplate": {
+    "applyNo": "S000000"
+  },
+  "deleteInsurancePayTemplate": {
+    "applyNo": "S000000"
+  },
+  "selectTaxRateGroup": {
+    "total": "3",
+    "list": [
+      {
+        "groupId": "001016",
+        "groupNo": "1600qiz",
+        "startTime": "2017-08-18",
+        "endTime": "2017-10-20",
+        "createTime": "2017-08-10",
+        "remark": "xxxx"
+      },
+      {
+        "groupId": "001017",
+        "groupNo": "一一",
+        "startTime": "2017-08-18",
+        "endTime": "2017-10-20",
+        "createTime": "2017-08-10",
+        "createId": "000111",
+        "remark": "xxxx"
+      },
+      {
+        "groupId": "001018",
+        "groupNo": "一一",
+        "startTime": "2017-08-18",
+        "endTime": "2017-10-20",
+        "createTime": "2017-08-10",
+        "remark": "xxxx"
+      }
+    ]
+  },
+  "insertTaxRateGroup": {
+    "applyNo": "S000000"
+  },
+  "deleteTaxRateGroup": {
+    "applyNo": "S000000"
+  },
+  "selectTaxRateCtrl": {
+    "total": "4",
+    "list": [
+      {
+        "groupNo": "1600",
+        "groupId": "01001",
+        "applyNo": "0001",
+        "GroupLimit": "10000",
+        "GroupLowerLimit": "5000",
+        "remark": "xxxx",
+        "percentRate": "5%",
+        "quickCal": "0"
+      },
+      {
+        "groupNo": "1600",
+        "groupId": "01001",
+        "applyNo": "0001",
+        "GroupLimit": "10000",
+        "GroupLowerLimit": "5000",
+        "remark": "xxxx",
+        "percentRate": "5%",
+        "quickCal": "0"
+      },
+      {
+        "groupNo": "1600",
+        "groupId": "01001",
+        "applyNo": "0001",
+        "GroupLimit": "10000",
+        "GroupLowerLimit": "5000",
+        "remark": "xxxx",
+        "percentRate": "5%",
+        "quickCal": "0"
+      },
+      {
+        "groupN0": "1600",
+        "groupId": "01001",
+        "applyNo": "0001",
+        "GroupLimit": "10000",
+        "GroupLowerLimit": "5000",
+        "remark": "xxxx",
+        "percentRate": "5%",
+        "quickCal": "0"
+      }
+    ]
+  },
+  "insertTaxRateCtrl": {
+    "applyNo": "S000000"
+  },
+  "deleteTaxRateCtrl": {
+    "applyNo": "S000000"
+  },
+  "updaTeTaxRateCtrl": {
+    "applyNo": "S000000"
+  },
+  "queryCParmList": {
+    "total": "3",
+    "list": [
+      {
+        "applyNo": "p55001",
+        "applyName": "xxxxxx",
+        "compName": "xxxx",
+        "rank": "B10-高级开发软件工程师",
+        "salaryFloor": "5000.00",
+        "salaryTop": "10000.00",
+        "businessStandard": "50",
+        "remark": "xxx",
+        "createdId": "001",
+        "createdTime": "2017-10-10"
+      },
+      {
+        "applyNo": "p55002",
+        "applyName": "xxxxxx",
+        "compName": "xxxx",
+        "rank": "B10-高级开发软件工程师",
+        "salaryFloor": "5000.00",
+        "salaryTop": "10000.00",
+        "businessStandard": "50",
+        "remark": "xxx",
+        "createdId": "001",
+        "createdTime": "2017-10-10"
+      },
+      {
+        "applyNo": "p55003",
+        "applyName": "xxxxxx",
+        "compName": "xxxx",
+        "rank": "B10-高级开发软件工程师",
+        "salaryFloor": "5000.00",
+        "salaryTop": "10000.00",
+        "businessStandard": "50",
+        "remark": "xxx",
+        "createdId": "001",
+        "createdTime": "2017-10-10"
+      }
+    ]
+  },
+  "queryCParmDtl": {
+    "applyNo": "p55003",
+    "applyName": "xxxxxx",
+    "compName": "xxxx",
+    "rank": "B10-高级开发软件工程师",
+    "salaryFloor": "5000.00",
+    "salaryTop": "10000.00",
+    "businessStandard": "50",
+    "remark": "xxx"
+  },
+  "modCparm": {
+    "applyNo": "S000000"
+  },
+  "addCparm": {
+    "applyNo": "S000000"
+  },
+  "delCparm": {
+    "applyNo": "S000000"
+  },
+  "queryPactDetail": {
     "pactNo": "004",
     "paperPactNo": "P004",
     "pactName": "四号合同",
@@ -938,7 +804,7 @@
     "updateBy": "李大仁",
     "updateDate": "2017-10-09 00:00:00"
   },
-  "queryPChangeList": {
+  "queryPactChangeList": {
     "pageIndex": "1",
     "pageRows": "7",
     "pageCount": "8",
@@ -974,7 +840,7 @@
       }
     ]
   },
-  "queryPChangeDtl": {
+  "queryPactChangeDetail": {
     "pactNo": "004",
     "pactName": "四号合同",
     "changeId": "change002",
@@ -997,7 +863,7 @@
     "updateBy": "李大仁",
     "updateDate": "2017-10-09 00:00:00"
   },
-  "queryPRenewList": {
+  "queryPactRenewList": {
     "pageIndex": "1",
     "pageRows": "7",
     "pageCount": "8",
@@ -1019,7 +885,7 @@
       }
     ]
   },
-  "queryPRenewDtl": {
+  "queryPactRenewDetail": {
     "pactNo": "004",
     "pactName": "四号合同",
     "renewId": "renew001",
@@ -1041,5 +907,384 @@
     "createdDate": "2017-09-13 00:00:00",
     "updateBy": "李大仁",
     "updateDate": "2017-10-09 00:00:00"
+  },
+  "queryPayBaseInfoList": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "total": "50",
+    "payBaseInfoArray": [
+      {
+        "userNo": "001",
+        "custName": "王二狗",
+        "cert": "422000199012211222",
+        "wagesBase": "8000.00",
+        "wagesPerf": "5000.00",
+        "postPension": "1500.00",
+        "otherPension": "800.00",
+        "endmBase": "3000.00",
+        "houseBase": "3000.00",
+        "welcoeNo": "1",
+        "entryTime": "2017-09-13 00:00:00",
+        "remark": "能力突出的"
+      },
+      {
+        "userNo": "002",
+        "custName": "李大锤",
+        "cert": "422000199012211222",
+        "wagesBase": "6000.00",
+        "wagesPerf": "3000.00",
+        "postPension": "1000.00",
+        "otherPension": "800.00",
+        "endmBase": "3000.00",
+        "houseBase": "3000.00",
+        "welcoeNo": "1",
+        "entryTime": "2017-09-13 00:00:00",
+        "remark": "能力突出"
+      },
+      {
+        "userNo": "003",
+        "custName": "张铁蛋",
+        "cert": "422000199012211222",
+        "wagesBase": "7500.00",
+        "wagesPerf": "3000.00",
+        "postPension": "1500.00",
+        "otherPension": "800.00",
+        "endmBase": "3000.00",
+        "houseBase": "3000.00",
+        "welcoeNo": "1",
+        "entryTime": "2017-09-13 00:00:00",
+        "remark": "能力突出突出突出突出"
+      },
+      {
+        "userNo": "004",
+        "custName": "李大帅",
+        "cert": "422000199012211222",
+        "wagesBase": "5000.00",
+        "wagesPerf": "3000.00",
+        "postPension": "1500.00",
+        "otherPension": "800.00",
+        "endmBase": "3000.00",
+        "houseBase": "3000.00",
+        "welcoeNo": "1",
+        "entryTime": "2017-09-13 00:00:00",
+        "remark": ""
+      }
+    ]
+  },
+  "queryPayBaseInfoDetail": {
+    "userNo": "004",
+    "custName": "李大帅",
+    "organName": "0",
+    "derpName": "0",
+    "custPost": "软件开发工程师",
+    "custClass": "Java开发",
+    "rank": "B10-高级开发工程师",
+    "cert": "422000199012211222",
+    "wagesBase": "5000.00",
+    "wagesPerf": "3000.00",
+    "postPension": "1500.00",
+    "otherPension": "800.00",
+    "endmBase": "3000.00",
+    "mediBase": "5000.00",
+    "unemBase": "2300.00",
+    "emplBase": "5000.00",
+    "mateBase": "5000.00",
+    "houseBase": "3000.00",
+    "probRatio": "0.80",
+    "welcoeNo": "1",
+    "entryTime": "2017-09-13 00:00:00",
+    "remark": "备注个啥啥啥啥啥",
+    "updateBy": "李大仁",
+    "updateDate": "2017-10-09 00:00:00"
+  },
+  "queryCustInfoList": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "total": "50",
+    "custInfoList": [
+      {
+        "userNo": "001",
+        "custName": "李大帅",
+        "organName": "总公司",
+        "derpName": "研发部",
+        "sex": "1",
+        "custPost": "软件开发工程师",
+        "custClass": "Java开发",
+        "mobileNo": "15877778777",
+        "custStatus": "0"
+      },
+      {
+        "userNo": "002",
+        "custName": "张铁蛋",
+        "organName": "总公司",
+        "derpName": "技术部",
+        "sex": "0",
+        "custPost": "软件开发工程师",
+        "custClass": "前端开发",
+        "mobileNo": "13856478777",
+        "custStatus": "1"
+      },
+      {
+        "userNo": "003",
+        "custName": "王大锤",
+        "organName": "深圳分公司",
+        "derpName": "技术部",
+        "sex": "1",
+        "custPost": "软件设计师",
+        "custClass": "UI设计师",
+        "mobileNo": "14723243278",
+        "custStatus": "2"
+      }
+    ]
+  },
+  "selectListEpPayChageInfo": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "total": "50",
+    "epPayChageInfoList": [
+      {
+        "applyNo": "0001",
+        "userNo": "001",
+        "custName": "李大帅",
+        "nWagesBase": "7000.00",
+        "nWagesPerf": "2000.00",
+        "nPostPension": "800.00",
+        "nOtherPension": "600.00",
+        "entryTime": "2017-09-13 00:00:00"
+      },
+      {
+        "applyNo": "0002",
+        "userNo": "003",
+        "custName": "王大锤",
+        "nWagesBase": "10000.00",
+        "nWagesPerf": "2500.00",
+        "nPostPension": "1000.00",
+        "nOtherPension": "600.00",
+        "entryTime": "2017-10-24 00:00:00"
+      }
+    ]
+  },
+  "queryCustContancts": {
+    "code": "S00000",
+    "retMsg": "操作成功",
+    "data": [
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "1",
+        "contactName": "孙悟空",
+        "relationship": "朋友",
+        "telphone": "12311312311",
+        "profession": "农民",
+        "post": "中级农民",
+        "addr": "南山区"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "2",
+        "contactName": "大日如来",
+        "relationship": "上级",
+        "telphone": "13311312322",
+        "profession": "土豪",
+        "post": "中级土豪",
+        "addr": "西天雷音寺"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "3",
+        "contactName": "孙悟空",
+        "relationship": "朋友",
+        "telphone": "13311312311",
+        "profession": "农民",
+        "post": "中级农民",
+        "addr": "南山区"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "4",
+        "contactName": "孙悟空",
+        "relationship": "朋友",
+        "telphone": "13311312311",
+        "profession": "农民",
+        "post": "中级农民",
+        "addr": "南山区"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "5",
+        "contactName": "孙猴子",
+        "relationship": "朋友",
+        "telphone": "13311312311",
+        "profession": "农民",
+        "post": "中级农民",
+        "addr": "南山区"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "6",
+        "contactName": "牛魔王",
+        "relationship": "朋友",
+        "telphone": "13311312311",
+        "profession": "土匪",
+        "post": "中级土匪",
+        "addr": "火焰山"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "8",
+        "contactName": "玉帝",
+        "relationship": "上级",
+        "telphone": "13311312322",
+        "profession": "土豪",
+        "post": "中级土豪",
+        "addr": "西天雷音寺"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "9",
+        "contactName": "牛魔王",
+        "relationship": "朋友",
+        "telphone": "13311312311",
+        "profession": "土匪",
+        "post": "中级土匪",
+        "addr": "火焰山"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "10",
+        "contactName": "houzi",
+        "relationship": "上级",
+        "telphone": "13311312322",
+        "profession": "土豪",
+        "post": "gao级土豪",
+        "addr": "xiao雷音寺"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "11",
+        "contactName": "houzi",
+        "relationship": "上级",
+        "telphone": "13311312322",
+        "profession": "土豪",
+        "post": "gao级土豪",
+        "addr": "xiao雷音寺"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "12",
+        "contactName": "孙悟空",
+        "relationship": "朋友",
+        "telphone": "13311312311",
+        "profession": "农民",
+        "post": "中级农民",
+        "addr": "南山区"
+      }
+    ]
+  },
+  "selectDetailEpPayChageInf": {
+    "applyNo": "0001",
+    "organName": "深圳分公司",
+    "derpName": "技术部",
+    "userNo": "001",
+    "custName": "李大帅",
+    "custPost": "软件设计师",
+    "custClass": "UI设计师",
+    "oWagesBase": "7000.00",
+    "oWagesPerf": "2000.00",
+    "oPostPension": "800.00",
+    "oOtherPension": "600.00",
+    "oEndmBase": "600.00",
+    "oMediBase": "600.00",
+    "oUnemBase": "600.00",
+    "oEmplBase": "600.00",
+    "oMateBase": "600.00",
+    "oHouseBase": "600.00",
+    "oWelcoeNo": "1",
+    "nWagesBase": "9000.00",
+    "nWagesPerf": "2500.00",
+    "nPostPension": "800.00",
+    "nOtherPension": "600.00",
+    "nEndmBase": "600.00",
+    "nMediBase": "600.00",
+    "nUnemBase": "600.00",
+    "nEmplBase": "600.00",
+    "nMateBase": "600.00",
+    "nHouseBase": "600.00",
+    "nWelcoeNo": "0",
+    "remark": "我是调薪的备注"
+  },
+  "addRate": {
+		"groupId": "0000000"
+  },
+  "upload": {
+  	"code": "000000"
   }
 }

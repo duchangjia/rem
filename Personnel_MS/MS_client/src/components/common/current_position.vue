@@ -59,7 +59,7 @@ export default {
                 _link.push('/argument_1')
             }
             if (this.yiji === '薪酬福利') {
-                _link.push('/payBasicInfo_setting')
+                _link.push('/payBaseInfo_setting')
             }
 
             if (this.erji === '用户管理') {
@@ -76,13 +76,19 @@ export default {
             if (this.erji === '人事合同') {
                 _link.push('/personnel_contract')
             }
+            if (this.erji === '人事调动') {
+            	_link.push('/personnel_transfer')
+            }
             if (this.erji === '业务参数') {
                 _link.push('/argument_2')
             }
             if (this.erji === '薪酬基数设置') {
-                _link.push('/payBasicInfo_setting')
+                _link.push('/payBaseInfo_setting')
             }
-
+            if (this.erji === '调薪管理') {
+                _link.push('/payChange_manage')
+            }
+			
             if (this.sanji === '编辑部门') {
                 _link.push('/edit_department')
             }
@@ -138,15 +144,42 @@ export default {
                 _link.push('/rank')
             }
             if (this.sanji === '薪酬基数新增') {
-                _link.push('/add_payBasicInfo')
+                _link.push('/add_payBaseInfo')
             }
             if (this.sanji === '薪酬基数修改') {
-                _link.push('/edit_payBasicInfo')
+                _link.push('/edit_payBaseInfo')
             }
             if (this.sanji === '薪酬基数详情') {
-                _link.push('/detail_payBasicInfo')
+                _link.push('/detail_payBaseInfo')
             }
-
+            if (this.sanji === '调薪查询') {
+                _link.push('/query_payChangeInfo')
+            }
+            if (this.sanji === '人事调动明细查询') {
+                _link.push('/detail_transfer')
+            }
+            if (this.sanji === '人事调动详情') {
+                _link.push('/transfer_info')
+            }
+            if (this.sanji === '人事调动修改') {
+                _link.push('/edit_transfer')
+            }
+            if (this.sanji === '人事调动新增') {
+                _link.push('/add_transfer')
+            }
+            if (this.sanji === '员工离职明细查询') {
+                _link.push('/detail_dimission')
+            }
+            if (this.sanji === '员工离职详情') {
+                _link.push('/dimission_info')
+            }
+            if (this.sanji === '员工离职修改') {
+                _link.push('/edit_dimission')
+            }
+            if (this.sanji === '员工离职新增') {
+                _link.push('/add_dimission')
+            }
+				
             if (this.siji === '福利缴纳系数新增') {
                 _link.push('/add_welfare')
             }
@@ -168,6 +201,9 @@ export default {
             if (this.siji === 'CCC新增') {
                 _link.push('/add_agency')
             }
+            if (this.siji === 'CCC修改') {
+                _link.push('/modify_agency')
+            }
             if (this.siji === '节假日新增') {
                 _link.push('/add_holiday')
             }
@@ -186,6 +222,16 @@ export default {
             if (this.siji === '合同续签修改') {
                 _link.push('/edit_pactRenew')
             }
+            if (this.siji === '调薪基数详情') {
+                _link.push('/detail_payChangeInfo')
+            }
+            if (this.siji === '调薪基数新增') {
+                _link.push('/add_payChangeInfo')
+            }
+            if (this.siji === '调薪基数修改') {
+                _link.push('/edit_payChangeInfo')
+            }
+
             if (this.wuji === '税率新增') {
             	_link.push('/add_rate')
             }

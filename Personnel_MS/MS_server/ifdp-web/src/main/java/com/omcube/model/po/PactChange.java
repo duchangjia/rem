@@ -1,5 +1,7 @@
 package com.omcube.model.po;
 
+import java.util.Date;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -13,17 +15,17 @@ public class PactChange {
 	private String pactNo;
 	private String changeId;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String changeTime;
+	private Date changeTime;
 	private String changeType;
 	private String changeContent;// 变更内容
 	private String attachm;
 	private String remark;
 	private String createdBy;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String createdDate;
+	private Date createdDate;
 	private String updatedBy;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private String updatedDate;
+	private Date updatedDate;
 	private String isDelete;
 
 	public String getIsDelete() {
@@ -58,11 +60,11 @@ public class PactChange {
 		this.changeId = changeId;
 	}
 
-	public String getChangeTime() {
+	public Date getChangeTime() {
 		return changeTime;
 	}
 
-	public void setChangeTime(String changeTime) {
+	public void setChangeTime(Date changeTime) {
 		this.changeTime = changeTime;
 	}
 
@@ -114,19 +116,19 @@ public class PactChange {
 		this.updatedBy = updatedBy;
 	}
 
-	public String getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(String createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public String getUpdatedDate() {
+	public Date getUpdatedDate() {
 		return updatedDate;
 	}
 
-	public void setUpdatedDate(String updatedDate) {
+	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
 	}
 

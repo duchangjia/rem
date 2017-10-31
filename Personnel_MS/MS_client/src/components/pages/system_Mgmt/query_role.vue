@@ -103,8 +103,10 @@ export default {
             )
             .then(res => {
               console.log(res);
-              if (res.data.code == "S00000")
-                this.$message({ type: "success", message: "删除成功!" });
+              if (res.data.code == "S00000") {
+                this.$message({ type: "success", message: "删除成功!" })
+                this.getRoleList();
+              }
               else this.$message.error("删除角色失败！");
             })
             .catch(() => {

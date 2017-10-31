@@ -103,11 +103,12 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
-                        <el-form-item label="附件" prop="attachm">
-                            <el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+                        <el-form-item label="附件">
+				  		    <el-input v-model="editPChangeMsg.attachm"></el-input>
+				  		    <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
-                        </el-form-item>
+				  	    </el-form-item>
                     </el-col>
                 </el-form>
             </div>
@@ -149,7 +150,8 @@ export default {
         pactNo: self.pactNo
       };
       self.$axios
-        .get("/iem_hrm/pact/queryPactDetail", { params: params })
+        // .get("/iem_hrm/pact/queryPactDetail", { params: params })
+        .get("/iem_hrm/queryPactDetail", { params: params })        
         .then(res => {
           self.basicPactMsg = res.data.data;
         })
@@ -164,7 +166,8 @@ export default {
         changeId: self.changeId
       };
       self.$axios
-        .get("/iem_hrm/pact/queryPactChangeDetail", { params: params })
+        // .get("/iem_hrm/pact/queryPactChangeDetail", { params: params })
+        .get("/iem_hrm/queryPactChangeDetail", { params: params })        
         .then(res => {
           console.log(res);
           self.editPChangeMsg = res.data.data;
@@ -172,6 +175,11 @@ export default {
         .catch(() => {
           console.log("error");
         });
+    },
+    handleFileUpload(file, fileList) {
+      // this.fileList3 = fileList.slice(-3);
+      console.log(file);
+      this.editPChangeMsg.attachm = file.name;
     },
     handleSave() {
       let newPChange = {};

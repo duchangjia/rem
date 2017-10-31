@@ -32,7 +32,7 @@ public class PactServiceImpl implements PactService{
 		params.put("derpNo", derpNo);
 		params.put("custName", custName);
 		params.put("pactType", pactType);
-		return pactMapper.queryPactList(params);
+		return pactMapper.getPactList(params);
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class PactServiceImpl implements PactService{
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("uid", uid);
 		params.put("pactNo", pactNo);
-		return pactMapper.getPactByPactNo(params);
+		return pactMapper.getPactDetail(params);
 	}
 	
 	@Override

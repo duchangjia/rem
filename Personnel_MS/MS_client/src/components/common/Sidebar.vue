@@ -74,7 +74,15 @@ export default {
 						{
 							index: 'personnel_contract',
 							title: '人事合同'
-						}
+						},
+						{
+							index: 'personnel_transfer',
+							title: '人事调动'
+						},
+                        {
+                            index: 'personnel_archives',
+                            title: '人事档案'
+                        }
 					]
 				},
 				{
@@ -98,15 +106,37 @@ export default {
 					title: '薪酬福利',
 					subs: [
 						{
-							index: 'payBasicInfo_setting',
+							index: 'payBaseInfo_setting',
 							title: '薪酬基数设置'
+						},
+						{
+							index: 'payChange_manage',
+							title: '调薪管理'
 						}
 					]
 				},
 				{
 					icon: 'icon-ywgl',
-					index: 'business',
-					title: '业务管理',
+					index: '6',
+					title: '考勤管理',
+					subs: [
+						{
+							index: 'attendance_record',
+							title: '考勤记录管理'
+						},
+						{
+							index: 'travel_management',
+							title: '出差管理'
+						},
+						{
+							index: 'leave_management',
+							title: '请假管理'
+						},
+						{
+							index: 'overtime_management',
+							title: '加班管理'
+						}
+					]
 				},
 				{
 					icon: 'icon-khgx',
