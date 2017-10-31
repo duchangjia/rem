@@ -57,7 +57,6 @@ axios.defaults.transformRequest = [function transformRequest(data, headers) {
         setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
         data = Qs.stringify(data, { allowDots: true });
         // data = Qs.stringify(data);
-        console.log(data)
         return data;
     //     let keys2 = Object.keys(data);
     //     console.log(111,(keys2.map(name => `${name}=${data[name]}`).join('&')))

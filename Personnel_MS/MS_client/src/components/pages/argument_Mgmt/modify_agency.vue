@@ -66,7 +66,7 @@
                 let self = this
                 this.$axios.put('/iem_hrm/organ/modOrgCCC', this.obj)
                     .then(res => {
-                        let result = res.data.resMsg
+                        let result = res.data.retMsg
                         if(result==='操作成功'){
                             self.$message({
                                 message: '修改成功',

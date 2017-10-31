@@ -8,7 +8,7 @@
                     <div class="item_group">
                         <span class="text">机构名称</span><div style="display: inline-block; position: relative">
                             <el-input class="common" v-model="obj.organName" @blur="check(obj.organName, 1)" @focus="hidden(1)"></el-input>
-                            <div class='fade_check' ref="mybox">{{rules.organName}}</div>
+                            <div style="position: absolute; top:35px;color: #ff4949" v-show="rules.organName">{{rules.organName}}</div>
                         </div>
                         <span class="text">CCC类型</span><div style="display: inline-block; position: relative">
                             <el-select placeholder="请选择CCC类型" v-model="obj.costType" @change="hidden(2)">
@@ -63,7 +63,6 @@
             check(value, num) {
                 if(!value&&num==1){
                     this.rules.organName = '请输入机构名称'
-                    this.$refs.mybox.style.transition = 'height 2s'
                 }
                 if(!value&&num==3){
                     this.rules.costCode = '请输入CCC值'

@@ -43,7 +43,7 @@ module.exports = {
         // target: 'http://10.0.0.30:8888/',
         // target: 'http://10.0.0.29:8888/',
         // target: 'http://10.0.0.5:8888/',
-        // target: 'http://192.168.1.105:8888/',
+        // target: 'http://192.168.1.108:8888/',
         target: 'http://10.0.0.43:8888/',
         changeOrigin: true,
         secure: false,

@@ -7,8 +7,8 @@
                 <div class="content">
                     <div class="search">
                         <span class="text">查询条件</span>
-                        <input type="text">
-                        <el-button class="toolBtn">查询</el-button>
+                        <input type="text" v-model="searchValue" placeholder="请输入机构名称">
+                        <el-button class="toolBtn" @click="search(searchValue)">查询</el-button>
                     </div>
                     <table>
                         <tr><td v-for="th in table.th">{{th}}</td></tr>
@@ -25,9 +25,10 @@
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
-                            :page-size="10"
+                            :current-page.sync="fenye.pageNum"
+                            :page-size="fenye.pageSize"
                             layout="total,prev, pager, next, jumper"
-                            :total="100">
+                            :total="fenye.total">
                     </el-pagination>
                 </div>
             </div>
@@ -40,6 +41,7 @@
     export default {
         data() {
             return {
+                searchValue:'',
                 table: {
                     th:['机构ID', '机构名称', 'CCC类型', 'CCC值', '备注', '操作'],
                     td:[
@@ -114,6 +116,11 @@
                             mark: 'XXX',
                         },
                     ]
+                },
+                fenye: {
+                    total:0,
+                    pageSize: 10,
+                    pageNum: 0,
                 }
             }
         },
@@ -121,8 +128,9 @@
           let self = this
           self.$axios.get('/iem_hrm/organ/queryOrgCCCList')
               .then(res => {
-                  console.log(res)
-                  this.table.td = res.data.data.models.map(item=>{
+                  self.fenye.total = res.data.data.total
+                  self.fenye.pageNum = res.data.data.pageNum
+                  self.table.td = res.data.data.list.map(item=>{
                       return {
                           costCode:item.costCode,
                           costType:item.costType,
@@ -141,7 +149,49 @@
                 console.log(val)
             },
             handleCurrentChange(val) {
+                let self = this
                 console.log(val)
+                let data = {
+                    pageSize:this.fenye.pageSize,
+                    pageNum: val
+                }
+                this.$axios.get('/iem_hrm/organ/queryOrgCCCList',{params:data})
+                    .then(res=>{
+                        self.fenye.total = res.data.data.total
+                        self.fenye.pageNum = res.data.data.pageNum
+                        this.table.td = res.data.data.list.map(item=>{
+                            return {
+                                costCode:item.costCode,
+                                costType:item.costType,
+                                descr:item.descr,
+                                organName:item.organName,
+                                organNo:item.organNo,
+                            }
+                        })
+                    })
+                    .catch(e=>{
+                        console.log('获取分页失败',e)
+                    })
+            },
+            search(value) {
+                let self = this
+                self.$axios.get('/iem_hrm/organ/queryOrgCCCList',{params:{organName:value}})
+                    .then(res => {
+                        self.fenye.total = res.data.data.total
+                        self.fenye.pageNum = res.data.data.pageNum
+                        self.table.td = res.data.data.list.map(item=>{
+                            return {
+                                costCode:item.costCode,
+                                costType:item.costType,
+                                descr:item.descr,
+                                organName:item.organName,
+                                organNo:item.organNo,
+                            }
+                        })
+                    })
+                    .catch(e => {
+                        console.log('获取ccc列表失败',e)
+                    })
             },
             add() {
                 this.$router.push('add_agency')
@@ -170,6 +220,24 @@
                                     type: 'success',
                                     message: '删除成功!'
                                 });
+                                self.$axios.get('/iem_hrm/organ/queryOrgCCCList')
+                                    .then(res => {
+                                        self.fenye.total = res.data.data.total
+                                        self.fenye.pageNum = res.data.data.pageNum
+                                        self.table.td = res.data.data.list.map(item=>{
+                                            return {
+                                                costCode:item.costCode,
+                                                costType:item.costType,
+                                                descr:item.descr,
+                                                organName:item.organName,
+                                                organNo:item.organNo,
+                                            }
+                                        })
+                                    })
+                                    .catch(e => {
+                                        console.log('获取ccc列表失败',e)
+                                    })
+
                             }else{
                                 self.$message({
                                     type: 'error',

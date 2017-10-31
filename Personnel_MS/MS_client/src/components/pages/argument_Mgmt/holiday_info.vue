@@ -6,29 +6,38 @@
                 <div class="title"><span class="text">免签节假日维护</span><button class="add" @click="add">新增</button></div>
                 <div class="content">
                     <div class="search"><span>日期</span><el-date-picker type="date" placeholder="选择日期" v-model="content.date1"></el-date-picker><i>-</i><el-date-picker type="date" v-model="content.date2" placeholder="选择日期"></el-date-picker>
-                        <span class="special">类型</span><el-select v-model="value"></el-select>
+                        <span class="special">类型</span><el-select v-model="content.value">
+                            <el-option
+                                    label="法定节假日"
+                                    value="1">
+                            </el-option>
+                            <el-option
+                                    label="正常工作日"
+                                    value="2">
+                            </el-option>
+                        </el-select>
                     </div>
                     <div class="button">
-                        <button class="special_1">重置</button>
-                        <button>查询</button>
+                        <button class="special_1" @click="reset">重置</button>
+                        <button @click="search(content.date1, content.date2, content.value)">查询</button>
                     </div>
                     <table>
                         <tr><td v-for="th in table.th">{{th}}</td></tr>
                         <tr v-for="tds in table.td">
-                            <td>{{tds.dayDate}}</td>
-                            <td>{{tds.dayFlag}}</td>
+                            <td>{{tds.dayDate | formatDate1}}</td>
+                            <td>{{tds.dayFlag=='1'?'法定节假日':'正常工作日'}}</td>
                             <td>{{tds.remark}}</td>
                             <td>{{tds.createdBy}}</td>
-                            <td>{{tds.createdDate}}</td>
-                            <td><i class="el-icon-delete2" @click="del"></i></td>
+                            <td>{{tds.createdDate | formatDate}}</td>
+                            <td><i class="el-icon-delete2" @click="del(tds.dayDate)"></i></td>
                         </tr>
                     </table>
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
-                            :page-size="10"
+                            :page-size="fenye.pageSize"
                             layout="total,prev, pager, next, jumper"
-                            :total="100">
+                            :total="fenye.total">
                     </el-pagination>
                 </div>
             </div>
@@ -38,13 +47,14 @@
 
 <script type='text/ecmascript-6'>
     import current from '../../common/current_position.vue'
+    import moment from 'moment'
     export default {
         data() {
           return {
-              value: '',
               content: {
                 date1: '',
                 date2: '',
+                value: '',
               },
               table: {
                   th:['日期', '类型', '备注', '创建ID', '创建时间', '操作'],
@@ -62,23 +72,27 @@
                           mark: 'TTT',
                           createId: 'XXXXXXXXXX',
                           createTime: '2010-1-1',
-                      },]  }
+                      },]  },
+              fenye: {
+                  total:0,
+                  pageSize: 10,
+              }
           }
         },
         created() {
           let self = this
           self.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList')
               .then(res => {
-                console.log(res)
-                  self.table.td = res.data.data.models.map(item=>{
+                  self.table.td = res.data.data.list.map(item=>{
                       return {
                           createdBy: item.createdBy,
-                          createdDate: item.createdDate,
+                          createdDate: item.createdDate ,
                           dayDate: item.dayDate,
                           dayFlag: item.dayFlag,
                           remark: item.remark,
                       }
                   })
+                  self.fenye.total = res.data.data.total
               })
               .catch(e=>{
                   console.log(e)
@@ -90,12 +104,188 @@
             },
             handleCurrentChange(val) {
                 console.log(val)
+                let self = this
+                let data = {
+                    pageNum: val,
+                    pageSize: self.fenye.pageSize,
+                }
+                self.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList',{params:data})
+                    .then(res => {
+                        self.table.td = res.data.data.list.map(item=>{
+                            return {
+                                createdBy: item.createdBy,
+                                createdDate: item.createdDate ,
+                                dayDate: item.dayDate,
+                                dayFlag: item.dayFlag,
+                                remark: item.remark,
+                            }
+                        })
+                        self.fenye.total = res.data.data.total
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
+            },
+            search(value1,value2,type) {
+                let self = this
+                let startDate = moment(value1).format('YYYYMMDD')
+                let endDate = moment(value2).format('YYYYMMDD')
+                if(value1&&!value2&&!type) {
+                    this.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList', {params:{startDate:startDate}})
+                        .then(res => {
+                            self.table.td = res.data.data.list.map(item=>{
+                                return {
+                                    createdBy: item.createdBy,
+                                    createdDate: item.createdDate ,
+                                    dayDate: item.dayDate,
+                                    dayFlag: item.dayFlag,
+                                    remark: item.remark,
+                                }
+                            })
+                            self.fenye.total = res.data.data.total
+                        })
+                        .catch(e => {
+                            console.log(e)
+                        })
+                }
+                if(!value1&&value2&&!type) {
+                    this.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList', {params:{endDate:endDate}})
+                        .then(res => {
+                            self.table.td = res.data.data.list.map(item=>{
+                                return {
+                                    createdBy: item.createdBy,
+                                    createdDate: item.createdDate ,
+                                    dayDate: item.dayDate,
+                                    dayFlag: item.dayFlag,
+                                    remark: item.remark,
+                                }
+                            })
+                            self.fenye.total = res.data.data.total
+                        })
+                        .catch(e => {
+                            console.log(e)
+                        })
+                }
+                if(!value1&&!value2&&type) {
+                    this.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList', {params:{dayFlag:type}})
+                        .then(res => {
+                            self.table.td = res.data.data.list.map(item=>{
+                                return {
+                                    createdBy: item.createdBy,
+                                    createdDate: item.createdDate ,
+                                    dayDate: item.dayDate,
+                                    dayFlag: item.dayFlag,
+                                    remark: item.remark,
+                                }
+                            })
+                            self.fenye.total = res.data.data.total
+                        })
+                        .catch(e => {
+                            console.log(e)
+                        })
+                }
+                if(value1&&value2&&!type) {
+                    console.log(111)
+                    console.log(startDate,endDate)
+                    this.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList', {params:{startDate,endDate}})
+                        .then(res => {
+                            console.log(res)
+                            self.table.td = res.data.data.list.map(item=>{
+                                return {
+                                    createdBy: item.createdBy,
+                                    createdDate: item.createdDate ,
+                                    dayDate: item.dayDate,
+                                    dayFlag: item.dayFlag,
+                                    remark: item.remark,
+                                }
+                            })
+                            self.fenye.total = res.data.data.total
+                        })
+                        .catch(e => {
+                            console.log(e)
+                        })
+                }
+                if(value1&&!value2&&type) {
+                    this.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList', {params:{startDate,dayFlag:type}})
+                        .then(res => {
+                            console.log(res)
+                            self.table.td = res.data.data.list.map(item=>{
+                                return {
+                                    createdBy: item.createdBy,
+                                    createdDate: item.createdDate ,
+                                    dayDate: item.dayDate,
+                                    dayFlag: item.dayFlag,
+                                    remark: item.remark,
+                                }
+                            })
+                            self.fenye.total = res.data.data.total
+                        })
+                        .catch(e => {
+                            console.log(e)
+                        })
+                }
+                if(!value1&&value2&&type) {
+                    this.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList', {params:{endDate,dayFlag:type}})
+                        .then(res => {
+                            self.table.td = res.data.data.list.map(item=>{
+                                return {
+                                    createdBy: item.createdBy,
+                                    createdDate: item.createdDate ,
+                                    dayDate: item.dayDate,
+                                    dayFlag: item.dayFlag,
+                                    remark: item.remark,
+                                }
+                            })
+                            self.fenye.total = res.data.data.total
+                        })
+                        .catch(e => {
+                            console.log(e)
+                        })
+                }
+
+            },
+            reset() {
+                this.content.date1 = ''
+                this.content.date2 = ''
+                this.content.value = ''
+                let self = this
+                self.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList')
+                    .then(res => {
+                        self.table.td = res.data.data.list.map(item=>{
+                            return {
+                                createdBy: item.createdBy,
+                                createdDate: item.createdDate ,
+                                dayDate: item.dayDate,
+                                dayFlag: item.dayFlag,
+                                remark: item.remark,
+                            }
+                        })
+                        self.fenye.total = res.data.data.total
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
             },
             add() {
                 this.$router.push('add_holiday')
             },
-            del() {
-
+            del(value) {
+                let date = moment(value).format('YYYYMMDD')
+                this.$axios.get(`/iem_hrm/visaFreeHoliday/deleteVisaFreeHoliday/${date}`)
+                    .then(res => {
+                        console.log(res)
+                    })
+                    .catch(e => {
+                        console.log(e)
+                    })
+            }
+        },
+        filters: {
+            formatDate1(time) {
+                return moment(time).format('YYYY-MM-DD')
+            },
+            formatDate(time) {
+                return moment(time).format('YYYY-MM-DD hh:mm:ss')
             }
         },
         components: {
