@@ -180,12 +180,12 @@ export default {
 			let pageSize = self.pageRows;
 			let params = {};
 			if(!self.queryFormFlag) {
-				let params = {
+				 params = {
 					"pageNum": pageNum,
 					"pageSize": pageSize
 				}
 			} else {
-				let params = {
+				 params = {
 					"pageNum": pageNum,
 					"pageSize": pageSize,
 					"organNo": self.ruleForm2.organNo,
