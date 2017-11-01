@@ -352,8 +352,7 @@ export default {
         organNo: "0",
         derpNo: "001",
         custPost: "软件开发工程师",
-        custClass: "B2",
-        custStatus: "02"
+        custClass: "B2"
       };
     },
     getPayBaseInfoDetail() {

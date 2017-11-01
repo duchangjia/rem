@@ -14,7 +14,7 @@
                   <el-button type="primary" @click="handleAdd" class="toolBtn">新增</el-button>
                 </div>
             </el-col>
-            <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+            <el-col :span="24" class="querybar" style="padding-bottom: 0px;">
                 <el-form :inline="true" :model="filters">
                     <el-form-item label="工号">
                         <el-input v-model="filters.userNo" placeholder="请输入工号"></el-input>

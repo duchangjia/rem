@@ -8,7 +8,7 @@
                 <el-button type="primary" @click="handleAdd" class="toolBtn">调薪</el-button>
             </el-col>
 
-            <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+            <el-col :span="24" class="querybar" style="padding-bottom: 0px;">
                 <el-form :inline="true" :model="filters">
                     <el-form-item label="开始时间" prop="startTime">
                         <el-date-picker type="date" placeholder="选择日期" v-model="filters.startTime" :picker-options="startTimeOption" style="width: 100%;"></el-date-picker>

@@ -53,6 +53,21 @@ export default {};
   border: none;
 }
 
+.content-wrapper .button-wrap {
+  margin: 20px auto 40px;
+  font-size: 0px;
+  text-align: center;
+}
+
+.content-wrapper .resetBtn {
+  color: #ff9900;
+  border-radius: 0;
+  height: 40px;
+  width: 120px;
+  margin-right: 20px;
+  border: 1px solid #ff9900;
+}
+
 .content-wrapper .queryBtn {
   border-radius: 0;
   height: 40px;
@@ -102,6 +117,10 @@ label {
   margin-bottom: 0;
 }
 
+.el-form-item {
+  margin-bottom: 20px;
+}
+
 .el-form-item__label {
   font-family: "PingFangSC Regular";
   color: #999999;
@@ -122,10 +141,6 @@ label {
   margin-left: 0;
 }
 
-/* .el-button:active {
-    color: #ff9900;
-    border-color: #ff9900;
-} */
 table .el-button:focus,
 table .el-button:hover,
 table .el-button:active {
@@ -168,6 +183,14 @@ table .el-button--danger:active {
 
 .add-wrapper .el-form-item__label {
   margin-right: 14px;
+}
+
+.querybar .el-form-item__label {
+  width: 100px;
+  padding: 13px 24px 13px 0;
+}
+.querybar .el-input__inner {
+  width: 200px;
 }
 
 .add-wrapper .upload-demo {

@@ -1339,5 +1339,33 @@
         "updateDate": "2017-10-09 00:00:00"
       }
     ]
+  },
+  "queryEpAssetInf": {
+    "buyApplyNo": "BE080017",
+    "assetNo": "a001",
+    "assetName": "ThinkPad t430s",
+    "assetType": "03",
+    "buyUnitPrice": "4000",
+    "buyNum": "50",
+    "buyAmount": "200000",
+    "stockNum": "15",
+    "mfrs": "XXX公司",
+    "supplier": "YYY公司",
+    "snNo": "b020024782357",
+    "specType": "SDA575",
+    "assetStatus": "02",
+    "organNo": "001",
+    "derpNo": "001",
+    "applyUserNo": "U0001",
+    "custName":"王二狗",
+    "custPost": "JAVA开发",
+    "custClass": "B2",
+    "factoryTime": "2015-10-09 00:00:00",
+    "faxfreeTime": "2016-10-09 00:00:00",
+    "derpLimit": "18",
+    "attachm": "",
+    "remark": "办公用品",
+    "updateBy": "李大仁",
+    "updateDate": "2017-10-09 00:00:00"
   }
 }

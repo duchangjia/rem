@@ -70,17 +70,17 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="签订日期" prop="signTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.signTime" @change="pickTime" :picker-options="pactSignOption" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.signTime" @change="signTimeChange" :picker-options="pactSignOption" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="合同开始日期" prop="pactStartTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStartTime" :picker-options="pactStartOption" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStartTime" @change="pactStartTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="合同结束日期" prop="pactEndTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactEndTime" :picker-options="pactEndOption" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactEndTime" @change="pactEndTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -98,7 +98,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="终止日期" prop="pactStopTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStopTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStopTime" @change="pactStopTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -152,24 +152,6 @@ export default {
         stopReason: "",
         remark: ""
       },
-      pactSignOption: {
-        disabledDate(time) {
-          return time.getTime() < Date.now() - 8.64e7;
-        }
-      },
-      pactStartOption: {
-        disabledDate(time) {
-          return time.getTime() < Date.now() - 8.64e7;
-        }
-      },
-      pactEndOption: {
-        disabledDate(time) {
-          return (
-            time.getTime() < Date.now() - 8.64e7 ||
-            time.getTime() < new Date(that.addPactMsg.pactStartTime).getTime()
-          );
-        }
-      },
       rules: {
         userNo: [{ required: true, message: "工号不能为空", trigger: "blur" }],
         pactType: [{ required: true, message: "合同类型不能为空", trigger: "change" }],
@@ -187,11 +169,17 @@ export default {
     searchUserNo() {
       // 查询工号
     },
-    pickTime(date) {
-      let self = this;
-      console.log(date);
-      self.addPactMsg.signTime = date;
-      console.log(self.addPactMsg.signTime);
+    signTimeChange(val) {
+      this.addPactMsg.signTime = val;
+    },
+    pactStartTimeChange(val) {
+      this.addPactMsg.pactStartTime = val;
+    },
+    pactEndTimeChange(val) {
+      this.addPactMsg.pactEndTime = val;
+    },
+    pactStopTimeChange(val) {
+      this.addPactMsg.pactStopTime = val;
     },
     handleFileUpload(file, fileList) {
       // this.fileList3 = fileList.slice(-3);
