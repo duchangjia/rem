@@ -50,7 +50,7 @@
 						<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageRows" layout="prev, pager, next, jumper" :total="pageSize" v-show="pageSize>pageRows">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageRows" layout="prev, pager, next, jumper" :total="pageSize" v-show="pageSize>pageRows">
 				</el-pagination>
 			</div>
 		</div>

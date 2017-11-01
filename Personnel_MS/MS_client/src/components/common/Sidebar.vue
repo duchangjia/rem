@@ -146,7 +146,11 @@ export default {
 						{
 							index: 'assetReq_manage',
 							title: '资产登记管理'
-						}
+						},
+                        {
+                            index: 'assetUse_manage',
+                            title: '资产使用管理'
+                        }
 					]
 				},
 				{
