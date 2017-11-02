@@ -45,7 +45,11 @@
 						<el-table-column prop="compName" label="所属公司"></el-table-column>
 						<el-table-column prop="departName" label="部门"></el-table-column>
 						<el-table-column prop="userName" label="姓名"></el-table-column>
-						<el-table-column prop="roleNo" label="角色"></el-table-column>
+						<el-table-column prop="roles.roleName" label="角色">
+							<!--<template scope="scope">-->
+						        <!--<span class="link" v-for="item in roles">{{ item.roleName }}</span>-->
+					      	<!--</template>-->
+						</el-table-column>
 						<el-table-column prop="mobile" label="手机"></el-table-column>
 						<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
 					</el-table>

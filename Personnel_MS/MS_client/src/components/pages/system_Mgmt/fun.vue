@@ -66,8 +66,8 @@
 		data() {
 			return {
 				pageNum: 1,
-				pageSize: 10,
-				totalRows: 5,
+				pageSize: 5,
+				totalRows: 0,
 				queryFormFlag: false,
 				formData: {
 					methodName: '',

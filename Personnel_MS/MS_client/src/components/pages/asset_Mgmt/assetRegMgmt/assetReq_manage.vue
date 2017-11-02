@@ -52,7 +52,7 @@ export default {};
   border: none;
 }
 .content-wrapper .button-wrap {
-  margin: 20px auto 40px;
+  margin: 0 auto 20px;
   font-size: 0px;
   text-align: center;
 }
@@ -78,7 +78,7 @@ export default {};
 }
 
 .el-input__inner {
-  border-radius: 0;
+  border-radius: 4px;
   height: 40px;
   width: 180px;
 }
@@ -180,6 +180,11 @@ table .el-button--danger:active {
 .add-wrapper .el-form-item__label {
   margin-right: 14px;
 }
+
+.querybar {
+  padding: 20px 0px 0px;
+}
+
 .querybar .el-form-item__label {
   width: 100px;
   padding: 13px 24px 13px 0;
