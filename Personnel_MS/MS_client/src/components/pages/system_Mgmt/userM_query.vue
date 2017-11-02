@@ -273,7 +273,7 @@ export default {
 }
 
 .user-query .el-form-item {
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 }
 
 .user-query .el-input,
@@ -289,7 +289,7 @@ export default {
 }
 
 .user-query .button-wrap {
-	margin: 0px auto 40px;
+	margin: 0px auto 20px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;

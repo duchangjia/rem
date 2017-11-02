@@ -269,7 +269,7 @@
 	}
 	
 	.query_transfer .el-form-item {
-		margin-bottom: 40px;
+		margin-bottom: 20px;
 	}
 	
 	.query_transfer .el-input,
@@ -285,7 +285,7 @@
 	}
 	
 	.query_transfer .button-wrap {
-		margin: 0px auto 40px;
+		margin: 0px auto 20px;
 		width: 260px;
 		clear: both;
 		font-size: 0px;

@@ -22,7 +22,7 @@ export default {};
   font-size: 16px;
   font-family: "PingFang SC";
   border-bottom: 1px solid #eeeeee;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .content-wrapper .titlebar .title-text {
@@ -55,7 +55,7 @@ export default {};
 .content-wrapper .queryBtn {
   border-radius: 0;
   height: 40px;
-  line-height: 40px;
+  /*line-height: 40px;*/
   width: 120px;
   background: #ff9900;
   border: none;

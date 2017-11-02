@@ -343,7 +343,7 @@ export default {
 }
 
 .workot_query .el-form-item__label {
-	text-align: left;
+	/*text-align: left;*/
 	vertical-align: middle;
 	float: left;
 	font-size: 14px;
@@ -359,7 +359,7 @@ export default {
 }
 
 .workot_query .el-form-item {
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 }
 
 .workot_query .el-input,
@@ -375,7 +375,7 @@ export default {
 }
 
 .workot_query .button-wrap {
-	margin: 0px auto 40px;
+	margin: 0px auto 20px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;
