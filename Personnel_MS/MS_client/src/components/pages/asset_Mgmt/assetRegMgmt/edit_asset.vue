@@ -170,8 +170,8 @@ export default {
       const self = this;
       let assetNo = self.assetNo;
       self.$axios
-        // .get("/iem_hrm/EpAssetInf/queryEpAssetInf/" + assetNo)
-        .get("/iem_hrm/queryEpAssetInf/")
+        .get("/iem_hrm/EpAssetInf/queryEpAssetInf/" + assetNo)
+        // .get("/iem_hrm/queryEpAssetInf/")
         .then(res => {
           self.assetInfoDetail = res.data.data;
         })

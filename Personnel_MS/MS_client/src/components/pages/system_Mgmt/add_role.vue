@@ -5,7 +5,7 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">新增角色</span>
-                <el-button type="primary" @click="handleAdd" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper role-msg">
                 <el-col :span="24" class="item-title">角色信息</el-col>
@@ -25,7 +25,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="描述">
-                            <el-input v-model="addRoleMsg.roleDescr"></el-input>
+                            <el-input type="textarea" v-model="addRoleMsg.roleDescr"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -167,7 +167,7 @@ export default {
             this.checkAll = checkedCount === this.submenus.length;
             this.isIndeterminate = checkedCount > 0 && checkedCount < this.submenus.length;
         },
-        handleAdd() {
+        handleSave() {
             let newRole = {};
             newRole.roleName = this.addRoleMsg.roleName;
             newRole.status = this.addRoleMsg.status;
@@ -191,208 +191,12 @@ export default {
     padding: 0 0 20px 20px;
 }
 
-.add_role .content-wrapper {
-    background: #ffffff;
-    padding: 0 20px 0;
-    color: #333333;
-    clear: both;
-}
-
-.add-wrapper .item-title {
-    font-size: 14px;
-    height: 56px;
-    line-height: 56px;
-    padding-left: 8px;
-}
-
-.add-wrapper form {
-    font-size: 0;
-}
-
-.add-wrapper form>div {
-    float: none;
-    display: inline-block;
-}
-
-.add-wrapper .leftside {
-    display: inline-block;
-    padding: 7px 0 7px 8px;
-    color: #999999;
-}
-
-.add-wrapper .rightside {
-    float: none;
-    display: inline-block;
-}
-
-.add-wrapper label {
-    font-weight: 400;
-    color: #999999;
-    margin-bottom: 0;
-}
-
-.add-wrapper.role-msg label {
-    margin-right: 14px;
-}
-
-.el-select-dropdown__item.selected,
-.el-select-dropdown__item.selected.hover {
-    background-color: #FF9900;
-}
-
-.add-wrapper .el-input__inner {
-    border-radius: 0;
+.add_role .el-textarea__inner {
     width: 300px;
 }
 
-.add-wrapper .el-input__inner:focus {
-    border-color: #ff9900;
+.add_role .content-wrapper {
+    padding: 0 20px 0;
 }
 
-.add-wrapper .menu-item {
-    display: inline-block;
-    margin-right: 20px;
-    margin-bottom: 20px;
-    border-radius: 2px;
-    font-family: "PingFangSC-Regular";
-}
-
-.add-wrapper .el-radio-button__inner {
-    background: #F4F4F4;
-    border: none;
-    padding: 10px;
-    border-radius: 2px;
-}
-
-.add-wrapper .el-radio-button__inner:hover {
-    color: #FF9900;
-}
-
-.add-wrapper .el-radio-button:first-child .el-radio-button__inner {
-    border-left: none;
-    border-radius: 2px;
-}
-
-.add-wrapper .el-radio-button:last-child .el-radio-button__inner {
-    border-radius: 2px;
-}
-
-.add-wrapper .el-radio-button__orig-radio:checked+.el-radio-button__inner {
-    background-color: #FF9900;
-    box-shadow: none;
-}
-
-.add-wrapper .el-radio-button__orig-radio:checked+.el-radio-button__inner:hover {
-    color: #ffffff;
-}
-
-.add-wrapper .submenu {
-    padding: 10px;
-    margin-bottom: 20px;
-    background: #F4F4F4;
-}
-
-.add-wrapper .submenu .menu-item {
-    margin-bottom: 0;
-    font-family: "PingFangSC-Light";
-}
-
-.add-wrapper .submenu .el-checkbox-group {
-    display: inline-block;
-}
-
-.add-wrapper .submenu .el-checkbox-button__inner {
-    background: #ffffff;
-    border: none;
-    padding: 10px;
-    border-radius: 2px;
-}
-
-.add-wrapper .submenu .el-checkbox-button:first-child .el-checkbox-button__inner {
-    border-left: none;
-    border-radius: 2px;
-}
-
-.add-wrapper .submenu .el-checkbox-button.is-checked .el-checkbox-button__inner {
-    background-color: #FF9900;
-    box-shadow: none;
-}
-
-.add-wrapper .submenu .el-checkbox-button:last-child .el-checkbox-button__inner {
-    border-radius: 2px;
-}
-
-.add-wrapper .submenu .el-checkbox-button__inner:hover {
-    color: #FF9900;
-}
-
-.add-wrapper .submenu .el-checkbox-button.is-checked .el-checkbox-button__inner:hover {
-    color: #ffffff;
-}
-
-
-.add-wrapper .func-permission .funcs-content {
-    background: #F8F8F8;
-    height: 312px;
-    margin-bottom: 20px;
-    /* padding: 0 20px; */
-}
-
-.add-wrapper .func-permission .funcs-content label {
-    color: #333333;
-}
-
-.add-wrapper .func-permission .funcs-content .func-item {
-    margin-top: 8px;
-}
-
-.add-wrapper .func-permission .funcs-content .el-checkbox {
-    display: block;
-    line-height: 36px;
-}
-
-.add-wrapper .func-permission .funcs-content .el-checkbox+.el-checkbox {
-    margin-left: 0;
-}
-
-.add-wrapper .func-permission .funcs-content .el-checkbox__input {
-    float: right;
-    margin-top: 8px;
-    margin-right: 20px;
-}
-
-.add-wrapper .func-permission .funcs-content .el-checkbox__label {
-    padding-left: 0;
-    font-family: "PingFangSC-Light";
-    margin-left: 20px;
-}
-
-.add-wrapper .func-permission .funcs-content .el-checkbox.func-checkall {
-    height: 40px;
-    line-height: 40px;
-    border-bottom: 1px solid #F1F1F1;
-}
-
-.add-wrapper .func-permission .funcs-content .el-checkbox.func-checkall .el-checkbox__input {
-    margin-top: 10px;
-}
-
-.add-wrapper .func-permission .funcs-content .el-checkbox.func-checkall .el-checkbox__label {
-    font-family: "PingFangSC-Regular";
-    font-size: 16px;
-}
-
-.add-wrapper .func-permission .funcs-content .el-checkbox__input.is-checked .el-checkbox__inner {
-    background-color: #ff9900;
-    border-color: #ff8d00;
-}
-
-.add-wrapper .func-permission .funcs-content .el-checkbox__inner {
-    border-radius: 0;
-}
-
-.add-wrapper .func-permission .funcs-content .el-checkbox__inner:hover,
-.add-wrapper .func-permission .funcs-content .el-checkbox__inner:focus {
-    border-color: #ff8d00;
-}
 </style>

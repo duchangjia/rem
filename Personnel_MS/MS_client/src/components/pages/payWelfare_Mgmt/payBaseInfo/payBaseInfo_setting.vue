@@ -171,7 +171,6 @@ table .el-button--danger:active {
 .add-wrapper form {
   font-size: 0;
   margin-top: 40px;
-  overflow: hidden;
 }
 
 .add-wrapper .item-title {

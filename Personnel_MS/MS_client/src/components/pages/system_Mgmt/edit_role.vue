@@ -5,9 +5,9 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">编辑角色</span>
-                <el-button type="primary" @click="handleEdit" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
-            <div class="edit-wrapper">
+            <div class="add-wrapper">
                 <el-col :span="24" class="item-title">角色信息</el-col>
                 <el-form :inline="true" :model="editRoleMsg" label-width="80px" :rules="editRoleRules" ref="editForm">
                     <el-col :span="12">
@@ -85,7 +85,7 @@ export default {
             })
     },
     methods: {
-        handleEdit() {
+        handleSave() {
             let editRole = {};
             editRole.roleNo = this.editRoleMsg.roleNo;
             editRole.roleName = this.editRoleMsg.roleName;
@@ -109,72 +109,14 @@ export default {
 <style>
 .edit_role {
     padding: 0 0 20px 20px;
-    ;
 }
 
-.edit_role .content-wrapper {
-    background: #ffffff;
-    padding: 0 20px 20px;
-    color: #333333;
-    clear: both;
-}
-
-.edit-wrapper {
-    clear: both;
-}
-
-.edit-wrapper form {
-    font-size: 0;
-}
-
-.edit-wrapper form>div {
-    float: none;
-    display: inline-block;
-}
-
-.edit-wrapper .item-title {
-    font-size: 14px;
-    height: 56px;
-    line-height: 56px;
-    padding-left: 8px;
-}
-
-.edit-wrapper label {
-    font-weight: 400;
-    color: #999999;
-    margin-bottom: 0;
-    /* margin-right: 14px; */
-}
-
-.edit-wrapper .el-input__inner {
-    border-radius: 0;
+.edit_role .el-textarea__inner {
     width: 300px;
 }
 
-.edit-wrapper .el-textarea {
-    width: 300px;
+.add-wrapper {
+    clear: both;
 }
 
-.edit-wrapper .el-textarea__inner {
-    border-radius: 0;
-}
-
-.edit-wrapper .el-radio__input.is-checked .el-radio__inner {
-    background: #ff9900;
-    border-color: #ff9900;
-}
-
-.edit-wrapper .el-input__inner:focus,
-.edit-wrapper .el-textarea__inner:focus {
-    border-color: #ff9900;
-}
-
-.edit-wrapper .el-radio__inner:hover {
-    border-color: #ff9900;
-}
-
-.el-select-dropdown__item.selected,
-.el-select-dropdown__item.selected.hover {
-    background-color: #ff9900;
-}
 </style>
