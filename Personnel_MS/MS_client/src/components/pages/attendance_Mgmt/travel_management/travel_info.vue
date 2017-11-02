@@ -9,29 +9,29 @@
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="formdata2.orgId" value-key="compOrgNo" @change="changeValue">
-							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+					    <el-select v-model="formdata2.organNo" value-key="organNo" @change="changeValue">
+							<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 						</el-select>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-					    <el-select v-model="formdata2.deprtId" value-key="departOrgNo" @change="changeValue">
+					    <el-select v-model="formdata2.deptNo" value-key="departOrgNo" @change="changeValue">
 							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 						</el-select>
 				  	</el-form-item>
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">  	
+				<!--<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">-->  	
 					<el-form-item label="工号">
-					    <el-input v-model="formdata1.userNo"></el-input>
+					    <el-input v-model="formdata2.userNo"></el-input>
 				 	</el-form-item>
 				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata1.custName"></el-input>
+					    <el-input v-model="formdata2.custName"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="岗位">
-					    <el-input v-model="formdata1.custPost"></el-input>
+					    <el-input v-model="formdata2.custPost"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="职级">
-					    <el-input v-model="formdata1.custClass"></el-input>
+					    <el-input v-model="formdata2.custClass"></el-input>
 				  	</el-form-item>
-				</el-form>
+				<!--</el-form>-->
 
 				  	<div class="info-title">出差信息</div>
 				  	<el-form-item label="出差开始时间" prop="travelStartTime">
@@ -67,10 +67,10 @@
 					  	</el-form-item>
 				  	</el-col>
 				  	<el-form-item label="最新更新人">
-					    <el-input v-model="formdata2.updateBy"></el-input>
+					    <el-input v-model="formdata2.updatedBy"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="最新更新时间">
-					    <el-input v-model="formdata2.updateTime"></el-input>
+					    <el-input v-model="formdata2.updatedDate"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="附件" style="width:100%;">
 					    <el-button class="file_button" @click="handleDownload">下载</el-button>
@@ -94,14 +94,14 @@
 		data() {
 			return {
 				formdata1: {
+				},
+				formdata2: {
+					organNo: "01",
+					deptNo: "",
 					userNo: "",
 					custName: "",
 					custPost: "",
 					custClass: "",
-				},
-				formdata2: {
-					orgId: "01",
-					deprtId: "",
 					travelStartTime: "",
 					travelEndTime: "",
 					travelType: "",
@@ -139,9 +139,9 @@
 				],
 				//公司列表
 				compList: [
-					{compName: "上海魔方分公司",compOrgNo: '01'},
-					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
+					{organName: "上海魔方分公司",organNo: '01'},
+					{organName: "魔方分公司深圳分公司",organNo: 'p1'},
+					{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
 				],
 				travelTypeList: [
 					{label: "业务拓展", travelNo: "01"},
@@ -165,7 +165,10 @@
 			let params = {
 				applyNo: applyNo
 			}
-			this.travelInfo(params);
+			//查询出差详情
+			this.queryTravelInfo(params);
+			//查询公司列表
+			this.queryCompList();
 		},
 		methods: {
 			changeStartTime(time) {
@@ -199,14 +202,34 @@
 					}
 				});
 			},
-			travelInfo(params) {
+			queryTravelInfo(params) {
 				const self = this;
-				self.$axios.get(baseURL+'/travel/getTravelInfoByUserNo',{params: params})
+				self.$axios.get(baseURL+'/travel/getTravelInfoByApplyNo',{params: params})
 				.then(function(res) {
 					console.log('travelInfo',res);
-					
+					self.formdata2 = res.data.data;
 				}).catch(function(err) {
 					console.log('error');
+				})
+			},
+			queryCompList() {
+				let self = this;
+				self.$axios.get(baseURL+'/organ/queryAllCompany')
+				.then(function(res) {
+					console.log('CompList',res);
+					self.compList = res.data.data;
+				}).catch(function(err) {
+					console.log(err);
+				})
+			},
+			queryDerpList(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/organ/queryChildrenDep', {params: params})
+				.then(function(res) {
+					console.log('DerpList',res);
+					self.departList = res.data.data;
+				}).catch(function(err) {
+					console.log(err);
 				})
 			},
 			downloadFile(params) {

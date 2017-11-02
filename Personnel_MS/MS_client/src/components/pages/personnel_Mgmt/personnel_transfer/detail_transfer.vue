@@ -52,9 +52,9 @@
 						<el-table-column prop="userName" label="姓名"></el-table-column>
 						<el-table-column prop="oldCompName" label="原公司名称"></el-table-column>
 						<el-table-column prop="oldDepartName" label="原部门名称"></el-table-column>
-						<el-table-column prop="diaodongType" label="调动类型"></el-table-column>
+						<el-table-column prop="shiftType" label="调动类型"></el-table-column>
 						<el-table-column prop="diaodongDate" label="调动日期"></el-table-column>
-						<el-table-column prop="shengxiaoDate" label="调动生效日期"></el-table-column>
+						<el-table-column prop="shiftCameTime" label="调动生效日期" :formatter="travelTimeFormatter"></el-table-column>
 						<el-table-column align="center" label="操作" width="150">
 							<template scope="scope">
 								<span class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></span>
@@ -77,7 +77,7 @@ export default {
 		return {
 			pickerOptions0: {
 	          disabledDate(time) {
-	            return time.getTime() < Date.now() - 8.64e7;
+//	            return time.getTime() < Date.now() - 8.64e7;
 	          }
 	       	},
 			pageNum: 1,
@@ -116,9 +116,9 @@ export default {
 					userName: "sdsd",
 					oldCompName: "",
 					oldDepartName: "",
-					diaodongType: "",
+					shiftType: "",
 					diaodongDate: "",
-					shengxiaoDate: ""
+					shiftCameTime: ""
 				},
 				{
 					workhisId: "001001",
@@ -126,9 +126,9 @@ export default {
 					userName: "sdsd",
 					oldCompName: "xx",
 					oldDepartName: "xxx",
-					diaodongType: "xx",
+					shiftType: "xx",
 					diaodongDate: "xx",
-					shengxiaoDate: "xxx"
+					shiftCameTime: "xxx"
 				}
 			],
 			rules: {
@@ -154,6 +154,21 @@ export default {
 		self.queryCustShifthisList(pageNum,pageSize,params);
 	},
 	methods: {
+		add0(m){return m<10?'0'+m:m },
+		getLocalTime(shijianchuo) {     
+	       	var time = new Date(shijianchuo);
+			var y = time.getFullYear();
+			var m = time.getMonth()+1;
+			var d = time.getDate();
+			var h = time.getHours();
+			var mm = time.getMinutes();
+			var s = time.getSeconds();
+			return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);      
+	    },  
+		travelTimeFormatter(row, column) {
+			let time = row.shiftCameTime;
+			return time?this.getLocalTime(time):null;
+		},
 		changeStartTime(val) {
 			this.ruleForm2.startTime = val;
 		},
@@ -242,7 +257,7 @@ export default {
 			self.$axios.get(baseURL+'/custShifthis/queryCustShifthisList', {params: params})
 			.then(function(res) {
 				console.log('CustShifthisList',res);
-
+				self.transferDataList = res.data.data.list;
 				self.pageNum = pageNum;
 				self.totalRows = Number(res.data.data.total);
 			}).catch(function(err) {

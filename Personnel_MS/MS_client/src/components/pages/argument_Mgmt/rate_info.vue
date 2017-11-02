@@ -102,8 +102,8 @@ export default {
                 type: 'warning'
             }).then(() => {
             	let params = {
-            		groupId: self.taxRateList.groupId,
-            		applyNo: self.taxRateList.applyNo
+            		groupId: row.groupId,
+            		applyNo: row.applyNo
             	};
             	self.deleteTaxRateCtrl(params);
             	

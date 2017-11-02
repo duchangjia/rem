@@ -5,16 +5,17 @@
 		<div class="content">
 			<div class="title">
 				<span class="title-text">出差修改</span>
+				<el-button type="primary" class="conserve" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="formdata2.orgId" value-key="compOrgNo" @change="changeValue">
-							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+					    <el-select v-model="formdata2.organNo" value-key="organNo" @change="changeCompValue">
+							<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 						</el-select>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-					    <el-select v-model="formdata2.deprtId" value-key="departOrgNo" @change="changeValue">
+					    <el-select v-model="formdata2.deptNo" value-key="departOrgNo" @change="changeValue">
 							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 						</el-select>
 				  	</el-form-item>
@@ -68,7 +69,7 @@
 				  	</el-col>
 				  	<el-form-item label="附件" style="width: 100%;">
 			  		 	<el-input v-model="formdata2.attachm"></el-input>
-				  		<el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+				  		<el-upload class="upload-demo" ref="upload" :on-change="changeUpload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
                             <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
                         </el-upload>
 				  	</el-form-item>
@@ -86,9 +87,10 @@
 			return {
 				formdata1: {
 				},
+				attachm: {},
 				formdata2: {
-					orgId: "01",
-					deprtId: "",
+					organNo: "01",
+					deptNo: "",
 					userNo: "",
 					custName: "",
 					custPost: "",
@@ -130,9 +132,9 @@
 				],
 				//公司列表
 				compList: [
-					{compName: "上海魔方分公司",compOrgNo: '01'},
-					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
+					{organName: "上海魔方分公司",organNo: '01'},
+					{organName: "魔方分公司深圳分公司",organNo: 'p1'},
+					{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
 				],
 				travelTypeList: [
 					{label: "业务拓展", travelNo: "01"},
@@ -142,10 +144,10 @@
 				],
 			 	rules: {
 			 		travelStartTime: [
-			 			{ required: true, message: '出差开始时间不能为空', trigger: 'blur' }
+//			 			{ required: true, message: '出差开始时间不能为空', trigger: 'blur' }
 			 		],
 			 		travelEndTime: [
-			 			{ required: true, message: '出差结束时间不能为空', trigger: 'blur' }
+//			 			{ required: true, message: '出差结束时间不能为空', trigger: 'blur' }
 			 		],
 		          	travelType: [
 		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
@@ -165,7 +167,10 @@
 			let params = {
 				applyNo: applyNo
 			}
-			this.travelInfo(params);
+			//查询出差详情
+			this.queryTravelInfo(params);
+			//查询公司列表
+			this.queryCompList();
 		},
 		methods: {
 			changeStartTime(time) {
@@ -174,9 +179,21 @@
 			changeEndTime(time) {
 				this.formdata2.travelEndTime = time;
 			},
+			changeCompValue(value) {
+				const self = this;
+				let params = {
+					organNo: val
+				}
+				//查询部门列表
+				self.queryDerpList(params);
+			},
 			changeValue(value) {
 		 		const self = this;
 	            console.log('value',value);
+	      	},
+	      	changeUpload(file,fileList) {
+	      		console.log('file',file);
+	      		this.attachm = file;
 	      	},
 	      	queryUserInfo() {
 	      		this.formdata1.userNo;
@@ -192,14 +209,14 @@
 						console.log('valid');
 						let params = {
 							applyNo: self.formdata2.applyNo, //出差编号
-	   						organNo: self.formdata2.organNo,//公司编号
-	    					deptNo: self.formdata2.deptNo,//部门编号
-						    companyName: self.formdata2.companyName,//公司名称
-						    deptName: self.formdata2.deptName,//部门名称
+//	   						organNo: self.formdata2.organNo,//公司编号
+//	    					deptNo: self.formdata2.deptNo,//部门编号
+//						    companyName: self.formdata2.companyName,//公司名称
+//						    deptName: self.formdata2.deptName,//部门名称
 						    userNo: self.formdata2.userNo,//工号
-						    custName: self.formdata2.custName,//姓名
-						    custPost: self.formdata2.custPost,//岗位
-						    custClass: self.formdata2.custClass,//职级
+//						    custName: self.formdata2.custName,//姓名
+//						    custPost: self.formdata2.custPost,//岗位
+//						    custClass: self.formdata2.custClass,//职级
 						    travelType: self.formdata2.travelType,//出差类型
 						    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
 						    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
@@ -208,7 +225,7 @@
 						    travelDays: self.formdata2.travelDays, //出差天数  
 						    travelSTD: self.formdata2.travelSTD,//差补标准
 						    remark: self.formdata2.remark,//备注
-						    attachm: self.formdata2.attachm//附件
+						    attachm: self.attachm//附件
 						}
 						//查询出差详细信息
 						self.modifyTravelInfo(params);
@@ -219,14 +236,34 @@
 					}
 				});
 			},
-			travelInfo(params) {
+			queryTravelInfo(params) {
 				let self = this;
-				self.$axios.get(baseURL+'/travel/getTravelInfoByUserNo',{params: params})
+				self.$axios.get(baseURL+'/travel/getTravelInfoByApplyNo',{params: params})
 				.then(function(res) {
 					console.log('travelInfo',res);
 					self.formdata2 = res.data.data;
 				}).catch(function(err) {
 					console.log('error');
+				})
+			},
+			queryCompList() {
+				let self = this;
+				self.$axios.get(baseURL+'/organ/queryAllCompany')
+				.then(function(res) {
+					console.log('CompList',res);
+					self.compList = res.data.data;
+				}).catch(function(err) {
+					console.log(err);
+				})
+			},
+			queryDerpList(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/organ/queryChildrenDep', {params: params})
+				.then(function(res) {
+					console.log('DerpList',res);
+					self.departList = res.data.data;
+				}).catch(function(err) {
+					console.log(err);
 				})
 			},
 			modifyTravelInfo(params) {

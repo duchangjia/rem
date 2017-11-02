@@ -28,7 +28,7 @@
 				  	<div class="info-title">调动信息</div>
 				  	<el-form-item label="调动类型" prop="shiftType">
 					    <el-select v-model="formdata.shiftType" value-key="shiftType" @change="changeValue">
-							<el-option v-for="item in shiftTypeList" :key="item" :label="item" :value="item"></el-option>
+							<el-option v-for="item in shiftTypeList" :key="item.shiftType" :label="item.shiftName" :value="item.shiftType"></el-option>
 						</el-select>
 				  	</el-form-item>
 				  	<el-form-item label="调动生效时间" prop="shiftCameTime">
@@ -148,7 +148,14 @@
 					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
 					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
 				],
-				shiftTypeList: ['晋升','调动','平调','轮岗','工资调整'],
+				shiftTypeList: [
+					{shiftType: '01',shiftName: '晋升'},
+					{shiftType: '02',shiftName: '调动'},
+					{shiftType: '03',shiftName: '平调'},
+					{shiftType: '04',shiftName: '轮岗'},
+					{shiftType: '05',shiftName: '工资调整'},
+					{shiftType: '99',shiftName: '其他'},
+				],
 			 	rules: {
 		          	shiftType: [
 		            	{ required: true, message: '调动类型不能为空', trigger: 'blur' }
@@ -208,7 +215,7 @@
 							oldDeprtId: self.formdata.oldDeprtId,
 							newOrgId: self.formdata.newOrgId,
 							newDeprtId: self.formdata.newDeprtId,
-							custName: self.formdata.custName,
+//							custName: self.formdata.custName,
 							userNo: self.formdata.userNo,
 							shiftType: self.formdata.shiftType,
 							shiftCameTime: self.formdata.shiftCameTime,

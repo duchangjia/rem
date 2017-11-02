@@ -8,19 +8,19 @@
 		<el-menu class="el-menu-vertical-demo" :default-active="onRoutes" @select="handleSelect" @open="handleOpen" @close="handleClose" :collapse="isCollapse" unique-opened router>
 			<template v-for="item in items">
 				<template v-if="item.subs">
-					<el-submenu :index="item.index" :class="itemActive[item.index]">
+					<el-submenu :index="item.menuUrl" :class="itemActive[item.menuUrl]">
 						<template slot="title">
-							<i class="icon" :class="item.icon"></i>
-							<span slot="title">{{ item.title }}</span>
+							<i class="icon" :class="item.menuImg"></i>
+							<span slot="menuName">{{ item.menuName }}</span>
 						</template>
-						<el-menu-item v-for="(subItem,i) in item.subs" :key="i" :index="subItem.index" :class="itemActive[subItem.index]">{{ subItem.title }}
+						<el-menu-item v-for="(subItem,i) in item.subs" :key="i" :index="subItem.menuUrl" :class="itemActive[subItem.menuUrl]">{{ subItem.menuName }}
 						</el-menu-item>
 					</el-submenu>
 				</template>
 				<template v-else>
-					<el-menu-item :index="item.index" :class="itemActive[item.index]">
-						<i :class="item.icon" class="icon"></i>
-						<span slot="title">{{ item.title }}</span>
+					<el-menu-item :index="item.menuUrl" :class="itemActive[item.menuUrl]">
+						<i :class="item.menuImg" class="icon"></i>
+						<span slot="title">{{ item.menuName }}</span>
 					</el-menu-item>
 				</template>
 			</template>
@@ -29,139 +29,144 @@
 </template>
 
 <script>
+const baseURL = 'iem_hrm'
 export default {
 	data() {
 		return {
 			isCollapse: false,
-			//subMenu index
+			//subMenu menuUrl
 			subMenuOldIndex: '',
 			//nav item activeClass
 			itemActive: {},
 			items: [
 				{
-					icon: 'icon-home',
-					index: 'home',
-					title: '主页'
+					menuImg: 'icon-home',
+					menuUrl: 'home',
+					menuName: '主页'
 				},
 				{
-					icon: 'icon-sys',
-					index: '2',
-					title: '系统管理',
+					menuImg: 'icon-sys',
+					menuUrl: '2',
+					menuName: '系统管理',
 					subs: [
 						{
-							index: 'management_framework',
-							title: '组织架构'
+							menuUrl: 'management_framework',
+							menuName: '组织架构'
 						},
 						{
-							index: 'management_user',
-							title: '用户管理'
+							menuUrl: 'management_user',
+							menuName: '用户管理'
 						},
 						{
-							index: 'management_role',
-							title: '角色管理'
+							menuUrl: 'management_role',
+							menuName: '角色管理'
 						},
 						{
-							index: 'management_fun',
-							title: '功能管理'
+							menuUrl: 'management_fun',
+							menuName: '功能管理'
 						}
 					]
 				},
 				{
-					icon: 'icon-khgx',
-					index: '3',
-					title: '人事事务',
+					menuImg: 'icon-khgx',
+					menuUrl: '3',
+					menuName: '人事事务',
 					subs: [
 						{
-							index: 'personnel_contract',
-							title: '人事合同'
+							menuUrl: 'personnel_contract',
+							menuName: '人事合同'
 						},
 						{
-							index: 'personnel_transfer',
-							title: '人事调动'
+							menuUrl: 'personnel_transfer',
+							menuName: '人事调动'
 						},
                         {
-                            index: 'personnel_archives',
-                            title: '人事档案'
+                            menuUrl: 'personnel_archives',
+                            menuName: '人事档案'
                         }
 					]
 				},
 				{
-					icon: 'icon-csgl',
-					index: '4',
-					title: '参数管理',
+					menuImg: 'icon-csgl',
+					menuUrl: '4',
+					menuName: '参数管理',
 					subs: [
 						{
-							index: 'argument_1',
-							title: '系统参数'
+							menuUrl: 'argument_1',
+							menuName: '系统参数'
 						},
 						{
-							index: 'argument_2',
-							title: '业务参数'
+							menuUrl: 'argument_2',
+							menuName: '业务参数'
 						},
 					]
 				},	
 				{
-					icon: 'icon-xmgl',
-					index: '5',
-					title: '薪酬福利',
+					menuImg: 'icon-xmgl',
+					menuUrl: '5',
+					menuName: '薪酬福利',
 					subs: [
 						{
-							index: 'payBaseInfo_setting',
-							title: '薪酬基数设置'
+							menuUrl: 'payBaseInfo_setting',
+							menuName: '薪酬基数设置'
 						},
 						{
-							index: 'payChange_manage',
-							title: '调薪管理'
+							menuUrl: 'payChange_manage',
+							menuName: '调薪管理'
 						}
 					]
 				},
 				{
-					icon: 'icon-ywgl',
-					index: '6',
-					title: '考勤管理',
+					menuImg: 'icon-ywgl',
+					menuUrl: '6',
+					menuName: '考勤管理',
 					subs: [
 						{
-							index: 'attendance_record',
-							title: '考勤记录管理'
+							menuUrl: 'attendance_record',
+							menuName: '考勤记录管理'
 						},
 						{
-							index: 'travel_management',
-							title: '出差管理'
+							menuUrl: 'travel_management',
+							menuName: '出差管理'
 						},
 						{
-							index: 'leave_management',
-							title: '请假管理'
+							menuUrl: 'leave_management',
+							menuName: '请假管理'
 						},
 						{
-							index: 'overtime_management',
-							title: '加班管理'
+							menuUrl: 'overtime_management',
+							menuName: '加班管理'
 						}
 					]
 				},
 				{
-					icon: 'icon-tjbb',
-					index: '7',
-					title: '资产管理',
+					menuImg: 'icon-tjbb',
+					menuUrl: '7',
+					menuName: '资产管理',
 					subs: [
 						{
-							index: 'assetReq_manage',
-							title: '资产登记管理'
+							menuUrl: 'assetReq_manage',
+							menuName: '资产登记管理'
 						}
 					]
 				},
 				{
-					icon: 'icon-khgx',
-					index: 'client',
-					title: '客户关系'
+					menuImg: 'icon-khgx',
+					menuUrl: 'client',
+					menuName: '客户关系'
 				},
 				
 			]
 
 		};
 	},
+	created() {
+		
+		this.queryList();
+	},
 	methods: {
 		handleSelect(key, keyPath) {
-			//subMenu index
+			//subMenu menuUrl
 			if (keyPath[1]) {
 				this.subMenuOldIndex = keyPath[0];
 			}
@@ -174,6 +179,17 @@ export default {
 		},
 		collapse() {
 			console.log('collapse');
+		},
+		queryList() {
+			let self = this;
+			self.$axios.get(baseURL+'/menu/queryMenuInfo')
+			.then(function(res) {
+				console.log('List',res);
+//				self.items = res.data.data;
+				console.log('self.items',self.items);
+			}).catch(function(err) {
+				console.log('error');
+			})
 		}
 	},
 	computed: {

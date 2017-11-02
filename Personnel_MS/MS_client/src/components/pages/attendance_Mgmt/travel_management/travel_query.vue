@@ -10,13 +10,13 @@
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="80px" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-form-item label="公司" prop="compName">
-							<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+							<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeComp">
+								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="部门" prop="departName">
-							<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
-								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
+							<el-select v-model="ruleForm2.derpNo" value-key="derpNo" placeholder="所属部门" @change="changeValue">
+								<el-option v-for="item in departList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="工号" prop="userNo">
@@ -54,12 +54,12 @@
 						<el-table-column prop="organName" label="公司名称"></el-table-column>
 						<el-table-column prop="departName" label="部门名称"></el-table-column>
 						<el-table-column prop="userNo" label="工号"></el-table-column>
-						<el-table-column prop="userName" label="姓名"></el-table-column>
+						<el-table-column prop="custName" label="姓名"></el-table-column>
 						<el-table-column prop="travelType" label="出差类型" :formatter="travelTypeFormatter"></el-table-column>
 						<el-table-column prop="travelStartTime" label="出差开始时间"></el-table-column>
 						<el-table-column prop="travelEndTime" label="出差结束时间"></el-table-column>
-						<el-table-column prop="luruBy" label="录入人"></el-table-column>
-						<el-table-column prop="lurunTime" label="录入时间"></el-table-column>
+						<el-table-column prop="createdBy" label="录入人"></el-table-column>
+						<el-table-column prop="createdDate" label="录入时间"></el-table-column>
 						<el-table-column label="操作" width="150">
 							<template scope="scope">
 								<i class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></i>
@@ -92,7 +92,7 @@ export default {
 			queryFormFlag: false,
 			ruleForm2: {
 				organNo: '',
-				departOrgNo: '',
+				derpNo: '',
 				userNo: "",
 				startDate: "",
 				endDate: ''
@@ -103,12 +103,12 @@ export default {
 					organName: "shanghaifen",
 					departName: "shanghaifen",
 					userNo: "001", 
-					userName: "小名",
+					custName: "小名",
 					travelType: "01",
 					travelStartTime: "2017-10-10",
 					travelEndTime: "2017-10-19",
-					luruBy: "",
-					lurunTime: ""
+					createdBy: "",
+					createdDate: ""
 				}
 			],
 			comp: {
@@ -121,15 +121,15 @@ export default {
 			},
 			//部门列表
 			departList: [
-				{departName: "上海魔方分公司",departOrgNo: '01'},
-				{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-				{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
+				{organName: "上海魔方分公司",organNo: '01'},
+				{organName: "魔方分公司深圳分公司",organNo: 'p1'},
+				{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
 			],
 			//公司列表
 			compList: [
-				{compName: "上海魔方分公司",compOrgNo: '01'},
-				{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-				{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
+				{name: "上海魔方分公司",id: '01'},
+				{name: "魔方分公司深圳分公司",id: 'p1'},
+				{name: "深圳前海橙色魔方信息技术有限公司",id: '0'}
 			],
 			rules: {
 				compName: [],
@@ -146,12 +146,31 @@ export default {
 		let pageSize = this.pageSize;
 		let params = {
 			"pageNum": pageNum,
-			"pageSize": pageSize
+			"pageSize": pageSize,
+			
 		}
 		//出差列表查询
-//		this.queryTravelList(pageNum,pageSize,params);
+		this.queryTravelList(pageNum,pageSize,params);
+		//公司列表查询
+		this.queryCompList(params);
 	},
 	methods: {
+		//时间戳=》yyyy-mm-dd
+		add0(m){return m<10?'0'+m:m },
+		getLocalTime(shijianchuo) {     
+	       	var time = new Date(shijianchuo);
+			var y = time.getFullYear();
+			var m = time.getMonth()+1;
+			var d = time.getDate();
+			var h = time.getHours();
+			var mm = time.getMinutes();
+			var s = time.getSeconds();
+			return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);      
+	    },  
+		travelTimeFormatter(row, column) {
+//			let time = row.createdDate;
+//			return time?this.getLocalTime(time):null;
+		},
 		travelTypeFormatter(row, column) {
 	    	let travelType = '';
 	    	switch(row.travelType){
@@ -171,15 +190,27 @@ export default {
 			}
 	    	return travelType;
 		},
+		getLocalTime(nS) {     
+			
+	    }, 
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;
 		},
 		changeEndTime(val) {
 			this.ruleForm2.endDate = val;
 		},
+		changeComp(val) {
+			console.log(val);
+			const self = this;
+			let params = {
+				organNo: val
+			}
+			//部门列表查询
+			self.queryDerpList(params);
+		},
 		changeValue(value) {
-		 		const self = this;
-	            console.log('value',value);
+	 		const self = this;
+            console.log('value',value);
 	    },
 	    handleAdd() {
 	    	this.$router.push('/add_travel');
@@ -211,9 +242,9 @@ export default {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
-           }).then(() => {
+           	}).then(() => {
             	let params = {
-					userNo: row.userNo
+					applyNo: row.applyNo
 				}
             	//删除
 				self.deleteTravel(params);
@@ -237,7 +268,8 @@ export default {
 						"pageNum": pageNum,
 						"pageSize": pageSize,
 						organNo: self.ruleForm2.organNo,
-						userNo: self.ruleForm2.userNo,
+						derpNo: self.ruleForm2.derpNo,
+						travelUserNo: self.ruleForm2.userNo,
 //						applyNo: self.ruleForm2.applyNo,
 						travelStartTime: self.ruleForm2.travelStartTime,
 						travelEndTime: self.ruleForm2.travelEndTime
@@ -283,10 +315,30 @@ export default {
 			let self = this;
 			self.$axios.get(baseURL+'/travel/queryTravelList', {params: params})
 			.then(function(res) {
-				console.log('queryTravelList',res);
-				self.transferDataList = res.data.data.models;
+				console.log('TravelList',res);
+				self.transferDataList = res.data.data.list;
 				self.pageNum = pageNum;
 				self.totalRows = Number(res.data.data.total);
+			}).catch(function(err) {
+				console.log(err);
+			})
+		},
+		queryCompList(params) {
+			let self = this;
+			self.$axios.get(baseURL+'/organ/queryAllCompany')
+			.then(function(res) {
+				console.log('CompList',res);
+				self.compList = res.data.data;
+			}).catch(function(err) {
+				console.log(err);
+			})
+		},
+		queryDerpList(params) {
+			let self = this;
+			self.$axios.get(baseURL+'/organ/queryChildrenDep', {params: params})
+			.then(function(res) {
+				console.log('DerpList',res);
+				self.departList = res.data.data;
 			}).catch(function(err) {
 				console.log(err);
 			})

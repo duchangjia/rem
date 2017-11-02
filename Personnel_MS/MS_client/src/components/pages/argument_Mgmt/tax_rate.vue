@@ -17,7 +17,7 @@
 					<el-table-column prop="startTime" label="生效日期"></el-table-column>
 					<el-table-column prop="endTime" label="失效日期"></el-table-column>
 					<el-table-column prop="createId" label="创建ID"></el-table-column>
-					<el-table-column prop="createdDate" label="创建时间"></el-table-column>
+					<el-table-column prop="createdDate" label="创建时间" :formatter="travelTimeFormatter"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
 							<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
@@ -75,6 +75,21 @@ export default {
 		self.selectTaxRateGroup(pageNum, pageSize, params);
 	},
 	methods: {
+		add0(m){return m<10?'0'+m:m },
+		getLocalTime(shijianchuo) {     
+	       	var time = new Date(shijianchuo);
+			var y = time.getFullYear();
+			var m = time.getMonth()+1;
+			var d = time.getDate();
+			var h = time.getHours();
+			var mm = time.getMinutes();
+			var s = time.getSeconds();
+			return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);      
+	    },  
+		travelTimeFormatter(row, column) {
+			let time = row.createdDate;
+			return time?this.getLocalTime(time):null;
+		},
 		addRateGroup() {
 			this.$router.push('/add_rateGroup');
 		},
@@ -95,7 +110,7 @@ export default {
             }).then(() => {
             	const self = this;
             	let params = {
-            		groupName: row.groupName
+            		groupId: row.groupId
             	};
             	self.deleteTaxRateGroup(params);
             }).catch(() => {

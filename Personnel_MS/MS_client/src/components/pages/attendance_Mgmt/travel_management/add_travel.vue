@@ -181,14 +181,14 @@
 						console.log('valid');
 						let params = {
 //							applyNo: self.formdata2.applyNo, //出差编号
-	   						organNo: self.formdata2.organNo,//公司编号
-	    					deptNo: self.formdata2.deptNo,//部门编号
-						    companyName: self.formdata2.companyName,//公司名称
-						    deptName: self.formdata2.deptName,//部门名称
+//	   						organNo: self.formdata2.organNo,//公司编号
+//	    					deptNo: self.formdata2.deptNo,//部门编号
+//						    companyName: self.formdata2.companyName,//公司名称
+//						    deptName: self.formdata2.deptName,//部门名称
 						    userNo: self.formdata1.userNo,//工号
-						    custName: self.formdata1.custName,//姓名
-						    custPost: self.formdata1.custPost,//岗位
-						    custClass: self.formdata1.custClass,//职级
+//						    custName: self.formdata1.custName,//姓名
+//						    custPost: self.formdata1.custPost,//岗位
+//						    custClass: self.formdata1.custClass,//职级
 						    travelType: self.formdata2.travelType,//出差类型
 						    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
 						    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
