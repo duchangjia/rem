@@ -1,6 +1,6 @@
 <template>
     <div class="edit-wrapper">
-        <current yiji="系统管理" erji="组织架构" sanji="编辑部门" class="test" ></current>
+        <current yiji="系统管理" erji="组织架构" sanji="编辑部门"></current>
         <div class="edit-content">
             <div class="title">
                 <span class="text">编辑部门</span>

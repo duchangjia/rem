@@ -23,8 +23,18 @@
                     <table>
                         <tr><td v-for="th in table.th">{{th}}</td></tr>
                         <tr v-for="tds in table.td">
-
-                            <td><i class="el-icon-edit" @click="link"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <td @click="link(tds.applyNo)">{{tds.applyNo}}</td>
+                            <td>{{tds.assetNo}}</td>
+                            <td>{{tds.assetType}}</td>
+                            <td>{{tds.assetName}}</td>
+                            <td>{{tds.applyNum}}</td>
+                            <td>{{tds.applyType}}</td>
+                            <td>{{tds.organNo}}</td>
+                            <td>{{tds.derpNo}}</td>
+                            <td>{{tds.applyUserNo}}</td>
+                            <td>{{tds.custName}}</td>
+                            <td>{{tds.applyTime | formatDate}}</td>
+                            <td><i class="el-icon-edit" @click="edit(tds.applyNo)"></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <i class="el-icon-delete2" @click="del"></i></td>
                         </tr>
                     </table>
@@ -44,13 +54,19 @@
 
 <script type='text/ecmascript-6'>
     import current from "../../../common/current_position.vue"
+    import moment from 'moment'
     export default {
         data() {
             return {
                 value: '',
+                test: '',
                 table: {
                     th: ['使用编号', '资产编号', '资产类型', '资产名称', '数量', '使用类型', '公司名称', '申请部门', '工号', '姓名', '发生时间', '操作'],
-                    td: []
+                    td: [
+                        {
+                            num:  1111
+                        }
+                    ]
                 },
                 fenye: {
                     pageNum: 1,
@@ -58,6 +74,17 @@
                     total: 100,
                 },
             }
+        },
+        created() {
+          let self = this
+          self.$axios.get('/iem_hrm/assetUse/queryAssUseList')
+              .then(res=>{
+                  self.table.td = res.data.data.list
+                  console.log(res)
+              })
+              .catch(e=>{
+                  console.log(e)
+              })
         },
         methods: {
             handleSizeChange() {
@@ -69,8 +96,11 @@
             search() {
 
             },
-            link() {
-
+            link(applyNo) {
+                this.$router.push({name:'detail_assetUse', query:{applyNo}})
+            },
+            edit(applyNo) {
+                this.$router.push({name:'edit_assetUse', query:{applyNo}})
             },
             del() {
 
@@ -78,6 +108,14 @@
             add() {
               this.$router.push('add_assetUse')
             },
+        },
+        filters: {
+            formatDate1(time) {
+                return moment(time).format('YYYY-MM-DD')
+            },
+            formatDate(time) {
+                return moment(time).format('YYYY-MM-DD hh:mm:ss')
+            }
         },
         components: {
             current,
@@ -131,6 +169,8 @@
                     overflow hidden
                     text-align center
                     .text
+                        color #999
+                        font-size 14px
                         margin-right 10px
                     .el-input, .el-select
                         width 200px
@@ -154,7 +194,7 @@
                     margin-top: 40px;
                     margin-bottom: 40px;
                     font-family: PingFangSC-Regular;
-                    font-size: 14px;
+                    font-size: 12px;
                     color: #333;
                     letter-spacing: 0;
                     flex-wrap: wrap;
@@ -166,26 +206,32 @@
                         width: 100%;
                         height: 40px;
                         display: flex;
+                        box-sizing border-box
                         line-height: 40px;
                     tr:nth-child(odd)
                         background: #F8F8F8;
                     tr:hover
-                        width: 100%;
-                        height: 40px;
-                        display: flex;
-                        line-height: 40px;
                         background: #EEF1F6;
                     tr:first-child
                         background: #F4F4F4;
+                        font-size: 14px;
                         box-shadow: inset 0 1px 0 0 #EEEEEE;
-                        color #666
+                        color #999
                     td
-                        flex: 2
+                        flex: 3
                         text-align: center;
+                    td:nth-child(5)
+                        flex 2
+                    td:nth-child(12)
+                        flex 2
+                    td:nth-child(7)
+                        flex 5
+                    td:nth-child(8)
+                        flex 5
+                    td:nth-child(11)
+                        flex 5
                     td:nth-child(1)
-                        flex:3
-                    td:nth-child(3)
-                        flex 3
+                        flex 4
                 .el-icon-delete2, .el-icon-edit
                     color: #ff9900;
                     cursor pointer

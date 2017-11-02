@@ -1,6 +1,6 @@
 <template>
     <div class="framework-content-wrapper">
-        <current yiji="系统管理" erji="组织架构" class="test"></current>
+        <current yiji="系统管理" erji="组织架构"></current>
         <div class="framework-content">
            <div class="content-left">
                <div class="content-left-title" v-show="companies.name"><img  height="21px" src="../../../../static/img/common/home_logo.png" /><span class="head_quarters" @click="getInfo('0')">{{companies.name}}</span></div>
@@ -477,11 +477,11 @@
    padding-left: 10px;
 }
 .framework-content-wrapper{
-    padding:29px 0 16px 20px ;
+    padding:0px 0 20px 20px ;
 }
 .framework-content-wrapper .framework-content{
-    margin-top: 29px;
     display: flex;
+    clear: both;
 }
 .framework-content .content-left{
     flex: 0 0 350px;

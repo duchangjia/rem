@@ -1,6 +1,6 @@
 <template>
     <div class="add_holiday">
-        <current yiji="参数管理" erji="业务参数" sanji="免签节假日维护" siji="节假日新增" class="test"></current>
+        <current yiji="参数管理" erji="业务参数" sanji="免签节假日维护" siji="节假日新增"></current>
         <el-col :span="24">
             <div class="content-wrapper">
                 <div class="title"><span class="text">节假日新增</span><button class="save" @click="save">保存</button></div>
@@ -165,6 +165,7 @@
                         width 300px
                         height 40px
                         .el-input__inner
+                            width 100%
                             height 100%
                         .el-input__inner:focus
                             border-color: #ff9900;
