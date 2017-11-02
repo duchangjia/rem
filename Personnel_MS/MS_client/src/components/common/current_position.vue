@@ -68,6 +68,9 @@ export default {
             if (this.yiji === '资产管理') {
                 _link.push('/assetReq_manage')
             }
+            if (this.yiji === '员工自助') {
+                _link.push('/query_personalInfo')
+            }
 
             if (this.erji === '用户管理') {
                 _link.push('/management_user')
@@ -110,6 +113,15 @@ export default {
 			}
             if (this.erji === '资产登记管理') {
                 _link.push('/assetReq_manage')
+            }
+            if (this.erji === '个人信息查询') {
+                _link.push('/query_personalInfo')
+            }
+            if (this.erji === '开票信息查询') {
+                _link.push('/query_billingInfo')
+            }
+            if (this.erji === '直线经理管理') {
+                _link.push('/lineManager_Mgmt')
             }
 			
             if (this.sanji === '编辑部门') {
@@ -214,7 +226,9 @@ export default {
             if (this.sanji === '资产信息查询') {
                 _link.push('/query_asset')
             }
-            
+            if (this.sanji === '请假审批') {
+                _link.push('/leave_approval')
+            }
             
             if (this.siji === '人事调动详情') {
                 _link.push('/transfer_info')

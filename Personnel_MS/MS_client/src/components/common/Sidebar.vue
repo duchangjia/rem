@@ -156,8 +156,22 @@ export default {
 				},
 				{
 					menuImg: 'icon-khgx',
-					menuUrl: 'client',
-					menuName: '客户关系'
+					menuUrl: '8',
+					menuName: '员工自助',
+					menuList: [
+						{
+							menuUrl: 'query_personalInfo',
+							menuName: '个人信息查询'
+						},
+						{
+							menuUrl: 'query_billingInfo',
+							menuName: '开票信息查询'
+						},
+						{
+							menuUrl: 'lineManager_Mgmt',
+							menuName: '直线经理管理'
+						}
+					]
 				},
 				
 			]

@@ -133,7 +133,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
-                        <el-form-item label="主要性能说明" prop="remark">
+                        <el-form-item label="主要性能说明" prop="remark" style="width: 82%;display: flex!important;">
                             <el-input type="textarea" v-model="addAssetInfo.remark" placeholder="配置说明"></el-input>
                         </el-form-item>
                     </el-col>
@@ -240,7 +240,7 @@ export default {
           let newAssetInfo = this.addAssetInfo;
           console.log(newAssetInfo);
           this.$axios
-            .post("/iem_hrm/pay/addPayBaseInfo", newAssetInfo)
+            .post("/iem_hrm/EpAssetInf/addEpAssetInf", newAssetInfo)
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000") {

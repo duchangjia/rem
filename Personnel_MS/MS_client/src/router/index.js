@@ -560,6 +560,41 @@ export default new Router({
                             component: resolve => require(['../components/pages/asset_Mgmt/assetUseMgmt/edit_assetUse.vue'], resolve)
                         }
                     ]
+                },
+                {
+                    path: '/query_personalInfo',
+                    component: resolve => require(['../components/pages/stuff_selfHelp/stuffSelfHelp_manage.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/stuff_selfHelp/query_personalInfo.vue'], resolve)
+                        }
+                    ]
+                },
+                {
+                    path: '/query_billingInfo',
+                    component: resolve => require(['../components/pages/stuff_selfHelp/stuffSelfHelp_manage.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/stuff_selfHelp/query_billingInfo.vue'], resolve)
+                        }
+                    ]
+                },
+                {
+                    path: '/lineManager_Mgmt',
+                    component: resolve => require(['../components/pages/stuff_selfHelp/stuffSelfHelp_manage.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/stuff_selfHelp/lineManagerMgmt/leave_approval.vue'], resolve)
+                        },
+                        {
+                            name: 'leave_approval',
+                            path: '/leave_approval',
+                            component: resolve => require(['../components/pages/stuff_selfHelp/lineManagerMgmt/leave_approval.vue'], resolve)
+                        }
+                    ]
                 }
 
             ]
