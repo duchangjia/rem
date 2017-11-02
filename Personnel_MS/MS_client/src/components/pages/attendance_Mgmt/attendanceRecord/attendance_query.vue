@@ -65,7 +65,7 @@
 						<el-table-column prop="luruDate" label="录入时间" width="150"></el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -85,7 +85,7 @@ export default {
 	       	},
 			pageNum: 1,
 			pageSize: 5,
-			totalRows: 2,
+			totalRows: 0,
 			ruleForm2: {
 				compOrgNo: '',
 				departOrgNo: '',

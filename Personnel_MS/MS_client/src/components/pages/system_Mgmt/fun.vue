@@ -35,13 +35,13 @@
 					</div>
 					<div class="button-wrap">
 						<!--<el-form-item>-->
-							<el-button class="resetform" @click="resetForm('formData')">重置</el-button>
-							<el-button type="primary" @click="query('formData')">查询</el-button>
+							<el-button class="resetform" @click="resetForm()">重置</el-button>
+							<el-button type="primary" @click="queryForm()">查询</el-button>
 						<!--</el-form-item>-->
 					</div>
 				</el-form>
 				<div class="info">
-					<el-table :data="userList" border stripe style="width: 100%" @cell-click="handleEdit">
+					<el-table :data="userList" border stripe style="width: 100%">
 						<el-table-column prop="number" label="交易代码"></el-table-column>
 						<el-table-column prop="name" label="交易名称"></el-table-column>
 						<el-table-column prop="company" label="接口名称"></el-table-column>
@@ -50,12 +50,12 @@
 						<el-table-column prop="phone" label="状态"></el-table-column>
 						<el-table-column label="操作">
 							<template scope="scope">
-		                        <i class="icon-edit"></i>
+		                        <i class="icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
 		                    </template>
 						</el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -64,12 +64,14 @@
 
 <script>
 	import current from '../../common/current_position.vue'
+	const baseURL = 'iem_hrm'
 	export default {
 		data() {
 			return {
-				pageIndex: 1,
-				pageRows: 1,
+				pageNum: 1,
+				pageSize: 1,
 				totalRows: 5,
+				queryFormFlag: false,
 				formData: {
 					dealName: '',
 					dealType: '',
@@ -116,33 +118,82 @@
 		components: {
 			current
 		},
+		created() {
+			const self = this;
+			let pageNum = self.pageNum;
+			let pageSize = self.pageSize;
+			let params = {
+				"pageNum": pageNum,
+				"pageSize": pageSize
+			}
+			//查询功能列表
+			self.queryFormFlag = false;
+			self.queryFunList(pageNum,pageSize,params);
+		},
 		methods: {
-			query(formName) {
-				this.$refs[formName].validate((valid) => {
-					if(valid) {
-						console.log(this.formData.dealName);
-					} else {
-						console.log('error submit!!');
-						return false;
-					}
-				});
+			queryForm() {
+				const self = this;
+				self.userList = [];
+				let pageNum = self.pageNum;
+				let pageSize = self.pageSize;
+				let params = {
+					"pageNum": pageNum,
+					"pageSize": pageSize,
+					
+				}
+				//查询功能列表
+				self.queryFormFlag = true;
+				self.queryFunList(pageNum,pageSize,params);
+				
 			},
-//			resetForm(formName) {
-//				this.$refs[formName].resetFields();
-//			}
 			resetForm() {
-				this.$router.push('/edit_fun');
+				this.ormData.dealName = '';
+				this.ormData.dealType = '';
+				this.ormData.status = '';
+				this.ormData.system = '';
 			},
-	     	handleEdit(row, column, cell, event) {
+	     	handleEdit(index, row) {
 	     		console.log(row.number);
-	            this.$router.push('/edit_fun');
-	        },
-			handleSizeChange(val) {
-                console.log(`每页 ${val} 条`);
-           	},
+	            this.$router.push({
+	            	name: 'edit_fun',
+	            	params: {
+	            		number: row.number
+	            	}
+	            });
+	       },
 			handleCurrentChange(val) {
-		        console.log(`当前页: ${val}`);
-	     	}
+		        const self = this;
+				let pageNum = val;
+				let pageSize = self.pageSize;
+				let params = {};
+				if(!self.queryFormFlag) {
+					params = {
+						"pageNum": pageNum,
+						"pageSize": pageSize
+					}
+				} else {
+					params = {
+						"pageNum": pageNum,
+						"pageSize": pageSize,
+						
+					}
+				}
+				//分页查询功能列表
+				self.queryFunList(pageNum,pageSize,params);
+		        
+	     	},
+	     	queryFunList(pageNum,pageSize,params) {
+				const self = this;
+				self.$axios.get(baseURL+'', {params: params})
+				.then(function(res) {
+					console.log('List',res);
+					self.userList = res.data.data.models;
+					self.pageNum = pageNum;
+					self.totalRows = Number(res.data.data.total);
+				}).catch(function(err) {
+					console.log(err);
+				})
+			}
 	}
 
 	}

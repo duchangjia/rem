@@ -51,15 +51,15 @@
 						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
 					      	</template>
 						</el-table-column>
-						<el-table-column prop="organName" label="公司名称"></el-table-column>
-						<el-table-column prop="departName" label="部门名称"></el-table-column>
+						<el-table-column prop="companyName" label="公司名称"></el-table-column>
+						<el-table-column prop="deptName" label="部门名称"></el-table-column>
 						<el-table-column prop="userNo" label="工号"></el-table-column>
 						<el-table-column prop="custName" label="姓名"></el-table-column>
 						<el-table-column prop="travelType" label="出差类型" :formatter="travelTypeFormatter"></el-table-column>
-						<el-table-column prop="travelStartTime" label="出差开始时间"></el-table-column>
-						<el-table-column prop="travelEndTime" label="出差结束时间"></el-table-column>
+						<el-table-column prop="travelStartTime" label="出差开始时间" :formatter="travelStartTimeFormatter"></el-table-column>
+						<el-table-column prop="travelEndTime" label="出差结束时间" :formatter="travelEndTimeFormatter"></el-table-column>
 						<el-table-column prop="createdBy" label="录入人"></el-table-column>
-						<el-table-column prop="createdDate" label="录入时间"></el-table-column>
+						<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
 						<el-table-column label="操作" width="150">
 							<template scope="scope">
 								<i class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></i>
@@ -68,7 +68,7 @@
 						</el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -77,6 +77,7 @@
 
 <script type='text/ecmascript-6'>
 import current from '../../../common/current_position.vue'
+import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
@@ -88,7 +89,7 @@ export default {
 	       	},
 			pageNum: 1,
 			pageSize: 5,
-			totalRows: 2,
+			totalRows: 0,
 			queryFormFlag: false,
 			ruleForm2: {
 				organNo: '',
@@ -100,8 +101,8 @@ export default {
 			transferDataList: [
 				{
 					applyNo: "00100",
-					organName: "shanghaifen",
-					departName: "shanghaifen",
+					companyName: "shanghaifen",
+					deptName: "shanghaifen",
 					userNo: "001", 
 					custName: "小名",
 					travelType: "01",
@@ -155,21 +156,17 @@ export default {
 		this.queryCompList(params);
 	},
 	methods: {
-		//时间戳=》yyyy-mm-dd
-		add0(m){return m<10?'0'+m:m },
-		getLocalTime(shijianchuo) {     
-	       	var time = new Date(shijianchuo);
-			var y = time.getFullYear();
-			var m = time.getMonth()+1;
-			var d = time.getDate();
-			var h = time.getHours();
-			var mm = time.getMinutes();
-			var s = time.getSeconds();
-			return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);      
-	    },  
-		travelTimeFormatter(row, column) {
-//			let time = row.createdDate;
-//			return time?this.getLocalTime(time):null;
+		travelStartTimeFormatter(row, column) {
+			let time = row.travelStartTime;
+			return moment(time).format('YYYY-MM-DD');
+		},
+		travelEndTimeFormatter(row, column) {
+			let time = row.travelEndTime;
+			return moment(time).format('YYYY-MM-DD');
+		},
+		createdDateFormatter(row, column) {
+			let time = row.createdDate;
+			return moment(time).format('YYYY-MM-DD hh:mm:ss');
 		},
 		travelTypeFormatter(row, column) {
 	    	let travelType = '';
@@ -345,7 +342,7 @@ export default {
 		},
 		deleteTravel(params) {
 			let self = this;
-			self.$axios.delete(baseURL+'/travel/deleteTravel', params)
+			self.$axios.get(baseURL+'/travel/deleteTravel', {params:params})
 			.then(function(res) {
 				console.log('deleteTravel',res);
 				

@@ -50,7 +50,7 @@
 						<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :page-size="pageRows" layout="prev, pager, next, jumper" :total="pageSize" v-show="pageSize>pageRows">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -64,8 +64,8 @@ export default {
 	data() {
 		return {
 			pageNum: 1,
-			pageRows: 5,
-			pageSize: 1,
+			pageSize: 5,
+			totalRows: 1,
 			queryFormFlag: false,
 			ruleForm2: {
 				organNo: '',
@@ -108,7 +108,7 @@ export default {
 	created() {
 		const self = this;
 		let pageNum = self.pageNum;
-		let pageSize = self.pageRows;
+		let pageSize = self.pageSize;
 		let params = {
 			"pageNum": pageNum,
 			"pageSize": pageSize
@@ -140,7 +140,7 @@ export default {
 					let user = self.ruleForm2.user;
 					self.operatorList = [];
 					let pageNum = self.pageNum;
-					let pageSize = self.pageRows;
+					let pageSize = self.pageSize;
 					let params = {
 						"pageNum": pageNum,
 						"pageSize": pageSize,
@@ -170,14 +170,15 @@ export default {
        },
 		//重置
 		resetForm() {
-			this.ruleForm2.company = '';
-			this.ruleForm2.department = '';
+			this.ruleForm2.organNo = '';
+//			this.ruleForm2.department = '';
+			this.ruleForm2.status = '';
 			this.ruleForm2.user = '';
 		},
 		handleCurrentChange(val) {
 			const self = this;
 			let pageNum = val;
-			let pageSize = self.pageRows;
+			let pageSize = self.pageSize;
 			let params = {};
 			if(!self.queryFormFlag) {
 				params = {
@@ -203,7 +204,7 @@ export default {
 				console.log('UserList',res);
 				self.operatorList = res.data.data.models;
 				self.pageNum = pageNum;
-				self.pageSize = Number(res.data.data.total);
+				self.totalRows = Number(res.data.data.total);
 			}).catch(function(err) {
 				console.log(err);
 			})
