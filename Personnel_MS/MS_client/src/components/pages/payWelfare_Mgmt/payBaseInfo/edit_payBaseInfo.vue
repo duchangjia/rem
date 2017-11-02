@@ -342,8 +342,10 @@ export default {
             .put("/iem_hrm/pay/updatePayBaseInfo", editPayBaseInfo)
             .then(res => {
               console.log(res);
-              if (res.data.code == "S00000")
-                this.$router.push("/payBaseInfo_setting");
+              if (res.data.code == "S00000") {
+                  this.$message({ type: "success", message: "薪酬基数修改成功!" });
+                  this.$router.push("/payBaseInfo_setting");
+              }
               else this.$message.error("薪酬基数修改失败！");
             })
             .catch(() => {

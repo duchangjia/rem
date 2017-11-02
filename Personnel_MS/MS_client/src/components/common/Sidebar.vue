@@ -147,7 +147,11 @@ export default {
 						{
 							menuUrl: 'assetReq_manage',
 							menuName: '资产登记管理'
-						}
+						},
+                        {
+                            menuUrl: 'assetUse_manage',
+                            menuName: '资产使用管理'
+                        }
 					]
 				},
 				{

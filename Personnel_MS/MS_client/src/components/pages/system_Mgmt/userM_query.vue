@@ -97,7 +97,7 @@ export default {
 				company: [],
 				department: [],
 				user: [
-					{ required: true, message: '工号/姓名/手机/邮箱四者必输其一', trigger: 'blur' },
+//					{ required: true, message: '工号/姓名/手机/邮箱四者必输其一', trigger: 'blur' },
 				]
 			}
 		};

@@ -46,10 +46,24 @@ export default {};
   margin-top: 20px;
   border-radius: 0;
   height: 40px;
-  /* line-height: 40px; */
   width: 120px;
   background: #ff9900;
   border: none;
+}
+
+.content-wrapper .button-wrap {
+  margin: 20px auto 40px;
+  font-size: 0px;
+  text-align: center;
+}
+
+.content-wrapper .resetBtn {
+  color: #ff9900;
+  border-radius: 0;
+  height: 40px;
+  width: 120px;
+  margin-right: 20px;
+  border: 1px solid #ff9900;
 }
 
 .content-wrapper .queryBtn {
@@ -92,6 +106,10 @@ export default {};
 label {
   font-weight: 400;
   margin-bottom: 0;
+}
+
+.el-form-item {
+  margin-bottom: 20px;
 }
 
 .el-form-item__label {
@@ -160,6 +178,14 @@ table .el-button--danger:active {
 
 .add-wrapper .el-form-item__label {
   margin-right: 14px;
+}
+
+.querybar .el-form-item__label {
+  width: 100px;
+  padding: 13px 24px 13px 0;
+}
+.querybar .el-input__inner {
+  width: 200px;
 }
 
 .add-wrapper .upload-demo {

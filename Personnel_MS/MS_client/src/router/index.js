@@ -534,6 +534,31 @@ export default new Router({
                             component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/edit_asset.vue'], resolve)
                         }
                     ]
+                },
+                {
+                    path: '/assetUse_manage',
+                    component: resolve => require(['../components/pages/asset_Mgmt/assetUseMgmt/assetUse_manage.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/asset_Mgmt/assetUseMgmt/query_assetUse.vue'], resolve)
+                        },
+                        {
+                            name: 'detail_assetUse',
+                            path: '/detail_assetUse',
+                            component: resolve => require(['../components/pages/asset_Mgmt/assetUseMgmt/detail_assetUse.vue'], resolve)
+                        },
+                        {
+                            name: 'add_assetUse',
+                            path: '/add_assetUse',
+                            component: resolve => require(['../components/pages/asset_Mgmt/assetUseMgmt/add_assetUse.vue'], resolve)
+                        },
+                        {
+                            name: 'edit_assetUse',
+                            path: '/edit_assetUse',
+                            component: resolve => require(['../components/pages/asset_Mgmt/assetUseMgmt/edit_assetUse.vue'], resolve)
+                        }
+                    ]
                 }
 
             ]

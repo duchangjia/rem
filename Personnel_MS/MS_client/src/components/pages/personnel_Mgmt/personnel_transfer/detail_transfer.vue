@@ -71,6 +71,7 @@
 
 <script type='text/ecmascript-6'>
 import current from '../../../common/current_position.vue';
+import moment from 'moment'
 const baseURL = 'iem_hrm';
 export default {
 	data() {
@@ -167,7 +168,8 @@ export default {
 	    },  
 		travelTimeFormatter(row, column) {
 			let time = row.shiftCameTime;
-			return time?this.getLocalTime(time):null;
+//			return time?this.getLocalTime(time):null;
+			return moment(time).format('YYYY-MM-DD hh:mm:ss');
 		},
 		changeStartTime(val) {
 			this.ruleForm2.startTime = val;
