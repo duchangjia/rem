@@ -133,13 +133,13 @@
 				departList: [
 					{departName: "上海魔方分公司",departOrgNo: '01'},
 					{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-					{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
+					{departName: "魔方分公司",departOrgNo: 'p0'}
 				],
 				//公司列表
 				compList: [
 					{compName: "上海魔方分公司",compOrgNo: '01'},
 					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
+					{compName: "魔方分公司",compOrgNo: 'p0'}
 				],
 				rules: {
 					userName: [
@@ -161,11 +161,9 @@
 		},
 		created(){
 			const self = this;
-			let user = sessionStorage.getItem('user');
-			console.log('user',user);
+			let user = self.$route.params.user;
 			self.$axios.get(baseURL+'/user/queryUserDetail/'+user)
 				.then(function(res){
-					console.log('UserDetail',res);
 					self.userDetail = res.data.data;
 					self.oldStatus = self.userDetail.status;
 					self.comp = {
@@ -193,7 +191,6 @@
 		methods: {
 		 	changeValue(value) {
 		 		const self = this;
-	            console.log('value',value);
 				self.userDetail.compName = self.comp.compName;
 				self.userDetail.compOrgNo = self.comp.compOrgNo;
 				self.userDetail.departName = self.depart.departName;
@@ -209,8 +206,11 @@
 		          	cancelButtonText: '取消',
 		          	type: 'warning'
 		      	}).then(() => {
+		          	let params = {
+		          		userNo: self.userDetail.userNo
+		          	};
 		      		//重置密码
-		          	self.resetPassword(params);
+//		          	self.resetPassword(params);
 		        }).catch(() => {
 		          	self.$message({
 		            	type: 'info',
@@ -242,6 +242,7 @@
 						if(detailChange===true){//判断是否有修改信息
 							//修改用户
 							self.updateUserInfo(params);
+//							self.$router.go(-1);
 						}else{
 							self.$alert('你还未修改信息', '提示', {
 					          	confirmButtonText: '确定'
@@ -257,7 +258,6 @@
 				const self = this;
 				self.$axios.put(baseURL+'/user/updateUserInfo',params)
 				.then(function(res){
-					console.log('updateUserInfo',res);
 					if(res.data.code=="S00000"){
 						self.$alert('信息修改成功', '提示', {
 				          	confirmButtonText: '确定'
@@ -272,7 +272,7 @@
 			},
 			resetPassword(params) {
 				const self = this;
-				self.$axios.put(baseURL+'/resetPassword',{userNo: self.userDetail.userNo})
+				self.$axios.put(baseURL+'/resetPassword', params)
 	          	.then(function(res){
 	          		console.log('resetPassword',res);
 	          			self.$message({

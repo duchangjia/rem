@@ -351,6 +351,7 @@ export default {
 	line-height: 1;
 	padding: 11px 12px 11px 0;
 	box-sizing: border-box;
+	/*margin-right: 18px;*/
 }
 
 .workot_query .input-wrap .el-form-item {

@@ -276,7 +276,7 @@ export default {
 }
 
 .transfer_wrap .el-form-item__label {
-	text-align: left;
+	/*text-align: left;*/
 	vertical-align: middle;
 	float: left;
 	font-size: 14px;
@@ -284,6 +284,7 @@ export default {
 	line-height: 1;
 	padding: 11px 12px 11px 0;
 	box-sizing: border-box;
+	/*margin-right: 18px;*/
 }
 
 .transfer_wrap .input-wrap .el-form-item {

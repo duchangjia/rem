@@ -6,35 +6,42 @@
 				<span class="title-text">功能管理</span>
 			</div>
 			<div class="content-inner">
-				<el-form :model="formData" ref="formData" label-width="68px" class="demo-ruleForm">
+				<el-form :model="formData" ref="formData" label-width="100px" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-form-item label="系统编号" prop="sysNo">
-							<el-select v-model="formData.sysNo" class="bg-white">
-								<el-option v-for="item in menuQueryConditions" :label="item.sysNo" :value="item.sysNo"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="功能编号" prop="bsnNo">
-							<el-input type="text" v-model="formData.bsnNo"></el-input>
-							<!--<el-select v-model="formData.bsnNo" class="bg-white">
-								<el-option v-for="item in funcQueryConditions" :label="item.sysNo" :value="item.bsnNo"></el-option>
-							</el-select>-->
-						</el-form-item>
-						<el-form-item label="功能名称" prop="methodName">
-							<el-input type="text" v-model="formData.methodName"></el-input>
-						</el-form-item>
-						<el-form-item label="状态" prop="status">
-							<el-select v-model="formData.status" class="bg-white">
-								<el-option label="停用" value="0"></el-option>
-								<el-option label="正常" value="1"></el-option>
-								<el-option label="锁定" value="2"></el-option>
-							</el-select>
-						</el-form-item>
+						<el-col :span="8">
+							<el-form-item label="系统编号" prop="sysNo">
+								<el-select v-model="formData.sysNo" class="bg-white">
+									<el-option v-for="item in sysList" :key="item.paraValue" :value="item.paraValue"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="功能编号" prop="bsnNo">
+								<el-input type="text" v-model="formData.bsnNo"></el-input>
+								<!--<el-select v-model="formData.bsnNo" class="bg-white">
+									<el-option v-for="item in funcQueryConditions" :label="item.sysNo" :value="item.bsnNo"></el-option>
+								</el-select>-->
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="功能名称" prop="methodName">
+								<el-input type="text" v-model="formData.methodName"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">	
+							<el-form-item label="状态" prop="status">
+								<el-select v-model="formData.status" class="bg-white">
+									<el-option label="停用" value="0"></el-option>
+									<el-option label="正常" value="1"></el-option>
+									<el-option label="锁定" value="2"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>	
+							
 					</div>
 					<div class="button-wrap">
-						<!--<el-form-item>-->
-							<el-button class="resetform" @click="resetForm()">重置</el-button>
-							<el-button type="primary" @click="queryForm()">查询</el-button>
-						<!--</el-form-item>-->
+						<el-button class="resetform" @click="resetForm()">重置</el-button>
+						<el-button type="primary" @click="queryForm()">查询</el-button>
 					</div>
 				</el-form>
 				<div class="info">
@@ -85,9 +92,10 @@
 					status: '正常'
 				}],
 				funcQueryConditions: [],
-				menuQueryConditions: [
-					{sysNo: "1"},
-					{sysNo: "2"}
+				sysList: [
+					{paraValue: "1"},
+					{paraValue: "2"},
+					{paraValue: "3"},
 				]
 				
 			};
@@ -126,34 +134,27 @@
 					methodName: self.formData.methodName,
 					status: self.formData.status
 				}
-				console.log('params',params)
 				//查询功能列表
 				self.queryFormFlag = true;
 				self.queryFunList(pageNum,pageSize,params);
 				
 			},
 			resetForm() {
-				this.formData.methodName = '';
-				this.formData.bsnNo = '';
-				this.formData.status = '';
 				this.formData.sysNo = '';
+				this.formData.bsnNo = '';
+				this.formData.methodName = '';
+				this.formData.status = '';
 			},
 	     	handleEdit(index, row) {
-	     		console.log(row.sysNo);
 	            this.$router.push({
 	            	name: 'edit_fun',
 	            	params: {
-	            		sysNo: row.sysNo,
-						bsnNo: row.bsnNo,
-						methodName: row.methodName,
-						bsnUrl: row.bsnUrl,
-						interfaceName: row.interfaceName,
-						status: row.status,
-						remark: row.remark,
-						createdDate: row.createdDate,
-						createdBy: row.createdBy,
-						updatedBy: row.updatedBy,
-						updatedDate: row.updatedDate
+//						bsnUrl: row.bsnUrl,
+//						interfaceName: row.interfaceName,
+//						methodName: row.methodName,
+//						status: row.status,
+//						remark: row.remark,
+						bsnNo: row.bsnNo
 	            	}
 	            });
 	       },
@@ -185,7 +186,6 @@
 				const self = this;
 				self.$axios.get(baseURL+'/function/queryFuncList', {params: params})
 				.then(function(res) {
-					console.log('FuncList',res);
 					self.userList = res.data.data.list;
 					self.pageNum = pageNum;
 					self.totalRows = Number(res.data.data.total);
@@ -195,10 +195,9 @@
 			},
 			queryConditions() {
 				const self = this;
-				self.$axios.get(baseURL+'/function/getQueryConditions')
+				self.$axios.get(baseURL+'/function/selectSysPara')
 				.then(function(res) {
-					console.log('Conditions',res);
-//					self.menuQueryConditions = res.data.data.menuQueryConditions;
+					self.sysList = res.data;
 				}).catch(function(err) {
 					console.log(err);
 				})
@@ -247,15 +246,15 @@
 		float: left;
 		font-size: 14px;
 		color: #999999;
-		line-height: 1;
-		padding: 11px 12px 11px 0;
-		box-sizing: border-box;
+		/*line-height: 1;*/
+		/*padding: 11px 12px 11px 0;*/
+		/*box-sizing: border-box;*/
 	    margin-right: 18px;
 	}
-	.fun .input-wrap .el-form-item {
+	/*.fun .input-wrap .el-form-item {
 		margin-right: 80px;
 		float: left;
-	}
+	}*/
 	.fun .el-form-item {
 		margin-bottom: 20px;
 	}

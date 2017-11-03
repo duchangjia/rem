@@ -14,21 +14,30 @@
 						<el-form-item label="部门" prop="department">
 							<el-input type="text" v-model="ruleForm2.department"></el-input>
 						</el-form-item>-->
-						<el-form-item label="机构" prop="company">
-							<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="用户" prop="user">
-							<el-input type="text" v-model="ruleForm2.user" placeholder="工号/姓名/手机/邮箱"></el-input>
-						</el-form-item>
-						<el-form-item label="状态" prop="status">
-							<el-select v-model="ruleForm2.status" class="bg-white">
-								<el-option label="正常" value="1"></el-option>
-								<el-option label="停用" value="0"></el-option>
-								<el-option label="锁定" value="2"></el-option>
-							</el-select>
-						</el-form-item>
+						<el-col :span="8">
+							<el-form-item label="机构" prop="company">
+								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
+									<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="用户" prop="user">
+								<el-input type="text" v-model="ruleForm2.user" placeholder="工号/姓名/手机/邮箱"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="状态" prop="status">
+								<el-select v-model="ruleForm2.status" class="bg-white">
+									<el-option label="正常" value="1"></el-option>
+									<el-option label="停用" value="0"></el-option>
+									<el-option label="锁定" value="2"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+							
+							
+							
 					</div>
 					<div class="button-wrap">
 							<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
@@ -45,10 +54,11 @@
 						<el-table-column prop="compName" label="所属公司"></el-table-column>
 						<el-table-column prop="departName" label="部门"></el-table-column>
 						<el-table-column prop="userName" label="姓名"></el-table-column>
-						<el-table-column prop="roles.roleName" label="角色">
-							<!--<template scope="scope">-->
-						        <!--<span class="link" v-for="item in roles">{{ item.roleName }}</span>-->
-					      	<!--</template>-->
+						<el-table-column prop="roleName" label="角色">
+							<template scope="scope">
+						        <span class="roleSpan" v-for="item in scope.row.roles">{{ item.roleName }}</span>
+					      		<!--<el-tag size="medium" v-for="item in scope.row.roles">{{ item.roleName }}</el-tag>-->
+							</template>
 						</el-table-column>
 						<el-table-column prop="mobile" label="手机"></el-table-column>
 						<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
@@ -84,7 +94,11 @@ export default {
 					departName: "xinzhen",
 					roleNo: "xinzhen",
 					mobile: "135135135135",
-					status: "xxxx"
+					status: "1",
+					roles: [
+						{roleName: "经理", roleNo: "1"},
+						{roleName: "项目管理员", roleNo: "2"},
+					]
 				}
 			],
 			comp: {
@@ -100,9 +114,7 @@ export default {
 			rules: {
 				company: [],
 				department: [],
-				user: [
-//					{ required: true, message: '工号/姓名/手机/邮箱四者必输其一', trigger: 'blur' },
-				]
+				user: []
 			}
 		};
 	},
@@ -127,7 +139,6 @@ export default {
 	    },
 	    //详情页
 	    handleInfo(index, row) {
-			console.log('row:',row);
 			sessionStorage.setItem('user', row.userNo);
             this.$router.push({
             	name: 'edit_userM',
@@ -164,7 +175,7 @@ export default {
 		},
 		changeValue(value) {
 	 		const self = this;
-            console.log('value',value);
+//          console.log('value',value);
 //				self.userDetail.compName = self.comp.compName;
 //				self.userDetail.compOrgNo = self.comp.compOrgNo;
 //				self.userDetail.departName = self.depart.departName;
@@ -261,7 +272,7 @@ export default {
 }
 
 .user-query .el-form-item__label {
-	text-align: left;
+	/*text-align: left;*/
 	vertical-align: middle;
 	float: left;
 	font-size: 14px;
@@ -269,12 +280,13 @@ export default {
 	line-height: 1;
 	padding: 11px 12px 11px 0;
 	box-sizing: border-box;
+	margin-right: 18px;
 }
 
-.user-query .input-wrap .el-form-item {
+/*.user-query .input-wrap .el-form-item {
 	margin-right: 80px;
 	float: left;
-}
+}*/
 
 .user-query .el-form-item {
 	margin-bottom: 20px;
@@ -353,6 +365,10 @@ export default {
 	cursor: pointer;
     color: #337ab7;
     text-decoration: underline;
+}
+.user-query .roleSpan {
+	display: inline-block;
+	padding: 5px;
 }
 /*.user-query .el-table--enable-row-hover .el-table__body tr:hover>td {
 	background-color: #f8f8f8;

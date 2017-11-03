@@ -91,6 +91,7 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
+	import moment from 'moment'
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
@@ -210,6 +211,7 @@
 				.then(function(res) {
 					console.log('travelInfo',res);
 					self.formdata2 = res.data.data;
+					self.formdata2.updatedDate = moment(self.formdata2.updatedDate).format('YYYY-MM-DD hh:mm:ss');
 				}).catch(function(err) {
 					console.log('error');
 				})

@@ -5,7 +5,6 @@
 			<div class="title">
 				<span class="title-text">功能编辑</span>
 				<div class="btn-wrap">
-					<!--<el-button type="primary" class="reset" @click="passreset()">密码重置</el-button>-->
 					<el-button type="primary" class="conserve" @click="conserve('userMsg')">保存</el-button>
 				</div>
 			</div>
@@ -13,12 +12,12 @@
 				<el-form :inline="true" :model="userMsg" ref="userMsg" label-width="80px">
 					<el-col :span="12">
 						<el-form-item label="系统编号" prop="sysNo">
-							<el-input v-model="userMsg.sysNo"></el-input>
+							<el-input v-model="userMsg.sysNo" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="功能编号" prop="bsnNo">
-							<el-input v-model="userMsg.bsnNo"></el-input>
+							<el-input v-model="userMsg.bsnNo" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
@@ -29,19 +28,11 @@
 					<el-col :span="12">
 						<el-form-item label="接口方法" prop="interfaceName">
 							<el-input v-model="userMsg.interfaceName"></el-input>
-							<!--<el-select v-model="userMsg.interfaceName" placeholder="交易类型">
-								<el-option label="交易类型" value="01"></el-option>
-								<el-option label="交易类型" value="02"></el-option>
-							</el-select>-->
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="服务URL" prop="bsnUrl">
 							<el-input v-model="userMsg.bsnUrl"></el-input>
-							<!--<el-select v-model="userMsg.bsnUrl" class="bg-white">
-								<el-option label="所属系统" value="01"></el-option>
-								<el-option label="所属系统" value="02"></el-option>
-							</el-select>-->
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
@@ -55,22 +46,22 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="创建人" prop="createdBy">
-							<el-input v-model="userMsg.createdBy"></el-input>
+							<el-input v-model="userMsg.createdBy" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="创建时间" prop="createdDate">
-							<el-input v-model="userMsg.createdDate"></el-input>
+							<el-input v-model="userMsg.createdDate" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="更新人" prop="updatedBy">
-							<el-input v-model="userMsg.updatedBy"></el-input>
+							<el-input v-model="userMsg.updatedBy" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="更新时间" prop="updatedDate">
-							<el-input v-model="userMsg.updatedDate"></el-input>
+							<el-input v-model="userMsg.updatedDate" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
@@ -113,9 +104,11 @@
 			current
 		},
 		created() {
-			this.userMsg = this.$route.params;
-			this.userMsg.createdDate = moment(this.userMsg.createdDate).format('YYYY-MM-DD hh:mm:ss');
-			this.userMsg.updatedDate = moment(this.userMsg.updatedDate).format('YYYY-MM-DD hh:mm:ss');
+			let bsnNo = this.$route.params.bsnNo;
+			let params = {
+				bsnNo: bsnNo
+			}
+			this.getUserInfo(params);
 		},
 		methods: {
 			//保存
@@ -128,8 +121,7 @@
 							bsnUrl: this.userMsg.bsnUrl,
 							interfaceName: this.userMsg.interfaceName,
 							status: this.userMsg.status,
-							remark: this.userMsg.remark,
-							updatedBy: this.userMsg.updatedBy
+							remark: this.userMsg.remark
 						}
 						this.updateUserInfo(params);
 					} else {
@@ -140,26 +132,27 @@
 			},
 			getUserInfo(params) {
 				const self = this;
-				self.$axios.put(baseURL+'/user/updateUserInfo',params)
+				self.$axios.get(baseURL+'/function/queryFuncInfo',{params: params})
 				.then(function(res){
-					console.log('updateUserInfo',res);
+					console.log('UserInfo',res);
 					if(res.data.code=="S00000"){
-						self.$alert('信息修改成功', '提示', {
-				          	confirmButtonText: '确定'
-			        	});
+						self.userMsg = res.data.data;
+						self.userMsg.createdDate = moment(self.userMsg.createdDate).format('YYYY-MM-DD hh:mm:ss');
+						self.userMsg.updatedDate = moment(self.userMsg.updatedDate).format('YYYY-MM-DD hh:mm:ss');
 					} else {
-						self.$message.error('信息修改失败');
+						console.log('error');
 					}
 				})
 				.catch(function(err){
-					self.$message.error('信息修改失败');
+					console.log('error');
+					
 				})
 			},
 			updateUserInfo(params) {
 				const self = this;
-				self.$axios.put(baseURL+'/user/updateUserInfo',params)
+				self.$axios.put(baseURL+'/function/modifyFuncInfo',params)
 				.then(function(res){
-					console.log('updateUserInfo',res);
+					console.log('update',res);
 					if(res.data.code=="S00000"){
 						self.$alert('信息修改成功', '提示', {
 				          	confirmButtonText: '确定'
