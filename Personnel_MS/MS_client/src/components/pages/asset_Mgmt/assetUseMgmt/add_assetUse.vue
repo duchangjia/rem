@@ -5,7 +5,7 @@
             <div class="content-wrapper">
                 <div class="title"><span class="text">资产使用新增</span><button class="add" @click="save">保存</button></div>
                 <div class="content">
-                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px">
+                    <el-form :model="info" :rules="rules" ref="info1" label-width="200px">
                         <el-form-item label="公司名称">
                             <el-select placeholder="请选择公司名称" :disabled="true" v-model="applyUserInfo.organName">
                                 <el-option label="区域一" value="shanghai"></el-option>
@@ -16,7 +16,7 @@
                                 <el-option label="区域一" value="shanghai"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="CCC" required>
+                        <el-form-item label="CCC">
                             <el-select placeholder="请选择CCC" :disabled="true" v-model="applyUserInfo.ccc">
                                 <el-option label="区域一" value="shanghai"></el-option>
                             </el-select>
@@ -38,9 +38,9 @@
                         </el-form-item>
                     </el-form>
                     <div class="form_info">资产信息</div>
-                    <el-form label-width="200px">
-                        <el-form-item label="资产编号">
-                            <el-input placeholder="请输入资产编号" @blur="getAssetInfo(info.assetNo)" v-model.number="info.assetNo"></el-input>
+                    <el-form label-width="200px" :model="info" :rules="rules" ref="info2">
+                        <el-form-item label="资产编号" prop="assetNo">
+                            <el-input placeholder="请输入资产编号" @blur="getAssetInfo(info.assetNo)" v-model="info.assetNo"></el-input>
                         </el-form-item>
                         <el-form-item label="购买单价">
                             <el-input :disabled="true" v-model="assetInfo.buyUnitPrice"></el-input>
@@ -82,8 +82,8 @@
                         </el-form-item>
                     </el-form>
                     <div class="form_info">使用信息</div>
-                    <el-form label-width="200px">
-                        <el-form-item label="使用类别">
+                    <el-form label-width="200px" :model="applyInfo" :rules="rules" ref="info3">
+                        <el-form-item label="使用类别" prop="applyType">
                             <el-select placeholder="请选择使用类别" v-model="applyInfo.applyType">
                                 <el-option label="发放领用" value="01"></el-option>
                                 <el-option label="归还" value="02"></el-option>
@@ -93,20 +93,20 @@
                                 <el-option label="盘亏" value="06"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="使用数量">
+                        <el-form-item label="使用数量" prop="applyNum">
                             <el-input v-model="applyInfo.applyNum"></el-input>
                         </el-form-item>
-                        <el-form-item label="发生时间">
+                        <el-form-item label="发生时间" prop="applyTime">
                             <el-input v-model="applyInfo.applyTime"></el-input>
                         </el-form-item>
-                        <el-form-item label="状态">
-                            <el-select placeholder="请选择状态" v-model="applyInfo.status">
+                        <el-form-item label="状态" prop="applyStatus">
+                            <el-select placeholder="请选择状态" v-model="applyInfo.applyStatus">
                                 <el-option label="未核销/未归还" value="01"></el-option>
                                 <el-option label="已核销/已归还" value="02"></el-option>
                                 <el-option label="不需要核销/不需要归还" value="03"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="说明">
+                        <el-form-item label="说明" prop="remark">
                             <el-input type="textarea" v-model="applyInfo.remark"></el-input>
                         </el-form-item>
 
@@ -126,39 +126,28 @@
     export default {
         data() {
             return {
-                ruleForm: {
-                    name: '',
-                    region: '',
-                    date1: '',
-                    date2: '',
-                    delivery: false,
-                    type: [],
-                    resource: '',
-                    desc: ''
-                },
                 rules: {
-                    name: [
-                        { required: true, message: '请输入活动名称', trigger: 'blur' },
-                        { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-                    ],
                     applyUserNo: [
                         { required: true, message: '请输入申请使用人工号', trigger: 'blur' }
                     ],
-                    date1: [
-                        { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+                    assetNo: [
+                        { required: true, message: '请输入资产编号', trigger: 'blur' }
                     ],
-                    date2: [
-                        { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+                    applyType: [
+                        { required: true, message: '请选择使用类别', trigger: 'change' }
                     ],
-                    type: [
-                        { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+                    applyNum: [
+                        { required: true, message: '请输入使用数量', trigger: 'blur' }
                     ],
-                    resource: [
-                        { required: true, message: '请选择活动资源', trigger: 'change' }
+                    applyTime: [
+                        { required: true, message: '请输入发生时间', trigger: 'blur' }
                     ],
-                    desc: [
-                        { required: true, message: '请填写活动形式', trigger: 'blur' }
-                    ]
+                    remark: [
+                        { required: true, message: '请输入说明', trigger: 'blur' }
+                    ],
+                    applyStatus: [
+                        { required: true, message: '请选择状态', trigger: 'change' }
+                    ],
                 },
                 info: {
                     applyUserNo: '',
@@ -172,7 +161,7 @@
                 },
                 applyInfo:{
                     remark: '',
-                    status: '',
+                    applyStatus: '',
                     applyTime: '',
                     applyNum: '',
                     applyType: '',
@@ -182,32 +171,51 @@
         methods: {
             save() {
                 let self = this
-                let data = Object.assign(this.applyInfo, this.info)
-                this.$axios.get('/iem_hrm/assetUse/getOrganNoAndDerpNo/'+this.applyUserInfo.organName+'/'+this.applyUserInfo.derpName)
-                    .then(res=>{
-                        let obj = Object.assign(data, res.data)
-                        this.$axios.post('/iem_hrm/assetUse/addAssetUseINF', obj)
+                let a = self.$refs.info1.validate((valid) => {
+                    if (valid) {
+                        return true
+                    }else {
+                        return false
+                    }
+                })
+                let b = self.$refs.info2.validate((valid) => {
+                    if (valid) {
+                        return true
+                    }else {
+                        return false
+                    }
+                })
+                self.$refs.info3.validate((valid) => {
+                    if (valid&&a&&b) {
+                        let data = Object.assign(this.applyInfo, this.info)
+                        this.$axios.get('/iem_hrm/assetUse/getOrganNoAndDerpNo/'+this.applyUserInfo.organName+'/'+this.applyUserInfo.derpName)
                             .then(res=>{
-                                let result = res.data.retMsg
-                                if("操作成功"===result){
-                                    self.$message({
-                                        message: '修改成功',
-                                        type: 'success'
-                                    });
-                                }else {
-                                    self.$message({
-                                        message: result,
-                                        type: 'error'
-                                    });
-                                }
+                                let obj = Object.assign(data, res.data)
+                                this.$axios.post('/iem_hrm/assetUse/addAssetUseINF', obj)
+                                    .then(res=>{
+                                        let result = res.data.retMsg
+                                        if("操作成功"===result){
+                                            self.$message({
+                                                message: '修改成功',
+                                                type: 'success'
+                                            });
+                                        }else {
+                                            self.$message({
+                                                message: result,
+                                                type: 'error'
+                                            });
+                                        }
+                                    })
+                                    .catch(e=>{
+                                        console.log(e)
+                                    })
                             })
                             .catch(e=>{
                                 console.log(e)
                             })
-                    })
-                    .catch(e=>{
-                        console.log(e)
-                    })
+                    }
+                })
+
             },
             getUserInfo() {
                 console.log(this.info.applyUserNo)
@@ -217,7 +225,19 @@
                         console.log(this.applyUserInfo)
                     })
                     .catch(e=>{
-                        this.applyUserInfo = {}
+                        this.applyUserInfo = {
+                            organName: '',
+                            derpName: '',
+                            ccc: '',
+                            custName: '',
+                            mobileNo: '',
+                            custPost: '',
+                            custClass: '',
+                        }
+                        self.$message({
+                            message: '工号不存在',
+                            type: 'error'
+                        });
                         console.log(e)
                     })
             },
@@ -229,7 +249,24 @@
                         console.log(this.assetInfo)
                     })
                     .catch(e=>{
-                        this.assetInfo = {}
+                        this.assetInfo = {
+                            buyUnitPrice: '',
+                            stockNum: '',
+                            buyAmount: '',
+                            mfrs: '',
+                            supplier: '',
+                            assetType: '',
+                            assetName: '',
+                            snNo: '',
+                            specType: '',
+                            factoryTime: '',
+                            faxFreeTime: '',
+                            configInstr: '',
+                        }
+                        self.$message({
+                            message: '资产编号不存在',
+                            type: 'error'
+                        });
                         console.log(e)
                     })
             }

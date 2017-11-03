@@ -7,16 +7,22 @@
                 <div class="content">
                     <div class="search">
                         <el-col :span="6">
-                            <span class="text">资产名称</span><el-input class="search_common"></el-input>
+                            <span class="text">资产名称</span><el-input class="search_common" v-model="searchInfo.assetName"></el-input>
                         </el-col>
                         <el-col :span="6">
-                            <span class="text">资产类型</span><el-select v-model="value" class="search_common"></el-select>
+                            <span class="text">资产类型</span><el-select class="search_common" v-model="searchInfo.assetType">
+                            <el-option label="办公用品" value="01"></el-option>
+                            <el-option label="电脑" value="02"></el-option>
+                            <el-option label="手机" value="03"></el-option>
+                            <el-option label="后勤用品" value="04"></el-option>
+                            <el-option label="数码相机" value="05"></el-option>
+                        </el-select>
                         </el-col>
                         <el-col :span="6">
-                            <span class="text">资产编号</span><el-input class="search_common"></el-input>
+                            <span class="text">资产编号</span><el-input class="search_common" v-model="searchInfo.assetNo"></el-input>
                         </el-col>
                         <el-col :span="6">
-                            <span class="text">工号</span><el-input class="search_common"></el-input>
+                            <span class="text">工号</span><el-input class="search_common" v-model="searchInfo.applyUserNo"></el-input>
                         </el-col>
                         <el-button class="toolBtn" @click="search">查询</el-button>
                     </div>
@@ -35,13 +41,12 @@
                             <td>{{tds.custName}}</td>
                             <td>{{tds.applyTime | formatDate}}</td>
                             <td><i class="el-icon-edit" @click="edit(tds.applyNo)"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <i class="el-icon-delete2" @click="del"></i></td>
+                                <i class="el-icon-delete2" @click="del(tds.applyNo)"></i></td>
                         </tr>
                     </table>
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
-                            :current-page.sync="fenye.pageNum"
                             :page-size="fenye.pageSize"
                             layout="total,prev, pager, next, jumper"
                             :total="fenye.total">
@@ -58,8 +63,12 @@
     export default {
         data() {
             return {
-                value: '',
-                test: '',
+                searchInfo:{
+                    assetName:'',
+                    assetType:'',
+                    assetNo:'',
+                    applyUserNo:'',
+                },
                 table: {
                     th: ['使用编号', '资产编号', '资产类型', '资产名称', '数量', '使用类型', '公司名称', '申请部门', '工号', '姓名', '发生时间', '操作'],
                     td: [
@@ -80,7 +89,9 @@
           self.$axios.get('/iem_hrm/assetUse/queryAssUseList')
               .then(res=>{
                   self.table.td = res.data.data.list
-                  console.log(res)
+                  self.fenye.total = res.data.data.total
+                  self.fenye.pageSize = res.data.data.pageSize
+                  self.fenye.pageNum = res.data.data.pageNum
               })
               .catch(e=>{
                   console.log(e)
@@ -94,6 +105,55 @@
 
             },
             search() {
+                let self = this
+                let params = {}
+                params.assetName = this.searchInfo.assetName
+                params.assetType = this.searchInfo.assetType
+                params.assetNo = this.searchInfo.assetNo
+                params.applyUserNo = this.searchInfo.applyUserNo
+                var data = {}
+                for(var name in params) {
+                    if(params[name]) {
+                        data[name] = params[name]
+                    }
+                }
+                console.log(data)
+                this.$axios.get('/iem_hrm/assetUse/queryAssUseList', {params:data})
+                    .then(res=>{
+                        console.log(1111)
+                        console.log(res)
+                        self.table.td = res.data.data.list
+                        self.fenye.total = res.data.data.total
+                        self.fenye.pageSize = res.data.data.pageSize
+                        self.fenye.pageNum = res.data.data.pageNum
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
+//                if(!assetName&&assetType&&!assetNo&&!applyUserNo){
+//                    this.$axios.get('/iem_hrm/assetUse/queryAssUseList', {params:{assetType}})
+//                        .then(res=>{
+//                            self.table.td = res.data.data.list
+//                            self.fenye.total = res.data.data.total
+//                            self.fenye.pageSize = res.data.data.pageSize
+//                            self.fenye.pageNum = res.data.data.pageNum
+//                        })
+//                        .catch(e=>{
+//                            console.log(e)
+//                        })
+//                }
+//                if(!assetName&&!assetType&&assetNo&&!applyUserNo){
+//                    this.$axios.get('/iem_hrm/assetUse/queryAssUseList', {params:{assetNo}})
+//                        .then(res=>{
+//                            self.table.td = res.data.data.list
+//                            self.fenye.total = res.data.data.total
+//                            self.fenye.pageSize = res.data.data.pageSize
+//                            self.fenye.pageNum = res.data.data.pageNum
+//                        })
+//                        .catch(e=>{
+//                            console.log(e)
+//                        })
+//                }
 
             },
             link(applyNo) {
@@ -102,8 +162,36 @@
             edit(applyNo) {
                 this.$router.push({name:'edit_assetUse', query:{applyNo}})
             },
-            del() {
-
+            del(value) {
+                let self = this
+                this.$axios.get('/iem_hrm/assetUse/delAssUse/'+value)
+                    .then(res=>{
+                        let result = res.data.retMsg
+                        if("操作成功"===result){
+                            self.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            self.$axios.get('/iem_hrm/assetUse/queryAssUseList')
+                                .then(res=>{
+                                    self.table.td = res.data.data.list
+                                    self.fenye.total = res.data.data.total
+                                    self.fenye.pageSize = res.data.data.pageSize
+                                    self.fenye.pageNum = res.data.data.pageNum
+                                })
+                                .catch(e=>{
+                                    console.log(e)
+                                })
+                        }else {
+                            self.$message({
+                                message: result,
+                                type: 'error'
+                            });
+                        }
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
             },
             add() {
               this.$router.push('add_assetUse')

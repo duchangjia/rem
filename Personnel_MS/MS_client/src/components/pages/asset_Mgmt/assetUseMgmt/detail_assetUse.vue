@@ -95,7 +95,7 @@
                             <el-input :disabled="true" v-model="applyCompanyInfo.applyTime"></el-input>
                         </el-form-item>
                         <el-form-item label="状态">
-                            <el-select placeholder="请选择状态" :disabled="true" v-model="applyCompanyInfo.status">
+                            <el-select placeholder="请选择状态" :disabled="true" v-model="applyCompanyInfo.applyStatus">
                                 <el-option label="未核销/未归还" value="01"></el-option>
                                 <el-option label="已核销/已归还" value="02"></el-option>
                                 <el-option label="不需要核销/不需要归还" value="03"></el-option>

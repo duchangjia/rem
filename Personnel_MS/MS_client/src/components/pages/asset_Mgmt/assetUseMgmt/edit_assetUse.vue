@@ -19,7 +19,7 @@
                             <el-select placeholder="请选择CCC" :disabled="true" v-model="applyCompanyInfo.ccc">
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="申请使用人工号">
+                        <el-form-item label="申请使用人工号" prop="applyUserNo">
                             <el-input v-model="applyCompanyInfo.applyUserNo" @blur="getUserInfo(applyCompanyInfo.applyUserNo)"></el-input>
                         </el-form-item>
                         <el-form-item label="姓名">
@@ -37,7 +37,7 @@
                     </el-form>
                     <div class="form_info">资产信息</div>
                     <el-form label-width="200px">
-                        <el-form-item label="资产编号">
+                        <el-form-item label="资产编号" prop="assetNo">
                             <el-input v-model="applyCompanyInfo.assetNo" @blur="getUserInfo(applyCompanyInfo.assetNo)"></el-input>
                         </el-form-item>
                         <el-form-item label="购买单价">
@@ -84,8 +84,12 @@
                     <el-form label-width="200px">
                         <el-form-item label="使用类别">
                             <el-select placeholder="请选择使用类别" v-model="applyCompanyInfo.applyType">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                                <el-option label="区域二" value="beijing"></el-option>
+                                <el-option label="全部" value="01"></el-option>
+                                <el-option label="办公用品" value="02"></el-option>
+                                <el-option label="电脑" value="03"></el-option>
+                                <el-option label="手机" value="04"></el-option>
+                                <el-option label="后勤用品" value="05"></el-option>
+                                <el-option label="数码相机" value="06"></el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="使用数量">
@@ -95,7 +99,7 @@
                             <el-input v-model="applyCompanyInfo.applyTime"></el-input>
                         </el-form-item>
                         <el-form-item label="状态">
-                            <el-select placeholder="请选择状态" v-model="applyCompanyInfo.status">
+                            <el-select placeholder="请选择状态" v-model="applyCompanyInfo.applyStatus">
                                 <el-option label="未核销/未归还" value="01"></el-option>
                                 <el-option label="已核销/已归还" value="02"></el-option>
                                 <el-option label="不需要核销/不需要归还" value="03"></el-option>
@@ -116,7 +120,32 @@
     export default {
         data() {
             return {
+                rules: {
+                    applyUserNo: [
+                        { required: true, message: '请输入申请使用人工号', trigger: 'blur' }
+                    ],
+                    assetNo: [
+                        { required: true, message: '请输入资产编号', trigger: 'blur' }
+                    ],
+                    applyType: [
+                        { required: true, message: '请选择使用类别', trigger: 'change' }
+                    ],
+                    applyNum: [
+                        { required: true, message: '请输入使用数量', trigger: 'blur' }
+                    ],
+                    applyTime: [
+                        { required: true, message: '请输入发生时间', trigger: 'blur' }
+                    ],
+                    remark: [
+                        { required: true, message: '请输入说明', trigger: 'blur' }
+                    ],
+                    applyStatus: [
+                        { required: true, message: '请选择状态', trigger: 'change' }
+                    ],
+                },
                 applyCompanyInfo: {
+                    applyUserNo: '',
+                    assetNo: '',
                 },
 
                 applyUserInfo:{
@@ -125,13 +154,6 @@
                 assetInfo:{
 
                 },
-                applyInfo:{
-                    remark: '',
-                    status: '',
-                    applyTime: '',
-                    applyNum: '',
-                    applyType: '',
-                }
             }
         },
         created() {
@@ -147,14 +169,20 @@
         },
         methods: {
             getUserInfo() {
+                let self = this
                 console.log(this.applyCompanyInfo.applyUserNo)
                 this.$axios.get('/iem_hrm/assetUse/queryAssetUserByApplyUserNo/'+this.applyCompanyInfo.applyUserNo)
                     .then(res=>{
                         this.applyUserInfo = res.data.data
-                        console.log(this.applyUserInfo)
+                        this.applyCompanyInfo = Object.assign(this.applyCompanyInfo, this.applyUserInfo)
+                        console.log(this.applyCompanyInfo, this.applyUserInfo)
                     })
                     .catch(e=>{
                         this.applyUserInfo = {}
+                        self.$message({
+                            message: '工号不存在',
+                            type: 'error'
+                        });
                         console.log(e)
                     })
             },
@@ -163,16 +191,33 @@
                 this.$axios.get('/iem_hrm/assetUse/queryAssetUserByAssetNo/'+this.applyCompanyInfo.assetNo)
                     .then(res=>{
                         this.assetInfo = res.data.data
-                        console.log(this.assetInfo)
+                        this.applyCompanyInfo = Object.assign(this.applyCompanyInfo, this.assetInfo)
+                        console.log(this.applyCompanyInfo, this.assetInfo)
                     })
                     .catch(e=>{
                         this.assetInfo = {}
+                        self.$message({
+                            message: '资产编号不存在',
+                            type: 'error'
+                        });
                         console.log(e)
                     })
             },
             save() {
                 let self = this
-                self.$axios.put('/iem_hrm/assetUse/modAssUse')
+                let obj = {}
+                obj.applyType = this.applyCompanyInfo.applyType
+                obj.applyNum = this.applyCompanyInfo.applyNum
+                obj.applyTime = this.applyCompanyInfo.applyTime
+                obj.applyStatus = this.applyCompanyInfo.applyStatus
+                obj.remark = this.applyCompanyInfo.remark
+                let obj2 = {}
+                obj2.applyUserNo = this.applyCompanyInfo.applyUserNo
+                obj2.assetNo = this.applyCompanyInfo.assetNo
+                obj2.applyNo = this.$route.query.applyNo
+                let data = Object.assign(obj, obj2)
+                console.log(data)
+                self.$axios.put('/iem_hrm/assetUse/modAssUse', data)
                     .then(res=>{
                         console.log(res)
                     })
