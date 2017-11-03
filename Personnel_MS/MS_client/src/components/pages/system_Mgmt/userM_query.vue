@@ -45,16 +45,12 @@
 						<el-table-column prop="compName" label="所属公司"></el-table-column>
 						<el-table-column prop="departName" label="部门"></el-table-column>
 						<el-table-column prop="userName" label="姓名"></el-table-column>
-						<el-table-column prop="roles.roleName" label="角色">
-							<!--<template scope="scope">-->
-						        <!--<span class="link" v-for="item in roles">{{ item.roleName }}</span>-->
-					      	<!--</template>-->
-						</el-table-column>
+						<el-table-column prop="roleNo" label="角色"></el-table-column>
 						<el-table-column prop="mobile" label="手机"></el-table-column>
 						<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageRows" layout="prev, pager, next, jumper" :total="pageSize" v-show="pageSize>pageRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -68,8 +64,8 @@ export default {
 	data() {
 		return {
 			pageNum: 1,
-			pageSize: 5,
-			totalRows: 1,
+			pageRows: 5,
+			pageSize: 1,
 			queryFormFlag: false,
 			ruleForm2: {
 				organNo: '',
@@ -112,7 +108,7 @@ export default {
 	created() {
 		const self = this;
 		let pageNum = self.pageNum;
-		let pageSize = self.pageSize;
+		let pageSize = self.pageRows;
 		let params = {
 			"pageNum": pageNum,
 			"pageSize": pageSize
@@ -144,7 +140,7 @@ export default {
 					let user = self.ruleForm2.user;
 					self.operatorList = [];
 					let pageNum = self.pageNum;
-					let pageSize = self.pageSize;
+					let pageSize = self.pageRows;
 					let params = {
 						"pageNum": pageNum,
 						"pageSize": pageSize,
@@ -174,15 +170,14 @@ export default {
        },
 		//重置
 		resetForm() {
-			this.ruleForm2.organNo = '';
-//			this.ruleForm2.department = '';
-			this.ruleForm2.status = '';
+			this.ruleForm2.company = '';
+			this.ruleForm2.department = '';
 			this.ruleForm2.user = '';
 		},
 		handleCurrentChange(val) {
 			const self = this;
 			let pageNum = val;
-			let pageSize = self.pageSize;
+			let pageSize = self.pageRows;
 			let params = {};
 			if(!self.queryFormFlag) {
 				params = {
@@ -208,7 +203,7 @@ export default {
 				console.log('UserList',res);
 				self.operatorList = res.data.data.models;
 				self.pageNum = pageNum;
-				self.totalRows = Number(res.data.data.total);
+				self.pageSize = Number(res.data.data.total);
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -277,7 +272,7 @@ export default {
 }
 
 .user-query .el-form-item {
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 }
 
 .user-query .el-input,
@@ -293,7 +288,7 @@ export default {
 }
 
 .user-query .button-wrap {
-	margin: 0px auto 20px;
+	margin: 0px auto 40px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;

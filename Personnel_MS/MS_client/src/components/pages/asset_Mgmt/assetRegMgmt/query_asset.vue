@@ -8,7 +8,7 @@
                 <el-button type="primary" @click="handleAdd" class="toolBtn">新增</el-button>
             </el-col>
 
-            <el-col :span="24" class="querybar">
+            <el-col :span="24" class="querybar" style="padding:20px 0 0 0;">
                 <el-form :inline="true" :model="filters">
                     <el-col :span="8">
                       <el-form-item label="资产编号">

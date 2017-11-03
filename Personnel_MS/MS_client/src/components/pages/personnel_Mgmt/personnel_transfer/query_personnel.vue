@@ -63,7 +63,7 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			<el-pagination class="toolbar" @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+			<el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 			</el-pagination>
 		</div>
 	</div>
@@ -269,7 +269,7 @@
 	}
 	
 	.query_transfer .el-form-item {
-		margin-bottom: 20px;
+		margin-bottom: 40px;
 	}
 	
 	.query_transfer .el-input,
@@ -285,7 +285,7 @@
 	}
 	
 	.query_transfer .button-wrap {
-		margin: 0px auto 20px;
+		margin: 0px auto 40px;
 		width: 260px;
 		clear: both;
 		font-size: 0px;

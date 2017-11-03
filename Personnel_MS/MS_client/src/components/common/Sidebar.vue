@@ -7,13 +7,13 @@
 		</el-radio-group>
 		<el-menu class="el-menu-vertical-demo" :default-active="onRoutes" @select="handleSelect" @open="handleOpen" @close="handleClose" :collapse="isCollapse" unique-opened router>
 			<template v-for="item in items">
-				<template v-if="item.menuList">
+				<template v-if="item.subs">
 					<el-submenu :index="item.menuUrl" :class="itemActive[item.menuUrl]">
 						<template slot="title">
 							<i class="icon" :class="item.menuImg"></i>
 							<span slot="menuName">{{ item.menuName }}</span>
 						</template>
-						<el-menu-item v-for="(subItem,i) in item.menuList" :key="i" :index="subItem.menuUrl" :class="itemActive[subItem.menuUrl]">{{ subItem.menuName }}
+						<el-menu-item v-for="(subItem,i) in item.subs" :key="i" :index="subItem.menuUrl" :class="itemActive[subItem.menuUrl]">{{ subItem.menuName }}
 						</el-menu-item>
 					</el-submenu>
 				</template>
@@ -48,7 +48,7 @@ export default {
 					menuImg: 'icon-sys',
 					menuUrl: '2',
 					menuName: '系统管理',
-					menuList: [
+					subs: [
 						{
 							menuUrl: 'management_framework',
 							menuName: '组织架构'
@@ -71,7 +71,7 @@ export default {
 					menuImg: 'icon-khgx',
 					menuUrl: '3',
 					menuName: '人事事务',
-					menuList: [
+					subs: [
 						{
 							menuUrl: 'personnel_contract',
 							menuName: '人事合同'
@@ -90,7 +90,7 @@ export default {
 					menuImg: 'icon-csgl',
 					menuUrl: '4',
 					menuName: '参数管理',
-					menuList: [
+					subs: [
 						{
 							menuUrl: 'argument_1',
 							menuName: '系统参数'
@@ -105,7 +105,7 @@ export default {
 					menuImg: 'icon-xmgl',
 					menuUrl: '5',
 					menuName: '薪酬福利',
-					menuList: [
+					subs: [
 						{
 							menuUrl: 'payBaseInfo_setting',
 							menuName: '薪酬基数设置'
@@ -120,7 +120,7 @@ export default {
 					menuImg: 'icon-ywgl',
 					menuUrl: '6',
 					menuName: '考勤管理',
-					menuList: [
+					subs: [
 						{
 							menuUrl: 'attendance_record',
 							menuName: '考勤记录管理'
@@ -143,7 +143,7 @@ export default {
 					menuImg: 'icon-tjbb',
 					menuUrl: '7',
 					menuName: '资产管理',
-					menuList: [
+					subs: [
 						{
 							menuUrl: 'assetReq_manage',
 							menuName: '资产登记管理'
@@ -158,7 +158,7 @@ export default {
 					menuImg: 'icon-khgx',
 					menuUrl: '8',
 					menuName: '员工自助',
-					menuList: [
+					subs: [
 						{
 							menuUrl: 'query_personalInfo',
 							menuName: '个人信息查询'
@@ -185,9 +185,9 @@ export default {
 	methods: {
 		handleSelect(key, keyPath) {
 			//subMenu menuUrl
-//			if (keyPath[1]) {
-//				this.subMenuOldIndex = keyPath[0];
-//			}
+			if (keyPath[1]) {
+				this.subMenuOldIndex = keyPath[0];
+			}
 		},
 		handleOpen(key, keyPath) {
 			//				console.log(key, keyPath);
@@ -204,6 +204,7 @@ export default {
 			.then(function(res) {
 				console.log('List',res);
 //				self.items = res.data.data;
+				console.log('self.items',self.items);
 			}).catch(function(err) {
 				console.log('error');
 			})
@@ -217,15 +218,15 @@ export default {
 		}
 	},
 	watch: {
-//		$route: function() {
-			//sidebar导航highlight
-//			let path = this.$route.matched[1].path.substr(1);
-//			this.itemActive = {};
-//			this.itemActive[path] = 'is-active';
-//			if (this.$route.matched.length == 3) {
-//				this.itemActive[this.subMenuOldIndex] = 'is-active';
-//			}
-//		}
+		$route: function() {
+			//sidebar导航highlight随路由变化
+			let path = this.$route.matched[1].path.substr(1);
+			this.itemActive = {};
+			this.itemActive[path] = 'is-active';
+			if (this.$route.matched.length == 3) {
+				this.itemActive[this.subMenuOldIndex] = 'is-active';
+			}
+		}
 	}
 }
 </script>
