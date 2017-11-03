@@ -361,13 +361,15 @@
         /*letter-spacing: 4px;*/
     }
     #wrap .form-content .error{
-        height: 14px;
-        margin: -20px auto 10px 35px;
+        margin: -23px auto 10px 35px;
         font-family: PingFangSC-Regular;
         font-size: 12px;
         color: #FF6666;
         letter-spacing: -0.29px;
+        height: 14px;
         line-height: 14px;
+        /*transform: translateY(-23px);*/
+        /*animation: slidedown .2s;*/
     }
     #wrap .form-content .tijiao{
         display: block;
@@ -393,5 +395,10 @@
         color: #282828;
         letter-spacing: -0.34px;
         line-height: 14px;
+    }
+    @keyframes slidedown
+    {
+        from {height:0;}
+        to {height: 14px;}
     }
 </style>

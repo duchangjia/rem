@@ -144,11 +144,11 @@
 				rules: {
 					userName: [
 //			            { required: true, message: '请输入姓名', trigger: 'blur' },
-//			            { validator: checkUserName, trigger: 'blur' }
+			            { validator: checkUserName, trigger: 'blur' }
 		          	],
 					email: [
-//						{ required: true, message: '请输入邮箱地址', trigger: 'blur' },
-//    					{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
+						{ required: true, message: '请输入邮箱地址', trigger: 'blur' },
+      					{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
 					],
 //					mobile: [
 ////						{ validator: checkMobile, trigger: 'blur'}

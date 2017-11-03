@@ -1,6 +1,6 @@
 <template>
     <div class="argument_2">
-        <current yiji="参数管理" erji="业务参数" class="test"></current>
+        <current yiji="参数管理" erji="业务参数"></current>
         <el-col :span="24">
             <div class="content-wrapper">
                 <div class="title"><span class="text">业务参数</span></div>

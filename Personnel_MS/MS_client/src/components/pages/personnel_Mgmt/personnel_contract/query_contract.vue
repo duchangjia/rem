@@ -7,35 +7,22 @@
                 <span class="title-text">人事合同</span>
                 <el-button type="primary" @click="handleAdd" class="toolBtn">新增合同</el-button>
             </el-col>
-            
-            <el-col :span="24" class="querybar" style="padding:20px 0 0 0;">
+
+            <el-col :span="24" class="querybar" style="padding-bottom: 0px;">
                 <el-form :inline="true" :model="filters">
-                    <el-col :span="8">
-                      <el-form-item label="姓名">
+                    <el-form-item label="姓名">
                         <el-input v-model="filters.custName" placeholder="请输入姓名"></el-input>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                      <el-form-item label="合同类型">
+                    </el-form-item>
+                    <el-form-item label="合同类型">
                         <el-select v-model="filters.pactType">
                             <el-option label="劳动合同" value="01"></el-option>
                             <el-option label="保密协议" value="02"></el-option>
                         </el-select>
                     </el-form-item>
-                    </el-col>
-                    <el-col :span="8">
-                      <el-form-item label="合同状态">
-                        <el-select v-model="filters.pactStatus">
-                            <el-option label="已生效" value="01"></el-option>
-                            <el-option label="未生效" value="02"></el-option>
-                        </el-select>
-                      </el-form-item>
-                    </el-col>
-                    <el-col :span="24" class="button-wrap">
-                      <el-button class="resetBtn" @click="handleReset">重置</el-button>
-						          <el-button class="queryBtn" @click="handleQuery">查询</el-button>
-                    </el-col>
-                </el-form> 
+                    <el-form-item style="margin-left:10px;">
+                        <el-button type="primary" @click="handleQuery" class="queryBtn">查询</el-button>
+                    </el-form-item>
+                </el-form>
             </el-col>
 
             <el-table stripe :data="pactListInfo" border>
@@ -88,8 +75,7 @@ export default {
     return {
       filters: {
         custName: "",
-        pactType: "",
-        pactStatus: ""
+        pactType: ""
       },
       pageNum: 1,
       pageSize: 7,
@@ -103,7 +89,6 @@ export default {
   created() {
     this.filters.custName = "";
     this.filters.pactType = "";
-    this.filters.pactStatus = "";
     this.getPactList(); //初始查询合同列表
   },
   methods: {
@@ -113,8 +98,7 @@ export default {
         pageNum: self.pageNum,
         pageSize: self.pageSize,
         custName: self.filters.custName,
-        pactType: self.filters.pactType,
-        pactStatus: self.filters.pactStatus        
+        pactType: self.filters.pactType
       };
       self.$axios
         .get("/iem_hrm/pact/queryPactList", { params: params })

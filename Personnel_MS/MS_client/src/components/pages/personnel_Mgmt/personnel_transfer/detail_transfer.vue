@@ -54,7 +54,7 @@
 						<el-table-column prop="oldDepartName" label="原部门名称"></el-table-column>
 						<el-table-column prop="shiftType" label="调动类型"></el-table-column>
 						<el-table-column prop="diaodongDate" label="调动日期"></el-table-column>
-						<el-table-column prop="shiftCameTime" label="调动生效日期" :formatter="shiftCameTimeFormatter"></el-table-column>
+						<el-table-column prop="shiftCameTime" label="调动生效日期" :formatter="travelTimeFormatter"></el-table-column>
 						<el-table-column align="center" label="操作" width="150">
 							<template scope="scope">
 								<span class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></span>
@@ -62,7 +62,7 @@
 						</el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -83,7 +83,7 @@ export default {
 	       	},
 			pageNum: 1,
 			pageSize: 5,
-			totalRows: 0,
+			totalRows: 2,
 			ruleForm2: {
 				compOrgNo: '',
 				departOrgNo: '',
@@ -155,8 +155,20 @@ export default {
 		self.queryCustShifthisList(pageNum,pageSize,params);
 	},
 	methods: {
-		shiftCameTimeFormatter(row, column) {
+		add0(m){return m<10?'0'+m:m },
+		getLocalTime(shijianchuo) {     
+	       	var time = new Date(shijianchuo);
+			var y = time.getFullYear();
+			var m = time.getMonth()+1;
+			var d = time.getDate();
+			var h = time.getHours();
+			var mm = time.getMinutes();
+			var s = time.getSeconds();
+			return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);      
+	    },  
+		travelTimeFormatter(row, column) {
 			let time = row.shiftCameTime;
+//			return time?this.getLocalTime(time):null;
 			return moment(time).format('YYYY-MM-DD hh:mm:ss');
 		},
 		changeStartTime(val) {
@@ -322,7 +334,7 @@ export default {
 }
 
 .transfer_wrap .el-form-item {
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 }
 
 .transfer_wrap .el-input,
@@ -338,7 +350,7 @@ export default {
 }
 
 .transfer_wrap .button-wrap {
-	margin: 0px auto 20px;
+	margin: 0px auto 40px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;

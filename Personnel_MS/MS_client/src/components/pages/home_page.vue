@@ -4,7 +4,7 @@
             <!--<span class="current-location">当前位置：首页</span>-->
             <!--<span class="search"><input type="text" class="search-text"><i class="search-icon"></i></span>-->
         <!--</div>-->
-        <current yiji="首页" class="test"></current>
+        <current yiji="首页"></current>
         <el-row>
             <el-col :span="23">
                 <ul class="list">
@@ -727,6 +727,7 @@
 <style scoped>
     .home_page{
         padding-left: 20px;
+        padding-bottom: 20px;
     }
     .home_page *{
         padding: 0;
@@ -735,46 +736,42 @@
     .home_page ul{
         list-style: none;
     }
-    .home_page .test{
-        padding-left: 10px;
-    }
-    .location-wrapper{
-        margin: 20px 0;
-        display: flex;
-    }
-    .current-location, .search{
-        display: inline-block;
-        height: 30px;
-        background: #fff;
-        box-sizing: border-box;
-        line-height: 30px;
-    }
-    .current-location{
-        width: 670px;
-        margin-right: 20px;
-        font-family: PingFangSC-Regular;
-        font-size: 12px;
-        color: #999999;
-        letter-spacing: 0;
-        padding-left: 10px;
-    }
-    .search{
-        display: inline-flex;
-        width: 390px;
-        vertical-align: middle;
-    }
-    .search-text{
-        flex: 1;
-        border: none;
-        text-indent: 1em;
-    }
-    .search-icon{
-        flex: 0 0 30px;
-        width: 30px;
-        height: 30px;
-        background: #E6E6E6 url(../../../static/img/home/search3.png) no-repeat center;
-        cursor: pointer;
-    }
+    /*.home_page .test{*/
+        /*padding-left: 10px;*/
+    /*}*/
+    /*.current-location, .search{*/
+        /*display: inline-block;*/
+        /*height: 30px;*/
+        /*background: #fff;*/
+        /*box-sizing: border-box;*/
+        /*line-height: 30px;*/
+    /*}*/
+    /*.current-location{*/
+        /*width: 670px;*/
+        /*margin-right: 20px;*/
+        /*font-family: PingFangSC-Regular;*/
+        /*font-size: 12px;*/
+        /*color: #999999;*/
+        /*letter-spacing: 0;*/
+        /*padding-left: 10px;*/
+    /*}*/
+    /*.search{*/
+        /*display: inline-flex;*/
+        /*width: 390px;*/
+        /*vertical-align: middle;*/
+    /*}*/
+    /*.search-text{*/
+        /*flex: 1;*/
+        /*border: none;*/
+        /*text-indent: 1em;*/
+    /*}*/
+    /*.search-icon{*/
+        /*flex: 0 0 30px;*/
+        /*width: 30px;*/
+        /*height: 30px;*/
+        /*background: #E6E6E6 url(../../../static/img/home/search3.png) no-repeat center;*/
+        /*cursor: pointer;*/
+    /*}*/
     .list{
         display: flex;
     }

@@ -1,6 +1,6 @@
 <template>
     <div class="edit-wrapper">
-        <current yiji="系统管理" erji="组织架构" sanji="新增机构人员" class="test" ></current>
+        <current yiji="系统管理" erji="组织架构" sanji="新增机构人员"></current>
         <div class="person-content">
             <div class="title">
                 <span class="text">新增机构人员</span>
@@ -115,13 +115,13 @@
 
 <style scoped>
 .edit-wrapper{
-    padding:29px 0 16px 20px ;
+    padding:0px 0 20px 20px ;
 }
 .edit-wrapper .test{
     padding-left: 10px;
 }
 .person-content{
-    margin-top: 29px;
+    /*margin-top: 29px;*/
     background: #fff;
     padding-left: 20px;
     padding-right: 20px;

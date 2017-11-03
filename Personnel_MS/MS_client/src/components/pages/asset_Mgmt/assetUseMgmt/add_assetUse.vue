@@ -1,25 +1,120 @@
 <template>
-    <div class="assetUse_query">
+    <div class="add_assetUser">
         <current yiji="资产管理" erji="资产使用管理" sanji="资产使用新增"></current>
         <el-col :span="24">
             <div class="content-wrapper">
                 <div class="title"><span class="text">资产使用新增</span><button class="add" @click="save">保存</button></div>
                 <div class="content">
-                    <div class="search">
-                        <el-col :span="6">
-                            <span class="text">资产名称</span><el-input class="search_common"></el-input>
-                        </el-col>
-                        <el-col :span="6">
-                            <span class="text">资产类型</span><el-select v-model="value" class="search_common"></el-select>
-                        </el-col>
-                        <el-col :span="6">
-                            <span class="text">资产编号</span><el-input class="search_common"></el-input>
-                        </el-col>
-                        <el-col :span="6">
-                            <span class="text">工号</span><el-input class="search_common"></el-input>
-                        </el-col>
-                        <el-button class="toolBtn" @click="search">查询</el-button>
-                    </div>
+                    <el-form :model="info" :rules="rules" ref="info1" label-width="200px">
+                        <el-form-item label="公司名称">
+                            <el-select placeholder="请选择公司名称" :disabled="true" v-model="applyUserInfo.organName">
+                                <el-option label="区域一" value="shanghai"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="申请部门名称">
+                            <el-select placeholder="请选择申请部门名称" :disabled="true" v-model="applyUserInfo.derpName">
+                                <el-option label="区域一" value="shanghai"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="CCC">
+                            <el-select placeholder="请选择CCC" :disabled="true" v-model="applyUserInfo.ccc">
+                                <el-option label="区域一" value="shanghai"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="申请使用人工号" prop="applyUserNo">
+                            <el-input placeholder="请输入申请使用人工号" @blur="getUserInfo(info.applyUserNo)" v-model="info.applyUserNo"></el-input>
+                        </el-form-item>
+                        <el-form-item label="姓名">
+                            <el-input :disabled="true" v-model="applyUserInfo.custName"></el-input>
+                        </el-form-item>
+                        <el-form-item label="手机号">
+                            <el-input :disabled="true" v-model="applyUserInfo.mobileNo"></el-input>
+                        </el-form-item>
+                        <el-form-item label="岗位">
+                            <el-input :disabled="true" v-model="applyUserInfo.custPost"></el-input>
+                        </el-form-item>
+                        <el-form-item label="职级">
+                            <el-input :disabled="true" v-model="applyUserInfo.custClass"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <div class="form_info">资产信息</div>
+                    <el-form label-width="200px" :model="info" :rules="rules" ref="info2">
+                        <el-form-item label="资产编号" prop="assetNo">
+                            <el-input placeholder="请输入资产编号" @blur="getAssetInfo(info.assetNo)" v-model="info.assetNo"></el-input>
+                        </el-form-item>
+                        <el-form-item label="购买单价">
+                            <el-input :disabled="true" v-model="assetInfo.buyUnitPrice"></el-input>
+                        </el-form-item>
+                        <el-form-item label="当前库存数量">
+                            <el-input :disabled="true" v-model="assetInfo.stockNum"></el-input>
+                        </el-form-item>
+                        <el-form-item label="购买金额">
+                            <el-input :disabled="true" v-model="assetInfo.buyAmount"></el-input>
+                        </el-form-item>
+                        <el-form-item label="制造商">
+                            <el-input :disabled="true" v-model="assetInfo.mfrs"></el-input>
+                        </el-form-item>
+                        <el-form-item label="供应商">
+                            <el-input :disabled="true" v-model="assetInfo.supplier"></el-input>
+                        </el-form-item>
+                        <el-form-item label="资产类别">
+                            <el-select placeholder="请选择资产类别" :disabled="true" v-model="assetInfo.assetType">
+                                <el-option label="区域一" value="shanghai"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="资产名称">
+                            <el-input :disabled="true" v-model="assetInfo.assetName"></el-input>
+                        </el-form-item>
+                        <el-form-item label="SN编号">
+                            <el-input :disabled="true" v-model="assetInfo.snNo"></el-input>
+                        </el-form-item>
+                        <el-form-item label="规格型号">
+                            <el-input :disabled="true" v-model="assetInfo.specType" ></el-input>
+                        </el-form-item>
+                        <el-form-item label="出厂时间">
+                            <el-input :disabled="true" :value="assetInfo.factoryTime"></el-input>
+                        </el-form-item>
+                        <el-form-item label="免维保截至时间">
+                            <el-input :disabled="true" :value="assetInfo.faxFreeTime"></el-input>
+                        </el-form-item>
+                        <el-form-item label="主要性能说明">
+                            <el-input type="textarea" :disabled="true" v-model="assetInfo.configInstr"></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <div class="form_info">使用信息</div>
+                    <el-form label-width="200px" :model="applyInfo" :rules="rules" ref="info3">
+                        <el-form-item label="使用类别" prop="applyType">
+                            <el-select placeholder="请选择使用类别" v-model="applyInfo.applyType">
+                                <el-option label="发放领用" value="01"></el-option>
+                                <el-option label="归还" value="02"></el-option>
+                                <el-option label="出借" value="03"></el-option>
+                                <el-option label="出售" value="04"></el-option>
+                                <el-option label="盘余" value="05"></el-option>
+                                <el-option label="盘亏" value="06"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="使用数量" prop="applyNum">
+                            <el-input v-model="applyInfo.applyNum"></el-input>
+                        </el-form-item>
+                        <el-form-item label="发生时间" prop="applyTime">
+                            <el-input v-model="applyInfo.applyTime"></el-input>
+                        </el-form-item>
+                        <el-form-item label="状态" prop="applyStatus">
+                            <el-select placeholder="请选择状态" v-model="applyInfo.applyStatus">
+                                <el-option label="未核销/未归还" value="01"></el-option>
+                                <el-option label="已核销/已归还" value="02"></el-option>
+                                <el-option label="不需要核销/不需要归还" value="03"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="说明" prop="remark">
+                            <el-input type="textarea" v-model="applyInfo.remark"></el-input>
+                        </el-form-item>
+
+                        <!--<el-form-item>-->
+                            <!--<el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>-->
+                            <!--<el-button @click="resetForm('ruleForm')">重置</el-button>-->
+                        <!--</el-form-item>-->
+                    </el-form>
                 </div>
             </div>
         </el-col>
@@ -31,22 +126,150 @@
     export default {
         data() {
             return {
-                value: '',
-                table: {
-                    th: ['使用编号', '资产编号', '资产类型', '资产名称', '数量', '使用类型', '公司名称', '申请部门', '工号', '姓名', '发生时间', '操作'],
-                    td: []
+                rules: {
+                    applyUserNo: [
+                        { required: true, message: '请输入申请使用人工号', trigger: 'blur' }
+                    ],
+                    assetNo: [
+                        { required: true, message: '请输入资产编号', trigger: 'blur' }
+                    ],
+                    applyType: [
+                        { required: true, message: '请选择使用类别', trigger: 'change' }
+                    ],
+                    applyNum: [
+                        { required: true, message: '请输入使用数量', trigger: 'blur' }
+                    ],
+                    applyTime: [
+                        { required: true, message: '请输入发生时间', trigger: 'blur' }
+                    ],
+                    remark: [
+                        { required: true, message: '请输入说明', trigger: 'blur' }
+                    ],
+                    applyStatus: [
+                        { required: true, message: '请选择状态', trigger: 'change' }
+                    ],
                 },
-                fenye: {
-                    pageNum: 1,
-                    pageSize: 10,
-                    total: 100,
+                info: {
+                    applyUserNo: '',
+                    assetNo: '',
                 },
+                applyUserInfo:{
+
+                },
+                assetInfo:{
+
+                },
+                applyInfo:{
+                    remark: '',
+                    applyStatus: '',
+                    applyTime: '',
+                    applyNum: '',
+                    applyType: '',
+                }
             }
         },
         methods: {
             save() {
+                let self = this
+                let a = self.$refs.info1.validate((valid) => {
+                    if (valid) {
+                        return true
+                    }else {
+                        return false
+                    }
+                })
+                let b = self.$refs.info2.validate((valid) => {
+                    if (valid) {
+                        return true
+                    }else {
+                        return false
+                    }
+                })
+                self.$refs.info3.validate((valid) => {
+                    if (valid&&a&&b) {
+                        let data = Object.assign(this.applyInfo, this.info)
+                        this.$axios.get('/iem_hrm/assetUse/getOrganNoAndDerpNo/'+this.applyUserInfo.organName+'/'+this.applyUserInfo.derpName)
+                            .then(res=>{
+                                let obj = Object.assign(data, res.data)
+                                this.$axios.post('/iem_hrm/assetUse/addAssetUseINF', obj)
+                                    .then(res=>{
+                                        let result = res.data.retMsg
+                                        if("操作成功"===result){
+                                            self.$message({
+                                                message: '修改成功',
+                                                type: 'success'
+                                            });
+                                        }else {
+                                            self.$message({
+                                                message: result,
+                                                type: 'error'
+                                            });
+                                        }
+                                    })
+                                    .catch(e=>{
+                                        console.log(e)
+                                    })
+                            })
+                            .catch(e=>{
+                                console.log(e)
+                            })
+                    }
+                })
 
             },
+            getUserInfo() {
+                console.log(this.info.applyUserNo)
+                this.$axios.get('/iem_hrm/assetUse/queryAssetUserByApplyUserNo/'+this.info.applyUserNo)
+                    .then(res=>{
+                        this.applyUserInfo = res.data.data
+                        console.log(this.applyUserInfo)
+                    })
+                    .catch(e=>{
+                        this.applyUserInfo = {
+                            organName: '',
+                            derpName: '',
+                            ccc: '',
+                            custName: '',
+                            mobileNo: '',
+                            custPost: '',
+                            custClass: '',
+                        }
+                        self.$message({
+                            message: '工号不存在',
+                            type: 'error'
+                        });
+                        console.log(e)
+                    })
+            },
+            getAssetInfo() {
+                console.log(this.info.assetNo)
+                this.$axios.get('/iem_hrm/assetUse/queryAssetUserByAssetNo/'+this.info.assetNo)
+                    .then(res=>{
+                        this.assetInfo = res.data.data
+                        console.log(this.assetInfo)
+                    })
+                    .catch(e=>{
+                        this.assetInfo = {
+                            buyUnitPrice: '',
+                            stockNum: '',
+                            buyAmount: '',
+                            mfrs: '',
+                            supplier: '',
+                            assetType: '',
+                            assetName: '',
+                            snNo: '',
+                            specType: '',
+                            factoryTime: '',
+                            faxFreeTime: '',
+                            configInstr: '',
+                        }
+                        self.$message({
+                            message: '资产编号不存在',
+                            type: 'error'
+                        });
+                        console.log(e)
+                    })
+            }
         },
         components: {
             current,
@@ -55,17 +278,15 @@
 </script>
 
 <style lang='stylus' rel='stylesheet/stylus'>
-    .assetUse_query
+    .add_assetUser
         padding: 0 0 20px 20px;
         overflow: hidden;
         position: relative;
-        .test
-            padding-left: 10px;
         .content-wrapper
             background: #fff;
             padding-left: 20px;
             padding-right 20px
-            height: 746px;
+            min-height: 746px;
             .title
                 font-family: PingFangSC-Regular;
                 font-size: 16px;
@@ -96,102 +317,27 @@
             .content
                 padding-top: 42px;
                 overflow hidden
-                .search
-                    overflow hidden
-                    text-align center
-                    .text
-                        margin-right 10px
+                .form_info
+                    margin 10px 0
+                    font-size 16px
+                    padding-left 20px
+                    font-weight bold
+                .el-form-item
+                    display inline-block
+                    .el-form-item__label
+                        color #999
                     .el-input, .el-select
-                        width 200px
+                        width 300px
                         .el-input__inner
                             width 100%
-                        .el-input__inner:hover
+                            &:hover
+                                border-color #f90
+                    .el-textarea__inner
+                        min-width 800px
+                        min-height 100px
+                        &:hover, &:focus
                             border-color #f90
-                    .toolBtn
-                        border-radius: 0;
-                        height: 40px;
-                        width: 120px;
-                        background: #FF9900;
-                        border: none;
-                        font-family: PingFangSC-Regular;
-                        font-size: 14px;
-                        color #fff
-                        margin 40px auto 0 auto
-                table
-                    display: flex;
-                    width: 100%;
-                    margin-top: 40px;
-                    margin-bottom: 40px;
-                    font-family: PingFangSC-Regular;
-                    font-size: 14px;
-                    color: #333;
-                    letter-spacing: 0;
-                    flex-wrap: wrap;
-                    border: 1px solid #f0f0f0;
-                    border-collapse: collapse;
-                    td
-                        border: 1px solid #f0f0f0;
-                    tr
-                        width: 100%;
-                        height: 40px;
-                        display: flex;
-                        line-height: 40px;
-                    tr:nth-child(odd)
-                        background: #F8F8F8;
-                    tr:hover
-                        width: 100%;
-                        height: 40px;
-                        display: flex;
-                        line-height: 40px;
-                        background: #EEF1F6;
-                    tr:first-child
-                        background: #F4F4F4;
-                        box-shadow: inset 0 1px 0 0 #EEEEEE;
-                        color #666
-                    td
-                        flex: 2
-                        text-align: center;
-                    td:nth-child(1)
-                        flex:3
-                    td:nth-child(3)
-                        flex 3
-                .el-icon-delete2, .el-icon-edit
-                    color: #ff9900;
-                    cursor pointer
-                    text-decoration underline
-        .el-pagination
-            position: absolute;
-            right: 45px;
-            bottom:40px;
-            .el-pagination__total
-                height 24px
-            .btn-prev, .el-pagination__jump, .btn-next
-                height 24px
-                width 24px
-                line-height 24px
-            .el-pager li
-                width: 24px
-                height: 24px
-                line-height 24px
-            .el-pager li.active
-                background: #ff9900;
-                border 1px solid #ff9900
-            .el-pager li:hover, button:hover
-                color #ff9900
-            .el-pagination__jump
-                .el-pagination__editor
-                    width: 24px
-                    height: 24px
-                    line-height 24px
-                    margin 0 3px
-                    text-indent 0
-            .el-pagination__editor:focus
-                outline none
-                border-color #ff9900
-        _:-ms-lang(x), td
-            display: flex;
-            align-items center
-            justify-content center
+
 
 
 

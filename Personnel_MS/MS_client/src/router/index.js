@@ -561,41 +561,42 @@ export default new Router({
                         }
                     ]
                 },
-                {
-                    path: '/query_personalInfo',
-                    component: resolve => require(['../components/pages/stuff_selfHelp/stuffSelfHelp_manage.vue'], resolve),
-                    children: [
-                        {
-                            path: '/',
-                            component: resolve => require(['../components/pages/stuff_selfHelp/query_personalInfo.vue'], resolve)
-                        }
-                    ]
-                },
-                {
-                    path: '/query_billingInfo',
-                    component: resolve => require(['../components/pages/stuff_selfHelp/stuffSelfHelp_manage.vue'], resolve),
-                    children: [
-                        {
-                            path: '/',
-                            component: resolve => require(['../components/pages/stuff_selfHelp/query_billingInfo.vue'], resolve)
-                        }
-                    ]
-                },
-                {
-                    path: '/lineManager_Mgmt',
-                    component: resolve => require(['../components/pages/stuff_selfHelp/stuffSelfHelp_manage.vue'], resolve),
-                    children: [
-                        {
-                            path: '/',
-                            component: resolve => require(['../components/pages/stuff_selfHelp/lineManagerMgmt/leave_approval.vue'], resolve)
-                        },
-                        {
-                            name: 'leave_approval',
-                            path: '/leave_approval',
-                            component: resolve => require(['../components/pages/stuff_selfHelp/lineManagerMgmt/leave_approval.vue'], resolve)
-                        }
-                    ]
-                }
+                // {
+                //     path: '/query_personalInfo',
+                //     component: resolve => require(['../components/pages/stuff_selfHelp/stuffSelfHelp_manage.vue'], resolve),
+                //     children: [
+                //         {
+                //             path: '/',
+                //             component: resolve => require(['../components/pages/stuff_selfHelp/query_personalInfo.vue'], resolve)
+                //         },
+                //         {
+                //             path: '/query_billingInfo',
+                //             component: resolve => require(['../components/pages/stuff_selfHelp/stuffSelfHelp_manage.vue'], resolve),
+                //             children: [
+                //                 {
+                //                     path: '/',
+                //                     component: resolve => require(['../components/pages/stuff_selfHelp/query_billingInfo.vue'], resolve)
+                //                 }
+                //             ]
+                //         },
+                //         {
+                //             path: '/lineManager_Mgmt',
+                //             component: resolve => require(['../components/pages/stuff_selfHelp/stuffSelfHelp_manage.vue'], resolve),
+                //             children: [
+                //                 {
+                //                     path: '/',
+                //                     component: resolve => require(['../components/pages/stuff_selfHelp/lineManager_Mgmt/leave_approval.vue'], resolve)
+                //                 },
+                //                 {
+                //                     name: 'leave_approval',
+                //                     path: '/leave_approval',
+                //                     component: resolve => require(['../components/pages/stuff_selfHelp/lineManager_Mgmt/leave_approval.vue'], resolve)
+                //                 }
+                //             ]
+                //         }
+                //     ]
+                // },
+
 
             ]
         }

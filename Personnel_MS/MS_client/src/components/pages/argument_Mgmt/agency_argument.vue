@@ -1,6 +1,6 @@
 <template>
     <div class="agency_argument">
-        <current yiji="参数管理" erji="业务参数" sanji="机构CCC管理" class="test"></current>
+        <current yiji="参数管理" erji="业务参数" sanji="机构CCC管理"></current>
         <el-col :span="24">
             <div class="content-wrapper">
                 <div class="title"><span class="text">机构CCC管理</span><button class="add" @click="add">新增</button></div>

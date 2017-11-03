@@ -1,6 +1,6 @@
 <template>
     <div class="edit_ticket">
-        <current yiji="参数管理" erji="业务参数" sanji="公司开票信息维护" siji="开票信息修改" class="test"></current>
+        <current yiji="参数管理" erji="业务参数" sanji="公司开票信息维护" siji="开票信息修改"></current>
         <el-col :span="24">
             <div class="content-wrapper">
                 <div class="title"><span class="text">开票信息修改</span><button class="save" @click="save">保存</button></div>
@@ -167,6 +167,7 @@
                         width 300px
                         height 40px
                         .el-input__inner
+                            width 100%
                             height 100%
                         .el-input__inner:focus
                             border-color: #ff9900;
@@ -178,6 +179,7 @@
                         .el-input
                             height 40px
                             .el-input__inner
+                                width 100%
                                 height 100%
                             .el-input__inner:focus
                                 border-color: #ff9900;

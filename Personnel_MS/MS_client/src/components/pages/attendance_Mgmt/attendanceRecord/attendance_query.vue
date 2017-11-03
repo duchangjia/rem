@@ -65,7 +65,7 @@
 						<el-table-column prop="luruDate" label="录入时间" width="150"></el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -85,7 +85,7 @@ export default {
 	       	},
 			pageNum: 1,
 			pageSize: 5,
-			totalRows: 0,
+			totalRows: 2,
 			ruleForm2: {
 				compOrgNo: '',
 				departOrgNo: '',
@@ -327,7 +327,7 @@ export default {
 }
 
 .attendance_wrap .el-form-item__label {
-	/*text-align: left;*/
+	text-align: left;
 	vertical-align: middle;
 	float: left;
 	font-size: 14px;
@@ -344,7 +344,7 @@ export default {
 }
 
 .attendance_wrap .el-form-item {
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 }
 
 .attendance_wrap .el-input,
@@ -360,7 +360,7 @@ export default {
 }
 
 .attendance_wrap .button-wrap {
-	margin: 0px auto 20px;
+	margin: 0px auto 40px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;

@@ -3,7 +3,7 @@
         <span class="homelogo">
             <img src="../../../static/img/common/home_logo.png" alt="" width="120" height="30" @click="link2Home" style="cursor: pointer">
         </span>
-        <span class="headertitle">项目管理系统</span>
+        <span class="headertitle">人事管理系统</span>
         <div class="headerright">
             <span class="tips">
                 <img src="../../../static/img/common/Group.png" alt="" width="14" height="16">

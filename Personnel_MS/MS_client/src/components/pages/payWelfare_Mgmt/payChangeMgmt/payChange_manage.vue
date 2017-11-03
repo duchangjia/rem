@@ -53,7 +53,7 @@ export default {};
 }
 
 .content-wrapper .button-wrap {
-  margin: 0 auto 20px;
+  margin: 20px auto 40px;
   font-size: 0px;
   text-align: center;
 }
@@ -73,7 +73,6 @@ export default {};
   width: 120px;
   background: #ff9900;
   border: none;
-  color: #ffffff;
 }
 
 .pact_mgmt .el-button {
@@ -81,7 +80,7 @@ export default {};
 }
 
 .el-input__inner {
-  border-radius: 4px;
+  border-radius: 0;
   height: 40px;
   width: 180px;
 }
@@ -181,10 +180,6 @@ table .el-button--danger:active {
 
 .add-wrapper .el-form-item__label {
   margin-right: 14px;
-}
-
-.querybar {
-  padding: 20px 0px 0px;
 }
 
 .querybar .el-form-item__label {

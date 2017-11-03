@@ -1,6 +1,6 @@
 <template>
     <div class="query_archives">
-        <current yiji="人事事务" erji="人事档案" class="test"></current>
+        <current yiji="人事事务" erji="人事档案"></current>
         <el-col :span="24">
             <div class="content-wrapper">
                 <div class="title"><span class="text">人事档案</span><button class="add" @click="add">新增</button></div>
@@ -99,6 +99,17 @@
                           status: '离职',
                       },]  }
           }
+        },
+        created() {
+            let self = this
+            let userNo = 'P0000001'
+            self.$axios.get('/iem_hrm/CustInfo/queryCustInfList/'+userNo)
+                .then(res => {
+                    console.log(res)
+                })
+                .catch(e=>{
+                    console.log(e)
+                })
         },
         components: {
             current

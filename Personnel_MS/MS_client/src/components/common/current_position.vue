@@ -123,6 +123,9 @@ export default {
             if (this.erji === '直线经理管理') {
                 _link.push('/lineManager_Mgmt')
             }
+            if (this.erji === '资产使用管理') {
+                _link.push('/assetUse_manage')
+            }
 			
             if (this.sanji === '编辑部门') {
                 _link.push('/edit_department')
@@ -229,7 +232,17 @@ export default {
             if (this.sanji === '请假审批') {
                 _link.push('/leave_approval')
             }
+            if (this.sanji === '资产使用修改') {
+                _link.push('/edit_assetUse')
+            }
+            if (this.sanji === '资产使用新增') {
+                _link.push('/add_assetUse')
+            }
+            if (this.sanji === '资产使用详情') {
+                _link.push('/detail_assetUse')
+            }
             
+
             if (this.siji === '人事调动详情') {
                 _link.push('/transfer_info')
             }
