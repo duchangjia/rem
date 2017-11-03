@@ -12,43 +12,70 @@
 			<div class="content-inner">
 				<el-form :inline="true" :model="userMsg" ref="userMsg" label-width="80px">
 					<el-col :span="12">
-						<el-form-item label="交易代码" prop="dealcode">
-							<el-input v-model="userMsg.dealcode"></el-input>
+						<el-form-item label="系统编号" prop="sysNo">
+							<el-input v-model="userMsg.sysNo"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="交易名称" prop="dealname">
-							<el-input v-model="userMsg.dealname"></el-input>
+						<el-form-item label="功能编号" prop="bsnNo">
+							<el-input v-model="userMsg.bsnNo"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="接口名称" prop="interfacename">
-							<el-input v-model="userMsg.interfacename"></el-input>
+						<el-form-item label="功能名称" prop="methodName">
+							<el-input v-model="userMsg.methodName"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="交易类型" prop="dealType">
-							<el-select v-model="userMsg.dealType" placeholder="交易类型">
+						<el-form-item label="接口方法" prop="interfaceName">
+							<el-input v-model="userMsg.interfaceName"></el-input>
+							<!--<el-select v-model="userMsg.interfaceName" placeholder="交易类型">
 								<el-option label="交易类型" value="01"></el-option>
 								<el-option label="交易类型" value="02"></el-option>
-							</el-select>
+							</el-select>-->
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
-						<el-form-item label="所属系统" prop="company">
-							<el-select v-model="userMsg.company" class="bg-white">
+						<el-form-item label="服务URL" prop="bsnUrl">
+							<el-input v-model="userMsg.bsnUrl"></el-input>
+							<!--<el-select v-model="userMsg.bsnUrl" class="bg-white">
 								<el-option label="所属系统" value="01"></el-option>
 								<el-option label="所属系统" value="02"></el-option>
-							</el-select>
+							</el-select>-->
 						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="状态" prop="status">
 							<el-select v-model="userMsg.status" class="bg-white">
-								<el-option label="正常" value="00"></el-option>
-								<el-option label="已锁定" value="01"></el-option>
-								<el-option label="已注销" value="02"></el-option>
+								<el-option label="停用" value="0"></el-option>
+								<el-option label="正常" value="1"></el-option>
+								<el-option label="锁定" value="2"></el-option>
 							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="创建人" prop="createdBy">
+							<el-input v-model="userMsg.createdBy"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="创建时间" prop="createdDate">
+							<el-input v-model="userMsg.createdDate"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="更新人" prop="updatedBy">
+							<el-input v-model="userMsg.updatedBy"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="更新时间" prop="updatedDate">
+							<el-input v-model="userMsg.updatedDate"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="备注" prop="remark">
+							<el-input v-model="userMsg.remark"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-form>
@@ -59,34 +86,92 @@
 
 <script>
 	import current from '../../common/current_position.vue'
+	import moment from 'moment'
+	const baseURL = 'iem_hrm'
 	export default {
 		data() {
 			return {
 				userMsg: {
-					dealcode: '',
-					dealname: '',
-					interfacename: '',
-					company: '',
-					dealType: '',
-					status: ''
+					sysNo: '',
+					bsnNo: '',
+					methodName: '',
+					bsnUrl: '',
+					interfaceName: '',
+					status: '',
+					remark: '',
+					createdDate: "",
+					createdBy: '',
+					updatedBy: '',
+					updatedDate: ''
+					
+					
+					
 				}
 			}
 		},
 		components: {
 			current
 		},
+		created() {
+			this.userMsg = this.$route.params;
+			this.userMsg.createdDate = moment(this.userMsg.createdDate).format('YYYY-MM-DD hh:mm:ss');
+			this.userMsg.updatedDate = moment(this.userMsg.updatedDate).format('YYYY-MM-DD hh:mm:ss');
+		},
 		methods: {
 			//保存
 			conserve(formName) {
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						alert('submit!');
+						let params = {
+							bsnNo: this.userMsg.bsnNo,
+							methodName: this.userMsg.methodName,
+							bsnUrl: this.userMsg.bsnUrl,
+							interfaceName: this.userMsg.interfaceName,
+							status: this.userMsg.status,
+							remark: this.userMsg.remark,
+							updatedBy: this.userMsg.updatedBy
+						}
+						this.updateUserInfo(params);
 					} else {
 						console.log('error submit!!');
 						return false;
 					}
 				});
-			}
+			},
+			getUserInfo(params) {
+				const self = this;
+				self.$axios.put(baseURL+'/user/updateUserInfo',params)
+				.then(function(res){
+					console.log('updateUserInfo',res);
+					if(res.data.code=="S00000"){
+						self.$alert('信息修改成功', '提示', {
+				          	confirmButtonText: '确定'
+			        	});
+					} else {
+						self.$message.error('信息修改失败');
+					}
+				})
+				.catch(function(err){
+					self.$message.error('信息修改失败');
+				})
+			},
+			updateUserInfo(params) {
+				const self = this;
+				self.$axios.put(baseURL+'/user/updateUserInfo',params)
+				.then(function(res){
+					console.log('updateUserInfo',res);
+					if(res.data.code=="S00000"){
+						self.$alert('信息修改成功', '提示', {
+				          	confirmButtonText: '确定'
+			        	});
+					} else {
+						self.$message.error('信息修改失败');
+					}
+				})
+				.catch(function(err){
+					self.$message.error('信息修改失败');
+				})
+			},
 		}
 	}
 </script>
@@ -168,7 +253,7 @@
 	
 	.edit_fun .el-button:focus,
 	.edit_fun .el-button:hover {
-		opacity: 0.5;
+		/*opacity: 0.5;*/
 	}
 	
 	.edit_fun .content-inner {

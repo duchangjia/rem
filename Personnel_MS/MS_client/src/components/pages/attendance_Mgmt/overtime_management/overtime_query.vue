@@ -78,7 +78,7 @@
 						</el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -98,7 +98,7 @@ export default {
 	       	},
 			pageNum: 1,
 			pageSize: 5,
-			totalRows: 2,
+			totalRows: 0,
 			queryFormFlag: false,
 			ruleForm2: {
 				organNo: '',
@@ -343,7 +343,7 @@ export default {
 }
 
 .workot_query .el-form-item__label {
-	text-align: left;
+	/*text-align: left;*/
 	vertical-align: middle;
 	float: left;
 	font-size: 14px;
@@ -359,7 +359,7 @@ export default {
 }
 
 .workot_query .el-form-item {
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 }
 
 .workot_query .el-input,
@@ -375,7 +375,7 @@ export default {
 }
 
 .workot_query .button-wrap {
-	margin: 0px auto 40px;
+	margin: 0px auto 20px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;

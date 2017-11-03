@@ -76,19 +76,6 @@ export default {
 		self.selectTaxRateGroup(pageNum, pageSize, params);
 	},
 	methods: {
-		add0(m){return m<10?'0'+m:m },
-		getLocalTime(shijianchuo) {     
-//	       	var time = new Date(shijianchuo);
-//			var y = time.getFullYear();
-//			var m = time.getMonth()+1;
-//			var d = time.getDate();
-//			var h = time.getHours();
-//			var mm = time.getMinutes();
-//			var s = time.getSeconds();
-//			return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);      
-	    	
-		},
-	    
 		travelTimeFormatter(row, column) {
 			let time = row.createdDate;
 			return moment(time).format('YYYY-MM-DD hh:mm:ss');

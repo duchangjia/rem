@@ -8,54 +8,51 @@
 			<div class="content-inner">
 				<el-form :model="formData" ref="formData" label-width="68px" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-form-item label="交易名称" prop="dealName">
-							<el-input type="text" v-model="formData.dealName"></el-input>
-						</el-form-item>
-						<el-form-item label="交易类型" prop="dealType">
-							<el-select v-model="formData.dealType" class="bg-white">
-								<el-option label="交易类型" value="00" checked></el-option>
-								<el-option label="交易类型" value="01"></el-option>
-								<el-option label="交易类型" value="02"></el-option>
+						<el-form-item label="系统编号" prop="sysNo">
+							<el-select v-model="formData.sysNo" class="bg-white">
+								<el-option v-for="item in menuQueryConditions" :label="item.sysNo" :value="item.sysNo"></el-option>
 							</el-select>
+						</el-form-item>
+						<el-form-item label="功能编号" prop="bsnNo">
+							<el-input type="text" v-model="formData.bsnNo"></el-input>
+							<!--<el-select v-model="formData.bsnNo" class="bg-white">
+								<el-option v-for="item in funcQueryConditions" :label="item.sysNo" :value="item.bsnNo"></el-option>
+							</el-select>-->
+						</el-form-item>
+						<el-form-item label="功能名称" prop="methodName">
+							<el-input type="text" v-model="formData.methodName"></el-input>
 						</el-form-item>
 						<el-form-item label="状态" prop="status">
 							<el-select v-model="formData.status" class="bg-white">
-								<el-option label="正常" value="00" checked></el-option>
-								<el-option label="已锁定" value="01"></el-option>
-								<el-option label="已注销" value="02"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="所属系统" prop="system">
-							<el-select v-model="formData.system" class="bg-white">
-								<el-option label="所属系统" value="00" checked></el-option>
-								<el-option label="所属系统" value="01"></el-option>
-								<el-option label="所属系统" value="02"></el-option>
+								<el-option label="停用" value="0"></el-option>
+								<el-option label="正常" value="1"></el-option>
+								<el-option label="锁定" value="2"></el-option>
 							</el-select>
 						</el-form-item>
 					</div>
 					<div class="button-wrap">
 						<!--<el-form-item>-->
-							<el-button class="resetform" @click="resetForm('formData')">重置</el-button>
-							<el-button type="primary" @click="query('formData')">查询</el-button>
+							<el-button class="resetform" @click="resetForm()">重置</el-button>
+							<el-button type="primary" @click="queryForm()">查询</el-button>
 						<!--</el-form-item>-->
 					</div>
 				</el-form>
 				<div class="info">
-					<el-table :data="userList" border stripe style="width: 100%" @cell-click="handleEdit">
-						<el-table-column prop="number" label="交易代码"></el-table-column>
-						<el-table-column prop="name" label="交易名称"></el-table-column>
-						<el-table-column prop="company" label="接口名称"></el-table-column>
-						<el-table-column prop="department" label="交易类型"></el-table-column>
-						<el-table-column prop="role" label="所属系统"></el-table-column>
-						<el-table-column prop="phone" label="状态"></el-table-column>
+					<el-table :data="userList" border stripe style="width: 100%">
+						<el-table-column prop="sysNo" label="系统编号"></el-table-column>
+						<el-table-column prop="bsnNo" label="功能编号"></el-table-column>
+						<el-table-column prop="methodName" label="功能名称"></el-table-column>
+						<el-table-column prop="interfaceName" label="接口方法"></el-table-column>
+						<el-table-column prop="bsnUrl" label="服务URL"></el-table-column>
+						<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
 						<el-table-column label="操作">
 							<template scope="scope">
-		                        <i class="icon-edit"></i>
+		                        <i class="icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
 		                    </template>
 						</el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -64,85 +61,148 @@
 
 <script>
 	import current from '../../common/current_position.vue'
+	const baseURL = 'iem_hrm'
 	export default {
 		data() {
 			return {
-				pageIndex: 1,
-				pageRows: 1,
-				totalRows: 5,
+				pageNum: 1,
+				pageSize: 5,
+				totalRows: 0,
+				queryFormFlag: false,
 				formData: {
-					dealName: '',
-					dealType: '',
+					methodName: '',
+					bsnNo: '',
 					status: '',
-					system: ''
+					sysNo: ''
 				},
 				userList: [{
-					number: '0000111',
-					name: '111111',
-					company: '广州分公司',
-					department: '111',
-					role: '财务部',
-					phone: '1351011111',
-					status: '正常'
-				}, {
-					number: '0000112',
-					name: '222222',
-					company: '广州分公司',
-					department: '111',
-					role: '财务部',
-					phone: '1351011111',
-					status: '正常'
-				}, {
-					number: '0000113',
-					name: '333333',
-					company: '广州分公司',
-					department: '111',
-					role: '财务部',
-					phone: '1351011111',
-					status: '已锁定'
-				}, {
-					number: '0000114',
-					name: '444444',
-					company: '广州分公司',
-					department: '111',
-					role: '财务部',
-					phone: '1351011111',
+					sysNo: '0000111',
+					bsnNo: '111111',
+					methodName: '广州分公司',
+					interfaceName: '111',
+					bsnUrl: '财务部',
+					status: '1351011111',
 					status: '正常'
 				}],
-
+				funcQueryConditions: [],
+				menuQueryConditions: [
+					{sysNo: "1"},
+					{sysNo: "2"}
+				]
 				
 			};
 		},
 		components: {
 			current
 		},
+		created() {
+			const self = this;
+			let pageNum = self.pageNum;
+			let pageSize = self.pageSize;
+			let params = {
+				"pageNum": pageNum,
+				"pageSize": pageSize
+			}
+			//查询功能列表
+			self.queryFormFlag = false;
+			self.queryFunList(pageNum,pageSize,params);
+			//查询功能编号
+			self.queryConditions();
+		},
 		methods: {
-			query(formName) {
-				this.$refs[formName].validate((valid) => {
-					if(valid) {
-						console.log(this.formData.dealName);
-					} else {
-						console.log('error submit!!');
-						return false;
-					}
-				});
+			statusFormatter(row, column) {
+		      	return row.status == 1 ? "正常" : row.status == 0 ? "停用" : "锁定";
+		    },
+			queryForm() {
+				const self = this;
+				self.userList = [];
+				let pageNum = self.pageNum;
+				let pageSize = self.pageSize;
+				let params = {
+					"pageNum": pageNum,
+					"pageSize": pageSize,
+				 	sysNo: self.formData.sysNo,
+					bsnNo: self.formData.bsnNo,
+					methodName: self.formData.methodName,
+					status: self.formData.status
+				}
+				console.log('params',params)
+				//查询功能列表
+				self.queryFormFlag = true;
+				self.queryFunList(pageNum,pageSize,params);
+				
 			},
-//			resetForm(formName) {
-//				this.$refs[formName].resetFields();
-//			}
 			resetForm() {
-				this.$router.push('/edit_fun');
+				this.formData.methodName = '';
+				this.formData.bsnNo = '';
+				this.formData.status = '';
+				this.formData.sysNo = '';
 			},
-	     	handleEdit(row, column, cell, event) {
-	     		console.log(row.number);
-	            this.$router.push('/edit_fun');
-	        },
-			handleSizeChange(val) {
-                console.log(`每页 ${val} 条`);
-           	},
+	     	handleEdit(index, row) {
+	     		console.log(row.sysNo);
+	            this.$router.push({
+	            	name: 'edit_fun',
+	            	params: {
+	            		sysNo: row.sysNo,
+						bsnNo: row.bsnNo,
+						methodName: row.methodName,
+						bsnUrl: row.bsnUrl,
+						interfaceName: row.interfaceName,
+						status: row.status,
+						remark: row.remark,
+						createdDate: row.createdDate,
+						createdBy: row.createdBy,
+						updatedBy: row.updatedBy,
+						updatedDate: row.updatedDate
+	            	}
+	            });
+	       },
 			handleCurrentChange(val) {
-		        console.log(`当前页: ${val}`);
-	     	}
+		        const self = this;
+				let pageNum = val;
+				let pageSize = self.pageSize;
+				let params = {};
+				if(!self.queryFormFlag) {
+					params = {
+						"pageNum": pageNum,
+						"pageSize": pageSize
+					}
+				} else {
+					params = {
+						"pageNum": pageNum,
+						"pageSize": pageSize,
+						sysNo: self.formData.sysNo,
+						bsnNo: self.formData.bsnNo,
+						methodName: self.formData.methodName,
+						status: self.formData.status
+					}
+				}
+				//分页查询功能列表
+				self.queryFunList(pageNum,pageSize,params);
+		        
+	     	},
+	     	queryFunList(pageNum,pageSize,params) {
+				const self = this;
+				self.$axios.get(baseURL+'/function/queryFuncList', {params: params})
+				.then(function(res) {
+					console.log('FuncList',res);
+					self.userList = res.data.data.list;
+					self.pageNum = pageNum;
+					self.totalRows = Number(res.data.data.total);
+				}).catch(function(err) {
+					console.log(err);
+				})
+			},
+			queryConditions() {
+				const self = this;
+				self.$axios.get(baseURL+'/function/getQueryConditions')
+				.then(function(res) {
+					console.log('Conditions',res);
+//					self.menuQueryConditions = res.data.data.menuQueryConditions;
+				}).catch(function(err) {
+					console.log(err);
+				})
+			}
 	}
 
 	}
@@ -182,7 +242,7 @@
 		padding: 40px 0px;
 	}
 	.fun .el-form-item__label {
-		text-align: left;
+		/*text-align: left;*/
 		vertical-align: middle;
 		float: left;
 		font-size: 14px;
@@ -197,7 +257,7 @@
 		float: left;
 	}
 	.fun .el-form-item {
-		margin-bottom: 40px;
+		margin-bottom: 20px;
 	}
 	.fun .el-input,
 	.fun .el-input__inner {
@@ -213,7 +273,7 @@
 	    margin-left: 0px!important;
 	}
 	.fun .button-wrap {
-		margin: 0px auto 40px;
+		margin: 0px auto 20px;
 		width: 260px;
 		clear: both;
 		font-size: 0px;
@@ -251,14 +311,14 @@
 		background-color: #FF9900;
 		border-color: #FF9900;
 	}
-	.fun .el-button:focus,
+	/*.fun .el-button:focus,
 	.fun .el-button:hover {
 	    border-color: #FF9900;
 	    opacity: 0.5;
-	}
-	.fun .el-button:focus {
+	}*/
+	/*.fun .el-button:focus {
 		opacity: 1;
-	}
+	}*/
 	.fun .el-button.resetform:focus,
 	.fun .el-button.resetform:hover {
 		color: #FF9900;

@@ -9,14 +9,16 @@
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="formdata2.organNo" value-key="organNo" @change="changeValue">
+						<el-input v-model="formdata2.companyName"></el-input>
+					    <!--<el-select v-model="formdata2.organNo" value-key="organNo" @change="changeValue">
 							<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
-						</el-select>
+						</el-select>-->
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-					    <el-select v-model="formdata2.deptNo" value-key="departOrgNo" @change="changeValue">
+						<el-input v-model="formdata2.deptName"></el-input>
+					    <!--<el-select v-model="formdata2.deptNo" value-key="departOrgNo" @change="changeValue">
 							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
-						</el-select>
+						</el-select>-->
 				  	</el-form-item>
 				<!--<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">-->  	
 					<el-form-item label="工号">

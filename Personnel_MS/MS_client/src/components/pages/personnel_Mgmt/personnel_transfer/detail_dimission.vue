@@ -61,7 +61,7 @@
 						</el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -76,12 +76,12 @@ export default {
 		return {
 			pickerOptions0: {
 	          disabledDate(time) {
-	            return time.getTime() < Date.now() - 8.64e7;
+//	            return time.getTime() < Date.now() - 8.64e7;
 	          }
 	       	},
-			pageIndex: 1,
-			pageRows: 5,
-			totalRows: 2,
+			pageNum: 1,
+			pageSize: 5,
+			totalRows: 0,
 			ruleForm2: {
 				compOrgNo: '',
 				departOrgNo: '',
@@ -140,8 +140,8 @@ export default {
 	},
 	created() {
 		const self = this;
-		let pageNum = self.pageIndex;
-		let pageSize = self.pageRows;
+		let pageNum = self.pageNum;
+		let pageSize = self.pageSize;
 		let params = {
 			"pageNum": pageNum,
 			"pageSize": pageSize
@@ -206,7 +206,7 @@ export default {
 			console.log(`当前页: ${val}`);
 			const self = this;
 			let pageNum = val;
-			let pageSize = self.pageRows;
+			let pageSize = self.pageSize;
 			let params = {
 				"pageNum": pageNum,
 				"pageSize": pageSize
@@ -219,7 +219,7 @@ export default {
 			.then(function(res) {
 				console.log('UserList',res);
 				self.transferDataList = res.data.data.models;
-				self.pageIndex = pageNum;
+				self.pageNum = pageNum;
 				self.totalRows = Number(res.data.data.total);
 			}).catch(function(err) {
 				console.log(err);

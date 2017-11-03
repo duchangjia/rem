@@ -81,6 +81,7 @@
 						</el-input>
 				  	</el-form-item>
 				  	<el-form-item label="附件" style="width: 100%;">
+				  		<el-input v-model="formdata.attachm"></el-input>
 				  		<el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
                             <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                         </el-upload>

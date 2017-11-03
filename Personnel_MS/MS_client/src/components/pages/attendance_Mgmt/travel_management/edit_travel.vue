@@ -10,14 +10,16 @@
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="formdata2.organNo" value-key="organNo" @change="changeCompValue">
+						<el-input v-model="formdata2.companyName"></el-input>
+					    <!--<el-select v-model="formdata2.organNo" value-key="organNo" @change="changeCompValue">
 							<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
-						</el-select>
+						</el-select>-->
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-					    <el-select v-model="formdata2.deptNo" value-key="departOrgNo" @change="changeValue">
+						<el-input v-model="formdata2.deptName"></el-input>
+					    <!--<el-select v-model="formdata2.deptNo" value-key="departOrgNo" @change="changeValue">
 							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
-						</el-select>
+						</el-select>-->
 				  	</el-form-item>
 				<!--<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">-->  	
 					<el-form-item label="工号">
@@ -68,8 +70,8 @@
 					  	</el-form-item>
 				  	</el-col>
 				  	<el-form-item label="附件" style="width: 100%;">
-			  		 	<el-input v-model="formdata2.attachm"></el-input>
-				  		<el-upload class="upload-demo" ref="upload" :on-change="changeUpload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+			  		 	<el-input v-model="attachm.name"></el-input>
+				  		<el-upload class="upload-demo" ref="upload" :on-change="changeUpload" :before-upload="beforeAvatarUpload " action="https://jsonplaceholder.typicode.com" :show-file-list="false" :auto-upload="false">
                             <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
                         </el-upload>
 				  	</el-form-item>
@@ -182,7 +184,7 @@
 			changeCompValue(value) {
 				const self = this;
 				let params = {
-					organNo: val
+					organNo: value
 				}
 				//查询部门列表
 				self.queryDerpList(params);
@@ -191,8 +193,13 @@
 		 		const self = this;
 	            console.log('value',value);
 	      	},
+	      	beforeAvatarUpload(file) {
+//	      		this.attachm = file;
+	      		console.log('before',file);
+	      		
+	      	},
 	      	changeUpload(file,fileList) {
-	      		console.log('file',file);
+//	      		console.log('file',file);
 	      		this.attachm = file;
 	      	},
 	      	queryUserInfo() {
@@ -206,17 +213,11 @@
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
+						self.$refs.upload.submit();
 						console.log('valid');
 						let params = {
 							applyNo: self.formdata2.applyNo, //出差编号
-//	   						organNo: self.formdata2.organNo,//公司编号
-//	    					deptNo: self.formdata2.deptNo,//部门编号
-//						    companyName: self.formdata2.companyName,//公司名称
-//						    deptName: self.formdata2.deptName,//部门名称
 						    userNo: self.formdata2.userNo,//工号
-//						    custName: self.formdata2.custName,//姓名
-//						    custPost: self.formdata2.custPost,//岗位
-//						    custClass: self.formdata2.custClass,//职级
 						    travelType: self.formdata2.travelType,//出差类型
 						    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
 						    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
