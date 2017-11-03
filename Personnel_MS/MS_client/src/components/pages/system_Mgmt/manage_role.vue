@@ -218,7 +218,8 @@ export default {
     background: #F8F8F8;
     height: 312px;
     margin-bottom: 20px;
-    /* padding: 0 20px; */
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .add-wrapper .func-permission .funcs-content label {
