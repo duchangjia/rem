@@ -15,7 +15,7 @@
                             <el-input v-model="editRoleMsg.roleName" auto-complete="off"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <!-- <el-col :span="12">
                         <el-form-item label="岗位">
                             <el-select v-model="editRoleMsg.job">
                                 <el-option label="普通员工" value="普通员工"></el-option>
@@ -23,18 +23,18 @@
                                 <el-option label="经理" value="经理"></el-option>
                             </el-select>
                         </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="描述">
-                            <el-input type="textarea" v-model="editRoleMsg.roleDescr"></el-input>
-                        </el-form-item>
-                    </el-col>
+                    </el-col> -->
                     <el-col :span="12">
                         <el-form-item label="状态">
                             <el-radio-group v-model="editRoleMsg.status">
                                 <el-radio label="1">有效</el-radio>
                                 <el-radio label="0">无效</el-radio>
                             </el-radio-group>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="描述">
+                            <el-input type="textarea" v-model="editRoleMsg.roleDescr"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -68,11 +68,10 @@ export default {
     created() {
         const self = this;
         let params = {
-            roleNo: self.$route.params.roleNo,
-            status: self.$route.params.status
+            roleNo: self.$route.params.roleNo
         }
         console.log(params);
-        self.$axios.get('/iem_hrm/role/queryRoleDetail', { params })
+        self.$axios.get('/iem_hrm/role/queryRoleByRoleNo', { params })
             .then(function(res) {
                 console.log(res);
                 self.roleDetail = res.data.data;
@@ -95,7 +94,10 @@ export default {
             this.$axios.put('/iem_hrm/role/modifyRoleInfo', editRole)
                 .then((res) => {
                     console.log(res);
-                    if (res.data.code == 'S00000') this.$router.push('/management_role');
+                    if (res.data.code == 'S00000') {
+                        this.$message({ type: "success", message: "修改角色成功!" });
+                        this.$router.push('/management_role');
+                    } 
                     else this.$message.error('编辑角色失败！');
                 }).catch(() => {
                     this.$message.error('编辑角色失败！');
