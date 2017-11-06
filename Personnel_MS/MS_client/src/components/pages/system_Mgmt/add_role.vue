@@ -38,45 +38,29 @@
                     </el-col>
                     <el-col :span="22" class="rightside">
                         <div class="menu">
-                            <el-radio-group v-model="menuRadio" @change="handleCheckedMenusChange">
-                                <el-radio-button v-for="menu in menus" :label="menu" :key="menu" class="menu-item"></el-radio-button>
+                            <el-radio-group v-model="menuRadio" @change="handleRadioMenusChange">
+                                <el-radio-button v-for="menu in menus" :label="menu.menuNo" class="menu-item">{{menu.menuName}}</el-radio-button>
                             </el-radio-group>
                         </div>
                         <div class="submenu" v-if="menuRadioFlag">
-                            <el-checkbox-button :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange" label="全部" class="menu-item"></el-checkbox-button>
-                            <el-checkbox-group v-model="checkedSubmenus" @change="handleCheckedSubmenusChange">
-                                <el-checkbox-button v-for="submenu in submenus" :label="submenu" :key="submenu" class="menu-item">{{submenu}}</el-checkbox-button>
+                            <el-checkbox-button v-model="checkSubAll" :indeterminate="isSubIndeterminate" @change="handleSubAllChange" label="全部" class="menu-item"></el-checkbox-button>
+                            <el-checkbox-group v-model="checkedSubmenus" @change="handleCheckedSubsChange">
+                                <el-checkbox-button v-for="submenu in submenus" :label="submenu" class="menu-item">{{submenu.menuName}}</el-checkbox-button>
                             </el-checkbox-group>
                         </div>
                     </el-col>
                 </div>
-                <div class="func-permission" v-if="menuRadioFlag">
+                <div class="func-permission" v-if="checkedSubmenusFlag">
                     <el-col :span="2" class="leftside">
                         <div>功能权限</div>
                     </el-col>
                     <el-col :span="22" class="rightside">
                         <el-row :gutter="20">
-                            <el-col :span="6">
+                            <el-col :span="6" v-for="(funcs, index) in funcsList">
                                 <div class="funcs-content">
-                                    <el-checkbox class="func-checkall">组织架构</el-checkbox>
-                                    <el-checkbox-group class="func-item">
-                                        <el-checkbox>新增机构信息</el-checkbox>
-                                        <el-checkbox>删除机构信息</el-checkbox>
-                                        <el-checkbox>新增机构信息</el-checkbox>
-                                        <el-checkbox>修改机构信息</el-checkbox>
-                                        <el-checkbox>查询机构列表</el-checkbox>
-                                        <el-checkbox>新增机构信息</el-checkbox>
-                                    </el-checkbox-group>
-                                </div>
-                            </el-col>
-                            <el-col :span="6">
-                                <div class="funcs-content">
-                                    <el-checkbox class="func-checkall">用户管理</el-checkbox>
-                                    <el-checkbox-group class="func-item">
-                                        <el-checkbox>用户管理1</el-checkbox>
-                                        <el-checkbox>用户管理2</el-checkbox>
-                                        <el-checkbox>用户管理3</el-checkbox>
-                                        <el-checkbox>用户管理4</el-checkbox>
+                                    <el-checkbox v-model="checkFuncsAll['aa'+index]" :indeterminate="isFuncsIndeterminate" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
+                                    <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange(value, index)"  class="func-item">
+                                        <el-checkbox v-for="funcsDtl in funcs.bsns">{{ funcsDtl.interfaceName }}</el-checkbox>
                                     </el-checkbox-group>
                                 </div>
                             </el-col>
@@ -90,113 +74,150 @@
 </template>
 
 <script type='text/ecmascript-6'>
-const menuOptions = ['系统管理', '参数管理', '客户关系', '项目管理', '业务管理', '运营报表'];
-const submenuOptions1 = ['组织架构', '用户管理', '角色管理', '功能管理'];
-const submenuOptions2 = ['参数管理1', '参数管理2', '参数管理3'];
-const submenuOptions3 = ['客户关系1', '客户关系2', '客户关系3'];
-const submenuOptions4 = ['项目管理1', '项目管理2', '项目管理3', '项目管理4'];
-const submenuOptions5 = ['业务管理1', '业务管理2', '业务管理3', '业务管理4'];
-const submenuOptions6 = ['运营报表1', '运营报表2', '运营报表3', '运营报表4'];
-import current from '../../common/current_position.vue'
+import current from "../../common/current_position.vue";
 export default {
-    data() {
-        return {
-            labelPosition: 'right',
-            addRoleMsg: {
-                roleNo: '',
-                roleName: '',
-                status: '',
-                roleDescr: ''
-            },
-            menuRadio: '系统管理',
-            menuRadioFlag: true,
-            menus: menuOptions,
+  data() {
+    return {
+      labelPosition: "right",
+      addRoleMsg: {
+        roleNo: "",
+        roleName: "",
+        status: "",
+        roleDescr: ""
+      },
+      menuRadio: "",
+      menuRadioFlag: false,
+      menus: [],
 
-            checkAll: false,
-            checkedSubmenus: ['组织架构', '用户管理'],
-            submenus: submenuOptions1,
-            isIndeterminate: true
-        };
+      checkSubAll: false,
+      checkedSubmenusFlag: false,
+      checkedSubmenus: [],
+      submenus: [],
+      isSubIndeterminate: true,
+
+      funcsList: [],
+      checkFuncsAll: false,
+      checkFuncs: [],
+      isFuncsIndeterminate: true
+    };
+  },
+  components: {
+    current
+  },
+  created() {
+    const self = this;
+    self.$axios
+      //   .get("/iem_hrm/role/queryParentMenu")
+      .get("/iem_hrm/queryParentMenu")
+      .then(res => {
+        // self.menus = res.data.data;
+        self.menus = res.data.data.data;
+        console.log("这是menus" ,self.menus);
+      })
+      .catch(() => {
+        console.log("error");
+      });
+  },
+  methods: {
+    // 父级菜单-单选
+    handleRadioMenusChange(value) {
+      this.menuRadioFlag = true;
+      this.checkedSubmenusFlag = false;
+      this.checkedSubmenus = [];
+      this.funcsList = [];
+      console.log(this.funcsList);
+      this.menuRadio = value;
+      let params = {
+        upMenuNo: this.menuRadio
+      };
+      this.$axios
+        // .get("/iem_hrm/role/queryChildMenuAndFunc", { params: params })
+        .get("/iem_hrm/queryChildMenuAndFunc", { params: params })
+        .then(res => {
+          //   this.submenus = res.data.data;
+          this.submenus = res.data.data.data;
+          this.checkSubAll = false;
+          console.log("这是submenus" , this.submenus);
+        })
+        .catch(() => {
+          console.log("error");
+        });
     },
-    components: {
-        current,
+    // 次级菜单 多选
+    handleSubAllChange(event) {
+      this.checkSubAll = event.target.checked;
+      if ((this.checkSubAll == true)) {
+        this.submenus.forEach(function(v, k) {
+          this.checkedSubmenus.push(v.menuName);
+        });
+      } else {
+        this.checkedSubmenus = [];
+      }
+      this.checkedSubmenus.length > 0 ? (this.checkedSubmenusFlag = true) : (this.checkedSubmenusFlag = false);
+      this.isSubIndeterminate = false;
+      this.funcsList = this.checkedSubmenus;
+      console.log("这是全选的checkedSubmenus", this.funcsList);
     },
-    // created() {
-    //     const self = this;
-    //     let params = {};
-    //     self.$axios.get('/iem_hrm/role/setRoleFunc', { params: params })
-    //         .then(function(res) {
-    //             console.log(res);
-    //         }).catch(function(err) {
-    //             console.log('error');
-    //         })
-    // },
-    methods: {
-        handleCheckedMenusChange(value) {
-            if (value !== null) {
-                this.menuRadioFlag = true;
-            } else {
-                this.menuRadioFlag = false;
-            }
-            if (value == '系统管理') {
-                this.checkAll = false;
-                this.submenus = submenuOptions1;
-            } else if (value == '参数管理') {
-                this.checkAll = false;
-                this.submenus = submenuOptions2;
-            } else if (value == '客户关系') {
-                this.checkAll = false;
-                this.submenus = submenuOptions3;
-            } else if (value == '项目管理') {
-                this.checkAll = false;
-                this.submenus = submenuOptions4;
-            } else if (value == '业务管理') {
-                this.checkAll = false;
-                this.submenus = submenuOptions5;
-            } else if (value == '运营报表') {
-                this.checkAll = false;
-                this.submenus = submenuOptions6;
-            }
-        },
-        handleCheckAllChange(event) {
-            this.checkedSubmenus = event.target.checked ? this.submenus : [];
-            this.isIndeterminate = false;
-        },
-        handleCheckedSubmenusChange(value) {
-            let checkedCount = value.length;
-            this.checkAll = checkedCount === this.submenus.length;
-            this.isIndeterminate = checkedCount > 0 && checkedCount < this.submenus.length;
-        },
-        handleSave() {
-            let newRole = {};
-            newRole.roleName = this.addRoleMsg.roleName;
-            newRole.status = this.addRoleMsg.status;
-            newRole.roleDescr = this.addRoleMsg.roleDescr;
-            console.log(newRole);
-            this.$axios.post('/iem_hrm/role/addRoleInfo', newRole)
-                .then((res) => {
-                    console.log(res);
-                    if (res.data.code == 'S00000') this.$router.push('/management_role');
-                    else this.$message.error('新增角色失败！');
-                }).catch(() => {
-                    this.$message.error('新增角色失败！');
-                })
-        }
+    handleCheckedSubsChange(value) {
+      let checkedCount = value.length;
+      this.isSubIndeterminate = checkedCount > 0 && checkedCount < this.submenus.length;
+      checkedCount > 0 ? (this.checkedSubmenusFlag = true) : (this.checkedSubmenusFlag = false);
+      checkedCount == this.submenus.length ? (this.checkSubAll = true) : (this.checkSubAll = false);
+      this.funcsList = value;
+      console.log("这是checkedSubmenus", this.funcsList);
+    },
+    // 功能权限 多选
+    handleFuncsAllChange(event, index) {
+        console.log('event:' + event);
+        console.log('index:' + index);
+      this.checkFuncsAll['aa'+index] = event.target.checked;
+      if ((checkFuncsAll['aa'+index] == true)) {
+        // this.submenus.forEach(function(v, k) {
+        //   this.checkFuncs.push(v.menuName);
+        // });
+        this.checkFuncs = this.funcsList;
+      } else {
+        this.checkFuncs = [];
+      }
+      this.isFuncsIndeterminate = false;
+      console.log("这是全选的checkFuncs" , this.checkFuncs);
+    },
+    handleCheckedFuncsChange(val) {
+      this.checkFuncs = val;
+      console.log("这是checkFuncs" , val);
+    },
+
+    handleSave() {
+      let newRole = {};
+      newRole.roleName = this.addRoleMsg.roleName;
+      newRole.status = this.addRoleMsg.status;
+      newRole.roleDescr = this.addRoleMsg.roleDescr;
+      console.log(newRole);
+      this.$axios
+        .post("/iem_hrm/role/addRoleInfo", newRole)
+        .then(res => {
+          console.log(res);
+          if (res.data.code == "S00000") this.$router.push("/management_role");
+          else this.$message.error("新增角色失败！");
+        })
+        .catch(() => {
+          this.$message.error("新增角色失败！");
+        });
     }
-}
+  }
+};
 </script>
 
 <style>
 .add_role {
-    padding: 0 0 20px 20px;
+  padding: 0 0 20px 20px;
 }
 
 .add_role .el-textarea__inner {
-    width: 300px;
+  width: 300px;
 }
 
 .add_role .content-wrapper {
-    padding: 0 20px 0;
+  padding: 0 20px 0;
 }
-
 </style>

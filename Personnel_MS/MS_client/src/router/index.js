@@ -109,6 +109,7 @@ export default new Router({
                             component: resolve => require(['../components/pages/system_Mgmt/fun.vue'], resolve)
                         },
                         {
+                        	name: 'edit_fun',
                             path: '/edit_fun',
                             component: resolve => require(['../components/pages/system_Mgmt/edit_fun.vue'], resolve)
                         }

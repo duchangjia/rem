@@ -55,13 +55,13 @@ export default {
       };
       self.$axios
         .get("/iem_hrm/role/queryRoleList", { params: params })
-        .then(function(res) {
+        .then((res) => {
           console.log(res);
           self.roleListInfo = res.data.data.models;
           self.pageNum = Number(res.data.data.pageNum);
           self.totalRows = Number(res.data.data.total);
         })
-        .catch(function(err) {
+        .catch(() => {
           console.log("error");
         });
     },

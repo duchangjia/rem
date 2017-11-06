@@ -218,7 +218,8 @@ export default {
     background: #F8F8F8;
     height: 312px;
     margin-bottom: 20px;
-    /* padding: 0 20px; */
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .add-wrapper .func-permission .funcs-content label {
@@ -277,6 +278,11 @@ export default {
 .add-wrapper .func-permission .funcs-content .el-checkbox__inner:hover,
 .add-wrapper .func-permission .funcs-content .el-checkbox__inner:focus {
     border-color: #ff8d00;
+}
+
+.el-select-dropdown__item.selected,
+.el-select-dropdown__item.selected.hover {
+    background-color: #ff9900;
 }
 
 .toolbar.el-pagination {
