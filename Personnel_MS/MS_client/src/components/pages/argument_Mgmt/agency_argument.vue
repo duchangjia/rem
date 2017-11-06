@@ -150,7 +150,6 @@
             },
             handleCurrentChange(val) {
                 let self = this
-                console.log(val)
                 let data = {
                     pageSize:this.fenye.pageSize,
                     pageNum: val

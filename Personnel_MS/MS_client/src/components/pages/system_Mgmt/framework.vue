@@ -90,61 +90,61 @@
                         </el-pagination>
                     </div>
                 </div>
-                <div class="title" style="margin-top: 36px;">
-                    <span class="text">机构人员</span>
-                    <el-button type="primary" @click="handleAdd('add_person', content.organNo)" class="toolBtn">新增</el-button>
-                </div>
-                <div class="table-wrapper" style="margin-top: 13px; text-align: right;" v-show="tableData2.list">
-                    <template>
-                        <el-table
-                                :data="tableData2.list"
-                                border
-                                stripe
-                                max-height="400"
-                        >
-                            <el-table-column
-                                    prop="userName"
-                                    label="姓名"
-                                    align="center"
-                            >
-                            </el-table-column>
-                            <el-table-column
-                                    prop="userNo"
-                                    label="工号"
-                                    align="center"
-                            >
-                            </el-table-column>
-                            <el-table-column
-                                    prop="remark"
-                                    label="职位"
-                                    align="center"
-                                    width="170"
-                            >
-                            </el-table-column>
-                            <el-table-column
-                                    prop="mobileTEL"
-                                    label="手机"
-                                    align="center">
-                            </el-table-column>
-                            <el-table-column
-                                    label="操作"
-                                    align="center">
-                                <template scope="scope">
-                                    <i class="el-icon-delete" style="color: #FF9900"></i>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                    </template>
-                    <div class="block" style="margin-top: 40px; display: inline-block;" v-show="tableData2.total">
-                        <el-pagination
-                                @size-change="handleSizeChange"
-                                @current-change="handleCurrentChange2"
-                                :page-size="tableData2.pageSize"
-                                layout="total, prev, pager, next, jumper"
-                                :total="tableData2.total">
-                        </el-pagination>
-                    </div>
-                </div>
+                <!--<div class="title" style="margin-top: 36px;">-->
+                    <!--<span class="text">机构人员</span>-->
+                    <!--<el-button type="primary" @click="handleAdd('add_person', content.organNo)" class="toolBtn">新增</el-button>-->
+                <!--</div>-->
+                <!--<div class="table-wrapper" style="margin-top: 13px; text-align: right;" v-show="tableData2.list">-->
+                    <!--<template>-->
+                        <!--<el-table-->
+                                <!--:data="tableData2.list"-->
+                                <!--border-->
+                                <!--stripe-->
+                                <!--max-height="400"-->
+                        <!--&gt;-->
+                            <!--<el-table-column-->
+                                    <!--prop="userName"-->
+                                    <!--label="姓名"-->
+                                    <!--align="center"-->
+                            <!--&gt;-->
+                            <!--</el-table-column>-->
+                            <!--<el-table-column-->
+                                    <!--prop="userNo"-->
+                                    <!--label="工号"-->
+                                    <!--align="center"-->
+                            <!--&gt;-->
+                            <!--</el-table-column>-->
+                            <!--<el-table-column-->
+                                    <!--prop="remark"-->
+                                    <!--label="职位"-->
+                                    <!--align="center"-->
+                                    <!--width="170"-->
+                            <!--&gt;-->
+                            <!--</el-table-column>-->
+                            <!--<el-table-column-->
+                                    <!--prop="mobileTEL"-->
+                                    <!--label="手机"-->
+                                    <!--align="center">-->
+                            <!--</el-table-column>-->
+                            <!--<el-table-column-->
+                                    <!--label="操作"-->
+                                    <!--align="center">-->
+                                <!--<template scope="scope">-->
+                                    <!--<i class="el-icon-delete" style="color: #FF9900"></i>-->
+                                <!--</template>-->
+                            <!--</el-table-column>-->
+                        <!--</el-table>-->
+                    <!--</template>-->
+                    <!--<div class="block" style="margin-top: 40px; display: inline-block;" v-show="tableData2.total">-->
+                        <!--<el-pagination-->
+                                <!--@size-change="handleSizeChange"-->
+                                <!--@current-change="handleCurrentChange2"-->
+                                <!--:page-size="tableData2.pageSize"-->
+                                <!--layout="total, prev, pager, next, jumper"-->
+                                <!--:total="tableData2.total">-->
+                        <!--</el-pagination>-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
         </div>
     </div>
@@ -184,7 +184,7 @@
                   console.log('请求公司数据超时')
                   return false
               })
-            self.$axios.get('/iem_hrm/organ/queryCurrentAndParentOrganDetail/01')
+            self.$axios.get('/iem_hrm/organ/queryCurrentAndParentOrganDetail/0')
                 .then( res => {
                     self.content = res.data.data
                 })
@@ -192,7 +192,7 @@
                     console.log('请求公司详情数据超时')
                     return false
                 })
-            self.$axios.get('/iem_hrm/organ/queryChildOrganDetail/01')
+            self.$axios.get('/iem_hrm/organ/queryChildOrganDetail/0')
                 .then( res => {
                     self.tableData = res.data.data
                 })
@@ -200,14 +200,14 @@
                     console.log('请求公司下级详情数据超时')
                     return false
                 })
-            self.$axios.get('/iem_hrm/organ/queryOrganMember/01')
-                .then( res => {
-                    self.tableData2 = res.data.data
-                })
-                .catch( res=> {
-                    console.log('请求公司员工数据超时')
-                    return false
-                })
+//            self.$axios.get('/iem_hrm/organ/queryOrganMember/0')
+//                .then( res => {
+//                    self.tableData2 = res.data.data
+//                })
+//                .catch( res=> {
+//                    console.log('请求公司员工数据超时')
+//                    return false
+//                })
         },
 //        watch: {
 //            companies: '_reload',
@@ -435,19 +435,51 @@
                 }).then(() => {
                     self.$axios.delete(`/iem_hrm/organ/deleteOrganInfo/${index}`)
                         .then(res => {
-                            if (res.data.retMsg !== "操作成功") {
-                                this.$message({
-                                    type: 'error',
-                                    message: res.data.retMsg
-                                });
-                            } else {
+                            if (res.data.retMsg == "操作成功") {
                                 this.$message({
                                     type: 'success',
                                     message: '删除成功!'
                                 });
-                                setTimeout(function () {
-                                    window.location.reload(true)
-                                },3000)
+                                self.$axios.get('/iem_hrm/organ/queryOrganList/0')
+                                    .then( res => {
+                                        self.companies = res.data.data[0]
+                                        self.$nextTick(function () {
+                                            var ulObj = $('.common-list')
+                                            let length = ulObj.length
+                                            for (let index=0;index<length;index++) {
+                                                let obj = ulObj[index]
+                                                if (index!=1) {
+                                                    $(obj).slideUp(0)
+                                                }
+                                            }
+                                            $('.list>li:nth-child(2)').addClass('active')
+                                        })
+                                    })
+                                    .catch( res=> {
+                                        console.log('请求公司数据超时')
+                                        return false
+                                    })
+                                self.$axios.get('/iem_hrm/organ/queryCurrentAndParentOrganDetail/0')
+                                    .then( res => {
+                                        self.content = res.data.data
+                                    })
+                                    .catch( res=> {
+                                        console.log('请求公司详情数据超时')
+                                        return false
+                                    })
+                                self.$axios.get('/iem_hrm/organ/queryChildOrganDetail/0')
+                                    .then( res => {
+                                        self.tableData = res.data.data
+                                    })
+                                    .catch( res=> {
+                                        console.log('请求公司下级详情数据超时')
+                                        return false
+                                    })
+                            } else {
+                                this.$message({
+                                    type: 'error',
+                                    message: res.data.retMsg
+                                });
                             }
                         })
                         .catch(res=>{

@@ -15,26 +15,26 @@
                                     <div class="text">个人信息</div>
                                     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
                                         <el-col :span="8">
-                                            <el-form-item label="姓名" prop="username">
-                                                <el-input v-model="ruleForm.username"></el-input>
+                                            <el-form-item label="姓名" prop="custName">
+                                                <el-input v-model="ruleForm.custName"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="身份证" prop="userId">
-                                                <el-input v-model="ruleForm.userId"></el-input>
+                                            <el-form-item label="身份证" prop="certNo">
+                                                <el-input v-model="ruleForm.certNo"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="性别" prop="gender" class="gender_special">
-                                                <el-radio-group v-model="ruleForm.gender">
+                                            <el-form-item label="性别" prop="sex" class="gender_special">
+                                                <el-radio-group v-model="ruleForm.sex">
                                                     <el-radio-button label="男"></el-radio-button>
                                                     <el-radio-button label="女" class="special"></el-radio-button>
                                                 </el-radio-group>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="出生年月" prop="born">
-                                                <el-input v-model="ruleForm.born"></el-input>
+                                            <el-form-item label="出生年月" prop="birthday">
+                                                <el-input v-model="ruleForm.birthday"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -46,8 +46,8 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="婚姻状况" prop="marriage" class="marriage_special">
-                                                <el-radio-group v-model="ruleForm.marriage">
+                                            <el-form-item label="婚姻状况" prop="marital" class="marriage_special">
+                                                <el-radio-group v-model="ruleForm.marital">
                                                     <el-radio-button label="未婚"></el-radio-button>
                                                     <el-radio-button label="已婚" class="special"></el-radio-button>
                                                     <el-radio-button label="离异"></el-radio-button>
@@ -71,8 +71,8 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="政治面貌" prop="politics" class="marriage_special">
-                                                <el-radio-group v-model="ruleForm.politics">
+                                            <el-form-item label="政治面貌" prop="politial" class="marriage_special">
+                                                <el-radio-group v-model="ruleForm.politial">
                                                     <el-radio-button label="党员"></el-radio-button>
                                                     <el-radio-button label="团员" class="special"></el-radio-button>
                                                     <el-radio-button label="群众"></el-radio-button>
@@ -80,13 +80,13 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="毕业学校" prop="school">
-                                                <el-input v-model="ruleForm.school"></el-input>
+                                            <el-form-item label="毕业学校" prop="gradSchool">
+                                                <el-input v-model="ruleForm.gradSchool"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="毕业时间" prop="graduation">
-                                                <el-input v-model="ruleForm.graduation"></el-input>
+                                            <el-form-item label="毕业时间" prop="gradTime">
+                                                <el-input v-model="ruleForm.gradTime"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -95,77 +95,77 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="移动电话" prop="phone">
-                                                <el-input v-model="ruleForm.phone"></el-input>
+                                            <el-form-item label="移动电话" prop="mobileNo">
+                                                <el-input v-model="ruleForm.mobileNo"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="家庭电话">
-                                                <el-input v-model="ruleForm.home_phone"></el-input>
+                                                <el-input v-model="ruleForm.homeTeleph"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="个人邮箱" prop="email">
-                                                <el-input v-model="ruleForm.email"></el-input>
+                                            <el-form-item label="个人邮箱" prop="perEmail">
+                                                <el-input v-model="ruleForm.perEmail"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="QQ">
-                                                <el-input v-model="ruleForm.QQ"></el-input>
+                                                <el-input v-model="ruleForm.qqAcct"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="紧急联系人">
-                                                <el-input v-model="ruleForm.emergency_contact"></el-input>
+                                                <el-input v-model="ruleForm.atten"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="紧急电话">
-                                                <el-input v-model="ruleForm.emergency_phone"></el-input>
+                                                <el-input v-model="ruleForm.attenTeleph"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="籍贯">
-                                                <el-input v-model="ruleForm.native"></el-input>
+                                                <el-input v-model="ruleForm.origo"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="户籍地址">
-                                                <el-input v-model="ruleForm.native_address"></el-input>
+                                                <el-input v-model="ruleForm.permAddr"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="现居住地">
-                                                <el-input v-model="ruleForm.address"></el-input>
+                                                <el-input v-model="ruleForm.liveAddr"></el-input>
                                             </el-form-item>
                                         </el-col>
                                     </el-form>
                                     <div class="text">职务信息</div>
                                     <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px">
                                         <el-col :span="8">
-                                            <el-form-item label="员工编号" prop="userNum">
-                                                <el-input v-model="ruleForm2.userNum"></el-input>
+                                            <el-form-item label="员工编号" prop="userNo">
+                                                <el-input v-model="ruleForm2.userNo"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="公司名称" prop="companyName">
-                                                    <el-select v-model="ruleForm2.companyName" placeholder="请选择公司名称">
+                                            <el-form-item label="公司名称" prop="organNo">
+                                                    <el-select v-model="ruleForm2.organNo" placeholder="请选择公司名称">
                                                         <el-option label="区域一" value="shanghai"></el-option>
                                                         <el-option label="区域二" value="beijing"></el-option>
                                                     </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="部门名称" prop="departmentName">
-                                                <el-select v-model="ruleForm2.departmentName" placeholder="请选择部门名称">
+                                            <el-form-item label="部门名称" prop="derpNo">
+                                                <el-select v-model="ruleForm2.derpNo" placeholder="请选择部门名称">
                                                     <el-option label="区域一" value="shanghai"></el-option>
                                                     <el-option label="区域二" value="beijing"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="CCC" prop="CCC">
-                                                <el-select v-model="ruleForm2.CCC" placeholder="请选择CCC">
+                                            <el-form-item label="CCC" prop="ownerCCC">
+                                                <el-select v-model="ruleForm2.ownerCCC" placeholder="请选择CCC">
                                                     <el-option label="区域一" value="shanghai"></el-option>
                                                     <el-option label="区域二" value="beijing"></el-option>
                                                 </el-select>
@@ -173,37 +173,37 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="直线经理">
-                                                <el-input v-model="ruleForm2.manager"></el-input>
+                                                <el-input v-model="ruleForm2.lineManager"></el-input>
                                             </el-form-item>
                                         </el-col>
 
                                         <el-col :span="8">
-                                            <el-form-item label="员工类别" prop="employeeType">
-                                                <el-select v-model="ruleForm2.employeeType" placeholder="请选择员工类别">
+                                            <el-form-item label="员工类别" prop="custType">
+                                                <el-select v-model="ruleForm2.custType" placeholder="请选择员工类别">
                                                     <el-option label="区域一" value="shanghai"></el-option>
                                                     <el-option label="区域二" value="beijing"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="岗位" prop="station">
-                                                <el-select v-model="ruleForm2.station" placeholder="请选择岗位">
+                                            <el-form-item label="岗位" prop="custPost">
+                                                <el-select v-model="ruleForm2.custPost" placeholder="请选择岗位">
                                                     <el-option label="区域一" value="shanghai"></el-option>
                                                     <el-option label="区域二" value="beijing"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="职级" prop="position">
-                                                <el-select v-model="ruleForm2.position" placeholder="请选择职级">
+                                            <el-form-item label="职级" prop="custClass">
+                                                <el-select v-model="ruleForm2.custClass" placeholder="请选择职级">
                                                     <el-option label="区域一" value="shanghai"></el-option>
                                                     <el-option label="区域二" value="beijing"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="员工状态" prop="employees_state">
-                                                <el-select v-model="ruleForm2.employees_state" placeholder="请选择员工状态">
+                                            <el-form-item label="员工状态" prop="custStatus">
+                                                <el-select v-model="ruleForm2.custStatus" placeholder="请选择员工状态">
                                                     <el-option label="区域一" value="shanghai"></el-option>
                                                     <el-option label="区域二" value="beijing"></el-option>
                                                 </el-select>
@@ -211,87 +211,87 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="入职日期">
-                                                <el-input v-model="ruleForm2.in_time"></el-input>
+                                                <el-input v-model="ruleForm2.entryTime"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="上岗日期">
-                                                <el-input v-model="ruleForm2.guard_time"></el-input>
+                                                <el-input v-model="ruleForm2.leftJobTime"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="工作日期">
-                                                <el-input v-model="ruleForm2.work_time"></el-input>
+                                                <el-input v-model="ruleForm2.workTime"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="职称日期">
-                                                <el-input v-model="ruleForm2.technical_time"></el-input>
+                                                <el-input v-model="ruleForm2.profTitleTime"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同开始">
-                                                <el-input v-model="ruleForm2.contract_start"></el-input>
+                                                <el-input v-model="ruleForm2.compactStartTime"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同终止">
-                                                <el-input v-model="ruleForm2.contract_end"></el-input>
+                                                <el-input v-model="ruleForm2.compactEndTime"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用开始">
-                                                <el-input v-model="ruleForm2.probation_start"></el-input>
+                                                <el-input v-model="ruleForm2.probStartTime"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用结束">
-                                                <el-input v-model="ruleForm2.probation_end"></el-input>
+                                                <el-input v-model="ruleForm2.probEndTime"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="招聘来源">
-                                                <el-input v-model="ruleForm2.recruit_source"></el-input>
+                                                <el-input v-model="ruleForm2.recruitQuarry"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="开户银行">
-                                                <el-input v-model="ruleForm2.deposit_bank"></el-input>
+                                                <el-input v-model="ruleForm2.openBank"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="银行卡号">
-                                                <el-input v-model="ruleForm2.credit_card"></el-input>
+                                                <el-input v-model="ruleForm2.bankCardNo"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="养老账号">
-                                                <el-input v-model="ruleForm2.pension_account"></el-input>
+                                                <el-input v-model="ruleForm2.endmAcct"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="医保账号">
-                                                <el-input v-model="ruleForm2.insurance_account"></el-input>
+                                                <el-input v-model="ruleForm2.mediAcct"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="生育账号">
-                                                <el-input v-model="ruleForm2.family_account"></el-input>
+                                                <el-input v-model="ruleForm2.mateAcct"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="公积金">
-                                                <el-input v-model="ruleForm2.accumulation_fund"></el-input>
+                                                <el-input v-model="ruleForm2.housAcct"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="23">
                                             <el-form-item label="备注">
-                                                <el-input type="textarea"></el-input>
+                                                <el-input type="textarea" v-model="ruleForm2.remark"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="9">
                                             <el-form-item label="附件">
-                                                <el-input v-model="ruleForm2.attachment"></el-input><span class="attachment">选择文件</span>
+                                                <el-input v-model="ruleForm2.attachm"></el-input><span class="attachment">选择文件</span>
                                             </el-form-item>
                                         </el-col>
                                     </el-form>
@@ -415,49 +415,49 @@
                       },
                   ]
               },
-              activeName: 'second',
+              activeName: 'first',
               tabName:'',
               ruleForm: {
-                  username: '',
-                  userId: '',
-                  gender: '',
-                  born: '',
+                  custName: '',
+                  certNo: '',
+                  sex: '',
+                  birthday: '',
                   nation: '',
-                  marriage: '',
+                  marital: '',
                   education: '',
                   degree: '',
-                  politics: '',
-                  school: '',
-                  graduation: '',
+                  politial: '',
+                  gradSchool: '',
+                  gradTime: '',
                   major: '',
-                  phone: '',
-                  home_phone: '',
-                  email: '',
-                  QQ: '',
-                  emergency_contact: '',
-                  emergency_phone: '',
-                  native: '',
-                  native_address: '',
-                  address: '',
+                  mobileNo: '',
+                  homeTeleph: '',
+                  perEmail: '',
+                  qqAcct: '',
+                  atten: '',
+                  attenTeleph: '',
+                  origo: '',
+                  permAddr: '',
+                  liveAddr: '',
               },
               rules: {
-                  username: [
+                  custName: [
                       {required: true, message: '请输入姓名', trigger: 'blur'},
                       {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
                   ],
-                  userId: [
+                  certNo: [
                       {required: true, message: '请输入身份证', trigger: 'blur'}
                   ],
-                  gender: [
+                  sex: [
                       {required: true, message: '请选择性别', trigger: 'change'}
                   ],
-                  born: [
+                  birthday: [
                       {required: true, message: '请输入出生年月', trigger: 'blur'}
                   ],
                   nation: [
                       {required: true, message: '请选择民族', trigger: 'change'}
                   ],
-                  marriage: [
+                  marital: [
                       {required: true, message: '请选择婚姻状况', trigger: 'change'}
                   ],
                   education: [
@@ -466,77 +466,77 @@
                   degree: [
                       {required: true, message: '请选择学位', trigger: 'change'}
                   ],
-                  politics: [
+                  politial: [
                       {required: true, message: '请选择政治面貌', trigger: 'change'}
                   ],
-                  school: [
+                  gradSchool: [
                       {required: true, message: '请输入毕业学校', trigger: 'blur'}
                   ],
-                  graduation: [
+                  gradTime: [
                       {required: true, message: '请输入毕业时间', trigger: 'blur'}
                   ],
                   major: [
                       {required: true, message: '请输入专业', trigger: 'blur'}
                   ],
-                  phone: [
+                  mobileNo: [
                       {required: true, message: '请输入移动电话', trigger: 'blur'}
                   ],
-                  email: [
+                  perEmail: [
                       {required: true, message: '请输入个人邮箱', trigger: 'blur'}
                   ],
               },
               ruleForm2: {
-                  userNum: '',
-                  companyName: '',
-                  departmentName: '',
-                  CCC: '',
-                  manager: '',
-                  employeeType: '',
-                  station: '',
-                  position: '',
-                  employees_state: '',
-                  in_time: '',
-                  guard_time: '',
-                  work_time: '',
-                  technical_time: '',
-                  contract_start: '',
-                  contract_end: '',
-                  probation_start: '',
-                  probation_end: '',
-                  recruit_source: '',
-                  deposit_bank: '',
-                  credit_card: '',
-                  pension_account: '',
-                  insurance_account: '',
-                  family_account: '',
-                  accumulation_fund: '',
+                  userNo: '',
+                  organNo: '',
+                  derpNo: '',
+                  ownerCCC: '',
+                  lineManager: '',
+                  custType: '',
+                  custPost: '',
+                  custClass: '',
+                  custStatus: '',
+                  entryTime: '',
+                  leftJobTime: '',
+                  workTime: '',
+                  profTitleTime: '',
+                  compactStartTime: '',
+                  compactEndTime: '',
+                  probStartTime: '',
+                  probEndTime: '',
+                  recruitQuarry: '',
+                  openBank: '',
+                  bankCardNo: '',
+                  endmAcct: '',
+                  mediAcct: '',
+                  mateAcct: '',
+                  housAcct: '',
                   remark: '',
-                  attachment: '',
+                  attachm: '',
               },
               rules2: {
-                  userNum: [
+                  userNo: [
                       {required: true, message: '请输入员工编号', trigger: 'blur'},
                       {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
                   ],
-                  companyName: [
+                  organNo: [
                       {required: true, message: '请选择公司名称', trigger: 'change'}
                   ],
-                  departmentName: [
+                  derpNo: [
                       {required: true, message: '请选择部门名称', trigger: 'change'}
                   ],
-                  CCC: [
+                  ownerCCC: [
                       {required: true, message: '请选择CCC', trigger: 'change'}
                   ],
-                  employeeType: [
+                  custType: [
                       {required: true, message: '请选择员工类别', trigger: 'change'}
                   ],
-                  station: [
+                  custPost: [
                       {required: true, message: '请选择岗位', trigger: 'change'}
                   ],
-                  position: [
+                  custClass: [
                       {required: true, message: '请选择职级', trigger: 'change'}
                   ],
-                  employees_state: [
+                  custStatus: [
                       {required: true, message: '请选择员工状态', trigger: 'change'}
                   ],
                   politics: [
@@ -624,114 +624,82 @@
                 this.tabName = tab.name
             },
             save(tabName) {
+                let self = this
 //                this.social_item.forEach((item)=>{
 //                    item.isShow = false
 //                })
-//                if('first' === tabName){
-//
-//                }
-                console.log('second')
-                let socialItemLength = this.social_item.lists.length
-                this.social_item.lists = []
-                for (let i=0;i<socialItemLength;i++){
-                    console.log(this.$refs['ruleFrom'+i][0].ruleFrom)
-                    this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
-                }
-//                var params = new URLSearchParams();
-//                params.append('userNo', this.social_item.userNo);
-//                params.append('list', this.social_item.lists);
-//                params.append('contactName', item.contactName);
-//                params.append('relationship', item.relationship);
-//                params.append('telphone', item.telphone);
-//                params.append('profession', item.profession);
-//                params.append('post', item.post);
-//                params.append('addr', item.addr);
-//                params.append('isShow', item.isShow);
-//                let item2 = {
-//                    userNo:'P0000003',
-//                    list:[{
-//                        contactId: '1',
-//                        contactName: '小芳',
-//                        relationship: '兄妹',
-//                        telphone: '13711111111',
-//                        profession: '医生',
-//                        post: '医生',
-//                        addr: '深圳',
-//                        isShow: true
-//                    },
-//                        {
-//                            contactId: '2',
-//                            contactName: '小芳',
-//                            relationship: '兄妹',
-//                            telphone: '13711111111',
-//                            profession: '医生',
-//                            post: '医生',
-//                            addr: '深圳',
-//                            isShow: true
-//                        }
-//                    ]
-//                }
-//                var params = new URLSearchParams();
-//                params.append('userNo', 'P0000003');
-//                params.append('lists', this.social_item.lists);
-                let data = {
-                    userNo:'P0000003',
-                    lists:[
-                        {
-                            contactId: '1',
-                            contactName: '小妹妹',
-                            relationship: '朋友',
-                            telphone: '13444444444',
-                            profession: '医生',
-                            post: '医生',
-                            addr: '深圳',
-                        },
-                        {
-                            contactId: '2',
-                            contactName: '小哥哥',
-                            relationship: '同学',
-                            telphone: '13444444444',
-                            profession: '老板',
-                            post: '老板',
-                            addr: '美国',
+                if('first' === tabName){
+                    console.log(this.ruleForm)
+                    let a = self.$refs[ruleForm2].validate((valid) => {
+                                if (valid) {
+                                    return true
+                                }else {
+                                    return false
+                                }
+                            })
+                    self.$refs[ruleForm].validate((valid) => {
+                        if (valid&&a) {
+                            let data = Object.assign(this.ruleForm,this.ruleForm2)
+                            this.$axios.post('/iem_hrm/CustInfo/insertCustInfo', data)
+                                .then(res=>{
+                                    console.log(res)
+                                })
+                                .catch(e=>{
+                                    console.log(e)
+                                })
+                        }else {
+                            self.$message({
+                                type: 'error',
+                                message: '请填写必须信息!'
+                            });
+                            return false
                         }
-                    ]
+                    })
                 }
-                var params = new URLSearchParams();
-                params.append('userNo', 'P0000003');
-                params.append('lists', data.lists);
-                let item = {
-                    userNo:'P0000003',
-                    'lists[0].contactId':'1',
-                    'lists[0].contactName':'小芳方',
-                    'lists[0].relationship':'兄弟',
-                    'lists[0].telphone':'13766666666',
-                    'lists[0].profession':'医生',
-                    'lists[0].post':'医生',
-                    'lists[0].addr':'深圳',
-//                    [
-//                        {
-//                            contactId: '1',
-//                            contactName: 'ww',
-//                            relationship: 'ww',
-//                            telphone: 'ww',
-//                            profession: 'ww',
-//                            post: 'ww',
-//                            addr: 'ww',
-//                            isShow: true
-//                        },
-//                        {
-//                            contactId: '2',
-//                            contactName: 'tt',
-//                            relationship: 'tt',
-//                            telphone: 'tt',
-//                            profession: 'wttw',
-//                            post: 'wttw',
-//                            addr: 'wttw',
-//                            isShow: true
-//                        }
-//                    ]
-                }
+                if('second'===tabName) {
+                    console.log('second')
+                    let socialItemLength = this.social_item.lists.length
+                    this.social_item.lists = []
+                    for (let i=0;i<socialItemLength;i++){
+                        console.log(this.$refs['ruleFrom'+i][0].ruleFrom)
+                        this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
+                    }
+                    let data = {
+                        userNo:'P0000003',
+                        lists:[
+                            {
+                                contactId: '1',
+                                contactName: '小妹妹',
+                                relationship: '朋友',
+                                telphone: '13444444444',
+                                profession: '医生',
+                                post: '医生',
+                                addr: '深圳',
+                            },
+                            {
+                                contactId: '2',
+                                contactName: '小哥哥',
+                                relationship: '同学',
+                                telphone: '13444444444',
+                                profession: '老板',
+                                post: '老板',
+                                addr: '美国',
+                            }
+                        ]
+                    }
+                    var params = new URLSearchParams();
+                    params.append('userNo', 'P0000003');
+                    params.append('lists', data.lists);
+                    let item = {
+                        userNo:'P0000003',
+                        'lists[0].contactId':'1',
+                        'lists[0].contactName':'小芳方',
+                        'lists[0].relationship':'兄弟',
+                        'lists[0].telphone':'13766666666',
+                        'lists[0].profession':'医生',
+                        'lists[0].post':'医生',
+                        'lists[0].addr':'深圳',
+                    }
                     console.log(this.social_item.lists)
                     console.log(this.social_item)
                     this.$axios.post('/iem_hrm/CustContact/saveCustContacts', data)
@@ -743,6 +711,7 @@
                             console.log('失败')
                             console.log(e)
                         })
+                }
             },
             add_item() {
                 console.log('add_item')

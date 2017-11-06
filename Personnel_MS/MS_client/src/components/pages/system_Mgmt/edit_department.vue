@@ -57,14 +57,16 @@
         },
         methods: {
             save() {
+                delete this.content.createdDate
+                delete this.content.updatedDate
                 this.$axios.put('/iem_hrm/organ/modifyOrganInfo', this.content)
-                    .then(() => {
+                    .then((res) => {
                         this.$message({
                             type: 'success',
                             message: '编辑成功'
                         });
                     })
-                    .catch( ()=> {
+                    .catch( (e)=> {
                         this.$message({
                             type: 'error',
                             message: '编辑失败,请稍后重试!'

@@ -59,6 +59,7 @@
             this.$axios.get(`/iem_hrm/organ/queryCurrentAndParentOrganDetail/${index}`)
                 .then(res => {
                     this.content = res.data.data
+                    console.log(content.organNo)
                 })
                 .catch( res=> {
                     console.log('请求超时')
@@ -86,7 +87,6 @@
 //                });
                 this.$axios.post('/iem_hrm/organ/addOrgan', this.content2)
                     .then(res => {
-                        console.log('post')
                         console.log(res)
                         this.$message({
                             type: 'success',
@@ -102,7 +102,6 @@
             },
             check() {
                 let value = this.$refs.inputSelect.value
-                console.log(value);
                 if (value !== '') {
                     this.isActive = false
                 }
