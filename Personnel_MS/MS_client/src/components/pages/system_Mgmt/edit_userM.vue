@@ -137,6 +137,7 @@
 				roleList: [
 					{roleName: "财务经理",roleNo: "p101"},
 					{roleName: "人事经理",roleNo: "p102"},
+					{roleName: "普通人员aaa",roleNo: "111"},
 					{roleName: "管理员",roleNo: "112"}
 				],
 				//部门列表
@@ -162,7 +163,10 @@
 					],
 //					mobile: [
 ////						{ validator: checkMobile, trigger: 'blur'}
-//					]
+//					],
+					remark: [
+						{ min: 0, max: 100, message: '长度在 0 到 100 个字符之间', trigger: 'blur' }
+					]
 				}
 			}
 		},

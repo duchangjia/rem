@@ -143,9 +143,11 @@ export default {
 		const self = this;
 		let pageNum = self.pageNum;
 		let pageSize = self.pageSize;
+		let userNo = self.$route.params.userNo;
 		let params = {
 			"pageNum": pageNum,
-			"pageSize": pageSize
+			"pageSize": pageSize,
+			userNo: userNo
 		}
 		self.queryCustDimhisList(pageNum,pageSize,params);
 	},
@@ -191,9 +193,11 @@ export default {
 			const self = this;
 			let pageNum = self.pageNum;
 			let pageSize = self.pageSize;
+			let userNo = self.$route.params.userNo;
 			let params = {
 				"pageNum": pageNum,
-				"pageSize": pageSize
+				"pageSize": pageSize,
+				userNo: userNo,
 			}
 			self.queryCustDimhisList(pageNum,pageSize,params);
 		},
