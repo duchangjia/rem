@@ -280,6 +280,11 @@ export default {
     border-color: #ff8d00;
 }
 
+.el-select-dropdown__item.selected,
+.el-select-dropdown__item.selected.hover {
+    background-color: #ff9900;
+}
+
 .toolbar.el-pagination {
   text-align: right;
   margin-top: 20px;

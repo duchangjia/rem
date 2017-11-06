@@ -56,10 +56,10 @@
                     </el-col>
                     <el-col :span="22" class="rightside">
                         <el-row :gutter="20">
-                            <el-col :span="6" v-for="funcs in funcsList">
+                            <el-col :span="6" v-for="(funcs, index) in funcsList">
                                 <div class="funcs-content">
-                                    <el-checkbox v-model="checkFuncsAll" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
-                                    <el-checkbox-group v-model="checkFuncs"  class="func-item">
+                                    <el-checkbox v-model="checkFuncsAll['aa'+index]" :indeterminate="isFuncsIndeterminate" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
+                                    <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange(value, index)"  class="func-item">
                                         <el-checkbox v-for="funcsDtl in funcs.bsns">{{ funcsDtl.interfaceName }}</el-checkbox>
                                     </el-checkbox-group>
                                 </div>
@@ -107,16 +107,19 @@ export default {
   created() {
     const self = this;
     self.$axios
-      .get("/iem_hrm/role/queryParentMenu")
+      //   .get("/iem_hrm/role/queryParentMenu")
+      .get("/iem_hrm/queryParentMenu")
       .then(res => {
-        self.menus = res.data.data;
-        console.log(self.menus);
+        // self.menus = res.data.data;
+        self.menus = res.data.data.data;
+        console.log("这是menus" ,self.menus);
       })
       .catch(() => {
         console.log("error");
       });
   },
   methods: {
+    // 父级菜单-单选
     handleRadioMenusChange(value) {
       this.menuRadioFlag = true;
       this.checkedSubmenusFlag = false;
@@ -128,46 +131,62 @@ export default {
         upMenuNo: this.menuRadio
       };
       this.$axios
-        .get("/iem_hrm/role/queryChildMenuAndFunc", { params: params })
+        // .get("/iem_hrm/role/queryChildMenuAndFunc", { params: params })
+        .get("/iem_hrm/queryChildMenuAndFunc", { params: params })
         .then(res => {
-          this.submenus = res.data.data;
+          //   this.submenus = res.data.data;
+          this.submenus = res.data.data.data;
           this.checkSubAll = false;
-          console.log(this.submenus);
+          console.log("这是submenus" , this.submenus);
         })
         .catch(() => {
           console.log("error");
         });
     },
+    // 次级菜单 多选
     handleSubAllChange(event) {
-      console.log(event.target.checked);
       this.checkSubAll = event.target.checked;
-      if ((event.target.checked = true)) {
-        this.submenus.foreach(function(v, k) {
+      if ((this.checkSubAll == true)) {
+        this.submenus.forEach(function(v, k) {
           this.checkedSubmenus.push(v.menuName);
         });
       } else {
         this.checkedSubmenus = [];
       }
-      this.checkedSubmenus.length > 0
-        ? (this.checkedSubmenusFlag = true)
-        : (this.checkedSubmenusFlag = false);
+      this.checkedSubmenus.length > 0 ? (this.checkedSubmenusFlag = true) : (this.checkedSubmenusFlag = false);
       this.isSubIndeterminate = false;
-      console.log(this.checkedSubmenus);
+      this.funcsList = this.checkedSubmenus;
+      console.log("这是全选的checkedSubmenus", this.funcsList);
     },
     handleCheckedSubsChange(value) {
       let checkedCount = value.length;
-      this.isSubIndeterminate =
-        checkedCount > 0 && checkedCount < this.submenus.length;
-      checkedCount > 0
-        ? (this.checkedSubmenusFlag = true)
-        : (this.checkedSubmenusFlag = false);
-      checkedCount == this.submenus.length
-        ? (this.checkSubAll = true)
-        : (this.checkSubAll = false);
-      console.log(value);
+      this.isSubIndeterminate = checkedCount > 0 && checkedCount < this.submenus.length;
+      checkedCount > 0 ? (this.checkedSubmenusFlag = true) : (this.checkedSubmenusFlag = false);
+      checkedCount == this.submenus.length ? (this.checkSubAll = true) : (this.checkSubAll = false);
       this.funcsList = value;
-      console.log(this.funcsList);
+      console.log("这是checkedSubmenus", this.funcsList);
     },
+    // 功能权限 多选
+    handleFuncsAllChange(event, index) {
+        console.log('event:' + event);
+        console.log('index:' + index);
+      this.checkFuncsAll['aa'+index] = event.target.checked;
+      if ((checkFuncsAll['aa'+index] == true)) {
+        // this.submenus.forEach(function(v, k) {
+        //   this.checkFuncs.push(v.menuName);
+        // });
+        this.checkFuncs = this.funcsList;
+      } else {
+        this.checkFuncs = [];
+      }
+      this.isFuncsIndeterminate = false;
+      console.log("这是全选的checkFuncs" , this.checkFuncs);
+    },
+    handleCheckedFuncsChange(val) {
+      this.checkFuncs = val;
+      console.log("这是checkFuncs" , val);
+    },
+
     handleSave() {
       let newRole = {};
       newRole.roleName = this.addRoleMsg.roleName;
