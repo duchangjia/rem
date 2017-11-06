@@ -157,7 +157,6 @@
                     applyUserNo: '',
                     assetNo: '',
                 },
-
                 applyUserInfo:{
 
                 },
@@ -179,16 +178,42 @@
         },
         methods: {
             getUserInfo() {
-                let self = this
-                console.log(this.applyCompanyInfo.applyUserNo)
-                this.$axios.get('/iem_hrm/assetUse/queryAssetUserByApplyUserNo/'+this.applyCompanyInfo.applyUserNo)
+                let self = this,
+                    applyUserNo = this.applyCompanyInfo.applyUserNo;
+                    console.log(applyUserNo)
+                this.$axios.get('/iem_hrm/assetUse/queryAssetUserByApplyUserNo/'+applyUserNo)
                     .then(res=>{
-                        this.applyUserInfo = res.data.data
-                        this.applyCompanyInfo = Object.assign(this.applyCompanyInfo, this.applyUserInfo)
+                        let resData = res.data.data;
+                        console.log(resData);
+                        if(resData == null){
+                            self.$message({
+                                message: '工号不存在',
+                                type: 'error'
+                            });
+                            this.applyCompanyInfo.organName = ''
+                            this.applyCompanyInfo.derpName = ''
+                            this.applyCompanyInfo.ccc = ''
+                            this.applyCompanyInfo.custName = ''
+                            this.applyCompanyInfo.mobileNo = ''
+                            this.applyCompanyInfo.custPost = ''
+                            this.applyCompanyInfo.custClass = ''
+                            this.applyCompanyInfo.applyUserNo  = applyUserNo
+                        }
+                        // this.applyUserInfo = resData
+                        // this.applyCompanyInfo = Object.assign(this.applyCompanyInfo, this.applyUserInfo)
+                        // this.applyCompanyInfo.applyUserNo = resData.
+                        this.applyCompanyInfo.organName = resData.organName
+                        this.applyCompanyInfo.derpName = resData.derpName
+                        this.applyCompanyInfo.ccc = resData.ccc
+                        this.applyCompanyInfo.custName = resData.custName
+                        this.applyCompanyInfo.mobileNo = resData.mobileNo
+                        this.applyCompanyInfo.custPost = resData.custPost
+                        this.applyCompanyInfo.custClass = resData.custClass
+                        this.applyCompanyInfo.applyUserNo  = applyUserNo
                         console.log(this.applyCompanyInfo, this.applyUserInfo)
                     })
                     .catch(e=>{
-                        this.applyUserInfo = {}
+                        // this.applyUserInfo = {}
                         self.$message({
                             message: '工号不存在',
                             type: 'error'
@@ -196,12 +221,47 @@
                         console.log(e)
                     })
             },
-            getAssetInfo() {
-                console.log(this.applyCompanyInfo.assetNo)
-                this.$axios.get('/iem_hrm/assetUse/queryAssetUserByAssetNo/'+this.applyCompanyInfo.assetNo)
-                    .then(res=>{
-                        this.assetInfo = res.data.data
-                        this.applyCompanyInfo = Object.assign(this.applyCompanyInfo, this.assetInfo)
+            getAssetInfo() { 
+                let self = this,
+                   assetNo = this.applyCompanyInfo.assetNo;
+                console.log(assetNo)
+                this.$axios.get('/iem_hrm/assetUse/queryAssetUserByAssetNo/'+assetNo)
+                    .then(res=>{ 
+                        let resData = res.data.data
+                         if(resData == null){
+                            self.$message({
+                                message: '资产编号不存在',
+                                type: 'error'
+                            });
+                            this.applyCompanyInfo.buyUnitPrice = ''
+                            this.applyCompanyInfo.stockNum = ''
+                            this.applyCompanyInfo.buyAmount = ''
+                            this.applyCompanyInfo.mfrs = ''
+                            this.applyCompanyInfo.supplier = ''
+                            this.applyCompanyInfo.assetType = ''
+                            this.applyCompanyInfo.assetName = ''
+                            this.applyCompanyInfo.snNo = ''
+                            this.applyCompanyInfo.specType = ''
+                            this.applyCompanyInfo.factoryTime = ''
+                            this.applyCompanyInfo.faxFreeTime = ''
+                            this.applyCompanyInfo.remark = ''
+                            this.applyCompanyInfo.assetNo = assetNo
+                            return;
+                        }
+                        
+                        this.applyCompanyInfo.buyUnitPrice = resData.buyUnitPrice
+                        this.applyCompanyInfo.stockNum = resData.stockNum
+                        this.applyCompanyInfo.buyAmount = resData.buyAmount
+                        this.applyCompanyInfo.mfrs = resData.mfrs
+                        this.applyCompanyInfo.supplier = resData.supplier
+                        this.applyCompanyInfo.assetType = resData.assetType
+                        this.applyCompanyInfo.assetName = resData.assetName
+                        this.applyCompanyInfo.snNo = resData.snNo
+                        this.applyCompanyInfo.specType = resData.specType
+                        this.applyCompanyInfo.factoryTime = resData.factoryTime
+                        this.applyCompanyInfo.faxFreeTime = resData.faxFreeTime
+                        this.applyCompanyInfo.remark = resData.remark
+                        this.applyCompanyInfo.assetNo = assetNo
                         console.log(this.applyCompanyInfo, this.assetInfo)
                     })
                     .catch(e=>{
