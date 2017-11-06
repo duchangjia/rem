@@ -136,7 +136,14 @@
 			current
 		},
 		created() {
-			
+			let userNo = this.$route.params.userNo;
+			let workhisId = this.$route.params.workhisId;
+			let params = {
+				userNo: userNo,
+				workhisId: workhisId
+			}
+			//人事调动详情查询
+			this.queryCustDimhisDetail(params); 
 		},
 		methods: {
 			changeValue(value) {
@@ -145,7 +152,18 @@
 	      	},
 	      	download() {
 		      	
-	      	}
+	      	},
+	      	queryCustDimhisDetail(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/custDimhis/queryCustDimhisDetail', {params: params})
+				.then(function(res) {
+					console.log('CustShifthisDetail',res);
+					self.formdata = res.data.data;
+//					self.formdata.shiftCameTime = moment(self.formdata.shiftCameTime).format('YYYY-MM-DD hh:mm:ss');
+				}).catch(function(err) {
+					console.log(err);
+				})
+			}
 		}
 	};
 </script>

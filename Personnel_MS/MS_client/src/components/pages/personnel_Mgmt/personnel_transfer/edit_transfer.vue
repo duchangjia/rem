@@ -32,7 +32,8 @@
 						</el-select>
 				  	</el-form-item>
 				  	<el-form-item label="调动生效时间" prop="shiftCameTime">
-					    <el-input v-model="formdata.shiftCameTime"></el-input>
+					    <!--<el-input v-model="formdata.shiftCameTime"></el-input>-->
+					    <el-date-picker type="datetime" v-model="formdata.shiftCameTime" @change="changeShiftCameTime"></el-date-picker>
 				  	</el-form-item>
 				  	<el-form-item label="原公司名称">
 					    <el-select v-model="formdata.oldOrgId" value-key="compOrgNo" @change="changeValue">
@@ -94,6 +95,7 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
+	import moment from 'moment'
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
@@ -108,7 +110,7 @@
 //					newdepartName: "",
 					newDeprtId: "p1",
 					custName: "xiaoyi",
-					userNo: "p0001",
+					userNo: "p001",
 					shiftType: "001",
 					shiftCameTime: "xxx",
 					oldLineManager: "",
@@ -204,6 +206,9 @@
 	      	handlePreview(file) {
 		        console.log(file);
 	      	},
+	      	changeShiftCameTime(time) {
+	      		console.log('time',time)
+	      	},
 			changeValue(value) {
 		 		const self = this;
 	            console.log('value',value);
@@ -260,6 +265,7 @@
 				.then(function(res) {
 					console.log('CustShifthisDetail',res);
 					self.formdata = res.data.data;
+					self.formdata.shiftCameTime = moment(self.formdata.shiftCameTime).format('YYYY-MM-DD hh:mm:ss');
 				}).catch(function(err) {
 					console.log(err);
 				})
@@ -357,7 +363,7 @@
 }
 .edit_transfer_wrap .uploadBtn {
   position: absolute;
-  height: 38px;
+  height: 40px;
   top: 0;
   right: 0;
   margin: 0;

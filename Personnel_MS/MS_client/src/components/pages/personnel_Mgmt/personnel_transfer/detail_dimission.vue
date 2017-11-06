@@ -38,12 +38,12 @@
 					</div>
 					<div class="button-wrap">
 							<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
-							<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
+							<el-button type="primary" @click="queryForm">查询</el-button>
 					</div>
 				</el-form>
 				<div class="info">
 					<el-table :data="transferDataList" border stripe style="width: 100%">
-						<el-table-column prop="lizhiNo" label="调动编号">
+						<el-table-column prop="lizhiNo" label="离职编号">
 							<template scope="scope">
 						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.lizhiNo }}</span>
 					      	</template>
@@ -53,7 +53,7 @@
 						<el-table-column prop="compName" label="公司名称"></el-table-column>
 						<el-table-column prop="departName" label="部门名称"></el-table-column>
 						<el-table-column prop="lizhiType" label="离职类型"></el-table-column>
-						<el-table-column prop="lizhiDate" label="离职日期"></el-table-column>
+						<el-table-column prop="lizhiDate" label="离职日期" :formatter="lizhiDateFormatter"></el-table-column>
 						<el-table-column align="center" label="操作" width="150">
 							<template scope="scope">
 								<span class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></span>
@@ -61,7 +61,7 @@
 						</el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -70,6 +70,7 @@
 
 <script type='text/ecmascript-6'>
 import current from '../../../common/current_position.vue'
+import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
@@ -79,8 +80,8 @@ export default {
 	            return time.getTime() < Date.now() - 8.64e7;
 	          }
 	       	},
-			pageIndex: 1,
-			pageRows: 5,
+			pageNum: 1,
+			pageSize: 5,
 			totalRows: 2,
 			ruleForm2: {
 				compOrgNo: '',
@@ -140,15 +141,19 @@ export default {
 	},
 	created() {
 		const self = this;
-		let pageNum = self.pageIndex;
-		let pageSize = self.pageRows;
+		let pageNum = self.pageNum;
+		let pageSize = self.pageSize;
 		let params = {
 			"pageNum": pageNum,
 			"pageSize": pageSize
 		}
-		
+		self.queryCustDimhisList(pageNum,pageSize,params);
 	},
 	methods: {
+		lizhiDateFormatter(row, column) {
+			let time = row.lizhiDate;
+			return moment(time).format('YYYY-MM-DD hh:mm:ss');
+		},
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;
 		},
@@ -182,18 +187,15 @@ export default {
 			
 		},
 		//查询
-		queryForm(formName) {
+		queryForm() {
 			const self = this;
-			console.log(this.ruleForm2.startDate)
-			self.$refs[formName].validate((valid) => {
-				if (valid) {
-					console.log('submit')
-					
-				} else {
-					console.log('error submit!!');
-					return false;
-				}
-			});
+			let pageNum = self.pageNum;
+			let pageSize = self.pageSize;
+			let params = {
+				"pageNum": pageNum,
+				"pageSize": pageSize
+			}
+			self.queryCustDimhisList(pageNum,pageSize,params);
 		},
 		//重置
 		resetForm() {
@@ -206,20 +208,20 @@ export default {
 			console.log(`当前页: ${val}`);
 			const self = this;
 			let pageNum = val;
-			let pageSize = self.pageRows;
+			let pageSize = self.pageSize;
 			let params = {
 				"pageNum": pageNum,
 				"pageSize": pageSize
 			}
-			
+			self.queryCustDimhisList(pageNum,pageSize,params);
 		},
-		queryUserList(pageNum,pageSize,params) {
+		queryCustDimhisList(pageNum,pageSize,params) {
 			let self = this;
-			self.$axios.get(baseURL+'/user/queryUserList', {params: params})
+			self.$axios.get(baseURL+'/custDimhis/queryCustDimhisList', {params: params})
 			.then(function(res) {
-				console.log('UserList',res);
-				self.transferDataList = res.data.data.models;
-				self.pageIndex = pageNum;
+				console.log('CustDimhisList',res);
+				self.transferDataList = res.data.data.list;
+				self.pageNum = pageNum;
 				self.totalRows = Number(res.data.data.total);
 			}).catch(function(err) {
 				console.log(err);

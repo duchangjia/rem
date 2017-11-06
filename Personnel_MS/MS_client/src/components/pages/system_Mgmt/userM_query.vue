@@ -8,19 +8,27 @@
 			<div class="content-inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="58px" class="demo-ruleForm">
 					<div class="input-wrap">
-						<!--<el-form-item label="公司" prop="company">
-							<el-input type="text" v-model="ruleForm2.company"></el-input>
-						</el-form-item>
-						<el-form-item label="部门" prop="department">
-							<el-input type="text" v-model="ruleForm2.department"></el-input>
-						</el-form-item>-->
 						<el-col :span="8">
+							<el-form-item label="公司" prop="compName">
+								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeComp">
+									<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="部门" prop="departName">
+								<el-select v-model="ruleForm2.derpNo" value-key="derpNo" placeholder="所属部门" @change="changeValue">
+									<el-option v-for="item in departList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<!--<el-col :span="8">
 							<el-form-item label="机构" prop="company">
 								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
 									<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 								</el-select>
 							</el-form-item>
-						</el-col>
+						</el-col>-->
 						<el-col :span="8">
 							<el-form-item label="用户" prop="user">
 								<el-input type="text" v-model="ruleForm2.user" placeholder="工号/姓名/手机/邮箱"></el-input>
@@ -75,11 +83,12 @@ export default {
 	data() {
 		return {
 			pageNum: 1,
-			pageRows: 5,
+			pageRows: 10,
 			pageSize: 1,
 			queryFormFlag: false,
 			ruleForm2: {
 				organNo: '',
+				derpNo: '',
 				status: '',
 				user: ''
 			},
@@ -102,6 +111,12 @@ export default {
 				compName: '',
 				compOrgNo: ''
 			},
+			//部门列表
+			departList: [
+				{organName: "上海魔方分公司",organNo: '01'},
+				{organName: "魔方分公司深圳分公司",organNo: 'p1'},
+				{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
+			],
 			//公司列表
 			compList: [
 				{compName: "上海魔方分公司",compOrgNo: '01'},
@@ -129,6 +144,8 @@ export default {
 		//查询用户列表
 		self.queryFormFlag = false;
 		self.queryUserList(pageNum,pageSize,params);
+		//公司列表查询
+		this.queryCompList();
 	},
 	methods: {
 		statusFormatter(row, column) {
@@ -144,31 +161,33 @@ export default {
             	}
             });
 		},
+		changeComp(val) {
+			console.log(val);
+			const self = this;
+			let params = {
+				organNo: val
+			}
+			//部门列表查询
+			self.queryDerpList(params);
+		},
 		//查询
 		queryForm(formName) {
 			const self = this;
-			self.$refs[formName].validate((valid) => {
-				if (valid) {
-					let user = self.ruleForm2.user;
-					self.operatorList = [];
-					let pageNum = self.pageNum;
-					let pageSize = self.pageRows;
-					let params = {
-						"pageNum": pageNum,
-						"pageSize": pageSize,
-						"organNo": self.ruleForm2.organNo,
-						"status": self.ruleForm2.status,
-						"userFeatureInfo": self.ruleForm2.user
-					}
-					//查询用户列表
-					self.queryFormFlag = true;
-					self.queryUserList(pageNum,pageSize,params);
-					
-				} else {
-					console.log('error submit!!');
-					return false;
-				}
-			});
+			let user = self.ruleForm2.user;
+			self.operatorList = [];
+			let pageNum = self.pageNum;
+			let pageSize = self.pageRows;
+			let params = {
+				"pageNum": pageNum,
+				"pageSize": pageSize,
+				"compOrganNo": self.ruleForm2.organNo,
+				"deptOrganNo": self.ruleForm2.derpNo,
+				"status": self.ruleForm2.status,
+				"userFeatureInfo": self.ruleForm2.user
+			}
+			//查询用户列表
+			self.queryFormFlag = true;
+			self.queryUserList(pageNum,pageSize,params);
 		},
 		changeValue(value) {
 	 		const self = this;
@@ -182,9 +201,10 @@ export default {
        },
 		//重置
 		resetForm() {
-			this.ruleForm2.company = '';
-			this.ruleForm2.department = '';
+			this.ruleForm2.organNo = '';
+			this.ruleForm2.derpNo = '';
 			this.ruleForm2.user = '';
+			this.ruleForm2.status = '';
 		},
 		handleCurrentChange(val) {
 			const self = this;
@@ -200,7 +220,8 @@ export default {
 				params = {
 					"pageNum": pageNum,
 					"pageSize": pageSize,
-					"organNo": self.ruleForm2.organNo,
+					"compOrganNo": self.ruleForm2.organNo,
+					"deptOrganNo": self.ruleForm2.derpNo,
 					"status": self.ruleForm2.status,
 					"userFeatureInfo": self.ruleForm2.user
 				}
@@ -216,6 +237,26 @@ export default {
 				self.operatorList = res.data.data.models;
 				self.pageNum = pageNum;
 				self.pageSize = Number(res.data.data.total);
+			}).catch(function(err) {
+				console.log(err);
+			})
+		},
+		queryCompList() {
+			let self = this;
+			self.$axios.get(baseURL+'/organ/queryAllCompany')
+			.then(function(res) {
+				console.log('CompList',res);
+				self.compList = res.data.data;
+			}).catch(function(err) {
+				console.log(err);
+			})
+		},
+		queryDerpList(params) {
+			let self = this;
+			self.$axios.get(baseURL+'/organ/queryChildrenDep', {params: params})
+			.then(function(res) {
+				console.log('DerpList',res);
+				self.departList = res.data.data;
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -285,7 +326,7 @@ export default {
 }*/
 
 .user-query .el-form-item {
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 }
 
 .user-query .el-input,
@@ -301,7 +342,7 @@ export default {
 }
 
 .user-query .button-wrap {
-	margin: 0px auto 40px;
+	margin: 0px auto 20px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;

@@ -10,13 +10,13 @@
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="70px" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-form-item label="公司" prop="compName">
-							<el-select v-model="comp" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
+							<el-select v-model="ruleForm2.compOrgNo" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
+								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="部门" prop="departName">
-							<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
-								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
+							<el-select v-model="ruleForm2.departOrgNo" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
+								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="开始时间" prop="startTime">
@@ -155,20 +155,8 @@ export default {
 		self.queryCustShifthisList(pageNum,pageSize,params);
 	},
 	methods: {
-		add0(m){return m<10?'0'+m:m },
-		getLocalTime(shijianchuo) {     
-	       	var time = new Date(shijianchuo);
-			var y = time.getFullYear();
-			var m = time.getMonth()+1;
-			var d = time.getDate();
-			var h = time.getHours();
-			var mm = time.getMinutes();
-			var s = time.getSeconds();
-			return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);      
-	    },  
 		travelTimeFormatter(row, column) {
 			let time = row.shiftCameTime;
-//			return time?this.getLocalTime(time):null;
 			return moment(time).format('YYYY-MM-DD hh:mm:ss');
 		},
 		changeStartTime(val) {
@@ -235,8 +223,8 @@ export default {
 		},
 		//重置
 		resetForm() {
-			this.comp = {};
-			this.depart = {};
+			this.ruleForm2.compOrgNo = '';
+			this.ruleForm2.departOrgNo = '';
 			this.ruleForm2.startTime = '';
 			this.ruleForm2.endTime = '';
 		},

@@ -172,13 +172,27 @@
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
 						console.log('新增成功');
-						
+						let params = {
+							
+						};
+						//新增离职信息
+						self.addCustDimhis(params);
 
 					} else {
 						this.$message.error('新增失败');
 						return false;
 					}
 				});
+			},
+			addCustDimhis(params) {
+				let self = this;
+				self.$axios.post(baseURL+'/custDimhis/addCustDimhis',params)
+				.then(function(res) {
+					console.log('addCustDimhis',res);
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
 			}
 		}
 	};

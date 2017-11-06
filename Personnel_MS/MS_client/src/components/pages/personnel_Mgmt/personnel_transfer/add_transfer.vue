@@ -228,6 +228,7 @@
 							shiftReason: self.formdata.shiftReason,
 							attachm: self.formdata.attachm
 						}
+						//人事调动添加
 						self.addCustShif(params);
 						
 					} else {
@@ -236,7 +237,6 @@
 					}
 				});
 			},
-			//人事调动添加
 			addCustShif(params) {
 				let self = this;
 				self.$axios.post(baseURL+'/custShifthis/addCustShifthis',params)
