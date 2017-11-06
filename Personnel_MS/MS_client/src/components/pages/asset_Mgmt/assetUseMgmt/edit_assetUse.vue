@@ -19,8 +19,13 @@
                             <el-select placeholder="请选择CCC" :disabled="true" v-model="applyCompanyInfo.ccc">
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="申请使用人工号" prop="applyUserNo">
+                        <!-- <el-form-item label="申请使用人工号" prop="applyUserNo">
                             <el-input v-model="applyCompanyInfo.applyUserNo" @blur="getUserInfo(applyCompanyInfo.applyUserNo)"></el-input>
+                        </el-form-item> -->
+                        <el-form-item label="申请使用人工号" prop="applyUserNo">
+                            <el-input v-model="applyCompanyInfo.applyUserNo">
+                                <el-button slot="append" icon="search" @click="getUserInfo(applyCompanyInfo.applyUserNo)"></el-button>
+                            </el-input>
                         </el-form-item>
                         <el-form-item label="姓名">
                             <el-input :disabled="true" v-model="applyCompanyInfo.custName"></el-input>
@@ -37,8 +42,13 @@
                     </el-form>
                     <div class="form_info">资产信息</div>
                     <el-form label-width="200px">
-                        <el-form-item label="资产编号" prop="assetNo">
+                        <!-- <el-form-item label="资产编号" prop="assetNo">
                             <el-input v-model="applyCompanyInfo.assetNo" @blur="getUserInfo(applyCompanyInfo.assetNo)"></el-input>
+                        </el-form-item> -->
+                        <el-form-item label="资产编号" prop="assetNo">
+                            <el-input v-model="applyCompanyInfo.assetNo">
+                                <el-button slot="append" icon="search" @click="getAssetInfo(applyCompanyInfo.assetNo)"></el-button>
+                            </el-input>
                         </el-form-item>
                         <el-form-item label="购买单价">
                             <el-input :disabled="true" v-model="applyCompanyInfo.buyUnitPrice"></el-input>
