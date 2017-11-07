@@ -6,27 +6,42 @@
                 <div class="title"><span class="text">人事档案</span><button class="add" @click="add">新增</button></div>
                 <div class="content">
                     <div class="item-wrapper">
-                        <span class="text">公司</span><el-select v-model="value" class="common"></el-select>
-                        <span class="text">部门</span><el-select v-model="value" class="common"></el-select>
-                        <span class="text">员工</span><el-input placeholder="工号或姓名"></el-input>
+                        <span class="text">公司</span><el-select v-model="searchInfo.organName" class="common"></el-select>
+                        <span class="text">部门</span><el-select v-model="searchInfo.derpName" class="common"></el-select>
+                        <span class="text">员工</span><el-input placeholder="工号或姓名" v-model="searchInfo.userNoOrcustName"></el-input>
                     </div>
                     <div class="item-wrapper">
-                        <span class="text">状态</span><el-select v-model="value" class="common"></el-select>
+                        <span class="text">状态</span><el-select v-model="searchInfo.custStatus" class="common">
+                        <el-option label="总公司" value="01"></el-option>
+                        <el-option label="分公司" value="02"></el-option>
+                        <el-option label="办事处" value="03"></el-option>
+                        <el-option label="部门" value="04"></el-option>
+                    </el-select>
                     </div>
                     <div class="button">
-                        <button class="special_1">重置</button>
-                        <button>查询</button>
+                        <button class="special_1" @click="reset">重置</button>
+                        <button @click="search">查询</button>
                     </div>
                     <table>
                         <tr><td v-for="th in table.th" >{{th}}</td></tr>
-                        <tr v-for="tds in table.td"><td v-for="td in tds" :title="td">{{td}}</td><td @click="dialogTableVisible = true" class="see">查看</td></tr>
+                        <tr v-for="tds in table.td">
+                            <td :title="tds.userNo" @click="detailInfo(tds.userNo)">{{tds.userNo}}</td>
+                            <td :title="tds.custName">{{tds.custName}}</td>
+                            <td :title="tds.organName">{{tds.organName}}</td>
+                            <td :title="tds.derpName">{{tds.derpName}}</td>
+                            <td :title="tds.sex">{{tds.sex=='01'?'男':'女'}}</td>
+                            <td :title="tds.custPost">{{tds.custPost}}</td>
+                            <td :title="tds.mobileNo">{{tds.mobileNo}}</td>
+                            <td :title="tds.entryTime">{{tds.entryTime}}</td>
+                            <td :title="tds.custStatus">{{tds.custStatus}}</td>
+                            <td @click="see" class="see">查看</td></tr>
                     </table>
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
-                            :page-size="10"
+                            :page-size="fenye.pageSize"
                             layout="total,prev, pager, next, jumper"
-                            :total="100">
+                            :total="fenye.total">
                     </el-pagination>
                 </div>
             </div>
@@ -72,7 +87,12 @@
                       people: '张三 1518 弄',
                   },
               ],
-              value: '',
+              searchInfo: {
+                  organName: '',
+                  derpName: '',
+                  userNoOrcustName: '',
+                  custStatus: '',
+              },
               table: {
                   th:['工号', '姓名', '公司名称', '部门名称', '性别', '岗位', '手机', '入职时间', '状态', '资产'],
                   td:[
@@ -97,15 +117,23 @@
                           phone: '13333333333',
                           in_time: '2019/01/01',
                           status: '离职',
-                      },]  }
+                      },]  },
+              fenye: {
+                  total:0,
+                  pageSize:10
+              }
           }
         },
         created() {
             let self = this
-            let userNo = 'P0000001'
-            self.$axios.get('/iem_hrm/CustInfo/queryCustInfList/'+userNo)
+            let organNo = '01'
+            let organType = '02'
+            self.$axios.get('/iem_hrm/CustInfo/queryCustInfList/'+organNo+'/'+organType)
                 .then(res => {
                     console.log(res)
+                    self.table.td = res.data.data.list
+                    this.fenye.total = res.data.data.total
+                    this.fenye.pageSize = res.data.data.pageSize
                 })
                 .catch(e=>{
                     console.log(e)
@@ -121,11 +149,75 @@
             handleSizeChange() {
 
             },
-            handleCurrentChange() {
-
+            handleCurrentChange(val) {
+                let self = this
+                let organNo = '01'
+                let organType = '02'
+                self.$axios.get('/iem_hrm/CustInfo/queryCustInfList/'+organNo+'/'+organType,{params:{pageNum:val}})
+                    .then(res => {
+                        console.log(res)
+                        self.table.td = res.data.data.list
+                        this.fenye.total = res.data.data.total
+                        this.fenye.pageSize = res.data.data.pageSize
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
             },
             see() {
-
+                let self = this
+                this.dialogTableVisible = true
+                self.$axios.get('/iem_hrm/CustInfo/queryCustInfWithAsset/userNo')
+                    .then(res => {
+                        console.log(res)
+                        self.table.td = res.data.data.list
+                        this.fenye.total = res.data.data.total
+                        this.fenye.pageSize = res.data.data.pageSize
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
+            },
+            detailInfo(userNo) {
+                this.$router.push({name:'archives_detail',query:{userNo}})
+            },
+            reset() {
+                let self = this
+                self.searchInfo.organName = ''
+                self.searchInfo.derpName = ''
+                self.searchInfo.userNoOrcustName = ''
+                self.searchInfo.custStatus = ''
+//                let organNo = '01'
+//                let organType = '02'
+//                self.$axios.get('/iem_hrm/CustInfo/queryCustInfList/'+organNo+'/'+organType)
+//                    .then(res => {
+//                        console.log(res)
+//                        self.table.td = res.data.data.list
+//                        this.fenye.total = res.data.data.total
+//                        this.fenye.pageSize = res.data.data.pageSize
+//                    })
+//                    .catch(e=>{
+//                        console.log(e)
+//                    })
+            },
+            search() {
+                let self = this
+                let organNo = '01'
+                let organType = '02'
+                let userNo = self.searchInfo.userNoOrcustName
+                let custName = self.searchInfo.userNoOrcustName
+                let custStatus = self.searchInfo.custStatus
+                console.log(custStatus)
+                self.$axios.get('/iem_hrm/CustInfo/queryCustInfByAndStatus/'+organNo+'/'+organType, {params:{userNo,custName,custStatus}})
+                    .then(res => {
+                        console.log(res)
+                        self.table.td = res.data.data.list
+                        this.fenye.total = res.data.data.total
+                        this.fenye.pageSize = res.data.data.pageSize
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
             }
         },
     }

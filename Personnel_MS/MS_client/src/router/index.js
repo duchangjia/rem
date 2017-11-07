@@ -441,6 +441,7 @@ export default new Router({
                         },
                         {
                             path: '/archives_detail',
+                            name: 'archives_detail',
                             component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/archives_detail.vue'], resolve)
                         },
 

@@ -270,10 +270,38 @@
                 this.$router.push('add_holiday')
             },
             del(value) {
+                let self = this
                 let date = moment(value).format('YYYYMMDD')
                 this.$axios.get(`/iem_hrm/visaFreeHoliday/deleteVisaFreeHoliday/${date}`)
                     .then(res => {
-                        console.log(res)
+                        let result = res.data.retMsg
+                        if('操作成功'===result){
+                            self.$message({
+                                message: '删除成功',
+                                type: 'success'
+                            });
+                            self.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList')
+                                .then(res => {
+                                    self.table.td = res.data.data.list.map(item=>{
+                                        return {
+                                            createdBy: item.createdBy,
+                                            createdDate: item.createdDate ,
+                                            dayDate: item.dayDate,
+                                            dayFlag: item.dayFlag,
+                                            remark: item.remark,
+                                        }
+                                    })
+                                    self.fenye.total = res.data.data.total
+                                })
+                                .catch(e=>{
+                                    console.log(e)
+                                })
+                        }else{
+                            self.$message({
+                                message: result,
+                                type: 'error'
+                            });
+                        }
                     })
                     .catch(e => {
                         console.log(e)

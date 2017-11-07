@@ -7,7 +7,7 @@ import Qs from 'qs'
 // import { LOGIN, LOGOUT } from '../store/types'
 // import router from '../router/index'
 
-// Promise.polyfill();
+Promise.polyfill();
 
 const DEFAULT_CONTENT_TYPE = {
     'Content-Type': 'application/x-www-form-urlencoded'
