@@ -50,7 +50,7 @@ export default {
     getRoleList() {
       const self = this;
       let params = {
-        pageNum: self.pageNum,
+        pageNum: self.pageNum || 1,
         pageSize: self.pageSize
       };
       self.$axios
