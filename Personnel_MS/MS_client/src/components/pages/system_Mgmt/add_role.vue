@@ -58,34 +58,16 @@
                         <el-row :gutter="20">
                             <el-col :span="6" v-for="(funcs, index) in funcsList">
                                 <div class="funcs-content">
-                                    <el-checkbox v-model="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
-                                    <el-checkbox-group :value="checkFuncs" @change="handleCheckedFuncsChange(value,index)"  class="func-item">
-                                        <el-checkbox v-for="funcsDtl in funcs.bsns">{{ funcsDtl.interfaceName }}</el-checkbox>
+                                    <el-checkbox :value="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
+                                    <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
+                                        <el-checkbox v-for="funcsDtl in funcs.bsns" :label="funcsDtl.bsnNo" v-bind:title="funcsDtl.interfaceName" >{{ funcsDtl.interfaceName }}</el-checkbox>
                                     </el-checkbox-group>
                                 </div>
                             </el-col>
                         </el-row>
                     </el-col>
                 </div>
-                <!--<div class="test">-->
-                    <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange2">全选</el-checkbox>-->
-                    <!--<div style="margin: 15px 0;"></div>-->
-                    <!--<el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange2">-->
-                        <!--<el-checkbox-button v-for="(city,index) in cities" :label="city.menuName" :key="city.menuName">{{city.menuName}}-->
-                            <!--&lt;!&ndash;<el-checkbox-button v-for="(city,index) in cities" :label="city" :key="index">{{city}}</el-checkbox-button>&ndash;&gt;-->
-                            <!--<div class="test-child" v-show="this.checkedCities.indexOf(city.menuName) > -1">-->
-                                <!--<div class="show">-->
-                                    <!--<el-checkbox :indeterminate="!isIndeterminateAA[index]" v-model="!checkAllAA[index]" @change="handleCheckAllChange3">{{city.menuName}}</el-checkbox>-->
-                                    <!--<div style="margin: 15px 0;"></div>-->
-                                    <!--<el-checkbox-group v-model="checkedCitiesAA[index]" @change="handleCheckedCitiesChange3">-->
-                                        <!--<el-checkbox v-for="child in city.list" :label="child" :key="child">{{child}}</el-checkbox>-->
-                                        <!--&lt;!&ndash;<el-checkbox-button v-for="(city,index) in cities" :label="city" :key="index">{{city}}</el-checkbox-button>&ndash;&gt;-->
-                                    <!--</el-checkbox-group>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</el-checkbox-button>-->
-                    <!--</el-checkbox-group>-->
-                <!--</div>-->
+
             </div>
         </div>
     </div>
@@ -99,19 +81,21 @@ export default {
     return {
       labelPosition: "right",
       addRoleMsg: {
-        roleNo: "",
         roleName: "",
         status: "",
-        roleDescr: ""
+        roleDescr: "",
+        roleFuncSet: []
       },
       menuRadio: "",
       menuRadioFlag: false,
       menus: [],
+
       checkSubAll: {},
       checkedSubmenusFlag: false,
       checkedSubmenus: [],
       submenus: [],
       isSubIndeterminate: true,
+
       funcsList: [],
       checkFuncsAll: {},
       checkFuncs: [],
@@ -124,26 +108,16 @@ export default {
   created() {
     const self = this;
     self.$axios
-    //   .get("/iem_hrm/role/queryParentMenu")
-      .get("/iem_hrm/queryParentMenu")
+      .get("/iem_hrm/role/queryParentMenu")
+    //   .get("/iem_hrm/queryParentMenu")
       .then(res => {
-        // self.menus = res.data.data;
-        self.menus = res.data.data.data;
+        self.menus = res.data.data;
+        // self.menus = res.data.data.data;
         console.log("这是menus", self.menus);
       })
       .catch(() => {
         console.log("error");
       });
-        this.$nextTick(function () {
-            self.submenus.forEach(function (val,index) {
-                self.$set(self.checkFuncsAll,self.checkFuncsAll[index],true)
-                self.$set(self.isFuncsIndeterminate,self.isFuncsIndeterminate[index],false)
-            })
-        })
-
-
-
-
   },
   methods: {
     // 父级菜单-单选
@@ -158,11 +132,11 @@ export default {
         upMenuNo: this.menuRadio
       };
       this.$axios
-        // .get("/iem_hrm/role/queryChildMenuAndFunc", { params: params })
-        .get("/iem_hrm/queryChildMenuAndFunc", { params: params })
+        .get("/iem_hrm/role/queryChildMenuAndFunc", { params: params })
+        // .get("/iem_hrm/queryChildMenuAndFunc", { params: params })
         .then(res => {
-          //   this.submenus = res.data.data;
-          this.submenus = res.data.data.data;
+            this.submenus = res.data.data;
+        //   this.submenus = res.data.data.data;
           this.checkSubAll = false;
           console.log("这是submenus", this.submenus);
         })
@@ -171,48 +145,67 @@ export default {
         });
     },
     // 次级菜单 多选
-    handleSubAllChange(event,index) {
+    handleSubAllChange(event) {
       this.checkSubAll = event.target.checked;
       if (this.checkSubAll == true) {
-        this.submenus.forEach(function(v, k) {
-          this.checkedSubmenus.push(v.menuName);
-        });
+        this.checkedSubmenus = this.submenus;
+        this.isSubIndeterminate = true;
       } else {
         this.checkedSubmenus = [];
+        this.isSubIndeterminate = false;
       }
       this.checkedSubmenus.length > 0 ? (this.checkedSubmenusFlag = true) : (this.checkedSubmenusFlag = false);
-      this.isSubIndeterminate = false;
       this.funcsList = this.checkedSubmenus;
       console.log("这是全选的checkedSubmenus", this.funcsList);
     },
-    handleCheckedSubsChange(value) {
-      let checkedCount = value.length;
+    handleCheckedSubsChange(val) {
+      let checkedCount = val.length;
       this.isSubIndeterminate = checkedCount > 0 && checkedCount < this.submenus.length;
       checkedCount > 0 ? (this.checkedSubmenusFlag = true) : (this.checkedSubmenusFlag = false);
       checkedCount == this.submenus.length ? (this.checkSubAll = true) : (this.checkSubAll = false);
-      this.funcsList = value;
+      this.funcsList = val;
       console.log("这是checkedSubmenus", this.funcsList);
     },
     // 功能权限 多选
     handleFuncsAllChange(event, index) {
-//        this.$set('checkFuncsAll.'+index,true)
-//        Vue.set(this.checkFuncsAll,index+'',event.target.checked)
-//      this.checkFuncsAll[index] = event.target.checked;
-//      if (this.checkFuncsAll[index] == true) {
-//        console.log(111);
-//        // this.checkFuncs = this.funcsList;
-//        this.$set(this.isFuncsIndeterminate, this.isFuncsIndeterminate[index], true);
-//      } else {
-//        // this.checkFuncs = [];
-//        this.$set(this.isFuncsIndeterminate, this.isFuncsIndeterminate[index], false);
-//      }
+      this.checkFuncsAll[index] = event.target.checked;
+      let targetFucsList = [];
+      this.funcsList[index].bsns.forEach(function(ele) {
+            targetFucsList.push(ele.bsnNo);
+        }, this);
+      if (this.checkFuncsAll[index] == true) {
+        this.$set(this.isFuncsIndeterminate, index, true);
+        this.checkFuncs = targetFucsList;
+        targetFucsList.forEach(function(ele) {
+            if( JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(JSON.stringify({bsnNo: ele})) == -1 ) {
+                this.addRoleMsg.roleFuncSet.push({bsnNo: ele});
+            }
+        }, this);
+      } else {
+        this.$set(this.isFuncsIndeterminate, index, false);
+        this.checkFuncs = [];
+        targetFucsList.forEach(function(ele) {
+            if( JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(JSON.stringify({bsnNo: ele})) != -1 ) {
+                this.addRoleMsg.roleFuncSet.splice(this.addRoleMsg.roleFuncSet.indexOf({bsnNo: ele}), 1);
+            }
+        }, this);
+      }
       console.log("这是全选的checkFuncs", this.checkFuncs);
+      console.log('roleFuncSet' , this.addRoleMsg.roleFuncSet);
     },
     handleCheckedFuncsChange(val, index) {
-      console.log("val:" + val);
-      console.log("index:" + index);
-      this.checkFuncs = val;
-      console.log("这是checkFuncs", val);
+        if(val.length == this.funcsList[index].bsns.length) {
+            this.checkFuncsAll[index] = true;
+            this.$set(this.isFuncsIndeterminate, index, true);
+        } else {
+            this.checkFuncsAll[index] = false;
+            this.$set(this.isFuncsIndeterminate, index, false);
+        }
+        this.addRoleMsg.roleFuncSet = [];
+        val.forEach(function(ele) {
+            this.addRoleMsg.roleFuncSet.push({bsnNo: ele});
+        }, this);
+        console.log('roleFuncSet' , this.addRoleMsg.roleFuncSet);
     },
 
     handleSave() {
@@ -220,6 +213,7 @@ export default {
       newRole.roleName = this.addRoleMsg.roleName;
       newRole.status = this.addRoleMsg.status;
       newRole.roleDescr = this.addRoleMsg.roleDescr;
+      newRole.roleFuncSet = this.addRoleMsg.roleFuncSet;
       console.log(newRole);
       this.$axios
         .post("/iem_hrm/role/addRoleInfo", newRole)
@@ -233,6 +227,11 @@ export default {
         .catch(() => {
           this.$message.error("新增角色失败！");
         });
+    },
+
+    isInArray(arr,val){ 
+        let testStr=','+arr.join(",")+",";  
+        return testStr.indexOf(","+val+",")!=-1;  
     }
   }
 };

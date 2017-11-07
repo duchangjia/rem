@@ -232,7 +232,6 @@
 		padding: 40px 0px;
 	}
 	.fun .el-form-item__label {
-		/*text-align: left;*/
 		vertical-align: middle;
 		float: left;
 		font-size: 14px;
@@ -240,7 +239,6 @@
 		line-height: 1;
 		padding: 11px 12px 11px 0;
 		box-sizing: border-box;
-/*	    margin-right: 18px;*/
 	}
 	.fun .input-wrap .el-form-item {
 		margin-right: 80px;
@@ -272,11 +270,8 @@
 		margin-left: 0!important;
 	}*/
 	.fun .el-input__inner {
-		border-radius: 4px;
 		border: 1px solid #EEEEEE;
 		color: #333333;
-		padding: 19px 10px;
-		transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
 	}
 	.fun .el-input__inner:hover {
 	    border-color: #FF9900;

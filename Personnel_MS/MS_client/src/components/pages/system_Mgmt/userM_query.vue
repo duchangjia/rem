@@ -31,7 +31,7 @@
 						</el-col>-->
 						<el-col :span="8">
 							<el-form-item label="用户" prop="user">
-								<el-input type="text" v-model="ruleForm2.user" placeholder="工号/姓名/手机/邮箱"></el-input>
+								<el-input type="text" v-model="ruleForm2.user" placeholder="工号/姓名/手机/邮箱" @change="keyup"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="8">
@@ -83,7 +83,7 @@ export default {
 	data() {
 		return {
 			pageNum: 1,
-			pageRows: 10,
+			pageRows: 5,
 			pageSize: 1,
 			queryFormFlag: false,
 			ruleForm2: {
@@ -162,13 +162,16 @@ export default {
             });
 		},
 		changeComp(val) {
-			console.log(val);
+			console.log('comp',val);
 			const self = this;
 			let params = {
 				organNo: val
 			}
 			//部门列表查询
 			self.queryDerpList(params);
+		},
+		keyup(val) {
+			console.log(val)
 		},
 		//查询
 		queryForm(formName) {
@@ -191,6 +194,7 @@ export default {
 		},
 		changeValue(value) {
 	 		const self = this;
+	 		console.log(value)
 //          console.log('value',value);
 //				self.userDetail.compName = self.comp.compName;
 //				self.userDetail.compOrgNo = self.comp.compOrgNo;
@@ -237,6 +241,8 @@ export default {
 				self.operatorList = res.data.data.models;
 				self.pageNum = pageNum;
 				self.pageSize = Number(res.data.data.total);
+//				self.operatorList[0].compName = '魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司';
+//				self.operatorList[0].departName = '魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司';
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -309,7 +315,6 @@ export default {
 }
 
 .user-query .el-form-item__label {
-	/*text-align: left;*/
 	vertical-align: middle;
 	float: left;
 	font-size: 14px;
@@ -319,11 +324,6 @@ export default {
 	box-sizing: border-box;
 	margin-right: 18px;
 }
-
-/*.user-query .input-wrap .el-form-item {
-	margin-right: 80px;
-	float: left;
-}*/
 
 .user-query .el-form-item {
 	margin-bottom: 20px;
@@ -349,11 +349,8 @@ export default {
 }
 
 .user-query .el-input__inner {
-	border-radius: 4px;
 	border: 1px solid #EEEEEE;
 	color: #333333;
-	padding: 19px 10px;
-	transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
 }
 
 .user-query .el-input__inner:hover {
@@ -382,17 +379,6 @@ export default {
 	background-color: #FF9900;
 	border-color: #FF9900;
 }
-/*.user-query .el-table {
-	background-color: #fff;
-	border-left: 1px solid #EEEEEE;
-	color: #666666;
-}
-
-.user-query .el-table__footer-wrapper thead div,
-.user-query .el-table__header-wrapper thead div {
-	background-color: #f4f4f4;
-	color: #666666;
-}*/
 
 .user-query .el-table td,
 .user-query .el-table th {
@@ -407,15 +393,6 @@ export default {
 	display: inline-block;
 	padding: 5px;
 }
-/*.user-query .el-table--enable-row-hover .el-table__body tr:hover>td {
-	background-color: #f8f8f8;
-	background-clip: padding-box;
-}
-
-.user-query .el-table--striped .el-table__body tr.el-table__row--striped td {
-	background: #F8F8F8;
-	background-clip: padding-box;
-}*/
 
 .user-query .el-table th {
 	white-space: nowrap;
@@ -424,24 +401,6 @@ export default {
 	text-align: center;
 	box-shadow: inset 0 1px 0 0 #EEEEEE;
 }
-
-/*.user-query .el-table--border td,
-.user-query .el-table--border th {
-	border-right: 1px solid #EEEEEE;
-}
-
-.user-query .el-table td,
-.user-query .el-table th.is-leaf {
-	border-bottom: 1px solid #EEEEEE;
-}
-
-
-.user-query .el-table::after,
-.user-query .el-table::before {
-	content: '';
-	position: absolute;
-	background-color: transparent;
-}*/
 .icon_edit {
 	width: 16px;
 	height: 16px;

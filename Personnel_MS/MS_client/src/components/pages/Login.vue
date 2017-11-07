@@ -144,10 +144,11 @@
 //                        })
                     	//吐丝提示
 //						Bus.$emit('showToast','正在努力加载中...');
-                        var params = new URLSearchParams();
-                        params.append('username', self.ruleForm.username);
-                        params.append('password', self.ruleForm.password);
-                        params.append('imageCode', self.ruleForm.imageCode);
+                        var params = {
+                            'username': self.ruleForm.username,
+                            'password': self.ruleForm.password,
+                            'imageCode': self.ruleForm.imageCode
+                        };
 //                            'http://10.0.0.6:3000/checkuser'
 //                            self.$axios.get('/ifdp/checkuser',data)
 //                        dataType:"json",
@@ -163,8 +164,8 @@
 //                                    let result = res.data.data
                                     let access_token = res.data.access_token
                                     let refresh_token = res.data.refresh_token
-                                    window.localStorage.setItem('access_token', JSON.stringify(access_token))
-                                    window.localStorage.setItem('refresh_token', JSON.stringify(refresh_token))
+                                    window.localStorage.setItem('access_token', access_token)
+                                    window.localStorage.setItem('refresh_token', refresh_token)
                                     if(true){
                                         localStorage.setItem('ms_username',self.ruleForm.username);
                                         self.fullscreenLoading = false

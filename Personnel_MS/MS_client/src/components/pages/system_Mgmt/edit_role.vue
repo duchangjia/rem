@@ -15,15 +15,6 @@
                             <el-input v-model="editRoleMsg.roleName" auto-complete="off"></el-input>
                         </el-form-item>
                     </el-col>
-                    <!-- <el-col :span="12">
-                        <el-form-item label="岗位">
-                            <el-select v-model="editRoleMsg.job">
-                                <el-option label="普通员工" value="普通员工"></el-option>
-                                <el-option label="系统管理员" value="系统管理员"></el-option>
-                                <el-option label="经理" value="经理"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col> -->
                     <el-col :span="12">
                         <el-form-item label="状态">
                             <el-radio-group v-model="editRoleMsg.status">
@@ -71,7 +62,7 @@ export default {
             roleNo: self.$route.params.roleNo
         }
         console.log(params);
-        self.$axios.get('/iem_hrm/role/queryRoleByRoleNo', { params })
+        self.$axios.get('/iem_hrm/role/queryRoleDetail', { params })
             .then(function(res) {
                 console.log(res);
                 self.roleDetail = res.data.data;

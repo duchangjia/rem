@@ -14,13 +14,13 @@
 				<span class="title-text">修改密码</span>
 			</div>
 			<ul class="content-inner">
-				<el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="74px" class="demo-ruleForm">
-					<el-form-item label="当前密码" prop="oldpass">
-						<el-input type="password" v-model.number="ruleForm2.oldpass" placeholder="请输入原密码"></el-input>
+				<el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+					<el-form-item label="当前密码" prop="oldPass">
+						<el-input type="password" v-model="ruleForm2.oldPass" placeholder="请输入原密码" @change="oldPasschange"></el-input>
 						<span class="tips forget">忘记密码</span>
 					</el-form-item>
-					<el-form-item label="新密码" prop="pass">
-						<el-input type="password" v-model="ruleForm2.pass" auto-complete="off" placeholder="请再次输入新密码"></el-input>
+					<el-form-item label="新密码" prop="newPass">
+						<el-input type="password" v-model="ruleForm2.newPass" auto-complete="off" placeholder="请再次输入新密码"></el-input>
 						<span class="tips">密码支持6-20位字符，至少包含数字、字母（区分大小写）、符号中的2种</span>
 					</el-form-item>
 					<el-form-item label="确认密码" prop="checkPass">
@@ -39,16 +39,17 @@
 
 <script type='text/ecmascript-6'>
 	import Bus from '../../../common/Bus.js'
+	const baseURL = 'iem_hrm';
 	export default {
 		data() {
-			var checkoldpass = (rule, value, callback) => {
+			var checkoldPass = (rule, value, callback) => {
 				if(value === '') {
 					callback(new Error('密码不能为空'));
 				} else {
 					callback();
 				}
 			};
-			var validatePass = (rule, value, callback) => {
+			var validateNewPass = (rule, value, callback) => {
 				if(value === '') {
 					callback(new Error('请输入新密码'));
 				}else if(!/^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/.test(value)){
@@ -60,10 +61,10 @@
 					callback();
 				}
 			};
-			var validatePass2 = (rule, value, callback) => {
+			var validateCheckPass = (rule, value, callback) => {
 				if(value === '') {
 					callback(new Error('请再次输入密码'));
-				} else if(value !== this.ruleForm2.pass) {
+				} else if(value !== this.ruleForm2.newPass) {
 					callback(new Error('两次输入密码不一致!'));
 				} else {
 					callback();
@@ -71,46 +72,72 @@
 			};
 			return {
 				ruleForm2: {
-					pass: '',
+					newPass: '',
 					checkPass: '',
-					oldpass: ''
+					oldPass: ''
 				},
 				rules2: {
-					oldpass: [{
-						validator: checkoldpass,
+					oldPass: [{
+						validator: checkoldPass,
 						trigger: 'blur'
 					}],
-					pass: [{
-						validator: validatePass,
+					newPass: [{
+						validator: validateNewPass,
 						trigger: 'blur'
 					}],
 					checkPass: [{
-						validator: validatePass2,
+						validator: validateCheckPass,
 						trigger: 'blur'
 					}]
 				}
 			};
 		},
+		created() {
+		},
 		methods: {
+			oldPasschange(val) {
+				console.log(this.ruleForm2.oldPass);
+			},
 			submitForm(formName) {
-				this.$refs[formName].validate((valid) => {
+				const self = this;
+				self.$refs[formName].validate((valid) => {
 					if(valid) {
-						Bus.$emit('showSuccessTip', '');
+						let params = {
+//							userNo: ,
+							newPassword: self.ruleForm2.newPass,
+							oldPassword: self.ruleForm2.oldPass
+						}
+						//修改密码
+						self.updatePassword(params);
+						
 					} else {
 						console.log('error submit!!');
 						return false;
 					}
 				});
+			},
+			updatePassword(params) {
+				let self = this;
+				self.$axios.put(baseURL+'/user/changePassword',params)
+				.then(function(res) {
+					console.log('updatePassword',res);
+					if(res.data.code === "S00000") {
+						Bus.$emit('showSuccessTip', '');
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
 			}
 		}
 	}
 </script>
 
-<style scoped>
-	* {
+<style>
+	/** {
 		margin: 0;
 		padding: 0;
-	}
+	}*/
 	li {
 		list-style: none;
 	}
@@ -167,8 +194,9 @@
 	.modifine_password .el-form-item__label {
 	    color: #999999;
 	}
-	.el-form-item__content {
+	.modifine_password .el-form-item__content {
 	    font-size: 0px;
+    	/*margin-bottom: 20px;*/
 	}
 	.modifine_password .el-input,
 	.modifine_password .el-input__inner {
@@ -177,10 +205,13 @@
 	}
 	.modifine_password .el-input__inner {
 	    border-radius: 2px;
-	    border: 1px solid #eeeeee;
+	    border: 1px solid #EEEEEE;
 	    color: #333333;
 	    padding: 19px 10px;
 	    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+	}
+	.modifine_password .el-input__inner:hover {
+	    border-color: #FF9900!important;
 	}
 	.modifine_password .el-input__icon {
 	    position: absolute;
@@ -209,21 +240,22 @@
 	    background: #ff9900;
 	    border: none;
 	    color: #fff;
-	    margin-top: 62px;
+	    margin-top: 34px;
 	    padding: 12px 15px;
 	    opacity: 0.6;
 	    border-radius: 4px;
 	    width: 300px;
+        margin-left: 18px;
 	}
 	.modifine_password .el-button, 
 	.modifine_password .el-textarea__inner {
 	    font-size: 16px;
 	}
-	.el-button:focus, .el-button:hover {
+	/*.el-button:focus, .el-button:hover {
 	    color: #fff;
 	    border-color: #ff9900;
 	    opacity: 0.5;
-	}
+	}*/
 	.modifine_password label {
 	    display: inline-block;
 	    max-width: 100%;
