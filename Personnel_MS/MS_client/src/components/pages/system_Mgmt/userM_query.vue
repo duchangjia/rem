@@ -325,11 +325,6 @@ export default {
 	margin-right: 18px;
 }
 
-/*.user-query .input-wrap .el-form-item {
-	margin-right: 80px;
-	float: left;
-}*/
-
 .user-query .el-form-item {
 	margin-bottom: 20px;
 }
@@ -354,11 +349,8 @@ export default {
 }
 
 .user-query .el-input__inner {
-	border-radius: 4px;
 	border: 1px solid #EEEEEE;
 	color: #333333;
-	/*padding: 19px 10px;*/
-	transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
 }
 
 .user-query .el-input__inner:hover {
@@ -387,17 +379,6 @@ export default {
 	background-color: #FF9900;
 	border-color: #FF9900;
 }
-/*.user-query .el-table {
-	background-color: #fff;
-	border-left: 1px solid #EEEEEE;
-	color: #666666;
-}
-
-.user-query .el-table__footer-wrapper thead div,
-.user-query .el-table__header-wrapper thead div {
-	background-color: #f4f4f4;
-	color: #666666;
-}*/
 
 .user-query .el-table td,
 .user-query .el-table th {
@@ -412,15 +393,6 @@ export default {
 	display: inline-block;
 	padding: 5px;
 }
-/*.user-query .el-table--enable-row-hover .el-table__body tr:hover>td {
-	background-color: #f8f8f8;
-	background-clip: padding-box;
-}
-
-.user-query .el-table--striped .el-table__body tr.el-table__row--striped td {
-	background: #F8F8F8;
-	background-clip: padding-box;
-}*/
 
 .user-query .el-table th {
 	white-space: nowrap;
@@ -429,24 +401,6 @@ export default {
 	text-align: center;
 	box-shadow: inset 0 1px 0 0 #EEEEEE;
 }
-
-/*.user-query .el-table--border td,
-.user-query .el-table--border th {
-	border-right: 1px solid #EEEEEE;
-}
-
-.user-query .el-table td,
-.user-query .el-table th.is-leaf {
-	border-bottom: 1px solid #EEEEEE;
-}
-
-
-.user-query .el-table::after,
-.user-query .el-table::before {
-	content: '';
-	position: absolute;
-	background-color: transparent;
-}*/
 .icon_edit {
 	width: 16px;
 	height: 16px;

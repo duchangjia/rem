@@ -3,6 +3,7 @@ import axios from 'axios';
 import utils from 'axios/lib/utils'
 import normalizeHeaderName from 'axios/lib/helpers/normalizeHeaderName'
 import Qs from 'qs'
+import router from '../router/index.js'
 // import store from '../store/index'
 // import { LOGIN, LOGOUT } from '../store/types'
 // import router from '../router/index'
@@ -97,34 +98,23 @@ axios.interceptors.request.use(
 
 // http response 拦截器
 axios.interceptors.response.use(
-    // function (response) {
-    // // Do something with response data
-    //
-    //     return response;
-    //   },
-    // function (error) {
-    // // Do something with response error
-    //     return Promise.reject(error);
-    // }
-    response => {
+     response => {
         return response;
     },
     error => {
-           if (error.response) {
-               switch (error.response.status) {
-                   case 401:
-                       // 401 清除token信息并跳转到登录页面
-//                     store.commit(LOGOUT);
-					localStorage.removeItem('access_token')
-                       router.replace({
-                           path: '/login',
-                           query: {redirect: router.currentRoute.fullPath}
-                       })
-               }
-           }
+        if (error.response) {
+            switch (error.response.status) {
+                case 401:
+                    // 401 清除token信息并跳转到登录页面
+                    localStorage.removeItem('access_token');
+                    router.replace({
+                        path: 'login',
+                        query: {redirect: router.currentRoute.fullPath}
+                    })
+            }
+        }
         // console.log(JSON.stringify(error));//console : Error: Request failed with status code 402
         return Promise.reject(error.response.data)
-    }
-);
+});
 
 export default axios;

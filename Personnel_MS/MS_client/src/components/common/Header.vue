@@ -48,6 +48,7 @@ export default {
                 type: 'warning'
             }).then(() => {
                 localStorage.removeItem('ms_username');
+                localStorage.removeItem('access_token');
                 _this.$router.push('/login');
             }).catch(() => {
 

@@ -71,7 +71,7 @@
 				  		<el-upload class="upload-demo" :on-change="handleChange" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
                             <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                         </el-upload>
-                        <el-checkbox v-model="formdata.checked">是否需要出具离职证明</el-checkbox>
+                        <el-checkbox v-model="formdata.dimProveFlag" @change="dimProveFlagChange">是否需要出具离职证明</el-checkbox>
 				  	</el-form-item>
 				</el-form>
 			</div>
@@ -105,7 +105,7 @@
 					updatedBy: "xxx",
 					updatedDate: "xxx",
 					attachm: "",
-					checked: "xxx"
+					dimProveFlag: "xxx"
 				},
 				
 				comp: {
@@ -175,6 +175,9 @@
 				console.log(file);
 				console.log(fileList.slice(-3));
 	      	},
+	      	dimProveFlagChange(val) {
+	      		console.log(this.formdata.dimProveFlag)
+	      	},
 	      	save(formName) {
 				const self = this;
 				this.$refs[formName].validate((valid) => {
@@ -208,7 +211,7 @@
 				.then(function(res) {
 					console.log('CustShifthisDetail',res);
 					self.formdata = res.data.data;
-//					self.formdata.shiftCameTime = moment(self.formdata.shiftCameTime).format('YYYY-MM-DD hh:mm:ss');
+//					self.formdata.updatedDate = moment(self.formdata.updatedDate).format('YYYY-MM-DD hh:mm:ss');
 				}).catch(function(err) {
 					console.log(err);
 				})

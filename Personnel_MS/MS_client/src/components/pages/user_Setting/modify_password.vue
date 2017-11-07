@@ -14,9 +14,9 @@
 				<span class="title-text">修改密码</span>
 			</div>
 			<ul class="content-inner">
-				<el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="74px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
 					<el-form-item label="当前密码" prop="oldPass">
-						<el-input type="password" v-model.number="ruleForm2.oldPass" placeholder="请输入原密码"></el-input>
+						<el-input type="password" v-model="ruleForm2.oldPass" placeholder="请输入原密码" @change="oldPasschange"></el-input>
 						<span class="tips forget">忘记密码</span>
 					</el-form-item>
 					<el-form-item label="新密码" prop="newPass">
@@ -95,6 +95,9 @@
 		created() {
 		},
 		methods: {
+			oldPasschange(val) {
+				console.log(this.ruleForm2.oldPass);
+			},
 			submitForm(formName) {
 				const self = this;
 				self.$refs[formName].validate((valid) => {
@@ -118,7 +121,7 @@
 				self.$axios.put(baseURL+'/user/changePassword',params)
 				.then(function(res) {
 					console.log('updatePassword',res);
-					if(res.data.code === "S000000") {
+					if(res.data.code === "S00000") {
 						Bus.$emit('showSuccessTip', '');
 					}
 					
@@ -130,7 +133,7 @@
 	}
 </script>
 
-<style scoped>
+<style>
 	/** {
 		margin: 0;
 		padding: 0;
@@ -242,6 +245,7 @@
 	    opacity: 0.6;
 	    border-radius: 4px;
 	    width: 300px;
+        margin-left: 18px;
 	}
 	.modifine_password .el-button, 
 	.modifine_password .el-textarea__inner {

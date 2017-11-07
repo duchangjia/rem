@@ -3,17 +3,18 @@ import Router from 'vue-router';
 
 Vue.use(Router);
 
-export default new Router({
+//export default new Router({
     //     mode: 'history',
     // hashbang: false,
     //     history: true,
-    routes: [
+const routes = [
         {
             path: '/',
             redirect: '/login'
         },
         {
             path: '/login',
+            meta: { requireAuth: false, },// 添加该字段，表示进入这个路由是需要登录的
             component: resolve => require(['../components/pages/Login.vue'], resolve)
         },
         {
@@ -33,6 +34,7 @@ export default new Router({
         {
 
             path: '/home',
+            meta: { requireAuth: true, },
             component: resolve => require(['../components/common/Home.vue'], resolve),
             children: [
                 {
@@ -41,6 +43,7 @@ export default new Router({
                 },
                 {
                     path: '/management_framework',
+            		meta: { requireAuth: true, },
                     component: resolve => require(['../components/pages/system_Mgmt/frame.vue'], resolve),
                     children: [
                         {
@@ -63,6 +66,7 @@ export default new Router({
                 },
                 {
                     path: '/management_user',
+            		meta: { requireAuth: true, },
                     component: resolve => require(['../components/pages/system_Mgmt/manage_user.vue'], resolve),
                     children: [
                         {
@@ -78,6 +82,7 @@ export default new Router({
                 },
                 {
                     path: '/management_role',
+            		meta: { requireAuth: true, },
                     component: resolve => require(['../components/pages/system_Mgmt/manage_role.vue'], resolve),
                     children: [
                         {
@@ -102,6 +107,7 @@ export default new Router({
                 },
                 {
                     path: '/management_fun',
+            		meta: { requireAuth: true, },
                     component: resolve => require(['../components/pages/system_Mgmt/manage_fun.vue'], resolve),
                     children: [
                         {
@@ -602,4 +608,34 @@ export default new Router({
             ]
         }
     ]
+//})
+
+
+
+// 页面刷新时，重新赋值token
+if (window.localStorage.getItem('access_token')) {
+    window.localStorage.setItem('access_token', window.localStorage.getItem('access_token'))
+}
+
+const router = new Router({
+    routes
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(r => r.meta.requireAuth)) {
+        if (localStorage.getItem('access_token')) {
+            next();
+        }
+        else {
+            next({
+                path: '/login',
+                query: {redirect: to.fullPath}
+            })
+        }
+    }
+    else {
+        next();
+    }
 })
+
+export default router;
