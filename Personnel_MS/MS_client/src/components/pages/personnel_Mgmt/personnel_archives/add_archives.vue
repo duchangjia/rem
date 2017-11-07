@@ -364,7 +364,38 @@
                                     </div>
                                 </div>
                             </el-tab-pane>
-                            <el-tab-pane label="教育背景" name="fourth">教育背景</el-tab-pane>
+                            <el-tab-pane label="教育背景" name="fourth">
+                                <div class="fourth-wrapper">
+                                    <div class="title"><span>教育背景</span><span  class="text" @click="add_experience">添加</span></div>
+                                    <div class="from-wrapper">
+                                        <el-form :model="ruleForm5" :rules="rules5" ref="ruleForm5" label-width="100px">
+                                            <el-form-item label="时间" prop="date1">
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm5.date1"></el-date-picker>
+                                            </el-form-item>
+                                            <el-form-item label="至" prop="date2">
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm5.date2"></el-date-picker>
+                                            </el-form-item>
+                                            <el-form-item label="学校名称" prop="school">
+                                                <el-input v-model="ruleForm5.school"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="专业" prop="major">
+                                                <el-input v-model="ruleForm5.major"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="学历" prop="degree">
+                                                <el-input v-model="ruleForm5.degree"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="描述" prop="dec">
+                                                <el-input v-model="ruleForm5.dec"></el-input>
+                                            </el-form-item>
+                                            <div class="button-wrapper">
+                                                <button>保存</button>
+                                                <button class="button_special">取消</button>
+                                                <span @click="delWorkItem">删除本条</span>
+                                            </div>
+                                        </el-form>
+                                    </div>
+                                </div>
+                            </el-tab-pane>
                             <el-tab-pane label="项目经历" name="fifth">项目经历</el-tab-pane>
                             <el-tab-pane label="证件管理" name="sixth">
                                 <div class="sixth_wrapper">
@@ -415,7 +446,7 @@
                       },
                   ]
               },
-              activeName: 'first',
+              activeName: 'fourth',
               tabName:'',
               ruleForm: {
                   custName: '',
@@ -585,6 +616,12 @@
                   workTime2: [
                       {required: true, message: '请选择日期', trigger: 'blur'}
                   ],
+              },
+              ruleForm5: {
+
+              },
+              rules5: {
+
               },
           }
         },

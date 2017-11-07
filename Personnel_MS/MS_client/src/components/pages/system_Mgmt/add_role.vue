@@ -59,7 +59,7 @@
                             <el-col :span="6" v-for="(funcs, index) in funcsList">
                                 <div class="funcs-content">
                                     <el-checkbox v-model="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
-                                    <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange"  class="func-item">
+                                    <el-checkbox-group :value="checkFuncs" @change="handleCheckedFuncsChange(value,index)"  class="func-item">
                                         <el-checkbox v-for="funcsDtl in funcs.bsns">{{ funcsDtl.interfaceName }}</el-checkbox>
                                     </el-checkbox-group>
                                 </div>
@@ -93,6 +93,7 @@
 
 <script type='text/ecmascript-6'>
 import current from "../../common/current_position.vue";
+import Vue from 'vue'
 export default {
   data() {
     return {
@@ -194,8 +195,9 @@ export default {
     },
     // 功能权限 多选
     handleFuncsAllChange(event, index) {
-        this.$set(this.checkFuncsAll,index+'',true)
-      this.checkFuncsAll[index] = event.target.checked;
+//        this.$set('checkFuncsAll.'+index,true)
+//        Vue.set(this.checkFuncsAll,index+'',event.target.checked)
+//      this.checkFuncsAll[index] = event.target.checked;
 //      if (this.checkFuncsAll[index] == true) {
 //        console.log(111);
 //        // this.checkFuncs = this.funcsList;

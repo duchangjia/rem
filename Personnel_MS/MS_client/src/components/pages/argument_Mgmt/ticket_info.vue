@@ -233,8 +233,8 @@
                     text-decoration underline
         .el-pagination
             position: absolute;
-            right: 45px;
-            bottom:40px;
+            right: 81px;
+            /*bottom:40px;*/
             .el-pagination__total
                 height 24px
             .btn-prev, .el-pagination__jump, .btn-next

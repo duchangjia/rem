@@ -6,7 +6,7 @@
                 <div class="title"><span class="text">业务参数</span></div>
                 <div class="content">
                     <el-row type="flex" justify="space-around" v-for="(content, index) in contents" :key="index">
-                        <el-col :span="6" v-for="(obj, index2) in content" :key="index2">
+                        <el-col :span="7" v-for="(obj, index2) in content" :key="index2">
                             <div class="item" @click="link(index, index2)">
                                 <span class="space" style="display: inline-block; width: 40px; height: 1px;"></span>
                                 <img :src="`../../../../static/img/argument_Mgmt/argument_2/${obj.image}`" width="56" height="56">
