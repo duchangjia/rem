@@ -60,7 +60,7 @@
                                 <div class="funcs-content">
                                     <el-checkbox :value="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
                                     <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
-                                        <el-checkbox v-for="funcsDtl in funcs.bsns" v-bind:title="funcsDtl.interfaceName" >{{ funcsDtl.interfaceName }}</el-checkbox>
+                                        <el-checkbox v-for="funcsDtl in funcs.bsns" :label="funcsDtl.bsnNo" v-bind:title="funcsDtl.interfaceName" >{{ funcsDtl.interfaceName }}</el-checkbox>
                                     </el-checkbox-group>
                                 </div>
                             </el-col>
@@ -80,7 +80,6 @@ export default {
     return {
       labelPosition: "right",
       addRoleMsg: {
-        roleNo: "",
         roleName: "",
         status: "",
         roleDescr: "",
@@ -108,11 +107,11 @@ export default {
   created() {
     const self = this;
     self.$axios
-    //   .get("/iem_hrm/role/queryParentMenu")
-      .get("/iem_hrm/queryParentMenu")
+      .get("/iem_hrm/role/queryParentMenu")
+    //   .get("/iem_hrm/queryParentMenu")
       .then(res => {
-        // self.menus = res.data.data;
-        self.menus = res.data.data.data;
+        self.menus = res.data.data;
+        // self.menus = res.data.data.data;
         console.log("这是menus", self.menus);
       })
       .catch(() => {
@@ -132,11 +131,11 @@ export default {
         upMenuNo: this.menuRadio
       };
       this.$axios
-        // .get("/iem_hrm/role/queryChildMenuAndFunc", { params: params })
-        .get("/iem_hrm/queryChildMenuAndFunc", { params: params })
+        .get("/iem_hrm/role/queryChildMenuAndFunc", { params: params })
+        // .get("/iem_hrm/queryChildMenuAndFunc", { params: params })
         .then(res => {
-          //   this.submenus = res.data.data;
-          this.submenus = res.data.data.data;
+            this.submenus = res.data.data;
+        //   this.submenus = res.data.data.data;
           this.checkSubAll = false;
           console.log("这是submenus", this.submenus);
         })
@@ -169,21 +168,43 @@ export default {
     // 功能权限 多选
     handleFuncsAllChange(event, index) {
       this.checkFuncsAll[index] = event.target.checked;
-      console.log(index ,this.checkFuncsAll[index]);
+      let targetFucsList = [];
+      this.funcsList[index].bsns.forEach(function(ele) {
+            targetFucsList.push(ele.bsnNo);
+        }, this);
       if (this.checkFuncsAll[index] == true) {
-        this.checkFuncs = this.funcsList[index];
         this.$set(this.isFuncsIndeterminate, index, true);
+        this.checkFuncs = targetFucsList;
+        targetFucsList.forEach(function(ele) {
+            if( JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(JSON.stringify({bsnNo: ele})) == -1 ) {
+                this.addRoleMsg.roleFuncSet.push({bsnNo: ele});
+            }
+        }, this);
       } else {
-        this.checkFuncs = [];
         this.$set(this.isFuncsIndeterminate, index, false);
+        this.checkFuncs = [];
+        targetFucsList.forEach(function(ele) {
+            if( JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(JSON.stringify({bsnNo: ele})) != -1 ) {
+                this.addRoleMsg.roleFuncSet.splice(this.addRoleMsg.roleFuncSet.indexOf({bsnNo: ele}), 1);
+            }
+        }, this);
       }
       console.log("这是全选的checkFuncs", this.checkFuncs);
+      console.log('roleFuncSet' , this.addRoleMsg.roleFuncSet);
     },
-    handleCheckedFuncsChange(...val) {
-      console.log("val:", val);
-    //   console.log("index:" + index);
-    //   this.checkFuncs = val;
-    //   console.log("这是checkFuncs", val);
+    handleCheckedFuncsChange(val, index) {
+        if(val.length == this.funcsList[index].bsns.length) {
+            this.checkFuncsAll[index] = true;
+            this.$set(this.isFuncsIndeterminate, index, true);
+        } else {
+            this.checkFuncsAll[index] = false;
+            this.$set(this.isFuncsIndeterminate, index, false);
+        }
+        this.addRoleMsg.roleFuncSet = [];
+        val.forEach(function(ele) {
+            this.addRoleMsg.roleFuncSet.push({bsnNo: ele});
+        }, this);
+        console.log('roleFuncSet' , this.addRoleMsg.roleFuncSet);
     },
 
     handleSave() {
@@ -191,6 +212,7 @@ export default {
       newRole.roleName = this.addRoleMsg.roleName;
       newRole.status = this.addRoleMsg.status;
       newRole.roleDescr = this.addRoleMsg.roleDescr;
+      newRole.roleFuncSet = this.addRoleMsg.roleFuncSet;
       console.log(newRole);
       this.$axios
         .post("/iem_hrm/role/addRoleInfo", newRole)
@@ -204,6 +226,11 @@ export default {
         .catch(() => {
           this.$message.error("新增角色失败！");
         });
+    },
+
+    isInArray(arr,val){ 
+        let testStr=','+arr.join(",")+",";  
+        return testStr.indexOf(","+val+",")!=-1;  
     }
   }
 };
