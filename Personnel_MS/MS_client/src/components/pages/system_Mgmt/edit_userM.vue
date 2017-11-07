@@ -204,7 +204,7 @@
 		          		userNo: self.userDetail.userNo
 		          	};
 		      		//重置密码
-//		          	self.resetPassword(params);
+		          	self.resetPassword(params);
 		        }).catch(() => {
 		          	self.$message({
 		            	type: 'info',
@@ -302,13 +302,13 @@
 			},
 			resetPassword(params) {
 				const self = this;
-				self.$axios.put(baseURL+'/resetPassword', params)
+				self.$axios.put(baseURL+'/user/resetPassword', params)
 	          	.then(function(res){
 	          		console.log('resetPassword',res);
-	          			self.$message({
-			            	type: 'success',
-			            	message: '新密码已发送至邮箱，请查收!'
-			          	});
+//	          			self.$message({
+//			            	type: 'success',
+//			            	message: '新密码已发送至邮箱，请查收!'
+//			          	});
 	          	}).catch(function(err){
 	          		self.$message.error('密码重置失败');
 	          	})

@@ -1924,5 +1924,11 @@
         ]
       }
     ]
+  },
+  "resetPassword": {
+  	"code": "000000"
+  },
+  "changePassword": {
+  	"code": "000000"
   }
 }

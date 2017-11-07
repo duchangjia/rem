@@ -163,8 +163,8 @@
 //                                    let result = res.data.data
                                     let access_token = res.data.access_token
                                     let refresh_token = res.data.refresh_token
-                                    window.localStorage.setItem('access_token', JSON.stringify(access_token))
-                                    window.localStorage.setItem('refresh_token', JSON.stringify(refresh_token))
+                                    window.localStorage.setItem('access_token', access_token)
+                                    window.localStorage.setItem('refresh_token', refresh_token)
                                     if(true){
                                         localStorage.setItem('ms_username',self.ruleForm.username);
                                         self.fullscreenLoading = false

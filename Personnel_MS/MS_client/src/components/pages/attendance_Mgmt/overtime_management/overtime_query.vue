@@ -383,11 +383,8 @@ export default {
 }
 
 .workot_query .el-input__inner {
-	border-radius: 4px;
 	border: 1px solid #EEEEEE;
 	color: #333333;
-	padding: 19px 10px;
-	transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
 }
 
 .workot_query .el-input__inner:hover {

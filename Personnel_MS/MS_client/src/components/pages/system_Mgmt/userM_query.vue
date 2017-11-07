@@ -31,7 +31,7 @@
 						</el-col>-->
 						<el-col :span="8">
 							<el-form-item label="用户" prop="user">
-								<el-input type="text" v-model="ruleForm2.user" placeholder="工号/姓名/手机/邮箱"></el-input>
+								<el-input type="text" v-model="ruleForm2.user" placeholder="工号/姓名/手机/邮箱" @change="keyup"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="8">
@@ -83,7 +83,7 @@ export default {
 	data() {
 		return {
 			pageNum: 1,
-			pageRows: 10,
+			pageRows: 5,
 			pageSize: 1,
 			queryFormFlag: false,
 			ruleForm2: {
@@ -162,13 +162,16 @@ export default {
             });
 		},
 		changeComp(val) {
-			console.log(val);
+			console.log('comp',val);
 			const self = this;
 			let params = {
 				organNo: val
 			}
 			//部门列表查询
 			self.queryDerpList(params);
+		},
+		keyup(val) {
+			console.log(val)
 		},
 		//查询
 		queryForm(formName) {
@@ -191,6 +194,7 @@ export default {
 		},
 		changeValue(value) {
 	 		const self = this;
+	 		console.log(value)
 //          console.log('value',value);
 //				self.userDetail.compName = self.comp.compName;
 //				self.userDetail.compOrgNo = self.comp.compOrgNo;
@@ -237,6 +241,8 @@ export default {
 				self.operatorList = res.data.data.models;
 				self.pageNum = pageNum;
 				self.pageSize = Number(res.data.data.total);
+//				self.operatorList[0].compName = '魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司';
+//				self.operatorList[0].departName = '魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司';
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -309,7 +315,6 @@ export default {
 }
 
 .user-query .el-form-item__label {
-	/*text-align: left;*/
 	vertical-align: middle;
 	float: left;
 	font-size: 14px;
@@ -352,7 +357,7 @@ export default {
 	border-radius: 4px;
 	border: 1px solid #EEEEEE;
 	color: #333333;
-	padding: 19px 10px;
+	/*padding: 19px 10px;*/
 	transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
 }
 

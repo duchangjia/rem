@@ -19,17 +19,17 @@
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
 							</el-select>
 						</el-form-item>
-						<el-form-item label="开始时间" prop="startDate">
+						<el-form-item label="开始时间" prop="startTime">
 							<el-date-picker
-						      v-model="ruleForm2.startDate"
+						      v-model="ruleForm2.startTime"
 						      type="date"
 						      placeholder="选择日期"
 						      :picker-options="pickerOptions0" @change="changeStartTime">
 						   </el-date-picker>
 						</el-form-item>
-						<el-form-item label="结束时间" prop="endDate">
+						<el-form-item label="结束时间" prop="endTime">
 							<el-date-picker
-						      v-model="ruleForm2.endDate"
+						      v-model="ruleForm2.endTime"
 						      type="date"
 						      placeholder="选择日期"
 						      :picker-options="pickerOptions0" @change="changeEndTime">
@@ -43,17 +43,17 @@
 				</el-form>
 				<div class="info">
 					<el-table :data="transferDataList" border stripe style="width: 100%">
-						<el-table-column prop="lizhiNo" label="离职编号">
+						<el-table-column prop="dimId" label="离职编号">
 							<template scope="scope">
-						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.lizhiNo }}</span>
+						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.dimId }}</span>
 					      	</template>
 						</el-table-column>
 						<el-table-column prop="userNo" label="工号"></el-table-column>
 						<el-table-column prop="userName" label="姓名"></el-table-column>
 						<el-table-column prop="compName" label="公司名称"></el-table-column>
 						<el-table-column prop="departName" label="部门名称"></el-table-column>
-						<el-table-column prop="lizhiType" label="离职类型"></el-table-column>
-						<el-table-column prop="lizhiDate" label="离职日期" :formatter="lizhiDateFormatter"></el-table-column>
+						<el-table-column prop="dimType" label="离职类型"></el-table-column>
+						<el-table-column prop="dimTime" label="离职日期" :formatter="dimTimeFormatter"></el-table-column>
 						<el-table-column align="center" label="操作" width="150">
 							<template scope="scope">
 								<span class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></span>
@@ -77,17 +77,18 @@ export default {
 		return {
 			pickerOptions0: {
 	          disabledDate(time) {
-	            return time.getTime() < Date.now() - 8.64e7;
+//	            return time.getTime() < Date.now() - 8.64e7;
 	          }
 	       	},
 			pageNum: 1,
-			pageSize: 5,
+			pageSize: 10,
 			totalRows: 2,
+			queryFormFlag: false,
 			ruleForm2: {
 				compOrgNo: '',
 				departOrgNo: '',
-				startDate: "",
-				endDate: ''
+				startTime: "",
+				endTime: ''
 			},
 			comp: {
 				compName: '',
@@ -111,22 +112,22 @@ export default {
 			],
 			transferDataList: [
 				{
-					lizhiNo: "001001",
+					dimId: "001001",
 					userNo: "p011111",
 					userName: "sdsd",
 					compName: "xx",
 					departName: "xx",
-					lizhiType: "xx",
-					lizhiDate: "2017-10-01"
+					dimType: "xx",
+					dimTime: "2017-10-01"
 				},
 				{
-					lizhiNo: "001001",
+					dimId: "001001",
 					userNo: "p011111",
 					userName: "sdsd",
 					compName: "",
 					departName: "",
-					lizhiType: "",
-					lizhiDate: "",
+					dimType: "",
+					dimTime: "",
 					shengxiaoDate: ""
 				}
 			],
@@ -149,18 +150,20 @@ export default {
 			"pageSize": pageSize,
 			userNo: userNo
 		}
+		self.queryFormFlag = false;
+		//查询离职列表
 		self.queryCustDimhisList(pageNum,pageSize,params);
 	},
 	methods: {
-		lizhiDateFormatter(row, column) {
-			let time = row.lizhiDate;
+		dimTimeFormatter(row, column) {
+			let time = row.dimTime;
 			return moment(time).format('YYYY-MM-DD hh:mm:ss');
 		},
 		changeStartTime(val) {
-			this.ruleForm2.startDate = val;
+			this.ruleForm2.startTime = val;
 		},
 		changeEndTime(val) {
-			this.ruleForm2.endDate = val;
+			this.ruleForm2.endTime = val;
 		},
 		handleAddTransfer() {
 			this.$router.push('/add_dimission');
@@ -174,7 +177,8 @@ export default {
             this.$router.push({
             	name: "edit_dimission",
             	params: {
-            		lizhiNo: row.lizhiNo
+            		dimId: row.dimId,
+            		userNo: row.userNo
             	}
             });
 		},
@@ -183,7 +187,8 @@ export default {
 			this.$router.push({
 				name: "dimission_info",
 				params: {
-					lizhiNo: row.lizhiNo
+					dimId: row.dimId,
+            		userNo: row.userNo
 				}
 			})
 			
@@ -199,24 +204,40 @@ export default {
 				"pageSize": pageSize,
 				userNo: userNo,
 			}
+			self.queryFormFlag = true;
+			//条件查询离职列表
 			self.queryCustDimhisList(pageNum,pageSize,params);
 		},
 		//重置
 		resetForm() {
 			this.comp = {};
 			this.depart = {};
-			this.ruleForm2.startDate = '';
-			this.ruleForm2.endDate = '';
+			this.ruleForm2.startTime = '';
+			this.ruleForm2.endTime = '';
 		},
 		handleCurrentChange(val) {
 			console.log(`当前页: ${val}`);
 			const self = this;
 			let pageNum = val;
 			let pageSize = self.pageSize;
-			let params = {
-				"pageNum": pageNum,
-				"pageSize": pageSize
+			let userNo = self.$route.params.userNo;
+			let params = {};
+			if(!self.queryFormFlag) {
+				params = {
+					"pageNum": pageNum,
+					"pageSize": pageSize,
+					userNo: userNo
+				}
+			} else {
+				params = {
+					"pageNum": pageNum,
+					"pageSize": pageSize,
+					userNo: userNo,
+					startTime: self.ruleForm2.startTime,
+					endTime: self.ruleForm2.endTime
+				}
 			}
+			//分页查询离职列表
 			self.queryCustDimhisList(pageNum,pageSize,params);
 		},
 		queryCustDimhisList(pageNum,pageSize,params) {
@@ -322,11 +343,8 @@ export default {
 }
 
 .transfer_wrap .el-input__inner {
-	border-radius: 4px;
 	border: 1px solid #EEEEEE;
 	color: #333333;
-	padding: 19px 10px;
-	transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
 }
 
 .transfer_wrap .el-input__inner:hover {
@@ -334,14 +352,8 @@ export default {
 }
 
 .transfer_wrap .el-button {
-	display: inline-block;
-	line-height: 1;
-	white-space: nowrap;
-	cursor: pointer;
-	background: #fff;
 	border: 1px solid #FF9900;
 	color: #FF9900;
-	/*margin: 0;*/
 	padding: 12px 45px;
 	border-radius: 0px;
 }

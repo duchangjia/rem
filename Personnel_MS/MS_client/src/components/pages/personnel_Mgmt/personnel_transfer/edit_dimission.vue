@@ -38,26 +38,26 @@
 					    <el-input v-model="formdata.lineManager"></el-input>
 				  	</el-form-item>
 				  	<div class="info-title">离职信息</div>
-				  	<el-form-item label="离职时间" prop="lizhiDate">
-					    <el-input v-model="formdata.lizhiDate"></el-input>
+				  	<el-form-item label="离职时间" prop="dimTime">
+					    <el-input v-model="formdata.dimTime"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="离职类型" prop="lizhiType">
-					    <el-select v-model="formdata.lizhiType" value-key="lizhiType" @change="changeValue">
-							<el-option v-for="item in lizhiTypeList" :key="item" :label="item" :value="item"></el-option>
+				  	<el-form-item label="离职类型" prop="dimType">
+					    <el-select v-model="formdata.dimType" value-key="dimType" @change="changeValue">
+							<el-option v-for="item in dimTypeList" :key="item" :label="item" :value="item"></el-option>
 						</el-select>
 				  	</el-form-item>
 				  	<el-form-item label="去向">
-					    <el-input v-model="formdata.quXiang"></el-input>
+					    <el-input v-model="formdata.hasGone"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="工资截止日" prop="endDate">
-					    <el-input v-model="formdata.endDate"></el-input>
+				  	<el-form-item label="工资截止日" prop="payEndTime">
+					    <el-input v-model="formdata.payEndTime"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="离职原因" prop="lizhiyuanying" style="width:100%;">
+				  	<el-form-item label="离职原因" prop="dimReason" style="width:100%;">
 					    <el-input
 						  type="textarea"
 						  :autosize="{ minRows: 5, maxRows: 5}"
 						  placeholder="请输入内容"
-						  v-model="formdata.lizhiyuanying">
+						  v-model="formdata.dimReason">
 						</el-input>
 				  	</el-form-item>
 				  	<el-form-item label="最新更新人">
@@ -81,6 +81,8 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
+	import moment from 'moment'
+	const baseURL = 'iem_hrm'
 	export default {
 		data() {
 			return {
@@ -95,11 +97,11 @@
 					custPost: "xxx",
 					custClass: "xxx",
 					lineManager: "xxx",
-					lizhiDate: "xxx",
-					lizhiType: "xxx",
-					quXiang: "xxx",
-					endDate: "xxx",
-					lizhiyuanying: "xxx",
+					dimTime: "xxx",
+					dimType: "xxx",
+					hasGone: "xxx",
+					payEndTime: "xxx",
+					dimReason: "xxx",
 					updatedBy: "xxx",
 					updatedDate: "xxx",
 					attachm: "",
@@ -134,18 +136,18 @@
 					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
 					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
 				],
-				lizhiTypeList: ['辞退','退休','外调','辞职','裁员'],
+				dimTypeList: ['辞退','退休','外调','辞职','裁员'],
 				rules: {
-		          	lizhiDate: [
+		          	dimTime: [
 		            	{ required: true, message: '离职时间不能为空', trigger: 'blur' }
 	          		],
-					lizhiType: [
+					dimType: [
 		            	{ required: true, message: '离职类型不能为空', trigger: 'blur' }
 	          		],
-					endDate: [
+					payEndTime: [
 		            	{ required: true, message: '工资截止日不能为空', trigger: 'blur' }
 	          		],
-					lizhiyuanying: [
+					dimReason: [
 		            	{ required: true, message: '离职原因不能为空', trigger: 'blur' }
 	          		]
 	          	}
@@ -156,10 +158,10 @@
 		},
 		created() {
 			let userNo = this.$route.params.userNo;
-			let workhisId = this.$route.params.workhisId;
+			let dimId = this.$route.params.dimId;
 			let params = {
 				userNo: userNo,
-				workhisId: workhisId
+				dimId: dimId
 			}
 			//人事离职详情查询
 			this.queryCustDimhisDetail(params); 

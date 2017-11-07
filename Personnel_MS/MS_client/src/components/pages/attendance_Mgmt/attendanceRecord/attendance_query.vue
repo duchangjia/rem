@@ -367,11 +367,8 @@ export default {
 }
 
 .attendance_wrap .el-input__inner {
-	border-radius: 4px;
 	border: 1px solid #EEEEEE;
 	color: #333333;
-	padding: 19px 10px;
-	transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
 }
 
 .attendance_wrap .el-input__inner:hover {
@@ -379,11 +376,6 @@ export default {
 }
 
 .attendance_wrap .el-button {
-	display: inline-block;
-	line-height: 1;
-	white-space: nowrap;
-	cursor: pointer;
-	background: #fff;
 	border: 1px solid #FF9900;
 	color: #FF9900;
 	padding: 12px 45px;
