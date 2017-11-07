@@ -155,7 +155,14 @@
 			current
 		},
 		created() {
-			
+			let userNo = this.$route.params.userNo;
+			let workhisId = this.$route.params.workhisId;
+			let params = {
+				userNo: userNo,
+				workhisId: workhisId
+			}
+			//人事离职详情查询
+			this.queryCustDimhisDetail(params); 
 		},
 		methods: {
 			changeValue(value) {
@@ -163,7 +170,6 @@
 	            console.log('value',value);
 	      	},
 	      	handleChange(file, fileList) {
-//		        this.fileList3 = fileList.slice(-3);
 				console.log(file);
 				console.log(fileList.slice(-3));
 	      	},
@@ -172,13 +178,38 @@
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
 						console.log('修改成功');
-						
+						let params = {
+							
+						};
+						//修改离职信息
+						self.updateCustDimhis(params);
 
 					} else {
 						this.$message.error('修改失败');
 						return false;
 					}
 				});
+			},
+			updateCustDimhis(params) {
+				let self = this;
+				self.$axios.put(baseURL+'/custDimhis/updateCustDimhis',params)
+				.then(function(res) {
+					console.log('updateCustDimhis',res);
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustDimhisDetail(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/custDimhis/queryCustDimhisDetail', {params: params})
+				.then(function(res) {
+					console.log('CustShifthisDetail',res);
+					self.formdata = res.data.data;
+//					self.formdata.shiftCameTime = moment(self.formdata.shiftCameTime).format('YYYY-MM-DD hh:mm:ss');
+				}).catch(function(err) {
+					console.log(err);
+				})
 			}
 		}
 	};

@@ -90,6 +90,7 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
+	import moment from 'moment'
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
@@ -180,8 +181,7 @@
 				.then(function(res) {
 					console.log('CustShifthisDetail',res);
 					self.formdata = res.data.data;
-//					self.pageNum = pageNum;
-//					self.totalRows = Number(res.data.data.total);
+					self.formdata.shiftCameTime = moment(self.formdata.shiftCameTime).format('YYYY-MM-DD hh:mm:ss');
 				}).catch(function(err) {
 					console.log(err);
 				})

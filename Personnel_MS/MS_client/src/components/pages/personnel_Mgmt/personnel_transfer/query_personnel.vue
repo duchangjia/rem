@@ -6,26 +6,33 @@
 			<el-col :span="24" class="titlebar">
 				<span class="title-text">人事调动</span>
 			</el-col>
-
 			<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="58px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-form-item label="公司" prop="company">
-							<el-select v-model="comp" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="部门" prop="department">
-							<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
-								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="工号" prop="userNo">
-							<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
-						</el-form-item>
-						<el-form-item label="姓名" prop="userName">
-							<el-input type="text" v-model="ruleForm2.userName" placeholder="姓名"></el-input>
-						</el-form-item>
+						<el-col :span="8">
+							<el-form-item label="公司" prop="company">
+								<el-select v-model="comp" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
+									<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="部门" prop="department">
+								<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
+									<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="工号" prop="userNo">
+								<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :span="8">
+							<el-form-item label="姓名" prop="userName">
+								<el-input type="text" v-model="ruleForm2.userName" placeholder="姓名"></el-input>
+							</el-form-item>
+						</el-col>
 					</div>
 					<div class="button-wrap">
 						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
@@ -84,8 +91,9 @@
 					userNo: "",
 					userName: ""
 				},
-				pactListInfo: [{
-						userNo: "0001",
+				pactListInfo: [
+					{
+						userNo: "P0000001",
 						userName: "小李",
 						compName: "广州分公司",
 						departName: "xxx",
@@ -94,28 +102,6 @@
 						perendmFixed: "B9",
 						mobile: "1313131333",
 						status: "在职"
-					},
-					{
-						userNo: "0002",
-						userName: "小李",
-						compName: "广州分公司",
-						departName: "xxx",
-						xingbie: "男",
-						custPost: "java",
-						perendmFixed: "B9",
-						mobile: "1313131333",
-						status: "离职"
-					},
-					{
-						userNo: "0003",
-						userName: "小李",
-						compName: "广州分公司",
-						departName: "xxx",
-						xingbie: "男",
-						custPost: "java",
-						perendmFixed: "B9",
-						mobile: "1313131333",
-						status: "试用"
 					}
 				],
 				comp: {
@@ -251,25 +237,27 @@
 	.query_transfer {
 		padding: 0 0 20px 20px;
 	}
-	
+	.query_transfer .titlebar {
+	    margin-bottom: 40px;
+	}
 	.query_transfer .el-form-item__label {
-		text-align: left;
 		vertical-align: middle;
 		float: left;
 		font-size: 14px;
 		color: #999999;
 		line-height: 1;
-		padding: 11px 12px 11px 0;
+		padding: 11px 30px 11px 0;
 		box-sizing: border-box;
+
 	}
 	
 	.query_transfer .input-wrap .el-form-item {
-		margin-right: 80px;
+		/*margin-right: 80px;*/
 		float: left;
 	}
 	
 	.query_transfer .el-form-item {
-		margin-bottom: 40px;
+		margin-bottom: 20px;
 	}
 	
 	.query_transfer .el-input,
@@ -285,7 +273,7 @@
 	}
 	
 	.query_transfer .button-wrap {
-		margin: 0px auto 40px;
+		margin: 0px auto 20px;
 		width: 260px;
 		clear: both;
 		font-size: 0px;

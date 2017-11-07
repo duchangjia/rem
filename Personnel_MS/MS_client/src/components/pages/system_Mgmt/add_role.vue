@@ -106,7 +106,7 @@ export default {
       menuRadio: "",
       menuRadioFlag: false,
       menus: [],
-      checkSubAll: false,
+      checkSubAll: {},
       checkedSubmenusFlag: false,
       checkedSubmenus: [],
       submenus: [],
@@ -123,12 +123,12 @@ export default {
   created() {
     const self = this;
     self.$axios
-      //   .get("/iem_hrm/role/queryParentMenu")
+    //   .get("/iem_hrm/role/queryParentMenu")
       .get("/iem_hrm/queryParentMenu")
       .then(res => {
         // self.menus = res.data.data;
         self.menus = res.data.data.data;
-        console.log("这是menus" ,self.menus);
+        console.log("这是menus", self.menus);
       })
       .catch(() => {
         console.log("error");
@@ -163,7 +163,7 @@ export default {
           //   this.submenus = res.data.data;
           this.submenus = res.data.data.data;
           this.checkSubAll = false;
-          console.log("这是submenus" , this.submenus);
+          console.log("这是submenus", this.submenus);
         })
         .catch(() => {
           console.log("error");
@@ -172,7 +172,7 @@ export default {
     // 次级菜单 多选
     handleSubAllChange(event,index) {
       this.checkSubAll = event.target.checked;
-      if ((this.checkSubAll == true)) {
+      if (this.checkSubAll == true) {
         this.submenus.forEach(function(v, k) {
           this.checkedSubmenus.push(v.menuName);
         });
@@ -196,19 +196,21 @@ export default {
     handleFuncsAllChange(event, index) {
         this.$set(this.checkFuncsAll,index+'',true)
       this.checkFuncsAll[index] = event.target.checked;
-//      if ((this.checkFuncsAll[index] == true)) {
-//            console.log(111)
-////        this.checkFuncs = this.funcsList;
-//          this.$set(this.isFuncsIndeterminate,this.isFuncsIndeterminate[index],true)
+//      if (this.checkFuncsAll[index] == true) {
+//        console.log(111);
+//        // this.checkFuncs = this.funcsList;
+//        this.$set(this.isFuncsIndeterminate, this.isFuncsIndeterminate[index], true);
 //      } else {
-////        this.checkFuncs = [];
-//          this.$set(this.isFuncsIndeterminate,this.isFuncsIndeterminate[index],false)
+//        // this.checkFuncs = [];
+//        this.$set(this.isFuncsIndeterminate, this.isFuncsIndeterminate[index], false);
 //      }
-      console.log("这是全选的checkFuncs" , this.checkFuncs);
+      console.log("这是全选的checkFuncs", this.checkFuncs);
     },
-    handleCheckedFuncsChange(val) {
+    handleCheckedFuncsChange(val, index) {
+      console.log("val:" + val);
+      console.log("index:" + index);
       this.checkFuncs = val;
-      console.log("这是checkFuncs" , val);
+      console.log("这是checkFuncs", val);
     },
 
     handleSave() {
@@ -221,8 +223,10 @@ export default {
         .post("/iem_hrm/role/addRoleInfo", newRole)
         .then(res => {
           console.log(res);
-          if (res.data.code == "S00000") this.$router.push("/management_role");
-          else this.$message.error("新增角色失败！");
+          if (res.data.code == "S00000") {
+            this.$message({ type: "success", message: "角色新增成功!" });
+            this.$router.push("/management_role");
+          } else this.$message.error("新增角色失败！");
         })
         .catch(() => {
           this.$message.error("新增角色失败！");

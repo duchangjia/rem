@@ -21,7 +21,7 @@
 							<el-input v-model="userDetail.userNo" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<!--<el-col :span="12">
 						<el-form-item label="所属公司">
 							<el-select v-model="comp" value-key="compOrgNo" placeholder="所属公司" @change="changeValue" :disabled="true">
 								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
@@ -34,6 +34,16 @@
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
 							</el-select>
 						</el-form-item>
+					</el-col>-->
+					<el-col :span="12">
+						<el-form-item label="所属公司">
+							<el-input v-model="userDetail.compName" :disabled="true"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="所属部门" prop="departOrgNo">
+							<el-input v-model="userDetail.departName" :disabled="true"></el-input>
+						</el-form-item>
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="角色" prop="roleNo">
@@ -44,7 +54,7 @@
 					</el-col>
 					<el-col :span="12">
 						<el-form-item label="状态" prop="status">
-							<el-select v-model="userDetail.status" :disabled="true">
+							<el-select v-model="userDetail.status" class="bg-white">
 								<el-option label="正常" value="1"></el-option>
 								<el-option label="停用" value="0"></el-option>
 								<el-option label="锁定" value="2"></el-option>
@@ -127,6 +137,7 @@
 				roleList: [
 					{roleName: "财务经理",roleNo: "p101"},
 					{roleName: "人事经理",roleNo: "p102"},
+					{roleName: "普通人员aaa",roleNo: "111"},
 					{roleName: "管理员",roleNo: "112"}
 				],
 				//部门列表
@@ -144,15 +155,18 @@
 				rules: {
 					userName: [
 //			            { required: true, message: '请输入姓名', trigger: 'blur' },
-			            { validator: checkUserName, trigger: 'blur' }
+//			            { validator: checkUserName, trigger: 'blur' }
 		          	],
 					email: [
-						{ required: true, message: '请输入邮箱地址', trigger: 'blur' },
-      					{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
+//						{ required: true, message: '请输入邮箱地址', trigger: 'blur' },
+//    					{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
 					],
 //					mobile: [
 ////						{ validator: checkMobile, trigger: 'blur'}
-//					]
+//					],
+					remark: [
+						{ min: 0, max: 100, message: '长度在 0 到 100 个字符之间', trigger: 'blur' }
+					]
 				}
 			}
 		},
@@ -162,30 +176,10 @@
 		created(){
 			const self = this;
 			let user = self.$route.params.user;
-			self.$axios.get(baseURL+'/user/queryUserDetail/'+user)
-				.then(function(res){
-					self.userDetail = res.data.data;
-					self.oldStatus = self.userDetail.status;
-					self.comp = {
-		        		compOrgNo: res.data.data.compOrgNo,
-		        		compName: res.data.data.compName
-		        	}
-					self.depart = {
-						departName: res.data.data.departName,
-						departOrgNo: res.data.data.departOrgNo
-					}
-					self.role = {
-						roleName: res.data.data.roleName,
-						roleNo: res.data.data.roleNo
-					}
-					for(var i in self.userDetail){
-						self.olduserDetail[i] = self.userDetail[i];
-					}
-				})
-				.catch(function(err){
-					console.log(err)
-				})
-			
+			//查询用户详情
+			self.queryUserDetail(user);
+			//查询角色列表
+			self.queryRoleList();
 			
 		},
 		methods: {
@@ -221,7 +215,7 @@
 			//保存
 			conserve(formName) {
 				const self = this;
-				this.$refs[formName].validate((valid) => {
+				self.$refs[formName].validate((valid) => {
 					if(valid) {
 						let detailChange = false;
 						let roles = self.userDetail.roles;
@@ -232,6 +226,7 @@
 						let params = {
 							"roleNoes": roleNoes,
 							"userNo": self.userDetail.userNo,
+							status: self.userDetail.status,
 							"remark": self.userDetail.remark
 						}
 						for(let k in self.userDetail){
@@ -240,9 +235,9 @@
 							}
 						}
 						if(detailChange===true){//判断是否有修改信息
-							//修改用户
+							//修改用户信息
 							self.updateUserInfo(params);
-//							self.$router.go(-1);
+
 						}else{
 							self.$alert('你还未修改信息', '提示', {
 					          	confirmButtonText: '确定'
@@ -254,20 +249,55 @@
 					}
 				});
 			},
+			queryUserDetail(user) {
+				const self = this;
+				self.$axios.get(baseURL+'/user/queryUserDetail/'+user)
+				.then(function(res){
+					self.userDetail = res.data.data;
+					self.oldStatus = self.userDetail.status;
+					self.comp = {
+		        		compOrgNo: res.data.data.compOrgNo,
+		        		compName: res.data.data.compName
+		        	}
+					self.depart = {
+						departName: res.data.data.departName,
+						departOrgNo: res.data.data.departOrgNo
+					}
+					self.role = {
+						roleName: res.data.data.roleName,
+						roleNo: res.data.data.roleNo
+					}
+					for(var i in self.userDetail){
+						self.olduserDetail[i] = self.userDetail[i];
+					}
+				})
+				.catch(function(err){
+					console.log(err)
+				})
+			},
 			updateUserInfo(params) {
 				const self = this;
 				self.$axios.put(baseURL+'/user/updateUserInfo',params)
 				.then(function(res){
 					if(res.data.code=="S00000"){
-						self.$alert('信息修改成功', '提示', {
-				          	confirmButtonText: '确定'
-			        	});
+			        	self.$message('信息修改成功');
+//			        	self.$router.push('/management_user');
 					} else {
 						self.$message.error('信息修改失败');
 					}
 				})
 				.catch(function(err){
 					self.$message.error('信息修改失败');
+				})
+			},
+			queryRoleList() {
+				let self = this;
+				self.$axios.get(baseURL+'/role/queryRoleByUid')
+				.then(function(res) {
+					console.log('RoleList',res);
+					self.roleList = res.data.data;
+				}).catch(function(err) {
+					console.log('error');
 				})
 			},
 			resetPassword(params) {
@@ -400,9 +430,11 @@
 	.user-info .el-select:hover .el-input__inner {
 		border-color: #ff9900;
 	}
-	
 	.user-info .el-input__inner:hover {
-		border-color: #ff9900;
+	    border-color: #ff9900;
+	}
+	.user-info .el-input.is-disabled .el-input__inner:hover {
+	    border-color: #d1dbe5;
 	}
 	.el-select-dropdown__item.selected.hover {
 	    background-color: #f4f4f4;

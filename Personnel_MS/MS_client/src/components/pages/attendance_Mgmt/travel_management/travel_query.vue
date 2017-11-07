@@ -87,7 +87,7 @@ export default {
 	          }
 	       	},
 			pageNum: 1,
-			pageSize: 5,
+			pageSize: 10,
 			totalRows: 2,
 			queryFormFlag: false,
 			ruleForm2: {
@@ -400,7 +400,7 @@ export default {
 }
 
 .travel_query .el-form-item__label {
-	text-align: left;
+	/*text-align: left;*/
 	vertical-align: middle;
 	float: left;
 	font-size: 14px;
