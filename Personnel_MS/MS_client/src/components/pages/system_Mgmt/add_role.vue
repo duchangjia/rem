@@ -58,8 +58,8 @@
                         <el-row :gutter="20">
                             <el-col :span="6" v-for="(funcs, index) in funcsList">
                                 <div class="funcs-content">
-                                    <el-checkbox v-model="checkFuncsAll['aa'+index]" :indeterminate="isFuncsIndeterminate" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
-                                    <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange(value, index)"  class="func-item">
+                                    <el-checkbox v-model="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
+                                    <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange"  class="func-item">
                                         <el-checkbox v-for="funcsDtl in funcs.bsns">{{ funcsDtl.interfaceName }}</el-checkbox>
                                     </el-checkbox-group>
                                 </div>
@@ -67,7 +67,25 @@
                         </el-row>
                     </el-col>
                 </div>
-
+                <!--<div class="test">-->
+                    <!--<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange2">全选</el-checkbox>-->
+                    <!--<div style="margin: 15px 0;"></div>-->
+                    <!--<el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange2">-->
+                        <!--<el-checkbox-button v-for="(city,index) in cities" :label="city.menuName" :key="city.menuName">{{city.menuName}}-->
+                            <!--&lt;!&ndash;<el-checkbox-button v-for="(city,index) in cities" :label="city" :key="index">{{city}}</el-checkbox-button>&ndash;&gt;-->
+                            <!--<div class="test-child" v-show="this.checkedCities.indexOf(city.menuName) > -1">-->
+                                <!--<div class="show">-->
+                                    <!--<el-checkbox :indeterminate="!isIndeterminateAA[index]" v-model="!checkAllAA[index]" @change="handleCheckAllChange3">{{city.menuName}}</el-checkbox>-->
+                                    <!--<div style="margin: 15px 0;"></div>-->
+                                    <!--<el-checkbox-group v-model="checkedCitiesAA[index]" @change="handleCheckedCitiesChange3">-->
+                                        <!--<el-checkbox v-for="child in city.list" :label="child" :key="child">{{child}}</el-checkbox>-->
+                                        <!--&lt;!&ndash;<el-checkbox-button v-for="(city,index) in cities" :label="city" :key="index">{{city}}</el-checkbox-button>&ndash;&gt;-->
+                                    <!--</el-checkbox-group>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</el-checkbox-button>-->
+                    <!--</el-checkbox-group>-->
+                <!--</div>-->
             </div>
         </div>
     </div>
@@ -88,17 +106,15 @@ export default {
       menuRadio: "",
       menuRadioFlag: false,
       menus: [],
-
       checkSubAll: false,
       checkedSubmenusFlag: false,
       checkedSubmenus: [],
       submenus: [],
       isSubIndeterminate: true,
-
       funcsList: [],
-      checkFuncsAll: false,
+      checkFuncsAll: {},
       checkFuncs: [],
-      isFuncsIndeterminate: true
+      isFuncsIndeterminate: {}
     };
   },
   components: {
@@ -117,6 +133,16 @@ export default {
       .catch(() => {
         console.log("error");
       });
+        this.$nextTick(function () {
+            self.submenus.forEach(function (val,index) {
+                self.$set(self.checkFuncsAll,self.checkFuncsAll[index],true)
+                self.$set(self.isFuncsIndeterminate,self.isFuncsIndeterminate[index],false)
+            })
+        })
+
+
+
+
   },
   methods: {
     // 父级菜单-单选
@@ -144,7 +170,7 @@ export default {
         });
     },
     // 次级菜单 多选
-    handleSubAllChange(event) {
+    handleSubAllChange(event,index) {
       this.checkSubAll = event.target.checked;
       if ((this.checkSubAll == true)) {
         this.submenus.forEach(function(v, k) {
@@ -168,18 +194,16 @@ export default {
     },
     // 功能权限 多选
     handleFuncsAllChange(event, index) {
-        console.log('event:' + event);
-        console.log('index:' + index);
-      this.checkFuncsAll['aa'+index] = event.target.checked;
-      if ((checkFuncsAll['aa'+index] == true)) {
-        // this.submenus.forEach(function(v, k) {
-        //   this.checkFuncs.push(v.menuName);
-        // });
-        this.checkFuncs = this.funcsList;
-      } else {
-        this.checkFuncs = [];
-      }
-      this.isFuncsIndeterminate = false;
+        this.$set(this.checkFuncsAll,index+'',true)
+      this.checkFuncsAll[index] = event.target.checked;
+//      if ((this.checkFuncsAll[index] == true)) {
+//            console.log(111)
+////        this.checkFuncs = this.funcsList;
+//          this.$set(this.isFuncsIndeterminate,this.isFuncsIndeterminate[index],true)
+//      } else {
+////        this.checkFuncs = [];
+//          this.$set(this.isFuncsIndeterminate,this.isFuncsIndeterminate[index],false)
+//      }
       console.log("这是全选的checkFuncs" , this.checkFuncs);
     },
     handleCheckedFuncsChange(val) {
