@@ -8,7 +8,8 @@
                     <div class="item-wrapper">
                         <span class="text">公司</span><el-select v-model="searchInfo.organName" class="common"></el-select>
                         <span class="text">部门</span><el-select v-model="searchInfo.derpName" class="common"></el-select>
-                        <span class="text">员工</span><el-input placeholder="工号或姓名" v-model="searchInfo.userNoOrcustName"></el-input>
+                        <span class="text">姓名</span><el-input placeholder="请输入姓名或工号" v-model="searchInfo.userNoOrcustName"></el-input>
+                        <!--<span class="text">工号</span><el-input placeholder="请输入工号" v-model="searchInfo.userNoOrcustName"></el-input>-->
                     </div>
                     <div class="item-wrapper">
                         <span class="text">状态</span><el-select v-model="searchInfo.custStatus" class="common">
@@ -126,9 +127,7 @@
         },
         created() {
             let self = this
-            let organNo = '01'
-            let organType = '02'
-            self.$axios.get('/iem_hrm/CustInfo/queryCustInfList/'+organNo+'/'+organType)
+            self.$axios.get('/iem_hrm/CustInfo/queryCustInfList')
                 .then(res => {
                     console.log(res)
                     self.table.td = res.data.data.list
@@ -151,11 +150,8 @@
             },
             handleCurrentChange(val) {
                 let self = this
-                let organNo = '01'
-                let organType = '02'
-                self.$axios.get('/iem_hrm/CustInfo/queryCustInfList/'+organNo+'/'+organType,{params:{pageNum:val}})
+                self.$axios.get('/iem_hrm/CustInfo/queryCustInfList',{params:{pageNum:val}})
                     .then(res => {
-                        console.log(res)
                         self.table.td = res.data.data.list
                         this.fenye.total = res.data.data.total
                         this.fenye.pageSize = res.data.data.pageSize
@@ -202,15 +198,12 @@
             },
             search() {
                 let self = this
-                let organNo = '01'
-                let organType = '02'
-                let userNo = self.searchInfo.userNoOrcustName
                 let custName = self.searchInfo.userNoOrcustName
-                let custStatus = self.searchInfo.custStatus
-                console.log(custStatus)
-                self.$axios.get('/iem_hrm/CustInfo/queryCustInfByAndStatus/'+organNo+'/'+organType, {params:{userNo,custName,custStatus}})
+//                let custStatus = self.searchInfo.custStatus
+                console.log(custName)
+                self.$axios.get('/iem_hrm/CustInfo/advQueryCustInf', {params:{custName}})
                     .then(res => {
-                        console.log(res)
+                        console.log(res,111)
                         self.table.td = res.data.data.list
                         this.fenye.total = res.data.data.total
                         this.fenye.pageSize = res.data.data.pageSize
@@ -345,14 +338,15 @@
                     table-layout: fixed
                     td
                         border: 1px solid #f0f0f0;
-                        white-space: nowrap
-                        overflow hidden
-                        text-overflow ellipsis
+                        /*white-space: nowrap*/
+                        /*overflow hidden*/
+                        /*text-overflow ellipsis*/
                     tr
                         width: 100%;
-                        height: 40px;
+                        min-height: 40px;
                         display: flex;
-                        line-height: 40px;
+                        vertical-align middle
+                        /*line-height: 40px;*/
                         td:first-child:hover
                             text-decoration underline
                             cursor pointer
@@ -360,9 +354,9 @@
                         background: #F8F8F8;
                     tr:hover
                         width: 100%;
-                        height: 40px;
+                        min-height: 40px;
                         display: flex;
-                        line-height: 40px;
+                        /*line-height: 40px;*/
                         background: #EEF1F6;
                     tr:first-child
                         background: #F4F4F4;
