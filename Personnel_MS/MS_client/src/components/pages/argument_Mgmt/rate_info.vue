@@ -235,66 +235,28 @@ border-bottom: 1px solid #EEEEEE;
 .rate_info .content-inner {
 	padding: 40px 0px;
 }
-/*.rate_info .el-table {
-	background-color: #fff;
-	border-left: 1px solid #EEEEEE;
-	color: #666666;
-}
-
-.rate_info .el-table__footer-wrapper thead div,
-.rate_info .el-table__header-wrapper thead div {
-	background-color: #f4f4f4;
-	color: #666666;
-}*/
 
 .rate_info .el-table td,
 .rate_info .el-table th {
 	text-align: center;
 }
-/*.rate_info .el-table td:first-child span{
-	cursor: pointer;
-	color: #FF9900;
-}*/
+
 .rate_info .link {
 	cursor: pointer;
     color: #337ab7;
     text-decoration: underline;
 }
-/*.rate_info .el-table--enable-row-hover .el-table__body tr:hover>td {
-	background-color: #f8f8f8;
-	background-clip: padding-box;
-}
-
-.rate_info .el-table--striped .el-table__body tr.el-table__row--striped td {
-	background: #F8F8F8;
-	background-clip: padding-box;
-}*/
-
 .rate_info .el-table th {
-	white-space: nowrap;
-	overflow: hidden;
-	background-color: #f4f4f4;
+	/*white-space: nowrap;
+	overflow: hidden;*/
 	text-align: center;
-	box-shadow: inset 0 1px 0 0 #EEEEEE;
+	/*box-shadow: inset 0 1px 0 0 #EEEEEE;*/
 }
-
-/*.rate_info .el-table--border td,
-.rate_info .el-table--border th {
-	border-right: 1px solid #EEEEEE;
+.rate_info .el-table .cell, 
+.rate_info .el-table th>div {
+    padding-left: 10px;
+    padding-right: 10px;
 }
-
-.rate_info .el-table td,
-.rate_info .el-table th.is-leaf {
-	border-bottom: 1px solid #EEEEEE;
-}
-
-
-.rate_info .el-table::after,
-.rate_info .el-table::before {
-	content: '';
-	position: absolute;
-	background-color: transparent;
-}*/
 .icon-delete {
     display: inline-block;
     width: 24px;

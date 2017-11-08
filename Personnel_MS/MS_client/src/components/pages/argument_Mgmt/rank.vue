@@ -9,9 +9,9 @@
 			<div class="content-inner">
 				<el-form :model="ruleForm2" :inline="true" ref="ruleForm2" label-width="58px" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-form-item label="机构" prop="organNo">
-							<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" >
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+						<el-form-item label="公司" prop="organNo">
+							<el-select v-model="ruleForm2.organNo" value-key="organNo" placeholder="所属公司" @change="test">
+								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
 						</el-form-item>
 						<div class="button-wrap">
@@ -26,7 +26,7 @@
 				      	</template>
 					</el-table-column>
 					<el-table-column prop="applyName" label="模版名称"></el-table-column>
-					<el-table-column prop="compName" label="公司名称"></el-table-column>
+					<el-table-column prop="organName" label="公司名称"></el-table-column>
 					<el-table-column prop="rank" label="职级"></el-table-column>
 					<el-table-column prop="salaryFloor" label="薪资标准下线"></el-table-column>
 					<el-table-column prop="salaryTop" label="薪资标准上线"></el-table-column>
@@ -54,7 +54,7 @@ export default {
 	data() {
 		return {
 			pageNum: 1,
-			pageSize: 5,
+			pageSize: 10,
 			totalRows: 1,
 			queryFormFlag: false,
 			ruleForm2: {
@@ -64,7 +64,7 @@ export default {
 				{
 					applyNo: "00001",
 					applyName: "xxxxxx",
-					compName: 'xxxx',
+					organName: 'xxxx',
 					rank: 'B10-高级开发软件工程师',
 					salaryFloor: '5000.00',
 					salaryTop: '10000.00',
@@ -76,7 +76,7 @@ export default {
 				{
 					applyNo: "00002",
 					applyName: "xxxxx",
-					compName: 'xxxx',
+					organName: 'xxxx',
 					rank: 'B5-UI中级',
 					salaryFloor: '4000',
 					salaryTop: '70000',
@@ -88,9 +88,11 @@ export default {
 			],
 			//公司列表
 			compList: [
-				{compName: "上海魔方分公司",compOrgNo: '01'},
-				{compName: "魔方分公司深圳分公司",compOrgNo: '03'},
-				{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '02'}
+				{organName: "上海分公司",organNo: '01'},
+				{organName: "魔方分公司深圳分公司",organNo: 'p1'},
+				{organName: "深圳前海橙色魔方信息技术有限公司5666666666666",organNo: '0'},
+				{organName: "上海魔方分公司",organNo: '1002'},
+				{organName: "魔方南山分公司",organNo: '1001'}
 			]
 		}
 	},
@@ -105,11 +107,16 @@ export default {
 		};
 		//查询职级薪酬列表
 		self.queryCParmList(pageNum,pageSize,params);
+		//查询公司列表
+//		self.queryCompList();
 	},
 	components: {
 		current
 	},
 	methods: {
+		test() {
+			console.log(this.ruleForm2.organNo)
+		},
 		addWelfare() {
 			this.$router.push('/add_rank');
 		},
@@ -124,8 +131,8 @@ export default {
 			};
 			if(self.ruleForm2.organNo) {
 				//查询职级薪酬列表
-				self.queryFormFlag = true;
 				self.queryCParmList(pageNum,pageSize,params);
+				self.queryFormFlag = true;
 			}
 			
 		},
@@ -161,9 +168,7 @@ export default {
 			let pageNum = val;
 			let pageSize = self.pageSize;
 			let params = {};
-			console.log('queryFormFlag',self.queryFormFlag);
 			if(self.queryFormFlag) {
-				console.log('1');
 				params = {
 					"pageNum": pageNum,
 					"pageSize": pageSize,
@@ -174,7 +179,6 @@ export default {
 					"pageNum": pageNum,
 					"pageSize": pageSize
 				};
-				console.log(params);
 			}
 			
 			//分页查询职级薪酬列表
@@ -205,7 +209,17 @@ export default {
     		}).catch(function(err) {
     			self.$message.error('删除模版失败！');
     		})
-		}
+		},
+		queryCompList() {
+			let self = this;
+			self.$axios.get(baseURL+'/organ/queryAllCompany')
+			.then(function(res) {
+				console.log('CompList',res);
+				self.compList = res.data.data;
+			}).catch(function(err) {
+				console.log(err);
+			})
+		},
 	}
 }
 </script>
@@ -224,7 +238,7 @@ export default {
 	clear: both;
 }
 .rank_wrap .content .title {
-border-bottom: 1px solid #EEEEEE;
+	border-bottom: 1px solid #EEEEEE;
 }
 
 .rank_wrap .content .title .title-text {
@@ -246,6 +260,12 @@ border-bottom: 1px solid #EEEEEE;
 
 .rank_wrap .content-inner {
 	padding: 40px 0px;
+}
+.rank_wrap .el-form-item__label {
+    padding: 13px 30px 13px 0;
+}
+.rank_wrap .el-input__inner:hover {
+    border-color: #FF9900;
 }
 .rank_wrap .el-button {
 	display: inline-block;
@@ -279,69 +299,26 @@ border-bottom: 1px solid #EEEEEE;
 	clear: both;
 	font-size: 0px;
 }
-/*.rank_wrap .el-table {
-	background-color: #fff;
-	border-left: 1px solid #EEEEEE;
-	color: #666666;
-}
-
-.rank_wrap .el-table__footer-wrapper thead div,
-.rank_wrap .el-table__header-wrapper thead div {
-	background-color: #f4f4f4;
-	color: #666666;
-}*/
-
 .rank_wrap .el-table td,
 .rank_wrap .el-table th {
 	text-align: center;
 }
-/*.rank_wrap .el-table td:first-child span {
-	cursor: pointer;
-	color: #FF9900;
-}*/
 .rank_wrap .link {
 	cursor: pointer;
     color: #337ab7;
     text-decoration: underline;
 }
-/*.rank_wrap .el-table td:first-child:hover{
-	color: #FF9900;
-}*/
-/*.rank_wrap .el-table--enable-row-hover .el-table__body tr:hover>td {
-	background-color: #f8f8f8;
-	background-clip: padding-box;
-}
-
-.rank_wrap .el-table--striped .el-table__body tr.el-table__row--striped td {
-	background: #F8F8F8;
-	background-clip: padding-box;
-}*/
-
 .rank_wrap .el-table th {
 	white-space: nowrap;
 	overflow: hidden;
-	background-color: #f4f4f4;
 	text-align: center;
 	box-shadow: inset 0 1px 0 0 #EEEEEE;
 }
-
-/*.rank_wrap .el-table--border td,
-.rank_wrap .el-table--border th {
-	border-right: 1px solid #EEEEEE;
+.rank_wrap .el-table .cell, 
+.rank_wrap .el-table th>div {
+    padding-left: 10px;
+    padding-right: 10px;
 }
-
-.rank_wrap .el-table td,
-.rank_wrap .el-table th.is-leaf {
-	border-bottom: 1px solid #EEEEEE;
-}
-
-
-.rank_wrap .el-table::after,
-.rank_wrap .el-table::before {
-	content: '';
-	position: absolute;
-	background-color: transparent;
-}*/
 .icon-delete {
     display: inline-block;
     width: 24px;

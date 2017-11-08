@@ -18,7 +18,7 @@
 			        	<el-date-picker type="date" v-model="formdata.startTime" @change="changeStartTime"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="失效日期" prop="endTime">
-			        	<el-date-picker type="date" v-model="formdata.endTime" @change="changeEndTime"></el-date-picker>
+			        	<el-date-picker type="date" v-model="formdata.endTime" @change="changeEndTime" placeholder="如无，则不填"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="备注">
 					    <el-input v-model="formdata.remark"></el-input>
@@ -35,6 +35,15 @@ import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
+		var checkTaxThreshold = (rule, value, callback) => {
+	        if (value === '') {
+	          	callback(new Error('起征点不能为空'));
+	        } else if (!(/^[0-9]*$/.test(value))) {
+	          	callback(new Error('请输入数字'));
+	        } else {
+	          	callback();
+	        }
+      	};
 		return {
 			formdata: {
 				groupName: "",
@@ -49,7 +58,7 @@ export default {
 					{ required: true, message: '组名称不能为空', trigger: 'blur' }
 				],
 				taxThreshold: [
-					{  required: true, message: '起征点不能为空', trigger: 'change' }
+					{  required: true, validator: checkTaxThreshold, trigger: 'change' }
 				],
 				startTime: [
 					{  required: true, message: '生效日期不能为空', trigger: 'change' }

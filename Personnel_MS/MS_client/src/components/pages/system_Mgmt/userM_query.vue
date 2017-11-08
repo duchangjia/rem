@@ -395,11 +395,15 @@ export default {
 }
 
 .user-query .el-table th {
-	white-space: nowrap;
-	overflow: hidden;
-	background-color: #f4f4f4;
+	/*white-space: nowrap;
+	overflow: hidden;*/
 	text-align: center;
-	box-shadow: inset 0 1px 0 0 #EEEEEE;
+	/*box-shadow: inset 0 1px 0 0 #EEEEEE;*/
+}
+.user-query .el-table .cell, 
+.user-query .el-table th>div {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .icon_edit {
 	width: 16px;

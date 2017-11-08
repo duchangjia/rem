@@ -19,10 +19,10 @@
 				  	</el-form-item>
 				  	<el-form-item label="百分率" prop="percentRate">
 					    <el-input v-model="formdata.percentRate" @change="changeQuickCal"></el-input>
-					    <span>%</span>
+					    <span class="percent_icon">%</span>
 				  	</el-form-item>
 				  	<el-form-item label="速算扣除数" prop="quickCal">
-					    <el-input v-model="formdata.quickCal" placeholder='自动计算'></el-input>
+					    <el-input v-model="formdata.quickCal" placeholder='自动计算' :disabled="true"></el-input>
 				  	</el-form-item>
 				</el-form>
 			</div>
@@ -205,11 +205,11 @@ border-bottom: 1px solid #EEEEEE;
     height: 40px;
     margin-left: 30px;
 }
-.el-date-editor.el-input {
+.add_rateGroup .el-date-editor.el-input {
     width: 300px;
     margin-left: 30px;
 }
-.el-date-editor.el-input .el-input__inner {
+.add_rateGroup .el-date-editor.el-input .el-input__inner {
     margin-left: 0px;
 }
 .add_rateGroup .el-form-item__label {
@@ -222,7 +222,18 @@ border-bottom: 1px solid #EEEEEE;
     padding: 11px 0px 11px 0;
     box-sizing: border-box;
 }
+.add_rateGroup .el-input__inner:hover {
+    border-color: #FF9900;
+}
+.add_rateGroup .el-input.is-disabled .el-input__inner:hover {
+    border-color: #d1dbe5;
+}
 .add_rateGroup .el-form-item__error {
     padding-left: 30px;
+}
+.add_rateGroup .percent_icon {
+    position: absolute;
+    top: 0px;
+    left: 340px;
 }
 </style>

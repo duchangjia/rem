@@ -12,8 +12,8 @@
 						<el-input v-model="formdata.compName"></el-input>
 					</el-form-item>-->
 					<el-form-item label="公司名称">
-						<el-select v-model="formdata.organNo" value-key="compOrgNo">
-							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+						<el-select v-model="formdata.organNo" value-key="organNo">
+							<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="模版名称" prop="applyName">
@@ -62,17 +62,19 @@
 					compName: '',
 					applyName: "",
 					rank: '',
-					salaryFloor: '5000',
-					salaryTop: '10000',
+					salaryFloor: '',
+					salaryTop: '',
 					businessStandard: '',
 					remark: ""
 				},
 				rankList: ['B10-高级开发软件工程师', 'B5-中级开发软件工程师', 'B5-UI'],
 				//公司列表
 				compList: [
-					{compName: "上海魔方分公司",compOrgNo: '01'},
-					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
+					{organName: "上海分公司",organNo: '01'},
+					{organName: "魔方分公司深圳分公司",organNo: 'p1'},
+					{organName: "深圳前海橙色魔方信息技术有限公司5666666666666",organNo: '0'},
+					{organName: "上海魔方分公司",organNo: '1002'},
+					{organName: "魔方南山分公司",organNo: '1001'}
 				],
 				rules: {
 					compName: [{
@@ -133,10 +135,7 @@
 				self.$axios.post(baseURL + '/RankSalaryTemplate/addCparm', params)
 				.then((res) => {
 					console.log('addCparm',res);
-					self.$message({
-						message: '税率组新增成功',
-						type: 'success'
-					});
+					self.$message({ message: '操作成功', type: 'success' });
 				}).catch((err) => {
 					console.log('error')
 				})
@@ -211,7 +210,9 @@
 		height: 40px;
 		margin-left: 30px;
 	}
-	
+	.add_rank .el-input__inner:hover {
+	    border-color: #FF9900;
+	}
 	.add_rank .el-form-item__label {
 		text-align: right;
 		vertical-align: middle;

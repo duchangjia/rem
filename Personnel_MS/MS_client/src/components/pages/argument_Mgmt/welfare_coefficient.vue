@@ -143,7 +143,7 @@ export default {
     		.then(function(res) {
     			console.log(res);
     			if(res.data.code === "S00000") {
-    				self.$message({ type: 'success', message: '删除成功!' });
+    				self.$message({ type: 'success', message: res.data.retMsg });
     			}
     			
     		}).catch(function(err) {
@@ -233,54 +233,24 @@ border-bottom: 1px solid #EEEEEE;
 .welfare_coefficient .el-table th {
 	text-align: center;
 }
-/*.welfare_coefficient .el-table td:first-child span {
-	cursor: pointer;
-    color: #337ab7;
-    text-decoration: underline;
-}*/
 .link {
 	cursor: pointer;
     color: #337ab7;
     text-decoration: underline;
 }
-/*.welfare_coefficient .el-table td:first-child:hover{
-	color: #FF9900;
-}*/
-/*.welfare_coefficient .el-table--enable-row-hover .el-table__body tr:hover>td {
-	background-color: #f8f8f8;
-	background-clip: padding-box;
-}
-
-.welfare_coefficient .el-table--striped .el-table__body tr.el-table__row--striped td {
-	background: #F8F8F8;
-	background-clip: padding-box;
-}*/
 
 .welfare_coefficient .el-table th {
 	white-space: nowrap;
 	overflow: hidden;
-	background-color: #f4f4f4;
 	text-align: center;
-	box-shadow: inset 0 1px 0 0 #EEEEEE;
+	/*box-shadow: inset 0 1px 0 0 #EEEEEE;*/
+}
+.welfare_coefficient .el-table .cell, 
+.welfare_coefficient .el-table th>div {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
-/*.welfare_coefficient .el-table--border td,
-.welfare_coefficient .el-table--border th {
-	border-right: 1px solid #EEEEEE;
-}
-
-.welfare_coefficient .el-table td,
-.welfare_coefficient .el-table th.is-leaf {
-	border-bottom: 1px solid #EEEEEE;
-}
-
-
-.welfare_coefficient .el-table::after,
-.welfare_coefficient .el-table::before {
-	content: '';
-	position: absolute;
-	background-color: transparent;
-}*/
 .welfare_coefficient .icon-delete {
     display: inline-block;
     width: 24px;

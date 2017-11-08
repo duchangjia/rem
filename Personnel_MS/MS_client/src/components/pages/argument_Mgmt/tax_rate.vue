@@ -138,7 +138,7 @@ export default {
     		.then((res) => {
     			console.log("queryRateList",res);
     			if(res.data.code==="S00000") {
-    				this.$message({ type: 'success', message: '删除成功!' });
+    				this.$message({ type: 'success', message: res.data.retMsg });
     			} else {
     				console.log('error');
     			}
@@ -215,69 +215,27 @@ border-bottom: 1px solid #EEEEEE;
 .tax_rate .content-inner {
 	padding: 40px 0px;
 }
-/*.tax_rate .el-table {
-	background-color: #fff;
-	border-left: 1px solid #EEEEEE;
-	color: #666666;
-}
-
-.tax_rate .el-table__footer-wrapper thead div,
-.tax_rate .el-table__header-wrapper thead div {
-	background-color: #f4f4f4;
-	color: #666666;
-}*/
 
 .tax_rate .el-table td,
 .tax_rate .el-table th {
 	text-align: center;
 }
-/*.tax_rate .el-table td:first-child span{
-	cursor: pointer;
-	color: #FF9900;
-}*/
 .tax_rate .link {
 	cursor: pointer;
     color: #337ab7;
     text-decoration: underline;
 }
-/*.tax_rate .el-table td:first-child:hover{
-	color: #FF9900;
-}*/
-/*.tax_rate .el-table--enable-row-hover .el-table__body tr:hover>td {
-	background-color: #f8f8f8;
-	background-clip: padding-box;
-}
-
-.tax_rate .el-table--striped .el-table__body tr.el-table__row--striped td {
-	background: #F8F8F8;
-	background-clip: padding-box;
-}*/
-
 .tax_rate .el-table th {
 	white-space: nowrap;
 	overflow: hidden;
-	background-color: #f4f4f4;
 	text-align: center;
 	box-shadow: inset 0 1px 0 0 #EEEEEE;
 }
-
-/*.tax_rate .el-table--border td,
-.tax_rate .el-table--border th {
-	border-right: 1px solid #EEEEEE;
+.tax_rate .el-table .cell, 
+.tax_rate .el-table th>div {
+    padding-left: 10px;
+    padding-right: 10px;
 }
-
-.tax_rate .el-table td,
-.tax_rate .el-table th.is-leaf {
-	border-bottom: 1px solid #EEEEEE;
-}
-
-
-.tax_rate .el-table::after,
-.tax_rate .el-table::before {
-	content: '';
-	position: absolute;
-	background-color: transparent;
-}*/
 .icon-delete {
     display: inline-block;
     width: 24px;

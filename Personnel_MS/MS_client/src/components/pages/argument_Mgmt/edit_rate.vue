@@ -19,9 +19,10 @@
 				  	</el-form-item>
 				  	<el-form-item label="百分率" prop="percentRate">
 					    <el-input v-model="rateInfo.percentRate" @change="changeQuickCal"></el-input>
+				  		<span class="percent_icon">%</span>
 				  	</el-form-item>
 				  	<el-form-item label="速算扣除数" prop="quickCal">
-					    <el-input v-model="rateInfo.quickCal"></el-input>
+					    <el-input v-model="rateInfo.quickCal" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="备注" prop="remark">
 					    <el-input v-model="rateInfo.remark"></el-input>
@@ -99,11 +100,10 @@ export default {
 	created() {
 		this.rateInfo = this.$route.params;
 		this.rateInfo.percentRate = this.rateInfo.percentRate*100;
-		console.log(this.rateInfo)
 	},
 	methods: {
 		changeQuickCal() {
-//			this.rateInfo.quickCal = (this.rateInfo.groupLimit-this.rateInfo.groupLowerLimit)*this.rateInfo.percentRate/100
+			this.rateInfo.quickCal = (this.rateInfo.groupLimit-this.rateInfo.groupLowerLimit)*this.rateInfo.percentRate/100
 		},
 		save(formName) {
 		 	this.$refs[formName].validate((valid) => {
@@ -220,7 +220,18 @@ border-bottom: 1px solid #EEEEEE;
     padding: 11px 0px 11px 0;
     box-sizing: border-box;
 }
+.edit_rate .el-input__inner:hover {
+    border-color: #FF9900;
+}
+.edit_rate .el-input.is-disabled .el-input__inner:hover {
+    border-color: #d1dbe5;
+}
 .edit_rate .el-form-item__error {
     padding-left: 30px;
+}
+.edit_rate .percent_icon {
+    position: absolute;
+    top: 0px;
+    left: 340px;
 }
 </style>
