@@ -37,7 +37,7 @@ export default {
 	data() {
 		return {
 			pageNum: 1,
-			pageSize: 5,
+			pageSize: 10,
 			totalRows: 1,
 			payTemplatesList: [
 				{
