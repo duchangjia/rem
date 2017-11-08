@@ -8,17 +8,18 @@
 			</div>
 			<div class="content-inner">
 				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
-					<el-form-item label="组名称" prop="groupId">
-					    <el-input v-model="formdata.groupId"></el-input>
-				  </el-form-item>
+					<el-form-item label="组名称" prop="groupName">
+					    <el-input v-model="formdata.groupName"></el-input>
+				  	</el-form-item>
 				  	<el-form-item label="下限" prop="groupLowerLimit">
-					    <el-input v-model="formdata.groupLowerLimit"></el-input>
+					    <el-input v-model="formdata.groupLowerLimit" @change="changeQuickCal"></el-input>
 				  	</el-form-item>
 					<el-form-item label="上限" prop="groupLimit">
-					    <el-input v-model="formdata.groupLimit"></el-input>
+					    <el-input v-model="formdata.groupLimit" @change="changeQuickCal"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="百分率" prop="percentRate">
-					    <el-input v-model="formdata.percentRate"></el-input>
+					    <el-input v-model="formdata.percentRate" @change="changeQuickCal"></el-input>
+					    <span>%</span>
 				  	</el-form-item>
 				  	<el-form-item label="速算扣除率" prop="quickCal">
 					    <el-input v-model="formdata.quickCal" placeholder='自动计算'></el-input>
@@ -37,14 +38,35 @@ export default {
 		var checkgroupLimit = (rule, value, callback) => {
 	        if (value === '') {
 	          	callback(new Error('上限不能为空'));
-	        } else if (Number(value) <= Number(this.formdata.groupLowerLimit)) {
+	        } else if (!(/^[0-9]*$/.test(value))) {
+	          	callback(new Error('请输入数字'));
+	        }else if (Number(value) <= Number(this.formdata.groupLowerLimit)) {
 	          	callback(new Error('上限值必须大于下限值!'));
+	        } else {
+	          	callback();
+	        }
+      	};
+      	var checkgroupLowerLimit = (rule, value, callback) => {
+	        if (value === '') {
+	          	callback(new Error('下限不能为空'));
+	        } else if (!(/^[0-9]*$/.test(value))) {
+	          	callback(new Error('请输入数字'));
+	        } else {
+	          	callback();
+	        }
+      	};
+      	var checkpercentRate = (rule, value, callback) => {
+	        if (value === '') {
+	          	callback(new Error('百分率不能为空'));
+	        } else if (!(/^[0-9]*$/.test(value))) {
+	          	callback(new Error('请输入数字'));
 	        } else {
 	          	callback();
 	        }
       	};
 		return {
 			formdata: {
+				groupName: '',
 				groupId: "",
 				applyNo: "",
 				groupLimit: '',
@@ -63,13 +85,13 @@ export default {
 					{ required: true, validator: checkgroupLimit, trigger: 'blur' }
 				],
 				groupLowerLimit: [
-					{ required: true, message: '下限不能为空', trigger: 'blur' }
+					{ required: true, validator: checkgroupLowerLimit, trigger: 'blur' }
 				],
 				percentRate: [
-					{ required: true, message: '百分率不能为空', trigger: 'blur' }
+					{ required: true, validator: checkpercentRate, trigger: 'blur' }
 				],
 				quickCal: [
-					{ required: true, message: '数算扣除数不能为空', trigger: 'blur' }
+//					{ required: true, message: '数算扣除数不能为空', trigger: 'blur' }
 				]
 			}
 		}
@@ -77,7 +99,14 @@ export default {
 	components: {
 		current
 	},
+	created() {
+		this.formdata.groupName = this.$route.params.groupName;
+		this.formdata.groupId = this.$route.params.groupId;
+	},
 	methods: {
+		changeQuickCal() {
+			this.formdata.quickCal = (this.formdata.groupLimit-this.formdata.groupLowerLimit)*this.formdata.percentRate/100
+		},
 		save(formName) {
 		 	this.$refs[formName].validate((valid) => {
 	          	if (valid) {
@@ -87,9 +116,9 @@ export default {
 	          			remark: "xxxx",
 						GroupLimit: self.formdata.groupLimit,
 						GroupLowerLimit: self.formdata.groupLowerLimit,
-						percentRate: self.formdata.percentRate,
+						percentRate: self.formdata.percentRate/100,
 						quickCal: self.formdata.quickCal,
-//						isDelete: "1"
+						isDelete: "1"
 	          		};
 	          		self.insertTaxRateCtrl(params);
 	          		

@@ -7,54 +7,52 @@
 				<span class="title-text">出差详情</span>
 			</div>
 			<div class="content-inner">
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
+				<el-form ref="formdata" :inline="true"  :rules="rules" :model="formdata" label-width="100px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="formdata2.organNo" value-key="organNo" @change="changeValue">
+					    <el-select v-model="formdata.organNo">
 							<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 						</el-select>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-					    <el-select v-model="formdata2.deptNo" value-key="departOrgNo" @change="changeValue">
+					    <el-select v-model="formdata.deptNo">
 							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 						</el-select>
-				  	</el-form-item>
-				<!--<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">-->  	
+				  </el-form-item>
 					<el-form-item label="工号">
-					    <el-input v-model="formdata2.userNo"></el-input>
+					    <el-input v-model="formdata.userNo"></el-input>
 				 	</el-form-item>
 				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata2.custName"></el-input>
+					    <el-input v-model="formdata.custName"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="岗位">
-					    <el-input v-model="formdata2.custPost"></el-input>
+					    <el-input v-model="formdata.custPost"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="职级">
-					    <el-input v-model="formdata2.custClass"></el-input>
+					    <el-input v-model="formdata.custClass"></el-input>
 				  	</el-form-item>
-				<!--</el-form>-->
 
 				  	<div class="info-title">出差信息</div>
 				  	<el-form-item label="出差开始时间" prop="travelStartTime">
-			        	<el-date-picker type="date" v-model="formdata2.travelStartTime" @change="changeStartTime"></el-date-picker>
+			        	<el-date-picker type="date" v-model="formdata.travelStartTime" @change="changeStartTime"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="出差结束时间" prop="travelEndTime">
-			        	<el-date-picker type="date" v-model="formdata2.travelEndTime" @change="changeEndTime"></el-date-picker>
+			        	<el-date-picker type="date" v-model="formdata.travelEndTime" @change="changeEndTime"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="出差类型" prop="travelType">
-					    <el-select v-model="formdata2.travelType" value-key="travelType" @change="changeValue">
+					    <el-select v-model="formdata.travelType">
 							<el-option v-for="item in travelTypeList" :key="item.travelNo" :label="item.label" :value="item.travelNo"></el-option>
 						</el-select>
 				  	</el-form-item>
 				  	<el-form-item label="出差城市">
-					    <el-input class="travelCity" v-model="formdata2.travelStartCity" placeholder="出发城市"></el-input>
+					    <el-input class="travelCity" v-model="formdata.travelStartCity" placeholder="出发城市"></el-input>
 					    <span class="travelCity_line" >-</span>
-					    <el-input class="travelCity" v-model="formdata2.travelArrivalCity" placeholder="到达城市"></el-input>
+					    <el-input class="travelCity" v-model="formdata.travelArrivalCity" placeholder="到达城市"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="出差天数">
-					    <el-input v-model="formdata2.travelDays"></el-input>
+					    <el-input v-model="formdata.travelDays"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="差补标准">
-					    <el-input v-model="formdata2.travelSTD"></el-input>
+					    <el-input v-model="formdata.travelSTD"></el-input>
 				  	</el-form-item>
 				  	<el-col :span="24">
 				  		<el-form-item class="remark" label="出差备注" prop="remark">
@@ -62,25 +60,19 @@
 							  type="textarea"
 							  :autosize="{ minRows: 5, maxRows: 5}"
 							  placeholder="请输入内容"
-							  v-model="formdata2.remark">
+							  v-model="formdata.remark">
 							</el-input>
 					  	</el-form-item>
 				  	</el-col>
 				  	<el-form-item label="最新更新人">
-					    <el-input v-model="formdata2.updatedBy"></el-input>
+					    <el-input v-model="formdata.updatedBy"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="最新更新时间">
-					    <el-input v-model="formdata2.updatedDate"></el-input>
+					    <el-input v-model="formdata.updatedDate"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="附件" style="width:100%;">
 					    <el-button class="file_button" @click="handleDownload">下载</el-button>
 				  	</el-form-item>
-				  	<!--<el-form-item label="附件" style="width: 100%;">
-			  		 	<el-input v-model="formdata2.attachm"></el-input>
-				  		<el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
-                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
-                        </el-upload>
-				  	</el-form-item>-->
 				</el-form>
 			</div>
 		</div>
@@ -94,9 +86,7 @@
 	export default {
 		data() {
 			return {
-				formdata1: {
-				},
-				formdata2: {
+				formdata: {
 					organNo: "01",
 					deptNo: "",
 					userNo: "",
@@ -173,10 +163,10 @@
 		},
 		methods: {
 			changeStartTime(time) {
-				this.formdata2.travelStartTime = time;
+//				this.formdata.travelStartTime = time;
 			},
 			changeEndTime(time) {
-				this.formdata2.travelEndTime = time;
+//				this.formdata.travelEndTime = time;
 			},
 			changeValue(value) {
 		 		const self = this;
@@ -208,8 +198,8 @@
 				self.$axios.get(baseURL+'/travel/getTravelInfoByApplyNo',{params: params})
 				.then(function(res) {
 					console.log('travelInfo',res);
-					self.formdata2 = res.data.data;
-					self.formdata2.updatedDate = moment(self.formdata2.updatedDate).format('YYYY-MM-DD hh:mm:ss');
+//					self.formdata = res.data.data;
+//					self.formdata.updatedDate = moment(self.formdata.updatedDate).format('YYYY-MM-DD hh:mm:ss');
 				}).catch(function(err) {
 					console.log('error');
 				})

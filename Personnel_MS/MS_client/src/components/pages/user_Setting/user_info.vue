@@ -1,14 +1,6 @@
 <template>
     <div class="user_info">
-        <div class="location-wrapper">
-            <el-col :span="24">
-                <span class="title">当前位置：</span>
-                <el-breadcrumb separator="/" class="breadcrumb-inner">
-                    <el-breadcrumb-item>个人设置</el-breadcrumb-item>
-                    <el-breadcrumb-item>基本信息</el-breadcrumb-item>
-                </el-breadcrumb>
-            </el-col>
-        </div>
+        <current yiji="首页" erji="基本信息"></current>
         <div class="content">
         	<div class="title">
         		<span class="title-text">基本信息</span>
@@ -51,8 +43,16 @@
 </template>
 
 <script type='text/ecmascript-6'>
+	import current from '../../common/current_position.vue'
     export default {
-
+		data() {
+			return {
+				
+			}
+		},
+		components: {
+			current
+		},
 
     }
 </script>

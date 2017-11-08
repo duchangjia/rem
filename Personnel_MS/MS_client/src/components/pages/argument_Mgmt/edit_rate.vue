@@ -12,16 +12,16 @@
 					    <el-input v-model="rateInfo.applyNo"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="下限" prop="groupLowerLimit">
-					    <el-input v-model="rateInfo.groupLowerLimit"></el-input>
+					    <el-input v-model="rateInfo.groupLowerLimit" @change="changeQuickCal"></el-input>
 				  	</el-form-item>
 					<el-form-item label="上限" prop="groupLimit">
-					    <el-input v-model="rateInfo.groupLimit"></el-input>
+					    <el-input v-model="rateInfo.groupLimit" @change="changeQuickCal"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="百分率" prop="percentRate">
-					    <el-input v-model="rateInfo.percentRate"></el-input>
+					    <el-input v-model="rateInfo.percentRate" @change="changeQuickCal"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="速算扣除率" prop="quickCal">
-					    <el-input v-model="rateInfo.quickCal" placeholder='自动计算'></el-input>
+					    <el-input v-model="rateInfo.quickCal"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="备注" prop="remark">
 					    <el-input v-model="rateInfo.remark"></el-input>
@@ -37,24 +37,35 @@ import current from '../../common/current_position.vue'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
-		var checkgroupLimit = (rule, value, callback) => {
+      	var checkgroupLimit = (rule, value, callback) => {
 	        if (value === '') {
 	          	callback(new Error('上限不能为空'));
-	        } else if (Number(value) <= Number(this.rateInfo.groupLowerLimit)) {
+	        } else if (!(/^[0-9]*$/.test(value))) {
+	          	callback(new Error('请输入数字'));
+	        }else if (Number(value) <= Number(this.rateInfo.groupLowerLimit)) {
 	          	callback(new Error('上限值必须大于下限值!'));
 	        } else {
 	          	callback();
 	        }
       	};
       	var checkgroupLowerLimit = (rule, value, callback) => {
-      		if (value === '') {
+	        if (value === '') {
 	          	callback(new Error('下限不能为空'));
-	        } else if (Number(value) >= Number(this.rateInfo.groupLimit)) {
-	          	callback(new Error('下限值必须小于上限值!'));
+	        } else if (!(/^[0-9]*$/.test(value))) {
+	          	callback(new Error('请输入数字'));
 	        } else {
 	          	callback();
 	        }
-      	}
+      	};
+      	var checkpercentRate = (rule, value, callback) => {
+	        if (value === '') {
+	          	callback(new Error('百分率不能为空'));
+	        } else if (!(/^[0-9]*$/.test(value))) {
+	          	callback(new Error('请输入数字'));
+	        } else {
+	          	callback();
+	        }
+      	};
 		return {
 			rateInfo: {
 				applyNo: "",
@@ -77,8 +88,8 @@ export default {
 					{ required: true, validator: checkgroupLowerLimit, trigger: 'blur' }
 				],
 				percentRate: [
-//					{ required: true, message: '百分率不能为空', trigger: 'blur' }
-				]
+					{ required: true, validator: checkpercentRate, trigger: 'blur' }
+				],
 			}
 		}
 	},
@@ -87,9 +98,13 @@ export default {
 	},
 	created() {
 		this.rateInfo = this.$route.params;
+		this.rateInfo.percentRate = this.rateInfo.percentRate*100;
 		console.log(this.rateInfo)
 	},
 	methods: {
+		changeQuickCal() {
+//			this.rateInfo.quickCal = (this.rateInfo.groupLimit-this.rateInfo.groupLowerLimit)*this.rateInfo.percentRate/100
+		},
 		save(formName) {
 		 	this.$refs[formName].validate((valid) => {
 	          	if (valid) {
@@ -99,7 +114,7 @@ export default {
 	          			groupId: self.rateInfo.groupId,
 						groupLimit: self.rateInfo.groupLimit,
 						groupLowerLimit: self.rateInfo.groupLowerLimit,
-						percentRate: self.rateInfo.percentRate,
+						percentRate: self.rateInfo.percentRate/100,
 						quickCal: self.rateInfo.quickCal,
 						remark: self.rateInfo.remark,
 						isDelete: "1"

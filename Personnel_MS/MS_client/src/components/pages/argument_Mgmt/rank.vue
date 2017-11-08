@@ -32,8 +32,8 @@
 					<el-table-column prop="salaryTop" label="薪资标准上线"></el-table-column>
 					<el-table-column prop="businessStandard" label="出差标准（人/天）"></el-table-column>
 					<el-table-column prop="remark" label="备注"></el-table-column>
-					<el-table-column prop="createdId" label="创建ID"></el-table-column>
-					<el-table-column prop="createdTime" label="创建时间"></el-table-column>
+					<el-table-column prop="createdBy" label="创建ID"></el-table-column>
+					<el-table-column prop="createdDate" label="创建时间"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
 							<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
@@ -70,8 +70,8 @@ export default {
 					salaryTop: '10000.00',
 					businessStandard: '50',
 					remark: "",
-					createdId: "001",
-					createdTime: ""
+					createdBy: "001",
+					createdDate: ""
 				},
 				{
 					applyNo: "00002",
@@ -82,8 +82,8 @@ export default {
 					salaryTop: '70000',
 					businessStandard: '60',
 					remark: "",
-					createdId: "002",
-					createdTime: ""
+					createdBy: "002",
+					createdDate: ""
 				}
 			],
 			//公司列表

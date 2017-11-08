@@ -16,7 +16,7 @@
 					<el-table-column prop="remark" label="备注"></el-table-column>
 					<el-table-column prop="startTime" label="生效日期"></el-table-column>
 					<el-table-column prop="endTime" label="失效日期"></el-table-column>
-					<el-table-column prop="createId" label="创建ID"></el-table-column>
+					<el-table-column prop="createdBy" label="创建ID"></el-table-column>
 					<el-table-column prop="createdDate" label="创建时间" :formatter="travelTimeFormatter"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
@@ -24,7 +24,7 @@
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -38,8 +38,8 @@ const baseURL = 'iem_hrm'
 export default {
 	data() {
 		return {
-			pageIndex: 1,
-			pageRows: 5,
+			pageNum: 1,
+			pageSize: 10,
 			totalRows: 1,
 			taxRateGroupList: [
 				{
@@ -47,7 +47,7 @@ export default {
 					remark: "xxxx",
 					startTime: "",
 					endTime: "",
-					createId: '',
+					createdBy: '',
 					createdDate: ''
 				},
 				{
@@ -55,7 +55,7 @@ export default {
 					remark: "xxxx",
 					startTime: "",
 					endTime: "",
-					createId: '',
+					createdBy: '',
 					createdDate: ''
 				}
 			]
@@ -66,8 +66,8 @@ export default {
 	},
 	created() {
 		const self = this;
-		let pageNum = 1;
-		let pageSize = self.pageRows;
+		let pageNum = self.pageNum;
+		let pageSize = self.pageSize;
 		let params = {
 			"pageNum": pageNum,
 			"pageSize": pageSize,
@@ -76,19 +76,6 @@ export default {
 		self.selectTaxRateGroup(pageNum, pageSize, params);
 	},
 	methods: {
-		add0(m){return m<10?'0'+m:m },
-		getLocalTime(shijianchuo) {     
-//	       	var time = new Date(shijianchuo);
-//			var y = time.getFullYear();
-//			var m = time.getMonth()+1;
-//			var d = time.getDate();
-//			var h = time.getHours();
-//			var mm = time.getMinutes();
-//			var s = time.getSeconds();
-//			return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);      
-	    	
-		},
-	    
 		travelTimeFormatter(row, column) {
 			let time = row.createdDate;
 			return moment(time).format('YYYY-MM-DD hh:mm:ss');
@@ -97,6 +84,7 @@ export default {
 			this.$router.push('/add_rateGroup');
 		},
 		handleEdit(index, row) {
+			
             this.$router.push({
             	name: 'rate_info',
             	params: {
@@ -123,7 +111,7 @@ export default {
         handleCurrentChange(val) {
 			const self = this;
 			let pageNum = val;
-			let pageSize = self.pageRows;
+			let pageSize = self.pageSize;
 			let params = {
 				"pageNum": pageNum,
 				"pageSize": pageSize
@@ -137,7 +125,7 @@ export default {
 				.then(function(res) {
 					console.log("queryRGroupList",res);
 					self.taxRateGroupList = res.data.data.list;
-					self.pageIndex = pageNum;
+					self.pageNum = pageNum;
 					self.totalRows = Number(res.data.data.total);
 				}).catch(function(err) {
 					console.log(err)

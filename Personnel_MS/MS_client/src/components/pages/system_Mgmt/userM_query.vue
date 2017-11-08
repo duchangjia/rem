@@ -83,7 +83,7 @@ export default {
 	data() {
 		return {
 			pageNum: 1,
-			pageRows: 5,
+			pageRows: 10,
 			pageSize: 1,
 			queryFormFlag: false,
 			ruleForm2: {

@@ -15,7 +15,7 @@
 					</el-table-column>
 					<el-table-column prop="groupLowerLimit" label="下限"></el-table-column>
 					<el-table-column prop="groupLimit" label="上限"></el-table-column>
-					<el-table-column prop="percentRate" label="百分比率（%）"></el-table-column>
+					<el-table-column prop="percentRate" label="百分比率（%）" :formatter="percentRateFormatter"></el-table-column>
 					<el-table-column prop="quickCal" label="速算扣除数"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
@@ -23,7 +23,7 @@
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -36,8 +36,8 @@ const baseURL = 'iem_hrm'
 export default {
 	data() {
 		return {
-			pageIndex: 1,
-			pageRows: 5,
+			pageNum: 1,
+			pageSize: 10,
 			totalRows: 0,
 			taxRateList: [
 				{
@@ -65,19 +65,32 @@ export default {
 	},
 	created() {
 		const self = this;
-		let applyNo = self.$route.params.applyNo;
+		let groupName = self.$route.params.groupName;
 		let groupId = self.$route.params.groupId;
-		let pageNum = self.pageIndex;
-		let pageSize = self.pageRows;
+		let pageNum = self.pageNum;
+		let pageSize = self.pageSize;
 		let params = {
 			"pageNum": pageNum,
-			"pageSize": pageSize
+			"pageSize": pageSize,
+			groupId: groupId
 		};
-		self.selectTaxRateCtrl(pageNum, pageSize, params);
+		//查询税率列表
+		self.queryRateList(pageNum, pageSize, params);
 	},
 	methods: {
+		percentRateFormatter(row, column) {
+	      return row.percentRate ? row.percentRate*100 : '';
+	    },
 		addRate() {
-			this.$router.push('/add_rate');
+			let groupName = this.$route.params.groupName;
+			let groupId = this.$route.params.groupId;
+			this.$router.push({
+				name: 'add_rate',
+				params: {
+					groupName: groupName,
+					groupId: groupId
+				}
+			});
 		},
 		handleEdit(index, row) {
             this.$router.push({
@@ -105,6 +118,7 @@ export default {
             		groupId: row.groupId,
             		applyNo: row.applyNo
             	};
+            	//删除税率信息
             	self.deleteTaxRateCtrl(params);
             	
             }).catch(() => {
@@ -113,23 +127,25 @@ export default {
         },
         handleCurrentChange(val) {
 			const self = this;
-			let applyNo = sessionStorage.getItem('applyNo');
+			let groupId = this.$route.params.groupId;
 			let pageNum = val;
-			let pageSize = self.pageRows;
+			let pageSize = self.pageSize;
 			let params = {
 				"pageNum": pageNum,
-				"pageSize": pageSize
+				"pageSize": pageSize,
+				groupId: groupId
 			};
-			self.selectTaxRateCtrl(pageNum, pageSize, params);
+			//分页查询税率列表
+			self.queryRateList(pageNum, pageSize, params);
 		},
 		//查询个税列表
-		selectTaxRateCtrl(pageNum,pageSize,params) {
+		queryRateList(pageNum,pageSize,params) {
 			const self = this;
 			self.$axios.get(baseURL+'/taxRateCtrl/queryRateList', { params: params})
 				.then(function(res) {
 					console.log("queryRateList",res);
 					self.taxRateList = res.data.data.list;
-					self.pageIndex = pageNum;
+					self.pageNum = pageNum;
 					self.totalRows = Number(res.data.data.total);
 				}).catch(function(err) {
 					console.log(err);
