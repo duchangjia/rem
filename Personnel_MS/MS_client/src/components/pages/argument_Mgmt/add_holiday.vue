@@ -6,7 +6,7 @@
                 <div class="title"><span class="text">节假日新增</span><button class="save" @click="save">保存</button></div>
                 <el-form ref="form" :model="content" class="content" :rules="rules">
                     <div>
-                        <el-form-item class="item_group">
+                        <el-form-item class="item_group" prop="dayDate">
                             <span class="text">日期</span><el-date-picker type="date" class="common" v-model="content.dayDate" placeholder="选择日期"></el-date-picker>
                         </el-form-item>
                         <el-form-item class="item_group" prop="dayFlag">
@@ -27,7 +27,7 @@
                     </div>
                     <div>
                         <el-form-item class="item_group">
-                            <span class="text">备注</span><el-input v-model="content.remark" class="common"></el-input>
+                            <span class="text">备注</span><el-input v-model="content.remark" class="common" :max-length="256"></el-input>
                         </el-form-item>
                     </div>
                 </el-form>
@@ -52,10 +52,10 @@
                         { required: true, message: '请选择类型', trigger: 'change' }
                     ],
                     dayDate: [
-                        { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+                        {type:"date", required: true, message: '请选择日期', trigger: 'change' }
                     ],
-                    date2: [
-                        { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+                    dayFlag: [
+                        { required: true, message: '请选择类型', trigger: 'change' }
                     ],
                     remark: [
                         { required: true, message: '请输入备注', trigger: 'blur' }
@@ -69,8 +69,12 @@
                     self.$refs.form.validate((valid) => {
                         if (valid) {
                             let date = moment(self.content.dayDate).format('YYYYMMDD')
-                            self.content.dayDate = date
-                        self.$axios.post('/iem_hrm/visaFreeHoliday/insertVisaFreeHoliay', self.content)
+                            let data = {
+                                dayDate:date,
+                                dayFlag:self.content.dayFlag,
+                                remark:self.content.remark,
+                            }
+                        self.$axios.post('/iem_hrm/visaFreeHoliday/insertVisaFreeHoliay', data)
                             .then(res=>{
                                 let result = res.data.retMsg
                                 if("操作成功"===result) {
@@ -89,6 +93,11 @@
                             .catch(e=>{
                                 console.log(e)
                             })
+                        }else {
+                            self.$message({
+                                message: '请输入完成信息',
+                                type: 'error'
+                            });
                         }
                     })
             },

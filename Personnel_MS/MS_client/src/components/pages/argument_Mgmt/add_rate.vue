@@ -21,7 +21,7 @@
 					    <el-input v-model="formdata.percentRate" @change="changeQuickCal"></el-input>
 					    <span>%</span>
 				  	</el-form-item>
-				  	<el-form-item label="速算扣除率" prop="quickCal">
+				  	<el-form-item label="速算扣除数" prop="quickCal">
 					    <el-input v-model="formdata.quickCal" placeholder='自动计算'></el-input>
 				  	</el-form-item>
 				</el-form>
@@ -64,6 +64,13 @@ export default {
 	          	callback();
 	        }
       	};
+      	var checkquickCal = (rule, value, callback) => {
+	        if (value === '') {
+	          	callback(new Error('速算扣除数不能为空'));
+	        } else {
+	          	callback();
+	        }
+      	};
 		return {
 			formdata: {
 				groupName: '',
@@ -91,7 +98,7 @@ export default {
 					{ required: true, validator: checkpercentRate, trigger: 'blur' }
 				],
 				quickCal: [
-//					{ required: true, message: '数算扣除数不能为空', trigger: 'blur' }
+					{ required: true, validator: checkquickCal, trigger: 'blur' }
 				]
 			}
 		}

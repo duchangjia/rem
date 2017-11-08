@@ -387,7 +387,7 @@
                     </template>
 
                 </div>
-                <button class="add" @click="save(tabName)" v-show="tabName=='first'||tabName=='second'||tabName=='sixth'">{{tabName=='sixth'?'全部下载':'保存'}}</button>
+                <button class="add" @click="edit(tabName)" v-show="tabName=='first'||tabName=='second'||tabName=='sixth'">{{tabName=='sixth'?'全部下载':'保存'}}</button>
             </div>
         </el-col>
     </div>

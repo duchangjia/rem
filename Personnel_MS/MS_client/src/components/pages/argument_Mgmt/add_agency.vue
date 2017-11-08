@@ -7,7 +7,21 @@
                 <div class="content">
                     <div class="item_group">
                         <span class="text">机构名称</span><div style="display: inline-block; position: relative">
-                            <el-input class="common" v-model="obj.organName" @blur="check(obj.organName, 1)" @focus="hidden(1)"></el-input>
+                            <!--<el-input class="common" v-model="obj.organName" @blur="check(obj.organName, 1)" @focus="hidden(1)"></el-input>-->
+                            <el-select placeholder="请选择机构" v-model="obj.organName" @change="hidden(1)" class="common">
+                                <el-option v-for="item in optionItem"
+                                        :label="item"
+                                        :value="item">
+                                </el-option>
+                                <!--<el-option-->
+                                        <!--label="售前CCC"-->
+                                        <!--value="02">-->
+                                <!--</el-option>-->
+                                <!--<el-option-->
+                                        <!--label="项目CCC"-->
+                                        <!--value="03">-->
+                                <!--</el-option>-->
+                            </el-select>
                             <div style="position: absolute; top:35px;color: #ff4949" v-show="rules.organName">{{rules.organName}}</div>
                         </div>
                         <span class="text">CCC类型</span><div style="display: inline-block; position: relative">
@@ -30,10 +44,10 @@
                     </div>
                     <div class="item_group">
                         <span class="text">CCC值</span><div style="display: inline-block; position: relative">
-                            <el-input class="common" v-model="obj.costCode" @blur="check(obj.costCode, 3)" @focus="hidden(3)"></el-input>
+                            <el-input class="common" v-model="obj.costCode" @blur="check(obj.costCode, 3)" @focus="hidden(3)" :maxlength="32"></el-input>
                             <div style="position: absolute; top:35px;color: #ff4949" v-show="rules.costCode">{{rules.costCode}}</div>
                         </div>
-                        <span class="text">备注</span><el-input v-model="obj.descr"></el-input>
+                        <span class="text">备注</span><el-input v-model="obj.descr" :maxlength="256" @blur="check(obj.descr, 4)" @focus="hidden(4)"></el-input>
                     </div>
                 </div>
             </div>
@@ -56,8 +70,20 @@
                     organName: '',
                     costCode: '',
                     costType: '',
-                }
+                    descr:''
+                },
+                optionItem:{},
             }
+        },
+        created() {
+          this.$axios.get('/iem_hrm/organ/getOrganName')
+              .then(res=>{
+                  console.log(res)
+                  this.optionItem = res.data
+              })
+              .catch(e=>{
+                  console.log(e)
+              })
         },
         methods: {
             check(value, num) {
@@ -67,20 +93,30 @@
                 if(!value&&num==3){
                     this.rules.costCode = '请输入CCC值'
                 }
+                if(value.length>31&&num==3){
+                    this.rules.costCode = '长度不能大于32字节'
+                }
+                if(isNaN((value-0)*1) && num==3){
+                    this.rules.costCode = '只能输入数字'
+                }
                 if(!value&&num==2){
                     this.rules.costType = '请选择CCC类型'
+                }
+                if(value.length>255&&num==4){
+                    this.rules.descr = '长度不能大于256字节'
                 }
             },
             hidden(num) {
                 if(num==1)this.rules.organName = ''
                 if(num==3)this.rules.costCode = ''
                 if(num==2)this.rules.costType = ''
+                if(num==4)this.rules.descr = ''
             },
           save(){
             let self = this
-              let a = !this.obj.organName
-              let b = !this.obj.costCode
-              let c = !this.obj.costType
+              let a = !this.rules.organName
+              let b = !this.rules.costCode
+              let c = !this.rules.costType
               if(this.obj.organName&&this.obj.costCode&&this.obj.costType){
                   this.$axios.post('/iem_hrm/organ/addOrgCCC', this.obj)
                       .then(res => {

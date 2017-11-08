@@ -20,7 +20,7 @@
 				  	<el-form-item label="百分率" prop="percentRate">
 					    <el-input v-model="rateInfo.percentRate" @change="changeQuickCal"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="速算扣除率" prop="quickCal">
+				  	<el-form-item label="速算扣除数" prop="quickCal">
 					    <el-input v-model="rateInfo.quickCal"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="备注" prop="remark">
@@ -134,7 +134,7 @@ export default {
   			.then((res) => {
   				console.log(res);
   				if(res.data.code === "S00000") {
-  					this.$message({ message: '税率修改成功', type: 'success' });
+  					this.$message({ message: res.data.retMsg, type: 'success' });
   				} else {
   					console.log('error')
   				}

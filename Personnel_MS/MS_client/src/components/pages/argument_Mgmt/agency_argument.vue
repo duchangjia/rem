@@ -13,11 +13,11 @@
                     <table>
                         <tr><td v-for="th in table.th">{{th}}</td></tr>
                         <tr v-for="tds in table.td">
-                            <td>{{tds.organNo}}</td>
-                            <td>{{tds.organName}}</td>
-                            <td>{{tds.costType==='01'?'管理CCC':tds.costType==='02'?'售前CCC':'项目CCC'}}</td>
-                            <td>{{tds.costCode}}</td>
-                            <td>{{tds.descr}}</td>
+                            <td :title="tds.organNo">{{tds.organNo}}</td>
+                            <td :title="tds.organName">{{tds.organName}}</td>
+                            <td :title="tds.costType">{{tds.costType==='01'?'管理CCC':tds.costType==='02'?'售前CCC':'项目CCC'}}</td>
+                            <td :title="tds.costCode">{{tds.costCode}}</td>
+                            <td :title="tds.descr">{{tds.descr}}</td>
                             <td><i class="el-icon-edit" @click="link(tds.organNo, tds.costType)"></i>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <i class="el-icon-delete2" @click="del(tds.organNo)"></i></td>
                         </tr>
@@ -176,17 +176,27 @@
                 let self = this
                 self.$axios.get('/iem_hrm/organ/queryOrgCCCList',{params:{organName:value}})
                     .then(res => {
-                        self.fenye.total = res.data.data.total
-                        self.fenye.pageNum = res.data.data.pageNum
-                        self.table.td = res.data.data.list.map(item=>{
-                            return {
-                                costCode:item.costCode,
-                                costType:item.costType,
-                                descr:item.descr,
-                                organName:item.organName,
-                                organNo:item.organNo,
-                            }
-                        })
+                        let result = res.data.retMsg
+                        if("没有此信息!"==result){
+                            self.$message({
+                                type: 'error',
+                                message: result
+                            });
+                        }else {
+                            self.fenye.total = res.data.data.total
+                            self.fenye.pageNum = res.data.data.pageNum
+                            self.table.td = res.data.data.list.map(item=>{
+                                return {
+                                    costCode:item.costCode,
+                                    costType:item.costType,
+                                    descr:item.descr,
+                                    organName:item.organName,
+                                    organNo:item.organNo,
+                                }
+                            })
+                        }
+                        console.log(res)
+
                     })
                     .catch(e => {
                         console.log('获取ccc列表失败',e)
@@ -266,7 +276,7 @@
     }
 </script>
 
-<style scoped>
+<style>
     .agency_argument {
         padding: 0 0 20px 20px;
         overflow: hidden;
@@ -275,13 +285,13 @@
     .agency_argument .test{
         padding-left: 10px;
     }
-    .content-wrapper{
+    .agency_argument .content-wrapper{
         background: #fff;
         padding-left: 20px;
         padding-right: 20px;
         height: 746px;
     }
-    .content-wrapper .title{
+    .agency_argument .content-wrapper .title{
         font-family: PingFangSC-Regular;
         font-size: 16px;
         color: #333333;
@@ -291,12 +301,12 @@
         border-bottom: 1px solid #f4f4f4;
         position: relative;
     }
-    .content-wrapper .title .text{
+    .agency_argument .content-wrapper .title .text{
         border-bottom:2px solid black;
         display: inline-block;
         height: 80px;
     }
-    .content-wrapper .title .add{
+    .agency_argument .content-wrapper .title .add{
         width: 120px;
         height: 40px;
         background: #FF9900;
@@ -311,18 +321,18 @@
         right: 0px;
         bottom: 20px;
     }
-    .content-wrapper .content{
+    .agency_argument .content-wrapper .content{
         padding-top: 42px;
     }
-    .content-wrapper .content .search{
+    .agency_argument .content-wrapper .content .search{
     }
-    .content-wrapper .content .search .text{
+    .agency_argument .content-wrapper .content .search .text{
         font-family: PingFangSC-Regular;
         font-size: 14px;
         color: #999999;
         letter-spacing: 0;
     }
-    .content-wrapper .content .search input{
+    .agency_argument .content-wrapper .content .search input{
         margin: 0 20px 0 30px;
         width: 300px;
         height: 40px;
@@ -332,10 +342,10 @@
         outline: none;
         vertical-align: middle;
     }
-    .content-wrapper .content .search input:hover{
+    .agency_argument .content-wrapper .content .search input:hover{
         border: 1px solid orange;
     }
-    .content-wrapper .content .search .toolBtn{
+    .agency_argument .content-wrapper .content .search .toolBtn{
         border-radius: 0;
         height: 40px;
         width: 120px;
@@ -346,7 +356,7 @@
         font-size: 14px;
         color: #FFFFFF;
     }
-    .content table{
+    .agency_argument .content table{
         display: flex;
         width: 100%;
         margin-top: 40px;
@@ -359,49 +369,88 @@
         border: 1px solid #f0f0f0;
         border-collapse: collapse;
     }
-    .content table td{
+    .agency_argument .content table td{
         border: 1px solid #f0f0f0;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
-    .content table tr{
+    .agency_argument .content table tr{
         width: 100%;
         height: 40px;
         display: flex;
         line-height: 40px;
     }
-    .content table tr:nth-child(odd){
+    .agency_argument .content table tr:nth-child(odd){
         background: #F8F8F8;
     }
-    .content table tr:hover{
+    .agency_argument .content table tr:hover{
         width: 100%;
         height: 40px;
         display: flex;
         line-height: 40px;
         background: #EEF1F6;
     }
-    .content table tr:first-child{
+    .agency_argument .content table tr:first-child{
         background: #F4F4F4;
         box-shadow: inset 0 1px 0 0 #EEEEEE;
         color: #666;
     }
-    .content table tr td{
+    .agency_argument .content table tr td{
         flex: 1;
         text-align: center;
     }
-    .content table tr td:nth-child(2){
+    .agency_argument .content table tr td:nth-child(2){
         flex:2;
     }
-    .agency_argument .el-pagination{
+    .agency_argument .agency_argument .el-pagination{
         position: absolute;
         right: 0;
         bottom:40px;
     }
-    .content .el-icon-delete2, .content .el-icon-edit{
+    .agency_argument .content .el-icon-delete2, .content .el-icon-edit{
         color: #ff9900;
         cursor: pointer;
     }
-    _:-ms-lang(x), td {
+    .agency_argument _:-ms-lang(x), td {
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+    .agency_argument .el-pagination{
+        position: absolute;
+        right: 81px;
+    }
+    .agency_argument .el-pagination .el-pagination__total{
+        height: 24px;
+    }
+    .agency_argument .el-pagination .btn-prev, .agency_argument .el-pagination .el-pagination__jump, .agency_argument .el-pagination .btn-next{
+        height: 24px;
+        width: 24px;
+        line-height: 24px;
+    }
+    .agency_argument .el-pagination .el-pager li{
+        height: 24px;
+        width: 24px;
+        line-height: 24px;
+    }
+    .agency_argument .el-pagination .el-pager li.active{
+        background: #ff9900;
+        border: 1px solid #ff9900;
+        color: #fff !important;
+    }
+    .agency_argument .el-pagination .el-pager li:hover, .agency_argument .el-pagination button:hover{
+        color: #ff9900;
+    }
+    .agency_argument .el-pagination .el-pagination__jump .el-pagination__editor{
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        margin: 0 3px;
+        text-indent: 0;
+    }
+    .agency_argument .el-pagination .el-pagination__editor:focus{
+        outline: none;
+        border-color: #ff9900;
     }
 </style>

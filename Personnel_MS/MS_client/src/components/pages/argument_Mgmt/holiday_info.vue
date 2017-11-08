@@ -426,17 +426,17 @@
                         border: 1px solid #f0f0f0;
                     tr
                         width: 100%;
-                        height: 40px;
+                        min-height: 40px;
                         display: flex;
-                        line-height: 40px;
+                        line-height @min-height
                     tr:nth-child(odd)
                         background: #F8F8F8;
                     tr:hover
                         width: 100%;
-                        height: 40px;
+                        min-height: 40px;
                         display: flex;
-                        line-height: 40px;
                         background: #EEF1F6;
+                        line-height @min-height
                     tr:first-child
                         background: #F4F4F4;
                         box-shadow: inset 0 1px 0 0 #EEEEEE;
@@ -449,8 +449,8 @@
                     cursor pointer
         .el-pagination
             position: absolute;
-            right: 45px;
-            bottom:40px;
+            right: 81px;
+            /*bottom:40px;*/
             .el-pagination__total
                 height 24px
             .btn-prev, .el-pagination__jump, .btn-next
