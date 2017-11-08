@@ -29,32 +29,44 @@
                     <!--</select></div>-->
                 <!--</div>-->
                 <el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
-                    <el-form-item label="部门编号" prop="organNo">
-                        <el-input v-model="formdata.organNo" disabled></el-input>
-                    </el-form-item>
-                    <el-form-item label="部门名称" prop="organName">
-                        <el-input v-model="formdata.organName"></el-input>
-                    </el-form-item>
-                    <el-form-item label="上级部门" prop="organParentName">
-                        <el-input v-model="formdata.organParentName" disabled></el-input>
-                    </el-form-item>
-                    <el-form-item label="部门主管" prop="organMgeName">
-                        <el-input v-model="formdata.organMgeName"></el-input>
-                    </el-form-item>
-                    <el-form-item label="部门类型" prop="organType">
-                        <el-select placeholder="请选择部门类型" v-model="formdata.organType">
-                            <el-option label="总公司" value="01"></el-option>
-                            <el-option label="分公司" value="02"></el-option>
-                            <el-option label="办事处" value="03"></el-option>
-                            <el-option label="部门" value="04"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="部门状态" prop="status">
-                        <el-select placeholder="请选择部门状态" v-model="formdata.status">
-                            <el-option label="启用" value="1"></el-option>
-                            <el-option label="停用" value="2"></el-option>
-                        </el-select>
-                    </el-form-item>
+                    <el-col :span="12">
+                        <el-form-item label="部门编号" prop="organNo">
+                            <el-input v-model="formdata.organNo" disabled></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="部门名称" prop="organName">
+                            <el-input v-model="formdata.organName"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="上级部门" prop="organParentName">
+                            <el-input v-model="formdata.organParentName" disabled></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="部门主管" prop="organMgeName">
+                            <el-input v-model="formdata.organMgeName"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="部门类型" prop="organType">
+                            <el-select placeholder="请选择部门类型" v-model="formdata.organType">
+                                <el-option label="总公司" value="01"></el-option>
+                                <el-option label="分公司" value="02"></el-option>
+                                <el-option label="办事处" value="03"></el-option>
+                                <el-option label="部门" value="04"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="部门状态" prop="status">
+                            <el-select placeholder="请选择部门状态" v-model="formdata.status">
+                                <el-option label="启用" value="1"></el-option>
+                                <el-option label="停用" value="2"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
                 </el-form>
             </div>
         </div>
@@ -198,7 +210,8 @@
 .edit-wrapper .department-info{
     margin-top: 40px;
     padding-left: 8px;
-    padding-bottom: 307px;
+    padding-bottom: 20px;
+    overflow: hidden;
 }
 .edit-wrapper .department-info .text{
     font-family: PingFangSC-Regular;

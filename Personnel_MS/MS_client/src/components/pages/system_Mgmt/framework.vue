@@ -2,158 +2,163 @@
     <div class="framework-content-wrapper">
         <current yiji="系统管理" erji="组织架构"></current>
         <div class="framework-content">
-           <div class="content-left">
-               <div class="content-left-title" v-show="companies.organName"><img  height="21px" src="../../../../static/img/common/home_logo.png" /><span class="head_quarters" @click="getInfo('0')">{{companies.organName}}</span></div>
-               <ul class="list " v-show="companies" >
-                   <!--<li class="guangzhou common L">广州分公司<span class="count">(111)</span></li>-->
-                   <li class="shanghai common L" v-for="(company, $index) in companies.childrenList" :key="$index" @click.stop.prevent="collapse(company.organNo, $event, null)" :class="`L${company.organNo}`">{{company.organName}}<span class="count"></span>
-                        <ul class="common-list">
-                            <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
-                            <li class="common dot X" v-for="(department, index) in company.childrenList" :key="index" @click.stop.prevent="collapse(department.organNo, $event, company.organNo)" :class="`X${department.organNo}`">{{department.organName || '你好'}}<span class="count"></span>
-                                <ul class="common-list-item">
-                                    <li class="common dot J" v-for="childDepartment in department.childrenList" @click.stop.prevent="collapse(childDepartment.organNo, $event, company.organNo)" :class="`J${childDepartment.organNo}`">{{childDepartment.organName}}<span class="count"></span></li>
-                                    <!--<li class="common dot">一部<span class="count">(111)</span></li>-->
-                                </ul>
-                            </li>
-                        </ul>
-                   </li>
-               </ul>
-           </div>
-            <div class="content-right">
-                <div class="title">
-                    <span class="text text_special" v-show="content" :title="content.organName">{{content.organName}}</span>
-                    <div class="button-wrapper" style="display: flex">
-                        <el-button class="del" @click="del(content.organNo)">删除</el-button>
-                        <el-button type="primary" @click="handleAdd('edit_department', content.organNo)" class="toolBtn">编辑</el-button>
-                    </div>
+            <el-col :span="6">
+                <div class="content-left">
+                    <div class="content-left-title" v-show="companies.organName"><img height="21px" src="../../../../static/img/common/home_logo.png" /><span class="head_quarters" @click="getInfo('0')" :title="companies.organName">{{companies.organName}}</span></div>
+                    <ul class="list " v-show="companies" >
+                        <!--<li class="guangzhou common L">广州分公司<span class="count">(111)</span></li>-->
+                        <li class="shanghai common L" v-for="(company, $index) in companies.childrenList" :key="$index" @click.stop.prevent="collapse(company.organNo, $event, null)" :class="`L${company.organNo}`">{{company.organName}}<span class="count"></span>
+                            <ul class="common-list">
+                                <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
+                                <li class="common dot X" v-for="(department, index) in company.childrenList" :key="index" @click.stop.prevent="collapse(department.organNo, $event, company.organNo)" :class="`X${department.organNo}`">{{department.organName || '你好'}}<span class="count"></span>
+                                    <ul class="common-list-item">
+                                        <li class="common dot J" v-for="childDepartment in department.childrenList" @click.stop.prevent="collapse(childDepartment.organNo, $event, company.organNo)" :class="`J${childDepartment.organNo}`">{{childDepartment.organName}}<span class="count"></span></li>
+                                        <!--<li class="common dot">一部<span class="count">(111)</span></li>-->
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-                <div class="form1-wrapper">
-                    <span>上级机构</span><el-input v-model="content.organParentName" disabled></el-input><br>
-                    <span>主管</span><el-input v-model="content.organMgeName" disabled></el-input><br>
-                    <span>类型</span><el-select v-model="content.organType" disabled>
-                    <el-option label="总公司" value="01"></el-option>
-                    <el-option label="分公司" value="02"></el-option>
-                    <el-option label="办事处" value="03"></el-option>
-                    <el-option label="部门" value="04"></el-option>
-                    <!--<option value=""></option>-->
-                    <!--<option value="01" :selected="content.organType=='01'">总公司</option>-->
-                    <!--<option value="02" :selected="content.organType=='02'">分公司</option>-->
-                    <!--<option value="03" :selected="content.organType=='03'">办事处</option>-->
-                    <!--<option value="04" :selected="content.organType=='04'">部门</option>-->
-                </el-select><br>
-                    <span>状态</span><el-select v-model="content.status" disabled>
-                    <el-option label="启用" value="1"></el-option>
-                    <el-option label="停用" value="2"></el-option>
-                    <!--<option value=""></option>-->
-                    <!--<option value="1" :selected="content.status=='1'">启用</option>-->
-                    <!--<option value="0" :selected="content.status=='0'">停用</option>-->
-                    </el-select>
-                </div>
-                <div class="title" style="margin-top: 36px;">
-                    <span class="text">下级机构</span>
-                    <el-button type="primary" @click="handleAdd('add_junior', content.organNo)" class="toolBtn">新增</el-button>
-                </div>
-                <div class="table-wrapper" style="margin-top: 13px; text-align: right;" v-show="tableData.list">
-                    <template>
-                        <el-table
-                                :data="tableData.list"
-                                border
-                                stripe
-                        >
-                            <el-table-column
-                                    prop="organChildName"
-                                    label="名称"
-                                    align="center"
-                            >
-                            </el-table-column>
-                            <el-table-column
-                                    label="类型"
-                                    align="center">
-                                <template scope="scope">
-                                    <span>{{ scope.row.organType === '01' ? '总公司': scope.row.organType === '02' ? '分公司': scope.row.organType === '03' ? '办事处': '部门'}}</span>
-                                </template>
-                            </el-table-column>
-                            <el-table-column
-                                    prop="organMgeName"
-                                    label="主管"
-                                    align="center"
-                            >
-                            </el-table-column>
-                            <el-table-column
-                                    label="状态"
-                                    align="center">
-                                <template scope="scope">
-                                    <span>{{ scope.row.status === '1' ? '启用': '停用' }}</span>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                    </template>
-                    <div class="block" style="margin-top: 40px; display: inline-block;" v-show="tableData.total">
-                        <el-pagination
-                                @size-change="handleSizeChange"
-                                @current-change="handleCurrentChange"
-                                :page-size="tableData.pageSize"
-                                layout="total,prev, pager, next, jumper"
-                                :total="tableData.total">
-                        </el-pagination>
-                    </div>
-                </div>
-                <!--<div class="title" style="margin-top: 36px;">-->
-                    <!--<span class="text">机构人员</span>-->
-                    <!--<el-button type="primary" @click="handleAdd('add_person', content.organNo)" class="toolBtn">新增</el-button>-->
-                <!--</div>-->
-                <!--<div class="table-wrapper" style="margin-top: 13px; text-align: right;" v-show="tableData2.list">-->
-                    <!--<template>-->
-                        <!--<el-table-->
-                                <!--:data="tableData2.list"-->
-                                <!--border-->
-                                <!--stripe-->
-                                <!--max-height="400"-->
-                        <!--&gt;-->
-                            <!--<el-table-column-->
-                                    <!--prop="userName"-->
-                                    <!--label="姓名"-->
-                                    <!--align="center"-->
-                            <!--&gt;-->
-                            <!--</el-table-column>-->
-                            <!--<el-table-column-->
-                                    <!--prop="userNo"-->
-                                    <!--label="工号"-->
-                                    <!--align="center"-->
-                            <!--&gt;-->
-                            <!--</el-table-column>-->
-                            <!--<el-table-column-->
-                                    <!--prop="remark"-->
-                                    <!--label="职位"-->
-                                    <!--align="center"-->
-                                    <!--width="170"-->
-                            <!--&gt;-->
-                            <!--</el-table-column>-->
-                            <!--<el-table-column-->
-                                    <!--prop="mobileTEL"-->
-                                    <!--label="手机"-->
-                                    <!--align="center">-->
-                            <!--</el-table-column>-->
-                            <!--<el-table-column-->
-                                    <!--label="操作"-->
-                                    <!--align="center">-->
-                                <!--<template scope="scope">-->
-                                    <!--<i class="el-icon-delete" style="color: #FF9900"></i>-->
-                                <!--</template>-->
-                            <!--</el-table-column>-->
-                        <!--</el-table>-->
-                    <!--</template>-->
-                    <!--<div class="block" style="margin-top: 40px; display: inline-block;" v-show="tableData2.total">-->
-                        <!--<el-pagination-->
-                                <!--@size-change="handleSizeChange"-->
-                                <!--@current-change="handleCurrentChange2"-->
-                                <!--:page-size="tableData2.pageSize"-->
-                                <!--layout="total, prev, pager, next, jumper"-->
-                                <!--:total="tableData2.total">-->
-                        <!--</el-pagination>-->
-                    <!--</div>-->
-                <!--</div>-->
-            </div>
+            </el-col>
+           <el-col :span="18">
+               <div class="content-right">
+                   <div class="title">
+                       <span class="text text_special" v-show="content" :title="content.organName">{{content.organName}}</span>
+                       <div class="button-wrapper" style="display: flex">
+                           <el-button class="del" @click="del(content.organNo)">删除</el-button>
+                           <el-button type="primary" @click="handleAdd('edit_department', content.organNo)" class="toolBtn">编辑</el-button>
+                       </div>
+                   </div>
+                   <div class="form1-wrapper">
+                       <span>上级机构</span><el-input v-model="content.organParentName" disabled></el-input><br>
+                       <span>主管</span><el-input v-model="content.organMgeName" disabled></el-input><br>
+                       <span>类型</span><el-select v-model="content.organType" disabled>
+                       <el-option label="总公司" value="01"></el-option>
+                       <el-option label="分公司" value="02"></el-option>
+                       <el-option label="办事处" value="03"></el-option>
+                       <el-option label="部门" value="04"></el-option>
+                       <!--<option value=""></option>-->
+                       <!--<option value="01" :selected="content.organType=='01'">总公司</option>-->
+                       <!--<option value="02" :selected="content.organType=='02'">分公司</option>-->
+                       <!--<option value="03" :selected="content.organType=='03'">办事处</option>-->
+                       <!--<option value="04" :selected="content.organType=='04'">部门</option>-->
+                   </el-select><br>
+                       <span>状态</span><el-select v-model="content.status" disabled>
+                       <el-option label="启用" value="1"></el-option>
+                       <el-option label="停用" value="2"></el-option>
+                       <!--<option value=""></option>-->
+                       <!--<option value="1" :selected="content.status=='1'">启用</option>-->
+                       <!--<option value="0" :selected="content.status=='0'">停用</option>-->
+                   </el-select>
+                   </div>
+                   <div class="title" style="margin-top: 36px;">
+                       <span class="text">下级机构</span>
+                       <el-button type="primary" @click="handleAdd('add_junior', content.organNo)" class="toolBtn">新增</el-button>
+                   </div>
+                   <div class="table-wrapper" style="margin-top: 13px; text-align: right;" v-show="tableData.list">
+                       <template>
+                           <el-table
+                                   :data="tableData.list"
+                                   border
+                                   stripe
+                           >
+                               <el-table-column
+                                       prop="organChildName"
+                                       label="名称"
+                                       align="center"
+                               >
+                               </el-table-column>
+                               <el-table-column
+                                       label="类型"
+                                       align="center">
+                                   <template scope="scope">
+                                       <span>{{ scope.row.organType === '01' ? '总公司': scope.row.organType === '02' ? '分公司': scope.row.organType === '03' ? '办事处': '部门'}}</span>
+                                   </template>
+                               </el-table-column>
+                               <el-table-column
+                                       prop="organMgeName"
+                                       label="主管"
+                                       align="center"
+                               >
+                               </el-table-column>
+                               <el-table-column
+                                       label="状态"
+                                       align="center">
+                                   <template scope="scope">
+                                       <span>{{ scope.row.status === '1' ? '启用': '停用' }}</span>
+                                   </template>
+                               </el-table-column>
+                           </el-table>
+                       </template>
+                       <div class="block" style="margin-top: 40px; display: inline-block; position: relative" v-show="tableData.total">
+                           <el-pagination
+                                   @size-change="handleSizeChange"
+                                   @current-change="handleCurrentChange"
+                                   :page-size="tableData.pageSize"
+                                   layout="total,prev, pager, next, jumper"
+                                   :total="tableData.total">
+                           </el-pagination>
+                       </div>
+                   </div>
+                   <!--<div class="title" style="margin-top: 36px;">-->
+                   <!--<span class="text">机构人员</span>-->
+                   <!--<el-button type="primary" @click="handleAdd('add_person', content.organNo)" class="toolBtn">新增</el-button>-->
+                   <!--</div>-->
+                   <!--<div class="table-wrapper" style="margin-top: 13px; text-align: right;" v-show="tableData2.list">-->
+                   <!--<template>-->
+                   <!--<el-table-->
+                   <!--:data="tableData2.list"-->
+                   <!--border-->
+                   <!--stripe-->
+                   <!--max-height="400"-->
+                   <!--&gt;-->
+                   <!--<el-table-column-->
+                   <!--prop="userName"-->
+                   <!--label="姓名"-->
+                   <!--align="center"-->
+                   <!--&gt;-->
+                   <!--</el-table-column>-->
+                   <!--<el-table-column-->
+                   <!--prop="userNo"-->
+                   <!--label="工号"-->
+                   <!--align="center"-->
+                   <!--&gt;-->
+                   <!--</el-table-column>-->
+                   <!--<el-table-column-->
+                   <!--prop="remark"-->
+                   <!--label="职位"-->
+                   <!--align="center"-->
+                   <!--width="170"-->
+                   <!--&gt;-->
+                   <!--</el-table-column>-->
+                   <!--<el-table-column-->
+                   <!--prop="mobileTEL"-->
+                   <!--label="手机"-->
+                   <!--align="center">-->
+                   <!--</el-table-column>-->
+                   <!--<el-table-column-->
+                   <!--label="操作"-->
+                   <!--align="center">-->
+                   <!--<template scope="scope">-->
+                   <!--<i class="el-icon-delete" style="color: #FF9900"></i>-->
+                   <!--</template>-->
+                   <!--</el-table-column>-->
+                   <!--</el-table>-->
+                   <!--</template>-->
+                   <!--<div class="block" style="margin-top: 40px; display: inline-block;" v-show="tableData2.total">-->
+                   <!--<el-pagination-->
+                   <!--@size-change="handleSizeChange"-->
+                   <!--@current-change="handleCurrentChange2"-->
+                   <!--:page-size="tableData2.pageSize"-->
+                   <!--layout="total, prev, pager, next, jumper"-->
+                   <!--:total="tableData2.total">-->
+                   <!--</el-pagination>-->
+                   <!--</div>-->
+                   <!--</div>-->
+               </div>
+           </el-col>
+
         </div>
     </div>
 </template>
@@ -184,11 +189,13 @@
                       let length = ulObj.length
                       for (let index=0;index<length;index++) {
                           let obj = ulObj[index]
-                          if (index!=1) {
+//                          if (index!=1) {
                               $(obj).slideUp(0)
-                          }
+//                          }
                       }
-                      $('.list>li:nth-child(2)').addClass('active')
+//                      $('.list>li:nth-child(2)').addClass('active')
+                      $('.head_quarters').addClass('active')
+
                   })
               })
               .catch( res=> {
@@ -521,27 +528,36 @@
 }
 .framework-content-wrapper{
     padding:0px 0 20px 20px ;
+    /*overflow: hidden;*/
 }
 .framework-content-wrapper .framework-content{
-    display: flex;
+    /*display: flex;*/
     clear: both;
+    overflow: hidden;
+    background: #fff;
 }
 .framework-content-wrapper .framework-content .content-left{
-    flex: 0 0 350px;
-    width: 350px;
+    /*flex: 0 0 350px;*/
+    /*width: 350px;*/
     background: #fff;
-    padding: 32px 0 0 32px;
+    padding: 32px 0 30000px 20px;
+    margin-bottom: -29960px;
 }
 .framework-content-wrapper .framework-content .content-right{
-    flex: 1;
-    padding-left: 41px;
-    padding-right: 40px;
-    padding-bottom: 40px;
+    /*flex: 1;*/
+    padding: 0 40px 30000px 41px;
+    margin-bottom: -29960px;
     background: #fff;
     border-left: 1px solid #eee;
+    overflow: hidden;
+}
+.framework-content-wrapper .content-left-title{
+    display: flex;
+    height: 21px;
+    align-items: center;
 }
 .framework-content-wrapper .content-left-title>img{
-    vertical-align: middle;
+    float: left;
     margin-right: -54px;
 }
 .framework-content-wrapper .content-left .head_quarters{
@@ -551,7 +567,10 @@
     letter-spacing: 0;
     line-height: 16px;
     height: 16px;
-    display: inline-block;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     margin-left: 6.7px;
     vertical-align: middle;
     cursor: pointer;
@@ -665,7 +684,7 @@
     vertical-align: middle;
     text-align: right;
 }
-.framework-content-wrapper .form1-wrapper .el-input, .form1-wrapper .el-select{
+.framework-content-wrapper .form1-wrapper .el-input, .framework-content-wrapper .form1-wrapper .el-select{
     width: 300px;
     height: 40px;
     font-family: PingFangSC-Regular;
@@ -682,7 +701,8 @@
 }
 .framework-content-wrapper .el-pagination{
     position: absolute;
-    right: 81px;
+    right: 40px;
+    bottom: -20px;
 }
 .framework-content-wrapper .el-pagination .el-pagination__total{
     height: 24px;
