@@ -35,7 +35,7 @@ export default {
   data() {
     return {
       pageNum: 1,
-      pageSize: 7,
+      pageSize: 10,
       totalRows: 1,
       roleListInfo: []
     };
@@ -55,8 +55,9 @@ export default {
       };
       self.$axios
         .get("/iem_hrm/role/queryRoleList", { params: params })
+        // .get("/iem_hrm/queryRoleList", { params: params })
         .then((res) => {
-          console.log(res);
+          console.log('roleList',res);
           self.roleListInfo = res.data.data.models;
           self.pageNum = Number(res.data.data.pageNum);
           self.totalRows = Number(res.data.data.total);
@@ -66,7 +67,7 @@ export default {
         });
     },
     statusFormatter(row, column) {
-      return row.status == 1 ? "有效" : row.status == 0 ? "无效" : "异常";
+      return row.status == "1" ? "有效" : row.status == "0" ? "无效" : "异常";
     },
     handleCurrentChange(val) {
       const self = this;

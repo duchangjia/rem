@@ -296,12 +296,12 @@
     "pageIndex": "1",
     "pageRows": "4",
     "totalRows": "50",
-    "roleListInfo": [
+    "models": [
       {
         "roleNo": "001",
         "roleName": "系统管理员",
         "roleDescr": "我是描述是描述是描述是描述",
-        "status": "启动",
+        "status": "01",
         "createdBy": "JINXIAO",
         "createdDate": "2017-09-13 00:00:00",
         "updateBy": "aaa",
@@ -311,7 +311,7 @@
         "roleNo": "002",
         "roleName": "经理",
         "roleDescr": "我是描述是描述是描述是描述",
-        "status": "启动",
+        "status": "01",
         "createdBy": "JINXIAO",
         "createdDate": "2017-09-13 00:00:00",
         "updateBy": "aaa",
@@ -321,7 +321,7 @@
         "roleNo": "003",
         "roleName": "出纳",
         "roleDescr": "我是描述是描述是描述是描述",
-        "status": "启动",
+        "status": "02",
         "createdBy": "JINXIAO",
         "createdDate": "2017-09-13 00:00:00",
         "updateBy": "aaa",
@@ -331,7 +331,7 @@
         "roleNo": "004",
         "roleName": "系统管理员",
         "roleDescr": "我是描述是描述是描述是描述",
-        "status": "启动",
+        "status": "01",
         "createdBy": "JINXIAO",
         "createdDate": "2017-09-13 00:00:00",
         "updateBy": "aaa",
@@ -341,7 +341,7 @@
         "roleNo": "005",
         "roleName": "人事",
         "roleDescr": "我是描述是描述是描述是描述",
-        "status": "启动",
+        "status": "01",
         "createdBy": "JINXIAO",
         "createdDate": "2017-09-13 00:00:00",
         "updateBy": "aaa",
@@ -350,22 +350,56 @@
     ]
   },
   "queryRoleDetail": {
-    "roleNo": "005",
-    "roleName": "人事",
-    "roleDescr": "我是描述是描述是描述是描述",
-    "status": "启动",
-    "roleFuncInfo": [
-      {
-        "bsnNo": "678578",
-        "bsnStatus": "1",
-        "remark": "备注是啥"
-      },
-      {
-        "bsnNo": "234332",
-        "bsnStatus": "0",
-        "remark": "备注是啥就是啥"
-      }
-    ]
+    "code": "S00000",
+    "retMsg": "操作成功",
+    "data": {
+      "status": "1",
+      "createdDate": 1505318400000,
+      "updatedDate": 1509638400000,
+      "createdBy": "JINXIAO",
+      "updatedBy": "dj",
+      "uid": "0001",
+      "roleNo": "111",
+      "roleName": "普通人员aaa",
+      "roleDescr": "权限比较高aaa",
+      "users": null,
+      "roleFuncSet": [
+        {
+          "status": "1",
+          "createdDate": null,
+          "updatedDate": null,
+          "createdBy": null,
+          "updatedBy": null,
+          "uid": null,
+          "bsnNo": "SY1001001",
+          "interfaceName": "机构列表查询",
+          "methodName": "queryOrganList",
+          "serviceName": "人事管理系统",
+          "remark": "角色关联功能",
+          "bsnUrl": "/organ/queryOrganList",
+          "menus": [
+            {
+              "status": "1",
+              "createdDate": null,
+              "updatedDate": null,
+              "createdBy": null,
+              "updatedBy": null,
+              "uid": null,
+              "sysNo": "1",
+              "menuNo": "m000003",
+              "menuName": "组织架构",
+              "upMenuNo": "m000002",
+              "menuLevel": "2",
+              "menuOrder": "3",
+              "menuUrl": "management_framework",
+              "menuDescr": "组织架构",
+              "menuImg": "",
+              "menuList": null
+            }
+          ]
+        }
+      ]
+    }
   },
   "addRoleInfo": {
     "roleName": "人事",
@@ -1926,9 +1960,9 @@
     ]
   },
   "resetPassword": {
-  	"code": "000000"
+    "code": "000000"
   },
   "changePassword": {
-  	"code": "000000"
+    "code": "000000"
   }
 }
