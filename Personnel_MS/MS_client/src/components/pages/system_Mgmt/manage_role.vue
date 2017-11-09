@@ -56,10 +56,6 @@ export default {};
   padding: 0;
 }
 
-.content-wrapper .el-table th {
-  background-color: #f4f4f4 !important;
-}
-
 .add-wrapper .item-title {
   font-size: 14px;
   height: 56px;

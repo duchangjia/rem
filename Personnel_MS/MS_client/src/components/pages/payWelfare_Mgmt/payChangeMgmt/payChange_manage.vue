@@ -102,10 +102,6 @@ export default {};
   width: 253px;
 }
 
-.el-input-group--prepend .el-input__inner, .el-input-group__append {
-  border-radius: 0;
-}
-
 .el-select-dropdown__item.selected,
 .el-select-dropdown__item.selected.hover {
   background-color: #ff9900;
