@@ -16,7 +16,7 @@
 					<el-table-column prop="applyName" label="模版名称"></el-table-column>
 					<el-table-column prop="remark" label="备注"></el-table-column>
 					<el-table-column prop="createdBy" label="创建createdBy"></el-table-column>
-					<el-table-column prop="createdDate" label="创建时间"></el-table-column>
+					<el-table-column prop="createdDate" label="创建时间" :formatter="createdDateFormatter"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
 							<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
@@ -32,6 +32,7 @@
 
 <script>
 import current from '../../common/current_position.vue'
+import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
@@ -79,6 +80,10 @@ export default {
 		self.queryInsurancePayTemplates(pageNum,pageSize,params);
 	},
 	methods: {
+		createdDateFormatter(row, column) {
+			let time = row.createdDate;
+			return moment(time).format('YYYY-MM-DD');
+		},
 		addWelfare() {
 			this.$router.push('/add_welfare');
 		},
@@ -144,6 +149,14 @@ export default {
     			console.log(res);
     			if(res.data.code === "S00000") {
     				self.$message({ type: 'success', message: res.data.retMsg });
+    				let pageNum = self.pageNum,
+						pageSize = self.pageSize;
+					let params = {
+						pageNum: pageNum,
+						pageSize: pageSize
+					}
+					//查询福利缴纳系数模版列表
+					self.queryInsurancePayTemplates(pageNum,pageSize,params);
     			}
     			
     		}).catch(function(err) {

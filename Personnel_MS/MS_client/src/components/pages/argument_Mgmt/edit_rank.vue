@@ -27,10 +27,10 @@
 							<el-option v-for="item in rankList" :key="item" :value="item"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="薪资标准下线" prop="salaryFloor">
+					<el-form-item label="薪资标准下限" prop="salaryFloor">
 						<el-input v-model="cParmDetal.salaryFloor"></el-input>
 					</el-form-item>
-					<el-form-item label="薪资标准上线" prop="salaryTop">
+					<el-form-item label="薪资标准上限" prop="salaryTop">
 						<el-input v-model="cParmDetal.salaryTop"></el-input>
 					</el-form-item>
 					<el-form-item label="出差标准（人/天）">
@@ -52,7 +52,7 @@
 		data() {
 			var checkSalaryTop = (rule, value, callback) => {
 				if(value === '') {
-					callback(new Error('请输入薪资标准上线'));
+					callback(new Error('请输入薪资标准上限'));
 				} else if(Number(value) <= Number(this.cParmDetal.salaryFloor)) {
 					callback(new Error('上限值必须大于下限值!'));
 				} else {
@@ -61,7 +61,7 @@
 			};
 			var checksalaryFloor = (rule, value, callback) => {
 				if(value === '') {
-					callback(new Error('请输入薪资标准下线'));
+					callback(new Error('请输入薪资标准下限'));
 				} else if(Number(value) >= Number(this.cParmDetal.SalaryTop)) {
 					callback(new Error('下限值必须小于上限值!'));
 				} else {

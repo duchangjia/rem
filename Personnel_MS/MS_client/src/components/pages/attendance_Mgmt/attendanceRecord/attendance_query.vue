@@ -238,7 +238,11 @@ export default {
 		},
 		//重置
 		resetForm() {
-			this.ruleForm2 = {};
+			this.ruleForm2.compOrgNo = '';
+			this.ruleForm2.departOrgNo = '';
+			this.ruleForm2.userNo = '';
+			this.ruleForm2.startDate = '';
+			this.ruleForm2.endDate = '';
 		},
 		handleCurrentChange(val) {
 			console.log(`当前页: ${val}`);

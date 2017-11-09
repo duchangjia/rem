@@ -8,8 +8,8 @@
 			</div>
 			<div class="content-inner">
 				<el-form ref="rateInfo" :rules="rules" :model="rateInfo" label-width="80px">
-					<el-form-item label="组名称" prop="applyNo">
-					    <el-input v-model="rateInfo.applyNo"></el-input>
+					<el-form-item label="编号" prop="applyNo">
+					    <el-input v-model="rateInfo.applyNo" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="下限" prop="groupLowerLimit">
 					    <el-input v-model="rateInfo.groupLowerLimit"></el-input>

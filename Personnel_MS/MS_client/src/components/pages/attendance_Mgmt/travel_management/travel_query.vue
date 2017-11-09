@@ -295,7 +295,11 @@ export default {
 		},
 		//重置
 		resetForm() {
-			this.ruleForm2 = {};
+			this.ruleForm2.organNo = '';
+			this.ruleForm2.derpNo = '';
+			this.ruleForm2.userNo = '';
+			this.ruleForm2.startDate = '';
+			this.ruleForm2.endDate = '';
 		},
 		handleCurrentChange(val) {
 			const self = this;

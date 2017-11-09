@@ -22,7 +22,7 @@
 							    <span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perEndmFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="comEndmRate">
+						  	<el-form-item label="单位支付" prop="comEndmRate">
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEndmRate"></el-input>
 								<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEndmFixed"></el-input>
@@ -37,7 +37,7 @@
 								<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perMediFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="comMediRate">
+						  	<el-form-item label="单位支付" prop="comMediRate">
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMediRate"></el-input>
 								<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMediFixed"></el-input>
@@ -52,7 +52,7 @@
 							    <span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perUnemFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="comUnemRate">
+						  	<el-form-item label="单位支付" prop="comUnemRate">
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comUnemRate"></el-input>
 							    <span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comUnemFixed"></el-input>
@@ -67,7 +67,7 @@
 								<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perEmplFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="comEmplRate">
+						  	<el-form-item label="单位支付" prop="comEmplRate">
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEmplRate"></el-input>
 								<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEmplFixed"></el-input>
@@ -82,7 +82,7 @@
 								<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perMateFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="comMateRate">
+						  	<el-form-item label="单位支付" prop="comMateRate">
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMateRate"></el-input>
 								<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMateFixed"></el-input>
@@ -97,7 +97,7 @@
 							    <span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perHousFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="comHousRate">
+						  	<el-form-item label="单位支付" prop="comHousRate">
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comHousRate"></el-input>
 						    	<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comHousFixed"></el-input>
@@ -120,30 +120,30 @@ export default {
 				applyNo: "",
 				applyName: '',
 				remark: '',
-				perEndmRate: '',
-				perEndmFixed: '',
-				comEndmRate: '',
-				comEndmFixed: '',
-				perMediRate: '',
-				perMediFixed: '',
-				comMediRate: '',
-				comMediFixed: '',
-				perUnemRate: '',
-				perUnemFixed: '',
-				comUnemRate: '',
-				comUnemFixed: '',
-				perEmplRate: '',
-				perEmplFixed: '',
-				comEmplRate: '',
-				comEmplFixed: '',
-				perMateRate: '',
-				perMateFixed: '',
-				comMateRate: '',
-				comMateFixed: '',
-				perHousRate: '',
-				perHousFixed: '',
-				comHousRate: '',
-				comHousFixed: ''
+				perEndmRate: '0',
+				perEndmFixed: '0',
+				comEndmRate: '0',
+				comEndmFixed: '0',
+				perMediRate: '0',
+				perMediFixed: '0',
+				comMediRate: '0',
+				comMediFixed: '0',
+				perUnemRate: '0',
+				perUnemFixed: '0',
+				comUnemRate: '0',
+				comUnemFixed: '0',
+				perEmplRate: '0',
+				perEmplFixed: '0',
+				comEmplRate: '0',
+				comEmplFixed: '0',
+				perMateRate: '0',
+				perMateFixed: '0',
+				comMateRate: '0',
+				comMateFixed: '0',
+				perHousRate: '0',
+				perHousFixed: '0',
+				comHousRate: '0',
+				comHousFixed: '0'
 			},
 			rules: {
 				applyName: [
@@ -232,7 +232,6 @@ export default {
 	          		//新增福利系数模版
 	          		self.addInsurancePayTemplate(params);
 	          	} else {
-	            	self.$message.error('新增失败');
 	            	return false;
 	          	}
 	        });

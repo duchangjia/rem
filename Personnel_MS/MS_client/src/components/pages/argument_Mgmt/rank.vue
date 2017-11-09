@@ -7,10 +7,10 @@
 				<el-button type="primary" @click="addWelfare()">新增</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form :model="ruleForm2" :inline="true" ref="ruleForm2" label-width="58px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :inline="true" ref="ruleForm2" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-col :span="6">
-							<el-form-item label="公司" prop="organNo">
+							<el-form-item label="公司名称" prop="organNo">
 								<el-select v-model="ruleForm2.organNo" value-key="organNo" placeholder="所属公司" @change="test">
 									<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 								</el-select>
@@ -31,12 +31,12 @@
 					<el-table-column prop="applyName" label="模版名称"></el-table-column>
 					<el-table-column prop="organName" label="公司名称"></el-table-column>
 					<el-table-column prop="rank" label="职级"></el-table-column>
-					<el-table-column prop="salaryFloor" label="薪资标准下线"></el-table-column>
-					<el-table-column prop="salaryTop" label="薪资标准上线"></el-table-column>
+					<el-table-column prop="salaryFloor" label="薪资标准下限"></el-table-column>
+					<el-table-column prop="salaryTop" label="薪资标准上限"></el-table-column>
 					<el-table-column prop="businessStandard" label="出差标准（人/天）"></el-table-column>
 					<el-table-column prop="remark" label="备注"></el-table-column>
 					<el-table-column prop="createdBy" label="创建ID"></el-table-column>
-					<el-table-column prop="createdDate" label="创建时间"></el-table-column>
+					<el-table-column prop="createdDate" label="创建时间" :formatter="createdDateFormatter"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
 							<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
@@ -52,6 +52,7 @@
 
 <script>
 import current from '../../common/current_position.vue'
+import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
@@ -111,12 +112,15 @@ export default {
 		//查询职级薪酬列表
 		self.queryCParmList(pageNum,pageSize,params);
 		//查询公司列表
-//		self.queryCompList();
+		self.queryCompList();
 	},
 	components: {
 		current
 	},
 	methods: {
+		createdDateFormatter(row, column) {
+	      return moment(row.createdDate).format('YYYY-MM-DD')
+	    },
 		test() {
 			console.log(this.ruleForm2.organNo)
 		},
@@ -135,11 +139,9 @@ export default {
 				"pageSize": pageSize,
 				organNo: self.ruleForm2.organNo
 			};
-			if(self.ruleForm2.organNo) {
-				//查询职级薪酬列表
-				self.queryCParmList(pageNum,pageSize,params);
-				self.queryFormFlag = true;
-			}
+			//查询职级薪酬列表
+			self.queryCParmList(pageNum,pageSize,params);
+			self.queryFormFlag = true;
 			
 		},
 		handleEdit(index, row) {
@@ -210,6 +212,15 @@ export default {
     			console.log('del',res);
     			if(res.data.code === "S00000") {
     				self.$message({ type: 'success', message: '删除成功!' });
+    				let pageNum = self.pageNum;
+					let pageSize = self.pageSize;
+					let params = {
+						"pageNum": pageNum,
+						"pageSize": pageSize,
+						organNo: self.ruleForm2.organNo
+					};
+    				//查询职级薪酬列表
+					self.queryCParmList(pageNum,pageSize,params);
     			}
     			
     		}).catch(function(err) {
@@ -218,7 +229,7 @@ export default {
 		},
 		queryCompList() {
 			let self = this;
-			self.$axios.get(baseURL+'/organ/queryAllCompany')
+			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
 			.then(function(res) {
 				console.log('CompList',res);
 				self.compList = res.data.data;

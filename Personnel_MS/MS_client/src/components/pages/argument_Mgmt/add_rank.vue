@@ -24,10 +24,10 @@
 							<el-option v-for="item in rankList" :key="item" :value="item"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="薪资标准下线" prop="salaryFloor">
+					<el-form-item label="薪资标准下限" prop="salaryFloor">
 						<el-input v-model="formdata.salaryFloor"></el-input>
 					</el-form-item>
-					<el-form-item label="薪资标准上线" prop="salaryTop">
+					<el-form-item label="薪资标准上限" prop="salaryTop">
 						<el-input v-model="formdata.salaryTop"></el-input>
 					</el-form-item>
 					<el-form-item label="出差标准（人/天）">
@@ -49,7 +49,7 @@
 		data() {
 			var checkMax_level = (rule, value, callback) => {
 				if(value === '') {
-					callback(new Error('请输入薪资标准上线'));
+					callback(new Error('请输入薪资标准上限'));
 				} else if(Number(value) <= Number(this.formdata.salaryFloor)) {
 					callback(new Error('上限值必须大于下限值!'));
 				} else {
@@ -94,7 +94,7 @@
 					}],
 					salaryFloor: [{
 						required: true,
-						message: '薪资标准下线不能为空',
+						message: '薪资标准下限不能为空',
 						trigger: 'blur'
 					}],
 					salaryTop: [{
@@ -125,7 +125,6 @@
 						self.addCparm(params);
 
 					} else {
-						self.$message.error('新增失败');
 						return false;
 					}
 				});

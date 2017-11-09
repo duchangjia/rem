@@ -9,7 +9,7 @@
 			<div class="content-inner">
 				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
 					<el-form-item label="组名称" prop="groupName">
-					    <el-input v-model="formdata.groupName"></el-input>
+					    <el-input v-model="formdata.groupName" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="下限" prop="groupLowerLimit">
 					    <el-input v-model="formdata.groupLowerLimit"></el-input>
@@ -23,6 +23,9 @@
 				  	</el-form-item>
 				  	<el-form-item label="速算扣除数" prop="quickCal">
 					    <el-input v-model="formdata.quickCal"></el-input>
+				  	</el-form-item>
+				  	<el-form-item label="备注" prop="remark">
+					    <el-input v-model="formdata.remark"></el-input>
 				  	</el-form-item>
 				</el-form>
 			</div>
@@ -79,7 +82,8 @@ export default {
 				groupLimit: '',
 				groupLowerLimit: '',
 				percentRate: '',
-				quickCal: ''
+				quickCal: '',
+				remark: ''
 			},
 			rules: {
 				groupId: [
@@ -108,7 +112,7 @@ export default {
 	},
 	created() {
 		this.formdata.groupName = sessionStorage.getItem('groupName');
-		this.formdata.groupId = this.$route.params.groupId;
+		this.formdata.groupId = sessionStorage.getItem('groupId');
 	},
 	methods: {
 		save(formName) {
@@ -127,7 +131,6 @@ export default {
 	          		self.insertTaxRateCtrl(params);
 	          		
 	          	} else {
-	            	this.$message.error('新增失败');
 	            	return false;
 	          	}
 	        });
@@ -139,7 +142,7 @@ export default {
   			.then((res) => {
   				console.log("addRate",res);
   				self.formdata.applyNo = res.data.data;
-  				this.$message({ message: '税率新增成功', type: 'success' });
+  				this.$message({ message: '操作成功', type: 'success' });
   			})
 		}
 	}

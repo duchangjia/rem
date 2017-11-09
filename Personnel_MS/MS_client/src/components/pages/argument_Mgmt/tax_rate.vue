@@ -17,7 +17,7 @@
 					<el-table-column prop="startTime" label="生效日期"></el-table-column>
 					<el-table-column prop="endTime" label="失效日期"></el-table-column>
 					<el-table-column prop="createdBy" label="创建ID"></el-table-column>
-					<el-table-column prop="createdDate" label="创建时间" :formatter="travelTimeFormatter"></el-table-column>
+					<el-table-column prop="createdDate" label="创建时间" :formatter="createdDateFormatter"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
 							<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
@@ -76,9 +76,9 @@ export default {
 		self.selectTaxRateGroup(pageNum, pageSize, params);
 	},
 	methods: {
-		travelTimeFormatter(row, column) {
+		createdDateFormatter(row, column) {
 			let time = row.createdDate;
-			return moment(time).format('YYYY-MM-DD hh:mm:ss');
+			return moment(time).format('YYYY-MM-DD');
 		},
 		addRateGroup() {
 			this.$router.push('/add_rateGroup');
@@ -140,6 +140,14 @@ export default {
     			console.log("queryRateList",res);
     			if(res.data.code==="S00000") {
     				this.$message({ type: 'success', message: res.data.retMsg });
+    				let pageNum = self.pageNum;
+					let pageSize = self.pageSize;
+					let params = {
+						"pageNum": pageNum,
+						"pageSize": pageSize,
+						isDelete: "1"
+					};
+					self.selectTaxRateGroup(pageNum, pageSize, params);
     			} else {
     				console.log('error');
     			}
