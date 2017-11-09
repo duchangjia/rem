@@ -1,14 +1,6 @@
 <template>
 	<div class="modifine_password">
-		<div class="location-wrapper">
-			<el-col :span="24">
-				<span class="title">当前位置：</span>
-				<el-breadcrumb separator="/" class="breadcrumb-inner">
-					<el-breadcrumb-item>个人设置</el-breadcrumb-item>
-					<el-breadcrumb-item>修改密码</el-breadcrumb-item>
-				</el-breadcrumb>
-			</el-col>
-		</div>
+		<current yiji="首页" erji="修改密码"></current>
 		<div class="content">
 			<div class="title">
 				<span class="title-text">修改密码</span>
@@ -16,11 +8,11 @@
 			<ul class="content-inner">
 				<el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
 					<el-form-item label="当前密码" prop="oldPass">
-						<el-input type="password" v-model="ruleForm2.oldPass" placeholder="请输入原密码" @change="oldPasschange"></el-input>
-						<span class="tips forget">忘记密码</span>
+						<el-input type="password" v-model="ruleForm2.oldPass" placeholder="请输入原密码"></el-input>
+						<span class="tips link" @click="fegetPassword">忘记密码</span>
 					</el-form-item>
 					<el-form-item label="新密码" prop="newPass">
-						<el-input type="password" v-model="ruleForm2.newPass" auto-complete="off" placeholder="请再次输入新密码"></el-input>
+						<el-input type="password" v-model="ruleForm2.newPass" auto-complete="off" placeholder="请输入新密码"></el-input>
 						<span class="tips">密码支持6-20位字符，至少包含数字、字母（区分大小写）、符号中的2种</span>
 					</el-form-item>
 					<el-form-item label="确认密码" prop="checkPass">
@@ -38,6 +30,7 @@
 </template>
 
 <script type='text/ecmascript-6'>
+	import current from '../../common/current_position.vue'
 	import Bus from '../../../common/Bus.js'
 	const baseURL = 'iem_hrm';
 	export default {
@@ -92,18 +85,25 @@
 				}
 			};
 		},
+		components: {
+			current
+		},
 		created() {
 		},
 		methods: {
-			oldPasschange(val) {
-				console.log(this.ruleForm2.oldPass);
+			fegetPassword() {
+				this.$alert('如忘记密码，请联系系统管理人员进行密码重置操作。', '温馨提示', {
+		          confirmButtonText: '确定',
+		          callback: action => {
+		            
+		          }
+		        });
 			},
 			submitForm(formName) {
 				const self = this;
 				self.$refs[formName].validate((valid) => {
 					if(valid) {
 						let params = {
-//							userNo: ,
 							newPassword: self.ruleForm2.newPass,
 							oldPassword: self.ruleForm2.oldPass
 						}
@@ -204,11 +204,8 @@
 	    display: inline-block;
 	}
 	.modifine_password .el-input__inner {
-	    border-radius: 2px;
 	    border: 1px solid #EEEEEE;
 	    color: #333333;
-	    padding: 19px 10px;
-	    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
 	}
 	.modifine_password .el-input__inner:hover {
 	    border-color: #FF9900!important;
@@ -230,12 +227,14 @@
 		letter-spacing: 0;
 		margin-left: 40px;
 	}
-	.modifine_password .forget {
+	.modifine_password .link {
 		cursor: pointer;
+		color: #337ab7;
+    	text-decoration: underline;
 	}
-	.modifine_password .forget:hover {
+	/*.modifine_password .link:hover {
 		color: #FF9900;
-	}
+	}*/
 	.modifine_password .el-button {
 	    background: #ff9900;
 	    border: none;

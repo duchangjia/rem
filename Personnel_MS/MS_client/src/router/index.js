@@ -43,7 +43,6 @@ const routes = [
                 },
                 {
                     path: '/management_framework',
-            		meta: { requireAuth: true, },
                     component: resolve => require(['../components/pages/system_Mgmt/frame.vue'], resolve),
                     children: [
                         {
@@ -66,7 +65,6 @@ const routes = [
                 },
                 {
                     path: '/management_user',
-            		meta: { requireAuth: true, },
                     component: resolve => require(['../components/pages/system_Mgmt/manage_user.vue'], resolve),
                     children: [
                         {
@@ -82,7 +80,6 @@ const routes = [
                 },
                 {
                     path: '/management_role',
-            		meta: { requireAuth: true, },
                     component: resolve => require(['../components/pages/system_Mgmt/manage_role.vue'], resolve),
                     children: [
                         {
@@ -107,7 +104,6 @@ const routes = [
                 },
                 {
                     path: '/management_fun',
-            		meta: { requireAuth: true, },
                     component: resolve => require(['../components/pages/system_Mgmt/manage_fun.vue'], resolve),
                     children: [
                         {

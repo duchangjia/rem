@@ -346,10 +346,11 @@
 	.fun .el-table th.is-leaf {
 		border-bottom: 1px solid #EEEEEE;
 	}
-	/*.fun .el-table td:first-child:hover {
-		color: #FF9900;
-		cursor: pointer;
-	}*/
+	.fun .el-table .cell, 
+	.fun .el-table th>div {
+	    padding-left: 10px;
+	    padding-right: 10px;
+	}
 	.fun .el-table::after, 
 	.fun .el-table::before {
 	    content: '';

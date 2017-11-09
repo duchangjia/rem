@@ -183,29 +183,20 @@ export default {
       }, this);
       if (this.checkFuncsAll[index] == true) {
         this.$set(this.isFuncsIndeterminate, index, true);
-        this.checkFuncs = targetFucsList;
+        this.checkFuncs = this.checkFuncs.concat(targetFucsList);
         targetFucsList.forEach(function(ele) {
-          if (
-            JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(
-              JSON.stringify({ bsnNo: ele })
-            ) == -1
-          ) {
+          if (JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(JSON.stringify({ bsnNo: ele })) == -1) {
             this.addRoleMsg.roleFuncSet.push({ bsnNo: ele });
           }
         }, this);
       } else {
         this.$set(this.isFuncsIndeterminate, index, false);
-        this.checkFuncs = [];
         targetFucsList.forEach(function(ele) {
-          if (
-            JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(
-              JSON.stringify({ bsnNo: ele })
-            ) != -1
-          ) {
-            this.addRoleMsg.roleFuncSet.splice(
-              this.addRoleMsg.roleFuncSet.indexOf({ bsnNo: ele }),
-              1
-            );
+          if (JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(JSON.stringify({ bsnNo: ele })) != -1) {
+            this.addRoleMsg.roleFuncSet.splice(this.addRoleMsg.roleFuncSet.indexOf({ bsnNo: ele }), 1);
+          }
+          if ( this.isInArray(this.checkFuncs, ele) ) {
+            this.checkFuncs.splice(this.checkFuncs.indexOf(ele), 1);
           }
         }, this);
       }

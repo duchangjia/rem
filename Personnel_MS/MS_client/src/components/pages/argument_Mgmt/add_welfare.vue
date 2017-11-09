@@ -302,8 +302,10 @@ border-bottom: 1px solid #EEEEEE;
 	padding: 11px 0px 11px 10px;
     margin-bottom: 20px;
 	color: #999999;
-	background: #F4F4F4;
-	border-top: 1px solid #EEEEEE;
+	border: none;
+}
+.add_welfare .form_box .inner {
+	padding-left: 20px;
 }
 .add_welfare .form_box .plus {
 	margin-left: 10px;

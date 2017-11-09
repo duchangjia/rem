@@ -11,14 +11,14 @@
 					<el-form-item label="组名称" prop="groupName">
 					    <el-input v-model="formdata.groupName"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="起征点">
+				  	<el-form-item label="起征点" prop="taxThreshold">
 					    <el-input v-model="formdata.taxThreshold"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="生效日期" prop="startTime">
 			        	<el-date-picker type="date" v-model="formdata.startTime" @change="changeStartTime"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="失效日期" prop="endTime">
-			        	<el-date-picker type="date" v-model="formdata.endTime" @change="changeEndTime"></el-date-picker>
+			        	<el-date-picker type="date" v-model="formdata.endTime" @change="changeEndTime" placeholder="如无，则不填"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="备注">
 					    <el-input v-model="formdata.remark"></el-input>
@@ -31,9 +31,19 @@
 
 <script>
 import current from '../../common/current_position.vue'
+import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
+		var checkTaxThreshold = (rule, value, callback) => {
+	        if (value === '') {
+	          	callback(new Error('起征点不能为空'));
+	        } else if (!(/^[0-9]*$/.test(value))) {
+	          	callback(new Error('请输入数字'));
+	        } else {
+	          	callback();
+	        }
+      	};
 		return {
 			formdata: {
 				groupName: "",
@@ -47,11 +57,11 @@ export default {
 				groupName: [
 					{ required: true, message: '组名称不能为空', trigger: 'blur' }
 				],
+				taxThreshold: [
+					{  required: true, validator: checkTaxThreshold, trigger: 'change' }
+				],
 				startTime: [
 					{  required: true, message: '生效日期不能为空', trigger: 'change' }
-				],
-				endTime: [
-					{  required: true, message: '失效日期不能为空', trigger: 'change' }
 				]
 			}
 		}
@@ -62,6 +72,7 @@ export default {
 	methods: {
 		changeStartTime(time) {
 			this.formdata.startTime = time;
+			console.log(this.formdata.startTime)
 		},
 		changeEndTime(time) {
 			this.formdata.endTime = time;
@@ -92,8 +103,10 @@ export default {
 			self.$axios.post(baseURL+'/taxRateGroup/addRGroup', params)
   			.then((res) => {
   				console.log(res);
+  				if(res.data.code === "S00000") {
+  					self.$message({ message: '税率组新增成功', type: 'success' });
+  				}
   				
-  				self.$message({ message: '税率组新增成功', type: 'success' });
   			}).catch((err) => {
   				console.log('error');
   			})

@@ -50,6 +50,9 @@ export default {
     computed: {
         links() {
             let _link = []
+            if (this.yiji === '首页') {
+                _link.push('/home')
+            }
             if (this.yiji === '系统管理') {
                 _link.push('/management_framework')
             }
@@ -71,7 +74,13 @@ export default {
             if (this.yiji === '员工自助') {
                 _link.push('/query_personalInfo')
             }
-
+			
+			if (this.erji === '基本信息') {
+                _link.push('/user_center')
+            }
+			if (this.erji === '修改密码') {
+                _link.push('/modify_password')
+            }
             if (this.erji === '用户管理') {
                 _link.push('/management_user')
             }

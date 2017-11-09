@@ -138,8 +138,8 @@ export default {
 
           self.roleDetail.roleFuncSet.forEach(function(ele) {
              self.checkFuncs.push(ele.bsnNo);
+             self.editRoleMsg.roleFuncSet.push({ bsnNo: ele });
           }, this);
-          this.editRoleMsg.roleFuncSet.push({ bsnNo: ele });
           console.log("選中的功能：" , self.checkFuncs);
 
         })
@@ -189,22 +189,15 @@ export default {
         this.checkedSubmenus = [];
         this.isSubIndeterminate = false;
       }
-      this.checkedSubmenus.length > 0
-        ? (this.checkedSubmenusFlag = true)
-        : (this.checkedSubmenusFlag = false);
+      this.checkedSubmenus.length > 0 ? (this.checkedSubmenusFlag = true) : (this.checkedSubmenusFlag = false);
       this.funcsList = this.checkedSubmenus;
       console.log("这是全选的checkedSubmenus", this.funcsList);
     },
     handleCheckedSubsChange(val) {
       let checkedCount = val.length;
-      this.isSubIndeterminate =
-        checkedCount > 0 && checkedCount < this.submenus.length;
-      checkedCount > 0
-        ? (this.checkedSubmenusFlag = true)
-        : (this.checkedSubmenusFlag = false);
-      checkedCount == this.submenus.length
-        ? (this.checkSubAll = true)
-        : (this.checkSubAll = false);
+      this.isSubIndeterminate = checkedCount > 0 && checkedCount < this.submenus.length;
+      checkedCount > 0 ? (this.checkedSubmenusFlag = true) : (this.checkedSubmenusFlag = false);
+      checkedCount == this.submenus.length ? (this.checkSubAll = true) : (this.checkSubAll = false);
       this.funcsList = val;
       console.log("这是checkedSubmenus", this.funcsList);
     },
@@ -217,29 +210,20 @@ export default {
       }, this);
       if (this.checkFuncsAll[index] == true) {
         this.$set(this.isFuncsIndeterminate, index, true);
-        this.checkFuncs = targetFucsList;
+        this.checkFuncs = this.checkFuncs.concat(targetFucsList);
         targetFucsList.forEach(function(ele) {
-          if (
-            JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(
-              JSON.stringify({ bsnNo: ele })
-            ) == -1
-          ) {
+          if (JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(JSON.stringify({ bsnNo: ele })) == -1) {
             this.editRoleMsg.roleFuncSet.push({ bsnNo: ele });
           }
         }, this);
       } else {
         this.$set(this.isFuncsIndeterminate, index, false);
-        this.checkFuncs = [];
         targetFucsList.forEach(function(ele) {
-          if (
-            JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(
-              JSON.stringify({ bsnNo: ele })
-            ) != -1
-          ) {
-            this.editRoleMsg.roleFuncSet.splice(
-              this.editRoleMsg.roleFuncSet.indexOf({ bsnNo: ele }),
-              1
-            );
+          if (JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(JSON.stringify({ bsnNo: ele })) != -1) {
+            this.editRoleMsg.roleFuncSet.splice(this.editRoleMsg.roleFuncSet.indexOf({ bsnNo: ele }), 1);
+          }
+          if ( this.isInArray(this.checkFuncs, ele) ) {
+            this.checkFuncs.splice(this.checkFuncs.indexOf(ele), 1);
           }
         }, this);
       }
@@ -276,7 +260,7 @@ export default {
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "修改角色成功!" });
+                this.$message({ type: "success", message: "编辑角色成功!" });
                 this.$router.push("/management_role");
               } else this.$message.error("编辑角色失败！");
             })
@@ -288,6 +272,10 @@ export default {
           return false;
         }
       });
+    },
+    isInArray(arr, val) {
+      let testStr = "," + arr.join(",") + ",";
+      return testStr.indexOf("," + val + ",") != -1;
     }
   }
 };

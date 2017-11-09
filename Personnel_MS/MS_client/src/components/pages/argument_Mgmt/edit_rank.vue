@@ -11,12 +11,12 @@
 					<el-form-item label="模版编号" prop="applyNo">
 						<el-input v-model="cParmDetal.applyNo" :disabled="true"></el-input>
 					</el-form-item>
-					<!--<el-form-item label="公司名称" prop="compName">
-						<el-input v-model="cParmDetal.compName" :disabled="true"></el-input>
+					<!--<el-form-item label="公司名称" prop="organName">
+						<el-input v-model="cParmDetal.organName" :disabled="true"></el-input>
 					</el-form-item>-->
 					<el-form-item label="公司名称">
-						<el-select v-model="cParmDetal.organNo" value-key="compOrgNo" :disabled="true">
-							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+						<el-select v-model="cParmDetal.organNo" value-key="organNo" :disabled="true">
+							<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="模版名称" prop="applyName">
@@ -71,7 +71,7 @@
 			return {
 				cParmDetal: {
 					applyNo: "",
-					compName: "",
+					organName: "",
 					applyName: "",
 					rank: "",
 					salaryFloor: "",
@@ -82,16 +82,16 @@
 				rankList: ['B10-高级开发软件工程师', 'B5-中级开发软件工程师', 'B5-UI'],
 				//公司列表
 				compList: [
-					{compName: "上海魔方分公司",compOrgNo: '01'},
-					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'},
-					{compName: "上海魔方分公司",compOrgNo: '1002'},
-					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '1001'}
+					{organName: "上海分公司",organNo: '01'},
+					{organName: "魔方分公司深圳分公司",organNo: 'p1'},
+					{organName: "深圳前海橙色魔方信息技术有限公司5666666666666",organNo: '0'},
+					{organName: "上海魔方分公司",organNo: '1002'},
+					{organName: "魔方南山分公司",organNo: '1001'}
 				],
 				rules: {
-					//				compName: [
-					//					{ required: true, message: '公司名称不能为空', trigger: 'blur' }
-					//				],
+					compName: [
+//						{ required: true, message: '公司名称不能为空', trigger: 'blur' }
+					],
 					applyName: [{
 						required: true,
 						message: '模版名称不能为空',
@@ -130,7 +130,7 @@
 //				organNo: "112111",
 //				appllyNo: "1121110002"
 //			}
-			//查询单个职级薪酬模板
+			//查询职级薪酬模板详情
 			self.queryCParmDtl(params);
 		},
 		methods: {
@@ -174,7 +174,7 @@
 				.then((res) => {
 					console.log('modCparm',res);
 					if(res.data.code === "S00000") {
-						self.$message({ message: '税率组修改成功', type: 'success' });
+						self.$message({ message: res.data.retMsg, type: 'success' });
 					}
 					
 				}).catch((err) => {

@@ -16,7 +16,7 @@
 					<el-table-column prop="remark" label="备注"></el-table-column>
 					<el-table-column prop="startTime" label="生效日期"></el-table-column>
 					<el-table-column prop="endTime" label="失效日期"></el-table-column>
-					<el-table-column prop="createId" label="创建ID"></el-table-column>
+					<el-table-column prop="createdBy" label="创建ID"></el-table-column>
 					<el-table-column prop="createdDate" label="创建时间" :formatter="travelTimeFormatter"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
@@ -24,7 +24,7 @@
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageIndex" :page-size="pageRows" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageRows">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -38,8 +38,8 @@ const baseURL = 'iem_hrm'
 export default {
 	data() {
 		return {
-			pageIndex: 1,
-			pageRows: 5,
+			pageNum: 1,
+			pageSize: 10,
 			totalRows: 1,
 			taxRateGroupList: [
 				{
@@ -47,7 +47,7 @@ export default {
 					remark: "xxxx",
 					startTime: "",
 					endTime: "",
-					createId: '',
+					createdBy: '',
 					createdDate: ''
 				},
 				{
@@ -55,7 +55,7 @@ export default {
 					remark: "xxxx",
 					startTime: "",
 					endTime: "",
-					createId: '',
+					createdBy: '',
 					createdDate: ''
 				}
 			]
@@ -66,8 +66,8 @@ export default {
 	},
 	created() {
 		const self = this;
-		let pageNum = 1;
-		let pageSize = self.pageRows;
+		let pageNum = self.pageNum;
+		let pageSize = self.pageSize;
 		let params = {
 			"pageNum": pageNum,
 			"pageSize": pageSize,
@@ -76,19 +76,6 @@ export default {
 		self.selectTaxRateGroup(pageNum, pageSize, params);
 	},
 	methods: {
-		add0(m){return m<10?'0'+m:m },
-		getLocalTime(shijianchuo) {     
-//	       	var time = new Date(shijianchuo);
-//			var y = time.getFullYear();
-//			var m = time.getMonth()+1;
-//			var d = time.getDate();
-//			var h = time.getHours();
-//			var mm = time.getMinutes();
-//			var s = time.getSeconds();
-//			return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);      
-	    	
-		},
-	    
 		travelTimeFormatter(row, column) {
 			let time = row.createdDate;
 			return moment(time).format('YYYY-MM-DD hh:mm:ss');
@@ -97,6 +84,7 @@ export default {
 			this.$router.push('/add_rateGroup');
 		},
 		handleEdit(index, row) {
+			sessionStorage.setItem('groupId',row.groupId);
             this.$router.push({
             	name: 'rate_info',
             	params: {
@@ -123,7 +111,7 @@ export default {
         handleCurrentChange(val) {
 			const self = this;
 			let pageNum = val;
-			let pageSize = self.pageRows;
+			let pageSize = self.pageSize;
 			let params = {
 				"pageNum": pageNum,
 				"pageSize": pageSize
@@ -137,7 +125,7 @@ export default {
 				.then(function(res) {
 					console.log("queryRGroupList",res);
 					self.taxRateGroupList = res.data.data.list;
-					self.pageIndex = pageNum;
+					self.pageNum = pageNum;
 					self.totalRows = Number(res.data.data.total);
 				}).catch(function(err) {
 					console.log(err)
@@ -150,7 +138,7 @@ export default {
     		.then((res) => {
     			console.log("queryRateList",res);
     			if(res.data.code==="S00000") {
-    				this.$message({ type: 'success', message: '删除成功!' });
+    				this.$message({ type: 'success', message: res.data.retMsg });
     			} else {
     				console.log('error');
     			}
@@ -227,69 +215,27 @@ border-bottom: 1px solid #EEEEEE;
 .tax_rate .content-inner {
 	padding: 40px 0px;
 }
-/*.tax_rate .el-table {
-	background-color: #fff;
-	border-left: 1px solid #EEEEEE;
-	color: #666666;
-}
-
-.tax_rate .el-table__footer-wrapper thead div,
-.tax_rate .el-table__header-wrapper thead div {
-	background-color: #f4f4f4;
-	color: #666666;
-}*/
 
 .tax_rate .el-table td,
 .tax_rate .el-table th {
 	text-align: center;
 }
-/*.tax_rate .el-table td:first-child span{
-	cursor: pointer;
-	color: #FF9900;
-}*/
 .tax_rate .link {
 	cursor: pointer;
     color: #337ab7;
     text-decoration: underline;
 }
-/*.tax_rate .el-table td:first-child:hover{
-	color: #FF9900;
-}*/
-/*.tax_rate .el-table--enable-row-hover .el-table__body tr:hover>td {
-	background-color: #f8f8f8;
-	background-clip: padding-box;
-}
-
-.tax_rate .el-table--striped .el-table__body tr.el-table__row--striped td {
-	background: #F8F8F8;
-	background-clip: padding-box;
-}*/
-
 .tax_rate .el-table th {
 	white-space: nowrap;
 	overflow: hidden;
-	background-color: #f4f4f4;
 	text-align: center;
 	box-shadow: inset 0 1px 0 0 #EEEEEE;
 }
-
-/*.tax_rate .el-table--border td,
-.tax_rate .el-table--border th {
-	border-right: 1px solid #EEEEEE;
+.tax_rate .el-table .cell, 
+.tax_rate .el-table th>div {
+    padding-left: 10px;
+    padding-right: 10px;
 }
-
-.tax_rate .el-table td,
-.tax_rate .el-table th.is-leaf {
-	border-bottom: 1px solid #EEEEEE;
-}
-
-
-.tax_rate .el-table::after,
-.tax_rate .el-table::before {
-	content: '';
-	position: absolute;
-	background-color: transparent;
-}*/
 .icon-delete {
     display: inline-block;
     width: 24px;
