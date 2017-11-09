@@ -18,8 +18,8 @@ export default {};
 }
 
 .content-wrapper .titlebar {
-  height: 80px;
-  line-height: 80px;
+  height: 60px;
+  line-height: 60px;
   font-size: 16px;
   font-family: "PingFang SC";
   border-bottom: 1px solid #eeeeee;
@@ -28,7 +28,7 @@ export default {};
 
 .content-wrapper .titlebar .title-text {
   display: inline-block;
-  height: 80px;
+  height: 60px;
   position: relative;
 }
 
@@ -42,11 +42,11 @@ export default {};
   background: #333333;
 }
 
-.content-wrapper .titlebar .toolBtn {
+.content-wrapper .toolBtn {
   float: right;
-  margin-top: 20px;
+  margin-top: 15px;
   border-radius: 0;
-  height: 40px;
+  height: 30px;
   width: 120px;
   background: #ff9900;
   border: none;
@@ -83,7 +83,6 @@ export default {};
 }
 
 .add-wrapper .el-input__inner {
-  border-radius: 0;
   width: 300px;
 }
 
@@ -94,10 +93,6 @@ export default {};
 
 .add-wrapper .el-textarea {
   width: 300px;
-}
-
-.add-wrapper .el-textarea__inner {
-  border-radius: 0;
 }
 
 .add-wrapper .el-select-dropdown__item.selected,

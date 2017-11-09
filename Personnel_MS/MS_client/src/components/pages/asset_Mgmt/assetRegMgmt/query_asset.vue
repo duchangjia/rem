@@ -8,37 +8,36 @@
                 <el-button type="primary" @click="handleAdd" class="toolBtn">新增</el-button>
             </el-col>
 
-            <el-col :span="24" class="querybar" style="padding:20px 0 0 0;">
+            <el-col :span="24" class="querybar" style="padding:10px 0 0 0;">
                 <el-form :inline="true" :model="filters">
-                    <el-col :span="8">
+                    <el-col :span="6">
                       <el-form-item label="资产编号">
                         <el-input v-model="filters.assetNo" placeholder="请输入"></el-input>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :span="6">
                       <el-form-item label="资产类型">
                         <el-select v-model="filters.assetType">
-                            <el-option label="全部" value="01"></el-option>
-                            <el-option label="办公用品" value="02"></el-option>
-                            <el-option label="电脑" value="03"></el-option>
-                            <el-option label="手机" value="04"></el-option>
-                            <el-option label="后勤用品" value="05"></el-option>
-                            <el-option label="数码相机" value="06"></el-option>
+                            <el-option label="全部" value=""></el-option>
+                            <el-option label="办公用品" value="01"></el-option>
+                            <el-option label="电脑" value="02"></el-option>
+                            <el-option label="手机" value="03"></el-option>
+                            <el-option label="后勤用品" value="04"></el-option>
+                            <el-option label="数码相机" value="05"></el-option>
                         </el-select>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :span="6">
                       <el-form-item label="资产名称">
                         <el-input v-model="filters.assetName" placeholder="请输入"></el-input>
                       </el-form-item>
                     </el-col>
-                    <el-col :span="8">
+                    <el-col :span="6">
                       <el-form-item label="资产状态">
-                        <el-select v-model="filters.assetStatus">
-                            <el-option label="全部" value="01"></el-option>
-                            <el-option label="已领用" value="02"></el-option>
-                            <el-option label="已核销" value="03"></el-option>
-                            <el-option label="在库" value="04"></el-option>
+                        <el-select v-model="filters.status">
+                            <el-option label="全部" value=""></el-option>
+                            <el-option label="有效" value="1"></el-option>
+                            <el-option label="无效" value="0"></el-option>
                         </el-select>
                       </el-form-item>
                     </el-col>
@@ -67,13 +66,13 @@
                 </el-table-column>
                 <el-table-column align="center" prop="stockNum" label="当前库存">
                 </el-table-column>
-                <el-table-column align="center" prop="organNo" label="公司名称" :formatter="organFormatter">
+                <el-table-column align="center" prop="organName" label="公司名称">
                 </el-table-column>
-                <el-table-column align="center" prop="derpNo" label="申请部门" :formatter="derpFormatter">
+                <el-table-column align="center" prop="derpName" label="申请部门">
                 </el-table-column>
                 <el-table-column align="center" prop="applyUserNo" label="申请人">
                 </el-table-column>
-                <el-table-column align="center" prop="updateDate" label="登记时间">
+                <el-table-column align="center" prop="createdDate" label="登记时间">
                 </el-table-column>
                 <el-table-column align="center" label="操作" width="170">
                     <template scope="scope">
@@ -98,17 +97,17 @@ export default {
         assetNo: "",
         assetType: "",
         assetName: "",
-        assetStatus: ""
+        status: ""
       },
       rules: {
         assetNo: [],
         assetType: [],
         assetName: [],
-        assetStatus: []
+        status: []
       },
       pageNum: 1,
-      pageSize: 7,
-      totalRows: 30,
+      pageSize: 10,
+      totalRows: 1,
       assetInfoList: []
     };
   },
@@ -119,7 +118,7 @@ export default {
     this.filters.assetNo = "";
     this.filters.assetType = "";
     this.filters.assetName = "";
-    this.filters.assetStatus = "";
+    this.filters.status = "";
     this.getAssetInfoList(); //初始查询资产信息列表
   },
   methods: {
@@ -131,7 +130,7 @@ export default {
         assetNo: self.filters.assetNo,
         assetType: self.filters.assetType,
         assetName: self.filters.assetName,
-        assetStatus: self.filters.assetStatus
+        status: self.filters.status
       };
       self.$axios
         .get("/iem_hrm/EpAssetInf/queryEpAssetInfList", { params: params })
@@ -139,6 +138,7 @@ export default {
         .then(res => {
           console.log(res);
           self.assetInfoList = res.data.data.list;
+          self.totalRows = res.data.data.total;
         })
         .catch(() => {
           console.log("error");
@@ -146,20 +146,14 @@ export default {
     },
     assetTypeFormatter(row, column) {
       return row.assetType == "01"
-        ? "全部"
+        ? "办公用品"
         : row.assetType == "02"
-          ? "办公用品"
+          ? "电脑"
           : row.assetType == "03"
-            ? "电脑"
-            : row.assetType == "04" ? "后勤用品" : "异常";
-    },
-    organFormatter(row, column) {
-      return row.organNo == "001"
-        ? "总公司"
-        : row.organNo == "002" ? "深圳分公司" : "异常";
-    },
-    derpFormatter(row, column) {
-      return row.derpNo == "001" ? "技术部" : row.derpNo == "002" ? "财务部" : "异常";
+            ? "手机"
+            : row.assetType == "04"
+              ? "后勤用品"
+              : row.assetType == "05" ? "数码相机" : "异常";
     },
     handleAssetInfoDetail(index, row) {
       this.$router.push({
@@ -177,7 +171,7 @@ export default {
       this.filters.assetNo = "";
       this.filters.assetType = "";
       this.filters.assetName = "";
-      this.filters.assetStatus = "";
+      this.filters.status = "";
     },
     handleQuery() {
       this.getAssetInfoList(); //根据条件查询资产信息列表
@@ -192,7 +186,8 @@ export default {
       this.$router.push({
         name: "edit_asset",
         params: {
-          assetNo: row.assetNo
+          assetNo: row.assetNo,
+          applyUserNo: row.applyUserNo
         }
       });
     },

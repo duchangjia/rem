@@ -8,41 +8,35 @@
                 <el-button type="primary" @click="handleSave('editAssetInfoRules')" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="assetInfoDetail" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
                     <el-col :span="12">
-                        <el-form-item label="公司名称" prop="organNo">
-                            <el-select v-model="assetInfoDetail.organNo">
-                                <el-option label="总公司" value="001"></el-option>
-                                <el-option label="深圳分公司" value="002"></el-option>
-                            </el-select>
+                        <el-form-item label="公司名称">
+                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="申请部门名称" prop="derpNo">
-                            <el-select v-model="assetInfoDetail.derpNo">
-                                <el-option label="技术部" value="001"></el-option>
-                                <el-option label="财务部" value="002"></el-option>
-                            </el-select>
+                        <el-form-item label="申请部门名称">
+                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="工号" prop="applyUserNo">
-                            <el-input v-model="assetInfoDetail.applyUserNo" :disabled="true"></el-input>
+                        <el-form-item label="工号">
+                            <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="姓名" prop="custName">
-                            <el-input v-model="assetInfoDetail.custName"></el-input>
+                        <el-form-item label="姓名">
+                            <el-input v-model="custInfo.custName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="职务" prop="custPost">
-                            <el-input v-model="assetInfoDetail.custPost"></el-input>
+                        <el-form-item label="职务">
+                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="职级" prop="custClass">
-                            <el-input v-model="assetInfoDetail.custClass"></el-input>
+                        <el-form-item label="职级">
+                            <el-input v-model="custInfo.custClass" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -83,12 +77,11 @@
                     <el-col :span="12">
                         <el-form-item label="资产类别">
                           <el-select v-model="assetInfoDetail.assetType">
-                              <el-option label="全部" value="01"></el-option>
-                              <el-option label="办公用品" value="02"></el-option>
-                              <el-option label="电脑" value="03"></el-option>
-                              <el-option label="手机" value="04"></el-option>
-                              <el-option label="后勤用品" value="05"></el-option>
-                              <el-option label="数码相机" value="06"></el-option>
+                            <el-option label="办公用品" value="01"></el-option>
+                            <el-option label="电脑" value="02"></el-option>
+                            <el-option label="手机" value="03"></el-option>
+                            <el-option label="后勤用品" value="04"></el-option>
+                            <el-option label="数码相机" value="05"></el-option>
                           </el-select>
                       </el-form-item>
                     </el-col> 
@@ -109,12 +102,12 @@
                     </el-col> 
                     <el-col :span="12">
                         <el-form-item label="出厂时间" prop="factoryTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="assetInfoDetail.factoryTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="assetInfoDetail.factoryTime" @change="pickFactoryTime" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
                         <el-form-item label="免维保截止时间" prop="faxfreeTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="assetInfoDetail.faxfreeTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="assetInfoDetail.faxfreeTime" @change="pickFaxfreeTime" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -149,9 +142,13 @@ export default {
     return {
       labelPosition: "right",
       assetNo: "",
+      applyUserNo: "",
+      custInfo: {},
       assetInfoDetail: {},
       rules: {
-        buyUnitPrice: [{ required: true, message: "购买单价不能为空", trigger: "blur" }],
+        buyUnitPrice: [
+          { required: true, message: "购买单价不能为空", trigger: "blur" }
+        ],
         buyAmount: [{ required: true, message: "购买金额不能为空", trigger: "blur" }],
         assetName: [{ required: true, message: "资产名称不能为空", trigger: "blur" }],
         remark: [{ required: true, message: "主要性能说明不能为空", trigger: "blur" }]
@@ -163,21 +160,42 @@ export default {
   },
   created() {
     this.assetNo = this.$route.params.assetNo;
-    this.getAssetInfoDetail(); //查询调薪基数信息
+    this.applyUserNo = this.$route.params.applyUserNo;
+    this.getCustInfo(); //初始查询用户信息
+    this.getAssetInfoDetail(); //查询资产信息详情
   },
   methods: {
+    getCustInfo() {
+      const self = this;
+      let userNo = self.applyUserNo;
+      self.$axios
+        .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
+        .then(res => {
+          console.log("cust:",res);
+          self.custInfo = res.data.data;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
     getAssetInfoDetail() {
       const self = this;
       let assetNo = self.assetNo;
       self.$axios
         .get("/iem_hrm/EpAssetInf/queryEpAssetInf/" + assetNo)
-        // .get("/iem_hrm/queryEpAssetInf/")
         .then(res => {
+          console.log("assetInfoDetail:", res);
           self.assetInfoDetail = res.data.data;
         })
         .catch(() => {
           console.log("error");
         });
+    },
+    pickFactoryTime(val) {
+        this.assetInfoDetail.factoryTime = val;
+    },
+    pickFaxfreeTime(val) {
+        this.assetInfoDetail.faxfreeTime = val;
     },
     handleFileUpload(file, fileList) {
       console.log(file);
@@ -187,10 +205,10 @@ export default {
       this.$refs[editAssetInfoRules].validate(valid => {
         if (valid) {
           let editAssetInfo = {};
+          editAssetInfo.applyUserNo = this.custInfo.userNo;
+          editAssetInfo.organNo = this.custInfo.organNo;
+          editAssetInfo.derpNo = this.custInfo.derpNo;
           editAssetInfo.assetNo = this.assetInfoDetail.assetNo;
-          editAssetInfo.organNo = this.assetInfoDetail.organNo;
-          editAssetInfo.derpNo = this.assetInfoDetail.derpNo;
-          editAssetInfo.applyUserNo = this.assetInfoDetail.applyUserNo;
           editAssetInfo.buyApplyNo = this.assetInfoDetail.buyApplyNo;
           editAssetInfo.buyUnitPrice = this.assetInfoDetail.buyUnitPrice;
           editAssetInfo.buyNum = this.assetInfoDetail.buyNum;
@@ -201,24 +219,24 @@ export default {
           editAssetInfo.assetType = this.assetInfoDetail.assetType;
           editAssetInfo.assetName = this.assetInfoDetail.assetName;
           editAssetInfo.faxfreeTime = this.assetInfoDetail.faxfreeTime;
-          editAssetInfo.snNo = this.assetInfoDetail.snNo;  
-          editAssetInfo.derpLimit = this.assetInfoDetail.derpLimit;  
+          editAssetInfo.snNo = this.assetInfoDetail.snNo;
+          editAssetInfo.status = this.assetInfoDetail.status;
+          editAssetInfo.derpLimit = this.assetInfoDetail.derpLimit;
           editAssetInfo.specType = this.assetInfoDetail.specType;
-          editAssetInfo.factoryTime = this.assetInfoDetail.factoryTime; 
-          editAssetInfo.remark = this.assetInfoDetail.remark;              
-          console.log(editAssetInfo);
+          editAssetInfo.factoryTime = this.assetInfoDetail.factoryTime;
+          editAssetInfo.remark = this.assetInfoDetail.remark;
+          console.log("editAssetInfo", editAssetInfo);
           this.$axios
             .put("/iem_hrm/EpAssetInf/updateEpAssetInf", editAssetInfo)
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "资产修改成功!" });
+                this.$message({ type: "success", message: "操作成功!" });
                 this.$router.push("/query_asset");
-              }
-              else this.$message.error("资产修改失败！");
+              } else this.$message.error("操作失败！");
             })
             .catch(() => {
-              this.$message.error("资产修改失败！");
+              this.$message.error("操作失败！");
             });
         } else {
           console.log("error submit!!");
