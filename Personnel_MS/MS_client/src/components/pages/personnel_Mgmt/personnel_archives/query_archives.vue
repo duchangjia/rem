@@ -6,16 +6,23 @@
                 <div class="title"><span class="text">人事档案</span><button class="add" @click="add">新增</button></div>
                 <div class="content">
                     <div class="item-wrapper">
-                        <span class="text">公司</span><el-select v-model="searchInfo.organName" class="common"></el-select>
-                        <span class="text">部门</span><el-select v-model="searchInfo.derpName" class="common"></el-select>
-                        <span class="text">员工</span><el-input placeholder="工号或姓名" v-model="searchInfo.userNoOrcustName"></el-input>
+                        <span class="text">公司</span><el-select v-model="searchInfo.organName" class="common">
+                        <el-option label="深圳分公司" value="8801"></el-option>
+                        <el-option label="其他" value="9090"></el-option>
+                    </el-select>
+                        <span class="text">部门</span><el-select v-model="searchInfo.derpName" class="common">
+                        <el-option label="南山分部" value="88011"></el-option>
+                        <el-option label="其他" value="9090"></el-option>
+                    </el-select>
+                        <span class="text">姓名</span><el-input placeholder="请输入工号或姓名" v-model="searchInfo.nameOrNo"></el-input>
                     </div>
                     <div class="item-wrapper">
                         <span class="text">状态</span><el-select v-model="searchInfo.custStatus" class="common">
-                        <el-option label="总公司" value="01"></el-option>
-                        <el-option label="分公司" value="02"></el-option>
-                        <el-option label="办事处" value="03"></el-option>
-                        <el-option label="部门" value="04"></el-option>
+                        <el-option label="试用期" value="01"></el-option>
+                        <el-option label="合同期" value="02"></el-option>
+                        <el-option label="已退休" value="03"></el-option>
+                        <el-option label="已离职" value="04"></el-option>
+                        <el-option label="停薪留职" value="05"></el-option>
                     </el-select>
                     </div>
                     <div class="button">
@@ -26,6 +33,7 @@
                         <tr><td v-for="th in table.th" >{{th}}</td></tr>
                         <tr v-for="tds in table.td">
                             <td :title="tds.userNo" @click="detailInfo(tds.userNo)">{{tds.userNo}}</td>
+                            <!--<td :title="tds.userNo" @click="detailInfo(111)">111</td>-->
                             <td :title="tds.custName">{{tds.custName}}</td>
                             <td :title="tds.organName">{{tds.organName}}</td>
                             <td :title="tds.derpName">{{tds.derpName}}</td>
@@ -33,7 +41,7 @@
                             <td :title="tds.custPost">{{tds.custPost}}</td>
                             <td :title="tds.mobileNo">{{tds.mobileNo}}</td>
                             <td :title="tds.entryTime">{{tds.entryTime}}</td>
-                            <td :title="tds.custStatus">{{tds.custStatus}}</td>
+                            <td :title="tds.custStatus">{{tds.custStatus=='01'?'试用期':tds.custStatus=='02'?'合同期':tds.custStatus=='03'?'已退休':tds.custStatus=='04'?'已离职':'停薪留职'}}</td>
                             <td @click="see" class="see">查看</td></tr>
                     </table>
                     <el-pagination
@@ -90,7 +98,7 @@
               searchInfo: {
                   organName: '',
                   derpName: '',
-                  userNoOrcustName: '',
+                  nameOrNo: '',
                   custStatus: '',
               },
               table: {
@@ -126,9 +134,7 @@
         },
         created() {
             let self = this
-            let organNo = '01'
-            let organType = '02'
-            self.$axios.get('/iem_hrm/CustInfo/queryCustInfList/'+organNo+'/'+organType)
+            self.$axios.get('/iem_hrm/CustInfo/queryCustInfList')
                 .then(res => {
                     console.log(res)
                     self.table.td = res.data.data.list
@@ -151,11 +157,8 @@
             },
             handleCurrentChange(val) {
                 let self = this
-                let organNo = '01'
-                let organType = '02'
-                self.$axios.get('/iem_hrm/CustInfo/queryCustInfList/'+organNo+'/'+organType,{params:{pageNum:val}})
+                self.$axios.get('/iem_hrm/CustInfo/queryCustInfList',{params:{pageNum:val}})
                     .then(res => {
-                        console.log(res)
                         self.table.td = res.data.data.list
                         this.fenye.total = res.data.data.total
                         this.fenye.pageSize = res.data.data.pageSize
@@ -185,35 +188,33 @@
                 let self = this
                 self.searchInfo.organName = ''
                 self.searchInfo.derpName = ''
-                self.searchInfo.userNoOrcustName = ''
+                self.searchInfo.nameOrNo = ''
                 self.searchInfo.custStatus = ''
-//                let organNo = '01'
-//                let organType = '02'
-//                self.$axios.get('/iem_hrm/CustInfo/queryCustInfList/'+organNo+'/'+organType)
-//                    .then(res => {
-//                        console.log(res)
-//                        self.table.td = res.data.data.list
-//                        this.fenye.total = res.data.data.total
-//                        this.fenye.pageSize = res.data.data.pageSize
-//                    })
-//                    .catch(e=>{
-//                        console.log(e)
-//                    })
+                self.searchInfo.custNo = ''
             },
             search() {
                 let self = this
-                let organNo = '01'
-                let organType = '02'
-                let userNo = self.searchInfo.userNoOrcustName
-                let custName = self.searchInfo.userNoOrcustName
-                let custStatus = self.searchInfo.custStatus
-                console.log(custStatus)
-                self.$axios.get('/iem_hrm/CustInfo/queryCustInfByAndStatus/'+organNo+'/'+organType, {params:{userNo,custName,custStatus}})
+                let organNo = self.searchInfo.organName
+                let derpNo = self.searchInfo.derpName
+                let nameOrNo = self.searchInfo.nameOrNo
+                console.log(222,derpNo)
+                self.$axios.get('/iem_hrm/CustInfo/advQueryCustInf', {params:{derpNo}})
                     .then(res => {
                         console.log(res)
-                        self.table.td = res.data.data.list
-                        this.fenye.total = res.data.data.total
-                        this.fenye.pageSize = res.data.data.pageSize
+                        let length = res.data.data.list.length
+                        if(!length) {
+                            self.$message({
+                                type: 'error',
+                                message: '没有此信息'
+                            });
+                            self.table.td = res.data.data.list
+                            this.fenye.total = res.data.data.total
+                            this.fenye.pageSize = res.data.data.pageSize
+                        }else {
+                            self.table.td = res.data.data.list
+                            this.fenye.total = res.data.data.total
+                            this.fenye.pageSize = res.data.data.pageSize
+                        }
                     })
                     .catch(e=>{
                         console.log(e)
@@ -345,24 +346,25 @@
                     table-layout: fixed
                     td
                         border: 1px solid #f0f0f0;
-                        white-space: nowrap
-                        overflow hidden
-                        text-overflow ellipsis
+                        /*white-space: nowrap*/
+                        /*overflow hidden*/
+                        /*text-overflow ellipsis*/
                     tr
                         width: 100%;
-                        height: 40px;
+                        min-height: 40px;
                         display: flex;
-                        line-height: 40px;
+                        /*vertical-align middle*/
+                        /*line-height: 40px;*/
                         td:first-child:hover
                             text-decoration underline
                             cursor pointer
                     tr:nth-child(odd)
                         background: #F8F8F8;
                     tr:hover
-                        width: 100%;
-                        height: 40px;
-                        display: flex;
-                        line-height: 40px;
+                        /*width: 100%;*/
+                        /*min-height: 40px;*/
+                        /*display: flex;*/
+                        /*line-height: 40px;*/
                         background: #EEF1F6;
                     tr:first-child
                         background: #F4F4F4;
@@ -373,7 +375,12 @@
                             cursor auto
                     td
                         flex: 1;
-                        text-align center
+                        justify-content center
+                        flex-wrap wrap
+                        display flex
+                        /*width 100%*/
+                        /*height 100%*/
+                        align-items center
                     td:nth-child(3)
                         flex 4
                     td:nth-child(4)

@@ -8,6 +8,11 @@
                     <div class="search">
                         <span class="text">查询条件</span>
                         <input type="text" v-model="searchValue" placeholder="请输入机构名称">
+                        <el-select v-model="searchValue" placeholder="请选择机构名称">
+                            <el-option>
+
+                            </el-option>
+                        </el-select>
                         <el-button class="toolBtn" @click="search(searchValue)">查询</el-button>
                     </div>
                     <table>
@@ -142,6 +147,13 @@
               })
               .catch(e => {
                   console.log('获取ccc列表失败',e)
+              })
+          self.$axios.get('/iem_hrm/organ/getOrganName')
+              .then(res => {
+                  console.log(res)
+              })
+              .catch(e => {
+                  console.log(e)
               })
         },
         methods: {

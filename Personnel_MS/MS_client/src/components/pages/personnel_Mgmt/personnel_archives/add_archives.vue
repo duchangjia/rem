@@ -22,6 +22,7 @@
                                         <el-col :span="8">
                                             <el-form-item label="身份证" prop="certNo">
                                                 <el-input v-model="ruleForm.certNo"></el-input>
+                                                <!--<el-input v-model="ruleForm.certType"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -33,15 +34,15 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="出生年月" prop="birthday">
-                                                <el-input v-model="ruleForm.birthday"></el-input>
+                                            <el-form-item label="出生年月">
+                                                <el-date-picker v-model="ruleForm.birthday" type="date" placeholder="选择日期" @change="changeBirthday"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm.birthday"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="民族" prop="nation">
                                                 <el-select v-model="ruleForm.nation" placeholder="请选择民族">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option label="汉族" value="汉族"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -57,16 +58,14 @@
                                         <el-col :span="8">
                                             <el-form-item label="学历" prop="education">
                                                 <el-select v-model="ruleForm.education" placeholder="请选择学历">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option label="本科" value="本科"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="学位" prop="degree">
                                                 <el-select v-model="ruleForm.degree" placeholder="请选择学位">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option label="硕士" value="硕士"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -85,8 +84,9 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="毕业时间" prop="gradTime">
-                                                <el-input v-model="ruleForm.gradTime"></el-input>
+                                            <el-form-item label="毕业时间">
+                                                <el-date-picker v-model="ruleForm.gradTime" type="date" placeholder="选择日期" @change="changeGradtime"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm.gradTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -143,31 +143,34 @@
                                     <div class="text">职务信息</div>
                                     <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px">
                                         <el-col :span="8">
-                                            <el-form-item label="员工编号" prop="userNo">
-                                                <el-input v-model="ruleForm2.userNo"></el-input>
-                                            </el-form-item>
+                                            <!--<el-form-item label="员工编号" prop="userNo">-->
+                                                <!--<el-input v-model="ruleForm2.userNo"></el-input>-->
+                                            <!--</el-form-item>-->
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="公司名称" prop="organNo">
                                                     <el-select v-model="ruleForm2.organNo" placeholder="请选择公司名称">
-                                                        <el-option label="区域一" value="shanghai"></el-option>
-                                                        <el-option label="区域二" value="beijing"></el-option>
+                                                        <el-option label="测试公司01" value="999"></el-option>
+                                                        <el-option label="测试公司02" value="888"></el-option>
                                                     </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="部门名称" prop="derpNo">
                                                 <el-select v-model="ruleForm2.derpNo" placeholder="请选择部门名称">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option label="测试部门01" value="09001"></el-option>
+                                                    <el-option label="测试部门02" value="09002"></el-option>
+                                                    <el-option label="测试部门03" value="09003"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="CCC" prop="ownerCCC">
                                                 <el-select v-model="ruleForm2.ownerCCC" placeholder="请选择CCC">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option label="CCC001" value="CCC001"></el-option>
+                                                    <el-option label="CCC002" value="CCC002"></el-option>
+                                                    <el-option label="CCC003" value="CCC003"></el-option>
+                                                    <el-option label="CCC004" value="CCC004"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -180,32 +183,43 @@
                                         <el-col :span="8">
                                             <el-form-item label="员工类别" prop="custType">
                                                 <el-select v-model="ruleForm2.custType" placeholder="请选择员工类别">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option label="在编" value="01"></el-option>
+                                                    <el-option label="借用" value="02"></el-option>
+                                                    <el-option label="合同制" value="03"></el-option>
+                                                    <el-option label="兼职" value="04"></el-option>
+                                                    <el-option label="实习" value="05"></el-option>
+                                                    <el-option label="其他" value="99"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="岗位" prop="custPost">
                                                 <el-select v-model="ruleForm2.custPost" placeholder="请选择岗位">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option label="前端" value="前端"></el-option>
+                                                    <el-option label="后台" value="后台"></el-option>
+                                                    <el-option label="测试" value="测试"></el-option>
+                                                    <el-option label="运营" value="运营"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="职级" prop="custClass">
                                                 <el-select v-model="ruleForm2.custClass" placeholder="请选择职级">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option label="高级" value="高级"></el-option>
+                                                    <el-option label="终极" value="终极"></el-option>
+                                                    <el-option label="初级" value="初级"></el-option>
+                                                    <el-option label="中级" value="中级"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="员工状态" prop="custStatus">
                                                 <el-select v-model="ruleForm2.custStatus" placeholder="请选择员工状态">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option label="试用期" value="01"></el-option>
+                                                    <el-option label="合同期" value="02"></el-option>
+                                                    <el-option label="已退休" value="03"></el-option>
+                                                    <el-option label="已离职" value="04"></el-option>
+                                                    <el-option label="停薪留职" value="05"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -251,7 +265,7 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="招聘来源">
-                                                <el-input v-model="ruleForm2.recruitQuarry"></el-input>
+                                                <el-input v-model="ruleForm.recruitQuarry"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -446,11 +460,12 @@
                       },
                   ]
               },
-              activeName: 'fourth',
+              activeName: 'first',
               tabName:'',
               ruleForm: {
                   custName: '',
                   certNo: '',
+                  certType: '',
                   sex: '',
                   birthday: '',
                   nation: '',
@@ -474,10 +489,10 @@
               rules: {
                   custName: [
                       {required: true, message: '请输入姓名', trigger: 'blur'},
-                      {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
                   ],
                   certNo: [
-                      {required: true, message: '请输入身份证', trigger: 'blur'}
+                      {required: true, message: '请输入身份证', trigger: 'blur'},
+                      {min: 10, max: 18, message: '长度在 10 到 18 个字符', trigger: 'blur'}
                   ],
                   sex: [
                       {required: true, message: '请选择性别', trigger: 'change'}
@@ -517,7 +532,7 @@
                   ],
               },
               ruleForm2: {
-                  userNo: '',
+//                  userNo: '',
                   organNo: '',
                   derpNo: '',
                   ownerCCC: '',
@@ -547,7 +562,6 @@
               rules2: {
                   userNo: [
                       {required: true, message: '请输入员工编号', trigger: 'blur'},
-                      {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
                   ],
                   organNo: [
                       {required: true, message: '请选择公司名称', trigger: 'change'}
@@ -649,6 +663,12 @@
 //                })
         },
         methods: {
+            changeBirthday(val) {
+                this.ruleForm.birthday = val
+            },
+            changeGradtime(val) {
+                this.ruleForm.gradTime = val
+            },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
@@ -666,30 +686,32 @@
 //                    item.isShow = false
 //                })
                 if('first' === tabName){
-                    console.log(this.ruleForm)
-                    let a = self.$refs[ruleForm2].validate((valid) => {
+                    console.log('first')
+                    self.$refs.ruleForm.validate((valid) => {
+                        if (valid) {
+                            self.$refs.ruleForm2.validate((valid) => {
                                 if (valid) {
-                                    return true
+                                    let data = Object.assign(this.ruleForm,this.ruleForm2)
+                                    console.log(data)
+                                    this.$axios.post('/iem_hrm/CustInfo/insertCustInfo', data)
+                                        .then(res=>{
+                                            console.log(res)
+                                        })
+                                        .catch(e=>{
+                                            console.log(e)
+                                        })
                                 }else {
-                                    return false
+                                    self.$message({
+                                        type: 'error',
+                                        message: '请填写必须信息!'
+                                    });
                                 }
                             })
-                    self.$refs[ruleForm].validate((valid) => {
-                        if (valid&&a) {
-                            let data = Object.assign(this.ruleForm,this.ruleForm2)
-                            this.$axios.post('/iem_hrm/CustInfo/insertCustInfo', data)
-                                .then(res=>{
-                                    console.log(res)
-                                })
-                                .catch(e=>{
-                                    console.log(e)
-                                })
                         }else {
                             self.$message({
                                 type: 'error',
                                 message: '请填写必须信息!'
                             });
-                            return false
                         }
                     })
                 }

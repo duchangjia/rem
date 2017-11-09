@@ -210,17 +210,19 @@ export default {
       }, this);
       if (this.checkFuncsAll[index] == true) {
         this.$set(this.isFuncsIndeterminate, index, true);
-        this.checkFuncs = this.checkFuncs.concat(targetFucsList);
         targetFucsList.forEach(function(ele) {
           if (JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(JSON.stringify({ bsnNo: ele })) == -1) {
             this.editRoleMsg.roleFuncSet.push({ bsnNo: ele });
+          }
+          if ( !this.isInArray(this.checkFuncs, ele) ) {
+            this.checkFuncs.push(ele);
           }
         }, this);
       } else {
         this.$set(this.isFuncsIndeterminate, index, false);
         targetFucsList.forEach(function(ele) {
           if (JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(JSON.stringify({ bsnNo: ele })) != -1) {
-            this.editRoleMsg.roleFuncSet.splice(this.editRoleMsg.roleFuncSet.indexOf({ bsnNo: ele }), 1);
+            this.editRoleMsg.roleFuncSet.splice(JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(JSON.stringify({ bsnNo: ele }))-1, 1);
           }
           if ( this.isInArray(this.checkFuncs, ele) ) {
             this.checkFuncs.splice(this.checkFuncs.indexOf(ele), 1);
@@ -260,12 +262,12 @@ export default {
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "编辑角色成功!" });
+                this.$message({ type: "success", message: "操作成功!" });
                 this.$router.push("/management_role");
-              } else this.$message.error("编辑角色失败！");
+              } else this.$message.error("操作失败！");
             })
             .catch(() => {
-              this.$message.error("编辑角色失败！");
+              this.$message.error("操作失败！");
             });
         } else {
           console.log("error submit!!");

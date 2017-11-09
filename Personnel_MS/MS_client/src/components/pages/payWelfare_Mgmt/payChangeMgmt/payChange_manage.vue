@@ -18,8 +18,8 @@ export default {};
 }
 
 .content-wrapper .titlebar {
-  height: 80px;
-  line-height: 80px;
+  height: 60px;
+  line-height: 60px;
   font-size: 16px;
   font-family: "PingFang SC";
   border-bottom: 1px solid #eeeeee;
@@ -28,7 +28,7 @@ export default {};
 
 .content-wrapper .titlebar .title-text {
   display: inline-block;
-  height: 80px;
+  height: 60px;
   position: relative;
 }
 
@@ -44,16 +44,16 @@ export default {};
 
 .content-wrapper .toolBtn {
   float: right;
-  margin-top: 20px;
+  margin-top: 15px;
   border-radius: 0;
-  height: 40px;
+  height: 30px;
   width: 120px;
   background: #ff9900;
   border: none;
 }
 
 .content-wrapper .button-wrap {
-  margin: 20px auto 40px;
+  margin: 15px auto 30px;
   font-size: 0px;
   text-align: center;
 }
@@ -61,16 +61,18 @@ export default {};
 .content-wrapper .resetBtn {
   color: #ff9900;
   border-radius: 0;
-  height: 40px;
+  height: 30px;
   width: 120px;
+  padding: 0;
   margin-right: 20px;
   border: 1px solid #ff9900;
 }
 
 .content-wrapper .queryBtn {
   border-radius: 0;
-  height: 40px;
+  height: 30px;
   width: 120px;
+  padding: 0;
   background: #ff9900;
   border: none;
 }
@@ -80,7 +82,6 @@ export default {};
 }
 
 .el-input__inner {
-  border-radius: 0;
   height: 40px;
   width: 180px;
 }
@@ -183,11 +184,15 @@ table .el-button--danger:active {
 }
 
 .querybar .el-form-item__label {
-  width: 100px;
-  padding: 13px 24px 13px 0;
+  padding: 10px 12px 10px 0;
 }
 .querybar .el-input__inner {
-  width: 200px;
+  width: 164px;
+  height: 30px;
+  border-radius: 4px;
+}
+.querybar .el-form-item {
+  margin-bottom: 15px;
 }
 
 .add-wrapper .upload-demo {
