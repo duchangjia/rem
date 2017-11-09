@@ -171,7 +171,6 @@ export default {
       self.$axios
         .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
         .then(res => {
-          console.log("cust:",res);
           self.custInfo = res.data.data;
         })
         .catch(() => {
@@ -184,7 +183,6 @@ export default {
       self.$axios
         .get("/iem_hrm/EpAssetInf/queryEpAssetInf/" + assetNo)
         .then(res => {
-          console.log("assetInfoDetail:", res);
           self.assetInfoDetail = res.data.data;
         })
         .catch(() => {

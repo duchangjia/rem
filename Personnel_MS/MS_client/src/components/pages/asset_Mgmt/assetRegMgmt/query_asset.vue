@@ -159,7 +159,8 @@ export default {
       this.$router.push({
         name: "detail_asset",
         params: {
-          assetNo: row.assetNo
+          assetNo: row.assetNo,
+          applyUserNo: row.applyUserNo
         }
       });
     },
