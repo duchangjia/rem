@@ -22,7 +22,7 @@
                                         <el-col :span="8">
                                             <el-form-item label="身份证" prop="certNo">
                                                 <el-input v-model="ruleForm.certNo"></el-input>
-                                                <el-input v-model="ruleForm.certType"></el-input>
+                                                <!--<el-input v-model="ruleForm.certType"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -265,7 +265,7 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="招聘来源">
-                                                <el-input v-model="ruleForm2.recruitQuarry"></el-input>
+                                                <el-input v-model="ruleForm.recruitQuarry"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">

@@ -316,37 +316,43 @@
         width: 260px;
         height: 40px;
         background: #FFFFFF;
-        border-radius: 4px;
         margin: 0 auto 20px auto;
         font-family: PingFangSC-Regular;
         font-size: 14px;
         color: #333333;
-        letter-spacing: 0;
-        line-height: 14px;
     }
-    #wrap .form-content .el-form-item:nth-child(odd){
-        letter-spacing:  -0.34px;
-    }
+    /*#wrap .form-content .el-form-item:nth-child(odd){*/
+        /*letter-spacing:  -0.34px;*/
+    /*}*/
     #wrap .el-form-item .el-input{
-        width: 100%;
-        height: 100%;
+        /*width: 260px;*/
+        /*height: 40px;*/
+    }
+    #wrap .el-form-item .el-input .el-input__inner{
+        width: 260px;
+        height: 40px;
     }
     #wrap .form-content .code-wrapper{
-        margin: 0 auto 23px auto;
+        /*margin: 0 auto 23px auto;*/
+        margin-bottom: 23px;
         box-sizing: border-box;
-        width: 260px;
+        /*width: 260px;*/
     }
     #wrap .form-content .last-input{
         width: 160px;
         height: 40px;
-        /*border: 1px solid #EEEEEE;*/
-        border-radius: 4px;
         margin: 0 10px 0px 0px;
+    }
+    #wrap .form-content .last-input .el-input__inner{
+        width: 160px;
+        height: 40px;
+        /*border: 1px solid #EEEEEE;*/
+        /*border-radius: 4px;*/
         font-family: PingFangSC-Regular;
-        font-size: 14px;
+        /*font-size: 14px;*/
         color: #333333;
-        letter-spacing: -0.34px;
-        line-height: 14px;
+        /*letter-spacing: -0.34px;*/
+        /*line-height: 14px;*/
     }
     #wrap .form-content .check-code{
         background: #F9F9F9;
