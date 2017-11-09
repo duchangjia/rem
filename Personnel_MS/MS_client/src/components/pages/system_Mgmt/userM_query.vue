@@ -8,33 +8,26 @@
 			<div class="content-inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="58px" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-col :span="8">
+						<el-col :span="6">
 							<el-form-item label="公司" prop="compName">
 								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeComp">
 									<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span="8">
+						<el-col :span="6">
 							<el-form-item label="部门" prop="departName">
 								<el-select v-model="ruleForm2.derpNo" value-key="derpNo" placeholder="所属部门" @change="changeValue">
 									<el-option v-for="item in departList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<!--<el-col :span="8">
-							<el-form-item label="机构" prop="company">
-								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
-									<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
-								</el-select>
-							</el-form-item>
-						</el-col>-->
-						<el-col :span="8">
+						<el-col :span="6">
 							<el-form-item label="用户" prop="user">
 								<el-input type="text" v-model="ruleForm2.user" placeholder="工号/姓名/手机/邮箱" @change="keyup"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :span="8">
+						<el-col :span="6">
 							<el-form-item label="状态" prop="status">
 								<el-select v-model="ruleForm2.status" class="bg-white">
 									<el-option label="正常" value="1"></el-option>
@@ -296,8 +289,9 @@ export default {
 .user-query .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
+	height: 50px;
 }
 
 .user-query .content .title .title-text:after {
@@ -311,38 +305,35 @@ export default {
 }
 
 .user-query .content-inner {
-	padding: 40px 0px;
+	padding: 30px 0px;
 }
 
 .user-query .el-form-item__label {
-	vertical-align: middle;
-	float: left;
-	font-size: 14px;
 	color: #999999;
-	line-height: 1;
-	padding: 11px 12px 11px 0;
-	box-sizing: border-box;
-	margin-right: 18px;
+	font-weight: normal;
+	padding: 8px 10px 8px 0;
+	margin: 0;
 }
 
 .user-query .el-form-item {
-	margin-bottom: 20px;
+	margin-bottom: 30px;
 }
 
 .user-query .el-input,
 .user-query .el-input__inner {
-	width: 200px;
+	width: 164px;
+	height: 30px;
 	display: inline-block;
 }
 
 .user-query .el-form-item__content {
-	line-height: 36px;
+	line-height: 30px;
 	position: relative;
 	font-size: 14px;
 }
 
 .user-query .button-wrap {
-	margin: 0px auto 20px;
+	margin: 0px auto 30px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;
@@ -358,28 +349,25 @@ export default {
 }
 
 .user-query .el-button {
-	display: inline-block;
-	line-height: 1;
-	white-space: nowrap;
-	cursor: pointer;
-	background: #fff;
 	border: 1px solid #FF9900;
 	color: #FF9900;
-	margin: 0;
-	padding: 12px 45px;
+	padding: 7px 45px;
+	height: 30px;
 	border-radius: 0px;
 }
 
-.user-query .el-button.resetform {
+/*.user-query .el-button.resetform {
 	margin-right: 20px;
-}
+}*/
 
 .user-query .el-button--primary {
 	color: #fff;
 	background-color: #FF9900;
 	border-color: #FF9900;
 }
-
+.el-button+.el-button {
+    margin-left: 20px;
+}
 .user-query .el-table td,
 .user-query .el-table th {
 	text-align: center;
@@ -395,10 +383,7 @@ export default {
 }
 
 .user-query .el-table th {
-	/*white-space: nowrap;
-	overflow: hidden;*/
 	text-align: center;
-	/*box-shadow: inset 0 1px 0 0 #EEEEEE;*/
 }
 .user-query .el-table .cell, 
 .user-query .el-table th>div {

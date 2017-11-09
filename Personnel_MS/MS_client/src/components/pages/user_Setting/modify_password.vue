@@ -176,8 +176,9 @@
 	.modifine_password .content .title .title-text {
 		display: inline-block;
 		position: relative;
-		padding: 29px 0px;
+		padding: 14px 0px;
 		font-size: 16px;
+		height: 50px;
 	}
 	.modifine_password .content .title .title-text:after {
 		content: '';
@@ -196,7 +197,6 @@
 	}
 	.modifine_password .el-form-item__content {
 	    font-size: 0px;
-    	/*margin-bottom: 20px;*/
 	}
 	.modifine_password .el-input,
 	.modifine_password .el-input__inner {
@@ -232,9 +232,6 @@
 		color: #337ab7;
     	text-decoration: underline;
 	}
-	/*.modifine_password .link:hover {
-		color: #FF9900;
-	}*/
 	.modifine_password .el-button {
 	    background: #ff9900;
 	    border: none;

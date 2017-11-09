@@ -12,17 +12,17 @@
 					    <el-input v-model="formdata.groupName"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="下限" prop="groupLowerLimit">
-					    <el-input v-model="formdata.groupLowerLimit" @change="changeQuickCal"></el-input>
+					    <el-input v-model="formdata.groupLowerLimit"></el-input>
 				  	</el-form-item>
 					<el-form-item label="上限" prop="groupLimit">
-					    <el-input v-model="formdata.groupLimit" @change="changeQuickCal"></el-input>
+					    <el-input v-model="formdata.groupLimit"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="百分率" prop="percentRate">
-					    <el-input v-model="formdata.percentRate" @change="changeQuickCal"></el-input>
+					    <el-input v-model="formdata.percentRate"></el-input>
 					    <span class="percent_icon">%</span>
 				  	</el-form-item>
 				  	<el-form-item label="速算扣除数" prop="quickCal">
-					    <el-input v-model="formdata.quickCal" placeholder='自动计算' :disabled="true"></el-input>
+					    <el-input v-model="formdata.quickCal"></el-input>
 				  	</el-form-item>
 				</el-form>
 			</div>
@@ -107,13 +107,10 @@ export default {
 		current
 	},
 	created() {
-		this.formdata.groupName = this.$route.params.groupName;
+		this.formdata.groupName = sessionStorage.getItem('groupName');
 		this.formdata.groupId = this.$route.params.groupId;
 	},
 	methods: {
-		changeQuickCal() {
-			this.formdata.quickCal = (this.formdata.groupLimit-this.formdata.groupLowerLimit)*this.formdata.percentRate/100
-		},
 		save(formName) {
 		 	this.$refs[formName].validate((valid) => {
 	          	if (valid) {
@@ -169,9 +166,9 @@ border-bottom: 1px solid #EEEEEE;
 .add_rateGroup .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
-	letter-spacing: 0;
+	height: 50px;
 }
 
 .add_rateGroup .content .title .title-text:after {
@@ -185,18 +182,19 @@ border-bottom: 1px solid #EEEEEE;
 }
 
 .add_rateGroup .content-inner {
-	padding: 40px 0px;
+	padding: 30px 0px;
 }
 .add_rateGroup .conserve {
 	float: right;
-	margin-top: 20px;
+	margin-top: 10px;
 	background: #F4F4F4;
 	border: 1px solid #F4F4F4;
 	border-radius: 0px;
 	font-size: 14px;
 	color: #333333;
 	width: 120px;
-	height: 40px;
+	height: 30px;
+	padding: 0;
 }
 .add_rateGroup .el-input__inner {
     border: 1px solid #EEEEEE;

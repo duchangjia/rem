@@ -192,9 +192,9 @@ border-bottom: 1px solid #EEEEEE;
 .rate_info .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
-	letter-spacing: 0;
+	height: 50px;
 }
 
 .rate_info .content .title .title-text:after {
@@ -208,19 +208,15 @@ border-bottom: 1px solid #EEEEEE;
 }
 
 .rate_info .content-inner {
-	padding: 40px 0px;
+	padding: 30px 0px;
 }
 .rate_info .el-button {
-	display: inline-block;
-	line-height: 1;
-	white-space: nowrap;
-	cursor: pointer;
-	background: #fff;
+	float: right;
+    margin-top: 10px;
 	border: 1px solid #FF9900;
 	color: #FF9900;
-	float: right;
-    margin-top: 20px;
-	padding: 12px 45px;
+	padding: 7px 45px;
+	height: 30px;
 	border-radius: 0px;
 }
 

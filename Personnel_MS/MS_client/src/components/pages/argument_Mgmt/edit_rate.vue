@@ -12,17 +12,17 @@
 					    <el-input v-model="rateInfo.applyNo"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="下限" prop="groupLowerLimit">
-					    <el-input v-model="rateInfo.groupLowerLimit" @change="changeQuickCal"></el-input>
+					    <el-input v-model="rateInfo.groupLowerLimit"></el-input>
 				  	</el-form-item>
 					<el-form-item label="上限" prop="groupLimit">
-					    <el-input v-model="rateInfo.groupLimit" @change="changeQuickCal"></el-input>
+					    <el-input v-model="rateInfo.groupLimit"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="百分率" prop="percentRate">
-					    <el-input v-model="rateInfo.percentRate" @change="changeQuickCal"></el-input>
+					    <el-input v-model="rateInfo.percentRate"></el-input>
 				  		<span class="percent_icon">%</span>
 				  	</el-form-item>
 				  	<el-form-item label="速算扣除数" prop="quickCal">
-					    <el-input v-model="rateInfo.quickCal" :disabled="true"></el-input>
+					    <el-input v-model="rateInfo.quickCal"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="备注" prop="remark">
 					    <el-input v-model="rateInfo.remark"></el-input>
@@ -91,6 +91,9 @@ export default {
 				percentRate: [
 					{ required: true, validator: checkpercentRate, trigger: 'blur' }
 				],
+				quickCal: [
+					{ required: true, message: '数算扣除数不能为空', trigger: 'blur' }
+				]
 			}
 		}
 	},
@@ -102,9 +105,6 @@ export default {
 		this.rateInfo.percentRate = this.rateInfo.percentRate*100;
 	},
 	methods: {
-		changeQuickCal() {
-			this.rateInfo.quickCal = (this.rateInfo.groupLimit-this.rateInfo.groupLowerLimit)*this.rateInfo.percentRate/100
-		},
 		save(formName) {
 		 	this.$refs[formName].validate((valid) => {
 	          	if (valid) {
@@ -167,9 +167,9 @@ border-bottom: 1px solid #EEEEEE;
 .edit_rate .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
-	letter-spacing: 0;
+	height: 50px;
 }
 
 .edit_rate .content .title .title-text:after {
@@ -183,18 +183,18 @@ border-bottom: 1px solid #EEEEEE;
 }
 
 .edit_rate .content-inner {
-	padding: 40px 0px;
+	padding: 30px 0px;
 }
 .edit_rate .conserve {
 	float: right;
-	margin-top: 20px;
+	margin-top: 10px;
 	background: #F4F4F4;
 	border: 1px solid #F4F4F4;
 	border-radius: 0px;
 	font-size: 14px;
 	color: #333333;
 	width: 120px;
-	height: 40px;
+	height: 30px;
 }
 .edit_rate .el-input__inner {
     border: 1px solid #EEEEEE;

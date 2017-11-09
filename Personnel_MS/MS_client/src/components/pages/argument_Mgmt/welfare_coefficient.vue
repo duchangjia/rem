@@ -174,8 +174,9 @@ border-bottom: 1px solid #EEEEEE;
 .welfare_coefficient .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
+	height: 50px;
 }
 
 .welfare_coefficient .content .title .title-text:after {
@@ -192,17 +193,16 @@ border-bottom: 1px solid #EEEEEE;
 	padding: 40px 0px;
 }
 .welfare_coefficient .el-button {
-	display: inline-block;
-	line-height: 1;
-	white-space: nowrap;
-	cursor: pointer;
-	background: #fff;
-	border: 1px solid #FF9900;
-	color: #FF9900;
 	float: right;
-    margin-top: 20px;
-	padding: 12px 45px;
+	margin-top: 10px;
+	background: #F4F4F4;
+	border: 1px solid #F4F4F4;
 	border-radius: 0px;
+	font-size: 14px;
+	color: #333333;
+	width: 120px;
+	height: 30px;
+	padding: 0;
 }
 
 .welfare_coefficient .el-button.resetform {

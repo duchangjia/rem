@@ -207,9 +207,9 @@
 	.edit_rank .content .title .title-text {
 		display: inline-block;
 		position: relative;
-		padding: 29px 0px;
+		padding: 14px 0px;
 		font-size: 16px;
-		letter-spacing: 0;
+		height: 50px;
 	}
 	
 	.edit_rank .content .title .title-text:after {
@@ -223,19 +223,20 @@
 	}
 	
 	.edit_rank .content-inner {
-		padding: 40px 0px;
+		padding: 30px 0px;
 	}
 	
 	.edit_rank .conserve {
 		float: right;
-		margin-top: 20px;
+		margin-top: 10px;
 		background: #F4F4F4;
 		border: 1px solid #F4F4F4;
 		border-radius: 0px;
 		font-size: 14px;
 		color: #333333;
 		width: 120px;
-		height: 40px;
+		height: 30px;
+		padding: 0;
 	}
 	
 	.edit_rank .el-form-item {

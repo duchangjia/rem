@@ -270,8 +270,9 @@ border-bottom: 1px solid #EEEEEE;
 .add_welfare .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
+	height: 50px;
 }
 
 .add_welfare .content .title .title-text:after {
@@ -285,18 +286,19 @@ border-bottom: 1px solid #EEEEEE;
 }
 
 .add_welfare .content-inner {
-	padding: 40px 0px;
+	padding: 30px 0px;
 }
 .add_welfare .conserve {
 	float: right;
-	margin-top: 20px;
+	margin-top: 10px;
 	background: #F4F4F4;
 	border: 1px solid #F4F4F4;
 	border-radius: 0px;
 	font-size: 14px;
 	color: #333333;
 	width: 120px;
-	height: 40px;
+	height: 30px;
+	padding: 0;
 }
 .add_welfare .form_box .title{
 	padding: 11px 0px 11px 10px;

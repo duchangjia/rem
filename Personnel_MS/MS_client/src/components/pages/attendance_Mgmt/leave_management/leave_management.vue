@@ -28,8 +28,9 @@ export default {
 .leaveC_wrap .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
+	height: 50px;
 }
 
 .leaveC_wrap .content .title .title-text:after {
@@ -43,7 +44,7 @@ export default {
 }
 
 .leaveC_wrap .content-inner {
-	padding: 40px 0px;
+	padding: 30px 0px;
 }	
 .leaveC_wrap .info-title{
 	padding: 11px 0px 11px 10px;
@@ -118,14 +119,15 @@ export default {
 }
 .leaveC_wrap .conserve {
 	float: right;
-	margin-top: 20px;
+	margin-top: 10px;
 	background: #F4F4F4;
 	border: 1px solid #F4F4F4;
 	border-radius: 0px;
 	font-size: 14px;
 	color: #333333;
 	width: 120px;
-	height: 40px;
+	height: 30px;
+	padding: 0;
 }
 .leaveC_wrap .el-button--primary {
 	color: #fff;
