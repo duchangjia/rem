@@ -66,7 +66,8 @@ export default {
 	created() {
 		const self = this;
 		let groupName = self.$route.params.groupName;
-		let groupId = self.$route.params.groupId;
+//		let groupId = self.$route.params.groupId;
+		let groupId = sessionStorage.getItem('groupId');
 		let pageNum = self.pageNum;
 		let pageSize = self.pageSize;
 		let params = {

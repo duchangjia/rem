@@ -84,7 +84,7 @@ export default {
 			this.$router.push('/add_rateGroup');
 		},
 		handleEdit(index, row) {
-			
+			sessionStorage.setItem('groupId',row.groupId);
             this.$router.push({
             	name: 'rate_info',
             	params: {
