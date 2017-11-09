@@ -7,12 +7,12 @@
                     <template>
                         <el-tabs v-model="activeName" @tab-click="handleClick">
                             <el-tab-pane label="员工基本信息" name="first">
-                                <div class="first_title">
-                                    <div class="avatar"><div>添加照片</div></div>
-                                    <div class="text">员工照片</div>
-                                </div>
+                                <!--<div class="first_title">-->
+                                    <!--<div class="avatar"><div>添加照片</div></div>-->
+                                    <!--<div class="text">员工照片</div>-->
+                                <!--</div>-->
                                 <div class="personal_information">
-                                    <div class="text">个人信息</div>
+                                    <div class="text">员工详情</div>
                                     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
                                         <el-col :span="8">
                                             <el-form-item label="姓名" prop="custName">
@@ -593,23 +593,15 @@
         },
         created() {
             let self = this
-            this.$axios.get('/queryCustContancts')
+            let userNo = this.$route.query.userNo
+            console.log(userNo)
+            this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+userNo)
                 .then(res=>{
                     console.log(res)
                 })
                 .catch(e=>{
-                    console.log('調用queryCustContancts失敗')
+                    console.log(e)
                 })
-//            this.$axios.get('/iem_hrm/CustContact/queryCustContacts', {params:{
-//                userNo:'P0000001'
-//            }})
-//                .then(res=>{
-////                    self.social_item =
-//                    console.log(res)
-//                })
-//                .catch(e=>{
-//                    console.log(e)
-//                })
         },
         methods: {
             handleRemove(file, fileList) {

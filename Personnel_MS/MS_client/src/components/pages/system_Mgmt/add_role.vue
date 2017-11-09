@@ -58,8 +58,8 @@
                         <el-row :gutter="20">
                             <el-col :span="6" v-for="(funcs, index) in funcsList">
                                 <div class="funcs-content">
-                                    <el-checkbox :value="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
-                                    <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
+                                    <el-checkbox v-model="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
+                                    <el-checkbox-group v-model="checkFuncs[index]" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
                                         <el-checkbox v-for="funcsDtl in funcs.bsns" :label="funcsDtl.bsnNo" v-bind:title="funcsDtl.interfaceName" >{{ funcsDtl.interfaceName }}</el-checkbox>
                                     </el-checkbox-group>
                                 </div>
@@ -98,7 +98,7 @@ export default {
 
       funcsList: [],
       checkFuncsAll: {},
-      checkFuncs: [],
+      checkFuncs: {},
       isFuncsIndeterminate: {},
 
       editRoleRules: {

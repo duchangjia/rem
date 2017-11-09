@@ -8,8 +8,7 @@
                     <div class="item-wrapper">
                         <span class="text">公司</span><el-select v-model="searchInfo.organName" class="common"></el-select>
                         <span class="text">部门</span><el-select v-model="searchInfo.derpName" class="common"></el-select>
-                        <span class="text">姓名</span><el-input placeholder="请输入姓名或工号" v-model="searchInfo.userNoOrcustName"></el-input>
-                        <!--<span class="text">工号</span><el-input placeholder="请输入工号" v-model="searchInfo.userNoOrcustName"></el-input>-->
+                        <span class="text">姓名</span><el-input placeholder="请输入工号或姓名" v-model="searchInfo.nameOrNo"></el-input>
                     </div>
                     <div class="item-wrapper">
                         <span class="text">状态</span><el-select v-model="searchInfo.custStatus" class="common">
@@ -91,7 +90,7 @@
               searchInfo: {
                   organName: '',
                   derpName: '',
-                  userNoOrcustName: '',
+                  nameOrNo: '',
                   custStatus: '',
               },
               table: {
@@ -181,32 +180,32 @@
                 let self = this
                 self.searchInfo.organName = ''
                 self.searchInfo.derpName = ''
-                self.searchInfo.userNoOrcustName = ''
+                self.searchInfo.nameOrNo = ''
                 self.searchInfo.custStatus = ''
-//                let organNo = '01'
-//                let organType = '02'
-//                self.$axios.get('/iem_hrm/CustInfo/queryCustInfList/'+organNo+'/'+organType)
-//                    .then(res => {
-//                        console.log(res)
-//                        self.table.td = res.data.data.list
-//                        this.fenye.total = res.data.data.total
-//                        this.fenye.pageSize = res.data.data.pageSize
-//                    })
-//                    .catch(e=>{
-//                        console.log(e)
-//                    })
+                self.searchInfo.custNo = ''
             },
             search() {
                 let self = this
-                let custName = self.searchInfo.userNoOrcustName
+                let organName = self.searchInfo.organName
+                let derpName = self.searchInfo.derpName
+                let nameOrNo = self.searchInfo.nameOrNo
+//                let custNo = self.searchInfo.userNoOrcustName
 //                let custStatus = self.searchInfo.custStatus
-                console.log(custName)
-                self.$axios.get('/iem_hrm/CustInfo/advQueryCustInf', {params:{custName}})
+                console.log(nameOrNo)
+                self.$axios.get('/iem_hrm/CustInfo/advQueryCustInf', {params:{nameOrNo}})
                     .then(res => {
-                        console.log(res,111)
-                        self.table.td = res.data.data.list
-                        this.fenye.total = res.data.data.total
-                        this.fenye.pageSize = res.data.data.pageSize
+                        console.log(res)
+                        let length = res.data.data.list.length
+                        if(!length) {
+                            self.$message({
+                                type: 'error',
+                                message: '没有此信息'
+                            });
+                        }else {
+                            self.table.td = res.data.data.list
+                            this.fenye.total = res.data.data.total
+                            this.fenye.pageSize = res.data.data.pageSize
+                        }
                     })
                     .catch(e=>{
                         console.log(e)
@@ -345,7 +344,7 @@
                         width: 100%;
                         min-height: 40px;
                         display: flex;
-                        vertical-align middle
+                        /*vertical-align middle*/
                         /*line-height: 40px;*/
                         td:first-child:hover
                             text-decoration underline
@@ -353,9 +352,9 @@
                     tr:nth-child(odd)
                         background: #F8F8F8;
                     tr:hover
-                        width: 100%;
-                        min-height: 40px;
-                        display: flex;
+                        /*width: 100%;*/
+                        /*min-height: 40px;*/
+                        /*display: flex;*/
                         /*line-height: 40px;*/
                         background: #EEF1F6;
                     tr:first-child
@@ -367,7 +366,12 @@
                             cursor auto
                     td
                         flex: 1;
-                        text-align center
+                        justify-content center
+                        flex-wrap wrap
+                        display flex
+                        /*width 100%*/
+                        /*height 100%*/
+                        align-items center
                     td:nth-child(3)
                         flex 4
                     td:nth-child(4)

@@ -22,6 +22,7 @@
                                         <el-col :span="8">
                                             <el-form-item label="身份证" prop="certNo">
                                                 <el-input v-model="ruleForm.certNo"></el-input>
+                                                <el-input v-model="ruleForm.certType"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -33,7 +34,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="出生年月" prop="birthday">
+                                            <el-form-item label="出生年月">
                                                 <el-date-picker v-model="ruleForm.birthday" type="date" placeholder="选择日期" @change="changeBirthday"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.birthday"></el-input>-->
                                             </el-form-item>
@@ -83,7 +84,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="毕业时间" prop="gradTime">
+                                            <el-form-item label="毕业时间">
                                                 <el-date-picker v-model="ruleForm.gradTime" type="date" placeholder="选择日期" @change="changeGradtime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.gradTime"></el-input>-->
                                             </el-form-item>
@@ -142,24 +143,24 @@
                                     <div class="text">职务信息</div>
                                     <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px">
                                         <el-col :span="8">
-                                            <el-form-item label="员工编号" prop="userNo">
-                                                <el-input v-model="ruleForm2.userNo"></el-input>
-                                            </el-form-item>
+                                            <!--<el-form-item label="员工编号" prop="userNo">-->
+                                                <!--<el-input v-model="ruleForm2.userNo"></el-input>-->
+                                            <!--</el-form-item>-->
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="公司名称" prop="organNo">
                                                     <el-select v-model="ruleForm2.organNo" placeholder="请选择公司名称">
-                                                        <el-option label="测试公司01" value="测试公司01"></el-option>
-                                                        <el-option label="测试公司02" value="测试公司02"></el-option>
+                                                        <el-option label="测试公司01" value="999"></el-option>
+                                                        <el-option label="测试公司02" value="888"></el-option>
                                                     </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="部门名称" prop="derpNo">
                                                 <el-select v-model="ruleForm2.derpNo" placeholder="请选择部门名称">
-                                                    <el-option label="测试部门01" value="测试部门01"></el-option>
-                                                    <el-option label="测试部门02" value="测试部门02"></el-option>
-                                                    <el-option label="测试部门03" value="测试部门03"></el-option>
+                                                    <el-option label="测试部门01" value="09001"></el-option>
+                                                    <el-option label="测试部门02" value="09002"></el-option>
+                                                    <el-option label="测试部门03" value="09003"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -182,10 +183,12 @@
                                         <el-col :span="8">
                                             <el-form-item label="员工类别" prop="custType">
                                                 <el-select v-model="ruleForm2.custType" placeholder="请选择员工类别">
-                                                    <el-option label="合同工" value="合同工"></el-option>
-                                                    <el-option label="实习生" value="实习生"></el-option>
-                                                    <el-option label="临时工" value="临时工"></el-option>
-                                                    <el-option label="老员工" value="老员工"></el-option>
+                                                    <el-option label="在编" value="01"></el-option>
+                                                    <el-option label="借用" value="02"></el-option>
+                                                    <el-option label="合同制" value="03"></el-option>
+                                                    <el-option label="兼职" value="04"></el-option>
+                                                    <el-option label="实习" value="05"></el-option>
+                                                    <el-option label="其他" value="99"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -212,9 +215,11 @@
                                         <el-col :span="8">
                                             <el-form-item label="员工状态" prop="custStatus">
                                                 <el-select v-model="ruleForm2.custStatus" placeholder="请选择员工状态">
-                                                    <el-option label="正常" value="正常"></el-option>
-                                                    <el-option label="离职" value="离职"></el-option>
-                                                    <el-option label="其他" value="其他"></el-option>
+                                                    <el-option label="试用期" value="01"></el-option>
+                                                    <el-option label="合同期" value="02"></el-option>
+                                                    <el-option label="已退休" value="03"></el-option>
+                                                    <el-option label="已离职" value="04"></el-option>
+                                                    <el-option label="停薪留职" value="05"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -460,6 +465,7 @@
               ruleForm: {
                   custName: '',
                   certNo: '',
+                  certType: '',
                   sex: '',
                   birthday: '',
                   nation: '',
@@ -526,7 +532,7 @@
                   ],
               },
               ruleForm2: {
-                  userNo: '',
+//                  userNo: '',
                   organNo: '',
                   derpNo: '',
                   ownerCCC: '',
