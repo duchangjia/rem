@@ -7,11 +7,10 @@
                 <div class="content">
                     <div class="search">
                         <span class="text">查询条件</span>
-                        <input type="text" v-model="searchValue" placeholder="请输入机构名称">
+                        <!--<input type="text" v-model="searchValue" placeholder="请输入机构名称">-->
                         <el-select v-model="searchValue" placeholder="请选择机构名称">
-                            <el-option>
-
-                            </el-option>
+                            <el-option v-for="item in searchValueOption" :label="item" :value="item"></el-option>
+                            <!--<el-option label="区域二" value="beijing"></el-option>-->
                         </el-select>
                         <el-button class="toolBtn" @click="search(searchValue)">查询</el-button>
                     </div>
@@ -47,6 +46,7 @@
         data() {
             return {
                 searchValue:'',
+                searchValueOption:'',
                 table: {
                     th:['机构ID', '机构名称', 'CCC类型', 'CCC值', '备注', '操作'],
                     td:[
@@ -151,6 +151,7 @@
           self.$axios.get('/iem_hrm/organ/getOrganName')
               .then(res => {
                   console.log(res)
+                  this.searchValueOption = res.data.data
               })
               .catch(e => {
                   console.log(e)
@@ -188,6 +189,7 @@
                 let self = this
                 self.$axios.get('/iem_hrm/organ/queryOrgCCCList',{params:{organName:value}})
                     .then(res => {
+                        console.log(res)
                         let result = res.data.retMsg
                         if("没有此信息!"==result){
                             self.$message({
@@ -344,15 +346,10 @@
         color: #999999;
         letter-spacing: 0;
     }
-    .agency_argument .content-wrapper .content .search input{
+    .agency_argument .content-wrapper .content .search .el-select{
         margin: 0 20px 0 30px;
         width: 300px;
         height: 40px;
-        border: 1px solid #EEEEEE;
-        border-radius: 4px;
-        text-indent: 1em;
-        outline: none;
-        vertical-align: middle;
     }
     .agency_argument .content-wrapper .content .search input:hover{
         border: 1px solid orange;

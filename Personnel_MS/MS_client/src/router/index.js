@@ -540,6 +540,7 @@ const routes = [
                     ]
                 },
                 {
+                    name: 'assetUse_manage',
                     path: '/assetUse_manage',
                     component: resolve => require(['../components/pages/asset_Mgmt/assetUseMgmt/assetUse_manage.vue'], resolve),
                     children: [

@@ -225,7 +225,7 @@ table .el-button--danger:active {
 }
 
 .el-textarea__inner {
-  border-radius: 0;
+  /* border-radius: 0; */
   width: 500px;
 }
 
@@ -324,8 +324,8 @@ table .el-button--danger:active {
 .icon-import {
   display: inline-block;
   border: none;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   background: url("../../../../../static/img/common/batch-import0.png") center
     no-repeat;
 }
@@ -333,8 +333,8 @@ table .el-button--danger:active {
 .icon-export {
   display: inline-block;
   border: none;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   background: url("../../../../../static/img/common/batch-export0.png") center
     no-repeat;
 }
@@ -342,8 +342,8 @@ table .el-button--danger:active {
 .icon-download {
   display: inline-block;
   border: none;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   background: url("../../../../../static/img/common/template-download0.png")
     center no-repeat;
 }
@@ -359,14 +359,14 @@ table .el-button--danger:active {
 .span-icon {
   float: left;
   border: none;
-  margin-top: 20px;
+  margin-top: 15px;
   margin-right: 10px;
 }
 .span-icon:nth-of-type(2) {
   margin-right: 20px;
 }
 .titlebar .upload-demo {
-  line-height: 32px;
+  line-height: 1;
 }
 .titlebar .upload-demo .el-upload__input {
   display: none;
