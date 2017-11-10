@@ -38,14 +38,24 @@ module.exports = {
         },
       },
       '/iem_hrm': {
+<<<<<<< Updated upstream
 //         target: 'http://10.0.0.242:8888/',
+=======
+        //  target: 'http://10.0.0.242:8888/',
+>>>>>>> Stashed changes
         // target: 'http://10.0.0.34:8888/',
         // target: 'http://10.0.0.16:8888/',
 //         target: 'http://10.0.0.30:8888/',
         // target: 'http://10.0.0.7:8888/',
+<<<<<<< Updated upstream
            target: 'http://192.168.1.101:8888/',
+=======
+        // target: 'http://192.168.1.106:8888/',
+        // target: 'http://192.168.1.109:8888/',
+>>>>>>> Stashed changes
         // target: 'http://192.168.1.108:8888/',
-//         target: 'http://192.168.1.112:8888/',
+        // target: 'http://192.168.1.112:8888/',
+        target: 'http://192.168.1.122:8888/',
         // target: 'http://localhost:3000/',
         changeOrigin: true,
         secure: false,
