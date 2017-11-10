@@ -7,47 +7,47 @@
 				<el-button type="primary" class="title_button" @click="handleAdd">新增</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="80px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="60px" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-form-item label="公司" prop="compName">
-							<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="部门" prop="departName">
-							<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
-								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="工号" prop="userNo">
-							<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
-						</el-form-item>
-						<!--<el-form-item label="日期" prop="startDate">
-							<el-date-picker
-						      	v-model="ruleForm2.value9"
-						      	type="daterange"
-						      	start-placeholder="开始日期"
-						      	end-placeholder="结束日期"
-						      	default-value="2010-10-01"
-						      	@change="changeDate">
-						    </el-date-picker>
-						</el-form-item>-->
-						<el-form-item label="请假开始时间" prop="startDate" label-width="100px">
-							<el-date-picker
-						      v-model="ruleForm2.startDate"
-						      type="date"
-						      placeholder="选择日期"
-						      :picker-options="pickerOptions0" @change="changeStartTime">
-						   </el-date-picker>
-						</el-form-item>
-						<el-form-item label="请假结束时间" prop="endDate" label-width="100px">
-							<el-date-picker
-						      v-model="ruleForm2.endDate"
-						      type="date"
-						      placeholder="选择日期"
-						      :picker-options="pickerOptions0" @change="changeEndTime">
-						   </el-date-picker>
-						</el-form-item>
+						<el-col :span="6">
+							<el-form-item label="公司" prop="compName">
+								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
+									<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="部门" prop="departName">
+								<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
+									<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="工号" prop="userNo">
+								<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6" style="margin-left: -14px;">
+							<el-form-item label="请假开始时间" prop="startDate" label-width="100px">
+								<el-date-picker
+							      v-model="ruleForm2.startDate"
+							      type="date"
+							      placeholder="选择日期"
+							      :picker-options="pickerOptions0" @change="changeStartTime">
+							   </el-date-picker>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="请假结束时间" prop="endDate" label-width="100px">
+								<el-date-picker
+							      v-model="ruleForm2.endDate"
+							      type="date"
+							      placeholder="选择日期"
+							      :picker-options="pickerOptions0" @change="changeEndTime">
+							   </el-date-picker>
+							</el-form-item>
+						</el-col>
 					</div>
 					<div class="button-wrap">
 						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
@@ -373,8 +373,9 @@ export default {
 .leave_query .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
+	height: 50px;
 }
 
 .leave_query .content .title .title-text:after {
@@ -388,47 +389,41 @@ export default {
 }
 .leave_query .title_button {
 	float: right;
-	margin-top: 20px;
+	margin-top: 10px;
 }
 .leave_query .content-inner {
-	padding: 40px 0px;
+	padding: 30px 0px;
 }
 
 .leave_query .el-form-item__label {
-	text-align: left;
-	vertical-align: middle;
-	float: left;
-	font-size: 14px;
 	color: #999999;
-	line-height: 1;
-	padding: 11px 12px 11px 0;
-	box-sizing: border-box;
-	/*margin-right: 18px;*/
+	padding: 8px 10px 8px 0;
+	margin: 0;
 }
 
-.leave_query .input-wrap .el-form-item {
-	margin-right: 80px;
+/*.leave_query .input-wrap .el-form-item {
 	float: left;
-}
+}*/
 
 .leave_query .el-form-item {
-	margin-bottom: 40px;
+	margin-bottom: 30px;
 }
 
 .leave_query .el-input,
 .leave_query .el-input__inner {
-	width: 200px;
+	width: 164px;
+	height: 30px;
 	display: inline-block;
 }
 
 .leave_query .el-form-item__content {
-	line-height: 36px;
+	line-height: 30px;
 	position: relative;
 	font-size: 14px;
 }
 
 .leave_query .button-wrap {
-	margin: 0px auto 40px;
+	margin: 0px auto 30px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;
@@ -444,14 +439,10 @@ export default {
 }
 
 .leave_query .el-button {
-	display: inline-block;
-	line-height: 1;
-	white-space: nowrap;
-	cursor: pointer;
-	background: #fff;
 	border: 1px solid #FF9900;
 	color: #FF9900;
-	padding: 12px 45px;
+	padding: 7px 45px;
+	height: 30px;
 	border-radius: 0px;
 }
 

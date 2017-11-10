@@ -17,7 +17,7 @@
 					<el-table-column prop="startTime" label="生效日期"></el-table-column>
 					<el-table-column prop="endTime" label="失效日期"></el-table-column>
 					<el-table-column prop="createdBy" label="创建ID"></el-table-column>
-					<el-table-column prop="createdDate" label="创建时间" :formatter="travelTimeFormatter"></el-table-column>
+					<el-table-column prop="createdDate" label="创建时间" :formatter="createdDateFormatter"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
 							<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
@@ -76,15 +76,16 @@ export default {
 		self.selectTaxRateGroup(pageNum, pageSize, params);
 	},
 	methods: {
-		travelTimeFormatter(row, column) {
+		createdDateFormatter(row, column) {
 			let time = row.createdDate;
-			return moment(time).format('YYYY-MM-DD hh:mm:ss');
+			return moment(time).format('YYYY-MM-DD');
 		},
 		addRateGroup() {
 			this.$router.push('/add_rateGroup');
 		},
 		handleEdit(index, row) {
 			sessionStorage.setItem('groupId',row.groupId);
+			sessionStorage.setItem('groupName',row.groupName);
             this.$router.push({
             	name: 'rate_info',
             	params: {
@@ -139,6 +140,14 @@ export default {
     			console.log("queryRateList",res);
     			if(res.data.code==="S00000") {
     				this.$message({ type: 'success', message: res.data.retMsg });
+    				let pageNum = self.pageNum;
+					let pageSize = self.pageSize;
+					let params = {
+						"pageNum": pageNum,
+						"pageSize": pageSize,
+						isDelete: "1"
+					};
+					self.selectTaxRateGroup(pageNum, pageSize, params);
     			} else {
     				console.log('error');
     			}
@@ -171,9 +180,9 @@ border-bottom: 1px solid #EEEEEE;
 .tax_rate .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
-	letter-spacing: 0;
+	height: 50px;
 }
 
 .tax_rate .content .title .title-text:after {
@@ -187,19 +196,15 @@ border-bottom: 1px solid #EEEEEE;
 }
 
 .tax_rate .content-inner {
-	padding: 40px 0px;
+	padding: 30px 0px;
 }
 .tax_rate .el-button {
-	display: inline-block;
-	line-height: 1;
-	white-space: nowrap;
-	cursor: pointer;
-	background: #fff;
+	float: right;
+    margin-top: 10px;
 	border: 1px solid #FF9900;
 	color: #FF9900;
-	float: right;
-    margin-top: 20px;
-	padding: 12px 45px;
+	padding: 7px 45px;
+	height: 30px;
 	border-radius: 0px;
 }
 

@@ -202,8 +202,9 @@
 	.edit_fun .content .title .title-text {
 		display: inline-block;
 		position: relative;
-		padding: 29px 0px;
+		padding: 14px 0px;
 		font-size: 16px;
+		height: 50px;
 	}
 	
 	.edit_fun .content .title .title-text:after {
@@ -218,11 +219,12 @@
 	
 	.edit_fun .content .title .btn-wrap {
 		float: right;
-		margin-top: 20px;
+		margin-top: 10px;
 	}
 	
 	.edit_fun .el-button {
 		border-radius: 0px;
+		padding: 0;
 	}
 	
 	.edit_fun .btn-wrap .reset {
@@ -232,7 +234,7 @@
 		color: #FF9900;
 		margin-right: 20px;
 		width: 120px;
-		height: 40px;
+		height: 30px;
 	}
 	
 	.edit_fun .btn-wrap .conserve {
@@ -241,7 +243,7 @@
 		font-size: 14px;
 		color: #333333;
 		width: 120px;
-		height: 40px;
+		height: 30px;
 	}
 	
 	.edit_fun .el-button:focus,
@@ -250,7 +252,7 @@
 	}
 	
 	.edit_fun .content-inner {
-		padding: 40px 0px;
+		padding: 30px 0px;
 	}
 	
 	.edit_fun form {

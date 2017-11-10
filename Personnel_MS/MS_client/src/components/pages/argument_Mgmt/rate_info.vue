@@ -41,21 +41,14 @@ export default {
 			totalRows: 0,
 			taxRateList: [
 				{
-					"applyNo": "1600起征",
-					"groupId": "01001",
-					"applyNo": "0001",
-					"groupLimit": "10000",
-					"groupLowerLimit": "5000",
-					"remark": "xxxx",
-					"percentRate": "5%",
-					"quickCal": "0"
-				},
-				{
-					applyNo: "3500起征",
-					groupLowerLimit: "3500",
-					groupLimit: "5000",
-					percentRate: '7%',
-					quickCal: '0.00'
+					"applyNo": "",
+					"groupId": "",
+					"applyNo": "",
+					"groupLimit": "",
+					"groupLowerLimit": "",
+					"remark": "",
+					"percentRate": "5",
+					"quickCal": ""
 				}
 			]
 		}
@@ -80,7 +73,7 @@ export default {
 	},
 	methods: {
 		percentRateFormatter(row, column) {
-	      return row.percentRate ? row.percentRate*100 : '';
+	      return row.percentRate==0 ? 0 : row.percentRate*100;
 	    },
 		addRate() {
 			let groupName = this.$route.params.groupName;
@@ -160,6 +153,16 @@ export default {
     			console.log(res);
     			if(res.data.code === "S00000") {
     				this.$message({ type: 'success', message: '删除成功!' });
+    				let groupId = sessionStorage.getItem('groupId');
+					let pageNum = self.pageNum;
+					let pageSize = self.pageSize;
+					let params = {
+						"pageNum": pageNum,
+						"pageSize": pageSize,
+						groupId: groupId
+					};
+					//查询税率列表
+					self.queryRateList(pageNum, pageSize, params);
     			} else {
     				console.log(err);
     			}
@@ -192,9 +195,9 @@ border-bottom: 1px solid #EEEEEE;
 .rate_info .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
-	letter-spacing: 0;
+	height: 50px;
 }
 
 .rate_info .content .title .title-text:after {
@@ -208,19 +211,15 @@ border-bottom: 1px solid #EEEEEE;
 }
 
 .rate_info .content-inner {
-	padding: 40px 0px;
+	padding: 30px 0px;
 }
 .rate_info .el-button {
-	display: inline-block;
-	line-height: 1;
-	white-space: nowrap;
-	cursor: pointer;
-	background: #fff;
+	float: right;
+    margin-top: 10px;
 	border: 1px solid #FF9900;
 	color: #FF9900;
-	float: right;
-    margin-top: 20px;
-	padding: 12px 45px;
+	padding: 7px 45px;
+	height: 30px;
 	border-radius: 0px;
 }
 

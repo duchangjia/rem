@@ -15,37 +15,47 @@
 				</div>
 			</div>
 			<div class="content-inner">
-				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="80px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-form-item label="公司" prop="compName">
-							<el-select v-model="comp" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="部门" prop="departName">
-							<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
-								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="工号" prop="userNo">
-							<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
-						</el-form-item>
-						<el-form-item label="考勤开始时间" prop="startDate" label-width="100px">
-							<el-date-picker
-						      v-model="ruleForm2.startDate"
-						      type="date"
-						      placeholder="选择日期"
-						      :picker-options="pickerOptions0" @change="changeStartTime">
-						   </el-date-picker>
-						</el-form-item>
-						<el-form-item label="考勤结束时间" prop="endDate" label-width="100px">
-							<el-date-picker
-						      v-model="ruleForm2.endDate"
-						      type="date"
-						      placeholder="选择日期"
-						      :picker-options="pickerOptions0" @change="changeEndTime">
-						   </el-date-picker>
-						</el-form-item>
+						<el-col :span="6">
+							<el-form-item label="公司" prop="compName">
+								<el-select v-model="ruleForm2.compOrgNo" value-key="compOrgNo" placeholder="所属公司" @change="changeComp">
+									<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="部门" prop="departName">
+								<el-select v-model="ruleForm2.departOrgNo" value-key="departOrgNo" placeholder="所属部门">
+									<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="工号" prop="userNo">
+								<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6" style="margin-left: -14px;">
+							<el-form-item label="考勤开始时间" prop="startDate" label-width="100px">
+								<el-date-picker
+							      v-model="ruleForm2.startDate"
+							      type="date"
+							      placeholder="选择日期"
+							      :picker-options="pickerOptions0" @change="changeStartTime">
+							   </el-date-picker>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="考勤结束时间" prop="endDate" label-width="100px">
+								<el-date-picker
+							      v-model="ruleForm2.endDate"
+							      type="date"
+							      placeholder="选择日期"
+							      :picker-options="pickerOptions0" @change="changeEndTime">
+							   </el-date-picker>
+							</el-form-item>
+						</el-col>
 					</div>
 					<div class="button-wrap">
 						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
@@ -103,15 +113,15 @@ export default {
 			},
 			//部门列表
 			departList: [
-				{departName: "上海魔方分公司",departOrgNo: '01'},
-				{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-				{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
+				{derpName: "上海魔方分公司",derpNo: '01'},
+				{derpName: "魔方分公司深圳分公司",derpNo: 'p1'},
+				{derpName: "深圳前海橙色魔方信息技术有限公司",derpNo: '0'}
 			],
 			//公司列表
 			compList: [
-				{compName: "上海魔方分公司",compOrgNo: '01'},
-				{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-				{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
+				{organName: "上海魔方分公司",organNo: '01'},
+				{organName: "魔方分公司深圳分公司",organNo: 'p1'},
+				{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
 			],
 			transferDataList: [
 				{
@@ -147,6 +157,18 @@ export default {
 	},
 	components: {
 		current
+	},
+	created() {
+		let pageNum = this.pageNum;
+		let pageSize = this.pageSize;
+		let params = {
+			pageNum: pageNum,
+			pageSize: pageSize
+		}
+		//查询公司列表
+		this.queryCompList();
+		//查询考勤列表
+		this.queryAttenceList(pageNum,pageSize,params);
 	},
 	methods: {
 		attenceTypeFormatter(row, column) {
@@ -186,9 +208,11 @@ export default {
 		handleImport() {
 			this.$router.push('/attendance_import');
 		},
-		changeValue(value) {
-		 		const self = this;
-	            console.log('value',value);
+		changeComp() {
+			let params = {
+				organNo: this.ruleForm2.compOrgNo
+			}
+		 	this.queryDerpList(params);
 	   	},
 		beforeAvatarUpload(file) {
 			console.log("before",file);
@@ -214,8 +238,9 @@ export default {
 		},
 		//重置
 		resetForm() {
-			this.comp = {};
-			this.depart = {};
+			this.ruleForm2.compOrgNo = '';
+			this.ruleForm2.departOrgNo = '';
+			this.ruleForm2.userNo = '';
 			this.ruleForm2.startDate = '';
 			this.ruleForm2.endDate = '';
 		},
@@ -248,9 +273,9 @@ export default {
 			}
 			this.downloadExcel(params);
 		},
-		queryUserList(pageNum,pageSize,params) {
+		queryAttenceList(pageNum,pageSize,params) {
 			let self = this;
-			self.$axios.get(baseURL+'/attence/queryList', {params: params})
+			self.$axios.get(baseURL+'/attence/queryAttenceList', {params: params})
 			.then(function(res) {
 				console.log('List',res);
 				self.transferDataList = res.data.data.models;
@@ -276,6 +301,26 @@ export default {
 			.then(function(res) {
 				console.log('batchimport',res);
 				
+			}).catch(function(err) {
+				console.log(err);
+			})
+		},
+		queryCompList() {
+			let self = this;
+			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
+			.then(function(res) {
+				console.log('CompList',res);
+				self.compList = res.data.data;
+			}).catch(function(err) {
+				console.log(err);
+			})
+		},
+		queryDerpList(params) {
+			let self = this;
+			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
+			.then(function(res) {
+				console.log('DerpList',res);
+				self.departList = res.data.data;
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -305,8 +350,9 @@ export default {
 .attendance_wrap .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
+	height: 50px;
 }
 
 .attendance_wrap .content .title .title-text:after {
@@ -323,44 +369,38 @@ export default {
 	margin-top: 20px;
 }
 .attendance_wrap .content-inner {
-	padding: 40px 0px;
+	padding: 30px 0px;
 }
 
 .attendance_wrap .el-form-item__label {
-	text-align: left;
-	vertical-align: middle;
-	float: left;
-	font-size: 14px;
 	color: #999999;
-	line-height: 1;
-	padding: 11px 12px 11px 0;
-	box-sizing: border-box;
-	/*margin-right: 18px;*/
+	padding: 8px 10px 8px 0;
+	margin: 0;
 }
 
-.attendance_wrap .input-wrap .el-form-item {
-	margin-right: 80px;
+/*.attendance_wrap .input-wrap .el-form-item {
 	float: left;
-}
+}*/
 
 .attendance_wrap .el-form-item {
-	margin-bottom: 40px;
+	margin-bottom: 30px;
 }
 
 .attendance_wrap .el-input,
 .attendance_wrap .el-input__inner {
-	width: 200px;
+	width: 164px;
+	height: 30px;
 	display: inline-block;
 }
 
 .attendance_wrap .el-form-item__content {
-	line-height: 36px;
+	line-height: 30px;
 	position: relative;
 	font-size: 14px;
 }
 
 .attendance_wrap .button-wrap {
-	margin: 0px auto 40px;
+	margin: 0px auto 30px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;
@@ -378,7 +418,8 @@ export default {
 .attendance_wrap .el-button {
 	border: 1px solid #FF9900;
 	color: #FF9900;
-	padding: 12px 45px;
+	padding: 7px 45px;
+	height: 30px;
 	border-radius: 0px;
 }
 
@@ -523,11 +564,11 @@ export default {
 }
 .attendance_wrap .imExport-btn {
 	float: right;
-	margin-top: 32px;
+	margin-top: 19px;
 }
 .attendance_wrap .imExport-btn .imExport-btn-item{
 	display: inline-block;
-	margin-left: 40px;
+	margin-left: 30px;
 	cursor: pointer;
 }
 .attendance_wrap .icon-import {

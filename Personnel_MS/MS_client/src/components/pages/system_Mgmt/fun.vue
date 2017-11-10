@@ -8,33 +8,36 @@
 			<div class="content-inner">
 				<el-form :model="formData" ref="formData" label-width="68px" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-form-item label="系统编号" prop="sysNo">
-							<el-select v-model="formData.sysNo" class="bg-white">
-								<el-option v-for="item in menuQueryConditions" :label="item.sysNo" :value="item.sysNo"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="功能编号" prop="bsnNo">
-							<el-input type="text" v-model="formData.bsnNo"></el-input>
-							<!--<el-select v-model="formData.bsnNo" class="bg-white">
-								<el-option v-for="item in funcQueryConditions" :label="item.sysNo" :value="item.bsnNo"></el-option>
-							</el-select>-->
-						</el-form-item>
-						<el-form-item label="功能名称" prop="methodName">
-							<el-input type="text" v-model="formData.methodName"></el-input>
-						</el-form-item>
-						<el-form-item label="状态" prop="status">
-							<el-select v-model="formData.status" class="bg-white">
-								<el-option label="停用" value="0"></el-option>
-								<el-option label="正常" value="1"></el-option>
-								<el-option label="锁定" value="2"></el-option>
-							</el-select>
-						</el-form-item>
+						<el-col :span="6">
+							<el-form-item label="系统编号" prop="sysNo">
+								<el-select v-model="formData.sysNo" class="bg-white">
+									<el-option v-for="item in menuQueryConditions" :label="item.sysNo" :value="item.sysNo"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="功能编号" prop="bsnNo">
+								<el-input type="text" v-model="formData.bsnNo"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="功能名称" prop="methodName">
+								<el-input type="text" v-model="formData.methodName"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="状态" prop="status">
+								<el-select v-model="formData.status" class="bg-white">
+									<el-option label="停用" value="0"></el-option>
+									<el-option label="正常" value="1"></el-option>
+									<el-option label="锁定" value="2"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
 					</div>
 					<div class="button-wrap">
-						<!--<el-form-item>-->
-							<el-button class="resetform" @click="resetForm()">重置</el-button>
-							<el-button type="primary" @click="queryForm()">查询</el-button>
-						<!--</el-form-item>-->
+						<el-button class="resetform" @click="resetForm()">重置</el-button>
+						<el-button type="primary" @click="queryForm()">查询</el-button>
 					</div>
 				</el-form>
 				<div class="info">
@@ -216,8 +219,9 @@
 	.fun .content .title .title-text {
 		display: inline-block;
 		position: relative;
-		padding: 29px 0px;
+		padding: 14px 0px;
 		font-size: 16px;
+		height: 50px;
 	}
 	.fun .content .title .title-text:after {
 		content: '';
@@ -229,32 +233,29 @@
 		background: #333333;
 	}
 	.fun .content-inner {
-		padding: 40px 0px;
+		padding: 30px 0px;
 	}
 	.fun .el-form-item__label {
-		vertical-align: middle;
-		float: left;
-		font-size: 14px;
 		color: #999999;
-		line-height: 1;
-		padding: 11px 12px 11px 0;
-		box-sizing: border-box;
+		font-weight: normal;
+		padding: 8px 10px 8px 0;
+		margin: 0;
 	}
-	.fun .input-wrap .el-form-item {
-		margin-right: 80px;
+	/*.fun .input-wrap .el-form-item {
 		float: left;
-	}
+	}*/
 	.fun .el-form-item {
-		margin-bottom: 20px;
+		margin-bottom: 30px;
 	}
 	.fun .el-input,
 	.fun .el-input__inner {
-		width: 200px;
+		width: 164px;
+		height: 30px;
 		display: inline-block;
 	}
 	
 	.fun .el-form-item__content {
-		line-height: 36px;
+		line-height: 30px;
 		position: relative;
 		font-size: 14px;
 	    float: left;
@@ -266,9 +267,6 @@
 		clear: both;
 		font-size: 0px;
 	}
-	/*.fun .button-wrap .el-form-item__content {
-		margin-left: 0!important;
-	}*/
 	.fun .el-input__inner {
 		border: 1px solid #EEEEEE;
 		color: #333333;
@@ -277,37 +275,27 @@
 	    border-color: #FF9900;
 	}
 	.fun .el-button {
-		display: inline-block;
-		line-height: 1;
-		white-space: nowrap;
-		cursor: pointer;
-		background: #fff;
 		border: 1px solid #FF9900;
 		color: #FF9900;
-		margin: 0;
-		padding: 12px 45px;
+		padding: 7px 45px;
+		height: 30px;
 		border-radius: 0px;
 	}
-	.fun .el-button.resetform {
+	/*.fun .el-button.resetform {
 		margin-right: 20px;
-	}
+	}*/
 	.fun .el-button--primary {
 		color: #fff;
 		background-color: #FF9900;
 		border-color: #FF9900;
 	}
-	/*.fun .el-button:focus,
-	.fun .el-button:hover {
-	    border-color: #FF9900;
-	    opacity: 0.5;
-	}*/
-	/*.fun .el-button:focus {
-		opacity: 1;
-	}*/
-	.fun .el-button.resetform:focus,
+	.el-button+.el-button {
+	    margin-left: 20px;
+	}
+	/*.fun .el-button.resetform:focus,
 	.fun .el-button.resetform:hover {
 		color: #FF9900;
-	}
+	}*/
 	.fun .el-table {
 	    background-color: #fff;
 	    border-left: 1px solid #EEEEEE;
@@ -317,7 +305,6 @@
 	.fun .el-table__header-wrapper thead div {
 	    background-color: #f4f4f4;
 	    color: #666666;
-	    /*box-shadow: inset 0 1px 0 0 #EEEEEE;*/
 	}
 	.fun .el-table td,
 	.fun .el-table th {

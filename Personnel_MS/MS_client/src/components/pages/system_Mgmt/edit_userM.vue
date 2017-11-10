@@ -195,7 +195,7 @@
 			//密码重置
 			resetPass() {
 				const self = this;
-				self.$confirm('此操作后将无法找回原密码, 是否继续?', '提示', {
+				self.$confirm('此操作将重置该用户登陆密码为身份证后6位，是否继续?', '提示', {
 		          	confirmButtonText: '确定',
 		          	cancelButtonText: '取消',
 		          	type: 'warning'
@@ -350,8 +350,9 @@
 	.user-info .content .title .title-text {
 		display: inline-block;
 		position: relative;
-		padding: 29px 0px;
+		padding: 14px 0px;
 		font-size: 16px;
+		height: 50px;
 	}
 	
 	.user-info .content .title .title-text:after {
@@ -366,11 +367,12 @@
 	
 	.user-info .content .title .btn-wrap {
 		float: right;
-		margin-top: 20px;
+		margin-top: 10px;
 	}
 	
 	.user-info .el-button {
 		border-radius: 0px;
+	    padding: 0;
 	}
 	
 	.user-info .btn-wrap .reset {
@@ -380,7 +382,7 @@
 		color: #FF9900;
 		margin-right: 20px;
 		width: 120px;
-		height: 40px;
+		height: 30px;
 	}
 	
 	.user-info .btn-wrap .conserve {
@@ -389,11 +391,11 @@
 		font-size: 14px;
 		color: #333333;
 		width: 120px;
-		height: 40px;
+		height: 30px;
 	}
 	
 	.user-info .content-inner {
-		padding: 40px 0px;
+		padding: 30px 0px;
 	}
 	
 	.user-info form {

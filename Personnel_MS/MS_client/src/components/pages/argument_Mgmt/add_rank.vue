@@ -24,10 +24,10 @@
 							<el-option v-for="item in rankList" :key="item" :value="item"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="薪资标准下线" prop="salaryFloor">
+					<el-form-item label="薪资标准下限" prop="salaryFloor">
 						<el-input v-model="formdata.salaryFloor"></el-input>
 					</el-form-item>
-					<el-form-item label="薪资标准上线" prop="salaryTop">
+					<el-form-item label="薪资标准上限" prop="salaryTop">
 						<el-input v-model="formdata.salaryTop"></el-input>
 					</el-form-item>
 					<el-form-item label="出差标准（人/天）">
@@ -49,7 +49,7 @@
 		data() {
 			var checkMax_level = (rule, value, callback) => {
 				if(value === '') {
-					callback(new Error('请输入薪资标准上线'));
+					callback(new Error('请输入薪资标准上限'));
 				} else if(Number(value) <= Number(this.formdata.salaryFloor)) {
 					callback(new Error('上限值必须大于下限值!'));
 				} else {
@@ -94,7 +94,7 @@
 					}],
 					salaryFloor: [{
 						required: true,
-						message: '薪资标准下线不能为空',
+						message: '薪资标准下限不能为空',
 						trigger: 'blur'
 					}],
 					salaryTop: [{
@@ -125,7 +125,6 @@
 						self.addCparm(params);
 
 					} else {
-						self.$message.error('新增失败');
 						return false;
 					}
 				});
@@ -166,9 +165,9 @@
 	.add_rank .content .title .title-text {
 		display: inline-block;
 		position: relative;
-		padding: 29px 0px;
+		padding: 14px 0px;
 		font-size: 16px;
-		letter-spacing: 0;
+		height: 50px;
 	}
 	
 	.add_rank .content .title .title-text:after {
@@ -182,19 +181,20 @@
 	}
 	
 	.add_rank .content-inner {
-		padding: 40px 0px;
+		padding: 30px 0px;
 	}
 	
 	.add_rank .conserve {
 		float: right;
-		margin-top: 20px;
+		margin-top: 10px;
 		background: #F4F4F4;
 		border: 1px solid #F4F4F4;
 		border-radius: 0px;
 		font-size: 14px;
 		color: #333333;
 		width: 120px;
-		height: 40px;
+		height: 30px;
+		padding: 0;
 	}
 	
 	.add_rank .el-form-item {

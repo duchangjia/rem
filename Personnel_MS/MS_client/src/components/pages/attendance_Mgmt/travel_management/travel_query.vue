@@ -7,37 +7,47 @@
 				<el-button type="primary" class="title_button" @click="handleAdd">新增</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="80px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="60px" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-form-item label="公司" prop="compName">
-							<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeComp">
-								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="部门" prop="departName">
-							<el-select v-model="ruleForm2.derpNo" value-key="derpNo" placeholder="所属部门" @change="changeValue">
-								<el-option v-for="item in departList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="工号" prop="userNo">
-							<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
-						</el-form-item>
-						<el-form-item label="出差开始时间" prop="startDate" label-width="100px">
-							<el-date-picker
-						      v-model="ruleForm2.startDate"
-						      type="date"
-						      placeholder="选择日期"
-						      :picker-options="pickerOptions0" @change="changeStartTime">
-						   </el-date-picker>
-						</el-form-item>
-						<el-form-item label="出差结束时间" prop="endDate" label-width="100px">
-							<el-date-picker
-						      v-model="ruleForm2.endDate"
-						      type="date"
-						      placeholder="选择日期"
-						      :picker-options="pickerOptions0" @change="changeEndTime">
-						   </el-date-picker>
-						</el-form-item>
+						<el-col :span="6">
+							<el-form-item label="公司" prop="compName">
+								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeComp">
+									<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="部门" prop="departName">
+								<el-select v-model="ruleForm2.derpNo" value-key="derpNo" placeholder="所属部门" @change="changeValue">
+									<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="工号" prop="userNo">
+								<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6" style="margin-left: -14px;">
+							<el-form-item label="出差开始时间" prop="startDate" label-width="100px">
+								<el-date-picker
+							      v-model="ruleForm2.startDate"
+							      type="date"
+							      placeholder="选择日期"
+							      :picker-options="pickerOptions0" @change="changeStartTime">
+							   </el-date-picker>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="出差结束时间" prop="endDate" label-width="100px">
+								<el-date-picker
+							      v-model="ruleForm2.endDate"
+							      type="date"
+							      placeholder="选择日期"
+							      :picker-options="pickerOptions0" @change="changeEndTime">
+							   </el-date-picker>
+							</el-form-item>
+						</el-col>
 					</div>
 					<div class="button-wrap">
 						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
@@ -51,8 +61,8 @@
 						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
 					      	</template>
 						</el-table-column>
-						<el-table-column prop="organName" label="公司名称"></el-table-column>
-						<el-table-column prop="departName" label="部门名称"></el-table-column>
+						<el-table-column prop="companyName" label="公司名称"></el-table-column>
+						<el-table-column prop="deptName" label="部门名称"></el-table-column>
 						<el-table-column prop="userNo" label="工号"></el-table-column>
 						<el-table-column prop="custName" label="姓名"></el-table-column>
 						<el-table-column prop="travelType" label="出差类型" :formatter="travelTypeFormatter"></el-table-column>
@@ -121,9 +131,9 @@ export default {
 			},
 			//部门列表
 			departList: [
-				{organName: "上海魔方分公司",organNo: '01'},
-				{organName: "魔方分公司深圳分公司",organNo: 'p1'},
-				{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
+				{derpName: "上海魔方分公司",derpNo: '01'},
+				{derpName: "魔方分公司深圳分公司",derpNo: 'p1'},
+				{derpName: "深圳前海橙色魔方信息技术有限公司",derpNo: '0'}
 			],
 			//公司列表
 			compList: [
@@ -260,7 +270,6 @@ export default {
 			console.log(this.ruleForm2.startDate)
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
-					console.log('submit')
 					self.queryFormFlag = true;
 					let pageNum = self.pageNum;
 					let pageSize = self.pageSize;
@@ -270,11 +279,11 @@ export default {
 						organNo: self.ruleForm2.organNo,
 						derpNo: self.ruleForm2.derpNo,
 						travelUserNo: self.ruleForm2.userNo,
-//						applyNo: self.ruleForm2.applyNo,
-						travelStartTime: self.ruleForm2.travelStartTime,
-						travelEndTime: self.ruleForm2.travelEndTime
+						travelStartTime: self.ruleForm2.startDate,
+						travelEndTime: self.ruleForm2.endDate
 					};
 					
+					console.log(params)
 					//出差列表查询
 					this.queryTravelList(pageNum,pageSize,params);
 					
@@ -286,8 +295,9 @@ export default {
 		},
 		//重置
 		resetForm() {
-			this.comp = {};
-			this.depart = {};
+			this.ruleForm2.organNo = '';
+			this.ruleForm2.derpNo = '';
+			this.ruleForm2.userNo = '';
 			this.ruleForm2.startDate = '';
 			this.ruleForm2.endDate = '';
 		},
@@ -325,7 +335,7 @@ export default {
 		},
 		queryCompList(params) {
 			let self = this;
-			self.$axios.get(baseURL+'/organ/queryAllCompany')
+			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
 			.then(function(res) {
 				console.log('CompList',res);
 				self.compList = res.data.data;
@@ -335,7 +345,7 @@ export default {
 		},
 		queryDerpList(params) {
 			let self = this;
-			self.$axios.get(baseURL+'/organ/queryChildrenDep', {params: params})
+			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
 			.then(function(res) {
 				console.log('DerpList',res);
 				self.departList = res.data.data;
@@ -378,8 +388,9 @@ export default {
 .travel_query .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
+	height: 50px;
 }
 
 .travel_query .content .title .title-text:after {
@@ -393,47 +404,37 @@ export default {
 }
 .travel_query .title_button {
 	float: right;
-	margin-top: 20px;
+	margin-top: 10px;
 }
 .travel_query .content-inner {
-	padding: 40px 0px;
+	padding: 30px 0px;
 }
 
 .travel_query .el-form-item__label {
-	/*text-align: left;*/
-	vertical-align: middle;
-	float: left;
-	font-size: 14px;
 	color: #999999;
-	line-height: 1;
-	padding: 11px 12px 11px 0;
-	box-sizing: border-box;
-	/*margin-right: 18px;*/
-}
-
-.travel_query .input-wrap .el-form-item {
-	margin-right: 80px;
-	float: left;
+	padding: 8px 10px 8px 0;
+	margin: 0;
 }
 
 .travel_query .el-form-item {
-	margin-bottom: 40px;
+	margin-bottom: 30px;
 }
 
 .travel_query .el-input,
 .travel_query .el-input__inner {
-	width: 200px;
+	width: 164px;
+	height: 30px;
 	display: inline-block;
 }
 
 .travel_query .el-form-item__content {
-	line-height: 36px;
+	line-height: 30px;
 	position: relative;
 	font-size: 14px;
 }
 
 .travel_query .button-wrap {
-	margin: 0px auto 40px;
+	margin: 0px auto 30px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;
@@ -449,14 +450,10 @@ export default {
 }
 
 .travel_query .el-button {
-	display: inline-block;
-	line-height: 1;
-	white-space: nowrap;
-	cursor: pointer;
-	background: #fff;
 	border: 1px solid #FF9900;
 	color: #FF9900;
-	padding: 12px 45px;
+	padding: 7px 45px;
+	height: 30px;
 	border-radius: 0px;
 }
 
@@ -489,9 +486,8 @@ export default {
 }
 
 .travel_query .el-table th {
-	white-space: nowrap;
-	overflow: hidden;
-	background-color: #f4f4f4;
+	/*white-space: nowrap;
+	overflow: hidden;*/
 	text-align: center;
 	box-shadow: inset 0 1px 0 0 #EEEEEE;
 }

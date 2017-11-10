@@ -7,14 +7,17 @@
 				<el-button type="primary" @click="addWelfare()">新增</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form :model="ruleForm2" :inline="true" ref="ruleForm2" label-width="58px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :inline="true" ref="ruleForm2" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-form-item label="公司" prop="organNo">
-							<el-select v-model="ruleForm2.organNo" value-key="organNo" placeholder="所属公司" @change="test">
-								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
-							</el-select>
-						</el-form-item>
+						<el-col :span="6">
+							<el-form-item label="公司名称" prop="organNo">
+								<el-select v-model="ruleForm2.organNo" value-key="organNo" placeholder="所属公司" @change="test">
+									<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
 						<div class="button-wrap">
+							<el-button class="resetform" @click="resetForm()">重置</el-button>
 							<el-button type="primary" class="queryForm" @click="queryForm('ruleForm2')">查询</el-button>
 						</div>
 					</div>
@@ -28,12 +31,12 @@
 					<el-table-column prop="applyName" label="模版名称"></el-table-column>
 					<el-table-column prop="organName" label="公司名称"></el-table-column>
 					<el-table-column prop="rank" label="职级"></el-table-column>
-					<el-table-column prop="salaryFloor" label="薪资标准下线"></el-table-column>
-					<el-table-column prop="salaryTop" label="薪资标准上线"></el-table-column>
+					<el-table-column prop="salaryFloor" label="薪资标准下限"></el-table-column>
+					<el-table-column prop="salaryTop" label="薪资标准上限"></el-table-column>
 					<el-table-column prop="businessStandard" label="出差标准（人/天）"></el-table-column>
 					<el-table-column prop="remark" label="备注"></el-table-column>
 					<el-table-column prop="createdBy" label="创建ID"></el-table-column>
-					<el-table-column prop="createdDate" label="创建时间"></el-table-column>
+					<el-table-column prop="createdDate" label="创建时间" :formatter="createdDateFormatter"></el-table-column>
 					<el-table-column label="操作">
 						<template scope="scope">
 							<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
@@ -49,6 +52,7 @@
 
 <script>
 import current from '../../common/current_position.vue'
+import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
@@ -108,17 +112,23 @@ export default {
 		//查询职级薪酬列表
 		self.queryCParmList(pageNum,pageSize,params);
 		//查询公司列表
-//		self.queryCompList();
+		self.queryCompList();
 	},
 	components: {
 		current
 	},
 	methods: {
+		createdDateFormatter(row, column) {
+	      return moment(row.createdDate).format('YYYY-MM-DD')
+	    },
 		test() {
 			console.log(this.ruleForm2.organNo)
 		},
 		addWelfare() {
 			this.$router.push('/add_rank');
+		},
+		resetForm() {
+			this.ruleForm2.organNo = '';
 		},
 		queryForm() {
 			const self = this;
@@ -129,11 +139,9 @@ export default {
 				"pageSize": pageSize,
 				organNo: self.ruleForm2.organNo
 			};
-			if(self.ruleForm2.organNo) {
-				//查询职级薪酬列表
-				self.queryCParmList(pageNum,pageSize,params);
-				self.queryFormFlag = true;
-			}
+			//查询职级薪酬列表
+			self.queryCParmList(pageNum,pageSize,params);
+			self.queryFormFlag = true;
 			
 		},
 		handleEdit(index, row) {
@@ -204,6 +212,15 @@ export default {
     			console.log('del',res);
     			if(res.data.code === "S00000") {
     				self.$message({ type: 'success', message: '删除成功!' });
+    				let pageNum = self.pageNum;
+					let pageSize = self.pageSize;
+					let params = {
+						"pageNum": pageNum,
+						"pageSize": pageSize,
+						organNo: self.ruleForm2.organNo
+					};
+    				//查询职级薪酬列表
+					self.queryCParmList(pageNum,pageSize,params);
     			}
     			
     		}).catch(function(err) {
@@ -212,7 +229,7 @@ export default {
 		},
 		queryCompList() {
 			let self = this;
-			self.$axios.get(baseURL+'/organ/queryAllCompany')
+			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
 			.then(function(res) {
 				console.log('CompList',res);
 				self.compList = res.data.data;
@@ -244,8 +261,9 @@ export default {
 .rank_wrap .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
+	height: 50px;
 }
 
 .rank_wrap .content .title .title-text:after {
@@ -259,30 +277,44 @@ export default {
 }
 
 .rank_wrap .content-inner {
-	padding: 40px 0px;
+	padding: 30px 0px;
+}
+.rank_wrap .el-form-item__content {
+     line-height: normal; 
 }
 .rank_wrap .el-form-item__label {
-    padding: 13px 30px 13px 0;
+    color: #999999;
+	font-weight: normal;
+	padding: 8px 10px 8px 0;
+	margin: 0;
+}
+.rank_wrap .el-input,
+.rank_wrap .el-input__inner {
+	width: 164px;
+	height: 30px;
+	display: inline-block;
+}
+.rank_wrap .el-input__inner {
+	border: 1px solid #EEEEEE;
+	color: #333333;
 }
 .rank_wrap .el-input__inner:hover {
     border-color: #FF9900;
 }
 .rank_wrap .el-button {
-	display: inline-block;
-	line-height: 1;
-	white-space: nowrap;
-	cursor: pointer;
-	background: #fff;
 	border: 1px solid #FF9900;
 	color: #FF9900;
 	float: right;
-    margin-top: 20px;
-	padding: 12px 45px;
+	padding: 7px 45px;
+	height: 30px;
 	border-radius: 0px;
+	margin-top: 10px;
 }
 
-.rank_wrap .el-button.queryForm {
+.rank_wrap .el-button.queryForm,
+.rank_wrap .el-button.resetform  {
 	margin-top: 0px;
+	float: left;
 }
 
 .rank_wrap .el-button--primary {
@@ -291,13 +323,24 @@ export default {
 	border-color: #FF9900;
 }
 .rank_wrap .content-inner {
-	padding: 40px 0px;
+	padding: 30px 0px;
 }
 .rank_wrap .button-wrap {
 	display: inline-block;
 	width: 260px;
 	clear: both;
 	font-size: 0px;
+}
+.rank_wrap .el-button.resetform {
+	/*margin-right: 20px;*/
+}
+.rank_wrap .el-button--primary {
+	color: #fff;
+	background-color: #FF9900;
+	border-color: #FF9900;
+}
+.rank_wrap .el-button+.el-button {
+    margin-left: 20px;
 }
 .rank_wrap .el-table td,
 .rank_wrap .el-table th {

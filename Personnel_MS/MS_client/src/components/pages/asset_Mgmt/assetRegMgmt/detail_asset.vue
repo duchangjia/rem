@@ -7,41 +7,35 @@
                 <span class="title-text">资产详情</span>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="assetInfoDetail" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
                     <el-col :span="12">
-                        <el-form-item label="公司名称" prop="organNo">
-                            <el-select v-model="assetInfoDetail.organNo" :disabled="true">
-                                <el-option label="总公司" value="001"></el-option>
-                                <el-option label="深圳分公司" value="002"></el-option>
-                            </el-select>
+                        <el-form-item label="公司名称">
+                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="申请部门名称" prop="derpNo">
-                            <el-select v-model="assetInfoDetail.derpNo" :disabled="true">
-                                <el-option label="技术部" value="001"></el-option>
-                                <el-option label="财务部" value="002"></el-option>
-                            </el-select>
+                        <el-form-item label="申请部门名称">
+                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="工号" prop="applyUserNo">
-                            <el-input v-model="assetInfoDetail.applyUserNo" :disabled="true"></el-input>
+                        <el-form-item label="工号">
+                            <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="姓名" prop="custName">
-                            <el-input v-model="assetInfoDetail.custName" :disabled="true"></el-input>
+                        <el-form-item label="姓名">
+                            <el-input v-model="custInfo.custName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="职务" prop="custPost">
-                            <el-input v-model="assetInfoDetail.custPost" :disabled="true"></el-input>
+                        <el-form-item label="职务">
+                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="职级" prop="custClass">
-                            <el-input v-model="assetInfoDetail.custClass" :disabled="true"></el-input>
+                        <el-form-item label="职级">
+                            <el-input v-model="custInfo.custClass" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -82,12 +76,11 @@
                     <el-col :span="12">
                         <el-form-item label="资产类别">
                           <el-select v-model="assetInfoDetail.assetType" :disabled="true">
-                              <el-option label="全部" value="01"></el-option>
-                              <el-option label="办公用品" value="02"></el-option>
-                              <el-option label="电脑" value="03"></el-option>
-                              <el-option label="手机" value="04"></el-option>
-                              <el-option label="后勤用品" value="05"></el-option>
-                              <el-option label="数码相机" value="06"></el-option>
+                              <el-option label="办公用品" value="01"></el-option>
+                              <el-option label="电脑" value="02"></el-option>
+                              <el-option label="手机" value="03"></el-option>
+                              <el-option label="后勤用品" value="04"></el-option>
+                              <el-option label="数码相机" value="05"></el-option>
                           </el-select>
                       </el-form-item>
                     </el-col> 
@@ -145,6 +138,8 @@ export default {
     return {
       labelPosition: "right",
       assetNo: "",
+      applyUserNo: "",
+      custInfo: {},
       assetInfoDetail: {}
     };
   },
@@ -153,15 +148,28 @@ export default {
   },
   created() {
     this.assetNo = this.$route.params.assetNo;
+    this.applyUserNo = this.$route.params.applyUserNo;
     this.getAssetInfoDetail(); //查询调薪基数信息
+    this.getCustInfo(); //初始查询用户信息
   },
   methods: {
+    getCustInfo() {
+      const self = this;
+      let userNo = self.applyUserNo;
+      self.$axios
+        .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
+        .then(res => {
+          self.custInfo = res.data.data;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
     getAssetInfoDetail() {
       const self = this;
       let assetNo = self.assetNo;
       self.$axios
         .get("/iem_hrm/EpAssetInf/queryEpAssetInf/" + assetNo)
-        // .get("/iem_hrm/queryEpAssetInf/")
         .then(res => {
           self.assetInfoDetail = res.data.data;
         })

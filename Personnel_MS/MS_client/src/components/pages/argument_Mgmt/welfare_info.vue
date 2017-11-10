@@ -25,7 +25,7 @@
 							    <span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="payTempDel.perEndmFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="comEndmRate">
+						  	<el-form-item label="单位支付" prop="comEndmRate">
 						      	<el-input type="text" placeholder="" v-model="payTempDel.comEndmRate"></el-input>
 								<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="payTempDel.comEndmFixed"></el-input>
@@ -40,7 +40,7 @@
 								<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="payTempDel.perMediFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="comMediRate">
+						  	<el-form-item label="单位支付" prop="comMediRate">
 						      	<el-input type="text" placeholder="" v-model="payTempDel.comMediRate"></el-input>
 								<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="payTempDel.comMediFixed"></el-input>
@@ -55,7 +55,7 @@
 							    <span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="payTempDel.perUnemFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="comUnemRate">
+						  	<el-form-item label="单位支付" prop="comUnemRate">
 						      	<el-input type="text" placeholder="" v-model="payTempDel.comUnemRate"></el-input>
 							    <span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="payTempDel.comUnemFixed"></el-input>
@@ -70,7 +70,7 @@
 								<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="payTempDel.perEmplFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="comEmplRate">
+						  	<el-form-item label="单位支付" prop="comEmplRate">
 						      	<el-input type="text" placeholder="" v-model="payTempDel.comEmplRate"></el-input>
 								<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="payTempDel.comEmplFixed"></el-input>
@@ -85,7 +85,7 @@
 								<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="payTempDel.perMateFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="comMateRate">
+						  	<el-form-item label="单位支付" prop="comMateRate">
 						      	<el-input type="text" placeholder="" v-model="payTempDel.comMateRate"></el-input>
 								<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="payTempDel.comMateFixed"></el-input>
@@ -100,7 +100,7 @@
 							    <span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="payTempDel.perHousFixed"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="个人支付" prop="comHousRate">
+						  	<el-form-item label="单位支付" prop="comHousRate">
 						      	<el-input type="text" placeholder="" v-model="payTempDel.comHousRate"></el-input>
 						    	<span class="plus">%+</span>
 						      	<el-input type="text" placeholder="" v-model="payTempDel.comHousFixed"></el-input>
@@ -153,40 +153,40 @@ export default {
 					{ required: true, message: '请输入模版名称', trigger: 'blur' }
 				],
 				perEndmRate: [
-					{ required: true, message: '请输入养老保险个人支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入养老保险个人支付系数', trigger: 'blur' }
 				],
 				comEndmRate: [
-					{ required: true, message: '请输入养老保险单位支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入养老保险单位支付系数', trigger: 'blur' }
 				],
 				perMediRate: [
-					{ required: true, message: '请输入医疗保险个人支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入医疗保险个人支付系数', trigger: 'blur' }
 				],
 				comMediRate: [
-					{ required: true, message: '请输入医疗保险单位支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入医疗保险单位支付系数', trigger: 'blur' }
 				],
 				perUnemRate: [
-					{ required: true, message: '请输入失业保险个人支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入失业保险个人支付系数', trigger: 'blur' }
 				],
 				comUnemRate: [
-					{ required: true, message: '请输入失业保险单位支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入失业保险单位支付系数', trigger: 'blur' }
 				],
 				perEmplRate: [
-					{ required: true, message: '请输入工伤保险个人支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入工伤保险个人支付系数', trigger: 'blur' }
 				],
 				comEmplRate: [
-					{ required: true, message: '请输入工伤保险单位支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入工伤保险单位支付系数', trigger: 'blur' }
 				],
 				perMateRate: [
-					{ required: true, message: '请输入生育保险个人支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入生育保险个人支付系数', trigger: 'blur' }
 				],
 				comMateRate: [
-					{ required: true, message: '请输入生育保险单位支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入生育保险单位支付系数', trigger: 'blur' }
 				],
 				perHousRate: [
-					{ required: true, message: '请输入住房公积金个人支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入住房公积金个人支付系数', trigger: 'blur' }
 				],
 				comHousRate: [
-					{ required: true, message: '请输入住房公积金单位支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入住房公积金单位支付系数', trigger: 'blur' }
 				]
 			}
 		}
@@ -244,7 +244,6 @@ export default {
 	          		self.updateInsurancePayTemplate(params);
 	           	 	
 	          	} else {
-	            	this.$message.error('修改失败');
 	            	return false;
 	          	}
 	        });
@@ -270,7 +269,7 @@ export default {
   			.then((res) => {
   				console.log("updateInsurancePayTemplate",res);
   				if(res.data.code === "S00000") {
-  					this.$message({ message: '福利缴纳系数修改成功', type: 'success' });
+  					this.$message({ message: '操作成功', type: 'success' });
   				}
   			}).catch((err) => {
   				console.log(err)
@@ -299,8 +298,9 @@ border-bottom: 1px solid #EEEEEE;
 .welfare_info .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
+	height: 50px;
 }
 
 .welfare_info .content .title .title-text:after {
@@ -314,18 +314,19 @@ border-bottom: 1px solid #EEEEEE;
 }
 
 .welfare_info .content-inner {
-	padding: 40px 0px;
+	padding: 30px 0px;
 }
 .welfare_info .conserve {
 	float: right;
-	margin-top: 20px;
+	margin-top: 10px;
 	background: #F4F4F4;
 	border: 1px solid #F4F4F4;
 	border-radius: 0px;
 	font-size: 14px;
 	color: #333333;
 	width: 120px;
-	height: 40px;
+	height: 30px;
+	padding: 0;
 }
 .welfare_info .form_box .title{
 	padding: 11px 0px 11px 10px;

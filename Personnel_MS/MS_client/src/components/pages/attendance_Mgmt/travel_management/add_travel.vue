@@ -10,14 +10,10 @@
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="formdata2.organNo" value-key="compOrgNo" @change="changeValue">
-							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
-						</el-select>
+						<el-input v-model="formdata1.companyName"></el-input>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-					    <el-select v-model="formdata2.deptNo" value-key="departOrgNo" @change="changeValue">
-							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
-						</el-select>
+						<el-input v-model="formdata1.deptName"></el-input>
 				  	</el-form-item>
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">  	
 					<el-form-item label="工号">
@@ -56,7 +52,7 @@
 					    <el-input v-model="formdata2.travelDays"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="差补标准">
-					    <el-input v-model="formdata2.travelSTD"></el-input>
+					    <el-input v-model="formdata1.travelSTD"></el-input>
 				  	</el-form-item>
 				  	<el-form-item class="remark" label="出差备注" prop="remark">
 					    <el-input
@@ -85,21 +81,21 @@
 		data() {
 			return {
 				formdata1: {
+					organNo: "",
+					deptNo: "",
 					userNo: "",
 					custName: "",
 					custPost: "",
 					custClass: "",
+					travelSTD: ""
 				},
 				formdata2: {
-					organNo: "01",
-					deptNo: "",
 					travelStartTime: "",
 					travelEndTime: "",
 					travelType: "",
 					travelStartCity: "",
 					travelArrivalCity: "",
 					travelDays: "",
-					travelSTD: "",
 					remark: "",
 					attachm: ""
 				},
@@ -195,7 +191,7 @@
 						    travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
 						    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
 						    travelDays: self.formdata2.travelDays, //出差天数  
-						    travelSTD: self.formdata2.travelSTD,//差补标准
+						    travelSTD: self.formdata1.travelSTD,//差补标准
 						    remark: self.formdata2.remark,//备注
 						    attachm: self.formdata2.attachm//附件
 						}
@@ -213,7 +209,7 @@
 				self.$axios.get(baseURL+'/travel/getUseInfoByUserNo/',{params: params})
 				.then(function(res) {
 					console.log('getUseInfoByUserNo',res);
-					
+					self.formdata1 = res.data.data;
 				}).catch(function(err) {
 					console.log('error');
 				})
