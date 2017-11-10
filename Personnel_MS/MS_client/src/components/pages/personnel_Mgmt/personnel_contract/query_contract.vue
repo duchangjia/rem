@@ -78,7 +78,7 @@ export default {
         pactType: ""
       },
       pageNum: 1,
-      pageSize: 7,
+      pageSize: 10,
       totalRows: 1,
       pactListInfo: []
     };
