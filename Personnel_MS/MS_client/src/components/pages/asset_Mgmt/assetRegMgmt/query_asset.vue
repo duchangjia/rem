@@ -192,7 +192,15 @@ export default {
         }
       });
     },
-    handleAssetUse(index, row) {}
+    handleAssetUse(index, row) {
+      this.$router.push({
+        name: "assetUse_manage",
+        params: {
+          assetNo: row.assetNo,
+          applyUserNo: row.applyUserNo
+        }
+      });
+    }
   }
 };
 </script>

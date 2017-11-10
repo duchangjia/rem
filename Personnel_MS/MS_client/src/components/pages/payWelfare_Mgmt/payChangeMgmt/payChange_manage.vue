@@ -221,7 +221,7 @@ table .el-button--danger:active {
 }
 
 .el-textarea__inner {
-  border-radius: 0;
+  /* border-radius: 0; */
   width: 500px;
 }
 

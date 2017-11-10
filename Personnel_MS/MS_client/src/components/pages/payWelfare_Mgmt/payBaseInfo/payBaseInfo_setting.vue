@@ -225,7 +225,7 @@ table .el-button--danger:active {
 }
 
 .el-textarea__inner {
-  border-radius: 0;
+  /* border-radius: 0; */
   width: 500px;
 }
 
@@ -366,7 +366,7 @@ table .el-button--danger:active {
   margin-right: 20px;
 }
 .titlebar .upload-demo {
-  line-height: 32px;
+  line-height: 1;
 }
 .titlebar .upload-demo .el-upload__input {
   display: none;
