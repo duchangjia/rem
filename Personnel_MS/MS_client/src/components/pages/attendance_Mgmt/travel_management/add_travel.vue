@@ -10,26 +10,26 @@
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-						<el-input v-model="formdata1.companyName"></el-input>
+						<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-						<el-input v-model="formdata1.deptName"></el-input>
+						<el-input v-model="formdata1.deptName" :disabled="true"></el-input>
 				  	</el-form-item>
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">  	
+				<!--<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">-->  	
 					<el-form-item label="工号">
 					    <el-input v-model="formdata1.userNo"></el-input>
 					    <el-button class="queryUserBtn" type="primary" @click="queryUserInfo">查询</el-button>
 				 	</el-form-item>
 				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata1.custName"></el-input>
+					    <el-input v-model="formdata1.custName" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="岗位">
-					    <el-input v-model="formdata1.custPost"></el-input>
+					    <el-input v-model="formdata1.custPost" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="职级">
-					    <el-input v-model="formdata1.custClass"></el-input>
+					    <el-input v-model="formdata1.custClass" :disabled="true"></el-input>
 				  	</el-form-item>
-				</el-form>
+				<!--</el-form>-->
 
 				  	<div class="info-title">出差信息</div>
 				  	<el-form-item label="出差开始时间" prop="travelStartTime">
@@ -48,11 +48,11 @@
 					    <span class="travelCity_line" >-</span>
 					    <el-input class="travelCity" v-model="formdata2.travelArrivalCity" placeholder="到达城市"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="出差天数">
+				  	<el-form-item label="出差天数" prop="travelDays">
 					    <el-input v-model="formdata2.travelDays"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="差补标准">
-					    <el-input v-model="formdata1.travelSTD"></el-input>
+				  	<el-form-item label="差补标准" prop="travelSTD">
+					    <el-input v-model="formdata1.travelSTD" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item class="remark" label="出差备注" prop="remark">
 					    <el-input
@@ -99,35 +99,6 @@
 					remark: "",
 					attachm: ""
 				},
-				
-//				oldcomp: {
-//					compName: '',
-//					compOrgNo: ''
-//				},
-//				newcomp: {
-//					newcompName: '',
-//					newcompOrgNo: ''
-//				},
-//				olddepart: {
-//					departName: '',
-//					departOrgNo: ''
-//				},
-//				newdepart: {
-//					newdepartName: '',
-//					newdepartOrgNo: ''
-//				},
-				//部门列表
-				departList: [
-					{departName: "上海魔方分公司",departOrgNo: '01'},
-					{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-					{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
-				],
-				//公司列表
-				compList: [
-					{compName: "上海魔方分公司",compOrgNo: '01'},
-					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
-				],
 				travelTypeList: [
 					{label: "业务拓展", travelNo: "01"},
 					{label: "项目实施", travelNo: "02"},
@@ -137,6 +108,24 @@
 			 	rules: {
 		          	travelType: [
 		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
+	          		],
+	          		travelStartTime: [
+		            	{ required: true, message: '出差开始时间不能为空', trigger: 'blur' }
+	          		],
+	          		travelEndTime: [
+		            	{ required: true, message: '出差结束时间不能为空', trigger: 'blur' }
+	          		],
+	          		travelStartCity: [
+//		            	{ required: true, message: '出差出发城市不能为空', trigger: 'blur' }
+	          		],
+	          		travelArrivalCity: [
+//		            	{ required: true, message: '出差到达城市不能为空', trigger: 'blur' }
+	          		],
+	          		travelDays: [
+		            	{ required: true, message: '出差天数不能为空', trigger: 'blur' }
+	          		],
+	          		remark: [
+		            	{ min: 0, max: 100, message: '长度在 0 到 100 个字符之间', trigger: 'blur' }
 	          		]
 				}
 			}
@@ -209,7 +198,10 @@
 				self.$axios.get(baseURL+'/travel/getUseInfoByUserNo/',{params: params})
 				.then(function(res) {
 					console.log('getUseInfoByUserNo',res);
-					self.formdata1 = res.data.data;
+					if(res.data.code === "S00000") {
+						self.formdata1 = res.data.data;
+					}
+					
 				}).catch(function(err) {
 					console.log('error');
 				})
@@ -219,7 +211,9 @@
 				self.$axios.post(baseURL+'/travel/addTravelInfo',params)
 				.then(function(res) {
 					console.log('addTravelInfo',res);
-					
+					if(res.data.code === "S00000") {
+						self.$message({ message: '操作成功', type: 'success' });
+					}
 				}).catch(function(err) {
 					console.log('error');
 				})

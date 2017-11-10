@@ -14,8 +14,8 @@
 				      	</template>
 					</el-table-column>
 					<el-table-column prop="remark" label="备注"></el-table-column>
-					<el-table-column prop="startTime" label="生效日期"></el-table-column>
-					<el-table-column prop="endTime" label="失效日期"></el-table-column>
+					<el-table-column prop="startTime" label="生效日期" :formatter="startTimeFormatter"></el-table-column>
+					<el-table-column prop="endTime" label="失效日期" :formatter="endTimeFormatter"></el-table-column>
 					<el-table-column prop="createdBy" label="创建ID"></el-table-column>
 					<el-table-column prop="createdDate" label="创建时间" :formatter="createdDateFormatter"></el-table-column>
 					<el-table-column label="操作">
@@ -76,9 +76,17 @@ export default {
 		self.selectTaxRateGroup(pageNum, pageSize, params);
 	},
 	methods: {
+		startTimeFormatter(row, column) {
+			let time = row.startTime;
+			return moment(time).format('YYYY-MM-DD') || '';
+		},
+		endTimeFormatter(row, column) {
+			let time = row.endTime;
+			return moment(time).format('YYYY-MM-DD') || '';
+		},
 		createdDateFormatter(row, column) {
 			let time = row.createdDate;
-			return moment(time).format('YYYY-MM-DD');
+			return moment(time).format('YYYY-MM-DD') || '';
 		},
 		addRateGroup() {
 			this.$router.push('/add_rateGroup');

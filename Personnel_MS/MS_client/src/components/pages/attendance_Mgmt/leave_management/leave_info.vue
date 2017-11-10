@@ -9,27 +9,23 @@
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="formdata2.orgId" value-key="compOrgNo" @change="changeValue">
-							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
-						</el-select>
+						<el-input v-model="formdata2.companyName"></el-input>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-					    <el-select v-model="formdata2.deprtId" value-key="departOrgNo" @change="changeValue">
-							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
-						</el-select>
+						<el-input v-model="formdata2.deptName"></el-input>
 				  	</el-form-item>
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">  	
 					<el-form-item label="工号">
-					    <el-input v-model="formdata1.userNo"></el-input>
+					    <el-input v-model="formdata2.userNo"></el-input>
 				 	</el-form-item>
 				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata1.custName"></el-input>
+					    <el-input v-model="formdata2.custName"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="岗位">
-					    <el-input v-model="formdata1.custPost"></el-input>
+					    <el-input v-model="formdata2.custPost"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="职级">
-					    <el-input v-model="formdata1.custClass"></el-input>
+					    <el-input v-model="formdata2.custClass"></el-input>
 				  	</el-form-item>
 				</el-form>
 
@@ -85,13 +81,12 @@
 	export default {
 		data() {
 			return {
-				formdata1: {
+				formdata: {},
+				formdata2: {
 					userNo: "",
 					custName: "",
 					custPost: "",
 					custClass: "",
-				},
-				formdata2: {
 					orgId: "01",
 					deprtId: "",
 					leaveStartTime: "",
@@ -208,7 +203,9 @@
 				self.$axios.get(baseURL+'/leave/queryLeaveInfos',{params: params})
 				.then(function(res) {
 					console.log('leaveInfo',res);
-					
+					if(res.data.code === "S00000") {
+						self.formdata2 = res.data.data;
+					}
 				}).catch(function(err) {
 					console.log('error');
 				})

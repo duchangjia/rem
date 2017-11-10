@@ -8,9 +8,6 @@
 			</div>
 			<div class="content-inner">
 				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="120px">
-					<!--<el-form-item label="公司名称" prop="compName">
-						<el-input v-model="formdata.compName"></el-input>
-					</el-form-item>-->
 					<el-form-item label="公司名称">
 						<el-select v-model="formdata.organNo" value-key="organNo">
 							<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
@@ -30,11 +27,11 @@
 					<el-form-item label="薪资标准上限" prop="salaryTop">
 						<el-input v-model="formdata.salaryTop"></el-input>
 					</el-form-item>
-					<el-form-item label="出差标准（人/天）">
+					<el-form-item label="出差标准（人/天）" prop="businessStandard">
 						<el-input v-model="formdata.businessStandard"></el-input>
 					</el-form-item>
-					<el-form-item label="备注">
-						<el-input v-model="formdata.remark"></el-input>
+					<el-form-item label="备注" prop="remark">
+						<el-input type="textarea" v-model="formdata.remark"></el-input>
 					</el-form-item>
 				</el-form>
 			</div>
@@ -47,11 +44,30 @@
 	const baseURL = 'iem_hrm'
 	export default {
 		data() {
-			var checkMax_level = (rule, value, callback) => {
+			var checkSalaryTop = (rule, value, callback) => {
 				if(value === '') {
-					callback(new Error('请输入薪资标准上限'));
-				} else if(Number(value) <= Number(this.formdata.salaryFloor)) {
+					callback(new Error('薪资标准上限不能为空'));
+				} else if(!/^\d{1,14}(\.\d{1,2})?$/.test(value)) {
+					callback(new Error('请输入正确的金额'));
+				}else if(Number(value) <= Number(this.formdata.salaryFloor)) {
 					callback(new Error('上限值必须大于下限值!'));
+				} else {
+					callback();
+				}
+			};
+			var checkSalaryFloor = (rule, value, callback) => {
+				if(value === '') {
+					callback(new Error('薪资标准下限不能为空'));
+				} else if(!/^\d{1,14}(\.\d{1,2})?$/.test(value)) {
+					callback(new Error('请输入正确的金额'));
+				}else {
+					callback();
+				}
+			};
+			
+			var checkBusinessStandard = (rule, value, callback) => {
+				if(value && !/^\d*$/.test(value)) {
+					callback(new Error('请输入出差标准天数'));
 				} else {
 					callback();
 				}
@@ -77,35 +93,38 @@
 					{organName: "魔方南山分公司",organNo: '1001'}
 				],
 				rules: {
-					compName: [{
-						required: true,
-						message: '公司名称不能为空',
-						trigger: 'blur'
-					}],
-					applyName: [{
-						required: true,
-						message: '模版名称不能为空',
-						trigger: 'blur'
-					}],
-					rank: [{
-						required: true,
-						message: '职级不能为空',
-						trigger: 'blur'
-					}],
-					salaryFloor: [{
-						required: true,
-						message: '薪资标准下限不能为空',
-						trigger: 'blur'
-					}],
-					salaryTop: [{
-						validator: checkMax_level,
-						trigger: 'blur'
-					}]
+					compName: [
+						{ required: true, message: '公司名称不能为空', trigger: 'blur' }
+					],
+					applyName: [
+						{ required: true, message: '模版名称不能为空', trigger: 'blur' }
+					],
+					rank: [
+						{ required: true, message: '职级不能为空', trigger: 'blur' }
+					],
+					salaryFloor: [
+						{ required: true, message: '薪资标准下限不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额" }
+					],
+					salaryTop: [
+						{ required: true, validator: checkSalaryTop, trigger: 'blur' }
+					],
+					businessStandard: [
+						{ message: '请输入出差标准天数', trigger: 'blur' },
+						{ pattern: /^\d*$/, message: "请输入出差标准天数" }
+					],
+					remark: [
+						{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
+					]
 				}
 			}
 		},
 		components: {
 			current
+		},
+		created() {
+			//查询公司列表
+			this.queryCompList();
 		},
 		methods: {
 			save(formName) {
@@ -137,6 +156,16 @@
 					self.$message({ message: '操作成功', type: 'success' });
 				}).catch((err) => {
 					console.log('error')
+				})
+			},
+			queryCompList() {
+				let self = this;
+				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
+				.then(function(res) {
+					console.log('CompList',res);
+					self.compList = res.data.data;
+				}).catch(function(err) {
+					console.log(err);
 				})
 			}
 		}
@@ -222,9 +251,17 @@
 		line-height: 1;
 		padding: 11px 0px 11px 0;
 		box-sizing: border-box;
+		font-weight: normal;
 	}
 	
 	.add_rank .el-form-item__error {
 		padding-left: 30px;
+	}
+	.add_rank .el-textarea__inner {
+		margin-left: 30px;
+		border-color: #EEEEEE;
+	}
+	.add_rank .el-textarea__inner:hover {
+	    border-color: #FF9900;
 	}
 </style>

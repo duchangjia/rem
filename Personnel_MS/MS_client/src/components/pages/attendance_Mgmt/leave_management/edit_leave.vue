@@ -211,7 +211,10 @@
 				self.$axios.get(baseURL+'/leave/queryLeaveInfos',{params: params})
 				.then(function(res) {
 					console.log('leaveInfo',res);
-					self.formdata2 = res.data.data;
+					if(res.data.code === "S00000") {
+						self.formdata2 = res.data.data;
+					}
+					
 				}).catch(function(err) {
 					console.log('error');
 				})
@@ -221,7 +224,9 @@
 				self.$axios.put(baseURL+'/leave/modifyLeaveInfo',params)
 				.then(function(res) {
 					console.log('modifyTravelInfo',res);
-					
+					if(res.data.code === "S00000") {
+						
+					}
 				}).catch(function(err) {
 					console.log('error');
 				})

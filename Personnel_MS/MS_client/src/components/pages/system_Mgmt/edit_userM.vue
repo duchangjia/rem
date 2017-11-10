@@ -108,18 +108,18 @@
 				olduserDetail: {},
 				//用户详细信息
 				userDetail: {
-					userName: 'aaaaa',
-					userNo: 'p001',
+					userName: '',
+					userNo: '',
 					compName: '',
 					compOrgNo: '',
 					departName: '',
 					departOrgNo: '',
-					roles: [{roleName: "财务经理",roleNo: "p101"}],
-					status: '0',
-					mobile: '13513513513',
-					email: '123@123.com',
-					certNo: '1',
-					remark: '1'
+					roles: [{roleName: "",roleNo: ""}],
+					status: '',
+					mobile: '',
+					email: '',
+					certNo: '',
+					remark: ''
 				},
 				comp: {
 					compName: '',
@@ -135,10 +135,10 @@
 				},
 				//角色列表
 				roleList: [
-					{roleName: "财务经理",roleNo: "p101"},
-					{roleName: "人事经理",roleNo: "p102"},
-					{roleName: "普通人员aaa",roleNo: "111"},
-					{roleName: "管理员",roleNo: "112"}
+					{roleName: "",roleNo: ""},
+					{roleName: "",roleNo: ""},
+					{roleName: "",roleNo: ""},
+					{roleName: "",roleNo: ""}
 				],
 				//部门列表
 				departList: [
@@ -280,14 +280,14 @@
 				self.$axios.put(baseURL+'/user/updateUserInfo',params)
 				.then(function(res){
 					if(res.data.code=="S00000"){
-			        	self.$message('信息修改成功');
+			        	self.$message('操作成功');
 //			        	self.$router.push('/management_user');
 					} else {
-						self.$message.error('信息修改失败');
+						console.log('error');
 					}
 				})
 				.catch(function(err){
-					self.$message.error('信息修改失败');
+					console.log('error');
 				})
 			},
 			queryRoleList() {
@@ -305,12 +305,12 @@
 				self.$axios.put(baseURL+'/user/resetPassword', params)
 	          	.then(function(res){
 	          		console.log('resetPassword',res);
-//	          			self.$message({
-//			            	type: 'success',
-//			            	message: '新密码已发送至邮箱，请查收!'
-//			          	});
+	          		if(res.data.code=="S00000") {
+	          			self.$message('操作成功');
+	          		}
+	          			
 	          	}).catch(function(err){
-	          		self.$message.error('密码重置失败');
+	          		console.log('error');
 	          	})
 			}
 		}

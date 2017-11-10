@@ -18,7 +18,7 @@
 						</el-col>
 						<el-col :span="6">
 							<el-form-item label="部门" prop="departName">
-								<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
+								<el-select v-model="ruleForm2.departOrgNo" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
 									<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
 								</el-select>
 							</el-form-item>
@@ -50,7 +50,7 @@
 						</el-col>
 					</div>
 					<div class="button-wrap">
-						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
+						<el-button class="resetform" @click="resetForm()">重置</el-button>
 						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
@@ -61,16 +61,16 @@
 						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
 					      	</template>
 						</el-table-column>
-						<el-table-column prop="organName" label="公司名称"></el-table-column>
-						<el-table-column prop="departName" label="部门名称"></el-table-column>
+						<el-table-column prop="companyName" label="公司名称"></el-table-column>
+						<el-table-column prop="deptName" label="部门名称"></el-table-column>
 						<el-table-column prop="userNo" label="工号"></el-table-column>
-						<el-table-column prop="userName" label="姓名"></el-table-column>
+						<el-table-column prop="custName" label="姓名"></el-table-column>
 						<el-table-column prop="leaveType" label="请假类型" :formatter="leaveTypeFormatter"></el-table-column>
 						<el-table-column prop="leaveStartTime" label="请假开始时间"></el-table-column>
 						<el-table-column prop="leaveEndTime" label="请假结束时间"></el-table-column>
-						<el-table-column prop="luruBy" label="录入人"></el-table-column>
-						<el-table-column prop="lurunTime" label="录入时间"></el-table-column>
-						<el-table-column label="操作" width="150">
+						<el-table-column prop="createdBy" label="录入人"></el-table-column>
+						<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
+						<el-table-column label="操作" width="100">
 							<template scope="scope">
 								<i class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></i>
 								<i class="icon_delete" @click="handleDelete(scope.$index, scope.row)"></i>
@@ -87,6 +87,7 @@
 
 <script type='text/ecmascript-6'>
 import current from '../../../common/current_position.vue'
+import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
@@ -105,21 +106,20 @@ export default {
 				departOrgNo: '',
 				userNo: "",
 				startDate: "",
-				endDate: '',
-				value9: ""
+				endDate: ''
 			},
 			transferDataList: [
 				{
 					applyNo: "00100",
-					organName: "shanghaifen",
-					departName: "shanghaifen",
+					companyName: "shanghaifen",
+					deptName: "shanghaifen",
 					userNo: "001", 
-					userName: "小名",
+					custName: "小名",
 					leaveType: "02",
 					leaveStartTime: "2017-10-10",
 					leaveEndTime: "2017-10-19",
-					luruBy: "",
-					lurunTime: ""
+					createdBy: "",
+					createdDate: ""
 				}
 			],
 			comp: {
@@ -160,9 +160,12 @@ export default {
 			"pageSize": pageSize
 		}
 		//请假列表查询
-		this.queryTravelList(pageNum,pageSize,params);
+		this.queryLeaveList(params);
 	},
 	methods: {
+		createdDateFormatter(row, column) {
+	      	return moment(row.createdDate).format('YYYY-MM-DD') || '';
+	    },
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;
 		},
@@ -221,25 +224,21 @@ export default {
 			console.log(this.ruleForm2.startDate)
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
-					console.log('submit')
 					self.queryFormFlag = true;
-					let pageNum = self.pageNum;
-					let pageSize = self.pageSize;
 					let params = {
-						"pageNum": pageNum,
-						"pageSize": pageSize,
+						"pageNum": self.pageNum,
+						"pageSize": self.pageSize,
 						organNo: self.ruleForm2.organNo,
+						derpNo: self.ruleForm2.derpNo,
 						userNo: self.ruleForm2.userNo,
-//						applyNo: self.ruleForm2.applyNo,
-						leaveStartTime: self.ruleForm2.leaveStartTime,
-						leaveEndTime: self.ruleForm2.leaveEndTime
+						leaveStartTime: self.ruleForm2.startDate,
+						leaveEndTime: self.ruleForm2.endDate
 					};
 					
 					//请假列表查询
-					self.queryTravelList(pageNum,pageSize,params);
+					self.queryLeaveList(params);
 					
 				} else {
-					console.log('error submit!!');
 					return false;
 				}
 			});
@@ -248,6 +247,7 @@ export default {
 		resetForm() {
 			this.ruleForm2.organNo = '';
 			this.ruleForm2.departOrgNo = '';
+			this.ruleForm2.userNo = '';
 			this.ruleForm2.startDate = '';
 			this.ruleForm2.endDate = '';
 		},
@@ -269,26 +269,31 @@ export default {
 				}
 			}
 			//分页出差列表查询
-			this.queryTravelList(pageNum,pageSize,params);
+			this.queryLeaveList(params);
 		},
-		queryTravelList(pageNum,pageSize,params) {
+		queryLeaveList(params) {
 			let self = this;
 			self.$axios.get(baseURL+'/leave/queryLeaveList', {params: params})
 			.then(function(res) {
-				console.log('queryTravelList',res);
-				self.transferDataList = res.data.data.models;
-				self.pageNum = pageNum;
-				self.totalRows = Number(res.data.data.total);
+				console.log('LeaveList',res);
+				if(res.data.code === "S00000") {
+					self.transferDataList = res.data.data.models;
+					self.pageNum = params.pageNum;
+					self.totalRows = Number(res.data.data.total);
+				}
+				
 			}).catch(function(err) {
 				console.log(err);
 			})
 		},
-		deleteTravel(params) {
+		deleteLeaveInfo(params) {
 			let self = this;
 			self.$axios.delete(baseURL+'/leave/deleteLeaveInfo', params)
 			.then(function(res) {
-				console.log('deleteTravel',res);
-				
+				console.log('deleteLeaveInfo',res);
+				if(res.data.code === "S00000") {
+					self.$message({ message: '操作成功', type: 'success' });	
+				}
 			}).catch(function(err) {
 				console.log(err);
 			})

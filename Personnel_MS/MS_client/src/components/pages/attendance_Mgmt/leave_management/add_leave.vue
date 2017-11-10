@@ -10,16 +10,11 @@
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="formdata2.organNo" value-key="compOrgNo" @change="changeValue">
-							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
-						</el-select>
+						<el-input v-model="formdata1.organNo"></el-input>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-					    <el-select v-model="formdata2.deptNo" value-key="departOrgNo" @change="changeValue">
-							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
-						</el-select>
-				  	</el-form-item>
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">  	
+						<el-input v-model="formdata1.deptNo"></el-input>
+				  </el-form-item>
 					<el-form-item label="工号">
 					    <el-input v-model="formdata1.userNo"></el-input>
 					    <el-button class="queryUserBtn" type="primary" @click="queryUserInfo">查询</el-button>
@@ -33,8 +28,6 @@
 				  	<el-form-item label="职级">
 					    <el-input v-model="formdata1.custClass"></el-input>
 				  	</el-form-item>
-				</el-form>
-
 				  	<div class="info-title">请假信息</div>
 				  	<el-form-item label="请假开始时间" prop="leaveStartTime">
 			        	<el-date-picker type="datetime" v-model="formdata2.leaveStartTime" @change="changeStartTime"></el-date-picker>
@@ -180,17 +173,15 @@
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
 						console.log('valid');
+						//UserNo,LeaveStartTime,LeaveEndTime,LeaveType,Remark,TimeSheet上传的文件file
 						let params = {
 							"userNo": self.formdata1.userNo, //"1004"
 			    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
 			    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
 			    			"leaveType": self.formdata2.leaveType, //"3"
 			    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
-			    			"authFlow": self.formdata2.authFlow, //"0006"审批流水号
-			    			"authStatus": self.formdata2.authStatus, //"1"审批的状态
-			    			"password": self.formdata2.password, //"123"
-			    			"authView": self.formdata2.authView, //"请假审批的意见"
 			    			"remark": self.formdata2.remark, //"请假的详细信息"
+			    			attachm: self.formdata2.attachm
 						}
 						//新增请假信息
 						self.addLeaveInfo(params);
@@ -206,7 +197,9 @@
 				self.$axios.get(baseURL+'/leave/getUseInfoByUserNo/',{params: params})
 				.then(function(res) {
 					console.log('getUseInfoByUserNo',res);
-					
+					if(res.data.code === "S00000") {
+						self.formdata1 = res.data.data;
+					}
 				}).catch(function(err) {
 					console.log('error');
 				})
@@ -216,7 +209,9 @@
 				self.$axios.post(baseURL+'/leave/addLeaveInfo',params)
 				.then(function(res) {
 					console.log('addLeaveInfo',res);
-					
+					if(res.data.code === "S00000") {
+						self.$message({ message: '操作成功', type: 'success' });
+					}
 				}).catch(function(err) {
 					console.log('error');
 				})

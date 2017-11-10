@@ -81,6 +81,15 @@ export default {
 .travelC_wrap .travelCity .el-input__inner{
 	width: 120px;
 }
+.travelC_wrap .el-input__inner:hover {
+    border-color: #ff9900;
+}
+.travelC_wrap .el-input.is-disabled .el-input__inner:hover {
+    border-color: #d1dbe5;
+}
+.travelC_wrap .el-textarea__inner:hover {
+    border-color: #FF9900;
+}
 .travelC_wrap .travelCity_line {
 	padding: 0px 23px;
 }
@@ -94,12 +103,20 @@ export default {
     padding: 11px 0px 11px 0;
     box-sizing: border-box;
 }
+.travelC_wrap .file {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 88px;
+    height: 40px;
+    opacity: 0;
+}
 .travelC_wrap .file_button {
 	color: #FF9900;
 	font-size: 14px;
 }
 .travelC_wrap .el-form-item__error {
-    left: 30px;
+    /*left: 30px;*/
 }
 .travelC_wrap .uploadBtn {
   position: absolute;

@@ -20,7 +20,7 @@
 				  	<el-form-item label="失效日期" prop="endTime">
 			        	<el-date-picker type="date" v-model="formdata.endTime" @change="changeEndTime" placeholder="如无，则不填"></el-date-picker>
 			      	</el-form-item>
-				  	<el-form-item label="备注">
+				  	<el-form-item label="备注" prop="remark">
 					    <el-input v-model="formdata.remark"></el-input>
 				  	</el-form-item>
 				</el-form>
@@ -35,11 +35,11 @@ import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
-		var checkTaxThreshold = (rule, value, callback) => {
+		var checkEndTime = (rule, value, callback) => {
 	        if (value === '') {
-	          	callback(new Error('起征点不能为空'));
-	        } else if (!(/^[0-9]*$/.test(value))) {
-	          	callback(new Error('请输入数字'));
+	          	callback();
+	        } else if (value <= this.formdata.startTime) {
+	          	callback(new Error('请输入正确的失效日期'));
 	        } else {
 	          	callback();
 	        }
@@ -58,10 +58,17 @@ export default {
 					{ required: true, message: '组名称不能为空', trigger: 'blur' }
 				],
 				taxThreshold: [
-					{  required: true, validator: checkTaxThreshold, trigger: 'change' }
+					{ required: true, message: '起征点不能为空', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额" }
 				],
 				startTime: [
-					{  required: true, message: '生效日期不能为空', trigger: 'change' }
+					{ required: true, message: '生效日期不能为空', trigger: 'change' }
+				],
+				endTime: [
+					{ validator: checkEndTime, trigger: 'change' }
+				],
+				remark: [
+					{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 				]
 			}
 		}

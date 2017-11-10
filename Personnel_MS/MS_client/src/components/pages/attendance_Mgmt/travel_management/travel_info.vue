@@ -9,14 +9,10 @@
 			<div class="content-inner">
 				<el-form ref="formdata" :inline="true"  :rules="rules" :model="formdata" label-width="100px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="formdata.organNo">
-							<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
-						</el-select>
+						<el-input v-model="formdata.companyName"></el-input>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-					    <el-select v-model="formdata.deptNo">
-							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
-						</el-select>
+						<el-input v-model="formdata.deptName"></el-input>
 				  </el-form-item>
 					<el-form-item label="工号">
 					    <el-input v-model="formdata.userNo"></el-input>
@@ -105,46 +101,13 @@
 					updateBy: "",
 					updateTime: ""
 				},
-				
-//				oldcomp: {
-//					compName: '',
-//					compOrgNo: ''
-//				},
-//				newcomp: {
-//					newcompName: '',
-//					newcompOrgNo: ''
-//				},
-//				olddepart: {
-//					departName: '',
-//					departOrgNo: ''
-//				},
-//				newdepart: {
-//					newdepartName: '',
-//					newdepartOrgNo: ''
-//				},
-				//部门列表
-				departList: [
-					{departName: "上海魔方分公司",departOrgNo: '01'},
-					{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-					{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
-				],
-				//公司列表
-				compList: [
-					{organName: "上海魔方分公司",organNo: '01'},
-					{organName: "魔方分公司深圳分公司",organNo: 'p1'},
-					{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
-				],
 				travelTypeList: [
 					{label: "业务拓展", travelNo: "01"},
 					{label: "项目实施", travelNo: "02"},
 					{label: "会议", travelNo: "03"},
 					{label: "其他", travelNo: "99"}
 				],
-			 	rules: {
-		          	travelType: [
-		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
-	          		]
-				}
+			 	rules: {}
 			}
 		},
 		components: {
@@ -158,8 +121,6 @@
 			}
 			//查询出差详情
 			this.queryTravelInfo(params);
-			//查询公司列表
-			this.queryCompList();
 		},
 		methods: {
 			changeStartTime(time) {
@@ -170,63 +131,28 @@
 			},
 			changeValue(value) {
 		 		const self = this;
-	            console.log('value',value);
 	      	},
 	      	handleDownload() {
 	      		const self = this;
 	      		let params = {
-	      			
+	      			fileUrl: self.formdata.attachm
 	      		}
 	      		//下载附件
 				self.downloadFile(params);
 	      	},
-	      	save(formName) {
-				const self = this;
-				this.$refs[formName].validate((valid) => {
-					if(valid) {
-						console.log('valid');
-						
-						
-					} else {
-						this.$message.error('failvalid');
-						return false;
-					}
-				});
-			},
 			queryTravelInfo(params) {
 				const self = this;
 				self.$axios.get(baseURL+'/travel/getTravelInfoByApplyNo',{params: params})
 				.then(function(res) {
 					console.log('travelInfo',res);
-//					self.formdata = res.data.data;
-//					self.formdata.updatedDate = moment(self.formdata.updatedDate).format('YYYY-MM-DD hh:mm:ss');
+					self.formdata = res.data.data;
 				}).catch(function(err) {
 					console.log('error');
 				})
 			},
-			queryCompList() {
-				let self = this;
-				self.$axios.get(baseURL+'/organ/queryAllCompany')
-				.then(function(res) {
-					console.log('CompList',res);
-					self.compList = res.data.data;
-				}).catch(function(err) {
-					console.log(err);
-				})
-			},
-			queryDerpList(params) {
-				let self = this;
-				self.$axios.get(baseURL+'/organ/queryChildrenDep', {params: params})
-				.then(function(res) {
-					console.log('DerpList',res);
-					self.departList = res.data.data;
-				}).catch(function(err) {
-					console.log(err);
-				})
-			},
 			downloadFile(params) {
 				const self = this;
-				self.$axios.get(baseURL+'/travel/downloadFile',{params: params})
+				self.$axios.get(baseURL+'/travel/downloadFile',{params:params})
 				.then(function(res) {
 					console.log('downloadFile',res);
 					

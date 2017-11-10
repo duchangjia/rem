@@ -34,7 +34,7 @@
 					<el-table-column prop="salaryFloor" label="薪资标准下限"></el-table-column>
 					<el-table-column prop="salaryTop" label="薪资标准上限"></el-table-column>
 					<el-table-column prop="businessStandard" label="出差标准（人/天）"></el-table-column>
-					<el-table-column prop="remark" label="备注"></el-table-column>
+					<el-table-column prop="remark" label="备注" :formatter="remarkFormatter"></el-table-column>
 					<el-table-column prop="createdBy" label="创建ID"></el-table-column>
 					<el-table-column prop="createdDate" label="创建时间" :formatter="createdDateFormatter"></el-table-column>
 					<el-table-column label="操作">
@@ -118,6 +118,9 @@ export default {
 		current
 	},
 	methods: {
+		remarkFormatter(row,column) {
+			return row.remark.length>10?(row.remark.substr(0,10)+'......'):row.remark;
+		},
 		createdDateFormatter(row, column) {
 	      return moment(row.createdDate).format('YYYY-MM-DD')
 	    },
