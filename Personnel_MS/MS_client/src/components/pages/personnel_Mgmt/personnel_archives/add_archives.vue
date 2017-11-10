@@ -28,13 +28,13 @@
                                         <el-col :span="8">
                                             <el-form-item label="性别" prop="sex" class="gender_special">
                                                 <el-radio-group v-model="ruleForm.sex">
-                                                    <el-radio-button label="男"></el-radio-button>
-                                                    <el-radio-button label="女" class="special"></el-radio-button>
+                                                    <el-radio-button label="01">男</el-radio-button>
+                                                    <el-radio-button label="02" class="special">女</el-radio-button>
                                                 </el-radio-group>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="出生年月">
+                                            <el-form-item label="出生年月" prop="birthday">
                                                 <el-date-picker v-model="ruleForm.birthday" type="date" placeholder="选择日期" @change="changeBirthday"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.birthday"></el-input>-->
                                             </el-form-item>
@@ -84,7 +84,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="毕业时间">
+                                            <el-form-item label="毕业时间" prop="gradTime">
                                                 <el-date-picker v-model="ruleForm.gradTime" type="date" placeholder="选择日期" @change="changeGradtime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.gradTime"></el-input>-->
                                             </el-form-item>
@@ -225,42 +225,50 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="入职日期">
-                                                <el-input v-model="ruleForm2.entryTime"></el-input>
+                                                <el-date-picker v-model="ruleForm2.entryTime" type="date" placeholder="选择日期"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm2.entryTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="上岗日期">
-                                                <el-input v-model="ruleForm2.leftJobTime"></el-input>
+                                                <el-date-picker v-model="ruleForm.leftJobTime" type="date" placeholder="选择日期"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm2.leftJobTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="工作日期">
-                                                <el-input v-model="ruleForm2.workTime"></el-input>
+                                                <el-date-picker v-model="ruleForm.workTime" type="date" placeholder="选择日期"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm2.workTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="职称日期">
-                                                <el-input v-model="ruleForm2.profTitleTime"></el-input>
+                                                <el-date-picker v-model="ruleForm.profTitleTime" type="date" placeholder="选择日期"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm2.profTitleTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同开始">
-                                                <el-input v-model="ruleForm2.compactStartTime"></el-input>
+                                                <el-date-picker v-model="ruleForm.compactStartTime" type="date" placeholder="选择日期"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm2.compactStartTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同终止">
-                                                <el-input v-model="ruleForm2.compactEndTime"></el-input>
+                                                <el-date-picker v-model="ruleForm.compactEndTime" type="date" placeholder="选择日期"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm2.compactEndTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用开始">
-                                                <el-input v-model="ruleForm2.probStartTime"></el-input>
+                                                <el-date-picker v-model="ruleForm.probStartTime" type="date" placeholder="选择日期"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm2.probStartTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用结束">
-                                                <el-input v-model="ruleForm2.probEndTime"></el-input>
+                                                <el-date-picker v-model="ruleForm.probEndTime" type="date" placeholder="选择日期"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm2.probEndTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -498,7 +506,7 @@
                       {required: true, message: '请选择性别', trigger: 'change'}
                   ],
                   birthday: [
-                      {required: true, message: '请输入出生年月', trigger: 'blur'}
+                      {required: true, message: '请输入出生年月', trigger: 'change'}
                   ],
                   nation: [
                       {required: true, message: '请选择民族', trigger: 'change'}
@@ -519,7 +527,7 @@
                       {required: true, message: '请输入毕业学校', trigger: 'blur'}
                   ],
                   gradTime: [
-                      {required: true, message: '请输入毕业时间', trigger: 'blur'}
+                      {required: true, message: '请输入毕业时间', trigger: 'change'}
                   ],
                   major: [
                       {required: true, message: '请输入专业', trigger: 'blur'}
@@ -643,14 +651,14 @@
             current,socialRelationItem
         },
         created() {
-            let self = this
-            this.$axios.get('/queryCustContancts')
-                .then(res=>{
-                    console.log(res)
-                })
-                .catch(e=>{
-                    console.log('調用queryCustContancts失敗')
-                })
+//            let self = this
+//            this.$axios.get('/queryCustContancts')
+//                .then(res=>{
+//                    console.log(res)
+//                })
+//                .catch(e=>{
+//                    console.log('調用queryCustContancts失敗')
+//                })
 //            this.$axios.get('/iem_hrm/CustContact/queryCustContacts', {params:{
 //                userNo:'P0000001'
 //            }})
@@ -686,7 +694,7 @@
 //                    item.isShow = false
 //                })
                 if('first' === tabName){
-                    console.log('first')
+                    console.log('first',this.ruleForm.sex)
                     self.$refs.ruleForm.validate((valid) => {
                         if (valid) {
                             self.$refs.ruleForm2.validate((valid) => {

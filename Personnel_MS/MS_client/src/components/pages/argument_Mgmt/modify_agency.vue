@@ -42,6 +42,7 @@
                     costType: '',
                     costCode: '',
                     descr: '',
+                    oldCodeType: ''
                 }
             }
         },
@@ -55,6 +56,7 @@
                   self.obj.costType = res.data.data.costType
                   self.obj.costCode = res.data.data.costCode
                   self.obj.descr = res.data.data.descr
+                  self.obj.oldCodeType = res.data.data.costType
                   self.obj.organNo = res.data.data.organNo
               })
               .catch(e=>{
@@ -64,6 +66,7 @@
         methods: {
             save(){
                 let self = this
+                console.log(this.obj)
                 this.$axios.put('/iem_hrm/organ/modOrgCCC', this.obj)
                     .then(res => {
                         let result = res.data.retMsg

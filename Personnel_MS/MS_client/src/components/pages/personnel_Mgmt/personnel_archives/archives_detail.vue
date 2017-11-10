@@ -7,13 +7,7 @@
                     <template>
                         <el-tabs v-model="activeName" @tab-click="handleClick">
                             <el-tab-pane label="员工基本信息" name="first">
-                                <!--<div class="first_title">-->
-                                    <!--<div class="avatar"><div>添加照片</div></div>-->
-                                    <!--<div class="text">员工照片</div>-->
-                                <!--</div>-->
                                 <div class="personal_information">
-                                    <div class="text"><div class="text-wrapper">员工详情</div><div class="button-wrapper"><button class="special_1" @click="editItem" ref="edit">编辑</button>
-                                        <button>删除</button></div></div>
                                     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
                                         <el-col :span="8">
                                             <el-form-item label="姓名" prop="custName">
@@ -27,15 +21,16 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="性别" prop="sex" class="gender_special">
-                                                <el-radio-group :value="ruleForm.sex=='01'?'男':'女'" :disabled="edit">
-                                                    <el-radio-button label="男"></el-radio-button>
-                                                    <el-radio-button label="女" class="special"></el-radio-button>
+                                                <el-radio-group v-model="ruleForm.sex" :disabled="edit">
+                                                    <el-radio-button label="01">男</el-radio-button>
+                                                    <el-radio-button label="02" class="special">女</el-radio-button>
                                                 </el-radio-group>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="出生年月" prop="birthday">
-                                                <el-input v-model="ruleForm.birthday" :disabled="edit"></el-input>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.birthday" :disabled="edit" @change="holdBirthday"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm.birthday" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -87,7 +82,8 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="毕业时间" prop="gradTime">
-                                                <el-input v-model="ruleForm.gradTime" :disabled="edit"></el-input>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.gradTime" :disabled="edit" @change="holdGradTime"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm.gradTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -140,9 +136,7 @@
                                                 <el-input v-model="ruleForm.liveAddr" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-
-                                    <div class="text">职务信息</div>
-                                    <!--<el-form :model="ruleForm" :rules="rules2" ref="ruleForm2" label-width="100px">-->
+                                        <hr style="width: 100%">
                                         <el-col :span="8">
                                             <el-form-item label="员工编号" prop="userNo">
                                                 <el-input v-model="ruleForm.userNo" :disabled="true"></el-input>
@@ -213,42 +207,50 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="入职日期">
-                                                <el-input v-model="ruleForm.entryTime" :disabled="edit"></el-input>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.entryTime" :disabled="edit"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm.entryTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="上岗日期">
-                                                <el-input v-model="ruleForm.leftJobTime" :disabled="edit"></el-input>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.leftJobTime" :disabled="edit"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm.leftJobTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="工作日期">
-                                                <el-input v-model="ruleForm.workTime" :disabled="edit"></el-input>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.workTime" :disabled="edit"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm.workTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="职称日期">
-                                                <el-input v-model="ruleForm.profTitleTime" :disabled="edit"></el-input>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.profTitleTime" :disabled="edit"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm.profTitleTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同开始">
-                                                <el-input v-model="ruleForm.compactStartTime" :disabled="edit"></el-input>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactStartTime" :disabled="edit"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm.compactStartTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同终止">
-                                                <el-input v-model="ruleForm.compactEndTime" :disabled="edit"></el-input>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactEndTime" :disabled="edit"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm.compactEndTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用开始">
-                                                <el-input v-model="ruleForm.probStartTime" :disabled="edit"></el-input>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probStartTime" :disabled="edit"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm.probStartTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用结束">
-                                                <el-input v-model="ruleForm.probEndTime" :disabled="edit"></el-input>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probEndTime" :disabled="edit"></el-date-picker>
+                                                <!--<el-input v-model="ruleForm.probEndTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -286,6 +288,7 @@
                                                 <el-input v-model="ruleForm.housAcct" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
+                                        <hr style="width: 100%">
                                         <el-col :span="23">
                                             <el-form-item label="备注">
                                                 <el-input type="textarea" v-model="ruleForm.remark" :disabled="edit"></el-input>
@@ -387,9 +390,12 @@
                             </el-tab-pane>
                         </el-tabs>
                     </template>
-
                 </div>
-                <button class="add" @click="edit(tabName)" v-show="tabName=='first'||tabName=='second'||tabName=='sixth'">{{tabName=='sixth'?'全部下载':'保存'}}</button>
+                <div class="button-wrapper">
+                    <button @click="edit=false">编辑</button>
+                    <button class="special_1" @click="save(tabName)">保存</button>
+                    <button @click="del">删除</button>
+                </div>
             </div>
         </el-col>
     </div>
@@ -403,7 +409,7 @@
             return {
                 dialogImageUrl: '',
                 dialogVisible: false,
-                edit: false,
+                edit: true,
                 social_item:{
                     userNo:'P0000003',
                     lists:[
@@ -419,7 +425,7 @@
                     ]
                 },
                 activeName: 'first',
-                tabName:'',
+                tabName:'first',
                 ruleForm: {
                     custName: '',
                     certNo: '',
@@ -442,7 +448,6 @@
                     origo: '',
                     permAddr: '',
                     liveAddr: '',
-
                     userNo: '',
                     organNo: '',
                     derpNo: '',
@@ -481,7 +486,7 @@
                         {required: true, message: '请选择性别', trigger: 'change'}
                     ],
                     birthday: [
-                        {required: true, message: '请输入出生年月', trigger: 'blur'}
+                        {required: true, message: '请输入出生年月', trigger: 'change'}
                     ],
                     nation: [
                         {required: true, message: '请选择民族', trigger: 'change'}
@@ -502,10 +507,7 @@
                         {required: true, message: '请输入毕业学校', trigger: 'blur'}
                     ],
                     gradTime: [
-                        {required: true, message: '请输入毕业时间', trigger: 'blur'}
-                    ],
-                    major: [
-                        {required: true, message: '请输入专业', trigger: 'blur'}
+                        {required: true, message: '请输入毕业时间', trigger: 'change'}
                     ],
                     mobileNo: [
                         {required: true, message: '请输入移动电话', trigger: 'blur'}
@@ -513,36 +515,6 @@
                     perEmail: [
                         {required: true, message: '请输入个人邮箱', trigger: 'blur'}
                     ],
-                },
-                ruleForm2: {
-                    userNo: '',
-                    organNo: '',
-                    derpNo: '',
-                    ownerCCC: '',
-                    lineManager: '',
-                    custType: '',
-                    custPost: '',
-                    custClass: '',
-                    custStatus: '',
-                    entryTime: '',
-                    leftJobTime: '',
-                    workTime: '',
-                    profTitleTime: '',
-                    compactStartTime: '',
-                    compactEndTime: '',
-                    probStartTime: '',
-                    probEndTime: '',
-                    recruitQuarry: '',
-                    openBank: '',
-                    bankCardNo: '',
-                    endmAcct: '',
-                    mediAcct: '',
-                    mateAcct: '',
-                    housAcct: '',
-                    remark: '',
-                    attachm: '',
-                },
-                rules2: {
                     userNo: [
                         {required: true, message: '请输入员工编号', trigger: 'blur'},
                     ],
@@ -633,6 +605,12 @@
                 })
         },
         methods: {
+            holdBirthday(val){
+                this.ruleForm.birthday = val
+            },
+            holdGradTime(val){
+                this.ruleForm.gradTime = val
+            },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
@@ -644,70 +622,76 @@
                 console.log(tab, event);
                 this.tabName = tab.name
             },
-            editItem() {
-//                let self = this
-//              if(this.$refs.edit.innerHTML='编辑'){
-//                  this.edit = false
-//                  this.$refs.edit.innerHTML='提交'
-//              }
-//              if(this.$refs.edit.innerHTML='提交'){
-                  self.$refs.ruleForm2.validate((valid) => {
-                      if (valid) {
-                          self.$refs.ruleForm.validate((valid) => {
-                              if (valid) {
-//                                  let data = Object.assign(this.ruleForm,this.ruleForm2)
-                                  console.log(this.ruleForm)
-                                  this.$axios.put('/iem_hrm/CustInfo/modCustInf', this.ruleForm)
-                                      .then(res=>{
-                                          console.log(res)
-
-                                      })
-                                      .catch(e=>{
-                                          console.log(e)
-                                      })
-                              }else {
-                                  self.$message({
-                                      type: 'error',
-                                      message: '请填写必须信息!'
-                                  });
-                              }
-                          })
-                      }else {
-                          self.$message({
-                              type: 'error',
-                              message: '请填写必须信息!'
-                          });
-                      }
-                  })
-
-//              }
-
+            del() {
+                let userNo = this.$route.query.userNo
+                this.$axios.put('/iem_hrm/CustInfo/delCustInf/'+userNo)
+                    .then(res=>{
+                        let result = res.data.data.retMsg
+                        if ("操作成功"===result){
+                            self.$message({
+                                type: 'success',
+                                message: result
+                            });
+//                            this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+userNo)
+//                                .then(res=>{
+//                                    console.log(res)
+//                                    this.ruleForm = res.data.data
+//                                })
+//                                .catch(e=>{
+//                                    console.log(e)
+//                                })
+                            this.edit = true
+                        }else{
+                            self.$message({
+                                type: 'error',
+                                message: result
+                            });
+                        }
+                        console.log(res,'del')
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
             },
             save(tabName) {
                 let self = this
-//                this.social_item.forEach((item)=>{
-//                    item.isShow = false
-//                })
                 if('first' === tabName){
-                    self.$refs.ruleForm2.validate((valid) => {
+                    if(this.edit) {
+                        self.$message({
+                            type: 'error',
+                            message: '请先点击编辑'
+                        });
+                        return
+                    }
+                    self.$refs.ruleForm.validate((valid) => {
                         if (valid) {
-                            self.$refs.ruleForm.validate((valid) => {
-                                if (valid) {
-                                    let data = Object.assign(this.ruleForm,this.ruleForm2)
-                                    this.$axios.post('/iem_hrm/CustInfo/insertCustInfo', data)
-                                        .then(res=>{
-                                            console.log(res)
-                                        })
-                                        .catch(e=>{
-                                            console.log(e)
-                                        })
-                                }else {
-                                    self.$message({
-                                        type: 'error',
-                                        message: '请填写必须信息!'
-                                    });
+                            console.log(this.ruleForm)
+                            for(var key in this.ruleForm){
+                                if(!this.ruleForm[key]){
+                                    delete this.ruleForm[key]
                                 }
-                            })
+                            }
+                            console.log(this.ruleForm)
+                            this.$axios.put('/iem_hrm/CustInfo/modCustInf', this.ruleForm)
+                                .then(res=>{
+                                    console.log(res,'save')
+                                    let result = res.data.data.retMsg
+                                    if ("操作成功"===result){
+                                        self.$message({
+                                            type: 'success',
+                                            message: result
+                                        });
+                                        this.edit = true
+                                    }else{
+                                        self.$message({
+                                            type: 'error',
+                                            message: result
+                                        });
+                                    }
+                                })
+                                .catch(e=>{
+                                    console.log(e)
+                                })
                         }else {
                             self.$message({
                                 type: 'error',
@@ -817,6 +801,26 @@
         .content-wrapper
             background: #fff;
             position relative
+            .button-wrapper
+                position absolute
+                right 10px
+                top 20px
+                button
+                    width: 120px
+                    height 40px
+                    background: #fff;
+                    border: 1px solid #FF9900;
+                    outline none
+                    font-family: PingFangSC-Regular;
+                    font-size: 14px;
+                    color: #f90;
+                    line-height 40px
+                    text-align center
+                    &:hover
+                        background: #f90;
+                        color #fff
+                .special_1
+                    margin 0 20px
             .content
                 font-family: PingFangSC-Regular;
                 letter-spacing: 0;
@@ -864,24 +868,8 @@
                         width 300px
                         margin 0 auto
                 .personal_information
+                    padding-top 40px
                     overflow hidden
-                    .text
-                        position relative
-                        .button-wrapper
-                            position absolute
-                            right 0
-                            top 0
-                        button
-                            width: 120px
-                            height 40px
-                            background: #fff;
-                            border: 1px solid #FF9900;
-                            outline none
-                            font-family: PingFangSC-Regular;
-                            font-size: 14px;
-                            color: #f90;
-                            line-height 40px
-                            text-align center
                     .el-input
                         width 200px
                         height 40px

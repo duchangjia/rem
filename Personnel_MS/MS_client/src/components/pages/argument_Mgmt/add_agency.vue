@@ -79,7 +79,7 @@
           this.$axios.get('/iem_hrm/organ/getOrganName')
               .then(res=>{
                   console.log(res)
-                  this.optionItem = res.data
+                  this.optionItem = res.data.data
               })
               .catch(e=>{
                   console.log(e)
