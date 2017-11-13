@@ -165,7 +165,7 @@
     border-bottom: 1px solid #EEEEEE;
     display: flex;
     align-items: center;
-    height: 80px;
+    height: 50px;
     justify-content: space-between;
 }
 .edit-wrapper .edit-content{
@@ -178,7 +178,7 @@
     border-bottom: 1px solid #EEEEEE;
     display: flex;
     align-items: center;
-    height: 80px;
+    height: 50px;
     width: 100%;
     justify-content: space-between;
 }
@@ -188,13 +188,13 @@
     color: #333333;
     letter-spacing: 0;
     border-bottom: 2px solid #363D47;
-    height: 80px;
-    line-height: 80px;
+    height: 50px;
+    line-height: 50px;
     width: 80px;
 }
 .edit-wrapper .edit-content .title .save {
-    border-radius: 0;
-    height: 40px;
+    border-radius: 4px;
+    height: 30px;
     width: 120px;
     background: #F4F4F4;
     border: none;
@@ -208,7 +208,7 @@
     background: orange;
 }
 .edit-wrapper .department-info{
-    margin-top: 40px;
+    margin-top: 30px;
     padding-left: 8px;
     padding-bottom: 20px;
     overflow: hidden;

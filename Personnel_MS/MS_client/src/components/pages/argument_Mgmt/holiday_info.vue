@@ -5,6 +5,32 @@
             <div class="content-wrapper">
                 <div class="title"><span class="text">免签节假日维护</span><button class="add" @click="add">新增</button></div>
                 <div class="content">
+                    <!--<el-form class="search">-->
+                        <!--<el-col :span="6">-->
+                            <!--<el-form-item label="日期">-->
+                                <!--<el-date-picker type="date" placeholder="选择日期" v-model="content.date1"></el-date-picker>-->
+                            <!--</el-form-item>-->
+                        <!--</el-col>-->
+                        <!--<el-col :span="6">-->
+                            <!--<el-form-item label="-">-->
+                                <!--<el-date-picker type="date" v-model="content.date2" placeholder="选择日期"></el-date-picker>-->
+                            <!--</el-form-item>-->
+                        <!--</el-col>-->
+                        <!--<el-col :span="6">-->
+                            <!--<el-form-item label="类型">-->
+                                <!--<el-select v-model="content.value">-->
+                                    <!--<el-option-->
+                                            <!--label="法定节假日"-->
+                                            <!--value="1">-->
+                                    <!--</el-option>-->
+                                    <!--<el-option-->
+                                            <!--label="正常工作日"-->
+                                            <!--value="2">-->
+                                    <!--</el-option>-->
+                                <!--</el-select>-->
+                            <!--</el-form-item>-->
+                        <!--</el-col>-->
+                    <!--</el-form>-->
                     <div class="search"><span>日期</span><el-date-picker type="date" placeholder="选择日期" v-model="content.date1"></el-date-picker><i>-</i><el-date-picker type="date" v-model="content.date2" placeholder="选择日期"></el-date-picker>
                         <span class="special">类型</span><el-select v-model="content.value">
                             <el-option
@@ -353,6 +379,7 @@
                     background: #FF9900;
                     border: 1px solid #FF9900;
                     outline none
+                    border-radius 4px
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #FFFFFF;
@@ -368,10 +395,11 @@
                         margin 0 10px
                     span
                         margin-right 10px
+                        color #999
                     .special
                         margin-left 80px
                     .el-date-editor
-                        width: 200px
+                        width: 165px
                         height: 30px
                         .el-input__inner
                             width 100%
@@ -381,7 +409,7 @@
                             &:focus
                                 border-color #ff9900
                     .el-select
-                        width 200px
+                        width 165px
                         height 30px
                         .el-input
                             height 100%
@@ -393,14 +421,15 @@
                                 &:focus
                                     border-color #ff9900
                 .button
-                    padding-left 380px
-                    margin 30px 0px
+                    margin 30px 0
+                    padding-left 38%
                     button
                         width: 120px
                         height 30px
                         background: #FF9900;
                         border: 1px solid #FF9900;
                         outline none
+                        border-radius 4px
                         font-family: PingFangSC-Regular;
                         font-size: 14px;
                         color: #FFFFFF;
