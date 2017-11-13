@@ -381,8 +381,8 @@ export default {
 
 <style scoped>
 .location-wrapper {
-    height: 70px;
-    line-height: 70px;
+    height: 40px;
+    line-height: 40px;
     font-size: 12px;
 }
 

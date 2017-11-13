@@ -5,26 +5,60 @@
             <div class="content-wrapper">
                 <div class="title"><span class="text">人事档案</span><button class="add" @click="add">新增</button></div>
                 <div class="content">
-                    <div class="item-wrapper">
-                        <span class="text">公司</span><el-select v-model="searchInfo.organName" class="common">
-                        <el-option label="深圳分公司" value="8801"></el-option>
-                        <el-option label="其他" value="9090"></el-option>
-                    </el-select>
-                        <span class="text">部门</span><el-select v-model="searchInfo.derpName" class="common">
-                        <el-option label="南山分部" value="88011"></el-option>
-                        <el-option label="其他" value="9090"></el-option>
-                    </el-select>
-                        <span class="text">姓名</span><el-input placeholder="请输入工号或姓名" v-model="searchInfo.nameOrNo"></el-input>
-                    </div>
-                    <div class="item-wrapper">
-                        <span class="text">状态</span><el-select v-model="searchInfo.custStatus" class="common">
-                        <el-option label="试用期" value="01"></el-option>
-                        <el-option label="合同期" value="02"></el-option>
-                        <el-option label="已退休" value="03"></el-option>
-                        <el-option label="已离职" value="04"></el-option>
-                        <el-option label="停薪留职" value="05"></el-option>
-                    </el-select>
-                    </div>
+                    <el-form>
+                        <el-col :span="6">
+                            <el-form-item label="公司">
+                                <el-select v-model="searchInfo.organName">
+                                    <el-option label="深圳分公司" value="8801"></el-option>
+                                    <el-option label="其他" value="9090"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="部门">
+                                <el-select v-model="searchInfo.derpName">
+                                    <el-option label="南山分部" value="88011"></el-option>
+                                    <el-option label="其他" value="9090"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="姓名">
+                                <el-input placeholder="请输入工号或姓名" v-model="searchInfo.nameOrNo"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="6">
+                            <el-form-item label="状态">
+                                <el-select v-model="searchInfo.custStatus">
+                                    <el-option label="试用期" value="01"></el-option>
+                                    <el-option label="合同期" value="02"></el-option>
+                                    <el-option label="已退休" value="03"></el-option>
+                                    <el-option label="已离职" value="04"></el-option>
+                                    <el-option label="停薪留职" value="05"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-form>
+                    <!--<div class="item-wrapper">-->
+                        <!--<span class="text">公司</span><el-select v-model="searchInfo.organName" class="common">-->
+                        <!--<el-option label="深圳分公司" value="8801"></el-option>-->
+                        <!--<el-option label="其他" value="9090"></el-option>-->
+                    <!--</el-select>-->
+                        <!--<span class="text">部门</span><el-select v-model="searchInfo.derpName" class="common">-->
+                        <!--<el-option label="南山分部" value="88011"></el-option>-->
+                        <!--<el-option label="其他" value="9090"></el-option>-->
+                    <!--</el-select>-->
+                        <!--<span class="text">姓名</span><el-input placeholder="请输入工号或姓名" v-model="searchInfo.nameOrNo"></el-input>-->
+                    <!--</div>-->
+                    <!--<div class="item-wrapper">-->
+                        <!--<span class="text">状态</span><el-select v-model="searchInfo.custStatus" class="common">-->
+                        <!--<el-option label="试用期" value="01"></el-option>-->
+                        <!--<el-option label="合同期" value="02"></el-option>-->
+                        <!--<el-option label="已退休" value="03"></el-option>-->
+                        <!--<el-option label="已离职" value="04"></el-option>-->
+                        <!--<el-option label="停薪留职" value="05"></el-option>-->
+                    <!--</el-select>-->
+                    <!--</div>-->
                     <div class="button">
                         <button class="special_1" @click="reset">重置</button>
                         <button @click="search">查询</button>
@@ -256,33 +290,33 @@
                 font-size: 16px;
                 color: #333333;
                 letter-spacing: 0;
-                height: 80px;
-                line-height: 80px;
+                height: 50px;
+                line-height: 50px;
                 border-bottom: 1px solid #f4f4f4;
                 position relative
                 .text
                     border-bottom:2px solid black;
                     display: inline-block;
-                    height: 80px;
+                    height: 50px;
                 .add
                     width: 120px
-                    height 40px
+                    height 30px
                     background: #FF9900;
                     border: 1px solid #FF9900;
                     outline none
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #FFFFFF;
-                    line-height 40px
+                    line-height 30px
                     text-align center
                     position absolute
                     right 0px
-                    bottom 20px
+                    bottom 10px
             .content
-                padding-top: 42px;
-                .item-wrapper
-                    padding 0 22px 0 28px
-                    margin-bottom 20px
+                padding-top: 30px;
+                .el-form-item
+                    //padding 0 22px 0 28px
+                    //margin-bottom 30px
                     .text
                         margin-right 30px
                         font-family: PingFangSC-Regular;
@@ -292,8 +326,8 @@
                     .common
                         margin-right 108px
                     .el-input
-                        width 200px
-                        height 40px
+                        width 165px
+                        height 30px
                         .el-input__inner
                             width 100%
                             height 100%
@@ -302,9 +336,10 @@
                             &:focus
                                 border-color #ff9900
                     .el-select
-                        width 200px
-                        height 40px
+                        width 165px
+                        height 30px
                         .el-input
+                            width 100%
                             height 100%
                             .el-input__inner
                                 width 100%
@@ -314,18 +349,18 @@
                                 &:focus
                                     border-color #ff9900
                 .button
-                    margin 40px 0
+                    margin 30px 0
                     padding-left 380px
                     button
                         width: 120px
-                        height 40px
+                        height 30px
                         background: #FF9900;
                         border: 1px solid #FF9900;
                         outline none
                         font-family: PingFangSC-Regular;
                         font-size: 14px;
                         color: #FFFFFF;
-                        line-height 40px
+                        line-height 30px
                         text-align center
                     .special_1
                         background: #FFFFFF;
@@ -334,8 +369,8 @@
                 table
                     display: flex;
                     width: 100%;
-                    margin-top: 40px;
-                    margin-bottom: 40px;
+                    margin-top: 30px;
+                    margin-bottom: 30px;
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #333;

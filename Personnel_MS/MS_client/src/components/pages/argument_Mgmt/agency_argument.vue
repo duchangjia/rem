@@ -12,8 +12,8 @@
                             <el-option v-for="item in searchValueOption" :label="item" :value="item"></el-option>
                             <!--<el-option label="区域二" value="beijing"></el-option>-->
                         </el-select>
-                        <el-button class="toolBtn" @click="reset(searchValue)">重置</el-button>
-                        <el-button class="toolBtn" @click="search(searchValue)">查询</el-button>
+                        <el-button class="toolBtn2 reset" @click="reset(searchValue)">重置</el-button>
+                        <el-button class="toolBtn2" @click="search(searchValue)">查询</el-button>
                     </div>
                     <table>
                         <tr><td v-for="th in table.th">{{th}}</td></tr>
@@ -311,33 +311,33 @@
         font-size: 16px;
         color: #333333;
         letter-spacing: 0;
-        height: 80px;
-        line-height: 80px;
+        height: 50px;
+        line-height: 50px;
         border-bottom: 1px solid #f4f4f4;
         position: relative;
     }
     .agency_argument .content-wrapper .title .text{
         border-bottom:2px solid black;
         display: inline-block;
-        height: 80px;
+        height: 50px;
     }
     .agency_argument .content-wrapper .title .add{
         width: 120px;
-        height: 40px;
+        height: 30px;
         background: #FF9900;
         border: 1px solid #FF9900;
         outline: none;
         font-family: PingFangSC-Regular;
         font-size: 14px;
         color: #FFFFFF;
-        line-height: 40px;
+        line-height: 30px;
         text-align: center;
         position: absolute;
         right: 0px;
-        bottom: 20px;
+        bottom: 10px;
     }
     .agency_argument .content-wrapper .content{
-        padding-top: 42px;
+        padding-top: 30px;
     }
     .agency_argument .content-wrapper .content .search{
     }
@@ -348,16 +348,20 @@
         letter-spacing: 0;
     }
     .agency_argument .content-wrapper .content .search .el-select{
-        margin: 0 20px 0 30px;
-        width: 300px;
-        height: 40px;
+        margin: 0 20px 0 10px;
+        width: 165px;
+        height: 30px;
+    }
+    .agency_argument .content-wrapper .content .search .el-select .el-input__inner{
+        width: 100%;
+        height: 30px;
     }
     .agency_argument .content-wrapper .content .search input:hover{
         border: 1px solid orange;
     }
-    .agency_argument .content-wrapper .content .search .toolBtn{
+    .agency_argument .content-wrapper .content .search .toolBtn2{
         border-radius: 0;
-        height: 40px;
+        height: 30px;
         width: 120px;
         background: #FF9900;
         border: none;
@@ -366,11 +370,17 @@
         font-size: 14px;
         color: #FFFFFF;
     }
+    .agency_argument .content-wrapper .content .search .reset{
+        background: #fff;
+        border: 1px solid #f90;
+        color: #f90;
+        margin-left: 20px;
+    }
     .agency_argument .content table{
         display: flex;
         width: 100%;
-        margin-top: 40px;
-        margin-bottom: 40px;
+        margin-top: 30px;
+        margin-bottom: 30px;
         font-family: PingFangSC-Regular;
         font-size: 14px;
         color: #333;
