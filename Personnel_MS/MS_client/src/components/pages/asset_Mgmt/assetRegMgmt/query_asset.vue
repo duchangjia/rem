@@ -76,8 +76,8 @@
                 </el-table-column>
                 <el-table-column align="center" label="操作" width="170">
                     <template scope="scope">
-                        <el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-                        <el-button size="small" @click="handleAssetUse(scope.$index, scope.row)">使用管理</el-button>                        
+                        <el-button type="text" size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+                        <el-button type="text" size="small" @click="handleAssetUse(scope.$index, scope.row)">使用管理</el-button>                        
                     </template>
                 </el-table-column>
             </el-table>

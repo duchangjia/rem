@@ -138,28 +138,30 @@
               table: {
                   th:['工号', '姓名', '公司名称', '部门名称', '性别', '岗位', '手机', '入职时间', '状态', '资产'],
                   td:[
-                      {
-                          user_No: 'P0000008',
-                          user_name: '张三李四王老五',
-                          company_name: '深圳前海橙色魔方技术有限公司深圳前海橙色魔方技术有限公司',
-                          department_name: '部门名称部门名称',
-                          sex: '男',
-                          position: 'JAVA开发',
-                          phone: '13333333333',
-                          in_time: '2019/01/01',
-                          status: '离职',
-                      },
-                      {
-                          user_No: 'P0000008',
-                          user_name: '张三李四王老五',
-                          company_name: '深圳前海橙色魔方技术有限公司',
-                          department_name: '部门名称部门名称',
-                          sex: '男',
-                          position: 'JAVA开发',
-                          phone: '13333333333',
-                          in_time: '2019/01/01',
-                          status: '离职',
-                      },]  },
+//                      {
+//                          user_No: 'P0000008',
+//                          user_name: '张三李四王老五',
+//                          company_name: '深圳前海橙色魔方技术有限公司深圳前海橙色魔方技术有限公司',
+//                          department_name: '部门名称部门名称',
+//                          sex: '男',
+//                          position: 'JAVA开发',
+//                          phone: '13333333333',
+//                          in_time: '2019/01/01',
+//                          status: '离职',
+//                      },
+//                      {
+//                          user_No: 'P0000008',
+//                          user_name: '张三李四王老五',
+//                          company_name: '深圳前海橙色魔方技术有限公司',
+//                          department_name: '部门名称部门名称',
+//                          sex: '男',
+//                          position: 'JAVA开发',
+//                          phone: '13333333333',
+//                          in_time: '2019/01/01',
+//                          status: '离职',
+//                      },
+                  ]
+              },
               fenye: {
                   total:0,
                   pageSize:10
