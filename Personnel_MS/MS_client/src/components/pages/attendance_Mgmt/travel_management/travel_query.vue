@@ -66,11 +66,11 @@
 						<el-table-column prop="userNo" label="工号"></el-table-column>
 						<el-table-column prop="custName" label="姓名"></el-table-column>
 						<el-table-column prop="travelType" label="出差类型" :formatter="travelTypeFormatter"></el-table-column>
-						<el-table-column prop="travelStartTime" label="出差开始时间"></el-table-column>
-						<el-table-column prop="travelEndTime" label="出差结束时间"></el-table-column>
+						<el-table-column prop="travelStartTime" label="出差开始时间" :formatter="travelStartTimeFormatter"></el-table-column>
+						<el-table-column prop="travelEndTime" label="出差结束时间" :formatter="travelEndTimeFormatter"></el-table-column>
 						<el-table-column prop="createdBy" label="录入人"></el-table-column>
-						<el-table-column prop="createdDate" label="录入时间"></el-table-column>
-						<el-table-column label="操作" width="150">
+						<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
+						<el-table-column label="操作" width="100">
 							<template scope="scope">
 								<i class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></i>
 								<i class="icon_delete" @click="handleDelete(scope.$index, scope.row)"></i>
@@ -87,6 +87,7 @@
 
 <script type='text/ecmascript-6'>
 import current from '../../../common/current_position.vue'
+import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
@@ -110,13 +111,13 @@ export default {
 			transferDataList: [
 				{
 					applyNo: "00100",
-					organName: "shanghaifen",
-					departName: "shanghaifen",
-					userNo: "001", 
-					custName: "小名",
-					travelType: "01",
-					travelStartTime: "2017-10-10",
-					travelEndTime: "2017-10-19",
+					organName: "",
+					departName: "",
+					userNo: "", 
+					custName: "",
+					travelType: "",
+					travelStartTime: "",
+					travelEndTime: "",
 					createdBy: "",
 					createdDate: ""
 				}
@@ -162,25 +163,18 @@ export default {
 		//出差列表查询
 		this.queryTravelList(pageNum,pageSize,params);
 		//公司列表查询
-		this.queryCompList(params);
+		this.queryCompList();
 	},
 	methods: {
-		//时间戳=》yyyy-mm-dd
-		add0(m){return m<10?'0'+m:m },
-		getLocalTime(shijianchuo) {     
-	       	var time = new Date(shijianchuo);
-			var y = time.getFullYear();
-			var m = time.getMonth()+1;
-			var d = time.getDate();
-			var h = time.getHours();
-			var mm = time.getMinutes();
-			var s = time.getSeconds();
-			return y+'-'+this.add0(m)+'-'+this.add0(d)+' '+this.add0(h)+':'+this.add0(mm)+':'+this.add0(s);      
-	    },  
-		travelTimeFormatter(row, column) {
-//			let time = row.createdDate;
-//			return time?this.getLocalTime(time):null;
-		},
+		travelStartTimeFormatter(row, column) {
+	      return moment(row.travelStartTime).format('YYYY-MM-DD') || '';
+	   	}, 
+	   	travelEndTimeFormatter(row, column) {
+	      return moment(row.travelEndTime).format('YYYY-MM-DD') || '';
+	   	}, 
+	   	createdDateFormatter(row, column) {
+	      return moment(row.createdDate).format('YYYY-MM-DD') || '';
+	    },
 		travelTypeFormatter(row, column) {
 	    	let travelType = '';
 	    	switch(row.travelType){
@@ -333,7 +327,7 @@ export default {
 				console.log(err);
 			})
 		},
-		queryCompList(params) {
+		queryCompList() {
 			let self = this;
 			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
 			.then(function(res) {
@@ -358,7 +352,9 @@ export default {
 			self.$axios.delete(baseURL+'/travel/deleteTravel', params)
 			.then(function(res) {
 				console.log('deleteTravel',res);
-				
+				if(res.data.code === "S00000") {
+					self.$message({ message: '操作成功', type: 'success' });	
+				}
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -466,7 +462,7 @@ export default {
 	background-color: #FF9900;
 	border-color: #FF9900;
 }
-.el-button+.el-button {
+.travel_query .el-button+.el-button {
     margin-left: 0px;
 }
 .travel_query .el-table td,
@@ -490,6 +486,10 @@ export default {
 	overflow: hidden;*/
 	text-align: center;
 	box-shadow: inset 0 1px 0 0 #EEEEEE;
+}
+.el-table .cell, .el-table th>div {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .icon_edit {
 	width: 14px;

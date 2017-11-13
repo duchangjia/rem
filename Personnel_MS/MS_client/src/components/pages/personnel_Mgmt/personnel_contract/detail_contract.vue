@@ -8,56 +8,51 @@
                     <div class="add-wrapper">
                         <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
                             <el-col :span="24">
-                                <el-form-item label="合同编号" prop="pactNo">
+                                <el-form-item label="合同编号">
                                     <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="纸质合同编号" prop="paperPactNo">
+                                <el-form-item label="纸质合同编号">
                                     <el-input v-model="basicPactMsg.paperPactNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="合同名称" prop="pactName">
+                                <el-form-item label="合同名称">
                                     <el-input v-model="basicPactMsg.pactName" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="公司名称" prop="organNo">
-                                    <el-select v-model="basicPactMsg.organNo" :disabled="true">
-                                        <el-option label="总公司" value="0001"></el-option>
-                                        <el-option label="深圳分公司" value="0002"></el-option>
-                                    </el-select>
+                                <el-form-item label="公司名称">
+                                    <el-input v-model="basicPactMsg.organNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="部门名称" prop="derpNo">
-                                    <el-select v-model="basicPactMsg.derpNo" :disabled="true">
-                                        <el-option label="财务部" value="0001"></el-option>
-                                        <el-option label="技术部" value="0002"></el-option>
-                                    </el-select>
+                                <el-form-item label="部门名称">
+                                    <el-input v-model="basicPactMsg.derpNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="工号" prop="userNo">
+                                <el-form-item label="工号">
                                     <el-input v-model="basicPactMsg.userNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="员工姓名" prop="custName">
+                                <el-form-item label="员工姓名">
                                     <el-input v-model="basicPactMsg.custName" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="性别" prop="sex">
+                                <el-form-item label="性别">
                                     <el-select v-model="basicPactMsg.sex" :disabled="true">
                                         <el-option label="男" value="01"></el-option>
                                         <el-option label="女" value="02"></el-option>
+                                        <el-option label="其他" value="99"></el-option>
                                     </el-select>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
-                                <el-form-item label="身份证" prop="cert">
+                                <el-form-item label="身份证">
                                     <el-input v-model="basicPactMsg.cert" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
@@ -221,13 +216,13 @@ export default {
       PRenewListInfo: [],
       pChangePage: {
         pageNum: 1,
-        pageSize: 7,
-        totalRows: 20
+        pageSize: 10,
+        totalRows: 1
       },
       pRenewPage: {
         pageNum: 1,
-        pageSize: 7,
-        totalRows: 20
+        pageSize: 10,
+        totalRows: 1
       },
       checked: ''
     };
@@ -237,6 +232,7 @@ export default {
   },
   created() {
     this.pactNo = this.$route.params.pactNo;
+    console.log("接到的pactNo:" ,this.pactNo);
     if (this.$route.params.activeTab) {
       this.activeName = this.$route.params.activeTab;
       if (this.activeName == "changePactMsg") this.getPChangeList();
@@ -273,10 +269,9 @@ export default {
     getPChangeList() {
       const self = this;
       let params = {
-        pageNum: self.pChangePage.pageNum,
-        pageSize: self.pChangePage.pageSize,
-        pactNo: self.pactNo,
-        changeId: ""
+        // pageNum: self.pChangePage.pageNum,
+        // pageSize: self.pChangePage.pageSize,
+        pactNo: self.pactNo
       };
       self.$axios
         .get("/iem_hrm/pact/queryPactChangeList", { params: params })
@@ -292,11 +287,9 @@ export default {
     getPRenewList() {
       const self = this;
       let params = {
-        pageNum: self.pRenewPage.pageNum,
-        pageSize: self.pRenewPage.pageSize,
-        pactNo: self.pactNo,
-        // pactNo: "0001",
-        renewId: ""
+        // pageNum: self.pRenewPage.pageNum,
+        // pageSize: self.pRenewPage.pageSize,
+        pactNo: self.pactNo
       };
       self.$axios
         .get("/iem_hrm/pact/queryPactRenewList", { params: params })

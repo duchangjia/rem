@@ -37,9 +37,9 @@
                 </el-table-column>
                 <el-table-column align="center" prop="custName" label="姓名">
                 </el-table-column>
-                <el-table-column align="center" prop="organNo" label="公司名称" :formatter="organFormatter">
+                <el-table-column align="center" prop="organName" label="公司名称">
                 </el-table-column>
-                <el-table-column align="center" prop="derpNo" label="部门名称" :formatter="derpFormatter">
+                <el-table-column align="center" prop="derpName" label="部门名称">
                 </el-table-column>
                 <el-table-column align="center" prop="pactType" label="合同类型" :formatter="pactTypeFormatter">
                 </el-table-column>
@@ -54,7 +54,7 @@
                 <el-table-column align="center" label="操作" width="150">
                     <template scope="scope">
                         <el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-                        <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                        <el-button size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                         <el-button size="small" @click="handlePChange(scope.$index, scope.row)">变更</el-button>
                         <el-button size="small" @click="handlePRenew(scope.$index, scope.row)">续签</el-button>
                         <!-- <el-button size="small" @click="handleTerminate(scope.$index, scope.row)">解除</el-button>
@@ -78,7 +78,7 @@ export default {
         pactType: ""
       },
       pageNum: 1,
-      pageSize: 7,
+      pageSize: 10,
       totalRows: 1,
       pactListInfo: []
     };
@@ -104,29 +104,24 @@ export default {
         .get("/iem_hrm/pact/queryPactList", { params: params })
         .then(res => {
           console.log(res);
-          self.pactListInfo = res.data.data.list;
+          self.pactListInfo = res.data.data.models;
           self.totalRows = res.data.data.total;
         })
         .catch(() => {
           console.log("error");
         });
     },
-    organFormatter(row, column) {
-      return row.organNo == "0001" ? "总公司" : row.organNo == "0002" ? "深圳分公司" : "异常";
-    },
-    derpFormatter(row, column) {
-      return row.derpNo == "0001" ? "技术部" : row.derpNo == "0002" ? "财务部" : "异常";
-    },
     pactTypeFormatter(row, column) {
-      return row.pactType == "01" ? "劳动合同" : row.pactType == "02" ? "保密协议" : "异常";
+      return row.pactType == "01" ? "劳动合同" : row.pactType == "02" ? "保密协议" : "其他";
     },
     pactStatusFormatter(row, column) {
-      return row.pactStatus == "01" ? "已生效" : row.pactStatus == "02" ? "未生效" : "异常";
+      return row.pactStatus == "01" ? "试用" : row.pactStatus == "02" ? "有效": row.pactStatus == "03" ? "提前解除": row.pactStatus == "04" ? "到期解除" : "其他";
     },
     dateFormat(row, column) {
       
     },
     handlePactDetail(index, row) {
+      console.log('传递的pactNo:', row.pactNo);
       this.$router.push({
         name: "detail_contract",
         params: {
@@ -139,9 +134,7 @@ export default {
       this.getPactList(); //分页查询合同列表
     },
     handleQuery() {
-      console.log(
-        "custName:" + this.filters.custName + " pactType:" + this.filters.pactType
-      );
+      console.log("custName:" + this.filters.custName + " pactType:" + this.filters.pactType);
       this.getPactList(); //根据条件查询合同列表
     },
     handleAdd() {

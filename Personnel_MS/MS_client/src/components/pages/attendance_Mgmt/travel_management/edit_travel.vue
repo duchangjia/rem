@@ -10,30 +10,23 @@
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="formdata2.organNo" value-key="organNo" @change="changeCompValue">
-							<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
-						</el-select>
+						<el-input v-model="formdata2.companyName" :disabled="true"></el-input>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-					    <el-select v-model="formdata2.deptNo" value-key="departOrgNo" @change="changeValue">
-							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
-						</el-select>
-				  	</el-form-item>
-				<!--<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">-->  	
+						<el-input v-model="formdata2.deptName" :disabled="true"></el-input>
+				  </el-form-item>
 					<el-form-item label="工号">
-					    <el-input v-model="formdata2.userNo"></el-input>
+					    <el-input v-model="formdata2.userNo" :disabled="true"></el-input>
 				 	</el-form-item>
 				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata2.custName"></el-input>
+					    <el-input v-model="formdata2.custName" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="岗位">
-					    <el-input v-model="formdata2.custPost"></el-input>
+					    <el-input v-model="formdata2.custPost" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="职级">
-					    <el-input v-model="formdata2.custClass"></el-input>
+					    <el-input v-model="formdata2.custClass" :disabled="true"></el-input>
 				  	</el-form-item>
-				<!--</el-form>-->
-
 				  	<div class="info-title">出差信息</div>
 				  	<el-form-item label="出差开始时间" prop="travelStartTime">
 			        	<el-date-picker type="date" v-model="formdata2.travelStartTime" @change="changeStartTime"></el-date-picker>
@@ -46,16 +39,16 @@
 							<el-option v-for="item in travelTypeList" :key="item.travelNo" :label="item.label" :value="item.travelNo"></el-option>
 						</el-select>
 				  	</el-form-item>
-				  	<el-form-item label="出差城市">
+				  	<el-form-item label="出差城市" prop="travelStartCity">
 					    <el-input class="travelCity" v-model="formdata2.travelStartCity" placeholder="出发城市"></el-input>
 					    <span class="travelCity_line" >-</span>
 					    <el-input class="travelCity" v-model="formdata2.travelArrivalCity" placeholder="到达城市"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="出差天数">
+				  	<el-form-item label="出差天数" prop="travelDays">
 					    <el-input v-model="formdata2.travelDays"></el-input>
 				  	</el-form-item>
-				  	<el-form-item label="差补标准">
-					    <el-input v-model="formdata2.travelSTD"></el-input>
+				  	<el-form-item label="差补标准" prop="travelSTD">
+					    <el-input v-model="formdata2.travelSTD" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-col :span="24">
 				  		<el-form-item class="remark" label="出差备注" prop="remark">
@@ -69,7 +62,15 @@
 				  	</el-col>
 				  	<el-form-item label="附件" style="width: 100%;">
 			  		 	<el-input v-model="formdata2.attachm"></el-input>
-				  		<el-upload class="upload-demo" ref="upload" :on-change="changeUpload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+				  		<el-upload class="upload-demo" ref="upload" name="file"
+				  			 :data="formdata"
+				  			 :on-change="changeUpload" 
+				  			 :on-success="successUpload"
+				  			 action="/iem_hrm/travel/modifyTravelInfo" 
+				  			 :show-file-list="false" 
+				  			 :auto-upload="false"
+				  			 :headers="token"
+				  		>
                             <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
                         </el-upload>
 				  	</el-form-item>
@@ -84,8 +85,21 @@
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
+			var checkTravelEndTime = (rule, value, callback) => {
+		        if (value == '') {
+		          	callback(new Error('出差结束时间不能为空'));
+		        } else if (value <= this.formdata2.travelStartTime) {
+		          	callback(new Error('请输入正确的结束时间'));
+		        } else {
+		          	callback();
+		        }
+	      	};
 			return {
-				formdata1: {
+				token: {
+					Authorization:`Bearer `+localStorage.getItem('access_token'),
+				},
+				formdata: {
+					
 				},
 				attachm: {},
 				formdata2: {
@@ -108,34 +122,6 @@
 					updateTime: ""
 				},
 				
-//				oldcomp: {
-//					compName: '',
-//					compOrgNo: ''
-//				},
-//				newcomp: {
-//					newcompName: '',
-//					newcompOrgNo: ''
-//				},
-//				olddepart: {
-//					departName: '',
-//					departOrgNo: ''
-//				},
-//				newdepart: {
-//					newdepartName: '',
-//					newdepartOrgNo: ''
-//				},
-				//部门列表
-				departList: [
-					{departName: "上海魔方分公司",departOrgNo: '01'},
-					{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-					{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
-				],
-				//公司列表
-				compList: [
-					{organName: "上海魔方分公司",organNo: '01'},
-					{organName: "魔方分公司深圳分公司",organNo: 'p1'},
-					{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
-				],
 				travelTypeList: [
 					{label: "业务拓展", travelNo: "01"},
 					{label: "项目实施", travelNo: "02"},
@@ -143,17 +129,26 @@
 					{label: "其他", travelNo: "99"}
 				],
 			 	rules: {
-			 		travelStartTime: [
-//			 			{ required: true, message: '出差开始时间不能为空', trigger: 'blur' }
-			 		],
-			 		travelEndTime: [
-//			 			{ required: true, message: '出差结束时间不能为空', trigger: 'blur' }
-			 		],
-		          	travelType: [
+			 		travelType: [
 		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
 	          		],
+	          		travelStartTime: [
+		            	{ required: true, message: '出差开始时间不能为空', trigger: 'change' }
+	          		],
+	          		travelEndTime: [
+		            	{ required: true, validator: checkTravelEndTime, trigger: 'change' }
+	          		],
+	          		travelStartCity: [
+//		            	{ required: true, message: '出差出发城市不能为空', trigger: 'blur' }
+	          		],
+	          		travelArrivalCity: [
+//		            	{ required: true, message: '出差到达城市不能为空', trigger: 'blur' }
+	          		],
+	          		travelDays: [
+		            	{ required: true, message: '出差天数不能为空', trigger: 'blur' }
+	          		],
 	          		remark: [
-	          			{ required: true, message: '出差备注不能为空', trigger: 'blur' }
+	          			{ min: 0, max: 100, message: '长度在 0 到 100 个字符之间', trigger: 'blur' }
 	          		]
 				}
 			}
@@ -182,41 +177,28 @@
 			changeCompValue(value) {
 				const self = this;
 				let params = {
-					organNo: val
+					organNo: value
 				}
 				//查询部门列表
 				self.queryDerpList(params);
 			},
 			changeValue(value) {
 		 		const self = this;
-	            console.log('value',value);
 	      	},
-	      	changeUpload(file,fileList) {
-	      		console.log('file',file);
-	      		this.attachm = file;
+	      	changeUpload(file, fileList) {
+	      		console.log('fileList',fileList);
 	      	},
-	      	queryUserInfo() {
-	      		this.formdata1.userNo;
-	      		
+	      	successUpload(response, file, fileList) {
+	      		this.$message({ message: '操作成功', type: 'success' });
 	      	},
-	      	download() {
-	      		
-	      	},
+	      	//修改出差详细信息
 	      	save(formName) {
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						console.log('valid');
 						let params = {
 							applyNo: self.formdata2.applyNo, //出差编号
-//	   						organNo: self.formdata2.organNo,//公司编号
-//	    					deptNo: self.formdata2.deptNo,//部门编号
-//						    companyName: self.formdata2.companyName,//公司名称
-//						    deptName: self.formdata2.deptName,//部门名称
 						    userNo: self.formdata2.userNo,//工号
-//						    custName: self.formdata2.custName,//姓名
-//						    custPost: self.formdata2.custPost,//岗位
-//						    custClass: self.formdata2.custClass,//职级
 						    travelType: self.formdata2.travelType,//出差类型
 						    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
 						    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
@@ -225,13 +207,12 @@
 						    travelDays: self.formdata2.travelDays, //出差天数  
 						    travelSTD: self.formdata2.travelSTD,//差补标准
 						    remark: self.formdata2.remark,//备注
-						    attachm: self.attachm//附件
+						    attachm: self.formdata2.attachm//附件
 						}
-						//查询出差详细信息
-						self.modifyTravelInfo(params);
+						self.formdata = params
+						self.$refs.upload.submit();
 						
 					} else {
-						this.$message.error('failvalid');
 						return false;
 					}
 				});
@@ -268,10 +249,10 @@
 			},
 			modifyTravelInfo(params) {
 				let self = this;
-				self.$axios.put(baseURL+'/travel/modifyTravelInfo',params)
+				self.$axios.post(baseURL+'/travel/modifyTravelInfo',params)
 				.then(function(res) {
 					console.log('modifyTravelInfo',res);
-					
+					this.$message({ message: '操作成功', type: 'success' });
 				}).catch(function(err) {
 					console.log('error');
 				})

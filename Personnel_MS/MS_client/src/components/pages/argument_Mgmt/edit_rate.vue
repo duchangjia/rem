@@ -41,28 +41,10 @@ export default {
       	var checkgroupLimit = (rule, value, callback) => {
 	        if (value === '') {
 	          	callback(new Error('上限不能为空'));
-	        } else if (!(/^[0-9]*$/.test(value))) {
-	          	callback(new Error('请输入数字'));
+	        } else if (!(/^\d{1,14}(\.\d{1,2})?$/.test(value))) {
+	          	callback(new Error('请输入正确的金额'));
 	        }else if (Number(value) <= Number(this.rateInfo.groupLowerLimit)) {
 	          	callback(new Error('上限值必须大于下限值!'));
-	        } else {
-	          	callback();
-	        }
-      	};
-      	var checkgroupLowerLimit = (rule, value, callback) => {
-	        if (value === '') {
-	          	callback(new Error('下限不能为空'));
-	        } else if (!(/^[0-9]*$/.test(value))) {
-	          	callback(new Error('请输入数字'));
-	        } else {
-	          	callback();
-	        }
-      	};
-      	var checkpercentRate = (rule, value, callback) => {
-	        if (value === '') {
-	          	callback(new Error('百分率不能为空'));
-	        } else if (!(/^[0-9]*$/.test(value))) {
-	          	callback(new Error('请输入数字'));
 	        } else {
 	          	callback();
 	        }
@@ -86,13 +68,19 @@ export default {
 					{ required: true, validator: checkgroupLimit, trigger: 'blur' }
 				],
 				groupLowerLimit: [
-					{ required: true, validator: checkgroupLowerLimit, trigger: 'blur' }
+					{ required: true, message: '下限不能为空', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额" }
 				],
 				percentRate: [
-					{ required: true, validator: checkpercentRate, trigger: 'blur' }
+					{ required: true, message: '百分率不能为空', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				quickCal: [
-					{ required: true, message: '数算扣除数不能为空', trigger: 'blur' }
+					{ required: true, message: '数算扣除数不能为空', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额" }
+				],
+				remark: [
+					{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 				]
 			}
 		}
@@ -122,7 +110,6 @@ export default {
 	          		self.modifyRate(params);
 	          		
 	          	} else {
-	            	this.$message.error('修改失败');
 	            	return false;
 	          	}
 	        });
