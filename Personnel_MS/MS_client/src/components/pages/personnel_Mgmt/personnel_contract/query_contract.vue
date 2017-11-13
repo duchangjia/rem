@@ -60,10 +60,10 @@
                 </el-table-column>
                 <el-table-column align="center" label="操作" width="150">
                     <template scope="scope">
-                        <el-button size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-                        <el-button size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                        <el-button size="small" @click="handlePChange(scope.$index, scope.row)">变更</el-button>
-                        <el-button size="small" @click="handlePRenew(scope.$index, scope.row)">续签</el-button>
+                        <el-button type="text" size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+                        <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                        <el-button type="text" size="small" @click="handlePChange(scope.$index, scope.row)">变更</el-button>
+                        <el-button type="text" size="small" @click="handlePRenew(scope.$index, scope.row)">续签</el-button>
                         <!-- <el-button size="small" @click="handleTerminate(scope.$index, scope.row)">解除</el-button>
                         <el-button size="small" @click="handleProbation(scope.$index, scope.row)">试用</el-button> -->
                     </template>

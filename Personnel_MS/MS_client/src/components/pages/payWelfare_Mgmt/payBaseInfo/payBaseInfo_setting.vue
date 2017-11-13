@@ -145,6 +145,11 @@ table .el-button {
   color: #ff9900;
   border-color: #ff9900;
 }
+table .el-button:focus,
+table .el-button:hover,
+table .el-button:active {
+  color: #ff9900;
+}
 
 table .el-button--danger:focus,
 table .el-button--danger:hover,
