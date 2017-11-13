@@ -5,7 +5,7 @@
             <div class="content-wrapper">
                 <div class="title"><span class="text">资产使用修改</span><button class="add" @click="save">保存</button></div>
                 <div class="content">
-                    <el-form label-width="200px">
+                    <el-form label-width="200px"  :rules="rules" ref="applyCompanyInfo" :model="applyCompanyInfo">
                         <el-form-item label="公司名称">
                             <el-select placeholder="请选择公司名称" :disabled="true" v-model="applyCompanyInfo.organName">
                                 <el-option :label="applyCompanyInfo.organName" :value="applyCompanyInfo.organName"></el-option>
@@ -19,13 +19,10 @@
                             <el-select placeholder="请选择CCC" :disabled="true" v-model="applyCompanyInfo.ccc">
                             </el-select>
                         </el-form-item>
-                        <!-- <el-form-item label="申请使用人工号" prop="applyUserNo">
-                            <el-input v-model="applyCompanyInfo.applyUserNo" @blur="getUserInfo(applyCompanyInfo.applyUserNo)"></el-input>
-                        </el-form-item> -->
                         <el-form-item label="申请使用人工号" prop="applyUserNo">
-                            <el-input v-model="applyCompanyInfo.applyUserNo">
-                                <el-button slot="append" icon="search" @click="getUserInfo(applyCompanyInfo.applyUserNo)"></el-button>
+                            <el-input v-model="applyCompanyInfo.applyUserNo" :disabled="true">
                             </el-input>
+                           
                         </el-form-item>
                         <el-form-item label="姓名">
                             <el-input :disabled="true" v-model="applyCompanyInfo.custName"></el-input>
@@ -39,15 +36,11 @@
                         <el-form-item label="职级">
                             <el-input :disabled="true" v-model="applyCompanyInfo.custClass"></el-input>
                         </el-form-item>
-                    </el-form>
+                    <!-- </el-form> -->
                     <div class="form_info">资产信息</div>
-                    <el-form label-width="200px">
-                        <!-- <el-form-item label="资产编号" prop="assetNo">
-                            <el-input v-model="applyCompanyInfo.assetNo" @blur="getUserInfo(applyCompanyInfo.assetNo)"></el-input>
-                        </el-form-item> -->
+                    <!-- <el-form label-width="200px"> -->
                         <el-form-item label="资产编号" prop="assetNo">
-                            <el-input v-model="applyCompanyInfo.assetNo">
-                                <el-button slot="append" icon="search" @click="getAssetInfo(applyCompanyInfo.assetNo)"></el-button>
+                            <el-input v-model="applyCompanyInfo.assetNo" :disabled="true">
                             </el-input>
                         </el-form-item>
                         <el-form-item label="购买单价">
@@ -66,10 +59,8 @@
                             <el-input :disabled="true" v-model="applyCompanyInfo.supplier"></el-input>
                         </el-form-item>
                         <el-form-item label="资产类别">
-                            <el-select placeholder="请选择资产类别" :disabled="true" v-model="applyCompanyInfo.assetType">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                                <el-option label="区域二" value="beijing"></el-option>
-                            </el-select>
+                            <el-input placeholder="请选择资产类别" :disabled="true" v-model="applyCompanyInfo.assetType">
+                            </el-input>
                         </el-form-item>
                         <el-form-item label="资产名称">
                             <el-input :disabled="true" v-model="applyCompanyInfo.assetName"></el-input>
@@ -89,33 +80,39 @@
                         <el-form-item label="主要性能说明">
                             <el-input type="textarea" :disabled="true" v-model="applyCompanyInfo.configInstr"></el-input>
                         </el-form-item>
-                    </el-form>
+                    <!-- </el-form> -->
                     <div class="form_info">使用信息</div>
-                    <el-form label-width="200px">
-                        <el-form-item label="使用类别">
-                            <el-select placeholder="请选择使用类别" v-model="applyCompanyInfo.applyType">
-                                <el-option label="全部" value="01"></el-option>
-                                <el-option label="办公用品" value="02"></el-option>
-                                <el-option label="电脑" value="03"></el-option>
-                                <el-option label="手机" value="04"></el-option>
-                                <el-option label="后勤用品" value="05"></el-option>
-                                <el-option label="数码相机" value="06"></el-option>
+                    <!-- <el-form label-width="200px"> -->
+                        <el-form-item label="使用类别"  prop="applyType">
+                            <el-select placeholder="请选择使用类别" v-model="applyCompanyInfo.applyType" >
+                                <el-option label="发放领用" value="01"></el-option>
+                                <el-option label="归还" value="02"></el-option>
+                                <el-option label="出借" value="03"></el-option>
+                                <el-option label="出售" value="04"></el-option>
+                                <el-option label="盘余" value="05"></el-option>
+                                <el-option label="盘亏" value="06"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="使用数量">
+                        <el-form-item label="使用数量" prop="applyNum">
                             <el-input v-model="applyCompanyInfo.applyNum"></el-input>
                         </el-form-item>
-                        <el-form-item label="发生时间">
-                            <el-input v-model="applyCompanyInfo.applyTime"></el-input>
+                        <el-form-item label="发生时间" prop="applyTime">
+                            <el-date-picker
+                                v-model="applyCompanyInfo.applyTime"
+                                type="date"
+                                placeholder="选择日期"
+                                @change="changeDate()"
+                                >
+                            </el-date-picker>
                         </el-form-item>
-                        <el-form-item label="状态">
+                        <el-form-item label="状态" prop="applyStatus">
                             <el-select placeholder="请选择状态" v-model="applyCompanyInfo.applyStatus">
                                 <el-option label="未核销/未归还" value="01"></el-option>
                                 <el-option label="已核销/已归还" value="02"></el-option>
                                 <el-option label="不需要核销/不需要归还" value="03"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="说明">
+                        <el-form-item label="说明" prop="remark">
                             <el-input type="textarea" v-model="applyCompanyInfo.remark"></el-input>
                         </el-form-item>
                     </el-form>
@@ -126,7 +123,8 @@
 </template>
 
 <script type='text/ecmascript-6'>
-    import current from "../../../common/current_position.vue"
+    import current from "../../../common/current_position.vue";
+    import moment from "moment";
     export default {
         data() {
             return {
@@ -138,7 +136,7 @@
                         { required: true, message: '请输入资产编号', trigger: 'blur' }
                     ],
                     applyType: [
-                        { required: true, message: '请选择使用类别', trigger: 'change' }
+                        { required: true, message: '请选择使用类别', trigger: 'blur' }
                     ],
                     applyNum: [
                         { required: true, message: '请输入使用数量', trigger: 'blur' }
@@ -150,12 +148,21 @@
                         { required: true, message: '请输入说明', trigger: 'blur' }
                     ],
                     applyStatus: [
-                        { required: true, message: '请选择状态', trigger: 'change' }
+                        { required: true, message: '请选择状态', trigger: 'blur' }
                     ],
                 },
-                applyCompanyInfo: {
-                    applyUserNo: '',
-                    assetNo: '',
+                // applyCompanyInfo: {
+                //     applyUserNo: '',
+                //     assetNo: '',
+                // },
+                applyCompanyInfo:{
+                    applyUserNo: "",
+                    assetNo: "",
+                    remark: "",
+                    applyStatus: "",
+                    applyTime: "",
+                    applyNum: "",
+                    applyType: ""
                 },
                 applyUserInfo:{
 
@@ -165,113 +172,137 @@
                 },
             }
         },
+        filters:{
+          
+        },
         created() {
             let self = this
             let applyNo = this.$route.query.applyNo
             self.$axios.get('/iem_hrm/assetUse/queryAssetUseDetails/'+applyNo)
                 .then(res => {
                     self.applyCompanyInfo = res.data
+                    switch (this.applyCompanyInfo.assetType) {
+                        case "01":
+                            this.applyCompanyInfo.assetType = "办公用品";
+                        break;
+                        case "02":
+                            this.applyCompanyInfo.assetType = "电脑";
+                        break;
+                        case "03":
+                            this.applyCompanyInfo.assetType = "手机";
+                        break;
+                        case "04":
+                            this.applyCompanyInfo.assetType = "后勤用品";
+                        break;
+                        case "05":
+                            this.applyCompanyInfo.assetType = "数码相机";
+                        break;
+                    }
                 })
                 .catch(e=>{
                     console.log(e)
                 })
+            
         },
         methods: {
-            getUserInfo() {
-                let self = this,
-                    applyUserNo = this.applyCompanyInfo.applyUserNo;
-                    console.log(applyUserNo)
-                this.$axios.get('/iem_hrm/assetUse/queryAssetUserByApplyUserNo/'+applyUserNo)
-                    .then(res=>{
-                        let resData = res.data.data;
-                        console.log(resData);
-                        if(resData == null){
-                            self.$message({
-                                message: '工号不存在',
-                                type: 'error'
-                            });
-                            this.applyCompanyInfo.organName = ''
-                            this.applyCompanyInfo.derpName = ''
-                            this.applyCompanyInfo.ccc = ''
-                            this.applyCompanyInfo.custName = ''
-                            this.applyCompanyInfo.mobileNo = ''
-                            this.applyCompanyInfo.custPost = ''
-                            this.applyCompanyInfo.custClass = ''
-                            this.applyCompanyInfo.applyUserNo  = applyUserNo
-                        }
-                        // this.applyUserInfo = resData
-                        // this.applyCompanyInfo = Object.assign(this.applyCompanyInfo, this.applyUserInfo)
-                        // this.applyCompanyInfo.applyUserNo = resData.
-                        this.applyCompanyInfo.organName = resData.organName
-                        this.applyCompanyInfo.derpName = resData.derpName
-                        this.applyCompanyInfo.ccc = resData.ccc
-                        this.applyCompanyInfo.custName = resData.custName
-                        this.applyCompanyInfo.mobileNo = resData.mobileNo
-                        this.applyCompanyInfo.custPost = resData.custPost
-                        this.applyCompanyInfo.custClass = resData.custClass
-                        this.applyCompanyInfo.applyUserNo  = applyUserNo
-                        console.log(this.applyCompanyInfo, this.applyUserInfo)
-                    })
-                    .catch(e=>{
-                        // this.applyUserInfo = {}
-                        self.$message({
-                            message: '工号不存在',
-                            type: 'error'
-                        });
-                        console.log(e)
-                    })
-            },
-            getAssetInfo() { 
-                let self = this,
-                   assetNo = this.applyCompanyInfo.assetNo;
-                console.log(assetNo)
-                this.$axios.get('/iem_hrm/assetUse/queryAssetUserByAssetNo/'+assetNo)
-                    .then(res=>{ 
-                        let resData = res.data.data
-                         if(resData == null){
-                            self.$message({
-                                message: '资产编号不存在',
-                                type: 'error'
-                            });
-                            this.applyCompanyInfo.buyUnitPrice = ''
-                            this.applyCompanyInfo.stockNum = ''
-                            this.applyCompanyInfo.buyAmount = ''
-                            this.applyCompanyInfo.mfrs = ''
-                            this.applyCompanyInfo.supplier = ''
-                            this.applyCompanyInfo.assetType = ''
-                            this.applyCompanyInfo.assetName = ''
-                            this.applyCompanyInfo.snNo = ''
-                            this.applyCompanyInfo.specType = ''
-                            this.applyCompanyInfo.factoryTime = ''
-                            this.applyCompanyInfo.faxFreeTime = ''
-                            this.applyCompanyInfo.remark = ''
-                            this.applyCompanyInfo.assetNo = assetNo
-                            return;
-                        }
+            // getUserInfo() {
+            //     let self = this,
+            //         applyUserNo = this.applyCompanyInfo.applyUserNo;
+            //         console.log(applyUserNo)
+            //     this.$axios.get('/iem_hrm/assetUse/queryAssetUserByApplyUserNo/'+applyUserNo)
+            //         .then(res=>{
+            //             let resData = res.data.data;
+            //             console.log(resData);
+            //             if(resData == null){
+            //                 self.$message({
+            //                     message:res.data.retMsg,
+            //                     type: 'error'
+            //                 });
+            //                 this.applyCompanyInfo.organName = ''
+            //                 this.applyCompanyInfo.derpName = ''
+            //                 this.applyCompanyInfo.ccc = ''
+            //                 this.applyCompanyInfo.custName = ''
+            //                 this.applyCompanyInfo.mobileNo = ''
+            //                 this.applyCompanyInfo.custPost = ''
+            //                 this.applyCompanyInfo.custClass = ''
+            //                 this.applyCompanyInfo.applyUserNo  = applyUserNo
+            //                 return
+            //             }
+            //             this.applyCompanyInfo.organName = resData.organName
+            //             this.applyCompanyInfo.derpName = resData.derpName
+            //             this.applyCompanyInfo.ccc = resData.ccc
+            //             this.applyCompanyInfo.custName = resData.custName
+            //             this.applyCompanyInfo.mobileNo = resData.mobileNo
+            //             this.applyCompanyInfo.custPost = resData.custPost
+            //             this.applyCompanyInfo.custClass = resData.custClass
+            //             this.applyCompanyInfo.applyUserNo  = applyUserNo
                         
-                        this.applyCompanyInfo.buyUnitPrice = resData.buyUnitPrice
-                        this.applyCompanyInfo.stockNum = resData.stockNum
-                        this.applyCompanyInfo.buyAmount = resData.buyAmount
-                        this.applyCompanyInfo.mfrs = resData.mfrs
-                        this.applyCompanyInfo.supplier = resData.supplier
-                        this.applyCompanyInfo.assetType = resData.assetType
-                        this.applyCompanyInfo.assetName = resData.assetName
-                        this.applyCompanyInfo.snNo = resData.snNo
-                        this.applyCompanyInfo.specType = resData.specType
-                        this.applyCompanyInfo.factoryTime = resData.factoryTime
-                        this.applyCompanyInfo.faxFreeTime = resData.faxFreeTime
-                        this.applyCompanyInfo.remark = resData.remark
-                        this.applyCompanyInfo.assetNo = assetNo
-                        console.log(this.applyCompanyInfo, this.assetInfo)
-                    })
-                    .catch(e=>{
-                        this.assetInfo = {}
-                        self.$message({
-                            message: '资产编号不存在',
-                            type: 'error'
-                        });
-                        console.log(e)
-                    })
+            //         })
+            //         .catch(e=>{
+            //             // this.applyUserInfo = {}
+            //             self.$message({
+            //                 message:e.retMsg,
+            //                 type: 'error'
+            //             });
+            //             console.log(e)
+            //         })
+            // },
+            // getAssetInfo() { 
+            //     let self = this,
+            //        assetNo = this.applyCompanyInfo.assetNo;
+            //     console.log(assetNo)
+            //     this.$axios.get('/iem_hrm/assetUse/queryAssetUserByAssetNo/'+assetNo)
+            //         .then(res=>{ 
+            //             let resData = res.data.data
+            //              if(resData == null){
+            //                 self.$message({
+            //                     message: res.data.retMsg,
+            //                     type: 'error'
+            //                 });
+            //                 this.applyCompanyInfo.buyUnitPrice = ''
+            //                 this.applyCompanyInfo.stockNum = ''
+            //                 this.applyCompanyInfo.buyAmount = ''
+            //                 this.applyCompanyInfo.mfrs = ''
+            //                 this.applyCompanyInfo.supplier = ''
+            //                 this.applyCompanyInfo.assetType = ''
+            //                 this.applyCompanyInfo.assetName = ''
+            //                 this.applyCompanyInfo.snNo = ''
+            //                 this.applyCompanyInfo.specType = ''
+            //                 this.applyCompanyInfo.factoryTime = ''
+            //                 this.applyCompanyInfo.faxFreeTime = ''
+            //                 this.applyCompanyInfo.remark = ''
+            //                 this.applyCompanyInfo.assetNo = assetNo
+            //                 return;
+            //             }
+                        
+            //             this.applyCompanyInfo.buyUnitPrice = resData.buyUnitPrice
+            //             this.applyCompanyInfo.stockNum = resData.stockNum
+            //             this.applyCompanyInfo.buyAmount = resData.buyAmount
+            //             this.applyCompanyInfo.mfrs = resData.mfrs
+            //             this.applyCompanyInfo.supplier = resData.supplier
+            //             this.applyCompanyInfo.assetType = resData.assetType
+            //             this.applyCompanyInfo.assetName = resData.assetName
+            //             this.applyCompanyInfo.snNo = resData.snNo
+            //             this.applyCompanyInfo.specType = resData.specType
+            //             this.applyCompanyInfo.factoryTime = resData.factoryTime
+            //             this.applyCompanyInfo.faxFreeTime = resData.faxFreeTime
+            //             this.applyCompanyInfo.remark = resData.remark
+            //             this.applyCompanyInfo.assetNo = assetNo
+            //             console.log(this.applyCompanyInfo, this.assetInfo)
+            //         })
+            //         .catch(e=>{
+            //             this.assetInfo = {}
+            //             self.$message({
+            //                 message:e.retMsg,
+            //                 type: 'error'
+            //             });
+            //             console.log(e)
+            //         })
+            // },
+            changeDate(){
+                let applyTime =  moment(this.applyCompanyInfo.applyTime).format("YYYY-MM-DD");
+                this.applyCompanyInfo.applyTime = applyTime.toString();
+                console.log(applyTime);
             },
             save() {
                 let self = this
@@ -287,13 +318,33 @@
                 obj2.applyNo = this.$route.query.applyNo
                 let data = Object.assign(obj, obj2)
                 console.log(data)
-                self.$axios.put('/iem_hrm/assetUse/modAssUse', data)
-                    .then(res=>{
-                        console.log(res)
-                    })
-                    .catch(e=>{
-                        console.log(e)
-                    })
+                self.$refs.applyCompanyInfo.validate(valid => {
+                    if(valid){
+                        self.$axios.put('/iem_hrm/assetUse/modAssUse', data)
+                        .then(res=>{
+                            let resData = res.data.data;
+                            console.log(resData)
+                            if(resData === null){
+                                self.$message({
+                                    message: res.data.retMsg,
+                                    type: 'error'
+                                });
+                            }else{
+                                self.$message({
+                                    message: res.data.retMsg,
+                                    type: 'success'
+                                });
+                            }
+                        })
+                        .catch(e=>{
+                            self.$message({
+                                message: e.retMsg,
+                                type: 'error'
+                            });
+                        })
+                    }
+
+                })
             }
         },
         components: {

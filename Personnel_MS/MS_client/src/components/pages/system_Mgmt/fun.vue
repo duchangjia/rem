@@ -276,7 +276,7 @@
 		background-color: #FF9900;
 		border-color: #FF9900;
 	}
-	.el-button+.el-button {
+	.fun .el-button+.el-button {
 	    margin-left: 20px;
 	}
 	.fun .el-table {
@@ -336,19 +336,19 @@
 	.fun .icon-edit:hover {
 	    cursor: pointer;
 	}
-	.el-pagination {
+	.fun .el-pagination {
 		text-align: right;
 		margin-top: 40px;
 	    margin-right: 40px;
         color: #282828;
 	}
-	.el-pager li.active {
+	.fun .el-pager li.active {
 	    border-color: #FF9900;
 	    background-color: #FF9900;
 	    color: #fff;
 	    cursor: default;
 	}
-	.el-pager li {
+	.fun .el-pager li {
 	    padding: 0 4px;
 	    border-right: 0;
 	    background: #fff;
@@ -359,11 +359,11 @@
 	    line-height: 24px;
 	    text-align: center;
 	}
-	.el-pager li:last-child {
+	.fun .el-pager li:last-child {
 	    border-right: 1px solid #EEEEEE;
 	}
-	.el-pagination button, 
-	.el-pagination span {
+	.fun .el-pagination button, 
+	.fun .el-pagination span {
 	    display: inline-block;
 	    font-size: 12px;
 	    letter-spacing: -0.39px;
@@ -374,36 +374,36 @@
 	    vertical-align: top;
 	    box-sizing: border-box;
 	}
-	.el-pager li:hover {
+	.fun .el-pager li:hover {
 	    color: #FF9900!important;
 	}
-	.el-pager li.active:hover {
+	.fun .el-pager li.active:hover {
 		color: #FFFFFF!important;
 	}
-	.el-pagination button:hover {
-    color: #FF9900;
-}
-	.el-pagination__editor {
+	.fun .el-pagination button:hover {
+	    color: #FF9900;
+	}
+	.fun .el-pagination__editor {
 	    border: 1px solid #EEEEEE;
 	    border-radius: 2px;
 	    padding: 2px 2px;
 	    width: 24px;
 	}
-	.el-pagination__editor:focus {
+	.fun .el-pagination__editor:focus {
 	    outline: 0;
 	    border-color: #FF9900;
 	}
-	.el-pagination .btn-next, 
-	.el-pagination .btn-prev {
+	.fun .el-pagination .btn-next, 
+	.fun .el-pagination .btn-prev {
 	    border: 1px solid #EEEEEE;
 	    color: #282828;
 	}
-	.el-autocomplete-suggestion__wrap, 
-	.el-pager li {
+	.fun .el-autocomplete-suggestion__wrap, 
+	.fun .el-pager li {
 	    border: 1px solid #EEEEEE;
 	}
-	.el-pager li.btn-quicknext, 
-	.el-pager li.btn-quickprev {
+	.fun .el-pager li.btn-quicknext, 
+	.fun .el-pager li.btn-quickprev {
 	    line-height: 28px;
 	    color: #282828;
 	}
