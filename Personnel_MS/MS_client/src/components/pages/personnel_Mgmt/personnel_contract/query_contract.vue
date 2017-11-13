@@ -23,7 +23,7 @@
                         </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-form-item style="margin-left:10px;">
+                  <el-form-item style="margin-left:30px;">
                       <el-button @click="handleReset" class="resetBtn">重置</el-button>
                   </el-form-item>
                   <el-form-item>
