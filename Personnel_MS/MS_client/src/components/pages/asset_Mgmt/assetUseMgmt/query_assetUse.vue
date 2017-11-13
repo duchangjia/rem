@@ -266,22 +266,23 @@ export default {
 </script>
 
 <style lang='stylus' rel='stylesheet/stylus'>
-.el-button{
-    border: 1px solid #FF9900;
-	color:#FF9900;
-	margin: 0;
-	height:30px;
-    width:120px;
-    line-height:30px;
-    padding:0;
-}
+
+
 .assetUse_query {
     padding: 0 0 20px 20px;
     position: relative;
     .test {
         padding-left: 10px;
     }
-    
+    .el-button{
+        border: 1px solid #FF9900;
+        color:#FF9900;
+        margin: 0;
+        height:30px;
+        width:120px;
+        line-height:30px;
+        padding:0;
+    }
     .content-wrapper {
         background: #fff;
         padding-left: 20px;
