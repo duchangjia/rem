@@ -404,6 +404,7 @@
 <script type='text/ecmascript-6'>
     import current from "../../../common/current_position.vue";
     import socialRelationItem from './social_relation_item.vue'
+    import moment from 'moment'
     export default {
         data() {
             return {
@@ -623,35 +624,39 @@
                 this.tabName = tab.name
             },
             del() {
-                let userNo = this.$route.query.userNo
-                this.$axios.put('/iem_hrm/CustInfo/delCustInf/'+userNo)
-                    .then(res=>{
-                        let result = res.data.data.retMsg
-                        if ("操作成功"===result){
-                            self.$message({
-                                type: 'success',
-                                message: result
-                            });
-//                            this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+userNo)
-//                                .then(res=>{
-//                                    console.log(res)
-//                                    this.ruleForm = res.data.data
-//                                })
-//                                .catch(e=>{
-//                                    console.log(e)
-//                                })
-                            this.edit = true
-                        }else{
-                            self.$message({
-                                type: 'error',
-                                message: result
-                            });
-                        }
-                        console.log(res,'del')
-                    })
-                    .catch(e=>{
-                        console.log(e)
-                    })
+                let self = this
+                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let userNo = this.$route.query.userNo
+                    this.$axios.put('/iem_hrm/CustInfo/delCustInf/'+userNo)
+                        .then(res=>{
+                            console.log(res,'del')
+                            let result = res.data.retMsg
+                            if ("操作成功"===result){
+                                self.$message({
+                                    type: 'success',
+                                    message: result
+                                });
+                                self.$router.push('query_archives')
+                            }else{
+                                self.$message({
+                                    type: 'error',
+                                    message: result
+                                });
+                            }
+                        })
+                        .catch(e=>{
+                            console.log(e)
+                        })
+                }).catch(()=>{
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                })
             },
             save(tabName) {
                 let self = this
@@ -675,13 +680,21 @@
                             this.$axios.put('/iem_hrm/CustInfo/modCustInf', this.ruleForm)
                                 .then(res=>{
                                     console.log(res,'save')
-                                    let result = res.data.data.retMsg
+                                    let result = res.data.retMsg
                                     if ("操作成功"===result){
                                         self.$message({
                                             type: 'success',
                                             message: result
                                         });
                                         this.edit = true
+                                        let userNo = this.$route.query.userNo
+                                        this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+userNo)
+                                            .then(res=>{
+                                                this.ruleForm = res.data.data
+                                            })
+                                            .catch(e=>{
+                                                console.log(e)
+                                            })
                                     }else{
                                         self.$message({
                                             type: 'error',
@@ -786,6 +799,14 @@
             },
             delWorkItem() {
 
+            }
+        },
+        filters: {
+            formatDate1(time) {
+                return moment(time).format('YYYY-MM-DD')
+            },
+            formatDate(time) {
+                return moment(time).format('YYYY-MM-DD hh:mm:ss')
             }
         },
     }

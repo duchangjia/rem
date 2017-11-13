@@ -17,7 +17,7 @@
                 </el-col>
                 <el-col :span="8">
                     <el-form-item label="联系电话" prop="telphone">
-                        <el-input v-model="ruleFrom.telphone" :disabled="isShowEdit"></el-input>
+                        <el-input v-model="ruleFrom.telphone" :disabled="isShowEdit" maxlength="15"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
@@ -27,7 +27,7 @@
                 </el-col>
                 <el-col :span="16">
                     <el-form-item label="地址" class="address">
-                        <el-input v-model="ruleFrom.addr" class="address_special" :disabled="isShowEdit"></el-input>
+                        <el-input v-model="ruleFrom.addr" class="address_special" :disabled="isShowEdit" maxlength="150"></el-input>
                     </el-form-item>
                 </el-col>
             </el-form>
@@ -64,23 +64,39 @@
         },
         data() {
             return {
-                isShowEdit: true,
+                isShowEdit:false,
                 rules: {
                     contactName: [
-                        {required: true, message: '请输入姓名', trigger: 'blur'}
+                        {required: true, message: '请输入姓名', trigger: 'blur'},
+                        { min: 1, max: 16, message: '长度在 3 到 5 个字符', trigger: 'blur' }
                     ],
                     relationship: [
-                        {required: true, message: '请输入与本人关系', trigger: 'blur'}
+                        {required: true, message: '请输入与本人关系', trigger: 'blur'},
+                        { min: 1, max: 2, message: '长度在 1到 2个字符', trigger: 'blur' }
                     ],
                     telphone: [
-                        {required: true, message: '请输入联系电话', trigger: 'blur'}
+                        {required: true, message: '请输入联系电话', trigger: 'blur'},
+                        {required: true, message: '请输入联系电话', trigger: 'blur'},
                     ],
                 }
             }
         },
         methods: {
             delOrEdit(isShow,relationNum) {
-                if(!isShow)  this.$emit('del_item', relationNum)
+                if(!isShow)  {
+                    this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.$emit('del_item', relationNum)
+                    }).catch(()=>{
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    })
+                }
                 if(isShow) {
                     this.isShowEdit = !this.isShowEdit
                 }
