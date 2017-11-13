@@ -45,7 +45,7 @@ export default {};
 .content-wrapper .toolBtn {
   float: right;
   margin-top: 15px;
-  border-radius: 0;
+  /* border-radius: 0; */
   height: 30px;
   width: 120px;
   background: #ff9900;
@@ -58,7 +58,7 @@ export default {};
 }
 .content-wrapper .resetBtn {
   color: #ff9900;
-  border-radius: 0;
+  /* border-radius: 0; */
   height: 30px;
   width: 120px;
   padding: 0;
@@ -67,7 +67,7 @@ export default {};
 }
 .content-wrapper .queryBtn {
   color: #ffffff;
-  border-radius: 0;
+  /* border-radius: 0; */
   height: 30px;
   width: 120px;
   padding: 0;
@@ -139,9 +139,7 @@ label {
   margin-left: 0;
 }
 
-table .el-button:focus,
-table .el-button:hover,
-table .el-button:active {
+table .el-button {
   color: #ff9900;
   border-color: #ff9900;
 }
@@ -181,8 +179,13 @@ table .el-button--danger:active {
 .add-wrapper .el-form-item__label {
   margin-right: 14px;
 }
+
+.querybar .el-form--inline .el-form-item {
+  margin-right: 0;
+}
+
 .querybar .el-form-item__label {
-  padding: 10px 12px 10px 0;
+  padding: 10px 8px 10px 0;
 }
 .querybar .el-input__inner {
   width: 164px;

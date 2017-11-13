@@ -45,7 +45,7 @@ export default {};
 .content-wrapper .toolBtn {
   float: right;
   margin-top: 15px;
-  border-radius: 0;
+  /* border-radius: 0; */
   height: 30px;
   width: 120px;
   background: #ff9900;
