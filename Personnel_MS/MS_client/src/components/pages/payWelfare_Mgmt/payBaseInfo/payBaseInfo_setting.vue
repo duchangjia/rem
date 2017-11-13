@@ -18,8 +18,8 @@ export default {};
 }
 
 .content-wrapper .titlebar {
-  height: 60px;
-  line-height: 60px;
+  height: 50px;
+  line-height: 50px;
   font-size: 16px;
   font-family: "PingFang SC";
   border-bottom: 1px solid #eeeeee;
@@ -28,7 +28,7 @@ export default {};
 
 .content-wrapper .titlebar .title-text {
   display: inline-block;
-  height: 60px;
+  height: 50px;
   position: relative;
 }
 
@@ -44,7 +44,7 @@ export default {};
 
 .content-wrapper .toolBtn {
   float: right;
-  margin-top: 15px;
+  margin-top: 10px;
   /* border-radius: 0; */
   height: 30px;
   width: 120px;
@@ -361,7 +361,7 @@ table .el-button--danger:active {
 .span-icon {
   float: left;
   border: none;
-  margin-top: 15px;
+  margin-top: 10px;
   margin-right: 10px;
 }
 .span-icon:nth-of-type(2) {
