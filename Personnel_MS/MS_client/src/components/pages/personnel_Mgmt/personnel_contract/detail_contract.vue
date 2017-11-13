@@ -97,7 +97,7 @@
                                     <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStopTime" :disabled="true" style="width: 100%;"></el-date-picker>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="附件" prop="attachm">
 					                <el-button class="downloadBtn" @click="downloadFile">下载</el-button>
 				  	            </el-form-item>

@@ -126,7 +126,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
-                        <el-form-item label="主要性能说明" prop="remark" style="width: 82%;display: flex!important;">
+                        <el-form-item label="主要性能说明" prop="remark">
                             <el-input type="textarea" v-model="addAssetInfo.remark" placeholder="配置说明"></el-input>
                         </el-form-item>
                     </el-col>
