@@ -9,17 +9,17 @@
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="addPactMsg" :rules="rules" ref="addPactMsgRules" :label-position="labelPosition" label-width="110px">
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="纸质合同编号" prop="paperPactNo">
                             <el-input v-model="addPactMsg.paperPactNo"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="合同名称" prop="pactName">
                             <el-input v-model="addPactMsg.pactName"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="公司名称" prop="organNo">
                             <el-select v-model="addPactMsg.organNo">
                                 <el-option label="总公司" value="0001"></el-option>
@@ -27,7 +27,7 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="部门名称" prop="derpNo">
                             <el-select v-model="addPactMsg.derpNo">
                                 <el-option label="财务部" value="0001"></el-option>
@@ -35,19 +35,19 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="工号" prop="userNo">
                             <el-input v-model="addPactMsg.userNo">
                                 <el-button slot="append" icon="search" @click="searchUserNo"></el-button>
                             </el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="员工姓名" prop="custName">
                             <el-input v-model="addPactMsg.custName"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="性别" prop="sex">
                             <el-select v-model="addPactMsg.sex">
                                 <el-option label="男" value="01"></el-option>
@@ -55,12 +55,12 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="身份证" prop="cert">
                             <el-input v-model="addPactMsg.cert"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="合同类型" prop="pactType">
                             <el-select v-model="addPactMsg.pactType">
                                 <el-option label="劳动合同" value="01"></el-option>
@@ -68,22 +68,22 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="签订日期" prop="signTime">
                             <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.signTime" @change="signTimeChange" :picker-options="pactSignOption" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="合同开始日期" prop="pactStartTime">
                             <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStartTime" @change="pactStartTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="合同结束日期" prop="pactEndTime">
                             <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactEndTime" @change="pactEndTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="合同状态" prop="pactStatus">
                             <el-select v-model="addPactMsg.pactStatus">
                                 <el-option label="已生效" value="01"></el-option>
@@ -91,17 +91,17 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="合同年限" prop="pactExpires">
                             <el-input v-model="addPactMsg.pactExpires"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="终止日期" prop="pactStopTime">
                             <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStopTime" @change="pactStopTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="合同附件" prop="attachm">
 				  		    <el-input v-model="addPactMsg.attachm"></el-input>
 				  		    <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
@@ -109,7 +109,7 @@
                             </el-upload>
 				  	    </el-form-item>
                     </el-col>
-                    <el-col :span="24">
+                    <el-col :sm="24" :md="24">
                         <el-form-item label="终止原因" prop="stopReason">
                             <el-input type="textarea" v-model="addPactMsg.stopReason"></el-input>
                         </el-form-item>

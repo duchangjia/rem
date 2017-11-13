@@ -165,7 +165,7 @@
 ////						{ validator: checkMobile, trigger: 'blur'}
 //					],
 					remark: [
-						{ min: 0, max: 100, message: '长度在 0 到 100 个字符之间', trigger: 'blur' }
+						{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 					]
 				}
 			}
@@ -280,7 +280,7 @@
 				self.$axios.put(baseURL+'/user/updateUserInfo',params)
 				.then(function(res){
 					if(res.data.code=="S00000"){
-			        	self.$message('操作成功');
+			        	self.$message({ message: '操作成功', type: 'success' });
 //			        	self.$router.push('/management_user');
 					} else {
 						console.log('error');
@@ -306,7 +306,7 @@
 	          	.then(function(res){
 	          		console.log('resetPassword',res);
 	          		if(res.data.code=="S00000") {
-	          			self.$message('操作成功');
+	          			self.$message({ message: '操作成功', type: 'success' });
 	          		}
 	          			
 	          	}).catch(function(err){

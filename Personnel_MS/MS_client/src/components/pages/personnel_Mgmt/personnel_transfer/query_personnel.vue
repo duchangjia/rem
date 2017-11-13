@@ -7,30 +7,30 @@
 				<span class="title-text">人事调动</span>
 			</el-col>
 			<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
-				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-col :span="8">
+						<el-col :span="6">
 							<el-form-item label="公司" prop="company">
-								<el-select v-model="comp" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
+								<el-select v-model="comp" value-key="compOrgNo" @change="changeValue">
 									<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span="8">
+						<el-col :span="6">
 							<el-form-item label="部门" prop="department">
-								<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
+								<el-select v-model="depart" value-key="departOrgNo" @change="changeValue">
 									<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span="8">
+						<el-col :span="6">
 							<el-form-item label="工号" prop="userNo">
-								<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
+								<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :span="8">
+						<el-col :span="6">
 							<el-form-item label="姓名" prop="userName">
-								<el-input type="text" v-model="ruleForm2.userName" placeholder="姓名"></el-input>
+								<el-input type="text" v-model="ruleForm2.userName" placeholder="请输入姓名"></el-input>
 							</el-form-item>
 						</el-col>
 					</div>
@@ -238,42 +238,43 @@
 		padding: 0 0 20px 20px;
 	}
 	.query_transfer .titlebar {
-	    margin-bottom: 40px;
+	    margin-bottom: 30px;
+	    height: 50px;
+    	line-height: 50px;
+	}
+	.content-wrapper .titlebar .title-text {
+	    display: inline-block;
+	    height: 50px;
+	    position: relative;
 	}
 	.query_transfer .el-form-item__label {
-		vertical-align: middle;
-		float: left;
-		font-size: 14px;
 		color: #999999;
-		line-height: 1;
-		padding: 11px 30px 11px 0;
-		box-sizing: border-box;
+		font-weight: normal;
+		padding: 8px 10px 8px 0;
+		margin: 0;
 
 	}
 	
-	.query_transfer .input-wrap .el-form-item {
-		/*margin-right: 80px;*/
-		float: left;
-	}
-	
 	.query_transfer .el-form-item {
-		margin-bottom: 20px;
+		margin-bottom: 30px;
 	}
 	
 	.query_transfer .el-input,
 	.query_transfer .el-input__inner {
-		width: 200px;
+		width: 164px;
+		height: 30px;
 		display: inline-block;
+		border-radius: 4px;
 	}
 	
 	.query_transfer .el-form-item__content {
-		line-height: 36px;
+		line-height: 30px;
 		position: relative;
 		font-size: 14px;
 	}
 	
 	.query_transfer .button-wrap {
-		margin: 0px auto 20px;
+		margin: 0px auto 30px;
 		width: 260px;
 		clear: both;
 		font-size: 0px;
@@ -291,9 +292,9 @@
 	.query_transfer .el-button {
 		border: 1px solid #FF9900;
 		color: #FF9900;
-		margin: 0;
-		padding: 12px 45px;
-		border-radius: 0px;
+		padding: 7px 45px;
+		height: 30px;
+		/*border-radius: 4px;*/
 	}
 	
 	.query_transfer .el-button.resetform {

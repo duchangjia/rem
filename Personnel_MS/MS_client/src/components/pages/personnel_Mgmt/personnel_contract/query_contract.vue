@@ -10,18 +10,25 @@
 
             <el-col :span="24" class="querybar" style="padding-bottom: 0px;">
                 <el-form :inline="true" :model="filters">
+                  <el-col :span="5">
                     <el-form-item label="姓名">
                         <el-input v-model="filters.custName" placeholder="请输入姓名"></el-input>
                     </el-form-item>
+                  </el-col>
+                  <el-col :span="5">
                     <el-form-item label="合同类型">
                         <el-select v-model="filters.pactType">
                             <el-option label="劳动合同" value="01"></el-option>
                             <el-option label="保密协议" value="02"></el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item style="margin-left:10px;">
-                        <el-button type="primary" @click="handleQuery" class="queryBtn">查询</el-button>
-                    </el-form-item>
+                  </el-col>
+                  <el-form-item style="margin-left:10px;">
+                      <el-button @click="handleReset" class="resetBtn">重置</el-button>
+                  </el-form-item>
+                  <el-form-item>
+                      <el-button type="primary" @click="handleQuery" class="queryBtn">查询</el-button>
+                  </el-form-item>
                 </el-form>
             </el-col>
 
@@ -132,6 +139,10 @@ export default {
     handleCurrentChange(val) {
       this.pageNum = val;
       this.getPactList(); //分页查询合同列表
+    },
+    handleReset() {
+      this.filters.custName = "";
+      this.filters.pactType = "";
     },
     handleQuery() {
       console.log("custName:" + this.filters.custName + " pactType:" + this.filters.pactType);

@@ -6,7 +6,7 @@
 				<span class="title-text">功能管理</span>
 			</div>
 			<div class="content-inner">
-				<el-form :model="formData" ref="formData" label-width="68px" class="demo-ruleForm">
+				<el-form :model="formData" ref="formData" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-col :span="6">
 							<el-form-item label="系统编号" prop="sysNo">
@@ -17,12 +17,12 @@
 						</el-col>
 						<el-col :span="6">
 							<el-form-item label="功能编号" prop="bsnNo">
-								<el-input type="text" v-model="formData.bsnNo"></el-input>
+								<el-input type="text" v-model="formData.bsnNo" placeholder="请输入功能编号"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="6">
 							<el-form-item label="功能名称" prop="methodName">
-								<el-input type="text" v-model="formData.methodName"></el-input>
+								<el-input type="text" v-model="formData.methodName" placeholder="请输入功能名称"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="6">
@@ -100,15 +100,13 @@
 		},
 		created() {
 			const self = this;
-			let pageNum = self.pageNum;
-			let pageSize = self.pageSize;
 			let params = {
-				"pageNum": pageNum,
-				"pageSize": pageSize
+				"pageNum": self.pageNum,
+				"pageSize": self.pageSize
 			}
 			//查询功能列表
 			self.queryFormFlag = false;
-			self.queryFunList(pageNum,pageSize,params);
+			self.queryFunList(params);
 			//查询功能编号
 			self.queryConditions();
 		},
@@ -119,20 +117,17 @@
 			queryForm() {
 				const self = this;
 				self.userList = [];
-				let pageNum = self.pageNum;
-				let pageSize = self.pageSize;
 				let params = {
-					"pageNum": pageNum,
-					"pageSize": pageSize,
+					"pageNum": self.pageNum,
+					"pageSize": self.pageSize,
 				 	sysNo: self.formData.sysNo,
 					bsnNo: self.formData.bsnNo,
 					methodName: self.formData.methodName,
 					status: self.formData.status
 				}
-				console.log('params',params)
 				//查询功能列表
 				self.queryFormFlag = true;
-				self.queryFunList(pageNum,pageSize,params);
+				self.queryFunList(params);
 				
 			},
 			resetForm() {
@@ -152,18 +147,16 @@
 	       },
 			handleCurrentChange(val) {
 		        const self = this;
-				let pageNum = val;
-				let pageSize = self.pageSize;
 				let params = {};
 				if(!self.queryFormFlag) {
 					params = {
-						"pageNum": pageNum,
-						"pageSize": pageSize
+						"pageNum": val,
+						"pageSize": self.pageSize
 					}
 				} else {
 					params = {
-						"pageNum": pageNum,
-						"pageSize": pageSize,
+						"pageNum": val,
+						"pageSize": self.pageSize,
 						sysNo: self.formData.sysNo,
 						bsnNo: self.formData.bsnNo,
 						methodName: self.formData.methodName,
@@ -171,16 +164,16 @@
 					}
 				}
 				//分页查询功能列表
-				self.queryFunList(pageNum,pageSize,params);
+				self.queryFunList(params);
 		        
 	     	},
-	     	queryFunList(pageNum,pageSize,params) {
+	     	queryFunList(params) {
 				const self = this;
 				self.$axios.get(baseURL+'/function/queryFuncList', {params: params})
 				.then(function(res) {
 					console.log('FuncList',res);
 					self.userList = res.data.data.list;
-					self.pageNum = pageNum;
+					self.pageNum = params.pageNum;
 					self.totalRows = Number(res.data.data.total);
 				}).catch(function(err) {
 					console.log(err);
@@ -191,7 +184,7 @@
 				self.$axios.get(baseURL+'/function/getQueryConditions')
 				.then(function(res) {
 					console.log('Conditions',res);
-//					self.menuQueryConditions = res.data.data.menuQueryConditions;
+					self.menuQueryConditions = res.data.data.menuQueryConditions;
 				}).catch(function(err) {
 					console.log(err);
 				})
@@ -241,9 +234,6 @@
 		padding: 8px 10px 8px 0;
 		margin: 0;
 	}
-	/*.fun .input-wrap .el-form-item {
-		float: left;
-	}*/
 	.fun .el-form-item {
 		margin-bottom: 30px;
 	}
@@ -252,6 +242,7 @@
 		width: 164px;
 		height: 30px;
 		display: inline-block;
+		border-radius: 4px;
 	}
 	
 	.fun .el-form-item__content {
@@ -281,9 +272,6 @@
 		height: 30px;
 		border-radius: 0px;
 	}
-	/*.fun .el-button.resetform {
-		margin-right: 20px;
-	}*/
 	.fun .el-button--primary {
 		color: #fff;
 		background-color: #FF9900;
@@ -292,10 +280,6 @@
 	.el-button+.el-button {
 	    margin-left: 20px;
 	}
-	/*.fun .el-button.resetform:focus,
-	.fun .el-button.resetform:hover {
-		color: #FF9900;
-	}*/
 	.fun .el-table {
 	    background-color: #fff;
 	    border-left: 1px solid #EEEEEE;

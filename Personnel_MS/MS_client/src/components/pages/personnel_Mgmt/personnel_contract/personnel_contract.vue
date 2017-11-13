@@ -44,7 +44,7 @@ export default {};
 .content-wrapper .toolBtn {
   float: right;
   margin-top: 15px;
-  border-radius: 0;
+  /* border-radius: 0; */
   height: 30px;
   width: 120px;
   background: #ff9900;
@@ -59,7 +59,7 @@ export default {};
 
 .content-wrapper .resetBtn {
   color: #ff9900;
-  border-radius: 0;
+  /* border-radius: 0; */
   height: 30px;
   width: 120px;
   padding: 0;
@@ -68,7 +68,7 @@ export default {};
 }
 
 .content-wrapper .queryBtn {
-  border-radius: 0;
+  /* border-radius: 0; */
   height: 30px;
   width: 120px;
   padding: 0;
@@ -137,9 +137,7 @@ label {
     color: #ff9900;
     border-color: #ff9900;
 } */
-table .el-button:focus,
-table .el-button:hover,
-table .el-button:active {
+table .el-button {
   color: #ff9900;
   border-color: #ff9900;
 }
@@ -166,7 +164,7 @@ table .el-button--danger:active {
 }
 .add-wrapper form {
   font-size: 0;
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 .add-wrapper .item-title {
@@ -180,8 +178,12 @@ table .el-button--danger:active {
   margin-right: 14px;
 }
 
+.querybar .el-form--inline .el-form-item {
+  margin-right: 0;
+}
+
 .querybar .el-form-item__label {
-  padding: 10px 12px 10px 0;
+  padding: 10px 8px 10px 0;
 }
 .querybar .el-input__inner {
   width: 164px;
@@ -207,7 +209,7 @@ table .el-button--danger:active {
   right: 0;
   margin: 0;
   border: 1px solid #ff9900;
-  border-radius: 0;
+  /* border-radius: 0; */
   background: #ff9900;
   font-family: "PingFang SC";
 }

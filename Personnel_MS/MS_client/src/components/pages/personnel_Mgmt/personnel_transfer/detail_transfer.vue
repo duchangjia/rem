@@ -7,34 +7,42 @@
 				<el-button type="primary" class="title_button" @click="handleAddTransfer()">新增</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="70px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-form-item label="公司" prop="compName">
-							<el-select v-model="ruleForm2.compOrgNo" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="部门" prop="departName">
-							<el-select v-model="ruleForm2.departOrgNo" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
-								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="开始时间" prop="startTime">
-							<el-date-picker
-						      v-model="ruleForm2.startTime"
-						      type="date"
-						      placeholder="选择日期"
-						      :picker-options="pickerOptions0" @change="changeStartTime">
-						   </el-date-picker>
-						</el-form-item>
-						<el-form-item label="结束时间" prop="endTime">
-							<el-date-picker
-						      v-model="ruleForm2.endTime"
-						      type="date"
-						      placeholder="选择日期"
-						      :picker-options="pickerOptions0" @change="changeEndTime">
-						   </el-date-picker>
-						</el-form-item>
+						<el-col :span="6">
+							<el-form-item label="公司" prop="compName">
+								<el-select v-model="ruleForm2.compOrgNo" value-key="compOrgNo" @change="changeValue">
+									<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="部门" prop="departName">
+								<el-select v-model="ruleForm2.departOrgNo" value-key="departOrgNo" @change="changeValue">
+									<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="开始时间" prop="startTime">
+								<el-date-picker
+							      v-model="ruleForm2.startTime"
+							      type="date"
+							      placeholder="选择日期"
+							      :picker-options="pickerOptions0" @change="changeStartTime">
+							   </el-date-picker>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="结束时间" prop="endTime">
+								<el-date-picker
+							      v-model="ruleForm2.endTime"
+							      type="date"
+							      placeholder="选择日期"
+							      :picker-options="pickerOptions0" @change="changeEndTime">
+							   </el-date-picker>
+							</el-form-item>
+						</el-col>
 					</div>
 					<div class="button-wrap">
 						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
@@ -55,7 +63,7 @@
 						<el-table-column prop="shiftType" label="调动类型"></el-table-column>
 						<el-table-column prop="diaodongDate" label="调动日期"></el-table-column>
 						<el-table-column prop="shiftCameTime" label="调动生效日期" :formatter="travelTimeFormatter"></el-table-column>
-						<el-table-column align="center" label="操作" width="150">
+						<el-table-column align="center" label="操作" width="100">
 							<template scope="scope">
 								<span class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></span>
 							</template>
@@ -157,7 +165,7 @@ export default {
 	methods: {
 		travelTimeFormatter(row, column) {
 			let time = row.shiftCameTime;
-			return moment(time).format('YYYY-MM-DD hh:mm:ss');
+			return moment(time).format('YYYY-MM-DD');
 		},
 		changeStartTime(val) {
 			this.ruleForm2.startTime = val;
@@ -283,8 +291,9 @@ export default {
 .transfer_wrap .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
+	height: 50px;
 }
 
 .transfer_wrap .content .title .title-text:after {
@@ -298,43 +307,38 @@ export default {
 }
 .transfer_wrap .title_button {
 	float: right;
-	margin-top: 20px;
+	margin-top: 10px;
 }
 .transfer_wrap .content-inner {
-	padding: 40px 0px;
+	padding: 30px 0px;
 }
 
 .transfer_wrap .el-form-item__label {
-	vertical-align: middle;
-	float: left;
-	font-size: 14px;
 	color: #999999;
-	padding: 11px 12px 11px 0;
+	font-weight: normal;
+	padding: 8px 10px 8px 0;
+	margin: 0;
 }
-
-.transfer_wrap .input-wrap .el-form-item {
-	margin-right: 80px;
-	float: left;
-}
-
 .transfer_wrap .el-form-item {
-	margin-bottom: 40px;
+	margin-bottom: 30px;
 }
 
 .transfer_wrap .el-input,
 .transfer_wrap .el-input__inner {
-	width: 200px;
+	width: 164px;
+	height: 30px;
 	display: inline-block;
+	border-radius: 4px;
 }
 
 .transfer_wrap .el-form-item__content {
-	line-height: 36px;
+	line-height: 30px;
 	position: relative;
 	font-size: 14px;
 }
 
 .transfer_wrap .button-wrap {
-	margin: 0px auto 40px;
+	margin: 0px auto 30px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;
@@ -352,8 +356,8 @@ export default {
 .transfer_wrap .el-button {
 	border: 1px solid #FF9900;
 	color: #FF9900;
-	padding: 12px 45px;
-	border-radius: 0px;
+	padding: 7px 45px;
+	height: 30px;
 }
 
 .transfer_wrap .el-button.resetform {
@@ -365,18 +369,6 @@ export default {
 	background-color: #FF9900;
 	border-color: #FF9900;
 }
-/*.transfer_wrap .el-table {
-	background-color: #fff;
-	border-left: 1px solid #EEEEEE;
-	color: #666666;
-}
-
-.transfer_wrap .el-table__footer-wrapper thead div,
-.transfer_wrap .el-table__header-wrapper thead div {
-	background-color: #f4f4f4;
-	color: #666666;
-}*/
-
 .transfer_wrap .el-table td,
 .transfer_wrap .el-table th {
 	text-align: center;
@@ -392,20 +384,7 @@ export default {
 .transfer_wrap .el-table td:first-child:hover{
 	color: #FF9900;
 }
-/*.transfer_wrap .el-table--enable-row-hover .el-table__body tr:hover>td {
-	background-color: #f8f8f8;
-	background-clip: padding-box;
-}
-
-.transfer_wrap .el-table--striped .el-table__body tr.el-table__row--striped td {
-	background: #F8F8F8;
-	background-clip: padding-box;
-}*/
-
 .transfer_wrap .el-table th {
-	white-space: nowrap;
-	overflow: hidden;
-	background-color: #f4f4f4;
 	text-align: center;
 	box-shadow: inset 0 1px 0 0 #EEEEEE;
 }
@@ -416,23 +395,7 @@ export default {
 	display: inline-block;
 	background: url(../../../../../static/img/common/edit.png);
 }
-/*.transfer_wrap .el-table--border td,
-.transfer_wrap .el-table--border th {
-	border-right: 1px solid #EEEEEE;
-}
 
-.transfer_wrap .el-table td,
-.transfer_wrap .el-table th.is-leaf {
-	border-bottom: 1px solid #EEEEEE;
-}
-
-
-.transfer_wrap .el-table::after,
-.transfer_wrap .el-table::before {
-	content: '';
-	position: absolute;
-	background-color: transparent;
-}*/
 
 .transfer_wrap .el-pagination {
 	text-align: right;
