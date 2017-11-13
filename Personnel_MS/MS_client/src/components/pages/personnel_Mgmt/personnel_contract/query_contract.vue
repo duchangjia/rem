@@ -15,7 +15,7 @@
                         <el-input v-model="filters.custName" placeholder="请输入姓名"></el-input>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="5">
+                  <el-col :span="6">
                     <el-form-item label="合同类型">
                         <el-select v-model="filters.pactType">
                             <el-option label="劳动合同" value="01"></el-option>
@@ -23,7 +23,7 @@
                         </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-form-item style="margin-left:30px;">
+                  <el-form-item>
                       <el-button @click="handleReset" class="resetBtn">重置</el-button>
                   </el-form-item>
                   <el-form-item>
