@@ -181,7 +181,7 @@
         },
         created() {
            let self = this
-            self.$axios.get('/iem_hrm/organ/queryOrganList/0')
+            self.$axios.get('/iem_hrm/organ/queryOrganList')
               .then( res => {
                   self.companies = res.data.data[0]
                   self.$nextTick(function () {
@@ -458,7 +458,7 @@
                                     type: 'success',
                                     message: '删除成功!'
                                 });
-                                self.$axios.get('/iem_hrm/organ/queryOrganList/0')
+                                self.$axios.get('/iem_hrm/organ/queryOrganList')
                                     .then( res => {
                                         self.companies = res.data.data[0]
                                         self.$nextTick(function () {

@@ -339,40 +339,40 @@
                 font-size: 16px;
                 color: #333333;
                 letter-spacing: 0;
-                height: 80px;
-                line-height: 80px;
+                height: 50px;
+                line-height: 50px;
                 border-bottom: 1px solid #f4f4f4;
                 position relative
                 .text
                     border-bottom:2px solid black;
                     display: inline-block;
-                    height: 80px;
+                    height: 50px;
                 .add
                     width: 120px
-                    height 40px
+                    height 30px
                     background: #FF9900;
                     border: 1px solid #FF9900;
                     outline none
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #FFFFFF;
-                    line-height 40px
+                    line-height 30px
                     text-align center
                     position absolute
                     right 0px
-                    bottom 20px
+                    bottom 10px
             .content
-                padding-top: 42px;
+                padding-top: 30px;
                 .search
                     i
                         margin 0 10px
                     span
-                        margin-right 30px
+                        margin-right 10px
                     .special
                         margin-left 80px
                     .el-date-editor
                         width: 200px
-                        height: 40px
+                        height: 30px
                         .el-input__inner
                             width 100%
                             height 100%
@@ -382,7 +382,7 @@
                                 border-color #ff9900
                     .el-select
                         width 200px
-                        height 40px
+                        height 30px
                         .el-input
                             height 100%
                             .el-input__inner
@@ -394,17 +394,17 @@
                                     border-color #ff9900
                 .button
                     padding-left 380px
-                    margin 40px 0px
+                    margin 30px 0px
                     button
                         width: 120px
-                        height 40px
+                        height 30px
                         background: #FF9900;
                         border: 1px solid #FF9900;
                         outline none
                         font-family: PingFangSC-Regular;
                         font-size: 14px;
                         color: #FFFFFF;
-                        line-height 40px
+                        line-height 30px
                         text-align center
                     .special_1
                         background: #FFFFFF;
@@ -413,8 +413,8 @@
                 table
                     display: flex;
                     width: 100%;
-                    margin-top: 40px;
-                    margin-bottom: 40px;
+                    margin-top: 30px;
+                    margin-bottom: 30px;
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #333;

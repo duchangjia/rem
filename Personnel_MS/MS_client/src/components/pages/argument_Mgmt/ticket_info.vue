@@ -7,8 +7,8 @@
                 <div class="content">
                     <div class="search">
                         <span class="text">查询条件</span>
-                        <input type="text">
-                        <el-button class="toolBtn">查询</el-button>
+                        <el-input type="text"></el-input>
+                        <el-button class="toolBtn2">查询</el-button>
                     </div>
                     <table>
                         <tr><td v-for="th in table.th">{{th}}</td></tr>
@@ -139,49 +139,46 @@
                 font-size: 16px;
                 color: #333333;
                 letter-spacing: 0;
-                height: 80px;
-                line-height: 80px;
+                height: 50px;
+                line-height: 50px;
                 border-bottom: 1px solid #f4f4f4;
                 position relative
                 .text
                     border-bottom:2px solid black;
                     display: inline-block;
-                    height: 80px;
+                    height: 50px;
                 .add
                     width: 120px
-                    height 40px
+                    height 30px
                     background: #FF9900;
                     border: 1px solid #FF9900;
                     outline none
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #FFFFFF;
-                    line-height 40px
+                    line-height 30px
                     text-align center
                     position absolute
                     right 0px
-                    bottom 20px
+                    bottom 10px
             .content
-                padding-top: 42px;
+                padding-top: 30px;
                 .text
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #999999;
                     letter-spacing: 0;
-                input
-                    margin: 0 20px 0 30px;
-                    width: 300px;
-                    height: 40px;
-                    border: 1px solid #EEEEEE;
-                    border-radius: 4px;
-                    text-indent: 1em;
-                    outline: none;
-                    vertical-align: middle;
-                input:hover
-                    border: 1px solid orange;
-                .toolBtn
+                .el-input
+                    margin: 0 20px 0 10px;
+                    width: 165px;
+                    height: 30px;
+                    .el-input__inner
+                        height 100%
+                        &:hover
+                            border: 1px solid orange;
+                .toolBtn2
                     border-radius: 0;
-                    height: 40px;
+                    height: 30px;
                     width: 120px;
                     background: #FF9900;
                     border: none;
@@ -192,8 +189,8 @@
                 table
                     display: flex;
                     width: 100%;
-                    margin-top: 40px;
-                    margin-bottom: 40px;
+                    margin-top: 30px;
+                    margin-bottom: 30px;
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #333;
