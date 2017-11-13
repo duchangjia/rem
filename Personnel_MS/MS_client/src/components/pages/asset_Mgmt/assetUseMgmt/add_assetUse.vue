@@ -3,6 +3,7 @@
         <current yiji="资产管理" erji="资产使用管理" sanji="资产使用新增"></current>
         <el-col :span="24">
             <div class="content-wrapper">
+               
                 <div class="title"><span class="text">资产使用新增</span><button class="add" @click="save">保存</button></div>
                 <div class="content">
                     <el-form :model="info" :rules="rules" ref="info1" label-width="200px">
@@ -22,10 +23,24 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="申请使用人工号" prop="applyUserNo">
-                            <!-- <el-input placeholder="请输入申请使用人工号" @blur="getUserInfo(info.applyUserNo)" v-model="info.applyUserNo"></el-input> -->
-                            <el-input v-model="info.applyUserNo">
-                                <el-button slot="append" icon="search" @click="getUserInfo(info.applyUserNo)"></el-button>
+                             <el-input readonly="readonly" v-model="info.applyUserNo" placeholder="请选择员工编号">
+                                <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
                             </el-input>
+                            <messageBox 
+                                :assNoHidden="assNoHidden"
+                                :assNoShow="assNoShow"
+                                :title="boxTitle" 
+                                :labelFirst="labelFirst"
+                                :labelSec="labelSec"
+                                :saveUrl="saveUrl"
+                                :searchUrl="searchUrl"
+                                :applyUserNo.sync="info.applyUserNo"
+                                :assetNo.sync = "info.assetNo"
+                                :dialogVisible.sync="dialogVisible"
+                                :applyUserInfo.sync="applyUserInfo"
+                                :assetInfo.sync="assetInfo"
+                                @changeDialogVisible="changeDialogVisible"
+                                ></messageBox>
                         </el-form-item>
                         <el-form-item label="姓名">
                             <el-input :disabled="true" v-model="applyUserInfo.custName"></el-input>
@@ -43,10 +58,14 @@
                     <div class="form_info">资产信息</div>
                     <el-form label-width="200px" :model="info" :rules="rules" ref="info2">
                         <el-form-item label="资产编号" prop="assetNo">
-                            <!-- <el-input placeholder="请输入资产编号" @blur="getAssetInfo(info.assetNo)" v-model="info.assetNo"></el-input> -->
-                            <el-input v-model="info.assetNo">
-                                <el-button slot="append" icon="search" @click="getAssetInfo(info.assetNo)"></el-button>
+                            <el-input v-model="info.assetNo" placeholder="请选择资产编号" readonly="readonly">
+                                <el-button slot="append" icon="search"@click="assetNoSelect()"></el-button>
                             </el-input>
+                             <!-- <el-select placeholder="请选择资产编号" v-model="info.assetNo" @change="getAssetInfo(info.assetNo)">
+                                <el-option label="10010000001" value="10010000001"></el-option>
+                                <el-option label="10010000015" value="10010000015"></el-option>
+                            </el-select> -->
+                            <!-- <messageBox></messageBox> -->
                         </el-form-item>
                         <el-form-item label="购买单价">
                             <el-input :disabled="true" v-model="assetInfo.buyUnitPrice"></el-input>
@@ -136,15 +155,19 @@
 
 <script type='text/ecmascript-6'>
 import current from "../../../common/current_position.vue";
+import messageBox from "../../../common/messageBox-components.vue";
 import moment from "moment";
 export default {
   data() {
     return {
+        dialogVisible:false,
+        assNoHidden:false,
+        assNoShow:false,
       rules: {
         applyUserNo: [
-          { required: true, message: "请输入申请使用人工号", trigger: "blur" }
+          { required: true, message: "请选择申请使用人工号", trigger: "blur" }
         ],
-        assetNo: [{ required: true, message: "请输入资产编号", trigger: "blur" }],
+        assetNo: [{ required: true, message: "请选择资产编号", trigger: "change" }],
         applyType: [{ required: true, message: "请选择使用类别", trigger: "change" }],
         applyNum: [{ required: true, message: "请输入使用数量", trigger: "blur" }],
         applyTime: [{ required: true, message: "请输入发生时间", trigger: "blur" }],
@@ -155,6 +178,11 @@ export default {
         applyUserNo: "",
         assetNo: ""
       },
+      labelFirst:'',
+      labelSec:'',
+      searchUrl:'',
+      saveUrl:'',
+      boxTitle:'',
       applyUserInfo: {},
       assetInfo: {},
       applyInfo: {
@@ -167,6 +195,33 @@ export default {
     };
   },
   methods: {
+    changeDialogVisible(flag){
+        this.dialogVisible = flag
+    },
+    userNoSelect(){
+        this.dialogVisible=true
+        this.assNoHidden = true
+        this.assNoShow = false
+        this.labelFirstShow = true;
+        this.labelSecShow = true;
+        this.labelFirst = '姓名'
+        this.labelSec = '员工编号'
+        this.saveUrl = '/iem_hrm/assetUse/queryAssetUserByApplyUserNo/'
+        this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
+        this.boxTitle = '人工编号选择'
+        // this.applyUserNo = this.info.applyUserNo 
+    },
+    assetNoSelect(){
+        this.labelFirstShow = false;
+        this.assNoHidden = false
+        this.assNoShow = true
+        this.labelSecShow = true;
+        this.dialogVisible = true;
+        this.labelSec = "资产编号";
+        this.saveUrl = "/iem_hrm/assetUse/queryAssetUserByAssetNo/";
+        this.searchUrl = "/iem_hrm/assetUse/queryAssetNoList";
+        this.boxTitle = "资产编号选择";
+    },
     save() {
       let self = this;
       self.$refs.info1.validate(valid => {
@@ -190,7 +245,7 @@ export default {
                           let result = res.data.retMsg;
                           if ("操作成功" === result) {
                             self.$message({
-                              message: "修改成功",
+                              message:result,
                               type: "success"
                             });
                           } else {
@@ -201,11 +256,17 @@ export default {
                           }
                         })
                         .catch(e => {
-                          console.log(e);
+                          self.$message({
+                              message: e.retMsg,
+                              type: "error"
+                            });
                         });
                     })
                     .catch(e => {
-                      console.log(e);
+                        self.$message({
+                            message: e.retMsg,
+                            type: "error"
+                        })
                     });
                 }
               });
@@ -214,88 +275,7 @@ export default {
         }
       });
     },
-    getUserInfo() {
-      let self = this;
-      if (this.info.applyUserNo == ""){
-          self.$message({
-          message: "工号不存在",
-          type: "error"
-        });
-        return;
-      }; //为空验证
-      this.$axios
-        .get(
-          "/iem_hrm/assetUse/queryAssetUserByApplyUserNo/" +
-            this.info.applyUserNo
-        )
-        .then(res => {
-          console.log(res.data);
-          if (res.data == null) {
-            this.$message({
-              message: res.retMsg,
-              type: "error"
-            });
-            return;
-          }
-          this.applyUserInfo = res.data.data;
-          console.log(this.applyUserInfo);
-        })
-        .catch(e => {
-          this.applyUserInfo = {
-            organName: "",
-            derpName: "",
-            ccc: "",
-            custName: "",
-            mobileNo: "",
-            custPost: "",
-            custClass: ""
-          };
-          self.$message({
-            message: "工号不存在",
-            type: "error"
-          });
-          console.log(e);
-        });
-    },
-    getAssetInfo() {
-      console.log(this.info.assetNo);
-      let self = this;
-      if (this.info.assetNo == "") {
-        self.$message({
-          message: "资产编号不存在",
-          type: "error"
-        });
-        return; //为空验证
-      }
-
-      this.$axios
-        .get("/iem_hrm/assetUse/queryAssetUserByAssetNo/" + this.info.assetNo)
-        .then(res => {
-          this.assetInfo = res.data.data;
-          console.log(this.assetInfo);
-        })
-        .catch(e => {
-          this.assetInfo = {
-            buyUnitPrice: "",
-            stockNum: "",
-            buyAmount: "",
-            mfrs: "",
-            supplier: "",
-            assetType: "",
-            assetName: "",
-            snNo: "",
-            specType: "",
-            factoryTime: "",
-            faxFreeTime: "",
-            configInstr: ""
-          };
-          self.$message({
-            message: "资产编号不存在",
-            type: "error"
-          });
-          console.log(e);
-        });
-    },
+   
     changeDate(){
        let applyTime =  moment(this.applyInfo.applyTime).format("YYYY-MM-DD");
        this.applyInfo.applyTime = applyTime.toString();
@@ -303,7 +283,8 @@ export default {
     }
   },
   components: {
-    current
+    current,
+    messageBox
   }
 };
 </script>

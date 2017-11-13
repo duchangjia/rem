@@ -5,6 +5,18 @@
             <div class="content-wrapper">
                 <div class="title"><span class="text">机构CCC管理</span><button class="add" @click="add">新增</button></div>
                 <div class="content">
+                    <!--<el-form class="search">-->
+                        <!--<el-col :span="6">-->
+                            <!--<el-form-item label="查询条件">-->
+                                <!--<el-select v-model="searchValue" placeholder="请选择机构名称">-->
+                                    <!--<el-option v-for="item in searchValueOption" :label="item" :value="item"></el-option>-->
+                                    <!--&lt;!&ndash;<el-option label="区域二" value="beijing"></el-option>&ndash;&gt;-->
+                                <!--</el-select>-->
+                            <!--</el-form-item>-->
+                        <!--</el-col>-->
+                            <!--<el-button class="toolBtn2 reset" @click="reset(searchValue)">重置</el-button>-->
+                            <!--<el-button class="toolBtn2" @click="search(searchValue)">查询</el-button>-->
+                    <!--</el-form>-->
                     <div class="search">
                         <span class="text">查询条件</span>
                         <!--<input type="text" v-model="searchValue" placeholder="请输入机构名称">-->
@@ -327,6 +339,7 @@
         background: #FF9900;
         border: 1px solid #FF9900;
         outline: none;
+        border-radius: 4px;
         font-family: PingFangSC-Regular;
         font-size: 14px;
         color: #FFFFFF;
@@ -340,6 +353,7 @@
         padding-top: 30px;
     }
     .agency_argument .content-wrapper .content .search{
+        vertical-align: middle;
     }
     .agency_argument .content-wrapper .content .search .text{
         font-family: PingFangSC-Regular;
@@ -365,6 +379,7 @@
         width: 120px;
         background: #FF9900;
         border: none;
+        border-radius: 4px;
         vertical-align: middle;
         font-family: PingFangSC-Regular;
         font-size: 14px;

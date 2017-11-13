@@ -171,32 +171,32 @@
                 font-size: 16px;
                 color: #333333;
                 letter-spacing: 0;
-                height: 80px;
-                line-height: 80px;
+                height: 50px;
+                line-height: 50px;
                 border-bottom: 1px solid #f4f4f4;
                 position relative
                 .text
                     border-bottom:2px solid black;
                     display: inline-block;
-                    height: 80px;
+                    height: 50px;
                 .save
                     width: 120px
-                    height 40px
+                    height 30px
                     background: #F4F4F4;
                     border: none
                     outline none
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
-                    line-height 40px
+                    line-height 30px
                     text-align center
                     position absolute
                     right 0px
-                    bottom 20px
+                    bottom 10px
                     &:hover
                         background: #f90;
                         color #fff
             .content
-                padding 42px 0 0 8px
+                padding 30px 0 0 8px
                 .item_group
                     margin-bottom 30px
                     height 40px

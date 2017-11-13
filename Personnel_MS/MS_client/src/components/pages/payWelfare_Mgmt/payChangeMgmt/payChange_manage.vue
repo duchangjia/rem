@@ -169,7 +169,7 @@ table .el-button--danger:active {
 }
 .add-wrapper form {
   font-size: 0;
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 .add-wrapper .item-title {
@@ -214,7 +214,8 @@ table .el-button--danger:active {
   right: 0;
   margin: 0;
   border: 1px solid #ff9900;
-  border-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
   background: #ff9900;
   font-family: "PingFang SC";
 }
@@ -223,14 +224,13 @@ table .el-button--danger:active {
   height: 40px;
   color: #ffffff;  
   border: 1px solid #ff9900;
-  border-radius: 0;
   background: #ff9900;
   font-family: "PingFang SC";
 }
 
-.el-textarea__inner {
-  /* border-radius: 0; */
-  width: 500px;
+.add-wrapper .el-textarea__inner {
+  min-width: 860px;
+  min-height: 100px;
 }
 
 .el-date-table td.current:not(.disabled),

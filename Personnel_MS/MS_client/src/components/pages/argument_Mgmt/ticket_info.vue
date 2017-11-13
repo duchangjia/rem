@@ -183,6 +183,7 @@
                     background: #FF9900;
                     border: none;
                     vertical-align: middle;
+                    border-radius 4px
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #FFFFFF;
