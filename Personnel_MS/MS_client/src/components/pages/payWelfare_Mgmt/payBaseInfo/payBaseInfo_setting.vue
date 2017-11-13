@@ -133,7 +133,7 @@ label {
 
 .el-button--small {
   margin: 4px;
-  padding: 7px 9px !important;
+  /* padding: 7px 9px !important; */
 }
 
 .el-button,
