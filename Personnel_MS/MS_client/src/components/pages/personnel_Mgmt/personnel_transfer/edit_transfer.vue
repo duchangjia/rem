@@ -340,21 +340,9 @@
     margin-left: 30px;
 }
 .edit_transfer_wrap .file_button {
-	/*border: none;*/
 	color: #FF9900;
 	font-size: 14px;
-	/*margin-left: -40px;*/
 }
-/*.edit_transfer_wrap .el-button:active {
-    color: #FF9900;
-    border-color: #FF9900;
-    outline: 0;
-}
-.edit_transfer_wrap .el-button:focus,
-.el-button:hover {
-    color: #FF9900;
-    border-color: #FF9900;
-}*/
 .edit_transfer_wrap .el-form-item__error {
     left: 30px;
 }
