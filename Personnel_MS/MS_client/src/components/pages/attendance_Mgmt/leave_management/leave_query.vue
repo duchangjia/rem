@@ -110,14 +110,14 @@ export default {
 			},
 			transferDataList: [
 				{
-					applyNo: "00100",
-					companyName: "shanghaifen",
-					deptName: "shanghaifen",
-					userNo: "001", 
-					custName: "小名",
-					leaveType: "02",
-					leaveStartTime: "2017-10-10",
-					leaveEndTime: "2017-10-19",
+					applyNo: "",
+					companyName: "",
+					deptName: "",
+					userNo: "", 
+					custName: "",
+					leaveType: "",
+					leaveStartTime: "",
+					leaveEndTime: "",
 					createdBy: "",
 					createdDate: ""
 				}

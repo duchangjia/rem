@@ -79,13 +79,13 @@
 					sysNo: ''
 				},
 				userList: [{
-					sysNo: '0000111',
-					bsnNo: '111111',
-					methodName: '广州分公司',
-					interfaceName: '111',
-					bsnUrl: '财务部',
-					status: '1351011111',
-					status: '正常'
+					sysNo: '',
+					bsnNo: '',
+					methodName: '',
+					interfaceName: '',
+					bsnUrl: '',
+					status: '',
+					status: ''
 				}],
 				funcQueryConditions: [],
 				menuQueryConditions: [
@@ -270,7 +270,6 @@
 		color: #FF9900;
 		padding: 7px 45px;
 		height: 30px;
-		border-radius: 0px;
 	}
 	.fun .el-button--primary {
 		color: #fff;

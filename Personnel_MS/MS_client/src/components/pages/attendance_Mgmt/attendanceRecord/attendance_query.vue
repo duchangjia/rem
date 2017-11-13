@@ -132,17 +132,17 @@ export default {
 			],
 			transferDataList: [
 				{
-					attenceNo: "001001",//考勤编号
-					userNo: "p011111",//用户编号 
-					userName: "sdsd",
-					attenceTime: "2017-09-09",//考勤日期 
-					attenceType: "01",//考勤类型	
-					projNo: "3221",//项目ID
-					taskTime: "8",//工时
-					attenceStatus: "xx",//状态
-					remark: "xx",//备注	
-					luruBy: "xxx",
-					luruDate: "xxxxx"
+					attenceNo: "",//考勤编号
+					userNo: "",//用户编号 
+					userName: "",
+					attenceTime: "",//考勤日期 
+					attenceType: "",//考勤类型	
+					projNo: "",//项目ID
+					taskTime: "",//工时
+					attenceStatus: "",//状态
+					remark: "",//备注	
+					luruBy: "",
+					luruDate: ""
 				}
 			],
 			rules: {

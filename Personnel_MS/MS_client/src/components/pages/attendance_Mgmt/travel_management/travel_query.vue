@@ -110,7 +110,7 @@ export default {
 			},
 			transferDataList: [
 				{
-					applyNo: "00100",
+					applyNo: "",
 					organName: "",
 					departName: "",
 					userNo: "", 

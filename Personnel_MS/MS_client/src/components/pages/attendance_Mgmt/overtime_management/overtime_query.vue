@@ -110,14 +110,14 @@ export default {
 			},
 			transferDataList: [
 				{
-					applyNo: "00100",
-					organName: "shanghaifen",
-					departName: "shanghaifen",
-					userNo: "001", 
-					userName: "小名",
-					workotType: "01",
-					workotStartTime: "2017-10-10",
-					workotEndTime: "2017-10-19",
+					applyNo: "",
+					organName: "",
+					departName: "",
+					userNo: "", 
+					userName: "",
+					workotType: "",
+					workotStartTime: "",
+					workotEndTime: "",
 					luruBy: "",
 					lurunTime: ""
 				}
