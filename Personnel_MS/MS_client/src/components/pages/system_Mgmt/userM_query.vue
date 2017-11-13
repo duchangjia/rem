@@ -351,7 +351,7 @@ export default {
 	background-color: #FF9900;
 	border-color: #FF9900;
 }
-.el-button+.el-button {
+.user-query .el-button+.el-button {
     margin-left: 20px;
 }
 .user-query .el-table td,
@@ -376,7 +376,7 @@ export default {
     padding-left: 10px;
     padding-right: 10px;
 }
-.icon_edit {
+.user-query .icon_edit {
 	width: 16px;
 	height: 16px;
 	display: inline-block;
@@ -384,7 +384,7 @@ export default {
 	cursor: pointer;
 	margin-top: 1px;
 }
-.icon_delete {
+.user-query .icon_delete {
 	width: 16px;
 	height: 16px;
 	display: inline-block;

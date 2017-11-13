@@ -360,9 +360,9 @@ export default {
 	height: 30px;
 }
 
-.transfer_wrap .el-button.resetform {
+/*.transfer_wrap .el-button.resetform {
 	margin-right: 20px;
-}
+}*/
 
 .transfer_wrap .el-button--primary {
 	color: #fff;

@@ -295,16 +295,29 @@
 		padding: 7px 45px;
 		height: 30px;
 		/*border-radius: 4px;*/
+		margin-left: 0;
 	}
-	
-	.query_transfer .el-button.resetform {
+	.query_transfer .el-button--small {
+	  margin: 4px;
+	  padding: 7px 9px !important;
+ 	}
+	/*.query_transfer .el-button.resetform {
 		margin-right: 20px;
+	}*/
+	.query_transfer .el-button+.el-button {
+	    margin-left: 20px;
 	}
-	
 	.query_transfer .el-button--primary {
 		color: #fff;
 		background-color: #FF9900;
 		border-color: #FF9900;
 	}
-	
+	.query_transfer .el-table .cell, .el-table th>div {
+	    padding-left: 10px;
+	    padding-right: 10px;
+	}
+	.query_transfer .el-table .el-button {
+		margin-left: 0;
+		border: none;
+	}
 </style>
