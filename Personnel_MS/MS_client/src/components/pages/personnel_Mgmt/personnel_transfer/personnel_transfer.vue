@@ -9,7 +9,7 @@ export default {};
 </script>
 
 <style>
-.content-wrapper {
+/*.content-wrapper {
   background: #ffffff;
   padding: 0 20px 20px;
   color: #333333;
@@ -46,7 +46,6 @@ export default {};
   margin-top: 20px;
   border-radius: 0;
   height: 40px;
-  /* line-height: 40px; */
   width: 120px;
   background: #ff9900;
   border: none;
@@ -110,10 +109,6 @@ label {
   margin-left: 0;
 }
 
-/* .el-button:active {
-    color: #ff9900;
-    border-color: #ff9900;
-} */
 table .el-button:focus,
 table .el-button:hover,
 table .el-button:active {
@@ -260,14 +255,12 @@ table .el-button--danger:active {
   display: inline-block;
   width: 24px;
   height: 24px;
-  /*background: url("../../../../static/img/common/edit.png") center no-repeat;*/
 }
 
 .icon-delete {
   display: inline-block;
   width: 24px;
   height: 24px;
-  /*background: url("../../../../static/img/common/delete.png") center no-repeat;*/
 }
 
 .icon-edit:hover,
@@ -340,7 +333,7 @@ table .el-button--danger:active {
 .el-message-box__headerbtn:hover .el-message-box__close {
   color: #ff9900;
 }
-
+*/
 
 </style>
 
