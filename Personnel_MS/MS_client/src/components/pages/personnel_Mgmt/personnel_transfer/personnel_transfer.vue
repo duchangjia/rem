@@ -66,7 +66,6 @@ export default {};
 }
 
 .el-input__inner {
-  border-radius: 0;
   height: 40px;
   width: 180px;
 }
@@ -177,7 +176,6 @@ table .el-button--danger:active {
 }
 
 .el-textarea__inner {
-  border-radius: 0;
   width: 500px;
 }
 
