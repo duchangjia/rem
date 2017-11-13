@@ -99,6 +99,7 @@ export default {
   },
   created() {
     let self = this;
+    console.log("接收到的params:",self.$route.params);
     if (self.$route.params) {
       self.searchInfo.assetNo = self.$route.params.assetNo;
       self.searchInfo.applyUserNo = self.$route.params.applyUserNo;
@@ -137,7 +138,6 @@ export default {
       this.$axios
         .get("/iem_hrm/assetUse/queryAssUseList", { params: data })
         .then(res => {
-          console.log(1111);
           console.log(res);
           self.table.td = res.data.data.list;
           self.fenye.total = res.data.data.total;

@@ -56,7 +56,7 @@
                   self.obj.costType = res.data.data.costType
                   self.obj.costCode = res.data.data.costCode
                   self.obj.descr = res.data.data.descr
-                  self.obj.oldCodeType = res.data.data.costType
+                  self.obj.oldCostType = res.data.data.costType
                   self.obj.organNo = res.data.data.organNo
               })
               .catch(e=>{

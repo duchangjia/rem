@@ -193,6 +193,10 @@ export default {
       });
     },
     handleAssetUse(index, row) {
+      console.log("要传递的params:",{
+          assetNo: row.assetNo,
+          applyUserNo: row.applyUserNo
+        });
       this.$router.push({
         name: "assetUse_manage",
         params: {

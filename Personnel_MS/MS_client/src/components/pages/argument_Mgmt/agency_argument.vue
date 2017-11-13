@@ -12,6 +12,7 @@
                             <el-option v-for="item in searchValueOption" :label="item" :value="item"></el-option>
                             <!--<el-option label="区域二" value="beijing"></el-option>-->
                         </el-select>
+                        <el-button class="toolBtn" @click="reset(searchValue)">重置</el-button>
                         <el-button class="toolBtn" @click="search(searchValue)">查询</el-button>
                     </div>
                     <table>
@@ -23,7 +24,7 @@
                             <td :title="tds.costCode">{{tds.costCode}}</td>
                             <td :title="tds.descr">{{tds.descr}}</td>
                             <td><i class="el-icon-edit" @click="link(tds.organNo, tds.costType)"></i>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <i class="el-icon-delete2" @click="del(tds.organNo)"></i></td>
+                                <i class="el-icon-delete2" @click="del(tds.organNo, tds.costType)"></i></td>
                         </tr>
                     </table>
                     <el-pagination
@@ -228,14 +229,14 @@
                     }
                 })
             },
-            del(num) {
+            del(num,costType) {
                 let self = this
                 this.$confirm('此操作将永久删除, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    self.$axios.get(`/iem_hrm/organ/delOrgCCC/${num}`)
+                    self.$axios.get(`/iem_hrm/organ/delOrgCCC/${num}/${costType}`)
                         .then(res => {
                             let result = res.data.retMsg
                             if(result==="操作成功"){
