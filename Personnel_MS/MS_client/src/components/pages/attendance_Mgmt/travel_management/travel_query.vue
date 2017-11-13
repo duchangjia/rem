@@ -7,25 +7,25 @@
 				<el-button type="primary" class="title_button" @click="handleAdd">新增</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="60px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-col :span="6">
 							<el-form-item label="公司" prop="compName">
-								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeComp">
+								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" @change="changeComp">
 									<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
 						<el-col :span="6">
 							<el-form-item label="部门" prop="departName">
-								<el-select v-model="ruleForm2.derpNo" value-key="derpNo" placeholder="所属部门" @change="changeValue">
+								<el-select v-model="ruleForm2.derpNo" value-key="derpNo" @change="changeValue">
 									<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
 						<el-col :span="6">
 							<el-form-item label="工号" prop="userNo">
-								<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
+								<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="6" style="margin-left: -14px;">
@@ -410,6 +410,7 @@ export default {
 	color: #999999;
 	padding: 8px 10px 8px 0;
 	margin: 0;
+	font-weight: normal;
 }
 
 .travel_query .el-form-item {
@@ -450,12 +451,11 @@ export default {
 	color: #FF9900;
 	padding: 7px 45px;
 	height: 30px;
-	border-radius: 0px;
 }
 
-.travel_query .el-button.resetform {
+/*.travel_query .el-button.resetform {
 	margin-right: 20px;
-}
+}*/
 
 .travel_query .el-button--primary {
 	color: #fff;
@@ -463,7 +463,7 @@ export default {
 	border-color: #FF9900;
 }
 .travel_query .el-button+.el-button {
-    margin-left: 0px;
+    margin-left: 20px;
 }
 .travel_query .el-table td,
 .travel_query .el-table th {
@@ -482,8 +482,6 @@ export default {
 }
 
 .travel_query .el-table th {
-	/*white-space: nowrap;
-	overflow: hidden;*/
 	text-align: center;
 	box-shadow: inset 0 1px 0 0 #EEEEEE;
 }

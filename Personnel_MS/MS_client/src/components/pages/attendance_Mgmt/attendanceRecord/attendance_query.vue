@@ -7,7 +7,13 @@
 				<!--<el-button type="primary" class="title_button" @click="handleImport()">导入</el-button>-->
 				<div class="imExport-btn">
 					<!--<span class="icon-import" @click="handleImport"></span>-->
-					<el-upload class="upload-demo imExport-btn-item" :on-change="handleChange" :before-upload="beforeAvatarUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+					<el-upload class="upload-demo imExport-btn-item"   
+						ref="upload" 
+						:on-change="handleChange"
+						action="https://jsonplaceholder.typicode.com/posts/" 
+						:show-file-list="false" 
+						:auto-upload="false"
+					>
                         <span class="icon-import" slot="trigger" @click="handleImport"></span>
                    	</el-upload>
 					<span class="icon-export imExport-btn-item" @click="handleExport"></span>
@@ -19,21 +25,21 @@
 					<div class="input-wrap">
 						<el-col :span="6">
 							<el-form-item label="公司" prop="compName">
-								<el-select v-model="ruleForm2.compOrgNo" value-key="compOrgNo" placeholder="所属公司" @change="changeComp">
+								<el-select v-model="ruleForm2.compOrgNo" value-key="compOrgNo" @change="changeComp">
 									<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
 						<el-col :span="6">
 							<el-form-item label="部门" prop="departName">
-								<el-select v-model="ruleForm2.departOrgNo" value-key="departOrgNo" placeholder="所属部门">
+								<el-select v-model="ruleForm2.departOrgNo" value-key="departOrgNo">
 									<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
 						<el-col :span="6">
 							<el-form-item label="工号" prop="userNo">
-								<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
+								<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="6" style="margin-left: -14px;">
@@ -72,7 +78,7 @@
 						<el-table-column prop="projNo" label="项目ID"></el-table-column>
 						<el-table-column prop="taskTime" label="工时"></el-table-column>
 						<el-table-column prop="luruBy" label="录入人"></el-table-column>
-						<el-table-column prop="luruDate" label="录入时间" width="150"></el-table-column>
+						<el-table-column prop="luruDate" label="录入时间" :formatter="travelTimeFormatter"></el-table-column>
 					</el-table>
 				</div>
 				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
@@ -136,17 +142,6 @@ export default {
 					remark: "xx",//备注	
 					luruBy: "xxx",
 					luruDate: "xxxxx"
-				},
-				{
-					attenceNo: "001001",//考勤编号
-					userNo: "p011111",//用户编号 
-					userName: "sdsd",
-					attenceTime: "",//考勤日期 
-					attenceType: "02",//考勤类型	
-					projNo: "",//项目ID
-					taskTime: "",//工时
-					attenceStatus: "",//状态
-					remark: ""//备注	
 				}
 			],
 			rules: {
@@ -159,16 +154,14 @@ export default {
 		current
 	},
 	created() {
-		let pageNum = this.pageNum;
-		let pageSize = this.pageSize;
 		let params = {
-			pageNum: pageNum,
-			pageSize: pageSize
+			pageNum: this.pageNum,
+			pageSize: this.pageSize
 		}
 		//查询公司列表
 		this.queryCompList();
 		//查询考勤列表
-		this.queryAttenceList(pageNum,pageSize,params);
+		this.queryAttenceList(params);
 	},
 	methods: {
 		attenceTypeFormatter(row, column) {
@@ -195,6 +188,10 @@ export default {
 			}
 	    	return attence;
 		},
+		travelTimeFormatter(row, column) {
+			let time = row.luruDate;
+			return moment(time).format('YYYY-MM-DD');
+		},
 		handleChange(file, fileList) {
 //		    this.fileList3 = fileList.slice(-3);
 			console.log(file);
@@ -212,15 +209,11 @@ export default {
 			let params = {
 				organNo: this.ruleForm2.compOrgNo
 			}
+			//查询部门列表
 		 	this.queryDerpList(params);
 	   	},
 		beforeAvatarUpload(file) {
-			console.log("before",file);
-			let params = {
-				
-			};
-			//导入excel文件
-//			this.importExcel(params);
+			
 		},
 		//查询
 		queryForm(formName) {
@@ -245,15 +238,12 @@ export default {
 			this.ruleForm2.endDate = '';
 		},
 		handleCurrentChange(val) {
-			console.log(`当前页: ${val}`);
 			const self = this;
-			let pageNum = val;
-			let pageSize = self.pageSize;
 			let params = {
-				"pageNum": pageNum,
-				"pageSize": pageSize
+				"pageNum": val,
+				"pageSize": self.pageSize
 			}
-			
+			self.queryAttenceList(params);
 		},
 		//导入
 		handleImport() {
@@ -273,14 +263,17 @@ export default {
 			}
 			this.downloadExcel(params);
 		},
-		queryAttenceList(pageNum,pageSize,params) {
+		queryAttenceList(params) {
 			let self = this;
 			self.$axios.get(baseURL+'/attence/queryAttenceList', {params: params})
 			.then(function(res) {
 				console.log('List',res);
-				self.transferDataList = res.data.data.models;
-				self.pageNum = pageNum;
-				self.totalRows = Number(res.data.data.total);
+				if(res.data.code === "S00000") {
+					self.transferDataList = res.data.data.models;
+					self.pageNum = params.pageNum;
+					self.totalRows = Number(res.data.data.total);
+				}
+				
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -290,7 +283,9 @@ export default {
 			self.$axios.get(baseURL+'/attence/download', {params: params})
 			.then(function(res) {
 				console.log('download',res);
-				
+				if(res.data.code === "S00000") {
+					
+				}
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -300,7 +295,9 @@ export default {
 			self.$axios.post(baseURL+'/attence/batchimport', {params: params})
 			.then(function(res) {
 				console.log('batchimport',res);
-				
+				if(res.data.code === "S00000") {
+					
+				}
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -310,7 +307,10 @@ export default {
 			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
 			.then(function(res) {
 				console.log('CompList',res);
-				self.compList = res.data.data;
+				if(res.data.code === "S00000") {
+					self.compList = res.data.data;
+				}
+				
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -320,7 +320,10 @@ export default {
 			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
 			.then(function(res) {
 				console.log('DerpList',res);
-				self.departList = res.data.data;
+				if(res.data.code === "S00000") {
+					self.departList = res.data.data;
+				}
+				
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -376,12 +379,8 @@ export default {
 	color: #999999;
 	padding: 8px 10px 8px 0;
 	margin: 0;
+	font-weight: normal;
 }
-
-/*.attendance_wrap .input-wrap .el-form-item {
-	float: left;
-}*/
-
 .attendance_wrap .el-form-item {
 	margin-bottom: 30px;
 }
@@ -420,20 +419,19 @@ export default {
 	color: #FF9900;
 	padding: 7px 45px;
 	height: 30px;
-	border-radius: 0px;
 }
 
-.attendance_wrap .el-button.resetform {
+/*.attendance_wrap .el-button.resetform {
 	margin-right: 20px;
-}
+}*/
 
 .attendance_wrap .el-button--primary {
 	color: #fff;
 	background-color: #FF9900;
 	border-color: #FF9900;
 }
-.el-button+.el-button {
-    margin-left: 0px;
+.attendance_wrap .el-button+.el-button {
+    margin-left: 20px;
 }
 .attendance_wrap .el-table td,
 .attendance_wrap .el-table th {
@@ -445,9 +443,6 @@ export default {
     text-decoration: underline;
 }
 .attendance_wrap .el-table th {
-	white-space: nowrap;
-	overflow: hidden;
-	background-color: #f4f4f4;
 	text-align: center;
 	box-shadow: inset 0 1px 0 0 #EEEEEE;
 }

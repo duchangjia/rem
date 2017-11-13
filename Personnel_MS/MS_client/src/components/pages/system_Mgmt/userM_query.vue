@@ -6,18 +6,18 @@
 				<span class="title-text">用户管理</span>
 			</div>
 			<div class="content-inner">
-				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="58px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-col :span="6">
 							<el-form-item label="公司" prop="compName">
-								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeComp">
+								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" @change="changeComp">
 									<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
 						<el-col :span="6">
 							<el-form-item label="部门" prop="departName">
-								<el-select v-model="ruleForm2.derpNo" value-key="derpNo" placeholder="所属部门" @change="changeValue">
+								<el-select v-model="ruleForm2.derpNo" value-key="derpNo" @change="changeValue">
 									<el-option v-for="item in departList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 								</el-select>
 							</el-form-item>
@@ -62,7 +62,7 @@
 						<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :page-size="pageRows" layout="prev, pager, next, jumper" :total="pageSize" v-show="pageSize>pageRows">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
 		</div>
@@ -76,8 +76,8 @@ export default {
 	data() {
 		return {
 			pageNum: 1,
-			pageRows: 10,
-			pageSize: 1,
+			pageSize: 10,
+			totalRows: 1,
 			queryFormFlag: false,
 			ruleForm2: {
 				organNo: '',
@@ -87,16 +87,16 @@ export default {
 			},
 			operatorList: [
 				{
-					userNo: "p011111",
-					userName: "asda",
-					compName: "mofang",
-					departName: "xinzhen",
-					roleNo: "xinzhen",
-					mobile: "135135135135",
-					status: "1",
+					userNo: "",
+					userName: "",
+					compName: "",
+					departName: "",
+					roleNo: "",
+					mobile: "",
+					status: "",
 					roles: [
-						{roleName: "经理", roleNo: "1"},
-						{roleName: "项目管理员", roleNo: "2"},
+						{roleName: "", roleNo: ""},
+						{roleName: "", roleNo: ""},
 					]
 				}
 			],
@@ -105,17 +105,9 @@ export default {
 				compOrgNo: ''
 			},
 			//部门列表
-			departList: [
-				{organName: "上海魔方分公司",organNo: '01'},
-				{organName: "魔方分公司深圳分公司",organNo: 'p1'},
-				{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
-			],
+			departList: [],
 			//公司列表
-			compList: [
-				{compName: "上海魔方分公司",compOrgNo: '01'},
-				{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-				{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
-			],
+			compList: [],
 			rules: {
 				company: [],
 				department: [],
@@ -128,15 +120,13 @@ export default {
 	},
 	created() {
 		const self = this;
-		let pageNum = self.pageNum;
-		let pageSize = self.pageRows;
 		let params = {
-			"pageNum": pageNum,
-			"pageSize": pageSize
+			"pageNum": self.pageNum,
+			"pageSize": self.pageSize
 		}
 		//查询用户列表
 		self.queryFormFlag = false;
-		self.queryUserList(pageNum,pageSize,params);
+		self.queryUserList(params);
 		//公司列表查询
 		this.queryCompList();
 	},
@@ -171,11 +161,9 @@ export default {
 			const self = this;
 			let user = self.ruleForm2.user;
 			self.operatorList = [];
-			let pageNum = self.pageNum;
-			let pageSize = self.pageRows;
 			let params = {
-				"pageNum": pageNum,
-				"pageSize": pageSize,
+				"pageNum": self.pageNum,
+				"pageSize": self.pageSize,
 				"compOrganNo": self.ruleForm2.organNo,
 				"deptOrganNo": self.ruleForm2.derpNo,
 				"status": self.ruleForm2.status,
@@ -183,7 +171,7 @@ export default {
 			}
 			//查询用户列表
 			self.queryFormFlag = true;
-			self.queryUserList(pageNum,pageSize,params);
+			self.queryUserList(params);
 		},
 		changeValue(value) {
 	 		const self = this;
@@ -205,18 +193,16 @@ export default {
 		},
 		handleCurrentChange(val) {
 			const self = this;
-			let pageNum = val;
-			let pageSize = self.pageRows;
 			let params = {};
 			if(!self.queryFormFlag) {
 				params = {
-					"pageNum": pageNum,
-					"pageSize": pageSize
+					"pageNum": val,
+					"pageSize": self.pageSize
 				}
 			} else {
 				params = {
-					"pageNum": pageNum,
-					"pageSize": pageSize,
+					"pageNum": val,
+					"pageSize": self.pageSize,
 					"compOrganNo": self.ruleForm2.organNo,
 					"deptOrganNo": self.ruleForm2.derpNo,
 					"status": self.ruleForm2.status,
@@ -224,16 +210,16 @@ export default {
 				}
 			}
 			//分页查询用户列表
-			self.queryUserList(pageNum,pageSize,params);
+			self.queryUserList(params);
 		},
-		queryUserList(pageNum,pageSize,params) {
+		queryUserList(params) {
 			let self = this;
 			self.$axios.get(baseURL+'/user/queryUserList', {params: params})
 			.then(function(res) {
 				console.log('UserList',res);
 				self.operatorList = res.data.data.models;
-				self.pageNum = pageNum;
-				self.pageSize = Number(res.data.data.total);
+				self.pageNum = params.pageNum;
+				self.totalRows = Number(res.data.data.total);
 //				self.operatorList[0].compName = '魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司';
 //				self.operatorList[0].departName = '魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司';
 			}).catch(function(err) {
@@ -324,6 +310,7 @@ export default {
 	width: 164px;
 	height: 30px;
 	display: inline-block;
+	border-radius: 4px;
 }
 
 .user-query .el-form-item__content {
@@ -353,7 +340,6 @@ export default {
 	color: #FF9900;
 	padding: 7px 45px;
 	height: 30px;
-	border-radius: 0px;
 }
 
 /*.user-query .el-button.resetform {

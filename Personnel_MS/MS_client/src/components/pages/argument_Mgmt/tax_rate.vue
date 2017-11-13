@@ -66,14 +66,12 @@ export default {
 	},
 	created() {
 		const self = this;
-		let pageNum = self.pageNum;
-		let pageSize = self.pageSize;
 		let params = {
-			"pageNum": pageNum,
-			"pageSize": pageSize,
+			"pageNum": self.pageNum,
+			"pageSize": self.pageSize,
 			isDelete: "1"
 		};
-		self.selectTaxRateGroup(pageNum, pageSize, params);
+		self.selectTaxRateGroup(params);
 	},
 	methods: {
 		startTimeFormatter(row, column) {
@@ -119,22 +117,20 @@ export default {
         },
         handleCurrentChange(val) {
 			const self = this;
-			let pageNum = val;
-			let pageSize = self.pageSize;
 			let params = {
-				"pageNum": pageNum,
-				"pageSize": pageSize
+				"pageNum": val,
+				"pageSize": self.pageSize
 			};
-			self.selectTaxRateGroup(pageNum,pageSize,params);
+			self.selectTaxRateGroup(params);
 		},
 		//查询个税组列表
-		selectTaxRateGroup(pageNum,pageSize,params) {
+		selectTaxRateGroup(params) {
 			const self = this;
 			self.$axios.get(baseURL+'/taxRateGroup/queryRGroupList',{params: params})
 				.then(function(res) {
 					console.log("queryRGroupList",res);
 					self.taxRateGroupList = res.data.data.list;
-					self.pageNum = pageNum;
+					self.pageNum = params.pageNum;
 					self.totalRows = Number(res.data.data.total);
 				}).catch(function(err) {
 					console.log(err)
@@ -148,14 +144,12 @@ export default {
     			console.log("queryRateList",res);
     			if(res.data.code==="S00000") {
     				this.$message({ type: 'success', message: res.data.retMsg });
-    				let pageNum = self.pageNum;
-					let pageSize = self.pageSize;
 					let params = {
-						"pageNum": pageNum,
-						"pageSize": pageSize,
+						"pageNum": self.pageNum,
+						"pageSize": self.pageSize,
 						isDelete: "1"
 					};
-					self.selectTaxRateGroup(pageNum, pageSize, params);
+					self.selectTaxRateGroup(params);
     			} else {
     				console.log('error');
     			}

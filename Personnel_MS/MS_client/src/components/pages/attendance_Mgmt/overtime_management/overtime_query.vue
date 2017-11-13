@@ -7,25 +7,25 @@
 				<el-button type="primary" class="title_button" @click="handleAdd">新增</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" label-width="60px" class="demo-ruleForm">
+				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-col :span="6">
 							<el-form-item label="公司" prop="compName">
-								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" placeholder="所属公司" @change="changeValue">
+								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" @change="changeValue">
 									<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
 						<el-col :span="6">
 							<el-form-item label="部门" prop="departName">
-								<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue">
+								<el-select v-model="depart" value-key="departOrgNo">
 									<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
 						<el-col :span="6">
 							<el-form-item label="工号" prop="userNo">
-								<el-input type="text" v-model="ruleForm2.userNo" placeholder="工号"></el-input>
+								<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="6" style="margin-left: -14px;">
@@ -70,7 +70,7 @@
 						<el-table-column prop="workotEndTime" label="加班结束时间"></el-table-column>
 						<el-table-column prop="luruBy" label="录入人"></el-table-column>
 						<el-table-column prop="lurunTime" label="录入时间"></el-table-column>
-						<el-table-column label="操作" width="150">
+						<el-table-column label="操作" width="100">
 							<template scope="scope">
 								<i class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></i>
 								<i class="icon_delete" @click="handleDelete(scope.$index, scope.row)"></i>
@@ -153,14 +153,12 @@ export default {
 	},
 	created() {
 		this.queryFormFlag = false;
-		let pageNum = this.pageNum;
-		let pageSize = this.pageSize;
 		let params = {
-			"pageNum": pageNum,
-			"pageSize": pageSize
+			"pageNum": this.pageNum,
+			"pageSize": this.pageSize
 		}
 		//加班列表查询
-		this.queryWorkOtList(pageNum,pageSize,params);
+		this.queryWorkOtList(params);
 	},
 	methods: {
 		workotTypeFormatter(row, column) {
@@ -224,13 +222,10 @@ export default {
 			console.log(this.ruleForm2.startDate)
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
-					console.log('submit')
 					self.queryFormFlag = true;
-					let pageNum = self.pageNum;
-					let pageSize = self.pageSize;
 					let params = {
-						"pageNum": pageNum,
-						"pageSize": pageSize,
+						"pageNum": self.pageNum,
+						"pageSize": self.pageSize,
 						organNo: self.ruleForm2.organNo,
 						userNo: self.ruleForm2.userNo,
 //						applyNo: self.ruleForm2.applyNo,
@@ -239,7 +234,7 @@ export default {
 					};
 					
 					//加班列表查询
-					self.queryWorkOtList(pageNum,pageSize,params);
+					self.queryWorkOtList(params);
 					
 				} else {
 					console.log('error submit!!');
@@ -256,32 +251,32 @@ export default {
 		},
 		handleCurrentChange(val) {
 			const self = this;
-			let pageNum = val;
-			let pageSize = self.pageSize;
 			let params = {};
 			if(self.queryFormFlag) {
 				params = {
-					"pageNum": pageNum,
-					"pageSize": pageSize,
+					"pageNum": val,
+					"pageSize": self.pageSize,
 					
 				}
 			} else {
 				params = {
-					"pageNum": pageNum,
-					"pageSize": pageSize
+					"pageNum": val,
+					"pageSize": self.pageSize
 				}
 			}
 			//分页出差列表查询
-			this.queryWorkOtList(pageNum,pageSize,params);
+			this.queryWorkOtList(params);
 		},
-		queryWorkOtList(pageNum,pageSize,params) {
+		queryWorkOtList(params) {
 			let self = this;
 			self.$axios.get(baseURL+'/workot/queryWorkOtList', {params: params})
 			.then(function(res) {
 				console.log('queryTravelList',res);
-				self.transferDataList = res.data.data.models;
-				self.pageNum = pageNum;
-				self.totalRows = Number(res.data.data.total);
+				if(res.data.code === "S00000") {
+					self.transferDataList = res.data.data.models;
+					self.pageNum = params.pageNum;
+					self.totalRows = Number(res.data.data.total);
+				}
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -291,7 +286,9 @@ export default {
 			self.$axios.delete(baseURL+'/workot/deleteWorkOtInfo', params)
 			.then(function(res) {
 				console.log('deleteTravel',res);
-				
+				if(res.data.code === "S00000") {
+					self.$message({ message: '操作成功', type: 'success' });
+				}
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -347,6 +344,7 @@ export default {
 	color: #999999;
 	padding: 8px 10px 8px 0;
 	margin: 0;
+	font-weight: normal;
 }
 
 /*.workot_query .input-wrap .el-form-item {
@@ -391,20 +389,14 @@ export default {
 	color: #FF9900;
 	padding: 7px 45px;
 	height: 30px;
-	border-radius: 0px;
 }
-
-.workot_query .el-button.resetform {
-	margin-right: 20px;
-}
-
 .workot_query .el-button--primary {
 	color: #fff;
 	background-color: #FF9900;
 	border-color: #FF9900;
 }
-.el-button+.el-button {
-    margin-left: 0px;
+.workot_query .el-button+.el-button {
+    margin-left: 20px;
 }
 .workot_query .el-table td,
 .workot_query .el-table th {
@@ -423,9 +415,6 @@ export default {
 }
 
 .workot_query .el-table th {
-	white-space: nowrap;
-	overflow: hidden;
-	background-color: #f4f4f4;
 	text-align: center;
 	box-shadow: inset 0 1px 0 0 #EEEEEE;
 }

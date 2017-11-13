@@ -70,14 +70,12 @@ export default {
 	},
 	created() {
 		const self = this;
-		let pageNum = self.pageNum,
-			pageSize = self.pageSize;
 		let params = {
-			pageNum: pageNum,
-			pageSize: pageSize
+			pageNum: self.pageNum,
+			pageSize: self.pageSize
 		}
 		//查询福利缴纳系数模版列表
-		self.queryInsurancePayTemplates(pageNum,pageSize,params);
+		self.queryInsurancePayTemplates(params);
 	},
 	methods: {
 		createdDateFormatter(row, column) {
@@ -88,7 +86,6 @@ export default {
 			this.$router.push('/add_welfare');
 		},
 		handleEdit(index, row) {
-			console.log('index:'+index,'row.modelNo:'+row.applyNo);
             this.$router.push({
             	name: 'welfare_info',
             	params: {
@@ -110,30 +107,28 @@ export default {
             	self.deleteInsurancePayTemplate(params);
             	
             }).catch(() => {
-                self.$message('您已取消删除模版！');
+                self.$message('您已取消操作！');
             });
         },
         handleCurrentChange(val) {
 			console.log('当前页',val);
 			const self = this;
-			let pageNum = val,
-				pageSize = self.pageSize;
 			let params = {
-				pageNum: pageNum,
-				pageSize: pageSize
+				pageNum: val,
+				pageSize: self.pageSize
 			}
 			//分页查询福利缴纳系数模版列表
-			self.queryInsurancePayTemplates(pageNum,pageSize,params);
+			self.queryInsurancePayTemplates(params);
 		},
 		//查询福利缴纳系数模版列表
-		queryInsurancePayTemplates(pageNum,pageSize,params) {
+		queryInsurancePayTemplates(params) {
 			const self = this;
-			self.$axios.get(baseURL+'/InsurancePayTemplate/queryInsurancePayTemplates/'+ pageNum + '/' + pageSize)
+			self.$axios.get(baseURL+'/InsurancePayTemplate/queryInsurancePayTemplates/'+ params.pageNum + '/' + params.pageSize)
 			.then(function(res) {
 				console.log('res',res);
 				if(res.data.code === "S00000") {
 					self.payTemplatesList = res.data.data.list;
-					self.pageNum = pageNum;
+					self.pageNum = params.pageNum;
 					self.totalRows = Number(res.data.data.total);
 				}
 				
@@ -149,18 +144,15 @@ export default {
     			console.log(res);
     			if(res.data.code === "S00000") {
     				self.$message({ type: 'success', message: res.data.retMsg });
-    				let pageNum = self.pageNum,
-						pageSize = self.pageSize;
 					let params = {
-						pageNum: pageNum,
-						pageSize: pageSize
+						pageNum: self.pageNum,
+						pageSize: self.pageSize
 					}
 					//查询福利缴纳系数模版列表
-					self.queryInsurancePayTemplates(pageNum,pageSize,params);
+					self.queryInsurancePayTemplates(params);
     			}
     			
     		}).catch(function(err) {
-    			self.$message.error('删除失败');
     		})
 		}
 	}

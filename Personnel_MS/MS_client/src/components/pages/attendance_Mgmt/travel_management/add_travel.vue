@@ -64,7 +64,15 @@
 				  	</el-form-item>
 				  	<el-form-item label="附件" style="width: 100%;">
 			  		 	<el-input v-model="formdata2.attachm"></el-input>
-				  		<el-upload class="upload-demo" ref="upload" :on-change="changefile" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+				  		<el-upload class="upload-demo" ref="upload" name="file"
+				  			 :data="formdata"
+				  			 :on-change="changeUpload" 
+				  			 :on-success="successUpload"
+				  			 action="/iem_hrm/travel/addTravelInfo" 
+				  			 :show-file-list="false" 
+				  			 :auto-upload="false"
+				  			 :headers="token"
+				  		>
                             <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
                         </el-upload>
 				  	</el-form-item>
@@ -80,6 +88,10 @@
 	export default {
 		data() {
 			return {
+				token: {
+					Authorization:`Bearer `+localStorage.getItem('access_token'),
+				},
+				formdata: {},
 				formdata1: {
 					organNo: "",
 					deptNo: "",
@@ -125,7 +137,7 @@
 		            	{ required: true, message: '出差天数不能为空', trigger: 'blur' }
 	          		],
 	          		remark: [
-		            	{ min: 0, max: 100, message: '长度在 0 到 100 个字符之间', trigger: 'blur' }
+		            	{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 	          		]
 				}
 			}
@@ -159,21 +171,16 @@
 	      		//根据员工编号查询员工信息
 	      		this.getUseInfoByUserNo(params);
 	      	},
+	      	successUpload(response, file, fileList) {
+	      		this.$message({ message: '操作成功', type: 'success' });
+	      	},
 	      	save(formName) {
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
 						console.log('valid');
 						let params = {
-//							applyNo: self.formdata2.applyNo, //出差编号
-//	   						organNo: self.formdata2.organNo,//公司编号
-//	    					deptNo: self.formdata2.deptNo,//部门编号
-//						    companyName: self.formdata2.companyName,//公司名称
-//						    deptName: self.formdata2.deptName,//部门名称
 						    userNo: self.formdata1.userNo,//工号
-//						    custName: self.formdata1.custName,//姓名
-//						    custPost: self.formdata1.custPost,//岗位
-//						    custClass: self.formdata1.custClass,//职级
 						    travelType: self.formdata2.travelType,//出差类型
 						    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
 						    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
@@ -184,11 +191,10 @@
 						    remark: self.formdata2.remark,//备注
 						    attachm: self.formdata2.attachm//附件
 						}
-						//新增出差信息
-						self.addTravelInfo(params);
+						self.formdata = params;
+						self.$refs.upload.submit();
 						
 					} else {
-						this.$message.error('failvalid');
 						return false;
 					}
 				});

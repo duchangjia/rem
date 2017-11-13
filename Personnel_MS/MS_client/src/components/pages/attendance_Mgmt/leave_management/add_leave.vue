@@ -10,23 +10,23 @@
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-						<el-input v-model="formdata1.organNo"></el-input>
+						<el-input v-model="formdata1.organNo" :disabled="true"></el-input>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-						<el-input v-model="formdata1.deptNo"></el-input>
+						<el-input v-model="formdata1.deptNo" :disabled="true"></el-input>
 				  </el-form-item>
 					<el-form-item label="工号">
 					    <el-input v-model="formdata1.userNo"></el-input>
 					    <el-button class="queryUserBtn" type="primary" @click="queryUserInfo">查询</el-button>
 				 	</el-form-item>
 				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata1.custName"></el-input>
+					    <el-input v-model="formdata1.custName" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="岗位">
-					    <el-input v-model="formdata1.custPost"></el-input>
+					    <el-input v-model="formdata1.custPost" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="职级">
-					    <el-input v-model="formdata1.custClass"></el-input>
+					    <el-input v-model="formdata1.custClass" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<div class="info-title">请假信息</div>
 				  	<el-form-item label="请假开始时间" prop="leaveStartTime">
@@ -53,7 +53,15 @@
 				  	</el-form-item>
 				  	<el-form-item label="附件" style="width: 100%;">
 			  		 	<el-input v-model="formdata2.attachm"></el-input>
-				  		<el-upload class="upload-demo" ref="upload" :on-change="changefile" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+				  		<el-upload class="upload-demo" ref="upload" name="file"
+				  			 :data="formdata"
+				  			 :on-change="changeUpload" 
+				  			 :on-success="successUpload"
+				  			 action="/iem_hrm/" 
+				  			 :show-file-list="false" 
+				  			 :auto-upload="false"
+				  			 :headers="token"
+				  		>
                             <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
                         </el-upload>
 				  	</el-form-item>
@@ -69,6 +77,10 @@
 	export default {
 		data() {
 			return {
+				token: {
+					Authorization:`Bearer `+localStorage.getItem('access_token'),
+				},
+				formdata: {},
 				formdata1: {
 					userNo: "",
 					custName: "",
@@ -85,23 +97,6 @@
 					remark: "",
 					attachm: ""
 				},
-				
-//				oldcomp: {
-//					compName: '',
-//					compOrgNo: ''
-//				},
-//				newcomp: {
-//					newcompName: '',
-//					newcompOrgNo: ''
-//				},
-//				olddepart: {
-//					departName: '',
-//					departOrgNo: ''
-//				},
-//				newdepart: {
-//					newdepartName: '',
-//					newdepartOrgNo: ''
-//				},
 				//部门列表
 				departList: [
 					{departName: "上海魔方分公司",departOrgNo: '01'},
@@ -168,6 +163,9 @@
 	      		//根据员工编号查询员工信息
 	      		this.getUseInfoByUserNo(params);
 	      	},
+	      	successUpload(response, file, fileList) {
+	      		this.$message({ message: '操作成功', type: 'success' });
+	      	},
 	      	save(formName) {
 				const self = this;
 				this.$refs[formName].validate((valid) => {
@@ -183,11 +181,10 @@
 			    			"remark": self.formdata2.remark, //"请假的详细信息"
 			    			attachm: self.formdata2.attachm
 						}
-						//新增请假信息
-						self.addLeaveInfo(params);
+						self.formdata = params;
+						self.$refs.upload.submit();
 						
 					} else {
-						this.$message.error('failvalid');
 						return false;
 					}
 				});

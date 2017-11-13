@@ -44,7 +44,7 @@ export default {};
 .content-wrapper .toolBtn {
   float: right;
   margin-top: 15px;
-  border-radius: 0;
+  /*border-radius: 0;*/
   height: 30px;
   width: 120px;
   background: #ff9900;
@@ -59,7 +59,7 @@ export default {};
 
 .content-wrapper .resetBtn {
   color: #ff9900;
-  border-radius: 0;
+  /*border-radius: 0;*/
   height: 30px;
   width: 120px;
   padding: 0;
@@ -68,7 +68,7 @@ export default {};
 }
 
 .content-wrapper .queryBtn {
-  border-radius: 0;
+  /*border-radius: 0;*/
   height: 30px;
   width: 120px;
   padding: 0;

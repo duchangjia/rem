@@ -103,14 +103,12 @@ export default {
 	created() {
 		const self = this;
 		self.queryFormFlag = false;
-		let pageNum = self.pageNum;
-		let pageSize = self.pageSize;
 		let params = {
-			"pageNum": pageNum,
-			"pageSize": pageSize
+			"pageNum": self.pageNum,
+			"pageSize": self.pageSize
 		};
 		//查询职级薪酬列表
-		self.queryCParmList(pageNum,pageSize,params);
+		self.queryCParmList(params);
 		//查询公司列表
 		self.queryCompList();
 	},
@@ -135,15 +133,13 @@ export default {
 		},
 		queryForm() {
 			const self = this;
-			let pageNum = self.pageNum;
-			let pageSize = self.pageSize;
 			let params = {
-				"pageNum": pageNum,
-				"pageSize": pageSize,
+				"pageNum": self.pageNum,
+				"pageSize": self.pageSize,
 				organNo: self.ruleForm2.organNo
 			};
 			//查询职级薪酬列表
-			self.queryCParmList(pageNum,pageSize,params);
+			self.queryCParmList(params);
 			self.queryFormFlag = true;
 			
 		},
@@ -176,33 +172,31 @@ export default {
         },
         handleCurrentChange(val) {
 			const self = this;
-			let pageNum = val;
-			let pageSize = self.pageSize;
 			let params = {};
 			if(self.queryFormFlag) {
 				params = {
-					"pageNum": pageNum,
-					"pageSize": pageSize,
+					"pageNum": val,
+					"pageSize": self.pageSize,
 					organNo: self.ruleForm2.organNo	
 				};
 			} else {
 				params = {
-					"pageNum": pageNum,
-					"pageSize": pageSize
+					"pageNum": val,
+					"pageSize": self.pageSize
 				};
 			}
 			
 			//分页查询职级薪酬列表
-			self.queryCParmList(pageNum,pageSize,params);
+			self.queryCParmList(params);
 			
 		},
-		queryCParmList(pageNum,pageSize,params) {
+		queryCParmList(params) {
 			const self = this;
 			self.$axios.get(baseURL+'/RankSalaryTemplate/queryCParmList', {params: params})
 			.then((res) => {
 				console.log('list',res);
 				self.dataList = res.data.data.list;
-				self.pageNum = pageNum;
+				self.pageNum = params.pageNum;
 				self.totalRows = Number(res.data.data.total);
 			}).catch((err) => {
 				console.log(err);
@@ -214,20 +208,17 @@ export default {
     		.then(function(res) {
     			console.log('del',res);
     			if(res.data.code === "S00000") {
-    				self.$message({ type: 'success', message: '删除成功!' });
-    				let pageNum = self.pageNum;
-					let pageSize = self.pageSize;
+    				self.$message({ type: 'success', message: '操作成功!' });
 					let params = {
-						"pageNum": pageNum,
-						"pageSize": pageSize,
+						"pageNum": self.pageNum,
+						"pageSize": self.pageSize,
 						organNo: self.ruleForm2.organNo
 					};
     				//查询职级薪酬列表
-					self.queryCParmList(pageNum,pageSize,params);
+					self.queryCParmList(params);
     			}
     			
     		}).catch(function(err) {
-    			self.$message.error('删除模版失败！');
     		})
 		},
 		queryCompList() {
@@ -296,6 +287,7 @@ export default {
 	width: 164px;
 	height: 30px;
 	display: inline-block;
+	border-radius: 4px;
 }
 .rank_wrap .el-input__inner {
 	border: 1px solid #EEEEEE;
@@ -310,7 +302,6 @@ export default {
 	float: right;
 	padding: 7px 45px;
 	height: 30px;
-	border-radius: 0px;
 	margin-top: 10px;
 }
 

@@ -14,7 +14,7 @@
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
 						<el-input v-model="formdata2.deptName" :disabled="true"></el-input>
-				  </el-form-item>
+				  	</el-form-item>
 					<el-form-item label="工号">
 					    <el-input v-model="formdata2.userNo" :disabled="true"></el-input>
 				 	</el-form-item>
@@ -209,7 +209,7 @@
 						    remark: self.formdata2.remark,//备注
 						    attachm: self.formdata2.attachm//附件
 						}
-						self.formdata = params
+						self.formdata = params;
 						self.$refs.upload.submit();
 						
 					} else {

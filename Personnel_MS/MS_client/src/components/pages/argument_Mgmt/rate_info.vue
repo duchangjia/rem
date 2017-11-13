@@ -59,17 +59,14 @@ export default {
 	created() {
 		const self = this;
 		let groupName = self.$route.params.groupName;
-//		let groupId = self.$route.params.groupId;
 		let groupId = sessionStorage.getItem('groupId');
-		let pageNum = self.pageNum;
-		let pageSize = self.pageSize;
 		let params = {
-			"pageNum": pageNum,
-			"pageSize": pageSize,
+			"pageNum": self.pageNum,
+			"pageSize": self.pageSize,
 			groupId: groupId
 		};
 		//查询税率列表
-		self.queryRateList(pageNum, pageSize, params);
+		self.queryRateList(params);
 	},
 	methods: {
 		percentRateFormatter(row, column) {
@@ -122,24 +119,22 @@ export default {
         handleCurrentChange(val) {
 			const self = this;
 			let groupId = this.$route.params.groupId;
-			let pageNum = val;
-			let pageSize = self.pageSize;
 			let params = {
-				"pageNum": pageNum,
-				"pageSize": pageSize,
+				"pageNum": val,
+				"pageSize": self.pageSize,
 				groupId: groupId
 			};
 			//分页查询税率列表
-			self.queryRateList(pageNum, pageSize, params);
+			self.queryRateList(params);
 		},
 		//查询个税列表
-		queryRateList(pageNum,pageSize,params) {
+		queryRateList(params) {
 			const self = this;
 			self.$axios.get(baseURL+'/taxRateCtrl/queryRateList', { params: params})
 				.then(function(res) {
 					console.log("queryRateList",res);
 					self.taxRateList = res.data.data.list;
-					self.pageNum = pageNum;
+					self.pageNum = params.pageNum;
 					self.totalRows = Number(res.data.data.total);
 				}).catch(function(err) {
 					console.log(err);
@@ -154,15 +149,13 @@ export default {
     			if(res.data.code === "S00000") {
     				this.$message({ type: 'success', message: '删除成功!' });
     				let groupId = sessionStorage.getItem('groupId');
-					let pageNum = self.pageNum;
-					let pageSize = self.pageSize;
 					let params = {
-						"pageNum": pageNum,
-						"pageSize": pageSize,
+						"pageNum": self.pageNum,
+						"pageSize": self.pageSize,
 						groupId: groupId
 					};
 					//查询税率列表
-					self.queryRateList(pageNum, pageSize, params);
+					self.queryRateList(params);
     			} else {
     				console.log(err);
     			}
