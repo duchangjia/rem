@@ -630,7 +630,7 @@
     border-bottom: 1px solid #EEEEEE;
     display: flex;
     align-items: center;
-    height: 80px;
+    height: 50px;
     justify-content: space-between;
 }
 .framework-content-wrapper .content-right .title .text{
@@ -640,8 +640,8 @@
     letter-spacing: 0;
     /*margin-right: 309px;*/
     border-bottom: 2px solid #363D47;
-    height: 80px;
-    line-height: 80px;
+    height: 50px;
+    line-height: 50px;
     width: auto;
 }
 .framework-content-wrapper .content-right .title .text_special{
@@ -651,18 +651,18 @@
     text-overflow: ellipsis;
 }
 .framework-content-wrapper .content-right .title .del {
-    border-radius: 0;
-    height: 40px;
-    line-height: 40px;
+    border-radius: 4px;
+    height: 30px;
+    line-height: 30px;
     width: 120px;
     color: #FF9900;
     border-color:#FF9900 ;
     margin-right: 20px;
 }
 .framework-content-wrapper .content-right .title .toolBtn {
-    border-radius: 0;
-    height: 40px;
-    line-height: 40px;
+    border-radius: 4px;
+    height: 30px;
+    line-height: 30px;
     width: 120px;
     background: #FF9900;
     border: none;
