@@ -58,7 +58,7 @@
                 </el-table-column>
                 <el-table-column align="center" prop="pactEndTime" label="合同结束日期">
                 </el-table-column>
-                <el-table-column align="center" label="操作" width="150">
+                <el-table-column align="center" label="操作" width="120">
                     <template scope="scope">
                         <el-button type="text" size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
                         <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
