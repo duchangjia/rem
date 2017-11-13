@@ -23,29 +23,25 @@
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span="6">
-							<el-form-item label="工号" prop="userNo">
-								<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6" style="margin-left: -14px;">
-							<el-form-item label="出差开始时间" prop="startDate" label-width="100px">
+						<el-col :span="12">
+							<el-form-item label="时间" prop="startDate"">
 								<el-date-picker
 							      v-model="ruleForm2.startDate"
 							      type="date"
 							      placeholder="选择日期"
 							      :picker-options="pickerOptions0" @change="changeStartTime">
-							   </el-date-picker>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="出差结束时间" prop="endDate" label-width="100px">
+							   </el-date-picker> -
 								<el-date-picker
 							      v-model="ruleForm2.endDate"
 							      type="date"
 							      placeholder="选择日期"
 							      :picker-options="pickerOptions0" @change="changeEndTime">
 							   </el-date-picker>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="工号" prop="userNo">
+								<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
 							</el-form-item>
 						</el-col>
 					</div>
@@ -122,26 +118,10 @@ export default {
 					createdDate: ""
 				}
 			],
-			comp: {
-				compName: '',
-				compOrgNo: ''
-			},
-			depart: {
-				departName: '',
-				departOrgNo: ''
-			},
 			//部门列表
-			departList: [
-				{derpName: "上海魔方分公司",derpNo: '01'},
-				{derpName: "魔方分公司深圳分公司",derpNo: 'p1'},
-				{derpName: "深圳前海橙色魔方信息技术有限公司",derpNo: '0'}
-			],
+			departList: [],
 			//公司列表
-			compList: [
-				{name: "上海魔方分公司",id: '01'},
-				{name: "魔方分公司深圳分公司",id: 'p1'},
-				{name: "深圳前海橙色魔方信息技术有限公司",id: '0'}
-			],
+			compList: [],
 			rules: {
 				compName: [],
 				departName: []

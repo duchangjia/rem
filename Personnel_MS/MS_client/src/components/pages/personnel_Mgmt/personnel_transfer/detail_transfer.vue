@@ -1,5 +1,5 @@
 <template>
-	<div class="transfer_wrap">
+	<div class="detail_transfer">
 		<current yiji="人事事务" erji="人事调动" sanji="人事调动明细查询"></current>
 		<div class="content">
 			<div class="title">
@@ -269,26 +269,24 @@ export default {
 
 <style>
 	
-.transfer_wrap {
+.detail_transfer {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
 }
 
-.transfer_wrap .content {
+.detail_transfer .content {
 	width: 100%;
-	/*min-height: 530px;*/
-	/*height: calc(100% - 90px);*/
 	padding: 0px 20px;
 	background: #ffffff;
 	clear: both;
 }
 
-.transfer_wrap .content .title {
+.detail_transfer .content .title {
 	border-bottom: 1px solid #EEEEEE;
 }
 
-.transfer_wrap .content .title .title-text {
+.detail_transfer .content .title .title-text {
 	display: inline-block;
 	position: relative;
 	padding: 14px 0px;
@@ -296,7 +294,7 @@ export default {
 	height: 50px;
 }
 
-.transfer_wrap .content .title .title-text:after {
+.detail_transfer .content .title .title-text:after {
 	content: '';
 	position: absolute;
 	left: 0;
@@ -305,86 +303,84 @@ export default {
 	height: 2px;
 	background: #333333;
 }
-.transfer_wrap .title_button {
+.detail_transfer .title_button {
 	float: right;
 	margin-top: 10px;
 }
-.transfer_wrap .content-inner {
+.detail_transfer .content-inner {
 	padding: 30px 0px;
 }
 
-.transfer_wrap .el-form-item__label {
+.detail_transfer .el-form-item__label {
 	color: #999999;
 	font-weight: normal;
 	padding: 8px 10px 8px 0;
 	margin: 0;
 }
-.transfer_wrap .el-form-item {
+.detail_transfer .el-form-item {
 	margin-bottom: 30px;
 }
 
-.transfer_wrap .el-input,
-.transfer_wrap .el-input__inner {
+.detail_transfer .el-input,
+.detail_transfer .el-input__inner {
 	width: 164px;
 	height: 30px;
 	display: inline-block;
 	border-radius: 4px;
 }
 
-.transfer_wrap .el-form-item__content {
+.detail_transfer .el-form-item__content {
 	line-height: 30px;
 	position: relative;
 	font-size: 14px;
 }
 
-.transfer_wrap .button-wrap {
+.detail_transfer .button-wrap {
 	margin: 0px auto 30px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;
 }
 
-.transfer_wrap .el-input__inner {
+.detail_transfer .el-input__inner {
 	border: 1px solid #EEEEEE;
 	color: #333333;
 }
 
-.transfer_wrap .el-input__inner:hover {
+.detail_transfer .el-input__inner:hover {
 	border-color: #FF9900;
 }
 
-.transfer_wrap .el-button {
+.detail_transfer .el-button {
 	border: 1px solid #FF9900;
 	color: #FF9900;
 	padding: 7px 45px;
 	height: 30px;
 }
-
-/*.transfer_wrap .el-button.resetform {
-	margin-right: 20px;
-}*/
-
-.transfer_wrap .el-button--primary {
+.detail_transfer .el-button+.el-button {
+    margin-left: 20px;
+}
+.detail_transfer .el-button--primary {
 	color: #fff;
 	background-color: #FF9900;
 	border-color: #FF9900;
 }
-.transfer_wrap .el-table td,
-.transfer_wrap .el-table th {
+.detail_transfer .el-table td,
+.detail_transfer .el-table th {
 	text-align: center;
 }
-.transfer_wrap .el-table td:first-child{
+.detail_transfer .el-table td:first-child{
 	cursor: pointer;
 }
-.transfer_wrap .link {
+.detail_transfer .link {
 	cursor: pointer;
     color: #337ab7;
     text-decoration: underline;
 }
-.transfer_wrap .el-table td:first-child:hover{
+.detail_transfer .el-table td:first-child:hover{
 	color: #FF9900;
 }
-.transfer_wrap .el-table th {
+.detail_transfer .el-table th {
 	text-align: center;
 	box-shadow: inset 0 1px 0 0 #EEEEEE;
 }
@@ -397,21 +393,21 @@ export default {
 }
 
 
-.transfer_wrap .el-pagination {
+.detail_transfer .el-pagination {
 	text-align: right;
 	margin-top: 40px;
 	margin-right: 40px;
 	color: #282828;
 }
 
-.transfer_wrap .el-pager li.active {
+.detail_transfer .el-pager li.active {
 	border-color: #FF9900;
 	background-color: #FF9900;
 	color: #fff;
 	cursor: default;
 }
 
-.transfer_wrap .el-pager li {
+.detail_transfer .el-pager li {
 	padding: 0 4px;
 	border-right: 0;
 	background: #fff;
@@ -423,12 +419,12 @@ export default {
 	text-align: center;
 }
 
-.transfer_wrap .el-pager li:last-child {
+.detail_transfer .el-pager li:last-child {
 	border-right: 1px solid #EEEEEE;
 }
 
-.transfer_wrap .el-pagination button,
-.transfer_wrap .el-pagination span {
+.detail_transfer .el-pagination button,
+.detail_transfer .el-pagination span {
 	display: inline-block;
 	font-size: 12px;
 	letter-spacing: -0.39px;
@@ -440,28 +436,28 @@ export default {
 	box-sizing: border-box;
 }
 
-.transfer_wrap .el-pager li:hover {
+.detail_transfer .el-pager li:hover {
 	color: #FF9900;
 }
-.transfer_wrap .el-pager li.active {
+.detail_transfer .el-pager li.active {
     border-color: #ff9900;
     background-color: #ff9900;
     color: #fff;
     cursor: default;
 }
-.transfer_wrap .el-pager li.active:hover {
+.detail_transfer .el-pager li.active:hover {
 	cursor: pointer;
 	color: #ffffff;
 }
 
-.transfer_wrap .el-pagination button:hover {
+.detail_transfer .el-pagination button:hover {
 	color: #FF9900;
 }
-.transfer_wrap .el-pagination button.disabled:hover {
+.detail_transfer .el-pagination button.disabled:hover {
 	color: #e4e4e4;
 }
 
-.transfer_wrap .el-pagination__editor {
+.detail_transfer .el-pagination__editor {
 	border: 1px solid #EEEEEE;
 	border-radius: 2px;
 	padding: 2px 0px;
@@ -469,24 +465,24 @@ export default {
 	min-width: 24px;
 }
 
-.transfer_wrap .el-pagination__editor:focus {
+.detail_transfer .el-pagination__editor:focus {
 	outline: 0;
 	border-color: #FF9900;
 }
 
-.transfer_wrap .el-pagination .btn-next,
-.transfer_wrap .el-pagination .btn-prev {
+.detail_transfer .el-pagination .btn-next,
+.detail_transfer .el-pagination .btn-prev {
 	border: 1px solid #EEEEEE;
 	color: #282828;
 }
 
-.transfer_wrap .el-autocomplete-suggestion__wrap,
-.transfer_wrap .el-pager li {
+.detail_transfer .el-autocomplete-suggestion__wrap,
+.detail_transfer .el-pager li {
 	border: 1px solid #EEEEEE;
 }
 
-.transfer_wrap .el-pager li.btn-quicknext,
-.transfer_wrap .el-pager li.btn-quickprev {
+.detail_transfer .el-pager li.btn-quicknext,
+.detail_transfer .el-pager li.btn-quickprev {
 	line-height: 28px;
 	color: #282828;
 }

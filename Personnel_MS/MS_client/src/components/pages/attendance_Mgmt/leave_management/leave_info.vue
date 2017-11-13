@@ -55,10 +55,10 @@
 					  	</el-form-item>
 				  	</el-col>
 				  	<el-form-item label="最新更新人">
-					    <el-input v-model="formdata2.updateBy"></el-input>
+					    <el-input v-model="formdata2.updatedBy"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="最新更新时间">
-					    <el-input v-model="formdata2.updateTime"></el-input>
+					    <el-input v-model="formdata2.updatedDate"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="附件" style="width:100%;">
 					    <el-button class="file_button" @click="handleDownload">下载</el-button>
@@ -98,38 +98,9 @@
 					leaveSTD: "",
 					remark: "",
 					attachm: "",
-					updateBy: "",
-					updateTime: ""
+					updatedBy: "",
+					updatedDate: ""
 				},
-				
-//				oldcomp: {
-//					compName: '',
-//					compOrgNo: ''
-//				},
-//				newcomp: {
-//					newcompName: '',
-//					newcompOrgNo: ''
-//				},
-//				olddepart: {
-//					departName: '',
-//					departOrgNo: ''
-//				},
-//				newdepart: {
-//					newdepartName: '',
-//					newdepartOrgNo: ''
-//				},
-				//部门列表
-				departList: [
-					{departName: "上海魔方分公司",departOrgNo: '01'},
-					{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-					{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
-				],
-				//公司列表
-				compList: [
-					{compName: "上海魔方分公司",compOrgNo: '01'},
-					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
-				],
 				leaveTypeList: [
 					{label: '有薪休假', leaveNo: '01'},
 					{label: '事假', leaveNo: '02'},
@@ -185,19 +156,6 @@
 	      		//下载附件
 				self.downloadFile(params);
 	      	},
-	      	save(formName) {
-				const self = this;
-				this.$refs[formName].validate((valid) => {
-					if(valid) {
-						console.log('valid');
-						
-						
-					} else {
-						this.$message.error('failvalid');
-						return false;
-					}
-				});
-			},
 			leaveInfo(params) {
 				const self = this;
 				self.$axios.get(baseURL+'/leave/queryLeaveInfos',{params: params})

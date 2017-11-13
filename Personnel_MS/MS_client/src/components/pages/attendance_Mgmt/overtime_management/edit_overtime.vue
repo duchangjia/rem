@@ -9,30 +9,23 @@
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="formdata2.orgId" value-key="compOrgNo" @change="changeValue">
-							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
-						</el-select>
+						<el-input v-model="formdata2.companyName" :disabled="true"></el-input>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-					    <el-select v-model="formdata2.deprtId" value-key="departOrgNo" @change="changeValue">
-							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
-						</el-select>
+						<el-input v-model="formdata2.deptName" :disabled="true"></el-input>
 				  	</el-form-item>
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">  	
 					<el-form-item label="工号">
-					    <el-input v-model="formdata1.userNo"></el-input>
+					    <el-input v-model="formdata2.userNo" :disabled="true"></el-input>
 				 	</el-form-item>
 				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata1.custName"></el-input>
+					    <el-input v-model="formdata2.custName" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="岗位">
-					    <el-input v-model="formdata1.custPost"></el-input>
+					    <el-input v-model="formdata2.custPost" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="职级">
-					    <el-input v-model="formdata1.custClass"></el-input>
+					    <el-input v-model="formdata2.custClass" :disabled="true"></el-input>
 				  	</el-form-item>
-				</el-form>
-
 				  	<div class="info-title">加班信息</div>
 				  	<el-form-item label="加班开始时间" prop="workotStartTime">
 			        	<el-date-picker type="datetime" v-model="formdata2.workotStartTime" @change="changeStartTime"></el-date-picker>
@@ -79,8 +72,8 @@
 				formdata1: {
 				},
 				formdata2: {
-					orgId: "01",
-					deprtId: "",
+					companyName: "01",
+					deptName: "",
 					userNo: "",
 					custName: "",
 					custPost: "",

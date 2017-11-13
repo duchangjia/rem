@@ -1,5 +1,5 @@
 <template>
-	<div class="transfer_info_wrap">
+	<div class="dimission_info">
 		<current yiji="人事事务" erji="人事调动" sanji="员工离职明细查询" siji="员工离职详情">
 		</current>
 		<div class="content">
@@ -171,29 +171,30 @@
 </script>
 
 <style>
-.transfer_info_wrap {
+.dimission_info {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
 }
-.transfer_info_wrap .content {
+.dimission_info .content {
 	width: 100%;
 	padding: 0px 20px;
 	background: #ffffff;
 	clear: both;
 }
-.transfer_info_wrap .content .title {
+.dimission_info .content .title {
 border-bottom: 1px solid #EEEEEE;
 }
 
-.transfer_info_wrap .content .title .title-text {
+.dimission_info .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
+	height: 50px;
 }
 
-.transfer_info_wrap .content .title .title-text:after {
+.dimission_info .content .title .title-text:after {
 	content: '';
 	position: absolute;
 	left: 0;
@@ -203,26 +204,26 @@ border-bottom: 1px solid #EEEEEE;
 	background: #333333;
 }
 
-.transfer_info_wrap .content-inner {
+.dimission_info .content-inner {
 	padding: 40px 0px;
 }	
-.transfer_info_wrap .info-title{
+.dimission_info .info-title{
 	padding: 11px 0px 11px 10px;
     margin-bottom: 30px;
 	color: #999999;
 	border-bottom: none;
 }
-.transfer_info_wrap .el-input__inner {
+.dimission_info .el-input__inner {
     border: 1px solid #EEEEEE;
     color: #999999;
     width: 300px;
     height: 40px;
     margin-left: 30px;
 }
-.transfer_info_wrap .el-form-item {
+.dimission_info .el-form-item {
 	padding-left: 20px;
 }
-.transfer_info_wrap .el-form-item__label {
+.dimission_info .el-form-item__label {
     text-align: right;
     vertical-align: middle;
     float: left;
@@ -231,12 +232,23 @@ border-bottom: 1px solid #EEEEEE;
     line-height: 1;
     padding: 11px 0px 11px 0;
     box-sizing: border-box;
+    font-weight: normal;
 }
-.transfer_info_wrap .el-textarea__inner {
+.dimission_info .el-textarea__inner {
     margin-left: 30px;
 }
-.transfer_info_wrap .file_button {
+.dimission_info .file_button {
 	color: #FF9900;
 	font-size: 14px;
+}
+.dimission_info .el-checkbox__input.is-focus .el-checkbox__inner {
+    border-color: #EEEEEE;
+}
+.dimission_info .el-checkbox__inner:hover {
+    border-color: #ff9900;
+}
+.dimission_info .el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: #ff9900;
+    border-color: #ff9900;
 }
 </style>

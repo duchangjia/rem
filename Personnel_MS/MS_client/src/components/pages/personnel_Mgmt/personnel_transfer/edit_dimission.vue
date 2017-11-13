@@ -1,5 +1,5 @@
 <template>
-	<div class="transfer_info_wrap">
+	<div class="edit_dimission">
 		<current yiji="人事事务" erji="人事调动" sanji="员工离职明细查询" siji="员工离职修改">
 		</current>
 		<div class="content">
@@ -221,29 +221,30 @@
 </script>
 
 <style>
-.transfer_info_wrap {
+.edit_dimission {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
 }
-.transfer_info_wrap .content {
+.edit_dimission .content {
 	width: 100%;
 	padding: 0px 20px;
 	background: #ffffff;
 	clear: both;
 }
-.transfer_info_wrap .content .title {
+.edit_dimission .content .title {
 border-bottom: 1px solid #EEEEEE;
 }
 
-.transfer_info_wrap .content .title .title-text {
+.edit_dimission .content .title .title-text {
 	display: inline-block;
 	position: relative;
-	padding: 29px 0px;
+	padding: 14px 0px;
 	font-size: 16px;
+	height: 50px;
 }
 
-.transfer_info_wrap .content .title .title-text:after {
+.edit_dimission .content .title .title-text:after {
 	content: '';
 	position: absolute;
 	left: 0;
@@ -253,26 +254,26 @@ border-bottom: 1px solid #EEEEEE;
 	background: #333333;
 }
 
-.transfer_info_wrap .content-inner {
+.edit_dimission .content-inner {
 	padding: 40px 0px;
 }	
-.transfer_info_wrap .info-title{
+.edit_dimission .info-title{
 	padding: 11px 0px 11px 10px;
     margin-bottom: 30px;
 	color: #999999;
 	border-bottom: none;
 }
-.transfer_info_wrap .el-input__inner {
+.edit_dimission .el-input__inner {
     border: 1px solid #EEEEEE;
     color: #999999;
     width: 300px;
     height: 40px;
     margin-left: 30px;
 }
-.transfer_info_wrap .el-form-item {
+.edit_dimission .el-form-item {
 	padding-left: 20px;
 }
-.transfer_info_wrap .el-form-item__label {
+.edit_dimission .el-form-item__label {
     text-align: right;
     vertical-align: middle;
     float: left;
@@ -281,21 +282,22 @@ border-bottom: 1px solid #EEEEEE;
     line-height: 1;
     padding: 11px 0px 11px 0;
     box-sizing: border-box;
+    font-weight: normal;
 }
-.transfer_info_wrap .el-textarea__inner {
+.edit_dimission .el-textarea__inner {
     margin-left: 30px;
 }
-.transfer_info_wrap .file_button {
+.edit_dimission .file_button {
 	color: #FF9900;
 	font-size: 14px;
 }
-.transfer_info_wrap .el-form-item__error {
+.edit_dimission .el-form-item__error {
     left: 30px;
 }
-.transfer_info_wrap .upload-demo {
+.edit_dimission .upload-demo {
 	height: 0px;
 }
-.transfer_info_wrap .uploadBtn {
+.edit_dimission .uploadBtn {
   position: absolute;
   height: 38px;
   top: 0;
@@ -306,24 +308,35 @@ border-bottom: 1px solid #EEEEEE;
   background: #ff9900;
   font-family: "PingFang SC";
 }
-.transfer_info_wrap .el-upload__input {
+.edit_dimission .el-upload__input {
     margin-left: 30px;
     border: 1px solid #eeeeee;
     display: none;
 }
-.transfer_info_wrap .el-checkbox {
+.edit_dimission .el-checkbox {
     color: #999999;
     margin-left: 30px;
 }
-.transfer_info_wrap .conserve {
+.edit_dimission .conserve {
 	float: right;
-	margin-top: 20px;
+	margin-top: 10px;
 	background: #F4F4F4;
 	border: 1px solid #F4F4F4;
 	border-radius: 0px;
 	font-size: 14px;
 	color: #333333;
 	width: 120px;
-	height: 40px;
+	height: 30px;
+	padding: 0;
+}
+.edit_dimission .el-checkbox__input.is-focus .el-checkbox__inner {
+    border-color: #EEEEEE;
+}
+.edit_dimission .el-checkbox__inner:hover {
+    border-color: #ff9900;
+}
+.edit_dimission .el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: #ff9900;
+    border-color: #ff9900;
 }
 </style>
