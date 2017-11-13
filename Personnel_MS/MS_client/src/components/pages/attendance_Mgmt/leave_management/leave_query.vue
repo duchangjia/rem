@@ -11,14 +11,14 @@
 					<div class="input-wrap">
 						<el-col :span="6">
 							<el-form-item label="公司" prop="compName">
-								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" @change="changeValue">
+								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" @change="changeComp">
 									<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
 						<el-col :span="6">
 							<el-form-item label="部门" prop="departName">
-								<el-select v-model="ruleForm2.departOrgNo" value-key="departOrgNo" @change="changeValue">
+								<el-select v-model="ruleForm2.departOrgNo" value-key="departOrgNo">
 									<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
 								</el-select>
 							</el-form-item>
@@ -153,14 +153,14 @@ export default {
 	},
 	created() {
 		this.queryFormFlag = false;
-		let pageNum = this.pageNum;
-		let pageSize = this.pageSize;
 		let params = {
-			"pageNum": pageNum,
-			"pageSize": pageSize
+			"pageNum": this.pageNum,
+			"pageSize": this.pageSize
 		}
 		//请假列表查询
 		this.queryLeaveList(params);
+		//查询公司列表
+		this.queryCompList();
 	},
 	methods: {
 		createdDateFormatter(row, column) {
@@ -172,10 +172,15 @@ export default {
 		changeEndTime(val) {
 			this.ruleForm2.endDate = val;
 		},
-		changeValue(value) {
-		 		const self = this;
-	            console.log('value',value);
-	    },
+		changeComp(val) {
+			console.log(val);
+			const self = this;
+			let params = {
+				organNo: val
+			}
+			//部门列表查询
+			self.queryDerpList(params);
+		},
 	    handleAdd() {
 	    	this.$router.push('/add_leave');
 	    },
@@ -253,19 +258,17 @@ export default {
 		},
 		handleCurrentChange(val) {
 			const self = this;
-			let pageNum = val;
-			let pageSize = self.pageSize;
 			let params = {};
 			if(self.queryFormFlag) {
 				params = {
-					"pageNum": pageNum,
-					"pageSize": pageSize,
+					"pageNum": val,
+					"pageSize": self.pageSize,
 					
 				}
 			} else {
 				params = {
-					"pageNum": pageNum,
-					"pageSize": pageSize
+					"pageNum": val,
+					"pageSize": self.pageSize
 				}
 			}
 			//分页出差列表查询
@@ -292,8 +295,46 @@ export default {
 			.then(function(res) {
 				console.log('deleteLeaveInfo',res);
 				if(res.data.code === "S00000") {
-					self.$message({ message: '操作成功', type: 'success' });	
+					self.$message({ message: '操作成功', type: 'success' });
+					let params = {
+						"pageNum": self.pageNum,
+						"pageSize": self.pageSize,
+						organNo: self.ruleForm2.organNo,
+						derpNo: self.ruleForm2.derpNo,
+						userNo: self.ruleForm2.userNo,
+						leaveStartTime: self.ruleForm2.startDate,
+						leaveEndTime: self.ruleForm2.endDate
+					};
+					
+					//请假列表查询
+					self.queryLeaveList(params);
 				}
+			}).catch(function(err) {
+				console.log(err);
+			})
+		},
+		queryCompList() {
+			let self = this;
+			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
+			.then(function(res) {
+				console.log('CompList',res);
+				if(res.data.code === "S00000") {
+					self.compList = res.data.data;
+				}
+				
+			}).catch(function(err) {
+				console.log(err);
+			})
+		},
+		queryDerpList(params) {
+			let self = this;
+			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
+			.then(function(res) {
+				console.log('DerpList',res);
+				if(res.data.code === "S00000") {
+					self.departList = res.data.data;
+				}
+				
 			}).catch(function(err) {
 				console.log(err);
 			})

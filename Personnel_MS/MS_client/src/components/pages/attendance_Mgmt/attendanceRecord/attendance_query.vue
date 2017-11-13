@@ -90,6 +90,7 @@
 
 <script type='text/ecmascript-6'>
 import current from '../../../common/current_position.vue'
+import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
@@ -205,9 +206,9 @@ export default {
 		handleImport() {
 			this.$router.push('/attendance_import');
 		},
-		changeComp() {
+		changeComp(val) {
 			let params = {
-				organNo: this.ruleForm2.compOrgNo
+				organNo: val
 			}
 			//查询部门列表
 		 	this.queryDerpList(params);

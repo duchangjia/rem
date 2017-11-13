@@ -11,7 +11,7 @@
 					<div class="input-wrap">
 						<el-col :span="6">
 							<el-form-item label="公司" prop="compName">
-								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" @change="changeValue">
+								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" @change="changeComp">
 									<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 								</el-select>
 							</el-form-item>
@@ -159,6 +159,8 @@ export default {
 		}
 		//加班列表查询
 		this.queryWorkOtList(params);
+		//查询公司列表
+		this.queryCompList();
 	},
 	methods: {
 		workotTypeFormatter(row, column) {
@@ -170,10 +172,15 @@ export default {
 		changeEndTime(val) {
 			this.ruleForm2.endDate = val;
 		},
-		changeValue(value) {
-		 		const self = this;
-	            console.log('value',value);
-	    },
+		changeComp(val) {
+			console.log(val);
+			const self = this;
+			let params = {
+				organNo: val
+			}
+			//部门列表查询
+			self.queryDerpList(params);
+		},
 	    handleAdd() {
 	    	this.$router.push('/add_overtime');
 	    },
@@ -288,11 +295,49 @@ export default {
 				console.log('deleteTravel',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
+					let params = {
+						"pageNum": self.pageNum,
+						"pageSize": self.pageSize,
+						organNo: self.ruleForm2.organNo,
+						userNo: self.ruleForm2.userNo,
+//						applyNo: self.ruleForm2.applyNo,
+						workotStartTime: self.ruleForm2.workotStartTime,
+						workotEndTime: self.ruleForm2.workotEndTime
+					};
+					
+					//加班列表查询
+					self.queryWorkOtList(params);
 				}
 			}).catch(function(err) {
 				console.log(err);
 			})
-		}
+		},
+		queryCompList() {
+			let self = this;
+			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
+			.then(function(res) {
+				console.log('CompList',res);
+				if(res.data.code === "S00000") {
+					self.compList = res.data.data;
+				}
+				
+			}).catch(function(err) {
+				console.log(err);
+			})
+		},
+		queryDerpList(params) {
+			let self = this;
+			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
+			.then(function(res) {
+				console.log('DerpList',res);
+				if(res.data.code === "S00000") {
+					self.departList = res.data.data;
+				}
+				
+			}).catch(function(err) {
+				console.log(err);
+			})
+		},
 	}
 }
 </script>

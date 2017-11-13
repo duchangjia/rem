@@ -153,15 +153,13 @@ export default {
 	},
 	created() {
 		this.queryFormFlag = false;
-		let pageNum = this.pageNum;
-		let pageSize = this.pageSize;
 		let params = {
-			"pageNum": pageNum,
-			"pageSize": pageSize,
+			"pageNum": this.pageNum,
+			"pageSize": this.pageSize,
 			
 		}
 		//出差列表查询
-		this.queryTravelList(pageNum,pageSize,params);
+		this.queryTravelList(params);
 		//公司列表查询
 		this.queryCompList();
 	},
@@ -265,11 +263,9 @@ export default {
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
 					self.queryFormFlag = true;
-					let pageNum = self.pageNum;
-					let pageSize = self.pageSize;
 					let params = {
-						"pageNum": pageNum,
-						"pageSize": pageSize,
+						"pageNum": self.pageNum,
+						"pageSize": self.pageSize,
 						organNo: self.ruleForm2.organNo,
 						derpNo: self.ruleForm2.derpNo,
 						travelUserNo: self.ruleForm2.userNo,
@@ -277,9 +273,8 @@ export default {
 						travelEndTime: self.ruleForm2.endDate
 					};
 					
-					console.log(params)
 					//出差列表查询
-					this.queryTravelList(pageNum,pageSize,params);
+					this.queryTravelList(params);
 					
 				} else {
 					console.log('error submit!!');
@@ -297,32 +292,33 @@ export default {
 		},
 		handleCurrentChange(val) {
 			const self = this;
-			let pageNum = val;
-			let pageSize = self.pageSize;
 			let params = {};
 			if(self.queryFormFlag) {
 				params = {
-					"pageNum": pageNum,
-					"pageSize": pageSize,
+					"pageNum": val,
+					"pageSize": self.pageSize,
 					
 				}
 			} else {
 				params = {
-					"pageNum": pageNum,
-					"pageSize": pageSize
+					"pageNum": val,
+					"pageSize": self.pageSize
 				}
 			}
 			//分页出差列表查询
-			this.queryTravelList(pageNum,pageSize,params);
+			this.queryTravelList(params);
 		},
-		queryTravelList(pageNum,pageSize,params) {
+		queryTravelList(params) {
 			let self = this;
 			self.$axios.get(baseURL+'/travel/queryTravelList', {params: params})
 			.then(function(res) {
 				console.log('TravelList',res);
-				self.transferDataList = res.data.data.list;
-				self.pageNum = pageNum;
-				self.totalRows = Number(res.data.data.total);
+				if(res.data.code === "S00000") {
+					self.transferDataList = res.data.data.list;
+					self.pageNum = params.pageNum;
+					self.totalRows = Number(res.data.data.total);
+				}
+				
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -332,7 +328,10 @@ export default {
 			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
 			.then(function(res) {
 				console.log('CompList',res);
-				self.compList = res.data.data;
+				if(res.data.code === "S00000") {
+					self.compList = res.data.data;
+				}
+				
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -342,7 +341,10 @@ export default {
 			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
 			.then(function(res) {
 				console.log('DerpList',res);
-				self.departList = res.data.data;
+				if(res.data.code === "S00000") {
+					self.departList = res.data.data;
+				}
+				
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -353,7 +355,19 @@ export default {
 			.then(function(res) {
 				console.log('deleteTravel',res);
 				if(res.data.code === "S00000") {
-					self.$message({ message: '操作成功', type: 'success' });	
+					self.$message({ message: '操作成功', type: 'success' });
+					let params = {
+						"pageNum": self.pageNum,
+						"pageSize": self.pageSize,
+						organNo: self.ruleForm2.organNo,
+						derpNo: self.ruleForm2.derpNo,
+						travelUserNo: self.ruleForm2.userNo,
+						travelStartTime: self.ruleForm2.startDate,
+						travelEndTime: self.ruleForm2.endDate
+					};
+					
+					//出差列表查询
+					this.queryTravelList(params);
 				}
 			}).catch(function(err) {
 				console.log(err);
