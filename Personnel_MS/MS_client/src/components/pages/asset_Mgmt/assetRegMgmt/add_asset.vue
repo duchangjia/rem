@@ -48,7 +48,7 @@
                 <el-form :inline="true" :model="addAssetInfo" :rules="assetInfoRules" ref="addAssetInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="12">
                         <el-form-item label="采购订单号" prop="buyApplyNo">
-                            <el-input v-model="addAssetInfo.buyApplyNo"></el-input>
+                            <el-input v-model="addAssetInfo.buyApplyNo" :maxlength="32"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
