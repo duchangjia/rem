@@ -58,6 +58,7 @@ export default {
       radio:0,
       applyUserNo:'',
       assetNo:'',
+
       // info:this.info,
       pactListInfo:[],
       custInfo:{
