@@ -26,18 +26,18 @@
                                 <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
                             </el-input>
                             <messageBox 
-                                :assNoHidden="assNoHidden"
-                                :assNoShow="assNoShow"
-                                :title="boxTitle" 
-                                :labelFirst="labelFirst"
-                                :labelSec="labelSec"
+                                :title="boxTitle"
+                                :tableOption.sync="tableOption"  
+                                :inputFirstOption.sync="inputFirstOption" 
+                                :inputSecOption.sync="inputSecOption"
+                                :searchData.sync="searchData" 
+                                :pagination.sync="msgPagination" 
                                 :saveUrl="saveUrl"
                                 :searchUrl="searchUrl"
-                                :applyUserNo.sync="info.applyUserNo"
+                                @changeNo = "changeNo"
                                 :assetNo.sync = "info.assetNo"
                                 :dialogVisible.sync="dialogVisible"
                                 :applyUserInfo.sync="applyUserInfo"
-                                :assetInfo.sync="assetInfo"
                                 @changeDialogVisible="changeDialogVisible"
                                 ></messageBox>
                         </el-form-item>
@@ -155,8 +155,6 @@ export default {
   data() {
     return {
         dialogVisible:false,
-        assNoHidden:false,
-        assNoShow:false,
       rules: {
         applyUserNo: [
           { required: true, message: "请选择申请使用人工号", trigger: "blur" }
@@ -172,12 +170,16 @@ export default {
         applyUserNo: "",
         assetNo: ""
       },
-      labelFirst:'',
-      labelSec:'',
-      searchUrl:'',
-      saveUrl:'',
-      boxTitle:'',
-      applyUserInfo: {},
+    tableOption:[],
+    inputFirstOption:{},
+    inputSecOption:{},
+    msgPagination:{},
+    searchData:{},
+    searchUrl:'',
+    saveUrl:'',
+    boxTitle:'',
+    numType:'',
+    applyUserInfo: {},
       assetInfo: {},
       applyInfo: {
         remark: "",
@@ -189,32 +191,122 @@ export default {
     };
   },
   methods: {
+    changeNo(val){
+        if(this.numType == 1){
+            this.info.applyUserNo = val
+        }
+    },
     changeDialogVisible(flag){
         this.dialogVisible = flag
     },
     userNoSelect(){
+        //table
+        this.tableOption = [
+            {
+                thName:'工号',//table 表头
+                dataKey:'userNo'//table-col所绑定的prop值
+            },
+            {
+                thName:'姓名',//table 表头
+                dataKey:'custName'//table-col所绑定的prop值
+            }
+            ];
+        //input 第一个搜索框的配置项
+        this.inputFirstOption  = {
+            labelName:'姓名',//label头
+            placeholder:'请输入姓名'//input placeholder
+        },
+        //input 第二个搜索框的配置项
+        this.inputSecOption  = {
+            labelName:'工号',
+            placeholder:'请输入工号'
+        },
+        //搜索所需传值
+        this.searchData = {
+            custName:'',
+            userNo:''
+        }
+        //table分页所需传值
+        this.msgPagination =  {
+            pageNum:1,
+            pageSize:5,
+            totalRows:0
+        }
+        //点击确定后需要修改的对象 numType为changeNo方法所改变的type
+        this.applyUserInfo = this.applyUserInfo
+        this.numType = 1
+        //dialog打开
         this.dialogVisible=true
-        this.assNoHidden = true
-        this.assNoShow = false
-        this.labelFirstShow = true;
-        this.labelSecShow = true;
-        this.labelFirst = '姓名'
-        this.labelSec = '员工编号'
-        this.saveUrl = '/iem_hrm/assetUse/queryAssetUserByApplyUserNo/'
+        //查询接口
         this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
+        //点击确定后根据号码查询用户信息借口 没有则为空
+        this.saveUrl = '/iem_hrm/assetUse/queryAssetUserByApplyUserNo/'
+        //dialog标题
         this.boxTitle = '人工编号选择'
-        // this.applyUserNo = this.info.applyUserNo 
     },
     assetNoSelect(){
-        this.labelFirstShow = false;
-        this.assNoHidden = false
-        this.assNoShow = true
-        this.labelSecShow = true;
-        this.dialogVisible = true;
-        this.labelSec = "资产编号";
-        this.saveUrl = "/iem_hrm/assetUse/queryAssetUserByAssetNo/";
-        this.searchUrl = "/iem_hrm/assetUse/queryAssetNoList";
-        this.boxTitle = "资产编号选择";
+          //table
+        this.tableOption = [
+            {
+                thName:'资产编号',//table 表头
+                dataKey:'userNo'//table-col所绑定的prop值
+            },
+            {
+                thName:'资产名称',//table 表头
+                dataKey:'custName'//table-col所绑定的prop值
+            }
+            ];
+        //input 第一个搜索框的配置项
+        this.inputFirstOption  = {
+            labelName:'资产名称',//label头
+            placeholder:'请输入资产名称'//input placeholder
+        },
+        //input 第二个搜索框的配置项
+        this.inputSecOption  = {
+            labelName:'资产编号',
+            placeholder:'请输入资产编号'
+        },
+        //搜索所需传值
+        this.searchData = {
+            assetName:'hahha',
+            assetNo:''
+        }
+        //table分页所需传值
+        this.msgPagination =  {
+            pageNum:1,
+            pageSize:5,
+            totalRows:0
+        }
+        //点击确定后需要修改的对象 numType为changeNo方法所改变的type
+        this.applyUserInfo = this.applyUserInfo
+        this.numType = 2
+        //dialog打开
+        this.dialogVisible=true
+        //查询接口
+        this.searchUrl = "/iem_hrm/assetUse/queryAssetNoList"
+        //点击确定后根据号码查询用户信息借口 没有则为空
+        this.saveUrl = '/iem_hrm/assetUse/queryAssetUserByAssetNo/'
+        //dialog标题
+        this.boxTitle = '资产编号选择'
+        // this.tableOption = [
+        //     {
+        //         thName:'资产名称',
+        //         dataKey:''
+        //     },
+        //     {
+        //         thName:'资产编号',
+        //         dataKey:''
+        //     }
+        //     ]
+        // this.labelFirstShow = false;
+        // // this.assNoHidden = true
+        // this.assNoShow = true
+        // this.dialogVisible = true
+        // this.labelFirst = "资产名称"
+        // // this.labelSec = "资产编号"
+        // this.saveUrl = "/iem_hrm/assetUse/queryAssetUserByAssetNo/";
+        // this.searchUrl = "/iem_hrm/assetUse/queryAssetNoList";
+        // this.boxTitle = "资产编号选择";
     },
     save() {
       let self = this;

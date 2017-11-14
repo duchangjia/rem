@@ -81,7 +81,7 @@
                     :page-size="pagination.pageSize"
                     layout="total,prev, pager, next, jumper"
                     :total="pagination.total">
-                    </el-pagination>
+                </el-pagination>
             </div>
     </div>
 </template>
