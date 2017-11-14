@@ -12,7 +12,7 @@
                 <el-form :inline="true" :model="filters">
                     <el-col :span="6">
                       <el-form-item label="资产编号">
-                        <el-input v-model="filters.assetNo" placeholder="请输入"></el-input>
+                        <el-input v-model="filters.assetNo" placeholder="请输入资产编号"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -29,7 +29,7 @@
                     </el-col>
                     <el-col :span="6">
                       <el-form-item label="资产名称">
-                        <el-input v-model="filters.assetName" placeholder="请输入"></el-input>
+                        <el-input v-model="filters.assetName" placeholder="请输入资产名称"></el-input>
                       </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -81,7 +81,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+            <el-pagination class="toolbar" @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
             </el-pagination>
         </div>
     </div>
@@ -153,7 +153,7 @@ export default {
             ? "手机"
             : row.assetType == "04"
               ? "后勤用品"
-              : row.assetType == "05" ? "数码相机" : "异常";
+              : row.assetType == "05" ? "数码相机" : "";
     },
     handleAssetInfoDetail(index, row) {
       this.$router.push({
@@ -198,7 +198,7 @@ export default {
           applyUserNo: row.applyUserNo
         });
       this.$router.push({
-        name: "assetUse_manage",
+        name: "query_assetUse",
         params: {
           assetNo: row.assetNo,
           applyUserNo: row.applyUserNo
