@@ -1,12 +1,12 @@
 <template>
-	<div class="travelC_wrap">
+	<div class="content-wrapper">
 		<current yiji="考勤管理" erji="出差管理" sanji="出差详情">
 		</current>
 		<div class="content">
-			<div class="title">
+			<div class="titlebar">
 				<span class="title-text">出差详情</span>
 			</div>
-			<div class="content-inner">
+			<div class="add-wrapper">
 				<el-form ref="formdata" :inline="true"  :rules="rules" :model="formdata" label-width="100px">
 					<el-form-item label="公司名称">
 						<el-input v-model="formdata.companyName"></el-input>
@@ -27,7 +27,7 @@
 					    <el-input v-model="formdata.custClass"></el-input>
 				  	</el-form-item>
 
-				  	<div class="info-title">出差信息</div>
+				  	<div class="item-title">出差信息</div>
 				  	<el-form-item label="出差开始时间" prop="travelStartTime">
 			        	<el-date-picker type="date" v-model="formdata.travelStartTime" @change="changeStartTime"></el-date-picker>
 			      	</el-form-item>

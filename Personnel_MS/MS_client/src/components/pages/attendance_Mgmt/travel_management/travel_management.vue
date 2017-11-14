@@ -90,9 +90,6 @@ export default {
 .travelC_wrap .el-textarea__inner:hover {
     border-color: #FF9900;
 }
-.travelC_wrap .travelCity_line {
-	padding: 0px 23px;
-}
 .travelC_wrap .el-form-item__label {
     text-align: right;
     vertical-align: middle;
@@ -157,5 +154,19 @@ export default {
 }
 .travelC_wrap .remark .el-form-item__content {
 	flex: 1;
+}
+.travelC_wrap .travelCity_wrap2{
+	padding-left: 0;
+}
+.travelC_wrap .travelCity_line {
+    padding: 7px 3px;
+    display: inline-block;
+}
+.travelC_wrap .travelCity_wrap .el-form-item__content,
+.travelC_wrap .travelCity_wrap2 .el-form-item__content {
+	width: 130px;
+}
+.travelC_wrap .travelCity_wrap2 .el-form-item__content {
+	margin-left: 20px;
 }
 </style>

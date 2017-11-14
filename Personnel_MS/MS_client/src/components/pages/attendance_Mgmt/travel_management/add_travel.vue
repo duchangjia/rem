@@ -33,19 +33,21 @@
 
 				  	<div class="info-title">出差信息</div>
 				  	<el-form-item label="出差开始时间" prop="travelStartTime">
-			        	<el-date-picker type="date" v-model="formdata2.travelStartTime" @change="changeStartTime"></el-date-picker>
+			        	<el-date-picker type="datetime" v-model="formdata2.travelStartTime" @change="changeStartTime"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="出差结束时间" prop="travelEndTime">
-			        	<el-date-picker type="date" v-model="formdata2.travelEndTime" @change="changeEndTime"></el-date-picker>
+			        	<el-date-picker type="datetime" v-model="formdata2.travelEndTime" @change="changeEndTime"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="出差类型" prop="travelType">
 					    <el-select v-model="formdata2.travelType" value-key="travelType" @change="changeValue">
 							<el-option v-for="item in travelTypeList" :key="item.travelNo" :label="item.label" :value="item.travelNo"></el-option>
 						</el-select>
 				  	</el-form-item>
-				  	<el-form-item label="出差城市">
+				  	<el-form-item class="travelCity_wrap" label="出差城市" prop="travelStartCity">
 					    <el-input class="travelCity" v-model="formdata2.travelStartCity" placeholder="出发城市"></el-input>
-					    <span class="travelCity_line" >-</span>
+				  	</el-form-item>
+				  	<span class="travelCity_line" >-</span>
+				  	<el-form-item class="travelCity_wrap2" prop="travelArrivalCity">
 					    <el-input class="travelCity" v-model="formdata2.travelArrivalCity" placeholder="到达城市"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="出差天数" prop="travelDays">
@@ -86,11 +88,28 @@
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
+			var checkTravelStartTime = (rule, value, callback) => {
+		        if (value == '') {
+		          	callback(new Error('出差开始时间不能为空'));
+		        } else if (this.formdata2.travelEndTime && value >= this.formdata2.travelEndTime) {
+		          	callback(new Error('请输入正确的开始时间'));
+		        } else {
+		          	callback();
+		        }
+	      	};
+			var checkTravelEndTime = (rule, value, callback) => {
+		        if (value == '') {
+		          	callback(new Error('出差结束时间不能为空'));
+		        } else if (this.formdata2.travelStartTime && value <= this.formdata2.travelStartTime) {
+		          	callback(new Error('请输入正确的结束时间'));
+		        } else {
+		          	callback();
+		        }
+	      	};
 			return {
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
-				formdata: {},
 				formdata1: {
 					organNo: "",
 					deptNo: "",
@@ -121,16 +140,16 @@
 		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
 	          		],
 	          		travelStartTime: [
-		            	{ required: true, message: '出差开始时间不能为空', trigger: 'blur' }
+		            	{ required: true, validator: checkTravelStartTime, trigger: 'change' }
 	          		],
 	          		travelEndTime: [
-		            	{ required: true, message: '出差结束时间不能为空', trigger: 'blur' }
+		            	{ required: true, validator: checkTravelEndTime, trigger: 'change' }
 	          		],
 	          		travelStartCity: [
-//		            	{ required: true, message: '出差出发城市不能为空', trigger: 'blur' }
+		            	{ required: true, message: '出差出发城市不能为空', trigger: 'blur' }
 	          		],
 	          		travelArrivalCity: [
-//		            	{ required: true, message: '出差到达城市不能为空', trigger: 'blur' }
+		            	{ required: true, message: '出差到达城市不能为空', trigger: 'blur' }
 	          		],
 	          		travelDays: [
 		            	{ required: true, message: '出差天数不能为空', trigger: 'blur' }
@@ -144,6 +163,23 @@
 		components: {
 			current
 		},
+		computed: {
+			formdata: function(){
+				return {
+					applyNo: this.formdata2.applyNo, //出差编号
+				    userNo: this.formdata2.userNo,//工号
+				    travelType: this.formdata2.travelType,//出差类型
+				    travelStartTime: this.formdata2.travelStartTime,//出差开始时间	
+				    travelEndTime: this.formdata2.travelEndTime, //出差结束时间
+				    travelStartCity: this.formdata2.travelStartCity,//出差开始城市	
+				    travelArrivalCity: this.formdata2.travelArrivalCity,//出差到达城市
+				    travelDays: this.formdata2.travelDays, //出差天数  
+				    travelSTD: this.formdata2.travelSTD,//差补标准
+				    remark: this.formdata2.remark,//备注
+				    attachm: this.formdata2.attachm//附件
+				}
+			}
+		},
 		created() {
 			
 		},
@@ -154,9 +190,26 @@
 			},
 			changeStartTime(time) {
 				this.formdata2.travelStartTime = time;
+				let params = {
+					travelStartTime: this.formdata2.travelStartTime,
+					travelEndTime: this.formdata2.travelEndTime
+				}
+				if(this.formdata2.travelEndTime) {
+					this.calTravelDays(params);
+				}
+				console.log(params);
+				
 			},
 			changeEndTime(time) {
 				this.formdata2.travelEndTime = time;
+				let params = {
+					travelStartTime: this.formdata2.travelStartTime,
+					travelEndTime: this.formdata2.travelEndTime
+				}
+				console.log(params);
+				if(this.formdata2.travelStartTime) {
+					this.calTravelDays(params);
+				}
 			},
 			changeValue(value) {
 		 		const self = this;
@@ -222,6 +275,18 @@
 				}).catch(function(err) {
 					console.log('error');
 				})
+			},
+			calTravelDays(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/travel/calTravelDays',{params})
+				.then(function(res) {
+					console.log('calTravelDays',res);
+					if(res.data.code === "S00000") {
+						self.formdata2.travelDays = res.data.data.travelDays;
+					}
+				}).catch(function(err) {
+					console.log('error');
+				})
 			}
 		}
 	};
@@ -229,10 +294,11 @@
 
 <style scoped>
 
-.queryUserBtn {
+.travelC_wrap .queryUserBtn {
     position: absolute;
     right: 0;
     top: 0;
     height: 40px;
 }
+
 </style>

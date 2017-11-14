@@ -29,10 +29,10 @@
 				  	</el-form-item>
 				  	<div class="info-title">出差信息</div>
 				  	<el-form-item label="出差开始时间" prop="travelStartTime">
-			        	<el-date-picker type="date" v-model="formdata2.travelStartTime" @change="changeStartTime"></el-date-picker>
+			        	<el-date-picker type="datetime" v-model="formdata2.travelStartTime" @change="changeStartTime"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="出差结束时间" prop="travelEndTime">
-			        	<el-date-picker type="date" v-model="formdata2.travelEndTime" @change="changeEndTime"></el-date-picker>
+			        	<el-date-picker type="datetime" v-model="formdata2.travelEndTime" @change="changeEndTime"></el-date-picker>
 			      	</el-form-item>
 				  	<el-form-item label="出差类型" prop="travelType">
 					    <el-select v-model="formdata2.travelType" value-key="travelType" @change="changeValue">
@@ -98,10 +98,8 @@
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
-				formdata: {
-					
-				},
-				attachm: {},
+//				formdata: {},
+				fileFlag: '',
 				formdata2: {
 					organNo: "01",
 					deptNo: "",
@@ -121,7 +119,6 @@
 					updateBy: "",
 					updateTime: ""
 				},
-				
 				travelTypeList: [
 					{label: "业务拓展", travelNo: "01"},
 					{label: "项目实施", travelNo: "02"},
@@ -148,13 +145,30 @@
 		            	{ required: true, message: '出差天数不能为空', trigger: 'blur' }
 	          		],
 	          		remark: [
-	          			{ min: 0, max: 100, message: '长度在 0 到 100 个字符之间', trigger: 'blur' }
+	          			{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 	          		]
 				}
 			}
 		},
 		components: {
 			current
+		},
+		computed: {
+			formdata: function(){
+				return {
+					applyNo: this.formdata2.applyNo, //出差编号
+				    userNo: this.formdata2.userNo,//工号
+				    travelType: this.formdata2.travelType,//出差类型
+				    travelStartTime: this.formdata2.travelStartTime,//出差开始时间	
+				    travelEndTime: this.formdata2.travelEndTime, //出差结束时间
+				    travelStartCity: this.formdata2.travelStartCity,//出差开始城市	
+				    travelArrivalCity: this.formdata2.travelArrivalCity,//出差到达城市
+				    travelDays: this.formdata2.travelDays, //出差天数  
+				    travelSTD: this.formdata2.travelSTD,//差补标准
+				    remark: this.formdata2.remark,//备注
+				    attachm: this.formdata2.attachm//附件
+				}
+			}
 		},
 		created() {
 			let applyNo = this.$route.params.applyNo;
@@ -170,9 +184,24 @@
 		methods: {
 			changeStartTime(time) {
 				this.formdata2.travelStartTime = time;
+				let params = {
+					travelStartTime: this.formdata2.travelStartTime,
+					travelEndTime: this.formdata2.travelEndTime
+				}
+				if(this.formdata2.travelEndTime) {
+					this.calTravelDays(params);
+				}
 			},
 			changeEndTime(time) {
 				this.formdata2.travelEndTime = time;
+				let params = {
+					travelStartTime: this.formdata2.travelStartTime,
+					travelEndTime: this.formdata2.travelEndTime
+				}
+				console.log(params);
+				if(this.formdata2.travelStartTime) {
+					this.calTravelDays(params);
+				}
 			},
 			changeCompValue(value) {
 				const self = this;
@@ -187,6 +216,7 @@
 	      	},
 	      	changeUpload(file, fileList) {
 	      		console.log('fileList',fileList);
+		 		this.fileFlag = file;
 	      	},
 	      	successUpload(response, file, fileList) {
 	      		this.$message({ message: '操作成功', type: 'success' });
@@ -196,21 +226,26 @@
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						let params = {
-							applyNo: self.formdata2.applyNo, //出差编号
-						    userNo: self.formdata2.userNo,//工号
-						    travelType: self.formdata2.travelType,//出差类型
-						    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
-						    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
-						    travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
-						    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
-						    travelDays: self.formdata2.travelDays, //出差天数  
-						    travelSTD: self.formdata2.travelSTD,//差补标准
-						    remark: self.formdata2.remark,//备注
-						    attachm: self.formdata2.attachm//附件
-						}
-						self.formdata = params;
+//						self.formdata = params;
 						self.$refs.upload.submit();
+						console.log('!self.fileFlag',self.fileFlag)
+						if(!self.fileFlag){
+							console.log('true')
+							let params = {
+								applyNo: self.formdata2.applyNo, //出差编号
+							    userNo: self.formdata2.userNo,//工号
+							    travelType: self.formdata2.travelType,//出差类型
+							    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
+							    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
+							    travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
+							    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
+							    travelDays: self.formdata2.travelDays, //出差天数  
+							    travelSTD: self.formdata2.travelSTD,//差补标准
+							    remark: self.formdata2.remark,//备注
+							    //attachm: self.formdata2.attachm//附件
+							}
+							self.modifyTravelInfo(params);
+						}
 						
 					} else {
 						return false;
@@ -244,7 +279,7 @@
 					console.log('DerpList',res);
 					self.departList = res.data.data;
 				}).catch(function(err) {
-					console.log(err);
+					console.log('err');
 				})
 			},
 			modifyTravelInfo(params) {
@@ -252,7 +287,22 @@
 				self.$axios.post(baseURL+'/travel/modifyTravelInfo',params)
 				.then(function(res) {
 					console.log('modifyTravelInfo',res);
-					this.$message({ message: '操作成功', type: 'success' });
+					if(res.data.code === "S00000") {
+						self.$message({ message: '操作成功', type: 'success' });
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			calTravelDays(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/travel/calTravelDays',{params})
+				.then(function(res) {
+					console.log('calTravelDays',res);
+					if(res.data.code === "S00000") {
+						self.formdata2.travelDays = res.data.data.travelDays;
+					}
 				}).catch(function(err) {
 					console.log('error');
 				})

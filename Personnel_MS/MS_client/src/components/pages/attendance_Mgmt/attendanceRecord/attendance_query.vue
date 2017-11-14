@@ -68,13 +68,13 @@
 					<el-table :data="transferDataList" border stripe style="width: 100%">
 						<el-table-column prop="attenceNo" label="考勤编号"></el-table-column>
 						<el-table-column prop="userNo" label="工号"></el-table-column>
-						<el-table-column prop="userName" label="姓名"></el-table-column>
+						<el-table-column prop="custName" label="姓名"></el-table-column>
 						<el-table-column prop="attenceTime" label="考勤日期"></el-table-column>
 						<el-table-column prop="attenceType" label="类型" :formatter="attenceTypeFormatter"></el-table-column>
 						<el-table-column prop="projNo" label="项目ID"></el-table-column>
 						<el-table-column prop="taskTime" label="工时"></el-table-column>
-						<el-table-column prop="luruBy" label="录入人"></el-table-column>
-						<el-table-column prop="luruDate" label="录入时间" :formatter="travelTimeFormatter"></el-table-column>
+						<el-table-column prop="createdBy" label="录入人"></el-table-column>
+						<el-table-column prop="createdDate" label="录入时间" :formatter="travelTimeFormatter"></el-table-column>
 					</el-table>
 				</div>
 				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
@@ -97,8 +97,8 @@ export default {
 	          }
 	       	},
 			pageNum: 1,
-			pageSize: 5,
-			totalRows: 2,
+			pageSize: 10,
+			totalRows: 1,
 			ruleForm2: {
 				compOrgNo: '',
 				departOrgNo: '',
@@ -130,15 +130,15 @@ export default {
 				{
 					attenceNo: "",//考勤编号
 					userNo: "",//用户编号 
-					userName: "",
+					custName: "",
 					attenceTime: "",//考勤日期 
 					attenceType: "",//考勤类型	
 					projNo: "",//项目ID
 					taskTime: "",//工时
 					attenceStatus: "",//状态
 					remark: "",//备注	
-					luruBy: "",
-					luruDate: ""
+					createdBy: "",
+					createdDate: ""
 				}
 			],
 			rules: {
@@ -186,7 +186,7 @@ export default {
 	    	return attence;
 		},
 		travelTimeFormatter(row, column) {
-			let time = row.luruDate;
+			let time = row.createdDate;
 			return moment(time).format('YYYY-MM-DD');
 		},
 		handleChange(file, fileList) {
@@ -218,10 +218,20 @@ export default {
 			console.log(this.ruleForm2.startDate)
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
-					console.log('submit')
+					let params = {
+						pageNum: this.pageNum,
+						pageSize: this.pageSize,
+						organNo: self.ruleForm2.compOrgNo,
+						derpNo: self.ruleForm2.departOrgNo,
+						attenceUserNo: self.ruleForm2.userNo,
+						attenceStartTime: self.ruleForm2.startDate,
+						attenceEndTime: self.ruleForm2.endDate
+					}
+					console.log(params);
+					//条件查询考勤列表
+					this.queryAttenceList(params);
 					
 				} else {
-					console.log('error submit!!');
 					return false;
 				}
 			});
@@ -266,7 +276,7 @@ export default {
 			.then(function(res) {
 				console.log('List',res);
 				if(res.data.code === "S00000") {
-					self.transferDataList = res.data.data.models;
+					self.transferDataList = res.data.data.list;
 					self.pageNum = params.pageNum;
 					self.totalRows = Number(res.data.data.total);
 				}
@@ -280,9 +290,8 @@ export default {
 			self.$axios.get(baseURL+'/attence/download', {params: params})
 			.then(function(res) {
 				console.log('download',res);
-				if(res.data.code === "S00000") {
-					
-				}
+				let dataurl = res.data;
+//				window.open(dataurl,'_blank')
 			}).catch(function(err) {
 				console.log(err);
 			})
