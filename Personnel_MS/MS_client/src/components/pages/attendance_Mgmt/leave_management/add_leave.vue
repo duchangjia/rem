@@ -10,10 +10,10 @@
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-						<el-input v-model="formdata1.organNo" :disabled="true"></el-input>
+						<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-						<el-input v-model="formdata1.deptNo" :disabled="true"></el-input>
+						<el-input v-model="formdata1.deptName" :disabled="true"></el-input>
 				  </el-form-item>
 					<el-form-item label="工号">
 					    <el-input v-model="formdata1.userNo"></el-input>
@@ -55,7 +55,6 @@
 			  		 	<el-input v-model="formdata2.attachm"></el-input>
 				  		<el-upload class="upload-demo" ref="upload" name="file"
 				  			 :data="formdata"
-				  			 :on-change="changeUpload" 
 				  			 :on-success="successUpload"
 				  			 action="/iem_hrm/" 
 				  			 :show-file-list="false" 
@@ -88,8 +87,8 @@
 					custClass: "",
 				},
 				formdata2: {
-					organNo: "01",
-					deptNo: "",
+					companyName: "01",
+					deptName: "",
 					leaveStartTime: "",
 					leaveEndTime: "",
 					leaveType: "",

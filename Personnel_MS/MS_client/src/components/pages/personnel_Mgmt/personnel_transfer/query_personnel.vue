@@ -2,11 +2,11 @@
 	<div class="query_transfer">
 		<current yiji="人事事务" erji="人事调动">
 		</current>
-		<div class="content-wrapper">
-			<el-col :span="24" class="titlebar">
+		<div class="content">
+			<div class="title">
 				<span class="title-text">人事调动</span>
-			</el-col>
-			<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+			</div>
+			<div class="content-inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-col :span="6">
@@ -39,39 +39,40 @@
 						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
-			</el-col>
+				<el-table stripe :data="pactListInfo" border>
+					<el-table-column align="center" label="工号">
+						<template scope="scope">
+							<span @click="handleDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.userNo }}</span>
+						</template>
+					</el-table-column>
+					<el-table-column align="center" prop="userName" label="姓名">
+					</el-table-column>
+					<el-table-column align="center" prop="compName" label="公司名称">
+					</el-table-column>
+					<el-table-column align="center" prop="departName" label="部门名称">
+					</el-table-column>
+					<el-table-column align="center" prop="xingbie" label="性别">
+					</el-table-column>
+					<el-table-column align="center" prop="custPost" label="岗位">
+					</el-table-column>
+					<el-table-column align="center" prop="perendmFixed" label="职级">
+					</el-table-column>
+					<el-table-column align="center" prop="mobile" label="手机">
+					</el-table-column>
+					<el-table-column align="center" prop="status" label="状态">
+					</el-table-column>
+					<el-table-column align="center" label="操作" width="150">
+						<template scope="scope">
+							<el-button type="text" size="small" @click="handleTransfer(scope.$index, scope.row)">调动</el-button>
+							<el-button type="text" size="small" @click="handDimission(scope.$index, scope.row)">离职</el-button>
+						</template>
+					</el-table-column>
+				</el-table>
+				<el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				</el-pagination>
+			</div>
 
-			<el-table stripe :data="pactListInfo" border>
-				<el-table-column align="center" label="工号">
-					<template scope="scope">
-						<span @click="handleDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.userNo }}</span>
-					</template>
-				</el-table-column>
-				<el-table-column align="center" prop="userName" label="姓名">
-				</el-table-column>
-				<el-table-column align="center" prop="compName" label="公司名称">
-				</el-table-column>
-				<el-table-column align="center" prop="departName" label="部门名称">
-				</el-table-column>
-				<el-table-column align="center" prop="xingbie" label="性别">
-				</el-table-column>
-				<el-table-column align="center" prop="custPost" label="岗位">
-				</el-table-column>
-				<el-table-column align="center" prop="perendmFixed" label="职级">
-				</el-table-column>
-				<el-table-column align="center" prop="mobile" label="手机">
-				</el-table-column>
-				<el-table-column align="center" prop="status" label="状态">
-				</el-table-column>
-				<el-table-column align="center" label="操作" width="150">
-					<template scope="scope">
-						<el-button type="text" size="small" @click="handleTransfer(scope.$index, scope.row)">调动</el-button>
-						<el-button type="text" size="small" @click="handDimission(scope.$index, scope.row)">离职</el-button>
-					</template>
-				</el-table-column>
-			</el-table>
-			<el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
-			</el-pagination>
+			
 		</div>
 	</div>
 </template>
@@ -237,15 +238,37 @@
 	.query_transfer {
 		padding: 0 0 20px 20px;
 	}
-	.query_transfer .titlebar {
-	    margin-bottom: 30px;
-	    height: 50px;
-    	line-height: 50px;
+	.query_transfer .content {
+		width: 100%;
+		/*min-height: 530px;*/
+		/*height: calc(100% - 90px);*/
+		padding: 0px 20px;
+		background: #ffffff;
+		clear: both;
 	}
-	.content-wrapper .titlebar .title-text {
-	    display: inline-block;
-	    height: 50px;
-	    position: relative;
+	.query_transfer .content .title {
+		border-bottom: 1px solid #EEEEEE;
+	}
+	
+	.query_transfer .content .title .title-text {
+		display: inline-block;
+		position: relative;
+		padding: 14px 0px;
+		font-size: 16px;
+		height: 50px;
+	}
+	
+	.query_transfer .content .title .title-text:after {
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: -1px;
+		width: 100%;
+		height: 2px;
+		background: #333333;
+	}
+	.query_transfer .content-inner {
+		padding: 30px 0px;
 	}
 	.query_transfer .el-form-item__label {
 		color: #999999;
@@ -299,7 +322,7 @@
 	}
 	.query_transfer .el-button--small {
 	  margin: 4px;
-	  padding: 7px 9px !important;
+	  padding: 7px 9px;
  	}
 	/*.query_transfer .el-button.resetform {
 		margin-right: 20px;

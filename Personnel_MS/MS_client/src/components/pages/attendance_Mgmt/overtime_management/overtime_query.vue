@@ -10,42 +10,38 @@
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-col :span="6">
-							<el-form-item label="公司" prop="compName">
-								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" @change="changeComp">
-									<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+							<el-form-item label="公司">
+								<el-select v-model="ruleForm2.organNo" @change="changeComp">
+									<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
 						<el-col :span="6">
-							<el-form-item label="部门" prop="departName">
-								<el-select v-model="depart" value-key="departOrgNo">
-									<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
+							<el-form-item label="部门">
+								<el-select v-model="ruleForm2.departOrgNo" value-key="departOrgNo">
+									<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span="6">
-							<el-form-item label="工号" prop="userNo">
-								<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6" style="margin-left: -14px;">
-							<el-form-item label="加班开始时间" prop="startDate" label-width="100px">
+						<el-col :span="12">
+							<el-form-item label="时间" prop="startDate"">
 								<el-date-picker
 							      v-model="ruleForm2.startDate"
 							      type="date"
 							      placeholder="选择日期"
 							      :picker-options="pickerOptions0" @change="changeStartTime">
-							   </el-date-picker>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="加班结束时间" prop="endDate" label-width="100px">
+							   	</el-date-picker> -
 								<el-date-picker
 							      v-model="ruleForm2.endDate"
 							      type="date"
 							      placeholder="选择日期"
 							      :picker-options="pickerOptions0" @change="changeEndTime">
 							   </el-date-picker>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="工号" prop="userNo">
+								<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
 							</el-form-item>
 						</el-col>
 					</div>
@@ -61,15 +57,15 @@
 						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
 					      	</template>
 						</el-table-column>
-						<el-table-column prop="organName" label="公司名称"></el-table-column>
-						<el-table-column prop="departName" label="部门名称"></el-table-column>
+						<el-table-column prop="companyName" label="公司名称"></el-table-column>
+						<el-table-column prop="deptName" label="部门名称"></el-table-column>
 						<el-table-column prop="userNo" label="工号"></el-table-column>
-						<el-table-column prop="userName" label="姓名"></el-table-column>
+						<el-table-column prop="custName" label="姓名"></el-table-column>
 						<el-table-column prop="workotType" label="加班类型" :formatter="workotTypeFormatter"></el-table-column>
-						<el-table-column prop="workotStartTime" label="加班开始时间"></el-table-column>
-						<el-table-column prop="workotEndTime" label="加班结束时间"></el-table-column>
-						<el-table-column prop="luruBy" label="录入人"></el-table-column>
-						<el-table-column prop="lurunTime" label="录入时间"></el-table-column>
+						<el-table-column prop="workotStartTime" label="加班开始时间" :formatter="workotStartTimeFormatter"></el-table-column>
+						<el-table-column prop="workotEndTime" label="加班结束时间" :formatter="workotEndTimeFormatter"></el-table-column>
+						<el-table-column prop="createdBy" label="录入人"></el-table-column>
+						<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
 						<el-table-column label="操作" width="100">
 							<template scope="scope">
 								<i class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></i>
@@ -87,6 +83,7 @@
 
 <script type='text/ecmascript-6'>
 import current from '../../../common/current_position.vue'
+import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
@@ -111,37 +108,21 @@ export default {
 			transferDataList: [
 				{
 					applyNo: "",
-					organName: "",
-					departName: "",
+					companyName: "",
+					deptName: "",
 					userNo: "", 
-					userName: "",
+					custName: "",
 					workotType: "",
 					workotStartTime: "",
 					workotEndTime: "",
-					luruBy: "",
-					lurunTime: ""
+					createdBy: "",
+					createdDate: ""
 				}
 			],
-			comp: {
-				compName: '',
-				compOrgNo: ''
-			},
-			depart: {
-				departName: '',
-				departOrgNo: ''
-			},
 			//部门列表
-			departList: [
-				{departName: "上海魔方分公司",departOrgNo: '01'},
-				{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-				{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
-			],
+			departList: [],
 			//公司列表
-			compList: [
-				{compName: "上海魔方分公司",compOrgNo: '01'},
-				{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-				{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
-			],
+			compList: [],
 			rules: {
 				compName: [],
 				departName: []
@@ -163,6 +144,15 @@ export default {
 		this.queryCompList();
 	},
 	methods: {
+		workotStartTimeFormatter(row, column) {
+	      return moment(row.workotStartTime).format('YYYY-MM-DD') || '';
+	   	},
+	   	workotEndTimeFormatter(row, column) {
+	      return moment(row.workotEndTime).format('YYYY-MM-DD') || '';
+	   	},
+	   	createdDateFormatter(row, column) {
+	      return moment(row.createdDate).format('YYYY-MM-DD') || '';
+	   	},
 		workotTypeFormatter(row, column) {
 	      return row.workotType == '01' ? "有薪加班" : "调休加班";
 		},
@@ -462,6 +452,10 @@ export default {
 .workot_query .el-table th {
 	text-align: center;
 	box-shadow: inset 0 1px 0 0 #EEEEEE;
+}
+.workot_query .el-table .cell, .el-table th>div {
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .icon_edit {
 	width: 14px;

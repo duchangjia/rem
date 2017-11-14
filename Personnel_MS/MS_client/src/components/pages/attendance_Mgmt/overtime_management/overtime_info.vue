@@ -9,27 +9,23 @@
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-					    <el-select v-model="formdata2.orgId" value-key="compOrgNo" @change="changeValue">
-							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
-						</el-select>
+						<el-input v-model="formdata2.companyName"></el-input>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-					    <el-select v-model="formdata2.deprtId" value-key="departOrgNo" @change="changeValue">
-							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
-						</el-select>
+						<el-input v-model="formdata2.deptName"></el-input>
 				  	</el-form-item>
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">  	
 					<el-form-item label="工号">
-					    <el-input v-model="formdata1.userNo"></el-input>
+					    <el-input v-model="formdata2.userNo"></el-input>
 				 	</el-form-item>
 				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata1.custName"></el-input>
+					    <el-input v-model="formdata2.custName"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="岗位">
-					    <el-input v-model="formdata1.custPost"></el-input>
+					    <el-input v-model="formdata2.custPost"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="职级">
-					    <el-input v-model="formdata1.custClass"></el-input>
+					    <el-input v-model="formdata2.custClass"></el-input>
 				  	</el-form-item>
 				</el-form>
 
@@ -59,10 +55,10 @@
 					  	</el-form-item>
 				  	</el-col>
 				  	<el-form-item label="最新更新人">
-					    <el-input v-model="formdata2.updateBy"></el-input>
+					    <el-input v-model="formdata2.updatedBy"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="最新更新时间">
-					    <el-input v-model="formdata2.updateTime"></el-input>
+					    <el-input v-model="formdata2.updatedDate"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="附件" style="width:100%;">
 					    <el-button class="file_button" @click="handleDownload">下载</el-button>
@@ -92,8 +88,8 @@
 					custClass: "",
 				},
 				formdata2: {
-					orgId: "01",
-					deprtId: "",
+					companyName: "01",
+					deptName: "",
 					workotStartTime: "",
 					workotEndTime: "",
 					workotType: "",
@@ -103,26 +99,10 @@
 					workotSTD: "",
 					remark: "",
 					attachm: "",
-					updateBy: "",
-					updateTime: ""
+					updatedBy: "",
+					updatedDate: ""
 				},
 				
-//				oldcomp: {
-//					compName: '',
-//					compOrgNo: ''
-//				},
-//				newcomp: {
-//					newcompName: '',
-//					newcompOrgNo: ''
-//				},
-//				olddepart: {
-//					departName: '',
-//					departOrgNo: ''
-//				},
-//				newdepart: {
-//					newdepartName: '',
-//					newdepartOrgNo: ''
-//				},
 				//部门列表
 				departList: [
 					{departName: "上海魔方分公司",departOrgNo: '01'},
@@ -176,24 +156,14 @@
 	      		//下载附件
 				self.downloadFile(params);
 	      	},
-	      	save(formName) {
-				const self = this;
-				this.$refs[formName].validate((valid) => {
-					if(valid) {
-						console.log('valid');
-						
-						
-					} else {
-						this.$message.error('failvalid');
-						return false;
-					}
-				});
-			},
 			workotInfo(params) {
 				const self = this;
 				self.$axios.get(baseURL+'/workot/queryWorkOtInfos',{params: params})
 				.then(function(res) {
 					console.log('workotInfo',res);
+					if(res.data.code === "S00000") {
+						self.formdata2 = res.data.data;
+					}
 					
 				}).catch(function(err) {
 					console.log('error');
@@ -204,7 +174,9 @@
 				self.$axios.get(baseURL+'/workot/downLoadFile',{params: params})
 				.then(function(res) {
 					console.log('downloadFile',res);
-					
+					if(res.data.code === "S00000") {
+						
+					}
 				}).catch(function(err) {
 					console.log('error');
 				})

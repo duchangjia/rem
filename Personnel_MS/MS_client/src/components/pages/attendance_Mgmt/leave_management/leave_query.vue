@@ -10,42 +10,38 @@
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-col :span="6">
-							<el-form-item label="公司" prop="compName">
-								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" @change="changeComp">
-									<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+							<el-form-item label="公司">
+								<el-select v-model="ruleForm2.organNo" @change="changeComp">
+									<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
 						<el-col :span="6">
-							<el-form-item label="部门" prop="departName">
+							<el-form-item label="部门">
 								<el-select v-model="ruleForm2.departOrgNo" value-key="departOrgNo">
-									<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
+									<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span="6">
-							<el-form-item label="工号" prop="userNo">
-								<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6" style="margin-left: -14px;">
-							<el-form-item label="请假开始时间" prop="startDate" label-width="100px">
+						<el-col :span="12">
+							<el-form-item label="时间" prop="startDate"">
 								<el-date-picker
 							      v-model="ruleForm2.startDate"
 							      type="date"
 							      placeholder="选择日期"
 							      :picker-options="pickerOptions0" @change="changeStartTime">
-							   </el-date-picker>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="请假结束时间" prop="endDate" label-width="100px">
+							   	</el-date-picker> -
 								<el-date-picker
 							      v-model="ruleForm2.endDate"
 							      type="date"
 							      placeholder="选择日期"
 							      :picker-options="pickerOptions0" @change="changeEndTime">
 							   </el-date-picker>
+							</el-form-item>
+						</el-col>
+						<el-col :span="6">
+							<el-form-item label="工号" prop="userNo">
+								<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
 							</el-form-item>
 						</el-col>
 					</div>
@@ -66,8 +62,8 @@
 						<el-table-column prop="userNo" label="工号"></el-table-column>
 						<el-table-column prop="custName" label="姓名"></el-table-column>
 						<el-table-column prop="leaveType" label="请假类型" :formatter="leaveTypeFormatter"></el-table-column>
-						<el-table-column prop="leaveStartTime" label="请假开始时间"></el-table-column>
-						<el-table-column prop="leaveEndTime" label="请假结束时间"></el-table-column>
+						<el-table-column prop="leaveStartTime" label="请假开始时间" :formatter="leaveStartTimeFormatter"></el-table-column>
+						<el-table-column prop="leaveEndTime" label="请假结束时间" :formatter="leaveEndTimeFormatter"></el-table-column>
 						<el-table-column prop="createdBy" label="录入人"></el-table-column>
 						<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
 						<el-table-column label="操作" width="100">
@@ -163,6 +159,12 @@ export default {
 		this.queryCompList();
 	},
 	methods: {
+		leaveStartTimeFormatter(row, column) {
+	      return moment(row.leaveStartTime).format('YYYY-MM-DD') || '';
+	   	},
+		leaveEndTimeFormatter(row, column) {
+	      return moment(row.leaveEndTime).format('YYYY-MM-DD') || '';
+	   	}, 
 		createdDateFormatter(row, column) {
 	      	return moment(row.createdDate).format('YYYY-MM-DD') || '';
 	    },

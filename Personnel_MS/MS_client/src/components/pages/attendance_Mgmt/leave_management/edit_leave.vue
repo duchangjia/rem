@@ -9,22 +9,22 @@
 			<div class="content-inner">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
 					<el-form-item label="公司名称">
-						<el-input v-model="formdata2.organNo"></el-input>
+						<el-input v-model="formdata2.companyName" :disabled="true"></el-input>
 				  	</el-form-item>
 					<el-form-item label="申请部门名称">
-						<el-input v-model="formdata2.deptNo"></el-input>
+						<el-input v-model="formdata2.deptName" :disabled="true"></el-input>
 				  	</el-form-item>
 					<el-form-item label="工号">
-					    <el-input v-model="formdata2.userNo"></el-input>
+					    <el-input v-model="formdata2.userNo" :disabled="true"></el-input>
 				 	</el-form-item>
 				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata2.custName"></el-input>
+					    <el-input v-model="formdata2.custName" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="岗位">
-					    <el-input v-model="formdata2.custPost"></el-input>
+					    <el-input v-model="formdata2.custPost" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="职级">
-					    <el-input v-model="formdata2.custClass"></el-input>
+					    <el-input v-model="formdata2.custClass" :disabled="true"></el-input>
 				  	</el-form-item>
 
 				  	<div class="info-title">请假信息</div>
@@ -56,7 +56,6 @@
 			  		 	<el-input v-model="formdata2.attachm"></el-input>
 				  		<el-upload class="upload-demo" ref="upload" name="file"
 				  			 :data="formdata"
-				  			 :on-change="changeUpload" 
 				  			 :on-success="successUpload"
 				  			 action="/iem_hrm/" 
 				  			 :show-file-list="false" 

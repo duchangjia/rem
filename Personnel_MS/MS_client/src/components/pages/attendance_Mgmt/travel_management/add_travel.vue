@@ -66,7 +66,6 @@
 			  		 	<el-input v-model="formdata2.attachm"></el-input>
 				  		<el-upload class="upload-demo" ref="upload" name="file"
 				  			 :data="formdata"
-				  			 :on-change="changeUpload" 
 				  			 :on-success="successUpload"
 				  			 action="/iem_hrm/travel/addTravelInfo" 
 				  			 :show-file-list="false" 
