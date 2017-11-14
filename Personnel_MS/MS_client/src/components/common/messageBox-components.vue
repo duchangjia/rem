@@ -2,6 +2,7 @@
     <div>
         <el-dialog :title="title"
         @close="dialogClose()"
+        @open="dialogOpen()"
         :visible.sync="dialogVisible" 
         width="80%">
             <div class="item-box">
@@ -13,12 +14,12 @@
                         <el-input placeholder="请输入编号" v-model="custInfo.stateNo">
                         </el-input>
                     </el-form-item>
-                    <div class="button">
-                            <el-button class="toolBtn restBtn" @click="reset()">重置</el-button>
-                            <el-button class="toolBtn" @click="getList()">查询</el-button>
-                        </div>
+                    <div class="button-box">
+                        <el-button class="toolBtn restBtn" @click="reset()">重置</el-button>
+                        <el-button class="toolBtn" @click="getList()">查询</el-button>
+                    </div>
                 </el-form>
-                <el-table stripe :data="pactListInfo" border v-if="flag" style="width:100%;" @row-click="handleCurrentChange" highlight-current-row height="270">
+                <el-table stripe :data="pactListInfo"  style="width:100%;" @row-click="handleCurrentChange" highlight-current-row height="270">
                   <el-table-column align="center" label="选择">
                     <template scope="scope">
                       <el-radio class="radio":label="scope.$index+1" v-model="radio"></el-radio>
@@ -39,9 +40,8 @@
                 :page-size="pagination.pageSize" 
                 layout="prev, pager, next, jumper" 
                 :total="pagination.totalRows"
-                v-show="pagination.totalRows>pagination.pageSize&&flag"
+                v-show="pagination.totalRows>pagination.pageSize"
                 >
-                
               </el-pagination>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -54,7 +54,6 @@
 export default {
   data() {
     return {
-      flag:false,
       radio:0,
       applyUserNo:'',
       assetNo:'',
@@ -73,9 +72,13 @@ export default {
     };
   },
   methods: {
+    dialogOpen(){
+      this.pagination.totalRows = 0
+      this.pagination.pageSize = 5
+      this.pactListInfo = []
+    },
     getList() {
       this.radio = 0;
-      this.flag = true;
       if(this.assNoHidden){
           var data = {
             pageNum:this.pagination.pageNum,
@@ -105,7 +108,6 @@ export default {
             }
             
           }else{
-            this.flag = false;
             this.$message({
               message:'请输入合法的人工号',
               type: "error"
@@ -133,11 +135,8 @@ export default {
     },
     reset(){
       this.custInfo = {};
-      this.flag = false;
-
     },
     dialogClose(){
-      this.flag = false;
       this.custInfo = {};
       this.$emit('update:dialogVisible',false);
     },
@@ -187,7 +186,6 @@ export default {
            
           }else{
             console.log(this.custInfo,'输入内容');
-            this.flag=false;
             this.dialogVisible = false;
             if(this.assNoHidden){
               this.$emit('update:applyUserInfo', res.data.data)
@@ -269,19 +267,19 @@ export default {
 .item-box .el-form-item:last-child{
   margin-right:0;
 }
-.my-autocomplete li {
+.item-box .my-autocomplete li {
   line-height: 20px;
   padding: 7px;
 }
-.my-autocomplete .name {
+.item-box .my-autocomplete .name {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.my-autocomplete .addr {
+.item-box .my-autocomplete .addr {
   font-size: 12px;
   color: #b4b4b4;
 }
-.my-autocomplete .highlighted .addr {
+.item-box .my-autocomplete .highlighted .addr {
   color: #ddd;
 }
 .el-radio__input.is-checked .el-radio__inner,.el-radio__input.is-focus .el-radio__inner{
@@ -303,26 +301,30 @@ export default {
 .el-radio__input.is-checked .el-radio__inner:after ,.el-radio__input.is-focus .el-radio__inner:after{
     transform: translate(-50%,-50%) scale(1);
 }
-.item-box .button .toolBtn {
-    border-radius: 0;
-    height: 40px;
+.item-box .button-box .toolBtn {
+    height:30px;
     width: 120px;
     background: #f90;
-    border: none;
+    border: 1px solid #f90;
     font-family: PingFangSC-Regular;
     font-size: 14px;
     color: #fff;
     display: inline-block;
+    line-height:30px;
+    padding:0;
+    float:none;
 }
-.item-box .button .restBtn{
+.item-box .button-box .restBtn{
     background: #fff;
     border: 1px solid #f90;
     color: #f90;
     display: inline-block;
+    margin-left: 10px;
 }
+.item-box .el-input__inner{height:30px;}
 .toolbar{text-align:right;}
-.add_assetUser .content-wrapper .content .item-box .el-form-item .el-input{width:200px;}
-.item-box .button{float:right;}
+.add_assetUser .content-wrapper .content .item-box .el-form-item .el-input{width:164px;}
+.item-box .button-box{float:right;}
 .el-table__body-wrapper{overflow-x:hidden;}
 .el-table tr{cursor:pointer }
 .el-dialog__header{background:#f4f4f4;padding:10px 20px;}
@@ -333,7 +335,7 @@ export default {
 .item-box .el-form-item{width:270px;}
 .el-form-item.is-required .el-form-item__label:before{display:none;}
 .el-dialog__footer{text-align:left;padding-left:40px;}
-.el-dialog__footer .el-button--primary{background:#f4f4f4;color:#333;border-radius:0;border:none;padding:10px 40px;}
+.el-dialog__footer .el-button--primary{background:#f4f4f4;color:#333;border:none;padding:10px 40px;}
 .el-dialog__footer .el-button--primary:hover{background:#f90;color:#fff;}
 .content-wrapper .el-pager li.active{border-color: #ff9900;background-color: #ff9900;}
 .el-pager li:hover,.el-pagination button:hover{color:#ff9900;}

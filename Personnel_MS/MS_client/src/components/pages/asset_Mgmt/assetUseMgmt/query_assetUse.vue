@@ -99,33 +99,11 @@ export default {
         assetNo: "",
         applyUserNo: ""
       },
-
       assetInfoList:[],
       pagination: {
       	 pageNum: 1,
         pageSize: 10,
         total: 100
-      },
-      table: {
-        th: [
-          "使用编号",
-          "资产编号",
-          "资产类型",
-          "资产名称",
-          "数量",
-          "使用类型",
-          "公司名称",
-          "申请部门",
-          "工号",
-          "姓名",
-          "发生时间",
-          "操作"
-        ],
-        td: [
-          {
-            num: 1111
-          }
-        ]
       }
     };
   },
@@ -135,8 +113,10 @@ export default {
   
   },
   methods: {
-    handleSizeChange() {},
-    handleCurrentChange() {},
+    handleCurrentChange(val){
+        this.pagination.pageNum = val
+        this.search();  
+    },
     assetTypeFormatter(row, column) {
     return row.assetType == "01"
         ? "全部"
@@ -216,17 +196,7 @@ export default {
                   message: "删除成功",
                   type: "success"
                 });
-                self.$axios
-                  .get("/iem_hrm/assetUse/queryAssUseList")
-                  .then(res => {
-                    self.table.td = res.data.data.list;
-                    self.fenye.total = res.data.data.total;
-                    self.fenye.pageSize = res.data.data.pageSize;
-                    self.fenye.pageNum = res.data.data.pageNum;
-                  })
-                  .catch(e => {
-                    console.log(e);
-                  });
+               this.search()
               } else {
                 self.$message({
                   message: result,
@@ -278,8 +248,7 @@ export default {
         border: 1px solid #FF9900;
         color:#FF9900;
         margin: 0;
-        height:30px;
-        width:120px;
+        
         line-height:30px;
         padding:0;
     }
@@ -316,6 +285,8 @@ export default {
             background: #ff9900;
             border: none;
             color:#fff;
+            height:30px;
+            width:120px;
         }
         .querybar{
             .el-form-item{
@@ -353,11 +324,15 @@ export default {
                 color: #ffffff;
                 background: #ff9900;
                 border: none;
+                height:30px;
+                width:120px;
             }
             .restBtn{
                 color: #ff9900;
                 margin-right:10px;
                 border: 1px solid #ff9900;
+                height:30px;
+                width:120px;
             }
         }
 

@@ -3,7 +3,6 @@
         <current yiji="资产管理" erji="资产使用管理" sanji="资产使用新增"></current>
         <el-col :span="24">
             <div class="content-wrapper">
-               
                 <div class="title"><span class="text">资产使用新增</span><button class="add" @click="save">保存</button></div>
                 <div class="content">
                     <el-form :model="info" :rules="rules" ref="info1" label-width="200px">
@@ -61,11 +60,6 @@
                             <el-input v-model="info.assetNo" placeholder="请选择资产编号" readonly="readonly">
                                 <el-button slot="append" icon="search"@click="assetNoSelect()"></el-button>
                             </el-input>
-                             <!-- <el-select placeholder="请选择资产编号" v-model="info.assetNo" @change="getAssetInfo(info.assetNo)">
-                                <el-option label="10010000001" value="10010000001"></el-option>
-                                <el-option label="10010000015" value="10010000015"></el-option>
-                            </el-select> -->
-                            <!-- <messageBox></messageBox> -->
                         </el-form-item>
                         <el-form-item label="购买单价">
                             <el-input :disabled="true" v-model="assetInfo.buyUnitPrice"></el-input>
@@ -306,31 +300,29 @@ export default {
             font-size: 16px;
             color: #333333;
             letter-spacing: 0;
-            height: 80px;
-            line-height: 80px;
+            height:50px;
+            line-height:50px;
             border-bottom: 1px solid #f4f4f4;
             position: relative;
 
             .text {
                 border-bottom: 2px solid black;
                 display: inline-block;
-                height: 80px;
+                height:50px;
             }
 
             .add {
-                width: 120px;
-                height: 40px;
-                background: #FF9900;
-                border: 1px solid #FF9900;
-                outline: none;
-                font-family: PingFangSC-Regular;
-                font-size: 14px;
-                color: #FFFFFF;
-                line-height: 40px;
-                text-align: center;
-                position: absolute;
-                right: 0px;
-                bottom: 20px;
+                float: right;
+                margin-top:8px;
+                background: #ff9900;
+                border: none;
+                color:#fff;
+                height:30px;
+                width:120px;
+                line-height:30px;
+                font-size:14px;
+                padding:0;
+                border-radius:4px;
             }
         }
 
