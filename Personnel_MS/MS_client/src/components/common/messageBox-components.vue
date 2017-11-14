@@ -2,6 +2,7 @@
     <div>
         <el-dialog :title="title"
         @close="dialogClose()"
+        @open="dialogOpen()"
         :visible.sync="dialogVisible" 
         width="80%">
             <div class="item-box">
@@ -18,7 +19,7 @@
                         <el-button class="toolBtn" @click="getList()">查询</el-button>
                     </div>
                 </el-form>
-                <el-table stripe :data="pactListInfo" border v-if="flag" style="width:100%;" @row-click="handleCurrentChange" highlight-current-row height="270">
+                <el-table stripe :data="pactListInfo"  style="width:100%;" @row-click="handleCurrentChange" highlight-current-row height="270">
                   <el-table-column align="center" label="选择">
                     <template scope="scope">
                       <el-radio class="radio":label="scope.$index+1" v-model="radio"></el-radio>
@@ -39,9 +40,8 @@
                 :page-size="pagination.pageSize" 
                 layout="prev, pager, next, jumper" 
                 :total="pagination.totalRows"
-                v-show="pagination.totalRows>pagination.pageSize&&flag"
+                v-show="pagination.totalRows>pagination.pageSize"
                 >
-                
               </el-pagination>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -54,7 +54,6 @@
 export default {
   data() {
     return {
-      flag:false,
       radio:0,
       applyUserNo:'',
       assetNo:'',
@@ -72,9 +71,13 @@ export default {
     };
   },
   methods: {
+    dialogOpen(){
+      this.pagination.totalRows = 0
+      this.pagination.pageSize = 5
+      this.pactListInfo = []
+    },
     getList() {
       this.radio = 0;
-      this.flag = true;
       if(this.assNoHidden){
           var data = {
             pageNum:this.pagination.pageNum,
@@ -104,7 +107,6 @@ export default {
             }
             
           }else{
-            this.flag = false;
             this.$message({
               message:'请输入合法的人工号',
               type: "error"
@@ -132,11 +134,8 @@ export default {
     },
     reset(){
       this.custInfo = {};
-      this.flag = false;
-
     },
     dialogClose(){
-      this.flag = false;
       this.custInfo = {};
       this.$emit('update:dialogVisible',false);
     },
@@ -186,7 +185,6 @@ export default {
            
           }else{
             console.log(this.custInfo,'输入内容');
-            this.flag=false;
             this.dialogVisible = false;
             if(this.assNoHidden){
               this.$emit('update:applyUserInfo', res.data.data)
