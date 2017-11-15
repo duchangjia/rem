@@ -823,14 +823,6 @@
             changeprofprobEndTime(val) {
                 this.ruleForm2.profprobEndTime = val
             },
-//            holdstartTime(val,index) {
-//                console.log(val,index)
-//                this.project_item.lists[index].startTime = val
-//                console.log(this.project_item.lists[index].startTime)
-//            },
-//            holdendTime(event,index) {
-//                this.project_item.lists[index].endTime = event
-//            },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
@@ -1128,7 +1120,6 @@
                 if(isShow) {
                     this.project_item.lists[index].isShowEdit = !isShow
                 }
-//                this.project_item.lists.splice(index,1)
             },
 
         },
