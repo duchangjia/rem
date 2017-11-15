@@ -61,7 +61,7 @@
 						<el-form-item class="travelCity_wrap" label="出差城市" prop="travelStartCity">
 						    <el-input class="travelCity" v-model="formdata2.travelStartCity" placeholder="出发城市"></el-input>
 					  	</el-form-item>
-					  	<span class="travelCity_line" >-</span>
+					  	<span class="travelCity_line" >分割线</span>
 					  	<el-form-item class="travelCity_wrap2" prop="travelArrivalCity">
 						    <el-input class="travelCity" v-model="formdata2.travelArrivalCity" placeholder="到达城市"></el-input>
 					  	</el-form-item>

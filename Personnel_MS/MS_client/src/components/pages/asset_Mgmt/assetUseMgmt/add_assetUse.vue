@@ -249,7 +249,7 @@ export default {
             totalRows:0
         }
         //点击确定后需要修改的对象 numType为changeNo方法所改变的type
-        this.applyUserInfo = this.applyUserInfo
+//      this.applyUserInfo = this.applyUserInfo
         this.numType = 1
         //dialog打开
         this.dialogVisible=true

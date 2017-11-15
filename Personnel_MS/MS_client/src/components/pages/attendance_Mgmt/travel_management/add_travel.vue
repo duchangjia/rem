@@ -22,7 +22,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
 						    <el-input v-model="formdata1.userNo">
-						    	<el-button slot="append" icon="search" @click="queryUserInfo"></el-button>
+						    	<el-button slot="append" icon="search" @click="userNoSelect"></el-button>
 						    </el-input>
 						    <messageBox 
                                 :title="boxTitle"
@@ -33,11 +33,11 @@
                                 :pagination.sync="msgPagination" 
                                 :saveUrl="saveUrl"
                                 :searchUrl="searchUrl"
-                                @changeNo = "changeNo"
                                 :assetNo.sync = "info.assetNo"
                                 :dialogVisible.sync="dialogVisible"
-                                :applyUserInfo.sync="applyUserInfo"
+                                @changeNo="changeNo"
                                 @changeDialogVisible="changeDialogVisible"
+                                @confirmSearch = "confirmSearch"
                                 ></messageBox>
 					 	</el-form-item>
 					</el-col>	
@@ -156,12 +156,12 @@
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
 				fileFlag: '',
+				dialogVisible:false,
 				info: {
 			        applyUserNo: "",
 			        assetNo: ""
 		      	},
-				dialogVisible:false,
-				tableOption:[],
+			    tableOption:[],
 			    inputFirstOption:{},
 			    inputSecOption:{},
 			    msgPagination:{},
@@ -170,6 +170,8 @@
 			    saveUrl:'',
 			    boxTitle:'',
 			    numType:'',
+			    applyUserInfo: {},
+				
 				formdata1: {},
 				formdata2: {},
 				travelTypeList: [
@@ -267,14 +269,17 @@
 	      		this.getUseInfoByUserNo(params);
 	      	},
 	      	changeNo(val){
-		        if(this.numType == 1){
-		            this.info.applyUserNo = val
-		        }
+		        console.log('userNo',val)
+                this.formdata1.userNo = val
 		    },
-	      	changeDialogVisible(flag){
+		    changeDialogVisible(flag){
 		        this.dialogVisible = flag
 		    },
-	      	userNoSelect(){
+		    confirmSearch(val){
+		    	console.log('confirmSearch',val)
+                this.formdata1 = val
+		    },
+		    userNoSelect(){
 		        //table
 		        this.tableOption = [
 		            {
@@ -308,14 +313,14 @@
 		            totalRows:0
 		        }
 		        //点击确定后需要修改的对象 numType为changeNo方法所改变的type
-		        this.applyUserInfo = this.applyUserInfo
+		//      this.applyUserInfo = this.applyUserInfo
 		        this.numType = 1
 		        //dialog打开
 		        this.dialogVisible=true
 		        //查询接口
 		        this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
 		        //点击确定后根据号码查询用户信息借口 没有则为空
-		        this.saveUrl = '/iem_hrm/assetUse/queryAssetUserByApplyUserNo/'
+		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
 		        //dialog标题
 		        this.boxTitle = '人工编号选择'
 		    },

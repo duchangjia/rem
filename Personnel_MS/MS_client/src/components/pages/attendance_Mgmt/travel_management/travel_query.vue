@@ -87,24 +87,20 @@ import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
-		var checkTravelStartTime = (rule, value, callback) => {
-		        if (value == '') {
-		          	callback(new Error('出差开始时间不能为空'));
-		        } else if (this.formdata2.travelEndTime && value >= this.formdata2.travelEndTime) {
-		          	callback(new Error('出差开始时间不能大于结束时间'));
-		        } else {
-		          	callback();
-		        }
-	      	};
-			var checkTravelEndTime = (rule, value, callback) => {
-		        if (value == '') {
-		          	callback(new Error('出差结束时间不能为空'));
-		        } else if (this.formdata2.travelStartTime && value <= this.formdata2.travelStartTime) {
-		          	callback(new Error('出差开始时间不能大于结束时间'));
-		        } else {
-		          	callback();
-		        }
-	      	};
+		var checkStartDate = (rule, value, callback) => {
+	        if (this.ruleForm2.endDate && value >= this.ruleForm2.endDate) {
+	          	callback(new Error('开始时间不能大于结束时间'));
+	        } else {
+	          	callback();
+	        }
+      	};
+		var checkEndDate = (rule, value, callback) => {
+	        if (this.ruleForm2.startDate && value <= this.ruleForm2.startDate) {
+	          	callback(new Error('开始时间不能大于结束时间'));
+	        } else {
+	          	callback();
+	        }
+      	};
 		return {
 			pickerOptions0: {
 	          disabledDate(time) {
@@ -142,10 +138,10 @@ export default {
 			compList: [],
 			rules: {
 				startDate: [
-	            	{ required: true, validator: checkTravelStartTime, trigger: 'change' }
+	            	{ validator: checkStartDate, trigger: 'change' }
           		],
           		endDate: [
-	            	{ required: true, validator: checkTravelEndTime, trigger: 'change' }
+	            	{ validator: checkEndDate, trigger: 'change' }
           		]
 			}
 		}
@@ -622,5 +618,8 @@ export default {
 .travel_query .upload_btn {
 	display: inline-block;
 	left: 100%;
+}
+.travel_query .el-form-item__error {
+    left: 39px;
 }
 </style>

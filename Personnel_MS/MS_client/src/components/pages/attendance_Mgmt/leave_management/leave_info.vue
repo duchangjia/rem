@@ -41,12 +41,12 @@
 				  	<el-col :span="24" class="item-title">请假信息</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="请假开始时间" prop="leaveStartTime">
-				        	<el-date-picker type="datetime" v-model="formdata2.leaveStartTime" @change="changeStartTime"></el-date-picker>
+				        	<el-date-picker type="datetime" v-model="formdata2.leaveStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="请假结束时间" prop="leaveEndTime">
-				        	<el-date-picker type="datetime" v-model="formdata2.leaveEndTime" @change="changeEndTime"></el-date-picker>
+				        	<el-date-picker type="datetime" v-model="formdata2.leaveEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
@@ -148,7 +148,8 @@
 			current
 		},
 		created() {
-			let applyNo = this.$route.params.applyNo;
+//			let applyNo = this.$route.params.applyNo;
+			let applyNo = sessionStorage.getItem('applyNo');
 			let userNo = this.$route.params.userNo;
 			let params = {
 				applyNo: applyNo

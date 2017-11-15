@@ -85,10 +85,10 @@ export default {
   padding: 0;
 }
 
-/*.el-input__inner {
+.el-input__inner {
   height: 40px;
-  width: 180px;
-}*/
+  /*width: 180px;*/
+}
 
 .add-wrapper .el-input__inner {
   width: 300px;
@@ -405,8 +405,11 @@ table .el-button--danger:active {
 	padding-left: 0;
 }
 .info_wrapper .travelCity_line {
-    padding: 7px 3px;
+    width: 10px;
+    height: 1px;
     display: inline-block;
+    background: #8391a5;
+    margin: 17px 5px;
 }
 .info_wrapper .travelCity_wrap .el-form-item__content,
 .info_wrapper .travelCity_wrap2 .el-form-item__content,
@@ -415,7 +418,7 @@ table .el-button--danger:active {
 	width: 130px;
 }
 .info_wrapper .travelCity_wrap2 .el-form-item__content {
-	margin-left: 20px;
+	margin-left: 10px;
 }
 .el-input--small .el-input__inner {
     height: 30px;
