@@ -31,25 +31,25 @@
                 <!--</div>-->
                 <el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
                     <el-col :span="12">
-                        <el-form-item label="上级部门" prop="parentName">
-                            <el-input v-model="formdata.parentName" disabled></el-input>
+                        <el-form-item label="上级部门" prop="organParentName">
+                            <el-input v-model="formdata.organParentName" disabled></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="机构类型" prop="organType">
                             <el-select placeholder="请选择机构类型" v-model="formdata.organType">
-                                <el-option label="总公司" value="01" v-show="formdata.choose.length<1"></el-option>
-                                <el-option label="分公司" value="02" v-show="formdata.choose.length<2"></el-option>
-                                <el-option label="办事处" value="03" v-show="formdata.choose.length<2"></el-option>
+                                <el-option label="总公司" value="01" v-show="choose.length<1"></el-option>
+                                <el-option label="分公司" value="02" v-show="choose.length<2"></el-option>
+                                <el-option label="办事处" value="03" v-show="choose.length<2"></el-option>
                                 <el-option label="部门" value="04"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <!--<el-col :span="12">-->
-                        <!--<el-form-item label="部门编号" prop="organNo">-->
-                            <!--<el-input v-model="formdata.organNo"></el-input>-->
-                        <!--</el-form-item>-->
-                    <!--</el-col>-->
+                    <el-col :span="12">
+                        <el-form-item label="部门编号" prop="organNo">
+                            <el-input v-model="formdata.organNo"></el-input>
+                        </el-form-item>
+                    </el-col>
                     <el-col :span="12">
                         <el-form-item label="部门名称" prop="organName">
                             <el-input v-model="formdata.organName"></el-input>
@@ -64,23 +64,8 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="部门主管" prop="organMgeName" class="organMgeName">
-                            <!--:on-icon-click="handleIconClick" icon="search"-->
-                            <el-input v-model="formdata.organMgeName" placeholder="请选择员工">
-                                <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
-                            </el-input>
-                            <messageBox
-                                    :assNoHidden="assNoHidden"
-                                    :assNoShow="assNoShow"
-                                    :title="boxTitle"
-                                    :labelFirst="labelFirst"
-                                    :labelSec="labelSec"
-                                    :saveUrl="saveUrl"
-                                    :searchUrl="searchUrl"
-                                    :applyUserNo.sync="formdata.organMgeName"
-                                    :dialogVisible.sync="dialogVisible"
-                                    @changeDialogVisible="changeDialogVisible"
-                            ></messageBox>
+                        <el-form-item label="部门主管" prop="organMgeName">
+                            <el-input v-model="formdata.organMgeName" placeholder="请输入员工姓名或点击右侧按钮查询员工" :on-icon-click="handleIconClick" icon="search"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -100,8 +85,7 @@
 
 <script type='text/ecmascript-6'>
     import current from '../../common/current_position.vue'
-//    import $ from '../../../../static/bower_components/jquery/dist/jquery.min'
-    import messageBox from "../../common/messageBox-components.vue";
+    import $ from '../../../../static/bower_components/jquery/dist/jquery.min'
     export default {
         data() {
             return {
@@ -127,24 +111,16 @@
                     ],
                 },
                 formdata: {
-                    parentName: '',
+                    organParentName: '',
                     parentNo: '',
                     organName: '',
-//                    organNo: '',
+                    organNo: '',
                     organMgeName: '',
                     organType: '',
                     status: '1',
-                    choose: ''
-//                    organLevel: ''
+                    organLevel: ''
                 },
-                labelFirst:'',
-                labelSec:'',
-                searchUrl:'',
-                saveUrl:'',
-                boxTitle:'',
-                dialogVisible:false,
-                assNoHidden:false,
-                assNoShow:false,
+                choose:''
             }
         },
         created() {
@@ -152,35 +128,18 @@
             this.formdata.parentNo = index
             this.$axios.get(`/iem_hrm/organ/queryCurrentAndParentOrganDetail/${index}`)
                 .then(res => {
-                    console.log(res,index)
-                    this.formdata.parentName = res.data.data.organName
-                    this.formdata.choose = res.data.data.organType
-                    this.formdata.choose = res.data.data.organNo
+                    this.formdata.organParentName = res.data.data.organParentName
+                    this.formdata.organLevel = res.data.data.organLevel
+                    this.choose = res.data.data.organNo
                 })
                 .catch( e=> {
                     console.log(e)
                 })
         },
         components: {
-            current,messageBox
+            current,
         },
         methods: {
-            changeDialogVisible(flag){
-                this.dialogVisible = flag
-            },
-            userNoSelect(){
-                this.dialogVisible=true
-                this.assNoHidden = true
-                this.assNoShow = false
-                this.labelFirstShow = true;
-                this.labelSecShow = true;
-                this.labelFirst = '姓名'
-                this.labelSec = '员工编号'
-                this.saveUrl = '/iem_hrm/CustInfo/queryCustBasicInfList'
-//                this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
-                this.boxTitle = '人工编号选择'
-                // this.applyUserNo = this.info.applyUserNo
-            },
             handleIconClick(ev){
                 this.dialogTableVisible = true
                 console.log(ev)
@@ -202,9 +161,7 @@
 //                });
                 self.$refs.formdata.validate((valid) => {
                     if (valid) {
-//                        delete this.formdata.organParentName
-//                        delete this.formdata.choose
-                        console.log(this.formdata)
+                        delete formdata.organParentName
                         this.$axios.post('/iem_hrm/organ/addOrgan', this.formdata)
                             .then(res => {
                                 this.$message({
@@ -316,14 +273,6 @@
     }
     .add-junior .department-info .el-form-item__content .el-select .el-input__inner,.add-junior .department-info .el-form-item__content .el-input .el-input__inner{
         width: 300px;
-        height: 40px;
-    }
-    .add-junior .department-info .organMgeName .el-input, .add-junior .department-info .organMgeName .el-select{
-        width: 253px;
-        height: 40px;
-    }
-    .add-junior .department-info .organMgeName .el-select .el-input__inner,.add-junior .department-info .organMgeName .el-input .el-input__inner{
-        width: 253px;
         height: 40px;
     }
     .add-junior .department-info .el-form-item__content .el-input__inner:hover, .add-junior .department-info .el-form-item__content .el-input__inner:focus{

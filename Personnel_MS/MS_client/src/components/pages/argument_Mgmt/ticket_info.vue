@@ -6,44 +6,26 @@
                 <div class="title"><span class="text">公司开票信息维护</span><button class="add" @click="add">新增</button></div>
                 <div class="content">
                     <div class="search">
-                        <span class="text">公司名称</span>
-                        <el-input type="text" placeholder="公司名称" v-model="organName"></el-input>
-                        <el-button class="toolBtn2" @click="getList()">查询</el-button>
+                        <span class="text">查询条件</span>
+                        <el-input type="text"></el-input>
+                        <el-button class="toolBtn2">查询</el-button>
                     </div>
-                    <el-col :span="24">
-                        <el-table stripe :data="argumentInfoList" >
-                            <el-table-column align="center" prop="organName" label="公司名称" >
-                            </el-table-column>
-                            <el-table-column align="center" prop="organTaxNo" label="纳税人识别号" >
-                            </el-table-column>
-                            <el-table-column align="center" prop="organAcct" label="银行账户" >
-                            </el-table-column>
-                            <el-table-column align="center" prop="organAcctname" label="账户名称" >
-                            </el-table-column>
-                            <el-table-column align="center" prop="" label="操作" >
-                                <template scope="scope">
-                                    <i class="el-icon-edit" @click="edit(tds.organNo)"></i>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                    </el-col>
-                        <!-- <table>
-                            <tr><td v-for="th in table.th">{{th}}</td></tr>
-                            <tr v-for="tds in table.td">
-                                <td>{{tds.organName}}</td>
-                                <td>{{tds.organTaxNo}}</td>
-                                <td>{{tds.organAcct}}</td>
-                                <td>{{tds.organAcctname}}</td>
-                                <td><i class="el-icon-edit" @click="edit(tds.organNo)"></i></td>
-                            </tr>
-                        </table> -->
+                    <table>
+                        <tr><td v-for="th in table.th">{{th}}</td></tr>
+                        <tr v-for="tds in table.td">
+                            <td>{{tds.organName}}</td>
+                            <td>{{tds.organTaxNo}}</td>
+                            <td>{{tds.organAcct}}</td>
+                            <td>{{tds.organAcctname}}</td>
+                            <td><i class="el-icon-edit" @click="edit(tds.organNo)"></i></td>
+                        </tr>
+                    </table>
                     <el-pagination
+                            @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
-                            :page-size="pagination.pageSize"
+                            :page-size="obj.pageSize"
                             layout="total,prev, pager, next, jumper"
-                            :total="pagination.total"
-                            v-show="pagination.total>pagination.pageSize"
-                            >
+                            :total="obj.total">
                     </el-pagination>
                 </div>
             </div>
@@ -56,10 +38,9 @@
     export default {
         data() {
             return {
-               pagination: {
-                    pageNum: 1,
-                    pageSize: 10,
-                    total: 100
+                obj:{
+                  total: 0,
+                    pageSize: 0
                 },
                 test222:[
                     {
@@ -75,57 +56,64 @@
                         content: 1
                     }
                 ],
-                organName:'',
-                argumentInfoList:[]
+                table: {
+                    th:['公司名称', '纳税人识别号', '银行账户', '账户名称', '操作'],
+                    td:[
+//                        {
+//                            companyId: '001',
+//                            userId: '机构名称机构名称机构名称',
+//                            account: '管理',
+//                            accountName: 'XXXXXXXXXX',
+//                        },
+//                        {
+//                            companyId: '001',
+//                            userId: '机构名称机构名称机构名称',
+//                            account: '管理',
+//                            accountName: 'XXXXXXXXXX',
+//                        },
+                        ]
+                }
             }
         },
         created() {
-            this.getList();
+            let self = this
+            this.$axios.get('/iem_hrm/organBillInfo/queryBillInfoList')
+                .then(res => {
+                    console.log(res)
+                    console.log(res.data.data.list)
+                    self.obj.total = res.data.data.total
+                    self.obj.pageSize = res.data.data.pageSize
+
+                    self.table.td = res.data.data.list
+                })
+                .catch(e => {
+                    console.log(e)
+                })
         },
         methods: {
-            getList(){
-                let self = this,
-                    params = {};
-                    params.organName = this.organName
-                    params.pageNum = this.pagination.pageNum
-                    params.pageSize = this.pagination.pageSize
-                    // argumentInfoList
-                    this.$axios.get('/iem_hrm/organBillInfo/queryBillInfoByName',{ params: params })
-                        .then(res => {
-                            // console.log(res)
-                            console.log(res.data.data.list,'列表信息')
-                            self.pagination.total = res.data.data.total
-                            self.pagination.pageSize = res.data.data.pageSize
-                            this.argumentInfoList = res.data.data.list
-                        })
-                        .catch(e => {
-                            console.log(e)
-                        })
-            },
             handleSizeChange(val) {
                 console.log(val)
             },
             handleCurrentChange(val) {
-                // console.log(val)
-                // let self = this
-                // this.$axios.get('/iem_hrm/organBillInfo/queryBillInfoList',{params:{pageNum:val}})
-                //     .then(res => {
-                //         console.log(res)
-                //         console.log(res.data.data.list)
-                //         self.obj.total = res.data.data.total
-                //         self.obj.pageSize = res.data.data.pageSize
-                //         self.table.td = res.data.data.list
-                //     })
-                //     .catch(e => {
-                //         console.log(e)
-                //     })
+                console.log(val)
+                let self = this
+                this.$axios.get('/iem_hrm/organBillInfo/queryBillInfoList',{params:{pageNum:val}})
+                    .then(res => {
+                        console.log(res)
+                        console.log(res.data.data.list)
+                        self.obj.total = res.data.data.total
+                        self.obj.pageSize = res.data.data.pageSize
+                        self.table.td = res.data.data.list
+                    })
+                    .catch(e => {
+                        console.log(e)
+                    })
             },
-
             add() {
-                // this.$router.push('add_ticket')
+                this.$router.push('add_ticket')
             },
             edit(value) {
-                // this.$router.push({name: 'edit_ticket', query:{organNo:value}})
+                this.$router.push({name: 'edit_ticket', query:{organNo:value}})
             }
         },
         components: {
@@ -162,7 +150,6 @@
                 .add
                     width: 120px
                     height 30px
-                    margin-top:10px
                     background: #FF9900;
                     border: 1px solid #FF9900;
                     outline none
@@ -171,8 +158,9 @@
                     color: #FFFFFF;
                     line-height 30px
                     text-align center
-                    padding:0
-                    float:right
+                    position absolute
+                    right 0px
+                    bottom 10px
             .content
                 padding-top: 30px;
                 .text
@@ -199,10 +187,44 @@
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #FFFFFF;
-                    line-height: 30px;
-                    padding: 0;
-                .el-table
-                    margin-top:30px;
+                table
+                    display: flex;
+                    width: 100%;
+                    margin-top: 30px;
+                    margin-bottom: 30px;
+                    font-family: PingFangSC-Regular;
+                    font-size: 14px;
+                    color: #333;
+                    letter-spacing: 0;
+                    flex-wrap: wrap;
+                    border: 1px solid #f0f0f0;
+                    border-collapse: collapse;
+                    td
+                        border: 1px solid #f0f0f0;
+                    tr
+                        width: 100%;
+                        height: 40px;
+                        display: flex;
+                        line-height: 40px;
+                    tr:nth-child(odd)
+                        background: #F8F8F8;
+                    tr:hover
+                        width: 100%;
+                        height: 40px;
+                        display: flex;
+                        line-height: 40px;
+                        background: #EEF1F6;
+                    tr:first-child
+                        background: #F4F4F4;
+                        box-shadow: inset 0 1px 0 0 #EEEEEE;
+                        color #666
+                    td
+                        flex: 2
+                        text-align: center;
+                    td:nth-child(1)
+                        flex:3
+                    td:nth-child(3)
+                        flex 3
                 .el-icon-delete2, .el-icon-edit
                     color: #ff9900;
                     cursor pointer

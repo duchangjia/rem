@@ -335,28 +335,28 @@
                                 <div class="third-wrapper">
                                     <div class="title"><span>工作经历</span><span  class="text" @click="add_experience">添加</span></div>
                                     <div class="from-wrapper">
-                                            <el-form :model="ruleForm4" :rules="rules4" ref="ruleForm4" label-width="100px">
-                                                <el-form-item label="公司名称" prop="companyName">
-                                                    <el-input v-model="ruleForm4.companyName"></el-input>
-                                                </el-form-item>
-                                                <el-form-item label="职位" prop="position" class="position_special">
-                                                    <el-input v-model="ruleForm4.position"></el-input>
-                                                </el-form-item>
-                                                <el-form-item label="工作时间" prop="workTime1" class="workTime_common">
-                                                    <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm4.workTime1"></el-date-picker>
-                                                </el-form-item>
+                                        <el-form :model="ruleForm4" :rules="rules4" ref="ruleForm4" label-width="100px">
+                                            <el-form-item label="公司名称" prop="companyName">
+                                                <el-input v-model="ruleForm4.companyName"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="职位" prop="position" class="position_special">
+                                                <el-input v-model="ruleForm4.position"></el-input>
+                                            </el-form-item>
+                                            <el-form-item label="工作时间" prop="workTime1" class="workTime_common">
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm4.workTime1"></el-date-picker>
+                                            </el-form-item>
                                                 <el-form-item label="至" prop="workTime2" class="workTime_common workTime_special">
                                                     <el-date-picker type="date" v-model="ruleForm4.workTime2" placeholder="选择日期"></el-date-picker>
                                                 </el-form-item>
-                                                <el-form-item label="工作描述" prop="workDes">
-                                                    <el-input v-model="ruleForm4.workDes" type="textarea" class="workDes_special"></el-input>
-                                                </el-form-item>
-                                                <div class="button-wrapper">
-                                                    <button>保存</button>
-                                                    <button class="button_special">取消</button>
-                                                    <span @click="delWorkItem">删除本条</span>
-                                                </div>
-                                            </el-form>
+                                            <el-form-item label="工作描述" prop="workDes">
+                                                <el-input v-model="ruleForm4.workDes" type="textarea" class="workDes_special"></el-input>
+                                            </el-form-item>
+                                            <div class="button-wrapper">
+                                                <button>保存</button>
+                                                <button class="button_special">取消</button>
+                                                <span @click="delWorkItem">删除本条</span>
+                                            </div>
+                                        </el-form>
                                     </div>
                                     <div class="work_list">
                                         <div class="mask"></div>
@@ -421,66 +421,62 @@
                             </el-tab-pane>
                             <el-tab-pane label="项目经历" name="fifth">
                                 <div class="fifth-wrapper">
-                                    <div class="title"><span>项目经历</span><span class="text" @click="add_pro_experience">添加</span></div>
+                                    <div class="title"><span>项目经历</span><span  class="text" @click="add_pro_experience">添加</span></div>
                                     <div class="from-wrapper">
-                                        <div v-for="(item, index) in project_item.lists" style="margin-top: 20px; position: relative">
-                                            <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fifth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
-                                                <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
+                                        <el-form :model="ruleForm5" :rules="rules5" ref="ruleForm5" label-width="100px">
+                                           <el-col :span="12">
                                                <el-col :span="12">
-                                                   <el-col :span="12">
-                                                       <input v-show="false" v-model="item.projectId=index">
-                                                       <el-form-item label="时间" prop="startTime" class="fifth_common">
-                                                           <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
-                                                       </el-form-item>
-                                                   </el-col>
-                                                   <el-col :span="12">
-                                                       <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
-                                                           <el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>
-                                                       </el-form-item>
-                                                   </el-col>
+                                                   <el-form-item label="时间" prop="startTime" class="fifth_common">
+                                                       <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm5.startTime"></el-date-picker>
+                                                   </el-form-item>
                                                </el-col>
-                                                <el-col :span="12">
-                                                    <el-form-item label="项目名称" prop="projectName">
-                                                        <el-input v-model="item.projectName" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :span="12">
-                                                    <el-form-item label="主要技能" prop="mainSkill">
-                                                        <el-input v-model="item.mainSkill" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :span="12">
-                                                    <el-form-item label="项目角色" prop="projectRole">
-                                                        <el-input v-model="item.projectRole" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :span="12">
-                                                    <el-form-item label="软件环境" prop="softEnv">
-                                                        <el-input v-model="item.softEnv" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :span="12">
-                                                    <el-form-item label="客户" prop="custom">
-                                                        <el-input v-model="item.custom" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :span="24">
-                                                    <el-form-item label="项目职责" prop="projectDuty" class="fifth_common">
-                                                        <el-input type="textarea" v-model="item.projectDuty" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :span="24">
-                                                    <el-form-item label="项目描述" prop="desc" class="fifth_common">
-                                                        <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <!--<div class="button-wrapper">-->
-                                                    <!--<button @click="proSave" v-show="false">保存</button>-->
-                                                    <!--<button class="button_special" @click="proDel(index)">删除</button>-->
-                                                    <!--<span @click="delWorkItem">删除本条</span>-->
-                                                <!--</div>-->
-                                            </el-form>
-                                        </div>
+                                               <el-col :span="12">
+                                                   <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
+                                                       <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm5.endTime"></el-date-picker>
+                                                   </el-form-item>
+                                               </el-col>
+                                           </el-col>
+                                            <el-col :span="12">
+                                                <el-form-item label="项目名称" prop="projectName">
+                                                    <el-input v-model="ruleForm5.projectName"></el-input>
+                                                </el-form-item>
+                                            </el-col>
+                                            <el-col :span="12">
+                                                <el-form-item label="主要技能" prop="mainSkill">
+                                                    <el-input v-model="ruleForm5.mainSkill"></el-input>
+                                                </el-form-item>
+                                            </el-col>
+                                            <el-col :span="12">
+                                                <el-form-item label="项目角色" prop="projectRole">
+                                                    <el-input v-model="ruleForm5.projectRole"></el-input>
+                                                </el-form-item>
+                                            </el-col>
+                                            <el-col :span="12">
+                                                <el-form-item label="软件环境" prop="softEnv">
+                                                    <el-input v-model="ruleForm5.softEnv"></el-input>
+                                                </el-form-item>
+                                            </el-col>
+                                            <el-col :span="12">
+                                                <el-form-item label="客户" prop="custom">
+                                                    <el-input v-model="ruleForm5.custom"></el-input>
+                                                </el-form-item>
+                                            </el-col>
+                                            <el-col :span="24">
+                                                <el-form-item label="项目职责" prop="projectDuty" class="fifth_common">
+                                                    <el-input type="textarea" v-model="ruleForm5.projectDuty"></el-input>
+                                                </el-form-item>
+                                            </el-col>
+                                            <el-col :span="24">
+                                                <el-form-item label="项目描述" prop="desc" class="fifth_common">
+                                                    <el-input type="textarea" v-model="ruleForm5.desc"></el-input>
+                                                </el-form-item>
+                                            </el-col>
+                                            <div class="button-wrapper">
+                                                <button @click="proSave">保存</button>
+                                                <button class="button_special" @click="proDel">删除</button>
+                                                <!--<span @click="delWorkItem">删除本条</span>-->
+                                            </div>
+                                        </el-form>
                                     </div>
                                 </div>
                             </el-tab-pane>
@@ -505,8 +501,7 @@
                     </template>
                     
                 </div>
-                <!--v-show="tabName=='first'||tabName=='second'||tabName=='sixth'"-->
-                <button class="add" @click="save(tabName)">{{tabName=='sixth'?'全部下载':'保存'}}</button>
+                <button class="add" @click="save(tabName)" v-show="tabName=='first'||tabName=='second'||tabName=='sixth'">{{tabName=='sixth'?'全部下载':'保存'}}</button>
             </div>
         </el-col>
     </div>
@@ -515,7 +510,6 @@
 <script type='text/ecmascript-6'>
     import current from "../../../common/current_position.vue";
     import socialRelationItem from './social_relation_item.vue'
-    import moment from 'moment'
     export default {
         data() {
           return {
@@ -538,26 +532,8 @@
                       },
                   ]
               },
-              project_item:{
-                  userNo:'',
-                  lists:[
-                      {
-                          projectId: '',
-                          startTime: '',
-                          endTime: '',
-                          projectName: '',
-                          mainSkill: '',
-                          projectRole: '',
-                          softEnv: '',
-                          custom: '',
-                          projectDuty: '',
-                          desc: '',
-                          isShowEdit: false
-                      },
-                  ]
-              },
               activeName: 'fifth',
-              tabName:'fifth',
+              tabName:'first',
               ruleForm: {
                   custName: '',
                   certNo: '',
@@ -859,7 +835,6 @@
                                                 });
 //                                                "P0000129"
                                                 self.social_item.userNo = res.data.data
-                                                self.project_item.userNo = res.data.data
                                             }else{
                                                 self.$message({
                                                     type: 'error',
@@ -903,43 +878,43 @@
                         this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
                         this.$refs['ruleFrom'+i][0].isShowEdit = true
                     }
-//                    this.social_item.userNo = 'P0000129'
-//                    let data = {
-//                        userNo:'P0000003',
-//                        lists:[
-//                            {
-//                                contactId: '1',
-//                                contactName: '小妹妹',
-//                                relationship: '朋友',
-//                                telphone: '13444444444',
-//                                profession: '医生',
-//                                post: '医生',
-//                                addr: '深圳',
-//                            },
-//                            {
-//                                contactId: '2',
-//                                contactName: '小哥哥',
-//                                relationship: '同学',
-//                                telphone: '13444444444',
-//                                profession: '老板',
-//                                post: '老板',
-//                                addr: '美国',
-//                            }
-//                        ]
-//                    }
-//                    var params = new URLSearchParams();
-//                    params.append('userNo', 'P0000003');
-//                    params.append('lists', data.lists);
-//                    let item = {
-//                        userNo:'P0000003',
-//                        'lists[0].contactId':'1',
-//                        'lists[0].contactName':'小芳方',
-//                        'lists[0].relationship':'兄弟',
-//                        'lists[0].telphone':'13766666666',
-//                        'lists[0].profession':'医生',
-//                        'lists[0].post':'医生',
-//                        'lists[0].addr':'深圳',
-//                    }
+                    this.social_item.userNo = 'P0000129'
+                    let data = {
+                        userNo:'P0000003',
+                        lists:[
+                            {
+                                contactId: '1',
+                                contactName: '小妹妹',
+                                relationship: '朋友',
+                                telphone: '13444444444',
+                                profession: '医生',
+                                post: '医生',
+                                addr: '深圳',
+                            },
+                            {
+                                contactId: '2',
+                                contactName: '小哥哥',
+                                relationship: '同学',
+                                telphone: '13444444444',
+                                profession: '老板',
+                                post: '老板',
+                                addr: '美国',
+                            }
+                        ]
+                    }
+                    var params = new URLSearchParams();
+                    params.append('userNo', 'P0000003');
+                    params.append('lists', data.lists);
+                    let item = {
+                        userNo:'P0000003',
+                        'lists[0].contactId':'1',
+                        'lists[0].contactName':'小芳方',
+                        'lists[0].relationship':'兄弟',
+                        'lists[0].telphone':'13766666666',
+                        'lists[0].profession':'医生',
+                        'lists[0].post':'医生',
+                        'lists[0].addr':'深圳',
+                    }
                     console.log(this.social_item)
                     this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
                         .then(res=>{
@@ -951,78 +926,7 @@
                             console.log(e)
                         })
                 }
-                if('fifth'===tabName) {
-                    console.log('fifth')
-                    this.project_item.userNo = 'P0000120'
-                    if(!this.project_item.userNo){
-                        self.$message({
-                            type: 'error',
-                            message: '请先填写基本信息并点击右上角保存'
-                        });
-                        return
-                    }
-                    let projectItemLength = this.project_item.lists.length
-                    let data = {
-                        userNo : this.project_item.userNo,
-                        lists : this.project_item.lists.map(item=>{
-                            return {
-                                projectId: item.projectId,
-                                startTime: item.startTime,
-                                endTime: item.endTime,
-                                projectName: item.projectName,
-                                mainSkill: item.mainSkill,
-                                projectRole: item.projectRole,
-                                softEnv: item.softEnv,
-                                custom: item.custom,
-                                projectDuty: item.projectDuty,
-                                desc: item.desc,
-                            }
-                        }),
-                    }
-                    var count = 0
-                    for (let i=0;i<projectItemLength;i++){
-                        let name = 'fifth'+i
-                        self.$refs[name][0].validate((valid) => {
-                            if (valid) {
-                                count++
-                                this.project_item.lists[i].isShowEdit = true
-                                data.lists[i].startTime = moment(data.lists[i].startTime).format('YYYY-MM-DD')
-                                data.lists[i].endTime = moment(data.lists[i].endTime).format('YYYY-MM-DD')
-                                if(count==projectItemLength){
-                                    console.log(data,111)
-                                    this.$axios.post('/iem_hrm/employeeProjectExperience/addEmployeeProjectExperienceInfo', data)
-                                        .then(res=>{
-                                            let result = res.data.msg
-                                            if(result==='操作成功'){
-                                                self.$message({
-                                                    type: 'success',
-                                                    message: result
-                                                });
-                                            }else {
-                                                self.$message({
-                                                    type: 'error',
-                                                    message: result
-                                                });
-                                            }
 
-                                        })
-                                        .catch(e=>{
-                                            console.log(e)
-                                            self.$message({
-                                                type: 'error',
-                                                message: '添加失败,请稍后重试！'
-                                            });
-                                        })
-                                }
-                            } else {
-                                self.$message({
-                                    type: 'error',
-                                    message: '请填写完整信息！'
-                                });
-                            }
-                        });
-                    }
-                }
             },
             add_item() {
                 console.log('add_item')
@@ -1050,45 +954,65 @@
             add_edu_experience() {
 
             },
-            add_experience(){
-
-            },
             add_pro_experience() {
-                let item = {
-                        projectId: '',
-                        startTime: '',
-                        endTime: '',
-                        projectName: '',
-                        mainSkill: '',
-                        projectRole: '',
-                        softEnv: '',
-                        custom: '',
-                        projectDuty: '',
-                        desc: '',
-                        isShowEdit: false
-                    }
-//                new socialRelationItem().$mount().$appendTo('#secondContentWrapper')
-                this.project_item.lists.push(item)
+
             },
             delWorkItem() {
 
             },
             proSave() {
                 if('fifth'===tabName) {
-                    this.project_item.userNo = 'P0000129'
-                    if(!this.project_item.userNo){
+                    this.social_item.userNo = 'P0000129'
+                    if(!this.social_item.userNo){
                         self.$message({
                             type: 'error',
                             message: '请先填写基本信息并点击右上角保存'
                         });
                         return
                     }
-                    let projectItemLength = this.project_item.lists.length
-                    this.project_item.lists = []
-                    for (let i=0;i<projectItemLength;i++){
+                    let socialItemLength = this.social_item.lists.length
+                    this.social_item.lists = []
+                    for (let i=0;i<socialItemLength;i++){
                         console.log(this.$refs['ruleFrom'+i][0].ruleFrom)
                         this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
                         this.$refs['ruleFrom'+i][0].isShowEdit = true
+                    }
+                    this.social_item.userNo = 'P0000129'
+                    let data = {
+                        userNo:'P0000003',
+                        lists:[
+                            {
+                                contactId: '1',
+                                contactName: '小妹妹',
+                                relationship: '朋友',
+                                telphone: '13444444444',
+                                profession: '医生',
+                                post: '医生',
+                                addr: '深圳',
+                            },
+                            {
+                                contactId: '2',
+                                contactName: '小哥哥',
+                                relationship: '同学',
+                                telphone: '13444444444',
+                                profession: '老板',
+                                post: '老板',
+                                addr: '美国',
+                            }
+                        ]
+                    }
+                    var params = new URLSearchParams();
+                    params.append('userNo', 'P0000003');
+                    params.append('lists', data.lists);
+                    let item = {
+                        userNo:'P0000003',
+                        'lists[0].contactId':'1',
+                        'lists[0].contactName':'小芳方',
+                        'lists[0].relationship':'兄弟',
+                        'lists[0].telphone':'13766666666',
+                        'lists[0].profession':'医生',
+                        'lists[0].post':'医生',
+                        'lists[0].addr':'深圳',
                     }
                     console.log(this.social_item)
                     this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
@@ -1102,30 +1026,11 @@
                         })
                 }
             },
-            proDel(isShow,index) {
-                if(!isShow)  {
-                    this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        this.project_item.lists.splice(index,1)
-                    }).catch(()=>{
-                        this.$message({
-                            type: 'info',
-                            message: '已取消删除'
-                        });
-                    })
-                }
-                if(isShow) {
-                    this.project_item.lists[index].isShowEdit = !isShow
-                }
+            proDel() {
+
             },
 
         },
-        computed: {
-
-        }
     }
 </script>
 
@@ -1311,11 +1216,9 @@
                                 text-decoration underline
                     .from-wrapper
                         margin-top 40px
-
                         .el-form
-                            padding 40px 20px 18px 20px
+                            padding 40px 20px
                             background: #F4F4F4;
-                            overflow hidden
                             .el-input
                                 width 445px
                                 height 40px
@@ -1344,14 +1247,6 @@
                                 width: 445px
                                 height: 120px
                                 /*resize none*/
-                            .fifthIcon
-                                position absolute
-                                top 14px
-                                right 20px
-                                color #f90
-                                cursor pointer
-                                &:hover
-                                    text-decoration underline
                             .fifth_common
                                 .el-date-editor
                                     width 210px
@@ -1367,10 +1262,6 @@
                                     margin-left -35px
                                 .el-form-item__error
                                     margin-left -35px
-                        .bg_color
-                            background: #F4F4F4;
-                        .bg_color2
-                            background: #FFF;
                         .button-wrapper
                             margin-top 40px
                             padding-left 100px

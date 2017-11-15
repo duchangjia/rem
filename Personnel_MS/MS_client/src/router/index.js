@@ -540,16 +540,12 @@ const routes = [
                     ]
                 },
                 {
+                    name: 'assetUse_manage',
                     path: '/assetUse_manage',
                     component: resolve => require(['../components/pages/asset_Mgmt/assetUseMgmt/assetUse_manage.vue'], resolve),
                     children: [
                         {
                             path: '/',
-                            component: resolve => require(['../components/pages/asset_Mgmt/assetUseMgmt/query_assetUse.vue'], resolve)
-                        },
-                        {
-                            name: 'query_assetUse',
-                            path: '/query_assetUse',
                             component: resolve => require(['../components/pages/asset_Mgmt/assetUseMgmt/query_assetUse.vue'], resolve)
                         },
                         {

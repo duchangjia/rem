@@ -8,9 +8,9 @@
             <div class="item-box">
                 <el-form class="clearfix">
                   <el-form-item :label="inputFirstOption.labelName">
-                        <el-input :placeholder="inputFirstOption.placeholder" v-model="custInfo.stateName" ></el-input>
+                        <el-input :placeholder="inputFirstOption.placeholder" v-model="custInfo.stateName"></el-input>
                     </el-form-item>
-                    <el-form-item :label="inputSecOption.labelName" v-if="secInpuShow">
+                    <el-form-item :label="inputSecOption.labelName" >
                         <el-input :placeholder="inputSecOption.placeholder" v-model="custInfo.stateNo" >
                         </el-input>
                     </el-form-item>
@@ -23,7 +23,7 @@
                         <el-button class="toolBtn" @click="getList()">查询</el-button>
                     </div>
                 </el-form>
-                <el-table stripe :data="pactListInfo"  style="width:100%;" @row-click="handleCurrentChange" highlight-current-row>
+                <el-table stripe :data="pactListInfo"  style="width:100%;" @row-click="handleCurrentChange" highlight-current-row height="270">
                   <el-table-column align="center" label="选择">
                     <template scope="scope">
                       <el-radio class="radio":label="scope.$index+1" v-model="radio"></el-radio>
@@ -58,12 +58,16 @@ export default {
       radio:0,
       applyUserNo:'',
       assetNo:'',
+
+      // info:this.info,
       pactListInfo:[],
+      // inputFirShow:false,
+      // inputSecShow:false,
       custInfo:{
         stateName:'',
         stateNo:''
       },
-      secInpuShow:true
+     
     };
   },
   methods: {
@@ -71,11 +75,6 @@ export default {
       this.pagination.totalRows = 0
       this.pagination.pageSize = 5
       this.pactListInfo = []
-      this.custInfo = {}
-      console.log(this.searchData.length);
-      if(this.searchData.length<2){
-        this.secInpuShow = false
-      }
     },
     getList(){
       let data = this.searchData,
@@ -95,7 +94,7 @@ export default {
             data[keyTwo] = this.custInfo.stateNo;
           }else{
             keyOne = dataArr[0]
-            data[keyOne] = this.custInfo.stateNo
+            data[keyOne] = this.custInfo.stateName
           }
           params = Object.assign(data,pageData);
           console.log(params)
@@ -139,32 +138,39 @@ export default {
       this.custInfo = {};
     },
     dialogClose(){
+      this.custInfo = {};
       this.$emit('update:dialogVisible',false);
     },
     handleCurrentChange(row, event, column) {
-      this.custInfo = {}
       console.log(row)
         let index = this.pactListInfo.indexOf(row)+1,
             data = this.searchData,
             dataArr = Object.keys(data),
             keyOne = dataArr[0],
             keyTwo = dataArr[1];
-        
         this.radio = index;
-         console.log(row[keyOne])
         if(dataArr.length>1){
           this.custInfo.stateName = row[keyOne];
           this.custInfo.stateNo = row[keyTwo];
         }else{
-           this.custInfo.stateNo = row[keyOne];
+           this.custInfo.stateName = row[keyOne];
         }
+        // this.$emit('update:NoItem', row[keyOne]);
+        // this.NoItem = row[keyOne]
+        
     },
     confirm(){
       let self =this;
+
+      self.$emit('changeNo', self.custInfo.stateNo);
       self.$emit('update:dialogVisible',false);
       if(this.saveUrl == ''){
         return false;
       }
+      
+      
+    
+      
       self.$axios
         .get(
           self.saveUrl+
@@ -172,17 +178,17 @@ export default {
         )
         .then(res => {
           if (res.data.code == 'F00002') {
-            self.$emit('changeNo','');
-             self.$emit('confirmSearch',{});
+            self.$emit('update:applyUserNo','');
             self.$message({
               message:res.data.retMsg,
               type: "error"
             });
+           
           }else{
             self.dialogVisible = false;
-            self.$emit('changeNo', self.custInfo.stateNo);
-            self.$emit('confirmSearch',res.data.data)
+            self.$emit('update:applyUserInfo', res.data.data);
           }
+          self.custInfo = {};
         })
         .catch(e => {
           this.applyUserInfo = {};
@@ -234,6 +240,10 @@ export default {
     tableOption:{
       type:Array,
       default:[]
+    },
+    NoItem:{
+      type:String,
+      default:''
     },
     // inputOption:{
     //   type:Array,

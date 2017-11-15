@@ -160,6 +160,7 @@ export default {
           data[name] = params[name];
         }
       }
+      console.log(data);
       self.$axios
         .get("/iem_hrm/assetUse/queryAssUseList", { params: data })
         .then(res => {
@@ -330,11 +331,10 @@ export default {
                 border: none;
                 height:30px;
                 width:120px;
-                border: 1px solid #ff9900;
             }
             .restBtn{
                 color: #ff9900;
-                margin-right:20px;
+                margin-right:10px;
                 border: 1px solid #ff9900;
                 height:30px;
                 width:120px;
