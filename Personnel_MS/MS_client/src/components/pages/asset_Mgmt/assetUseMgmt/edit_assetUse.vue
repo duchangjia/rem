@@ -140,6 +140,7 @@
                     ],
                     applyNum: [
                         { required: true, message: '请输入使用数量', trigger: 'blur' }
+                        ,{ type: 'number', message: '请输入数字',trigger: "blur" }
                     ],
                     applyTime: [
                         { required: true, message: '请输入发生时间', trigger: 'blur' }

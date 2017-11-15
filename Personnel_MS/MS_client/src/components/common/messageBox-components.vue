@@ -1,38 +1,39 @@
-<template>
+1<template>
     <div>
         <el-dialog :title="title"
         @close="dialogClose()"
         @open="dialogOpen()"
         :visible.sync="dialogVisible" 
-        width="80%">
+        >
             <div class="item-box">
                 <el-form class="clearfix">
-                    <el-form-item :label="labelFirst" v-if="assNoHidden">
-                        <el-input placeholder="请输入姓名"v-model="custInfo.stateName"></el-input>
+                  <el-form-item :label="inputFirstOption.labelName">
+                        <el-input :placeholder="inputFirstOption.placeholder" v-model="custInfo.stateName" ></el-input>
                     </el-form-item>
-                    <el-form-item :label="labelSec">
-                        <el-input placeholder="请输入编号" v-model="custInfo.stateNo">
+                    <el-form-item :label="inputSecOption.labelName" v-if="secInpuShow">
+                        <el-input :placeholder="inputSecOption.placeholder" v-model="custInfo.stateNo" >
                         </el-input>
                     </el-form-item>
+                    <!-- <el-form-item :label="item.labelName" v-for="item in inputOption">
+                        <el-input :placeholder="item.placeholder" :v-model="item.modelKey">
+                        </el-input>
+                    </el-form-item> -->
                     <div class="button-box">
                         <el-button class="toolBtn restBtn" @click="reset()">重置</el-button>
                         <el-button class="toolBtn" @click="getList()">查询</el-button>
                     </div>
                 </el-form>
-                <el-table stripe :data="pactListInfo"  style="width:100%;" @row-click="handleCurrentChange" highlight-current-row height="270">
+                <el-table stripe :data="pactListInfo"  style="width:100%;" @row-click="handleCurrentChange" highlight-current-row>
                   <el-table-column align="center" label="选择">
                     <template scope="scope">
                       <el-radio class="radio":label="scope.$index+1" v-model="radio"></el-radio>
                     </template>
                   </el-table-column>
-                  <el-table-column align="center" label="工号" prop="userNo" v-if="assNoHidden">
-                  </el-table-column>
-                  <el-table-column align="center" prop="custName" label="姓名" v-if="assNoHidden">
-                  </el-table-column>
-                  <el-table-column align="center" prop="" label="资产编号" v-if="assNoShow">
-                    <template scope="scope">
-                     {{pactListInfo[scope.$index]}}
-                    </template>
+                   <el-table-column 
+                   align="center" 
+                   :label="item.thName" 
+                   :prop="item.dataKey"
+                    v-for="item in tableOption">
                   </el-table-column>
               </el-table>
               <el-pagination class="pagination-toolbar" 
@@ -57,18 +58,12 @@ export default {
       radio:0,
       applyUserNo:'',
       assetNo:'',
-
-      // info:this.info,
       pactListInfo:[],
       custInfo:{
         stateName:'',
         stateNo:''
       },
-      pagination: {
-        pageNum:1,
-        pageSize:5,
-        totalRows:0
-      }
+      secInpuShow:true
     };
   },
   methods: {
@@ -76,40 +71,47 @@ export default {
       this.pagination.totalRows = 0
       this.pagination.pageSize = 5
       this.pactListInfo = []
-    },
-    getList() {
-      this.radio = 0;
-      if(this.assNoHidden){
-          var data = {
-            pageNum:this.pagination.pageNum,
-            pageSize:this.pagination.pageSize, 
-            custName:this.custInfo.stateName,
-            userNo:this.custInfo.stateNo
-          }
-      }else{
-        var data = {
-          pageNum:this.pagination.pageNum,
-          pageSize:this.pagination.pageSize,
-          assetNo:this.custInfo.stateNo
-        }
+      this.custInfo = {}
+      console.log(this.searchData.length);
+      if(this.searchData.length<2){
+        this.secInpuShow = false
       }
-      this.$axios.get(this.searchUrl,{ params: data })
+    },
+    getList(){
+      let data = this.searchData,
+          params = {},
+          pageData = {
+            pageNum:this.pagination.pageNum,
+            pageSize:this.pagination.pageSize
+          },
+          keyOne = '',
+          keyTwo = '',
+          dataArr = Object.keys(data);
+          
+          if(dataArr.length>1){
+            keyOne = dataArr[0]
+            keyTwo = dataArr[1]
+            data[keyOne] = this.custInfo.stateName;
+            data[keyTwo] = this.custInfo.stateNo;
+          }else{
+            keyOne = dataArr[0]
+            data[keyOne] = this.custInfo.stateNo
+          }
+          params = Object.assign(data,pageData);
+          console.log(params)
+
+      this.$axios.get(this.searchUrl,{ params: params })
       .then(res => {
         console.log(res);
         if (res.status == 200) {
           if (res.data.data!=={}) {
-            if(this.assNoHidden){
-              this.pactListInfo = res.data.data.list;
+              let result = res.data.data.list
+              this.pactListInfo = result
               this.pagination.totalRows = res.data.data.total
-              console.log(res.data.data,"返回值");
-            }else{
-              this.pactListInfo = res.data.data;
-              console.log(this.pactListInfo,'fanhui');
-            }
-            
+              console.log(this.pactListInfo,"返回值");
           }else{
             this.$message({
-              message:'请输入合法的人工号',
+              message:'请输入合法编号',
               type: "error"
             });
           }
@@ -123,7 +125,7 @@ export default {
             this.assetInfo = {};
           }
           
-          self.$message({
+          this.$message({
             message:e.retMsg,
             type: "error"
           });
@@ -137,73 +139,53 @@ export default {
       this.custInfo = {};
     },
     dialogClose(){
-      this.custInfo = {};
       this.$emit('update:dialogVisible',false);
     },
     handleCurrentChange(row, event, column) {
-        let index = this.pactListInfo.indexOf(row)+1;
-        this.radio = index;
-        if(this.assNoHidden){
-          this.custInfo = {
-            stateName:row.custName,
-            stateNo:row.userNo
-          }
-          }else{
-            this.custInfo = {
-               stateNo:row
-            }
-          }
+      this.custInfo = {}
+      console.log(row)
+        let index = this.pactListInfo.indexOf(row)+1,
+            data = this.searchData,
+            dataArr = Object.keys(data),
+            keyOne = dataArr[0],
+            keyTwo = dataArr[1];
         
+        this.radio = index;
+         console.log(row[keyOne])
+        if(dataArr.length>1){
+          this.custInfo.stateName = row[keyOne];
+          this.custInfo.stateNo = row[keyTwo];
+        }else{
+           this.custInfo.stateNo = row[keyOne];
+        }
     },
     confirm(){
-      this.$emit('update:dialogVisible',false);
       let self =this;
-      this.dialogVisible = false;
-      if(this.assNoHidden){
-        this.$emit('update:applyUserNo', self.custInfo.stateNo);
-      }else{
-        this.$emit('update:assetNo', self.custInfo.stateNo);
+      self.$emit('update:dialogVisible',false);
+      if(this.saveUrl == ''){
+        return false;
       }
-      
-      this.$axios
+      self.$axios
         .get(
-          this.saveUrl+
-          this.custInfo.stateNo
+          self.saveUrl+
+          self.custInfo.stateNo
         )
         .then(res => {
           if (res.data.code == 'F00002') {
-            if(this.assNoHidden){
-              this.$emit('update:applyUserInfo', {});
-              this.$emit('update:applyUserNo', '');
-            }else{
-              this.$emit('update:assetInfo', res.data.data)
-              this.$emit('update:assetNo','');
-            }
-            this.$message({
+            self.$emit('changeNo','');
+             self.$emit('confirmSearch',{});
+            self.$message({
               message:res.data.retMsg,
               type: "error"
             });
-           
           }else{
-            console.log(this.custInfo,'输入内容');
-            this.dialogVisible = false;
-            if(this.assNoHidden){
-              this.$emit('update:applyUserInfo', res.data.data)
-            }else{
-              this.$emit('update:assetInfo', res.data.data)
-            }
-             
+            self.dialogVisible = false;
+            self.$emit('changeNo', self.custInfo.stateNo);
+            self.$emit('confirmSearch',res.data.data)
           }
-          this.custInfo = {};
         })
         .catch(e => {
-          console.log(e,"错误信息")
-          if(this.assNoHidden){
-            this.applyUserInfo = {};
-          }else{
-            this.assetInfo = {};
-          }
-          
+          this.applyUserInfo = {};
           self.$message({
             message:e.retMsg,
             type: "error"
@@ -241,22 +223,38 @@ export default {
       type:Boolean,
       default:false
     },
-    labelFirstShow:{
-      type:Boolean,
-      default:false
+    firstPlaceholder:{
+       type:String,
+        default:""
     },
-    labelSecShow:{
-      type:Boolean,
-      default:false
+    secPlaceholder:{
+      type:String,
+      default:""
     },
-    assNoHidden:{
-       type:Boolean,
-       default:false
+    tableOption:{
+      type:Array,
+      default:[]
     },
-    assNoShow:{
-      type:Boolean,
-       default:false
-    }
+    // inputOption:{
+    //   type:Array,
+    //   default:[]
+    // }
+    inputFirstOption:{
+      type:Object,
+      default:{}
+    },
+    inputSecOption:{
+      type:Object,
+      default:{}
+    },
+    searchData:{
+      type:Object,
+      default:{}
+    },
+    pagination:{
+      type:Object,
+      default:{}
+    },
   }
 };
 </script>
