@@ -34,11 +34,11 @@
                                 :pagination.sync="msgPagination" 
                                 :saveUrl="saveUrl"
                                 :searchUrl="searchUrl"
-                                @changeNo = "changeNo"
                                 :assetNo.sync = "info.assetNo"
                                 :dialogVisible.sync="dialogVisible"
-                                :applyUserInfo.sync="applyUserInfo"
+                                @changeNo="changeNo"
                                 @changeDialogVisible="changeDialogVisible"
+                                @confirmSearch = "confirmSearch"
                                 ></messageBox>
                         </el-form-item>
                         <el-form-item label="姓名">
@@ -192,12 +192,28 @@ export default {
   },
   methods: {
     changeNo(val){
-        if(this.numType == 1){
-            this.info.applyUserNo = val
+        console.log(val,'zhidedede')
+        switch(this.numType){
+            case 1:
+                this.info.applyUserNo = val
+            break;
+            case 2:
+                this.info.assetNo = val
+            break;
         }
     },
     changeDialogVisible(flag){
         this.dialogVisible = flag
+    },
+    confirmSearch(val){
+        switch(this.numType){
+            case 1:
+                this.applyUserInfo = val
+            break;
+            case 2:
+                this.assetInfo = val
+            break;
+        }
     },
     userNoSelect(){
         //table
@@ -249,11 +265,11 @@ export default {
         this.tableOption = [
             {
                 thName:'资产编号',//table 表头
-                dataKey:'userNo'//table-col所绑定的prop值
+                dataKey:'assetNo'//table-col所绑定的prop值
             },
             {
                 thName:'资产名称',//table 表头
-                dataKey:'custName'//table-col所绑定的prop值
+                dataKey:'assetName'//table-col所绑定的prop值
             }
             ];
         //input 第一个搜索框的配置项
@@ -278,7 +294,6 @@ export default {
             totalRows:0
         }
         //点击确定后需要修改的对象 numType为changeNo方法所改变的type
-        this.applyUserInfo = this.applyUserInfo
         this.numType = 2
         //dialog打开
         this.dialogVisible=true
@@ -288,25 +303,6 @@ export default {
         this.saveUrl = '/iem_hrm/assetUse/queryAssetUserByAssetNo/'
         //dialog标题
         this.boxTitle = '资产编号选择'
-        // this.tableOption = [
-        //     {
-        //         thName:'资产名称',
-        //         dataKey:''
-        //     },
-        //     {
-        //         thName:'资产编号',
-        //         dataKey:''
-        //     }
-        //     ]
-        // this.labelFirstShow = false;
-        // // this.assNoHidden = true
-        // this.assNoShow = true
-        // this.dialogVisible = true
-        // this.labelFirst = "资产名称"
-        // // this.labelSec = "资产编号"
-        // this.saveUrl = "/iem_hrm/assetUse/queryAssetUserByAssetNo/";
-        // this.searchUrl = "/iem_hrm/assetUse/queryAssetNoList";
-        // this.boxTitle = "资产编号选择";
     },
     save() {
       let self = this;

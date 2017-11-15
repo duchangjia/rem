@@ -160,7 +160,6 @@ export default {
           data[name] = params[name];
         }
       }
-      console.log(data);
       self.$axios
         .get("/iem_hrm/assetUse/queryAssUseList", { params: data })
         .then(res => {
