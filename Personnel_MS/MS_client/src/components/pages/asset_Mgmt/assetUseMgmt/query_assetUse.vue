@@ -80,7 +80,8 @@
                     @current-change="handleCurrentChange"
                     :page-size="pagination.pageSize"
                     layout="total,prev, pager, next, jumper"
-                    :total="pagination.total">
+                    :total="pagination.total" 
+                    v-show="pagination.total>pagination.pageSize">
                     </el-pagination>
             </div>
     </div>
@@ -99,44 +100,29 @@ export default {
         assetNo: "",
         applyUserNo: ""
       },
-
       assetInfoList:[],
       pagination: {
-      	 pageNum: 1,
+      	pageNum: 1,
         pageSize: 10,
-        total: 100
-      },
-      table: {
-        th: [
-          "使用编号",
-          "资产编号",
-          "资产类型",
-          "资产名称",
-          "数量",
-          "使用类型",
-          "公司名称",
-          "申请部门",
-          "工号",
-          "姓名",
-          "发生时间",
-          "操作"
-        ],
-        td: [
-          {
-            num: 1111
-          }
-        ]
+        total: 1
       }
     };
   },
   created() {
     let self = this;
-    this.search();
+    console.log("接收的params",self.$route.params);
+    if(self.$route.params) {
+        self.searchInfo.assetNo = self.$route.params.assetNo;
+        self.searchInfo.applyUserNo = self.$route.params.applyUserNo;
+    }
+    self.search();
   
   },
   methods: {
-    handleSizeChange() {},
-    handleCurrentChange() {},
+    handleCurrentChange(val){
+        this.pagination.pageNum = val
+        this.search();  
+    },
     assetTypeFormatter(row, column) {
     return row.assetType == "01"
         ? "全部"
@@ -163,12 +149,12 @@ export default {
     search() {
       let self = this;
       let params = {};
-      params.assetName = this.searchInfo.assetName;
-      params.assetType = this.searchInfo.assetType;
-      params.assetNo = this.searchInfo.assetNo;
-      params.applyUserNo = this.searchInfo.applyUserNo;
-      params.pageNum = this.pagination.pageNum;
-      params.pageSize = this.pagination.pageSize;
+      params.assetName = self.searchInfo.assetName;
+      params.assetType = self.searchInfo.assetType;
+      params.assetNo = self.searchInfo.assetNo;
+      params.applyUserNo = self.searchInfo.applyUserNo;
+      params.pageNum = self.pagination.pageNum;
+      params.pageSize = self.pagination.pageSize;
       var data = {};
       for (var name in params) {
         if (params[name]) {
@@ -176,12 +162,12 @@ export default {
         }
       }
       console.log(data);
-      this.$axios
+      self.$axios
         .get("/iem_hrm/assetUse/queryAssUseList", { params: data })
         .then(res => {
-          this.assetInfoList =  res.data.data.list
-          this.pagination.total = res.data.data.total
-          console.log(this.assetInfoList,'列表数据');
+          self.assetInfoList =  res.data.data.list
+          self.pagination.total = res.data.data.total
+          console.log(self.assetInfoList,'列表数据');
         })
         .catch(e => {
           console.log(e);
@@ -190,7 +176,7 @@ export default {
     },
     resetForm(){
         let self = this;
-        this.searchInfo = {};
+        self.searchInfo = {};
     },
     handleAssetInfoDetail(index,row) {
       this.$router.push({ name: "detail_assetUse", query: { applyNo:row.applyNo } });
@@ -201,13 +187,13 @@ export default {
     },
     del(row) {
       let self = this;
-      this.$confirm("此操作将永久删除该信息, 是否继续?", "提示", {
+      self.$confirm("此操作将永久删除该信息, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          this.$axios
+          self.$axios
             .get("/iem_hrm/assetUse/delAssUse/" + row.applyNo)
             .then(res => {
               let result = res.data.retMsg;
@@ -216,17 +202,7 @@ export default {
                   message: "删除成功",
                   type: "success"
                 });
-                self.$axios
-                  .get("/iem_hrm/assetUse/queryAssUseList")
-                  .then(res => {
-                    self.table.td = res.data.data.list;
-                    self.fenye.total = res.data.data.total;
-                    self.fenye.pageSize = res.data.data.pageSize;
-                    self.fenye.pageNum = res.data.data.pageNum;
-                  })
-                  .catch(e => {
-                    console.log(e);
-                  });
+               this.search()
               } else {
                 self.$message({
                   message: result,
@@ -239,7 +215,7 @@ export default {
             });
         })
         .catch(() => {
-          this.$message({
+          self.$message({
             type: "info",
             message: "已取消删除"
           });
@@ -278,8 +254,7 @@ export default {
         border: 1px solid #FF9900;
         color:#FF9900;
         margin: 0;
-        height:30px;
-        width:120px;
+        
         line-height:30px;
         padding:0;
     }
@@ -316,6 +291,8 @@ export default {
             background: #ff9900;
             border: none;
             color:#fff;
+            height:30px;
+            width:120px;
         }
         .querybar{
             .el-form-item{
@@ -353,11 +330,15 @@ export default {
                 color: #ffffff;
                 background: #ff9900;
                 border: none;
+                height:30px;
+                width:120px;
             }
             .restBtn{
                 color: #ff9900;
                 margin-right:10px;
                 border: 1px solid #ff9900;
+                height:30px;
+                width:120px;
             }
         }
 

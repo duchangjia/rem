@@ -1,82 +1,112 @@
 <template>
-	<div class="travelC_wrap">
+	<div class="info">
 		<current yiji="考勤管理" erji="出差管理" sanji="出差新增">
 		</current>
-		<div class="content">
-			<div class="title">
+		<div class="content-wrapper">
+			<div class="titlebar">
 				<span class="title-text">出差新增</span>
-				<el-button type="primary" class="conserve" @click="save('formdata2')">保存</el-button>
+				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
-			<div class="content-inner">
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
-					<el-form-item label="公司名称">
-						<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
-				  	</el-form-item>
-					<el-form-item label="申请部门名称">
-						<el-input v-model="formdata1.deptName" :disabled="true"></el-input>
-				  	</el-form-item>
-				<!--<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">-->  	
-					<el-form-item label="工号">
-					    <el-input v-model="formdata1.userNo"></el-input>
-					    <el-button class="queryUserBtn" type="primary" @click="queryUserInfo">查询</el-button>
-				 	</el-form-item>
-				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata1.custName" :disabled="true"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="岗位">
-					    <el-input v-model="formdata1.custPost" :disabled="true"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="职级">
-					    <el-input v-model="formdata1.custClass" :disabled="true"></el-input>
-				  	</el-form-item>
-				<!--</el-form>-->
-
-				  	<div class="info-title">出差信息</div>
-				  	<el-form-item label="出差开始时间" prop="travelStartTime">
-			        	<el-date-picker type="datetime" v-model="formdata2.travelStartTime" @change="changeStartTime"></el-date-picker>
-			      	</el-form-item>
-				  	<el-form-item label="出差结束时间" prop="travelEndTime">
-			        	<el-date-picker type="datetime" v-model="formdata2.travelEndTime" @change="changeEndTime"></el-date-picker>
-			      	</el-form-item>
-				  	<el-form-item label="出差类型" prop="travelType">
-					    <el-select v-model="formdata2.travelType" value-key="travelType" @change="changeValue">
-							<el-option v-for="item in travelTypeList" :key="item.travelNo" :label="item.label" :value="item.travelNo"></el-option>
-						</el-select>
-				  	</el-form-item>
-				  	<el-form-item class="travelCity_wrap" label="出差城市" prop="travelStartCity">
-					    <el-input class="travelCity" v-model="formdata2.travelStartCity" placeholder="出发城市"></el-input>
-				  	</el-form-item>
-				  	<span class="travelCity_line" >-</span>
-				  	<el-form-item class="travelCity_wrap2" prop="travelArrivalCity">
-					    <el-input class="travelCity" v-model="formdata2.travelArrivalCity" placeholder="到达城市"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="出差天数" prop="travelDays">
-					    <el-input v-model="formdata2.travelDays"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="差补标准" prop="travelSTD">
-					    <el-input v-model="formdata1.travelSTD" :disabled="true"></el-input>
-				  	</el-form-item>
-				  	<el-form-item class="remark" label="出差备注" prop="remark">
-					    <el-input
-						  type="textarea"
-						  :autosize="{ minRows: 5, maxRows: 5}"
-						  placeholder="请输入内容"
-						  v-model="formdata2.remark">
-						</el-input>
-				  	</el-form-item>
-				  	<el-form-item label="附件" style="width: 100%;">
-			  		 	<el-input v-model="formdata2.attachm"></el-input>
-				  		<el-upload class="upload-demo" ref="upload" name="file"
-				  			 :data="formdata"
-				  			 :on-success="successUpload"
-				  			 action="/iem_hrm/travel/addTravelInfo" 
-				  			 :show-file-list="false" 
-				  			 :auto-upload="false"
-				  			 :headers="token"
-				  		>
-                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
-                        </el-upload>
-				  	</el-form-item>
+			<div class="add-wrapper">
+				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
+					<el-col :sm="24" :md="12">
+						<el-form-item label="公司名称">
+							<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="申请部门名称">
+							<el-input v-model="formdata1.deptName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="工号">
+						    <el-input v-model="formdata1.userNo">
+						    	<el-button slot="append" icon="search" @click="queryUserInfo"></el-button>
+						    </el-input>
+						    
+					 	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="姓名">
+						    <el-input v-model="formdata1.custName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="岗位">
+						    <el-input v-model="formdata1.custPost" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="职级">
+						    <el-input v-model="formdata1.custClass" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :span="24" class="item-title">出差信息</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="出差开始时间" prop="travelStartTime">
+				        	<el-date-picker type="datetime" v-model="formdata2.travelStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
+				      	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="出差结束时间" prop="travelEndTime">
+				        	<el-date-picker type="datetime" v-model="formdata2.travelEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
+				      	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="出差类型" prop="travelType">
+						    <el-select v-model="formdata2.travelType" value-key="travelType" @change="changeValue">
+								<el-option v-for="item in travelTypeList" :key="item.travelNo" :label="item.label" :value="item.travelNo"></el-option>
+							</el-select>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item class="travelCity_wrap" label="出差城市" prop="travelStartCity">
+						    <el-input class="travelCity" v-model="formdata2.travelStartCity" placeholder="出发城市"></el-input>
+					  	</el-form-item>
+					  	<span class="travelCity_line" >-</span>
+					  	<el-form-item class="travelCity_wrap2" prop="travelArrivalCity">
+						    <el-input class="travelCity" v-model="formdata2.travelArrivalCity" placeholder="到达城市"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="出差天数" prop="travelDays">
+						    <el-input v-model="formdata2.travelDays"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="差补标准" prop="travelSTD">
+						    <el-input v-model="formdata1.travelSTD" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :span="24">
+						<el-form-item class="remark" label="出差备注" prop="remark">
+						    <el-input
+							  type="textarea"
+							  :autosize="{ minRows: 5, maxRows: 5}"
+							  placeholder="请输入内容"
+							  v-model="formdata2.remark">
+							</el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="附件" style="width: 100%;">
+				  		 	<el-input v-model="formdata2.attachm"></el-input>
+					  		<el-upload class="upload-demo" ref="upload" name="file"
+					  			 :data="formdata"
+					  			 :on-change="changeUpload" 
+					  			 :on-success="successUpload"
+					  			 action="/iem_hrm/travel/addTravelInfo" 
+					  			 :show-file-list="false" 
+					  			 :auto-upload="false"
+					  			 :headers="token"
+					  		>
+	                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
+	                        </el-upload>
+					  	</el-form-item>
+					</el-col>  	
+					  	
+					  	
 				</el-form>
 			</div>
 		</div>
@@ -110,6 +140,7 @@
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
+				fileFlag: '',
 				formdata1: {
 					organNo: "",
 					deptNo: "",
@@ -166,15 +197,14 @@
 		computed: {
 			formdata: function(){
 				return {
-					applyNo: this.formdata2.applyNo, //出差编号
-				    userNo: this.formdata2.userNo,//工号
+				    userNo: this.formdata1.userNo,//工号
 				    travelType: this.formdata2.travelType,//出差类型
 				    travelStartTime: this.formdata2.travelStartTime,//出差开始时间	
 				    travelEndTime: this.formdata2.travelEndTime, //出差结束时间
 				    travelStartCity: this.formdata2.travelStartCity,//出差开始城市	
 				    travelArrivalCity: this.formdata2.travelArrivalCity,//出差到达城市
 				    travelDays: this.formdata2.travelDays, //出差天数  
-				    travelSTD: this.formdata2.travelSTD,//差补标准
+				    travelSTD: this.formdata1.travelSTD,//差补标准
 				    remark: this.formdata2.remark,//备注
 				    attachm: this.formdata2.attachm//附件
 				}
@@ -223,6 +253,10 @@
 	      		//根据员工编号查询员工信息
 	      		this.getUseInfoByUserNo(params);
 	      	},
+	      	changeUpload(file, fileList) {
+	      		console.log('fileList',fileList);
+		 		this.fileFlag = file;
+	      	},
 	      	successUpload(response, file, fileList) {
 	      		this.$message({ message: '操作成功', type: 'success' });
 	      	},
@@ -230,22 +264,23 @@
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						console.log('valid');
-						let params = {
-						    userNo: self.formdata1.userNo,//工号
-						    travelType: self.formdata2.travelType,//出差类型
-						    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
-						    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
-						    travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
-						    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
-						    travelDays: self.formdata2.travelDays, //出差天数  
-						    travelSTD: self.formdata1.travelSTD,//差补标准
-						    remark: self.formdata2.remark,//备注
-						    attachm: self.formdata2.attachm//附件
-						}
-						self.formdata = params;
 						self.$refs.upload.submit();
-						
+						if(!self.fileFlag){
+							let params = {
+							    userNo: self.formdata1.userNo,//工号
+							    travelType: self.formdata2.travelType,//出差类型
+							    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
+							    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
+							    travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
+							    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
+							    travelDays: self.formdata2.travelDays, //出差天数  
+							    travelSTD: self.formdata1.travelSTD,//差补标准
+							    remark: self.formdata2.remark,//备注
+							    attachm: self.formdata2.attachm//附件
+							}
+							//无附件时新增信息
+							self.addTravelInfo(params);
+						}
 					} else {
 						return false;
 					}
