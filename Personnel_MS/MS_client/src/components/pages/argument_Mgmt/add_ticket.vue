@@ -1,17 +1,17 @@
 <template>
-    <div class="add_ticket">
+    <div class="add_ticket clearfix">
         <current yiji="参数管理" erji="业务参数" sanji="公司开票信息维护" siji="开票信息新增"></current>
         <el-col :span="24">
             <div class="content-wrapper">
                 <div class="titlebar"><span class="title-text">开票信息新增</span><el-button type="primary" @click="save()" class="toolBtn">保存</el-button></div>
                 <div class="add-wrapper">
-                    <el-form :inline="true" label-width="110px">
+                    <el-form :inline="true" label-width="110px" :rules="rules" :model="custInfo" ref="info">
                         <el-col :sm="24" :md="12">
                             <el-form-item label="公司" prop="organName" class="is-require">
                                 <el-select v-model="custInfo.organName" @change="changeCompany">
                                     <el-option
                                       v-for="item in companyName"
-                                      :key = "item.organNo"
+                                      :key="item.organName"
                                       :label="item.organName"
                                       :value="item.organName">
                                     </el-option>
@@ -56,62 +56,102 @@
 </template>
 
 <script type='text/ecmascript-6'>
-    import current from '../../common/current_position.vue'
-    export default {
-        data() {
-            return {
-                custInfo:{
-                    organName:'',
-                    organNo:'',
-                    organTaxNo:'',
-                    organAcct:'',
-                    organAcctname:'',
-                    organAddr:''
-                },
-                companyName:[],
-            }
-        },
-        mounted(){
-          //拉取公司名称
-            let self = this;
-                self.$axios.get('/iem_hrm/organ/queryAllCompany')
-                .then(res=>{
-                    let result =res.data.data
-                    self.companyName = result;
-                })
-        },
-        methods: {
-          changeCompany(value){
-            let companyArray =  this.companyName;
-            for(let i = 0;i<companyArray.length;i++){
-              if(companyArray[i].organName == value){
-                console.log(companyArray[i].organNo);
-              }
-            }
-            
-          },
-            save(){
-                let self = this 
-                self.$axios.post('/iem_hrm/organBillInfo/addBillInf',self.custInfo)
-                .then(res=>{
-                    let result =res.data.data
-                    console.log(result,'返回结果');
-                    self.companyName = result;
-                })
-            }
-        },
-        components: {
-            current,
+import current from "../../common/current_position.vue";
+export default {
+  data() {
+    let checkTel = (rule, value, callback) => {
+        let ret  = /^[1][3578]\d{9}$/
+        console.log(ret.test(value),'验证值')
+        if(!ret.test(value)&&value!==''){
+           return  callback('请输入正确的手机号码');
+        }else{
+            callback()
         }
     }
+    return {
+      custInfo: {
+        organName: "",
+        organNo: "",
+        organTaxNo: "",
+        organTel:"",
+        organAcct: "",
+        organAcctname: "",
+        organAddr: ""
+      },
+      rules: {
+        organName: [{ required: true, message: "请选择公司名称", trigger: "change" }],
+        organNo: [{ required: true, message: "请输入机构号", trigger: "blur" }],
+        organTaxNo: [{ required: true, message: "请输入纳税人编号", trigger: "blur" }],
+        organTel:[{validator:checkTel,trigger: 'blur'}]
+      },
+      companyName: []
+    };
+  },
+  mounted() {
+    //拉取公司名称
+    let self = this;
+    self.$axios.get("/iem_hrm/organ/queryAllCompany").then(res => {
+      let result = res.data.data;
+      self.companyName = result;
+    });
+  },
+  methods: {
+    changeCompany(value) {
+      let self = this,
+        companyArray = this.companyName;
+      for (let i = 0; i < companyArray.length; i++) {
+        if (companyArray[i].organName == value) {
+          self.custInfo.organNo = companyArray[i].organNo;
+        }
+      }
+    },
+    save() {
+      let self = this;
+      self.$refs.info.validate(valid => {
+        if(valid){
+          self.$axios
+          .post("/iem_hrm/organBillInfo/addBillInf", self.custInfo)
+          .then(res => {
+            let result = res.data;
+            if(result.code = 'S00000'){
+              self.$message({
+                message:result.retMsg,
+                type: "success"
+              })
+            }else{
+              self.$message({
+                message:result.retMsg,
+                type: "error"
+              })
+            }
+          })
+          .catch(e=>{
+            self.$message({
+              message: e.retMsg,
+              type: "error"
+            });
+          });
+        }
+      })
+      
+    }
+  },
+  components: {
+    current
+  }
+};
 </script>
 
 <style>
+.add_ticket{
+  padding:0  0 20px 20px;
+}
 .content-wrapper {
   background: #ffffff;
   padding: 0 20px 20px;
   color: #333333;
   clear: both;
+  min-height:746px;
   overflow: hidden;
 }
 
@@ -147,9 +187,8 @@
   width: 120px;
   background: #ff9900;
   border: none;
-  padding:0;
+  padding: 0;
 }
-
 
 .pact_mgmt .el-button {
   padding: 0;
@@ -260,9 +299,9 @@ table .el-button--danger:active {
 .add-wrapper .el-form-item__label {
   margin-right: 14px;
 }
-.el-form-item.is-required .el-form-item__label:before{
-    content: '*';
-    color: #ff4949;
-    margin-right: 4px;
+.el-form-item.is-required .el-form-item__label:before {
+  content: "*";
+  color: #ff4949;
+  margin-right: 4px;
 }
- </style>
+</style>
