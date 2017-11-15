@@ -2,9 +2,9 @@
     <div class="ticket_argument">
         <current yiji="参数管理" erji="业务参数" sanji="公司开票信息维护"></current>
         <el-col :span="24">
-            <div class="content-wrapper">
+            <div class="content-wrapper clearfix">
                 <div class="title"><span class="text">公司开票信息维护</span><button class="add" @click="add()">新增</button></div>
-                <div class="content">
+                <div class="content clearfix">
                     <div class="search">
                         <span class="text">公司名称</span>
                         <el-input type="text" placeholder="公司名称" v-model="organName"></el-input>
@@ -143,7 +143,7 @@
                     float:right
                     border-radius:4px
             .content
-                padding-top: 30px;
+                padding: 30px 0;
                 .text
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
