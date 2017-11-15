@@ -42,30 +42,30 @@
                                         <el-col :span="8">
                                             <el-form-item label="民族" prop="nation">
                                                 <el-select v-model="ruleForm.nation" placeholder="请选择民族">
-                                                    <el-option label="汉族" value="汉族"></el-option>
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.nation"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="婚姻状况" prop="marital" class="marriage_special">
                                                 <el-radio-group v-model="ruleForm.marital">
-                                                    <el-radio-button label="未婚"></el-radio-button>
-                                                    <el-radio-button label="已婚" class="special"></el-radio-button>
-                                                    <el-radio-button label="离异"></el-radio-button>
+                                                    <el-radio-button label="01">未婚</el-radio-button>
+                                                    <el-radio-button label="02" class="special">已婚</el-radio-button>
+                                                    <el-radio-button label="03">离异</el-radio-button>
                                                 </el-radio-group>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="学历" prop="education">
                                                 <el-select v-model="ruleForm.education" placeholder="请选择学历">
-                                                    <el-option label="本科" value="本科"></el-option>
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.education"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="学位" prop="degree">
                                                 <el-select v-model="ruleForm.degree" placeholder="请选择学位">
-                                                    <el-option label="硕士" value="硕士"></el-option>
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.degree"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -428,7 +428,7 @@
                                                 <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
                                                <el-col :span="12">
                                                    <el-col :span="12">
-                                                       <input v-show="false" v-model="item.projectId=index">
+                                                       <!--<input v-show="false" v-model="item.projectId=index">-->
                                                        <el-form-item label="时间" prop="startTime" class="fifth_common">
                                                            <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
                                                        </el-form-item>
@@ -519,9 +519,11 @@
     export default {
         data() {
           return {
-//              basicInfo:{
-//                userNo:'',
-//              },
+              basicInfo:{
+                nation:'',
+                education:'',
+                degree:'',
+              },
               dialogImageUrl: '',
               dialogVisible: false,
               social_item:{
@@ -542,7 +544,7 @@
                   userNo:'',
                   lists:[
                       {
-                          projectId: '',
+//                          projectId: '',
                           startTime: '',
                           endTime: '',
                           projectName: '',
@@ -556,8 +558,8 @@
                       },
                   ]
               },
-              activeName: 'fifth',
-              tabName:'fifth',
+              activeName: 'first',
+              tabName:'first',
               ruleForm: {
                   custName: '',
                   certNo: '',
@@ -773,24 +775,28 @@
             current,socialRelationItem
         },
         created() {
-//            let self = this
-//            this.$axios.get('/queryCustContancts')
-//                .then(res=>{
-//                    console.log(res)
-//                })
-//                .catch(e=>{
-//                    console.log('調用queryCustContancts失敗')
-//                })
-//            this.$axios.get('/iem_hrm/CustContact/queryCustContacts', {params:{
-//                userNo:'P0000001'
-//            }})
-//                .then(res=>{
-////                    self.social_item =
-//                    console.log(res)
-//                })
-//                .catch(e=>{
-//                    console.log(e)
-//                })
+            this.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=NATION')
+                .then(res=>{
+                    this.basicInfo.nation = res.data.data
+                })
+                .catch(e=>{
+                    console.log(e)
+                })
+            this.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=EDUCATION')
+                .then(res=>{
+                    this.basicInfo.education = res.data.data
+                })
+                .catch(e=>{
+                    console.log(e)
+                })
+            this.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=DEGREE')
+                .then(res=>{
+                    console.log(res)
+                    this.basicInfo.degree = res.data.data
+                })
+                .catch(e=>{
+                    console.log(e)
+                })
         },
         methods: {
             changeBirthday(val) {
@@ -952,8 +958,7 @@
                         })
                 }
                 if('fifth'===tabName) {
-                    console.log('fifth')
-                    this.project_item.userNo = 'P0000120'
+//                    this.project_item.userNo = 'P0000120'
                     if(!this.project_item.userNo){
                         self.$message({
                             type: 'error',
@@ -966,7 +971,7 @@
                         userNo : this.project_item.userNo,
                         lists : this.project_item.lists.map(item=>{
                             return {
-                                projectId: item.projectId,
+//                                projectId: item.projectId,
                                 startTime: item.startTime,
                                 endTime: item.endTime,
                                 projectName: item.projectName,
@@ -992,7 +997,8 @@
                                     console.log(data,111)
                                     this.$axios.post('/iem_hrm/employeeProjectExperience/addEmployeeProjectExperienceInfo', data)
                                         .then(res=>{
-                                            let result = res.data.msg
+                                            console.log(res)
+                                            let result = res.data.retMsg
                                             if(result==='操作成功'){
                                                 self.$message({
                                                     type: 'success',
@@ -1055,7 +1061,7 @@
             },
             add_pro_experience() {
                 let item = {
-                        projectId: '',
+//                        projectId: '',
                         startTime: '',
                         endTime: '',
                         projectName: '',
@@ -1075,7 +1081,7 @@
             },
             proSave() {
                 if('fifth'===tabName) {
-                    this.project_item.userNo = 'P0000129'
+//                    this.project_item.userNo = 'P0000129'
                     if(!this.project_item.userNo){
                         self.$message({
                             type: 'error',
