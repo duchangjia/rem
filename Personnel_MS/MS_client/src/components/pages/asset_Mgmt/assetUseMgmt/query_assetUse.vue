@@ -109,7 +109,6 @@ export default {
   },
   created() {
     let self = this;
-    console.log("接收的params",self.$route.params);
     if(self.$route.params) {
         self.searchInfo.assetNo = self.$route.params.assetNo;
         self.searchInfo.applyUserNo = self.$route.params.applyUserNo;
