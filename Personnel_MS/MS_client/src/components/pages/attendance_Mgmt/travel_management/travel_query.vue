@@ -62,8 +62,8 @@
 						<el-table-column prop="userNo" label="工号"></el-table-column>
 						<el-table-column prop="custName" label="姓名"></el-table-column>
 						<el-table-column prop="travelType" label="出差类型" :formatter="travelTypeFormatter"></el-table-column>
-						<el-table-column prop="travelStartTime" label="出差开始时间" :formatter="travelStartTimeFormatter"></el-table-column>
-						<el-table-column prop="travelEndTime" label="出差结束时间" :formatter="travelEndTimeFormatter"></el-table-column>
+						<el-table-column prop="travelStartTime" label="出差开始时间"></el-table-column>
+						<el-table-column prop="travelEndTime" label="出差结束时间"></el-table-column>
 						<el-table-column prop="createdBy" label="录入人"></el-table-column>
 						<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
 						<el-table-column label="操作" width="100">
@@ -228,6 +228,7 @@ export default {
             	let params = {
 					applyNo: row.applyNo
 				}
+            	console.log(params);
             	//删除
 				self.deleteTravel(params);
             	
@@ -239,7 +240,6 @@ export default {
 		//查询
 		queryForm(formName) {
 			const self = this;
-			console.log(this.ruleForm2.startDate)
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
 					self.queryFormFlag = true;
@@ -254,10 +254,9 @@ export default {
 					};
 					
 					//出差列表查询
-					this.queryTravelList(params);
+					self.queryTravelList(params);
 					
 				} else {
-					console.log('error submit!!');
 					return false;
 				}
 			});
@@ -331,12 +330,12 @@ export default {
 		},
 		deleteTravel(params) {
 			let self = this;
-			self.$axios.delete(baseURL+'/travel/deleteTravel', params)
+			self.$axios.delete(baseURL+'/travel/deleteTravel?applyNo='+ params.applyNo)
 			.then(function(res) {
 				console.log('deleteTravel',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
-					let params = {
+					let param = {
 						"pageNum": self.pageNum,
 						"pageSize": self.pageSize,
 						organNo: self.ruleForm2.organNo,
@@ -347,7 +346,7 @@ export default {
 					};
 					
 					//出差列表查询
-					this.queryTravelList(params);
+					self.queryTravelList(param);
 				}
 			}).catch(function(err) {
 				console.log(err);
