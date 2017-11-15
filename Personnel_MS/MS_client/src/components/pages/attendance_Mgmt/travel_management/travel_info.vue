@@ -185,13 +185,20 @@
 			},
 			downloadFile(params) {
 				const self = this;
-				self.$axios.get(baseURL+'/travel/downloadFile?filePath='+params.filePath +"&isOnLine=" + params.isOnLine)
-				.then(function(res) {
-					console.log('downloadFile',res);
-					
-				}).catch(function(err) {
-					console.log('error');
-				})
+				if(params.filePath) {
+					console.log('true');
+					let url = baseURL+'/travel/downloadFile?filePath='+params.filePath +"&isOnLine=" + params.isOnLine;
+					window.open(url, '_blank');
+				} else {
+					this.$message({ message: '没有找到附件信息', type: 'info' });
+				}
+//				self.$axios.get(baseURL+'/travel/downloadFile?filePath='+params.filePath +"&isOnLine=" + params.isOnLine)
+//				.then(function(res) {
+//					console.log('downloadFile',res);
+//					
+//				}).catch(function(err) {
+//					console.log('error');
+//				})
 			}
 		}
 	};

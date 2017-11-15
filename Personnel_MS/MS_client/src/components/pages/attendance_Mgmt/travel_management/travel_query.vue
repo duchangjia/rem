@@ -62,8 +62,8 @@
 						<el-table-column prop="userNo" label="工号"></el-table-column>
 						<el-table-column prop="custName" label="姓名"></el-table-column>
 						<el-table-column prop="travelType" label="出差类型" :formatter="travelTypeFormatter"></el-table-column>
-						<el-table-column prop="travelStartTime" label="出差开始时间" :formatter="travelStartTimeFormatter"></el-table-column>
-						<el-table-column prop="travelEndTime" label="出差结束时间" :formatter="travelEndTimeFormatter"></el-table-column>
+						<el-table-column prop="travelStartTime" label="出差开始时间"></el-table-column>
+						<el-table-column prop="travelEndTime" label="出差结束时间"></el-table-column>
 						<el-table-column prop="createdBy" label="录入人"></el-table-column>
 						<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
 						<el-table-column label="操作" width="100">
@@ -346,7 +346,7 @@ export default {
 					};
 					
 					//出差列表查询
-					this.queryTravelList(param);
+					self.queryTravelList(param);
 				}
 			}).catch(function(err) {
 				console.log(err);

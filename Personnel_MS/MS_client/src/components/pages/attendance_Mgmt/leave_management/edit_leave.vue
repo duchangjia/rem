@@ -76,6 +76,7 @@
 				  		 	<el-input v-model="formdata2.attachm"></el-input>
 					  		<el-upload class="upload-demo" ref="upload" name="file"
 					  			 :data="formdata"
+					  			 :on-change="changeUpload"
 					  			 :on-success="successUpload"
 					  			 action="/iem_hrm/" 
 					  			 :show-file-list="false" 
@@ -119,7 +120,7 @@
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
-				formdata: {},
+				fileFlag: '',
 				formdata1: {
 				},
 				formdata2: {
@@ -178,31 +179,56 @@
 		components: {
 			current
 		},
+		computed: {
+			formdata: function(){
+				const self = this;
+				return {
+					"userNo": self.formdata1.userNo, //"1004"
+	    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
+	    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
+	    			"leaveType": self.formdata2.leaveType, //"3"
+	    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
+	    			"remark": self.formdata2.remark, //"请假的详细信息"
+	    			attachm: self.formdata2.attachm
+				}
+			}
+		},
 		created() {
 			let applyNo = this.$route.params.applyNo;
 			let userNo = this.$route.params.userNo;
 			let params = {
 				applyNo: applyNo
 			}
+			//查询请假详情
 			this.leaveInfo(params);
 		},
 		methods: {
 			changeStartTime(time) {
 				this.formdata2.leaveStartTime = time;
+				let params = {
+					leaveStartTime: this.formdata2.leaveStartTime,
+					leaveEndTime: this.formdata2.leaveEndTime
+				}
+				if(this.formdata2.leaveStartTime) {
+					this.calTimeSheet(params);
+				}
 			},
 			changeEndTime(time) {
 				this.formdata2.leaveEndTime = time;
+				let params = {
+					leaveStartTime: this.formdata2.travelStartTime,
+					leaveEndTime: this.formdata2.leaveEndTime
+				}
+				if(this.formdata2.leaveEndTime) {
+					this.calTimeSheet(params);
+				}
 			},
 			changeValue(value) {
 		 		const self = this;
 	            console.log('value',value);
 	      	},
-	      	queryUserInfo() {
-	      		this.formdata1.userNo;
-	      		
-	      	},
-	      	download() {
-	      		
+	      	changeUpload(file, fileList) {
+		 		this.fileFlag = file;
 	      	},
 	      	successUpload(response, file, fileList) {
 	      		this.$message({ message: '操作成功', type: 'success' });
@@ -212,14 +238,22 @@
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
 						console.log('valid');
-						let params = {
-							
-						}
-						self.formdata = params;
-						self.$refs.upload.submit();
 						
+						self.$refs.upload.submit();
+						if(!self.fileFlag) {
+							let params = {
+								"userNo": self.formdata1.userNo, //"1004"
+				    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
+				    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
+				    			"leaveType": self.formdata2.leaveType, //"3"
+				    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
+				    			"remark": self.formdata2.remark, //"请假的详细信息"
+				    			attachm: self.formdata2.attachm
+							}
+							//无附件时修改
+							self.modifyTravelInfo(params);
+						}
 					} else {
-						this.$message.error('failvalid');
 						return false;
 					}
 				});
@@ -243,7 +277,19 @@
 				.then(function(res) {
 					console.log('modifyTravelInfo',res);
 					if(res.data.code === "S00000") {
-						
+						self.$message({ message: '操作成功', type: 'success' });
+					}
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			calTimeSheet(params) {
+				let self = this;
+				self.$axios.get(baseURL+'',{params})
+				.then(function(res) {
+					console.log('timeSheet',res);
+					if(res.data.code === "S00000") {
+//						self.formdata2.timeSheet = res.data.data.;
 					}
 				}).catch(function(err) {
 					console.log('error');

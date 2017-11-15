@@ -201,9 +201,23 @@
 		methods: {
 			changeStartTime(time) {
 				this.formdata2.leaveStartTime = time;
+				let params = {
+					leaveStartTime: this.formdata2.leaveStartTime,
+					leaveEndTime: this.formdata2.leaveEndTime
+				}
+				if(this.formdata2.leaveStartTime) {
+					this.calTimeSheet(params);
+				}
 			},
 			changeEndTime(time) {
 				this.formdata2.leaveEndTime = time;
+				let params = {
+					leaveStartTime: this.formdata2.travelStartTime,
+					leaveEndTime: this.formdata2.leaveEndTime
+				}
+				if(this.formdata2.leaveEndTime) {
+					this.calTimeSheet(params);
+				}
 			},
 	      	queryUserInfo() {
 	      		let userNo = this.formdata1.userNo;
@@ -262,6 +276,18 @@
 					console.log('addLeaveInfo',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
+					}
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			calTimeSheet(params) {
+				let self = this;
+				self.$axios.get(baseURL+'',{params})
+				.then(function(res) {
+					console.log('timeSheet',res);
+					if(res.data.code === "S00000") {
+						self.formdata2.travelDays = res.data.data.travelDays;
 					}
 				}).catch(function(err) {
 					console.log('error');
