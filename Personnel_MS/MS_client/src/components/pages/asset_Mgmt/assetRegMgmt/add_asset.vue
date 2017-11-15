@@ -38,17 +38,17 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="职级">
-                            <el-input v-model="custInfo.custClass" :disabled="true"></el-input>
+                            <el-input v-model="_custClass" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">采购信息</el-col>
-                <el-form :inline="true" :model="addAssetInfo" :rules="rules" ref="addAssetInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :model="addAssetInfo" :rules="assetInfoRules" ref="addAssetInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="12">
                         <el-form-item label="采购订单号" prop="buyApplyNo">
-                            <el-input v-model="addAssetInfo.buyApplyNo"></el-input>
+                            <el-input v-model="addAssetInfo.buyApplyNo" :maxlength="32"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
@@ -58,7 +58,7 @@
                     </el-col> 
                     <el-col :span="12">
                         <el-form-item label="购买数量" prop="buyNum">
-                            <el-input v-model="addAssetInfo.buyNum"></el-input>
+                            <el-input v-model="addAssetInfo.buyNum" :maxlength="11"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
@@ -114,7 +114,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="折旧年限" prop="derpLimit">
-                            <el-input v-model="addAssetInfo.derpLimit" placeholder="月数，如：18"></el-input>
+                            <el-input v-model="addAssetInfo.derpLimit"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -164,12 +164,20 @@ export default {
         attachm: "",
         remark: ""
       },
-      rules: {
+      assetInfoRules: {
         buyUnitPrice: [
-          { required: true, message: "购买单价不能为空", trigger: "blur" }
+          { required: true, message: "购买单价不能为空", trigger: "blur" },
+          { pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的正数" }
         ],
-        buyAmount: [{ required: true, message: "购买金额不能为空", trigger: "blur" }],
+        buyNum: [{ pattern: /^(0|([1-9][0-9]{0,11}))$/, message: "请输入正整数" }],
+        buyAmount: [
+          { required: true, message: "购买金额不能为空", trigger: "blur" },
+          { pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
         assetName: [{ required: true, message: "资产名称不能为空", trigger: "blur" }],
+        derpLimit: [
+          { pattern: /^(0|([1-9][0-9]{0,63}))$/, message: "月数，如：18" }
+        ],
         remark: [{ required: true, message: "主要性能说明不能为空", trigger: "blur" }]
       }
     };
@@ -178,19 +186,37 @@ export default {
     current
   },
   created() {},
+  computed: {
+      _custClass: {
+          set: function(val) {
+              this.custInfo.custClass = val;
+          },
+          get: function() {
+              if(this.custInfo.custClass == "B10") {
+                  return "B10-初级软件工程师";
+              } else if (this.custInfo.custClass == "B11") {
+                  return "B11-中级软件工程师";
+              } else if (this.custInfo.custClass == "B12") {
+                  return "B12-高级软件工程师";
+              } else {
+                  return "";
+              }
+          }
+      }
+  },
   methods: {
     getCustInfo() {
       const self = this;
       let userNo = self.custInfo.applyUserNo;
-    //   self.$axios
-    //     .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
-    //     .then(res => {
-    //       console.log(res);
-    //       self.custInfo = res.data.data;
-    //     })
-    //     .catch(() => {
-    //       console.log("error");
-    //     });
+      //   self.$axios
+      //     .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
+      //     .then(res => {
+      //       console.log(res);
+      //       self.custInfo = res.data.data;
+      //     })
+      //     .catch(() => {
+      //       console.log("error");
+      //     });
       self.custInfo = {
         userNo: "P0000117",
         custName: "zhaoqi",
@@ -199,7 +225,7 @@ export default {
         derpNo: "100101",
         derpName: "魔方南山分公司技术部门",
         custPost: "软件工程师",
-        custClass: "B2"
+        custClass: "B10"
       };
     },
     searchUserNo() {
@@ -212,6 +238,10 @@ export default {
     },
     userNoChange(val) {
       this.getCustInfo(); //查询用户信息
+    },
+    getCustClass(val) {
+      //   this.custInfo.custClass = val;
+      console.log("custClass", val);
     },
     pickFactoryTime(val) {
       this.addAssetInfo.factoryTime = val;
