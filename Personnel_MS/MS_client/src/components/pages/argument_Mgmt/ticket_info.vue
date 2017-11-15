@@ -3,30 +3,41 @@
         <current yiji="参数管理" erji="业务参数" sanji="公司开票信息维护"></current>
         <el-col :span="24">
             <div class="content-wrapper">
-                <div class="title"><span class="text">公司开票信息维护</span><button class="add" @click="add">新增</button></div>
+                <div class="title"><span class="text">公司开票信息维护</span><button class="add" @click="add()">新增</button></div>
                 <div class="content">
                     <div class="search">
-                        <span class="text">查询条件</span>
-                        <el-input type="text"></el-input>
-                        <el-button class="toolBtn2">查询</el-button>
+                        <span class="text">公司名称</span>
+                        <el-input type="text" placeholder="公司名称" v-model="organName"></el-input>
+                        <el-button class="toolBtn2 resetBtn" @click="reset()">重置</el-button>
+                        <el-button class="toolBtn2" @click="getList()">查询</el-button>
                     </div>
-                    <table>
-                        <tr><td v-for="th in table.th">{{th}}</td></tr>
-                        <tr v-for="tds in table.td">
-                            <td>{{tds.organName}}</td>
-                            <td>{{tds.organTaxNo}}</td>
-                            <td>{{tds.organAcct}}</td>
-                            <td>{{tds.organAcctname}}</td>
-                            <td><i class="el-icon-edit" @click="edit(tds.organNo)"></i></td>
-                        </tr>
-                    </table>
+                    <el-col :span="24">
+                        <el-table stripe :data="argumentInfoList" >
+                            <el-table-column align="center" prop="organName" label="公司名称" >
+                            </el-table-column>
+                            <el-table-column align="center" prop="organTaxNo" label="纳税人识别号" >
+                            </el-table-column>
+                            <el-table-column align="center" prop="organAcct" label="银行账户" >
+                            </el-table-column>
+                            <el-table-column align="center" prop="organAcctname" label="账户名称" >
+                            </el-table-column>
+                            <el-table-column align="center" prop="" label="操作" >
+                                <template scope="scope">
+                                    <i class="el-icon-edit" @click="edit(row.organNo)"></i>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-col>
+                   <el-col :span="24">
                     <el-pagination
-                            @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
-                            :page-size="obj.pageSize"
+                            :page-size="pagination.pageSize"
                             layout="total,prev, pager, next, jumper"
-                            :total="obj.total">
+                            :total="pagination.total"
+                            v-show="pagination.total>pagination.pageSize"
+                            >
                     </el-pagination>
+                    </el-col>
                 </div>
             </div>
         </el-col>
@@ -38,82 +49,52 @@
     export default {
         data() {
             return {
-                obj:{
-                  total: 0,
-                    pageSize: 0
+               pagination: {
+                    pageNum: 1,
+                    pageSize: 10,
+                    total: 100
                 },
-                test222:[
-                    {
-                        color:'orange',
-                        content: 1
-                    },
-                    {
-                        color:'yellow',
-                        content: 1
-                    },
-                    {
-                        color:'gold',
-                        content: 1
-                    }
-                ],
-                table: {
-                    th:['公司名称', '纳税人识别号', '银行账户', '账户名称', '操作'],
-                    td:[
-//                        {
-//                            companyId: '001',
-//                            userId: '机构名称机构名称机构名称',
-//                            account: '管理',
-//                            accountName: 'XXXXXXXXXX',
-//                        },
-//                        {
-//                            companyId: '001',
-//                            userId: '机构名称机构名称机构名称',
-//                            account: '管理',
-//                            accountName: 'XXXXXXXXXX',
-//                        },
-                        ]
-                }
+                organName:'',
+                argumentInfoList:[]
             }
         },
         created() {
-            let self = this
-            this.$axios.get('/iem_hrm/organBillInfo/queryBillInfoList')
-                .then(res => {
-                    console.log(res)
-                    console.log(res.data.data.list)
-                    self.obj.total = res.data.data.total
-                    self.obj.pageSize = res.data.data.pageSize
-
-                    self.table.td = res.data.data.list
-                })
-                .catch(e => {
-                    console.log(e)
-                })
+            this.getList();
         },
         methods: {
-            handleSizeChange(val) {
-                console.log(val)
+            getList(){
+                let self = this,
+                    params = {};
+                    params.organName = this.organName
+                    params.pageNum = this.pagination.pageNum
+                    params.pageSize = this.pagination.pageSize
+                    // argumentInfoList
+                    this.$axios.get('/iem_hrm/organBillInfo/queryBillInfoByName',{ params: params })
+                        .then(res => {
+                            // console.log(res)
+                            console.log(res.data.data.list,'列表信息')
+                            self.pagination.total = res.data.data.total
+                            self.pagination.pageSize = res.data.data.pageSize
+                            self.argumentInfoList = res.data.data.list
+                        })
+                        .catch(e => {
+                            console.log(e)
+                        })
             },
+            reset(){
+                 this.organName = ''
+            },           
             handleCurrentChange(val) {
-                console.log(val)
-                let self = this
-                this.$axios.get('/iem_hrm/organBillInfo/queryBillInfoList',{params:{pageNum:val}})
-                    .then(res => {
-                        console.log(res)
-                        console.log(res.data.data.list)
-                        self.obj.total = res.data.data.total
-                        self.obj.pageSize = res.data.data.pageSize
-                        self.table.td = res.data.data.list
-                    })
-                    .catch(e => {
-                        console.log(e)
-                    })
+                let self = this;
+                    self.pagination.pageNum = val
+                    self.getList()
             },
+
             add() {
                 this.$router.push('add_ticket')
             },
             edit(value) {
-                this.$router.push({name: 'edit_ticket', query:{organNo:value}})
+                // this.$router.push({name: 'edit_ticket', query:{organNo:value}})
             }
         },
         components: {
@@ -130,10 +111,9 @@
         .test
             padding-left: 10px;
         .content-wrapper
-            background: #fff;
-            padding-left: 20px;
+            background: #fff
+            padding-left: 20px
             padding-right 20px
-            height: 746px;
             .title
                 font-family: PingFangSC-Regular;
                 font-size: 16px;
@@ -150,6 +130,7 @@
                 .add
                     width: 120px
                     height 30px
+                    margin-top:10px
                     background: #FF9900;
                     border: 1px solid #FF9900;
                     outline none
@@ -158,9 +139,9 @@
                     color: #FFFFFF;
                     line-height 30px
                     text-align center
-                    position absolute
-                    right 0px
-                    bottom 10px
+                    padding:0
+                    float:right
+                    border-radius:4px
             .content
                 padding-top: 30px;
                 .text
@@ -187,79 +168,55 @@
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #FFFFFF;
-                table
-                    display: flex;
-                    width: 100%;
-                    margin-top: 30px;
-                    margin-bottom: 30px;
-                    font-family: PingFangSC-Regular;
-                    font-size: 14px;
-                    color: #333;
-                    letter-spacing: 0;
-                    flex-wrap: wrap;
-                    border: 1px solid #f0f0f0;
-                    border-collapse: collapse;
-                    td
-                        border: 1px solid #f0f0f0;
-                    tr
-                        width: 100%;
-                        height: 40px;
-                        display: flex;
-                        line-height: 40px;
-                    tr:nth-child(odd)
-                        background: #F8F8F8;
-                    tr:hover
-                        width: 100%;
-                        height: 40px;
-                        display: flex;
-                        line-height: 40px;
-                        background: #EEF1F6;
-                    tr:first-child
-                        background: #F4F4F4;
-                        box-shadow: inset 0 1px 0 0 #EEEEEE;
-                        color #666
-                    td
-                        flex: 2
-                        text-align: center;
-                    td:nth-child(1)
-                        flex:3
-                    td:nth-child(3)
-                        flex 3
+                    line-height: 30px;
+                    padding: 0;
+                    margin-left:20px;
+                    border:1px solid  #ff9900
+                 .resetBtn
+                    background:#fff
+                    color:#ff9900
+                .el-table
+                    margin-top:30px;
                 .el-icon-delete2, .el-icon-edit
                     color: #ff9900;
                     cursor pointer
                     text-decoration underline
-        .el-pagination
-            position: absolute;
-            right: 81px;
-            /*bottom:40px;*/
-            .el-pagination__total
-                height 24px
-            .btn-prev, .el-pagination__jump, .btn-next
-                height 24px
-                width 24px
-                line-height 24px
-            .el-pager li
-                width: 24px
-                height: 24px
-                line-height 24px
-            .el-pager li.active
-                background: #ff9900;
-                border 1px solid #ff9900
-            .el-pager li:hover, button:hover
-                color #ff9900
-            .el-pagination__jump
-                .el-pagination__editor
-                    width: 24px
-                    height: 24px
-                    line-height 24px
-                    margin 0 3px
-                    text-indent 0
-            .el-pagination__editor:focus
-                outline none
-                border-color #ff9900
-        _:-ms-lang(x), td
-                display: flex;
-                align-items center
-                justify-content center
+                .el-pagination {
+                        text-align:right;
+                        margin-top:30px;
+                        padding-right:45px;
+                .el-pagination__total {
+                    height: 24px;
+                }
+                .btn-prev, .el-pagination__jump, .btn-next {
+                    height: 24px;
+                    width: 24px;
+                    line-height: 24px;
+                }
+
+                .el-pager li {
+                    width: 24px;
+                    height: 24px;
+                    line-height: 24px;
+                }
+
+                .el-pager li.active {
+                    background: #ff9900;
+                    border: 1px solid #ff9900;
+                }
+
+                .el-pager li:hover, button:hover {
+                    color: #ff9900;
+                }
+
+                .el-pagination__jump {
+                    .el-pagination__editor {
+                        width: 24px;
+                        height: 24px;
+                        line-height: 24px;
+                        margin: 0 3px;
+                        text-indent: 0;
+                    }
+                }
+    }
 </style>

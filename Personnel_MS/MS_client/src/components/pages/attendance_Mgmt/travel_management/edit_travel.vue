@@ -174,10 +174,10 @@
 		            	{ required: true, validator: checkTravelEndTime, trigger: 'change' }
 	          		],
 	          		travelStartCity: [
-//		            	{ required: true, message: '出差出发城市不能为空', trigger: 'blur' }
+		            	{ required: true, message: '出差出发城市不能为空', trigger: 'blur' }
 	          		],
 	          		travelArrivalCity: [
-//		            	{ required: true, message: '出差到达城市不能为空', trigger: 'blur' }
+		            	{ required: true, message: '出差到达城市不能为空', trigger: 'blur' }
 	          		],
 	          		travelDays: [
 		            	{ required: true, message: '出差天数不能为空', trigger: 'blur' }
