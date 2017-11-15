@@ -1,10 +1,11 @@
 <template>
-	<div class="info">
+	<div class="info_wrapper">
 		<current yiji="考勤管理" erji="请假管理" sanji="请假修改">
 		</current>
 		<div class="content-wrapper">
 			<div class="titlebar">
 				<span class="title-text">请假修改</span>
+				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
@@ -78,7 +79,7 @@
 					  			 :data="formdata"
 					  			 :on-change="changeUpload"
 					  			 :on-success="successUpload"
-					  			 action="/iem_hrm/" 
+					  			 action="/iem_hrm/leave/modifyLeaveInfo" 
 					  			 :show-file-list="false" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
@@ -183,6 +184,7 @@
 			formdata: function(){
 				const self = this;
 				return {
+					applyNo: this.formdata2.applyNo, //请假编号
 					"userNo": self.formdata1.userNo, //"1004"
 	    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
 	    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
@@ -209,17 +211,18 @@
 					leaveStartTime: this.formdata2.leaveStartTime,
 					leaveEndTime: this.formdata2.leaveEndTime
 				}
-				if(this.formdata2.leaveStartTime) {
+				if(this.formdata2.leaveEndTime) {
 					this.calTimeSheet(params);
 				}
 			},
 			changeEndTime(time) {
 				this.formdata2.leaveEndTime = time;
 				let params = {
-					leaveStartTime: this.formdata2.travelStartTime,
+					leaveStartTime: this.formdata2.leaveStartTime,
 					leaveEndTime: this.formdata2.leaveEndTime
 				}
-				if(this.formdata2.leaveEndTime) {
+				console.log(params);
+				if(this.formdata2.leaveStartTime) {
 					this.calTimeSheet(params);
 				}
 			},
@@ -229,6 +232,7 @@
 	      	},
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
+		 		this.formdata2.attachm = file.name;
 	      	},
 	      	successUpload(response, file, fileList) {
 	      		this.$message({ message: '操作成功', type: 'success' });
@@ -242,6 +246,7 @@
 						self.$refs.upload.submit();
 						if(!self.fileFlag) {
 							let params = {
+								applyNo: this.formdata2.applyNo, //请假编号
 								"userNo": self.formdata1.userNo, //"1004"
 				    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
 				    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
@@ -285,12 +290,10 @@
 			},
 			calTimeSheet(params) {
 				let self = this;
-				self.$axios.get(baseURL+'',{params})
+				self.$axios.get(baseURL+'/leave/calculateLeaveTime',{params})
 				.then(function(res) {
 					console.log('timeSheet',res);
-					if(res.data.code === "S00000") {
-//						self.formdata2.timeSheet = res.data.data.;
-					}
+					self.formdata2.timeSheet = res.data;
 				}).catch(function(err) {
 					console.log('error');
 				})

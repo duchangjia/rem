@@ -1,5 +1,5 @@
 <template>
-	<div class="info">
+	<div class="info_wrapper">
 		<current yiji="考勤管理" erji="出差管理" sanji="出差修改">
 		</current>
 		<div class="content-wrapper">
@@ -111,14 +111,24 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
+	import moment from 'moment'
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
+			var checkTravelStartTime = (rule, value, callback) => {
+		        if (value == '') {
+		          	callback(new Error('出差开始时间不能为空'));
+		        } else if (this.formdata2.travelEndTime && value >= this.formdata2.travelEndTime) {
+		          	callback(new Error('出差开始时间不能大于结束时间'));
+		        } else {
+		          	callback();
+		        }
+	      	};
 			var checkTravelEndTime = (rule, value, callback) => {
 		        if (value == '') {
 		          	callback(new Error('出差结束时间不能为空'));
-		        } else if (value <= this.formdata2.travelStartTime) {
-		          	callback(new Error('请输入正确的结束时间'));
+		        } else if (this.formdata2.travelStartTime && value <= this.formdata2.travelStartTime) {
+		          	callback(new Error('出差开始时间不能大于结束时间'));
 		        } else {
 		          	callback();
 		        }
@@ -129,7 +139,7 @@
 				},
 				fileFlag: '',
 				formdata2: {
-					organNo: "01",
+					organNo: "",
 					deptNo: "",
 					userNo: "",
 					custName: "",
@@ -158,7 +168,7 @@
 		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
 	          		],
 	          		travelStartTime: [
-		            	{ required: true, message: '出差开始时间不能为空', trigger: 'change' }
+		            	{ required: true, validator: checkTravelStartTime, trigger: 'change' }
 	          		],
 	          		travelEndTime: [
 		            	{ required: true, validator: checkTravelEndTime, trigger: 'change' }
@@ -216,6 +226,7 @@
 					travelStartTime: this.formdata2.travelStartTime,
 					travelEndTime: this.formdata2.travelEndTime
 				}
+				console.log('Start',params)
 				if(this.formdata2.travelEndTime) {
 					this.calTravelDays(params);
 				}
@@ -226,7 +237,7 @@
 					travelStartTime: this.formdata2.travelStartTime,
 					travelEndTime: this.formdata2.travelEndTime
 				}
-				console.log(params);
+				console.log('End',params);
 				if(this.formdata2.travelStartTime) {
 					this.calTravelDays(params);
 				}
@@ -243,11 +254,15 @@
 		 		const self = this;
 	      	},
 	      	changeUpload(file, fileList) {
-	      		console.log('fileList',fileList);
 		 		this.fileFlag = file;
+		 		this.formdata2.attachm = file.name;
 	      	},
 	      	successUpload(response, file, fileList) {
-	      		this.$message({ message: '操作成功', type: 'success' });
+	      		console.log('response',response);
+	      		if(response.code === "S00000") {
+	      			this.$message({ message: '操作成功', type: 'success' });
+	      		}
+	      		
 	      	},
 	      	//修改出差详细信息
 	      	save(formName) {
@@ -284,6 +299,8 @@
 				.then(function(res) {
 					console.log('travelInfo',res);
 					self.formdata2 = res.data.data;
+					console.log(self.formdata2)
+					console.log(self.formdata2.travelStartTime)
 				}).catch(function(err) {
 					console.log('error');
 				})

@@ -1,5 +1,5 @@
 <template>
-	<div class="info">
+	<div class="info_wrapper">
 		<current yiji="考勤管理" erji="请假管理" sanji="请假新增">
 		</current>
 		<div class="content-wrapper">
@@ -24,7 +24,6 @@
 						    <el-input v-model="formdata1.userNo">
 						    	<el-button slot="append" icon="search" @click="queryUserInfo"></el-button>
 						    </el-input>
-						    
 					 	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
@@ -62,7 +61,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="请假累计工时" prop="timeSheet">
-						    <el-input v-model="formdata2.timeSheet" :disabled="true"></el-input>
+						    <el-input v-model="formdata2.timeSheet"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24">
@@ -185,6 +184,7 @@
 			formdata: function(){
 				const self = this;
 				return {
+					applyNo: this.formdata2.applyNo, //请假编号
 					"userNo": self.formdata1.userNo, //"1004"
 	    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
 	    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
@@ -241,6 +241,7 @@
 						self.$refs.upload.submit();
 						if(!self.fileFlag) {
 							let params = {
+								applyNo: this.formdata2.applyNo, //请假编号
 								"userNo": self.formdata1.userNo, //"1004"
 				    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
 				    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
@@ -283,7 +284,7 @@
 			},
 			calTimeSheet(params) {
 				let self = this;
-				self.$axios.get(baseURL+'',{params})
+				self.$axios.get(baseURL+'/leave/calculateLeaveTime',{params})
 				.then(function(res) {
 					console.log('timeSheet',res);
 					if(res.data.code === "S00000") {

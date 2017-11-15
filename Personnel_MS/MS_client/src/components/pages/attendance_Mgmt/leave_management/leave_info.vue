@@ -1,49 +1,66 @@
 <template>
-	<div class="leaveC_wrap">
+	<div class="info_wrapper">
 		<current yiji="考勤管理" erji="请假管理" sanji="请假详情">
 		</current>
-		<div class="content">
-			<div class="title">
+		<div class="content-wrapper">
+			<div class="titlebar">
 				<span class="title-text">请假详情</span>
 			</div>
-			<div class="content-inner">
+			<div class="add-wrapper">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
-					<el-form-item label="公司名称">
-						<el-input v-model="formdata2.companyName"></el-input>
-				  	</el-form-item>
-					<el-form-item label="申请部门名称">
-						<el-input v-model="formdata2.deptName"></el-input>
-				  	</el-form-item>
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">  	
-					<el-form-item label="工号">
-					    <el-input v-model="formdata2.userNo"></el-input>
-				 	</el-form-item>
-				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata2.custName"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="岗位">
-					    <el-input v-model="formdata2.custPost"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="职级">
-					    <el-input v-model="formdata2.custClass"></el-input>
-				  	</el-form-item>
-				</el-form>
-
-				  	<div class="info-title">请假信息</div>
-				  	<el-form-item label="请假开始时间" prop="leaveStartTime">
-			        	<el-date-picker type="datetime" v-model="formdata2.leaveStartTime" @change="changeStartTime"></el-date-picker>
-			      	</el-form-item>
-				  	<el-form-item label="请假结束时间" prop="leaveEndTime">
-			        	<el-date-picker type="datetime" v-model="formdata2.leaveEndTime" @change="changeEndTime"></el-date-picker>
-			      	</el-form-item>
-				  	<el-form-item label="请假类型" prop="leaveType">
-					    <el-select v-model="formdata2.leaveType" value-key="leaveType" @change="changeValue">
-							<el-option v-for="item in leaveTypeList" :key="item.leaveNo" :label="item.label" :value="item.leaveNo"></el-option>
-						</el-select>
-				  	</el-form-item>
-				  	<el-form-item label="请假累计工时">
-					    <el-input v-model="formdata2.timeSheet"></el-input>
-				  	</el-form-item>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="公司名称">
+							<el-input v-model="formdata2.companyName"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="申请部门名称">
+							<el-input v-model="formdata2.deptName"></el-input>
+					  	</el-form-item>
+					</el-col>		
+					<el-col :sm="24" :md="12">
+						<el-form-item label="工号">
+						    <el-input v-model="formdata2.userNo"></el-input>
+					 	</el-form-item>
+					</el-col>		
+					<el-col :sm="24" :md="12">
+						<el-form-item label="姓名">
+						    <el-input v-model="formdata2.custName"></el-input>
+					  	</el-form-item>
+					</el-col>		
+					<el-col :sm="24" :md="12">
+						<el-form-item label="岗位">
+						    <el-input v-model="formdata2.custPost"></el-input>
+					  	</el-form-item>
+					</el-col>	  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="职级">
+						    <el-input v-model="formdata2.custClass"></el-input>
+					  	</el-form-item>
+					</el-col>	  	
+				  	<el-col :span="24" class="item-title">请假信息</el-col>	  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="请假开始时间" prop="leaveStartTime">
+				        	<el-date-picker type="datetime" v-model="formdata2.leaveStartTime" @change="changeStartTime"></el-date-picker>
+				      	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="请假结束时间" prop="leaveEndTime">
+				        	<el-date-picker type="datetime" v-model="formdata2.leaveEndTime" @change="changeEndTime"></el-date-picker>
+				      	</el-form-item>
+					</el-col>	  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="请假类型" prop="leaveType">
+						    <el-select v-model="formdata2.leaveType" value-key="leaveType" @change="changeValue">
+								<el-option v-for="item in leaveTypeList" :key="item.leaveNo" :label="item.label" :value="item.leaveNo"></el-option>
+							</el-select>
+					  	</el-form-item>
+					</el-col>	  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="请假累计工时">
+						    <el-input v-model="formdata2.timeSheet"></el-input>
+					  	</el-form-item>
+					</el-col>	 
 				  	<el-col :span="24">
 				  		<el-form-item class="remark" label="请假备注" prop="remark">
 						    <el-input
@@ -54,21 +71,22 @@
 							</el-input>
 					  	</el-form-item>
 				  	</el-col>
-				  	<el-form-item label="最新更新人">
-					    <el-input v-model="formdata2.updatedBy"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="最新更新时间">
-					    <el-input v-model="formdata2.updatedDate"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="附件" style="width:100%;">
-					    <el-button class="file_button" @click="handleDownload">下载</el-button>
-				  	</el-form-item>
-				  	<!--<el-form-item label="附件" style="width: 100%;">
-			  		 	<el-input v-model="formdata2.attachm"></el-input>
-				  		<el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
-                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
-                        </el-upload>
-				  	</el-form-item>-->
+				  	<el-col :sm="24" :md="12">
+						<el-form-item label="最新更新人">
+						    <el-input v-model="formdata2.updatedBy"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="最新更新时间">
+						    <el-input v-model="formdata2.updatedDate"></el-input>
+					  	</el-form-item>
+					</el-col>	  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="附件" style="width:100%;">
+						    <el-button class="file_button" @click="handleDownload">下载</el-button>
+					  	</el-form-item>
+					</el-col>	  	
+					  	
 				</el-form>
 			</div>
 		</div>

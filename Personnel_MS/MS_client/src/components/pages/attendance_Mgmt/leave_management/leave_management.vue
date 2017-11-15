@@ -10,8 +10,8 @@ export default {
 </script>
 
 <style>
-.info {
-	padding: 0 20px;
+.info_wrapper {
+	padding: 0 0 20px 20px;
 }
 .content-wrapper {
   background: #ffffff;
@@ -417,8 +417,8 @@ table .el-button--danger:active {
 .info .travelCity_wrap2 .el-form-item__content {
 	margin-left: 20px;
 }
-.info .el-input.el-input--small .el-input__inner {
+.el-input.el-input--small .el-input__inner {
     height: 30px;
-    width: 145px!important;
+    width: 145px;
 }
 </style>

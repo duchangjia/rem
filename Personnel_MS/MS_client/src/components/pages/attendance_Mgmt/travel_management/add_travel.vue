@@ -1,5 +1,5 @@
 <template>
-	<div class="info">
+	<div class="info_wrapper">
 		<current yiji="考勤管理" erji="出差管理" sanji="出差新增">
 		</current>
 		<div class="content-wrapper">
@@ -24,7 +24,21 @@
 						    <el-input v-model="formdata1.userNo">
 						    	<el-button slot="append" icon="search" @click="queryUserInfo"></el-button>
 						    </el-input>
-						    
+						    <messageBox 
+                                :title="boxTitle"
+                                :tableOption.sync="tableOption"  
+                                :inputFirstOption.sync="inputFirstOption" 
+                                :inputSecOption.sync="inputSecOption"
+                                :searchData.sync="searchData" 
+                                :pagination.sync="msgPagination" 
+                                :saveUrl="saveUrl"
+                                :searchUrl="searchUrl"
+                                @changeNo = "changeNo"
+                                :assetNo.sync = "info.assetNo"
+                                :dialogVisible.sync="dialogVisible"
+                                :applyUserInfo.sync="applyUserInfo"
+                                @changeDialogVisible="changeDialogVisible"
+                                ></messageBox>
 					 	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
@@ -115,6 +129,7 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
+	import messageBox from "../../../common/messageBox-components.vue";
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
@@ -141,25 +156,22 @@
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
 				fileFlag: '',
-				formdata1: {
-					organNo: "",
-					deptNo: "",
-					userNo: "",
-					custName: "",
-					custPost: "",
-					custClass: "",
-					travelSTD: ""
-				},
-				formdata2: {
-					travelStartTime: "",
-					travelEndTime: "",
-					travelType: "",
-					travelStartCity: "",
-					travelArrivalCity: "",
-					travelDays: "",
-					remark: "",
-					attachm: ""
-				},
+				info: {
+			        applyUserNo: "",
+			        assetNo: ""
+		      	},
+				dialogVisible:false,
+				tableOption:[],
+			    inputFirstOption:{},
+			    inputSecOption:{},
+			    msgPagination:{},
+			    searchData:{},
+			    searchUrl:'',
+			    saveUrl:'',
+			    boxTitle:'',
+			    numType:'',
+				formdata1: {},
+				formdata2: {},
 				travelTypeList: [
 					{label: "业务拓展", travelNo: "01"},
 					{label: "项目实施", travelNo: "02"},
@@ -192,7 +204,8 @@
 			}
 		},
 		components: {
-			current
+			current, 
+			messageBox
 		},
 		computed: {
 			formdata: function(){
@@ -253,6 +266,59 @@
 	      		//根据员工编号查询员工信息
 	      		this.getUseInfoByUserNo(params);
 	      	},
+	      	changeNo(val){
+		        if(this.numType == 1){
+		            this.info.applyUserNo = val
+		        }
+		    },
+	      	changeDialogVisible(flag){
+		        this.dialogVisible = flag
+		    },
+	      	userNoSelect(){
+		        //table
+		        this.tableOption = [
+		            {
+		                thName:'工号',//table 表头
+		                dataKey:'userNo'//table-col所绑定的prop值
+		            },
+		            {
+		                thName:'姓名',//table 表头
+		                dataKey:'custName'//table-col所绑定的prop值
+		            }
+		            ];
+		        //input 第一个搜索框的配置项
+		        this.inputFirstOption  = {
+		            labelName:'姓名',//label头
+		            placeholder:'请输入姓名'//input placeholder
+		        },
+		        //input 第二个搜索框的配置项
+		        this.inputSecOption  = {
+		            labelName:'工号',
+		            placeholder:'请输入工号'
+		        },
+		        //搜索所需传值
+		        this.searchData = {
+		            custName:'',
+		            userNo:''
+		        }
+		        //table分页所需传值
+		        this.msgPagination =  {
+		            pageNum:1,
+		            pageSize:5,
+		            totalRows:0
+		        }
+		        //点击确定后需要修改的对象 numType为changeNo方法所改变的type
+		        this.applyUserInfo = this.applyUserInfo
+		        this.numType = 1
+		        //dialog打开
+		        this.dialogVisible=true
+		        //查询接口
+		        this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
+		        //点击确定后根据号码查询用户信息借口 没有则为空
+		        this.saveUrl = '/iem_hrm/assetUse/queryAssetUserByApplyUserNo/'
+		        //dialog标题
+		        this.boxTitle = '人工编号选择'
+		    },
 	      	changeUpload(file, fileList) {
 	      		console.log('fileList',fileList);
 		 		this.fileFlag = file;
