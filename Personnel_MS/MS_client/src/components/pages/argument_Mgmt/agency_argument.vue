@@ -24,8 +24,8 @@
                             <el-option v-for="item in searchValueOption" :label="item" :value="item"></el-option>
                             <!--<el-option label="区域二" value="beijing"></el-option>-->
                         </el-select>
-                        <el-button class="toolBtn2 reset" @click="reset(searchValue)">重置</el-button>
-                        <el-button class="toolBtn2" @click="search(searchValue)">查询</el-button>
+                        <el-button class="toolBtn2" @click="reset(searchValue)">重置</el-button>
+                        <el-button class="toolBtn2 reset" @click="search(searchValue)">查询</el-button>
                     </div>
                     <table>
                         <tr><td v-for="th in table.th">{{th}}</td></tr>
@@ -63,76 +63,76 @@
                 table: {
                     th:['机构ID', '机构名称', 'CCC类型', 'CCC值', '备注', '操作'],
                     td:[
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
                     ]
                 },
                 fenye: {
