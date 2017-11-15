@@ -79,7 +79,6 @@
                                     :searchUrl="searchUrl"
                                     :applyUserNo.sync="formdata.organMgeName"
                                     :dialogVisible.sync="dialogVisible"
-                                    :applyUserInfo.sync="formdata"
                                     @changeDialogVisible="changeDialogVisible"
                             ></messageBox>
                         </el-form-item>
