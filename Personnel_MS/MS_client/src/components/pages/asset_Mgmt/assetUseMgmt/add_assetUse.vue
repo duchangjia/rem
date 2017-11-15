@@ -161,7 +161,7 @@ export default {
         ],
         assetNo: [{ required: true, message: "请选择资产编号", trigger: "change" }],
         applyType: [{ required: true, message: "请选择使用类别", trigger: "change" }],
-        applyNum: [{ required: true, message: "请输入使用数量", trigger: "blur" }],
+        applyNum: [{ required: true, message: "请输入使用数量", trigger: "blur" },{ type: 'number', message: '请输入数字',trigger: "blur" }],
         applyTime: [{ required: true, message: "请输入发生时间", trigger: "blur" }],
         remark: [{ required: true, message: "请输入说明", trigger: "blur" }],
         applyStatus: [{ required: true, message: "请选择状态", trigger: "change" }]
