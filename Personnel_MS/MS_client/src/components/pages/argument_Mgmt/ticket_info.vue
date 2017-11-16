@@ -23,7 +23,7 @@
                             </el-table-column>
                             <el-table-column align="center" prop="" label="操作" >
                                 <template scope="scope">
-                                    <i class="el-icon-edit" @click="edit(row.organNo)"></i>
+                                    <i class="el-icon-edit" @click="edit(scope.row)"></i>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -69,7 +69,7 @@
                     params.pageNum = this.pagination.pageNum
                     params.pageSize = this.pagination.pageSize
                     // argumentInfoList
-                    this.$axios.get('/iem_hrm/organBillInfo/queryBillInfoByName',{ params: params })
+                    self.$axios.get('/iem_hrm/organBillInfo/queryBillInfoByName',{ params: params })
                         .then(res => {
                             // console.log(res)
                             console.log(res.data.data.list,'列表信息')
@@ -89,12 +89,12 @@
                     self.pagination.pageNum = val
                     self.getList()
             },
-
             add() {
                 this.$router.push('add_ticket')
             },
-            edit(value) {
-                // this.$router.push({name: 'edit_ticket', query:{organNo:value}})
+            edit(row) {
+                console.log(row)
+                this.$router.push({name: 'edit_ticket', query:{organNo:row.organNo}})
             }
         },
         components: {
