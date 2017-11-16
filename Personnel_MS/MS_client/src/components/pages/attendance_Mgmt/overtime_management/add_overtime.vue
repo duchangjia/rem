@@ -1,69 +1,95 @@
 <template>
-	<div class="workotC_wrap">
+	<div class="info_wrapper">
 		<current yiji="考勤管理" erji="加班管理" sanji="加班新增">
 		</current>
-		<div class="content">
-			<div class="title">
+		<div class="content-wrapper">
+			<div class="titlebar">
 				<span class="title-text">加班新增</span>
-				<el-button type="primary" class="conserve" @click="save('formdata2')">保存</el-button>
+				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
-			<div class="content-inner">
+			<div class="add-wrapper">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
-					<el-form-item label="公司名称">
-						<el-input v-model="formdata2.companyName" :disabled="true"></el-input>
-				  	</el-form-item>
-					<el-form-item label="申请部门名称">
-						<el-input v-model="formdata2.deptName" :disabled="true"></el-input>
-				  	</el-form-item>
-					<el-form-item label="工号">
-					    <el-input v-model="formdata1.userNo"></el-input>
-					    <el-button class="queryUserBtn" type="primary" @click="queryUserInfo">查询</el-button>
-				 	</el-form-item>
-				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata1.custName" :disabled="true"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="岗位">
-					    <el-input v-model="formdata1.custPost" :disabled="true"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="职级">
-					    <el-input v-model="formdata1.custClass" :disabled="true"></el-input>
-				  	</el-form-item>
-				  	<div class="info-title">加班信息</div>
-				  	<el-form-item label="加班开始时间" prop="workotStartTime">
-			        	<el-date-picker type="datetime" v-model="formdata2.workotStartTime" @change="changeStartTime"></el-date-picker>
-			      	</el-form-item>
-				  	<el-form-item label="加班结束时间" prop="workotEndTime">
-			        	<el-date-picker type="datetime" v-model="formdata2.workotEndTime" @change="changeEndTime"></el-date-picker>
-			      	</el-form-item>
-				  	<el-form-item label="加班类型" prop="workotType">
-					    <el-select v-model="formdata2.workotType" value-key="workotType" @change="changeValue">
-							<el-option v-for="item in workotTypeList" :key="item.workotNo" :label="item.label" :value="item.workotNo"></el-option>
-						</el-select>
-				  	</el-form-item>
-				  	<el-form-item label="加班累计工时">
-					    <el-input v-model="formdata2.timeSheet"></el-input>
-				  	</el-form-item>
-				  	<el-form-item class="remark" label="加班备注" prop="remark">
-					    <el-input
-						  type="textarea"
-						  :autosize="{ minRows: 5, maxRows: 5}"
-						  placeholder="请输入内容"
-						  v-model="formdata2.remark">
-						</el-input>
-				  	</el-form-item>
-				  	<el-form-item label="附件" style="width: 100%;">
-			  		 	<el-input v-model="formdata2.attachm"></el-input>
-				  		<el-upload class="upload-demo" ref="upload" name="file"
-				  			 :data="formdata"
-				  			 :on-success="successUpload"
-				  			 action="/iem_hrm/travel/addTravelInfo" 
-				  			 :show-file-list="false" 
-				  			 :auto-upload="false"
-				  			 :headers="token"
-				  		>
-                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
-                        </el-upload>
-				  	</el-form-item>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="公司名称">
+							<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>		
+					<el-col :sm="24" :md="12">
+						<el-form-item label="申请部门名称">
+							<el-input v-model="formdata1.deptName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>		
+					<el-col :sm="24" :md="12">
+						<el-form-item label="工号">
+						    <el-input v-model="formdata1.userNo">
+						    	<el-button slot="append" icon="search" @click="queryUserInfo"></el-button>
+						    </el-input>
+					 	</el-form-item>
+					</el-col>		
+					<el-col :sm="24" :md="12">
+						<el-form-item label="姓名">
+						    <el-input v-model="formdata1.custName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>		
+					<el-col :sm="24" :md="12">
+						<el-form-item label="岗位">
+						    <el-input v-model="formdata1.custPost" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>	  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="职级">
+						    <el-input v-model="formdata1.custClass" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>	 
+				  	<el-col :span="24" class="item-title">加班信息</el-col> 
+				  	<el-col :sm="24" :md="12">
+						<el-form-item label="加班开始时间" prop="workotStartTime">
+				        	<el-date-picker type="datetime" v-model="formdata2.workotStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
+				      	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="加班结束时间" prop="workotEndTime">
+				        	<el-date-picker type="datetime" v-model="formdata2.workotEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
+				      	</el-form-item>
+					</el-col>	  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="加班类型" prop="workotType">
+						    <el-select v-model="formdata2.workotType" value-key="workotType" @change="changeValue">
+								<el-option v-for="item in workotTypeList" :key="item.workotNo" :label="item.label" :value="item.workotNo"></el-option>
+							</el-select>
+					  	</el-form-item>
+					</el-col>	  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="加班累计工时">
+						    <el-input v-model="formdata2.timeSheet"></el-input>
+					  	</el-form-item>
+					</el-col>	  	
+					<el-col :span="24">
+						<el-form-item class="remark" label="加班备注" prop="remark">
+						    <el-input
+							  type="textarea"
+							  :autosize="{ minRows: 5, maxRows: 5}"
+							  placeholder="请输入内容"
+							  v-model="formdata2.remark">
+							</el-input>
+					  	</el-form-item>
+					</el-col>	  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="附件" style="width: 100%;">
+				  		 	<el-input v-model="formdata2.attachm"></el-input>
+					  		<el-upload class="upload-demo" ref="upload" name="file"
+					  			 :data="formdata"
+					  			 :on-success="successUpload"
+					  			 action="/iem_hrm/travel/addTravelInfo" 
+					  			 :show-file-list="false" 
+					  			 :auto-upload="false"
+					  			 :headers="token"
+					  		>
+	                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
+	                        </el-upload>
+					  	</el-form-item>
+					</el-col>	  	
+					  	
 				</el-form>
 			</div>
 		</div>
@@ -81,14 +107,14 @@
 				},
 				formdata: {},
 				formdata1: {
+					companyName: "",
+					deptName: "",
 					userNo: "",
 					custName: "",
 					custPost: "",
 					custClass: "",
 				},
 				formdata2: {
-					companyName: "01",
-					deptName: "",
 					workotStartTime: "",
 					workotEndTime: "",
 					workotType: "",

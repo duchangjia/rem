@@ -1,5 +1,5 @@
 <template>
-	<div class="info">
+	<div class="info_wrapper">
 		<current yiji="考勤管理" erji="出差管理" sanji="出差新增">
 		</current>
 		<div class="content-wrapper">
@@ -22,9 +22,19 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
 						    <el-input v-model="formdata1.userNo">
-						    	<el-button slot="append" icon="search" @click="queryUserInfo"></el-button>
+						    	<el-button slot="append" icon="search" @click="userNoSelect"></el-button>
 						    </el-input>
-						    
+						    <messageBox 
+                                :title="boxTitle"
+                                :tableOption.sync="tableOption"  
+                                :inputFirstOption.sync="inputFirstOption" 
+                                :inputSecOption.sync="inputSecOption"
+                                :searchData.sync="searchData" 
+                                :searchUrl="searchUrl"
+                                :dialogVisible.sync="dialogVisible"
+                                :pagination.sync="msgPagination"
+                                @dialogConfirm="dialogConfirm"
+                                ></messageBox>
 					 	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
@@ -71,7 +81,7 @@
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差天数" prop="travelDays">
-						    <el-input v-model="formdata2.travelDays"></el-input>
+						    <el-input v-model="formdata2.travelDays" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -115,6 +125,7 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
+	import messageBox from "../../../common/messageBox-components.vue";
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
@@ -122,7 +133,7 @@
 		        if (value == '') {
 		          	callback(new Error('出差开始时间不能为空'));
 		        } else if (this.formdata2.travelEndTime && value >= this.formdata2.travelEndTime) {
-		          	callback(new Error('请输入正确的开始时间'));
+		          	callback(new Error('出差开始时间不能大于结束时间'));
 		        } else {
 		          	callback();
 		        }
@@ -131,7 +142,7 @@
 		        if (value == '') {
 		          	callback(new Error('出差结束时间不能为空'));
 		        } else if (this.formdata2.travelStartTime && value <= this.formdata2.travelStartTime) {
-		          	callback(new Error('请输入正确的结束时间'));
+		          	callback(new Error('出差开始时间不能大于结束时间'));
 		        } else {
 		          	callback();
 		        }
@@ -141,15 +152,19 @@
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
 				fileFlag: '',
-				formdata1: {
-					organNo: "",
-					deptNo: "",
-					userNo: "",
-					custName: "",
-					custPost: "",
-					custClass: "",
-					travelSTD: ""
-				},
+				dialogVisible:false,
+			    tableOption:[],
+			    inputFirstOption:{},
+			    inputSecOption:{},
+			    msgPagination:{},
+			    searchData:{},
+			    searchUrl:'',
+			    saveUrl:'',
+			    boxTitle:'',
+			    numType:'',
+			    applyUserInfo: {},
+				
+				formdata1: {},
 				formdata2: {
 					travelStartTime: "",
 					travelEndTime: "",
@@ -157,8 +172,9 @@
 					travelStartCity: "",
 					travelArrivalCity: "",
 					travelDays: "",
+					travelSTD: "",
 					remark: "",
-					attachm: ""
+					attachm: "",
 				},
 				travelTypeList: [
 					{label: "业务拓展", travelNo: "01"},
@@ -192,7 +208,8 @@
 			}
 		},
 		components: {
-			current
+			current, 
+			messageBox
 		},
 		computed: {
 			formdata: function(){
@@ -227,7 +244,7 @@
 				if(this.formdata2.travelEndTime) {
 					this.calTravelDays(params);
 				}
-				console.log(params);
+//				console.log(params);
 				
 			},
 			changeEndTime(time) {
@@ -253,12 +270,88 @@
 	      		//根据员工编号查询员工信息
 	      		this.getUseInfoByUserNo(params);
 	      	},
+	      	dialogConfirm(ajaxNo){
+		        let self = this;
+		        let params = {
+		        	userNo: ajaxNo
+		        }
+		        self.$axios
+		        .get( self.saveUrl, {params} )
+		        .then(res => {
+		        	console.log('res',res);
+		          if (res.data.code == 'F00002'){
+		            self.$message({
+		              message:res.data.retMsg,
+		              type: "error"
+		            });
+		          }else{
+		            self.dialogVisible = false;
+		            self.formdata1 = res.data.data;
+		          }
+		        })
+		        .catch(e => {
+		          this.applyUserInfo = {};
+		          self.$message({
+		            message:e.retMsg,
+		            type: "error"
+		          });
+		        });
+		    },
+		    userNoSelect(){
+		        //table
+		        this.tableOption = [
+		            {
+		                thName:'工号',//table 表头
+		                dataKey:'userNo'//table-col所绑定的prop值
+		            },
+		            {
+		                thName:'姓名',//table 表头
+		                dataKey:'custName'//table-col所绑定的prop值
+		            }
+		            ];
+		        //input 第一个搜索框的配置项
+		        this.inputFirstOption  = {
+		            labelName:'姓名',//label头
+		            placeholder:'请输入姓名'//input placeholder
+		        },
+		        //input 第二个搜索框的配置项
+		        this.inputSecOption  = {
+		            labelName:'工号',
+		            placeholder:'请输入工号'
+		        },
+		        //搜索所需传值
+		        this.searchData = {
+		            custName:'',
+		            userNo:''
+		        }
+		        //table分页所需传值
+		        this.msgPagination =  {
+		            pageNum:1,
+		            pageSize:5,
+		            totalRows:0
+		        }
+		        //点击确定后需要修改的对象 numType为changeNo方法所改变的type
+		//      this.applyUserInfo = this.applyUserInfo
+		        this.numType = 1
+		        //dialog打开
+		        this.dialogVisible=true
+		        //查询接口
+		        this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
+		        //点击确定后根据号码查询用户信息借口 没有则为空
+		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
+		        //dialog标题
+		        this.boxTitle = '人工编号选择'
+		    },
 	      	changeUpload(file, fileList) {
 	      		console.log('fileList',fileList);
 		 		this.fileFlag = file;
 	      	},
 	      	successUpload(response, file, fileList) {
-	      		this.$message({ message: '操作成功', type: 'success' });
+	      		if(response.code === "S00000") {
+	      			this.$message({ message: '操作成功', type: 'success' });
+	      			this.$router.push('/travel_management');
+	      		}
+	      		
 	      	},
 	      	save(formName) {
 				const self = this;
@@ -306,6 +399,7 @@
 					console.log('addTravelInfo',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
+						self.$router.push('/travel_management');
 					}
 				}).catch(function(err) {
 					console.log('error');

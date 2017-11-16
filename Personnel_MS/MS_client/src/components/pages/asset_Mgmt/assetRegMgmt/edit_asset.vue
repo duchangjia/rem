@@ -56,7 +56,7 @@
                     </el-col> 
                     <el-col :span="12">
                         <el-form-item label="购买数量" prop="buyNum">
-                            <el-input v-model="assetInfoDetail.buyNum" :maxlength="11"></el-input>
+                            <el-input v-model="assetInfoDetail.buyNum" :maxlength="10"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
@@ -139,6 +139,17 @@
 import current from "../../../common/current_position.vue";
 export default {
   data() {
+    let validateBuyNum = (rule, value, callback) => {
+        if (!Number.isInteger(value)) {
+            callback(new Error('请输入正整数'));
+        } else {
+            if (value > 2147483647) {
+            callback(new Error('购买数量必须小于2147483647'));
+            } else {
+            callback();
+            }
+        }
+      };
     return {
       labelPosition: "right",
       assetNo: "",
@@ -150,7 +161,8 @@ export default {
           { required: true, type: 'number', message: "购买单价不能为空", trigger: "blur" },
           { pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的正数" }
         ],
-        buyNum: [{ pattern: /^(0|([1-9][0-9]{0,11}))$/, message: "请输入正整数" }],
+        // buyNum: [{ pattern: /^(0|([1-9][0-9]{0,10}))$/, message: "请输入正整数" }],
+        buyNum: [{ validator: validateBuyNum, trigger: 'blur' }],
         buyAmount: [
           { required: true, type: 'number', message: "购买金额不能为空", trigger: "blur" },
           { pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的正数" }

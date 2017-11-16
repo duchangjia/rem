@@ -74,6 +74,9 @@ export default {
             if (this.yiji === '员工自助') {
                 _link.push('/query_personalInfo')
             }
+            if (this.yiji === '历史薪酬查询') {
+                _link.push('/historicalSalary_Mgmt')
+            }
 			
 			if (this.erji === '基本信息') {
                 _link.push('/user_center')
@@ -134,6 +137,9 @@ export default {
             }
             if (this.erji === '资产使用管理') {
                 _link.push('/assetUse_manage')
+            }
+            if (this.erji === '工资查询') {
+                _link.push('/historicalSalary_query')
             }
 			
             if (this.sanji === '编辑部门') {

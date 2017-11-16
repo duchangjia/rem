@@ -132,7 +132,8 @@ export default {
       this.$router.push({
         name: "detail_contract",
         params: {
-          pactNo: row.pactNo
+          // pactNo: row.pactNo
+          pactNo: "2017092800001"
         }
       });
     },
