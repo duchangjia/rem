@@ -5,12 +5,19 @@
             <div class="content-wrapper clearfix">
                 <div class="title"><span class="text">公司开票信息维护</span><button class="add" @click="add()">新增</button></div>
                 <div class="content clearfix">
-                    <div class="search">
-                        <span class="text">公司名称</span>
-                        <el-input type="text" placeholder="公司名称" v-model="organName"></el-input>
-                        <el-button class="toolBtn2 resetBtn" @click="reset()">重置</el-button>
-                        <el-button class="toolBtn2" @click="getList()">查询</el-button>
-                    </div>
+                        <el-form :model="custInfo" :inline="true" ref="ruleForm2" class="demo-ruleForm">
+                            <el-form-item label="公司">
+                            <el-select v-model="custInfo.organNo"  placeholder="所属公司" @change="changeCompany">
+                                    <el-option v-for="item in companyName" 
+                                    :key="item.organNo" 
+                                    :label="item.organName" 
+                                    :value="item.organNo">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-button class="toolBtn2 resetBtn" @click="reset()">重置</el-button>
+                            <el-button class="toolBtn2" @click="getList()">查询</el-button>
+                        </el-form>
                     <el-col :span="24">
                         <el-table stripe :data="argumentInfoList" >
                             <el-table-column align="center" prop="organName" label="公司名称" >
@@ -20,6 +27,8 @@
                             <el-table-column align="center" prop="organAcct" label="银行账户" >
                             </el-table-column>
                             <el-table-column align="center" prop="organAcctname" label="账户名称" >
+                            </el-table-column>
+                            <el-table-column align="center" prop="isDelete" label="生效状态" :formatter="deleteType">
                             </el-table-column>
                             <el-table-column align="center" prop="" label="操作" >
                                 <template scope="scope">
@@ -55,18 +64,24 @@
                     pageSize: 10,
                     total: 100
                 },
-                organName:'',
-                argumentInfoList:[]
+               custInfo: {
+                    organName: "",
+                    organNo:''
+                },
+                argumentInfoList:[],
+                companyName:[]
+                
             }
         },
-        created() {
-            this.getList();
+        mounted(){
+             this.getCompanyName()
+             this.getList();
         },
         methods: {
             getList(){
                 let self = this,
                     params = {};
-                    params.organName = this.organName
+                    params.organNo = this.custInfo.organNo
                     params.pageNum = this.pagination.pageNum
                     params.pageSize = this.pagination.pageSize
                     // argumentInfoList
@@ -82,8 +97,31 @@
                             console.log(e)
                         })
             },
+            getCompanyName(){
+                let self = this;
+                    self.$axios.get("/iem_hrm/organ/queryAllCompany").then(res => {
+                    let result = res.data.data;
+                    self.companyName = result;
+                    console.log(self.companyName,'公司名')
+                });
+            },
+            deleteType(row, column){
+                 return row.isDelete == "01"
+                    ? "生效"
+                    : row.isDelete == "02"
+                    ?"失效":"异常"
+            },
+            changeCompany(value){
+                let self = this,
+                    companyArray = this.companyName;
+                for (let i = 0; i < companyArray.length; i++) {
+                    if (companyArray[i].organName == value) {
+                       self.custInfo.organNo = companyArray[i].organNo;
+                    }
+                }
+            },
             reset(){
-                 this.organName = ''
+                 this.custInfo.organNo = ''
             },           
             handleCurrentChange(val) {
                 let self = this;
@@ -141,6 +179,9 @@
         padding: 0 0 20px 20px;
         overflow: hidden;
         position: relative;
+        .demo-ruleForm
+            .el-form-item
+                margin-bottom:0
         .test
             padding-left: 10px;
         .content-wrapper
@@ -209,7 +250,7 @@
                     background:#fff
                     color:#ff9900
                 .el-table
-                    margin-top:30px;
+                    margin-top:20px;
                 .el-icon-delete2, .el-icon-edit
                     color: #ff9900;
                     cursor pointer

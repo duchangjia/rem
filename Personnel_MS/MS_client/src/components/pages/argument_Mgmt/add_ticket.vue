@@ -20,7 +20,7 @@
                         </el-col>
                         <el-col :sm="24" :md="12">
                             <el-form-item label="机构号" prop="organNo">
-                                 <el-input v-model="custInfo.organNo" placeholder="请输入机构号"></el-input>
+                                 <el-input v-model="custInfo.organNo" placeholder="请输入机构号" readonly="readonly"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :sm="24" :md="12">
@@ -60,7 +60,7 @@ import current from "../../common/current_position.vue";
 export default {
   data() {
     let checkTel = (rule, value, callback) => {
-        let ret  = /^[1][3578]\d{9}$/
+        let ret  = /^\d+(-)?\d+((-)?\d+)?$/
         console.log(ret.test(value),'验证值')
         if(!ret.test(value)&&value!==''){
            return  callback('请输入正确的手机号码');
