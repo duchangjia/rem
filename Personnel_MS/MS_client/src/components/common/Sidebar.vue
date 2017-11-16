@@ -173,6 +173,17 @@ export default {
 						}
 					]
 				},
+				{
+					menuImg: 'icon-xmgl',
+					menuUrl: '9',
+					menuName: '历史薪酬',
+					menuList: [
+						{
+							menuUrl: 'historicalSalary_query',
+							menuName: '工资查询'
+						}
+					]
+				},
 				
 			]
 
