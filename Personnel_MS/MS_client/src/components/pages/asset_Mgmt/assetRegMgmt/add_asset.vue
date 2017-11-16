@@ -58,7 +58,7 @@
                     </el-col> 
                     <el-col :span="12">
                         <el-form-item label="购买数量" prop="buyNum">
-                            <el-input v-model="addAssetInfo.buyNum" :maxlength="11"></el-input>
+                            <el-input v-model="addAssetInfo.buyNum" :maxlength="10"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
@@ -169,7 +169,7 @@ export default {
           { required: true, message: "购买单价不能为空", trigger: "blur" },
           { pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的正数" }
         ],
-        buyNum: [{ pattern: /^(0|([1-9][0-9]{0,11}))$/, message: "请输入正整数" }],
+        buyNum: [{ pattern: /^(0|([1-9][0-9]{0,10}))$/, message: "请输入正整数" }],
         buyAmount: [
           { required: true, message: "购买金额不能为空", trigger: "blur" },
           { pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的正数" }
