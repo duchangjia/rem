@@ -10,67 +10,59 @@
             <div class="add-wrapper">
                 <el-form :inline="true" :model="addPactMsg" :rules="rules" ref="addPactMsgRules" :label-position="labelPosition" label-width="110px">
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="纸质合同编号" prop="paperPactNo">
+                        <el-form-item label="纸质合同编号">
                             <el-input v-model="addPactMsg.paperPactNo"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="合同名称" prop="pactName">
+                        <el-form-item label="合同名称">
                             <el-input v-model="addPactMsg.pactName"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="公司名称" prop="organNo">
-                            <el-select v-model="addPactMsg.organNo">
-                                <el-option label="总公司" value="0001"></el-option>
-                                <el-option label="深圳分公司" value="0002"></el-option>
-                            </el-select>
+                        <el-form-item label="公司名称">
+                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="部门名称" prop="derpNo">
-                            <el-select v-model="addPactMsg.derpNo">
-                                <el-option label="财务部" value="0001"></el-option>
-                                <el-option label="技术部" value="0002"></el-option>
-                            </el-select>
+                        <el-form-item label="部门名称">
+                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工号" prop="userNo">
-                            <el-input v-model="addPactMsg.userNo">
+                            <el-input v-model="custInfo.userNo">
                                 <el-button slot="append" icon="search" @click="searchUserNo"></el-button>
                             </el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="员工姓名" prop="custName">
-                            <el-input v-model="addPactMsg.custName"></el-input>
+                        <el-form-item label="员工姓名">
+                            <el-input v-model="custInfo.custName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="性别" prop="sex">
-                            <el-select v-model="addPactMsg.sex">
-                                <el-option label="男" value="01"></el-option>
-                                <el-option label="女" value="02"></el-option>
-                            </el-select>
+                        <el-form-item label="性别">
+                            <el-input v-model="_sex" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="身份证" prop="cert">
-                            <el-input v-model="addPactMsg.cert"></el-input>
+                        <el-form-item label="身份证">
+                            <el-input v-model="custInfo.cert" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="合同类型" prop="pactType">
+                        <el-form-item label="合同类型">
                             <el-select v-model="addPactMsg.pactType">
                                 <el-option label="劳动合同" value="01"></el-option>
                                 <el-option label="保密协议" value="02"></el-option>
+                                <el-option label="其他" value="99"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="签订日期" prop="signTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.signTime" @change="signTimeChange" :picker-options="pactSignOption" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.signTime" @change="signTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -132,15 +124,11 @@ export default {
     let that = this;
     return {
       labelPosition: "right",
+      custInfo: {},
       addPactMsg: {
         paperPactNo: "",
         pactName: "",
-        organName: "",
-        derpName: "",
         userNo: "",
-        custName: "",
-        sex: "",
-        cert: "",
         pactType: "",
         signTime: "",
         pactStartTime: "",
@@ -155,9 +143,9 @@ export default {
       rules: {
         userNo: [{ required: true, message: "工号不能为空", trigger: "blur" }],
         pactType: [{ required: true, message: "合同类型不能为空", trigger: "change" }],
-        signTime: [{ type: "date", required: true, message: "签订日期不能为空", trigger: "change" }],
-        pactStartTime: [{ type: "date", required: true, message: "合同开始日期不能为空", trigger: "change"}],
-        pactEndTime: [{ type: "date", required: true, message: "合同结束日期不能为空", trigger: "change" }],
+        signTime: [{ required: true, message: "签订日期不能为空", trigger: "change" }],
+        pactStartTime: [{ required: true, message: "合同开始日期不能为空", trigger: "change"}],
+        pactEndTime: [{ required: true, message: "合同结束日期不能为空", trigger: "change" }],
         pactStatus: [{ required: true, message: "合同状态不能为空", trigger: "change" }]
       }
     };
@@ -165,10 +153,57 @@ export default {
   components: {
     current
   },
-  methods: {
-    searchUserNo() {
-      // 查询工号
+  computed: {
+    _sex: function() {
+      if (this.custInfo.sex == "01") {
+        return "男";
+      } else if (this.custInfo.sex == "02") {
+        return "女";
+      } else if (this.custInfo.sex == "99") {
+        return "其他";
+      } else {
+        return "";
+      }
     },
+  },
+  methods: {
+    getCustInfo() {
+      const self = this;
+      let userNo = self.custInfo.applyUserNo;
+      //   self.$axios
+      //     .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
+      //     .then(res => {
+      //       console.log(res);
+      //       self.custInfo = res.data.data;
+      //     })
+      //     .catch(() => {
+      //       console.log("error");
+      //     });
+      self.custInfo = {
+        userNo: "P0000117",
+        custName: "yangrui",
+        cert: "420988199501014444",
+        sex: "01",
+        organNo: "1001",
+        organName: "魔方南山分公司",
+        derpNo: "100101",
+        derpName: "魔方南山分公司技术部门",
+        custPost: "软件工程师",
+        custClass: "B10"
+      };
+    },
+    searchUserNo() {
+      const self = this;
+      self.custInfo.userNo = "P0000117"; // 查询工号，应从接口查出
+      self.getCustInfo(); //查询用户信息
+      self.addPactMsg.userNo = self.custInfo.userNo;
+    },
+    userNoChange(val) {
+      this.getCustInfo(); //查询用户信息
+    },
+
+
+
     signTimeChange(val) {
       this.addPactMsg.signTime = val;
     },
@@ -189,22 +224,20 @@ export default {
     handleSave(addPactMsgRules) {
       this.$refs[addPactMsgRules].validate(valid => {
         if (valid) {
-          let newPact = {};
-          newPact.paperPactNo = this.addPactMsg.paperPactNo;
-          newPact.pactName = this.addPactMsg.pactName;
-          newPact.organName = this.addPactMsg.organName;
-          newPact.signTime = this.addPactMsg.signTime;
+          let newPact = this.addPactMsg;
           console.log(newPact);
           this.$axios
             .post("/iem_hrm/pact/addPact", newPact)
             .then(res => {
               console.log(res);
-              if (res.data.code == "S00000")
-                this.$router.push("/personnel_contract");
-              else this.$message.error("合同新增失败！");
+              if (res.data.code == "S00000") {
+                  this.$message({ type: "success", message: "操作成功!" });
+                  this.$router.push("/personnel_contract");
+              }
+              else this.$message.error("操作失败！");
             })
             .catch(() => {
-              this.$message.error("合同新增失败！");
+              this.$message.error("操作失败！");
             });
         } else {
           console.log("error submit!!");

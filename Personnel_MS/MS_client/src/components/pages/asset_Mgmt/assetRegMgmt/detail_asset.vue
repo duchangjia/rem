@@ -147,24 +147,19 @@ export default {
     this.getCustInfo(); //初始查询用户信息
   },
   computed: {
-    _assetType: {
-      set: function(val) {
-        this.assetInfoDetail.assetType = val;
-      },
-      get: function() {
-        if (this.assetInfoDetail.assetType == "01") {
-          return "办公用品";
-        } else if (this.assetInfoDetail.assetType == "02") {
-          return "电脑";
-        } else if (this.assetInfoDetail.assetType == "03") {
-          return "手机";
-        } else if (this.assetInfoDetail.assetType == "04") {
-          return "后勤用品";
-        } else if (this.assetInfoDetail.assetType == "05") {
-          return "数码相机";
-        } else {
-          return "";
-        }
+    _assetType: function() {
+      if (this.assetInfoDetail.assetType == "01") {
+        return "办公用品";
+      } else if (this.assetInfoDetail.assetType == "02") {
+        return "电脑";
+      } else if (this.assetInfoDetail.assetType == "03") {
+        return "手机";
+      } else if (this.assetInfoDetail.assetType == "04") {
+        return "后勤用品";
+      } else if (this.assetInfoDetail.assetType == "05") {
+        return "数码相机";
+      } else {
+        return "";
       }
     }
   },
