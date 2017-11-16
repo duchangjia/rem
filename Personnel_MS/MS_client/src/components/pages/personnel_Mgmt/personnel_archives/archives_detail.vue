@@ -212,49 +212,49 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="入职日期">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.entryTime" :disabled="edit"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.entryTime" :disabled="edit" @change="changeEntryTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.entryTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="上岗日期">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.leftJobTime" :disabled="edit"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.leftJobTime" :disabled="edit" @change="changeleftJobTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.leftJobTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="工作日期">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.workTime" :disabled="edit"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.workTime" :disabled="edit" @change="changeworkTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.workTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="职称日期">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.profTitleTime" :disabled="edit"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.profTitleTime" :disabled="edit" @change="changeprofTitleTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.profTitleTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同开始">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactStartTime" :disabled="edit"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactStartTime" :disabled="edit" @change="changeprofcompactStartTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.compactStartTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同终止">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactEndTime" :disabled="edit"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactEndTime" :disabled="edit" @change="changeprofcompactEndTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.compactEndTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用开始">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probStartTime" :disabled="edit"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probStartTime" :disabled="edit" @change="changeprofprobStartTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.probStartTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用结束">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probEndTime" :disabled="edit"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probEndTime" :disabled="edit" @change="changeprofprobEndTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.probEndTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
@@ -386,17 +386,25 @@
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fifth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
                                                 <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
                                                 <el-col :span="12">
-                                                    <el-col :span="12">
-                                                        <!--<input v-show="false" v-model="item.projectId=index">-->
-                                                        <el-form-item label="时间" prop="startTime" class="fifth_common">
+                                                    <!--<el-col :span="12">-->
+                                                        <!--&lt;!&ndash;<input v-show="false" v-model="item.projectId=index">&ndash;&gt;-->
+                                                        <!--<el-form-item label="时间" prop="startTime" class="fifth_common">-->
+                                                            <!--<el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>-->
+                                                        <!--</el-form-item>-->
+                                                    <!--</el-col>-->
+                                                    <!--<el-col :span="12">-->
+                                                        <!--<el-form-item label="至" prop="endTime" class="fifth_common fifth_special">-->
+                                                            <!--<el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>-->
+                                                        <!--</el-form-item>-->
+                                                    <!--</el-col>-->
+                                                    <div style="display: flex">
+                                                        <el-form-item label="时间" prop="startTime" class="fifth_common" style="margin-right: -40px">
                                                             <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
                                                         </el-form-item>
-                                                    </el-col>
-                                                    <el-col :span="12">
                                                         <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
                                                             <el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>
                                                         </el-form-item>
-                                                    </el-col>
+                                                    </div>
                                                 </el-col>
                                                 <el-col :span="12">
                                                     <el-form-item label="项目名称" prop="projectName">
@@ -769,6 +777,30 @@
             holdGradTime(val){
                 this.ruleForm.gradTime = val
             },
+            changeEntryTime(val) {
+                this.ruleForm.entryTime = val
+            },
+            changeleftJobTime(val) {
+                this.ruleForm.leftJobTime = val
+            },
+            changeworkTime(val) {
+                this.ruleForm.changeworkTime = val
+            },
+            changeprofTitleTime(val) {
+                this.ruleForm.profTitleTime = val
+            },
+            changeprofcompactStartTime(val) {
+                this.ruleForm.profcompactStartTime = val
+            },
+            changeprofcompactEndTime(val) {
+                this.ruleForm.profcompactEndTime = val
+            },
+            changeprofprobStartTime(val) {
+                this.ruleForm.profprobStartTime = val
+            },
+            changeprofprobEndTime(val) {
+                this.ruleForm.profprobEndTime = val
+            },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
@@ -780,7 +812,6 @@
                 let data = {organNo}
                 this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
                     .then(res=>{
-                        console.log(res)
                         this.basicInfo.department = res.data.data
                     })
                     .catch(e=>{
@@ -1137,6 +1168,7 @@
                         height 100%
                         .el-tabs__nav
                             height 50px
+                            line-height 50px
                 .el-tabs__item
                     font-size 16px
                     height 50px

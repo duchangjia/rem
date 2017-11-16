@@ -8,17 +8,19 @@
                     <el-form>
                         <el-col :span="6">
                             <el-form-item label="公司">
-                                <el-select v-model="searchInfo.organName">
-                                    <el-option label="深圳分公司" value="8801"></el-option>
-                                    <el-option label="其他" value="9090"></el-option>
+                                <!--<el-select v-model="searchInfo.organName">-->
+                                    <!--<el-option label="深圳分公司" value="8801"></el-option>-->
+                                    <!--<el-option label="其他" value="9090"></el-option>-->
+                                <!--</el-select>-->
+                                <el-select v-model="searchInfo.organNo" placeholder="请选择公司名称" @change="selectDep(searchInfo.organNo)">
+                                    <el-option :label="item.organName" :value="item.organNo" v-for="item in basicInfo.company"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :span="6">
                             <el-form-item label="部门">
-                                <el-select v-model="searchInfo.derpName">
-                                    <el-option label="南山分部" value="88011"></el-option>
-                                    <el-option label="其他" value="9090"></el-option>
+                                <el-select v-model="searchInfo.derpNo" placeholder="请选择部门名称">
+                                    <el-option :label="item.organName" :value="item.derpNo" v-for="item in basicInfo.department"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
@@ -117,6 +119,10 @@
         data() {
           return {
               dialogTableVisible: false,
+              basicInfo: {
+                  company:'',
+                  department:'',
+              },
               gridData: [
                   {
                       num: '111289',
@@ -130,8 +136,8 @@
                   },
               ],
               searchInfo: {
-                  organName: '',
-                  derpName: '',
+                  organNo: '',
+                  derpNo: '',
                   nameOrNo: '',
                   custStatus: '',
               },
@@ -180,6 +186,13 @@
                 .catch(e=>{
                     console.log(e)
                 })
+            self.$axios.get('/iem_hrm/organ/selectCompanyByUserNo')
+                .then(res => {
+                    self.basicInfo.company = res.data.data
+                })
+                .catch(e=>{
+                    console.log(e)
+                })
         },
         components: {
             current
@@ -203,12 +216,21 @@
                         console.log(e)
                     })
             },
+            selectDep(organNo) {
+                let data = {organNo}
+                this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
+                    .then(res=>{
+                        this.basicInfo.department = res.data.data
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
+            },
             see() {
                 let self = this
                 this.dialogTableVisible = true
                 self.$axios.get('/iem_hrm/CustInfo/queryCustInfWithAsset/userNo')
                     .then(res => {
-                        console.log(res)
                         self.table.td = res.data.data.list
                         this.fenye.total = res.data.data.total
                         this.fenye.pageSize = res.data.data.pageSize
@@ -222,19 +244,30 @@
             },
             reset() {
                 let self = this
-                self.searchInfo.organName = ''
-                self.searchInfo.derpName = ''
+                self.searchInfo.organNo = ''
+                self.searchInfo.derpNo = ''
                 self.searchInfo.nameOrNo = ''
                 self.searchInfo.custStatus = ''
-                self.searchInfo.custNo = ''
             },
             search() {
                 let self = this
-                let organNo = self.searchInfo.organName
-                let derpNo = self.searchInfo.derpName
+                let organNo = self.searchInfo.organNo
+                let derpNo = self.searchInfo.derpNo
                 let nameOrNo = self.searchInfo.nameOrNo
-                console.log(222,derpNo)
-                self.$axios.get('/iem_hrm/CustInfo/advQueryCustInf', {params:{derpNo}})
+                let custStatus = self.searchInfo.custStatus
+                let data = {
+                    organNo,
+                    derpNo,
+                    nameOrNo,
+                    custStatus,
+                }
+                for(var name in data){
+                    if(data[name]==''){
+                        delete data[name]
+                    }
+                }
+                console.log(222,data)
+                self.$axios.get('/iem_hrm/CustInfo/advQueryCustInf', {params:data})
                     .then(res => {
                         console.log(res)
                         let length = res.data.data.list.length
