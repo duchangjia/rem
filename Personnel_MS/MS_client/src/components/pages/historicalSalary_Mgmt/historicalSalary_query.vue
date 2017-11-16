@@ -1,36 +1,49 @@
 <template>
-    <div class="paybaseinfo_mgmt">
+    <div class="historicalsalary_mgmt">
         <current yiji="历史薪酬查询" erji="工资查询">
         </current>
         <div class="content-wrapper">
             <el-col :span="24" class="titlebar">
-                <span class="title-text">历史薪资查询</span>
-                <el-button type="primary" style="margin-left:900px" @click="handleExport">导出</el-button>
+                <span class="title-text">工资查询</span>
+                <el-button type="primary" style="margin-left:900px" @click="handleExport" class="toolBtn">导出</el-button>
             </el-col>
-            <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
+            <el-col :span="24" class="querybar" style="padding:10px 0 0 0;">
                 <el-form :inline="true" :model="filters">
-                    <el-form-item label="类别">
-                        <el-select v-model="filters.batchType" clearable placeholder="请选择类别">
-                            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="名称">
-                        <el-input v-model="filters.batchName" placeholder="请输入名称"></el-input>
-                    </el-form-item>
-                    <el-form-item label="工号">
-                        <el-input v-model="filters.userNo" placeholder="请输入工号"></el-input>
-                    </el-form-item>
-                    <el-form-item label="姓名">
-                        <el-input v-model="filters.userName" placeholder="请输入姓名"></el-input>
-                    </el-form-item>
+                    <el-col :span="6">
+                        <el-form-item label="类别">
+                            <el-select v-model="filters.batchType" clearable placeholder="请选择类别">
+                                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="名称">
+                            <el-input v-model="filters.batchName" placeholder="请输入名称"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="工号">
+                            <el-input v-model="filters.userNo" placeholder="请输入工号"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="姓名">
+                            <el-input v-model="filters.userName" placeholder="请输入姓名"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <!-- <el-col :span="6">
                     <el-form-item style="margin-left:10px;">
                         <el-button type="primary" @click="handleQuery" class="queryBtn">查询</el-button>
                     </el-form-item>
+                    </el-col> -->
+                    <el-col :span="24" class="button-wrap">
+                        <el-button class="resetBtn" @click="handleReset">重置</el-button>
+                        <el-button class="queryBtn" @click="handleQuery">查询</el-button>
+                    </el-col>
                 </el-form>
             </el-col>
-            <el-table stripe :data="assetInfoList"  border>
-                </el-table-column>
+            <el-table stripe :data="assetInfoList" border>
                 <el-table-column align="center" prop="batchName" label="名称">
                 </el-table-column>
                 <el-table-column align="center" prop="userNo" label="工号">
@@ -60,6 +73,8 @@
             </el-table>
             <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
             </el-pagination>
+            <!-- <el-pagination class="toolbar" @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+            </el-pagination> -->
         </div>
     </div>
 </template>
@@ -75,7 +90,7 @@ export default {
                 userName: ""
             },
             pageNum: 1,
-            pageSize: 3,
+            pageSize: 10,
             totalRows: 30,
             exportParams: {},
             assetInfoList: [],
@@ -116,7 +131,7 @@ export default {
             console.log("batchType:" + params.batchType);
             console.log("pageNum:" + params.pageNum + "pageSize" + params.pageSize);
             self.$axios
-                .get("/iem_hrm/EpCustPayFlow/queryEpCustPayFlows", { params: params})
+                .get("/iem_hrm/EpCustPayFlow/queryEpCustPayFlows", { params: params })
                 .then(res => {
                     console.log(res);
                     self.assetInfoList = res.data.data.list;
@@ -146,24 +161,30 @@ export default {
         handleExport() {
             console.log("执行导出" + this.exportParams.pageNum);
             this.$axios
-                .get("/iem_hrm/EpCustPayFlow/exportEpCustPayFlows", { params: this.exportParams, responseType: 'blob'})
+                .get("/iem_hrm/EpCustPayFlow/exportEpCustPayFlows", { params: this.exportParams, responseType: 'blob' })
                 .then((res) => { // 处理返回的文件流
-            const content = res
-            const elink = document.createElement('a'); // 创建a标签
-            elink.download = '测试表格123.xls' // 文件名
-            elink.style.display = 'none'
-            const blob = new Blob([content])
-            elink.href = URL.createObjectURL(blob)
-            document.body.appendChild(elink)
-            elink.click() // 触发点击a标签事件
-            document.body.removeChild(elink)
-        });
+                    const content = res
+                    const elink = document.createElement('a'); // 创建a标签
+                    elink.download = '测试表格123.xls' // 文件名
+                    elink.style.display = 'none'
+                    const blob = new Blob([content])
+                    elink.href = URL.createObjectURL(blob)
+                    document.body.appendChild(elink)
+                    elink.click() // 触发点击a标签事件
+                    document.body.removeChild(elink)
+                });
+        },
+        handleReset(){
+             this.filters.userNo = "";
+             this.filters.userName = "";
+              this.filters.batchType = "";
+             this.filters.batchName = "";
         }
     }
 };
 </script>
 <style>
-.paybaseinfo_mgmt {
+.historicalsalary_mgmt {
     padding: 0 0 20px 20px;
 }
 </style>
