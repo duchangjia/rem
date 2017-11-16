@@ -24,6 +24,17 @@
 						    <el-input v-model="formdata1.userNo">
 						    	<el-button slot="append" icon="search" @click="queryUserInfo"></el-button>
 						    </el-input>
+						    <messageBox 
+                                :title="boxTitle"
+                                :tableOption.sync="tableOption"  
+                                :inputFirstOption.sync="inputFirstOption" 
+                                :inputSecOption.sync="inputSecOption"
+                                :searchData.sync="searchData" 
+                                :searchUrl="searchUrl"
+                                :dialogVisible.sync="dialogVisible"
+                                :pagination.sync="msgPagination"
+                                @dialogConfirm="dialogConfirm"
+                                ></messageBox>
 					 	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
@@ -125,6 +136,16 @@
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
 				fileFlag: '',
+				dialogVisible:false,
+			    tableOption:[],
+			    inputFirstOption:{},
+			    inputSecOption:{},
+			    msgPagination:{},
+			    searchData:{},
+			    searchUrl:'',
+			    saveUrl:'',
+			    boxTitle:'',
+			    numType:'',
 				formdata1: {
 					userNo: "",
 					custName: "",
@@ -179,7 +200,8 @@
 			}
 		},
 		components: {
-			current
+			current,
+			messageBox
 		},
 		computed: {
 			formdata: function(){
@@ -228,6 +250,78 @@
 	      		//根据员工编号查询员工信息
 	      		this.getUseInfoByUserNo(params);
 	      	},
+	      	dialogConfirm(ajaxNo){
+		        let self = this;
+		        let params = {
+		        	userNo: ajaxNo
+		        }
+		        self.$axios
+		        .get( self.saveUrl, {params} )
+		        .then(res => {
+		        	console.log('res',res);
+		          if (res.data.code == 'F00002'){
+		            self.$message({
+		              message:res.data.retMsg,
+		              type: "error"
+		            });
+		          }else{
+		            self.dialogVisible = false;
+		            self.formdata1 = res.data.data;
+		          }
+		        })
+		        .catch(e => {
+		          this.applyUserInfo = {};
+		          self.$message({
+		            message:e.retMsg,
+		            type: "error"
+		          });
+		        });
+		    },
+		    userNoSelect(){
+		        //table
+		        this.tableOption = [
+		            {
+		                thName:'工号',//table 表头
+		                dataKey:'userNo'//table-col所绑定的prop值
+		            },
+		            {
+		                thName:'姓名',//table 表头
+		                dataKey:'custName'//table-col所绑定的prop值
+		            }
+		            ];
+		        //input 第一个搜索框的配置项
+		        this.inputFirstOption  = {
+		            labelName:'姓名',//label头
+		            placeholder:'请输入姓名'//input placeholder
+		        },
+		        //input 第二个搜索框的配置项
+		        this.inputSecOption  = {
+		            labelName:'工号',
+		            placeholder:'请输入工号'
+		        },
+		        //搜索所需传值
+		        this.searchData = {
+		            custName:'',
+		            userNo:''
+		        }
+		        //table分页所需传值
+		        this.msgPagination =  {
+		            pageNum:1,
+		            pageSize:5,
+		            totalRows:0
+		        }
+		        //点击确定后需要修改的对象 numType为changeNo方法所改变的type
+		//      this.applyUserInfo = this.applyUserInfo
+		        this.numType = 1
+		        //dialog打开
+		        this.dialogVisible=true
+		        //查询接口
+		        this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
+		        //点击确定后根据号码查询用户信息借口 没有则为空
+		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
+		        //dialog标题
+		        this.boxTitle = '人工编号选择'
+		    },
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
 		 		this.formdata2.attachm = file.name;

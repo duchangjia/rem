@@ -253,6 +253,11 @@ export default {
 				params = {
 					"pageNum": val,
 					"pageSize": self.pageSize,
+					organNo: self.ruleForm2.organNo,
+					userNo: self.ruleForm2.userNo,
+//						applyNo: self.ruleForm2.applyNo,
+					workotStartTime: self.ruleForm2.workotStartTime,
+					workotEndTime: self.ruleForm2.workotEndTime
 					
 				}
 			} else {
@@ -285,7 +290,7 @@ export default {
 				console.log('deleteTravel',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
-					let params = {
+					let param = {
 						"pageNum": self.pageNum,
 						"pageSize": self.pageSize,
 						organNo: self.ruleForm2.organNo,
@@ -296,7 +301,7 @@ export default {
 					};
 					
 					//加班列表查询
-					self.queryWorkOtList(params);
+					self.queryWorkOtList(param);
 				}
 			}).catch(function(err) {
 				console.log(err);

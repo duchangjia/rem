@@ -101,6 +101,24 @@
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
+			var checkWorkotStartTime = (rule, value, callback) => {
+		        if (value == '') {
+		          	callback(new Error('请假开始时间不能为空'));
+		        } else if (this.formdata2.workotEndTime && value >= this.formdata2.workotEndTime) {
+		          	callback(new Error('请输入正确的开始时间'));
+		        } else {
+		          	callback();
+		        }
+	      	};
+			var checkWorkotEndTime = (rule, value, callback) => {
+		        if (value == '') {
+		          	callback(new Error('请假结束时间不能为空'));
+		        } else if (this.formdata2.workotStartTime && value <= this.formdata2.workotStartTime) {
+		          	callback(new Error('请输入正确的结束时间'));
+		        } else {
+		          	callback();
+		        }
+	      	};
 			return {
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
@@ -141,7 +159,13 @@
 			 	rules: {
 		          	workotType: [
 		            	{ required: true, message: '加班类型不能为空', trigger: 'blur' }
-	          		]
+	          		],
+	          		workotStartTime: [
+		            	{ required: true, validator: checkWorkotStartTime, trigger: 'change' }
+	          		],
+					workotEndTime: [
+		            	{ required: true, validator: checkWorkotEndTime, trigger: 'change' }
+	          		],
 				}
 			}
 		},
@@ -158,9 +182,23 @@
 			},
 			changeStartTime(time) {
 				this.formdata2.workotStartTime = time;
+				let params = {
+					workotStartTime: this.formdata2.workotStartTime,
+					workotEndTime: this.formdata2.workotEndTime
+				}
+				if(this.formdata2.workotEndTime) {
+					this.calTimeSheet(params);
+				}
 			},
 			changeEndTime(time) {
 				this.formdata2.workotEndTime = time;
+				let params = {
+					workotStartTime: this.formdata2.workotStartTime,
+					workotEndTime: this.formdata2.workotEndTime
+				}
+				if(this.formdata2.workotStartTime) {
+					this.calTimeSheet(params);
+				}
 			},
 			changeValue(value) {
 		 		const self = this;
@@ -210,6 +248,18 @@
 				.then(function(res) {
 					console.log('addLeaveInfo',res);
 					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			calTimeSheet(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/workot/calculateWorkOtTime',{params})
+				.then(function(res) {
+					console.log('timeSheet',res);
+//					if(res.data.code === "S00000") {
+						self.formdata2.timeSheet = res.data;
+//					}
 				}).catch(function(err) {
 					console.log('error');
 				})

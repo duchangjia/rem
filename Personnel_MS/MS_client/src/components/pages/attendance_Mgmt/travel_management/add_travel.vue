@@ -162,7 +162,6 @@
 			    saveUrl:'',
 			    boxTitle:'',
 			    numType:'',
-			    applyUserInfo: {},
 				
 				formdata1: {},
 				formdata2: {
@@ -290,7 +289,6 @@
 		          }
 		        })
 		        .catch(e => {
-		          this.applyUserInfo = {};
 		          self.$message({
 		            message:e.retMsg,
 		            type: "error"
