@@ -151,7 +151,7 @@ export default {
     },
     confirm(){
       let self =this;
-      self.$emit('dialogConfirm',self.custInfo.stateNo);
+      self.$emit('dialogConfirm',self.custInfo);
     }
     
   },
