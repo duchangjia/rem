@@ -187,22 +187,17 @@ export default {
   },
   created() {},
   computed: {
-      _custClass: {
-          set: function(val) {
-              this.custInfo.custClass = val;
-          },
-          get: function() {
-              if(this.custInfo.custClass == "B10") {
-                  return "B10-初级软件工程师";
-              } else if (this.custInfo.custClass == "B11") {
-                  return "B11-中级软件工程师";
-              } else if (this.custInfo.custClass == "B12") {
-                  return "B12-高级软件工程师";
-              } else {
-                  return "";
-              }
-          }
+    _custClass: function() {
+      if (this.custInfo.custClass == "B10") {
+        return "B10-初级软件工程师";
+      } else if (this.custInfo.custClass == "B11") {
+        return "B11-中级软件工程师";
+      } else if (this.custInfo.custClass == "B12") {
+        return "B12-高级软件工程师";
+      } else {
+        return "";
       }
+    }
   },
   methods: {
     getCustInfo() {
