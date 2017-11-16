@@ -24,6 +24,7 @@
                             <el-table-column align="center" prop="" label="操作" >
                                 <template scope="scope">
                                     <i class="el-icon-edit" @click="edit(scope.row)"></i>
+                                    <i class="el-icon-delete2" @click="del(scope.row)"></i>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -95,6 +96,38 @@
             edit(row) {
                 console.log(row)
                 this.$router.push({name: 'edit_ticket', query:{organNo:row.organNo}})
+
+            },
+            del(row){
+                let self = this;
+                self.$confirm("此操作将永久删除该信息, 是否继续?", "提示", {
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    type: "warning"
+                })
+                .then(()=>{
+                     self.$axios
+                    .put("/iem_hrm/organBillInfo/delBillInf/" + row.organNo)
+                    .then(res => {
+                    let result = res.data.retMsg;
+                    if ("操作成功" === result) {
+                        self.$message({
+                        message: "删除成功",
+                        type: "success"
+                        });
+                    this.getList()
+                    } else {
+                        self.$message({
+                        message: result,
+                        type: "error"
+                        });
+                    }
+                    })
+                    .catch(e => {
+                    console.log(e);
+                    });
+                })
+                console.log(row);
             }
         },
         components: {
@@ -181,6 +214,8 @@
                     color: #ff9900;
                     cursor pointer
                     text-decoration underline
+                .el-icon-delete2
+                    margin-left 20px
                 .el-pagination {
                         text-align:right;
                         margin-top:30px;
@@ -217,6 +252,11 @@
                         margin: 0 3px;
                         text-indent: 0;
                     }
+                }
+                .el-message-box__btns .el-button--primary{
+                    background:#ff9900;
+                    border-color:#ff900;
+                    color:#fff;
                 }
     }
 </style>
