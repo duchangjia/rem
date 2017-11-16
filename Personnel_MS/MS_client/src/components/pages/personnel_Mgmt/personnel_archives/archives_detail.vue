@@ -30,48 +30,44 @@
                                         <el-col :span="8">
                                             <el-form-item label="出生年月" prop="birthday">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.birthday" :disabled="edit" @change="holdBirthday"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm.birthday" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="民族" prop="nation">
                                                 <el-select v-model="ruleForm.nation" placeholder="请选择民族" :disabled="edit">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.nation"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="婚姻状况" prop="marital" class="marriage_special">
                                                 <el-radio-group v-model="ruleForm.marital" :disabled="edit">
-                                                    <el-radio-button label="未婚"></el-radio-button>
-                                                    <el-radio-button label="已婚" class="special"></el-radio-button>
-                                                    <el-radio-button label="离异"></el-radio-button>
+                                                    <el-radio-button label="01">未婚</el-radio-button>
+                                                    <el-radio-button label="02" class="special">已婚</el-radio-button>
+                                                    <el-radio-button label="03">离异</el-radio-button>
                                                 </el-radio-group>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="学历" prop="education">
                                                 <el-select v-model="ruleForm.education" placeholder="请选择学历" :disabled="edit">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.education"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="学位" prop="degree">
                                                 <el-select v-model="ruleForm.degree" placeholder="请选择学位" :disabled="edit">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.degree"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="政治面貌" prop="politial" class="marriage_special">
                                                 <el-radio-group v-model="ruleForm.politial" :disabled="edit">
-                                                    <el-radio-button label="党员"></el-radio-button>
-                                                    <el-radio-button label="团员" class="special"></el-radio-button>
-                                                    <el-radio-button label="群众"></el-radio-button>
+                                                    <el-radio-button label="01">党员</el-radio-button>
+                                                    <el-radio-button label="02" class="special">团员</el-radio-button>
+                                                    <el-radio-button label="03">群众</el-radio-button>
                                                 </el-radio-group>
                                             </el-form-item>
                                         </el-col>
@@ -145,25 +141,24 @@
                                         <el-col :span="8">
                                             <el-form-item label="公司名称" prop="organName">
                                                 <!--<el-input v-model="ruleForm.userName"></el-input>-->
-                                                <el-select v-model="ruleForm.organName" placeholder="请选择公司名称" :disabled="edit">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                <el-select v-model="ruleForm.organNo" placeholder="请选择公司名称" :disabled="edit">
+                                                    <el-option :label="item.organName" :value="item.organNo" v-for="item in basicInfo.company"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="部门名称" prop="derpName">
                                                 <el-select v-model="ruleForm.derpName" placeholder="请选择部门名称" :disabled="edit">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option :label="item.derpName" :value="item.derpNo" v-for="item in basicInfo.department"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="CCC" prop="ownerCCC">
                                                 <el-select v-model="ruleForm.ownerCCC" placeholder="请选择CCC" :disabled="edit">
-                                                    <el-option label="ruleForm.ownerCCC" value="ruleForm.ownerCCC"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option label="管理CCC" value="01"></el-option>
+                                                    <el-option label="售前CCC" value="02"></el-option>
+                                                    <el-option label="项目CCC" value="03"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -176,32 +171,42 @@
                                         <el-col :span="8">
                                             <el-form-item label="员工类别" prop="custType">
                                                 <el-select v-model="ruleForm.custType" placeholder="请选择员工类别" :disabled="edit">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option label="在编" value="01"></el-option>
+                                                    <el-option label="借用" value="02"></el-option>
+                                                    <el-option label="合同制" value="03"></el-option>
+                                                    <el-option label="兼职" value="04"></el-option>
+                                                    <el-option label="实习" value="05"></el-option>
+                                                    <el-option label="其他" value="99"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="岗位" prop="custPost">
                                                 <el-select v-model="ruleForm.custPost" placeholder="请选择岗位" :disabled="edit">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option label="前端" value="前端"></el-option>
+                                                    <el-option label="后台" value="后台"></el-option>
+                                                    <el-option label="测试" value="测试"></el-option>
+                                                    <el-option label="运营" value="运营"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="职级" prop="custClass">
                                                 <el-select v-model="ruleForm.custClass" placeholder="请选择职级" :disabled="edit">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option label="B10-初级软件工程师" value="B10"></el-option>
+                                                    <el-option label="B11-中级软件工程师" value="B11"></el-option>
+                                                    <el-option label="B12-高级软件工程师" value="B12"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="员工状态" prop="custStatus">
                                                 <el-select v-model="ruleForm.custStatus" placeholder="请选择员工状态" :disabled="edit">
-                                                    <el-option label="区域一" value="shanghai"></el-option>
-                                                    <el-option label="区域二" value="beijing"></el-option>
+                                                    <el-option label="试用期" value="01"></el-option>
+                                                    <el-option label="合同期" value="02"></el-option>
+                                                    <el-option label="已退休" value="03"></el-option>
+                                                    <el-option label="已离职" value="04"></el-option>
+                                                    <el-option label="停薪留职" value="05"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -255,7 +260,10 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="招聘来源">
-                                                <el-input v-model="ruleForm.recruitQuarry" :disabled="edit"></el-input>
+                                                <el-option label="网上招聘" value="01"></el-option>
+                                                <el-option label="内部推荐" value="02"></el-option>
+                                                <el-option label="现场招聘" value="03"></el-option>
+                                                <el-option label="其他" value="99"></el-option>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -472,6 +480,13 @@
     export default {
         data() {
             return {
+                basicInfo:{
+                    nation:'',
+                    education:'',
+                    degree:'',
+                    company:'',
+                    department:'',
+                },
                 dialogImageUrl: '',
                 dialogVisible: false,
                 userNo: '',
@@ -709,6 +724,28 @@
         },
         created() {
             let self = this
+            function getNation() {
+                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=NATION')
+            }
+            function getEducation() {
+                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=EDUCATION')
+            }
+            function getDegree() {
+                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=DEGREE')
+            }
+            function getCompany() {
+                return self.$axios.get('/iem_hrm/organ/selectCompanyByUserNo')
+            }
+            self.$axios.all([getNation(),getEducation(),getDegree(),getCompany()])
+                .then(self.$axios.spread(function(res1,res2,res3,res4){
+                    self.basicInfo.nation = res1.data.data
+                    self.basicInfo.education = res2.data.data
+                    self.basicInfo.degree = res3.data.data
+                    self.basicInfo.company = res4.data.data
+                }))
+                .catch(e=>{
+                    console.log(e)
+                });
             this.userNo = this.$route.query.userNo
             for(var tt in this.lock){
                 this.lock[tt] = true
@@ -738,6 +775,17 @@
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
+            },
+            selectDep(organNo) {
+                let data = {organNo}
+                this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
+                    .then(res=>{
+                        console.log(res)
+                        this.basicInfo.department = res.data.data
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
             },
             handleClick(tab, event) {
                 let self = this
@@ -1058,17 +1106,17 @@
             .button-wrapper
                 position absolute
                 right 10px
-                top 20px
+                top 10px
                 button
                     width: 120px
-                    height 40px
+                    height 30px
                     background: #fff;
                     border: 1px solid #FF9900;
                     outline none
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #f90;
-                    line-height 40px
+                    line-height 30px
                     text-align center
                     &:hover
                         background: #f90;
@@ -1084,15 +1132,15 @@
                     overflow visible
                 .el-tabs__header
                     margin 0
-                    height 80px
+                    height 50px
                     .el-tabs__nav-wrap
                         height 100%
                         .el-tabs__nav
-                            height 80px
+                            height 50px
                 .el-tabs__item
                     font-size 16px
-                    height 80px
-                    line-height 80px
+                    height 50px
+                    line-height 50px
                     padding 0 20px
                 .el-tabs__nav
                     .el-tabs__active-bar
@@ -1100,7 +1148,7 @@
                     .el-tabs__item.is-active
                         color #000
                 .first_title
-                    padding-top 42px
+                    padding-top 30px
                     .avatar
                         width: 112px
                         height: 112px
@@ -1215,7 +1263,7 @@
                         &:hover
                             text-decoration underline
                 .second_title
-                    padding-top 42px
+                    padding-top 30px
                     padding-left 8px
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
@@ -1235,7 +1283,7 @@
                     min-height 570px
                     padding-bottom 20px
                     .title
-                        padding 42px 8px 0 8px
+                        padding 30px 8px 0 8px
                         font-family: PingFangSC-Regular;
                         font-size: 14px;
                         color: #333333;
