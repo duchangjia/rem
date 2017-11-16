@@ -1,4 +1,4 @@
-1<template>
+<template>
     <div>
         <el-dialog :title="title"
         @close="dialogClose()"
