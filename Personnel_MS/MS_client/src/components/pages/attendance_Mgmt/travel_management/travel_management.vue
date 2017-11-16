@@ -235,7 +235,7 @@ table .el-button--danger:active {
 }
 
 .add-wrapper .el-textarea__inner {
-  min-width: 790px;
+  min-width: 800px;
   min-height: 100px;
 }
 

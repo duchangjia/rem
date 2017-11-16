@@ -226,7 +226,6 @@
 					travelStartTime: this.formdata2.travelStartTime,
 					travelEndTime: this.formdata2.travelEndTime
 				}
-				console.log('Start',params)
 				if(this.formdata2.travelEndTime) {
 					this.calTravelDays(params);
 				}
@@ -237,7 +236,6 @@
 					travelStartTime: this.formdata2.travelStartTime,
 					travelEndTime: this.formdata2.travelEndTime
 				}
-				console.log('End',params);
 				if(this.formdata2.travelStartTime) {
 					this.calTravelDays(params);
 				}
@@ -258,7 +256,6 @@
 		 		this.formdata2.attachm = file.name;
 	      	},
 	      	successUpload(response, file, fileList) {
-	      		console.log('response',response);
 	      		if(response.code === "S00000") {
 	      			this.$message({ message: '操作成功', type: 'success' });
 	      			this.$router.push('/travel_management');
@@ -299,9 +296,10 @@
 				self.$axios.get(baseURL+'/travel/getTravelInfoByApplyNo',{params: params})
 				.then(function(res) {
 					console.log('travelInfo',res);
-					self.formdata2 = res.data.data;
-					console.log(self.formdata2)
-					console.log(self.formdata2.travelStartTime)
+					if(res.data.code === "S00000") {
+						self.formdata2 = res.data.data;
+					}
+					
 				}).catch(function(err) {
 					console.log('error');
 				})

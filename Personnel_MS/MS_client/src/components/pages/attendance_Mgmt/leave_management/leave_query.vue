@@ -178,13 +178,13 @@ export default {
 	},
 	methods: {
 		leaveStartTimeFormatter(row, column) {
-	      return moment(row.leaveStartTime).format('YYYY-MM-DD') || '';
+	      return row.leaveStartTime ? moment(row.leaveStartTime).format('YYYY-MM-DD') : null;
 	   	},
 		leaveEndTimeFormatter(row, column) {
-	      return moment(row.leaveEndTime).format('YYYY-MM-DD') || '';
+	      return row.leaveEndTime ? moment(row.leaveEndTime).format('YYYY-MM-DD') : null;
 	   	}, 
 		createdDateFormatter(row, column) {
-	      	return moment(row.createdDate).format('YYYY-MM-DD') || '';
+	      	return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null;
 	    },
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;
@@ -246,7 +246,6 @@ export default {
 		//查询
 		queryForm(formName) {
 			const self = this;
-			console.log(this.ruleForm2.startDate)
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
 					self.queryFormFlag = true;
@@ -254,12 +253,12 @@ export default {
 						"pageNum": self.pageNum,
 						"pageSize": self.pageSize,
 						organNo: self.ruleForm2.organNo,
-						derpNo: self.ruleForm2.derpNo,
-						userNo: self.ruleForm2.userNo,
+						derpNo: self.ruleForm2.departOrgNo,
+						leaveUserNo: self.ruleForm2.userNo,
 						leaveStartTime: self.ruleForm2.startDate,
 						leaveEndTime: self.ruleForm2.endDate
 					};
-					
+					console.log(params)
 					//请假列表查询
 					self.queryLeaveList(params);
 					
@@ -284,8 +283,8 @@ export default {
 					"pageNum": val,
 					"pageSize": self.pageSize,
 					organNo: self.ruleForm2.organNo,
-					derpNo: self.ruleForm2.derpNo,
-					userNo: self.ruleForm2.userNo,
+					derpNo: self.ruleForm2.departOrgNo,
+					leaveUserNo: self.ruleForm2.userNo,
 					leaveStartTime: self.ruleForm2.startDate,
 					leaveEndTime: self.ruleForm2.endDate
 					
@@ -296,7 +295,7 @@ export default {
 					"pageSize": self.pageSize
 				}
 			}
-			//分页出差列表查询
+			//分页列表查询
 			this.queryLeaveList(params);
 		},
 		queryLeaveList(params) {

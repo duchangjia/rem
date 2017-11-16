@@ -285,22 +285,13 @@
 		        self.$axios
 		        .get( self.saveUrl, {params} )
 		        .then(res => {
-		        	console.log('res',res);
-		          if (res.data.code == 'F00002'){
-		            self.$message({
-		              message:res.data.retMsg,
-		              type: "error"
-		            });
-		          }else{
-		            self.dialogVisible = false;
-		            self.formdata1 = res.data.data;
-		          }
+		          	if (res.data.code == 'S00000'){
+		             	self.dialogVisible = false;
+			            self.formdata1 = res.data.data;
+		          	}
 		        })
 		        .catch(e => {
-		          self.$message({
-		            message:e.retMsg,
-		            type: "error"
-		          });
+			        console.log('error')
 		        });
 		    },
 		    userNoSelect(){
@@ -349,8 +340,8 @@
 		        this.boxTitle = '人工编号选择'
 		    },
 	      	changeUpload(file, fileList) {
-	      		console.log('fileList',fileList);
 		 		this.fileFlag = file;
+		 		this.formdata2.attachm = file.name;
 	      	},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
@@ -361,29 +352,31 @@
 	      	},
 	      	save(formName) {
 				const self = this;
-				this.$refs[formName].validate((valid) => {
-					if(valid) {
-						self.$refs.upload.submit();
-						if(!self.fileFlag){
-							let params = {
-							    userNo: self.formdata1.userNo,//工号
-							    travelType: self.formdata2.travelType,//出差类型
-							    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
-							    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
-							    travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
-							    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
-							    travelDays: self.formdata2.travelDays, //出差天数  
-							    travelSTD: self.formdata1.travelSTD,//差补标准
-							    remark: self.formdata2.remark,//备注
-							    attachm: self.formdata2.attachm//附件
-							}
-							//无附件时新增信息
-							self.addTravelInfo(params);
-						}
-					} else {
-						return false;
-					}
-				});
+				self.$refs.formdata1.validate(valid => {
+			        if (valid) {
+			          	self.$refs.formdata2.validate(valid => {
+			            	if (valid) {
+			            		self.$refs.upload.submit();
+								if(!self.fileFlag){
+									let params = {
+									    userNo: self.formdata1.userNo,//工号
+									    travelType: self.formdata2.travelType,//出差类型
+									    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
+									    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
+									    travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
+									    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
+									    travelDays: self.formdata2.travelDays, //出差天数  
+									    travelSTD: self.formdata1.travelSTD,//差补标准
+									    remark: self.formdata2.remark,//备注
+									    attachm: self.formdata2.attachm//附件
+									}
+									//无附件时新增信息
+									self.addTravelInfo(params);
+								}
+			            	}
+			        	})
+			        }
+		       })
 			},
 			getUseInfoByUserNo(params) {
 				let self = this;

@@ -228,28 +228,13 @@
 		},
 		methods: {
 			changefile(file, fileList) {
-				console.log(file);
 				this.fileFlag = file;
 			},
 			changeStartTime(time) {
 				this.formdata2.workotStartTime = time;
-//				let params = {
-//					workotStartTime: this.formdata2.workotStartTime,
-//					workotEndTime: this.formdata2.workotEndTime
-//				}
-//				if(this.formdata2.workotEndTime) {
-//					this.calTimeSheet(params);
-//				}
 			},
 			changeEndTime(time) {
 				this.formdata2.workotEndTime = time;
-//				let params = {
-//					workotStartTime: this.formdata2.workotStartTime,
-//					workotEndTime: this.formdata2.workotEndTime
-//				}
-//				if(this.formdata2.workotStartTime) {
-//					this.calTimeSheet(params);
-//				}
 			},
 			changeValue(value) {
 		 		const self = this;
@@ -271,13 +256,7 @@
 		        self.$axios
 		        .get( self.saveUrl, {params} )
 		        .then(res => {
-		        	console.log('res',res);
-		          if (res.data.code == 'F00002'){
-		            self.$message({
-		              message:res.data.retMsg,
-		              type: "error"
-		            });
-		          }else{
+		          if (res.data.code == 'S00000'){
 		            self.dialogVisible = false;
 		            self.formdata1 = res.data.data;
 		          }
@@ -333,6 +312,7 @@
 		    },
 		    changeUpload(file, fileList) {
 		 		this.fileFlag = file;
+		 		this.formdata2.attachm = file.name;
 	      	},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
@@ -342,11 +322,13 @@
 	      	},
 	      	save(formName) {
 				const self = this;
-				this.$refs[formName].validate((valid) => {
-					if(valid) {
-						console.log('valid');
-						self.$refs.upload.submit();
-						if(!self.fileFlag) {
+				self.$refs.formdata1.validate(valid => {
+			        if (valid) {
+			          self.$refs.formdata2.validate(valid => {
+			            if (valid) {
+			            	console.log('valid')
+			            	self.$refs.upload.submit();
+							if(!self.fileFlag) {
 							let params = {
 								"userNo": self.formdata1.userNo,
 				    			"workotStartTime": self.formdata2.workotStartTime, 
@@ -358,13 +340,10 @@
 							//无附件时新增加班信息
 							self.addLeaveInfo(params);
 						}
-							
-						
-					} else {
-						this.$message.error('failvalid');
-						return false;
-					}
-				});
+			            }
+			          })
+			        }
+			  })
 			},
 			getUseInfoByUserNo(params) {
 				let self = this;
