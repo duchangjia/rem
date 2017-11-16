@@ -569,6 +569,21 @@ const routes = [
                         }
                     ]
                 },
+                {
+                    path: '/historicalSalary_Mgmt',
+                    component: resolve => require(['../components/pages/historicalSalary_Mgmt/historicalSalary_Mgmt.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/historicalSalary_Mgmt/historicalSalary_query.vue'], resolve)
+                        },
+                        {
+                            name: 'historicalSalary_query',
+                            path: '/historicalSalary_query',
+                            component: resolve => require(['../components/pages/historicalSalary_Mgmt/historicalSalary_query.vue'], resolve)
+                        },
+                    ]
+                },
                 // {
                 //     path: '/query_personalInfo',
                 //     component: resolve => require(['../components/pages/stuff_selfHelp/stuffSelfHelp_manage.vue'], resolve),
