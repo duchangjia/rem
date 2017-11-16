@@ -14,10 +14,7 @@
                         <el-input :placeholder="inputSecOption.placeholder" v-model="custInfo.stateNo" >
                         </el-input>
                     </el-form-item>
-                    <!-- <el-form-item :label="item.labelName" v-for="item in inputOption">
-                        <el-input :placeholder="item.placeholder" :v-model="item.modelKey">
-                        </el-input>
-                    </el-form-item> -->
+                   
                     <div class="button-box">
                         <el-button class="toolBtn restBtn" @click="reset()">重置</el-button>
                         <el-button class="toolBtn" @click="getList()">查询</el-button>
@@ -244,11 +241,11 @@ export default {
 .item-box .my-autocomplete .highlighted .addr {
   color: #ddd;
 }
-.el-radio__input.is-checked .el-radio__inner,.el-radio__input.is-focus .el-radio__inner{
+.item-box .el-radio__input.is-checked .el-radio__inner,.el-radio__input.is-focus .el-radio__inner{
     background:#f90;
     border-color:#f90;
 }
-.el-radio__inner:after {
+.item-box .el-radio__inner:after {
     width: 6px;
     height: 6px;
     border-radius: 50%;
@@ -260,7 +257,7 @@ export default {
     transform: translate(-50%,-50%) scale(0);
     transition: transform .15s cubic-bezier(.71,-.46,.88,.6);
 }
-.el-radio__input.is-checked .el-radio__inner:after ,.el-radio__input.is-focus .el-radio__inner:after{
+.item-box .el-radio__input.is-checked .el-radio__inner:after ,.el-radio__input.is-focus .el-radio__inner:after{
     transform: translate(-50%,-50%) scale(1);
 }
 .item-box .button-box .toolBtn {
@@ -294,7 +291,7 @@ export default {
 .el-dialog__headerbtn{font-size:14px;}
 .el-dialog__headerbtn .el-dialog__close{color:#ff9900;}
 .el-dialog--small{width:80%;}
-.item-box .el-form-item{width:270px;}
+.item-box .el-form-item{width:270px;display:inline-block;}
 .el-form-item.is-required .el-form-item__label:before{display:none;}
 .el-dialog__footer{text-align:left;padding-left:40px;}
 .el-dialog__footer .el-button--primary{background:#f4f4f4;color:#333;border:none;padding:10px 40px;}
