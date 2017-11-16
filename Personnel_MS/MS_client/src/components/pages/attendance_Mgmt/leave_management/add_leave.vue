@@ -8,7 +8,7 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
+				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
 							<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
@@ -20,10 +20,21 @@
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="工号">
+						<el-form-item label="工号" prop="userNo">
 						    <el-input v-model="formdata1.userNo">
-						    	<el-button slot="append" icon="search" @click="queryUserInfo"></el-button>
+						    	<el-button slot="append" icon="search" @click="userNoSelect"></el-button>
 						    </el-input>
+						    <messageBox 
+                                :title="boxTitle"
+                                :tableOption.sync="tableOption"  
+                                :inputFirstOption.sync="inputFirstOption" 
+                                :inputSecOption.sync="inputSecOption"
+                                :searchData.sync="searchData" 
+                                :searchUrl="searchUrl"
+                                :dialogVisible.sync="dialogVisible"
+                                :pagination.sync="msgPagination"
+                                @dialogConfirm="dialogConfirm"
+                                ></messageBox>
 					 	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
@@ -40,7 +51,9 @@
 						<el-form-item label="职级">
 						    <el-input v-model="formdata1.custClass" :disabled="true"></el-input>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col> 
+				</el-form>
+				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="110px">
 					<el-col :span="24" class="item-title">请假信息</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="请假开始时间" prop="leaveStartTime">
@@ -61,7 +74,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="请假累计工时" prop="timeSheet">
-						    <el-input v-model="formdata2.timeSheet" :disabled="true"></el-input>
+						    <el-input v-model="formdata2.timeSheet" placeholder="请输入请假累计工时"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24">
@@ -81,7 +94,7 @@
 					  			 :data="formdata"
 					  			 :on-change="changeUpload"
 					  			 :on-success="successUpload"
-					  			 action="/iem_hrm/" 
+					  			 action="/iem_hrm/leave/addLeaveInfo" 
 					  			 :show-file-list="false" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
@@ -125,6 +138,16 @@
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
 				fileFlag: '',
+				dialogVisible:false,
+			    tableOption:[],
+			    inputFirstOption:{},
+			    inputSecOption:{},
+			    msgPagination:{},
+			    searchData:{},
+			    searchUrl:'',
+			    saveUrl:'',
+			    boxTitle:'',
+			    numType:'',
 				formdata1: {
 					userNo: "",
 					custName: "",
@@ -159,7 +182,12 @@
 					{label: '特殊', leaveNo: '15'},
 					{label: '调休假', leaveNo: '16'}
 				],
-			 	rules: {
+				rules1: {
+			 		userNo: [
+			 			{ required: true, message: '工号不能为空', trigger: 'blur' }
+			 		]
+				},
+			 	rules2: {
 			 		leaveStartTime: [
 		            	{ required: true, validator: checkLeaveStartTime, trigger: 'change' }
 	          		],
@@ -170,7 +198,7 @@
 		            	{ required: true, message: '请假类型不能为空', trigger: 'blur' }
 	          		],
 	          		timeSheet: [
-		            	{ required: true,type: 'number', message: '请假工时不能为空', trigger: 'blur' }
+		            	{ required: true, message: '请假累计工时不能为空', trigger: 'blur' }
 	          		],
 	          		remark: [
 		            	{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
@@ -179,7 +207,8 @@
 			}
 		},
 		components: {
-			current
+			current,
+			messageBox
 		},
 		computed: {
 			formdata: function(){
@@ -202,23 +231,23 @@
 		methods: {
 			changeStartTime(time) {
 				this.formdata2.leaveStartTime = time;
-				let params = {
-					leaveStartTime: this.formdata2.leaveStartTime,
-					leaveEndTime: this.formdata2.leaveEndTime
-				}
-				if(this.formdata2.leaveEndTime) {
-					this.calTimeSheet(params);
-				}
+//				let params = {
+//					leaveStartTime: this.formdata2.leaveStartTime,
+//					leaveEndTime: this.formdata2.leaveEndTime
+//				}
+//				if(this.formdata2.leaveEndTime) {
+//					this.calTimeSheet(params);
+//				}
 			},
 			changeEndTime(time) {
 				this.formdata2.leaveEndTime = time;
-				let params = {
-					leaveStartTime: this.formdata2.leaveStartTime,
-					leaveEndTime: this.formdata2.leaveEndTime
-				}
-				if(this.formdata2.leaveStartTime) {
-					this.calTimeSheet(params);
-				}
+//				let params = {
+//					leaveStartTime: this.formdata2.leaveStartTime,
+//					leaveEndTime: this.formdata2.leaveEndTime
+//				}
+//				if(this.formdata2.leaveStartTime) {
+//					this.calTimeSheet(params);
+//				}
 			},
 	      	queryUserInfo() {
 	      		let userNo = this.formdata1.userNo;
@@ -228,6 +257,74 @@
 	      		//根据员工编号查询员工信息
 	      		this.getUseInfoByUserNo(params);
 	      	},
+	      	dialogConfirm(ajaxNo){
+		        let self = this;
+		        let params = {
+		        	userNo: ajaxNo
+		        }
+		        self.$axios
+		        .get( self.saveUrl, {params} )
+		        .then(res => {
+		        	console.log('res',res);
+		          if (res.data.code == 'F00002'){
+		            self.$message({
+		              message:res.data.retMsg,
+		              type: "error"
+		            });
+		          }else{
+		            self.dialogVisible = false;
+		            self.formdata1 = res.data.data;
+		          }
+		        })
+		        .catch(e => {
+		          console.log('error')
+		        });
+		    },
+		    userNoSelect(){
+		        //table
+		        this.tableOption = [
+		            {
+		                thName:'工号',//table 表头
+		                dataKey:'userNo'//table-col所绑定的prop值
+		            },
+		            {
+		                thName:'姓名',//table 表头
+		                dataKey:'custName'//table-col所绑定的prop值
+		            }
+		            ];
+		        //input 第一个搜索框的配置项
+		        this.inputFirstOption  = {
+		            labelName:'姓名',//label头
+		            placeholder:'请输入姓名'//input placeholder
+		        },
+		        //input 第二个搜索框的配置项
+		        this.inputSecOption  = {
+		            labelName:'工号',
+		            placeholder:'请输入工号'
+		        },
+		        //搜索所需传值
+		        this.searchData = {
+		            custName:'',
+		            userNo:''
+		        }
+		        //table分页所需传值
+		        this.msgPagination =  {
+		            pageNum:1,
+		            pageSize:5,
+		            totalRows:0
+		        }
+		        //点击确定后需要修改的对象 numType为changeNo方法所改变的type
+		//      this.applyUserInfo = this.applyUserInfo
+		        this.numType = 1
+		        //dialog打开
+		        this.dialogVisible=true
+		        //查询接口
+		        this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
+		        //点击确定后根据号码查询用户信息借口 没有则为空
+		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
+		        //dialog标题
+		        this.boxTitle = '人工编号选择'
+		    },
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
 		 		this.formdata2.attachm = file.name;
@@ -283,7 +380,7 @@
 					console.log('addLeaveInfo',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
-						this.$router.push('/leave_management');
+						self.$router.push('/leave_management');
 					}
 				}).catch(function(err) {
 					console.log('error');

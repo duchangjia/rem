@@ -100,7 +100,6 @@ export default {
 	          		self.insertTaxRateGroup(params);
 	          		
 	          	} else {
-	            	this.$message.error('新增失败');
 	            	return false;
 	          	}
 	        });
@@ -112,6 +111,7 @@ export default {
   				console.log(res);
   				if(res.data.code === "S00000") {
   					self.$message({ message: '税率组新增成功', type: 'success' });
+  					self.$router.push('/tax_rate');
   				}
   				
   			}).catch((err) => {

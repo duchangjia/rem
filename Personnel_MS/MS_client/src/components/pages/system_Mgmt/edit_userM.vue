@@ -281,7 +281,7 @@
 				.then(function(res){
 					if(res.data.code=="S00000"){
 			        	self.$message({ message: '操作成功', type: 'success' });
-//			        	self.$router.push('/management_user');
+			        	self.$router.push('/management_user');
 					} else {
 						console.log('error');
 					}

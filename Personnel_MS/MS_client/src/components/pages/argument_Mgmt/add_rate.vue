@@ -7,7 +7,7 @@
 				<el-button type="primary" class="conserve" @click="save('formdata')">保存</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
+				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="100px">
 					<el-form-item label="组名称" prop="groupName">
 					    <el-input v-model="formdata.groupName" :disabled="true"></el-input>
 				  	</el-form-item>
@@ -122,8 +122,12 @@ export default {
 			self.$axios.post(baseURL+'/taxRateCtrl/addRate', params)
   			.then((res) => {
   				console.log("addRate",res);
-  				self.formdata.applyNo = res.data.data;
-  				this.$message({ message: '操作成功', type: 'success' });
+  				if(res.data.code === "S00000") {
+  					self.formdata.applyNo = res.data.data;
+	  				self.$message({ message: '操作成功', type: 'success' });
+	  				self.$router.push('/rate_info');
+  				}
+	  				
   			})
 		}
 	}

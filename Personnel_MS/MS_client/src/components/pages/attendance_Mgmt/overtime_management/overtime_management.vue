@@ -401,27 +401,15 @@ table .el-button--danger:active {
 .el-message-box__headerbtn:hover .el-message-box__close {
   color: #ff9900;
 }
-.info_wrapper .travelCity_wrap2{
-	padding-left: 0;
-}
-.info_wrapper .travelCity_line {
-    width: 10px;
-    height: 1px;
-    display: inline-block;
-    background: #8391a5;
-    margin: 17px 5px;
-}
-.info_wrapper .travelCity_wrap .el-form-item__content,
-.info_wrapper .travelCity_wrap2 .el-form-item__content,
-.info_wrapper .travelCity_wrap .el-input__inner,
-.info_wrapper .travelCity_wrap2 .el-input__inner {
-	width: 130px;
-}
-.info_wrapper .travelCity_wrap2 .el-form-item__content {
-	margin-left: 10px;
-}
+
 .el-input.el-input--small .el-input__inner {
     height: 30px;
     width: 145px;
+}
+.el-dialog__body .el-input__inner {
+	width: 164px;
+}
+.item-box .button-box .restBtn {
+    margin-right: 5px;
 }
 </style>

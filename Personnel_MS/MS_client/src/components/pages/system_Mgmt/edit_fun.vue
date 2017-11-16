@@ -154,15 +154,14 @@
 				.then(function(res){
 					console.log('update',res);
 					if(res.data.code=="S00000"){
-						self.$alert('信息修改成功', '提示', {
-				          	confirmButtonText: '确定'
-			        	});
+						self.$message({ message: '操作成功', type: 'success' });
+			        	self.$router.push('/management_fun');
 					} else {
-						self.$message.error('信息修改失败');
+						console.log('error')
 					}
 				})
 				.catch(function(err){
-					self.$message.error('信息修改失败');
+					console.log('error')
 				})
 			},
 		}

@@ -7,7 +7,7 @@
 				<span class="title-text">加班详情</span>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
+				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
 							<el-input v-model="formdata2.companyName"></el-input>
@@ -138,7 +138,7 @@
 				],
 			 	rules: {
 		          	workotType: [
-		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
+//		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
 	          		]
 				}
 			}

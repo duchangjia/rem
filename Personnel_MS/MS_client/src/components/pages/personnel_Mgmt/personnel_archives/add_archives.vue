@@ -42,39 +42,39 @@
                                         <el-col :span="8">
                                             <el-form-item label="民族" prop="nation">
                                                 <el-select v-model="ruleForm.nation" placeholder="请选择民族">
-                                                    <el-option label="汉族" value="汉族"></el-option>
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.nation"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="婚姻状况" prop="marital" class="marriage_special">
                                                 <el-radio-group v-model="ruleForm.marital">
-                                                    <el-radio-button label="未婚"></el-radio-button>
-                                                    <el-radio-button label="已婚" class="special"></el-radio-button>
-                                                    <el-radio-button label="离异"></el-radio-button>
+                                                    <el-radio-button label="01">未婚</el-radio-button>
+                                                    <el-radio-button label="02" class="special">已婚</el-radio-button>
+                                                    <el-radio-button label="03">离异</el-radio-button>
                                                 </el-radio-group>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="学历" prop="education">
                                                 <el-select v-model="ruleForm.education" placeholder="请选择学历">
-                                                    <el-option label="本科" value="本科"></el-option>
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.education"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="学位" prop="degree">
                                                 <el-select v-model="ruleForm.degree" placeholder="请选择学位">
-                                                    <el-option label="硕士" value="硕士"></el-option>
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.degree"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="政治面貌" prop="politial" class="marriage_special">
                                                 <el-radio-group v-model="ruleForm.politial">
-                                                    <el-radio-button label="党员"></el-radio-button>
-                                                    <el-radio-button label="团员" class="special"></el-radio-button>
-                                                    <el-radio-button label="群众"></el-radio-button>
+                                                    <el-radio-button label="01">党员</el-radio-button>
+                                                    <el-radio-button label="02" class="special">团员</el-radio-button>
+                                                    <el-radio-button label="03">群众</el-radio-button>
                                                 </el-radio-group>
                                             </el-form-item>
                                         </el-col>
@@ -149,28 +149,24 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="公司名称" prop="organNo">
-                                                    <el-select v-model="ruleForm2.organNo" placeholder="请选择公司名称">
-                                                        <el-option label="测试公司01" value="999"></el-option>
-                                                        <el-option label="测试公司02" value="888"></el-option>
+                                                    <el-select v-model="ruleForm2.organNo" placeholder="请选择公司名称" @change="selectDep(ruleForm2.organNo)">
+                                                        <el-option :label="item.organName" :value="item.organNo" v-for="item in basicInfo.company"></el-option>
                                                     </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="部门名称" prop="derpNo">
                                                 <el-select v-model="ruleForm2.derpNo" placeholder="请选择部门名称">
-                                                    <el-option label="测试部门01" value="09001"></el-option>
-                                                    <el-option label="测试部门02" value="09002"></el-option>
-                                                    <el-option label="测试部门03" value="09003"></el-option>
+                                                    <el-option :label="item.derpName" :value="item.derpNo" v-for="item in basicInfo.department"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="CCC" prop="ownerCCC">
                                                 <el-select v-model="ruleForm2.ownerCCC" placeholder="请选择CCC">
-                                                    <el-option label="CCC001" value="CCC001"></el-option>
-                                                    <el-option label="CCC002" value="CCC002"></el-option>
-                                                    <el-option label="CCC003" value="CCC003"></el-option>
-                                                    <el-option label="CCC004" value="CCC004"></el-option>
+                                                    <el-option label="管理CCC" value="01"></el-option>
+                                                    <el-option label="售前CCC" value="02"></el-option>
+                                                    <el-option label="项目CCC" value="03"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -205,10 +201,9 @@
                                         <el-col :span="8">
                                             <el-form-item label="职级" prop="custClass">
                                                 <el-select v-model="ruleForm2.custClass" placeholder="请选择职级">
-                                                    <el-option label="高级" value="高级"></el-option>
-                                                    <el-option label="终极" value="终极"></el-option>
-                                                    <el-option label="初级" value="初级"></el-option>
-                                                    <el-option label="中级" value="中级"></el-option>
+                                                    <el-option label="B10-初级软件工程师" value="B10"></el-option>
+                                                    <el-option label="B11-中级软件工程师" value="B11"></el-option>
+                                                    <el-option label="B12-高级软件工程师" value="B12"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -274,7 +269,13 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="招聘来源">
-                                                <el-input v-model="ruleForm.recruitQuarry"></el-input>
+                                                <!--<el-input v-model="ruleForm.recruitQuarry"></el-input>-->
+                                                <el-select v-model="ruleForm2.recruitQuarry" placeholder="招聘来源">
+                                                    <el-option label="网上招聘" value="01"></el-option>
+                                                    <el-option label="内部推荐" value="02"></el-option>
+                                                    <el-option label="现场招聘" value="03"></el-option>
+                                                    <el-option label="其他" value="99"></el-option>
+                                                </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -335,28 +336,28 @@
                                 <div class="third-wrapper">
                                     <div class="title"><span>工作经历</span><span  class="text" @click="add_experience">添加</span></div>
                                     <div class="from-wrapper">
-                                        <el-form :model="ruleForm4" :rules="rules4" ref="ruleForm4" label-width="100px">
-                                            <el-form-item label="公司名称" prop="companyName">
-                                                <el-input v-model="ruleForm4.companyName"></el-input>
-                                            </el-form-item>
-                                            <el-form-item label="职位" prop="position" class="position_special">
-                                                <el-input v-model="ruleForm4.position"></el-input>
-                                            </el-form-item>
-                                            <el-form-item label="工作时间" prop="workTime1" class="workTime_common">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm4.workTime1"></el-date-picker>
-                                            </el-form-item>
+                                            <el-form :model="ruleForm4" :rules="rules4" ref="ruleForm4" label-width="100px">
+                                                <el-form-item label="公司名称" prop="companyName">
+                                                    <el-input v-model="ruleForm4.companyName"></el-input>
+                                                </el-form-item>
+                                                <el-form-item label="职位" prop="position" class="position_special">
+                                                    <el-input v-model="ruleForm4.position"></el-input>
+                                                </el-form-item>
+                                                <el-form-item label="工作时间" prop="workTime1" class="workTime_common">
+                                                    <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm4.workTime1"></el-date-picker>
+                                                </el-form-item>
                                                 <el-form-item label="至" prop="workTime2" class="workTime_common workTime_special">
                                                     <el-date-picker type="date" v-model="ruleForm4.workTime2" placeholder="选择日期"></el-date-picker>
                                                 </el-form-item>
-                                            <el-form-item label="工作描述" prop="workDes">
-                                                <el-input v-model="ruleForm4.workDes" type="textarea" class="workDes_special"></el-input>
-                                            </el-form-item>
-                                            <div class="button-wrapper">
-                                                <button>保存</button>
-                                                <button class="button_special">取消</button>
-                                                <span @click="delWorkItem">删除本条</span>
-                                            </div>
-                                        </el-form>
+                                                <el-form-item label="工作描述" prop="workDes">
+                                                    <el-input v-model="ruleForm4.workDes" type="textarea" class="workDes_special"></el-input>
+                                                </el-form-item>
+                                                <div class="button-wrapper">
+                                                    <button>保存</button>
+                                                    <button class="button_special">取消</button>
+                                                    <span @click="delWorkItem">删除本条</span>
+                                                </div>
+                                            </el-form>
                                     </div>
                                     <div class="work_list">
                                         <div class="mask"></div>
@@ -421,62 +422,66 @@
                             </el-tab-pane>
                             <el-tab-pane label="项目经历" name="fifth">
                                 <div class="fifth-wrapper">
-                                    <div class="title"><span>项目经历</span><span  class="text" @click="add_pro_experience">添加</span></div>
+                                    <div class="title"><span>项目经历</span><span class="text" @click="add_pro_experience">添加</span></div>
                                     <div class="from-wrapper">
-                                        <el-form :model="ruleForm5" :rules="rules5" ref="ruleForm5" label-width="100px">
-                                           <el-col :span="12">
+                                        <div v-for="(item, index) in project_item.lists" style="margin-top: 20px; position: relative">
+                                            <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fifth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
+                                                <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
                                                <el-col :span="12">
-                                                   <el-form-item label="时间" prop="startTime" class="fifth_common">
-                                                       <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm5.startTime"></el-date-picker>
-                                                   </el-form-item>
+                                                   <el-col :span="12">
+                                                       <!--<input v-show="false" v-model="item.projectId=index">-->
+                                                       <el-form-item label="时间" prop="startTime" class="fifth_common">
+                                                           <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
+                                                       </el-form-item>
+                                                   </el-col>
+                                                   <el-col :span="12">
+                                                       <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
+                                                           <el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>
+                                                       </el-form-item>
+                                                   </el-col>
                                                </el-col>
-                                               <el-col :span="12">
-                                                   <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
-                                                       <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm5.endTime"></el-date-picker>
-                                                   </el-form-item>
-                                               </el-col>
-                                           </el-col>
-                                            <el-col :span="12">
-                                                <el-form-item label="项目名称" prop="projectName">
-                                                    <el-input v-model="ruleForm5.projectName"></el-input>
-                                                </el-form-item>
-                                            </el-col>
-                                            <el-col :span="12">
-                                                <el-form-item label="主要技能" prop="mainSkill">
-                                                    <el-input v-model="ruleForm5.mainSkill"></el-input>
-                                                </el-form-item>
-                                            </el-col>
-                                            <el-col :span="12">
-                                                <el-form-item label="项目角色" prop="projectRole">
-                                                    <el-input v-model="ruleForm5.projectRole"></el-input>
-                                                </el-form-item>
-                                            </el-col>
-                                            <el-col :span="12">
-                                                <el-form-item label="软件环境" prop="softEnv">
-                                                    <el-input v-model="ruleForm5.softEnv"></el-input>
-                                                </el-form-item>
-                                            </el-col>
-                                            <el-col :span="12">
-                                                <el-form-item label="客户" prop="custom">
-                                                    <el-input v-model="ruleForm5.custom"></el-input>
-                                                </el-form-item>
-                                            </el-col>
-                                            <el-col :span="24">
-                                                <el-form-item label="项目职责" prop="projectDuty" class="fifth_common">
-                                                    <el-input type="textarea" v-model="ruleForm5.projectDuty"></el-input>
-                                                </el-form-item>
-                                            </el-col>
-                                            <el-col :span="24">
-                                                <el-form-item label="项目描述" prop="desc" class="fifth_common">
-                                                    <el-input type="textarea" v-model="ruleForm5.desc"></el-input>
-                                                </el-form-item>
-                                            </el-col>
-                                            <div class="button-wrapper">
-                                                <button @click="proSave">保存</button>
-                                                <button class="button_special" @click="proDel">删除</button>
-                                                <!--<span @click="delWorkItem">删除本条</span>-->
-                                            </div>
-                                        </el-form>
+                                                <el-col :span="12">
+                                                    <el-form-item label="项目名称" prop="projectName">
+                                                        <el-input v-model="item.projectName" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <el-col :span="12">
+                                                    <el-form-item label="主要技能" prop="mainSkill">
+                                                        <el-input v-model="item.mainSkill" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <el-col :span="12">
+                                                    <el-form-item label="项目角色" prop="projectRole">
+                                                        <el-input v-model="item.projectRole" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <el-col :span="12">
+                                                    <el-form-item label="软件环境" prop="softEnv">
+                                                        <el-input v-model="item.softEnv" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <el-col :span="12">
+                                                    <el-form-item label="客户" prop="custom">
+                                                        <el-input v-model="item.custom" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <el-col :span="24">
+                                                    <el-form-item label="项目职责" prop="projectDuty" class="fifth_common">
+                                                        <el-input type="textarea" v-model="item.projectDuty" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <el-col :span="24">
+                                                    <el-form-item label="项目描述" prop="desc" class="fifth_common">
+                                                        <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <!--<div class="button-wrapper">-->
+                                                    <!--<button @click="proSave" v-show="false">保存</button>-->
+                                                    <!--<button class="button_special" @click="proDel(index)">删除</button>-->
+                                                    <!--<span @click="delWorkItem">删除本条</span>-->
+                                                <!--</div>-->
+                                            </el-form>
+                                        </div>
                                     </div>
                                 </div>
                             </el-tab-pane>
@@ -501,7 +506,8 @@
                     </template>
                     
                 </div>
-                <button class="add" @click="save(tabName)" v-show="tabName=='first'||tabName=='second'||tabName=='sixth'">{{tabName=='sixth'?'全部下载':'保存'}}</button>
+                <!--v-show="tabName=='first'||tabName=='second'||tabName=='sixth'"-->
+                <button class="add" @click="save(tabName)">{{tabName=='sixth'?'全部下载':'保存'}}</button>
             </div>
         </el-col>
     </div>
@@ -510,12 +516,17 @@
 <script type='text/ecmascript-6'>
     import current from "../../../common/current_position.vue";
     import socialRelationItem from './social_relation_item.vue'
+    import moment from 'moment'
     export default {
         data() {
           return {
-//              basicInfo:{
-//                userNo:'',
-//              },
+              basicInfo:{
+                nation:'',
+                education:'',
+                degree:'',
+                company:'',
+                department:'',
+              },
               dialogImageUrl: '',
               dialogVisible: false,
               social_item:{
@@ -532,7 +543,25 @@
                       },
                   ]
               },
-              activeName: 'fifth',
+              project_item:{
+                  userNo:'',
+                  lists:[
+                      {
+//                          projectId: '',
+                          startTime: '',
+                          endTime: '',
+                          projectName: '',
+                          mainSkill: '',
+                          projectRole: '',
+                          softEnv: '',
+                          custom: '',
+                          projectDuty: '',
+                          desc: '',
+                          isShowEdit: false
+                      },
+                  ]
+              },
+              activeName: 'first',
               tabName:'first',
               ruleForm: {
                   custName: '',
@@ -749,20 +778,47 @@
             current,socialRelationItem
         },
         created() {
-//            let self = this
-//            this.$axios.get('/queryCustContancts')
+            let self = this
+            function getNation() {
+                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=NATION')
+            }
+            function getEducation() {
+                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=EDUCATION')
+            }
+            function getDegree() {
+                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=DEGREE')
+            }
+            function getCompany() {
+                return self.$axios.get('/iem_hrm/organ/selectCompanyByUserNo')
+            }
+            self.$axios.all([getNation(),getEducation(),getDegree(),getCompany()])
+                .then(self.$axios.spread(function(res1,res2,res3,res4){
+                    self.basicInfo.nation = res1.data.data
+                    self.basicInfo.education = res2.data.data
+                    self.basicInfo.degree = res3.data.data
+                    self.basicInfo.company = res4.data.data
+                }))
+                .catch(e=>{
+                    console.log(e)
+                });
+//            this.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=NATION')
 //                .then(res=>{
-//                    console.log(res)
+//                    this.basicInfo.nation = res.data.data
 //                })
 //                .catch(e=>{
-//                    console.log('調用queryCustContancts失敗')
+//                    console.log(e)
 //                })
-//            this.$axios.get('/iem_hrm/CustContact/queryCustContacts', {params:{
-//                userNo:'P0000001'
-//            }})
+//            this.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=EDUCATION')
 //                .then(res=>{
-////                    self.social_item =
+//                    this.basicInfo.education = res.data.data
+//                })
+//                .catch(e=>{
+//                    console.log(e)
+//                })
+//            this.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=DEGREE')
+//                .then(res=>{
 //                    console.log(res)
+//                    this.basicInfo.degree = res.data.data
 //                })
 //                .catch(e=>{
 //                    console.log(e)
@@ -810,6 +866,17 @@
                 console.log(tab, event);
                 this.tabName = tab.name
             },
+            selectDep(organNo) {
+                let data = {organNo}
+                this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
+                    .then(res=>{
+                        console.log(res)
+                        this.basicInfo.department = res.data.data
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
+            },
             save(tabName) {
                 let self = this
 //                this.social_item.forEach((item)=>{
@@ -835,6 +902,7 @@
                                                 });
 //                                                "P0000129"
                                                 self.social_item.userNo = res.data.data
+                                                self.project_item.userNo = res.data.data
                                             }else{
                                                 self.$message({
                                                     type: 'error',
@@ -878,43 +946,43 @@
                         this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
                         this.$refs['ruleFrom'+i][0].isShowEdit = true
                     }
-                    this.social_item.userNo = 'P0000129'
-                    let data = {
-                        userNo:'P0000003',
-                        lists:[
-                            {
-                                contactId: '1',
-                                contactName: '小妹妹',
-                                relationship: '朋友',
-                                telphone: '13444444444',
-                                profession: '医生',
-                                post: '医生',
-                                addr: '深圳',
-                            },
-                            {
-                                contactId: '2',
-                                contactName: '小哥哥',
-                                relationship: '同学',
-                                telphone: '13444444444',
-                                profession: '老板',
-                                post: '老板',
-                                addr: '美国',
-                            }
-                        ]
-                    }
-                    var params = new URLSearchParams();
-                    params.append('userNo', 'P0000003');
-                    params.append('lists', data.lists);
-                    let item = {
-                        userNo:'P0000003',
-                        'lists[0].contactId':'1',
-                        'lists[0].contactName':'小芳方',
-                        'lists[0].relationship':'兄弟',
-                        'lists[0].telphone':'13766666666',
-                        'lists[0].profession':'医生',
-                        'lists[0].post':'医生',
-                        'lists[0].addr':'深圳',
-                    }
+//                    this.social_item.userNo = 'P0000129'
+//                    let data = {
+//                        userNo:'P0000003',
+//                        lists:[
+//                            {
+//                                contactId: '1',
+//                                contactName: '小妹妹',
+//                                relationship: '朋友',
+//                                telphone: '13444444444',
+//                                profession: '医生',
+//                                post: '医生',
+//                                addr: '深圳',
+//                            },
+//                            {
+//                                contactId: '2',
+//                                contactName: '小哥哥',
+//                                relationship: '同学',
+//                                telphone: '13444444444',
+//                                profession: '老板',
+//                                post: '老板',
+//                                addr: '美国',
+//                            }
+//                        ]
+//                    }
+//                    var params = new URLSearchParams();
+//                    params.append('userNo', 'P0000003');
+//                    params.append('lists', data.lists);
+//                    let item = {
+//                        userNo:'P0000003',
+//                        'lists[0].contactId':'1',
+//                        'lists[0].contactName':'小芳方',
+//                        'lists[0].relationship':'兄弟',
+//                        'lists[0].telphone':'13766666666',
+//                        'lists[0].profession':'医生',
+//                        'lists[0].post':'医生',
+//                        'lists[0].addr':'深圳',
+//                    }
                     console.log(this.social_item)
                     this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
                         .then(res=>{
@@ -926,7 +994,78 @@
                             console.log(e)
                         })
                 }
+                if('fifth'===tabName) {
+//                    this.project_item.userNo = 'P0000120'
+                    if(!this.project_item.userNo){
+                        self.$message({
+                            type: 'error',
+                            message: '请先填写基本信息并点击右上角保存'
+                        });
+                        return
+                    }
+                    let projectItemLength = this.project_item.lists.length
+                    let data = {
+                        userNo : this.project_item.userNo,
+                        lists : this.project_item.lists.map(item=>{
+                            return {
+//                                projectId: item.projectId,
+                                startTime: item.startTime,
+                                endTime: item.endTime,
+                                projectName: item.projectName,
+                                mainSkill: item.mainSkill,
+                                projectRole: item.projectRole,
+                                softEnv: item.softEnv,
+                                custom: item.custom,
+                                projectDuty: item.projectDuty,
+                                desc: item.desc,
+                            }
+                        }),
+                    }
+                    var count = 0
+                    for (let i=0;i<projectItemLength;i++){
+                        let name = 'fifth'+i
+                        self.$refs[name][0].validate((valid) => {
+                            if (valid) {
+                                count++
+                                this.project_item.lists[i].isShowEdit = true
+                                data.lists[i].startTime = moment(data.lists[i].startTime).format('YYYY-MM-DD')
+                                data.lists[i].endTime = moment(data.lists[i].endTime).format('YYYY-MM-DD')
+                                if(count==projectItemLength){
+                                    console.log(data,111)
+                                    this.$axios.post('/iem_hrm/employeeProjectExperience/addEmployeeProjectExperienceInfo', data)
+                                        .then(res=>{
+                                            console.log(res)
+                                            let result = res.data.retMsg
+                                            if(result==='操作成功'){
+                                                self.$message({
+                                                    type: 'success',
+                                                    message: result
+                                                });
+                                            }else {
+                                                self.$message({
+                                                    type: 'error',
+                                                    message: result
+                                                });
+                                            }
 
+                                        })
+                                        .catch(e=>{
+                                            console.log(e)
+                                            self.$message({
+                                                type: 'error',
+                                                message: '添加失败,请稍后重试！'
+                                            });
+                                        })
+                                }
+                            } else {
+                                self.$message({
+                                    type: 'error',
+                                    message: '请填写完整信息！'
+                                });
+                            }
+                        });
+                    }
+                }
             },
             add_item() {
                 console.log('add_item')
@@ -954,65 +1093,45 @@
             add_edu_experience() {
 
             },
-            add_pro_experience() {
+            add_experience(){
 
+            },
+            add_pro_experience() {
+                let item = {
+//                        projectId: '',
+                        startTime: '',
+                        endTime: '',
+                        projectName: '',
+                        mainSkill: '',
+                        projectRole: '',
+                        softEnv: '',
+                        custom: '',
+                        projectDuty: '',
+                        desc: '',
+                        isShowEdit: false
+                    }
+//                new socialRelationItem().$mount().$appendTo('#secondContentWrapper')
+                this.project_item.lists.push(item)
             },
             delWorkItem() {
 
             },
             proSave() {
                 if('fifth'===tabName) {
-                    this.social_item.userNo = 'P0000129'
-                    if(!this.social_item.userNo){
+//                    this.project_item.userNo = 'P0000129'
+                    if(!this.project_item.userNo){
                         self.$message({
                             type: 'error',
                             message: '请先填写基本信息并点击右上角保存'
                         });
                         return
                     }
-                    let socialItemLength = this.social_item.lists.length
-                    this.social_item.lists = []
-                    for (let i=0;i<socialItemLength;i++){
+                    let projectItemLength = this.project_item.lists.length
+                    this.project_item.lists = []
+                    for (let i=0;i<projectItemLength;i++){
                         console.log(this.$refs['ruleFrom'+i][0].ruleFrom)
                         this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
                         this.$refs['ruleFrom'+i][0].isShowEdit = true
-                    }
-                    this.social_item.userNo = 'P0000129'
-                    let data = {
-                        userNo:'P0000003',
-                        lists:[
-                            {
-                                contactId: '1',
-                                contactName: '小妹妹',
-                                relationship: '朋友',
-                                telphone: '13444444444',
-                                profession: '医生',
-                                post: '医生',
-                                addr: '深圳',
-                            },
-                            {
-                                contactId: '2',
-                                contactName: '小哥哥',
-                                relationship: '同学',
-                                telphone: '13444444444',
-                                profession: '老板',
-                                post: '老板',
-                                addr: '美国',
-                            }
-                        ]
-                    }
-                    var params = new URLSearchParams();
-                    params.append('userNo', 'P0000003');
-                    params.append('lists', data.lists);
-                    let item = {
-                        userNo:'P0000003',
-                        'lists[0].contactId':'1',
-                        'lists[0].contactName':'小芳方',
-                        'lists[0].relationship':'兄弟',
-                        'lists[0].telphone':'13766666666',
-                        'lists[0].profession':'医生',
-                        'lists[0].post':'医生',
-                        'lists[0].addr':'深圳',
                     }
                     console.log(this.social_item)
                     this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
@@ -1026,11 +1145,30 @@
                         })
                 }
             },
-            proDel() {
-
+            proDel(isShow,index) {
+                if(!isShow)  {
+                    this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.project_item.lists.splice(index,1)
+                    }).catch(()=>{
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    })
+                }
+                if(isShow) {
+                    this.project_item.lists[index].isShowEdit = !isShow
+                }
             },
 
         },
+        computed: {
+
+        }
     }
 </script>
 
@@ -1053,15 +1191,15 @@
                     overflow visible
                 .el-tabs__header
                     margin 0
-                    height 80px
+                    height 50px
                     .el-tabs__nav-wrap
                         height 100%
                         .el-tabs__nav
-                            height 80px
+                            height 50px
                 .el-tabs__item
                     font-size 16px
-                    height 80px
-                    line-height 80px
+                    height 50px
+                    line-height 50px
                     padding 0 20px
                 .el-tabs__nav
                     .el-tabs__active-bar
@@ -1069,7 +1207,7 @@
                     .el-tabs__item.is-active
                         color #000
                 .first_title
-                    padding-top 42px
+                    padding-top 30px
                     .avatar
                         width: 112px
                         height: 112px
@@ -1183,7 +1321,7 @@
                         &:hover
                             text-decoration underline
                 .second_title
-                    padding-top 42px
+                    padding-top 30px
                     padding-left 8px
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
@@ -1203,7 +1341,7 @@
                     min-height 570px
                     padding-bottom 20px
                     .title
-                        padding 42px 8px 0 8px
+                        padding 30px 8px 0 8px
                         font-family: PingFangSC-Regular;
                         font-size: 14px;
                         color: #333333;
@@ -1216,9 +1354,11 @@
                                 text-decoration underline
                     .from-wrapper
                         margin-top 40px
+
                         .el-form
-                            padding 40px 20px
+                            padding 40px 20px 18px 20px
                             background: #F4F4F4;
+                            overflow hidden
                             .el-input
                                 width 445px
                                 height 40px
@@ -1247,6 +1387,14 @@
                                 width: 445px
                                 height: 120px
                                 /*resize none*/
+                            .fifthIcon
+                                position absolute
+                                top 14px
+                                right 20px
+                                color #f90
+                                cursor pointer
+                                &:hover
+                                    text-decoration underline
                             .fifth_common
                                 .el-date-editor
                                     width 210px
@@ -1262,6 +1410,10 @@
                                     margin-left -35px
                                 .el-form-item__error
                                     margin-left -35px
+                        .bg_color
+                            background: #F4F4F4;
+                        .bg_color2
+                            background: #FFF;
                         .button-wrapper
                             margin-top 40px
                             padding-left 100px
@@ -1367,18 +1519,18 @@
 
             .add
                 width: 120px
-                height 40px
+                height 30px
                 background: #FF9900;
                 border: 1px solid #FF9900;
                 outline none
                 font-family: PingFangSC-Regular;
                 font-size: 14px;
                 color: #FFFFFF;
-                line-height 40px
+                line-height 30px
                 text-align center
                 position absolute
                 right 20px
-                top 20px
+                top 10px
         .el-textarea
             width 97%
             max-width 1024px

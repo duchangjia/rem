@@ -7,22 +7,22 @@
 				<el-button type="primary" class="conserve" @click="save('rateInfo')">保存</el-button>
 			</div>
 			<div class="content-inner">
-				<el-form ref="rateInfo" :rules="rules" :model="rateInfo" label-width="80px">
+				<el-form ref="rateInfo" :rules="rules" :model="rateInfo" label-width="100px">
 					<el-form-item label="编号" prop="applyNo">
 					    <el-input v-model="rateInfo.applyNo" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="下限" prop="groupLowerLimit">
-					    <el-input v-model="rateInfo.groupLowerLimit"></el-input>
+					    <el-input v-model.number="rateInfo.groupLowerLimit"></el-input>
 				  	</el-form-item>
 					<el-form-item label="上限" prop="groupLimit">
 					    <el-input v-model="rateInfo.groupLimit"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="百分率" prop="percentRate">
-					    <el-input v-model="rateInfo.percentRate"></el-input>
+					    <el-input v-model.number="rateInfo.percentRate"></el-input>
 				  		<span class="percent_icon">%</span>
 				  	</el-form-item>
 				  	<el-form-item label="速算扣除数" prop="quickCal">
-					    <el-input v-model="rateInfo.quickCal"></el-input>
+					    <el-input v-model.number="rateInfo.quickCal"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="备注" prop="remark">
 					    <el-input v-model="rateInfo.remark"></el-input>
@@ -68,15 +68,15 @@ export default {
 					{ required: true, validator: checkgroupLimit, trigger: 'blur' }
 				],
 				groupLowerLimit: [
-					{ required: true, message: '下限不能为空', trigger: 'blur' },
+					{ required: true, type: 'number', message: '下限不能为空', trigger: 'blur' },
 					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额" }
 				],
 				percentRate: [
-					{ required: true, message: '百分率不能为空', trigger: 'blur' },
+					{ required: true, type: 'number', message: '百分率不能为空', trigger: 'blur' },
 					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				quickCal: [
-					{ required: true, message: '数算扣除数不能为空', trigger: 'blur' },
+					{ required: true, type: 'number', message: '数算扣除数不能为空', trigger: 'blur' },
 					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额" }
 				],
 				remark: [
@@ -121,7 +121,8 @@ export default {
   			.then((res) => {
   				console.log(res);
   				if(res.data.code === "S00000") {
-  					this.$message({ message: res.data.retMsg, type: 'success' });
+  					self.$message({ message: res.data.retMsg, type: 'success' });
+  					self.$router.push('/rate_info');
   				} else {
   					console.log('error')
   				}

@@ -8,7 +8,8 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
+				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="110px">
+					
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
 							<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
@@ -20,7 +21,7 @@
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="工号">
+						<el-form-item label="工号" prop="userNo">
 						    <el-input v-model="formdata1.userNo">
 						    	<el-button slot="append" icon="search" @click="userNoSelect"></el-button>
 						    </el-input>
@@ -51,7 +52,9 @@
 						<el-form-item label="职级">
 						    <el-input v-model="formdata1.custClass" :disabled="true"></el-input>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  
+				</el-form>
+				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="110px">
 					<el-col :span="24" class="item-title">出差信息</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差开始时间" prop="travelStartTime">
@@ -162,7 +165,6 @@
 			    saveUrl:'',
 			    boxTitle:'',
 			    numType:'',
-			    applyUserInfo: {},
 				
 				formdata1: {},
 				formdata2: {
@@ -182,7 +184,12 @@
 					{label: "会议", travelNo: "03"},
 					{label: "其他", travelNo: "99"}
 				],
-			 	rules: {
+				rules1: {
+					userNo: [
+			 			{ required: true, message: '工号不能为空', trigger: 'blur' }
+			 		]
+				},
+			 	rules2: {
 		          	travelType: [
 		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
 	          		],
@@ -290,7 +297,6 @@
 		          }
 		        })
 		        .catch(e => {
-		          this.applyUserInfo = {};
 		          self.$message({
 		            message:e.retMsg,
 		            type: "error"

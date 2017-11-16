@@ -183,70 +183,93 @@ export default {
 					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				comEndmRate: [
-					{ required: true, message: '请输入养老保险单位支付系数', trigger: 'blur' }
+					{ required: true, message: '请输入养老保险单位支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				comEndmFixed: [
-					{ required: true, message: '请输入养老保险单位支付固定金额', trigger: 'blur' }
+					{ required: true, message: '请输入养老保险单位支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				perMediRate: [
-					{ required: true, message: '请输入医疗保险个人支付系数', trigger: 'blur' }
+					{ required: true, message: '请输入医疗保险个人支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				perMediFixed: [
-					{ required: true, message: '请输入医疗保险个人支付固定金额', trigger: 'blur' }
+					{ required: true, message: '请输入医疗保险个人支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				comMediRate: [
-					{ required: true, message: '请输入医疗保险单位支付系数', trigger: 'blur' }
+					{ required: true, message: '请输入医疗保险单位支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				comMediFixed: [
-					{ required: true, message: '请输入医疗保险单位支付固定金额', trigger: 'blur' }
+					{ required: true, message: '请输入医疗保险单位支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				perUnemRate: [
-					{ required: true, message: '请输入失业保险个人支付系数', trigger: 'blur' }
+					{ required: true, message: '请输入失业保险个人支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				perUnemFixed: [
-					{ required: true, message: '请输入失业保险个人支付固定金额', trigger: 'blur' }
+					{ required: true, message: '请输入失业保险个人支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				comUnemRate: [
-					{ required: true, message: '请输入失业保险单位支付系数', trigger: 'blur' }
+					{ required: true, message: '请输入失业保险单位支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				comUnemFixed: [
-					{ required: true, message: '请输入失业保险单位支付固定金额', trigger: 'blur' }
+					{ required: true, message: '请输入失业保险单位支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				perEmplRate: [
-					{ required: true, message: '请输入工伤保险个人支付系数', trigger: 'blur' }
+					{ required: true, message: '请输入工伤保险个人支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				perEmplFixed: [
-					{ required: true, message: '请输入工伤保险个人支付固定金额', trigger: 'blur' }
+					{ required: true, message: '请输入工伤保险个人支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				comEmplRate: [
-					{ required: true, message: '请输入工伤保险单位支付系数', trigger: 'blur' }
+					{ required: true, message: '请输入工伤保险单位支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				comEmplFixed: [
-					{ required: true, message: '请输入工伤保险单位支付固定金额', trigger: 'blur' }
+					{ required: true, message: '请输入工伤保险单位支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				perMateRate: [
-					{ required: true, message: '请输入生育保险个人支付系数', trigger: 'blur' }
+					{ required: true, message: '请输入生育保险个人支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				perMateFixed: [
-					{ required: true, message: '请输入生育保险个人固定金额', trigger: 'blur' }
+					{ required: true, message: '请输入生育保险个人固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				comMateRate: [
-					{ required: true, message: '请输入生育保险单位支付系数', trigger: 'blur' }
+					{ required: true, message: '请输入生育保险单位支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				comMateFixed: [
-					{ required: true, message: '请输入生育保险单位支付固定金额', trigger: 'blur' }
+					{ required: true, message: '请输入生育保险单位支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				perHousRate: [
-					{ required: true, message: '请输入住房公积金个人支付系数', trigger: 'blur' }
+					{ required: true, message: '请输入住房公积金个人支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				perHousFixed: [
-					{ required: true, message: '请输入住房公积金个人支付固定金额', trigger: 'blur' }
+					{ required: true, message: '请输入住房公积金个人支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				comHousRate: [
-					{ required: true, message: '请输入住房公积金单位支付系数', trigger: 'blur' }
+					{ required: true, message: '请输入住房公积金单位支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				comHousFixed: [
-					{ required: true, message: '请输入住房公积金单位支付固定金额', trigger: 'blur' }
+					{ required: true, message: '请输入住房公积金单位支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				]
 			}
 		}
@@ -303,10 +326,13 @@ export default {
 			const self = this;
 			self.$axios.post(baseURL+'/InsurancePayTemplate/addInsurancePayTemplate', params)
   			.then(function(res) {
-  				console.log(res)
-  				self.$message({ message: '福利缴纳系数新增成功', type: 'success' });
+  				if(res.data.code === "S00000") {
+  					self.$message({ message: '福利缴纳系数新增成功', type: 'success' });
+	  				self.$router.push('/welfare_coefficient');
+  				}
+	  				
   			}).catch(function(err) {
-  				self.$message.error('新增失败');
+  				console.log('error')
   			})
 		}
 	}

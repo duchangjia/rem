@@ -20,91 +20,115 @@
 					<div class="form_box">
 						<div class="title">养老保险系数</div>
 						<div class="inner">
-							<el-form-item label="个人支付" prop="perEndmRate">
-						      	<el-input type="text" placeholder="" v-model="payTempDel.perEndmRate"></el-input>
-							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="payTempDel.perEndmFixed"></el-input>
+							<el-form-item label="个人支付" prop="perEndmRate" class="formLeft">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perEndmRate"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comEndmRate">
-						      	<el-input type="text" placeholder="" v-model="payTempDel.comEndmRate"></el-input>
-								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="payTempDel.comEndmFixed"></el-input>
+						  	<span class="plus">%+</span>
+						  	<el-form-item prop="perEndmFixed" class="formRight">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perEndmFixed"></el-input>
+						  	</el-form-item>
+						  	<el-form-item label="单位支付" prop="comEndmRate" class="formLeft">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comEndmRate"></el-input>
+						  	</el-form-item>
+						  	<span class="plus">%+</span>
+						  	<el-form-item prop="comEndmFixed" class="formRight">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comEndmFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
 					<div class="form_box">
 						<div class="title">医疗保险系数</div>
 						<div class="inner">
-							<el-form-item label="个人支付" prop="perMediRate">
-						      	<el-input type="text" placeholder="" v-model="payTempDel.perMediRate"></el-input>
-								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="payTempDel.perMediFixed"></el-input>
+							<el-form-item label="个人支付" prop="perMediRate" class="formLeft">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perMediRate"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comMediRate">
-						      	<el-input type="text" placeholder="" v-model="payTempDel.comMediRate"></el-input>
-								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="payTempDel.comMediFixed"></el-input>
+						  	<span class="plus">%+</span>
+						  	<el-form-item prop="perMediFixed" class="formRight">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perMediFixed"></el-input>
+						  	</el-form-item>
+						  	<el-form-item label="单位支付" prop="comMediRate" class="formLeft">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comMediRate"></el-input>
+						  	</el-form-item>
+						  	<span class="plus">%+</span>
+						  	<el-form-item prop="comMediFixed" class="formRight">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comMediFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
 					<div class="form_box">
 						<div class="title">失业保险系数</div>
 						<div class="inner">
-							<el-form-item label="个人支付" prop="perUnemRate">
-						      	<el-input type="text" placeholder="" v-model="payTempDel.perUnemRate"></el-input>
-							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="payTempDel.perUnemFixed"></el-input>
+							<el-form-item label="个人支付" prop="perUnemRate" class="formLeft">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perUnemRate"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comUnemRate">
-						      	<el-input type="text" placeholder="" v-model="payTempDel.comUnemRate"></el-input>
-							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="payTempDel.comUnemFixed"></el-input>
+						  	<span class="plus">%+</span>
+						  	<el-form-item prop="perUnemFixed" class="formRight">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perUnemFixed"></el-input>
+						  	</el-form-item>
+						  	<el-form-item label="单位支付" prop="comUnemRate" class="formLeft">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comUnemRate"></el-input>
+						  	</el-form-item>
+						  	<span class="plus">%+</span>
+						  	<el-form-item prop="comUnemFixed" class="formRight">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comUnemFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
 					<div class="form_box">
 						<div class="title">工伤保险系数</div>
 						<div class="inner">
-							<el-form-item label="个人支付" prop="perEmplRate">
-						      	<el-input type="text" placeholder="" v-model="payTempDel.perEmplRate"></el-input>
-								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="payTempDel.perEmplFixed"></el-input>
+							<el-form-item label="个人支付" prop="perEmplRate" class="formLeft">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perEmplRate"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comEmplRate">
-						      	<el-input type="text" placeholder="" v-model="payTempDel.comEmplRate"></el-input>
-								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="payTempDel.comEmplFixed"></el-input>
+						  	<span class="plus">%+</span>
+						  	<el-form-item prop="perEmplFixed" class="formRight">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perEmplFixed"></el-input>
+						  	</el-form-item>
+						  	<el-form-item label="单位支付" prop="comEmplRate" class="formLeft">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comEmplRate"></el-input>
+						  	</el-form-item>
+						  	<span class="plus">%+</span>
+						  	<el-form-item prop="comEmplFixed" class="formRight">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comEmplFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
 					<div class="form_box">
 						<div class="title">生育保险系数</div>
 						<div class="inner">
-							<el-form-item label="个人支付" prop="perMateRate">
-						      	<el-input type="text" placeholder="" v-model="payTempDel.perMateRate"></el-input>
-								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="payTempDel.perMateFixed"></el-input>
+							<el-form-item label="个人支付" prop="perMateRate" class="formLeft">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perMateRate"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comMateRate">
-						      	<el-input type="text" placeholder="" v-model="payTempDel.comMateRate"></el-input>
-								<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="payTempDel.comMateFixed"></el-input>
+						  	<span class="plus">%+</span>
+						  	<el-form-item prop="perMateFixed" class="formRight">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perMateFixed"></el-input>
+						  	</el-form-item>
+						  	<el-form-item label="单位支付" prop="comMateRate" class="formLeft">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comMateRate"></el-input>
+						  	</el-form-item>
+						  	<span class="plus">%+</span>
+						  	<el-form-item prop="comMateFixed" class="formRight">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comMateFixed"></el-input>
 						  	</el-form-item>
 						</div>
 					</div>
 					<div class="form_box">
 						<div class="title">住房公积金系数</div>
 						<div class="inner">
-							<el-form-item label="个人支付" prop="perHousRate">
-						      	<el-input type="text" placeholder="" v-model="payTempDel.perHousRate"></el-input>
-							    <span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="payTempDel.perHousFixed"></el-input>
+							<el-form-item label="个人支付" prop="perHousRate" class="formLeft">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perHousRate"></el-input>
 						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comHousRate">
-						      	<el-input type="text" placeholder="" v-model="payTempDel.comHousRate"></el-input>
-						    	<span class="plus">%+</span>
-						      	<el-input type="text" placeholder="" v-model="payTempDel.comHousFixed"></el-input>
+						  	<span class="plus">%+</span>
+						  	<el-form-item prop="perHousFixed" class="formRight">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perHousFixed"></el-input>
 						  	</el-form-item>
+						  	<el-form-item label="单位支付" prop="comHousRate" class="formLeft">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comHousRate"></el-input>
+						  	</el-form-item>
+						  	<span class="plus">%+</span>
+						  	<el-form-item prop="comHousFixed" class="formRight">
+						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comHousFixed"></el-input>
+						  	</el-form-item>					
 						</div>
 					</div>
 				</el-form>
@@ -153,40 +177,101 @@ export default {
 					{ required: true, message: '请输入模版名称', trigger: 'blur' }
 				],
 				perEndmRate: [
-					{ required: true, type: 'number', message: '请输入养老保险个人支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入养老保险个人支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+				],
+				perEndmFixed: [
+					{ required: true, type: 'number', message: '请输入养老保险个人支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				comEndmRate: [
-					{ required: true, type: 'number', message: '请输入养老保险单位支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入养老保险单位支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+				],
+				comEndmFixed: [
+					{ required: true, type: 'number', message: '请输入养老保险单位支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				perMediRate: [
-					{ required: true, type: 'number', message: '请输入医疗保险个人支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入医疗保险个人支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+				],
+				perMediFixed: [
+					{ required: true, type: 'number', message: '请输入医疗保险个人支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				comMediRate: [
-					{ required: true, type: 'number', message: '请输入医疗保险单位支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入医疗保险单位支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+				],
+				comMediFixed: [
+					{ required: true, type: 'number', message: '请输入医疗保险单位支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				perUnemRate: [
-					{ required: true, type: 'number', message: '请输入失业保险个人支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入失业保险个人支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+				],
+				perUnemFixed: [
+					{ required: true, type: 'number', message: '请输入失业保险个人支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				comUnemRate: [
-					{ required: true, type: 'number', message: '请输入失业保险单位支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入失业保险单位支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+				],
+				comUnemFixed: [
+					{ required: true, type: 'number', message: '请输入失业保险单位支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				perEmplRate: [
-					{ required: true, type: 'number', message: '请输入工伤保险个人支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入工伤保险个人支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+				],
+				perEmplFixed: [
+					{ required: true, type: 'number', message: '请输入工伤保险个人支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				comEmplRate: [
-					{ required: true, type: 'number', message: '请输入工伤保险单位支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入工伤保险单位支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+				],
+				comEmplFixed: [
+					{ required: true, type: 'number', message: '请输入工伤保险单位支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				perMateRate: [
-					{ required: true, type: 'number', message: '请输入生育保险个人支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入生育保险个人支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+				],
+				perMateFixed: [
+					{ required: true, type: 'number', message: '请输入生育保险个人固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				comMateRate: [
-					{ required: true, type: 'number', message: '请输入生育保险单位支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入生育保险单位支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+				],
+				comMateFixed: [
+					{ required: true, type: 'number', message: '请输入生育保险单位支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				perHousRate: [
-					{ required: true, type: 'number', message: '请输入住房公积金个人支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入住房公积金个人支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+				],
+				perHousFixed: [
+					{ required: true, type: 'number', message: '请输入住房公积金个人支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				],
 				comHousRate: [
-					{ required: true, type: 'number', message: '请输入住房公积金单位支付系数', trigger: 'blur' }
+					{ required: true, type: 'number', message: '请输入住房公积金单位支付系数', trigger: 'blur' },
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+				],
+				comHousFixed: [
+					{ required: true, type: 'number', message: '请输入住房公积金单位支付固定金额', trigger: 'blur' },
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
 				]
 			}
 		}
@@ -269,7 +354,8 @@ export default {
   			.then((res) => {
   				console.log("updateInsurancePayTemplate",res);
   				if(res.data.code === "S00000") {
-  					this.$message({ message: '操作成功', type: 'success' });
+  					self.$message({ message: '操作成功', type: 'success' });
+  					self.$router.push('/welfare_coefficient');
   				}
   			}).catch((err) => {
   				console.log(err)
@@ -328,15 +414,34 @@ border-bottom: 1px solid #EEEEEE;
 	height: 30px;
 	padding: 0;
 }
+.welfare_info .form_box {
+	clear: both;
+}
 .welfare_info .form_box .title{
 	padding: 11px 0px 11px 10px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 	color: #999999;
-	border-bottom: none;
+	border: none;
+	clear: both;
+}
+.welfare_info .form_box .inner {
+	padding-left: 20px;
 }
 .welfare_info .form_box .plus {
 	margin-left: 10px;
 	margin-right: -20px;
+    margin-top: 10px;
+    float: left;
+}
+.welfare_info .form_box .el-form-item {
+	width: 45%;
+	float: left;
+}
+.welfare_info .form_box .el-form-item.formLeft {
+	clear: both;
+}
+.welfare_info .form_box .el-form-item.formRight {
+    margin-left: -50px;
 }
 .welfare_info .el-input__inner {
     border: 1px solid #EEEEEE;

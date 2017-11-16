@@ -205,7 +205,7 @@ export default {
 	    	this.$router.push('/add_leave');
 	    },
 		handleEdit(index, row) {
-			console.log('row:',row);
+			sessionStorage.setItem('applyNo',row.applyNo);
             this.$router.push({
             	name: "edit_leave",
             	params: {
@@ -215,7 +215,6 @@ export default {
             });
 		},
 		handleInfo(index, row) {
-			console.log('row:',row);
 			sessionStorage.setItem('applyNo',row.applyNo);
 			this.$router.push({
 				name: "leave_info",
@@ -284,6 +283,11 @@ export default {
 				params = {
 					"pageNum": val,
 					"pageSize": self.pageSize,
+					organNo: self.ruleForm2.organNo,
+					derpNo: self.ruleForm2.derpNo,
+					userNo: self.ruleForm2.userNo,
+					leaveStartTime: self.ruleForm2.startDate,
+					leaveEndTime: self.ruleForm2.endDate
 					
 				}
 			} else {
@@ -317,7 +321,7 @@ export default {
 				console.log('deleteLeaveInfo',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
-					let params = {
+					let param = {
 						"pageNum": self.pageNum,
 						"pageSize": self.pageSize,
 						organNo: self.ruleForm2.organNo,
@@ -328,7 +332,7 @@ export default {
 					};
 					
 					//请假列表查询
-					self.queryLeaveList(params);
+					self.queryLeaveList(param);
 				}
 			}).catch(function(err) {
 				console.log(err);

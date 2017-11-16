@@ -154,6 +154,7 @@
 				.then((res) => {
 					console.log('addCparm',res);
 					self.$message({ message: '操作成功', type: 'success' });
+					self.$router.push('/rank');
 				}).catch((err) => {
 					console.log('error')
 				})

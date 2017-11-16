@@ -175,6 +175,7 @@
 					console.log('modCparm',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: res.data.retMsg, type: 'success' });
+						self.$router.push('/rank');
 					}
 					
 				}).catch((err) => {
