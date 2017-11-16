@@ -424,4 +424,10 @@ table .el-button--danger:active {
     height: 30px;
     width: 145px;
 }
+.el-dialog__body .el-input__inner {
+	width: 164px;
+}
+.item-box .button-box .restBtn {
+    margin-right: 5px;
+}
 </style>

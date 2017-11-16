@@ -61,7 +61,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="请假累计工时" prop="timeSheet">
-						    <el-input v-model="formdata2.timeSheet"></el-input>
+						    <el-input v-model="formdata2.timeSheet" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24">
@@ -98,6 +98,7 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
+	import messageBox from "../../../common/messageBox-components.vue";
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
@@ -169,7 +170,7 @@
 		            	{ required: true, message: '请假类型不能为空', trigger: 'blur' }
 	          		],
 	          		timeSheet: [
-		            	{ required: true, message: '请假工时不能为空', trigger: 'blur' }
+		            	{ required: true,type: 'number', message: '请假工时不能为空', trigger: 'blur' }
 	          		],
 	          		remark: [
 		            	{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
@@ -205,17 +206,17 @@
 					leaveStartTime: this.formdata2.leaveStartTime,
 					leaveEndTime: this.formdata2.leaveEndTime
 				}
-				if(this.formdata2.leaveStartTime) {
+				if(this.formdata2.leaveEndTime) {
 					this.calTimeSheet(params);
 				}
 			},
 			changeEndTime(time) {
 				this.formdata2.leaveEndTime = time;
 				let params = {
-					leaveStartTime: this.formdata2.travelStartTime,
+					leaveStartTime: this.formdata2.leaveStartTime,
 					leaveEndTime: this.formdata2.leaveEndTime
 				}
-				if(this.formdata2.leaveEndTime) {
+				if(this.formdata2.leaveStartTime) {
 					this.calTimeSheet(params);
 				}
 			},
@@ -229,9 +230,14 @@
 	      	},
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
+		 		this.formdata2.attachm = file.name;
 	      	},
 	      	successUpload(response, file, fileList) {
-	      		this.$message({ message: '操作成功', type: 'success' });
+	      		if(response.code === "S00000") {
+	      			this.$message({ message: '操作成功', type: 'success' });
+					this.$router.push('/leave_management');
+	      		}
+		      		
 	      	},
 	      	save(formName) {
 				const self = this;
@@ -277,6 +283,7 @@
 					console.log('addLeaveInfo',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
+						this.$router.push('/leave_management');
 					}
 				}).catch(function(err) {
 					console.log('error');
@@ -287,9 +294,9 @@
 				self.$axios.get(baseURL+'/leave/calculateLeaveTime',{params})
 				.then(function(res) {
 					console.log('timeSheet',res);
-					if(res.data.code === "S00000") {
-						self.formdata2.travelDays = res.data.data.travelDays;
-					}
+//					if(res.data.code === "S00000") {
+						self.formdata2.timeSheet = res.data;
+//					}
 				}).catch(function(err) {
 					console.log('error');
 				})

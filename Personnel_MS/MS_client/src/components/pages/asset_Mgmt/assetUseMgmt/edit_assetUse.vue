@@ -178,7 +178,7 @@
         created() {
             let self = this
             let applyNo = this.$route.query.applyNo
-            self.$axios.get('/iem_hrm/assetUse/queryAssetUseDetails/'+applyNo)
+            self.$axios.get('/iem_hrm/assetUse/getAssetUseByApplyNo/'+applyNo)
                 .then(res => {
                     self.applyCompanyInfo = res.data
                     switch (this.applyCompanyInfo.assetType) {

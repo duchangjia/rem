@@ -7,10 +7,11 @@
                 <div class="add-wrapper">
                     <el-form :inline="true" label-width="110px">
                         <el-col :sm="24" :md="12">
-                            <el-form-item label="公司" prop="organName">
-                                <el-select v-model="custInfo.organName">
+                            <el-form-item label="公司" prop="organName" class="is-require">
+                                <el-select v-model="custInfo.organName" @change="changeCompany">
                                     <el-option
                                       v-for="item in companyName"
+                                      :key = "item.organNo"
                                       :label="item.organName"
                                       :value="item.organName">
                                     </el-option>
@@ -59,34 +60,44 @@
     export default {
         data() {
             return {
-                
-                custInfo: {
+                custInfo:{
                     organName:'',
-                    // organAddr
-                    // organAcct: '',
-                    // organAcctname: '',
-                    // organTel: '',
-                    // organTaxNo: '',
-                    // organAddr: '',
-                    // organNo: '',
-                    // organName: '',
+                    organNo:'',
+                    organTaxNo:'',
+                    organAcct:'',
+                    organAcctname:'',
+                    organAddr:''
                 },
                 companyName:[],
             }
         },
         mounted(){
+          //拉取公司名称
             let self = this;
                 self.$axios.get('/iem_hrm/organ/queryAllCompany')
                 .then(res=>{
                     let result =res.data.data
-                    console.log(result,'公司名称');
-                    this.companyName = result;
+                    self.companyName = result;
                 })
         },
         methods: {
+          changeCompany(value){
+            let companyArray =  this.companyName;
+            for(let i = 0;i<companyArray.length;i++){
+              if(companyArray[i].organName == value){
+                console.log(companyArray[i].organNo);
+              }
+            }
+            
+          },
             save(){
-                let self = this
-//                this.$axios.post('/iem_hrm/organBillInfo/addBillInf')
+                let self = this 
+                self.$axios.post('/iem_hrm/organBillInfo/addBillInf',self.custInfo)
+                .then(res=>{
+                    let result =res.data.data
+                    console.log(result,'返回结果');
+                    self.companyName = result;
+                })
             }
         },
         components: {
@@ -249,5 +260,9 @@ table .el-button--danger:active {
 .add-wrapper .el-form-item__label {
   margin-right: 14px;
 }
-
+.el-form-item.is-required .el-form-item__label:before{
+    content: '*';
+    color: #ff4949;
+    margin-right: 4px;
+}
  </style>

@@ -12,7 +12,7 @@
 		  			 	:on-success="successUpload"
 		  			 	action="/iem_hrm/attence/batchimport" 
 		  			 	:show-file-list="false" 
-		  			 	
+		  			 	:beforeUpload="beforeUpload"
 		  			 	:headers="token"
 					>
                         <span class="icon-import" slot="trigger" title="导入"></span>
@@ -220,6 +220,19 @@ export default {
       			this.$message({ message: '操作成功', type: 'success' });
       		}
       		
+      	},
+      	beforeUpload(file) {
+      		const extension = file.name.split('.')[1] === 'xls'
+	      	const extension2 = file.name.split('.')[1] === 'xlsx'
+	      	const isLt2M = file.size / 1024 / 1024 < 10
+	      	if (!extension && !extension2) {
+	        	console.log('上传模板只能是 xls、xlsx 格式!')
+	      	}
+	      	if (!isLt2M) {
+	        	console.log('上传模板大小不能超过 10MB!')
+	      	}
+	      	return extension || extension2 && isLt2M
+
       	},
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;

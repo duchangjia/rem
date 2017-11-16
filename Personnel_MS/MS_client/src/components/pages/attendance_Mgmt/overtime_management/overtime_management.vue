@@ -418,7 +418,7 @@ table .el-button--danger:active {
 	width: 130px;
 }
 .info_wrapper .travelCity_wrap2 .el-form-item__content {
-	margin-left: 20px;
+	margin-left: 10px;
 }
 .el-input.el-input--small .el-input__inner {
     height: 30px;

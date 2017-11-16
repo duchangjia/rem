@@ -30,14 +30,10 @@
                                 :inputFirstOption.sync="inputFirstOption" 
                                 :inputSecOption.sync="inputSecOption"
                                 :searchData.sync="searchData" 
-                                :pagination.sync="msgPagination" 
-                                :saveUrl="saveUrl"
                                 :searchUrl="searchUrl"
-                                :assetNo.sync = "info.assetNo"
                                 :dialogVisible.sync="dialogVisible"
-                                @changeNo="changeNo"
-                                @changeDialogVisible="changeDialogVisible"
-                                @confirmSearch = "confirmSearch"
+                                :pagination.sync="msgPagination"
+                                @dialogConfirm="dialogConfirm"
                                 ></messageBox>
 					 	</el-form-item>
 					</el-col>	
@@ -85,7 +81,7 @@
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差天数" prop="travelDays">
-						    <el-input v-model="formdata2.travelDays"></el-input>
+						    <el-input v-model="formdata2.travelDays" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -137,7 +133,7 @@
 		        if (value == '') {
 		          	callback(new Error('出差开始时间不能为空'));
 		        } else if (this.formdata2.travelEndTime && value >= this.formdata2.travelEndTime) {
-		          	callback(new Error('请输入正确的开始时间'));
+		          	callback(new Error('出差开始时间不能大于结束时间'));
 		        } else {
 		          	callback();
 		        }
@@ -146,7 +142,7 @@
 		        if (value == '') {
 		          	callback(new Error('出差结束时间不能为空'));
 		        } else if (this.formdata2.travelStartTime && value <= this.formdata2.travelStartTime) {
-		          	callback(new Error('请输入正确的结束时间'));
+		          	callback(new Error('出差开始时间不能大于结束时间'));
 		        } else {
 		          	callback();
 		        }
@@ -157,10 +153,6 @@
 				},
 				fileFlag: '',
 				dialogVisible:false,
-				info: {
-			        applyUserNo: "",
-			        assetNo: ""
-		      	},
 			    tableOption:[],
 			    inputFirstOption:{},
 			    inputSecOption:{},
@@ -173,7 +165,17 @@
 			    applyUserInfo: {},
 				
 				formdata1: {},
-				formdata2: {},
+				formdata2: {
+					travelStartTime: "",
+					travelEndTime: "",
+					travelType: "",
+					travelStartCity: "",
+					travelArrivalCity: "",
+					travelDays: "",
+					travelSTD: "",
+					remark: "",
+					attachm: "",
+				},
 				travelTypeList: [
 					{label: "业务拓展", travelNo: "01"},
 					{label: "项目实施", travelNo: "02"},
@@ -242,7 +244,7 @@
 				if(this.formdata2.travelEndTime) {
 					this.calTravelDays(params);
 				}
-				console.log(params);
+//				console.log(params);
 				
 			},
 			changeEndTime(time) {
@@ -268,16 +270,32 @@
 	      		//根据员工编号查询员工信息
 	      		this.getUseInfoByUserNo(params);
 	      	},
-	      	changeNo(val){
-		        console.log('userNo',val)
-                this.formdata1.userNo = val
-		    },
-		    changeDialogVisible(flag){
-		        this.dialogVisible = flag
-		    },
-		    confirmSearch(val){
-		    	console.log('confirmSearch',val)
-                this.formdata1 = val
+	      	dialogConfirm(ajaxNo){
+		        let self = this;
+		        let params = {
+		        	userNo: ajaxNo
+		        }
+		        self.$axios
+		        .get( self.saveUrl, {params} )
+		        .then(res => {
+		        	console.log('res',res);
+		          if (res.data.code == 'F00002'){
+		            self.$message({
+		              message:res.data.retMsg,
+		              type: "error"
+		            });
+		          }else{
+		            self.dialogVisible = false;
+		            self.formdata1 = res.data.data;
+		          }
+		        })
+		        .catch(e => {
+		          this.applyUserInfo = {};
+		          self.$message({
+		            message:e.retMsg,
+		            type: "error"
+		          });
+		        });
 		    },
 		    userNoSelect(){
 		        //table
@@ -329,7 +347,11 @@
 		 		this.fileFlag = file;
 	      	},
 	      	successUpload(response, file, fileList) {
-	      		this.$message({ message: '操作成功', type: 'success' });
+	      		if(response.code === "S00000") {
+	      			this.$message({ message: '操作成功', type: 'success' });
+	      			this.$router.push('/travel_management');
+	      		}
+	      		
 	      	},
 	      	save(formName) {
 				const self = this;
@@ -377,6 +399,7 @@
 					console.log('addTravelInfo',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
+						self.$router.push('/travel_management');
 					}
 				}).catch(function(err) {
 					console.log('error');

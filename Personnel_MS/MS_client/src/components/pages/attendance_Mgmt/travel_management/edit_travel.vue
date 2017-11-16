@@ -67,7 +67,7 @@
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="出差天数" prop="travelDays">
+						<el-form-item label="出差天数" prop="travelDays" :disabled="true">
 						    <el-input v-model="formdata2.travelDays"></el-input>
 					  	</el-form-item>
 					</el-col>  	
@@ -261,6 +261,7 @@
 	      		console.log('response',response);
 	      		if(response.code === "S00000") {
 	      			this.$message({ message: '操作成功', type: 'success' });
+	      			this.$router.push('/travel_management');
 	      		}
 	      		
 	      	},
@@ -332,6 +333,7 @@
 					console.log('modifyTravelInfo',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
+						self.$router.push('/travel_management');
 					}
 					
 				}).catch(function(err) {

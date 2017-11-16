@@ -235,7 +235,10 @@
 		 		this.formdata2.attachm = file.name;
 	      	},
 	      	successUpload(response, file, fileList) {
-	      		this.$message({ message: '操作成功', type: 'success' });
+	      		if(response.code === "S00000") {
+	      			this.$message({ message: '操作成功', type: 'success' });
+					this.$router.push('/leave_management');
+	      		}
 	      	},
 	      	save(formName) {
 				const self = this;
@@ -283,6 +286,7 @@
 					console.log('modifyTravelInfo',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
+						self.$router.push('/leave_management');
 					}
 				}).catch(function(err) {
 					console.log('error');

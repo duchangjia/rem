@@ -118,13 +118,6 @@ export default {
         }
       })
       .catch(e => {
-          console.log(e,"错误信息")
-          if(this.assNoHidden){
-            this.applyUserInfo = {};
-          }else{
-            this.assetInfo = {};
-          }
-          
           this.$message({
             message:e.retMsg,
             type: "error"
@@ -161,36 +154,7 @@ export default {
     },
     confirm(){
       let self =this;
-      self.$emit('update:dialogVisible',false);
-      if(this.saveUrl == ''){
-        return false;
-      }
-      self.$axios
-        .get(
-          self.saveUrl+
-          self.custInfo.stateNo
-        )
-        .then(res => {
-          if (res.data.code == 'F00002') {
-            self.$emit('changeNo','');
-             self.$emit('confirmSearch',{});
-            self.$message({
-              message:res.data.retMsg,
-              type: "error"
-            });
-          }else{
-            self.dialogVisible = false;
-            self.$emit('changeNo', self.custInfo.stateNo);
-            self.$emit('confirmSearch',res.data.data)
-          }
-        })
-        .catch(e => {
-          this.applyUserInfo = {};
-          self.$message({
-            message:e.retMsg,
-            type: "error"
-          });
-        });
+      self.$emit('dialogConfirm',self.custInfo.stateNo);
     }
     
   },
