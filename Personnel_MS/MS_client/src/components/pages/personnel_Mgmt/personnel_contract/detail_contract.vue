@@ -44,11 +44,7 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="性别">
-                                    <el-select v-model="basicPactMsg.sex" :disabled="true">
-                                        <el-option label="男" value="01"></el-option>
-                                        <el-option label="女" value="02"></el-option>
-                                        <el-option label="其他" value="99"></el-option>
-                                    </el-select>
+                                    <el-input v-model="_sex" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -58,10 +54,7 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="合同类型" prop="pactType">
-                                    <el-select v-model="basicPactMsg.pactType" :disabled="true">
-                                        <el-option label="劳动合同" value="01"></el-option>
-                                        <el-option label="保密协议" value="02"></el-option>
-                                    </el-select>
+                                    <el-input v-model="_pactType" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -240,6 +233,38 @@ export default {
     } else {
       this.activeName = "basicPactMsg";
       this.getPactDtl(); // 初始查合同基本详情
+    }
+  },
+  computed: {
+    _sex: {
+      set: function(val) {
+        this.basicPactMsg.sex = val;
+      },
+      get: function() {
+        if (this.basicPactMsg.sex == "01") {
+          return "男";
+        } else if (this.basicPactMsg.sex == "02") {
+          return "女";
+        } else if (this.basicPactMsg.sex == "99") {
+          return "其他";
+        } else {
+          return "";
+        }
+      }
+    },
+    _pactType: {
+      set: function(val) {
+        this.basicPactMsg.pactType = val;
+      },
+      get: function() {
+        if (this.basicPactMsg.pactType == "01") {
+          return "劳动合同";
+        } else if (this.basicPactMsg.pactType == "02") {
+          return "保密协议";
+        } else {
+          return "";
+        }
+      }
     }
   },
   methods: {

@@ -43,10 +43,10 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">采购信息</el-col>
-                <el-form :inline="true" :model="assetInfoDetail" :rules="rules" ref="editAssetInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :model="assetInfoDetail" :rules="assetInfoRules" ref="editAssetInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="12">
                         <el-form-item label="采购订单号" prop="buyApplyNo">
-                            <el-input v-model="assetInfoDetail.buyApplyNo" :maxlength="32"></el-input>
+                            <el-input v-model="assetInfoDetail.buyApplyNo"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
@@ -56,7 +56,7 @@
                     </el-col> 
                     <el-col :span="12">
                         <el-form-item label="购买数量" prop="buyNum">
-                            <el-input v-model="assetInfoDetail.buyNum"></el-input>
+                            <el-input v-model="assetInfoDetail.buyNum" :maxlength="10"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
@@ -112,7 +112,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="折旧年限" prop="derpLimit">
-                            <el-input v-model="assetInfoDetail.derpLimit"></el-input>
+                            <el-input v-model="assetInfoDetail.derpLimit" ></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -139,20 +139,32 @@
 import current from "../../../common/current_position.vue";
 export default {
   data() {
+    let validateBuyNum = (rule, value, callback) => {
+        if (!Number.isInteger(value)) {
+            callback(new Error('请输入正整数'));
+        } else {
+            if (value > 2147483647) {
+            callback(new Error('购买数量必须小于2147483647'));
+            } else {
+            callback();
+            }
+        }
+      };
     return {
       labelPosition: "right",
       assetNo: "",
       applyUserNo: "",
       custInfo: {},
       assetInfoDetail: {},
-      rules: {
+      assetInfoRules: {
         buyUnitPrice: [
           { required: true, type: 'number', message: "购买单价不能为空", trigger: "blur" },
           { pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的正数" }
         ],
-        buyNum: [{ pattern: /^(0|([1-9][0-9]{0,11}))$/, message: "请输入正整数" }],
+        // buyNum: [{ pattern: /^(0|([1-9][0-9]{0,10}))$/, message: "请输入正整数" }],
+        buyNum: [{ validator: validateBuyNum, trigger: 'blur' }],
         buyAmount: [
-          { required: true, type: 'number',message: "购买金额不能为空", trigger: "blur" },
+          { required: true, type: 'number', message: "购买金额不能为空", trigger: "blur" },
           { pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         assetName: [{ required: true, message: "资产名称不能为空", trigger: "blur" }],

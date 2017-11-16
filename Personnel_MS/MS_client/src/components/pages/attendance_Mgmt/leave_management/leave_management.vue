@@ -10,8 +10,8 @@ export default {
 </script>
 
 <style>
-.info {
-	padding: 0 20px;
+.info_wrapper {
+	padding: 0 0 20px 20px;
 }
 .content-wrapper {
   background: #ffffff;
@@ -87,7 +87,7 @@ export default {
 
 .el-input__inner {
   height: 40px;
-  width: 180px;
+  /*width: 180px;*/
 }
 
 .add-wrapper .el-input__inner {
@@ -405,8 +405,11 @@ table .el-button--danger:active {
 	padding-left: 0;
 }
 .info .travelCity_line {
-    padding: 7px 3px;
+    width: 10px;
+    height: 1px;
     display: inline-block;
+    background: #8391a5;
+    margin: 17px 5px;
 }
 .info .travelCity_wrap .el-form-item__content,
 .info .travelCity_wrap2 .el-form-item__content,
@@ -415,10 +418,10 @@ table .el-button--danger:active {
 	width: 130px;
 }
 .info .travelCity_wrap2 .el-form-item__content {
-	margin-left: 20px;
+	margin-left: 10px;
 }
-.info .el-input.el-input--small .el-input__inner {
+.el-input.el-input--small .el-input__inner {
     height: 30px;
-    width: 145px!important;
+    width: 145px;
 }
 </style>

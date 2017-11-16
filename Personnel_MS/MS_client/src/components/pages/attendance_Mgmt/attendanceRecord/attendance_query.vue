@@ -7,17 +7,18 @@
 				<!--<el-button type="primary" class="title_button" @click="handleImport()">导入</el-button>-->
 				<div class="imExport-btn">
 					<!--<span class="icon-import" @click="handleImport"></span>-->
-					<el-upload class="upload-demo imExport-btn-item"   
-						ref="upload" 
-						:on-change="handleChange"
-						action="https://jsonplaceholder.typicode.com/posts/" 
-						:show-file-list="false" 
-						:auto-upload="false"
+					<el-upload ref="upload" name="file" class="upload-demo imExport-btn-item"
+		  			 	:on-change="changeUpload" 
+		  			 	:on-success="successUpload"
+		  			 	action="/iem_hrm/attence/batchimport" 
+		  			 	:show-file-list="false" 
+		  			 	:beforeUpload="beforeUpload"
+		  			 	:headers="token"
 					>
-                        <span class="icon-import" slot="trigger" @click="handleImport"></span>
+                        <span class="icon-import" slot="trigger" title="导入"></span>
                    	</el-upload>
-					<span class="icon-export imExport-btn-item" @click="handleExport"></span>
-					<span class="icon-download imExport-btn-item" @click="handleDownloadTemplate"></span>
+					<span class="icon-export imExport-btn-item" title="导出" @click="handleExport"></span>
+					<span class="icon-download imExport-btn-item" title="下载模版" @click="handleDownloadTemplate"></span>
 				</div>
 			</div>
 			<div class="content-inner">
@@ -71,7 +72,6 @@
 						<el-table-column prop="custName" label="姓名"></el-table-column>
 						<el-table-column prop="attenceTime" label="考勤日期"></el-table-column>
 						<el-table-column prop="attenceType" label="类型" :formatter="attenceTypeFormatter"></el-table-column>
-						<el-table-column prop="projNo" label="项目ID"></el-table-column>
 						<el-table-column prop="taskTime" label="工时"></el-table-column>
 						<el-table-column prop="createdBy" label="录入人"></el-table-column>
 						<el-table-column prop="createdDate" label="录入时间" :formatter="travelTimeFormatter"></el-table-column>
@@ -90,12 +90,29 @@ import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
+		var checkStartDate = (rule, value, callback) => {
+	        if (this.ruleForm2.endDate && value >= this.ruleForm2.endDate) {
+	          	callback(new Error('开始时间不能大于结束时间'));
+	        } else {
+	          	callback();
+	        }
+      	};
+		var checkEndDate = (rule, value, callback) => {
+	        if (this.ruleForm2.startDate && value <= this.ruleForm2.startDate) {
+	          	callback(new Error('开始时间不能大于结束时间'));
+	        } else {
+	          	callback();
+	        }
+      	};
 		return {
 			pickerOptions0: {
 	          disabledDate(time) {
 //	            return time.getTime() < Date.now() - 8.64e7;
 	          }
 	       	},
+	       	token: {
+				Authorization:`Bearer `+localStorage.getItem('access_token'),
+			},
 			pageNum: 1,
 			pageSize: 10,
 			totalRows: 1,
@@ -142,8 +159,12 @@ export default {
 				}
 			],
 			rules: {
-				compName: [],
-				departName: []
+				startDate: [
+	            	{ validator: checkStartDate, trigger: 'change' }
+          		],
+          		endDate: [
+	            	{ validator: checkEndDate, trigger: 'change' }
+          		]
 			}
 		}
 	},
@@ -189,9 +210,29 @@ export default {
 			let time = row.createdDate;
 			return moment(time).format('YYYY-MM-DD');
 		},
-		handleChange(file, fileList) {
+		changeUpload(file, fileList) {
 //		    this.fileList3 = fileList.slice(-3);
 			console.log(file);
+      	},
+      	successUpload(response, file, fileList) {
+      		console.log('response',response);
+      		if(response.code === "S00000") {
+      			this.$message({ message: '操作成功', type: 'success' });
+      		}
+      		
+      	},
+      	beforeUpload(file) {
+      		const extension = file.name.split('.')[1] === 'xls'
+	      	const extension2 = file.name.split('.')[1] === 'xlsx'
+	      	const isLt2M = file.size / 1024 / 1024 < 10
+	      	if (!extension && !extension2) {
+	        	console.log('上传模板只能是 xls、xlsx 格式!')
+	      	}
+	      	if (!isLt2M) {
+	        	console.log('上传模板大小不能超过 10MB!')
+	      	}
+	      	return extension || extension2 && isLt2M
+
       	},
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;
@@ -208,10 +249,7 @@ export default {
 			}
 			//查询部门列表
 		 	this.queryDerpList(params);
-	   	},
-		beforeAvatarUpload(file) {
-			
-		},
+	   },
 		//查询
 		queryForm(formName) {
 			const self = this;
@@ -227,7 +265,6 @@ export default {
 						attenceStartTime: self.ruleForm2.startDate,
 						attenceEndTime: self.ruleForm2.endDate
 					}
-					console.log(params);
 					//条件查询考勤列表
 					this.queryAttenceList(params);
 					
@@ -589,5 +626,8 @@ export default {
 	width: 16px;
 	height: 16px;
 	background: url(../../../../../static/img/common/template-download0.png);
+}
+.attendance_wrap .el-form-item__error {
+    left: 39px;
 }
 </style>

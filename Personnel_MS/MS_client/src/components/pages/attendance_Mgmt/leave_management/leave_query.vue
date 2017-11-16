@@ -87,6 +87,20 @@ import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
+		var checkStartDate = (rule, value, callback) => {
+	        if (this.ruleForm2.endDate && value >= this.ruleForm2.endDate) {
+	          	callback(new Error('开始时间不能大于结束时间'));
+	        } else {
+	          	callback();
+	        }
+      	};
+		var checkEndDate = (rule, value, callback) => {
+	        if (this.ruleForm2.startDate && value <= this.ruleForm2.startDate) {
+	          	callback(new Error('开始时间不能大于结束时间'));
+	        } else {
+	          	callback();
+	        }
+      	};
 		return {
 			pickerOptions0: {
 	          disabledDate(time) {
@@ -94,7 +108,7 @@ export default {
 	          }
 	       	},
 			pageNum: 1,
-			pageSize: 5,
+			pageSize: 10,
 			totalRows: 2,
 			queryFormFlag: false,
 			ruleForm2: {
@@ -139,8 +153,12 @@ export default {
 				{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
 			],
 			rules: {
-				compName: [],
-				departName: []
+				startDate: [
+	            	{ validator: checkStartDate, trigger: 'change' }
+          		],
+          		endDate: [
+	            	{ validator: checkEndDate, trigger: 'change' }
+          		]
 			}
 		}
 	},
@@ -198,6 +216,7 @@ export default {
 		},
 		handleInfo(index, row) {
 			console.log('row:',row);
+			sessionStorage.setItem('applyNo',row.applyNo);
 			this.$router.push({
 				name: "leave_info",
 				params: {
@@ -215,10 +234,10 @@ export default {
                 type: 'warning'
            }).then(() => {
             	let params = {
-					userNo: row.userNo
+					applyNo: row.applyNo
 				}
             	//删除
-				
+				self.deleteLeaveInfo(params);
             	
             }).catch(() => {
                 this.$message('您已取消操作！');
@@ -293,7 +312,7 @@ export default {
 		},
 		deleteLeaveInfo(params) {
 			let self = this;
-			self.$axios.delete(baseURL+'/leave/deleteLeaveInfo', params)
+			self.$axios.delete(baseURL+'/leave/deleteLeaveInfo?applyNo='+params.applyNo)
 			.then(function(res) {
 				console.log('deleteLeaveInfo',res);
 				if(res.data.code === "S00000") {
@@ -640,5 +659,8 @@ export default {
 .leave_query .upload_btn {
 	display: inline-block;
 	left: 100%;
+}
+.leave_query .el-form-item__error {
+    left: 39px;
 }
 </style>
