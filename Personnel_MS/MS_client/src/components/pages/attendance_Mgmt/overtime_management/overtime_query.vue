@@ -285,7 +285,7 @@ export default {
 		},
 		deleteWorkOtInfo(params) {
 			let self = this;
-			self.$axios.delete(baseURL+'/workot/deleteWorkOtInfo', params)
+			self.$axios.delete(baseURL+'/workot/deleteWorkOtInfo?applyNo='+params.applyNo)
 			.then(function(res) {
 				console.log('deleteTravel',res);
 				if(res.data.code === "S00000") {

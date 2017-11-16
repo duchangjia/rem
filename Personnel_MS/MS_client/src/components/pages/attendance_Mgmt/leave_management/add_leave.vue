@@ -8,7 +8,7 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
+				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
 							<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
@@ -20,9 +20,9 @@
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="工号">
+						<el-form-item label="工号" prop="userNo">
 						    <el-input v-model="formdata1.userNo">
-						    	<el-button slot="append" icon="search" @click="queryUserInfo"></el-button>
+						    	<el-button slot="append" icon="search" @click="userNoSelect"></el-button>
 						    </el-input>
 						    <messageBox 
                                 :title="boxTitle"
@@ -51,7 +51,9 @@
 						<el-form-item label="职级">
 						    <el-input v-model="formdata1.custClass" :disabled="true"></el-input>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col> 
+				</el-form>
+				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="110px">
 					<el-col :span="24" class="item-title">请假信息</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="请假开始时间" prop="leaveStartTime">
@@ -72,7 +74,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="请假累计工时" prop="timeSheet">
-						    <el-input v-model="formdata2.timeSheet" :disabled="true"></el-input>
+						    <el-input v-model="formdata2.timeSheet" placeholder="请输入请假累计工时"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24">
@@ -92,7 +94,7 @@
 					  			 :data="formdata"
 					  			 :on-change="changeUpload"
 					  			 :on-success="successUpload"
-					  			 action="/iem_hrm/" 
+					  			 action="/iem_hrm/leave/addLeaveInfo" 
 					  			 :show-file-list="false" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
@@ -180,7 +182,12 @@
 					{label: '特殊', leaveNo: '15'},
 					{label: '调休假', leaveNo: '16'}
 				],
-			 	rules: {
+				rules1: {
+			 		userNo: [
+			 			{ required: true, message: '工号不能为空', trigger: 'blur' }
+			 		]
+				},
+			 	rules2: {
 			 		leaveStartTime: [
 		            	{ required: true, validator: checkLeaveStartTime, trigger: 'change' }
 	          		],
@@ -191,7 +198,7 @@
 		            	{ required: true, message: '请假类型不能为空', trigger: 'blur' }
 	          		],
 	          		timeSheet: [
-		            	{ required: true,type: 'number', message: '请假工时不能为空', trigger: 'blur' }
+		            	{ required: true, message: '请假累计工时不能为空', trigger: 'blur' }
 	          		],
 	          		remark: [
 		            	{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
@@ -224,23 +231,23 @@
 		methods: {
 			changeStartTime(time) {
 				this.formdata2.leaveStartTime = time;
-				let params = {
-					leaveStartTime: this.formdata2.leaveStartTime,
-					leaveEndTime: this.formdata2.leaveEndTime
-				}
-				if(this.formdata2.leaveEndTime) {
-					this.calTimeSheet(params);
-				}
+//				let params = {
+//					leaveStartTime: this.formdata2.leaveStartTime,
+//					leaveEndTime: this.formdata2.leaveEndTime
+//				}
+//				if(this.formdata2.leaveEndTime) {
+//					this.calTimeSheet(params);
+//				}
 			},
 			changeEndTime(time) {
 				this.formdata2.leaveEndTime = time;
-				let params = {
-					leaveStartTime: this.formdata2.leaveStartTime,
-					leaveEndTime: this.formdata2.leaveEndTime
-				}
-				if(this.formdata2.leaveStartTime) {
-					this.calTimeSheet(params);
-				}
+//				let params = {
+//					leaveStartTime: this.formdata2.leaveStartTime,
+//					leaveEndTime: this.formdata2.leaveEndTime
+//				}
+//				if(this.formdata2.leaveStartTime) {
+//					this.calTimeSheet(params);
+//				}
 			},
 	      	queryUserInfo() {
 	      		let userNo = this.formdata1.userNo;
@@ -270,11 +277,7 @@
 		          }
 		        })
 		        .catch(e => {
-		          this.applyUserInfo = {};
-		          self.$message({
-		            message:e.retMsg,
-		            type: "error"
-		          });
+		          console.log('error')
 		        });
 		    },
 		    userNoSelect(){
@@ -377,7 +380,7 @@
 					console.log('addLeaveInfo',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
-						this.$router.push('/leave_management');
+						self.$router.push('/leave_management');
 					}
 				}).catch(function(err) {
 					console.log('error');

@@ -58,8 +58,8 @@
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="请假累计工时">
-						    <el-input v-model="formdata2.timeSheet"></el-input>
+						<el-form-item label="请假累计工时" prop="timeSheet">
+						    <el-input v-model.number="formdata2.timeSheet" placeholder="请输入请假累计工时"></el-input>
 					  	</el-form-item>
 					</el-col> 
 				  	<el-col :span="24">
@@ -171,8 +171,11 @@
 		          	leaveType: [
 		            	{ required: true, message: '请假类型不能为空', trigger: 'blur' }
 	          		],
+	          		timeSheet: [
+	          			{ required: true, type: 'number', message: '请假累计工时不能为空', trigger: 'blur' }
+	          		],
 	          		remark: [
-	          			{ required: true, message: '请假备注不能为空', trigger: 'blur' }
+	          			{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 	          		]
 				}
 			}
@@ -196,7 +199,7 @@
 			}
 		},
 		created() {
-			let applyNo = this.$route.params.applyNo;
+			let applyNo = sessionStorage.getItem('applyNo');
 			let userNo = this.$route.params.userNo;
 			let params = {
 				applyNo: applyNo
@@ -207,24 +210,24 @@
 		methods: {
 			changeStartTime(time) {
 				this.formdata2.leaveStartTime = time;
-				let params = {
-					leaveStartTime: this.formdata2.leaveStartTime,
-					leaveEndTime: this.formdata2.leaveEndTime
-				}
-				if(this.formdata2.leaveEndTime) {
-					this.calTimeSheet(params);
-				}
+//				let params = {
+//					leaveStartTime: this.formdata2.leaveStartTime,
+//					leaveEndTime: this.formdata2.leaveEndTime
+//				}
+//				if(this.formdata2.leaveEndTime) {
+//					this.calTimeSheet(params);
+//				}
 			},
 			changeEndTime(time) {
 				this.formdata2.leaveEndTime = time;
-				let params = {
-					leaveStartTime: this.formdata2.leaveStartTime,
-					leaveEndTime: this.formdata2.leaveEndTime
-				}
-				console.log(params);
-				if(this.formdata2.leaveStartTime) {
-					this.calTimeSheet(params);
-				}
+//				let params = {
+//					leaveStartTime: this.formdata2.leaveStartTime,
+//					leaveEndTime: this.formdata2.leaveEndTime
+//				}
+//				console.log(params);
+//				if(this.formdata2.leaveStartTime) {
+//					this.calTimeSheet(params);
+//				}
 			},
 			changeValue(value) {
 		 		const self = this;
@@ -244,8 +247,6 @@
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						console.log('valid');
-						
 						self.$refs.upload.submit();
 						if(!self.fileFlag) {
 							let params = {
@@ -281,7 +282,7 @@
 			},
 			modifyTravelInfo(params) {
 				let self = this;
-				self.$axios.put(baseURL+'/leave/modifyLeaveInfo',params)
+				self.$axios.post(baseURL+'/leave/modifyLeaveInfo',params)
 				.then(function(res) {
 					console.log('modifyTravelInfo',res);
 					if(res.data.code === "S00000") {
