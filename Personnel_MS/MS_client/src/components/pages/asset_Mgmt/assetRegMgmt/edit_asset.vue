@@ -140,16 +140,16 @@ import current from "../../../common/current_position.vue";
 export default {
   data() {
     let validateBuyNum = (rule, value, callback) => {
-        if (!Number.isInteger(value)) {
-            callback(new Error('请输入正整数'));
+      if (!Number.isInteger(value)) {
+        callback(new Error("请输入正整数"));
+      } else {
+        if (value > 2147483647) {
+          callback(new Error("购买数量必须小于2147483647"));
         } else {
-            if (value > 2147483647) {
-            callback(new Error('购买数量必须小于2147483647'));
-            } else {
-            callback();
-            }
+          callback();
         }
-      };
+      }
+    };
     return {
       labelPosition: "right",
       assetNo: "",
@@ -158,13 +158,23 @@ export default {
       assetInfoDetail: {},
       assetInfoRules: {
         buyUnitPrice: [
-          { required: true, type: 'number', message: "购买单价不能为空", trigger: "blur" },
+          {
+            required: true,
+            type: "number",
+            message: "购买单价不能为空",
+            trigger: "blur"
+          },
           { pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         // buyNum: [{ pattern: /^(0|([1-9][0-9]{0,10}))$/, message: "请输入正整数" }],
-        buyNum: [{ validator: validateBuyNum, trigger: 'blur' }],
+        buyNum: [{ validator: validateBuyNum, trigger: "blur" }],
         buyAmount: [
-          { required: true, type: 'number', message: "购买金额不能为空", trigger: "blur" },
+          {
+            required: true,
+            type: "number",
+            message: "购买金额不能为空",
+            trigger: "blur"
+          },
           { pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         assetName: [{ required: true, message: "资产名称不能为空", trigger: "blur" }],
@@ -185,20 +195,15 @@ export default {
     this.getAssetInfoDetail(); //查询资产信息详情
   },
   computed: {
-    _custClass: {
-      set: function(val) {
-        this.custInfo.custClass = val;
-      },
-      get: function() {
-        if (this.custInfo.custClass == "B10") {
-          return "B10-初级软件工程师";
-        } else if (this.custInfo.custClass == "B11") {
-          return "B11-中级软件工程师";
-        } else if (this.custInfo.custClass == "B12") {
-          return "B12-高级软件工程师";
-        } else {
-          return "";
-        }
+    _custClass: function() {
+      if (this.custInfo.custClass == "B10") {
+        return "B10-初级软件工程师";
+      } else if (this.custInfo.custClass == "B11") {
+        return "B11-中级软件工程师";
+      } else if (this.custInfo.custClass == "B12") {
+        return "B12-高级软件工程师";
+      } else {
+        return "";
       }
     }
   },

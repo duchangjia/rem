@@ -32,6 +32,11 @@ const routes = [
             ]
         },
         {
+            path: '/aggPage',
+            meta: { requireAuth: true, },
+            component: resolve => require(['../components/common/aggPage.vue'], resolve)
+        },
+        {
 
             path: '/home',
             meta: { requireAuth: true, },
