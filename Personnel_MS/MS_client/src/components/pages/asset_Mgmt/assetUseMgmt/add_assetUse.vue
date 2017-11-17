@@ -203,11 +203,11 @@ export default {
             switch(self.numType){
                 case 1:
                     self.applyUserInfo = res.data.data
-                    self.info.applyUserNo = ajaxNo
+                    self.info.applyUserNo = ajaxNo.stateNo
                 break;
                 case 2:
                     self.assetInfo = res.data.data
-                     self.info.assetNo = ajaxNo
+                     self.info.assetNo = ajaxNo.stateNo
                 break;
             }
           }
