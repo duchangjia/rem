@@ -5,27 +5,27 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">合同续签</span>
-                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave('pactMsgRules')" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
                     <el-col :span="12">
-                        <el-form-item label="合同编号" prop="pactNo">
+                        <el-form-item label="合同编号">
                             <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="合同名称" prop="pactName">
+                        <el-form-item label="合同名称">
                             <el-input v-model="basicPactMsg.pactName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="上次生效时间" prop="signTime">
+                        <el-form-item label="上次生效时间">
                             <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.signTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="上次到期时间" prop="pactStopTime">
+                        <el-form-item label="上次到期时间">
                             <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStopTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
@@ -35,73 +35,74 @@
                 <el-col :span="24" class="item-title">员工信息</el-col>
                 <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
                     <el-col :span="12">
-                        <el-form-item label="工号" prop="userNo">
+                        <el-form-item label="工号">
                             <el-input v-model="basicPactMsg.userNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="姓名" prop="custName">
+                        <el-form-item label="姓名">
                             <el-input v-model="basicPactMsg.custName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="身份证" prop="cert">
+                        <el-form-item label="身份证">
                             <el-input v-model="basicPactMsg.cert" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="公司" prop="organName">
-                            <el-select v-model="basicPactMsg.organName" :disabled="true">
-                                <el-option label="总公司" value="1"></el-option>
-                                <el-option label="深圳分公司" value="0"></el-option>
-                            </el-select>
+                        <el-form-item label="公司">
+                            <el-input v-model="basicPactMsg.organName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="部门" prop="derpName">
-                            <el-select v-model="basicPactMsg.derpName" :disabled="true">
-                                <el-option label="财务部" value="1"></el-option>
-                                <el-option label="技术部" value="0"></el-option>
-                            </el-select>
+                        <el-form-item label="部门">
+                            <el-input v-model="basicPactMsg.derpName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="岗位" prop="custPost">
+                        <el-form-item label="岗位">
                             <el-input v-model="basicPactMsg.custPost" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="职务" prop="custClass">
-                            <el-input v-model="basicPactMsg.custClass" :disabled="true"></el-input>
+                        <el-form-item label="职务">
+                            <el-input v-model="basicPactMsg.post" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="职级" prop="rank">
-                            <el-input v-model="basicPactMsg.rank" :disabled="true"></el-input>
+                        <el-form-item label="职级">
+                            <el-input v-model="basicPactMsg.custClass" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">合同续签信息</el-col>
-                <el-form :inline="true" :model="addPRenewMsg" :rules="rules" ref="addPRenewMsg" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="addPRenewMsg" :rules="pactMsgRules" ref="pactMsgRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
                     <el-col :span="12">
-                        <el-form-item label="续签生效时间" prop="renewTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPRenewMsg.renewTime" style="width: 100%;"></el-date-picker>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="续签失效时间" prop="renewEndTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPRenewMsg.renewTime" style="width: 100%;"></el-date-picker>
+                        <el-form-item label="续签时间" prop="renewTime">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPRenewMsg.renewTime" @change="renewTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="续签类别" prop="renewType">
                             <el-select v-model="addPRenewMsg.renewType">
-                                <el-option label="合同延期" value="1"></el-option>
+                                <el-option label="合同延期" value="01"></el-option>
+                                <el-option label="其他" value="99"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="续签生效时间" prop="renewCameTime">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPRenewMsg.renewCameTime" @change="renewCameTimeChange" style="width: 100%;"></el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="续签失效时间" prop="renewLostTime">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPRenewMsg.renewCameTime" @change="renewLostTimeChange" style="width: 100%;"></el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    >
                     <el-col :span="24">
                         <el-form-item label="续签内容" prop="renewContent">
                             <el-input type="textarea" v-model="addPRenewMsg.renewContent"></el-input>
@@ -131,24 +132,29 @@ export default {
       addPRenewMsg: {
         pactNo: "",
         renewTime: "",
-        renewEndTime: "",
+        renewCameTime: "",
+        renewLostTime: "",
         renewType: "",
         renewContent: "",
-        attachm: "",
-        remark: ""
+        attachm: ""
       },
-      rules: {
+      pactMsgRules: {
         renewTime: [
           {
-            type: "date",
+            required: true,
+            message: "请选择续签日期",
+            trigger: "change"
+          }
+        ],
+        renewCameTime: [
+          {
             required: true,
             message: "请选择续签生效日期",
             trigger: "change"
           }
         ],
-        renewEndTime: [
+        renewLostTime: [
           {
-            type: "date",
             required: true,
             message: "请选择续签失效日期",
             trigger: "change"
@@ -179,31 +185,48 @@ export default {
       });
   },
   methods: {
+    renewTimeChange(val) {
+      this.addPRenewMsg.renewTime = val;
+    },
+    renewCameTimeChange(val) {
+      this.addPRenewMsg.renewCameTime = val;
+    },
+    renewLostTimeChange(val) {
+      this.addPRenewMsg.renewLostTime = val;
+    },
     handleFileUpload(file, fileList) {
-      // this.fileList3 = fileList.slice(-3);
       console.log(file);
       this.addPRenewMsg.attachm = file.name;
     },
-    handleSave() {
-      let newPRenew = {};
-      newPRenew.pactNo = this.basicPactMsg.pactNo;
-      newPRenew.renewTime = this.addPRenewMsg.renewTime;
-      newPRenew.renewEndTime = this.addPRenewMsg.renewEndTime;
-      newPRenew.renewType = this.addPRenewMsg.renewType;
-      newPRenew.renewContent = this.addPRenewMsg.renewContent;
-      newPRenew.attachm = this.addPRenewMsg.attachm;
-      console.log(newPRenew);
-      this.$axios
-        .post("/iem_hrm/pact/addPactRenew", newPRenew)
-        .then(res => {
-          console.log(res);
-          if (res.data.code == "S00000")
-            this.$router.push("/personnel_contract");
-          else this.$message.error("合同续签新增失败！");
-        })
-        .catch(() => {
-          this.$message.error("合同续签新增失败！");
-        });
+    handleSave(pactMsgRules) {
+      this.$refs[pactMsgRules].validate(valid => {
+        if (valid) {
+          let newPRenew = {};
+          newPRenew.pactNo = this.basicPactMsg.pactNo;
+          newPRenew.renewTime = this.addPRenewMsg.renewTime;
+          newPRenew.renewCameTime = this.addPRenewMsg.renewCameTime;
+          newPRenew.renewLostTime = this.addPRenewMsg.renewLostTime;
+          newPRenew.renewType = this.addPRenewMsg.renewType;
+          newPRenew.renewContent = this.addPRenewMsg.renewContent;
+          newPRenew.attachm = this.addPRenewMsg.attachm;
+          console.log(newPRenew);
+          this.$axios
+            .post("/iem_hrm/pact/addPactRenew", newPRenew)
+            .then(res => {
+              console.log(res);
+              if (res.data.code == "S00000"){
+                this.$message({ type: "success", message: "操作成功!" });
+                this.$router.push("/personnel_contract");
+              } else this.$message.error("操作失败！");
+            })
+            .catch(() => {
+              this.$message.error("操作失败！");
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     }
   }
 };
