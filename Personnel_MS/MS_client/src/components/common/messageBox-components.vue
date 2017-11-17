@@ -3,7 +3,7 @@
         <el-dialog :title="title"
         @close="dialogClose()"
         @open="dialogOpen()"
-        :visible.sync="dialogVisible" 
+        :visible.sync="dialogVisible"
         >
             <div class="item-box">
                 <el-form class="clearfix">
@@ -14,7 +14,6 @@
                         <el-input :placeholder="inputSecOption.placeholder" v-model="custInfo.stateNo" >
                         </el-input>
                     </el-form-item>
-                   
                     <div class="button-box">
                         <el-button class="toolBtn restBtn" @click="reset()">重置</el-button>
                         <el-button class="toolBtn" @click="getList()">查询</el-button>
@@ -129,7 +128,8 @@ export default {
       this.custInfo = {};
     },
     dialogClose(){
-      this.$emit('update:dialogVisible',false);
+      this.$emit('changeDialogVisible',false);
+//        this.dialogVisible = false
     },
     handleCurrentChange(row, event, column) {
       this.custInfo = {}

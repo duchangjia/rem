@@ -5,7 +5,7 @@
         <div class="content-wrapper">
             <el-col :span="24" class="titlebar">
                 <span class="title-text">工资查询</span>
-                <el-button type="primary" style="margin-left:900px" @click="handleExport" class="toolBtn">导出</el-button>
+                <el-button type="primary"  @click="handleExport" class="toolBtn">导出</el-button>
             </el-col>
             <el-col :span="24" class="querybar" style="padding:10px 0 0 0;">
                 <el-form :inline="true" :model="filters">

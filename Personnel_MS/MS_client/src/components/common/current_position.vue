@@ -11,6 +11,7 @@
                     <el-breadcrumb-item v-if="wuji" :to="{ path: links[4] }" class="test1">{{wuji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if="liuji" :to="{ path: links[5] }" class="test1">{{liuji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if='false'>{{activeTab}}</el-breadcrumb-item>
+                    <el-breadcrumb-item v-if='false'>{{pactNo}}</el-breadcrumb-item>
                 </el-breadcrumb>
             </el-col>
             <el-col :span="2" v-show="breadItemLength>1">
@@ -35,11 +36,12 @@ export default {
         jump() {
             let aa = this.link[this.breadItemLength - 2]
             if (!aa) return false
-            if(this.activeTab){
+            if(this.activeTab && this.pactNo){
                 this.$router.push({
                     name: aa,
                     params: {
-                        activeTab: this.activeTab
+                        activeTab: this.activeTab,
+                        pactNo: this.pactNo
                     }
                 })
             } else {
@@ -378,6 +380,10 @@ export default {
             default: ''
         },
         activeTab: {
+            type: String,
+            default: ''
+        },
+        pactNo: {
             type: String,
             default: ''
         },

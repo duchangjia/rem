@@ -139,7 +139,8 @@
                         { required: true, message: '请选择使用类别', trigger: 'blur' }
                     ],
                     applyNum: [
-                        { required: true, message: '请输入使用数量', trigger: 'blur' }
+                        { required: true, message: '请输入使用数量', trigger: 'blur' },
+                        { pattern: /^(0|([1-9][0-9]{0,10}))$/, message: "请输入正整数",trigger: "blur" }
                     ],
                     applyTime: [
                         { required: true, message: '请输入发生时间', trigger: 'blur' }

@@ -2,86 +2,123 @@
 	<div class="transfer_info">
 		<current yiji="人事事务" erji="人事调动" sanji="人事调动明细查询" siji="人事调动详情">
 		</current>
-		<div class="content">
-			<div class="title">
+		<div class="content-wrapper">
+			<div class="titlebar">
 				<span class="title-text">人事调动详情</span>
 			</div>
-			<div class="content-inner">
-				<el-form ref="formdata" :inline="true" :model="formdata" label-width="90px">
-					<el-form-item label="公司名称">
-					    <el-select v-model="oldcomp" value-key="oldOrgId" @change="changeValue">
-							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
-						</el-select>
-				  	</el-form-item>
-					<el-form-item label="部门名称">
-					    <el-select v-model="olddepart" value-key="oldDeprtId" @change="changeValue">
-							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
-						</el-select>
-				  	</el-form-item>
-					<el-form-item label="工号">
-					    <el-input v-model="formdata.userNo"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata.custName"></el-input>
-				  	</el-form-item>
-				  	<div class="info-title">调动信息</div>
-				  	<el-form-item label="调动类型">
-					    <el-select v-model="formdata.shiftType" value-key="shiftType" @change="changeValue">
-							<el-option v-for="item in shiftTypeList" :key="item.shiftType" :label="item.shiftName" :value="item.shiftType"></el-option>
-						</el-select>
-				  	</el-form-item>
-				  	<el-form-item label="调动生效时间">
-					    <el-input v-model="formdata.shiftCameTime"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="原公司名称">
-					    <el-select v-model="oldcomp" value-key="oldOrgId" @change="changeValue">
-							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
-						</el-select>
-				  	</el-form-item>
-				  	<el-form-item label="新公司名称">
-					    <el-select v-model="newcomp" value-key="newOrgId" @change="changeValue">
-							<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
-						</el-select>
-				  	</el-form-item>
-				  	<el-form-item label="原部门名称">
-					    <el-select v-model="olddepart" value-key="oldDeprtId" @change="changeValue">
-							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
-						</el-select>
-				  	</el-form-item>
-				  	<el-form-item label="新部门名称">
-					    <el-select v-model="newdepart" value-key="newDeprtId" @change="changeValue">
-							<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
-						</el-select>
-				  	</el-form-item>
-				  	<el-form-item label="原直线经理">
-					    <el-input v-model="formdata.oldLineManager"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="新直线经理">
-					    <el-input v-model="formdata.newLineManager"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="原岗位">
-					    <el-input v-model="formdata.oldPost"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="新岗位">
-					    <el-input v-model="formdata.newPost"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="原职级">
-					    <el-input v-model="formdata.oldClass"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="新职级">
-					    <el-input v-model="formdata.newClass"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="调动原因">
-					    <el-input
-						  type="textarea"
-						  :autosize="{ minRows: 5, maxRows: 5}"
-						  placeholder="请输入内容"
-						  v-model="formdata.shiftReason">
-						</el-input>
-				  	</el-form-item>
-				  	<el-form-item label="附件" style="width:100%;">
-					    <el-button class="file_button" @click="download()" style="margin-left: 30px;">下载</el-button>
-				  	</el-form-item>
+			<div class="add-wrapper">
+				<el-form ref="formdata" :inline="true" :model="formdata" label-width="110px">
+					<el-col :sm="24" :md="12">
+						<el-form-item label="公司名称">
+						    <el-select v-model="oldcomp" value-key="oldOrgId" @change="changeValue">
+								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
+							</el-select>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="部门名称">
+						    <el-select v-model="olddepart" value-key="oldDeprtId" @change="changeValue">
+								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
+							</el-select>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="工号">
+						    <el-input v-model="formdata.userNo"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="姓名">
+						    <el-input v-model="formdata.custName"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<div class="info-title">调动信息</div>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="调动类型">
+						    <el-select v-model="formdata.shiftType" value-key="shiftType" @change="changeValue">
+								<el-option v-for="item in shiftTypeList" :key="item.shiftType" :label="item.shiftName" :value="item.shiftType"></el-option>
+							</el-select>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="调动生效时间">
+						    <el-input v-model="formdata.shiftCameTime" style="width:100%;"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="原公司名称">
+						    <el-select v-model="oldcomp" value-key="oldOrgId" @change="changeValue">
+								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
+							</el-select>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="新公司名称">
+						    <el-select v-model="newcomp" value-key="newOrgId" @change="changeValue">
+								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
+							</el-select>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="原部门名称">
+						    <el-select v-model="olddepart" value-key="oldDeprtId" @change="changeValue">
+								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
+							</el-select>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="新部门名称">
+						    <el-select v-model="newdepart" value-key="newDeprtId" @change="changeValue">
+								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
+							</el-select>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="原直线经理">
+						    <el-input v-model="formdata.oldLineManager"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="新直线经理">
+						    <el-input v-model="formdata.newLineManager"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="原岗位">
+						    <el-input v-model="formdata.oldPost"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="新岗位">
+						    <el-input v-model="formdata.newPost"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="原职级">
+						    <el-input v-model="formdata.oldClass"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="新职级">
+						    <el-input v-model="formdata.newClass"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :span="24">
+						<el-form-item label="调动原因">
+						    <el-input
+							  type="textarea"
+							  :autosize="{ minRows: 5, maxRows: 5}"
+							  placeholder="请输入内容"
+							  v-model="formdata.shiftReason">
+							</el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="附件" style="width:100%;">
+						    <el-button class="downloadBtn" @click="download()">下载</el-button>
+					  	</el-form-item>
+					</el-col>  	
+					  	
 				</el-form>
 			</div>
 		</div>
@@ -196,74 +233,5 @@
     padding-bottom: 20px;
 	width: 100%;
 }
-.transfer_info .content {
-	width: 100%;
-	padding: 0px 20px;
-	background: #ffffff;
-	clear: both;
-}
-.transfer_info .content .title {
-border-bottom: 1px solid #EEEEEE;
-}
 
-.transfer_info .content .title .title-text {
-	display: inline-block;
-	position: relative;
-	padding: 14px 0px;
-	font-size: 16px;
-	height: 50px;
-}
-
-.transfer_info .content .title .title-text:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
-}
-
-.transfer_info .content-inner {
-	padding: 40px 0px;
-}	
-.transfer_info .info-title{
-	padding: 11px 0px 11px 10px;
-    margin-bottom: 30px;
-	color: #999999;
-	border-bottom: none;
-}
-.transfer_info .el-input__inner {
-    border: 1px solid #EEEEEE;
-    color: #999999;
-    width: 300px;
-    height: 40px;
-    margin-left: 30px;
-}
-.transfer_info .el-form-item {
-	padding-left: 20px;
-}
-.transfer_info .el-form-item__label {
-    text-align: right;
-    vertical-align: middle;
-    float: left;
-    font-size: 14px;
-    color: #999999;
-    line-height: 1;
-    padding: 11px 0px 11px 0;
-    box-sizing: border-box;
-    font-weight: normal;
-}
-.transfer_info .el-textarea__inner {
-    margin-left: 30px;
-}
-.transfer_info .file_button {
-	color: #FF9900;
-	font-size: 14px;
-}
-.transfer_info .el-button:active {
-    color: #FF9900;
-    border-color: #FF9900;
-    outline: 0;
-}
 </style>

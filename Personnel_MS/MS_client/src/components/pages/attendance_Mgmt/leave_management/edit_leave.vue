@@ -206,6 +206,7 @@
 			}
 			//查询请假详情
 			this.leaveInfo(params);
+			this.querysysParamMgmt();
 		},
 		methods: {
 			changeStartTime(time) {
@@ -274,6 +275,19 @@
 					console.log('leaveInfo',res);
 					if(res.data.code === "S00000") {
 						self.formdata2 = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			querysysParamMgmt() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=11')
+				.then(function(res) {
+					console.log('sysParamMgmt',res);
+					if(res.data.code === "S00000") {
+//						self.formdata2 = res.data.data;
 					}
 					
 				}).catch(function(err) {

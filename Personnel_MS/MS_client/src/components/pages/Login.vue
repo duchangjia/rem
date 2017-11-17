@@ -177,7 +177,7 @@
                                     if(true){
                                         localStorage.setItem('ms_username',self.ruleForm.username);
                                         self.fullscreenLoading = false
-                                        self.$router.push('home');
+                                        self.$router.push('aggPage');
                                     }else{
                                         Bus.$emit('showErrTip',{content:'登录失败！帐号或密码错。',title:'温馨提示'});
 //                                        self.content = '登录失败！帐号或密码错'

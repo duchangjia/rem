@@ -1,58 +1,56 @@
 <template>
 	<div class="user-info">
 		<current yiji="系统管理" erji="用户管理" sanji="用户信息"></current>
-		<div class="content">
-			<div class="title">
+		<div class="content-wrapper">
+			<div class="titlebar">
 				<span class="title-text">用户信息</span>
-				<div class="btn-wrap">
-					<el-button type="primary" class="reset" @click="resetPass()">密码重置</el-button>
-					<el-button type="primary" class="conserve" @click="conserve('userDetail')">保存</el-button>
-				</div>
+				<el-button type="primary" class="toolBtn" @click="conserve('userDetail')">保存</el-button>
+				<el-button type="primary" class="resetBtn" @click="resetPass()">密码重置</el-button>
 			</div>
-			<div class="content-inner">
+			<div class="add-wrapper">
 				<el-form :inline="true" :model="userDetail" :rules="rules" ref="userDetail" label-width="80px">
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="姓名" prop="userName">
 							<el-input v-model="userDetail.userName" ref="user" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="工号" prop="userNo">
 							<el-input v-model="userDetail.userNo" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
-					<!--<el-col :span="12">
+					<!--<el-col :sm="24" :md="12">
 						<el-form-item label="所属公司">
 							<el-select v-model="comp" value-key="compOrgNo" placeholder="所属公司" @change="changeValue" :disabled="true">
 								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="所属部门" prop="departOrgNo">
 							<el-select v-model="depart" value-key="departOrgNo" placeholder="所属部门" @change="changeValue" :disabled="true">
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>-->
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="所属公司">
 							<el-input v-model="userDetail.compName" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="所属部门" prop="departOrgNo">
 							<el-input v-model="userDetail.departName" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col  :sm="24" :md="12">
 						<el-form-item label="角色" prop="roleNo">
 							<el-select v-model="userDetail.roles" multiple value-key="roleNo" class="bg-white" @change="changeValue">
 								<el-option v-for="(item,k) in roleList" :key="item.roleNo" :label="item.roleName" :value="item"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="状态" prop="status">
 							<el-select v-model="userDetail.status" class="bg-white">
 								<el-option label="正常" value="1"></el-option>
@@ -61,22 +59,22 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="手机" prop="mobile">
 							<el-input v-model="userDetail.mobile" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="邮箱" prop="email">
 							<el-input v-model="userDetail.email" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="身份证" prop="certNo">
 							<el-input v-model="userDetail.certNo" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="备注" prop="remark">
 							<el-input v-model="userDetail.remark" class="bg-white"></el-input>
 						</el-form-item>
@@ -134,24 +132,11 @@
 					roleNo: ''
 				},
 				//角色列表
-				roleList: [
-					{roleName: "",roleNo: ""},
-					{roleName: "",roleNo: ""},
-					{roleName: "",roleNo: ""},
-					{roleName: "",roleNo: ""}
-				],
+				roleList: [],
 				//部门列表
-				departList: [
-					{departName: "上海魔方分公司",departOrgNo: '01'},
-					{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-					{departName: "魔方分公司",departOrgNo: 'p0'}
-				],
+				departList: [],
 				//公司列表
-				compList: [
-					{compName: "上海魔方分公司",compOrgNo: '01'},
-					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-					{compName: "魔方分公司",compOrgNo: 'p0'}
-				],
+				compList: [],
 				rules: {
 					userName: [
 //			            { required: true, message: '请输入姓名', trigger: 'blur' },
@@ -206,10 +191,7 @@
 		      		//重置密码
 		          	self.resetPassword(params);
 		        }).catch(() => {
-		          	self.$message({
-		            	type: 'info',
-		            	message: '已取消操作'
-		          	});          
+		          	self.$message({ type: 'info', message: '已取消操作' });          
 		        });
 			},
 			//保存
@@ -244,7 +226,6 @@
 				        	});
 						}
 					} else {
-						console.log('error submit!!');
 						return false;
 					}
 				});
@@ -318,131 +299,185 @@
 </script>
 
 <style>
-	.user-info {
-		padding-left: 20px;
-	    padding-bottom: 20px;
-		width: 100%;
-		position: relative;
-	}
-	
-	.user-info .back {
-		position: absolute;
-		right: 20px;
-		top: 29px;
-		width: 19px;
-		height: 12px;
-		cursor: pointer;
-		background: url(../../../../static/img/common/back.png);
-	}
-	
-	.user-info .content {
-		width: 100%;
-		/*min-height: 530px;*/
-		padding: 0px 20px;
-		background: #ffffff;
-		clear: both;
-	}
-	
-	.user-info .content .title {
-		border-bottom: 1px solid #EEEEEE;
-	}
-	
-	.user-info .content .title .title-text {
-		display: inline-block;
-		position: relative;
-		padding: 14px 0px;
-		font-size: 16px;
-		height: 50px;
-	}
-	
-	.user-info .content .title .title-text:after {
-		content: '';
-		position: absolute;
-		left: 0;
-		bottom: -1px;
-		width: 100%;
-		height: 2px;
-		background: #333333;
-	}
-	
-	.user-info .content .title .btn-wrap {
-		float: right;
-		margin-top: 10px;
-	}
-	
-	.user-info .el-button {
-		border-radius: 0px;
-	    padding: 0;
-	}
-	
-	.user-info .btn-wrap .reset {
-		background: #FFFFFF;
-		border: 1px solid #FF9900;
-		font-size: 14px;
-		color: #FF9900;
-		margin-right: 20px;
-		width: 120px;
-		height: 30px;
-	}
-	
-	.user-info .btn-wrap .conserve {
-		background: #F4F4F4;
-		border: 1px solid #F4F4F4;
-		font-size: 14px;
-		color: #333333;
-		width: 120px;
-		height: 30px;
-	}
-	
-	.user-info .content-inner {
-		padding: 30px 0px;
-	}
-	
-	.user-info form {
-		font-size: 0px;
-	}
-	
-	.user-info form>div {
-		float: none;
-		display: inline-block;
-	}
-	
-	.user-info .el-input,
-	.user-info .el-input__inner {
-		width: 300px;
-		display: inline-block;
-	}
-	
-	.user-info .el-form-item__label {
-		color: #999999;
-	    margin-right: 18px;
-	}
-	
-	.user-info .el-input__inner {
-		border: 1px solid #eeeeee;
-		color: #333333;
-		background: #f4f4f4;
-		height: 40px;
-	}
-	
-	.user-info .bg-white .el-input__inner {
-		background: #FFFFFF;
-	}
-	
-	.user-info .el-select:hover .el-input__inner {
-		border-color: #ff9900;
-	}
-	.user-info .el-input__inner:hover {
-	    border-color: #ff9900;
-	}
-	.user-info .el-input.is-disabled .el-input__inner:hover {
-	    border-color: #d1dbe5;
-	}
-	.el-select-dropdown__item.selected.hover {
-	    background-color: #f4f4f4;
-	}
-	.el-select-dropdown__item.selected {
-	    color: #333333;
-	    background-color: #f4f4f4;
-	}
+.user-info {
+	padding-left: 20px;
+    padding-bottom: 20px;
+	width: 100%;
+	position: relative;
+}
+.content-wrapper {
+  background: #ffffff;
+  padding: 0 20px 20px;
+  color: #333333;
+  clear: both;
+}
+
+.content-wrapper .titlebar {
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px;
+  font-family: "PingFang SC";
+  border-bottom: 1px solid #eeeeee;
+  margin-bottom: 20px;
+}
+
+.content-wrapper .titlebar .title-text {
+  display: inline-block;
+  height: 50px;
+  position: relative;
+}
+
+.content-wrapper .titlebar .title-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: #333333;
+}
+
+.content-wrapper .toolBtn {
+  float: right;
+  margin-top: 10px;
+  height: 30px;
+  width: 120px;
+  background: #ff9900;
+  border: none;
+  padding: 0;
+}
+
+.content-wrapper .button-wrap {
+  margin: 15px auto 30px;
+  font-size: 0px;
+  text-align: center;
+}
+
+.content-wrapper .resetBtn {
+  color: #ff9900;
+  height: 30px;
+  width: 120px;
+  padding: 0;
+  float: right;
+  margin-top: 10px;
+  margin-right: 20px;
+  background: #FFFFFF;
+  border: 1px solid #ff9900;
+}
+
+.content-wrapper .queryBtn {
+  /* border-radius: 0; */
+  height: 30px;
+  width: 120px;
+  padding: 0;
+  background: #ff9900;
+  border: none;
+}
+
+.pact_mgmt .el-button {
+  padding: 0;
+}
+
+.el-input__inner {
+  height: 40px;
+  /*width: 180px;*/
+}
+
+.add-wrapper .el-input__inner {
+  width: 300px;
+}
+
+.el-input__inner:focus,
+.el-textarea__inner:focus,
+.el-select .el-input__inner:focus {
+  border-color: #ff9900;
+}
+
+.el-input-group--append .el-input__inner {
+  width: 253px;
+}
+
+.el-select-dropdown__item.selected,
+.el-select-dropdown__item.selected.hover {
+  background-color: #ff9900;
+}
+
+label {
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+.el-form-item {
+  margin-bottom: 20px;
+}
+
+.el-form-item__label {
+  font-family: "PingFangSC Regular";
+  color: #999999;
+  padding: 13px 12px 13px 0;
+}
+
+.el-table th > .cell {
+  padding: 0 15px;
+}
+
+.el-button--small {
+  margin: 4px;
+}
+
+.el-button,
+.el-button + .el-button {
+  margin-left: 0;
+}
+
+.add-wrapper {
+  overflow: hidden;
+}
+.add-wrapper form {
+  font-size: 0;
+  margin-top: 30px;
+}
+
+.add-wrapper .item-title {
+  font-size: 14px;
+  height: 56px;
+  line-height: 56px;
+  padding-left: 8px;
+}
+
+.add-wrapper .el-form-item__label {
+  margin-right: 14px;
+}
+
+.querybar .el-form--inline .el-form-item {
+  margin-right: 0;
+}
+
+.querybar .el-form-item__label {
+  padding: 10px 8px 10px 0;
+}
+.querybar .el-input__inner {
+  width: 164px;
+  height: 30px;
+  border-radius: 4px;
+}
+.querybar .el-form-item {
+  margin-bottom: 15px;
+}
+
+.add-wrapper .upload-demo {
+  height: 0;
+}
+
+.add-wrapper .el-upload__input {
+  display: none;
+}
+
+
+.add-wrapper .el-textarea__inner {
+  min-width: 790px;
+  min-height: 100px;
+}
+
+
 </style>

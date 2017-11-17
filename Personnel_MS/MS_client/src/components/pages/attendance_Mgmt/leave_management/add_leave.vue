@@ -260,7 +260,7 @@
 	      	dialogConfirm(ajaxNo){
 		        let self = this;
 		        let params = {
-		        	userNo: ajaxNo
+		        	userNo: ajaxNo.stateNo
 		        }
 		        self.$axios
 		        .get( self.saveUrl, {params} )
@@ -338,28 +338,29 @@
 	      	},
 	      	save(formName) {
 				const self = this;
-				this.$refs[formName].validate((valid) => {
-					if(valid) {
-						
-						self.$refs.upload.submit();
-						if(!self.fileFlag) {
-							let params = {
-								applyNo: this.formdata2.applyNo, //请假编号
-								"userNo": self.formdata1.userNo, //"1004"
-				    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
-				    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
-				    			"leaveType": self.formdata2.leaveType, //"3"
-				    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
-				    			"remark": self.formdata2.remark, //"请假的详细信息"
-				    			attachm: self.formdata2.attachm
-							}
-							//无附件时新增
-							self.addLeaveInfo(params);
-						}
-					} else {
-						return false;
-					}
-				});
+				self.$refs.formdata1.validate(valid => {
+			        if (valid) {
+			          	self.$refs.formdata2.validate(valid => {
+			           	 	if (valid) {
+			            		self.$refs.upload.submit();
+								if(!self.fileFlag) {
+									let params = {
+										applyNo: this.formdata2.applyNo, //请假编号
+										"userNo": self.formdata1.userNo, //"1004"
+						    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
+						    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
+						    			"leaveType": self.formdata2.leaveType, //"3"
+						    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
+						    			"remark": self.formdata2.remark, //"请假的详细信息"
+						    			attachm: self.formdata2.attachm
+									}
+									//无附件时新增
+									self.addLeaveInfo(params);
+								}
+			            	}
+			        	})   
+			        }
+			  })
 			},
 			getUseInfoByUserNo(params) {
 				let self = this;

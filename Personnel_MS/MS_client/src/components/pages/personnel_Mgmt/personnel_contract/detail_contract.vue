@@ -24,12 +24,12 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="公司名称">
-                                    <el-input v-model="basicPactMsg.organNo" :disabled="true"></el-input>
+                                    <el-input v-model="basicPactMsg.organName" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="部门名称">
-                                    <el-input v-model="basicPactMsg.derpNo" :disabled="true"></el-input>
+                                    <el-input v-model="basicPactMsg.derpName" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -74,10 +74,7 @@
                             </el-col>
                             <el-col :span="12">
                                 <el-form-item label="合同状态" prop="pactStatus">
-                                    <el-select v-model="basicPactMsg.pactStatus" :disabled="true">
-                                        <el-option label="已生效" value="01"></el-option>
-                                        <el-option label="未生效" value="02"></el-option>
-                                    </el-select>
+                                    <el-input v-model="_pactStatus" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12">
@@ -106,8 +103,8 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="24">
-                                <el-form-item label=" ">
-                                    <el-checkbox v-model="checked" @change="">自动更新员工资料</el-checkbox>
+                                <el-form-item label=" " prop="autoudFlag">
+                                    <el-checkbox v-model="_autoudFlag" @change="">自动更新员工资料</el-checkbox>
                                 </el-form-item>
                             </el-col>
                         </el-form>
@@ -132,9 +129,9 @@
                             </el-table-column>
                             <el-table-column align="center" prop="custName" label="姓名">
                             </el-table-column>
-                            <el-table-column align="center" prop="organNo" label="公司名称" :formatter="organFormatter">
+                            <el-table-column align="center" prop="organName" label="公司名称">
                             </el-table-column>
-                            <el-table-column align="center" prop="derpNo" label="部门名称" :formatter="derpFormatter">
+                            <el-table-column align="center" prop="derpName" label="部门名称">
                             </el-table-column>
                             </el-table-column>
                             <el-table-column align="center" prop="changeType" label="变更类型" :formatter="changeTypeFormatter">
@@ -171,9 +168,9 @@
                             </el-table-column>
                             <el-table-column align="center" prop="custName" label="姓名">
                             </el-table-column>
-                            <el-table-column align="center" prop="organNo" label="公司名称" :formatter="organFormatter">
+                            <el-table-column align="center" prop="organName" label="公司名称">
                             </el-table-column>
-                            <el-table-column align="center" prop="derpNo" label="部门名称" :formatter="derpFormatter">
+                            <el-table-column align="center" prop="derpName" label="部门名称">
                             </el-table-column>
                             <el-table-column align="center" prop="renewType" label="续签类型" :formatter="renewTypeFormatter">
                             </el-table-column>
@@ -216,8 +213,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         totalRows: 1
-      },
-      checked: ''
+      }
     };
   },
   components: {
@@ -225,7 +221,7 @@ export default {
   },
   created() {
     this.pactNo = this.$route.params.pactNo;
-    console.log("接到的pactNo:" ,this.pactNo);
+    console.log("接到的pactNo:", this.pactNo);
     if (this.$route.params.activeTab) {
       this.activeName = this.$route.params.activeTab;
       if (this.activeName == "changePactMsg") this.getPChangeList();
@@ -236,33 +232,56 @@ export default {
     }
   },
   computed: {
-    _sex: {
-      set: function(val) {
-        this.basicPactMsg.sex = val;
-      },
-      get: function() {
-        if (this.basicPactMsg.sex == "01") {
-          return "男";
-        } else if (this.basicPactMsg.sex == "02") {
-          return "女";
-        } else if (this.basicPactMsg.sex == "99") {
-          return "其他";
-        } else {
-          return "";
-        }
+    _sex: function() {
+      if (this.basicPactMsg.sex == "01") {
+        return "男";
+      } else if (this.basicPactMsg.sex == "02") {
+        return "女";
+      } else if (this.basicPactMsg.sex == "99") {
+        return "其他";
+      } else {
+        return "";
       }
     },
-    _pactType: {
-      set: function(val) {
-        this.basicPactMsg.pactType = val;
-      },
+    _pactType: function() {
+      if (this.basicPactMsg.pactType == "01") {
+        return "劳动合同";
+      } else if (this.basicPactMsg.pactType == "02") {
+        return "保密协议";
+      } else if (this.basicPactMsg.pactType == "99") {
+        return "其他";
+      } else {
+        return "";
+      }
+    },
+    _pactStatus: function() {
+      if (this.basicPactMsg.pactStatus == "01") {
+        return "试用";
+      } else if (this.basicPactMsg.pactStatus == "02") {
+        return "有效";
+      } else if (this.basicPactMsg.pactStatus == "03") {
+        return "提前解除";
+      } else if (this.basicPactMsg.pactStatus == "04") {
+        return "到期解除";
+      } else if (this.basicPactMsg.pactStatus == "99") {
+        return "其他";
+      } else {
+        return "";
+      }
+    },
+    _autoudFlag: {
       get: function() {
-        if (this.basicPactMsg.pactType == "01") {
-          return "劳动合同";
-        } else if (this.basicPactMsg.pactType == "02") {
-          return "保密协议";
+        if (this.basicPactMsg.autoudFlag == "01" || this.basicPactMsg.autoudFlag == true) {
+          return true;
+        } else if (this.basicPactMsg.autoudFlag == "02" || this.basicPactMsg.autoudFlag == false) {
+          return false;
+        } 
+      },
+      set: function(val) {
+        if(val == true) {
+          this.basicPactMsg.autoudFlag = "01";
         } else {
-          return "";
+          this.basicPactMsg.autoudFlag = "02";
         }
       }
     }
@@ -285,7 +304,6 @@ export default {
         .then(res => {
           console.log(res);
           self.basicPactMsg = res.data.data;
-          self.basicPactMsg.autoudFlag == '01' ? self.checked = 'true': self.checked = 'false';
         })
         .catch(() => {
           console.log("error");
@@ -294,15 +312,15 @@ export default {
     getPChangeList() {
       const self = this;
       let params = {
-        // pageNum: self.pChangePage.pageNum,
-        // pageSize: self.pChangePage.pageSize,
+        pageNum: self.pChangePage.pageNum,
+        pageSize: self.pChangePage.pageSize,
         pactNo: self.pactNo
       };
       self.$axios
         .get("/iem_hrm/pact/queryPactChangeList", { params: params })
         .then(res => {
           console.log(res);
-          self.PChangeListInfo = res.data.data.list;
+          self.PChangeListInfo = res.data.data.models;
           self.pChangePage.totalRows = res.data.total;
         })
         .catch(() => {
@@ -312,15 +330,15 @@ export default {
     getPRenewList() {
       const self = this;
       let params = {
-        // pageNum: self.pRenewPage.pageNum,
-        // pageSize: self.pRenewPage.pageSize,
+        pageNum: self.pRenewPage.pageNum,
+        pageSize: self.pRenewPage.pageSize,
         pactNo: self.pactNo
       };
       self.$axios
         .get("/iem_hrm/pact/queryPactRenewList", { params: params })
         .then(res => {
           console.log(res);
-          self.PRenewListInfo = res.data.data.list;
+          self.PRenewListInfo = res.data.data.models;
           self.pRenewPage.totalRows = res.data.total;
         })
         .catch(() => {
@@ -329,23 +347,15 @@ export default {
     },
     downloadFile() {},
 
-    organFormatter(row, column) {
-      return row.organNo == "0001"
-        ? "总公司"
-        : row.organNo == "0002" ? "深圳分公司" : "异常";
-    },
-    derpFormatter(row, column) {
-        return row.derpNo == "0001" ? "技术部" : row.derpNo == "0002" ? "财务部" : "异常";
-    },
     changeTypeFormatter(row, column) {
       return row.changeType == "01"
         ? "条款变更"
-        : row.changeType == "02" ? "啥啥变更" : "异常";
+        : row.changeType == "99" ? "其他" : "";
     },
     renewTypeFormatter(row, column) {
       return row.renewType == "01"
         ? "合同延期"
-        : row.renewType == "02" ? "啥啥续签" : "异常";
+        : row.renewType == "99" ? "其他" : "";
     },
     handleEdit(index, row) {
       if (this.activeName == "changePactMsg")
@@ -374,7 +384,7 @@ export default {
         })
           .then(() => {
             this.$axios
-              .delete(
+              .put(
                 "/iem_hrm/pact/deletePactChange?pactNo=" +
                   row.pactNo +
                   "&changeId=" +
@@ -382,16 +392,18 @@ export default {
               )
               .then(res => {
                 console.log(res);
-                if (res.data.code == "S00000")
-                  this.$message({ type: "success", message: "删除合同变更成功!" });
-                else this.$message.error("删除合同变更失败！");
+                if (res.data.code == "S00000") {
+                  this.$message({ type: "success", message: "操作成功!" });
+                  this.getPChangeList();
+                }
+                else this.$message.error("操作失败！");
               })
               .catch(() => {
-                this.$message.error("删除合同变更失败！");
+                this.$message.error("操作失败！");
               });
           })
           .catch(() => {
-            this.$message("您已取消删除合同变更！");
+            this.$message("您已取消删除！");
           });
       }
       if (this.activeName == "renewPactMsg") {
@@ -402,7 +414,7 @@ export default {
         })
           .then(() => {
             this.$axios
-              .delete(
+              .put(
                 "/iem_hrm/pact/deletePactRenew?pactNo=" +
                   row.pactNo +
                   "&renewId=" +
@@ -410,16 +422,18 @@ export default {
               )
               .then(res => {
                 console.log(res);
-                if (res.data.code == "S00000")
-                  this.$message({ type: "success", message: "删除成功!" });
-                else this.$message.error("删除合同续签失败！");
+                if (res.data.code == "S00000") {
+                  this.$message({ type: "success", message: "操作成功!" });
+                  this.getPRenewList();
+                }
+                else this.$message.error("操作失败！");
               })
               .catch(() => {
-                this.$message.error("删除合同续签失败！");
+                this.$message.error("操作失败！");
               });
           })
           .catch(() => {
-            this.$message("您已取消删除合同续签！");
+            this.$message("您已取消删除！");
           });
       }
     },
