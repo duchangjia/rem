@@ -274,10 +274,7 @@ export default {
 		},
 		//下载模版
 		handleDownloadTemplate() {
-			let params = {
-				
-			}
-			this.downloadFile(params);
+			this.downloadFile();
 		},
 		queryAttenceList(params) {
 			let self = this;
@@ -306,7 +303,8 @@ export default {
 				console.log(err);
 			})
 		},
-		downloadFile(params) {
+		//下载模版
+		downloadFile() {
 			const self = this;
 			self.$axios.get(baseURL+'/attence/download', {
                     responseType: 'blob'
@@ -336,7 +334,7 @@ export default {
 		},
 		exportFile(params) {
 			const self = this;
-			self.$axios.get(baseURL+'attence/exportAttenceInfo', {
+			self.$axios.get(baseURL+'/attence/exportAttenceInfo', {
                     responseType: 'blob'
                 })
                 .then((response) => {
@@ -359,7 +357,7 @@ export default {
                     }
                 }).catch((e) => {
                     console.error(e)
-                    self.$message({ message: e.response, type: 'error' });
+                    self.$message({ message: '下载模版失败', type: 'error' });
                 })
 		},
 		queryCompList() {
@@ -393,7 +391,7 @@ export default {
 </script>
 
 <style>
-.query_wrapper {
+/*.query_wrapper {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
@@ -500,7 +498,6 @@ export default {
 }
 .query_wrapper .el-table th {
 	text-align: center;
-	/*box-shadow: inset 0 1px 0 0 #EEEEEE;*/
 }
 .query_wrapper .el-table .cell, .el-table th>div {
     padding-left: 10px;
@@ -649,5 +646,5 @@ export default {
 }
 .query_wrapper .el-form-item__error {
     left: 39px;
-}
+}*/
 </style>
