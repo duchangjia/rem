@@ -8,7 +8,7 @@
                 <el-button type="primary" @click="handleSave('addPactMsgRules')" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="addPactMsg" :rules="rules" ref="addPactMsgRules" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="addPactMsg" :rules="pactMsgRules" ref="addPactMsgRules" :label-position="labelPosition" label-width="110px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="纸质合同编号">
                             <el-input v-model="addPactMsg.paperPactNo"></el-input>
@@ -31,9 +31,20 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工号" prop="userNo">
-                            <el-input v-model="custInfo.userNo">
+                            <el-input readonly="readonly" v-model="custInfo.userNo" placeholder="请选择员工编号">
                                 <el-button slot="append" icon="search" @click="searchUserNo"></el-button>
                             </el-input>
+                            <!-- <messageBox 
+                                :title="boxTitle"
+                                :tableOption.sync="tableOption"  
+                                :inputFirstOption.sync="inputFirstOption" 
+                                :inputSecOption.sync="inputSecOption"
+                                :searchData.sync="searchData" 
+                                :searchUrl="searchUrl"
+                                :dialogVisible.sync="dialogVisible"
+                                :pagination.sync="msgPagination"
+                                @dialogConfirm="dialogConfirm"
+                                ></messageBox> -->
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -78,8 +89,11 @@
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同状态" prop="pactStatus">
                             <el-select v-model="addPactMsg.pactStatus">
-                                <el-option label="已生效" value="01"></el-option>
-                                <el-option label="未生效" value="02"></el-option>
+                                <el-option label="试用" value="01"></el-option>
+                                <el-option label="有效" value="02"></el-option>
+                                <el-option label="提前解除" value="03"></el-option>
+                                <el-option label="到期解除" value="04"></el-option>
+                                <el-option label="其他" value="99"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -111,6 +125,11 @@
                             <el-input type="textarea" v-model="addPactMsg.remark"></el-input>
                         </el-form-item>
                     </el-col>
+                    <el-col :span="24">
+                        <el-form-item label=" " prop="autoudFlag">
+                            <el-checkbox v-model="_autoudFlag" @change="">自动更新员工资料</el-checkbox>
+                        </el-form-item>
+                    </el-col>
                 </el-form>
             </div>
         </div>
@@ -138,9 +157,21 @@ export default {
         pactStopTime: "",
         attachm: "",
         stopReason: "",
-        remark: ""
+        remark: "",
+        autoudFlag: ""
       },
-      rules: {
+
+      dialogVisible:false,
+      boxTitle: "",
+      tableOption: [],
+      inputFirstOption:{},
+      inputSecOption:{},
+      msgPagination:{},
+      searchData:{},
+      searchUrl:'',
+      saveUrl:'',
+
+      pactMsgRules: {
         userNo: [{ required: true, message: "工号不能为空", trigger: "blur" }],
         pactType: [{ required: true, message: "合同类型不能为空", trigger: "change" }],
         signTime: [{ required: true, message: "签订日期不能为空", trigger: "change" }],
@@ -165,6 +196,22 @@ export default {
         return "";
       }
     },
+    _autoudFlag: {
+      get: function() {
+        if (this.basicPactMsg.autoudFlag == "01" || this.basicPactMsg.autoudFlag == true) {
+          return true;
+        } else if (this.basicPactMsg.autoudFlag == "02" || this.basicPactMsg.autoudFlag == false) {
+          return false;
+        } 
+      },
+      set: function(val) {
+        if(val == true) {
+          this.basicPactMsg.autoudFlag = "01";
+        } else {
+          this.basicPactMsg.autoudFlag = "02";
+        }
+      }
+    }
   },
   methods: {
     getCustInfo() {
@@ -180,7 +227,7 @@ export default {
       //       console.log("error");
       //     });
       self.custInfo = {
-        userNo: "P0000117",
+        userNo: "P0001320",
         custName: "yangrui",
         cert: "420988199501014444",
         sex: "01",
@@ -194,12 +241,86 @@ export default {
     },
     searchUserNo() {
       const self = this;
-      self.custInfo.userNo = "P0000117"; // 查询工号，应从接口查出
+      self.custInfo.userNo = "P0001320"; // 查询工号，应从接口查出
       self.getCustInfo(); //查询用户信息
       self.addPactMsg.userNo = self.custInfo.userNo;
     },
     userNoChange(val) {
       this.getCustInfo(); //查询用户信息
+    },
+    userNoSelect(){
+        //table
+        this.tableOption = [
+            {
+                thName:'工号',//table 表头
+                dataKey:'userNo'//table-col所绑定的prop值
+            },
+            {
+                thName:'姓名',//table 表头
+                dataKey:'custName'//table-col所绑定的prop值
+            }
+            ];
+        //input 第一个搜索框的配置项
+        this.inputFirstOption  = {
+            labelName:'姓名',//label头
+            placeholder:'请输入姓名'//input placeholder
+        },
+        //input 第二个搜索框的配置项
+        this.inputSecOption  = {
+            labelName:'工号',
+            placeholder:'请输入工号'
+        },
+        //搜索所需传值
+        this.searchData = {
+            custName:'',
+            userNo:''
+        }
+        //table分页所需传值
+        this.msgPagination =  {
+            pageNum:1,
+            pageSize:5,
+            totalRows:1
+        }
+        this.numType = 1 //点击确定后需要修改的对象 numType为changeNo方法所改变的type
+        this.dialogVisible=true //dialog打开
+        this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList" //查询接口
+        this.saveUrl = '/iem_hrm/assetUse/queryAssetUserByApplyUserNo/' //点击确定后根据号码查询用户信息借口 没有则为空
+        this.boxTitle = '员工编号选择' //dialog标题
+    },
+    dialogConfirm(ajaxNo){
+        let self = this;
+        self.$axios
+        .get(
+          self.saveUrl+
+          ajaxNo.stateNo
+        )
+        .then(res => {
+          if (res.data.code == 'F00002'){
+            self.$message({
+              message:res.data.retMsg,
+              type: "error"
+            });
+          }else{
+            self.dialogVisible = false;
+            switch(self.numType){
+                case 1:
+                    // self.applyUserInfo = res.data.data
+                    // self.info.applyUserNo = ajaxNo
+                break;
+                case 2:
+                    // self.assetInfo = res.data.data
+                    //  self.info.assetNo = ajaxNo
+                break;
+            }
+          }
+        })
+        .catch(e => {
+        //   this.applyUserInfo = {};
+          self.$message({
+            message:e.retMsg,
+            type: "error"
+          });
+        });
     },
 
 
