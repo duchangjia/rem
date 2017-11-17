@@ -305,7 +305,7 @@
 		        //搜索所需传值
 		        this.searchData = {
 		            custName:'',
-		            custNo:''
+		            userNo:''
 		        }
 		        //table分页所需传值
 		        this.msgPagination =  {

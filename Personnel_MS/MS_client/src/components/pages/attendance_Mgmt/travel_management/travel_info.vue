@@ -10,69 +10,69 @@
 				<el-form ref="formdata" :inline="true"  :rules="rules" :model="formdata" label-width="100px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
-							<el-input v-model="formdata.companyName"></el-input>
+							<el-input v-model="formdata.companyName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="申请部门名称">
-							<el-input v-model="formdata.deptName"></el-input>
+							<el-input v-model="formdata.deptName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
-						    <el-input v-model="formdata.userNo"></el-input>
+						    <el-input v-model="formdata.userNo" :disabled="true"></el-input>
 					 	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="姓名">
-						    <el-input v-model="formdata.custName"></el-input>
+						    <el-input v-model="formdata.custName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <el-input v-model="formdata.custPost"></el-input>
+						    <el-input v-model="formdata.custPost" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <el-input v-model="formdata.custClass"></el-input>
+						    <el-input v-model="formdata.custClass" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :span="24" class="item-title">出差信息</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差开始时间" prop="travelStartTime">
-				        	<el-date-picker type="datetime" v-model="formdata.travelStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="datetime" v-model="formdata.travelStartTime" @change="changeStartTime" style="width:100%;" :disabled="true"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差结束时间" prop="travelEndTime">
-				        	<el-date-picker type="datetime" v-model="formdata.travelEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="datetime" v-model="formdata.travelEndTime" @change="changeEndTime" style="width:100%;" :disabled="true"></el-date-picker>
 				      	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差类型" prop="travelType">
-						    <el-select v-model="formdata.travelType">
+						    <el-select v-model="formdata.travelType" :disabled="true">
 								<el-option v-for="item in travelTypeList" :key="item.travelNo" :label="item.label" :value="item.travelNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item class="travelCity_wrap" label="出差城市" prop="travelStartCity">
-						    <el-input class="travelCity" v-model="formdata.travelStartCity" placeholder="出发城市"></el-input>
+						    <el-input class="travelCity" v-model="formdata.travelStartCity" placeholder="出发城市" :disabled="true"></el-input>
 					  	</el-form-item>
 					  	<span class="travelCity_line" >-</span>
 					  	<el-form-item class="travelCity_wrap2" prop="travelArrivalCity">
-						    <el-input class="travelCity" v-model="formdata.travelArrivalCity" placeholder="到达城市"></el-input>
+						    <el-input class="travelCity" v-model="formdata.travelArrivalCity" placeholder="到达城市" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差天数">
-						    <el-input v-model="formdata.travelDays"></el-input>
+						    <el-input v-model="formdata.travelDays" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="差补标准">
-						    <el-input v-model="formdata.travelSTD"></el-input>
+						    <el-input v-model="formdata.travelSTD" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 				  	<el-col :span="24">
@@ -81,18 +81,18 @@
 							  type="textarea"
 							  :autosize="{ minRows: 5, maxRows: 5}"
 							  placeholder="请输入内容"
-							  v-model="formdata.remark">
+							  v-model="formdata.remark" :disabled="true">
 							</el-input>
 					  	</el-form-item>
 				  	</el-col>
 				  	<el-col :sm="24" :md="12">
 						<el-form-item label="最新更新人">
-						    <el-input v-model="formdata.updatedBy"></el-input>
+						    <el-input v-model="formdata.updatedBy" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="最新更新时间">
-						    <el-input v-model="formdata.updatedDate"></el-input>
+						    <el-input v-model="formdata.updatedDate" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
