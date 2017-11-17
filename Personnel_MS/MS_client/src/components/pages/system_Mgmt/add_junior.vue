@@ -145,7 +145,7 @@
             }
         },
         components: {
-            current,
+            current,messageBox
         },
         methods: {
             dialogConfirm(custInfo){
@@ -334,6 +334,14 @@
     }
     .add-junior .department-info .el-form-item__content .el-select .el-input__inner,.add-junior .department-info .el-form-item__content .el-input .el-input__inner{
         width: 300px;
+        height: 40px;
+    }
+    .add-junior .department-info .organMgeName .el-input, .add-junior .department-info .organMgeName .el-select{
+        width: 253px;
+        height: 40px;
+    }
+    .add-junior .department-info .organMgeName .el-select .el-input__inner,.add-junior .department-info .organMgeName .el-input .el-input__inner{
+        width: 253px;
         height: 40px;
     }
     .add-junior .department-info .el-form-item__content .el-input__inner:hover, .add-junior .department-info .el-form-item__content .el-input__inner:focus{

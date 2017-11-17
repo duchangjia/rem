@@ -992,7 +992,7 @@
                         })
                 }
                 if(tab.name==='fourth'&&this.lock.eduLock){
-                    this.$axios.get('/iem_hrm/epCustEduHis/queryEpCustEduHis/'+this.userNo)
+                    this.$axios.get('/iem_hrm/epCustEduHis/queryEpCustEduHis',{params:{userNo:this.userNo}})
                         .then(res=>{
                             this.education_item.userNo = this.userNo
                             this.education_item.lists = res.data.data

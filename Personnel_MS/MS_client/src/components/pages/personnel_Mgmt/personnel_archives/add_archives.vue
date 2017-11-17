@@ -355,7 +355,53 @@
                             </el-tab-pane>
                             <el-tab-pane label="工作经历" name="third" class="third_special">
                                 <div class="third-wrapper">
-                                    <div class="title"><span>工作经历</span><span  class="text" @click="add_experience">添加</span></div>
+                                    <div class="title"><span>工作经历</span><span  class="text" @click="add_work_experience">添加</span></div>
+                                    <div class="from-wrapper">
+                                        <div v-for="(item, index) in work_item.lists" style="margin-top: 20px; position: relative">
+                                            <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fourth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
+                                                <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
+                                                <el-col :span="12">
+                                                    <div style="display: flex">
+                                                        <el-form-item label="时间" prop="startTime" class="fifth_common" style="margin-right: -40px">
+                                                            <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
+                                                        </el-form-item>
+                                                        <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
+                                                            <el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>
+                                                        </el-form-item>
+                                                    </div>
+                                                </el-col>
+                                                <el-col :span="12">
+                                                    <el-form-item label="学校名称" prop="schoolName">
+                                                        <el-input v-model="item.schoolName" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <el-col :span="12">
+                                                    <el-form-item label="专业" prop="major">
+                                                        <el-input v-model="item.major" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <el-col :span="12">
+                                                    <el-form-item label="学历" prop="education">
+                                                        <el-select v-model="item.education" :disabled="item.isShowEdit">
+                                                            <el-option value="01" label="高中以下"></el-option>
+                                                            <el-option value="02" label="高中"></el-option>
+                                                            <el-option value="03" label="大专"></el-option>
+                                                            <el-option value="04" label="本科"></el-option>
+                                                            <el-option value="05" label="硕士"></el-option>
+                                                            <el-option value="06" label="博士"></el-option>
+                                                            <el-option value="07" label="博士以上"></el-option>
+                                                            <el-option value="99" label="其他"></el-option>
+                                                        </el-select>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <el-col :span="24">
+                                                    <el-form-item label="描述" prop="desc" class="fifth_common">
+                                                        <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                            </el-form>
+                                        </div>
+                                    </div>
                                     <div class="from-wrapper">
                                             <el-form :model="ruleForm4" :rules="rules4" ref="ruleForm4" label-width="100px">
                                                 <el-form-item label="公司名称" prop="companyName">
@@ -628,6 +674,20 @@
                           schoolName: '',
                           major: '',
                           education: '',
+                          desc: '',
+                          isShowEdit: false
+                      },
+                  ]
+              },
+              work_item:{
+                  userNo:'',
+                  lists:[
+                      {
+                          startTime: '',
+                          endTime: '',
+                          company: '',
+                          post1: '',
+                          duty: '',
                           desc: '',
                           isShowEdit: false
                       },
@@ -992,9 +1052,6 @@
             },
             save(tabName) {
                 let self = this
-//                this.social_item.forEach((item)=>{
-//                    item.isShow = false
-//                })
                 if('first' === tabName){
                     console.log('first',this.ruleForm.sex)
                     self.$refs.ruleForm.validate((valid) => {
@@ -1072,7 +1129,7 @@
                         })
                 }
                 if('fourth'===tabName) {
-                     this.education_item.userNo = 'P0000120'
+//                     this.education_item.userNo = 'P0000120'
                     if(!this.education_item.userNo){
                         self.$message({
                             type: 'error',
@@ -1104,7 +1161,6 @@
                                 data.lists[i].startTime = moment(data.lists[i].startTime).format('YYYY-MM-DD')
                                 data.lists[i].endTime = moment(data.lists[i].endTime).format('YYYY-MM-DD')
                                 if(count==educationItemLength){
-                                    console.log(data,111)
                                     this.$axios.post('/iem_hrm/epCustEduHis/saveEpCustEduHiss', data)
                                         .then(res=>{
                                             console.log(res)
@@ -1236,8 +1292,17 @@
                     }
                 this.education_item.lists.push(item)
             },
-            add_experience(){
-
+            add_work_experience(){
+                let item = {
+                        startTime: '',
+                        endTime: '',
+                        company: '',
+                        post1: '',
+                        duty: '',
+                        desc: '',
+                        isShowEdit: false
+                    }
+                this.work_item.lists.push(item)
             },
             add_pro_experience() {
                 let item = {
@@ -1324,6 +1389,25 @@
                     }
                     if(isShow) {
                         this.education_item.lists[index].isShowEdit = !isShow
+                    }
+                }
+                if('third'==this.tabName){
+                    if(!isShow)  {
+                        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() => {
+                            this.work_item.lists.splice(index,1)
+                        }).catch(()=>{
+                            this.$message({
+                                type: 'info',
+                                message: '已取消删除'
+                            });
+                        })
+                    }
+                    if(isShow) {
+                        this.work_item.lists[index].isShowEdit = !isShow
                     }
                 }
 
