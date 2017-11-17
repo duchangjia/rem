@@ -251,7 +251,7 @@
 	      	dialogConfirm(ajaxNo){
 		        let self = this;
 		        let params = {
-		        	userNo: ajaxNo
+		        	userNo: ajaxNo.stateNo
 		        }
 		        self.$axios
 		        .get( self.saveUrl, {params} )

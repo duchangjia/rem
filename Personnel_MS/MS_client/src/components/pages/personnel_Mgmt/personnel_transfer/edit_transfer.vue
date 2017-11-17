@@ -8,7 +8,7 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="100px">
+				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
 						    <el-select v-model="formdata.oldOrgId" value-key="compOrgNo" @change="changeValue">
@@ -43,7 +43,7 @@
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动生效时间" prop="shiftCameTime">
-						    <el-date-picker type="datetime" v-model="formdata.shiftCameTime" @change="changeShiftCameTime"></el-date-picker>
+						    <el-date-picker type="datetime" v-model="formdata.shiftCameTime" @change="changeShiftCameTime" style="width: 100%;"></el-date-picker>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -354,110 +354,5 @@
 </script>
 
 <style>
-.edit_transfer {
-	padding-left: 20px;
-    padding-bottom: 20px;
-	width: 100%;
-}
-.edit_transfer .content {
-	width: 100%;
-	padding: 0px 20px;
-	background: #ffffff;
-	clear: both;
-}
-.edit_transfer .content .title {
-	border-bottom: 1px solid #EEEEEE;
-}
 
-.edit_transfer .content .title .title-text {
-	display: inline-block;
-	position: relative;
-	padding: 14px 0px;
-	font-size: 16px;
-	height: 50px;
-}
-
-.edit_transfer .content .title .title-text:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
-}
-
-.edit_transfer .content-inner {
-	padding: 30px 0px;
-}	
-.edit_transfer .info-title{
-	padding: 11px 0px 11px 10px;
-    margin-bottom: 30px;
-	color: #999999;
-	border-bottom: none;
-}
-.edit_transfer .el-form-item__content {
-	margin-left: 30px;
-}
-.edit_transfer .el-date-editor.el-input {
-    width: 300px;
-}
-.edit_transfer .el-input__inner {
-    border: 1px solid #EEEEEE;
-    color: #999999;
-    width: 300px;
-    height: 40px;
-    
-}
-.edit_transfer .el-form-item {
-	padding-left: 20px;
-}
-.edit_transfer .el-form-item__label {
-    text-align: right;
-    vertical-align: middle;
-    float: left;
-    font-size: 14px;
-    color: #999999;
-    line-height: 1;
-    padding: 11px 0px 11px 0;
-    box-sizing: border-box;
-    font-weight: normal;
-}
-/*.edit_transfer .el-textarea__inner {
-    margin-left: 30px;
-}
-.edit_transfer .el-form-item__error {
-    left: 30px;
-}*/
-.edit_transfer .upload-demo {
-	height: 0px;
-}
-.edit_transfer .uploadBtn {
-  position: absolute;
-  height: 40px;
-  top: 0;
-  right: 0;
-  margin: 0;
-  border: 1px solid #ff9900;
-  border-radius: 0;
-  background: #ff9900;
-  font-family: "PingFang SC";
-}
-.edit_transfer .el-upload__input {
-    margin-left: 30px;
-    border: 1px solid #eeeeee;
-    display: none;
-}
-.edit_transfer .conserve {
-		float: right;
-		margin-top: 10px;
-		background: #F4F4F4;
-		border: 1px solid #F4F4F4;
-		border-radius: 0px;
-		font-size: 14px;
-		color: #333333;
-		width: 120px;
-		height: 30px;
-		padding: 0;
-	}
 </style>

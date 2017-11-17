@@ -5,103 +5,114 @@
 		<div class="content-wrapper">
 			<div class="titlebar">
 				<span class="title-text">人事调动新增</span>
-				<el-button type="primary" class="toolBtn" @click="save('formdata')">保存</el-button>
+				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata" :inline="true"  :rules="rules" :model="formdata" label-width="100px">
+				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="100px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
-						    <el-select v-model="formdata.oldOrgId" value-key="compOrgNo" @change="changeValue">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
-							</el-select>
+						    <el-input v-model="formdata1.companyName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="部门名称">
-						    <el-select v-model="formdata.oldDeprtId" value-key="departOrgNo" @change="changeValue">
-								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
-							</el-select>
+						    <el-input v-model="formdata1.deptName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
-						    <el-input v-model="formdata.userNo"></el-input>
+						    <el-input v-model="formdata1.userNo">
+						    	<el-button slot="append" icon="search" @click="userNoSelect"></el-button>
+						    </el-input>
+						    <messageBox 
+                                :title="boxTitle"
+                                :tableOption.sync="tableOption"  
+                                :inputFirstOption.sync="inputFirstOption" 
+                                :inputSecOption.sync="inputSecOption"
+                                :searchData.sync="searchData" 
+                                :searchUrl="searchUrl"
+                                :dialogVisible.sync="dialogVisible"
+                                :pagination.sync="msgPagination"
+                                @dialogConfirm="dialogConfirm"
+                                ></messageBox>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="姓名">
-						    <el-input v-model="formdata.custName"></el-input>
+						    <el-input v-model="formdata1.custName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
+				</el-form>
+				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="100px">
 				  	<el-col :span="24" class="item-title">调动信息</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动类型" prop="shiftType">
-						    <el-select v-model="formdata.shiftType" value-key="shiftType" @change="changeValue">
+						    <el-select v-model="formdata2.shiftType" value-key="shiftType">
 								<el-option v-for="item in shiftTypeList" :key="item.shiftType" :label="item.shiftName" :value="item.shiftType"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动生效时间" prop="shiftCameTime">
-						    <el-input v-model="formdata.shiftCameTime"></el-input>
+						    <el-input v-model="formdata2.shiftCameTime"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原公司名称">
-						    <el-select v-model="formdata.oldOrgId" value-key="compOrgNo" @change="changeValue">
+						    <el-select v-model="formdata2.oldOrgId" value-key="compOrgNo" >
 								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新公司名称" prop="newcompOrgNo">
-						    <el-select v-model="formdata.newOrgId" value-key="newcompOrgNo" @change="changeValue">
+						    <el-select v-model="formdata2.newOrgId" value-key="newcompOrgNo">
 								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原部门名称">
-						    <el-select v-model="formdata.oldDeprtId" value-key="departOrgNo" @change="changeValue">
+						    <el-select v-model="formdata2.oldDeprtId" value-key="departOrgNo">
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新部门名称" prop="newdepartOrgNo">
-						    <el-select v-model="formdata.newDeprtId" value-key="newdepartOrgNo" @change="changeValue">
+						    <el-select v-model="formdata2.newDeprtId" value-key="newdepartOrgNo">
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原直线经理">
-						    <el-input v-model="formdata.oldLineManager"></el-input>
+						    <el-input v-model="formdata2.oldLineManager"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新直线经理" prop="newLineManager">
-						    <el-input v-model="formdata.newLineManager"></el-input>
+						    <el-input v-model="formdata2.newLineManager"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原岗位">
-						    <el-input v-model="formdata.oldPost"></el-input>
+						    <el-input v-model="formdata2.oldPost"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新岗位" prop="newPost">
-						    <el-input v-model="formdata.newPost"></el-input>
+						    <el-input v-model="formdata2.newPost"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原职级">
-						    <el-input v-model="formdata.oldClass"></el-input>
+						    <el-input v-model="formdata2.oldClass"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新职级" prop="newClass">
-						    <el-input v-model="formdata.newClass"></el-input>
+						    <el-input v-model="formdata2.newClass"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24">
@@ -110,18 +121,18 @@
 							  type="textarea"
 							  :autosize="{ minRows: 5, maxRows: 5}"
 							  placeholder="请输入内容"
-							  v-model="formdata.shiftReason">
+							  v-model="formdata2.shiftReason">
 							</el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width: 100%;">
-							<el-input v-model="formdata.attachm"></el-input>
+							<el-input v-model="formdata2.attachm"></el-input>
 					  		<el-upload class="upload-demo" ref="upload" name="file"
 					  			 :data="addFormdata"
 					  			 :on-change="changeUpload" 
 					  			 :on-success="successUpload"
-					  			 action="/iem_hrm" 
+					  			 action="/iem_hrm/custShifthis/addCustShifthis" 
 					  			 :show-file-list="false" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
@@ -138,19 +149,29 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
+	import messageBox from "../../../common/messageBox-components.vue";
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
 			return {
+				token: {
+					Authorization:`Bearer `+localStorage.getItem('access_token'),
+				},
 				fileFlag: '',
-				formdata: {
+				dialogVisible:false,
+			    tableOption:[],
+			    inputFirstOption:{},
+			    inputSecOption:{},
+			    msgPagination:{},
+			    searchData:{},
+			    searchUrl:'',
+			    saveUrl:'',
+			    boxTitle:'',
+			    formdata1: {},
+				formdata2: {
 					oldOrgId: "",
-//					compName: "",
-//					departName: "",
 					oldDeprtId: "",
 					newOrgId: "",
-//					newcompName: "",
-//					newdepartName: "",
 					newDeprtId: "",
 					custName: "",
 					userNo: "",
@@ -165,23 +186,6 @@
 					shiftReason: "",
 					attachm: ""
 				},
-				
-//				oldcomp: {
-//					compName: '',
-//					compOrgNo: ''
-//				},
-//				newcomp: {
-//					newcompName: '',
-//					newcompOrgNo: ''
-//				},
-//				olddepart: {
-//					departName: '',
-//					departOrgNo: ''
-//				},
-//				newdepart: {
-//					newdepartName: '',
-//					newdepartOrgNo: ''
-//				},
 				//部门列表
 				departList: [
 					{departName: "上海魔方分公司",departOrgNo: '01'},
@@ -202,7 +206,12 @@
 					{shiftType: '05',shiftName: '工资调整'},
 					{shiftType: '99',shiftName: '其他'},
 				],
-			 	rules: {
+				rules1: {
+					userNo: [
+			 			{ required: true, message: '工号不能为空', trigger: 'blur' }
+			 		]
+				},
+			 	rules2: {
 		          	shiftType: [
 		            	{ required: true, message: '调动类型不能为空', trigger: 'blur' }
 	          		],
@@ -231,53 +240,103 @@
 			}
 		},
 		components: {
-			current
+			current, messageBox
 		},
 		created() {
 			
 		},
 		computed: {
 			addFormdata: function(){
+				const self = this;
 				return {
-				    oldOrgId: self.formdata.oldOrgId,
-					oldDeprtId: self.formdata.oldDeprtId,
-					newOrgId: self.formdata.newOrgId,
-					newDeprtId: self.formdata.newDeprtId,
-//					custName: self.formdata.custName,
-					userNo: self.formdata.userNo,
-					shiftType: self.formdata.shiftType,
-					shiftCameTime: self.formdata.shiftCameTime,
-					oldLineManager: self.formdata.oldLineManager,
-					newLineManager: self.formdata.newLineManager,
-					oldPost: self.formdata.oldPost,
-					newPost: self.formdata.newPost,
-					oldClass: self.formdata.oldClass,
-					newClass: self.formdata.newClass,
-					shiftReason: self.formdata.shiftReason,
-					attachm: self.formdata.attachm
+				    oldOrgId: self.formdata2.oldOrgId,
+					oldDeprtId: self.formdata2.oldDeprtId,
+					newOrgId: self.formdata2.newOrgId,
+					newDeprtId: self.formdata2.newDeprtId,
+//					custName: self.formdata2.custName,
+					userNo: self.formdata2.userNo,
+					shiftType: self.formdata2.shiftType,
+					shiftCameTime: self.formdata2.shiftCameTime,
+					oldLineManager: self.formdata2.oldLineManager,
+					newLineManager: self.formdata2.newLineManager,
+					oldPost: self.formdata2.oldPost,
+					newPost: self.formdata2.newPost,
+					oldClass: self.formdata2.oldClass,
+					newClass: self.formdata2.newClass,
+					shiftReason: self.formdata2.shiftReason,
+					attachm: self.formdata2.attachm
 				}
 			}
 		},
 		methods: {
-			handleRemove(file, fileList) {
-		        console.log(file, fileList);
-	      	},
-	      	handlePreview(file) {
-		        console.log(file);
-	      	},
-			changeValue(value) {
-		 		const self = this;
-	            console.log('value',value);
-	            console.log(this.formdata.newDeprtId)
-	      	},
+	      	dialogConfirm(ajaxNo){
+	      		console.log(ajaxNo)
+		        let self = this;
+		        let params = {
+		        	userNo: ajaxNo.stateNo
+		        }
+		        self.$axios
+		        .get( self.saveUrl, {params} )
+		        .then(res => {
+		          	if (res.data.code == 'S00000'){
+		             	self.dialogVisible = false;
+			            self.formdata1 = res.data.data;
+		          	}
+		        })
+		        .catch(e => {
+			        console.log('error')
+		        });
+		    },
+		    userNoSelect(){
+		        //table
+		        this.tableOption = [
+		            {
+		                thName:'工号',//table 表头
+		                dataKey:'userNo'//table-col所绑定的prop值
+		            },
+		            {
+		                thName:'姓名',//table 表头
+		                dataKey:'custName'//table-col所绑定的prop值
+		            }
+		            ];
+		        //input 第一个搜索框的配置项
+		        this.inputFirstOption  = {
+		            labelName:'姓名',//label头
+		            placeholder:'请输入姓名'//input placeholder
+		        },
+		        //input 第二个搜索框的配置项
+		        this.inputSecOption  = {
+		            labelName:'工号',
+		            placeholder:'请输入工号'
+		        },
+		        //搜索所需传值
+		        this.searchData = {
+		            custName:'',
+		            userNo:''
+		        }
+		        //table分页所需传值
+		        this.msgPagination =  {
+		            pageNum:1,
+		            pageSize:5,
+		            totalRows:0
+		        }
+		        //dialog打开
+		        this.dialogVisible=true
+		        //查询接口
+		        this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
+		        //点击确定后根据号码查询用户信息借口 没有则为空
+		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
+		        //dialog标题
+		        this.boxTitle = '人工编号选择'
+		    },
 	      	changeUpload(file, fileList) {
-//		 		this.fileFlag = file;
-//		 		this.formdata.attachm = file.name;
+		 		this.fileFlag = file;
+		 		this.formdata2.attachm = file.name;
 	      	},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
 	      			this.$message({ message: '操作成功', type: 'success' });
-	      			this.$router.push('/');
+	      			this.$router.push('/detail_transfer');
 	      		}
 	      		
 	      	},
@@ -288,22 +347,22 @@
 						self.$refs.upload.submit();
 						if(!self.fileFlag) {
 							let params = {
-								oldOrgId: self.formdata.oldOrgId,
-								oldDeprtId: self.formdata.oldDeprtId,
-								newOrgId: self.formdata.newOrgId,
-								newDeprtId: self.formdata.newDeprtId,
-	//							custName: self.formdata.custName,
-								userNo: self.formdata.userNo,
-								shiftType: self.formdata.shiftType,
-								shiftCameTime: self.formdata.shiftCameTime,
-								oldLineManager: self.formdata.oldLineManager,
-								newLineManager: self.formdata.newLineManager,
-								oldPost: self.formdata.oldPost,
-								newPost: self.formdata.newPost,
-								oldClass: self.formdata.oldClass,
-								newClass: self.formdata.newClass,
-								shiftReason: self.formdata.shiftReason,
-								attachm: self.formdata.attachm
+								oldOrgId: self.formdata2.oldOrgId,
+								oldDeprtId: self.formdata2.oldDeprtId,
+								newOrgId: self.formdata2.newOrgId,
+								newDeprtId: self.formdata2.newDeprtId,
+	//							custName: self.formdata2.custName,
+								userNo: self.formdata2.userNo,
+								shiftType: self.formdata2.shiftType,
+								shiftCameTime: self.formdata2.shiftCameTime,
+								oldLineManager: self.formdata2.oldLineManager,
+								newLineManager: self.formdata2.newLineManager,
+								oldPost: self.formdata2.oldPost,
+								newPost: self.formdata2.newPost,
+								oldClass: self.formdata2.oldClass,
+								newClass: self.formdata2.newClass,
+								shiftReason: self.formdata2.shiftReason,
+								attachm: self.formdata2.attachm
 							}
 							//无附件时人事调动添加
 							self.addCustShif(params);
@@ -321,9 +380,38 @@
 				self.$axios.post(baseURL+'/custShifthis/addCustShifthis',params)
 				.then(function(res) {
 					console.log('addCustShif',res);
-					
+					if(response.code === "S00000") {
+		      			this.$message({ message: '操作成功', type: 'success' });
+		      			this.$router.push('/detail_transfer');
+		      		}
 				}).catch(function(err) {
 					console.log('error');
+				})
+			},
+			queryCompList() {
+			let self = this;
+			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
+			.then(function(res) {
+				console.log('CompList',res);
+				if(res.data.code === "S00000") {
+					self.compList = res.data.data;
+				}
+				
+			}).catch(function(err) {
+				console.log(err);
+			})
+			},
+			queryDerpList(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
+				.then(function(res) {
+					console.log('DerpList',res);
+					if(res.data.code === "S00000") {
+						self.departList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log(err);
 				})
 			}
 		}

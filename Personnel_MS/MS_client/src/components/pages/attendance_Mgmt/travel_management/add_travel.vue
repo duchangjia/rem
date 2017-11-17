@@ -9,7 +9,6 @@
 			</div>
 			<div class="add-wrapper">
 				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="110px">
-					
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
 							<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
@@ -278,9 +277,10 @@
 	      		this.getUseInfoByUserNo(params);
 	      	},
 	      	dialogConfirm(ajaxNo){
+	      		console.log(ajaxNo)
 		        let self = this;
 		        let params = {
-		        	userNo: ajaxNo
+		        	userNo: ajaxNo.stateNo
 		        }
 		        self.$axios
 		        .get( self.saveUrl, {params} )

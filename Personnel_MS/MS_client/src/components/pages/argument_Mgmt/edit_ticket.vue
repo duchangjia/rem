@@ -48,6 +48,16 @@
                                  <el-input v-model="custInfo.organAddr"  placeholder="请输入地址"></el-input>
                             </el-form-item>
                         </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="生效状态">
+                                 <el-switch
+                                      v-model="isDelete"
+                                      on-color="#ff9900"
+                                      off-color="#C0CCDA"
+                                      >
+                                  </el-switch>
+                            </el-form-item>
+                        </el-col>
                     </el-form>
                 </div>
             </div>
@@ -60,7 +70,7 @@ import current from "../../common/current_position.vue";
 export default {
   data() {
     let checkTel = (rule, value, callback) => {
-        let ret  = /^[1][3578]\d{9}$/
+        let ret  = /^\d+(-)?\d+((-)?\d+)?$/
         if(!ret.test(value)&&value!==''){
            return  callback('请输入正确的手机号码');
         }else{
@@ -75,7 +85,8 @@ export default {
         organTel:"",        
         organAcct: "",
         organAcctname: "",
-        organAddr: ""
+        organAddr: "",
+        isDelete:''
       },
       rules: {
         organName: [{ required: true, message: "请选择公司名称", trigger: "change" }],
@@ -83,7 +94,8 @@ export default {
         organTaxNo: [{ required: true, message: "请输入纳税人编号", trigger: "blur" }],
         organTel:[{validator:checkTel,trigger: 'blur'}]
       },
-      companyName: []
+      companyName: [],
+      isDelete:false
     };
   },
   created() {
@@ -100,7 +112,12 @@ export default {
         self.custInfo.organAcct = res.data.data.organAcct;
         self.custInfo.organAcctname = res.data.data.organAcctname;
         self.custInfo.organAddr = res.data.data.organAddr;
-
+        self.custInfo.isDelete = res.data.data.isDelete;
+        if(self.custInfo.isDelete == '01'){
+          self.isDelete = true
+        }else{
+          self.isDelete = false
+        }
         console.log(res);
       })
       .catch(e => {
@@ -111,6 +128,11 @@ export default {
     save() {
       console.log(this.info);
       let self = this;
+      if(self.isDelete == false){
+        self.custInfo.isDelete = '02'
+      }else{
+        self.custInfo.isDelete = '01'
+      }
 
       self.$refs.info.validate((valid) => {
           console.log(self.custInfo,'传入的对象');
