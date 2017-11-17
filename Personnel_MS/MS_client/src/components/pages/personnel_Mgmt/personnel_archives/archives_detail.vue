@@ -141,31 +141,45 @@
                                         <el-col :span="8">
                                             <el-form-item label="公司名称" prop="organName">
                                                 <!--<el-input v-model="ruleForm.userName"></el-input>-->
-                                                <el-select v-model="ruleForm.organNo" placeholder="请选择公司名称" :disabled="edit" @change="selectDep(ruleForm2.organNo)">
+                                                <el-select v-model="ruleForm.organNo" placeholder="请选择公司名称" :disabled="edit" @change="selectDep(ruleForm.organNo)">
                                                     <el-option :label="item.organName" :value="item.organNo" v-for="item in basicInfo.company"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="部门名称" prop="derpName">
-                                                <el-select v-model="ruleForm.derpName" placeholder="请选择部门名称" :disabled="edit" @change="selectCCC(ruleForm2.organNo)">
+                                                <el-select v-model="ruleForm.derpName" placeholder="请选择部门名称" :disabled="edit" @change="selectCCC(ruleForm.organNo)">
                                                     <el-option :label="item.derpName" :value="item.derpNo" v-for="item in basicInfo.department"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="CCC" prop="ownerCCC">
-                                                <el-select v-model="ruleForm.ownerCCC" placeholder="请选择CCC" :disabled="edit" @change="selectCCC(ruleForm2.organNo)">
-                                                    <!--<el-option label="管理CCC" value="01"></el-option>-->
-                                                    <!--<el-option label="售前CCC" value="02"></el-option>-->
-                                                    <!--<el-option label="项目CCC" value="03"></el-option>-->
-                                                    <el-option :label="item.derpName" :value="item.derpNo" v-for="item in basicInfo.CCC"></el-option>
+                                                <el-select v-model="ruleForm.ownerCCC" placeholder="请选择CCC" :disabled="edit">
+                                                    <el-option :label="item=='01'?'管理CCC':item=='02'?'售前CCC':'项目CCC'" :value="item" v-for="item in basicInfo.CCC"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
+                                            <!--<el-form-item label="直线经理">-->
+                                                <!--<el-input v-model="ruleForm.lineManager" :disabled="edit"></el-input>-->
+                                            <!--</el-form-item>-->
                                             <el-form-item label="直线经理">
-                                                <el-input v-model="ruleForm.lineManager" :disabled="edit"></el-input>
+                                                <el-input v-model="ruleForm.lineManager" :disabled="edit">
+                                                    <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
+                                                </el-input>
+                                                <messageBox
+                                                        :title="boxTitle"
+                                                        :tableOption.sync="tableOption"
+                                                        :inputFirstOption.sync="inputFirstOption"
+                                                        :inputSecOption.sync="inputSecOption"
+                                                        :searchData.sync="searchData"
+                                                        :searchUrl="searchUrl"
+                                                        :dialogVisible="dialogVisible"
+                                                        :pagination.sync="msgPagination"
+                                                        @dialogConfirm="dialogConfirm"
+                                                        @changeDialogVisible="changeDialogVisible"
+                                                ></messageBox>
                                             </el-form-item>
                                         </el-col>
 
@@ -378,7 +392,57 @@
                                     </div>
                                 </div>
                             </el-tab-pane>
-                            <el-tab-pane label="教育背景" name="fourth">教育背景</el-tab-pane>
+                            <el-tab-pane label="教育背景" name="fourth">
+                                <div class="fourth-wrapper">
+                                    <div class="title"><span>教育背景</span><span class="text" @click="add_pro_experience">添加</span></div>
+                                    <div class="from-wrapper">
+                                        <div v-for="(item, index) in education_item.lists" style="margin-top: 20px; position: relative">
+                                            <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fourth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
+                                                <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
+                                                <el-col :span="12">
+                                                    <div style="display: flex">
+                                                        <el-form-item label="时间" prop="startTime" class="fifth_common" style="margin-right: -40px">
+                                                            <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
+                                                        </el-form-item>
+                                                        <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
+                                                            <el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>
+                                                        </el-form-item>
+                                                    </div>
+                                                </el-col>
+                                                <el-col :span="12">
+                                                    <el-form-item label="学校名称" prop="schoolName">
+                                                        <el-input v-model="item.schoolName" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <el-col :span="12">
+                                                    <el-form-item label="专业" prop="major">
+                                                        <el-input v-model="item.major" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <el-col :span="12">
+                                                    <el-form-item label="学历" prop="education">
+                                                        <el-select v-model="item.education" :disabled="item.isShowEdit">
+                                                            <el-option value="01" label="高中以下"></el-option>
+                                                            <el-option value="02" label="高中"></el-option>
+                                                            <el-option value="03" label="大专"></el-option>
+                                                            <el-option value="04" label="本科"></el-option>
+                                                            <el-option value="05" label="硕士"></el-option>
+                                                            <el-option value="06" label="博士"></el-option>
+                                                            <el-option value="07" label="博士以上"></el-option>
+                                                            <el-option value="99" label="其他"></el-option>
+                                                        </el-select>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <el-col :span="12">
+                                                    <el-form-item label="描述" prop="desc">
+                                                        <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                            </el-form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </el-tab-pane>
                             <el-tab-pane label="项目经历" name="fifth">
                                 <div class="fifth-wrapper">
                                     <div class="title"><span>项目经历</span><span class="text" @click="add_pro_experience">添加</span></div>
@@ -387,17 +451,6 @@
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fifth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
                                                 <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
                                                 <el-col :span="12">
-                                                    <!--<el-col :span="12">-->
-                                                        <!--&lt;!&ndash;<input v-show="false" v-model="item.projectId=index">&ndash;&gt;-->
-                                                        <!--<el-form-item label="时间" prop="startTime" class="fifth_common">-->
-                                                            <!--<el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>-->
-                                                        <!--</el-form-item>-->
-                                                    <!--</el-col>-->
-                                                    <!--<el-col :span="12">-->
-                                                        <!--<el-form-item label="至" prop="endTime" class="fifth_common fifth_special">-->
-                                                            <!--<el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>-->
-                                                        <!--</el-form-item>-->
-                                                    <!--</el-col>-->
                                                     <div style="display: flex">
                                                         <el-form-item label="时间" prop="startTime" class="fifth_common" style="margin-right: -40px">
                                                             <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
@@ -464,7 +517,7 @@
                                         <div class="upload_text_text">添加照片/文件<br>按住Ctrl可多选</div>
                                         <!--<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
                                     </el-upload>
-                                    <el-dialog v-model="dialogVisible" size="tiny">
+                                    <el-dialog v-model="dialogVisible2" size="tiny">
                                         <img width="100%" :src="dialogImageUrl" alt="">
                                     </el-dialog>
                                 </div>
@@ -475,7 +528,7 @@
                 <div class="button-wrapper">
                     <button @click="bianji(tabName)">编辑</button>
                     <button class="special_1" @click="save(tabName)">保存</button>
-                    <button @click="del">删除</button>
+                    <button @click="del" v-show="tabName=='first'?true:false">删除</button>
                 </div>
             </div>
         </el-col>
@@ -483,8 +536,9 @@
 </template>
 
 <script type='text/ecmascript-6'>
-    import current from "../../../common/current_position.vue";
+    import current from "../../../common/current_position.vue"
     import socialRelationItem from './social_relation_item.vue'
+    import messageBox from "../../../common/messageBox-components.vue"
     import moment from 'moment'
     export default {
         data() {
@@ -498,11 +552,23 @@
                     CCC:'',
                 },
                 dialogImageUrl: '',
+                dialogVisible2: false,
+
                 dialogVisible: false,
+                tableOption:[],
+                inputFirstOption:{},
+                inputSecOption:{},
+                msgPagination:{},
+                searchData:{},
+                searchUrl:'',
+                saveUrl:'',
+                boxTitle:'',
+                numType:'',
+
                 userNo: '',
                 edit: true,
                 social_item:{
-                    userNo:'P0000003',
+                    userNo:'',
                     lists:[
                         {
                             contactId: '',
@@ -515,11 +581,24 @@
                         },
                     ]
                 },
+                education_item:{
+                    userNo:'',
+                    lists:[
+                        {
+                            startTime: '',
+                            endTime: '',
+                            schoolName: '',
+                            major: '',
+                            education: '',
+                            desc: '',
+                            isShowEdit: false
+                        },
+                    ]
+                },
                 project_item:{
                     userNo:'',
                     lists:[
                         {
-//                          projectId: '',
                             startTime: '',
                             endTime: '',
                             projectName: '',
@@ -537,6 +616,7 @@
                 tabName:'first',
                 lock: {
                     proLock: '',
+                    eduLock: '',
                 },
                 ruleForm: {
                     custName: '',
@@ -726,11 +806,20 @@
                     desc: [
                         {required: true, message: '请输入项目描述', trigger: 'blur'}
                     ],
+                    schoolName: [
+                        {required: true, message: '请输入学校名称', trigger: 'blur'}
+                    ],
+                    major: [
+                        {required: true, message: '请输入专业', trigger: 'blur'}
+                    ],
+                    education: [
+                        {required: true, message: '请选择学历', trigger: 'change'}
+                    ],
                 },
             }
         },
         components: {
-            current,socialRelationItem
+            current,socialRelationItem,messageBox
         },
         created() {
             let self = this
@@ -810,6 +899,60 @@
                 this.dialogImageUrl = file.url;
                 this.dialogVisible = true;
             },
+            dialogConfirm(custInfo){
+                let self = this;
+                self.ruleForm.lineManager = custInfo.stateName+'_'+custInfo.stateNo
+//                self.formdata.organMgeName = custInfo.stateName
+//                self.ruleForm2.lineManager = custInfo.stateNo
+                self.dialogVisible = false;
+            },
+            userNoSelect(){
+                //table
+                this.tableOption = [
+                    {
+                        thName:'工号',//table 表头
+                        dataKey:'userNo'//table-col所绑定的prop值
+                    },
+                    {
+                        thName:'姓名',//table 表头
+                        dataKey:'custName'//table-col所绑定的prop值
+                    }
+                ];
+                //input 第一个搜索框的配置项
+                this.inputFirstOption  = {
+                    labelName:'姓名',//label头
+                    placeholder:'请输入姓名'//input placeholder
+                },
+                    //input 第二个搜索框的配置项
+                    this.inputSecOption  = {
+                        labelName:'工号',
+                        placeholder:'请输入工号'
+                    },
+                    //搜索所需传值
+                    this.searchData = {
+                        custName:'',
+                        userNo:''
+                    }
+                //table分页所需传值
+                this.msgPagination =  {
+                    pageNum:1,
+                    pageSize:5,
+                    totalRows:0
+                }
+                //点击确定后需要修改的对象 numType为changeNo方法所改变的type
+                this.numType = 1
+                //dialog打开
+                this.dialogVisible=true
+                //查询接口
+                this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
+                //点击确定后根据号码查询用户信息借口 没有则为空
+                this.saveUrl = ''
+                //dialog标题
+                this.boxTitle = '人工编号选择'
+            },
+            changeDialogVisible(val) {
+                this.dialogVisible=val
+            },
             selectDep(organNo) {
                 let data = {organNo}
                 this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
@@ -821,8 +964,7 @@
                     })
             },
             selectCCC(organNo) {
-                let data = {organNo}
-                this.$axios.get('/iem_hrm/organ/queryOrgCCCList',{params:data})
+                this.$axios.get('/iem_hrm/organ/queryOrganCCCManagementByOrganNo/'+organNo)
                     .then(res=>{
                         this.basicInfo.CCC = res.data.data
                     })
@@ -832,13 +974,10 @@
             },
             handleClick(tab, event) {
                 let self = this
-//                console.log(tab, event);
                 this.tabName = tab.name
                 if(tab.name==='fifth'&&this.lock.proLock){
-//                    console.log('fifth,fifth')
                     this.$axios.get('/iem_hrm/employeeProjectExperience/queryEmployeeProjectExperienceList/'+this.userNo)
                         .then(res=>{
-//                            console.log(res)
                             this.project_item.userNo = this.userNo
                             this.project_item.lists = res.data.data
                             this.project_item.lists.forEach(item=>{
@@ -846,8 +985,23 @@
                                 item.startTime = new Date(item.startTime)
                                 item.endTime = new Date(item.endTime)
                             })
-//                            console.log(this.project_item)
                             this.lock.proLock = false
+                        })
+                        .catch(e=>{
+                            console.log(e)
+                        })
+                }
+                if(tab.name==='fourth'&&this.lock.eduLock){
+                    this.$axios.get('/iem_hrm/epCustEduHis/queryEpCustEduHis/'+this.userNo)
+                        .then(res=>{
+                            this.education_item.userNo = this.userNo
+                            this.education_item.lists = res.data.data
+                            this.education_item.lists.forEach(item=>{
+                                self.$set(item,'isShowEdit', true)
+                                item.startTime = new Date(item.startTime)
+                                item.endTime = new Date(item.endTime)
+                            })
+                            this.lock.eduLock = false
                         })
                         .catch(e=>{
                             console.log(e)
@@ -863,7 +1017,6 @@
                 }).then(() => {
                     this.$axios.put('/iem_hrm/CustInfo/delCustInf/'+this.userNo)
                         .then(res=>{
-                            console.log(res,'del')
                             let result = res.data.retMsg
                             if ("操作成功"===result){
                                 self.$message({
@@ -894,6 +1047,11 @@
                 }
                 if('fifth' === tabName) {
                     this.project_item.lists.forEach(item=>{
+                        item.isShowEdit = false
+                    })
+                }
+                if('fourth' === tabName) {
+                    this.education_item.lists.forEach(item=>{
                         item.isShowEdit = false
                     })
                 }
@@ -1009,6 +1167,65 @@
                             console.log(e)
                         })
                 }
+                if('fourth'===tabName) {
+                    let educationItemLength = this.education_item.lists.length
+                    let data = {
+                        userNo : this.education_item.userNo,
+                        lists : this.education_item.lists.map(item=>{
+                            return {
+                                startTime: item.startTime,
+                                endTime: item.endTime,
+                                schoolName: item.schoolName,
+                                major: item.major,
+                                education: item.education,
+                                desc: item.desc,
+                            }
+                        }),
+                    }
+                    let count = 0
+                    for (let i=0;i<educationItemLength;i++){
+                        let name = 'fourth'+i
+                        self.$refs[name][0].validate((valid) => {
+                            if (valid) {
+                                count++
+                                this.education_item.lists[i].isShowEdit = true
+                                data.lists[i].startTime = moment(data.lists[i].startTime).format('YYYY-MM-DD')
+                                data.lists[i].endTime = moment(data.lists[i].endTime).format('YYYY-MM-DD')
+                                if(count==educationItemLength){
+                                    console.log(data,111)
+                                    this.$axios.post('/iem_hrm/epCustEduHis/saveEpCustEduHiss', data)
+                                        .then(res=>{
+                                            console.log(res)
+                                            let result = res.data.retMsg
+                                            if(result==='操作成功'){
+                                                self.$message({
+                                                    type: 'success',
+                                                    message: result
+                                                });
+                                            }else {
+                                                self.$message({
+                                                    type: 'error',
+                                                    message: result
+                                                });
+                                            }
+                                        })
+                                        .catch(e=>{
+                                            console.log(e)
+                                            self.$message({
+                                                type: 'error',
+                                                message: '添加失败,请稍后重试！'
+                                            });
+                                        })
+                                }
+                            } else {
+                                self.$message({
+                                    type: 'error',
+                                    message: '请填写完整信息！'
+                                });
+                            }
+                        });
+                    }
+                }
                 if('fifth'===tabName) {
                     let projectItemLength = this.project_item.lists.length
                     let data = {
@@ -1027,7 +1244,7 @@
                             }
                         }),
                     }
-                    var count = 0
+                    let count = 0
                     for (let i=0;i<projectItemLength;i++){
                         let name = 'fifth'+i
                         self.$refs[name][0].validate((valid) => {
@@ -1037,10 +1254,8 @@
                                 data.lists[i].startTime = moment(data.lists[i].startTime).format('YYYY-MM-DD')
                                 data.lists[i].endTime = moment(data.lists[i].endTime).format('YYYY-MM-DD')
                                 if(count==projectItemLength){
-//                                    console.log(data,111)
                                     this.$axios.post('/iem_hrm/employeeProjectExperience/addEmployeeProjectExperienceInfo', data)
                                         .then(res=>{
-//                                            console.log(res)
                                             let result = res.data.retMsg
                                             if(result==='操作成功'){
                                                 self.$message({
@@ -1099,37 +1314,72 @@
 
             },
             add_pro_experience() {
-                let item = {
-                    startTime: '',
-                    endTime: '',
-                    projectName: '',
-                    mainSkill: '',
-                    projectRole: '',
-                    softEnv: '',
-                    custom: '',
-                    projectDuty: '',
-                    desc: '',
-                    isShowEdit: false
+                if('fifth'==this.tabName){
+                    let item = {
+                        startTime: '',
+                        endTime: '',
+                        projectName: '',
+                        mainSkill: '',
+                        projectRole: '',
+                        softEnv: '',
+                        custom: '',
+                        projectDuty: '',
+                        desc: '',
+                        isShowEdit: false
+                    }
+                    this.project_item.lists.push(item)
                 }
-                this.project_item.lists.push(item)
+                if('fourth'==this.tabName){
+                    let item = {
+                            startTime: '',
+                            endTime: '',
+                            schoolName: '',
+                            major: '',
+                            education: '',
+                            desc: '',
+                            isShowEdit: false
+                        }
+                    this.education_item.lists.push(item)
+                }
             },
             proDel(isShow,index) {
-                if(!isShow)  {
-                    this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        this.project_item.lists.splice(index,1)
-                    }).catch(()=>{
-                        this.$message({
-                            type: 'info',
-                            message: '已取消删除'
-                        });
-                    })
+                if('fifth'==this.tabName){
+                    if(!isShow)  {
+                        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() => {
+                            this.project_item.lists.splice(index,1)
+                        }).catch(()=>{
+                            this.$message({
+                                type: 'info',
+                                message: '已取消删除'
+                            });
+                        })
+                    }
+                    if(isShow) {
+                        this.project_item.lists[index].isShowEdit = !isShow
+                    }
                 }
-                if(isShow) {
-                    this.project_item.lists[index].isShowEdit = !isShow
+                if('fourth'==this.tabName){
+                    if(!isShow)  {
+                        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() => {
+                            this.education_item.lists.splice(index,1)
+                        }).catch(()=>{
+                            this.$message({
+                                type: 'info',
+                                message: '已取消删除'
+                            });
+                        })
+                    }
+                    if(isShow) {
+                        this.education_item.lists[index].isShowEdit = !isShow
+                    }
                 }
             },
         },
@@ -1340,7 +1590,6 @@
                                 text-decoration underline
                     .from-wrapper
                         margin-top 40px
-
                         .el-form
                             padding 40px 20px 18px 20px
                             background: #F4F4F4;

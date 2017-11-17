@@ -178,7 +178,6 @@
             let self = this
             self.$axios.get('/iem_hrm/CustInfo/queryCustInfList')
                 .then(res => {
-                    console.log(res)
                     self.table.td = res.data.data.list
                     this.fenye.total = res.data.data.total
                     this.fenye.pageSize = res.data.data.pageSize
@@ -425,9 +424,11 @@
                         display: flex;
                         /*vertical-align middle*/
                         /*line-height: 40px;*/
-                        td:first-child:hover
+                        td:first-child
+                            color #337ab7
                             text-decoration underline
-                            cursor pointer
+                            &:hover
+                                cursor pointer
                     tr:nth-child(odd)
                         background: #F8F8F8;
                     tr:hover
@@ -440,9 +441,11 @@
                         background: #F4F4F4;
                         box-shadow: inset 0 1px 0 0 #EEEEEE;
                         color #666
-                        td:first-child:hover
+                        td:first-child
+                            color #666
                             text-decoration none
-                            cursor auto
+                            &:hover
+                                cursor auto
                     td
                         flex: 1;
                         justify-content center
