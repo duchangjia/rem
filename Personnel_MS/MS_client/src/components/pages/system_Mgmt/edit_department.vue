@@ -8,26 +8,6 @@
             </div>
             <div class="department-info">
                 <div class="text">部门信息</div>
-                <!--<div class="item-common">-->
-                    <!--<div><span class="label-common">部门编号</span><input type="text" v-model="content.organNo" class="input-common input-dark" disabled></div>-->
-                    <!--<div><span class="label-common">部门名称</span><input type="text" v-model="content.organName" class="input-common input-light"></div>-->
-                <!--</div>-->
-                <!--<div class="item-common">-->
-                    <!--<div><span class="label-common">上级部门</span><input type="text" v-model="content.organParentName" class="input-common input-dark" disabled></div>-->
-                    <!--<div><span class="label-common">部门主管</span><input type="text" v-model="content.organMgeName" class="input-common input-light"></div>-->
-                <!--</div>-->
-                <!--<div class="item-common">-->
-                    <!--<div><span class="label-common">部门类型</span><select  class="input-common input-select">-->
-                        <!--<option value="01" :selected="content.organType=='01'">总公司</option>-->
-                        <!--<option value="02" :selected="content.organType=='02'">分公司</option>-->
-                        <!--<option value="03" :selected="content.organType=='03'">办事处</option>-->
-                        <!--<option value="04" :selected="content.organType=='04'">部门</option>-->
-                    <!--</select></div>-->
-                    <!--<div v-show="content.status"><span class="label-common">部门状态</span><select class="input-common input-select">-->
-                        <!--<option value="1" :selected="content.status=='1'">启用</option>-->
-                        <!--<option  value="0" :selected="content.status=='0'">停用</option>-->
-                    <!--</select></div>-->
-                <!--</div>-->
                 <el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
                     <el-col :span="12">
                         <el-form-item label="部门编号" prop="organNo">
@@ -45,17 +25,34 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="部门主管" prop="organMgeName">
-                            <el-input v-model="formdata.organMgeName"></el-input>
+                        <el-form-item label="部门主管" prop="organMgeName" class="organMgeName">
+                            <!--<el-input v-model="formdata.organMgeName"></el-input>-->
+                            <el-input v-model="formdata.organMgeName" v-show="false"></el-input>
+                            <el-input v-model="formdata.organMgeId" v-show="false"></el-input>
+                            <el-input v-model="formdata.organMgeNameAndId" placeholder="请选择员工">
+                                <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
+                            </el-input>
+                            <messageBox
+                                    :title="boxTitle"
+                                    :tableOption.sync="tableOption"
+                                    :inputFirstOption.sync="inputFirstOption"
+                                    :inputSecOption.sync="inputSecOption"
+                                    :searchData.sync="searchData"
+                                    :searchUrl="searchUrl"
+                                    :dialogVisible="dialogVisible"
+                                    :pagination.sync="msgPagination"
+                                    @dialogConfirm="dialogConfirm"
+                                    @changeDialogVisible="changeDialogVisible"
+                            ></messageBox>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="部门类型" prop="organType">
-                            <el-select placeholder="请选择部门类型" v-model="formdata.organType">
-                                <el-option label="总公司" value="01"></el-option>
-                                <el-option label="分公司" value="02"></el-option>
-                                <el-option label="办事处" value="03"></el-option>
-                                <el-option label="部门" value="04"></el-option>
+                            <el-select placeholder="请选择部门类型" v-model="formdata.organType" disabled>
+                                <el-option label="总公司" value="01" v-show="show<1&&show==0"></el-option>
+                                <el-option label="分公司" value="02" v-show="show<2&&show==1"></el-option>
+                                <el-option label="办事处" value="03" v-show="show<2&&show==1"></el-option>
+                                <el-option label="部门" value="04" v-show="show<=4&&(show==1||show==2||show==3||show==4)"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -75,16 +72,21 @@
 
 <script type='text/ecmascript-6'>
     import current from '../../common/current_position.vue'
+    import messageBox from "../../common/messageBox-components.vue";
     export default {
         data() {
           return {
               formdata: {
-                  organNo: '',
+                  parentName: '',
+                  parentNo: '',
                   organName: '',
-                  organParentName: '',
+//                    organNo: '',
                   organMgeName: '',
                   organType: '',
-                  status: '',
+                  status: '1',
+                  choose: '',
+                  organMgeId: '',
+                  organMgeNameAndId: '',
               },
               rules: {
                   organNo: [
@@ -106,34 +108,129 @@
                       {  required: true, message: '请选择部门状态', trigger: 'change' }
                   ],
               },
+              dialogVisible: false,
+              tableOption:[],
+              inputFirstOption:{},
+              inputSecOption:{},
+              msgPagination:{},
+              searchData:{},
+              searchUrl:'',
+              saveUrl:'',
+              boxTitle:'',
+              numType:''
           }
         },
         components: {
-            current,
+            current,messageBox
         },
         created() {
             let index = window.sessionStorage.getItem('frame_queryNo')
+            this.formdata.parentNo = index
             this.$axios.get(`/iem_hrm/organ/queryCurrentAndParentOrganDetail/${index}`)
                 .then(res => {
                     this.formdata = res.data.data
+                    this.formdata.organMgeNameAndId = res.data.data.organMgeName+'_'+res.data.data.organMgeId
                 })
-                .catch( res=> {
-                    console.log('请求超时')
+                .catch( e=> {
+                    console.log(e)
                 })
         },
+        computed: {
+            show() {
+                if(this.formdata.choose=='01'){
+                    return 1
+                }
+                if(this.formdata.choose=='02'){
+                    return 2
+                }
+                if(this.formdata.choose=='03'){
+                    return 3
+                }
+                if(!this.formdata.choose){
+                    return 0
+                }
+                return 4
+            }
+        },
         methods: {
+            dialogConfirm(custInfo){
+                let self = this;
+                self.formdata.organMgeNameAndId = custInfo.stateName+'_'+custInfo.stateNo
+                self.formdata.organMgeName = custInfo.stateName
+                self.formdata.organMgeId = custInfo.stateNo
+                self.dialogVisible = false;
+            },
+            userNoSelect(){
+                //table
+                this.tableOption = [
+                    {
+                        thName:'工号',//table 表头
+                        dataKey:'userNo'//table-col所绑定的prop值
+                    },
+                    {
+                        thName:'姓名',//table 表头
+                        dataKey:'custName'//table-col所绑定的prop值
+                    }
+                ];
+                //input 第一个搜索框的配置项
+                this.inputFirstOption  = {
+                    labelName:'姓名',//label头
+                    placeholder:'请输入姓名'//input placeholder
+                },
+                    //input 第二个搜索框的配置项
+                    this.inputSecOption  = {
+                        labelName:'工号',
+                        placeholder:'请输入工号'
+                    },
+                    //搜索所需传值
+                    this.searchData = {
+                        custName:'',
+                        userNo:''
+                    }
+                //table分页所需传值
+                this.msgPagination =  {
+                    pageNum:1,
+                    pageSize:5,
+                    totalRows:0
+                }
+                //点击确定后需要修改的对象 numType为changeNo方法所改变的type
+                this.numType = 1
+                //dialog打开
+                this.dialogVisible=true
+                //查询接口
+                this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
+                //点击确定后根据号码查询用户信息借口 没有则为空
+                this.saveUrl = ''
+                //dialog标题
+                this.boxTitle = '人工编号选择'
+            },
+            changeDialogVisible(val) {
+                this.dialogVisible=val
+            },
             save() {
                 let self = this
                 self.$refs.formdata.validate((valid) => {
                     if (valid) {
+                        if(this.formdata.parentNo=='undefined'){
+                            return
+                        }
                         delete this.formdata.createdDate
                         delete this.formdata.updatedDate
                         this.$axios.put('/iem_hrm/organ/modifyOrganInfo', this.formdata)
                             .then((res) => {
-                                self.$message({
-                                    type: 'success',
-                                    message: '编辑成功'
-                                });
+                                let result = res.data.retMsg
+                                if(result=="操作成功"){
+                                    self.$message({
+                                        type: 'success',
+                                        message: result
+                                    });
+                                }else {
+                                    self.$message({
+                                        type: 'error',
+                                        message: result
+                                    });
+                                }
+
                             })
                             .catch( (e)=> {
                                 self.$message({
@@ -235,43 +332,26 @@
     width: 300px;
     height: 40px;
 }
+.edit-wrapper .department-info .organMgeName .el-input, .edit-wrapper .department-info .organMgeName .el-select{
+    width: 253px;
+    height: 40px;
+}
+.edit-wrapper .department-info .organMgeName .el-select .el-input__inner,.edit-wrapper .department-info .organMgeName .el-input .el-input__inner{
+    width: 253px;
+    height: 40px;
+}
 .edit-wrapper .department-info .el-form-item__content .el-input__inner:hover, .edit-wrapper .department-info .el-form-item__content .el-input__inner:focus{
     border-color: #f90;
 }
-/*.department-info .item-common{*/
-    /*margin-bottom: 30px;*/
-    /*display: flex;*/
-    /*flex: 1;*/
-/*}*/
-/*.department-info .item-common>div{*/
-    /*flex: 1;*/
-/*}*/
-/*.department-info .item-common .label-common{*/
-    /*margin-right: 30px;*/
-    /*font-family: PingFangSC-Regular;*/
-    /*font-size: 14px;*/
-    /*color: #999999;*/
-    /*letter-spacing: 0;*/
-    /*vertical-align: middle;*/
- /*}*/
-/*.department-info .item-common .input-common{*/
-    /*border-radius: 4px;*/
-    /*width: 300px;*/
-    /*height: 40px;*/
-    /*border: none;*/
-    /*text-indent: 1em;*/
-    /*outline: none;*/
-/*}*/
-/*.department-info .item-common .input-select{*/
-    /*border: 1px solid #EEEEEE;*/
-    /*outline: none;*/
-/*}*/
-/*.department-info .item-common .input-dark{*/
-    /*background: #F4F4F4;*/
-
-/*}*/
-/*.department-info .item-common .input-light{*/
-    /*background: #FFFFFF;*/
-    /*border: 1px solid #EEEEEE;*/
-/*}*/
+.edit-wrapper .department-info .item-box .el-form .el-form-item{
+    margin-right: 0;
+}
+.edit-wrapper .department-info .item-box .el-form .el-form-item .el-input{
+    width: 164px;
+    height: 30px;
+}
+.edit-wrapper .department-info .item-box .el-form .el-form-item .el-input .el-input__inner{
+     width: 164px;
+     height: 30px;
+}
 </style>

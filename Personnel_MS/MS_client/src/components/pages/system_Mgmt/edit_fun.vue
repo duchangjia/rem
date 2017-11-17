@@ -1,41 +1,39 @@
 <template>
 	<div class="edit_fun">
 		<current yiji="系统管理" erji="功能管理" sanji="功能编辑"></current>
-		<div class="content">
-			<div class="title">
+		<div class="content-wrapper">
+			<div class="titlebar">
 				<span class="title-text">功能编辑</span>
-				<div class="btn-wrap">
-					<el-button type="primary" class="conserve" @click="conserve('userMsg')">保存</el-button>
-				</div>
+				<el-button type="primary" class="toolBtn" @click="conserve('userMsg')">保存</el-button>
 			</div>
-			<div class="content-inner">
+			<div class="add-wrapper">
 				<el-form :inline="true" :model="userMsg" ref="userMsg" label-width="80px">
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="系统编号" prop="sysNo">
 							<el-input v-model="userMsg.sysNo" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="功能编号" prop="bsnNo">
 							<el-input v-model="userMsg.bsnNo" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="功能名称" prop="methodName">
 							<el-input v-model="userMsg.methodName"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="接口方法" prop="interfaceName">
 							<el-input v-model="userMsg.interfaceName"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="服务URL" prop="bsnUrl">
 							<el-input v-model="userMsg.bsnUrl"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="状态" prop="status">
 							<el-select v-model="userMsg.status" class="bg-white">
 								<el-option label="停用" value="0"></el-option>
@@ -44,27 +42,27 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="创建人" prop="createdBy">
 							<el-input v-model="userMsg.createdBy" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="创建时间" prop="createdDate">
 							<el-input v-model="userMsg.createdDate" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="更新人" prop="updatedBy">
 							<el-input v-model="userMsg.updatedBy" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="更新时间" prop="updatedDate">
 							<el-input v-model="userMsg.updatedDate" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="备注" prop="remark">
 							<el-input v-model="userMsg.remark"></el-input>
 						</el-form-item>
@@ -125,7 +123,6 @@
 						}
 						this.updateUserInfo(params);
 					} else {
-						console.log('error submit!!');
 						return false;
 					}
 				});
@@ -174,8 +171,182 @@
 		width: 100%;
 		position: relative;
 	}
+.content-wrapper {
+  background: #ffffff;
+  padding: 0 20px 20px;
+  color: #333333;
+  clear: both;
+}
+
+.content-wrapper .titlebar {
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px;
+  font-family: "PingFang SC";
+  border-bottom: 1px solid #eeeeee;
+  margin-bottom: 20px;
+}
+
+.content-wrapper .titlebar .title-text {
+  display: inline-block;
+  height: 50px;
+  position: relative;
+}
+
+.content-wrapper .titlebar .title-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: #333333;
+}
+
+.content-wrapper .toolBtn {
+  float: right;
+  margin-top: 10px;
+  height: 30px;
+  width: 120px;
+  background: #ff9900;
+  border: none;
+  padding: 0;
+}
+
+.content-wrapper .button-wrap {
+  margin: 15px auto 30px;
+  font-size: 0px;
+  text-align: center;
+}
+
+.content-wrapper .resetBtn {
+  color: #ff9900;
+  height: 30px;
+  width: 120px;
+  padding: 0;
+  float: right;
+  margin-top: 10px;
+  margin-right: 20px;
+  background: #FFFFFF;
+  border: 1px solid #ff9900;
+}
+
+.content-wrapper .queryBtn {
+  /* border-radius: 0; */
+  height: 30px;
+  width: 120px;
+  padding: 0;
+  background: #ff9900;
+  border: none;
+}
+
+.pact_mgmt .el-button {
+  padding: 0;
+}
+
+.el-input__inner {
+  height: 40px;
+  /*width: 180px;*/
+}
+
+.add-wrapper .el-input__inner {
+  width: 300px;
+}
+
+.el-input__inner:focus,
+.el-textarea__inner:focus,
+.el-select .el-input__inner:focus {
+  border-color: #ff9900;
+}
+
+.el-input-group--append .el-input__inner {
+  width: 253px;
+}
+
+.el-select-dropdown__item.selected,
+.el-select-dropdown__item.selected.hover {
+  background-color: #ff9900;
+}
+
+label {
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+.el-form-item {
+  margin-bottom: 20px;
+}
+
+.el-form-item__label {
+  font-family: "PingFangSC Regular";
+  color: #999999;
+  padding: 13px 12px 13px 0;
+}
+
+.el-table th > .cell {
+  padding: 0 15px;
+}
+
+.el-button--small {
+  margin: 4px;
+}
+
+.el-button,
+.el-button + .el-button {
+  margin-left: 0;
+}
+
+.add-wrapper {
+  overflow: hidden;
+}
+.add-wrapper form {
+  font-size: 0;
+  margin-top: 30px;
+}
+
+.add-wrapper .item-title {
+  font-size: 14px;
+  height: 56px;
+  line-height: 56px;
+  padding-left: 8px;
+}
+
+.add-wrapper .el-form-item__label {
+  margin-right: 14px;
+}
+
+.querybar .el-form--inline .el-form-item {
+  margin-right: 0;
+}
+
+.querybar .el-form-item__label {
+  padding: 10px 8px 10px 0;
+}
+.querybar .el-input__inner {
+  width: 164px;
+  height: 30px;
+  border-radius: 4px;
+}
+.querybar .el-form-item {
+  margin-bottom: 15px;
+}
+
+.add-wrapper .upload-demo {
+  height: 0;
+}
+
+.add-wrapper .el-upload__input {
+  display: none;
+}
+
+
+.add-wrapper .el-textarea__inner {
+  min-width: 790px;
+  min-height: 100px;
+}
+
 	
-	.edit_fun .back {
+	/*.edit_fun .back {
 		position: absolute;
 		right: 20px;
 		top: 29px;
@@ -186,9 +357,6 @@
 	}
 	
 	.edit_fun .content {
-		width: 100%;
-		/*min-height: 530px;*/
-		/*height: calc(100% - 90px);*/
 		padding: 0px 20px;
 		background: #ffffff;
 		clear: both;
@@ -247,7 +415,6 @@
 	
 	.edit_fun .el-button:focus,
 	.edit_fun .el-button:hover {
-		/*opacity: 0.5;*/
 	}
 	
 	.edit_fun .content-inner {
@@ -297,5 +464,5 @@
 	.el-select-dropdown__item.selected {
 	    color: #333333;
 	    background-color: #f4f4f4;
-	}
+	}*/
 </style>

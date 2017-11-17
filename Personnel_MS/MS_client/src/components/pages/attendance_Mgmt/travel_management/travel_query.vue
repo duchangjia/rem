@@ -163,13 +163,13 @@ export default {
 	},
 	methods: {
 		travelStartTimeFormatter(row, column) {
-	      return moment(row.travelStartTime).format('YYYY-MM-DD') || '';
+	      return row.travelStartTime ? moment(row.travelStartTime).format('YYYY-MM-DD') : null;
 	   	}, 
 	   	travelEndTimeFormatter(row, column) {
-	      return moment(row.travelEndTime).format('YYYY-MM-DD') || '';
+	      return row.travelEndTime ? moment(row.travelEndTime).format('YYYY-MM-DD') : null;
 	   	}, 
 	   	createdDateFormatter(row, column) {
-	      return moment(row.createdDate).format('YYYY-MM-DD') || '';
+	      return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null;
 	    },
 		travelTypeFormatter(row, column) {
 	    	let travelType = '';

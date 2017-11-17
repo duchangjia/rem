@@ -94,8 +94,8 @@ export default {
 	          }
 	       	},
 			pageNum: 1,
-			pageSize: 5,
-			totalRows: 2,
+			pageSize: 10,
+			totalRows: 1,
 			queryFormFlag: false,
 			ruleForm2: {
 				organNo: '',
@@ -145,13 +145,13 @@ export default {
 	},
 	methods: {
 		workotStartTimeFormatter(row, column) {
-	      return moment(row.workotStartTime).format('YYYY-MM-DD') || '';
+	      return row.workotStartTime ? moment(row.workotStartTime).format('YYYY-MM-DD') : null;
 	   	},
 	   	workotEndTimeFormatter(row, column) {
-	      return moment(row.workotEndTime).format('YYYY-MM-DD') || '';
+	      return row.workotEndTime ? moment(row.workotEndTime).format('YYYY-MM-DD') : null;
 	   	},
 	   	createdDateFormatter(row, column) {
-	      return moment(row.createdDate).format('YYYY-MM-DD') || '';
+	      return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null;
 	   	},
 		workotTypeFormatter(row, column) {
 	      return row.workotType == '01' ? "有薪加班" : "调休加班";
@@ -224,17 +224,16 @@ export default {
 						"pageNum": self.pageNum,
 						"pageSize": self.pageSize,
 						organNo: self.ruleForm2.organNo,
-						userNo: self.ruleForm2.userNo,
-//						applyNo: self.ruleForm2.applyNo,
-						workotStartTime: self.ruleForm2.workotStartTime,
-						workotEndTime: self.ruleForm2.workotEndTime
+						derpNo: self.ruleForm2.departOrgNo,
+						workOtUserNo: self.ruleForm2.userNo,
+						workotStartTime: self.ruleForm2.startDate,
+						workotEndTime: self.ruleForm2.endDate
 					};
-					
+					console.log(params)
 					//加班列表查询
 					self.queryWorkOtList(params);
 					
 				} else {
-					console.log('error submit!!');
 					return false;
 				}
 			});
@@ -254,10 +253,10 @@ export default {
 					"pageNum": val,
 					"pageSize": self.pageSize,
 					organNo: self.ruleForm2.organNo,
-					userNo: self.ruleForm2.userNo,
-//						applyNo: self.ruleForm2.applyNo,
-					workotStartTime: self.ruleForm2.workotStartTime,
-					workotEndTime: self.ruleForm2.workotEndTime
+					derpNo: self.ruleForm2.departOrgNo,
+					workOtUserNo: self.ruleForm2.userNo,
+					workotStartTime: self.ruleForm2.startDate,
+					workotEndTime: self.ruleForm2.endDate
 					
 				}
 			} else {
@@ -266,7 +265,7 @@ export default {
 					"pageSize": self.pageSize
 				}
 			}
-			//分页出差列表查询
+			//分页列表查询
 			this.queryWorkOtList(params);
 		},
 		queryWorkOtList(params) {
@@ -294,10 +293,10 @@ export default {
 						"pageNum": self.pageNum,
 						"pageSize": self.pageSize,
 						organNo: self.ruleForm2.organNo,
-						userNo: self.ruleForm2.userNo,
-//						applyNo: self.ruleForm2.applyNo,
-						workotStartTime: self.ruleForm2.workotStartTime,
-						workotEndTime: self.ruleForm2.workotEndTime
+						derpNo: self.ruleForm2.departOrgNo,
+						workOtUserNo: self.ruleForm2.userNo,
+						workotStartTime: self.ruleForm2.startDate,
+						workotEndTime: self.ruleForm2.endDate
 					};
 					
 					//加班列表查询

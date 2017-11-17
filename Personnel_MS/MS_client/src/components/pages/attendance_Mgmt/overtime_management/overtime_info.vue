@@ -83,7 +83,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width:100%;">
-						    <el-button class="file_button" @click="handleDownload">下载</el-button>
+						    <el-button class="downloadBtn" @click="handleDownload">下载</el-button>
 					  	</el-form-item>
 					</el-col>  
 				</el-form>
@@ -168,7 +168,8 @@
 	      	handleDownload() {
 	      		const self = this;
 	      		let params = {
-	      			
+	      			filePath: self.formdata2.attachm,
+	      			isOnLine: "false"
 	      		}
 	      		//下载附件
 				self.downloadFile(params);
@@ -188,15 +189,30 @@
 			},
 			downloadFile(params) {
 				const self = this;
-				self.$axios.get(baseURL+'/workot/downLoadFile',{params: params})
-				.then(function(res) {
-					console.log('downloadFile',res);
-					if(res.data.code === "S00000") {
-						
-					}
-				}).catch(function(err) {
-					console.log('error');
-				})
+				self.$axios.get(baseURL+'/workot/downloadFile?filePath='+params.filePath +"&isOnLine=" + params.isOnLine, {
+                    responseType: 'blob'
+                })
+                .then((response) => {
+                    const fileName = params.filePath.substr(params.filePath.lastIndexOf("/")+1); 
+                    const blob = response.data;
+
+                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+
+                        window.navigator.msSaveOrOpenBlob(blob, fileName);
+                    } else {
+
+                        let elink = document.createElement('a'); // 创建a标签
+                        elink.download = fileName;
+                        elink.style.display = 'none';
+                        elink.href = URL.createObjectURL(blob);
+                        document.body.appendChild(elink);
+                        elink.click(); // 触发点击a标签事件
+                        document.body.removeChild(elink);
+                    }
+                }).catch((e) => {
+                    console.error(e)
+                    this.$message({ message: '下载附件失败', type: 'error' });
+                })
 			}
 		}
 	};

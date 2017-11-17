@@ -209,17 +209,16 @@
 		methods: {
 			changeStartTime(time) {
 				this.formdata2.workotStartTime = time;
-				console.log(time.substr(0,16))
 			},
 			changeEndTime(time) {
 				this.formdata2.workotEndTime = time;
-				console.log(time)
 			},
 			changeValue(value) {
 		 		const self = this;
 	      	},
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
+		 		this.formdata2.attachm = file.name;
 	      	},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
@@ -249,7 +248,6 @@
 							
 						
 					} else {
-						this.$message.error('failvalid');
 						return false;
 					}
 				});

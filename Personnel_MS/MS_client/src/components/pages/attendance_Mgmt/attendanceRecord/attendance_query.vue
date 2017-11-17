@@ -4,9 +4,7 @@
 		<div class="content">
 			<div class="title">
 				<span class="title-text">考勤记录管理</span>
-				<!--<el-button type="primary" class="title_button" @click="handleImport()">导入</el-button>-->
 				<div class="imExport-btn">
-					<!--<span class="icon-import" @click="handleImport"></span>-->
 					<el-upload ref="upload" name="file" class="upload-demo imExport-btn-item"
 		  			 	:on-change="changeUpload" 
 		  			 	:on-success="successUpload"
@@ -183,7 +181,6 @@ export default {
 	},
 	methods: {
 		attenceTypeFormatter(row, column) {
-//	      return row.attenceType == '01' ? "迟到早退" : row.attenceType == 0 ? "停用" : "锁定";
 	    	let attence = '';
 	    	switch(row.attenceType){
 				case '01':
@@ -211,7 +208,6 @@ export default {
 			return moment(time).format('YYYY-MM-DD');
 		},
 		changeUpload(file, fileList) {
-//		    this.fileList3 = fileList.slice(-3);
 			console.log(file);
       	},
       	successUpload(response, file, fileList) {
@@ -289,13 +285,6 @@ export default {
 			}
 			self.queryAttenceList(params);
 		},
-		//导入
-		handleImport() {
-			let params = {
-				
-			}
-//			this.importExcel(params);
-		},
 		//导出
 		handleExport() {
 			
@@ -305,7 +294,7 @@ export default {
 			let params = {
 				
 			}
-			this.downloadExcel(params);
+			this.downloadFile(params);
 		},
 		queryAttenceList(params) {
 			let self = this;
@@ -322,17 +311,6 @@ export default {
 				console.log(err);
 			})
 		},
-		downloadExcel(params) {
-			let self = this;
-			self.$axios.get(baseURL+'/attence/download', {params: params})
-			.then(function(res) {
-				console.log('download',res);
-				let dataurl = res.data;
-//				window.open(dataurl,'_blank')
-			}).catch(function(err) {
-				console.log(err);
-			})
-		},
 		importExcel(params) {
 			let self = this;
 			self.$axios.post(baseURL+'/attence/batchimport', {params: params})
@@ -344,6 +322,34 @@ export default {
 			}).catch(function(err) {
 				console.log(err);
 			})
+		},
+		downloadFile(params) {
+			const self = this;
+			self.$axios.get(baseURL+'/attence/download', {
+                    responseType: 'blob'
+                })
+                .then((response) => {
+					console.log(response);
+                    const fileName = "考勤模板.xlsx"; 
+                    const blob = response.data;
+
+                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+
+                        window.navigator.msSaveOrOpenBlob(blob, fileName);
+                    } else {
+
+                        let elink = document.createElement('a'); // 创建a标签
+                        elink.download = fileName;
+                        elink.style.display = 'none';
+                        elink.href = URL.createObjectURL(blob);
+                        document.body.appendChild(elink);
+                        elink.click(); // 触发点击a标签事件
+                        document.body.removeChild(elink);
+                    }
+                }).catch((e) => {
+                    console.error(e)
+                    this.$message({ message: '下载附件失败', type: 'error' });
+                })
 		},
 		queryCompList() {
 			let self = this;
