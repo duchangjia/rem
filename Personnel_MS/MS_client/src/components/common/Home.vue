@@ -1,14 +1,14 @@
 <template>
     <div id="home-wrapper">
         <v-head class="home-header"></v-head>
-                <div class="wrapper">
-                        <v-Sidebar class="sider"></v-Sidebar>
-                        <div class="container-wrapper">
-                            <transition name="move" mode="out-in">
-                                <router-view></router-view>
-                            </transition>
-                        </div>
-                </div>
+        <div class="wrapper">
+            <v-Sidebar class="sider"></v-Sidebar>
+            <div class="container-wrapper">
+                <transition name="move" mode="out-in">
+                    <router-view></router-view>
+                </transition>
+            </div>
+        </div>
     </div>
     <!--<el-row class="container">-->
         <!--<v-head></v-head>-->
@@ -46,9 +46,15 @@
         .home-header {
             min-width: 1280px;
         }
+        .wrapper{
+            min-width: 1280px;
+        }
     }
+    
     .wrapper{
         display: flex;
+        display: -webkit-flex;
+        width: 100%;
     }
     /*.sider{
         flex: 0 0 180px;

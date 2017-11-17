@@ -156,7 +156,7 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="部门名称" prop="derpNo">
-                                                <el-select v-model="ruleForm2.derpNo" placeholder="请选择部门名称">
+                                                <el-select v-model="ruleForm2.derpNo" placeholder="请选择部门名称" @change="selectCCC(ruleForm2.organNo)">
                                                     <el-option :label="item.derpName" :value="item.derpNo" v-for="item in basicInfo.department"></el-option>
                                                 </el-select>
                                             </el-form-item>
@@ -164,15 +164,30 @@
                                         <el-col :span="8">
                                             <el-form-item label="CCC" prop="ownerCCC">
                                                 <el-select v-model="ruleForm2.ownerCCC" placeholder="请选择CCC">
-                                                    <el-option label="管理CCC" value="01"></el-option>
-                                                    <el-option label="售前CCC" value="02"></el-option>
-                                                    <el-option label="项目CCC" value="03"></el-option>
+                                                    <!--<el-option label="管理CCC" value="01"></el-option>-->
+                                                    <!--<el-option label="售前CCC" value="02"></el-option>-->
+                                                    <!--<el-option label="项目CCC" value="03"></el-option>-->
+                                                    <el-option :label="item.derpName" :value="item.derpNo" v-for="item in basicInfo.CCC"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="直线经理">
-                                                <el-input v-model="ruleForm2.lineManager"></el-input>
+                                                <el-input v-model="ruleForm2.lineManager">
+                                                    <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
+                                                </el-input>
+                                                <messageBox
+                                                        :assNoHidden="assNoHidden"
+                                                        :assNoShow="assNoShow"
+                                                        :title="boxTitle"
+                                                        :labelFirst="labelFirst"
+                                                        :labelSec="labelSec"
+                                                        :saveUrl="saveUrl"
+                                                        :searchUrl="searchUrl"
+                                                        :applyUserNo.sync="formdata.organMgeName"
+                                                        :dialogVisible.sync="dialogVisible"
+                                                        @changeDialogVisible="changeDialogVisible"
+                                                ></messageBox>
                                             </el-form-item>
                                         </el-col>
 
@@ -315,7 +330,13 @@
                                         </el-col>
                                         <el-col :span="9">
                                             <el-form-item label="附件">
-                                                <el-input v-model="ruleForm2.attachm"></el-input><span class="attachment">选择文件</span>
+                                                <el-form-item label="附件">
+                                                    <el-input v-model="ruleForm2.attachm"></el-input>
+                                                    <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+                                                        <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
+                                                    </el-upload>
+                                                </el-form-item>
+                                                <!--<el-input v-model="ruleForm2.attachm"></el-input><span class="attachment">选择文件</span>-->
                                             </el-form-item>
                                         </el-col>
                                     </el-form>
@@ -417,6 +438,50 @@
                                                 <span @click="delWorkItem">删除本条</span>
                                             </div>
                                         </el-form>
+                                        <div v-for="(item, index) in project_item.lists" style="margin-top: 20px; position: relative">
+                                            <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fourth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
+                                                <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
+                                                <el-col :span="12">
+                                                    <div style="display: flex">
+                                                        <el-form-item label="时间" prop="startTime" class="fifth_common" style="margin-right: -40px">
+                                                            <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
+                                                        </el-form-item>
+                                                        <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
+                                                            <el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>
+                                                        </el-form-item>
+                                                    </div>
+                                                </el-col>
+                                                <el-col :span="12">
+                                                    <el-form-item label="学校名称" prop="school">
+                                                        <el-input v-model="item.school" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <el-col :span="12">
+                                                    <el-form-item label="专业" prop="major">
+                                                        <el-input v-model="item.major" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <el-col :span="12">
+                                                    <el-form-item label="学历" prop="degree">
+                                                        <el-select v-model="item.degree" :disabled="item.isShowEdit">
+                                                            <el-option value="01" label="高中以下"></el-option>
+                                                            <el-option value="02" label="高中"></el-option>
+                                                            <el-option value="03" label="大专"></el-option>
+                                                            <el-option value="04" label="本科"></el-option>
+                                                            <el-option value="05" label="硕士"></el-option>
+                                                            <el-option value="06" label="博士"></el-option>
+                                                            <el-option value="07" label="博士以上"></el-option>
+                                                            <el-option value="99" label="其他"></el-option>
+                                                        </el-select>
+                                                    </el-form-item>
+                                                </el-col>
+                                                <el-col :span="24">
+                                                    <el-form-item label="描述" prop="desc" class="fifth_common">
+                                                        <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
+                                                    </el-form-item>
+                                                </el-col>
+                                            </el-form>
+                                        </div>
                                     </div>
                                 </div>
                             </el-tab-pane>
@@ -428,17 +493,24 @@
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fifth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
                                                 <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
                                                <el-col :span="12">
-                                                   <el-col :span="12">
-                                                       <!--<input v-show="false" v-model="item.projectId=index">-->
-                                                       <el-form-item label="时间" prop="startTime" class="fifth_common">
-                                                           <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
-                                                       </el-form-item>
-                                                   </el-col>
-                                                   <el-col :span="12">
-                                                       <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
-                                                           <el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>
-                                                       </el-form-item>
-                                                   </el-col>
+                                                   <!--<el-col :span="12">-->
+                                                       <!--<el-form-item label="时间" prop="startTime" class="fifth_common">-->
+                                                           <!--<el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>-->
+                                                       <!--</el-form-item>-->
+                                                   <!--</el-col>-->
+                                                   <!--<el-col :span="12">-->
+                                                       <!--<el-form-item label="至" prop="endTime" class="fifth_common fifth_special">-->
+                                                           <!--<el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>-->
+                                                       <!--</el-form-item>-->
+                                                   <!--</el-col>-->
+                                                       <div style="display: flex">
+                                                           <el-form-item label="时间" prop="startTime" class="fifth_common" style="margin-right: -40px">
+                                                               <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
+                                                           </el-form-item>
+                                                           <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
+                                                               <el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>
+                                                           </el-form-item>
+                                                       </div>
                                                </el-col>
                                                 <el-col :span="12">
                                                     <el-form-item label="项目名称" prop="projectName">
@@ -516,6 +588,7 @@
 <script type='text/ecmascript-6'>
     import current from "../../../common/current_position.vue";
     import socialRelationItem from './social_relation_item.vue'
+    import messageBox from "../../../common/messageBox-components.vue";
     import moment from 'moment'
     export default {
         data() {
@@ -526,6 +599,7 @@
                 degree:'',
                 company:'',
                 department:'',
+                  CCC:'',
               },
               dialogImageUrl: '',
               dialogVisible: false,
@@ -745,7 +819,7 @@
               },
               rules5: {
                   startTime: [
-                      {type:'date', required: true, message: '请选择时间', trigger: 'change'}
+                      {type:'date', required: true, message: '请选择日期范围', trigger: 'change'}
                   ],
                   endTime: [
                       {type:'date', required: true, message: '请选择时间', trigger: 'change'}
@@ -770,6 +844,15 @@
                   ],
                   desc: [
                       {required: true, message: '请输入项目描述', trigger: 'blur'}
+                  ],
+                  school: [
+                      {required: true, message: '请输入学校名称', trigger: 'blur'}
+                  ],
+                  major: [
+                      {required: true, message: '请输入专业', trigger: 'blur'}
+                  ],
+                  degree: [
+                      {required: true, message: '请选择学历', trigger: 'change'}
                   ],
               },
           }
@@ -801,28 +884,6 @@
                 .catch(e=>{
                     console.log(e)
                 });
-//            this.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=NATION')
-//                .then(res=>{
-//                    this.basicInfo.nation = res.data.data
-//                })
-//                .catch(e=>{
-//                    console.log(e)
-//                })
-//            this.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=EDUCATION')
-//                .then(res=>{
-//                    this.basicInfo.education = res.data.data
-//                })
-//                .catch(e=>{
-//                    console.log(e)
-//                })
-//            this.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=DEGREE')
-//                .then(res=>{
-//                    console.log(res)
-//                    this.basicInfo.degree = res.data.data
-//                })
-//                .catch(e=>{
-//                    console.log(e)
-//                })
         },
         methods: {
             changeBirthday(val) {
@@ -866,12 +927,69 @@
                 console.log(tab, event);
                 this.tabName = tab.name
             },
+            handleFileUpload() {
+
+            },
+            userNoSelect(){
+                //table
+                this.tableOption = [
+                    {
+                        thName:'工号',//table 表头
+                        dataKey:'userNo'//table-col所绑定的prop值
+                    },
+                    {
+                        thName:'姓名',//table 表头
+                        dataKey:'custName'//table-col所绑定的prop值
+                    }
+                ];
+                //input 第一个搜索框的配置项
+                this.inputFirstOption  = {
+                    labelName:'姓名',//label头
+                    placeholder:'请输入姓名'//input placeholder
+                },
+                    //input 第二个搜索框的配置项
+                    this.inputSecOption  = {
+                        labelName:'工号',
+                        placeholder:'请输入工号'
+                    },
+                    //搜索所需传值
+                    this.searchData = {
+                        custName:'',
+                        userNo:''
+                    }
+                //table分页所需传值
+                this.msgPagination =  {
+                    pageNum:1,
+                    pageSize:5,
+                    totalRows:0
+                }
+                //点击确定后需要修改的对象 numType为changeNo方法所改变的type
+                this.applyUserInfo = this.applyUserInfo
+                this.numType = 1
+                //dialog打开
+                this.dialogVisible=true
+                //查询接口
+                this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
+                //点击确定后根据号码查询用户信息借口 没有则为空
+                this.saveUrl = '/iem_hrm/assetUse/queryAssetUserByApplyUserNo/'
+                //dialog标题
+                this.boxTitle = '人工编号选择'
+            },
             selectDep(organNo) {
                 let data = {organNo}
                 this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
                     .then(res=>{
-                        console.log(res)
                         this.basicInfo.department = res.data.data
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
+            },
+            selectCCC(organNo) {
+                let data = {organNo}
+                this.$axios.get('/iem_hrm/organ/queryOrgCCCList',{params:data})
+                    .then(res=>{
+                        this.basicInfo.CCC = res.data.data
                     })
                     .catch(e=>{
                         console.log(e)
@@ -1196,6 +1314,7 @@
                         height 100%
                         .el-tabs__nav
                             height 50px
+                            line-height 50px
                 .el-tabs__item
                     font-size 16px
                     height 50px
@@ -1354,7 +1473,6 @@
                                 text-decoration underline
                     .from-wrapper
                         margin-top 40px
-
                         .el-form
                             padding 40px 20px 18px 20px
                             background: #F4F4F4;
@@ -1487,7 +1605,6 @@
                             font-size: 14px;
                             color: #999999;
                             letter-spacing: 0;
-
                 .sixth_wrapper
                     min-height 570px
                     padding 20px 0
@@ -1535,7 +1652,7 @@
             width 97%
             max-width 1024px
             .el-textarea__inner
-                height 40px
+                height 80px
                 &:hover
                     border 1px solid #f90
                 &:focus
