@@ -1,79 +1,75 @@
 <template>
-	<div class="travel_query">
+	<div class="query_wrapper">
 		<current yiji="考勤管理" erji="出差管理"></current>
-		<div class="content">
-			<div class="title">
+		<div class="queryContent_wrapper">
+			<div class="titleBar">
 				<span class="title-text">出差管理</span>
-				<el-button type="primary" class="title_button" @click="handleAdd">新增</el-button>
+				<el-button type="primary" class="titleBtn_wrapper" @click="handleAdd">新增</el-button>
 			</div>
-			<div class="content-inner">
+			<div class="queryContent-inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
-					<div class="input-wrap">
-						<el-col :span="6">
-							<el-form-item label="公司" prop="compName">
-								<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" @change="changeComp">
-									<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
-								</el-select>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="部门" prop="departName">
-								<el-select v-model="ruleForm2.derpNo" value-key="derpNo" @change="changeValue">
-									<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
-								</el-select>
-							</el-form-item>
-						</el-col>
-						<el-col :span="12">
-							<el-form-item label="时间" prop="startDate"">
-								<el-date-picker
-							      v-model="ruleForm2.startDate"
-							      type="date"
-							      placeholder="选择日期"
-							      :picker-options="pickerOptions0" @change="changeStartTime">
-							   </el-date-picker> -
-								<el-date-picker
-							      v-model="ruleForm2.endDate"
-							      type="date"
-							      placeholder="选择日期"
-							      :picker-options="pickerOptions0" @change="changeEndTime">
-							   </el-date-picker>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="工号" prop="userNo">
-								<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
-							</el-form-item>
-						</el-col>
-					</div>
-					<div class="button-wrap">
+					<el-col :span="6">
+						<el-form-item label="公司" prop="compName">
+							<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" @change="changeComp">
+								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="6">
+						<el-form-item label="部门" prop="departName">
+							<el-select v-model="ruleForm2.derpNo" value-key="derpNo" @change="changeValue">
+								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="时间" prop="startDate"">
+							<el-date-picker
+						      v-model="ruleForm2.startDate"
+						      type="date"
+						      placeholder="选择日期"
+						      :picker-options="pickerOptions0" @change="changeStartTime">
+						   </el-date-picker> -
+							<el-date-picker
+						      v-model="ruleForm2.endDate"
+						      type="date"
+						      placeholder="选择日期"
+						      :picker-options="pickerOptions0" @change="changeEndTime">
+						   </el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :span="6">
+						<el-form-item label="工号" prop="userNo">
+							<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
+						</el-form-item>
+					</el-col>
+					<div class="queryButton_wrapper">
 						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
 						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
-				<div class="info">
-					<el-table :data="transferDataList" border stripe style="width: 100%">
-						<el-table-column prop="applyNo" label="出差编号">
-							<template scope="scope">
-						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
-					      	</template>
-						</el-table-column>
-						<el-table-column prop="companyName" label="公司名称"></el-table-column>
-						<el-table-column prop="deptName" label="部门名称"></el-table-column>
-						<el-table-column prop="userNo" label="工号"></el-table-column>
-						<el-table-column prop="custName" label="姓名"></el-table-column>
-						<el-table-column prop="travelType" label="出差类型" :formatter="travelTypeFormatter"></el-table-column>
-						<el-table-column prop="travelStartTime" label="出差开始时间" :formatter="travelStartTimeFormatter"></el-table-column>
-						<el-table-column prop="travelEndTime" label="出差结束时间" :formatter="travelEndTimeFormatter"></el-table-column>
-						<el-table-column prop="createdBy" label="录入人"></el-table-column>
-						<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
-						<el-table-column label="操作" width="100">
-							<template scope="scope">
-								<i class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></i>
-								<i class="icon_delete" @click="handleDelete(scope.$index, scope.row)"></i>
-							</template>	
-						</el-table-column>
-					</el-table>
-				</div>
+				<el-table :data="transferDataList" border stripe style="width: 100%">
+					<el-table-column prop="applyNo" label="出差编号">
+						<template scope="scope">
+					        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
+				      	</template>
+					</el-table-column>
+					<el-table-column prop="companyName" label="公司名称"></el-table-column>
+					<el-table-column prop="deptName" label="部门名称"></el-table-column>
+					<el-table-column prop="userNo" label="工号"></el-table-column>
+					<el-table-column prop="custName" label="姓名"></el-table-column>
+					<el-table-column prop="travelType" label="出差类型" :formatter="travelTypeFormatter"></el-table-column>
+					<el-table-column prop="travelStartTime" label="出差开始时间" :formatter="travelStartTimeFormatter"></el-table-column>
+					<el-table-column prop="travelEndTime" label="出差结束时间" :formatter="travelEndTimeFormatter"></el-table-column>
+					<el-table-column prop="createdBy" label="录入人"></el-table-column>
+					<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
+					<el-table-column label="操作" width="100">
+						<template scope="scope">
+							<i class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></i>
+							<i class="icon_delete" @click="handleDelete(scope.$index, scope.row)"></i>
+						</template>	
+					</el-table-column>
+				</el-table>
 				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
@@ -375,24 +371,23 @@ export default {
 </script>
 
 <style>
-.travel_query {
+.query_wrapper {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
 }
-
-.travel_query .content {
+.query_wrapper .queryContent_wrapper {
 	width: 100%;
 	padding: 0px 20px;
 	background: #ffffff;
 	clear: both;
 }
 
-.travel_query .content .title {
+.query_wrapper .titleBar {
 	border-bottom: 1px solid #EEEEEE;
 }
 
-.travel_query .content .title .title-text {
+.query_wrapper .titleBar .title-text {
 	display: inline-block;
 	position: relative;
 	padding: 14px 0px;
@@ -400,7 +395,7 @@ export default {
 	height: 50px;
 }
 
-.travel_query .content .title .title-text:after {
+.query_wrapper .titleBar .title-text:after {
 	content: '';
 	position: absolute;
 	left: 0;
@@ -409,90 +404,342 @@ export default {
 	height: 2px;
 	background: #333333;
 }
-.travel_query .title_button {
+.query_wrapper .titleBtn_wrapper {
 	float: right;
 	margin-top: 10px;
 }
-.travel_query .content-inner {
+.query_wrapper .queryContent-inner {
 	padding: 30px 0px;
 }
 
-.travel_query .el-form-item__label {
+.query_wrapper .el-form-item__label {
 	color: #999999;
 	padding: 8px 10px 8px 0;
 	margin: 0;
 	font-weight: normal;
 }
-
-.travel_query .el-form-item {
+.query_wrapper .el-form-item {
 	margin-bottom: 30px;
 }
 
-.travel_query .el-input,
-.travel_query .el-input__inner {
+.query_wrapper .el-input,
+.query_wrapper .el-input__inner {
 	width: 164px;
 	height: 30px;
 	display: inline-block;
 }
 
-.travel_query .el-form-item__content {
+.query_wrapper .el-form-item__content {
 	line-height: 30px;
 	position: relative;
 	font-size: 14px;
 }
 
-.travel_query .button-wrap {
+.query_wrapper .queryButton_wrapper {
 	margin: 0px auto 30px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;
 }
 
-.travel_query .el-input__inner {
+.query_wrapper .el-input__inner {
 	border: 1px solid #EEEEEE;
 	color: #333333;
 }
 
-.travel_query .el-input__inner:hover {
+.query_wrapper .el-input__inner:hover {
 	border-color: #FF9900;
 }
 
-.travel_query .el-button {
+.query_wrapper .el-button {
 	border: 1px solid #FF9900;
 	color: #FF9900;
 	padding: 7px 45px;
 	height: 30px;
 }
 
-/*.travel_query .el-button.resetform {
-	margin-right: 20px;
-}*/
-
-.travel_query .el-button--primary {
+.query_wrapper .el-button--primary {
 	color: #fff;
 	background-color: #FF9900;
 	border-color: #FF9900;
 }
-.travel_query .el-button+.el-button {
+.query_wrapper .el-button+.el-button {
     margin-left: 20px;
 }
-.travel_query .el-table td,
-.travel_query .el-table th {
+.query_wrapper .el-table td,
+.query_wrapper .el-table th {
 	text-align: center;
 }
-.travel_query .el-table td:first-child{
-	cursor: pointer;
-}
-.travel_query .link {
+.query_wrapper .link {
 	cursor: pointer;
     color: #337ab7;
     text-decoration: underline;
 }
-.travel_query .el-table td:first-child:hover{
+.query_wrapper .el-table th {
+	text-align: center;
+	/*box-shadow: inset 0 1px 0 0 #EEEEEE;*/
+}
+.query_wrapper .el-table .cell, .el-table th>div {
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+}
+.query_wrapper .icon_edit {
+	width: 14px;
+	height: 14px;
+	cursor: pointer;
+	display: inline-block;
+	background: url(../../../../../static/img/common/edit.png);
+}
+
+.query_wrapper .el-pagination {
+	text-align: right;
+	margin-top: 30px;
+	margin-right: 40px;
+	color: #282828;
+}
+
+.query_wrapper .el-pager li.active {
+	border-color: #FF9900;
+	background-color: #FF9900;
+	color: #fff;
+	cursor: default;
+}
+
+.query_wrapper .el-pager li {
+	padding: 0 4px;
+	border-right: 0;
+	background: #fff;
+	font-size: 12px;
+	letter-spacing: -0.39px;
+	min-width: 24px;
+	height: 24px;
+	line-height: 24px;
+	text-align: center;
+}
+
+.query_wrapper .el-pager li:last-child {
+	border-right: 1px solid #EEEEEE;
+}
+
+.query_wrapper .el-pagination button,
+.query_wrapper .el-pagination span {
+	display: inline-block;
+	font-size: 12px;
+	letter-spacing: -0.39px;
+	min-width: 24px;
+	height: 24px;
+	color: #282828;
+	line-height: 24px;
+	vertical-align: top;
+	box-sizing: border-box;
+}
+
+.query_wrapper .el-pager li:hover {
+	color: #FF9900;
+}
+.query_wrapper .el-pager li.active {
+    border-color: #ff9900;
+    background-color: #ff9900;
+    color: #fff;
+    cursor: default;
+}
+.query_wrapper .el-pager li.active:hover {
+	cursor: pointer;
+	color: #ffffff;
+}
+
+.query_wrapper .el-pagination button:hover {
+	color: #FF9900;
+}
+.query_wrapper .el-pagination button.disabled:hover {
+	color: #e4e4e4;
+}
+
+.query_wrapper .el-pagination__editor {
+	border: 1px solid #EEEEEE;
+	border-radius: 2px;
+	padding: 2px 0px;
+	width: 24px;
+	min-width: 24px;
+}
+
+.query_wrapper .el-pagination__editor:focus {
+	outline: 0;
+	border-color: #FF9900;
+}
+
+.query_wrapper .el-pagination .btn-next,
+.query_wrapper .el-pagination .btn-prev {
+	border: 1px solid #EEEEEE;
+	color: #282828;
+}
+
+.query_wrapper .el-autocomplete-suggestion__wrap,
+.query_wrapper .el-pager li {
+	border: 1px solid #EEEEEE;
+}
+
+.query_wrapper .el-pager li.btn-quicknext,
+.query_wrapper .el-pager li.btn-quickprev {
+	line-height: 28px;
+	color: #282828;
+}
+.query_wrapper .el-upload__input {
+    display: none;
+}
+.query_wrapper .btn_wrap {
+	margin-top: 30px;
+}
+.query_wrapper .upload_btn {
+	display: inline-block;
+	left: 100%;
+}
+.query_wrapper .imExport-btn {
+	float: right;
+	margin-top: 19px;
+}
+.query_wrapper .imExport-btn .imExport-btn-item{
+	display: inline-block;
+	margin-left: 30px;
+	cursor: pointer;
+}
+.query_wrapper .icon-import {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(../../../../../static/img/common/batch-import0.png);
+}
+.query_wrapper .icon-export {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(../../../../../static/img/common/batch-export0.png);
+}
+.query_wrapper .icon-download {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(../../../../../static/img/common/template-download0.png);
+}
+.query_wrapper .el-form-item__error {
+    left: 39px;
+}
+/*.query_wrapper {
+	padding-left: 20px;
+    padding-bottom: 20px;
+	width: 100%;
+}
+
+.query_wrapper .content {
+	width: 100%;
+	padding: 0px 20px;
+	background: #ffffff;
+	clear: both;
+}
+
+.query_wrapper .content .title {
+	border-bottom: 1px solid #EEEEEE;
+}
+
+.query_wrapper .content .title .title-text {
+	display: inline-block;
+	position: relative;
+	padding: 14px 0px;
+	font-size: 16px;
+	height: 50px;
+}
+
+.query_wrapper .content .title .title-text:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: -1px;
+	width: 100%;
+	height: 2px;
+	background: #333333;
+}
+.query_wrapper .title_button {
+	float: right;
+	margin-top: 10px;
+}
+.query_wrapper .content-inner {
+	padding: 30px 0px;
+}
+
+.query_wrapper .el-form-item__label {
+	color: #999999;
+	padding: 8px 10px 8px 0;
+	margin: 0;
+	font-weight: normal;
+}
+
+.query_wrapper .el-form-item {
+	margin-bottom: 30px;
+}
+
+.query_wrapper .el-input,
+.query_wrapper .el-input__inner {
+	width: 164px;
+	height: 30px;
+	display: inline-block;
+}
+
+.query_wrapper .el-form-item__content {
+	line-height: 30px;
+	position: relative;
+	font-size: 14px;
+}
+
+.query_wrapper .button-wrap {
+	margin: 0px auto 30px;
+	width: 260px;
+	clear: both;
+	font-size: 0px;
+}
+
+.query_wrapper .el-input__inner {
+	border: 1px solid #EEEEEE;
+	color: #333333;
+}
+
+.query_wrapper .el-input__inner:hover {
+	border-color: #FF9900;
+}
+
+.query_wrapper .el-button {
+	border: 1px solid #FF9900;
+	color: #FF9900;
+	padding: 7px 45px;
+	height: 30px;
+}
+
+.query_wrapper .el-button--primary {
+	color: #fff;
+	background-color: #FF9900;
+	border-color: #FF9900;
+}
+.query_wrapper .el-button+.el-button {
+    margin-left: 20px;
+}
+.query_wrapper .el-table td,
+.query_wrapper .el-table th {
+	text-align: center;
+}
+.query_wrapper .el-table td:first-child{
+	cursor: pointer;
+}
+.query_wrapper .link {
+	cursor: pointer;
+    color: #337ab7;
+    text-decoration: underline;
+}
+.query_wrapper .el-table td:first-child:hover{
 	color: #FF9900;
 }
 
-.travel_query .el-table th {
+.query_wrapper .el-table th {
 	text-align: center;
 	box-shadow: inset 0 1px 0 0 #EEEEEE;
 }
@@ -516,21 +763,21 @@ export default {
 	background: url(../../../../../static/img/common/delete.png);
 }
 
-.travel_query .el-pagination {
+.query_wrapper .el-pagination {
 	text-align: right;
 	margin-top: 40px;
 	margin-right: 40px;
 	color: #282828;
 }
 
-.travel_query .el-pager li.active {
+.query_wrapper .el-pager li.active {
 	border-color: #FF9900;
 	background-color: #FF9900;
 	color: #fff;
 	cursor: default;
 }
 
-.travel_query .el-pager li {
+.query_wrapper .el-pager li {
 	padding: 0 4px;
 	border-right: 0;
 	background: #fff;
@@ -542,12 +789,12 @@ export default {
 	text-align: center;
 }
 
-.travel_query .el-pager li:last-child {
+.query_wrapper .el-pager li:last-child {
 	border-right: 1px solid #EEEEEE;
 }
 
-.travel_query .el-pagination button,
-.travel_query .el-pagination span {
+.query_wrapper .el-pagination button,
+.query_wrapper .el-pagination span {
 	display: inline-block;
 	font-size: 12px;
 	letter-spacing: -0.39px;
@@ -559,28 +806,28 @@ export default {
 	box-sizing: border-box;
 }
 
-.travel_query .el-pager li:hover {
+.query_wrapper .el-pager li:hover {
 	color: #FF9900;
 }
-.travel_query .el-pager li.active {
+.query_wrapper .el-pager li.active {
     border-color: #ff9900;
     background-color: #ff9900;
     color: #fff;
     cursor: default;
 }
-.travel_query .el-pager li.active:hover {
+.query_wrapper .el-pager li.active:hover {
 	cursor: pointer;
 	color: #ffffff;
 }
 
-.travel_query .el-pagination button:hover {
+.query_wrapper .el-pagination button:hover {
 	color: #FF9900;
 }
-.travel_query .el-pagination button.disabled:hover {
+.query_wrapper .el-pagination button.disabled:hover {
 	color: #e4e4e4;
 }
 
-.travel_query .el-pagination__editor {
+.query_wrapper .el-pagination__editor {
 	border: 1px solid #EEEEEE;
 	border-radius: 2px;
 	padding: 2px 0px;
@@ -588,38 +835,38 @@ export default {
 	min-width: 24px;
 }
 
-.travel_query .el-pagination__editor:focus {
+.query_wrapper .el-pagination__editor:focus {
 	outline: 0;
 	border-color: #FF9900;
 }
 
-.travel_query .el-pagination .btn-next,
-.travel_query .el-pagination .btn-prev {
+.query_wrapper .el-pagination .btn-next,
+.query_wrapper .el-pagination .btn-prev {
 	border: 1px solid #EEEEEE;
 	color: #282828;
 }
 
-.travel_query .el-autocomplete-suggestion__wrap,
-.travel_query .el-pager li {
+.query_wrapper .el-autocomplete-suggestion__wrap,
+.query_wrapper .el-pager li {
 	border: 1px solid #EEEEEE;
 }
 
-.travel_query .el-pager li.btn-quicknext,
-.travel_query .el-pager li.btn-quickprev {
+.query_wrapper .el-pager li.btn-quicknext,
+.query_wrapper .el-pager li.btn-quickprev {
 	line-height: 28px;
 	color: #282828;
 }
-.travel_query .el-upload__input {
+.query_wrapper .el-upload__input {
     display: none;
 }
-.travel_query .btn_wrap {
+.query_wrapper .btn_wrap {
 	margin-top: 30px;
 }
-.travel_query .upload_btn {
+.query_wrapper .upload_btn {
 	display: inline-block;
 	left: 100%;
 }
-.travel_query .el-form-item__error {
+.query_wrapper .el-form-item__error {
     left: 39px;
-}
+}*/
 </style>

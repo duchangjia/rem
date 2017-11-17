@@ -1,8 +1,8 @@
 <template>
-	<div class="attendance_wrap">
+	<div class="query_wrapper">
 		<current yiji="考勤管理" erji="考勤记录管理"></current>
-		<div class="content">
-			<div class="title">
+		<div class="queryContent_wrapper">
+			<div class="titleBar">
 				<span class="title-text">考勤记录管理</span>
 				<div class="imExport-btn">
 					<el-upload ref="upload" name="file" class="upload-demo imExport-btn-item"
@@ -19,62 +19,58 @@
 					<span class="icon-download imExport-btn-item" title="下载模版" @click="handleDownloadTemplate"></span>
 				</div>
 			</div>
-			<div class="content-inner">
+			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
-					<div class="input-wrap">
-						<el-col :span="6">
-							<el-form-item label="公司" prop="compName">
-								<el-select v-model="ruleForm2.compOrgNo" value-key="compOrgNo" @change="changeComp">
-									<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
-								</el-select>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="部门" prop="departName">
-								<el-select v-model="ruleForm2.departOrgNo" value-key="departOrgNo">
-									<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
-								</el-select>
-							</el-form-item>
-						</el-col>
-						<el-col :span="12">
-							<el-form-item label="时间" prop="startDate"">
-								<el-date-picker
-							      v-model="ruleForm2.startDate"
-							      type="date"
-							      placeholder="选择日期"
-							      :picker-options="pickerOptions0" @change="changeStartTime">
-							   	</el-date-picker> -
-								<el-date-picker
-							      v-model="ruleForm2.endDate"
-							      type="date"
-							      placeholder="选择日期"
-							      :picker-options="pickerOptions0" @change="changeEndTime">
-							   </el-date-picker>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="工号" prop="userNo">
-								<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
-							</el-form-item>
-						</el-col>
-					</div>
-					<div class="button-wrap">
+					<el-col :sm="12" :md="6">
+						<el-form-item label="公司" prop="compName">
+							<el-select v-model="ruleForm2.compOrgNo" value-key="compOrgNo" @change="changeComp">
+								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="12" :md="6">
+						<el-form-item label="部门" prop="departName">
+							<el-select v-model="ruleForm2.departOrgNo" value-key="departOrgNo">
+								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="时间" prop="startDate"">
+							<el-date-picker
+						      v-model="ruleForm2.startDate"
+						      type="date"
+						      placeholder="选择日期"
+						      :picker-options="pickerOptions0" @change="changeStartTime">
+						   	</el-date-picker> -
+							<el-date-picker
+						      v-model="ruleForm2.endDate"
+						      type="date"
+						      placeholder="选择日期"
+						      :picker-options="pickerOptions0" @change="changeEndTime">
+						   </el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="12" :md="6">
+						<el-form-item label="工号" prop="userNo">
+							<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
+						</el-form-item>
+					</el-col>
+					<div class="queryButton_wrapper">
 						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
 						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
-				<div class="info">
-					<el-table :data="transferDataList" border stripe style="width: 100%">
-						<el-table-column prop="attenceNo" label="考勤编号"></el-table-column>
-						<el-table-column prop="userNo" label="工号"></el-table-column>
-						<el-table-column prop="custName" label="姓名"></el-table-column>
-						<el-table-column prop="attenceTime" label="考勤日期"></el-table-column>
-						<el-table-column prop="attenceType" label="类型" :formatter="attenceTypeFormatter"></el-table-column>
-						<el-table-column prop="taskTime" label="工时"></el-table-column>
-						<el-table-column prop="createdBy" label="录入人"></el-table-column>
-						<el-table-column prop="createdDate" label="录入时间" :formatter="travelTimeFormatter"></el-table-column>
-					</el-table>
-				</div>
+				<el-table :data="transferDataList" border stripe style="width: 100%">
+					<el-table-column prop="attenceNo" label="考勤编号"></el-table-column>
+					<el-table-column prop="userNo" label="工号"></el-table-column>
+					<el-table-column prop="custName" label="姓名"></el-table-column>
+					<el-table-column prop="attenceTime" label="考勤日期"></el-table-column>
+					<el-table-column prop="attenceType" label="类型" :formatter="attenceTypeFormatter"></el-table-column>
+					<el-table-column prop="taskTime" label="工时"></el-table-column>
+					<el-table-column prop="createdBy" label="录入人"></el-table-column>
+					<el-table-column prop="createdDate" label="录入时间" :formatter="travelTimeFormatter"></el-table-column>
+				</el-table>
 				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>
@@ -121,26 +117,11 @@ export default {
 				startDate: "",
 				endDate: ''
 			},
-			comp: {
-				compName: '',
-				compOrgNo: ''
-			},
-			depart: {
-				departName: '',
-				departOrgNo: ''
-			},
 			//部门列表
-			departList: [
-				{derpName: "上海魔方分公司",derpNo: '01'},
-				{derpName: "魔方分公司深圳分公司",derpNo: 'p1'},
-				{derpName: "深圳前海橙色魔方信息技术有限公司",derpNo: '0'}
-			],
+			departList: [],
 			//公司列表
-			compList: [
-				{organName: "上海魔方分公司",organNo: '01'},
-				{organName: "魔方分公司深圳分公司",organNo: 'p1'},
-				{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
-			],
+			compList: [],
+			//考勤信息列表
 			transferDataList: [
 				{
 					attenceNo: "",//考勤编号
@@ -211,9 +192,11 @@ export default {
 			console.log(file);
       	},
       	successUpload(response, file, fileList) {
-      		console.log('response',response);
+      		console.log('response',response)
       		if(response.code === "S00000") {
       			this.$message({ message: '操作成功', type: 'success' });
+      		} else {
+      			this.$message({ message: response, type: 'info' });
       		}
       		
       	},
@@ -287,7 +270,7 @@ export default {
 		},
 		//导出
 		handleExport() {
-			
+			this.exportFile();
 		},
 		//下载模版
 		handleDownloadTemplate() {
@@ -348,7 +331,35 @@ export default {
                     }
                 }).catch((e) => {
                     console.error(e)
-                    this.$message({ message: '下载附件失败', type: 'error' });
+                    self.$message({ message: e.response, type: 'error' });
+                })
+		},
+		exportFile(params) {
+			const self = this;
+			self.$axios.get(baseURL+'attence/exportAttenceInfo', {
+                    responseType: 'blob'
+                })
+                .then((response) => {
+					console.log(response);
+                    const fileName = "考勤信息.xlsx"; 
+                    const blob = response.data;
+
+                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+
+                        window.navigator.msSaveOrOpenBlob(blob, fileName);
+                    } else {
+
+                        let elink = document.createElement('a'); // 创建a标签
+                        elink.download = fileName;
+                        elink.style.display = 'none';
+                        elink.href = URL.createObjectURL(blob);
+                        document.body.appendChild(elink);
+                        elink.click(); // 触发点击a标签事件
+                        document.body.removeChild(elink);
+                    }
+                }).catch((e) => {
+                    console.error(e)
+                    self.$message({ message: e.response, type: 'error' });
                 })
 		},
 		queryCompList() {
@@ -382,24 +393,24 @@ export default {
 </script>
 
 <style>
-.attendance_wrap {
+.query_wrapper {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
 }
 
-.attendance_wrap .content {
+.query_wrapper .queryContent_wrapper {
 	width: 100%;
 	padding: 0px 20px;
 	background: #ffffff;
 	clear: both;
 }
 
-.attendance_wrap .content .title {
+.query_wrapper .titleBar {
 	border-bottom: 1px solid #EEEEEE;
 }
 
-.attendance_wrap .content .title .title-text {
+.query_wrapper .titleBar .title-text {
 	display: inline-block;
 	position: relative;
 	padding: 14px 0px;
@@ -407,7 +418,7 @@ export default {
 	height: 50px;
 }
 
-.attendance_wrap .content .title .title-text:after {
+.query_wrapper .titleBar .title-text:after {
 	content: '';
 	position: absolute;
 	left: 0;
@@ -416,86 +427,88 @@ export default {
 	height: 2px;
 	background: #333333;
 }
-.attendance_wrap .title_button {
+.query_wrapper .title_button {
 	float: right;
 	margin-top: 20px;
 }
-.attendance_wrap .content-inner {
+.query_wrapper .queryContent_inner {
 	padding: 30px 0px;
 }
 
-.attendance_wrap .el-form-item__label {
+.query_wrapper .el-form-item__label {
 	color: #999999;
 	padding: 8px 10px 8px 0;
 	margin: 0;
 	font-weight: normal;
 }
-.attendance_wrap .el-form-item {
+.query_wrapper .el-form-item {
 	margin-bottom: 30px;
 }
 
-.attendance_wrap .el-input,
-.attendance_wrap .el-input__inner {
+.query_wrapper .el-input,
+.query_wrapper .el-input__inner {
 	width: 164px;
 	height: 30px;
 	display: inline-block;
 }
 
-.attendance_wrap .el-form-item__content {
+.query_wrapper .el-form-item__content {
 	line-height: 30px;
 	position: relative;
 	font-size: 14px;
 }
 
-.attendance_wrap .button-wrap {
+.query_wrapper .queryButton_wrapper {
 	margin: 0px auto 30px;
 	width: 260px;
 	clear: both;
 	font-size: 0px;
 }
 
-.attendance_wrap .el-input__inner {
+.query_wrapper .el-input__inner {
 	border: 1px solid #EEEEEE;
 	color: #333333;
 }
 
-.attendance_wrap .el-input__inner:hover {
+.query_wrapper .el-input__inner:hover {
 	border-color: #FF9900;
 }
 
-.attendance_wrap .el-button {
+.query_wrapper .el-button {
 	border: 1px solid #FF9900;
 	color: #FF9900;
 	padding: 7px 45px;
 	height: 30px;
 }
 
-/*.attendance_wrap .el-button.resetform {
-	margin-right: 20px;
-}*/
-
-.attendance_wrap .el-button--primary {
+.query_wrapper .el-button--primary {
 	color: #fff;
 	background-color: #FF9900;
 	border-color: #FF9900;
 }
-.attendance_wrap .el-button+.el-button {
+.query_wrapper .el-button+.el-button {
     margin-left: 20px;
 }
-.attendance_wrap .el-table td,
-.attendance_wrap .el-table th {
+.query_wrapper .el-table td,
+.query_wrapper .el-table th {
 	text-align: center;
 }
-.attendance_wrap .link {
+.query_wrapper .link {
 	cursor: pointer;
     color: #337ab7;
     text-decoration: underline;
 }
-.attendance_wrap .el-table th {
+.query_wrapper .el-table th {
 	text-align: center;
-	box-shadow: inset 0 1px 0 0 #EEEEEE;
+	/*box-shadow: inset 0 1px 0 0 #EEEEEE;*/
 }
-.icon_edit {
+.query_wrapper .el-table .cell, .el-table th>div {
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    text-overflow: ellipsis;
+}
+.query_wrapper .icon_edit {
 	width: 14px;
 	height: 14px;
 	cursor: pointer;
@@ -503,21 +516,21 @@ export default {
 	background: url(../../../../../static/img/common/edit.png);
 }
 
-.attendance_wrap .el-pagination {
+.query_wrapper .el-pagination {
 	text-align: right;
-	margin-top: 40px;
+	margin-top: 30px;
 	margin-right: 40px;
 	color: #282828;
 }
 
-.attendance_wrap .el-pager li.active {
+.query_wrapper .el-pager li.active {
 	border-color: #FF9900;
 	background-color: #FF9900;
 	color: #fff;
 	cursor: default;
 }
 
-.attendance_wrap .el-pager li {
+.query_wrapper .el-pager li {
 	padding: 0 4px;
 	border-right: 0;
 	background: #fff;
@@ -529,12 +542,12 @@ export default {
 	text-align: center;
 }
 
-.attendance_wrap .el-pager li:last-child {
+.query_wrapper .el-pager li:last-child {
 	border-right: 1px solid #EEEEEE;
 }
 
-.attendance_wrap .el-pagination button,
-.attendance_wrap .el-pagination span {
+.query_wrapper .el-pagination button,
+.query_wrapper .el-pagination span {
 	display: inline-block;
 	font-size: 12px;
 	letter-spacing: -0.39px;
@@ -546,28 +559,28 @@ export default {
 	box-sizing: border-box;
 }
 
-.attendance_wrap .el-pager li:hover {
+.query_wrapper .el-pager li:hover {
 	color: #FF9900;
 }
-.attendance_wrap .el-pager li.active {
+.query_wrapper .el-pager li.active {
     border-color: #ff9900;
     background-color: #ff9900;
     color: #fff;
     cursor: default;
 }
-.attendance_wrap .el-pager li.active:hover {
+.query_wrapper .el-pager li.active:hover {
 	cursor: pointer;
 	color: #ffffff;
 }
 
-.attendance_wrap .el-pagination button:hover {
+.query_wrapper .el-pagination button:hover {
 	color: #FF9900;
 }
-.attendance_wrap .el-pagination button.disabled:hover {
+.query_wrapper .el-pagination button.disabled:hover {
 	color: #e4e4e4;
 }
 
-.attendance_wrap .el-pagination__editor {
+.query_wrapper .el-pagination__editor {
 	border: 1px solid #EEEEEE;
 	border-radius: 2px;
 	padding: 2px 0px;
@@ -575,65 +588,66 @@ export default {
 	min-width: 24px;
 }
 
-.attendance_wrap .el-pagination__editor:focus {
+.query_wrapper .el-pagination__editor:focus {
 	outline: 0;
 	border-color: #FF9900;
 }
 
-.attendance_wrap .el-pagination .btn-next,
-.attendance_wrap .el-pagination .btn-prev {
+.query_wrapper .el-pagination .btn-next,
+.query_wrapper .el-pagination .btn-prev {
 	border: 1px solid #EEEEEE;
 	color: #282828;
 }
 
-.attendance_wrap .el-autocomplete-suggestion__wrap,
-.attendance_wrap .el-pager li {
+.query_wrapper .el-autocomplete-suggestion__wrap,
+.query_wrapper .el-pager li {
 	border: 1px solid #EEEEEE;
 }
 
-.attendance_wrap .el-pager li.btn-quicknext,
-.attendance_wrap .el-pager li.btn-quickprev {
+.query_wrapper .el-pager li.btn-quicknext,
+.query_wrapper .el-pager li.btn-quickprev {
 	line-height: 28px;
 	color: #282828;
 }
-.attendance_wrap .el-upload__input {
+.query_wrapper .el-upload__input {
     display: none;
 }
-.attendance_wrap .btn_wrap {
+.query_wrapper .btn_wrap {
 	margin-top: 30px;
 }
-.attendance_wrap .upload_btn {
+.query_wrapper .upload_btn {
 	display: inline-block;
 	left: 100%;
 }
-.attendance_wrap .imExport-btn {
+.query_wrapper .imExport-btn {
 	float: right;
 	margin-top: 19px;
 }
-.attendance_wrap .imExport-btn .imExport-btn-item{
+
+.query_wrapper .imExport-btn .imExport-btn-item{
 	display: inline-block;
 	margin-left: 30px;
 	cursor: pointer;
 }
-.attendance_wrap .icon-import {
+.query_wrapper .icon-import {
 	display: inline-block;
 	width: 16px;
 	height: 16px;
 	background: url(../../../../../static/img/common/batch-import0.png);
 }
-.attendance_wrap .icon-export {
+.query_wrapper .icon-export {
 	display: inline-block;
 	width: 16px;
 	height: 16px;
 	background: url(../../../../../static/img/common/batch-export0.png);
 }
-.attendance_wrap .icon-download {
+.query_wrapper .icon-download {
 	display: inline-block;
 	width: 16px;
 	height: 16px;
 	background: url(../../../../../static/img/common/template-download0.png);
 }
-.attendance_wrap .el-form-item__error {
+.query_wrapper .el-form-item__error {
     left: 39px;
 }
 </style>

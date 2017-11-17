@@ -10,55 +10,55 @@
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
-							<el-input v-model="formdata2.companyName"></el-input>
+							<el-input v-model="formdata2.companyName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="申请部门名称">
-							<el-input v-model="formdata2.deptName"></el-input>
+							<el-input v-model="formdata2.deptName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
-						    <el-input v-model="formdata2.userNo"></el-input>
+						    <el-input v-model="formdata2.userNo" :disabled="true"></el-input>
 					 	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="姓名">
-						    <el-input v-model="formdata2.custName"></el-input>
+						    <el-input v-model="formdata2.custName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <el-input v-model="formdata2.custPost"></el-input>
+						    <el-input v-model="formdata2.custPost" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <el-input v-model="formdata2.custClass"></el-input>
+						    <el-input v-model="formdata2.custClass" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col> 
 				  	<el-col :span="24" class="item-title">加班信息</el-col> 	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="加班开始时间" prop="workotStartTime">
-				        	<el-date-picker type="datetime" v-model="formdata2.workotStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="datetime" v-model="formdata2.workotStartTime" @change="changeStartTime" style="width:100%;" :disabled="true"></el-date-picker>
 				      	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="加班结束时间" prop="workotEndTime">
-				        	<el-date-picker type="datetime" v-model="formdata2.workotEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="datetime" v-model="formdata2.workotEndTime" @change="changeEndTime" style="width:100%;" :disabled="true"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="加班类型" prop="workotType">
-						    <el-select v-model="formdata2.workotType" value-key="workotType" @change="changeValue">
+						    <el-select v-model="formdata2.workotType" value-key="workotType" @change="changeValue" :disabled="true">
 								<el-option v-for="item in workotTypeList" :key="item.workotNo" :label="item.label" :value="item.workotNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="加班累计工时">
-						    <el-input v-model="formdata2.timeSheet"></el-input>
+						    <el-input v-model="formdata2.timeSheet" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24">
@@ -67,18 +67,18 @@
 							  type="textarea"
 							  :autosize="{ minRows: 5, maxRows: 5}"
 							  placeholder="请输入内容"
-							  v-model="formdata2.remark">
+							  v-model="formdata2.remark" :disabled="true">
 							</el-input>
 					  	</el-form-item>
 				  	</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="最新更新人">
-						    <el-input v-model="formdata2.updatedBy"></el-input>
+						    <el-input v-model="formdata2.updatedBy" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="最新更新时间">
-						    <el-input v-model="formdata2.updatedDate"></el-input>
+						    <el-input v-model="formdata2.updatedDate" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
