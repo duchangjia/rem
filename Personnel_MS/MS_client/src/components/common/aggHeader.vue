@@ -7,10 +7,8 @@
                 {{item.name}}
         </span>
         <div class="headerright">
-            
             <span class="tips">
                 <img src="../../../static/img/common/Group.png" alt="" width="14" height="16">
-                <!-- <span>8</span> -->
             </span>
             <span>
                 <img src="../../../static/img/common/help.png" alt="" width="14" height="16">
@@ -61,7 +59,7 @@ export default {
                 localStorage.removeItem('access_token');
                 _this.$router.push('/login');
             }).catch(() => {
-
+                
             });
 
         },
