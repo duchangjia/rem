@@ -1,60 +1,56 @@
 <template>
-	<div class="fun">
+	<div class="query_wrapper">
 		<current yiji="系统管理" erji="功能管理"></current>
-		<div class="content">
-			<div class="title">
+		<div class="queryContent_wrapper">
+			<div class="titleBar">
 				<span class="title-text">功能管理</span>
 			</div>
-			<div class="content-inner">
+			<div class="queryContent_inner">
 				<el-form :model="formData" ref="formData" class="demo-ruleForm">
-					<div class="input-wrap">
-						<el-col :span="6">
-							<el-form-item label="系统编号" prop="sysNo">
-								<el-select v-model="formData.sysNo" class="bg-white">
-									<el-option v-for="item in menuQueryConditions" :label="item.sysNo" :value="item.sysNo"></el-option>
-								</el-select>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="功能编号" prop="bsnNo">
-								<el-input type="text" v-model="formData.bsnNo" placeholder="请输入功能编号"></el-input>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="功能名称" prop="methodName">
-								<el-input type="text" v-model="formData.methodName" placeholder="请输入功能名称"></el-input>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="状态" prop="status">
-								<el-select v-model="formData.status" class="bg-white">
-									<el-option label="停用" value="0"></el-option>
-									<el-option label="正常" value="1"></el-option>
-									<el-option label="锁定" value="2"></el-option>
-								</el-select>
-							</el-form-item>
-						</el-col>
-					</div>
-					<div class="button-wrap">
+					<el-col :sm="12" :md="6">
+						<el-form-item label="系统编号" prop="sysNo">
+							<el-select v-model="formData.sysNo" class="bg-white">
+								<el-option v-for="item in menuQueryConditions" :label="item.sysNo" :value="item.sysNo"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="12" :md="6">
+						<el-form-item label="功能编号" prop="bsnNo">
+							<el-input type="text" v-model="formData.bsnNo" placeholder="请输入功能编号"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="12" :md="6">
+						<el-form-item label="功能名称" prop="methodName">
+							<el-input type="text" v-model="formData.methodName" placeholder="请输入功能名称"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="12" :md="6">
+						<el-form-item label="状态" prop="status">
+							<el-select v-model="formData.status" class="bg-white">
+								<el-option label="停用" value="0"></el-option>
+								<el-option label="正常" value="1"></el-option>
+								<el-option label="锁定" value="2"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<div class="queryButton_wrapper">
 						<el-button class="resetform" @click="resetForm()">重置</el-button>
 						<el-button type="primary" @click="queryForm()">查询</el-button>
 					</div>
 				</el-form>
-				<div class="info">
-					<el-table :data="userList" border stripe style="width: 100%">
-						<el-table-column prop="sysNo" label="系统编号"></el-table-column>
-						<el-table-column prop="bsnNo" label="功能编号"></el-table-column>
-						<el-table-column prop="methodName" label="功能名称"></el-table-column>
-						<el-table-column prop="interfaceName" label="接口方法"></el-table-column>
-						<el-table-column prop="bsnUrl" label="服务URL"></el-table-column>
-						<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
-						<el-table-column label="操作">
-							<template scope="scope">
-		                        <i class="icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
-		                    </template>
-						</el-table-column>
-					</el-table>
-				</div>
+				<el-table :data="userList" border stripe style="width: 100%">
+					<el-table-column prop="sysNo" label="系统编号"></el-table-column>
+					<el-table-column prop="bsnNo" label="功能编号"></el-table-column>
+					<el-table-column prop="methodName" label="功能名称"></el-table-column>
+					<el-table-column prop="interfaceName" label="接口方法"></el-table-column>
+					<el-table-column prop="bsnUrl" label="服务URL"></el-table-column>
+					<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
+					<el-table-column label="操作">
+						<template scope="scope">
+	                        <i class="icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
+	                    </template>
+					</el-table-column>
+				</el-table>
 				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
 			</div>

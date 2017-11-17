@@ -8,21 +8,21 @@
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
-					<el-col :span="6">
+					<el-col :sm="12" :md="6">
 						<el-form-item label="公司" prop="compName">
 							<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" @change="changeComp">
 								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="6">
+					<el-col :sm="12" :md="6">
 						<el-form-item label="部门" prop="departName">
 							<el-select v-model="ruleForm2.derpNo" value-key="derpNo" @change="changeValue">
 								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :sm="24" :md="12">
 						<el-form-item label="时间" prop="startDate"">
 							<el-date-picker
 						      v-model="ruleForm2.startDate"
@@ -38,7 +38,7 @@
 						   </el-date-picker>
 						</el-form-item>
 					</el-col>
-					<el-col :span="6">
+					<el-col :sm="12" :md="6">
 						<el-form-item label="工号" prop="userNo">
 							<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
 						</el-form-item>
