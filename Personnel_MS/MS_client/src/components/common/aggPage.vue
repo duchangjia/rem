@@ -14,7 +14,7 @@
                                 <div class="item-list-txt">
                                     {{item.txt}}
                                 </div>
-                                <p>{{item.title}}</p>
+                                <p class="tit-size">{{item.title}}</p>
                             </div>
                         </div>
                     </div>
@@ -23,39 +23,122 @@
             <div class="search-list">
                 <div class="search-item">
                     <div class="search-item-box">
-                        <label>人员查找</label>
+                        <label class="tit-size">人员查找</label>
                         <div class="search-inp-box search-inp-one">
                             <div class="search-inp-tit">
                             </div>
                             <div class="search-inp-con">
                                 <input type="text" v-model="searchData.userNo" placeholder="员工姓名/员工编号/邮箱">
                             </div>
-                            <div class="search-icon search-inp-tit">
+                            <div class="search-icon search-inp-tit" @click="searchUser()">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="search-item">
                     <div class="search-item-box">
-                        <label>个人资产查询</label>
+                        <label class="tit-size">个人资产查询</label>
                         <div class="search-inp-box search-inp-one  search-inp-two">
                             <div class="search-inp-tit">
                             </div>
                             <div class="search-inp-con">
-                                <input type="text" v-model="searchData.userNo" placeholder="员工姓名/员工编号/邮箱">
+                                <input type="text" v-model="searchData.accountNo" placeholder="员工姓名/员工编号/邮箱">
                             </div>
-                            <div class="search-icon search-inp-tit search-icon-two">
+                            <div class="search-icon search-inp-tit search-icon-two" @click="searchAsset()">
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>        
+            <div class="news-list">
+                <div class="msg-item msg-large-item">
+                    <div class="msg-item-box">
+                        <div class="msg-item-head clearfix">
+                            <div class="msg-item-tit tit-size">
+                                提示信息
+                            </div>
+                            <div class="more-icon tit-size">
+                                MORE
+                            </div>
+                        </div>
+                        <div class="msg-content">
+                            <ul>
+                                <li class="msg-list clearfix msg-large-list txt-size" v-for="item in newsList" v-bind:class="item.class">
+                                    <div class="msg-icon"></div>
+                                    <span class="msg-txt ">{{item.txt}}</span>
+                                    <div class="msg-time">{{item.time}}</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="msg-item">
+                    <div class="msg-item-box">
+                        <div class="msg-item-head clearfix">
+                            <div class="msg-item-tit tit-size">
+                                待办事宜
+                            </div>
+                            <div class="more-icon tit-size">
+                                MORE
+                            </div>
+                        </div>
+                        <div class="msg-content">
+                            <ul>
+                                <li class="msg-list clearfix  txt-size" v-for="item in toDoList" v-bind:class="item.class">
+                                    <span class="msg-txt ">{{item.txt}}</span>
+                                    <div class="msg-time">{{item.time}}</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="msg-item-box mt">
+                        <div class="msg-item-head clearfix">
+                            <div class="msg-item-tit tit-size">
+                                事件提醒
+                            </div>
+                            <div class="more-icon tit-size">
+                                MORE
+                            </div>
+                        </div>
+                        <div class="msg-content">
+                            <ul>
+                                <li class="msg-list clearfix  txt-size" v-for="item in toDoList" v-bind:class="item.class">
+                                    <span class="msg-txt ">{{item.txt}}</span>
+                                    <div class="msg-time">{{item.time}}</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>   
+            </div>
+            <el-dialog :title="dialogTxt.title" :visible.sync="dialogTableVisible" size="large" >
+                <p  v-show="assetShow">若实际使用的IT资产情况与以下显示信息不符，还请及时与后台人员联系核实并更改以确保您名下资产的准确性</p>
+                <el-table :data="gridData" v-show="assetShow" height="200" stripe>
+                    <el-table-column prop="" label="序号"  align="center">
+                        <template scope="scope">
+                            {{scope.$index+1}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="assetNo" label="资产编码"  align="center"></el-table-column>
+                    <el-table-column prop="organName" label="公司" align="center"></el-table-column>
+                    <el-table-column prop="assetType" label="资产类型" align="center" :formatter="assetTypeFormatter"></el-table-column>
+                    <el-table-column prop="custName" label="使用人"  align="center"></el-table-column>
+                </el-table>
+                <el-table :data="gridData" v-show="userShow" height="200" stripe>
+                    <el-table-column prop="custName" label="姓名"  align="center"></el-table-column>
+                    <el-table-column prop="userNo" label="工号" align="center"></el-table-column>
+                    <el-table-column prop="derpName" label="部门" align="center"></el-table-column>
+                </el-table>
+        </el-dialog> 
+        </div>
+         <v-footer class="home-footer"></v-footer> 
+             
     </div>
 </template>
 <<script>
 import vHead from './aggHeader.vue';
-import vSidebar from './Sidebar.vue';
+import vFooter from './footer.vue';
     export default {
         data(){
             return{
@@ -90,28 +173,159 @@ import vSidebar from './Sidebar.vue';
                 searchData:{
                     userNo:'',
                     accountNo:''
+                },
+                newsList:[
+                    {
+                        class:'',
+                        txt:'药药切克闹,煎饼果子来一套',
+                        link:'',
+                        time:'刚刚'
+                    },
+                    {
+                        class:'msg-sec-list',
+                        txt:'一个鸡蛋一块钱,喜欢脆的多放面',
+                        link:'',
+                        time:'15分钟前'
+                    },
+                    {
+                        class:'',
+                        txt:'药药切克闹,煎饼果子来一套',
+                        link:'',
+                        time:'刚刚'
+                    },
+                    {
+                        class:'msg-sec-list',
+                        txt:'一个鸡蛋一块钱,喜欢脆的多放面',
+                        link:'',
+                        time:'15分钟前'
+                    },
+                    {
+                        class:'',
+                        txt:'药药切克闹,煎饼果子来一套',
+                        link:'',
+                        time:'刚刚'
+                    }
+                ],
+                toDoList:[
+                    {
+                        class:'war-class',
+                        txt:'张三提交了请假单',
+                        link:'',
+                        time:'2017-8-30'
+                    },
+                    {
+                        class:'',
+                        txt:'李四提交了工作周报',
+                        link:'',
+                        time:'2017-8-30'
+                    },
+                    {
+                        class:'',
+                        txt:'王五提交了请假单',
+                        link:'',
+                        time:'2017-8-30'
+                    }
+                ],
+                dialogTableVisible:false,
+                gridData:[],
+                assetShow:false,
+                userShow:false,
+                dialogTxt:{
+                    title:'个人资产查询'
                 }
             }
            
         },
+        methods:{
+           searchUser(){
+               let self = this,
+                    data = {
+                        noNameEmail:self.searchData.userNo
+                    };
+                 self.$axios
+                .get("/iem_hrm/CustInfo/queryAllCust", { params: data })
+                .then(res => {
+                    self.gridData =  res.data.data
+                    self.userShow = true
+                    self.assetShow = false                    
+                    // // self.pagination.total = res.data.data.total
+                    // console.log(res,'列表数据');
+                    self.dialogTableVisible = true;
+                })
+                .catch(e => {
+                console.log(e);
+                });
+               self.dialogTxt.title = "人员查找"
+                
+           },
+           searchAsset(){ 
+               let self = this,
+                    data = {
+                        noNameEmail:self.searchData.accountNo
+                    };
+                
+               self.$axios
+                .get("/iem_hrm/assetUse/queryAssUseList", { params: data })
+                .then(res => {
+                self.gridData =  res.data.data.list
+                self.assetShow = true
+                self.userShow = false
+                // // self.pagination.total = res.data.data.total
+                // console.log(res,'列表数据');
+                self.dialogTableVisible = true;
+                })
+                .catch(e => {
+                console.log(e);
+                });
+               
+           },
+           assetTypeFormatter(row, column) {
+            return row.assetType == "01"
+                ? "全部"
+                :       row.assetType == "02"
+                ? "办公用品"
+                : row.assetType == "03"
+                    ? "电脑"
+                    : row.assetType == "04" ? "后勤用品" : "异常";
+            }
+        },
         components:{
-            vHead
+            vHead,vFooter
         }
     }
 </script>
 <style>
+.tit-size{font-size:16px;}
+.txt-size{color:#a7a7a7;}
+.mt{margin-top:20px;}
 .agg-wrapper .banner_box img{width:100%;display:block;max-width:100%;height:auto;}
 .agg-wrapper .nav_item{padding:20px 0;clear: both;display:flex;justify-content:space-between;margin-left: -10px;margin-right: -10px;}
 .agg-wrapper .nav_item .item-content{width:20%;float:left;padding:0 10px; overflow:hidden;}
 .agg-wrapper .nav_item .item-content .item-list{background:#fff;height:120px;cursor:pointer;overflow:hidden;}
 .agg-wrapper .wrapper{height:auto;}
 .agg-wrapper .nav_item .item-content .item-list .item-list-right{float: right;height:100%;width:50%;text-align:right;padding-right:20px;}
-.agg-wrapper.grey-bg{background:#f4f4f4}
+.agg-wrapper.grey-bg{background:#f4f4f4;overflow-x: hidden;}
 .agg-wrapper .nav_item .item-content .item-list .item-txt-box{color:#464646;}
 .agg-wrapper .nav_item .item-content .item-list .item-txt-box .item-list-txt{font-size:18px;font-weight:500;margin-top:40px;margin-bottom:2px;}
-.agg-wrapper .search-list{display:flex;justify-content:space-between;background:#f4f4f4;margin-left: -10px;margin-right: -10px;}
-.agg-wrapper .search-list .search-item{width:50%;padding-left:10px;padding-right:10px;}
-.agg-wrapper .search-list .search-item .search-item-box{background:#fff;padding:20px;padding-bottom:15px;}
+.agg-wrapper .search-list,.agg-wrapper .news-list{margin-bottom:20px;display:flex;justify-content:space-between;background:#f4f4f4;margin-left: -10px;margin-right: -10px;}
+.agg-wrapper .news-list{margin-bottom:0;position:relative;}
+.agg-wrapper .search-list .search-item,.agg-wrapper .news-list .msg-item{width:50%;padding-left:10px;padding-right:10px;}
+.agg-wrapper .search-list .search-item .search-item-box,.agg-wrapper .news-list .msg-item .msg-item-box{background:#fff;padding:20px;padding-bottom:15px;}
+.news-list .msg-item .msg-item-box .msg-item-head{padding-bottom:20px;}.news-list .msg-item .msg-item-box .msg-item-head{padding-bottom:20px;}
+.news-list .msg-item .msg-item-box .msg-item-head .msg-item-tit{float:left;}
+.news-list .msg-item .msg-item-box .msg-item-head .more-icon{float:right; color:#ff9900;cursor:pointer;}
+.news-list .msg-item .msg-item-box .msg-content .msg-list{background:#f4f8ff;cursor:pointer;margin-bottom:10px;padding-right:10px;height: 25px;line-height: 25px;}
+.news-list .msg-item .msg-item-box .msg-content .msg-list.war-class{background:#fef6f4;}
+.news-list .msg-item .msg-item-box .msg-content .msg-list:last-child{margin-bottom: 0;}
+.news-list .msg-item .msg-item-box .msg-content .msg-list .msg-icon{height:37px;width:40px;background:url('../../../static/img/home/mess4.png') no-repeat #a5d16c center;float:left;}
+.news-list .msg-item .msg-item-box .msg-content .msg-list .msg-txt{display:inline-block;padding-left:10px;}
+.news-list .msg-item .msg-item-box .msg-content .msg-large-list{height:37px;line-height: 37px;background:#f9f9f9;}
+.news-list .msg-item .msg-item-box .msg-content .msg-list.msg-sec-list .msg-icon{background:url('../../../static/img/home/mess3.png') no-repeat #fdcf58 center; }
+.news-list .msg-item .msg-item-box .msg-content .msg-list .msg-time{float:right;}
+.news-list .msg-large-item{padding-right:0;margin-right:-10px;margin-bottom:20px;overflow: hidden;}
+.agg-wrapper .news-list .msg-large-item .msg-item-box{position:absolute;top:-20px;left:-10px;height:100%;width:50%;margin-top:20px;margin-bottom:-20px;}
+.agg-wrapper .news-list .msg-large-item .msg-item-box .msg-item-head{padding-left:20px;}
+.agg-wrapper .news-list .msg-large-item .msg-item-box .msg-content{padding-left:20px;}
 .agg-wrapper .search-list .search-item .search-item-box label{font-weight:normal;margin-bottom:0;}
 .agg-wrapper .search-list .search-item .search-item-box .search-inp-box{border:1px solid #f8b62d;margin-top:20px;height:90px;position:relative;box-sizing:border-box;}
 .agg-wrapper .search-list .search-item .search-item-box .search-inp-box>div{float:left;}
@@ -134,5 +348,16 @@ import vSidebar from './Sidebar.vue';
 .agg-wrapper .nav_item .item-four-list .item-list .item-list-left{background:url('../../../static/img/home/sqlx.png') no-repeat}
 .agg-wrapper .nav_item .item-five-list .item-list .item-list-left{background:url('../../../static/img/home/fybx.png') no-repeat}
 .agg-wrapper .nav_item .item-content .item-list .item-list-left{float: left;height:100%;width:50%;background-position: 20px center;}
+.agg-wrapper .el-dialog__title{color:#333;font-weight:normal;}
+.agg-wrapper   .el-dialog__headerbtn .el-dialog__close{color:#ff9900;}
+.agg-wrapper  .el-dialog__headerbtn:hover .el-dialog__close{color:#ff6600;}
+.agg-wrapper  .el-dialog__header{background:#eef1f6;padding-bottom:20px;}
+.agg-wrapper  .el-dialog__body{padding-top:20px;}
+.agg-wrapper  .el-dialog__body p{margin-bottom:20px;color:#FF6666;}
+.agg-wrapper .nav_item .item-content .item-list:hover{
+    box-shadow: 0 0 10px 0 rgba(204,204,204,0.50);
+    cursor: pointer;
+}
+
 </style>
 

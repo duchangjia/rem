@@ -65,11 +65,11 @@
                     </el-table-column>
                     <el-table-column align="center" prop="applyUserNo" label="工号" >
                     </el-table-column>
-                    <el-table-column align="center" prop="derpName" label="姓名">
+                    <el-table-column align="center" prop="custName" label="姓名">
                     </el-table-column>
                     <el-table-column align="center" prop="applyTime" label="发生时间">
                     </el-table-column>
-                    <el-table-column align="center" prop="assetType" label="操作">
+                    <el-table-column align="center"  label="操作">
                         <template scope="scope">
                             <i class="el-icon-edit" @click="edit(scope.row)"></i>&nbsp;&nbsp;&nbsp;&nbsp;
                             <i class="el-icon-delete2" @click="del(scope.row)"></i>
