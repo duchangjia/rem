@@ -75,13 +75,7 @@
                     </el-col> 
                     <el-col :span="12">
                         <el-form-item label="资产类别">
-                          <el-select v-model="assetInfoDetail.assetType" :disabled="true">
-                              <el-option label="办公用品" value="01"></el-option>
-                              <el-option label="电脑" value="02"></el-option>
-                              <el-option label="手机" value="03"></el-option>
-                              <el-option label="后勤用品" value="04"></el-option>
-                              <el-option label="数码相机" value="05"></el-option>
-                          </el-select>
+                          <el-input v-model="_assetType" :disabled="true"></el-input>
                       </el-form-item>
                     </el-col> 
                     <el-col :span="12">
@@ -151,6 +145,23 @@ export default {
     this.applyUserNo = this.$route.params.applyUserNo;
     this.getAssetInfoDetail(); //查询调薪基数信息
     this.getCustInfo(); //初始查询用户信息
+  },
+  computed: {
+    _assetType: function() {
+      if (this.assetInfoDetail.assetType == "01") {
+        return "办公用品";
+      } else if (this.assetInfoDetail.assetType == "02") {
+        return "电脑";
+      } else if (this.assetInfoDetail.assetType == "03") {
+        return "手机";
+      } else if (this.assetInfoDetail.assetType == "04") {
+        return "后勤用品";
+      } else if (this.assetInfoDetail.assetType == "05") {
+        return "数码相机";
+      } else {
+        return "";
+      }
+    }
   },
   methods: {
     getCustInfo() {

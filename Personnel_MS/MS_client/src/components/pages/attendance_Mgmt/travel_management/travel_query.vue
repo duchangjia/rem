@@ -62,8 +62,8 @@
 						<el-table-column prop="userNo" label="工号"></el-table-column>
 						<el-table-column prop="custName" label="姓名"></el-table-column>
 						<el-table-column prop="travelType" label="出差类型" :formatter="travelTypeFormatter"></el-table-column>
-						<el-table-column prop="travelStartTime" label="出差开始时间"></el-table-column>
-						<el-table-column prop="travelEndTime" label="出差结束时间"></el-table-column>
+						<el-table-column prop="travelStartTime" label="出差开始时间" :formatter="travelStartTimeFormatter"></el-table-column>
+						<el-table-column prop="travelEndTime" label="出差结束时间" :formatter="travelEndTimeFormatter"></el-table-column>
 						<el-table-column prop="createdBy" label="录入人"></el-table-column>
 						<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
 						<el-table-column label="操作" width="100">
@@ -87,6 +87,20 @@ import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
+		var checkStartDate = (rule, value, callback) => {
+	        if (this.ruleForm2.endDate && value >= this.ruleForm2.endDate) {
+	          	callback(new Error('开始时间不能大于结束时间'));
+	        } else {
+	          	callback();
+	        }
+      	};
+		var checkEndDate = (rule, value, callback) => {
+	        if (this.ruleForm2.startDate && value <= this.ruleForm2.startDate) {
+	          	callback(new Error('开始时间不能大于结束时间'));
+	        } else {
+	          	callback();
+	        }
+      	};
 		return {
 			pickerOptions0: {
 	          disabledDate(time) {
@@ -123,8 +137,12 @@ export default {
 			//公司列表
 			compList: [],
 			rules: {
-				compName: [],
-				departName: []
+				startDate: [
+	            	{ validator: checkStartDate, trigger: 'change' }
+          		],
+          		endDate: [
+	            	{ validator: checkEndDate, trigger: 'change' }
+          		]
 			}
 		}
 	},
@@ -145,13 +163,13 @@ export default {
 	},
 	methods: {
 		travelStartTimeFormatter(row, column) {
-	      return moment(row.travelStartTime).format('YYYY-MM-DD') || '';
+	      return row.travelStartTime ? moment(row.travelStartTime).format('YYYY-MM-DD') : null;
 	   	}, 
 	   	travelEndTimeFormatter(row, column) {
-	      return moment(row.travelEndTime).format('YYYY-MM-DD') || '';
+	      return row.travelEndTime ? moment(row.travelEndTime).format('YYYY-MM-DD') : null;
 	   	}, 
 	   	createdDateFormatter(row, column) {
-	      return moment(row.createdDate).format('YYYY-MM-DD') || '';
+	      return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null;
 	    },
 		travelTypeFormatter(row, column) {
 	    	let travelType = '';
@@ -600,5 +618,8 @@ export default {
 .travel_query .upload_btn {
 	display: inline-block;
 	left: 100%;
+}
+.travel_query .el-form-item__error {
+    left: 39px;
 }
 </style>

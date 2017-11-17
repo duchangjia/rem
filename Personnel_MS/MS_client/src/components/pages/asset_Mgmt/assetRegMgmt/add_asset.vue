@@ -48,7 +48,7 @@
                 <el-form :inline="true" :model="addAssetInfo" :rules="assetInfoRules" ref="addAssetInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="12">
                         <el-form-item label="采购订单号" prop="buyApplyNo">
-                            <el-input v-model="addAssetInfo.buyApplyNo" :maxlength="32"></el-input>
+                            <el-input v-model="addAssetInfo.buyApplyNo"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
@@ -58,7 +58,7 @@
                     </el-col> 
                     <el-col :span="12">
                         <el-form-item label="购买数量" prop="buyNum">
-                            <el-input v-model="addAssetInfo.buyNum" :maxlength="11"></el-input>
+                            <el-input v-model="addAssetInfo.buyNum" :maxlength="10"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
@@ -169,7 +169,7 @@ export default {
           { required: true, message: "购买单价不能为空", trigger: "blur" },
           { pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的正数" }
         ],
-        buyNum: [{ pattern: /^(0|([1-9][0-9]{0,11}))$/, message: "请输入正整数" }],
+        buyNum: [{ pattern: /^(0|([1-9][0-9]{0,10}))$/, message: "请输入正整数" }],
         buyAmount: [
           { required: true, message: "购买金额不能为空", trigger: "blur" },
           { pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的正数" }
@@ -187,22 +187,17 @@ export default {
   },
   created() {},
   computed: {
-      _custClass: {
-          set: function(val) {
-              this.custInfo.custClass = val;
-          },
-          get: function() {
-              if(this.custInfo.custClass == "B10") {
-                  return "B10-初级软件工程师";
-              } else if (this.custInfo.custClass == "B11") {
-                  return "B11-中级软件工程师";
-              } else if (this.custInfo.custClass == "B12") {
-                  return "B12-高级软件工程师";
-              } else {
-                  return "";
-              }
-          }
+    _custClass: function() {
+      if (this.custInfo.custClass == "B10") {
+        return "B10-初级软件工程师";
+      } else if (this.custInfo.custClass == "B11") {
+        return "B11-中级软件工程师";
+      } else if (this.custInfo.custClass == "B12") {
+        return "B12-高级软件工程师";
+      } else {
+        return "";
       }
+    }
   },
   methods: {
     getCustInfo() {
@@ -238,10 +233,6 @@ export default {
     },
     userNoChange(val) {
       this.getCustInfo(); //查询用户信息
-    },
-    getCustClass(val) {
-      //   this.custInfo.custClass = val;
-      console.log("custClass", val);
     },
     pickFactoryTime(val) {
       this.addAssetInfo.factoryTime = val;

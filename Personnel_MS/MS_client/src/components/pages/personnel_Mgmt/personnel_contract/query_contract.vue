@@ -162,9 +162,6 @@ export default {
       });
     },
     handleDelete(index, row) {
-      let targetPact = {};
-      targetPact.pactNo = row.pactNo;
-      console.log(targetPact);
       this.$confirm("此操作将会删除该条合同, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -172,19 +169,21 @@ export default {
       })
         .then(() => {
           this.$axios
-            .delete("/iem_hrm/pact/deletePact?pactNo=" + targetPact.pactNo, targetPact)
+            .put("/iem_hrm/pact/deletePact?pactNo=" + row.pactNo)
             .then(res => {
               console.log(res);
-              if (res.data.code == "S00000")
-                this.$message({ type: "success", message: "删除成功!" });
-              else this.$message.error("删除合同失败！");
+              if (res.data.code == "S00000") {
+                this.$message({ type: "success", message: "操作成功!" });
+                this.getPactList();
+              }
+              else this.$message.error("操作失败");
             })
             .catch(() => {
-              this.$message.error("删除合同失败！");
+              this.$message.error("操作失败");
             });
         })
         .catch(() => {
-          this.$message("您已取消删除合同！");
+          this.$message("您已取消删除！");
         });
     },
     handlePChange(index, row) {

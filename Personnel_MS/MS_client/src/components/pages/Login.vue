@@ -20,7 +20,7 @@
                         </el-form-item>
                         <div class="error" v-show="errorMsg">{{errorMsg}}</div>
                         <el-button class="tijiao" @click="submitForm('ruleForm')">登录</el-button>
-                        <a class="text" href="#">忘记密码</a>
+                        <a class="text" href="#" @click="fegetPassword">忘记密码</a>
                     </el-form>
                     <div class="line1"></div>
                     <div class="line2"></div>
@@ -119,6 +119,14 @@
         	errtip
         },
         methods: {
+        	fegetPassword() {
+				this.$alert('如忘记密码，请联系系统管理人员进行密码重置操作。', '温馨提示', {
+		          confirmButtonText: '确定',
+		          callback: action => {
+		            
+		          }
+		        });
+			},
             changeCode() {
               this.$axios.get('/api/auth/code/image', {responseType: 'blob'})
                   .then( res => {
@@ -169,7 +177,7 @@
                                     if(true){
                                         localStorage.setItem('ms_username',self.ruleForm.username);
                                         self.fullscreenLoading = false
-                                        self.$router.push('home');
+                                        self.$router.push('aggPage');
                                     }else{
                                         Bus.$emit('showErrTip',{content:'登录失败！帐号或密码错。',title:'温馨提示'});
 //                                        self.content = '登录失败！帐号或密码错'

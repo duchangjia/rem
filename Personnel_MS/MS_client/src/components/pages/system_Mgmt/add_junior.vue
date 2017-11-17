@@ -9,8 +9,8 @@
             <div class="department-info" v-show="formdata">
                 <el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
                     <el-col :span="12">
-                        <el-form-item label="上级部门" prop="parentName">
-                            <el-input v-model="formdata.parentName" disabled></el-input>
+                        <el-form-item label="上级部门" prop="organParentName">
+                            <el-input v-model="formdata.organParentName" disabled></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -91,10 +91,10 @@
                     ],
                 },
                 formdata: {
-                    parentName: '',
+                    organParentName: '',
                     parentNo: '',
                     organName: '',
-//                    organNo: '',
+                    organNo: '',
                     organMgeName: '',
                     organType: '',
                     status: '1',
@@ -145,7 +145,7 @@
             }
         },
         components: {
-            current,messageBox
+            current,
         },
         methods: {
             dialogConfirm(custInfo){
@@ -236,7 +236,6 @@
                                         message: result
                                     })
                                 }
-
                             })
                             .catch( res=> {
                                 this.$message({
@@ -251,7 +250,6 @@
                         })
                     }
                 })
-
             },
         }
     }
@@ -336,14 +334,6 @@
     }
     .add-junior .department-info .el-form-item__content .el-select .el-input__inner,.add-junior .department-info .el-form-item__content .el-input .el-input__inner{
         width: 300px;
-        height: 40px;
-    }
-    .add-junior .department-info .organMgeName .el-input, .add-junior .department-info .organMgeName .el-select{
-        width: 253px;
-        height: 40px;
-    }
-    .add-junior .department-info .organMgeName .el-select .el-input__inner,.add-junior .department-info .organMgeName .el-input .el-input__inner{
-        width: 253px;
         height: 40px;
     }
     .add-junior .department-info .el-form-item__content .el-input__inner:hover, .add-junior .department-info .el-form-item__content .el-input__inner:focus{

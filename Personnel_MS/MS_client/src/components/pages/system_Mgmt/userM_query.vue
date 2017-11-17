@@ -220,15 +220,13 @@ export default {
 				self.operatorList = res.data.data.models;
 				self.pageNum = params.pageNum;
 				self.totalRows = Number(res.data.data.total);
-//				self.operatorList[0].compName = '魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司';
-//				self.operatorList[0].departName = '魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司魔方分公司';
 			}).catch(function(err) {
 				console.log(err);
 			})
 		},
 		queryCompList() {
 			let self = this;
-			self.$axios.get(baseURL+'/organ/queryAllCompany')
+			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
 			.then(function(res) {
 				console.log('CompList',res);
 				self.compList = res.data.data;
@@ -238,10 +236,13 @@ export default {
 		},
 		queryDerpList(params) {
 			let self = this;
-			self.$axios.get(baseURL+'/organ/queryChildrenDep', {params: params})
+			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
 			.then(function(res) {
 				console.log('DerpList',res);
-				self.departList = res.data.data;
+				if(res.data.code === "S00000") {
+					self.departList = res.data.data;
+				}
+				
 			}).catch(function(err) {
 				console.log(err);
 			})

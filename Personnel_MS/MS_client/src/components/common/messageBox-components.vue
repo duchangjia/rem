@@ -14,7 +14,6 @@
                         <el-input :placeholder="inputSecOption.placeholder" v-model="custInfo.stateNo" >
                         </el-input>
                     </el-form-item>
-                   
                     <div class="button-box">
                         <el-button class="toolBtn restBtn" @click="reset()">重置</el-button>
                         <el-button class="toolBtn" @click="getList()">查询</el-button>

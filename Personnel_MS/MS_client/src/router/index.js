@@ -32,6 +32,11 @@ const routes = [
             ]
         },
         {
+            path: '/aggPage',
+            meta: { requireAuth: true, },
+            component: resolve => require(['../components/common/aggPage.vue'], resolve)
+        },
+        {
 
             path: '/home',
             meta: { requireAuth: true, },
@@ -567,6 +572,21 @@ const routes = [
                             path: '/edit_assetUse',
                             component: resolve => require(['../components/pages/asset_Mgmt/assetUseMgmt/edit_assetUse.vue'], resolve)
                         }
+                    ]
+                },
+                {
+                    path: '/historicalSalary_Mgmt',
+                    component: resolve => require(['../components/pages/historicalSalary_Mgmt/historicalSalary_Mgmt.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/historicalSalary_Mgmt/historicalSalary_query.vue'], resolve)
+                        },
+                        {
+                            name: 'historicalSalary_query',
+                            path: '/historicalSalary_query',
+                            component: resolve => require(['../components/pages/historicalSalary_Mgmt/historicalSalary_query.vue'], resolve)
+                        },
                     ]
                 },
                 // {

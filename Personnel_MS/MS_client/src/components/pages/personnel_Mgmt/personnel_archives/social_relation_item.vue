@@ -17,7 +17,7 @@
                 </el-col>
                 <el-col :span="8">
                     <el-form-item label="联系电话" prop="telphone">
-                        <el-input v-model="ruleFrom.telphone" :disabled="isShowEdit" :maxlength="15"></el-input>
+                        <el-input v-model="ruleFrom.telphone" :disabled="isShowEdit" maxlength="15"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
@@ -27,7 +27,7 @@
                 </el-col>
                 <el-col :span="16">
                     <el-form-item label="地址" class="address">
-                        <el-input v-model="ruleFrom.addr" class="address_special" :disabled="isShowEdit" :maxlength="150"></el-input>
+                        <el-input v-model="ruleFrom.addr" class="address_special" :disabled="isShowEdit" maxlength="150"></el-input>
                     </el-form-item>
                 </el-col>
             </el-form>

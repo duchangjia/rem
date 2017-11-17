@@ -1,10 +1,11 @@
 <template>
-	<div class="info">
+	<div class="info_wrapper">
 		<current yiji="考勤管理" erji="请假管理" sanji="请假修改">
 		</current>
 		<div class="content-wrapper">
 			<div class="titlebar">
 				<span class="title-text">请假修改</span>
+				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
@@ -57,8 +58,8 @@
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="请假累计工时">
-						    <el-input v-model="formdata2.timeSheet"></el-input>
+						<el-form-item label="请假累计工时" prop="timeSheet">
+						    <el-input v-model.number="formdata2.timeSheet" placeholder="请输入请假累计工时"></el-input>
 					  	</el-form-item>
 					</el-col> 
 				  	<el-col :span="24">
@@ -78,7 +79,7 @@
 					  			 :data="formdata"
 					  			 :on-change="changeUpload"
 					  			 :on-success="successUpload"
-					  			 action="/iem_hrm/" 
+					  			 action="/iem_hrm/leave/modifyLeaveInfo" 
 					  			 :show-file-list="false" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
@@ -170,8 +171,11 @@
 		          	leaveType: [
 		            	{ required: true, message: '请假类型不能为空', trigger: 'blur' }
 	          		],
+	          		timeSheet: [
+	          			{ required: true, type: 'number', message: '请假累计工时不能为空', trigger: 'blur' }
+	          		],
 	          		remark: [
-	          			{ required: true, message: '请假备注不能为空', trigger: 'blur' }
+	          			{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 	          		]
 				}
 			}
@@ -183,6 +187,7 @@
 			formdata: function(){
 				const self = this;
 				return {
+					applyNo: this.formdata2.applyNo, //请假编号
 					"userNo": self.formdata1.userNo, //"1004"
 	    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
 	    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
@@ -194,34 +199,36 @@
 			}
 		},
 		created() {
-			let applyNo = this.$route.params.applyNo;
+			let applyNo = sessionStorage.getItem('applyNo');
 			let userNo = this.$route.params.userNo;
 			let params = {
 				applyNo: applyNo
 			}
 			//查询请假详情
 			this.leaveInfo(params);
+			this.querysysParamMgmt();
 		},
 		methods: {
 			changeStartTime(time) {
 				this.formdata2.leaveStartTime = time;
-				let params = {
-					leaveStartTime: this.formdata2.leaveStartTime,
-					leaveEndTime: this.formdata2.leaveEndTime
-				}
-				if(this.formdata2.leaveStartTime) {
-					this.calTimeSheet(params);
-				}
+//				let params = {
+//					leaveStartTime: this.formdata2.leaveStartTime,
+//					leaveEndTime: this.formdata2.leaveEndTime
+//				}
+//				if(this.formdata2.leaveEndTime) {
+//					this.calTimeSheet(params);
+//				}
 			},
 			changeEndTime(time) {
 				this.formdata2.leaveEndTime = time;
-				let params = {
-					leaveStartTime: this.formdata2.travelStartTime,
-					leaveEndTime: this.formdata2.leaveEndTime
-				}
-				if(this.formdata2.leaveEndTime) {
-					this.calTimeSheet(params);
-				}
+//				let params = {
+//					leaveStartTime: this.formdata2.leaveStartTime,
+//					leaveEndTime: this.formdata2.leaveEndTime
+//				}
+//				console.log(params);
+//				if(this.formdata2.leaveStartTime) {
+//					this.calTimeSheet(params);
+//				}
 			},
 			changeValue(value) {
 		 		const self = this;
@@ -229,19 +236,22 @@
 	      	},
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
+		 		this.formdata2.attachm = file.name;
 	      	},
 	      	successUpload(response, file, fileList) {
-	      		this.$message({ message: '操作成功', type: 'success' });
+	      		if(response.code === "S00000") {
+	      			this.$message({ message: '操作成功', type: 'success' });
+					this.$router.push('/leave_management');
+	      		}
 	      	},
 	      	save(formName) {
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						console.log('valid');
-						
 						self.$refs.upload.submit();
 						if(!self.fileFlag) {
 							let params = {
+								applyNo: this.formdata2.applyNo, //请假编号
 								"userNo": self.formdata1.userNo, //"1004"
 				    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
 				    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
@@ -271,13 +281,27 @@
 					console.log('error');
 				})
 			},
+			querysysParamMgmt() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=11')
+				.then(function(res) {
+					console.log('sysParamMgmt',res);
+					if(res.data.code === "S00000") {
+//						self.formdata2 = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
 			modifyTravelInfo(params) {
 				let self = this;
-				self.$axios.put(baseURL+'/leave/modifyLeaveInfo',params)
+				self.$axios.post(baseURL+'/leave/modifyLeaveInfo',params)
 				.then(function(res) {
 					console.log('modifyTravelInfo',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
+						self.$router.push('/leave_management');
 					}
 				}).catch(function(err) {
 					console.log('error');
@@ -285,12 +309,10 @@
 			},
 			calTimeSheet(params) {
 				let self = this;
-				self.$axios.get(baseURL+'',{params})
+				self.$axios.get(baseURL+'/leave/calculateLeaveTime',{params})
 				.then(function(res) {
 					console.log('timeSheet',res);
-					if(res.data.code === "S00000") {
-//						self.formdata2.timeSheet = res.data.data.;
-					}
+					self.formdata2.timeSheet = res.data;
 				}).catch(function(err) {
 					console.log('error');
 				})

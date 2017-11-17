@@ -1,5 +1,5 @@
 <template>
-	<div class="info">
+	<div class="info_wrapper">
 		<current yiji="考勤管理" erji="出差管理" sanji="出差详情">
 		</current>
 		<div class="content-wrapper">
@@ -41,12 +41,12 @@
 					<el-col :span="24" class="item-title">出差信息</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差开始时间" prop="travelStartTime">
-				        	<el-date-picker type="date" v-model="formdata.travelStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="datetime" v-model="formdata.travelStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差结束时间" prop="travelEndTime">
-				        	<el-date-picker type="date" v-model="formdata.travelEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="datetime" v-model="formdata.travelEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
@@ -168,7 +168,7 @@
 	      		const self = this;
 	      		let params = {
 	      			filePath: self.formdata.attachm,
-	      			isOnLine: "true"
+	      			isOnLine: "false"
 	      		}
 	      		//下载附件
 				self.downloadFile(params);
@@ -185,20 +185,30 @@
 			},
 			downloadFile(params) {
 				const self = this;
-				if(params.filePath) {
-					console.log('true');
-					let url = baseURL+'/travel/downloadFile?filePath='+params.filePath +"&isOnLine=" + params.isOnLine;
-					window.open(url, '_blank');
-				} else {
-					this.$message({ message: '没有找到附件信息', type: 'info' });
-				}
-//				self.$axios.get(baseURL+'/travel/downloadFile?filePath='+params.filePath +"&isOnLine=" + params.isOnLine)
-//				.then(function(res) {
-//					console.log('downloadFile',res);
-//					
-//				}).catch(function(err) {
-//					console.log('error');
-//				})
+				self.$axios.get(baseURL+'/travel/downloadFile?filePath='+params.filePath +"&isOnLine=" + params.isOnLine, {
+                    responseType: 'blob'
+                })
+                .then((response) => {
+				 	const fileName = params.filePath.substr(params.filePath.lastIndexOf("/")+1); 
+                    const blob = response.data;
+
+                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+
+                        window.navigator.msSaveOrOpenBlob(blob, fileName);
+                    } else {
+
+                        let elink = document.createElement('a'); // 创建a标签
+                        elink.download = fileName;
+                        elink.style.display = 'none';
+                        elink.href = URL.createObjectURL(blob);
+                        document.body.appendChild(elink);
+                        elink.click(); // 触发点击a标签事件
+                        document.body.removeChild(elink);
+                    }
+                }).catch((e) => {
+                    console.error(e)
+                    this.$message({ message: '下载附件失败', type: 'error' });
+                })
 			}
 		}
 	};

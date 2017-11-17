@@ -187,7 +187,7 @@ export default {
         self.$axios
         .get(
           self.saveUrl+
-          ajaxNo
+          ajaxNo.stateNo
         )
         .then(res => {
           if (res.data.code == 'F00002'){

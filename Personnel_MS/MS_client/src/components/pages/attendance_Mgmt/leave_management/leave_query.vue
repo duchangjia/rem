@@ -87,6 +87,20 @@ import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
+		var checkStartDate = (rule, value, callback) => {
+	        if (this.ruleForm2.endDate && value >= this.ruleForm2.endDate) {
+	          	callback(new Error('开始时间不能大于结束时间'));
+	        } else {
+	          	callback();
+	        }
+      	};
+		var checkEndDate = (rule, value, callback) => {
+	        if (this.ruleForm2.startDate && value <= this.ruleForm2.startDate) {
+	          	callback(new Error('开始时间不能大于结束时间'));
+	        } else {
+	          	callback();
+	        }
+      	};
 		return {
 			pickerOptions0: {
 	          disabledDate(time) {
@@ -94,7 +108,7 @@ export default {
 	          }
 	       	},
 			pageNum: 1,
-			pageSize: 5,
+			pageSize: 10,
 			totalRows: 2,
 			queryFormFlag: false,
 			ruleForm2: {
@@ -139,8 +153,12 @@ export default {
 				{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
 			],
 			rules: {
-				compName: [],
-				departName: []
+				startDate: [
+	            	{ validator: checkStartDate, trigger: 'change' }
+          		],
+          		endDate: [
+	            	{ validator: checkEndDate, trigger: 'change' }
+          		]
 			}
 		}
 	},
@@ -160,13 +178,13 @@ export default {
 	},
 	methods: {
 		leaveStartTimeFormatter(row, column) {
-	      return moment(row.leaveStartTime).format('YYYY-MM-DD') || '';
+	      return row.leaveStartTime ? moment(row.leaveStartTime).format('YYYY-MM-DD') : null;
 	   	},
 		leaveEndTimeFormatter(row, column) {
-	      return moment(row.leaveEndTime).format('YYYY-MM-DD') || '';
+	      return row.leaveEndTime ? moment(row.leaveEndTime).format('YYYY-MM-DD') : null;
 	   	}, 
 		createdDateFormatter(row, column) {
-	      	return moment(row.createdDate).format('YYYY-MM-DD') || '';
+	      	return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null;
 	    },
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;
@@ -187,7 +205,7 @@ export default {
 	    	this.$router.push('/add_leave');
 	    },
 		handleEdit(index, row) {
-			console.log('row:',row);
+			sessionStorage.setItem('applyNo',row.applyNo);
             this.$router.push({
             	name: "edit_leave",
             	params: {
@@ -197,7 +215,7 @@ export default {
             });
 		},
 		handleInfo(index, row) {
-			console.log('row:',row);
+			sessionStorage.setItem('applyNo',row.applyNo);
 			this.$router.push({
 				name: "leave_info",
 				params: {
@@ -215,10 +233,10 @@ export default {
                 type: 'warning'
            }).then(() => {
             	let params = {
-					userNo: row.userNo
+					applyNo: row.applyNo
 				}
             	//删除
-				
+				self.deleteLeaveInfo(params);
             	
             }).catch(() => {
                 this.$message('您已取消操作！');
@@ -228,7 +246,6 @@ export default {
 		//查询
 		queryForm(formName) {
 			const self = this;
-			console.log(this.ruleForm2.startDate)
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
 					self.queryFormFlag = true;
@@ -236,12 +253,12 @@ export default {
 						"pageNum": self.pageNum,
 						"pageSize": self.pageSize,
 						organNo: self.ruleForm2.organNo,
-						derpNo: self.ruleForm2.derpNo,
-						userNo: self.ruleForm2.userNo,
+						derpNo: self.ruleForm2.departOrgNo,
+						leaveUserNo: self.ruleForm2.userNo,
 						leaveStartTime: self.ruleForm2.startDate,
 						leaveEndTime: self.ruleForm2.endDate
 					};
-					
+					console.log(params)
 					//请假列表查询
 					self.queryLeaveList(params);
 					
@@ -265,6 +282,11 @@ export default {
 				params = {
 					"pageNum": val,
 					"pageSize": self.pageSize,
+					organNo: self.ruleForm2.organNo,
+					derpNo: self.ruleForm2.departOrgNo,
+					leaveUserNo: self.ruleForm2.userNo,
+					leaveStartTime: self.ruleForm2.startDate,
+					leaveEndTime: self.ruleForm2.endDate
 					
 				}
 			} else {
@@ -273,7 +295,7 @@ export default {
 					"pageSize": self.pageSize
 				}
 			}
-			//分页出差列表查询
+			//分页列表查询
 			this.queryLeaveList(params);
 		},
 		queryLeaveList(params) {
@@ -293,12 +315,12 @@ export default {
 		},
 		deleteLeaveInfo(params) {
 			let self = this;
-			self.$axios.delete(baseURL+'/leave/deleteLeaveInfo', params)
+			self.$axios.delete(baseURL+'/leave/deleteLeaveInfo?applyNo='+params.applyNo)
 			.then(function(res) {
 				console.log('deleteLeaveInfo',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
-					let params = {
+					let param = {
 						"pageNum": self.pageNum,
 						"pageSize": self.pageSize,
 						organNo: self.ruleForm2.organNo,
@@ -309,7 +331,7 @@ export default {
 					};
 					
 					//请假列表查询
-					self.queryLeaveList(params);
+					self.queryLeaveList(param);
 				}
 			}).catch(function(err) {
 				console.log(err);
@@ -640,5 +662,8 @@ export default {
 .leave_query .upload_btn {
 	display: inline-block;
 	left: 100%;
+}
+.leave_query .el-form-item__error {
+    left: 39px;
 }
 </style>

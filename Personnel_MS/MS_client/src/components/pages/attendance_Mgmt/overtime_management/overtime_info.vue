@@ -1,50 +1,67 @@
 <template>
-	<div class="workotC_wrap">
+	<div class="info_wrapper">
 		<current yiji="考勤管理" erji="加班管理" sanji="加班详情">
 		</current>
-		<div class="content">
-			<div class="title">
+		<div class="content-wrapper">
+			<div class="titlebar">
 				<span class="title-text">加班详情</span>
 			</div>
-			<div class="content-inner">
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
-					<el-form-item label="公司名称">
-						<el-input v-model="formdata2.companyName"></el-input>
-				  	</el-form-item>
-					<el-form-item label="申请部门名称">
-						<el-input v-model="formdata2.deptName"></el-input>
-				  	</el-form-item>
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">  	
-					<el-form-item label="工号">
-					    <el-input v-model="formdata2.userNo"></el-input>
-				 	</el-form-item>
-				  	<el-form-item label="姓名">
-					    <el-input v-model="formdata2.custName"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="岗位">
-					    <el-input v-model="formdata2.custPost"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="职级">
-					    <el-input v-model="formdata2.custClass"></el-input>
-				  	</el-form-item>
-				</el-form>
-
-				  	<div class="info-title">加班信息</div>
-				  	<el-form-item label="加班开始时间" prop="workotStartTime">
-			        	<el-date-picker type="datetime" v-model="formdata2.workotStartTime" @change="changeStartTime"></el-date-picker>
-			      	</el-form-item>
-				  	<el-form-item label="加班结束时间" prop="workotEndTime">
-			        	<el-date-picker type="datetime" v-model="formdata2.workotEndTime" @change="changeEndTime"></el-date-picker>
-			      	</el-form-item>
-				  	<el-form-item label="加班类型" prop="workotType">
-					    <el-select v-model="formdata2.workotType" value-key="workotType" @change="changeValue">
-							<el-option v-for="item in workotTypeList" :key="item.workotNo" :label="item.label" :value="item.workotNo"></el-option>
-						</el-select>
-				  	</el-form-item>
-				  	<el-form-item label="加班累计工时">
-					    <el-input v-model="formdata2.timeSheet"></el-input>
-				  	</el-form-item>
-				  	<el-col :span="24">
+			<div class="add-wrapper">
+				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
+					<el-col :sm="24" :md="12">
+						<el-form-item label="公司名称">
+							<el-input v-model="formdata2.companyName"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="申请部门名称">
+							<el-input v-model="formdata2.deptName"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="工号">
+						    <el-input v-model="formdata2.userNo"></el-input>
+					 	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="姓名">
+						    <el-input v-model="formdata2.custName"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="岗位">
+						    <el-input v-model="formdata2.custPost"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="职级">
+						    <el-input v-model="formdata2.custClass"></el-input>
+					  	</el-form-item>
+					</el-col> 
+				  	<el-col :span="24" class="item-title">加班信息</el-col> 	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="加班开始时间" prop="workotStartTime">
+				        	<el-date-picker type="datetime" v-model="formdata2.workotStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
+				      	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="加班结束时间" prop="workotEndTime">
+				        	<el-date-picker type="datetime" v-model="formdata2.workotEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
+				      	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="加班类型" prop="workotType">
+						    <el-select v-model="formdata2.workotType" value-key="workotType" @change="changeValue">
+								<el-option v-for="item in workotTypeList" :key="item.workotNo" :label="item.label" :value="item.workotNo"></el-option>
+							</el-select>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="加班累计工时">
+						    <el-input v-model="formdata2.timeSheet"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :span="24">
 				  		<el-form-item class="remark" label="加班备注" prop="remark">
 						    <el-input
 							  type="textarea"
@@ -53,22 +70,22 @@
 							  v-model="formdata2.remark">
 							</el-input>
 					  	</el-form-item>
-				  	</el-col>
-				  	<el-form-item label="最新更新人">
-					    <el-input v-model="formdata2.updatedBy"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="最新更新时间">
-					    <el-input v-model="formdata2.updatedDate"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="附件" style="width:100%;">
-					    <el-button class="file_button" @click="handleDownload">下载</el-button>
-				  	</el-form-item>
-				  	<!--<el-form-item label="附件" style="width: 100%;">
-			  		 	<el-input v-model="formdata2.attachm"></el-input>
-				  		<el-upload class="upload-demo" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
-                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
-                        </el-upload>
-				  	</el-form-item>-->
+				  	</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="最新更新人">
+						    <el-input v-model="formdata2.updatedBy"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="最新更新时间">
+						    <el-input v-model="formdata2.updatedDate"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="附件" style="width:100%;">
+						    <el-button class="downloadBtn" @click="handleDownload">下载</el-button>
+					  	</el-form-item>
+					</el-col>  
 				</el-form>
 			</div>
 		</div>
@@ -121,7 +138,7 @@
 				],
 			 	rules: {
 		          	workotType: [
-		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
+//		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
 	          		]
 				}
 			}
@@ -151,7 +168,8 @@
 	      	handleDownload() {
 	      		const self = this;
 	      		let params = {
-	      			
+	      			filePath: self.formdata2.attachm,
+	      			isOnLine: "false"
 	      		}
 	      		//下载附件
 				self.downloadFile(params);
@@ -171,15 +189,30 @@
 			},
 			downloadFile(params) {
 				const self = this;
-				self.$axios.get(baseURL+'/workot/downLoadFile',{params: params})
-				.then(function(res) {
-					console.log('downloadFile',res);
-					if(res.data.code === "S00000") {
-						
-					}
-				}).catch(function(err) {
-					console.log('error');
-				})
+				self.$axios.get(baseURL+'/workot/downloadFile?filePath='+params.filePath +"&isOnLine=" + params.isOnLine, {
+                    responseType: 'blob'
+                })
+                .then((response) => {
+                    const fileName = params.filePath.substr(params.filePath.lastIndexOf("/")+1); 
+                    const blob = response.data;
+
+                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+
+                        window.navigator.msSaveOrOpenBlob(blob, fileName);
+                    } else {
+
+                        let elink = document.createElement('a'); // 创建a标签
+                        elink.download = fileName;
+                        elink.style.display = 'none';
+                        elink.href = URL.createObjectURL(blob);
+                        document.body.appendChild(elink);
+                        elink.click(); // 触发点击a标签事件
+                        document.body.removeChild(elink);
+                    }
+                }).catch((e) => {
+                    console.error(e)
+                    this.$message({ message: '下载附件失败', type: 'error' });
+                })
 			}
 		}
 	};

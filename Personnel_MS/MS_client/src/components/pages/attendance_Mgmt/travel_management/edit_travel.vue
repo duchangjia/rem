@@ -1,5 +1,5 @@
 <template>
-	<div class="info">
+	<div class="info_wrapper">
 		<current yiji="考勤管理" erji="出差管理" sanji="出差修改">
 		</current>
 		<div class="content-wrapper">
@@ -61,13 +61,13 @@
 						<el-form-item class="travelCity_wrap" label="出差城市" prop="travelStartCity">
 						    <el-input class="travelCity" v-model="formdata2.travelStartCity" placeholder="出发城市"></el-input>
 					  	</el-form-item>
-					  	<span class="travelCity_line" >-</span>
+					  	<span class="travelCity_line" >分割线</span>
 					  	<el-form-item class="travelCity_wrap2" prop="travelArrivalCity">
 						    <el-input class="travelCity" v-model="formdata2.travelArrivalCity" placeholder="到达城市"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="出差天数" prop="travelDays">
+						<el-form-item label="出差天数" prop="travelDays" :disabled="true">
 						    <el-input v-model="formdata2.travelDays"></el-input>
 					  	</el-form-item>
 					</el-col>  	
@@ -111,14 +111,24 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
+	import moment from 'moment'
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
+			var checkTravelStartTime = (rule, value, callback) => {
+		        if (value == '') {
+		          	callback(new Error('出差开始时间不能为空'));
+		        } else if (this.formdata2.travelEndTime && value >= this.formdata2.travelEndTime) {
+		          	callback(new Error('出差开始时间不能大于结束时间'));
+		        } else {
+		          	callback();
+		        }
+	      	};
 			var checkTravelEndTime = (rule, value, callback) => {
 		        if (value == '') {
 		          	callback(new Error('出差结束时间不能为空'));
-		        } else if (value <= this.formdata2.travelStartTime) {
-		          	callback(new Error('请输入正确的结束时间'));
+		        } else if (this.formdata2.travelStartTime && value <= this.formdata2.travelStartTime) {
+		          	callback(new Error('出差开始时间不能大于结束时间'));
 		        } else {
 		          	callback();
 		        }
@@ -129,7 +139,7 @@
 				},
 				fileFlag: '',
 				formdata2: {
-					organNo: "01",
+					organNo: "",
 					deptNo: "",
 					userNo: "",
 					custName: "",
@@ -158,16 +168,16 @@
 		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
 	          		],
 	          		travelStartTime: [
-		            	{ required: true, message: '出差开始时间不能为空', trigger: 'change' }
+		            	{ required: true, validator: checkTravelStartTime, trigger: 'change' }
 	          		],
 	          		travelEndTime: [
 		            	{ required: true, validator: checkTravelEndTime, trigger: 'change' }
 	          		],
 	          		travelStartCity: [
-//		            	{ required: true, message: '出差出发城市不能为空', trigger: 'blur' }
+		            	{ required: true, message: '出差出发城市不能为空', trigger: 'blur' }
 	          		],
 	          		travelArrivalCity: [
-//		            	{ required: true, message: '出差到达城市不能为空', trigger: 'blur' }
+		            	{ required: true, message: '出差到达城市不能为空', trigger: 'blur' }
 	          		],
 	          		travelDays: [
 		            	{ required: true, message: '出差天数不能为空', trigger: 'blur' }
@@ -226,7 +236,6 @@
 					travelStartTime: this.formdata2.travelStartTime,
 					travelEndTime: this.formdata2.travelEndTime
 				}
-				console.log(params);
 				if(this.formdata2.travelStartTime) {
 					this.calTravelDays(params);
 				}
@@ -243,11 +252,15 @@
 		 		const self = this;
 	      	},
 	      	changeUpload(file, fileList) {
-	      		console.log('fileList',fileList);
 		 		this.fileFlag = file;
+		 		this.formdata2.attachm = file.name;
 	      	},
 	      	successUpload(response, file, fileList) {
-	      		this.$message({ message: '操作成功', type: 'success' });
+	      		if(response.code === "S00000") {
+	      			this.$message({ message: '操作成功', type: 'success' });
+	      			this.$router.push('/travel_management');
+	      		}
+	      		
 	      	},
 	      	//修改出差详细信息
 	      	save(formName) {
@@ -283,7 +296,10 @@
 				self.$axios.get(baseURL+'/travel/getTravelInfoByApplyNo',{params: params})
 				.then(function(res) {
 					console.log('travelInfo',res);
-					self.formdata2 = res.data.data;
+					if(res.data.code === "S00000") {
+						self.formdata2 = res.data.data;
+					}
+					
 				}).catch(function(err) {
 					console.log('error');
 				})
@@ -315,6 +331,7 @@
 					console.log('modifyTravelInfo',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
+						self.$router.push('/travel_management');
 					}
 					
 				}).catch(function(err) {

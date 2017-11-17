@@ -11,6 +11,7 @@
                     <el-breadcrumb-item v-if="wuji" :to="{ path: links[4] }" class="test1">{{wuji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if="liuji" :to="{ path: links[5] }" class="test1">{{liuji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if='false'>{{activeTab}}</el-breadcrumb-item>
+                    <el-breadcrumb-item v-if='false'>{{pactNo}}</el-breadcrumb-item>
                 </el-breadcrumb>
             </el-col>
             <el-col :span="2" v-show="breadItemLength>1">
@@ -35,11 +36,12 @@ export default {
         jump() {
             let aa = this.link[this.breadItemLength - 2]
             if (!aa) return false
-            if(this.activeTab){
+            if(this.activeTab && this.pactNo){
                 this.$router.push({
                     name: aa,
                     params: {
-                        activeTab: this.activeTab
+                        activeTab: this.activeTab,
+                        pactNo: this.pactNo
                     }
                 })
             } else {
@@ -73,6 +75,9 @@ export default {
             }
             if (this.yiji === '员工自助') {
                 _link.push('/query_personalInfo')
+            }
+            if (this.yiji === '历史薪酬查询') {
+                _link.push('/historicalSalary_Mgmt')
             }
 			
 			if (this.erji === '基本信息') {
@@ -134,6 +139,9 @@ export default {
             }
             if (this.erji === '资产使用管理') {
                 _link.push('/assetUse_manage')
+            }
+            if (this.erji === '工资查询') {
+                _link.push('/historicalSalary_query')
             }
 			
             if (this.sanji === '编辑部门') {
@@ -372,6 +380,10 @@ export default {
             default: ''
         },
         activeTab: {
+            type: String,
+            default: ''
+        },
+        pactNo: {
             type: String,
             default: ''
         },

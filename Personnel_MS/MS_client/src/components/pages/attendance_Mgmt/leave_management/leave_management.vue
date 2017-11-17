@@ -10,8 +10,8 @@ export default {
 </script>
 
 <style>
-.info {
-	padding: 0 20px;
+.info_wrapper {
+	padding: 0 0 20px 20px;
 }
 .content-wrapper {
   background: #ffffff;
@@ -87,7 +87,7 @@ export default {
 
 .el-input__inner {
   height: 40px;
-  width: 180px;
+  /*width: 180px;*/
 }
 
 .add-wrapper .el-input__inner {
@@ -235,7 +235,7 @@ table .el-button--danger:active {
 }
 
 .add-wrapper .el-textarea__inner {
-  min-width: 790px;
+  min-width: 800px;
   min-height: 100px;
 }
 
@@ -401,24 +401,15 @@ table .el-button--danger:active {
 .el-message-box__headerbtn:hover .el-message-box__close {
   color: #ff9900;
 }
-.info .travelCity_wrap2{
-	padding-left: 0;
-}
-.info .travelCity_line {
-    padding: 7px 3px;
-    display: inline-block;
-}
-.info .travelCity_wrap .el-form-item__content,
-.info .travelCity_wrap2 .el-form-item__content,
-.info .travelCity_wrap .el-input__inner,
-.info .travelCity_wrap2 .el-input__inner {
-	width: 130px;
-}
-.info .travelCity_wrap2 .el-form-item__content {
-	margin-left: 20px;
-}
-.info .el-input.el-input--small .el-input__inner {
+
+.el-input.el-input--small .el-input__inner {
     height: 30px;
-    width: 145px!important;
+    width: 145px;
+}
+.el-dialog__body .el-input__inner {
+	width: 164px;
+}
+.item-box .button-box .restBtn {
+    margin-right: 5px;
 }
 </style>

@@ -475,7 +475,7 @@
                 <div class="button-wrapper">
                     <button @click="bianji(tabName)">编辑</button>
                     <button class="special_1" @click="save(tabName)">保存</button>
-                    <!--<button @click="del">删除</button>-->
+                    <button @click="del">删除</button>
                 </div>
             </div>
         </el-col>
