@@ -274,10 +274,7 @@ export default {
 		},
 		//下载模版
 		handleDownloadTemplate() {
-			let params = {
-				
-			}
-			this.downloadFile(params);
+			this.downloadFile();
 		},
 		queryAttenceList(params) {
 			let self = this;
@@ -306,7 +303,8 @@ export default {
 				console.log(err);
 			})
 		},
-		downloadFile(params) {
+		//下载模版
+		downloadFile() {
 			const self = this;
 			self.$axios.get(baseURL+'/attence/download', {
                     responseType: 'blob'
