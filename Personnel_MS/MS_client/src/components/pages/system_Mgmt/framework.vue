@@ -4,8 +4,8 @@
         <div class="framework-content">
             <el-col :span="6">
                 <div class="content-left">
-                    <div class="content-left-title" v-show="companies.organName"><img height="21px" src="../../../../static/img/common/home_logo.png" /><span class="head_quarters" @click="getInfo('0')" :title="companies.organName">{{companies.organName}}</span></div>
-                    <ul class="list " v-show="companies" >
+                    <div class="content-left-title" v-show="companies.organName"><img height="21px" src="../../../../static/img/common/home_logo.png" /><span class="head_quarters" @click="getInfo(companies.organNo)" :title="companies.organName">{{companies.organName}}</span></div>
+                    <ul class="list " v-show="companies.childrenList" >
                         <!--<li class="guangzhou common L">广州分公司<span class="count">(111)</span></li>-->
                         <li class="shanghai common L" v-for="(company, $index) in companies.childrenList" :key="$index" @click.stop.prevent="collapse(company.organNo, $event, null)" :class="`L${company.organNo}`">{{company.organName}}<span class="count"></span>
                             <ul class="common-list">
@@ -24,7 +24,7 @@
            <el-col :span="18">
                <div class="content-right">
                    <div class="title">
-                       <span class="text text_special" v-show="content" :title="content.organName">{{content.organName}}</span>
+                       <span class="text text_special" v-show="content.organName" :title="content.organName">{{content.organName}}</span>
                        <div class="button-wrapper" style="display: flex">
                            <el-button class="del" @click="del(content.organNo)">删除</el-button>
                            <el-button type="primary" @click="handleAdd('edit_department', content.organNo)" class="toolBtn">编辑</el-button>
@@ -171,9 +171,9 @@
             return {
                 content:{
                     organType:'',
-                    status:''
+                    status:'',
+                    organName: '',
                 },
-                show: false,
                 companies: '',
                 tableData: '',
                 tableData2: ''
@@ -184,6 +184,24 @@
             self.$axios.get('/iem_hrm/organ/queryOrganList')
               .then( res => {
                   self.companies = res.data.data[0]
+                  if(!self.companies){
+                    return
+                  }else {
+                      self.$axios.get('/iem_hrm/organ/queryCurrentAndParentOrganDetail/'+self.companies.organNo)
+                          .then( res => {
+                              self.content = res.data.data
+                          })
+                          .catch( res=> {
+                              console.log('请求公司详情数据超时')
+                          })
+                      self.$axios.get('/iem_hrm/organ/queryChildOrganDetail/'+self.companies.organNo)
+                          .then( res => {
+                              self.tableData = res.data.data
+                          })
+                          .catch( res=> {
+                              console.log('请求公司下级详情数据超时')
+                          })
+                  }
                   self.$nextTick(function () {
                       var ulObj = $('.common-list')
                       let length = ulObj.length
@@ -200,24 +218,8 @@
               })
               .catch( res=> {
                   console.log('请求公司数据超时')
-                  return false
               })
-            self.$axios.get('/iem_hrm/organ/queryCurrentAndParentOrganDetail/0')
-                .then( res => {
-                    self.content = res.data.data
-                })
-                .catch( res=> {
-                    console.log('请求公司详情数据超时')
-                    return false
-                })
-            self.$axios.get('/iem_hrm/organ/queryChildOrganDetail/0')
-                .then( res => {
-                    self.tableData = res.data.data
-                })
-                .catch( res=> {
-                    console.log('请求公司下级详情数据超时')
-                    return false
-                })
+
 //            self.$axios.get('/iem_hrm/organ/queryOrganMember/0')
 //                .then( res => {
 //                    self.tableData2 = res.data.data
@@ -257,19 +259,15 @@
             },
             handleCurrentChange(val) {
                 let index = this.content.organNo
+                console.log(val,index)
                 let _self = this
-                console.log(val)
-                if (!_self.tableData.total) {
                     _self.$axios.get(`/iem_hrm/organ/queryChildOrganDetail/${index}`, {params:{pageNum: val}})
                         .then( res => {
                             _self.tableData = res.data.data
-
                         })
                         .catch( res=> {
                             console.log('请求公司下级详情数据超时222')
                         })
-                }
-
             },
             handleCurrentChange2(val) {
                 let index = this.content.organNo
@@ -277,7 +275,6 @@
                 _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`, {params:{pageNum: val}})
                     .then( res => {
                         _self.tableData2 = res.data.data
-
                     })
                     .catch( res=> {
                         console.log('请求公司员工详情数据超时222')
@@ -304,13 +301,13 @@
                     .catch( res=> {
                         console.log('请求公司下级详情数据超时')
                     })
-                _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
-                    .then( res => {
-                        _self.tableData2 = res.data.data
-                    })
-                    .catch( res=> {
-                        console.log('请求公司员工数据超时')
-                    })
+//                _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
+//                    .then( res => {
+//                        _self.tableData2 = res.data.data
+//                    })
+//                    .catch( res=> {
+//                        console.log('请求公司员工数据超时')
+//                    })
                 $('.list').find('li').removeClass('active')
                 $('.head_quarters').addClass('active')
             },
@@ -326,7 +323,6 @@
                         })
                         .catch( res=> {
                             console.log('请求公司详情数据超时')
-                            return false
                         })
                     _self.$axios.get(`/iem_hrm/organ/queryChildOrganDetail/${index}`)
                         .then( res => {
@@ -334,16 +330,14 @@
                         })
                         .catch( res=> {
                             console.log('请求公司下级详情数据超时')
-                            return false
                         })
-                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
-                        .then( res => {
-                            _self.tableData2 = res.data.data
-                        })
-                        .catch( res=> {
-                            console.log('请求公司员工数据超时')
-                            return false
-                        })
+//                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
+//                        .then( res => {
+//                            _self.tableData2 = res.data.data
+//                        })
+//                        .catch( res=> {
+//                            console.log('请求公司员工数据超时')
+//                        })
                     $('.L'+ index + ' >ul').slideToggle('slow')
                     $('.L'+ index).siblings().find('ul').slideUp('slow')
                     $('.list').find('li').removeClass('active')
@@ -369,14 +363,14 @@
                             console.log('请求公司下级详情数据超时')
                             return false
                         })
-                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
-                        .then( res => {
-                            _self.tableData2 = res.data.data
-                        })
-                        .catch( res=> {
-                            console.log('请求公司员工数据超时')
-                            return false
-                        })
+//                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
+//                        .then( res => {
+//                            _self.tableData2 = res.data.data
+//                        })
+//                        .catch( res=> {
+//                            console.log('请求公司员工数据超时')
+//                            return false
+//                        })
 //                    _self.content.title = $('.L'+ parent+' .X'+ index)[0].childNodes[0].nodeValue
                     $('.list').find('li').removeClass('active')
                     $('.head_quarters').removeClass('active')
@@ -418,14 +412,14 @@
                             console.log('请求公司下级详情数据超时')
                             return false
                         })
-                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
-                        .then( res => {
-                            _self.tableData2 = res.data.data
-                        })
-                        .catch( res=> {
-                            console.log('请求公司员工数据超时')
-                            return false
-                        })
+//                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
+//                        .then( res => {
+//                            _self.tableData2 = res.data.data
+//                        })
+//                        .catch( res=> {
+//                            console.log('请求公司员工数据超时')
+//                            return false
+//                        })
                     $('.list').find('li').removeClass('active')
                     $('.head_quarters').removeClass('active')
                     $('.L'+ parent+' .J'+ index).addClass('active')
@@ -441,7 +435,6 @@
                     })
                     .catch( res=> {
                         console.log('请求公司数据超时')
-                        return false
                     })
             },
             del(index) {
@@ -461,37 +454,36 @@
                                 self.$axios.get('/iem_hrm/organ/queryOrganList')
                                     .then( res => {
                                         self.companies = res.data.data[0]
+                                        if(!self.companies){
+                                            return
+                                        }else {
+                                            self.$axios.get('/iem_hrm/organ/queryCurrentAndParentOrganDetail/'+self.companies.organNo)
+                                                .then( res => {
+                                                    self.content = res.data.data
+                                                })
+                                                .catch( res=> {
+                                                    console.log('请求公司详情数据超时')
+                                                })
+                                            self.$axios.get('/iem_hrm/organ/queryChildOrganDetail/'+self.companies.organNo)
+                                                .then( res => {
+                                                    self.tableData = res.data.data
+                                                })
+                                                .catch( res=> {
+                                                    console.log('请求公司下级详情数据超时')
+                                                })
+                                        }
                                         self.$nextTick(function () {
                                             var ulObj = $('.common-list')
                                             let length = ulObj.length
                                             for (let index=0;index<length;index++) {
                                                 let obj = ulObj[index]
-                                                if (index!=1) {
-                                                    $(obj).slideUp(0)
-                                                }
+                                                $(obj).slideUp(0)
                                             }
-                                            $('.list>li:nth-child(2)').addClass('active')
+                                            $('.head_quarters').addClass('active')
                                         })
                                     })
                                     .catch( res=> {
                                         console.log('请求公司数据超时')
-                                        return false
-                                    })
-                                self.$axios.get('/iem_hrm/organ/queryCurrentAndParentOrganDetail/0')
-                                    .then( res => {
-                                        self.content = res.data.data
-                                    })
-                                    .catch( res=> {
-                                        console.log('请求公司详情数据超时')
-                                        return false
-                                    })
-                                self.$axios.get('/iem_hrm/organ/queryChildOrganDetail/0')
-                                    .then( res => {
-                                        self.tableData = res.data.data
-                                    })
-                                    .catch( res=> {
-                                        console.log('请求公司下级详情数据超时')
-                                        return false
                                     })
                             } else {
                                 this.$message({

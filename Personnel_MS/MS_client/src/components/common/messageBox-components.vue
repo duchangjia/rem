@@ -1,9 +1,9 @@
-1<template>
+<template>
     <div>
         <el-dialog :title="title"
         @close="dialogClose()"
         @open="dialogOpen()"
-        :visible.sync="dialogVisible" 
+        :visible.sync="dialogVisible"
         >
             <div class="item-box">
                 <el-form class="clearfix">
@@ -14,10 +14,7 @@
                         <el-input :placeholder="inputSecOption.placeholder" v-model="custInfo.stateNo" >
                         </el-input>
                     </el-form-item>
-                    <!-- <el-form-item :label="item.labelName" v-for="item in inputOption">
-                        <el-input :placeholder="item.placeholder" :v-model="item.modelKey">
-                        </el-input>
-                    </el-form-item> -->
+                   
                     <div class="button-box">
                         <el-button class="toolBtn restBtn" @click="reset()">重置</el-button>
                         <el-button class="toolBtn" @click="getList()">查询</el-button>
@@ -118,13 +115,6 @@ export default {
         }
       })
       .catch(e => {
-          console.log(e,"错误信息")
-          if(this.assNoHidden){
-            this.applyUserInfo = {};
-          }else{
-            this.assetInfo = {};
-          }
-          
           this.$message({
             message:e.retMsg,
             type: "error"
@@ -139,7 +129,8 @@ export default {
       this.custInfo = {};
     },
     dialogClose(){
-      this.$emit('update:dialogVisible',false);
+      this.$emit('changeDialogVisible',false);
+//        this.dialogVisible = false
     },
     handleCurrentChange(row, event, column) {
       this.custInfo = {}
@@ -161,36 +152,7 @@ export default {
     },
     confirm(){
       let self =this;
-      self.$emit('update:dialogVisible',false);
-      if(this.saveUrl == ''){
-        return false;
-      }
-      self.$axios
-        .get(
-          self.saveUrl+
-          self.custInfo.stateNo
-        )
-        .then(res => {
-          if (res.data.code == 'F00002') {
-            self.$emit('changeNo','');
-             self.$emit('confirmSearch',{});
-            self.$message({
-              message:res.data.retMsg,
-              type: "error"
-            });
-          }else{
-            self.dialogVisible = false;
-            self.$emit('changeNo', self.custInfo.stateNo);
-            self.$emit('confirmSearch',res.data.data)
-          }
-        })
-        .catch(e => {
-          this.applyUserInfo = {};
-          self.$message({
-            message:e.retMsg,
-            type: "error"
-          });
-        });
+      self.$emit('dialogConfirm',self.custInfo);
     }
     
   },
@@ -280,11 +242,11 @@ export default {
 .item-box .my-autocomplete .highlighted .addr {
   color: #ddd;
 }
-.el-radio__input.is-checked .el-radio__inner,.el-radio__input.is-focus .el-radio__inner{
+.item-box .el-radio__input.is-checked .el-radio__inner,.el-radio__input.is-focus .el-radio__inner{
     background:#f90;
     border-color:#f90;
 }
-.el-radio__inner:after {
+.item-box .el-radio__inner:after {
     width: 6px;
     height: 6px;
     border-radius: 50%;
@@ -296,7 +258,7 @@ export default {
     transform: translate(-50%,-50%) scale(0);
     transition: transform .15s cubic-bezier(.71,-.46,.88,.6);
 }
-.el-radio__input.is-checked .el-radio__inner:after ,.el-radio__input.is-focus .el-radio__inner:after{
+.item-box .el-radio__input.is-checked .el-radio__inner:after ,.el-radio__input.is-focus .el-radio__inner:after{
     transform: translate(-50%,-50%) scale(1);
 }
 .item-box .button-box .toolBtn {
@@ -330,7 +292,7 @@ export default {
 .el-dialog__headerbtn{font-size:14px;}
 .el-dialog__headerbtn .el-dialog__close{color:#ff9900;}
 .el-dialog--small{width:80%;}
-.item-box .el-form-item{width:270px;}
+.item-box .el-form-item{width:270px;display:inline-block;}
 .el-form-item.is-required .el-form-item__label:before{display:none;}
 .el-dialog__footer{text-align:left;padding-left:40px;}
 .el-dialog__footer .el-button--primary{background:#f4f4f4;color:#333;border:none;padding:10px 40px;}

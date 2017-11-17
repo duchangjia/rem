@@ -31,14 +31,10 @@
                                 :inputFirstOption.sync="inputFirstOption" 
                                 :inputSecOption.sync="inputSecOption"
                                 :searchData.sync="searchData" 
-                                :pagination.sync="msgPagination" 
-                                :saveUrl="saveUrl"
                                 :searchUrl="searchUrl"
-                                :assetNo.sync = "info.assetNo"
                                 :dialogVisible.sync="dialogVisible"
-                                @changeNo="changeNo"
-                                @changeDialogVisible="changeDialogVisible"
-                                @confirmSearch = "confirmSearch"
+                                :pagination.sync="msgPagination"
+                                @dialogConfirm="dialogConfirm"
                                 ></messageBox>
                         </el-form-item>
                         <el-form-item label="姓名">
@@ -128,18 +124,13 @@
                         <el-form-item label="状态" prop="applyStatus">
                             <el-select placeholder="请选择状态" v-model="applyInfo.applyStatus">
                                 <el-option label="未核销/未归还" value="01"></el-option>
-                                <el-option label="已核销/已归还" value="02"></el-option>
+                                <el-option label="已核销/已归还" value="02" :disabled="true"></el-option>
                                 <el-option label="不需要核销/不需要归还" value="03"></el-option>
                             </el-select>
                         </el-form-item>
                         <el-form-item label="说明" prop="remark">
                             <el-input type="textarea" v-model="applyInfo.remark"></el-input>
                         </el-form-item>
-
-                        <!--<el-form-item>-->
-                            <!--<el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>-->
-                            <!--<el-button @click="resetForm('ruleForm')">重置</el-button>-->
-                        <!--</el-form-item>-->
                     </el-form>
                 </div>
             </div>
@@ -191,29 +182,40 @@ export default {
     };
   },
   methods: {
-    changeNo(val){
-        console.log(val,'zhidedede')
-        switch(this.numType){
-            case 1:
-                this.info.applyUserNo = val
-            break;
-            case 2:
-                this.info.assetNo = val
-            break;
-        }
-    },
-    changeDialogVisible(flag){
-        this.dialogVisible = flag
-    },
-    confirmSearch(val){
-        switch(this.numType){
-            case 1:
-                this.applyUserInfo = val
-            break;
-            case 2:
-                this.assetInfo = val
-            break;
-        }
+    dialogConfirm(ajaxNo){
+        let self = this;
+        self.$axios
+        .get(
+          self.saveUrl+
+          ajaxNo
+        )
+        .then(res => {
+          if (res.data.code == 'F00002'){
+            self.$message({
+              message:res.data.retMsg,
+              type: "error"
+            });
+          }else{
+            self.dialogVisible = false;
+            switch(self.numType){
+                case 1:
+                    self.applyUserInfo = res.data.data
+                    self.info.applyUserNo = ajaxNo
+                break;
+                case 2:
+                    self.assetInfo = res.data.data
+                     self.info.assetNo = ajaxNo
+                break;
+            }
+          }
+        })
+        .catch(e => {
+          this.applyUserInfo = {};
+          self.$message({
+            message:e.retMsg,
+            type: "error"
+          });
+        });
     },
     userNoSelect(){
         //table
@@ -249,7 +251,6 @@ export default {
             totalRows:0
         }
         //点击确定后需要修改的对象 numType为changeNo方法所改变的type
-        this.applyUserInfo = this.applyUserInfo
         this.numType = 1
         //dialog打开
         this.dialogVisible=true

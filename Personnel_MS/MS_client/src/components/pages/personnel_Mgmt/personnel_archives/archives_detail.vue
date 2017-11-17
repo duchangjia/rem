@@ -141,24 +141,25 @@
                                         <el-col :span="8">
                                             <el-form-item label="公司名称" prop="organName">
                                                 <!--<el-input v-model="ruleForm.userName"></el-input>-->
-                                                <el-select v-model="ruleForm.organNo" placeholder="请选择公司名称" :disabled="edit">
+                                                <el-select v-model="ruleForm.organNo" placeholder="请选择公司名称" :disabled="edit" @change="selectDep(ruleForm2.organNo)">
                                                     <el-option :label="item.organName" :value="item.organNo" v-for="item in basicInfo.company"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="部门名称" prop="derpName">
-                                                <el-select v-model="ruleForm.derpName" placeholder="请选择部门名称" :disabled="edit">
+                                                <el-select v-model="ruleForm.derpName" placeholder="请选择部门名称" :disabled="edit" @change="selectCCC(ruleForm2.organNo)">
                                                     <el-option :label="item.derpName" :value="item.derpNo" v-for="item in basicInfo.department"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="CCC" prop="ownerCCC">
-                                                <el-select v-model="ruleForm.ownerCCC" placeholder="请选择CCC" :disabled="edit">
-                                                    <el-option label="管理CCC" value="01"></el-option>
-                                                    <el-option label="售前CCC" value="02"></el-option>
-                                                    <el-option label="项目CCC" value="03"></el-option>
+                                                <el-select v-model="ruleForm.ownerCCC" placeholder="请选择CCC" :disabled="edit" @change="selectCCC(ruleForm2.organNo)">
+                                                    <!--<el-option label="管理CCC" value="01"></el-option>-->
+                                                    <!--<el-option label="售前CCC" value="02"></el-option>-->
+                                                    <!--<el-option label="项目CCC" value="03"></el-option>-->
+                                                    <el-option :label="item.derpName" :value="item.derpNo" v-for="item in basicInfo.CCC"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -494,6 +495,7 @@
                     degree:'',
                     company:'',
                     department:'',
+                    CCC:'',
                 },
                 dialogImageUrl: '',
                 dialogVisible: false,
@@ -813,6 +815,16 @@
                 this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
                     .then(res=>{
                         this.basicInfo.department = res.data.data
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
+            },
+            selectCCC(organNo) {
+                let data = {organNo}
+                this.$axios.get('/iem_hrm/organ/queryOrgCCCList',{params:data})
+                    .then(res=>{
+                        this.basicInfo.CCC = res.data.data
                     })
                     .catch(e=>{
                         console.log(e)
