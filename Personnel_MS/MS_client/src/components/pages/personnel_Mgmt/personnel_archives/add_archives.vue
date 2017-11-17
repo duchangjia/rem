@@ -167,7 +167,7 @@
                                                     <!--<el-option label="管理CCC" value="01"></el-option>-->
                                                     <!--<el-option label="售前CCC" value="02"></el-option>-->
                                                     <!--<el-option label="项目CCC" value="03"></el-option>-->
-                                                    <el-option :label="item.derpName" :value="item.derpNo" v-for="item in basicInfo.CCC"></el-option>
+                                                    <el-option :label="item=='01'?'管理CCC':item=='02'?'售前CCC':'项目CCC'" :value="item" v-for="item in basicInfo.CCC"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -177,15 +177,15 @@
                                                     <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
                                                 </el-input>
                                                 <messageBox
-                                                        :assNoHidden="assNoHidden"
-                                                        :assNoShow="assNoShow"
                                                         :title="boxTitle"
-                                                        :labelFirst="labelFirst"
-                                                        :labelSec="labelSec"
-                                                        :saveUrl="saveUrl"
+                                                        :tableOption.sync="tableOption"
+                                                        :inputFirstOption.sync="inputFirstOption"
+                                                        :inputSecOption.sync="inputSecOption"
+                                                        :searchData.sync="searchData"
                                                         :searchUrl="searchUrl"
-                                                        :applyUserNo.sync="formdata.organMgeName"
-                                                        :dialogVisible.sync="dialogVisible"
+                                                        :dialogVisible="dialogVisible"
+                                                        :pagination.sync="msgPagination"
+                                                        @dialogConfirm="dialogConfirm"
                                                         @changeDialogVisible="changeDialogVisible"
                                                 ></messageBox>
                                             </el-form-item>
@@ -413,32 +413,7 @@
                                 <div class="fourth-wrapper">
                                     <div class="title"><span>教育背景</span><span  class="text" @click="add_edu_experience">添加</span></div>
                                     <div class="from-wrapper">
-                                        <el-form :model="ruleForm5" :rules="rules5" ref="ruleForm5" label-width="100px">
-                                            <el-form-item label="时间" prop="date1">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm5.date1"></el-date-picker>
-                                            </el-form-item>
-                                            <el-form-item label="至" prop="date2">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm5.date2"></el-date-picker>
-                                            </el-form-item>
-                                            <el-form-item label="学校名称" prop="school">
-                                                <el-input v-model="ruleForm5.school"></el-input>
-                                            </el-form-item>
-                                            <el-form-item label="专业" prop="major">
-                                                <el-input v-model="ruleForm5.major"></el-input>
-                                            </el-form-item>
-                                            <el-form-item label="学历" prop="degree">
-                                                <el-input v-model="ruleForm5.degree"></el-input>
-                                            </el-form-item>
-                                            <el-form-item label="描述" prop="dec">
-                                                <el-input v-model="ruleForm5.dec"></el-input>
-                                            </el-form-item>
-                                            <div class="button-wrapper">
-                                                <button>保存</button>
-                                                <button class="button_special">取消</button>
-                                                <span @click="delWorkItem">删除本条</span>
-                                            </div>
-                                        </el-form>
-                                        <div v-for="(item, index) in project_item.lists" style="margin-top: 20px; position: relative">
+                                        <div v-for="(item, index) in education_item.lists" style="margin-top: 20px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fourth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
                                                 <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
                                                 <el-col :span="12">
@@ -452,8 +427,8 @@
                                                     </div>
                                                 </el-col>
                                                 <el-col :span="12">
-                                                    <el-form-item label="学校名称" prop="school">
-                                                        <el-input v-model="item.school" :disabled="item.isShowEdit"></el-input>
+                                                    <el-form-item label="学校名称" prop="schoolName">
+                                                        <el-input v-model="item.schoolName" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
@@ -462,8 +437,8 @@
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
-                                                    <el-form-item label="学历" prop="degree">
-                                                        <el-select v-model="item.degree" :disabled="item.isShowEdit">
+                                                    <el-form-item label="学历" prop="education">
+                                                        <el-select v-model="item.education" :disabled="item.isShowEdit">
                                                             <el-option value="01" label="高中以下"></el-option>
                                                             <el-option value="02" label="高中"></el-option>
                                                             <el-option value="03" label="大专"></el-option>
@@ -569,7 +544,7 @@
                                         <div class="upload_text_text">添加照片/文件<br>按住Ctrl可多选</div>
                                         <!--<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
                                     </el-upload>
-                                    <el-dialog v-model="dialogVisible" size="tiny">
+                                    <el-dialog v-model="dialogVisible2" size="tiny">
                                         <img width="100%" :src="dialogImageUrl" alt="">
                                     </el-dialog>
                                 </div>
@@ -586,9 +561,9 @@
 </template>
 
 <script type='text/ecmascript-6'>
-    import current from "../../../common/current_position.vue";
+    import current from "../../../common/current_position.vue"
     import socialRelationItem from './social_relation_item.vue'
-    import messageBox from "../../../common/messageBox-components.vue";
+    import messageBox from "../../../common/messageBox-components.vue"
     import moment from 'moment'
     export default {
         data() {
@@ -602,7 +577,17 @@
                   CCC:'',
               },
               dialogImageUrl: '',
+              dialogVisible2: false,
               dialogVisible: false,
+              tableOption:[],
+              inputFirstOption:{},
+              inputSecOption:{},
+              msgPagination:{},
+              searchData:{},
+              searchUrl:'',
+              saveUrl:'',
+              boxTitle:'',
+              numType:'',
               social_item:{
                   userNo:'',
                   lists:[
@@ -621,7 +606,6 @@
                   userNo:'',
                   lists:[
                       {
-//                          projectId: '',
                           startTime: '',
                           endTime: '',
                           projectName: '',
@@ -630,6 +614,20 @@
                           softEnv: '',
                           custom: '',
                           projectDuty: '',
+                          desc: '',
+                          isShowEdit: false
+                      },
+                  ]
+              },
+              education_item:{
+                  userNo:'',
+                  lists:[
+                      {
+                          startTime: '',
+                          endTime: '',
+                          schoolName: '',
+                          major: '',
+                          education: '',
                           desc: '',
                           isShowEdit: false
                       },
@@ -707,7 +705,6 @@
                   ],
               },
               ruleForm2: {
-//                  userNo: '',
                   organNo: '',
                   derpNo: '',
                   ownerCCC: '',
@@ -806,17 +803,6 @@
                       {required: true, message: '请选择日期', trigger: 'blur'}
                   ],
               },
-              ruleForm5: {
-                  startTime: '',
-                  endTime: '',
-                  projectName: '',
-                  mainSkill: '',
-                  projectRole: '',
-                  softEnv: '',
-                  custom: '',
-                  projectDuty: '',
-                  desc: '',
-              },
               rules5: {
                   startTime: [
                       {type:'date', required: true, message: '请选择日期范围', trigger: 'change'}
@@ -845,20 +831,20 @@
                   desc: [
                       {required: true, message: '请输入项目描述', trigger: 'blur'}
                   ],
-                  school: [
+                  schoolName: [
                       {required: true, message: '请输入学校名称', trigger: 'blur'}
                   ],
                   major: [
                       {required: true, message: '请输入专业', trigger: 'blur'}
                   ],
-                  degree: [
+                  education: [
                       {required: true, message: '请选择学历', trigger: 'change'}
                   ],
               },
           }
         },
         components: {
-            current,socialRelationItem
+            current,socialRelationItem,messageBox
         },
         created() {
             let self = this
@@ -924,11 +910,18 @@
                 this.dialogVisible = true;
             },
             handleClick(tab, event) {
-                console.log(tab, event);
+//                console.log(tab, event);
                 this.tabName = tab.name
             },
             handleFileUpload() {
 
+            },
+            dialogConfirm(custInfo){
+                let self = this;
+                self.ruleForm2.lineManager = custInfo.stateName+'_'+custInfo.stateNo
+//                self.formdata.organMgeName = custInfo.stateName
+//                self.ruleForm2.lineManager = custInfo.stateNo
+                self.dialogVisible = false;
             },
             userNoSelect(){
                 //table
@@ -964,21 +957,24 @@
                     totalRows:0
                 }
                 //点击确定后需要修改的对象 numType为changeNo方法所改变的type
-                this.applyUserInfo = this.applyUserInfo
                 this.numType = 1
                 //dialog打开
                 this.dialogVisible=true
                 //查询接口
                 this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
                 //点击确定后根据号码查询用户信息借口 没有则为空
-                this.saveUrl = '/iem_hrm/assetUse/queryAssetUserByApplyUserNo/'
+                this.saveUrl = ''
                 //dialog标题
                 this.boxTitle = '人工编号选择'
+            },
+            changeDialogVisible(val) {
+                this.dialogVisible=val
             },
             selectDep(organNo) {
                 let data = {organNo}
                 this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
                     .then(res=>{
+                        this.ruleForm2.derpNo = ''
                         this.basicInfo.department = res.data.data
                     })
                     .catch(e=>{
@@ -986,8 +982,7 @@
                     })
             },
             selectCCC(organNo) {
-                let data = {organNo}
-                this.$axios.get('/iem_hrm/organ/queryOrgCCCList',{params:data})
+                this.$axios.get('/iem_hrm/organ/queryOrganCCCManagementByOrganNo/'+organNo)
                     .then(res=>{
                         this.basicInfo.CCC = res.data.data
                     })
@@ -1021,6 +1016,7 @@
 //                                                "P0000129"
                                                 self.social_item.userNo = res.data.data
                                                 self.project_item.userNo = res.data.data
+                                                self.education_item.userNo = res.data.data
                                             }else{
                                                 self.$message({
                                                     type: 'error',
@@ -1064,43 +1060,6 @@
                         this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
                         this.$refs['ruleFrom'+i][0].isShowEdit = true
                     }
-//                    this.social_item.userNo = 'P0000129'
-//                    let data = {
-//                        userNo:'P0000003',
-//                        lists:[
-//                            {
-//                                contactId: '1',
-//                                contactName: '小妹妹',
-//                                relationship: '朋友',
-//                                telphone: '13444444444',
-//                                profession: '医生',
-//                                post: '医生',
-//                                addr: '深圳',
-//                            },
-//                            {
-//                                contactId: '2',
-//                                contactName: '小哥哥',
-//                                relationship: '同学',
-//                                telphone: '13444444444',
-//                                profession: '老板',
-//                                post: '老板',
-//                                addr: '美国',
-//                            }
-//                        ]
-//                    }
-//                    var params = new URLSearchParams();
-//                    params.append('userNo', 'P0000003');
-//                    params.append('lists', data.lists);
-//                    let item = {
-//                        userNo:'P0000003',
-//                        'lists[0].contactId':'1',
-//                        'lists[0].contactName':'小芳方',
-//                        'lists[0].relationship':'兄弟',
-//                        'lists[0].telphone':'13766666666',
-//                        'lists[0].profession':'医生',
-//                        'lists[0].post':'医生',
-//                        'lists[0].addr':'深圳',
-//                    }
                     console.log(this.social_item)
                     this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
                         .then(res=>{
@@ -1112,45 +1071,41 @@
                             console.log(e)
                         })
                 }
-                if('fifth'===tabName) {
-//                    this.project_item.userNo = 'P0000120'
-                    if(!this.project_item.userNo){
+                if('fourth'===tabName) {
+                     this.education_item.userNo = 'P0000120'
+                    if(!this.education_item.userNo){
                         self.$message({
                             type: 'error',
                             message: '请先填写基本信息并点击右上角保存'
                         });
                         return
                     }
-                    let projectItemLength = this.project_item.lists.length
+                    let educationItemLength = this.education_item.lists.length
                     let data = {
-                        userNo : this.project_item.userNo,
-                        lists : this.project_item.lists.map(item=>{
+                        userNo : this.education_item.userNo,
+                        lists : this.education_item.lists.map(item=>{
                             return {
-//                                projectId: item.projectId,
                                 startTime: item.startTime,
                                 endTime: item.endTime,
-                                projectName: item.projectName,
-                                mainSkill: item.mainSkill,
-                                projectRole: item.projectRole,
-                                softEnv: item.softEnv,
-                                custom: item.custom,
-                                projectDuty: item.projectDuty,
+                                schoolName: item.schoolName,
+                                major: item.major,
+                                education: item.education,
                                 desc: item.desc,
                             }
                         }),
                     }
-                    var count = 0
-                    for (let i=0;i<projectItemLength;i++){
-                        let name = 'fifth'+i
+                    let count = 0
+                    for (let i=0;i<educationItemLength;i++){
+                        let name = 'fourth'+i
                         self.$refs[name][0].validate((valid) => {
                             if (valid) {
                                 count++
-                                this.project_item.lists[i].isShowEdit = true
+                                this.education_item.lists[i].isShowEdit = true
                                 data.lists[i].startTime = moment(data.lists[i].startTime).format('YYYY-MM-DD')
                                 data.lists[i].endTime = moment(data.lists[i].endTime).format('YYYY-MM-DD')
-                                if(count==projectItemLength){
+                                if(count==educationItemLength){
                                     console.log(data,111)
-                                    this.$axios.post('/iem_hrm/employeeProjectExperience/addEmployeeProjectExperienceInfo', data)
+                                    this.$axios.post('/iem_hrm/epCustEduHis/saveEpCustEduHiss', data)
                                         .then(res=>{
                                             console.log(res)
                                             let result = res.data.retMsg
@@ -1165,7 +1120,73 @@
                                                     message: result
                                                 });
                                             }
-
+                                        })
+                                        .catch(e=>{
+                                            console.log(e)
+                                            self.$message({
+                                                type: 'error',
+                                                message: '添加失败,请稍后重试！'
+                                            });
+                                        })
+                                }
+                            } else {
+                                self.$message({
+                                    type: 'error',
+                                    message: '请填写完整信息！'
+                                });
+                            }
+                        });
+                    }
+                }
+                if('fifth'===tabName) {
+                    if(!this.project_item.userNo){
+                        self.$message({
+                            type: 'error',
+                            message: '请先填写基本信息并点击右上角保存'
+                        });
+                        return
+                    }
+                    let projectItemLength = this.project_item.lists.length
+                    let data = {
+                        userNo : this.project_item.userNo,
+                        lists : this.project_item.lists.map(item=>{
+                            return {
+                                startTime: item.startTime,
+                                endTime: item.endTime,
+                                projectName: item.projectName,
+                                mainSkill: item.mainSkill,
+                                projectRole: item.projectRole,
+                                softEnv: item.softEnv,
+                                custom: item.custom,
+                                projectDuty: item.projectDuty,
+                                desc: item.desc,
+                            }
+                        }),
+                    }
+                    let count = 0
+                    for (let i=0;i<projectItemLength;i++){
+                        let name = 'fifth'+i
+                        self.$refs[name][0].validate((valid) => {
+                            if (valid) {
+                                count++
+                                this.project_item.lists[i].isShowEdit = true
+                                data.lists[i].startTime = moment(data.lists[i].startTime).format('YYYY-MM-DD')
+                                data.lists[i].endTime = moment(data.lists[i].endTime).format('YYYY-MM-DD')
+                                if(count==projectItemLength){
+                                    this.$axios.post('/iem_hrm/employeeProjectExperience/addEmployeeProjectExperienceInfo', data)
+                                        .then(res=>{
+                                            let result = res.data.retMsg
+                                            if(result==='操作成功'){
+                                                self.$message({
+                                                    type: 'success',
+                                                    message: result
+                                                });
+                                            }else {
+                                                self.$message({
+                                                    type: 'error',
+                                                    message: result
+                                                });
+                                            }
                                         })
                                         .catch(e=>{
                                             console.log(e)
@@ -1186,8 +1207,6 @@
                 }
             },
             add_item() {
-                console.log('add_item')
-
                 let item = {
                         contactId: '',
                         contactName: '',
@@ -1205,18 +1224,23 @@
             delRelationItem(relationNum) {
                 this.social_item.lists.splice(relationNum,1)
             },
-//            editRelationItem(relationNum) {
-//                this.social_item[relationNum].isShow = true
-//            },
             add_edu_experience() {
-
+                let item = {
+                        startTime: '',
+                        endTime: '',
+                        schoolName: '',
+                        major: '',
+                        education: '',
+                        desc: '',
+                        isShowEdit: false
+                    }
+                this.education_item.lists.push(item)
             },
             add_experience(){
 
             },
             add_pro_experience() {
                 let item = {
-//                        projectId: '',
                         startTime: '',
                         endTime: '',
                         projectName: '',
@@ -1228,13 +1252,13 @@
                         desc: '',
                         isShowEdit: false
                     }
-//                new socialRelationItem().$mount().$appendTo('#secondContentWrapper')
                 this.project_item.lists.push(item)
             },
             delWorkItem() {
 
             },
             proSave() {
+                // 可删
                 if('fifth'===tabName) {
 //                    this.project_item.userNo = 'P0000129'
                     if(!this.project_item.userNo){
@@ -1264,23 +1288,45 @@
                 }
             },
             proDel(isShow,index) {
-                if(!isShow)  {
-                    this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        this.project_item.lists.splice(index,1)
-                    }).catch(()=>{
-                        this.$message({
-                            type: 'info',
-                            message: '已取消删除'
-                        });
-                    })
+                if('fifth'==this.tabName){
+                    if(!isShow)  {
+                        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() => {
+                            this.project_item.lists.splice(index,1)
+                        }).catch(()=>{
+                            this.$message({
+                                type: 'info',
+                                message: '已取消删除'
+                            });
+                        })
+                    }
+                    if(isShow) {
+                        this.project_item.lists[index].isShowEdit = !isShow
+                    }
                 }
-                if(isShow) {
-                    this.project_item.lists[index].isShowEdit = !isShow
+                if('fourth'==this.tabName){
+                    if(!isShow)  {
+                        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                            confirmButtonText: '确定',
+                            cancelButtonText: '取消',
+                            type: 'warning'
+                        }).then(() => {
+                            this.education_item.lists.splice(index,1)
+                        }).catch(()=>{
+                            this.$message({
+                                type: 'info',
+                                message: '已取消删除'
+                            });
+                        })
+                    }
+                    if(isShow) {
+                        this.education_item.lists[index].isShowEdit = !isShow
+                    }
                 }
+
             },
 
         },
