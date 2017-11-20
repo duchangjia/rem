@@ -18,7 +18,7 @@
                             <el-select placeholder="请选择机构类型" v-model="formdata.organType">
                                 <el-option label="总公司" value="01" v-show="show<1&&show==0"></el-option>
                                 <el-option label="分公司" value="02" v-show="show<2&&show==1"></el-option>
-                                <el-option label="办事处" value="03" v-show="show<2&&show==1"></el-option>
+                                <!--<el-option label="办事处" value="03" v-show="show<2&&show==1"></el-option>-->
                                 <el-option label="部门" value="04" v-show="show<=4&&(show==1||show==2||show==3||show==4)"></el-option>
                             </el-select>
                         </el-form-item>
@@ -77,9 +77,6 @@
                     organName: [
                         {  required: true, message: '部门名称不能为空', trigger: 'blur' }
                     ],
-                    organParentName: [
-                        {  required: true, message: '上级部门不能为空', trigger: 'blur' }
-                    ],
                     organMgeName: [
                         {  required: true, message: '部门主管不能为空', trigger: 'blur' }
                     ],
@@ -119,7 +116,8 @@
             this.formdata.parentNo = index
             this.$axios.get(`/iem_hrm/organ/queryCurrentAndParentOrganDetail/${index}`)
                 .then(res => {
-                    this.formdata.parentName = res.data.data.organName
+                    console.log(res)
+                    this.formdata.organParentName = res.data.data.organName
                     this.formdata.choose = res.data.data.organType
 //                    this.formdata.choose = res.data.data.organNo
                 })

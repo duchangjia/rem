@@ -328,11 +328,11 @@
                                         </el-col>
                                         <el-col :span="9">
                                                 <el-form-item label="附件">
-                                                    <el-input v-model="ruleForm2.attachm"></el-input>
+                                                    <el-input v-model="ruleForm2.attachm" style="position:absolute"></el-input>
                                                     <el-upload class="upload-demo" ref="upload" name="file"
                                                                :on-change="handleFileUpload"
                                                                :on-success="successUpload"
-                                                               action="https://jsonplaceholder.typicode.com/posts/"
+                                                               action="/iem_hrm/CustFile/upload"
                                                                :show-file-list="false"
                                                                :auto-upload="false"
                                                                :headers="token">
@@ -346,7 +346,7 @@
                             <el-tab-pane label="社会关系" name="second">
                                 <div class="second-wrapper">
                                     <div class="second_title">
-                                        <span>成员信息</span><span class="text" @click="add_item">添加</span>
+                                        <span>社会关系</span><span class="text" @click="add_item">添加</span>
                                     </div>
                                     <div class="second_content_wrapper" id="secondContentWrapper">
                                         <socialRelationItem v-for="(item, index) in social_item.lists" :ruleFrom="item" :relationNum="index" @del_item="delRelationItem"
@@ -356,7 +356,7 @@
                             </el-tab-pane>
                             <el-tab-pane label="工作经历" name="third" class="third_special">
                                 <div class="third-wrapper">
-                                    <div class="title"><span>工作经历</span><span  class="text" @click="add_work_experience">添加</span></div>
+                                    <div class="title"><span>工作经历</span><span class="text" @click="add_work_experience">添加</span></div>
                                     <div class="from-wrapper">
                                         <div v-for="(item, index) in work_item.lists" style="margin-top: 20px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`third${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
@@ -563,17 +563,21 @@
                             <el-tab-pane label="证件管理" name="sixth">
                                 <div class="sixth_wrapper">
                                     <el-upload
-                                            action="https://jsonplaceholder.typicode.com/posts/"
                                             list-type="picture-card"
                                             :on-preview="handlePictureCardPreview"
                                             :on-remove="handleRemove"
-                                            multiple>
+                                            multiple
+                                            :on-change="handleFileUpload"
+                                            :on-success="successUpload"
+                                            :before-upload="checkUserNo"
+                                            action="/iem_hrm/CustFile/upload"
+                                            :headers="token">
                                         <i class="el-icon-plus"></i>
                                         <div class="upload_text_text">添加照片/文件<br>按住Ctrl可多选</div>
                                         <!--<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
                                     </el-upload>
                                     <el-dialog v-model="dialogVisible2" size="tiny">
-                                        <img width="100%" :src="dialogImageUrl" alt="">
+                                        <img width="100%" :src="dialogImageUrl" alt="pic">
                                     </el-dialog>
                                 </div>
                             </el-tab-pane>
@@ -604,7 +608,13 @@
                 department:'',
                   CCC:'',
               },
+
               dialogImageUrl: '',
+              fileFlag: '',
+              token: {
+                  Authorization:`Bearer `+localStorage.getItem('access_token'),
+              },
+
               dialogVisible2: false,
               dialogVisible: false,
               tableOption:[],
@@ -675,6 +685,9 @@
                           isShowEdit: false
                       },
                   ]
+              },
+              certificates_list:{
+                userNo:''
               },
               activeName: 'first',
               tabName:'first',
@@ -968,8 +981,26 @@
 //                console.log(tab, event);
                 this.tabName = tab.name
             },
-            handleFileUpload() {
-
+            handleFileUpload(file, fileList) {
+                if('first'==this.tabName) {
+                    this.fileFlag = file;
+                    this.ruleForm2.attachm = file.name;
+                }
+                if('sixth'==this.tabName) {
+                    console.log(file)
+                    {
+                        file
+                    }
+//                    this.fileFlag = file;
+//                    this.ruleForm2.attachm = file.name;
+                }
+            },
+            successUpload(response, file, fileList) {
+                console.log(response)
+                if(response.code === "S00000") {
+                    this.$message({ message: '操作成功', type: 'success' });
+//                    this.$router.push('/travel_management');
+                }
             },
             dialogConfirm(custInfo){
                 let self = this;
@@ -1067,6 +1098,7 @@
                                                 self.project_item.userNo = res.data.data
                                                 self.education_item.userNo = res.data.data
                                                 self.work_item.userNo = res.data.data
+                                                self.certificates_list.userNo = res.data.data
                                             }else{
                                                 self.$message({
                                                     type: 'error',
@@ -1324,6 +1356,12 @@
                     }
                 }
             },
+            checkUserNo(file) {
+                if(!this.certificates_list.userNo){
+                    return
+                }
+                console.log(file,111,this.certificates_list.userNo)
+            },
             add_item() {
                 let item = {
                         contactName: '',
@@ -1572,7 +1610,7 @@
                             border-radius 4px
                             font-family: PingFangSC-Regular;
                             font-size: 14px;
-                            color: #333333;
+                            color: #97A8BE;
                             letter-spacing: 0;
                             border 1px solid #bfcbd9;
                             padding 12px 15px
@@ -1596,7 +1634,7 @@
                             border-radius 4px
                             font-family: PingFangSC-Regular;
                             font-size: 14px;
-                            color: #333333;
+                            color: #97A8BE;
                             letter-spacing: 0;
                             border 1px solid #bfcbd9;
                             padding 12px 10px
@@ -1604,10 +1642,11 @@
                                 margin 0 19px
                     .text
                         padding-left 8px
-                        margin 40px 0
+                        margin 20px 0
                         font-family: PingFangSC-Regular;
                         font-size: 14px;
                         color: #333333;
+                        font-weight bold
                         letter-spacing: 0;
                     .el-form-item
                         margin-bottom 30px
@@ -1615,12 +1654,13 @@
                             padding 11px 30px 11px 0
                             font-family: PingFangSC-Regular;
                             font-size: 14px;
-                            color: #3F3F3F;
+                            color: #999;
                             letter-spacing: 0;
                             height 40px
                             margin-bottom  0
                     .upload-demo
-                        height 0
+                        position absolute
+                        width 200px
                     .el-upload__input
                         display none
                     .uploadBtn

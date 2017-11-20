@@ -6,7 +6,7 @@
                 <div class="title"><span class="text">公司开票信息维护</span><button class="add" @click="add()">新增</button></div>
                 <div class="content clearfix">
                         <el-form :model="custInfo" :inline="true" ref="ruleForm2" class="demo-ruleForm">
-                            <el-form-item label="公司">
+                            <el-form-item label="公司名称">
                             <el-select v-model="custInfo.organNo"  placeholder="所属公司" @change="changeCompany">
                                     <el-option v-for="item in companyName" 
                                     :key="item.organNo" 

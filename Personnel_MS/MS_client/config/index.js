@@ -40,7 +40,7 @@ module.exports = {
       '/iem_hrm': {
       target: 'http://10.0.0.242:8888/',
 //      target: 'http://192.168.1.102:8888/',
-//         target: 'http://192.168.1.101:8888/',
+//         target: 'http://192.168.1.111:8888/',
         // target: 'http://10.0.0.34:8888/',
         // target: 'http://10.0.0.43:8888/',
         // target: 'http://10.0.0.16:8888/',
