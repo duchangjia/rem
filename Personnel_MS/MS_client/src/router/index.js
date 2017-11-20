@@ -515,7 +515,7 @@ const routes = [
                     ]
                 },
                 {
-                	path: '/payrollProcess',
+                	path: '/wageProcess_manage',
                 	component: resolve => require(['../components/pages/payWelfare_Mgmt/payrollProcessMgmt/payrollProcess.vue'], resolve),
                 	children: [
                 		{

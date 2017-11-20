@@ -115,8 +115,16 @@ export default {
 							menuName: '调薪管理'
 						},
 						{
-							menuUrl: 'payrollProcess',
+							menuUrl: 'wageProcess_manage',
 							menuName: '工资流程管理'
+						},
+						{
+							menuUrl: 'awardProcess_manage',
+							menuName: '奖金流程管理'
+						},
+						{
+							menuUrl: 'historyPay_query',
+							menuName: '历史薪酬查询'
 						}
 					]
 				},
@@ -218,7 +226,7 @@ export default {
 			self.$axios.get(baseURL+'/menu/queryMenuInfo')
 			.then(function(res) {
 				console.log('menuList',res);
-//				self.items = res.data.data;
+				self.items = res.data.data;
 			}).catch(function(err) {
 				console.log('error');
 			})
