@@ -50,7 +50,10 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
 						    <el-input v-model="formdata1.custClass" :disabled="true"></el-input>
-					  	</el-form-item>
+					  		<!--<el-select v-model="formdata2.custClass">
+								<el-option v-for="item in custClassList" :key="item.custClassNo" :label="item.label" :value="item.custClassNo"></el-option>
+							</el-select>-->
+						</el-form-item>
 					</el-col>  
 				</el-form>
 				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="110px">
@@ -183,6 +186,7 @@
 					{label: "会议", travelNo: "03"},
 					{label: "其他", travelNo: "99"}
 				],
+				custClassList: [],
 				rules1: {
 					userNo: [
 			 			{ required: true, message: '工号不能为空', trigger: 'blur' }
@@ -421,12 +425,5 @@
 </script>
 
 <style scoped>
-
-.travelC_wrap .queryUserBtn {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 40px;
-}
 
 </style>
