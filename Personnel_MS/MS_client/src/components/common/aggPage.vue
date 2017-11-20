@@ -242,6 +242,13 @@ import vFooter from './footer.vue';
                     data = {
                         noNameEmail:self.searchData.userNo
                     };
+                if(data.noNameEmail == ''){
+                    self.$message({
+                        type: "error",
+                        message: "查找内容不能为空！"
+                    });
+                    return;
+                }
                  self.$axios
                 .get("/iem_hrm/CustInfo/queryAllCust", { params: data })
                 .then(res => {
@@ -250,7 +257,16 @@ import vFooter from './footer.vue';
                     self.assetShow = false                    
                     // // self.pagination.total = res.data.data.total
                     // console.log(res,'列表数据');
-                    self.dialogTableVisible = true;
+                     console.log(self.gridData)
+                    if(self.gridData.length == 0){
+                        self.$message({
+                            type: "error",
+                            message: "查找内容不存在！"
+                        });
+                    }else{
+                        self.dialogTableVisible = true;
+                    }
+                    
                 })
                 .catch(e => {
                 console.log(e);
@@ -263,16 +279,32 @@ import vFooter from './footer.vue';
                     data = {
                         noNameEmail:self.searchData.accountNo
                     };
-                
+                if(data.noNameEmail == ''){
+                    self.$message({
+                        type: "error",
+                        message: "查找内容不能为空！"
+                    });
+                    return;
+                }
                self.$axios
-                .get("/iem_hrm/assetUse/queryAssUseList", { params: data })
+                .get("/iem_hrm/CustInfo/queryCustAsset", { params: data })
                 .then(res => {
-                self.gridData =  res.data.data.list
+                    console.log(res)
+                self.gridData =  res.data.data
                 self.assetShow = true
                 self.userShow = false
                 // // self.pagination.total = res.data.data.total
                 // console.log(res,'列表数据');
-                self.dialogTableVisible = true;
+                console.log(self.gridData)
+                 if(self.gridData.length == 0){
+                        self.$message({
+                            type: "error",
+                            message: "查找内容不存在！"
+                        });
+                    }else{
+                        self.dialogTableVisible = true;
+                    }
+                
                 })
                 .catch(e => {
                 console.log(e);
@@ -294,7 +326,7 @@ import vFooter from './footer.vue';
         }
     }
 </script>
-<style>
+<style lang="scss">
 .tit-size{font-size:16px;}
 .txt-size{color:#a7a7a7;}
 .mt{margin-top:20px;}
