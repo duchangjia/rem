@@ -317,16 +317,8 @@ export default {
               self.$refs.info3.validate(valid => {
                 if (valid) {
                   let data = Object.assign(this.applyInfo, this.info);
-                  this.$axios
-                    .get(
-                      "/iem_hrm/assetUse/getOrganNoAndDerpNo/" +
-                        this.applyUserInfo.organName +
-                        "/" +this.applyUserInfo.derpName
-                    )
-                    .then(res => {
-                      let obj = Object.assign(data, res.data);
-                      this.$axios
-                        .post("/iem_hrm/assetUse/addAssetUseINF", obj)
+                      self.$axios
+                        .post("/iem_hrm/assetUse/addAssetUseINF", data)
                         .then(res => {
                           let result = res.data.retMsg;
                           if ("操作成功" === result) {
@@ -347,13 +339,7 @@ export default {
                               type: "error"
                             });
                         });
-                    })
-                    .catch(e => {
-                        self.$message({
-                            message: e.retMsg,
-                            type: "error"
-                        })
-                    });
+                   
                 }
               });
             }

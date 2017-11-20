@@ -9,15 +9,22 @@
 
             <el-col :span="24" class="querybar" style="padding-bottom: 0px;">
                 <el-form :inline="true" :model="filters">
+                  <el-col :span="5">
                     <el-form-item label="工号">
                         <el-input v-model="filters.userNo" placeholder="请输入工号"></el-input>
                     </el-form-item>
+                  </el-col>
+                  <el-col :span="5">
                     <el-form-item label="姓名">
                         <el-input v-model="filters.custName" placeholder="请输入姓名"></el-input>
                     </el-form-item>
-                    <el-form-item style="margin-left:10px;">
-                        <el-button type="primary" @click="handleQuery" class="queryBtn">查询</el-button>
-                    </el-form-item>
+                  </el-col>
+                  <el-form-item>
+                      <el-button @click="handleReset" class="resetBtn" style="margin-right: 10px;">重置</el-button>
+                  </el-form-item>
+                  <el-form-item>
+                      <el-button type="primary" @click="handleQuery" class="queryBtn">查询</el-button>
+                  </el-form-item>
                 </el-form>
             </el-col>
 
@@ -161,6 +168,10 @@ export default {
     handleCurrentChange(val) {
       this.pageNum = val;
       this.getCustInfoList(); //分页查询员工列表
+    },
+    handleReset() {
+      this.filters.userNo = "";
+      this.filters.custName = "";
     },
     handleQuery() {
       console.log(

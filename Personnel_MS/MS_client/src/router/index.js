@@ -515,6 +515,18 @@ const routes = [
                     ]
                 },
                 {
+                	path: '/wageProcess_manage',
+                	component: resolve => require(['../components/pages/payWelfare_Mgmt/payrollProcessMgmt/payrollProcess.vue'], resolve),
+                	children: [
+                		{
+                			name: 'payroll_query',
+                			path: '/',
+                			component: resolve => require(['../components/pages/payWelfare_Mgmt/payrollProcessMgmt/payroll_query.vue'], resolve)
+                		}
+                	]
+                	
+                },
+                {
                     path: '/assetReq_manage',
                     component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/assetReq_manage.vue'], resolve),
                     children: [

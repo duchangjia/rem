@@ -7,13 +7,13 @@
                 <div class="content clearfix">
                         <el-form :model="custInfo" :inline="true" ref="ruleForm2" class="demo-ruleForm">
                             <el-form-item label="公司名称">
-                            <el-select v-model="custInfo.organNo"  placeholder="所属公司" @change="changeCompany">
-                                    <el-option v-for="item in companyName" 
+                            <el-select v-model="custInfo.organNo"  placeholder="所属公司" @change="changeCompany" class="m-select">
+                                    <el-option v-for="item in companyName"
                                     :key="item.organNo" 
                                     :label="item.organName" 
                                     :value="item.organNo">
                                     </el-option>
-                                </el-select>
+                            </el-select>
                             </el-form-item>
                             <el-button class="toolBtn2 resetBtn" @click="reset()">重置</el-button>
                             <el-button class="toolBtn2" @click="getList()">查询</el-button>
@@ -218,6 +218,10 @@
                     border-radius:4px
             .content
                 padding: 30px 0;
+                .m-select
+                    width:330px;
+                    .el-input
+                        width:330px;
                 .text
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
@@ -245,7 +249,8 @@
                     line-height: 30px;
                     padding: 0;
                     margin-left:20px;
-                    border:1px solid  #ff9900
+                    border:1px solid  #ff9900;
+                    margin-top: 4px;
                  .resetBtn
                     background:#fff
                     color:#ff9900
@@ -299,5 +304,6 @@
                     border-color:#ff900;
                     color:#fff;
                 }
+                
     }
 </style>

@@ -562,10 +562,11 @@
                             </el-tab-pane>
                             <el-tab-pane label="证件管理" name="sixth">
                                 <div class="sixth_wrapper">
-                                    <el-upload
+                                    <el-upload name="file"
                                             list-type="picture-card"
                                             :on-preview="handlePictureCardPreview"
                                             :on-remove="handleRemove"
+                                            :data="certificates_list"
                                             multiple
                                             :on-change="handleFileUpload"
                                             :on-success="successUpload"
@@ -687,7 +688,8 @@
                   ]
               },
               certificates_list:{
-                userNo:''
+                userNo:'',
+                file:{},
               },
               activeName: 'first',
               tabName:'first',
@@ -982,25 +984,34 @@
                 this.tabName = tab.name
             },
             handleFileUpload(file, fileList) {
-                if('first'==this.tabName) {
-                    this.fileFlag = file;
-                    this.ruleForm2.attachm = file.name;
-                }
-                if('sixth'==this.tabName) {
-                    console.log(file)
-                    {
-                        file
-                    }
+//                if('first'==this.tabName) {
 //                    this.fileFlag = file;
 //                    this.ruleForm2.attachm = file.name;
-                }
+//                }
+//                if('sixth'==this.tabName) {
+//                    console.log(file,'handleFileUpload',fileList)
+//                }
             },
             successUpload(response, file, fileList) {
-                console.log(response)
+                console.log(response,'successUpload',this.certificates_list.file)
                 if(response.code === "S00000") {
                     this.$message({ message: '操作成功', type: 'success' });
 //                    this.$router.push('/travel_management');
                 }
+            },
+            checkUserNo(file) {
+                this.certificates_list.userNo = 'P0000120'
+                if(!this.certificates_list.userNo){
+                    this.$message({
+                        type: 'error',
+                        message: '请先填写基本信息并点击右上角保存'
+                    });
+                    return false
+                }
+                this.certificates_list.file = {
+                    file
+                }
+                console.log(this.certificates_list)
             },
             dialogConfirm(custInfo){
                 let self = this;
@@ -1356,12 +1367,7 @@
                     }
                 }
             },
-            checkUserNo(file) {
-                if(!this.certificates_list.userNo){
-                    return
-                }
-                console.log(file,111,this.certificates_list.userNo)
-            },
+
             add_item() {
                 let item = {
                         contactName: '',

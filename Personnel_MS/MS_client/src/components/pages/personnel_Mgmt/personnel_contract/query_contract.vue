@@ -24,7 +24,7 @@
                     </el-form-item>
                   </el-col>
                   <el-form-item>
-                      <el-button @click="handleReset" class="resetBtn">重置</el-button>
+                      <el-button @click="handleReset" class="resetBtn" style="margin-right: 10px;">重置</el-button>
                   </el-form-item>
                   <el-form-item>
                       <el-button type="primary" @click="handleQuery" class="queryBtn">查询</el-button>

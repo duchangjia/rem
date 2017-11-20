@@ -318,7 +318,7 @@ export default {
 		//导出
 		exportFile(params) {
 			const self = this;
-			self.$axios.get(baseURL+'/attence/exportAttenceInfo', {
+			self.$axios.get(baseURL+'/attence/exportAttenceInfo',{params}, {
                     responseType: 'blob'
                 })
                 .then((response) => {
@@ -335,6 +335,7 @@ export default {
                         elink.download = fileName;
                         elink.style.display = 'none';
                         elink.href = URL.createObjectURL(blob);
+//						console.log('href',elink.href);
                         document.body.appendChild(elink);
                         elink.click(); // 触发点击a标签事件
                         document.body.removeChild(elink);

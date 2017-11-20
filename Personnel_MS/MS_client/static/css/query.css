@@ -105,6 +105,15 @@
 .queryContent_wrapper .el-button+.el-button {
     margin-left: 20px;
 }
+.queryContent_wrapper .el-button--small {
+  margin: 4px;
+  padding: 7px 9px;
+  border: none;
+  font-size: 14px;
+}
+.queryContent_wrapper .el-button--small+.el-button--small {
+	margin-left: 0px;
+}
 .queryContent_wrapper .el-table td,
 .queryContent_wrapper .el-table th {
 	text-align: center;
@@ -245,10 +254,11 @@
 	float: right;
 	margin-top: 19px;
 }
-.queryContent_wrapper .imExport-btn .imExport-btn-item{
+.queryContent_wrapper .imExport-btn-item{
 	display: inline-block;
 	margin-left: 30px;
 	cursor: pointer;
+	vertical-align: middle;
 }
 .queryContent_wrapper .icon-import {
 	display: inline-block;

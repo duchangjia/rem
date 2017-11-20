@@ -2,13 +2,13 @@
 	<div class="query_transfer">
 		<current yiji="人事事务" erji="人事调动">
 		</current>
-		<div class="content">
-			<div class="title">
+		<div class="queryContent_wrapper">
+			<div class="titleBar">
 				<span class="title-text">人事调动</span>
 			</div>
-			<div class="content-inner">
+			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
-					<div class="input-wrap">
+					<!--<div class="input-wrap">-->
 						<el-col :span="6">
 							<el-form-item label="公司" prop="company">
 								<el-select v-model="comp" value-key="compOrgNo" @change="changeValue">
@@ -33,8 +33,8 @@
 								<el-input type="text" v-model="ruleForm2.userName" placeholder="请输入姓名"></el-input>
 							</el-form-item>
 						</el-col>
-					</div>
-					<div class="button-wrap">
+					<!--</div>-->
+					<div class="queryButton_wrapper">
 						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
 						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
@@ -238,109 +238,5 @@
 	.query_transfer {
 		padding: 0 0 20px 20px;
 	}
-	.query_transfer .content {
-		width: 100%;
-		/*min-height: 530px;*/
-		/*height: calc(100% - 90px);*/
-		padding: 0px 20px;
-		background: #ffffff;
-		clear: both;
-	}
-	.query_transfer .content .title {
-		border-bottom: 1px solid #EEEEEE;
-	}
 	
-	.query_transfer .content .title .title-text {
-		display: inline-block;
-		position: relative;
-		padding: 14px 0px;
-		font-size: 16px;
-		height: 50px;
-	}
-	
-	.query_transfer .content .title .title-text:after {
-		content: '';
-		position: absolute;
-		left: 0;
-		bottom: -1px;
-		width: 100%;
-		height: 2px;
-		background: #333333;
-	}
-	.query_transfer .content-inner {
-		padding: 30px 0px;
-	}
-	.query_transfer .el-form-item__label {
-		color: #999999;
-		font-weight: normal;
-		padding: 8px 10px 8px 0;
-		margin: 0;
-
-	}
-	
-	.query_transfer .el-form-item {
-		margin-bottom: 30px;
-	}
-	
-	.query_transfer .el-input,
-	.query_transfer .el-input__inner {
-		width: 164px;
-		height: 30px;
-		display: inline-block;
-		border-radius: 4px;
-	}
-	
-	.query_transfer .el-form-item__content {
-		line-height: 30px;
-		position: relative;
-		font-size: 14px;
-	}
-	
-	.query_transfer .button-wrap {
-		margin: 0px auto 30px;
-		width: 260px;
-		clear: both;
-		font-size: 0px;
-	}
-	
-	.query_transfer .el-input__inner {
-		border: 1px solid #EEEEEE;
-		color: #333333;
-	}
-	
-	.query_transfer .el-input__inner:hover {
-		border-color: #FF9900;
-	}
-	
-	.query_transfer .el-button {
-		border: 1px solid #FF9900;
-		color: #FF9900;
-		padding: 7px 45px;
-		height: 30px;
-		/*border-radius: 4px;*/
-		margin-left: 0;
-	}
-	.query_transfer .el-button--small {
-	  margin: 4px;
-	  padding: 7px 9px;
- 	}
-	/*.query_transfer .el-button.resetform {
-		margin-right: 20px;
-	}*/
-	.query_transfer .el-button+.el-button {
-	    margin-left: 20px;
-	}
-	.query_transfer .el-button--primary {
-		color: #fff;
-		background-color: #FF9900;
-		border-color: #FF9900;
-	}
-	.query_transfer .el-table .cell, .el-table th>div {
-	    padding-left: 10px;
-	    padding-right: 10px;
-	}
-	.query_transfer .el-table .el-button {
-		margin-left: 0;
-		border: none;
-	}
 </style>

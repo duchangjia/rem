@@ -235,6 +235,16 @@ table .el-button--danger:active {
   min-height: 100px;
 }
 
+.el-dialog__body {
+  padding: 0 20px 30px 20px;
+}
+.el-dialog__body .el-input__inner {
+  width: 164px;
+}
+.item-box .button-box .restBtn {
+  margin-right: 5px;
+}
+
 .el-date-table td.current:not(.disabled),
 .el-date-table td.end-date,
 .el-date-table td.start-date {
