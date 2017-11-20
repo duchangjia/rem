@@ -1,12 +1,12 @@
 <template>
 	<div class="welfare_coefficient">
 		<current yiji="参数管理" erji="业务参数" sanji="福利缴纳系数设置"></current>
-		<div class="content">
-			<div class="title">
+		<div class="queryContent_wrapper">
+			<div class="titleBar">
 				<span class="title-text">福利缴纳系数设置</span>
-				<el-button type="primary" @click="addWelfare()">新增</el-button>
+				<el-button type="primary" class="titleBtn_wrapper" @click="addWelfare()">新增</el-button>
 			</div>
-			<div class="content-inner">
+			<div class="queryContent_inner">
 				<el-table :data="payTemplatesList" border stripe style="width: 100%">
 					<el-table-column prop="applyNo" label="模版编号">
 						<template scope="scope">
@@ -165,97 +165,6 @@ export default {
     padding-bottom: 20px;
 	width: 100%;
 }
-.welfare_coefficient .content {
-	width: 100%;
-	min-height: 510px;
-	padding: 0px 20px;
-	background: #ffffff;
-	clear: both;
-}
-.welfare_coefficient .content .title {
-border-bottom: 1px solid #EEEEEE;
-}
-
-.welfare_coefficient .content .title .title-text {
-	display: inline-block;
-	position: relative;
-	padding: 14px 0px;
-	font-size: 16px;
-	height: 50px;
-}
-
-.welfare_coefficient .content .title .title-text:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
-}
-
-.welfare_coefficient .content-inner {
-	padding: 40px 0px;
-}
-.welfare_coefficient .el-button {
-	float: right;
-	margin-top: 10px;
-	background: #F4F4F4;
-	border: 1px solid #F4F4F4;
-	border-radius: 0px;
-	font-size: 14px;
-	color: #333333;
-	width: 120px;
-	height: 30px;
-	padding: 0;
-}
-
-.welfare_coefficient .el-button.resetform {
-	margin-right: 20px;
-}
-
-.welfare_coefficient .el-button--primary {
-	color: #fff;
-	background-color: #FF9900;
-	border-color: #FF9900;
-}
-.welfare_coefficient .content-inner {
-	padding: 40px 0px;
-}
-/*.welfare_coefficient .el-table {
-	background-color: #fff;
-	border-left: 1px solid #EEEEEE;
-	color: #666666;
-}
-
-.welfare_coefficient .el-table__footer-wrapper thead div,
-.welfare_coefficient .el-table__header-wrapper thead div {
-	background-color: #f4f4f4;
-	color: #666666;
-}*/
-
-.welfare_coefficient .el-table td,
-.welfare_coefficient .el-table th {
-	text-align: center;
-}
-.link {
-	cursor: pointer;
-    color: #337ab7;
-    text-decoration: underline;
-}
-
-.welfare_coefficient .el-table th {
-	white-space: nowrap;
-	overflow: hidden;
-	text-align: center;
-	/*box-shadow: inset 0 1px 0 0 #EEEEEE;*/
-}
-.welfare_coefficient .el-table .cell, 
-.welfare_coefficient .el-table th>div {
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
 .welfare_coefficient .icon-delete {
     display: inline-block;
     width: 24px;
@@ -263,104 +172,4 @@ border-bottom: 1px solid #EEEEEE;
     background: url('../../../../static/img/common/delete.png') center no-repeat;
 }
 
-.welfare_coefficient .icon-edit:hover,
-.welfare_coefficient .icon-delete:hover {
-    cursor: pointer;
-}
-.welfare_coefficient .el-pagination {
-	text-align: right;
-	margin-top: 40px;
-	margin-right: 40px;
-	color: #282828;
-}
-
-.welfare_coefficient .el-pager li.active {
-	border-color: #FF9900;
-	background-color: #FF9900;
-	color: #fff;
-	cursor: default;
-}
-
-.welfare_coefficient .el-pager li {
-	padding: 0 4px;
-	border-right: 0;
-	background: #fff;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	line-height: 24px;
-	text-align: center;
-}
-
-.welfare_coefficient .el-pager li:last-child {
-	border-right: 1px solid #EEEEEE;
-}
-
-.welfare_coefficient .el-pagination button,
-.welfare_coefficient .el-pagination span {
-	display: inline-block;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	color: #282828;
-	line-height: 24px;
-	vertical-align: top;
-	box-sizing: border-box;
-}
-
-.welfare_coefficient .el-pager li:hover {
-	color: #FF9900;
-}
-.welfare_coefficient .el-pager li.active {
-    border-color: #ff9900;
-    background-color: #ff9900;
-    color: #fff;
-    cursor: default;
-}
-.welfare_coefficient .el-pager li.active:hover {
-	cursor: pointer;
-	color: #ffffff;
-}
-
-.welfare_coefficient .el-pagination button:hover {
-	color: #FF9900;
-}
-.welfare_coefficient .el-pagination button.disabled {
-    color: #e4e4e4;
-}
-.welfare_coefficient .el-pagination button.disabled:hover {
-	color: #e4e4e4;
-}
-
-.welfare_coefficient .el-pagination__editor {
-	border: 1px solid #EEEEEE;
-	border-radius: 2px;
-	padding: 2px 0px;
-	width: 24px;
-	min-width: 24px;
-}
-
-.welfare_coefficient .el-pagination__editor:focus {
-	outline: 0;
-	border-color: #FF9900;
-}
-
-.welfare_coefficient .el-pagination .btn-next,
-.welfare_coefficient .el-pagination .btn-prev {
-	border: 1px solid #EEEEEE;
-	color: #282828;
-}
-
-.welfare_coefficient .el-autocomplete-suggestion__wrap,
-.welfare_coefficient .el-pager li {
-	border: 1px solid #EEEEEE;
-}
-
-.welfare_coefficient .el-pager li.btn-quicknext,
-.welfare_coefficient .el-pager li.btn-quickprev {
-	line-height: 28px;
-	color: #282828;
-}
 </style>

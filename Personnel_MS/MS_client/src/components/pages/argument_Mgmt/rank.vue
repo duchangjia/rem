@@ -102,7 +102,7 @@ export default {
 			return row.remark.length>10?(row.remark.substr(0,10)+'......'):row.remark;
 		},
 		createdDateFormatter(row, column) {
-	      return moment(row.createdDate).format('YYYY-MM-DD')
+	      return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null
 	    },
 		test() {
 			console.log(this.ruleForm2.organNo)

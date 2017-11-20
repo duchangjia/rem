@@ -38,9 +38,9 @@
 						<el-form-item label="工资月份" prop="startDate"">
 							<el-date-picker
 						      v-model="ruleForm2.startDate"
-						      type="date"
-						      placeholder="选择日期"
-						      :picker-options="pickerOptions0" @change="changeStartTime">
+						      type="month"
+						      placeholder="请选择"
+						      @change="changeStartTime">
 						   </el-date-picker>
 						</el-form-item>
 					</el-col>
@@ -61,13 +61,26 @@
 					<el-table-column prop="payEndTime" label="结算结束日期" :formatter="travelEndTimeFormatter"></el-table-column>
 
 					<el-table-column prop="gongziMonth" label="工资月份" ></el-table-column>
-					<el-table-column prop="remark" label="备注" ></el-table-column>
+					<el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
 					<el-table-column prop="status" label="状态" ></el-table-column>
 					<el-table-column prop="createdBy" label="录入人"></el-table-column>
 					<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
 					<el-table-column label="操作" width="100">
 						<template scope="scope">
-							<el-button type="text" size="small" @click="handlMenu(scope.$index, scope.row)">菜单</el-button>
+							<!--<el-button type="text" size="small" @click="handlMenu(scope.$index, scope.row)">菜单</el-button>-->
+							<el-dropdown trigger="click" @command="handleCommand">
+						      	<span class="el-dropdown-link">
+						       		 <el-button type="text" size="small" @click="handlMenu(scope.$index, scope.row)">下拉菜单</el-button>
+						      	</span>
+						      	<el-dropdown-menu slot="dropdown">
+						        	<el-dropdown-item command="handleExport">导出工资数据</el-dropdown-item>
+						        	<el-dropdown-item command="handleImport">导入工资数据</el-dropdown-item>
+						        	<el-dropdown-item command="handleEnter">单笔录入工资数据</el-dropdown-item>
+						        	<el-dropdown-item command="handleUse">启用</el-dropdown-item>
+						        	<el-dropdown-item command="handleEdit">编辑</el-dropdown-item>
+						        	<el-dropdown-item command="handleDelete">删除</el-dropdown-item>
+						      	</el-dropdown-menu>
+						  	</el-dropdown>
 						</template>	
 					</el-table-column>
 				</el-table>
@@ -88,11 +101,6 @@ export default {
 			token: {
 				Authorization:`Bearer `+localStorage.getItem('access_token'),
 			},
-			pickerOptions0: {
-	          disabledDate(time) {
-//	            return time.getTime() < Date.now() - 8.64e7;
-	          }
-	       	},
 			pageNum: 1,
 			pageSize: 10,
 			totalRows: 2,
@@ -106,12 +114,12 @@ export default {
 			},
 			transferDataList: [
 				{
-					applyNo: "",
+					applyNo: "20172017",
 					organName: "",
 					payStartTime: "",
 					payEndTime: "",
 					gongziMonth: "",
-					remark: "",
+					remark: "的方式大力开发空间里的时间反对声浪附近逗留时间房价肯定里粉丝数量大幅减少的看风景",
 					status: "",
 					createdBy: "",
 					createdDate: ""
@@ -122,7 +130,8 @@ export default {
 			//公司列表
 			compList: [],
 			rules: {
-				startDate: []
+				startDate: [
+				]
 			}
 		}
 	},
@@ -171,9 +180,7 @@ export default {
 		},
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;
-		},
-		changeEndTime(val) {
-			this.ruleForm2.endDate = val;
+			console.log(val)
 		},
 		changeComp(val) {
 			console.log(val);
@@ -184,54 +191,61 @@ export default {
 			//部门列表查询
 			self.queryDerpList(params);
 		},
-		changeValue(value) {
-	 		const self = this;
-            console.log('value',value);
-	    },
 	    handleAdd() {
-	    	this.$router.push('/');
+	    	this.$router.push('/add_wage');
 	    },
 		handleInfo(index, row) {
-			console.log('row:',row);
+			sessionStorage.setItem('infoWage_applyNo', row.applyNo);
 			this.$router.push({
-				name: "",
+				name: "wage_info",
 				params: {
-					applyNo: row.applyNo,
-					userNo: row.userNo
+					applyNo: row.applyNo
 				}
 			})
 			
 		},
 		handlMenu(index, row) {
-			
+			console.log('menu',row);
+			sessionStorage.setItem('wage_applyNo',row.applyNo);
 		},
-		handleEdit(index, row) {
-			console.log('row:',row);
-            this.$router.push({
-            	name: "",
-            	params: {
-            		applyNo: row.applyNo,
-					userNo: row.userNo
-            	}
-            });
-		},
-		handleDelete(index, row) {
-			const self = this;
-		 	self.$confirm('此操作将会删除该条信息, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-           	}).then(() => {
-            	let params = {
-					applyNo: row.applyNo
-				}
-            	console.log(params);
-            	
-            	
-            }).catch(() => {
-                this.$message('您已取消操作！');
-            });
-			
+		handleCommand(command) {
+			console.log(command)
+			let applyNo = sessionStorage.getItem('wage_applyNo');
+			if(command === "handleExport") {
+				//导出
+				
+			}else if(command === "handleImport") {
+				//导入
+				
+			}else if(command === "handleEnter") {
+				//录入
+				
+			}else if(command === "handleUse") {
+				//启用
+				
+			}else if(command === "handleEdit") {
+				//编辑
+				sessionStorage.setItem('editWage_applyNo', applyNo);
+	            this.$router.push('/edit_wage');
+	            
+			}else if(command === "handleDelete") {
+				//删除
+				const self = this;
+			 	self.$confirm('此操作将会删除该条信息, 是否继续?', '提示', {
+	                confirmButtonText: '确定',
+	                cancelButtonText: '取消',
+	                type: 'warning'
+	           	}).then(() => {
+	            	let params = {
+						applyNo: applyNo
+					}
+	            	console.log(params);
+	            	
+	            	
+	            }).catch(() => {
+	                this.$message('您已取消操作！');
+	            });
+			}
 		},
 		changeUpload(file, fileList) {
 //	 		this.formdata2.attachm = file.name;
