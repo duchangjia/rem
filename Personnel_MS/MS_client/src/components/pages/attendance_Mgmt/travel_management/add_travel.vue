@@ -116,7 +116,7 @@
 					  			 :auto-upload="false"
 					  			 :headers="token"
 					  		>
-	                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
+	                            <el-button slot="trigger" type="primary" class="uploadBtn downloadBtn">选取文件</el-button>
 	                        </el-upload>
 					  	</el-form-item>
 					</el-col>  	

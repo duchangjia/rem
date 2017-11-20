@@ -10,18 +10,18 @@
 
             <el-col :span="24" class="querybar" style="padding-bottom: 0px;">
                 <el-form :inline="true" :model="filters">
-                  <el-col :span="5">
+                  <el-col :span="6">
                     <el-form-item label="开始时间" prop="startTime">
                         <el-date-picker type="date" placeholder="选择日期" v-model="filters.startTime" :picker-options="startTimeOption" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="5">
+                  <el-col :span="6">
                     <el-form-item label="结束时间" prop="endTime">
                         <el-date-picker type="date" placeholder="选择日期" v-model="filters.endTime" :picker-options="endTimeOption" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                   </el-col>
                   <el-form-item>
-                      <el-button @click="handleReset" class="resetBtn">重置</el-button>
+                      <el-button @click="handleReset" class="resetBtn" style="margin-right: 10px;">重置</el-button>
                   </el-form-item>
                   <el-form-item>
                       <el-button type="primary" @click="handleQuery" class="queryBtn">查询</el-button>

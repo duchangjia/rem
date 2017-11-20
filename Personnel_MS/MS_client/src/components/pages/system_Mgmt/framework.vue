@@ -174,7 +174,9 @@
                     status:'',
                     organName: '',
                 },
-                companies: '',
+                companies: {
+                    organName: '',
+                },
                 tableData: '',
                 tableData2: ''
             }
@@ -185,6 +187,7 @@
               .then( res => {
                   self.companies = res.data.data[0]
                   if(!self.companies){
+                      this.$message('请点击新增按钮添加机构');
                     return
                   }else {
                       self.$axios.get('/iem_hrm/organ/queryCurrentAndParentOrganDetail/'+self.companies.organNo)
@@ -353,7 +356,6 @@
                         })
                         .catch( res=> {
                             console.log('请求公司详情数据超时')
-                            return false
                         })
                     _self.$axios.get(`/iem_hrm/organ/queryChildOrganDetail/${index}`)
                         .then( res => {
@@ -361,7 +363,6 @@
                         })
                         .catch( res=> {
                             console.log('请求公司下级详情数据超时')
-                            return false
                         })
 //                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
 //                        .then( res => {
@@ -402,7 +403,6 @@
                         })
                         .catch( res=> {
                             console.log('请求公司详情数据超时')
-                            return false
                         })
                     _self.$axios.get(`/iem_hrm/organ/queryChildOrganDetail/${index}`)
                         .then( res => {
@@ -410,7 +410,6 @@
                         })
                         .catch( res=> {
                             console.log('请求公司下级详情数据超时')
-                            return false
                         })
 //                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
 //                        .then( res => {

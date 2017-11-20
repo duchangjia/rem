@@ -9,23 +9,17 @@
             <div class="add-wrapper">
                 <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
                     <el-col :span="12">
-                        <el-form-item label="公司" prop="organNo">
-                            <el-select v-model="custInfo.organNo" :disabled="true">
-                                <el-option label="总公司" value="p0"></el-option>
-                                <el-option label="深圳分公司" value="p01"></el-option>
-                            </el-select>
+                        <el-form-item label="公司">
+                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="部门" prop="derpNo">
-                            <el-select v-model="custInfo.derpNo" :disabled="true">
-                                <el-option label="财务部" value="p1"></el-option>
-                                <el-option label="技术部" value="p01"></el-option>
-                            </el-select>
+                        <el-form-item label="部门">
+                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="工号" prop="userNo">
+                        <el-form-item label="工号">
                             <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
@@ -41,7 +35,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="职级" prop="custClass">
-                            <el-input v-model="custInfo.custClass" :disabled="true"></el-input>
+                            <el-input v-model="_custClass" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -222,6 +216,19 @@ export default {
     this.getCustInfo(); //初始查询用户信息
     this.getPayBaseInfoDetail(); //初始查询薪酬基数信息
     this.getInsurancePayTemp(); //初始查询保险缴纳标准
+  },
+  computed: {
+    _custClass: function() {
+      if (this.custInfo.custClass == "B10") {
+        return "B10-初级软件工程师";
+      } else if (this.custInfo.custClass == "B11") {
+        return "B11-中级软件工程师";
+      } else if (this.custInfo.custClass == "B12") {
+        return "B12-高级软件工程师";
+      } else {
+        return "";
+      }
+    }
   },
   methods: {
     getCustInfo() {

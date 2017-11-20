@@ -65,7 +65,7 @@ export default {
             _self.$router.push(commmand);
         },
         link2Home() {
-            this.$router.push('/home')
+            this.$router.push('/aggPage')
         }
     }
 }

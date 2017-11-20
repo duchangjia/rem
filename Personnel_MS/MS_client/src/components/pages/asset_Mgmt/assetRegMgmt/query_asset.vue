@@ -196,8 +196,7 @@ export default {
       this.$router.push({
         name: "query_assetUse",
         params: {
-          assetNo: row.assetNo,
-          applyUserNo: row.applyUserNo
+          assetNo: row.assetNo
         }
       });
     }
