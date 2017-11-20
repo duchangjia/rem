@@ -12,7 +12,14 @@
                 </el-col>
                 <el-col :span="8">
                     <el-form-item label="与本人关系" prop="relationship">
-                        <el-input v-model="ruleFrom.relationship" :disabled="ruleFrom.isShowEdit"></el-input>
+                        <el-select v-model="ruleFrom.relationship" :disabled="ruleFrom.isShowEdit">
+                            <el-option label="父母" value="01"></el-option>
+                            <el-option label="配偶" value="02"></el-option>
+                            <el-option label="子女" value="03"></el-option>
+                            <el-option label="亲戚" value="04"></el-option>
+                            <el-option label="朋友" value="05"></el-option>
+                            <el-option label="其他" value="99"></el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">

@@ -329,8 +329,14 @@
                                         <el-col :span="9">
                                                 <el-form-item label="附件">
                                                     <el-input v-model="ruleForm2.attachm"></el-input>
-                                                    <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
-                                                        <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
+                                                    <el-upload class="upload-demo" ref="upload" name="file"
+                                                               :on-change="handleFileUpload"
+                                                               :on-success="successUpload"
+                                                               action="https://jsonplaceholder.typicode.com/posts/"
+                                                               :show-file-list="false"
+                                                               :auto-upload="false"
+                                                               :headers="token">
+                                                        <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
                                                     </el-upload>
                                                 </el-form-item>
                                         </el-col>
@@ -702,7 +708,8 @@
                   ],
                   certNo: [
                       {required: true, message: '请输入身份证', trigger: 'blur'},
-                      {min: 10, max: 18, message: '长度在 10 到 18 个字符', trigger: 'blur'}
+                      {min: 10, max: 18, message: '长度在 10 到 18 个字符', trigger: 'blur'},
+                      { pattern: /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/, message: "请输入正确的身份证号码" }
                   ],
                   sex: [
                       {required: true, message: '请选择性别', trigger: 'change'}
@@ -735,10 +742,12 @@
                       {required: true, message: '请输入专业', trigger: 'blur'}
                   ],
                   mobileNo: [
-                      {required: true, message: '请输入移动电话', trigger: 'blur'}
+                      {required: true, message: '请输入移动电话', trigger: 'blur'},
+                      { pattern: /^[1][3578]\d{9}$/, message: "请输入合法的移动号码" }
                   ],
                   perEmail: [
-                      {required: true, message: '请输入个人邮箱', trigger: 'blur'}
+                      {required: true, message: '请输入个人邮箱', trigger: 'blur'},
+                      { pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, message: "请输入合法的邮箱" }
                   ],
               },
               ruleForm2: {
@@ -1610,6 +1619,21 @@
                             letter-spacing: 0;
                             height 40px
                             margin-bottom  0
+                    .upload-demo
+                        height 0
+                    .el-upload__input
+                        display none
+                    .uploadBtn
+                        position: absolute;
+                        height: 40px;
+                        top: 0;
+                        right: 0px;
+                        margin: 0;
+                        border: 1px solid #ff9900;
+                        border-bottom-left-radius: 0;
+                        border-top-left-radius: 0;
+                        background: #ff9900;
+                        font-family: "PingFang SC";
                     .attachment
                         color #f90
                         margin-left 20px
