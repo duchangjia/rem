@@ -155,6 +155,11 @@ table .el-button--danger:active {
   border-color: #ff4949;
 }
 
+table .el-button:focus, .el-button:hover {
+  border-color: #ff9900;
+}
+
+
 .linkSpan {
   color: #337ab7;
   text-decoration: underline;

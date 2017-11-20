@@ -47,7 +47,7 @@
                 </el-table-column>
                 <el-table-column align="center" prop="nOtherPension" label="调整后其他补贴">
                 </el-table-column>
-                <el-table-column align="center" prop="updatedDate" label="录入时间">
+                <el-table-column align="center" prop="createdDate" label="录入时间">
                 </el-table-column>
                 <el-table-column align="center" label="操作">
                     <template scope="scope">
@@ -73,8 +73,8 @@ export default {
         endTime: ""
       },
       pageNum: 1,
-      pageSize: 7,
-      totalRows: 30,
+      pageSize: 10,
+      totalRows: 1,
       payChangeInfoList: [],
       userNo: "",
       startTimeOption: {
@@ -95,6 +95,7 @@ export default {
   created() {
     this.filters.startTime = "";
     this.filters.endTime = "";
+    this.userNo = this.$route.params.userNo;
     this.getPayChangeInfoList(); //初始查询薪酬基数列表
   },
   methods: {
@@ -104,14 +105,16 @@ export default {
         pageNum: self.pageNum,
         pageSize: self.pageSize,
         startTime: self.filters.startTime,
-        endTime: self.filters.endTime
+        endTime: self.filters.endTime,
+        // userNo: self.userNo
+        userNo: "P0000015"
       };
       self.$axios
-        .get("/iem_hrm/epPayChageInf/queryEpPayChageInfListAll", { params: params })
+        .get("/iem_hrm/epPayChageInf/queryEpPayChageInfList", { params: params })
         .then(res => {
           console.log(res);
           self.payChangeInfoList = res.data.data.list;
-          self.userNo = self.payChangeInfoList[0].userNo;
+          // self.userNo = self.payChangeInfoList[0].userNo;
           self.totalRows = res.data.data.total;
         })
         .catch(() => {
@@ -156,7 +159,7 @@ export default {
         name: "edit_payChangeInfo",
         params: {
           applyNo: row.applyNo,
-          userNo: this.userNo
+          userNo: row.userNo
         }
       });
     },
