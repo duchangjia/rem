@@ -272,6 +272,7 @@ export default {
     line-height:30px;
     padding:0;
     float:none;
+    margin-top: 0;
 }
 .item-box .button-box .restBtn{
     background: #fff;
