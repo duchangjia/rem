@@ -326,7 +326,7 @@ import vFooter from './footer.vue';
         }
     }
 </script>
-<style lang="scss">
+<style>
 .tit-size{font-size:16px;}
 .txt-size{color:#a7a7a7;}
 .mt{margin-top:20px;}
