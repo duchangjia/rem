@@ -10,7 +10,7 @@
 					<el-col :sm="12" :md="6">
 						<el-form-item label="系统编号" prop="sysNo">
 							<el-select v-model="formData.sysNo" class="bg-white">
-								<el-option v-for="item in menuQueryConditions" :label="item.sysNo" :value="item.sysNo"></el-option>
+								<el-option v-for="item in menuQueryConditions" :label="item.paraValue" :value="item.paraValue"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -84,10 +84,7 @@
 					status: ''
 				}],
 				funcQueryConditions: [],
-				menuQueryConditions: [
-					{sysNo: "1"},
-					{sysNo: "2"}
-				]
+				menuQueryConditions: []
 				
 			};
 		},
@@ -177,10 +174,10 @@
 			},
 			queryConditions() {
 				const self = this;
-				self.$axios.get(baseURL+'/function/getQueryConditions')
+				self.$axios.get(baseURL+'function/selectSysPara')
 				.then(function(res) {
 					console.log('Conditions',res);
-					self.menuQueryConditions = res.data.data.menuQueryConditions;
+					self.menuQueryConditions = res.data;
 				}).catch(function(err) {
 					console.log(err);
 				})

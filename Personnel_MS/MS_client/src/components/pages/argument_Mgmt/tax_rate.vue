@@ -1,12 +1,12 @@
 <template>
 	<div class="tax_rate">
 		<current yiji="参数管理" erji="业务参数" sanji="个人所得税税率设置"></current>
-		<div class="content">
-			<div class="title">
+		<div class="queryContent_wrapper">
+			<div class="titleBar">
 				<span class="title-text">个人所得税税率设置</span>
-				<el-button type="primary" @click="addRateGroup()">新增</el-button>
+				<el-button type="primary" class="titleBtn_wrapper" @click="addRateGroup()">新增</el-button>
 			</div>
-			<div class="content-inner">
+			<div class="queryContent_inner">
 				<el-table :data="taxRateGroupList" border stripe style="width: 100%">
 					<el-table-column prop="groupName" label="组名称">
 						<template scope="scope">
@@ -43,16 +43,8 @@ export default {
 			totalRows: 1,
 			taxRateGroupList: [
 				{
-					groupName: "1600起征",
-					remark: "xxxx",
-					startTime: "",
-					endTime: "",
-					createdBy: '',
-					createdDate: ''
-				},
-				{
-					groupName: "3500起征",
-					remark: "xxxx",
+					groupName: "",
+					remark: "",
 					startTime: "",
 					endTime: "",
 					createdBy: '',
@@ -76,15 +68,15 @@ export default {
 	methods: {
 		startTimeFormatter(row, column) {
 			let time = row.startTime;
-			return moment(time).format('YYYY-MM-DD') || '';
+			return time ? moment(time).format('YYYY-MM-DD') : null;
 		},
 		endTimeFormatter(row, column) {
 			let time = row.endTime;
-			return moment(time).format('YYYY-MM-DD') || '';
+			return time ? moment(time).format('YYYY-MM-DD') : null;
 		},
 		createdDateFormatter(row, column) {
 			let time = row.createdDate;
-			return moment(time).format('YYYY-MM-DD') || '';
+			return  time ? moment(time).format('YYYY-MM-DD') : null;
 		},
 		addRateGroup() {
 			this.$router.push('/add_rateGroup');
@@ -168,81 +160,7 @@ export default {
     padding-bottom: 20px;
 	width: 100%;
 }
-.tax_rate .content {
-	width: 100%;
-	min-height: 510px;
-	padding: 0px 20px;
-	background: #ffffff;
-	clear: both;
-}
-.tax_rate .content .title {
-border-bottom: 1px solid #EEEEEE;
-}
 
-.tax_rate .content .title .title-text {
-	display: inline-block;
-	position: relative;
-	padding: 14px 0px;
-	font-size: 16px;
-	height: 50px;
-}
-
-.tax_rate .content .title .title-text:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
-}
-
-.tax_rate .content-inner {
-	padding: 30px 0px;
-}
-.tax_rate .el-button {
-	float: right;
-    margin-top: 10px;
-	border: 1px solid #FF9900;
-	color: #FF9900;
-	padding: 7px 45px;
-	height: 30px;
-	border-radius: 0px;
-}
-
-.tax_rate .el-button.resetform {
-	margin-right: 20px;
-}
-
-.tax_rate .el-button--primary {
-	color: #fff;
-	background-color: #FF9900;
-	border-color: #FF9900;
-}
-.tax_rate .content-inner {
-	padding: 40px 0px;
-}
-
-.tax_rate .el-table td,
-.tax_rate .el-table th {
-	text-align: center;
-}
-.tax_rate .link {
-	cursor: pointer;
-    color: #337ab7;
-    text-decoration: underline;
-}
-.tax_rate .el-table th {
-	white-space: nowrap;
-	overflow: hidden;
-	text-align: center;
-	box-shadow: inset 0 1px 0 0 #EEEEEE;
-}
-.tax_rate .el-table .cell, 
-.tax_rate .el-table th>div {
-    padding-left: 10px;
-    padding-right: 10px;
-}
 .icon-delete {
     display: inline-block;
     width: 24px;
@@ -250,104 +168,4 @@ border-bottom: 1px solid #EEEEEE;
     background: url('../../../../static/img/common/delete.png') center no-repeat;
 }
 
-.tax_rate .icon-edit:hover,
-.tax_rate .icon-delete:hover {
-    cursor: pointer;
-}
-.tax_rate .el-pagination {
-	text-align: right;
-	margin-top: 40px;
-	margin-right: 40px;
-	color: #282828;
-}
-
-.tax_rate .el-pager li.active {
-	border-color: #FF9900;
-	background-color: #FF9900;
-	color: #fff;
-	cursor: default;
-}
-
-.tax_rate .el-pager li {
-	padding: 0 4px;
-	border-right: 0;
-	background: #fff;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	line-height: 24px;
-	text-align: center;
-}
-
-.tax_rate .el-pager li:last-child {
-	border-right: 1px solid #EEEEEE;
-}
-
-.tax_rate .el-pagination button,
-.tax_rate .el-pagination span {
-	display: inline-block;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	color: #282828;
-	line-height: 24px;
-	vertical-align: top;
-	box-sizing: border-box;
-}
-
-.tax_rate .el-pager li:hover {
-	color: #FF9900;
-}
-.tax_rate .el-pager li.active {
-    border-color: #ff9900;
-    background-color: #ff9900;
-    color: #fff;
-    cursor: default;
-}
-.tax_rate .el-pager li.active:hover {
-	cursor: pointer;
-	color: #ffffff;
-}
-
-.tax_rate .el-pagination button:hover {
-	color: #FF9900;
-}
-.tax_rate .el-pagination button.disabled {
-    color: #e4e4e4;
-}
-.tax_rate .el-pagination button.disabled:hover {
-	color: #e4e4e4;
-}
-
-.tax_rate .el-pagination__editor {
-	border: 1px solid #EEEEEE;
-	border-radius: 2px;
-	padding: 2px 0px;
-	width: 24px;
-	min-width: 24px;
-}
-
-.tax_rate .el-pagination__editor:focus {
-	outline: 0;
-	border-color: #FF9900;
-}
-
-.tax_rate .el-pagination .btn-next,
-.tax_rate .el-pagination .btn-prev {
-	border: 1px solid #EEEEEE;
-	color: #282828;
-}
-
-.tax_rate .el-autocomplete-suggestion__wrap,
-.tax_rate .el-pager li {
-	border: 1px solid #EEEEEE;
-}
-
-.tax_rate .el-pager li.btn-quicknext,
-.tax_rate .el-pager li.btn-quickprev {
-	line-height: 28px;
-	color: #282828;
-}
 </style>

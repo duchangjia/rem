@@ -386,10 +386,5 @@
 
 <style scoped>
 
-.queryUserBtn {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 40px;
-}
+
 </style>

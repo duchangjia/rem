@@ -12,17 +12,17 @@
 					    <el-input v-model="rateInfo.applyNo" :disabled="true"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="下限" prop="groupLowerLimit">
-					    <el-input v-model.number="rateInfo.groupLowerLimit"></el-input>
+					    <el-input v-model="rateInfo.groupLowerLimit"></el-input>
 				  	</el-form-item>
 					<el-form-item label="上限" prop="groupLimit">
 					    <el-input v-model="rateInfo.groupLimit"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="百分率" prop="percentRate">
-					    <el-input v-model.number="rateInfo.percentRate"></el-input>
+					    <el-input v-model="rateInfo.percentRate"></el-input>
 				  		<span class="percent_icon">%</span>
 				  	</el-form-item>
 				  	<el-form-item label="速算扣除数" prop="quickCal">
-					    <el-input v-model.number="rateInfo.quickCal"></el-input>
+					    <el-input v-model="rateInfo.quickCal"></el-input>
 				  	</el-form-item>
 				  	<el-form-item label="备注" prop="remark">
 					    <el-input v-model="rateInfo.remark"></el-input>
@@ -49,6 +49,27 @@ export default {
 	          	callback();
 	        }
       	};
+      	var checkgroupLowerLimit = (rule, value, callback) => {
+	        if (value === '') {
+	          	callback(new Error('下限不能为空'));
+	        }else {
+	          	callback();
+	        }
+      	};
+      	var checkPercentRate = (rule, value, callback) => {
+	        if (value === '') {
+	          	callback(new Error('百分率不能为空'));
+	        }else {
+	          	callback();
+	        }
+      	};
+      	var checkQuickCal= (rule, value, callback) => {
+	        if (value === '') {
+	          	callback(new Error('速算扣除数不能为空'));
+	        }else {
+	          	callback();
+	        }
+      	};
 		return {
 			rateInfo: {
 				applyNo: "",
@@ -68,15 +89,15 @@ export default {
 					{ required: true, validator: checkgroupLimit, trigger: 'blur' }
 				],
 				groupLowerLimit: [
-					{ required: true, type: 'number', message: '下限不能为空', trigger: 'blur' },
+					{ required: true, validator: checkgroupLowerLimit, trigger: 'blur' },
 					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额" }
 				],
 				percentRate: [
-					{ required: true, type: 'number', message: '百分率不能为空', trigger: 'blur' },
+					{ required: true, validator: checkPercentRate, trigger: 'blur' },
 					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				quickCal: [
-					{ required: true, type: 'number', message: '数算扣除数不能为空', trigger: 'blur' },
+					{ required: true, validator: checkQuickCal, trigger: 'blur' },
 					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额" }
 				],
 				remark: [
@@ -183,6 +204,7 @@ border-bottom: 1px solid #EEEEEE;
 	color: #333333;
 	width: 120px;
 	height: 30px;
+	padding: 0;
 }
 .edit_rate .el-input__inner {
     border: 1px solid #EEEEEE;

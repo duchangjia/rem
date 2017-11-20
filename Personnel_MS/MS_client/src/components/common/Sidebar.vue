@@ -113,6 +113,10 @@ export default {
 						{
 							menuUrl: 'payChange_manage',
 							menuName: '调薪管理'
+						},
+						{
+							menuUrl: 'payrollProcess',
+							menuName: '工资流程管理'
 						}
 					]
 				},
