@@ -1,33 +1,33 @@
 <template>
     <div class="social_relation_item">
-        <div :class="{'bg_color':!isShowEdit,'bg_color2':isShowEdit}">
+        <div :class="{'bg_color':!ruleFrom.isShowEdit,'bg_color2':ruleFrom.isShowEdit}">
             <el-form :model="ruleFrom" :rules="rules" :ref="`ruleFrom${relationNum}`" label-width="100px">
                 <div class="title">
-                    <span>关系人{{relationNumber}}</span><i :class="{'el-icon-close':!isShowEdit,'el-icon-edit':isShowEdit}" @click="delOrEdit(isShowEdit,relationNum)"></i>
+                    <span>关系人{{relationNumber}}</span><i :class="{'el-icon-close':!ruleFrom.isShowEdit,'el-icon-edit':ruleFrom.isShowEdit}" @click="delOrEdit(ruleFrom.isShowEdit,relationNum)"></i>
                 </div>
                 <el-col :span="8">
                     <el-form-item label="姓名" prop="contactName">
-                        <el-input v-model="ruleFrom.contactName" :disabled="isShowEdit"></el-input>
+                        <el-input v-model="ruleFrom.contactName" :disabled="ruleFrom.isShowEdit"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
                     <el-form-item label="与本人关系" prop="relationship">
-                        <el-input v-model="ruleFrom.relationship" :disabled="isShowEdit"></el-input>
+                        <el-input v-model="ruleFrom.relationship" :disabled="ruleFrom.isShowEdit"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
                     <el-form-item label="联系电话" prop="telphone">
-                        <el-input v-model="ruleFrom.telphone" :disabled="isShowEdit" :maxlength="15"></el-input>
+                        <el-input v-model="ruleFrom.telphone" :disabled="ruleFrom.isShowEdit" :maxlength="15"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
                     <el-form-item label="职业">
-                        <el-input v-model="ruleFrom.profession" :disabled="isShowEdit"></el-input>
+                        <el-input v-model="ruleFrom.profession" :disabled="ruleFrom.isShowEdit"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="16">
                     <el-form-item label="地址" class="address">
-                        <el-input v-model="ruleFrom.addr" class="address_special" :disabled="isShowEdit" :maxlength="150"></el-input>
+                        <el-input v-model="ruleFrom.addr" class="address_special" :disabled="ruleFrom.isShowEdit" :maxlength="150"></el-input>
                     </el-form-item>
                 </el-col>
             </el-form>
@@ -41,14 +41,13 @@
             ruleFrom: {
                 type: Object,
                 default: {
-                    contactId: '',
                     contactName: '',
                     relationship: '',
                     telphone: '',
                     profession: '',
                     post: '',
                     addr: '',
-                    isShow: true
+                    isShowEdit: false
                 },
             },
             relationNum: {
@@ -58,17 +57,15 @@
         },
         computed: {
             relationNumber() {
-                this.ruleFrom.contactId = this.relationNum*1+1
                 return this.relationNum*1+1
             }
         },
         data() {
             return {
-                isShowEdit:false,
                 rules: {
                     contactName: [
                         {required: true, message: '请输入姓名', trigger: 'blur'},
-                        { min: 1, max: 16, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+                        { pattern: /(([\u4E00-\u9FA5]{2,7})|([a-zA-Z]{3,20}))/, message: "只能输入的姓名为全部中文或英文" }
                     ],
                     relationship: [
                         {required: true, message: '请输入与本人关系', trigger: 'blur'},
@@ -76,7 +73,7 @@
                     ],
                     telphone: [
                         {required: true, message: '请输入联系电话', trigger: 'blur'},
-                        {required: true, message: '请输入联系电话', trigger: 'blur'},
+                        { pattern: /^[1][3578]\d{9}$/, message: "只能输入135至138开头的手机号码" }
                     ],
                 }
             }
@@ -111,11 +108,11 @@
         .bg_color
             background: #f4f4f4;
             overflow hidden
-            margin-top:40px;
+            margin-top:30px;
         .bg_color2
             background: #fff;
             overflow hidden
-            margin-top:40px;
+            margin-top:30px;
         .el-input
             width 200px
             height 40px

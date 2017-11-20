@@ -20,7 +20,7 @@
                         <el-col :span="6">
                             <el-form-item label="部门">
                                 <el-select v-model="searchInfo.derpNo" placeholder="请选择部门名称">
-                                    <el-option :label="item.organName" :value="item.derpNo" v-for="item in basicInfo.department"></el-option>
+                                    <el-option :label="item.derpName" :value="item.derpNo" v-for="item in basicInfo.department"></el-option>
                                 </el-select>
                             </el-form-item>
                         </el-col>
@@ -219,6 +219,7 @@
                 let data = {organNo}
                 this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
                     .then(res=>{
+                        this.searchInfo.derpNo = ''
                         this.basicInfo.department = res.data.data
                     })
                     .catch(e=>{
@@ -266,7 +267,7 @@
                     }
                 }
                 console.log(222,data)
-                self.$axios.get('/iem_hrm/CustInfo/advQueryCustInf', {params:data})
+                self.$axios.get('/iem_hrm/CustInfo/queryCustInfList', {params:data})
                     .then(res => {
                         console.log(res)
                         let length = res.data.data.list.length
