@@ -5,7 +5,7 @@
         <div class="content-wrapper">
             <el-col :span="24" class="titlebar">
                 <span class="title-text">工资查询</span>
-                <el-button type="primary"  @click="handleExport" class="toolBtn">导出</el-button>
+                <el-button type="primary" @click="handleExport" class="toolBtn">导出</el-button>
             </el-col>
             <el-col :span="24" class="querybar" style="padding:10px 0 0 0;">
                 <el-form :inline="true" :model="filters">
@@ -159,20 +159,31 @@ export default {
             this.getHistoricalSalary(); //根据条件查询员工列表
         },
         handleExport() {
+            const self = this;
             console.log("执行导出" + this.exportParams.pageNum);
             this.$axios
                 .get("/iem_hrm/EpCustPayFlow/exportEpCustPayFlows", { params: this.exportParams, responseType: 'blob' })
-                .then((res) => { // 处理返回的文件流
-                    const content = res
-                    const elink = document.createElement('a'); // 创建a标签
-                    elink.download = '测试表格123.xls' // 文件名
-                    elink.style.display = 'none'
-                    const blob = new Blob([content])
-                    elink.href = URL.createObjectURL(blob)
-                    document.body.appendChild(elink)
-                    elink.click() // 触发点击a标签事件
-                    document.body.removeChild(elink)
-                });
+                .then((response) => {
+                    console.log(response);
+                    const fileName = "历史薪酬查询.xlsx"; 
+                    const blob = response.data;
+
+                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+
+                        window.navigator.msSaveOrOpenBlob(blob, fileName);
+                    } else {
+                        let elink = document.createElement('a'); // 创建a标签
+                        elink.download = fileName;
+                        elink.style.display = 'none';
+                        elink.href = URL.createObjectURL(blob);
+                        document.body.appendChild(elink);
+                        elink.click(); // 触发点击a标签事件
+                        document.body.removeChild(elink);
+                    }
+                }).catch((e) => {
+                    console.error(e)
+                    self.$message({ message: '下载失败', type: 'error' });
+                })
         },
         handleReset(){
              this.filters.userNo = "";

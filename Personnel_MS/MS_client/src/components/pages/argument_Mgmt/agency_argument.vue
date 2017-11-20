@@ -24,7 +24,7 @@
                             <el-option v-for="item in searchValueOption" :label="item" :value="item"></el-option>
                             <!--<el-option label="区域二" value="beijing"></el-option>-->
                         </el-select>
-                        <el-button class="toolBtn2 reset" @click="reset(searchValue)">重置</el-button>
+                        <el-button class="toolBtn2 reset" @click="reset">重置</el-button>
                         <el-button class="toolBtn2" @click="search(searchValue)">查询</el-button>
                     </div>
                     <table>
@@ -63,76 +63,76 @@
                 table: {
                     th:['机构ID', '机构名称', 'CCC类型', 'CCC值', '备注', '操作'],
                     td:[
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
-                        {
-                            id: '001',
-                            name: '机构名称机构名称机构名称',
-                            type: '管理',
-                            zhi: 'XXXXXXXXXX',
-                            mark: 'XXX',
-                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
+//                        {
+//                            id: '001',
+//                            name: '机构名称机构名称机构名称',
+//                            type: '管理',
+//                            zhi: 'XXXXXXXXXX',
+//                            mark: 'XXX',
+//                        },
                     ]
                 },
                 fenye: {
@@ -196,6 +196,27 @@
                     })
                     .catch(e=>{
                         console.log('获取分页失败',e)
+                    })
+            },
+            reset() {
+                let self = this
+                this.searchValue = ''
+                self.$axios.get('/iem_hrm/organ/queryOrgCCCList')
+                    .then(res => {
+                        self.fenye.total = res.data.data.total
+                        self.fenye.pageNum = res.data.data.pageNum
+                        self.table.td = res.data.data.list.map(item=>{
+                            return {
+                                costCode:item.costCode,
+                                costType:item.costType,
+                                descr:item.descr,
+                                organName:item.organName,
+                                organNo:item.organNo,
+                            }
+                        })
+                    })
+                    .catch(e => {
+                        console.log('获取ccc列表失败',e)
                     })
             },
             search(value) {

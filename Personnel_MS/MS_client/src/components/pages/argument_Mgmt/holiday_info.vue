@@ -85,20 +85,22 @@
               table: {
                   th:['日期', '类型', '备注', '创建ID', '创建时间', '操作'],
                   td:[
-                      {
-                          data: '2010-1-1',
-                          type: 'xxx',
-                          mark: 'TTT',
-                          createId: 'XXXXXXXXXX',
-                          createTime: '2010-1-1',
-                      },
-                      {
-                          data: '2010-1-1',
-                          type: 'xxx',
-                          mark: 'TTT',
-                          createId: 'XXXXXXXXXX',
-                          createTime: '2010-1-1',
-                      },]  },
+//                      {
+//                          data: '2010-1-1',
+//                          type: 'xxx',
+//                          mark: 'TTT',
+//                          createId: 'XXXXXXXXXX',
+//                          createTime: '2010-1-1',
+//                      },
+//                      {
+//                          data: '2010-1-1',
+//                          type: 'xxx',
+//                          mark: 'TTT',
+//                          createId: 'XXXXXXXXXX',
+//                          createTime: '2010-1-1',
+//                      },
+                  ]
+              },
               fenye: {
                   total:0,
                   pageSize: 10,
@@ -297,41 +299,52 @@
             },
             del(value) {
                 let self = this
-                let date = moment(value).format('YYYYMMDD')
-                this.$axios.get(`/iem_hrm/visaFreeHoliday/deleteVisaFreeHoliday/${date}`)
-                    .then(res => {
-                        let result = res.data.retMsg
-                        if('操作成功'===result){
-                            self.$message({
-                                message: '删除成功',
-                                type: 'success'
-                            });
-                            self.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList')
-                                .then(res => {
-                                    self.table.td = res.data.data.list.map(item=>{
-                                        return {
-                                            createdBy: item.createdBy,
-                                            createdDate: item.createdDate ,
-                                            dayDate: item.dayDate,
-                                            dayFlag: item.dayFlag,
-                                            remark: item.remark,
-                                        }
+                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let date = moment(value).format('YYYYMMDD')
+                    this.$axios.get(`/iem_hrm/visaFreeHoliday/deleteVisaFreeHoliday/${date}`)
+                        .then(res => {
+                            let result = res.data.retMsg
+                            if('操作成功'===result){
+                                self.$message({
+                                    message: '删除成功',
+                                    type: 'success'
+                                });
+                                self.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList')
+                                    .then(res => {
+                                        self.table.td = res.data.data.list.map(item=>{
+                                            return {
+                                                createdBy: item.createdBy,
+                                                createdDate: item.createdDate ,
+                                                dayDate: item.dayDate,
+                                                dayFlag: item.dayFlag,
+                                                remark: item.remark,
+                                            }
+                                        })
+                                        self.fenye.total = res.data.data.total
                                     })
-                                    self.fenye.total = res.data.data.total
-                                })
-                                .catch(e=>{
-                                    console.log(e)
-                                })
-                        }else{
-                            self.$message({
-                                message: result,
-                                type: 'error'
-                            });
-                        }
-                    })
-                    .catch(e => {
-                        console.log(e)
-                    })
+                                    .catch(e=>{
+                                        console.log(e)
+                                    })
+                            }else{
+                                self.$message({
+                                    message: result,
+                                    type: 'error'
+                                });
+                            }
+                        })
+                        .catch(e => {
+                            console.log(e)
+                        })
+                }).catch(()=>{
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                })
             }
         },
         filters: {

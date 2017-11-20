@@ -9,7 +9,7 @@
             <div class="department-info" v-show="formdata">
                 <el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
                     <el-col :span="12">
-                        <el-form-item label="上级部门" prop="organParentName">
+                        <el-form-item label="上级部门">
                             <el-input v-model="formdata.organParentName" disabled></el-input>
                         </el-form-item>
                     </el-col>
