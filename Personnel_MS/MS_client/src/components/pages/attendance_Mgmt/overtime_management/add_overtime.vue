@@ -203,7 +203,7 @@
 		            	{ required: true, message: '加班累计工时不能为空', trigger: 'blur' }
 	          		],
 	          		remark: [
-	          			{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
+	          			{ required: true, min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 	          		]
 				}
 			}

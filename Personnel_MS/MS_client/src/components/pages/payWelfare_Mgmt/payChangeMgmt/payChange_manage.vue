@@ -273,8 +273,8 @@ table .el-button--danger:active {
 }
 
 .el-tabs__header {
-  height: 80px;
-  line-height: 80px;
+  height: 50px;
+  line-height: 50px;
   font-size: 16px;
   font-family: "PingFang SC";
   border-bottom: 1px solid #eeeeee;
@@ -292,7 +292,7 @@ table .el-button--danger:active {
   font-size: 14px;
   font-family: "PingFangSC Regular";
   padding-left: 10px;
-  margin: 20px 0;
+  margin-bottom: 15px;
 }
 
 .content-wrapper .subtitlebar .title-text {
