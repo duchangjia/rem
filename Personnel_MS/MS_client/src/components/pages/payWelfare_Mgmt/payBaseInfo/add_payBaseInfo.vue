@@ -10,41 +10,46 @@
             <div class="add-wrapper">
                 <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="公司" prop="organNo">
-                            <el-select v-model="custInfo.organNo">
-                                <el-option label="总公司" value="p0"></el-option>
-                                <el-option label="深圳分公司" value="p01"></el-option>
-                            </el-select>
+                        <el-form-item label="公司">
+                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="部门" prop="derpNo">
-                            <el-select v-model="custInfo.derpNo">
-                                <el-option label="财务部" value="p1"></el-option>
-                                <el-option label="技术部" value="p01"></el-option>
-                            </el-select>
+                        <el-form-item label="部门">
+                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="工号" prop="userNo">
-                            <el-input v-model="custInfo.userNo" @change="userNoChange">
-                                <el-button slot="append" icon="search" @click="searchUserNo"></el-button>
+                        <el-form-item label="工号">
+                            <el-input v-model="custInfo.userNo" placeholder="请选择员工编号">
+                                <el-button slot="append" icon="search" @click="userNoSelect"></el-button>
                             </el-input>
+                            <messageBox 
+                                :title="boxTitle"
+                                :tableOption.sync="tableOption"  
+                                :inputFirstOption.sync="inputFirstOption" 
+                                :inputSecOption.sync="inputSecOption"
+                                :searchData.sync="searchData" 
+                                :searchUrl="searchUrl"
+                                :dialogVisible.sync="dialogVisible"
+                                :pagination.sync="msgPagination"
+                                @dialogConfirm="dialogConfirm"
+                                ></messageBox>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="姓名" prop="custName">
-                            <el-input v-model="custInfo.custName"></el-input>
+                            <el-input v-model="custInfo.custName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职务" prop="custPost">
-                            <el-input v-model="custInfo.custPost"></el-input>
+                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="职级" prop="custClass">
-                            <el-input v-model="custInfo.custClass"></el-input>
+                        <el-form-item label="职级">
+                            <el-input v-model="_custClass" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -200,6 +205,7 @@
 
 <script type='text/ecmascript-6'>
 import current from "../../../common/current_position.vue";
+import messageBox from "../../../common/messageBox-components.vue";
 export default {
   data() {
     return {
@@ -229,6 +235,18 @@ export default {
         attachm: "",
         remark: ""
       },
+      
+      dialogVisible: false,
+      boxTitle: "",
+      numType: "",
+      tableOption: [],
+      inputFirstOption: {},
+      inputSecOption: {},
+      msgPagination: {},
+      searchData: {},
+      searchUrl: "",
+      saveUrl: "",
+
       insurancePayTemp: {},
       rules: {
         wagesBase: [
@@ -281,22 +299,80 @@ export default {
     };
   },
   components: {
-    current
+    current,
+    messageBox
+  },
+  computed: {
+    _custClass: function() {
+      if (this.custInfo.custClass == "B10") {
+        return "B10-初级软件工程师";
+      } else if (this.custInfo.custClass == "B11") {
+        return "B11-中级软件工程师";
+      } else if (this.custInfo.custClass == "B12") {
+        return "B12-高级软件工程师";
+      } else {
+        return "";
+      }
+    }
   },
   methods: {
-    getCustInfo() {
+    userNoSelect() {
+      //table
+      this.tableOption = [
+        {
+          thName: "工号", //table 表头
+          dataKey: "userNo" //table-col所绑定的prop值
+        },
+        {
+          thName: "姓名", //table 表头
+          dataKey: "custName" //table-col所绑定的prop值
+        }
+      ];
+      //input 第一个搜索框的配置项
+      (this.inputFirstOption = {
+        labelName: "姓名", //label头
+        placeholder: "请输入姓名" //input placeholder
+      }),
+        //input 第二个搜索框的配置项
+        (this.inputSecOption = {
+          labelName: "工号",
+          placeholder: "请输入工号"
+        }),
+        //搜索所需传值
+        (this.searchData = {
+          custName: "",
+          userNo: ""
+        });
+      //table分页所需传值
+      this.msgPagination = {
+        pageNum: 1,
+        pageSize: 5,
+        totalRows: 1
+      };
+      this.numType = 1; //点击确定后需要修改的对象 numType为changeNo方法所改变的type
+      this.dialogVisible = true; //dialog打开
+      this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"; //查询接口
+      this.saveUrl = "/iem_hrm/CustInfo/queryCustInfoByUserNo/"; //点击确定后根据号码查询用户信息借口 没有则为空
+      this.boxTitle = "员工编号选择"; //dialog标题
+    },
+    dialogConfirm(ajaxInfo) {
       const self = this;
-      let userNo = self.custInfo.userNo;
+      let userNo = ajaxInfo.stateNo;
       self.$axios
-        .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
+        .get(self.saveUrl + userNo)
         .then(res => {
-          console.log(res);
-          self.custInfo = res.data.data;
+          if (res.data.code == "S00000") {
+            self.dialogVisible = false;
+            self.custInfo = res.data.data;
+            self.addPayBaseInfo.userNo = self.custInfo.userNo;
+            console.log("custInfo", self.custInfo);
+          }
         })
-        .catch(() => {
+        .catch(e => {
           console.log("error");
         });
     },
+
     getInsurancePayTemp() {
       const self = this;
       let applyNo = self.addPayBaseInfo.welcoeNo;
@@ -311,15 +387,6 @@ export default {
         .catch(() => {
           console.log("error");
         });
-    },
-    searchUserNo() {
-      const self = this;
-      self.custInfo.userNo = "P004"; // 查询工号，应从接口查出
-      self.addPayBaseInfo.userNo = self.custInfo.userNo;
-      self.getCustInfo(); //查询用户信息
-    },
-    userNoChange(val) {
-      this.getCustInfo(); //查询用户信息
     },
     wagesBaseChange() {
       let salaryTop = 1500; // 该职级薪资上限，应从接口查出

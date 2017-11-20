@@ -21,9 +21,20 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="工号" prop="userNo">
-                            <el-input v-model="custInfo.userNo" @change="userNoChange">
-                                <el-button slot="append" icon="search" @click="searchUserNo"></el-button>
+                            <el-input v-model="custInfo.userNo" placeholder="请选择员工编号">
+                                <el-button slot="append" icon="search" @click="userNoSelect"></el-button>
                             </el-input>
+                            <messageBox 
+                                :title="boxTitle"
+                                :tableOption.sync="tableOption"  
+                                :inputFirstOption.sync="inputFirstOption" 
+                                :inputSecOption.sync="inputSecOption"
+                                :searchData.sync="searchData" 
+                                :searchUrl="searchUrl"
+                                :dialogVisible.sync="dialogVisible"
+                                :pagination.sync="msgPagination"
+                                @dialogConfirm="dialogConfirm"
+                                ></messageBox>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -139,6 +150,7 @@
 
 <script type='text/ecmascript-6'>
 import current from "../../../common/current_position.vue";
+import messageBox from "../../../common/messageBox-components.vue";
 export default {
   data() {
     return {
@@ -164,6 +176,18 @@ export default {
         attachm: "",
         remark: ""
       },
+
+      dialogVisible: false,
+      boxTitle: "",
+      numType: "",
+      tableOption: [],
+      inputFirstOption: {},
+      inputSecOption: {},
+      msgPagination: {},
+      searchData: {},
+      searchUrl: "",
+      saveUrl: "",
+
       assetInfoRules: {
         buyUnitPrice: [
           { required: true, message: "购买单价不能为空", trigger: "blur" },
@@ -183,7 +207,8 @@ export default {
     };
   },
   components: {
-    current
+    current,
+    messageBox
   },
   created() {},
   computed: {
@@ -200,39 +225,63 @@ export default {
     }
   },
   methods: {
-    getCustInfo() {
-      const self = this;
-      let userNo = self.custInfo.applyUserNo;
-      //   self.$axios
-      //     .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
-      //     .then(res => {
-      //       console.log(res);
-      //       self.custInfo = res.data.data;
-      //     })
-      //     .catch(() => {
-      //       console.log("error");
-      //     });
-      self.custInfo = {
-        userNo: "P0000117",
-        custName: "zhaoqi",
-        organNo: "1001",
-        organName: "魔方南山分公司",
-        derpNo: "100101",
-        derpName: "魔方南山分公司技术部门",
-        custPost: "软件工程师",
-        custClass: "B10"
+    userNoSelect() {
+      //table
+      this.tableOption = [
+        {
+          thName: "工号", //table 表头
+          dataKey: "userNo" //table-col所绑定的prop值
+        },
+        {
+          thName: "姓名", //table 表头
+          dataKey: "custName" //table-col所绑定的prop值
+        }
+      ];
+      //input 第一个搜索框的配置项
+      (this.inputFirstOption = {
+        labelName: "姓名", //label头
+        placeholder: "请输入姓名" //input placeholder
+      }),
+        //input 第二个搜索框的配置项
+        (this.inputSecOption = {
+          labelName: "工号",
+          placeholder: "请输入工号"
+        }),
+        //搜索所需传值
+        (this.searchData = {
+          custName: "",
+          userNo: ""
+        });
+      //table分页所需传值
+      this.msgPagination = {
+        pageNum: 1,
+        pageSize: 5,
+        totalRows: 1
       };
+      this.numType = 1; //点击确定后需要修改的对象 numType为changeNo方法所改变的type
+      this.dialogVisible = true; //dialog打开
+      this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"; //查询接口
+      this.saveUrl = "/iem_hrm/CustInfo/queryCustInfoByUserNo/"; //点击确定后根据号码查询用户信息借口 没有则为空
+      this.boxTitle = "员工编号选择"; //dialog标题
     },
-    searchUserNo() {
+    dialogConfirm(ajaxInfo) {
       const self = this;
-      self.custInfo.userNo = "P0000117"; // 查询工号，应从接口查出
-      self.getCustInfo(); //查询用户信息
-      self.addAssetInfo.applyUserNo = self.custInfo.userNo;
-      self.addAssetInfo.organNo = self.custInfo.organNo;
-      self.addAssetInfo.derpNo = self.custInfo.derpNo;
-    },
-    userNoChange(val) {
-      this.getCustInfo(); //查询用户信息
+      let userNo = ajaxInfo.stateNo;
+      self.$axios
+        .get(self.saveUrl + userNo)
+        .then(res => {
+          if (res.data.code == "S00000") {
+            self.dialogVisible = false;
+            self.custInfo = res.data.data;
+            self.addPactMsg.applyUserNo = self.custInfo.userNo;
+            self.addPactMsg.organNo = self.custInfo.organNo;
+            self.addPactMsg.derpNo = self.custInfo.derpNo;
+            console.log("custInfo", self.custInfo);
+          }
+        })
+        .catch(e => {
+          console.log("error");
+        });
     },
     pickFactoryTime(val) {
       this.addAssetInfo.factoryTime = val;

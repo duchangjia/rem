@@ -270,13 +270,13 @@ export default {
     dialogConfirm(ajaxInfo) {
       const self = this;
       let userNo = ajaxInfo.stateNo;
-      self.addPactMsg.userNo = userNo;
       self.$axios
         .get(self.saveUrl + userNo)
         .then(res => {
           if (res.data.code == "S00000") {
             self.dialogVisible = false;
             self.custInfo = res.data.data;
+            self.addPactMsg.userNo = self.custInfo.userNo;
             console.log('custInfo', self.custInfo);
           }
         })
@@ -333,10 +333,5 @@ export default {
 .add_contract {
   padding: 0 0 20px 20px;
 }
-.el-dialog__body .el-input__inner {
-  width: 164px;
-}
-.item-box .button-box .restBtn {
-  margin-right: 5px;
-}
+
 </style>
