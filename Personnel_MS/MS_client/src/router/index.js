@@ -37,6 +37,10 @@ const routes = [
             component: resolve => require(['../components/common/aggPage.vue'], resolve)
         },
         {
+            path: '/web_standard',
+            component: resolve => require(['../components/common/web_standard.vue'], resolve)
+        },
+        {
 
             path: '/home',
             meta: { requireAuth: true, },
@@ -233,6 +237,11 @@ const routes = [
                     	{
                     		path: '/',
                     		component: resolve => require(['../components/pages/attendance_Mgmt/attendanceRecord/attendance_query.vue'], resolve),
+                    	},
+                    	{
+                    		name: 'attendance_import',
+                    		path: '/attendance_import',
+                    		component: resolve => require(['../components/pages/attendance_Mgmt/attendanceRecord/attendance_import.vue'], resolve),
                     	}
                     ]
                 },
@@ -510,43 +519,13 @@ const routes = [
                     ]
                 },
                 {
-                	path: '/wageProcess_manage',
-                	component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/wageProcess.vue'], resolve),
+                	path: '/payrollProcess',
+                	component: resolve => require(['../components/pages/payWelfare_Mgmt/payrollProcessMgmt/payrollProcess.vue'], resolve),
                 	children: [
                 		{
-                			name: 'wage_query',
+                			name: 'payroll_query',
                 			path: '/',
-                			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/wage_query.vue'], resolve)
-                		},
-                		{
-                			name: 'add_wage',
-                			path: '/add_wage',
-                			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/add_wage.vue'], resolve)
-                		},
-                		{
-                			name: 'wage_info',
-                			path: '/wage_info',
-                			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/wage_info.vue'], resolve)
-                		},
-                		{
-                			name: 'edit_wage',
-                			path: '/edit_wage',
-                			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/edit_wage.vue'], resolve)
-                		},
-                		{
-                			name: 'entry_wage',
-                			path: '/entry_wage',
-                			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/entry_wage.vue'], resolve)
-                		},
-                		{
-                			name: 'socialSecurity_query',
-                			path: '/socialSecurity_query',
-                			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/socialSecurity_query.vue'], resolve)
-                		},
-                		{
-                			name: 'edit_security',
-                			path: '/edit_security',
-                			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/edit_security.vue'], resolve)
+                			component: resolve => require(['../components/pages/payWelfare_Mgmt/payrollProcessMgmt/payroll_query.vue'], resolve)
                 		}
                 	]
                 	
