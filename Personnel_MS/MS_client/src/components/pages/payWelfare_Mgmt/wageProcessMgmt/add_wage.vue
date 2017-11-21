@@ -11,7 +11,10 @@
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="类别" prop="wageType">
-							<el-input v-model="formdata2.wageType"></el-input>
+							<!--<el-input v-model="formdata2.wageType"></el-input>-->
+							<el-select v-model="formdata2.wageType" multiple value-key="wageTypeNo" class="bg-white">
+								<el-option v-for="(item,k) in wageTypeList" :key="item.wageTypeNo" :label="item.wageTypeName" :value="item"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
@@ -44,13 +47,13 @@
 						</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
-						<el-form-item label="结算开始日期" prop="travelStartTime">
-				        	<el-date-picker type="datetime" v-model="formdata2.travelStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
+						<el-form-item label="结算开始日期" prop="wageStartTime">
+				        	<el-date-picker type="datetime" v-model="formdata2.wageStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
-						<el-form-item label="结算结束日期" prop="travelEndTime">
-				        	<el-date-picker type="datetime" v-model="formdata2.travelEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
+						<el-form-item label="结算结束日期" prop="wageEndTime">
+				        	<el-date-picker type="datetime" v-model="formdata2.wageEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col> 
 					<el-col :span="24">
@@ -76,20 +79,20 @@
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
-			var checkTravelStartTime = (rule, value, callback) => {
+			var checkWageStartTime = (rule, value, callback) => {
 		        if (value == '') {
-		          	callback(new Error('出差开始时间不能为空'));
-		        } else if (this.formdata2.travelEndTime && value >= this.formdata2.travelEndTime) {
-		          	callback(new Error('出差开始时间不能大于结束时间'));
+		          	callback(new Error('开始时间不能为空'));
+		        } else if (this.formdata2.wageEndTime && value >= this.formdata2.wageEndTime) {
+		          	callback(new Error('开始时间不能大于结束时间'));
 		        } else {
 		          	callback();
 		        }
 	      	};
-			var checkTravelEndTime = (rule, value, callback) => {
+			var checkWageEndTime = (rule, value, callback) => {
 		        if (value == '') {
-		          	callback(new Error('出差结束时间不能为空'));
-		        } else if (this.formdata2.travelStartTime && value <= this.formdata2.travelStartTime) {
-		          	callback(new Error('出差开始时间不能大于结束时间'));
+		          	callback(new Error('结束时间不能为空'));
+		        } else if (this.formdata2.wageStartTime && value <= this.formdata2.wageStartTime) {
+		          	callback(new Error('开始时间不能大于结束时间'));
 		        } else {
 		          	callback();
 		        }
@@ -100,7 +103,9 @@
 					companyName: "",
 					departRange: [],
 					roleRange: "",
-					
+					wageMonth: "",
+					wageStartTime: "",
+					wageEndTime: "",
 					remark: ""
 				},
 				travelTypeList: [
@@ -108,6 +113,11 @@
 					{label: "项目实施", travelNo: "02"},
 					{label: "会议", travelNo: "03"},
 					{label: "其他", travelNo: "99"}
+				],
+				wageType: [
+					{wageTypeNo: "1", wageTypeName: "工资"},
+					{wageTypeNo: "2", wageTypeName: "奖金"},
+					{wageTypeNo: "3", wageTypeName: "福利"},
 				],
 				departRangeList: [
 					{
@@ -124,6 +134,12 @@
 					}
 				],
 			 	rules: {
+			 		wageStartTime: [
+			 			{ require: "true", validator: checkWageStartTime, trigger: "change"}
+			 		],
+			 		wageEndTime: [
+			 			{ require: "true", validator: checkWageEndTime, trigger: "change"}
+			 		],
 	          		remark: [
 		            	{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 	          		]
@@ -135,13 +151,13 @@
 		},
 		methods: {
 			changeWageMonth(time) {
-				this.formdata2.travelStartTime = time;
+				this.formdata2.wageMonth = time;
 			},
 			changeStartTime(time) {
-				this.formdata2.travelStartTime = time;
+				this.formdata2.wageStartTime = time;
 			},
 			changeEndTime(time) {
-				this.formdata2.travelEndTime = time;
+				this.formdata2.wageEndTime = time;
 				
 			},
 	      	save(formName) {

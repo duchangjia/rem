@@ -5,7 +5,7 @@
 			<div class="titleBar">
 				<span class="title-text">工资流程管理</span>
 				<div class="titleBtn_wrapper">
-					<el-upload ref="upload" name="file" class="upload-demo imExport-btn-item"
+					<!--<el-upload ref="upload" name="file" class="upload-demo imExport-btn-item"
 		  			 	:on-change="changeUpload" 
 		  			 	:on-success="successUpload"
 		  			 	action="/iem_hrm/" 
@@ -13,7 +13,8 @@
 		  			 	:headers="token"
 					>
                         <span class="icon-import" title="社保数据导入" slot="trigger"></span>
-                   	</el-upload>
+                   	</el-upload>-->
+                   	<el-button class="" @click="handleAdd">社保数据导入</el-button>
 					<el-button type="primary" @click="handleAdd">新增</el-button>
 				</div>
 				
