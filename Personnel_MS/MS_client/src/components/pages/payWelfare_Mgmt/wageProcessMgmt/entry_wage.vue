@@ -37,36 +37,31 @@
 					</div>
 				</el-form>
 				<el-table :data="transferDataList" border stripe style="width: 100%">
-					<el-table-column prop="applyNo" label="工资月份">
+					<el-table-column fixed="left" prop="applyNo" label="工资月份" width="100">
 						<template scope="scope">
 					        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
 				      	</template>
 					</el-table-column>
 					<el-table-column prop="companyName" label="工号"></el-table-column>
 					<el-table-column prop="gryStartTime" label="姓名"></el-table-column>
-					<el-table-column prop="gryEndTime" label="结算结束日期" :formatter="gryEndTimeFormatter"></el-table-column>
-					<el-table-column prop="gongziMonth" label="工资月份" ></el-table-column>
-					<el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
-					<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
-					<el-table-column prop="createdBy" label="录入人"></el-table-column>
-					<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
-					<el-table-column label="操作" width="100">
-						<template scope="scope">
-							<el-dropdown trigger="click" @command="handleCommand">
-						      	<span class="el-dropdown-link">
-						       		 <el-button type="text" size="small" @click="handlMenu(scope.$index, scope.row)">下拉菜单</el-button>
-						      	</span>
-						      	<el-dropdown-menu slot="dropdown">
-						        	<el-dropdown-item command="handleExport">导出工资数据</el-dropdown-item>
-						        	<el-dropdown-item command="handleImport">导入工资数据</el-dropdown-item>
-						        	<el-dropdown-item command="handleEnter">单笔录入工资数据</el-dropdown-item>
-						        	<el-dropdown-item command="handleUse">启用</el-dropdown-item>
-						        	<el-dropdown-item command="handleEdit">编辑</el-dropdown-item>
-						        	<el-dropdown-item command="handleDelete">删除</el-dropdown-item>
-						      	</el-dropdown-menu>
-						  	</el-dropdown>
-						</template>	
-					</el-table-column>
+					<el-table-column prop="gryEndTime" label="基础工资"></el-table-column>
+					<el-table-column prop="gongziMonth" label="绩效工资" ></el-table-column>
+					<el-table-column prop="remark" label="岗位津贴" :show-overflow-tooltip="true"></el-table-column>
+					<el-table-column prop="status" label="通讯补贴"></el-table-column>
+					<el-table-column prop="jiaotongbt" label="交通补贴"></el-table-column>
+					<el-table-column prop="jixiaojiang" label="绩效奖金"></el-table-column>
+					<el-table-column prop="jiaban" label="加班工资"></el-table-column>
+					<el-table-column prop="qita" label="其他补贴"></el-table-column>
+					<el-table-column prop="chidao" label="迟到早退"></el-table-column>
+					<el-table-column prop="bingjia" label="病事假"></el-table-column>
+					<el-table-column prop="kuanggong" label="矿工"></el-table-column>
+					<el-table-column prop="shangbaoGeren" label="商保(个人)"></el-table-column>
+					<el-table-column prop="baoxianGeren" label="保险缴费合计(个人)"></el-table-column>
+					<el-table-column prop="baoxianDanwei" label="保险缴费合计(单位)"></el-table-column>
+					<el-table-column prop="baoxianjiaona" label="保险缴纳"></el-table-column>
+					<el-table-column prop="koushui" label="扣税"></el-table-column>
+					<el-table-column prop="shifa" label="实发"></el-table-column>
+					
 				</el-table>
 				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
@@ -339,8 +334,4 @@ export default {
 .payroll_query .imExport-btn-item {
     margin-right: 20px;
 }
-/*.el-col-24 {
-    width: 100%;
-    height: 46px;
-}*/
 </style>
