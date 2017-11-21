@@ -1,20 +1,22 @@
 <template>
-    <transition name="move" mode="out-in">
+	<transition name="move" mode="out-in">
         <router-view></router-view>
     </transition>
 </template>
 
-<script type='text/ecmascript-6'>
-export default {};
+<script>
+export default {
+}
 </script>
-
 <style>
+	.info_wrapper {
+	padding: 0 0 20px 20px;
+}
 .content-wrapper {
   background: #ffffff;
   padding: 0 20px 20px;
   color: #333333;
   clear: both;
-  overflow: hidden;
 }
 
 .content-wrapper .titlebar {
@@ -50,6 +52,7 @@ export default {};
   width: 120px;
   background: #ff9900;
   border: none;
+  padding: 0;
 }
 
 .content-wrapper .button-wrap {
@@ -83,7 +86,7 @@ export default {};
 
 .el-input__inner {
   height: 40px;
-  width: 180px;
+  /*width: 180px;*/
 }
 
 .add-wrapper .el-input__inner {
@@ -92,9 +95,7 @@ export default {};
 
 .el-input__inner:focus,
 .el-textarea__inner:focus,
-.el-select .el-input__inner:focus,
-.el-input-group__append:focus, 
-.el-input-group__prepend:focus {
+.el-select .el-input__inner:focus {
   border-color: #ff9900;
 }
 
@@ -136,6 +137,10 @@ label {
   margin-left: 0;
 }
 
+/* .el-button:active {
+    color: #ff9900;
+    border-color: #ff9900;
+} */
 table .el-button {
   color: #ff9900;
   border-color: #ff9900;
@@ -154,11 +159,6 @@ table .el-button--danger:active {
   background-color: #ff4949;
   border-color: #ff4949;
 }
-
-table .el-button:focus, .el-button:hover {
-  border-color: #ff9900;
-}
-
 
 .linkSpan {
   color: #337ab7;
@@ -234,18 +234,8 @@ table .el-button:focus, .el-button:hover {
 }
 
 .add-wrapper .el-textarea__inner {
-  min-width: 860px;
+  min-width: 800px;
   min-height: 100px;
-}
-
-.el-dialog__body {
-  padding: 0 20px 30px 20px;
-}
-.el-dialog__body .el-input__inner {
-  width: 164px;
-}
-.item-box .button-box .restBtn {
-  margin-right: 5px;
 }
 
 .el-date-table td.current:not(.disabled),
@@ -288,8 +278,8 @@ table .el-button:focus, .el-button:hover {
 }
 
 .el-tabs__header {
-  height: 50px;
-  line-height: 50px;
+  height: 80px;
+  line-height: 80px;
   font-size: 16px;
   font-family: "PingFang SC";
   border-bottom: 1px solid #eeeeee;
@@ -307,7 +297,7 @@ table .el-button:focus, .el-button:hover {
   font-size: 14px;
   font-family: "PingFangSC Regular";
   padding-left: 10px;
-  margin-bottom: 15px;
+  margin: 20px 0;
 }
 
 .content-wrapper .subtitlebar .title-text {
@@ -336,7 +326,8 @@ table .el-button:focus, .el-button:hover {
   display: inline-block;
   width: 24px;
   height: 24px;
-  background: url("../../../../../static/img/common/delete.png") center no-repeat;
+  background: url("../../../../../static/img/common/delete.png") center
+    no-repeat;
 }
 
 .icon-edit:hover,
@@ -409,5 +400,33 @@ table .el-button:focus, .el-button:hover {
 .el-message-box__headerbtn:hover .el-message-box__close {
   color: #ff9900;
 }
+.info_wrapper .travelCity_wrap2{
+	padding-left: 0;
+}
+.info_wrapper .travelCity_line {
+    width: 10px;
+    height: 1px;
+    display: inline-block;
+    background: #8391a5;
+    margin: 17px 5px;
+}
+.info_wrapper .travelCity_wrap .el-form-item__content,
+.info_wrapper .travelCity_wrap2 .el-form-item__content,
+.info_wrapper .travelCity_wrap .el-input__inner,
+.info_wrapper .travelCity_wrap2 .el-input__inner {
+	width: 130px;
+}
+.info_wrapper .travelCity_wrap2 .el-form-item__content {
+	margin-left: 10px;
+}
+.el-input--small .el-input__inner {
+    height: 30px;
+    width: 145px;
+}
+.el-dialog__body .el-input__inner {
+	width: 164px;
+}
+.item-box .button-box .restBtn {
+    margin-right: 5px;
+}
 </style>
-

@@ -15,9 +15,8 @@
                                             :on-success="handleAvatarSuccess"
                                             :before-upload="beforeAvatarUpload">
                                         <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                        <div class="avatar-desc" v-show="!imageUrl"><div>添加照片</div></div>
                                     </el-upload>
-                                    <div class="avatar"><div>添加照片</div></div>
                                     <div class="text">员工照片</div>
                                 </div>
                                 <div class="personal_information">
@@ -618,7 +617,7 @@
                 department:'',
                   CCC:'',
               },
-
+              imageUrl: '',
               dialogImageUrl: '',
               fileFlag: '',
               token: {
@@ -981,6 +980,21 @@
             },
             changeProbEndTime(val) {
                 this.ruleForm2.probEndTime = val
+            },
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = URL.createObjectURL(file.raw);
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
             },
             handleRemove(file, fileList) {
                 if(file.response){
@@ -1591,6 +1605,16 @@
                         color #000
                 .first_title
                     padding-top 30px
+                    .avatar-uploader .el-upload
+                        cursor: pointer;
+                        position: relative;
+                        overflow: hidden;
+                        .el-upload__input
+                            display none
+                        .avatar1
+                            width: 112px;
+                            height: 112px;
+                            display: block;
                     .avatar
                         width: 112px
                         height: 112px
@@ -1914,7 +1938,6 @@
                             line-height: 20px;
                         .el-upload__input
                             display none
-
             .add
                 width: 120px
                 height 30px

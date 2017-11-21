@@ -516,12 +516,27 @@ const routes = [
                 },
                 {
                 	path: '/wageProcess_manage',
-                	component: resolve => require(['../components/pages/payWelfare_Mgmt/payrollProcessMgmt/payrollProcess.vue'], resolve),
+                	component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/wageProcess.vue'], resolve),
                 	children: [
                 		{
-                			name: 'payroll_query',
+                			name: 'wage_query',
                 			path: '/',
-                			component: resolve => require(['../components/pages/payWelfare_Mgmt/payrollProcessMgmt/payroll_query.vue'], resolve)
+                			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/wage_query.vue'], resolve)
+                		},
+                		{
+                			name: 'add_wage',
+                			path: '/add_wage',
+                			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/add_wage.vue'], resolve)
+                		},
+                		{
+                			name: 'wage_info',
+                			path: '/wage_info',
+                			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/wage_info.vue'], resolve)
+                		},
+                		{
+                			name: 'edit_wage',
+                			path: '/edit_wage',
+                			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/edit_wage.vue'], resolve)
                 		}
                 	]
                 	
