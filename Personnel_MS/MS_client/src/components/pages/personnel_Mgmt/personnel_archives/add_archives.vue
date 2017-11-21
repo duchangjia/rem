@@ -8,6 +8,15 @@
                         <el-tabs v-model="activeName" @tab-click="handleClick">
                             <el-tab-pane label="基本信息" name="first">
                                 <div class="first_title">
+                                    <el-upload
+                                            class="avatar-uploader"
+                                            action="https://jsonplaceholder.typicode.com/posts/"
+                                            :show-file-list="false"
+                                            :on-success="handleAvatarSuccess"
+                                            :before-upload="beforeAvatarUpload">
+                                        <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                                    </el-upload>
                                     <div class="avatar"><div>添加照片</div></div>
                                     <div class="text">员工照片</div>
                                 </div>
@@ -258,25 +267,25 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同开始">
-                                                <el-date-picker v-model="ruleForm2.compactStartTime" type="date" placeholder="选择日期" @change="changeprofcompactStartTime"></el-date-picker>
+                                                <el-date-picker v-model="ruleForm2.compactStartTime" type="date" placeholder="选择日期" @change="changeCompactStartTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm2.compactStartTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同终止">
-                                                <el-date-picker v-model="ruleForm2.compactEndTime" type="date" placeholder="选择日期" @change="changeprofcompactEndTime"></el-date-picker>
+                                                <el-date-picker v-model="ruleForm2.compactEndTime" type="date" placeholder="选择日期" @change="changeCompactEndTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm2.compactEndTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用开始">
-                                                <el-date-picker v-model="ruleForm2.probStartTime" type="date" placeholder="选择日期" @change="changeprofprobStartTime"></el-date-picker>
+                                                <el-date-picker v-model="ruleForm2.probStartTime" type="date" placeholder="选择日期" @change="changeProbStartTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm2.probStartTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用结束">
-                                                <el-date-picker v-model="ruleForm2.probEndTime" type="date" placeholder="选择日期" @change="changeprofprobEndTime"></el-date-picker>
+                                                <el-date-picker v-model="ruleForm2.probEndTime" type="date" placeholder="选择日期" @change="changeProbEndTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm2.probEndTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
@@ -562,7 +571,7 @@
                             </el-tab-pane>
                             <el-tab-pane label="证件管理" name="sixth">
                                 <div class="sixth_wrapper">
-                                    <el-upload name="file"
+                                    <el-upload name="file" ref="upload2"
                                             list-type="picture-card"
                                             :on-preview="handlePictureCardPreview"
                                             :on-remove="handleRemove"
@@ -571,7 +580,7 @@
                                             :on-change="handleFileUpload"
                                             :on-success="successUpload"
                                             :before-upload="checkUserNo"
-                                            action="/iem_hrm/CustFile/upload"
+                                            action="/iem_hrm/CustFile/batch/upload"
                                             :headers="token">
                                         <i class="el-icon-plus"></i>
                                         <div class="upload_text_text">添加照片/文件<br>按住Ctrl可多选</div>
@@ -911,6 +920,7 @@
                       {required: true, message: '请输入职责', trigger: 'blur'}
                   ],
               },
+              test:'',
           }
         },
         components: {
@@ -960,20 +970,43 @@
             changeprofTitleTime(val) {
                 this.ruleForm2.profTitleTime = val
             },
-            changeprofcompactStartTime(val) {
-                this.ruleForm2.profcompactStartTime = val
+            changeCompactStartTime(val) {
+                this.ruleForm2.compactStartTime = val
             },
-            changeprofcompactEndTime(val) {
-                this.ruleForm2.profcompactEndTime = val
+            changeCompactEndTime(val) {
+                this.ruleForm2.compactEndTime = val
             },
-            changeprofprobStartTime(val) {
-                this.ruleForm2.profprobStartTime = val
+            changeProbStartTime(val) {
+                this.ruleForm2.probStartTime = val
             },
-            changeprofprobEndTime(val) {
-                this.ruleForm2.profprobEndTime = val
+            changeProbEndTime(val) {
+                this.ruleForm2.probEndTime = val
             },
             handleRemove(file, fileList) {
-                console.log(file, fileList);
+                if(file.response){
+                    let data = {
+                        userNo:file.response.data.userNo,
+                        imageId:file.response.data.imageId,
+                    }
+                    this.$axios.delete('/iem_hrm/CustFile/delCustFile',{params:data})
+                        .then(res=>{
+                            let result = res.data.retMsg
+                            if("操作成功"==result){
+                                this.$message({
+                                    type: 'success',
+                                    message: result
+                                });
+                            }else {
+                                this.$message({
+                                    type: 'error',
+                                    message: result
+                                });
+                            }
+                        })
+                        .catch(e=>{
+                            console.log(e)
+                        })
+                }
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
@@ -988,15 +1021,17 @@
 //                    this.fileFlag = file;
 //                    this.ruleForm2.attachm = file.name;
 //                }
-//                if('sixth'==this.tabName) {
-//                    console.log(file,'handleFileUpload',fileList)
-//                }
             },
             successUpload(response, file, fileList) {
-                console.log(response,'successUpload',this.certificates_list.file)
+                console.log(response,'successUpload',fileList)
                 if(response.code === "S00000") {
                     this.$message({ message: '操作成功', type: 'success' });
 //                    this.$router.push('/travel_management');
+                }else {
+                    this.$message({
+                        message: response.retMsg,
+                        type: 'error'
+                    })
                 }
             },
             checkUserNo(file) {
@@ -1011,7 +1046,6 @@
                 this.certificates_list.file = {
                     file
                 }
-                console.log(this.certificates_list)
             },
             dialogConfirm(custInfo){
                 let self = this;
