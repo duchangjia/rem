@@ -39,7 +39,8 @@ export default {
                 {name:'人事管理',url:'/home'},
                 {name:'财务管理',url:''},
                 {name:'运营管理',url:''},
-                {name:'招聘管理',url:''}
+                {name:'招聘管理',url:''},
+                {name:'前端样式',url:'/web_standard'}
             ]
         }
     },
