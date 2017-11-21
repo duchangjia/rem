@@ -10,39 +10,33 @@
             <div class="add-wrapper">
                 <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
                     <el-col :span="12">
-                        <el-form-item label="公司" prop="organNo">
-                            <el-select v-model="custInfo.organNo">
-                                <el-option label="总公司" value="0"></el-option>
-                                <el-option label="深圳分公司" value="01"></el-option>
-                            </el-select>
+                        <el-form-item label="公司">
+                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="申请部门" prop="derpNo">
-                            <el-select v-model="custInfo.derpNo">
-                                <el-option label="财务部" value="01"></el-option>
-                                <el-option label="技术部" value="001"></el-option>
-                            </el-select>
+                        <el-form-item label="申请部门">
+                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="工号" prop="userNo">
+                        <el-form-item label="工号">
                             <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="姓名" prop="custName">
-                            <el-input v-model="custInfo.custName"></el-input>
+                        <el-form-item label="姓名">
+                            <el-input v-model="custInfo.custName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="职务" prop="custPost">
-                            <el-input v-model="custInfo.custPost"></el-input>
+                        <el-form-item label="职务">
+                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="职级" prop="custClass">
-                            <el-input v-model="custInfo.custClass"></el-input>
+                        <el-form-item label="职级">
+                            <el-input v-model="_custClass" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -51,60 +45,59 @@
                 <el-col :span="24" class="item-title">调整前薪酬基数信息</el-col>
                 <el-form :inline="true" :model="oldPayBaseInfo" :label-position="labelPosition"  label-width="110px" style="margin-top:0;overflow:visible;">
                     <el-col :span="12">
-                        <el-form-item label="基本工资" prop="wagesBase">
-                            <el-input v-model="oldPayBaseInfo.wagesBase"></el-input>
+                        <el-form-item label="基本工资">
+                            <el-input v-model="oldPayBaseInfo.wagesBase" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="绩效工资" prop="wagesPerf">
-                            <el-input v-model="oldPayBaseInfo.wagesPerf"></el-input>
+                        <el-form-item label="绩效工资">
+                            <el-input v-model="oldPayBaseInfo.wagesPerf" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="岗位补贴" prop="postPension">
-                            <el-input v-model="oldPayBaseInfo.postPension"></el-input>
+                        <el-form-item label="岗位补贴">
+                            <el-input v-model="oldPayBaseInfo.postPension" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>   
                     <el-col :span="12">
-                        <el-form-item label="其他补贴" prop="otherPension">
-                            <el-input v-model="oldPayBaseInfo.otherPension"></el-input>
+                        <el-form-item label="其他补贴">
+                            <el-input v-model="oldPayBaseInfo.otherPension" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>  
                     <el-col :span="12">
-                        <el-form-item label="养老保险基数" prop="endmBase">
-                            <el-input v-model="oldPayBaseInfo.endmBase"></el-input>
+                        <el-form-item label="养老保险基数">
+                            <el-input v-model="oldPayBaseInfo.endmBase" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
-                        <el-form-item label="医疗保险基数" prop="mediBase">
-                            <el-input v-model="oldPayBaseInfo.mediBase"></el-input>
+                        <el-form-item label="医疗保险基数">
+                            <el-input v-model="oldPayBaseInfo.mediBase" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
-                        <el-form-item label="失业保险基数" prop="unemBase">
-                            <el-input v-model="oldPayBaseInfo.unemBase"></el-input>
+                        <el-form-item label="失业保险基数">
+                            <el-input v-model="oldPayBaseInfo.unemBase" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
-                        <el-form-item label="工伤保险基数" prop="emplBase">
-                            <el-input v-model="oldPayBaseInfo.emplBase"></el-input>
+                        <el-form-item label="工伤保险基数">
+                            <el-input v-model="oldPayBaseInfo.emplBase" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
-                        <el-form-item label="生育保险基数" prop="mateBase">
-                            <el-input v-model="oldPayBaseInfo.mateBase"></el-input>
+                        <el-form-item label="生育保险基数">
+                            <el-input v-model="oldPayBaseInfo.mateBase" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
-                        <el-form-item label="公积金基数" prop="houseBase">
-                            <el-input v-model="oldPayBaseInfo.houseBase"></el-input>
+                        <el-form-item label="公积金基数">
+                            <el-input v-model="oldPayBaseInfo.houseBase" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="12">
-                        <el-form-item label="保险缴纳标准" prop="welcoeNo">
-                            <el-select v-model="oldPayBaseInfo.welcoeNo">
-                                <el-option label="广州标准" value="1"></el-option>
-                                <el-option label="深圳标准" value="0"></el-option>
+                        <el-form-item label="保险缴纳标准">
+                            <el-select v-model="oldPayBaseInfo.welcoeNo" :disabled="true">
+                                <el-option v-for="item in insurancePayTemplates" :label="item.applyName" :value="item.applyNo"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col> 
@@ -112,7 +105,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">调整后薪酬基数信息</el-col>
-                <el-form :inline="true" :model="newPayChangeInfo" :rules="rules" ref="newPayChangeInfoRules" :label-position="labelPosition"  label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="newPayChangeInfo" :rules="payChangeInfoRules" ref="newPayChangeInfoRules" :label-position="labelPosition"  label-width="110px" style="margin-top:0;overflow:visible;">
                     <el-col :span="12">
                         <el-form-item label="基本工资" prop="nWagesBase">
                             <el-input v-model="newPayChangeInfo.nWagesBase"></el-input>
@@ -166,8 +159,7 @@
                     <el-col :span="24">
                         <el-form-item label="保险缴纳标准" prop="nWelcoeNo">
                             <el-select v-model="newPayChangeInfo.nWelcoeNo" @change="nWelcoeNoChange">
-                                <el-option label="广州标准" value="1"></el-option>
-                                <el-option label="深圳标准" value="0"></el-option>
+                                <el-option v-for="item in insurancePayTemplates" :label="item.applyName" :value="item.applyNo"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col> 
@@ -234,15 +226,15 @@
                         </el-form-item>
                     </el-col>
                 </el-form>
-                <el-form :inline="true" :model="newPayChangeInfo" :rules="rules" ref="newPayChangeInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :model="newPayChangeInfo" :rules="payChangeInfoRules" ref="newPayChangeInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="24">
                         <el-form-item label="调薪说明" prop="remark">
                             <el-input type="textarea" v-model="newPayChangeInfo.remark"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
-                        <el-form-item label=" " prop="autoupFlag">
-                            <el-checkbox v-model="checked">数据更新到薪酬基数设置</el-checkbox>
+                        <el-form-item label=" " prop="updFlag">
+                            <el-checkbox v-model="_updFlag">数据更新到薪酬基数设置</el-checkbox>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -259,7 +251,6 @@ export default {
     return {
       labelPosition: "right",
       userNo: "",
-      checked: "true",
       custInfo: {},
       oldPayBaseInfo: {},
       newPayChangeInfo: {
@@ -274,45 +265,47 @@ export default {
         nMateBase: "",
         nHouseBase: "",
         nProbRatio: "",
-        nWelcoeNo: ""
+        nWelcoeNo: "",
+        updFlag: ""
       },
+      insurancePayTemplates: [],
       insurancePayTemp: {},
-      rules: {
+      payChangeInfoRules: {
         nWagesBase: [
           { required: true, message: "基本工资不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         nWagesPerf: [
           { required: true, message: "绩效工资不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         nPostPension: [
           { required: true, message: "岗位补贴不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         nOtherPension: [
           { required: true, message: "其他补贴不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         nEndmBase: [
           { required: true, message: "养老保险基数不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         nMediBase: [
           { required: true, message: "医疗保险基数不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         nUnemBase: [
           { required: true, message: "失业保险基数不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         nEmplBase: [
           { required: true, message: "工伤保险基数不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         nMateBase: [
           { required: true, message: "生育保险基数不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         nHouseBase: [
           { required: true, message: "公积金基数不能为空", trigger: "blur" },
@@ -321,7 +314,7 @@ export default {
         nWelcoeNo: [
           { required: true, message: "请选择保险缴纳标准", trigger: "change" }
         ],
-        remark: [{ required: true, message: "输入调薪说明", trigger: "blur" }]
+        remark: [{ required: true, message: "调薪说明不能为空", trigger: "blur" }]
       }
     };
   },
@@ -329,57 +322,84 @@ export default {
     current
   },
   created() {
-    this.userNo = this.$route.params.userNo;
+    // this.userNo = this.$route.params.userNo;
+    this.userNo = "P0000015";
     this.getCustInfo(); // 查询用户信息
     this.getPayBaseInfoDetail(); // 查询获取调整前薪酬信息
+    this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
+  },
+  computed: {
+    _custClass: function() {
+      if (this.custInfo.custClass == "B10") {
+        return "B10-初级软件工程师";
+      } else if (this.custInfo.custClass == "B11") {
+        return "B11-中级软件工程师";
+      } else if (this.custInfo.custClass == "B12") {
+        return "B12-高级软件工程师";
+      } else {
+        return "";
+      }
+    },
+    _updFlag: {
+      get: function() {
+        if (
+          this.newPayChangeInfo.updFlag == "01" ||
+          this.newPayChangeInfo.updFlag == true
+        ) {
+          return true;
+        } else if (
+          this.newPayChangeInfo.updFlag == "02" ||
+          this.newPayChangeInfo.updFlag == false
+        ) {
+          return false;
+        }
+      },
+      set: function(val) {
+        if (val == true) {
+          this.newPayChangeInfo.updFlag = "01";
+        } else {
+          this.newPayChangeInfo.updFlag = "02";
+        }
+      }
+    }
   },
   methods: {
     getCustInfo() {
       const self = this;
       let userNo = self.userNo;
-      //   self.$axios
-      //     .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
-      //     .then(res => {
-      //       console.log(res);
-      //       self.custInfo = res.data.data;
-      //     })
-      //     .catch(() => {
-      //       console.log("error");
-      //     });
-      self.custInfo = {
-        userNo: "P000001",
-        custName: "王二狗",
-        organNo: "0",
-        derpNo: "001",
-        custPost: "软件开发工程师",
-        custClass: "B2"
-      };
+      self.$axios
+        .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
+        .then(res => {
+          console.log(res);
+          self.custInfo = res.data.data;
+        })
+        .catch(() => {
+          console.log("error");
+        });
     },
     getPayBaseInfoDetail() {
       const self = this;
       let userNo = self.userNo;
-      //   self.$axios
-      //     .get("/iem_hrm/pay/queryPayBaseInfoDetail/" + userNo)
-      //     .then(res => {
-      //       self.oldPayBaseInfo = res.data.data;
-      //     })
-      //     .catch(() => {
-      //       console.log("error");
-      //     });
-      self.oldPayBaseInfo = {
-        wagesBase: "5000",
-        wagesPerf: "3000",
-        postPension: "1500",
-        otherPension: "800",
-        endmBase: "3000",
-        mediBase: "5000",
-        unemBase: "2300",
-        emplBase: "5000",
-        mateBase: "5000",
-        houseBase: "3000",
-        probRatio: "0.80",
-        welcoeNo: "1"
-      };
+      self.$axios
+        .get("/iem_hrm/pay/queryPayBaseInfoDetail/" + userNo)
+        .then(res => {
+          console.log("调整前基数", res);
+          self.oldPayBaseInfo = res.data.data;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+    getAllInsurancePayTemplate() {
+      const self = this;
+      self.$axios
+        .get("/iem_hrm/InsurancePayTemplate/queryAllInsurancePayTemplate")
+        .then(res => {
+          self.insurancePayTemplates = res.data.data;
+        })
+        .catch(() => {
+          console.log("error");
+        });
     },
     getInsurancePayTemp() {
       const self = this;
@@ -389,7 +409,6 @@ export default {
           "/iem_hrm/InsurancePayTemplate/queryInsurancePayTemplate/" + applyNo
         )
         .then(res => {
-          console.log("已经请求保险缴纳标准回来了", res);
           self.insurancePayTemp = res.data.data;
         })
         .catch(() => {
@@ -398,9 +417,7 @@ export default {
     },
     nWelcoeNoChange(val) {
       this.newPayChangeInfo.nWelcoeNo = val;
-      console.log("新值变化：" + this.newPayChangeInfo.nWelcoeNo);
-      if (val == null) return false;
-      else this.getInsurancePayTemp(); //根据参数值计算保险缴纳标准
+      this.getInsurancePayTemp(); //根据参数值计算保险缴纳标准
     },
     handleSave(newPayChangeInfoRules) {
       this.$refs[newPayChangeInfoRules].validate(valid => {
@@ -429,18 +446,19 @@ export default {
           newPayChangeDetail.nMateBase = this.newPayChangeInfo.nMateBase;
           newPayChangeDetail.nHouseBase = this.newPayChangeInfo.nHouseBase;
           newPayChangeDetail.nWelcoeNo = this.newPayChangeInfo.nWelcoeNo;
+          newPayChangeDetail.autoupFlag = this.newPayChangeInfo.autoupFlag;
           console.log(newPayChangeDetail);
           this.$axios
             .post("/iem_hrm/epPayChageInf/addEpPayChageInf", newPayChangeDetail)
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "调薪基数新增成功!" });
+                this.$message({ type: "success", message: "操作成功!" });
                 this.$router.push("/query_payChangeInfo");
-              } else this.$message.error("调薪基数新增失败！");
+              } else this.$message.error("操作失败！");
             })
             .catch(() => {
-              this.$message.error("调薪基数新增失败！");
+              this.$message.error("操作失败！");
             });
         } else {
           console.log("error submit!!");
