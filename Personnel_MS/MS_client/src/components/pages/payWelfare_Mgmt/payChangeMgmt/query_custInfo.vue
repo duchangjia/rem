@@ -123,12 +123,11 @@ export default {
               : row.custStatus == "05" ? "停薪留职" : "";
     },
     handleCustInfoDetail(index, row) {
-      //   this.$router.push({
-      //     name: "detail_payBaseInfo",
-      //     params: {
-      //       userNo: row.userNo
-      //     }
-      //   });
+      let userNo = row.userNo;
+      this.$router.push({
+        name:'archives_detail',
+        query:{ userNo }
+      });
     },
     handleCurrentChange(val) {
       this.pageNum = val;

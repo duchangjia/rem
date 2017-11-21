@@ -1,6 +1,6 @@
 <template>
     <div class="add_paybaseinfo">
-        <current yiji="薪酬福利" erji="调薪管理" sanji="调薪查询" siji="调薪基数新增">
+        <current yiji="薪酬福利" erji="调薪管理" sanji="调薪查询" siji="调薪基数新增" :userNo="userNo">
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
@@ -120,7 +120,37 @@
                         <el-form-item label="岗位补贴" prop="nPostPension">
                             <el-input v-model="newPayChangeInfo.nPostPension"></el-input>
                         </el-form-item>
-                    </el-col>   
+                    </el-col>
+                    <!-- <el-col :span="12">
+                        <el-form-item label="通讯补贴" prop="nPhonePension">
+                            <el-input v-model="newPayChangeInfo.nPhonePension"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="交通补贴" prop="nTrafficPension">
+                            <el-input v-model="newPayChangeInfo.nTrafficPension"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="生活补贴" prop="nLivingPension">
+                            <el-input v-model="newPayChangeInfo.nLivingPension"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="全勤奖" prop="nAttendanceBonus">
+                            <el-input v-model="newPayChangeInfo.nAttendanceBonus"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="工龄奖" prop="nSeniorityPay">
+                            <el-input v-model="newPayChangeInfo.nSeniorityPay"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="加班工资" prop="nOvertimePay">
+                            <el-input v-model="newPayChangeInfo.nOvertimePay"></el-input>
+                        </el-form-item>
+                    </el-col> -->
                     <el-col :span="12">
                         <el-form-item label="其他补贴" prop="nOtherPension">
                             <el-input v-model="newPayChangeInfo.nOtherPension"></el-input>
@@ -257,6 +287,14 @@ export default {
         nWagesBase: "",
         nWagesPerf: "",
         nPostPension: "",
+
+        nPhonePension: "",
+        nTrafficPension: "",
+        nLivingPension: "",
+        nAttendanceBonus: "",
+        nSeniorityPay: "",
+        nOvertimePay: "",
+
         nOtherPension: "",
         nEndmBase: "",
         nMediBase: "",
@@ -281,6 +319,30 @@ export default {
         ],
         nPostPension: [
           { required: true, message: "岗位补贴不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
+        nPhonePension: [
+          { required: true, message: "通讯补贴不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
+        nTrafficPension: [
+          { required: true, message: "交通补贴不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
+        nLivingPension: [
+          { required: true, message: "生活补贴不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
+        nAttendanceBonus: [
+          { required: true, message: "全勤奖不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
+        nSeniorityPay: [
+          { required: true, message: "工龄奖不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
+        nOvertimePay: [
+          { required: true, message: "加班工资不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         nOtherPension: [
@@ -322,8 +384,8 @@ export default {
     current
   },
   created() {
-    // this.userNo = this.$route.params.userNo;
-    this.userNo = "P0000015";
+    this.userNo = this.$route.params.userNo;
+    // this.userNo = "P0000015";
     this.getCustInfo(); // 查询用户信息
     this.getPayBaseInfoDetail(); // 查询获取调整前薪酬信息
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
@@ -435,18 +497,11 @@ export default {
           newPayChangeDetail.oMateBase = this.oldPayBaseInfo.mateBase;
           newPayChangeDetail.oHouseBase = this.oldPayBaseInfo.houseBase;
           newPayChangeDetail.oWelcoeNo = this.oldPayBaseInfo.welcoeNo;
-          newPayChangeDetail.nWagesBase = this.newPayChangeInfo.nWagesBase;
-          newPayChangeDetail.nWagesPerf = this.newPayChangeInfo.nWagesPerf;
-          newPayChangeDetail.nPostPension = this.newPayChangeInfo.nPostPension;
-          newPayChangeDetail.nOtherPension = this.newPayChangeInfo.nOtherPension;
-          newPayChangeDetail.nEndmBase = this.newPayChangeInfo.nEndmBase;
-          newPayChangeDetail.nMediBase = this.newPayChangeInfo.nMediBase;
-          newPayChangeDetail.nUnemBase = this.newPayChangeInfo.nUnemBase;
-          newPayChangeDetail.nEmplBase = this.newPayChangeInfo.nEmplBase;
-          newPayChangeDetail.nMateBase = this.newPayChangeInfo.nMateBase;
-          newPayChangeDetail.nHouseBase = this.newPayChangeInfo.nHouseBase;
-          newPayChangeDetail.nWelcoeNo = this.newPayChangeInfo.nWelcoeNo;
-          newPayChangeDetail.autoupFlag = this.newPayChangeInfo.autoupFlag;
+          for (var name in this.newPayChangeInfo) {
+            if (this.newPayChangeInfo[name]) {
+              newPayChangeDetail[name] = this.newPayChangeInfo[name];
+            }
+          }
           console.log(newPayChangeDetail);
           this.$axios
             .post("/iem_hrm/epPayChageInf/addEpPayChageInf", newPayChangeDetail)
@@ -454,7 +509,12 @@ export default {
               console.log(res);
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/query_payChangeInfo");
+                this.$router.push({
+                  name: "query_payChangeInfo",
+                  params: {
+                    userNo: this.userNo
+                  }
+                });
               } else this.$message.error("操作失败！");
             })
             .catch(() => {
