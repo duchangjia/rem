@@ -13,16 +13,11 @@
             <span>
                 <img src="../../../static/img/common/help.png" alt="" width="14" height="16">
             </span>
-            <el-dropdown trigger="hover" class="userinfo" @command="handleCommand">
+            <div  class="userinfo" >
                 <span class="el-dropdown-link">
                     <img src="../../../static/img/common/avatar.png" width="32" height="32" class="useravatar" />您好，{{username}}
-                    <i class="el-icon-caret-bottom el-icon--right"></i>
                 </span>
-                <el-dropdown-menu slot="dropdown" split-button type="primary">
-                    <el-dropdown-item command="user_center">基本信息</el-dropdown-item>
-                    <el-dropdown-item command="modify_password">密码修改</el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown>
+            </div>
             <span @click="loginout()">
                 <img src="../../../static/img/common/exit0.png" alt="" width="16" height="18">
             </span>
@@ -67,15 +62,15 @@ export default {
         linkTo(url){
             this.$router.push(url)
         },
-        handleCommand(commmand) {
-            const _self = this
-            if (commmand === 'user_center') {
-                sessionStorage.setItem('user_center', true);
-            } else {
-                sessionStorage.setItem('user_center', false);
-            }
-            _self.$router.push(commmand);
-        },
+        // handleCommand(commmand) {
+        //     const _self = this
+        //     if (commmand === 'user_center') {
+        //         sessionStorage.setItem('user_center', true);
+        //     } else {
+        //         sessionStorage.setItem('user_center', false);
+        //     }
+        //     _self.$router.push(commmand);
+        // },
         link2Home() {
             this.$router.push('/aggPage')
         }
@@ -144,6 +139,7 @@ export default {
 
 .header .headerright .userinfo {
     padding: 0 20px;
+    display: inline-block;
 }
 
 .header .headerright .el-icon--right {
