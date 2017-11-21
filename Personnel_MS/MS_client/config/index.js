@@ -44,7 +44,7 @@ module.exports = {
         // target: 'http://192.168.1.107:8888/',
         // target: 'http://192.168.1.102:8888/',
         // target: 'http://192.168.1.111:8888/',
-        // target: 'http://10.0.0.34:8888/',
+        // target: 'http://10.0.0.43:8888/',
         // target: 'http://10.0.0.16:8888/',
         // target: 'http://10.0.0.30:8888/',
         // target: 'http://localhost:3000/',
