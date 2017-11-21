@@ -62,6 +62,7 @@
 					<el-table-column prop="koushui" label="扣税"></el-table-column>
 					<el-table-column prop="shifa" label="实发"></el-table-column>
 					
+					
 				</el-table>
 				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
