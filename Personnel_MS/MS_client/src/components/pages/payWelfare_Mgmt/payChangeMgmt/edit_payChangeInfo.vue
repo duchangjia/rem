@@ -1,6 +1,6 @@
 <template>
     <div class="add_paybaseinfo">
-        <current yiji="薪酬福利" erji="调薪管理" sanji="调薪查询" siji="调薪基数修改">
+        <current yiji="薪酬福利" erji="调薪管理" sanji="调薪查询" siji="调薪基数修改" :userNo="userNo">
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
@@ -120,7 +120,37 @@
                         <el-form-item label="岗位补贴" prop="nPostPension">
                             <el-input v-model="payChangeDetail.nPostPension"></el-input>
                         </el-form-item>
-                    </el-col>   
+                    </el-col>
+                    <!-- <el-col :span="12">
+                        <el-form-item label="通讯补贴" prop="nPhonePension">
+                            <el-input v-model="payChangeDetail.nPhonePension"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="交通补贴" prop="nTrafficPension">
+                            <el-input v-model="payChangeDetail.nTrafficPension"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="生活补贴" prop="nLivingPension">
+                            <el-input v-model="payChangeDetail.nLivingPension"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="全勤奖" prop="nAttendanceBonus">
+                            <el-input v-model="payChangeDetail.nAttendanceBonus"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="工龄奖" prop="nSeniorityPay">
+                            <el-input v-model="payChangeDetail.nSeniorityPay"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="加班工资" prop="nOvertimePay">
+                            <el-input v-model="payChangeDetail.nOvertimePay"></el-input>
+                        </el-form-item>
+                    </el-col>  -->
                     <el-col :span="12">
                         <el-form-item label="其他补贴" prop="nOtherPension">
                             <el-input v-model="payChangeDetail.nOtherPension"></el-input>
@@ -161,7 +191,6 @@
                             <el-select v-model="payChangeDetail.nWelcoeNo" @change="nWelcoeNoChange">
                                 <el-option v-for="item in insurancePayTemplates" :label="item.applyName" :value="item.applyNo"></el-option>
                             </el-select>
-                            
                         </el-form-item>
                     </el-col> 
                 </el-form>
@@ -270,6 +299,30 @@ export default {
           { required: true, message: "岗位补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
+        nPhonePension: [
+          { required: true, message: "通讯补贴不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
+        nTrafficPension: [
+          { required: true, message: "交通补贴不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
+        nLivingPension: [
+          { required: true, message: "生活补贴不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
+        nAttendanceBonus: [
+          { required: true, message: "全勤奖不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
+        nSeniorityPay: [
+          { required: true, message: "工龄奖不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
+        nOvertimePay: [
+          { required: true, message: "加班工资不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
         nOtherPension: [
           { required: true, message: "其他补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
@@ -311,7 +364,6 @@ export default {
   created() {
     this.userNo = this.$route.params.userNo;
     this.applyNo = this.$route.params.applyNo;
-    console.log('No:',this.userNo);
     this.getCustInfo(); // 查询用户信息
     this.getPayChangeDetail(); //查询调薪基数信息
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
@@ -438,7 +490,12 @@ export default {
               console.log(res);
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/query_payChangeInfo");
+                this.$router.push({
+                  name: "query_payChangeInfo",
+                  params: {
+                    userNo: this.userNo
+                  }
+                });
               } else this.$message.error("操作失败！");
             })
             .catch(() => {

@@ -37,6 +37,10 @@ const routes = [
             component: resolve => require(['../components/common/aggPage.vue'], resolve)
         },
         {
+            path: '/web_standard',
+            component: resolve => require(['../components/common/web_standard.vue'], resolve)
+        },
+        {
 
             path: '/home',
             meta: { requireAuth: true, },
@@ -509,6 +513,7 @@ const routes = [
                         }
                     ]
                 },
+
                 {
                 	path: '/wageProcess_manage',
                 	component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/wageProcess.vue'], resolve),
