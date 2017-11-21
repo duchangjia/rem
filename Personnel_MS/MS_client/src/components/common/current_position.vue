@@ -12,6 +12,7 @@
                     <el-breadcrumb-item v-if="liuji" :to="{ path: links[5] }" class="test1">{{liuji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if='false'>{{activeTab}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if='false'>{{pactNo}}</el-breadcrumb-item>
+                    <el-breadcrumb-item v-if='false'>{{userNo}}</el-breadcrumb-item>
                 </el-breadcrumb>
             </el-col>
             <el-col :span="2" v-show="breadItemLength>1">
@@ -42,6 +43,13 @@ export default {
                     params: {
                         activeTab: this.activeTab,
                         pactNo: this.pactNo
+                    }
+                })
+            } else if (this.userNo){
+                this.$router.push({
+                    name: aa,
+                    params: {
+                        userNo: this.userNo
                     }
                 })
             } else {
@@ -211,7 +219,7 @@ export default {
                 _link.push('/detail_payBaseInfo')
             }
             if (this.sanji === '调薪查询') {
-                _link.push('/query_payChangeInfo')
+                _link.push('query_payChangeInfo')
             }
             if (this.sanji === '人事调动明细查询') {
                 _link.push('/detail_transfer')
@@ -393,6 +401,10 @@ export default {
             default: ''
         },
         pactNo: {
+            type: String,
+            default: ''
+        },
+        userNo: {
             type: String,
             default: ''
         },

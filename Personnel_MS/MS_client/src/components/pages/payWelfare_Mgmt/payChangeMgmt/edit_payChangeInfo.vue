@@ -161,7 +161,6 @@
                             <el-select v-model="payChangeDetail.nWelcoeNo" @change="nWelcoeNoChange">
                                 <el-option v-for="item in insurancePayTemplates" :label="item.applyName" :value="item.applyNo"></el-option>
                             </el-select>
-                            
                         </el-form-item>
                     </el-col> 
                 </el-form>
@@ -311,7 +310,6 @@ export default {
   created() {
     this.userNo = this.$route.params.userNo;
     this.applyNo = this.$route.params.applyNo;
-    console.log('No:',this.userNo);
     this.getCustInfo(); // 查询用户信息
     this.getPayChangeDetail(); //查询调薪基数信息
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板

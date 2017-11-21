@@ -97,7 +97,6 @@ export default {
       self.$axios
         .get("/iem_hrm/CustInfo/queryCustInfList")
         .then(res => {
-          console.log('custInfoList',res);
           self.custInfoList = res.data.data.list;
         })
         .catch(() => {

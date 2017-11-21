@@ -1,6 +1,6 @@
 <template>
     <div class="add_paybaseinfo">
-        <current yiji="薪酬福利" erji="调薪管理" sanji="调薪查询" siji="调薪基数新增">
+        <current yiji="薪酬福利" erji="调薪管理" sanji="调薪查询" siji="调薪基数新增" :userNo="userNo">
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
@@ -322,8 +322,8 @@ export default {
     current
   },
   created() {
-    // this.userNo = this.$route.params.userNo;
-    this.userNo = "P0000015";
+    this.userNo = this.$route.params.userNo;
+    // this.userNo = "P0000015";
     this.getCustInfo(); // 查询用户信息
     this.getPayBaseInfoDetail(); // 查询获取调整前薪酬信息
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
@@ -454,7 +454,13 @@ export default {
               console.log(res);
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/query_payChangeInfo");
+                // this.$router.push("/query_payChangeInfo");
+                this.$router.push({
+                    name: "query_payChangeInfo",
+                    params: {
+                        userNo: this.userNo
+                    }
+                })
               } else this.$message.error("操作失败！");
             })
             .catch(() => {

@@ -12,12 +12,12 @@
                 <el-form :inline="true" :model="filters">
                   <el-col :span="6">
                     <el-form-item label="开始时间" prop="startTime">
-                        <el-date-picker type="date" placeholder="选择日期" v-model="filters.startTime" :picker-options="startTimeOption" style="width: 100%;"></el-date-picker>
+                        <el-date-picker type="date" placeholder="选择日期" v-model="filters.startTime" @change="startTimeChange" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                   </el-col>
                   <el-col :span="6">
                     <el-form-item label="结束时间" prop="endTime">
-                        <el-date-picker type="date" placeholder="选择日期" v-model="filters.endTime" :picker-options="endTimeOption" style="width: 100%;"></el-date-picker>
+                        <el-date-picker type="date" placeholder="选择日期" v-model="filters.endTime" :picker-options="endTimeOption" @change="endTimeChange" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                   </el-col>
                   <el-form-item>
@@ -77,11 +77,6 @@ export default {
       totalRows: 1,
       payChangeInfoList: [],
       userNo: "",
-      startTimeOption: {
-        disabledDate(time) {
-          // return time.getTime() < Date.now() - 8.64e7;
-        }
-      },
       endTimeOption: {
         disabledDate(time) {
           return time.getTime() < new Date(that.filters.startTime).getTime();
@@ -106,8 +101,7 @@ export default {
         pageSize: self.pageSize,
         startTime: self.filters.startTime,
         endTime: self.filters.endTime,
-        // userNo: self.userNo
-        userNo: "P0000015"
+        userNo: self.userNo
       };
       self.$axios
         .get("/iem_hrm/epPayChageInf/queryEpPayChageInfList", { params: params })
@@ -125,13 +119,23 @@ export default {
       this.$router.push({
         name: "detail_payChangeInfo",
         params: {
-          applyNo: row.applyNo
+          applyNo: row.applyNo,
+          userNo: row.userNo
         }
       });
     },
     handleCurrentChange(val) {
       this.pageNum = val;
       this.getPayChangeInfoList(); //分页查询调薪基数列表
+    },
+
+    startTimeChange(val) {
+      console.log('start', val);
+      this.filters.startTime = val;
+    },
+    endTimeChange(val) {
+      console.log('end', val);
+      this.filters.endTime = val;
     },
     handleReset() {
       this.filters.startTime = "";
@@ -140,9 +144,9 @@ export default {
     handleQuery() {
       console.log(
         "startTime:" +
-          self.filters.startTime +
+          this.filters.startTime +
           " endTime:" +
-          self.filters.endTime
+          this.filters.endTime
       );
       this.getPayChangeInfoList(); //根据条件查询调薪基数列表
     },
@@ -166,7 +170,7 @@ export default {
     handleDelete(index, row) {
       let targetPayChangeInfo = {};
       targetPayChangeInfo.applyNo = row.applyNo;
-      targetPayChangeInfo.userNo = this.userNo;
+      targetPayChangeInfo.userNo = row.userNo;
       console.log(targetPayChangeInfo);
       this.$confirm("此操作将会删除该条调薪信息, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -175,25 +179,21 @@ export default {
       })
         .then(() => {
           this.$axios
-            .delete(
-              "/iem_hrm/epPayChageInf/delEpPayChageInf?applyNo=" +
-                targetPayChangeInfo.applyNo + "&userNo=" + targetPayChangeInfo.userNo,
-              targetPayChangeInfo
-            )
+            .delete("/iem_hrm/epPayChageInf/delEpPayChageInf?applyNo=" + row.applyNo + "&userNo=" + row.userNo)
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "删除成功!" });
+                this.$message({ type: "success", message: "操作成功!" });
                 this.getPayChangeInfoList();
               }
-              else this.$message.error("删除调薪信息失败！");
+              else this.$message.error("操作失败！");
             })
             .catch(() => {
-              this.$message.error("删除调薪信息失败！");
+              this.$message.error("操作失败！");
             });
         })
         .catch(() => {
-          this.$message("您已取消删除调薪信息！");
+          this.$message("您已取消操作！");
         });
     }
   }
