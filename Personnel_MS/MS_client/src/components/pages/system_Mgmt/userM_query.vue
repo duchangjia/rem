@@ -253,7 +253,7 @@ export default {
     padding-bottom: 20px;
     width: 100%;
 }
-.userM_query .el-button, .el-button + .el-button {
+.userM_query .el-button + .el-button {
     margin-left: 20px;
 }
 .link {

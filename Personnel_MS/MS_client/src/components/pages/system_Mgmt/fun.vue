@@ -200,7 +200,7 @@
 	    cursor: pointer;
 	    background: url('../../../../static/img/common/edit.png') center no-repeat;
 	}
-	.fun .el-button, .el-button + .el-button {
+	.fun .el-button + .el-button {
 	    margin-left: 20px;
 	}
 </style>
