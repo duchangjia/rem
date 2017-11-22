@@ -1,5 +1,5 @@
 <template>
-	<div class="info_wrapper">
+	<div class="add_wage">
 		<current yiji="薪酬福利" erji="工资流程管理" sanji="工资流程新增">
 		</current>
 		<div class="content-wrapper">
@@ -10,29 +10,49 @@
 			<div class="add-wrapper">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
 					<el-col :sm="24" :md="12">
-						<el-form-item label="类别" prop="wageType">
-							<!--<el-input v-model="formdata2.wageType"></el-input>-->
-							<el-select v-model="formdata2.wageType" multiple value-key="wageTypeNo" class="bg-white">
-								<el-option v-for="(item,k) in wageTypeList" :key="item.wageTypeNo" :label="item.wageTypeName" :value="item"></el-option>
+						<el-form-item label="类别" prop="grpType">
+							<el-select v-model="formdata2.grpType" multiple value-key="grpTypeNo" class="bg-white">
+								<el-option v-for="(item,k) in grpTypeList" :key="item.grpTypeNo" :label="item.grpTypeName" :value="item.grpTypeNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="公司名称">
-							<el-input v-model="formdata2.companyName"></el-input>
+						<el-form-item label="公司名称" prop="companyNo">
+							<el-select v-model="formdata2.companyNo" value-key="compOrgNo">
+								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
-						<el-form-item label="部门范围">
-						    <!--<el-input v-model="formdata2.departRange"></el-input>-->
-						    <el-select v-model="formdata2.departRange" multiple value-key="departRangeNo" class="bg-white">
-								<el-option v-for="(item,k) in departRangeList" :key="item.departRangeNo" :label="item.departRangeName" :value="item"></el-option>
-							</el-select>
+						<el-form-item label="部门范围" prop="departRange">
+							<ul class="range">
+								<li class="range-item" v-for="item in formdata2.departRange">{{item.departRangeName}}</li>
+							</ul>
+							<el-dropdown trigger="click" @command="handleAddDepart">
+						      	<span class="el-dropdown-link">
+						       		 <el-button type="primary" size="small" class="addBtn">增加</el-button>
+						      	</span>
+						      	<el-dropdown-menu slot="dropdown">
+						        	<el-dropdown-item v-for="item in departRangeList" :command="item">{{item.departRangeName}}</el-dropdown-item>
+						      	</el-dropdown-menu>
+						  	</el-dropdown>
+							<el-button type="primary" size="small" class="clearBtn" @click="clearDepart">清空</el-button>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="人员范围">
-						    <el-input v-model="formdata2.roleRange"></el-input>
+						    <ul class="range">
+								<li class="range-item" v-for="item in formdata2.roleRange">{{item.roleRangeName+"("+item.roleRangeNo+")"}}</li>
+							</ul>
+							<el-dropdown trigger="click" @command="handleAddRole">
+						      	<span class="el-dropdown-link">
+						       		<el-button type="primary" size="small" class="addBtn">增加</el-button>
+						      	</span>
+						      	<el-dropdown-menu slot="dropdown">
+						        	<el-dropdown-item v-for="item in roleRangeList" :command="item">{{item.roleRangeName}}</el-dropdown-item>
+						      	</el-dropdown-menu>
+						  	</el-dropdown>
+							<el-button type="primary" size="small" class="clearBtn" @click="clearRole">清空</el-button>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -42,7 +62,8 @@
 						      type="month"
 						      placeholder="请选择"
 						      @change="changeWageMonth" 
-						      style="width:100%;">
+						      style="width:100%;"
+						      >
 						   </el-date-picker>
 						</el-form-item>
 					</el-col>
@@ -79,61 +100,84 @@
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
+			var checkDepartRange = (rule, value, callback) => {
+		        if (value == []) {
+		          	callback(new Error('部门范围不能为空'));
+		        }else {
+		          	callback();
+		        }
+	      	};
 			var checkWageStartTime = (rule, value, callback) => {
 		        if (value == '') {
-		          	callback(new Error('开始时间不能为空'));
+		          	callback(new Error('开始日期不能为空'));
 		        } else if (this.formdata2.wageEndTime && value >= this.formdata2.wageEndTime) {
-		          	callback(new Error('开始时间不能大于结束时间'));
+		          	callback(new Error('开始日期不能大于结束日期'));
 		        } else {
 		          	callback();
 		        }
 	      	};
 			var checkWageEndTime = (rule, value, callback) => {
 		        if (value == '') {
-		          	callback(new Error('结束时间不能为空'));
+		          	callback(new Error('结束日期不能为空'));
 		        } else if (this.formdata2.wageStartTime && value <= this.formdata2.wageStartTime) {
-		          	callback(new Error('开始时间不能大于结束时间'));
+		          	callback(new Error('开始日期不能大于结束日期'));
 		        } else {
 		          	callback();
 		        }
 	      	};
 			return {
 				formdata2: {
-					wageType: "",
+					grpType: "",
 					companyName: "",
-					departRange: [],
-					roleRange: "",
+					companyNo: "",
+					departRange: [
+						{departRangeName: "广州分公司",departRangeNo: "1"},
+						{departRangeName: "上海分公司",departRangeNo: "1"}
+					],
+					roleRange: [
+						{roleRangeName: "张三",roleRangeNo: "P0000001"},
+						{roleRangeName: "李四",roleRangeNo: "P0000002"}
+					],
 					wageMonth: "",
 					wageStartTime: "",
 					wageEndTime: "",
 					remark: ""
 				},
-				travelTypeList: [
-					{label: "业务拓展", travelNo: "01"},
-					{label: "项目实施", travelNo: "02"},
-					{label: "会议", travelNo: "03"},
-					{label: "其他", travelNo: "99"}
+				//类别列表
+				grpTypeList: [
+					{grpTypeNo: "1", grpTypeName: "工资"},
+					{grpTypeNo: "2", grpTypeName: "奖金"},
+					{grpTypeNo: "3", grpTypeName: "福利"},
 				],
-				wageType: [
-					{wageTypeNo: "1", wageTypeName: "工资"},
-					{wageTypeNo: "2", wageTypeName: "奖金"},
-					{wageTypeNo: "3", wageTypeName: "福利"},
+				//公司列表
+				compList: [
+					{organNo: "01",organName: "广州分公司"}
 				],
+				//部门列表
 				departRangeList: [
-					{
-						departRangeNo: "01",
-						departRangeName: "所有部门"
-					},
-					{
-						departRangeNo: "02",
-						departRangeName: "行政部"
-					},
-					{
-						departRangeNo: "03",
-						departRangeName: "行政部"
-					}
+					{ departRangeNo: "01", departRangeName: "所有部门" },
+					{ departRangeNo: "02", departRangeName: "行政部" },
+					{ departRangeNo: "03", departRangeName: "信息部" }
+				],
+				//人员列表
+				roleRangeList: [
+					{roleRangeNo: "P0000001", roleRangeName: "张三"},
+					{roleRangeNo: "P0000002", roleRangeName: "李四"},
+					{roleRangeNo: "P0000003", roleRangeName: "王五"}
 				],
 			 	rules: {
+			 		grpType: [
+			 			{ required: true, message: '类别不能为空', trigger: 'blur' }
+			 		],
+			 		companyNo: [
+			 			{ required: true, message: '公司名称不能为空', trigger: 'change' }
+			 		],
+			 		departRange: [
+			 			{ required: true, message: '部门范围不能为空', trigger: 'change' }
+			 		],
+			 		wageMonth: [
+			 			{ required: true, message: '工资月份不能为空', trigger: 'change' }
+			 		],
 			 		wageStartTime: [
 			 			{ require: "true", validator: checkWageStartTime, trigger: "change"}
 			 		],
@@ -160,11 +204,32 @@
 				this.formdata2.wageEndTime = time;
 				
 			},
+			//增加部门范围
+			handleAddDepart(command) {
+				console.log(command);
+				this.formdata2.departRange.push(command);
+			},
+			//清空部门范围
+			clearDepart() {
+				this.formdata2.departRange = [];
+			},
+			//增加人员范围
+			handleAddRole(command) {
+				console.log(command);
+				this.formdata2.roleRange.push(command)
+			},
+			//清空人员范围
+			clearRole() {
+				this.formdata2.roleRange = [];
+			},
 	      	save(formName) {
 				const self = this;
 				self.$refs.formdata2.validate(valid => {
 			        if (valid) {
-			          	
+			          	let params = {
+			          		
+			          	}
+			          	self.addWageInfo(params);
 			        }
 		       })
 			},
@@ -186,5 +251,35 @@
 </script>
 
 <style scoped>
-
+.add_wage  {
+	padding: 0 0 20px 20px;
+}
+.add_wage .range {
+	width: 300px;
+	height: 100px;
+	border: 1px solid #bfcbd9;
+	border-radius: 4px;
+	margin-bottom: 0px;
+    overflow-y: auto;
+}
+.add_wage .range .range-item {
+    height: 26px;
+    line-height: 26px;
+    padding-left: 10px;
+}
+.add_wage .el-button--small {
+  margin: 4px;
+  padding: 7px 9px;
+  border: none;
+  font-size: 14px;
+  width: auto;
+}
+.add_wage .addBtn {
+	background: #FF9900;
+}
+.add_wage .clearBtn {
+	color: #ff9900;
+    background: #FFFFFF;
+    border: 1px solid #FF9900;
+}
 </style>

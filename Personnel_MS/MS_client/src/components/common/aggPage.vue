@@ -6,7 +6,7 @@
                 <img src="../../../static/img/home/banner.png">
             </div>
             <div class="nav_item clearfix">
-                <div class="item-content" v-for="item in navItem" v-bind:class="item.class">
+                <div class="item-content" v-for="item in navItem" v-bind:class="item.class" @click="linkToItem(item.url)">
                     <div class="item-list clearfix">
                         <div class="item-list-left"></div>
                         <div class="item-list-right">
@@ -42,7 +42,7 @@
                             <div class="search-inp-tit">
                             </div>
                             <div class="search-inp-con">
-                                <input type="text" v-model="searchData.accountNo" placeholder="员工姓名/员工编号/邮箱">
+                                <input type="text" v-model="searchData.accountNo" placeholder="员工姓名/员工编号/邮箱"  disabled="disabled">
                             </div>
                             <div class="search-icon search-inp-tit search-icon-two" @click="searchAsset()">
                             </div>
@@ -84,7 +84,7 @@
                         </div>
                         <div class="msg-content">
                             <ul>
-                                <li class="msg-list clearfix  txt-size" v-for="item in toDoList" v-bind:class="item.class">
+                                <li class="msg-list clearfix  txt-size" v-for="item in toDoList" v-bind:class="item.class" >
                                     <span class="msg-txt ">{{item.txt}}</span>
                                     <div class="msg-time">{{item.time}}</div>
                                 </li>
@@ -146,27 +146,32 @@ import vFooter from './footer.vue';
                     {
                         class:'item-one-list',
                         txt:'321',
-                        title:'个人信息'
+                        title:'个人信息',
+                        url:'/user_center'
                     },
                     {
                         class:'item-two-list',
                         txt:'21',
-                        title:'薪资福利'
+                        title:'薪资福利',
+                        url:''
                     },
                     {
                         class:'item-thr-list',
                         txt:'28',
-                        title:'考勤与休假'
+                        title:'考勤与休假',
+                        url:''
                     },
                     {
                         class:'item-four-list',
                         txt:'24',
-                        title:'差旅'
+                        title:'差旅',
+                        url:''
                     },
                     {
                         class:'item-five-list',
                         txt:'25',
-                        title:'费用报销'
+                        title:'费用报销',
+                        url:''
 
                     }
                 ],
@@ -279,15 +284,15 @@ import vFooter from './footer.vue';
                     data = {
                         noNameEmail:self.searchData.accountNo
                     };
-                if(data.noNameEmail == ''){
-                    self.$message({
-                        type: "error",
-                        message: "查找内容不能为空！"
-                    });
-                    return;
-                }
+                // if(data.noNameEmail == ''){
+                //     self.$message({
+                //         type: "error",
+                //         message: "查找内容不能为空！"
+                //     });
+                //     return;
+                // }
                self.$axios
-                .get("/iem_hrm/CustInfo/queryCustAsset", { params: data })
+                .get("/iem_hrm/CustInfo/queryCustAsset")
                 .then(res => {
                     console.log(res)
                 self.gridData =  res.data.data
@@ -319,6 +324,9 @@ import vFooter from './footer.vue';
                 : row.assetType == "03"
                     ? "电脑"
                     : row.assetType == "04" ? "后勤用品" : "异常";
+            },
+            linkToItem(url){
+                this.$router.push(url)
             }
         },
         components:{

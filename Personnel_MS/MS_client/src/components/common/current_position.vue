@@ -101,9 +101,6 @@ export default {
             if (this.erji === '人事合同') {
                 _link.push('/personnel_contract')
             }
-            if (this.erji === '人事档案') {
-                _link.push('/personnel_archives')
-            }
             if (this.erji === '人事调动') {
             	_link.push('/personnel_transfer')
             }
@@ -215,12 +212,6 @@ export default {
             }
             if (this.sanji === '人事调动明细查询') {
                 _link.push('/detail_transfer')
-            }
-            if (this.sanji === '员工新增') {
-                _link.push('/add_archives')
-            }
-            if (this.sanji === '员工详情') {
-                _link.push('/archives_detail')
             }
             if (this.sanji === '员工离职明细查询') {
                 _link.push('/detail_dimission')

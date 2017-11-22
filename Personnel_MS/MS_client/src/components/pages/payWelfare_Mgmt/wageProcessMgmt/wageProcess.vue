@@ -9,7 +9,7 @@ export default {
 }
 </script>
 <style>
-	.info_wrapper {
+.info_wrapper {
 	padding: 0 0 20px 20px;
 }
 .content-wrapper {

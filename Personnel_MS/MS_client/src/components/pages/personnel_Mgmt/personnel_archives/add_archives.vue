@@ -266,25 +266,25 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同开始">
-                                                <el-date-picker v-model="ruleForm2.compactStartTime" type="date" placeholder="选择日期" @change="changeCompactStartTime"></el-date-picker>
+                                                <el-date-picker v-model="ruleForm2.compactStartTime" type="date" placeholder="选择日期" @change="changeprofcompactStartTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm2.compactStartTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同终止">
-                                                <el-date-picker v-model="ruleForm2.compactEndTime" type="date" placeholder="选择日期" @change="changeCompactEndTime"></el-date-picker>
+                                                <el-date-picker v-model="ruleForm2.compactEndTime" type="date" placeholder="选择日期" @change="changeprofcompactEndTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm2.compactEndTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用开始">
-                                                <el-date-picker v-model="ruleForm2.probStartTime" type="date" placeholder="选择日期" @change="changeProbStartTime"></el-date-picker>
+                                                <el-date-picker v-model="ruleForm2.probStartTime" type="date" placeholder="选择日期" @change="changeprofprobStartTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm2.probStartTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用结束">
-                                                <el-date-picker v-model="ruleForm2.probEndTime" type="date" placeholder="选择日期" @change="changeProbEndTime"></el-date-picker>
+                                                <el-date-picker v-model="ruleForm2.probEndTime" type="date" placeholder="选择日期" @change="changeprofprobEndTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm2.probEndTime"></el-input>-->
                                             </el-form-item>
                                         </el-col>
@@ -336,11 +336,11 @@
                                         </el-col>
                                         <el-col :span="9">
                                                 <el-form-item label="附件">
-                                                    <el-input v-model="ruleForm2.attachm" style="position:absolute"></el-input>
+                                                    <el-input v-model="ruleForm2.attachm"></el-input>
                                                     <el-upload class="upload-demo" ref="upload" name="file"
                                                                :on-change="handleFileUpload"
                                                                :on-success="successUpload"
-                                                               action="/iem_hrm/CustFile/upload"
+                                                               action="https://jsonplaceholder.typicode.com/posts/"
                                                                :show-file-list="false"
                                                                :auto-upload="false"
                                                                :headers="token">
@@ -354,7 +354,7 @@
                             <el-tab-pane label="社会关系" name="second">
                                 <div class="second-wrapper">
                                     <div class="second_title">
-                                        <span>社会关系</span><span class="text" @click="add_item">添加</span>
+                                        <span>成员信息</span><span class="text" @click="add_item">添加</span>
                                     </div>
                                     <div class="second_content_wrapper" id="secondContentWrapper">
                                         <socialRelationItem v-for="(item, index) in social_item.lists" :ruleFrom="item" :relationNum="index" @del_item="delRelationItem"
@@ -364,7 +364,7 @@
                             </el-tab-pane>
                             <el-tab-pane label="工作经历" name="third" class="third_special">
                                 <div class="third-wrapper">
-                                    <div class="title"><span>工作经历</span><span class="text" @click="add_work_experience">添加</span></div>
+                                    <div class="title"><span>工作经历</span><span  class="text" @click="add_work_experience">添加</span></div>
                                     <div class="from-wrapper">
                                         <div v-for="(item, index) in work_item.lists" style="margin-top: 20px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`third${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
@@ -570,23 +570,18 @@
                             </el-tab-pane>
                             <el-tab-pane label="证件管理" name="sixth">
                                 <div class="sixth_wrapper">
-                                    <el-upload name="file" ref="upload2"
+                                    <el-upload
+                                            action="https://jsonplaceholder.typicode.com/posts/"
                                             list-type="picture-card"
                                             :on-preview="handlePictureCardPreview"
                                             :on-remove="handleRemove"
-                                            :data="certificates_list"
-                                            multiple
-                                            :on-change="handleFileUpload"
-                                            :on-success="successUpload"
-                                            :before-upload="checkUserNo"
-                                            action="/iem_hrm/CustFile/batch/upload"
-                                            :headers="token">
+                                            multiple>
                                         <i class="el-icon-plus"></i>
                                         <div class="upload_text_text">添加照片/文件<br>按住Ctrl可多选</div>
                                         <!--<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
                                     </el-upload>
                                     <el-dialog v-model="dialogVisible2" size="tiny">
-                                        <img width="100%" :src="dialogImageUrl" alt="pic">
+                                        <img width="100%" :src="dialogImageUrl" alt="">
                                     </el-dialog>
                                 </div>
                             </el-tab-pane>
@@ -617,13 +612,7 @@
                 department:'',
                   CCC:'',
               },
-              imageUrl: '',
               dialogImageUrl: '',
-              fileFlag: '',
-              token: {
-                  Authorization:`Bearer `+localStorage.getItem('access_token'),
-              },
-
               dialogVisible2: false,
               dialogVisible: false,
               tableOption:[],
@@ -694,10 +683,6 @@
                           isShowEdit: false
                       },
                   ]
-              },
-              certificates_list:{
-                userNo:'',
-                file:{},
               },
               activeName: 'first',
               tabName:'first',
@@ -925,7 +910,6 @@
                       {required: true, message: '请输入职责', trigger: 'blur'}
                   ],
               },
-              test:'',
           }
         },
         components: {
@@ -975,58 +959,20 @@
             changeprofTitleTime(val) {
                 this.ruleForm2.profTitleTime = val
             },
-            changeCompactStartTime(val) {
-                this.ruleForm2.compactStartTime = val
+            changeprofcompactStartTime(val) {
+                this.ruleForm2.profcompactStartTime = val
             },
-            changeCompactEndTime(val) {
-                this.ruleForm2.compactEndTime = val
+            changeprofcompactEndTime(val) {
+                this.ruleForm2.profcompactEndTime = val
             },
-            changeProbStartTime(val) {
-                this.ruleForm2.probStartTime = val
+            changeprofprobStartTime(val) {
+                this.ruleForm2.profprobStartTime = val
             },
-            changeProbEndTime(val) {
-                this.ruleForm2.probEndTime = val
-            },
-            handleAvatarSuccess(res, file) {
-                this.imageUrl = URL.createObjectURL(file.raw);
-            },
-            beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
-                const isLt2M = file.size / 1024 / 1024 < 2;
-
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
-                }
-                if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 2MB!');
-                }
-                return isJPG && isLt2M;
+            changeprofprobEndTime(val) {
+                this.ruleForm2.profprobEndTime = val
             },
             handleRemove(file, fileList) {
-                if(file.response){
-                    let data = {
-                        userNo:file.response.data.userNo,
-                        imageId:file.response.data.imageId,
-                    }
-                    this.$axios.delete('/iem_hrm/CustFile/delCustFile',{params:data})
-                        .then(res=>{
-                            let result = res.data.retMsg
-                            if("操作成功"==result){
-                                this.$message({
-                                    type: 'success',
-                                    message: result
-                                });
-                            }else {
-                                this.$message({
-                                    type: 'error',
-                                    message: result
-                                });
-                            }
-                        })
-                        .catch(e=>{
-                            console.log(e)
-                        })
-                }
+                console.log(file, fileList);
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
@@ -1163,7 +1109,6 @@
                                                 self.project_item.userNo = res.data.data
                                                 self.education_item.userNo = res.data.data
                                                 self.work_item.userNo = res.data.data
-                                                self.certificates_list.userNo = res.data.data
                                             }else{
                                                 self.$message({
                                                     type: 'error',
@@ -1438,7 +1383,6 @@
                     }
                 }
             },
-
             add_item() {
                 let item = {
                         contactName: '',
@@ -1692,7 +1636,7 @@
                             border-radius 4px
                             font-family: PingFangSC-Regular;
                             font-size: 14px;
-                            color: #97A8BE;
+                            color: #333333;
                             letter-spacing: 0;
                             border 1px solid #bfcbd9;
                             padding 12px 15px
@@ -1716,7 +1660,7 @@
                             border-radius 4px
                             font-family: PingFangSC-Regular;
                             font-size: 14px;
-                            color: #97A8BE;
+                            color: #333333;
                             letter-spacing: 0;
                             border 1px solid #bfcbd9;
                             padding 12px 10px
@@ -1724,11 +1668,10 @@
                                 margin 0 19px
                     .text
                         padding-left 8px
-                        margin 20px 0
+                        margin 40px 0
                         font-family: PingFangSC-Regular;
                         font-size: 14px;
                         color: #333333;
-                        font-weight bold
                         letter-spacing: 0;
                     .el-form-item
                         margin-bottom 30px
@@ -1736,13 +1679,12 @@
                             padding 11px 30px 11px 0
                             font-family: PingFangSC-Regular;
                             font-size: 14px;
-                            color: #999;
+                            color: #3F3F3F;
                             letter-spacing: 0;
                             height 40px
                             margin-bottom  0
                     .upload-demo
-                        position absolute
-                        width 200px
+                        height 0
                     .el-upload__input
                         display none
                     .uploadBtn
@@ -1955,6 +1897,7 @@
                             line-height: 20px;
                         .el-upload__input
                             display none
+
             .add
                 width: 120px
                 height 30px

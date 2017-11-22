@@ -5,19 +5,9 @@
 			<div class="titleBar">
 				<span class="title-text">工资流程管理</span>
 				<div class="titleBtn_wrapper">
-					<!--<el-upload ref="upload" name="file" class="upload-demo imExport-btn-item"
-		  			 	:on-change="changeUpload" 
-		  			 	:on-success="successUpload"
-		  			 	action="/iem_hrm/" 
-		  			 	:show-file-list="false" 
-		  			 	:headers="token"
-					>
-                        <span class="icon-import" title="社保数据导入" slot="trigger"></span>
-                   	</el-upload>-->
-                   	<el-button class="" @click="handleAdd">社保数据导入</el-button>
+                   	<el-button class="social" @click="handleSocial">社保数据导入</el-button>
 					<el-button type="primary" @click="handleAdd">新增</el-button>
 				</div>
-				
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
@@ -37,11 +27,7 @@
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工资月份" prop="startDate"">
-							<el-date-picker
-						      v-model="ruleForm2.startDate"
-						      type="month"
-						      placeholder="请选择"
-						      @change="changeStartTime">
+							<el-date-picker v-model="ruleForm2.startDate" type="month" placeholder="请选择" @change="changeStartTime">
 						   </el-date-picker>
 						</el-form-item>
 					</el-col>
@@ -57,18 +43,15 @@
 				      	</template>
 					</el-table-column>
 					<el-table-column prop="companyName" label="公司名称"></el-table-column>
-
-					<el-table-column prop="payStartTime" label="结算开始日期" :formatter="travelStartTimeFormatter"></el-table-column>
-					<el-table-column prop="payEndTime" label="结算结束日期" :formatter="travelEndTimeFormatter"></el-table-column>
-
+					<el-table-column prop="gryStartTime" label="结算开始日期" :formatter="gryStartTimeFormatter"></el-table-column>
+					<el-table-column prop="gryEndTime" label="结算结束日期" :formatter="gryEndTimeFormatter"></el-table-column>
 					<el-table-column prop="gongziMonth" label="工资月份" ></el-table-column>
 					<el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
-					<el-table-column prop="status" label="状态" ></el-table-column>
+					<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
 					<el-table-column prop="createdBy" label="录入人"></el-table-column>
 					<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
 					<el-table-column label="操作" width="100">
 						<template scope="scope">
-							<!--<el-button type="text" size="small" @click="handlMenu(scope.$index, scope.row)">菜单</el-button>-->
 							<el-dropdown trigger="click" @command="handleCommand">
 						      	<span class="el-dropdown-link">
 						       		 <el-button type="text" size="small" @click="handlMenu(scope.$index, scope.row)">下拉菜单</el-button>
@@ -116,14 +99,14 @@ export default {
 			transferDataList: [
 				{
 					applyNo: "20172017",
-					organName: "",
-					payStartTime: "",
-					payEndTime: "",
-					gongziMonth: "",
+					companyName: "深圳分公司",
+					gryStartTime: "2017-10-10",
+					gryEndTime: "2017-11-10",
+					gongziMonth: "2017-10-10",
 					remark: "的方式大力开发空间里的时间反对声浪附近逗留时间房价肯定里粉丝数量大幅减少的看风景",
-					status: "",
-					createdBy: "",
-					createdDate: ""
+					status: "01",
+					createdBy: "P000000",
+					createdDate: "2017-11-21"
 				}
 			],
 			//部门列表
@@ -151,34 +134,18 @@ export default {
 		this.queryCompList();
 	},
 	methods: {
-		travelStartTimeFormatter(row, column) {
-	      return row.travelStartTime ? moment(row.travelStartTime).format('YYYY-MM-DD') : null;
+		gryStartTimeFormatter(row, column) {
+	      return row.gryStartTime ? moment(row.gryStartTime).format('YYYY-MM-DD') : null;
 	   	}, 
-	   	travelEndTimeFormatter(row, column) {
-	      return row.travelEndTime ? moment(row.travelEndTime).format('YYYY-MM-DD') : null;
+	   	gryEndTimeFormatter(row, column) {
+	      return row.gryEndTime ? moment(row.gryEndTime).format('YYYY-MM-DD') : null;
 	   	}, 
+	   	statusFormatter(row, column) {
+	   		return row.status=="01" ? "录入" : row.status=="02" ? "启用" : "废弃";
+	   	},
 	   	createdDateFormatter(row, column) {
 	      return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null;
 	    },
-		travelTypeFormatter(row, column) {
-	    	let travelType = '';
-	    	switch(row.travelType){
-				case '01':
-				  travelType = '业务拓展'
-				  break;
-				case '02':
-				  travelType = '项目实施'
-				  break;
-				case '03':
-				  travelType = '会议'
-				  break;
-				case '99':
-				  travelType = '其他'
-				  break;
-				default:
-			}
-	    	return travelType;
-		},
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;
 			console.log(val)
@@ -191,6 +158,9 @@ export default {
 			}
 			//部门列表查询
 			self.queryDerpList(params);
+		},
+		handleSocial() {
+			this.$router.push('/socialSecurity_query');
 		},
 	    handleAdd() {
 	    	this.$router.push('/add_wage');
@@ -212,41 +182,47 @@ export default {
 		handleCommand(command) {
 			console.log(command)
 			let applyNo = sessionStorage.getItem('wage_applyNo');
-			if(command === "handleExport") {
-				//导出
-				
-			}else if(command === "handleImport") {
-				//导入
-				
-			}else if(command === "handleEnter") {
-				//录入
-				
-			}else if(command === "handleUse") {
-				//启用
-				
-			}else if(command === "handleEdit") {
-				//编辑
-				sessionStorage.setItem('editWage_applyNo', applyNo);
-	            this.$router.push('/edit_wage');
-	            
-			}else if(command === "handleDelete") {
-				//删除
-				const self = this;
-			 	self.$confirm('此操作将会删除该条信息, 是否继续?', '提示', {
-	                confirmButtonText: '确定',
-	                cancelButtonText: '取消',
-	                type: 'warning'
-	           	}).then(() => {
-	            	let params = {
-						applyNo: applyNo
-					}
-	            	console.log(params);
-	            	
-	            	
-	            }).catch(() => {
-	                this.$message('您已取消操作！');
-	            });
+			switch(command){
+				case 'handleExport':
+				  	//导出
+				  	break;
+				case 'handleImport':
+				  	//导入
+				  	break;
+				case 'handleEnter':
+				  	//单笔录入工资
+					this.$router.push('/entry_wage');
+				  	break;
+				case 'handleUse':
+				  	//启用
+				  	break;
+				case 'handleEdit':
+				 	 //编辑
+					sessionStorage.setItem('editWage_applyNo', applyNo);
+	            	this.$router.push('/edit_wage');
+				  	break;
+				case 'handleDelete':
+				  	//删除
+					const self = this;
+				 	self.$confirm('此操作将会删除该条信息, 是否继续?', '提示', {
+		                confirmButtonText: '确定',
+		                cancelButtonText: '取消',
+		                type: 'warning'
+		           	}).then(() => {
+		            	let params = {
+							applyNo: applyNo
+						}
+		            	console.log(params);
+		            	
+		            	
+		            }).catch(() => {
+		                this.$message('您已取消操作！');
+		            });
+				  	break;
+				  
+				default:
 			}
+
 		},
 		changeUpload(file, fileList) {
 //	 		this.formdata2.attachm = file.name;
