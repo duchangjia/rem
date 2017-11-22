@@ -159,8 +159,6 @@ export default {
       });
     },
     handleDelete(index, row) {
-      const self = this;
-      let userNo = row.userNo;
       this.$confirm("此操作将会删除该条薪酬基数信息, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -168,7 +166,7 @@ export default {
       })
         .then(() => {
           this.$axios
-            .delete("/iem_hrm/pay/deletePayBaseInfo/" + userNo)
+            .delete("/iem_hrm/pay/deletePayBaseInfo/" + row.userNo)
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000") {
