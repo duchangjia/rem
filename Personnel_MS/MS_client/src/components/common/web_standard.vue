@@ -352,7 +352,7 @@ h2{
     .q-item{
         background:$bg-wihte;
         padding:20px;
-        
+
         p{
             padding:10px 0;
         }
