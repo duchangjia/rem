@@ -225,7 +225,7 @@ export default {
 			let self = this;
 			self.$axios.get(baseURL+'/menu/queryMenuInfo')
 			.then(function(res) {
-				console.log('menuList',res);
+//				console.log('menuList',res);
 //				self.items = res.data.data;
 			}).catch(function(err) {
 				console.log('error');
@@ -236,7 +236,7 @@ export default {
 		onRoutes() {
 		    //保持左侧菜单激活状态
 			let reg = /\//g
-			console.log(this.$route.matched);
+//			console.log(this.$route.matched);
 //			return this.$route.matched[1].path.replace(reg, '');
 		}
 	},

@@ -33,7 +33,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="16">
-                    <el-form-item label="地址" class="address">
+                    <el-form-item label="地址" class="social-address">
                         <el-input v-model="ruleFrom.addr" class="address_special" :disabled="ruleFrom.isShowEdit" :maxlength="150"></el-input>
                     </el-form-item>
                 </el-col>
@@ -86,6 +86,15 @@
             }
         },
         methods: {
+            checkValue() {
+                this.$refs['ruleFrom'+this.relationNum][0].validate((valid) => {
+                    if (valid) {
+                        return true
+                    }else {
+                        return false
+                    }
+                })
+            },
             delOrEdit(isShow,relationNum) {
                 if(!isShow)  {
                     this.$confirm('此操作将永久删除, 是否继续?', '提示', {
@@ -112,16 +121,19 @@
 
 <style lang='stylus' rel='stylesheet/stylus'>
     .social_relation_item
+        position relative
         .bg_color
             background: #f4f4f4;
             overflow hidden
-            margin-top:30px;
+            margin-top 30px
+            padding-bottom 18px
         .bg_color2
             background: #fff;
             overflow hidden
             margin-top:30px;
+            padding-bottom 18px
         .el-input
-            width 200px
+            width 215px
             height 40px
         .el-input__inner
             width 100%
@@ -131,7 +143,7 @@
             &:focus
                 border-color #ff9900
         .el-select
-            width 200px
+            width 215px
             height 40px
             .el-input
                 height 100%
@@ -146,22 +158,22 @@
             height 40px
             box-sizing border-box
             padding 10px 20px 10px 20px
-            margin-bottom 20px
             .el-icon-close, .el-icon-edit
                 color #f90
                 width: 14px
                 height: 14px
-                float right
                 cursor pointer
+                position absolute
+                top: 14px;
+                right: 20px;
                 &:hover
                     text-decoration underline
         .el-form-item
-            margin-bottom 30px
             .el-form-item__label
                 margin-right 30px
             .el-form-item__error
                 left 30px
-        .address
+        .social-address
             .address_special
                 width 91%
                 max-width 600px
