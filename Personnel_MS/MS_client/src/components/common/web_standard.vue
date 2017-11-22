@@ -166,10 +166,10 @@
                         </el-form>
                     </div>
                 </div>
-                <!-- <p>代码如下</p>
+                <p>代码如下</p>
                 <pre>
-                   {{searchTitleBar}}
-                </pre> -->
+                   {{searchTitleHtml}}
+                </pre>
             </div>
         </div>
     </div>
@@ -282,7 +282,44 @@ export default {
             searchTitleBar:`<div class="titleBar">
 				            <span class="title-text">查询页标题</span>
                             <el-button class="btn-primary">标题按钮</el-button>
-			            </div>`
+			            </div>`,
+            searchTitleHtml:`<div class="queryContent_inner">
+                        <el-form>
+                            <el-col :sm="12" :md="6">
+                                <el-form-item label="下拉框">
+                                    <el-select>
+                                        <el-option label="选项1"></el-option>
+                                        <el-option label="选项2"></el-option>
+                                        <el-option label="选项3"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :sm="12" :md="6">
+                                <el-form-item label="文本框">
+                                    <el-input type="text" placeholder="文本框"></el-input>
+                                </el-form-item>
+                            </el-col>
+                           <el-col :sm="12" :md="6">
+                                <el-form-item label="下拉框">
+                                    <el-select>
+                                        <el-option label="选项1"></el-option>
+                                        <el-option label="选项2"></el-option>
+                                        <el-option label="选项3"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :sm="12" :md="6">
+                                <el-form-item label="文本框">
+                                    <el-input type="text" placeholder="文本框"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <div class="queryButton_wrapper">
+                                <el-button class="resetform btn-default" >重置</el-button>
+                                <el-button  class="btn-primary">查询</el-button>
+                            </div>
+                        </el-form>
+                    </div>`
+
       }
   },
   methods:{

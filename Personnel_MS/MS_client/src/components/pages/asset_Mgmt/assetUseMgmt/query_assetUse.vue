@@ -5,7 +5,7 @@
                 <!-- <div class="title">
                     <span class="text">资产使用管理</span><button class="add" @click="add">新增</button>
                 </div> -->
-                <div class="titlebar">
+                <div class="titleBar">
                     <span class="title-text">资产使用管理</span>
                     <el-button  @click="add" class="btn-primary">新增</el-button>
                 </div>
