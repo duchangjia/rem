@@ -64,7 +64,7 @@
                     </template>
                 </el-table-column>
             </el-table>
-            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+            <el-pagination class="toolbar" @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
             </el-pagination>
         </div>
     </div>
@@ -80,8 +80,8 @@ export default {
         custName: ""
       },
       pageNum: 1,
-      pageSize: 7,
-      totalRows: 30,
+      pageSize: 10,
+      totalRows: 1,
       payBaseInfoList: []
     };
   },
@@ -130,9 +130,6 @@ export default {
       this.filters.custName = "";
     },
     handleQuery() {
-      console.log(
-        "userNo:" + this.filters.userNo + " custName:" + this.filters.custName
-      );
       this.getPayBaseInfoList(); //根据条件查询薪酬基数列表
     },
     handleImport() {},
@@ -175,17 +172,17 @@ export default {
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "删除成功!" });
+                this.$message({ type: "success", message: "操作成功!" });
                 this.getPayBaseInfoList();
               }
-              else this.$message.error("删除薪酬基数信息失败！");
+              else this.$message.error("操作失败！");
             })
             .catch(() => {
-              this.$message.error("删除薪酬基数信息失败！");
+              this.$message.error("操作失败！");
             });
         })
         .catch(() => {
-          this.$message("您已取消删除薪酬基数信息！");
+          this.$message("您已取消操作！");
         });
     }
   }

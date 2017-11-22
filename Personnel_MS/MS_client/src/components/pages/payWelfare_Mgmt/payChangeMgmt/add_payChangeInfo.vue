@@ -58,7 +58,37 @@
                         <el-form-item label="岗位补贴">
                             <el-input v-model="oldPayBaseInfo.postPension" :disabled="true"></el-input>
                         </el-form-item>
-                    </el-col>   
+                    </el-col>
+                    <!-- <el-col :span="12">
+                        <el-form-item label="通讯补贴">
+                            <el-input v-model="oldPayBaseInfo.phonePension" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="交通补贴">
+                            <el-input v-model="oldPayBaseInfo.trafficPension" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="生活补贴">
+                            <el-input v-model="oldPayBaseInfo.livingPension" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="全勤奖">
+                            <el-input v-model="oldPayBaseInfo.attendanceBonus" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="工龄奖">
+                            <el-input v-model="oldPayBaseInfo.seniorityPay" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="加班工资">
+                            <el-input v-model="oldPayBaseInfo.overtimePay" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col> --> 
                     <el-col :span="12">
                         <el-form-item label="其他补贴">
                             <el-input v-model="oldPayBaseInfo.otherPension" :disabled="true"></el-input>
@@ -489,6 +519,12 @@ export default {
           newPayChangeDetail.oWagesBase = this.oldPayBaseInfo.wagesBase;
           newPayChangeDetail.oWagesPerf = this.oldPayBaseInfo.wagesPerf;
           newPayChangeDetail.oPostPension = this.oldPayBaseInfo.postPension;
+          newPayChangeDetail.oPhonePension = this.oldPayBaseInfo.phonePension;
+          newPayChangeDetail.oTrafficPension = this.oldPayBaseInfo.trafficPension;
+          newPayChangeDetail.oLivingPension = this.oldPayBaseInfo.livingPension;
+          newPayChangeDetail.oAttendanceBonus = this.oldPayBaseInfo.attendanceBonus;
+          newPayChangeDetail.oSeniorityPay = this.oldPayBaseInfo.seniorityPay;
+          newPayChangeDetail.oOvertimePay = this.oldPayBaseInfo.overtimePay;
           newPayChangeDetail.oOtherPension = this.oldPayBaseInfo.otherPension;
           newPayChangeDetail.oEndmBase = this.oldPayBaseInfo.endmBase;
           newPayChangeDetail.oMediBase = this.oldPayBaseInfo.mediBase;
