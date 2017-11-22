@@ -238,7 +238,7 @@
 .query_transfer {
 	padding: 0 0 20px 20px;
 }
-.query_transfer .el-button, .el-button + .el-button {
-margin-left: 20px;
+.query_transfer .el-button + .el-button {
+	margin-left: 20px;
 }
 </style>

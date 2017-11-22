@@ -4,7 +4,7 @@
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
 				<span class="title-text">职级薪酬标准设置</span>
-				<el-button type="primary" class="titleBtn_wrapper" @click="addWelfare()">新增</el-button>
+				<el-button type="primary" class="btn-primary" @click="addWelfare()">新增</el-button>
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :inline="true" ref="ruleForm2" class="demo-ruleForm">
@@ -17,8 +17,8 @@
 					</el-col>
 					<el-col :sm="12" :md="6">
 						<div class="queryButton_wrapper">
-							<el-button class="resetform" @click="resetForm()">重置</el-button>
-							<el-button type="primary" class="queryForm" @click="queryForm('ruleForm2')">查询</el-button>
+							<el-button class="btn-default" @click="resetForm()">重置</el-button>
+							<el-button type="primary" class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
 						</div>
 					</el-col>
 				</el-form>
@@ -217,7 +217,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .icon-delete {
     display: inline-block;
@@ -225,5 +225,12 @@ export default {
     height: 24px;
     background: url('../../../../static/img/common/delete.png') center no-repeat;
 }
-
+.el-button + .el-button {
+    margin-left: 20px;
+}
+.link {
+	cursor: pointer;
+    color: #337ab7;
+    text-decoration: underline;
+}
 </style>

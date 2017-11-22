@@ -1,5 +1,5 @@
 <template>
-	<div class="query_wrapper">
+	<div class="attendance_query">
 		<current yiji="考勤管理" erji="考勤记录管理"></current>
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
@@ -47,7 +47,7 @@
 						      type="date"
 						      placeholder="选择日期"
 						      :picker-options="pickerOptions0" @change="changeEndTime">
-						   </el-date-picker>
+						   	</el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :sm="12" :md="6">
@@ -56,8 +56,8 @@
 						</el-form-item>
 					</el-col>
 					<div class="queryButton_wrapper">
-						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
-						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
+						<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
+						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
 				<el-table :data="transferDataList" border stripe style="width: 100%">
@@ -377,6 +377,44 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped lang='scss'>
+.attendance_query {
+	padding-left: 20px;
+    padding-bottom: 20px;
+	width: 100%;
+}
+.attendance_query .imExport-btn {
+	float: right;
+	margin-top: 19px;
+}
+.attendance_query .imExport-btn-item{
+	display: inline-block;
+	margin-left: 30px;
+	cursor: pointer;
+	vertical-align: middle;
+}
+.attendance_query .el-upload__input {
+    display: none;
+}
+.attendance_query .icon-import {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(../../../../../static/img/common/batch-import0.png);
+}
+.attendance_query .icon-export {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(../../../../../static/img/common/batch-export0.png);
+}
+.attendance_query .icon-download {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(../../../../../static/img/common/template-download0.png);
+}
+.el-button + .el-button {
+    margin-left: 20px;
+}
 </style>

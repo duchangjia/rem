@@ -27,3 +27,9 @@
 .el-select-dropdown__item.selected.hover{
   background-color: #e4e8f1;
 }
+//file
+.el-upload{
+    .el-upload__input {
+        display:none;
+    } 
+}
