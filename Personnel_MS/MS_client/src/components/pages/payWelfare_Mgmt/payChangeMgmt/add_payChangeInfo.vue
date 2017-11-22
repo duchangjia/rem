@@ -59,7 +59,7 @@
                             <el-input v-model="oldPayBaseInfo.postPension" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <!-- <el-col :span="12">
+                    <el-col :span="12">
                         <el-form-item label="通讯补贴">
                             <el-input v-model="oldPayBaseInfo.phonePension" :disabled="true"></el-input>
                         </el-form-item>
@@ -74,7 +74,7 @@
                             <el-input v-model="oldPayBaseInfo.livingPension" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <!-- <el-col :span="12">
                         <el-form-item label="全勤奖">
                             <el-input v-model="oldPayBaseInfo.attendanceBonus" :disabled="true"></el-input>
                         </el-form-item>
@@ -83,12 +83,12 @@
                         <el-form-item label="工龄奖">
                             <el-input v-model="oldPayBaseInfo.seniorityPay" :disabled="true"></el-input>
                         </el-form-item>
-                    </el-col>
+                    </el-col> -->
                     <el-col :span="12">
                         <el-form-item label="加班工资">
                             <el-input v-model="oldPayBaseInfo.overtimePay" :disabled="true"></el-input>
                         </el-form-item>
-                    </el-col> --> 
+                    </el-col> 
                     <el-col :span="12">
                         <el-form-item label="其他补贴">
                             <el-input v-model="oldPayBaseInfo.otherPension" :disabled="true"></el-input>
@@ -151,7 +151,7 @@
                             <el-input v-model="newPayChangeInfo.nPostPension"></el-input>
                         </el-form-item>
                     </el-col>
-                    <!-- <el-col :span="12">
+                    <el-col :span="12">
                         <el-form-item label="通讯补贴" prop="nPhonePension">
                             <el-input v-model="newPayChangeInfo.nPhonePension"></el-input>
                         </el-form-item>
@@ -166,7 +166,7 @@
                             <el-input v-model="newPayChangeInfo.nLivingPension"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <!-- <el-col :span="12">
                         <el-form-item label="全勤奖" prop="nAttendanceBonus">
                             <el-input v-model="newPayChangeInfo.nAttendanceBonus"></el-input>
                         </el-form-item>
@@ -175,12 +175,12 @@
                         <el-form-item label="工龄奖" prop="nSeniorityPay">
                             <el-input v-model="newPayChangeInfo.nSeniorityPay"></el-input>
                         </el-form-item>
-                    </el-col>
+                    </el-col> -->
                     <el-col :span="12">
                         <el-form-item label="加班工资" prop="nOvertimePay">
                             <el-input v-model="newPayChangeInfo.nOvertimePay"></el-input>
                         </el-form-item>
-                    </el-col> -->
+                    </el-col>
                     <el-col :span="12">
                         <el-form-item label="其他补贴" prop="nOtherPension">
                             <el-input v-model="newPayChangeInfo.nOtherPension"></el-input>
@@ -334,7 +334,8 @@ export default {
         nHouseBase: "",
         nProbRatio: "",
         nWelcoeNo: "",
-        updFlag: ""
+        updFlag: "",
+        chageStatus: "01"
       },
       insurancePayTemplates: [],
       insurancePayTemp: {},
