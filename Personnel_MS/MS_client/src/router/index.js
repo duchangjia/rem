@@ -34,7 +34,29 @@ const routes = [
         {
             path: '/aggPage',
             meta: { requireAuth: true, },
-            component: resolve => require(['../components/common/aggPage.vue'], resolve)
+            component: resolve => require(['../components/common/aggregation/common/aggPage.vue'], resolve)
+        },
+        {
+            path: '/aggHome',
+            meta: { requireAuth: true, },
+            component: resolve => require(['../components/common/aggregation/common/Home.vue'], resolve),
+            children: [
+                {
+                    path: '/',
+                    meta: { requireAuth: true, },
+                    component: resolve => require(['../components/common/aggregation/user_Setting/user_Info.vue'], resolve)
+                },
+                {
+                    path: '/agg_uesr_center',
+                    meta: { requireAuth: true, },
+                    component: resolve => require(['../components/common/aggregation/user_Setting/user_Info.vue'], resolve)
+                },
+                {
+                    path: '/agg_modify_password',
+                    meta: { requireAuth: true, },
+                    component: resolve => require(['../components/common/aggregation/user_Setting/agg_modify_password.vue'], resolve)
+                }
+            ]
         },
         {
             path: '/web_standard',
@@ -547,11 +569,6 @@ const routes = [
                 			name: 'socialSecurity_query',
                 			path: '/socialSecurity_query',
                 			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/socialSecurity_query.vue'], resolve)
-                		},
-                		{
-                			name: 'import_socialSecurity',
-                			path: '/import_socialSecurity',
-                			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/import_socialSecurity.vue'], resolve)
                 		},
                 		{
                 			name: 'edit_security',
