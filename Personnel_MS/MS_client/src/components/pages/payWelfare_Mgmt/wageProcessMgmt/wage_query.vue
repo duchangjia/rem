@@ -127,7 +127,8 @@ export default {
 			"pageSize": this.pageSize,
 			
 		}
-		
+		//查询工资列表
+		this.queryWageList(params);
 		//公司列表查询
 		this.queryCompList();
 	},
@@ -276,11 +277,11 @@ export default {
 			}
 			
 		},
-		queryTravelList(params) {
+		queryWageList(params) {
 			let self = this;
-			self.$axios.get(baseURL+'', {params: params})
+			self.$axios.get(baseURL+'/wage/queryWageFlowList', {params: params})
 			.then(function(res) {
-				console.log('TravelList',res);
+				console.log('WageList',res);
 				if(res.data.code === "S00000") {
 					self.transferDataList = res.data.data.list;
 					self.pageNum = params.pageNum;
