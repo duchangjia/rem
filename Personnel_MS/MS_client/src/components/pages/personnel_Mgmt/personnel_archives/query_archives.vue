@@ -78,7 +78,7 @@
                             <td :title="tds.mobileNo">{{tds.mobileNo}}</td>
                             <td :title="tds.entryTime">{{tds.entryTime}}</td>
                             <td :title="tds.custStatus">{{tds.custStatus=='01'?'试用期':tds.custStatus=='02'?'合同期':tds.custStatus=='03'?'已退休':tds.custStatus=='04'?'已离职':'停薪留职'}}</td>
-                            <td @click="see" class="see">查看</td></tr>
+                            <td @click="see(tds.userNo)" class="see">查看</td></tr>
                     </table>
                     <el-pagination
                             @size-change="handleSizeChange"
@@ -97,17 +97,25 @@
                 <el-table :data="gridData"
                           stripe
                           border
-                          max-height="250"
                           >
-                    <el-table-column property="num" label="序号" align="center"></el-table-column>
-                    <el-table-column property="propp" label="资产属性" align="center"></el-table-column>
-                    <el-table-column property="oldaddress" label="旧编码" align="center"></el-table-column>
-                    <el-table-column property="newaddress" label="资产编码" align="center" min-width="150"></el-table-column>
-                    <el-table-column property="company" label="公司" align="center"  min-width="250"></el-table-column>
-                    <el-table-column property="momey" label="资产类型" align="center" min-width="150"></el-table-column>
-                    <el-table-column property="city" label="存放城市" align="center"></el-table-column>
-                    <el-table-column property="people" label="使用人" align="center"></el-table-column>
+                    <!--<el-table-column property="num" label="序号" align="center"></el-table-column>-->
+                    <!--<el-table-column property="propp" label="资产属性" align="center"></el-table-column>-->
+                    <!--<el-table-column property="oldaddress" label="旧编码" align="center"></el-table-column>-->
+                    <el-table-column property="assetName" label="资产名称" align="center"></el-table-column>
+                    <el-table-column property="assetNo" label="资产编码" align="center"></el-table-column>
+                    <el-table-column property="organName" label="公司" align="center"></el-table-column>
+                    <el-table-column property="assetType" label="资产类型" align="center" :formatter="assetTypeFormatter"></el-table-column>
+                    <!--<el-table-column property="city" label="存放城市" align="center"></el-table-column>-->
+                    <el-table-column property="custName" label="使用人" align="center"></el-table-column>
                 </el-table>
+                <el-pagination
+                        @size-change="handleSizeChange"
+                        @current-change="handleCurrentChange2"
+                        :page-size="fenye2.pageSize"
+                        small
+                        layout="total, prev, pager, next"
+                        :total="fenye2.total">
+                </el-pagination>
             </el-dialog>
         </div>
     </div>
@@ -124,16 +132,16 @@
                   department:'',
               },
               gridData: [
-                  {
-                      num: '111289',
-                      propp: 'IT资产',
-                      oldaddress: '',
-                      newaddress: 'BAB1400898 1518 弄',
-                      company: '深圳前海橙色魔方技术有限公司 1518 弄',
-                      momey: '笔记本电脑',
-                      city: '深圳 1518 弄',
-                      people: '张三 1518 弄',
-                  },
+//                  {
+//                      num: '111289',
+//                      propp: 'IT资产',
+//                      oldaddress: '',
+//                      newaddress: 'BAB1400898 1518 弄',
+//                      company: '深圳前海橙色魔方技术有限公司 1518 弄',
+//                      momey: '笔记本电脑',
+//                      city: '深圳 1518 弄',
+//                      people: '张三 1518 弄',
+//                  },
               ],
               searchInfo: {
                   organNo: '',
@@ -171,6 +179,10 @@
               fenye: {
                   total:0,
                   pageSize:10
+              },
+              fenye2: {
+                  total:0,
+                  pageSize:5
               }
           }
         },
@@ -205,8 +217,15 @@
             },
             handleCurrentChange(val) {
                 let self = this
+                let loadingInstance = this.$loading({
+                    target: '.form-content',
+                    lock: true,
+                    text: '加载中',
+                    customClass: 'loading-bg'
+                })
                 self.$axios.get('/iem_hrm/CustInfo/queryCustInfList',{params:{pageNum:val}})
                     .then(res => {
+                        loadingInstance.close()
                         self.table.td = res.data.data.list
                         this.fenye.total = res.data.data.total
                         this.fenye.pageSize = res.data.data.pageSize
@@ -226,14 +245,20 @@
                         console.log(e)
                     })
             },
-            see() {
+            see(userNo) {
                 let self = this
+                let data = {
+                    noNameEmail: userNo,
+                    pageSize: 5
+                }
                 this.dialogTableVisible = true
-                self.$axios.get('/iem_hrm/CustInfo/queryCustInfWithAsset/userNo')
+                self.$axios.get('/iem_hrm/CustInfo/queryAllCustAsset',{params:data})
                     .then(res => {
-                        self.table.td = res.data.data.list
-                        this.fenye.total = res.data.data.total
-                        this.fenye.pageSize = res.data.data.pageSize
+                        console.log(res)
+                        self.gridData = res.data.data.list
+                        self.gridData.userNo = userNo
+                        self.fenye2.total = res.data.data.total
+                        self.fenye2.pageSize = res.data.data.pageSize
                     })
                     .catch(e=>{
                         console.log(e)
@@ -266,10 +291,16 @@
                         delete data[name]
                     }
                 }
-                console.log(222,data)
+                let loadingInstance = this.$loading({
+                            target: '.form-content',
+                            lock: true,
+                            text: '加载中',
+                            customClass: 'loading-bg'
+                        })
                 self.$axios.get('/iem_hrm/CustInfo/queryCustInfList', {params:data})
                     .then(res => {
                         console.log(res)
+                        loadingInstance.close()
                         let length = res.data.data.list.length
                         if(!length) {
                             self.$message({
@@ -286,6 +317,44 @@
                         }
                     })
                     .catch(e=>{
+                        loadingInstance.close()
+                        self.$message({
+                            type: 'error',
+                            message: '系统繁忙，请稍后再试'
+                        });
+                        console.log(e)
+                    })
+            },
+            assetTypeFormatter(row, column) {
+                return row.assetType == "01"
+                    ? "办公用品"
+                    : row.assetType == "02"
+                        ? "电脑"
+                        : row.assetType == "03"
+                            ? "手机"
+                            : row.assetType == "04"
+                                ? "后勤用品"
+                                : "数码相机";
+            },
+            handleSizeChange(val) {
+            },
+            handleCurrentChange2(val) {
+                let self = this
+                let userNo = self.gridData.userNo
+                let data = {
+                    noNameEmail: userNo,
+                    pageNum: val,
+                    pageSize: 5
+                }
+                self.$axios.get('/iem_hrm/CustInfo/queryAllCustAsset',{params:data})
+                    .then(res => {
+                        console.log(res)
+                        self.gridData = res.data.data.list
+                        self.gridData.userNo = userNo
+                        self.fenye2.total = res.data.data.total
+                        self.fenye2.pageSize = res.data.data.pageSize
+                    })
+                    .catch(e=>{
                         console.log(e)
                     })
             }
@@ -294,6 +363,8 @@
 </script>
 
 <style lang='stylus' rel='stylesheet/stylus'>
+    .loading-bg
+        background-color rgba(0,0,0,.5)
     .query_archives
         padding: 0 0 20px 20px;
         overflow: hidden;
@@ -306,11 +377,18 @@
                     height 60px
                     .el-dialog__close
                         color #f90
+                .el-dialog__body
+                    padding: 10px 20px 40px 20px
+                    position relative
+                    .el-pagination
+                        position absolute
+                        right 23px
+                        bottom 5px
             .tishi
                 font-family: PingFangSC-Light;
                 font-size: 14px;
                 color: #FF6666;
-                padding-bottom 30px
+                margin-bottom 8px
             .el-table .cell, .el-table th>div
                 padding 0
         .test
@@ -338,6 +416,7 @@
                     height 30px
                     background: #FF9900;
                     border: 1px solid #FF9900;
+                    border-radius 4px
                     outline none
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
@@ -391,6 +470,7 @@
                         height 30px
                         background: #FF9900;
                         border: 1px solid #FF9900;
+                        border-radius 4px
                         outline none
                         font-family: PingFangSC-Regular;
                         font-size: 14px;

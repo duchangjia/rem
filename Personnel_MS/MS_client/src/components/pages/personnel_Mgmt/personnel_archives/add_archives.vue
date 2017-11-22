@@ -15,7 +15,7 @@
                                             :on-success="handleAvatarSuccess"
                                             :before-upload="beforeAvatarUpload">
                                         <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                                        <div class="avatar-desc" v-show="!imageUrl"><div>添加照片</div></div>
+                                        <div><div>添加照片</div></div>
                                     </el-upload>
                                     <div class="text">员工照片</div>
                                 </div>
@@ -106,7 +106,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="家庭电话">
+                                            <el-form-item label="家庭电话" prop="homeTeleph">
                                                 <el-input v-model="ruleForm.homeTeleph"></el-input>
                                             </el-form-item>
                                         </el-col>
@@ -126,7 +126,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="紧急电话">
+                                            <el-form-item label="紧急电话" prop="attenTeleph">
                                                 <el-input v-model="ruleForm.attenTeleph"></el-input>
                                             </el-form-item>
                                         </el-col>
@@ -212,10 +212,10 @@
                                         <el-col :span="8">
                                             <el-form-item label="岗位" prop="custPost">
                                                 <el-select v-model="ruleForm2.custPost" placeholder="请选择岗位">
-                                                    <el-option label="前端" value="前端"></el-option>
-                                                    <el-option label="后台" value="后台"></el-option>
-                                                    <el-option label="测试" value="测试"></el-option>
-                                                    <el-option label="运营" value="运营"></el-option>
+                                                    <el-option label="架构师" value="01"></el-option>
+                                                    <el-option label="前端开发工程师" value="02"></el-option>
+                                                    <el-option label="测试工程师" value="03"></el-option>
+                                                    <el-option label="后端开发" value="04"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -595,7 +595,7 @@
                     
                 </div>
                 <!--v-show="tabName=='first'||tabName=='second'||tabName=='sixth'"-->
-                <button class="add" @click="save(tabName)">{{tabName=='sixth'?'全部下载':'保存'}}</button>
+                <el-button class="add" @click="save(tabName)" :disabled="tabName=='sixth'?true:false">{{tabName=='sixth'?'全部下载':'保存'}}</el-button>
             </div>
         </el-col>
     </div>
@@ -766,7 +766,13 @@
                   ],
                   mobileNo: [
                       {required: true, message: '请输入移动电话', trigger: 'blur'},
-                      { pattern: /^[1][3578]\d{9}$/, message: "请输入合法的移动号码" }
+                      { pattern: /^[1][3578]\d{9}$/, message: "请输入合法的移动号码:例13几到18几的11位数字" }
+                  ],
+                  homeTeleph: [
+                      { pattern: /^\d+(-)?\d+((-)?\d+)?$/, message: "请输入合法的家庭号码:例如纯数字", trigger: 'blur'}
+                  ],
+                  attenTeleph: [
+                      { pattern: /^\d+(-)?\d+((-)?\d+)?$/, message: "请输入合法的紧急号码:例如纯数字", trigger: 'blur'}
                   ],
                   perEmail: [
                       {required: true, message: '请输入个人邮箱', trigger: 'blur'},
@@ -964,7 +970,7 @@
                 this.ruleForm2.leftJobTime = val
             },
             changeworkTime(val) {
-                this.ruleForm2.changeworkTime = val
+                this.ruleForm2.workTime = val
             },
             changeprofTitleTime(val) {
                 this.ruleForm2.profTitleTime = val
@@ -1031,12 +1037,14 @@
                 this.tabName = tab.name
             },
             handleFileUpload(file, fileList) {
+                console.log(file,fileList)
 //                if('first'==this.tabName) {
 //                    this.fileFlag = file;
 //                    this.ruleForm2.attachm = file.name;
 //                }
             },
             successUpload(response, file, fileList) {
+                console.log(file,file)
                 console.log(response,'successUpload',fileList)
                 if(response.code === "S00000") {
                     this.$message({ message: '操作成功', type: 'success' });
@@ -1049,6 +1057,7 @@
                 }
             },
             checkUserNo(file) {
+                console.log(file)
                 this.certificates_list.userNo = 'P0000120'
                 if(!this.certificates_list.userNo){
                     this.$message({
@@ -1136,18 +1145,15 @@
             save(tabName) {
                 let self = this
                 if('first' === tabName){
-                    console.log('first',this.ruleForm.sex)
                     self.$refs.ruleForm.validate((valid) => {
                         if (valid) {
                             self.$refs.ruleForm2.validate((valid) => {
                                 if (valid) {
                                     let data = Object.assign(this.ruleForm,this.ruleForm2)
-                                    console.log(data)
                                     this.$axios.post('/iem_hrm/CustInfo/insertCustInfo', data)
                                         .then(res=>{
-                                            console.log(res,111)
-//                                            console.log(res.data.split(','))
                                             let result = res.data.retMsg
+                                            console.log(res.data.data)
                                             if(result=="操作成功"){
                                                 self.$message({
                                                     type: 'success',
@@ -1185,6 +1191,7 @@
                     })
                 }
                 if('second'===tabName) {
+                    this.social_item.userNo = 'P0000120'
                     if(!this.social_item.userNo){
                         self.$message({
                             type: 'error',
@@ -1193,31 +1200,47 @@
                         return
                     }
                     let socialItemLength = this.social_item.lists.length
+                    let count = 0
                     this.social_item.lists = []
+                    console.log(this.$children)
                     for (let i=0;i<socialItemLength;i++){
-//                        console.log(this.$refs['ruleFrom'+i][0].ruleFrom)
-                        this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
-                        this.$refs['ruleFrom'+i][0].isShowEdit = true
-                    }
-                    this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
-                        .then(res=>{
-                            let result = res.data.retMsg
-                            if('操作成功'==result){
-                                self.$message({
-                                    type: 'success',
-                                    message: result
-                                });
-                            }else {
-                                self.$message({
-                                    type: 'error',
-                                    message: result
-                                });
+                        let name = 'ruleFrom'+i
+//                        let aa = this.$refs[name][0].checkValue()
+//                        self.$refs[name][0][0].validate((valid) => {
+                            if (true) {
+                                count++
+                                self.$refs[name][0].ruleFrom.isShowEdit = true
+                                this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
+                                if(count==socialItemLength){
+                                    this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
+                                        .then(res=>{
+                                            let result = res.data.retMsg
+                                            if('操作成功'==result){
+                                                self.$message({
+                                                    type: 'success',
+                                                    message: result
+                                                });
+                                            }else {
+                                                self.$message({
+                                                    type: 'error',
+                                                    message: result
+                                                });
+                                            }
+                                        })
+                                        .catch(e=>{
+                                            console.log(e)
+                                        })
+                                }else {
+                                    self.$message({
+                                        type: 'error',
+                                        message: '请填写完整信息！'
+                                    });
+                                }
                             }
-
-                        })
-                        .catch(e=>{
-                            console.log(e)
-                        })
+//                        })
+//                        console.log(this.$refs['ruleFrom'+i][0].ruleFrom)
+//                        this.$refs['ruleFrom'+i][0].isShowEdit = true
+                    }
                 }
                 if('third'===tabName) {
                     if(!this.work_item.userNo){
@@ -1605,28 +1628,23 @@
                         color #000
                 .first_title
                     padding-top 30px
-                    .avatar-uploader .el-upload
+                    .avatar-uploader
+                        width: 112px;
+                        height: 112px;
+                        line-height 112px
+                        border-radius 50%
+                        background: #ccc;
                         cursor: pointer;
-                        position: relative;
+                        color: #FFFFFF;
                         overflow: hidden;
+                        text-align center
+                        margin 0 auto 10px auto
                         .el-upload__input
                             display none
-                        .avatar1
+                        .avatar
                             width: 112px;
                             height: 112px;
                             display: block;
-                    .avatar
-                        width: 112px
-                        height: 112px
-                        border-radius 50%
-                        line-height 112px
-                        text-align center
-                        background: #ccc;
-                        margin 0 auto 16px auto
-                        font-family: PingFangSC-Regular;
-                        font-size: 14px;
-                        color: #FFFFFF;
-                        letter-spacing: 0;
                     .text
                         font-family: PingFangSC-Regular;
                         font-size: 14px;
@@ -1745,8 +1763,7 @@
                         &:hover
                             text-decoration underline
                 .second_title
-                    padding-top 30px
-                    padding-left 8px
+                    padding 30px 8px 0 8px
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #333333;
@@ -1758,7 +1775,7 @@
                             text-decoration underline
                             cursor pointer
                 .second_content_wrapper
-                    padding-left 8px
+                    /*padding-left 8px*/
                     min-height 570px
                     padding-bottom 20px
                 .third-wrapper, .fourth-wrapper, .fifth-wrapper
@@ -1943,11 +1960,10 @@
                 height 30px
                 background: #FF9900;
                 border: 1px solid #FF9900;
-                outline none
+                border-radius 4px
                 font-family: PingFangSC-Regular;
                 font-size: 14px;
                 color: #FFFFFF;
-                line-height 30px
                 text-align center
                 position absolute
                 right 20px
@@ -1961,6 +1977,4 @@
                     border 1px solid #f90
                 &:focus
                     border-color #f90
-
-    
 </style>

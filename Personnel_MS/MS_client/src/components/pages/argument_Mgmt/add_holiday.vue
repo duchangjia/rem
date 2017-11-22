@@ -139,6 +139,7 @@
                     height 30px
                     background: #F4F4F4;
                     border: none
+                    border-radius 4px
                     outline none
                     font-family: PingFangSC-Regular;
                     font-size: 14px;

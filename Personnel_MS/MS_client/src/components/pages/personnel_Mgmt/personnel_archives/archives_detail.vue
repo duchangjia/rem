@@ -8,6 +8,18 @@
                         <el-tabs v-model="activeName" @tab-click="handleClick">
                             <el-tab-pane label="员工基本信息" name="first">
                                 <div class="personal_information">
+                                    <div class="first_title">
+                                        <el-upload disabled
+                                                class="avatar-uploader"
+                                                action="https://jsonplaceholder.typicode.com/posts/"
+                                                :show-file-list="false"
+                                                :on-success="handleAvatarSuccess"
+                                                :before-upload="beforeAvatarUpload">
+                                            <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                            <div><div>添加照片</div></div>
+                                        </el-upload>
+                                        <div class="text-desc">员工照片</div>
+                                    </div>
                                     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
                                         <el-col :span="8">
                                             <el-form-item label="姓名" prop="custName">
@@ -79,7 +91,6 @@
                                         <el-col :span="8">
                                             <el-form-item label="毕业时间" prop="gradTime">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.gradTime" :disabled="edit" @change="holdGradTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm.gradTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -93,7 +104,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="家庭电话">
+                                            <el-form-item label="家庭电话" prop="homeTeleph">
                                                 <el-input v-model="ruleForm.homeTeleph" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
@@ -113,7 +124,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="紧急电话">
+                                            <el-form-item label="紧急电话" prop="attenTeleph">
                                                 <el-input v-model="ruleForm.attenTeleph" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
@@ -198,10 +209,10 @@
                                         <el-col :span="8">
                                             <el-form-item label="岗位" prop="custPost">
                                                 <el-select v-model="ruleForm.custPost" placeholder="请选择岗位" :disabled="edit">
-                                                    <el-option label="前端" value="前端"></el-option>
-                                                    <el-option label="后台" value="后台"></el-option>
-                                                    <el-option label="测试" value="测试"></el-option>
-                                                    <el-option label="运营" value="运营"></el-option>
+                                                    <el-option label="架构师" value="01"></el-option>
+                                                    <el-option label="前端开发工程师" value="02"></el-option>
+                                                    <el-option label="测试工程师" value="03"></el-option>
+                                                    <el-option label="后端开发" value="04"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -546,7 +557,7 @@
                             </el-tab-pane>
                             <el-tab-pane label="证件管理" name="sixth">
                                 <div class="sixth_wrapper">
-                                    <el-upload
+                                    <el-upload diabled
                                             action="https://jsonplaceholder.typicode.com/posts/"
                                             list-type="picture-card"
                                             :on-preview="handlePictureCardPreview"
@@ -567,7 +578,7 @@
                 <div class="button-wrapper">
                     <button @click="bianji(tabName)">编辑</button>
                     <button class="special_1" @click="save(tabName)">保存</button>
-                    <button @click="del" v-show="tabName=='first'?true:false">删除</button>
+                    <button @click="del" v-show="tabName=='first'?true:tabName=='sixth'?true:false">{{tabName=='first'?'删除':'全部下载'}}</button>
                 </div>
             </div>
         </el-col>
@@ -590,6 +601,7 @@
                     department:'',
                     CCC:'',
                 },
+                imageUrl: '',
                 dialogImageUrl: '',
                 dialogVisible2: false,
 
@@ -672,6 +684,7 @@
                     eduLock: '',
                     workLock: '',
                     socialLock: '',
+                    certificatesLock: '',
                 },
                 ruleForm: {
                     custName: '',
@@ -727,7 +740,9 @@
                         {required: true, message: '请输入姓名', trigger: 'blur'},
                     ],
                     certNo: [
-                        {required: true, message: '请输入身份证', trigger: 'blur'}
+                        {required: true, message: '请输入身份证', trigger: 'blur'},
+                        {min: 10, max: 18, message: '长度在 10 到 18 个字符', trigger: 'blur'},
+                        { pattern: /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/, message: "请输入正确的身份证号码" }
                     ],
                     sex: [
                         {required: true, message: '请选择性别', trigger: 'change'}
@@ -756,53 +771,22 @@
                     gradTime: [
                         {required: true, message: '请输入毕业时间', trigger: 'change'}
                     ],
-                    mobileNo: [
-                        {required: true, message: '请输入移动电话', trigger: 'blur'}
-                    ],
-                    perEmail: [
-                        {required: true, message: '请输入个人邮箱', trigger: 'blur'}
-                    ],
-                    userNo: [
-                        {required: true, message: '请输入员工编号', trigger: 'blur'},
-                    ],
-                    organName: [
-                        {required: true, message: '请选择公司名称', trigger: 'change'}
-                    ],
-                    derpName: [
-                        {required: true, message: '请选择部门名称', trigger: 'change'}
-                    ],
-                    ownerCCC: [
-                        {required: true, message: '请选择CCC', trigger: 'change'}
-                    ],
-                    custType: [
-                        {required: true, message: '请选择员工类别', trigger: 'change'}
-                    ],
-                    custPost: [
-                        {required: true, message: '请选择岗位', trigger: 'change'}
-                    ],
-                    custClass: [
-                        {required: true, message: '请选择职级', trigger: 'change'}
-                    ],
-                    custStatus: [
-                        {required: true, message: '请选择员工状态', trigger: 'change'}
-                    ],
-                    politics: [
-                        {required: true, message: '请选择政治面貌', trigger: 'change'}
-                    ],
-                    school: [
-                        {required: true, message: '请输入毕业学校', trigger: 'blur'}
-                    ],
-                    graduation: [
-                        {required: true, message: '请输入毕业时间', trigger: 'blur'}
-                    ],
                     major: [
                         {required: true, message: '请输入专业', trigger: 'blur'}
                     ],
-                    phone: [
-                        {required: true, message: '请输入移动电话', trigger: 'blur'}
+                    mobileNo: [
+                        {required: true, message: '请输入移动电话', trigger: 'blur'},
+                        { pattern: /^[1][3578]\d{9}$/, message: "请输入合法的移动号码:例13几到18几的11位数字" }
                     ],
-                    email: [
-                        {required: true, message: '请输入个人邮箱', trigger: 'blur'}
+                    homeTeleph: [
+                        { pattern: /^\d+(-)?\d+((-)?\d+)?$/, message: "请输入合法的家庭号码:例如纯数字", trigger: 'blur'}
+                    ],
+                    attenTeleph: [
+                        { pattern: /^\d+(-)?\d+((-)?\d+)?$/, message: "请输入合法的紧急号码:例如纯数字", trigger: 'blur'}
+                    ],
+                    perEmail: [
+                        {required: true, message: '请输入个人邮箱', trigger: 'blur'},
+                        { pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, message: "请输入合法的邮箱" }
                     ],
                 },
                 ruleForm4: {
@@ -916,7 +900,6 @@
             if(this.tabName=='first'){
                 this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+this.userNo)
                     .then(res=>{
-                        console.log(res,333)
                         this.ruleForm = res.data.data
                     })
                     .catch(e=>{
@@ -966,6 +949,21 @@
                 let self = this;
                 self.ruleForm.lineManager = custInfo.stateName+'_'+custInfo.stateNo
                 self.dialogVisible = false;
+            },
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = URL.createObjectURL(file.raw);
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
             },
             userNoSelect(){
                 //table
@@ -1099,6 +1097,21 @@
                             console.log(e)
                         })
                 }
+                if(tab.name==='sixth'&&this.lock.certificatesLock){
+                    this.$axios.get('/iem_hrm/CustFile/queryCustImgList',{params:{userNo:this.userNo}})
+                        .then(res=>{
+                            console.log(res)
+//                            this.social_item.userNo = this.userNo
+//                            this.social_item.lists = res.data.data
+//                            this.social_item.lists.forEach(item=>{
+//                                self.$set(item,'isShowEdit', true)
+//                            })
+                            this.lock.certificatesLock = false
+                        })
+                        .catch(e=>{
+                            console.log(e)
+                        })
+                }
             },
             del() {
                 let self = this
@@ -1175,10 +1188,8 @@
                                     delete this.ruleForm[key]
                                 }
                             }
-                            console.log(this.ruleForm,222)
                             this.$axios.put('/iem_hrm/CustInfo/modCustInf', this.ruleForm)
                                 .then(res=>{
-                                    console.log(res,'save')
                                     let result = res.data.retMsg
                                     if ("操作成功"===result){
                                         self.$message({
@@ -1216,7 +1227,8 @@
                     let socialItemLength = this.social_item.lists.length
                     this.social_item.lists = []
                     for (let i=0;i<socialItemLength;i++){
-                        console.log(this.$refs['ruleFrom'+i][0].ruleFrom)
+                        let name = 'ruleFrom'+i
+                        self.$refs[name][0].ruleFrom.isShowEdit = true
                         this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
                     }
                     let data = this.social_item.lists.map(item=>{
@@ -1226,6 +1238,7 @@
                             telphone: item.telphone,
                             profession: item.profession,
                             addr: item.addr,
+                            isShowEdit: item.isShowEdit
                         }
                     })
                     this.social_item.lists = data
@@ -1567,6 +1580,7 @@
                     background: #fff;
                     border: 1px solid #FF9900;
                     outline none
+                    border-radius 4px
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #f90;
@@ -1603,27 +1617,31 @@
                     .el-tabs__item.is-active
                         color #000
                 .first_title
-                    padding-top 30px
-                    .avatar
-                        width: 112px
-                        height: 112px
-                        border-radius 50%
+                    .avatar-uploader
+                        width: 112px;
+                        height: 112px;
                         line-height 112px
-                        text-align center
+                        border-radius 50%
                         background: #ccc;
-                        margin 0 auto 16px auto
-                        font-family: PingFangSC-Regular;
-                        font-size: 14px;
+                        cursor: pointer;
                         color: #FFFFFF;
-                        letter-spacing: 0;
-                    .text
+                        overflow: hidden;
+                        text-align center
+                        margin 0 auto 10px auto
+                        .el-upload__input
+                            display none
+                        .avatar
+                            width: 112px;
+                            height: 112px;
+                            display: block;
+                    .text-desc
                         font-family: PingFangSC-Regular;
                         font-size: 14px;
                         color: #999999;
                         letter-spacing: 0;
                         text-align center
                         width 300px
-                        margin 0 auto
+                        margin 0 auto 20px auto
                 .personal_information
                     padding-top 40px
                     overflow hidden
@@ -1718,8 +1736,7 @@
                         &:hover
                             text-decoration underline
                 .second_title
-                    padding-top 30px
-                    padding-left 8px
+                    padding 30px 8px 0 8px
                     font-family: PingFangSC-Regular;
                     font-size: 14px;
                     color: #333333;
@@ -1731,7 +1748,7 @@
                             text-decoration underline
                             cursor pointer
                 .second_content_wrapper
-                    padding-left 8px
+                    /*padding-left 8px*/
                     min-height 570px
                     padding-bottom 20px
                 .third-wrapper, .fourth-wrapper, .fifth-wrapper
