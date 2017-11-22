@@ -1,14 +1,14 @@
 <template>
-    <div class="assetUse_query">
+    <div class="query_wrapper">
         <current yiji="资产管理" erji="资产使用管理"></current>
-            <div class="content-wrapper">
+            <div class="queryContent_wrapper">
                 <!-- <div class="title">
                     <span class="text">资产使用管理</span><button class="add" @click="add">新增</button>
                 </div> -->
-                <el-col :span="24" class="titlebar">
+                <div class="titlebar">
                     <span class="title-text">资产使用管理</span>
-                    <el-button type="primary" @click="add" class="toolBtn ">新增</el-button>
-                </el-col>
+                    <el-button  @click="add" class="btn-primary">新增</el-button>
+                </div>
                 <el-col :span="24" class="querybar">
                     <el-form :inline="true">
                         <el-col :span="6">
@@ -236,157 +236,7 @@ export default {
   }
 };
 </script>
+<style lang="scss">
 
-<style lang='stylus' rel='stylesheet/stylus'>
-.assetUse_query {
-    padding: 0 0 20px 20px;
-    position: relative;
-    .test {
-        padding-left: 10px;
-    }
-    .el-button{
-        border: 1px solid #FF9900;
-        color:#FF9900;
-        margin: 0;
-        
-        line-height:30px;
-        padding:0;
-    }
-    .content-wrapper {
-        background: #fff;
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-bottom:30px;
-        // height: 746px;
-        .titlebar{
-            height:50px;
-            line-height:50px;
-            font-size: 16px;
-            font-family: "PingFang SC";
-            border-bottom: 1px solid #eeeeee;
-            margin-bottom:30px;
-            .title-text {
-                display: inline-block;
-                position: relative;
-            }
-            .title-text::after{
-                content: "";
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                width: 100%;
-                height: 2px;
-                background: #333333;
-            }
-        }
-       .toolBtn {
-            float: right;
-            margin-top:8px;
-            background: #ff9900;
-            border: none;
-            color:#fff;
-            height:30px;
-            width:120px;
-        }
-        .querybar{
-            .el-form-item{
-                display: inline-block;
-                margin-right: 10px;
-                vertical-align: top;
-                margin-bottom:30px;
-            }
-            .el-form-item__content{
-                line-height: 30px;
-            } 
-            .el-input__inner{
-                width:164px;
-                height:30px;
-                display:inline-block;
-                border-color:#eee;
-                color:#333;
-            }
-            .el-input__inner:hover{
-                border-color:#FF9900;
-            }
-            .el-form-item__label{
-                color: #999999;
-	            font-weight: normal;
-	            padding: 8px 10px 8px 0;
-	            margin: 0;
-            }	
-        } 
-
-        .button-wrap {
-            margin: 0px auto 30px;
-            font-size: 0px;
-            text-align: center;
-            .queryBtn{
-                color: #ffffff;
-                background: #ff9900;
-                border: none;
-                height:30px;
-                width:120px;
-                border: 1px solid #ff9900;
-            }
-            .restBtn{
-                color: #ff9900;
-                margin-right:20px;
-                border: 1px solid #ff9900;
-                height:30px;
-                width:120px;
-            }
-        }
-
-        .el-table .cell, .el-table th>div{
-            padding-left: 10px;
-            padding-right: 10px;
-        }
-       .el-icon-delete2, .el-icon-edit {
-            color: #ff9900;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-      }  
-}
 </style>
 
-<style lang='stylus' rel='stylesheet/stylus'>
-	.el-pagination {
-        text-align:right;
-        margin-top:30px;
-        padding-right:45px;
-        .el-pagination__total {
-            height: 24px;
-        }
-        .btn-prev, .el-pagination__jump, .btn-next {
-            height: 24px;
-            width: 24px;
-            line-height: 24px;
-        }
-
-        .el-pager li {
-            width: 24px;
-            height: 24px;
-            line-height: 24px;
-        }
-
-        .el-pager li.active {
-            background: #ff9900;
-            border: 1px solid #ff9900;
-        }
-
-        .el-pager li:hover, button:hover {
-            color: #ff9900;
-        }
-
-        .el-pagination__jump {
-            .el-pagination__editor {
-                width: 24px;
-                height: 24px;
-                line-height: 24px;
-                margin: 0 3px;
-                text-indent: 0;
-            }
-        }
-    }
-</style>

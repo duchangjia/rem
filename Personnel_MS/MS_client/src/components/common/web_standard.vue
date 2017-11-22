@@ -201,7 +201,7 @@ export default {
                     <i class="el-icon-edit"></i>
                     <i class="el-icon-delete2"></i>`,
 
-        addHtml:`<div class="自定义类名">
+        addHtml:`<div class="container-wrap">
                     <current yiji="1级标题" erji="二级标题" sanji="三级标题">
                         <!-- 面包屑 -->
                     </current>
@@ -281,6 +281,7 @@ export default {
                 </div>`,
             searchTitleBar:`<div class="titleBar">
 				            <span class="title-text">查询页标题</span>
+                            <el-button class="btn-primary">标题按钮</el-button>
 			            </div>`
       }
   },
