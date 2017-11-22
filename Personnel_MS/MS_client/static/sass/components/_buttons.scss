@@ -3,14 +3,14 @@
 	&.btn-default,&.btn-default:hover{
 		color:$color-primary;
 		background:$bg-wihte;
-		@include size(100px,30px); 
+		@include size(120px,30px); 
 		padding:0;
 		border:$border-default;
 	}
 	&.btn-primary,&.btn-primary:hover{
 		color:#fff;
 		background:$color-primary;
-		@include size(100px,30px);
+		@include size(120px,30px);
 		padding:0;
 		border:$border-default;
 	}
