@@ -318,7 +318,8 @@ export default {
 		//导出
 		exportFile(params) {
 			const self = this;
-			self.$axios.get(baseURL+'/attence/exportAttenceInfo',{params}, {
+			self.$axios.get(baseURL+'/attence/exportAttenceInfo',{
+					params: params,
                     responseType: 'blob'
                 })
                 .then((response) => {
@@ -385,7 +386,7 @@ export default {
 }
 .attendance_query .imExport-btn {
 	float: right;
-	margin-top: 19px;
+	margin-top: 13px;
 }
 .attendance_query .imExport-btn-item{
 	display: inline-block;
@@ -400,6 +401,7 @@ export default {
 	display: inline-block;
 	width: 16px;
 	height: 16px;
+	vertical-align: middle;
 	background: url(../../../../../static/img/common/batch-import0.png);
 }
 .attendance_query .icon-export {

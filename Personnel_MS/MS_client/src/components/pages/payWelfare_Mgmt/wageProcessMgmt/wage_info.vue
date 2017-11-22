@@ -32,20 +32,20 @@
 							<el-input v-model="formdata2.grpStatus" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :sm="24" :md="12">
-						<el-form-item label="部门范围" prop="departRange">
+					<!--<el-col :sm="24" :md="12">
+						<el-form-item label="部门范围" prop="derpRange">
 							<ul class="range">
-								<li class="range-item" v-for="item in formdata2.departRange">{{item.departRangeName}}</li>
+								<li class="range-item" v-for="item in formdata2.derpRange">{{item.derpRangeName}}</li>
 							</ul>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="人员范围">
 						    <ul class="range">
-								<li class="range-item" v-for="item in formdata2.roleRange">{{item.roleRangeName+"("+item.roleRangeNo+")"}}</li>
+								<li class="range-item" v-for="item in formdata2.preRange">{{item.preRangeName+"("+item.preRangeNo+")"}}</li>
 							</ul>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  	-->
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工资月份" prop="wageMonth"">
 							<el-date-picker
@@ -68,15 +68,9 @@
 				        	<el-date-picker type="datetime" v-model="formdata2.wageEndTime" @change="changeEndTime" style="width:100%;" :disabled="true"></el-date-picker>
 				      	</el-form-item>
 					</el-col> 
-					<el-col :span="24">
+					<el-col :sm="24" :md="12">
 						<el-form-item class="remark" label="备注" prop="remark">
-						    <el-input
-							  type="textarea"
-							  :autosize="{ minRows: 5, maxRows: 5}"
-							  placeholder="请输入内容"
-							  v-model="formdata2.remark"
-							   :disabled="true">
-							</el-input>
+						    <el-input v-model="formdata2.remark" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -91,6 +85,40 @@
 					</el-col>  		
 				</el-form>
 			</div>
+			<div class="add-wrapper auth-assign">
+				<el-col :span="24">
+					<div class="context-menu">
+	                    <el-col :span="3" class="leftside" style="text-align: right;">
+	                        <div>部门范围</div>
+	                    </el-col>
+	                    <el-col :span="21" class="rightside">
+	                        <div class="menu">
+	                            <el-checkbox-button v-model="checkSubAll" :indeterminate="isSubIndeterminate" label="全部" class="menu-item"></el-checkbox-button>
+	                            <el-checkbox-group v-model="checkedSubmenus">
+	                                <el-checkbox-button v-for="item in derpRangeList" :label="item" class="menu-item">{{item.derpRangeName}}</el-checkbox-button>
+	                            </el-checkbox-group>
+	                        </div>
+	                    </el-col>
+	                </div>
+                </el-col>
+                <div class="func-permission" v-if="formdata2.preRange.length>0">
+	                <el-col :span="3" class="leftside">
+	                    <div>人员范围</div>
+	                </el-col>
+	                <el-col :span="21" class="rightside">
+	                    <el-row :gutter="20">
+	                        <el-col :span="6" v-for="(depart, index) in formdata2.derpRange">
+	                            <div class="funcs-content">
+	                                <el-checkbox v-model="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" class="func-checkall">{{ depart.derpRangeName }}</el-checkbox>
+	                                <el-checkbox-group v-model="checkFuncs" class="func-item">
+	                                    <el-checkbox v-for="item in preRangeList" :label="item.preRangeNo" v-bind:title="item.preRangeName" >{{ item.preRangeName }}</el-checkbox>
+	                                </el-checkbox-group>
+	                            </div>
+	                        </el-col>
+	                    </el-row>
+	                </el-col>
+	            </div>
+            </div>	
 		</div>
 	</div>
 </template>
@@ -102,17 +130,27 @@
 	export default {
 		data() {
 			return {
+				checkSubAll: false,
+		      	checkedSubmenusFlag: false,
+		      	checkedSubmenus: [],
+		      	submenus: [],
+		      	isSubIndeterminate: true,
+      			
+		      	checkFuncsAll: {},
+		      	checkFuncs: [],
+		      	isFuncsIndeterminate: {},
+      			
 				formdata2: {
 					grpType: "",
 					companyName: "",
 					companyNo: "",
-					departRange: [
-						{departRangeName: "广州分公司",departRangeNo: "1"},
-						{departRangeName: "上海分公司",departRangeNo: "1"}
+					derpRange: [
+						{ derpRangeNo: "01", derpRangeName: "xx部" },
+						{ derpRangeNo: "02", derpRangeName: "行政部" }
 					],
-					roleRange: [
-						{roleRangeName: "张三",roleRangeNo: "P0000001"},
-						{roleRangeName: "李四",roleRangeNo: "P0000002"}
+					preRange: [
+						{preRangeName: "张三",preRangeNo: "P0000001"},
+						{preRangeName: "李四",preRangeNo: "P0000002"}
 					],
 					wageMonth: "",
 					grpStatus: "",
@@ -133,16 +171,26 @@
 					{organNo: "01",organName: "广州分公司"}
 				],
 				//部门列表
-				departRangeList: [
-					{ departRangeNo: "01", departRangeName: "所有部门" },
-					{ departRangeNo: "02", departRangeName: "行政部" },
-					{ departRangeNo: "03", departRangeName: "信息部" }
+				//部门列表
+				derpRangeList: [
+					{ 
+						derpRangeNo: "01", 
+						derpRangeName: "xx部" 
+					},
+					{ 
+						derpRangeNo: "02", 
+						derpRangeName: "行政部"
+					},
+					{ 
+						derpRangeNo: "03", 
+						derpRangeName: "信息部"
+					}
 				],
 				//人员列表
-				roleRangeList: [
-					{roleRangeNo: "P0000001", roleRangeName: "张三"},
-					{roleRangeNo: "P0000002", roleRangeName: "李四"},
-					{roleRangeNo: "P0000003", roleRangeName: "王五"}
+				preRangeList: [
+					{preRangeNo: "P0000001", preRangeName: "张三"},
+					{preRangeNo: "P0000002", preRangeName: "李四"},
+					{preRangeNo: "P0000003", preRangeName: "王五"}
 				],
 			 	rules: {
 			 		
@@ -153,7 +201,10 @@
 			current
 		},
 		created() {
-			
+			this.formdata2.preRange.forEach(function(ele) {
+		        this.checkFuncs.push(ele.preRangeNo);
+		      }, this);
+			console.log('this.checkFuncs',this.checkFuncs);
 		},
 		methods: {
 			changeWageMonth(time) {
@@ -166,24 +217,7 @@
 				this.formdata2.wageEndTime = time;
 				
 			},
-			//增加部门范围
-			handleAddDepart(command) {
-				console.log(command);
-				this.formdata2.departRange.push(command);
-			},
-			//清空部门范围
-			clearDepart() {
-				this.formdata2.departRange = [];
-			},
-			//增加人员范围
-			handleAddRole(command) {
-				console.log(command);
-				this.formdata2.roleRange.push(command)
-			},
-			//清空人员范围
-			clearRole() {
-				this.formdata2.roleRange = [];
-			},
+			
 	      	save(formName) {
 				const self = this;
 				self.$refs.formdata2.validate(valid => {
@@ -245,4 +279,10 @@
     background: #FFFFFF;
     border: 1px solid #FF9900;
 }
+.leftside {
+	text-align: right;
+    padding: 9px 24px 0;
+    color: #999999;
+}
+
 </style>

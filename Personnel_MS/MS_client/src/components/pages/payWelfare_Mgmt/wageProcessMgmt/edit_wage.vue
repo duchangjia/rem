@@ -11,90 +11,82 @@
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工资流程编号">
-						    <el-input v-model="formdata2.applyNo" :disabled="true"></el-input>
+						    <el-input v-model="formdata2.batchNo" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
-						<el-form-item label="类别" prop="grpType">
-							<el-select v-model="formdata2.grpType" multiple value-key="grpTypeNo" class="bg-white">
-								<el-option v-for="(item,k) in grpTypeList" :key="item.grpTypeNo" :label="item.grpTypeName" :value="item.grpTypeNo"></el-option>
+						<el-form-item label="类别" prop="batchType">
+							<el-select v-model="formdata2.batchType" multiple value-key="batchTypeNo" class="bg-white">
+								<el-option v-for="(item,k) in batchTypeList" :key="item.batchTypeNo" :label="item.batchTypeName" :value="item.batchTypeNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="公司名称" prop="companyNo">
-							<el-select v-model="formdata2.companyNo" value-key="compOrgNo">
+						<el-form-item label="公司名称" prop="organNo">
+							<el-select v-model="formdata2.organNo" value-key="compOrgNo">
 								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
-						<el-form-item label="工资月份" prop="wageMonth"">
-							<el-date-picker
-						      v-model="formdata2.wageMonth"
-						      type="month"
-						      placeholder="请选择"
-						      @change="changeWageMonth" 
-						      style="width:100%;"
-						     >
+						<el-form-item label="工资月份" prop="month"">
+							<el-date-picker type="month" v-model="formdata2.month" placeholder="请选择" @change="changeWageMonth" style="width:100%;">
 						   	</el-date-picker>
 						</el-form-item>
 					</el-col>
+					  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="部门范围" prop="departRange">
-							<ul class="range">
-								<li class="range-item" v-for="item in formdata2.departRange">{{item.departRangeName}}</li>
-							</ul>
-							<el-dropdown trigger="click" @command="handleAddDepart">
-						      	<span class="el-dropdown-link">
-						       		 <el-button type="primary" size="small" class="addBtn">增加</el-button>
-						      	</span>
-						      	<el-dropdown-menu slot="dropdown">
-						        	<el-dropdown-item v-for="item in departRangeList" :command="item">{{item.departRangeName}}</el-dropdown-item>
-						      	</el-dropdown-menu>
-						  	</el-dropdown>
-							<el-button type="primary" size="small" class="clearBtn" @click="clearDepart">清空</el-button>
-					  	</el-form-item>
-					</el-col>	
-					<el-col :sm="24" :md="12">
-						<el-form-item label="人员范围">
-						    <ul class="range">
-								<li class="range-item" v-for="item in formdata2.roleRange">{{item.roleRangeName+"("+item.roleRangeNo+")"}}</li>
-							</ul>
-							<el-dropdown trigger="click" @command="handleAddRole">
-						      	<span class="el-dropdown-link">
-						       		<el-button type="primary" size="small" class="addBtn">增加</el-button>
-						      	</span>
-						      	<el-dropdown-menu slot="dropdown">
-						        	<el-dropdown-item v-for="item in roleRangeList" :command="item">{{item.roleRangeName}}</el-dropdown-item>
-						      	</el-dropdown-menu>
-						  	</el-dropdown>
-							<el-button type="primary" size="small" class="clearBtn" @click="clearRole">清空</el-button>
-					  	</el-form-item>
-					</el-col>  	
-					<el-col :sm="24" :md="12">
-						<el-form-item label="结算开始日期" prop="wageStartTime">
-				        	<el-date-picker type="datetime" v-model="formdata2.wageStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
+						<el-form-item label="结算开始日期" prop="settleStartTime">
+				        	<el-date-picker type="datetime" v-model="formdata2.settleStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
-						<el-form-item label="结算结束日期" prop="wageEndTime">
-				        	<el-date-picker type="datetime" v-model="formdata2.wageEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
+						<el-form-item label="结算结束日期" prop="settleEndTime">
+				        	<el-date-picker type="datetime" v-model="formdata2.settleEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col> 
 					<el-col :span="24">
 						<el-form-item class="remark" label="备注" prop="remark">
-						    <el-input
-							  type="textarea"
-							  :autosize="{ minRows: 5, maxRows: 5}"
-							  placeholder="请输入内容"
-							  v-model="formdata2.remark">
-							</el-input>
+						    <el-input placeholder="请输入内容" v-model="formdata2.remark"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 						
 				</el-form>
 			</div>
+			<div class="add-wrapper auth-assign">
+				<el-col :span="24">
+					<div class="context-menu">
+	                    <el-col :span="3" class="leftside" style="text-align: right;">
+	                        <div>部门范围</div>
+	                    </el-col>
+	                    <el-col :span="21" class="rightside">
+	                        <div class="menu">
+	                            <el-checkbox-button v-model="checkSubAll" :indeterminate="isSubIndeterminate" @change="handleSubAllChange" label="全部" class="menu-item"></el-checkbox-button>
+	                            <el-checkbox-group v-model="checkedSubmenus" @change="handleCheckedSubsChange">
+	                                <el-checkbox-button v-for="item in derpRangeList" :label="item" class="menu-item">{{item.derpRangeName}}</el-checkbox-button>
+	                            </el-checkbox-group>
+	                        </div>
+	                    </el-col>
+	                </div>
+                </el-col>
+                <div class="func-permission" v-if="formdata2.preRange.length>0">
+	                <el-col :span="3" class="leftside">
+	                    <div>人员范围</div>
+	                </el-col>
+	                <el-col :span="21" class="rightside">
+	                    <el-row :gutter="20">
+	                        <el-col :span="6" v-for="(depart, index) in formdata2.derpRange">
+	                            <div class="funcs-content">
+	                                <el-checkbox v-model="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ depart.derpRangeName }}</el-checkbox>
+	                                <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
+	                                    <el-checkbox v-for="item in preRangeList" :label="item.preRangeNo" v-bind:title="item.preRangeName" >{{ item.preRangeName }}</el-checkbox>
+	                                </el-checkbox-group>
+	                            </div>
+	                        </el-col>
+	                    </el-row>
+	                </el-col>
+	            </div>
+            </div>
 		</div>
 	</div>
 </template>
@@ -115,7 +107,7 @@
 			var checkWageStartTime = (rule, value, callback) => {
 		        if (value == '') {
 		          	callback(new Error('开始日期不能为空'));
-		        } else if (this.formdata2.wageEndTime && value >= this.formdata2.wageEndTime) {
+		        } else if (this.formdata2.settleEndTime && value >= this.formdata2.settleEndTime) {
 		          	callback(new Error('开始日期不能大于结束日期'));
 		        } else {
 		          	callback();
@@ -124,70 +116,80 @@
 			var checkWageEndTime = (rule, value, callback) => {
 		        if (value == '') {
 		          	callback(new Error('结束日期不能为空'));
-		        } else if (this.formdata2.wageStartTime && value <= this.formdata2.wageStartTime) {
+		        } else if (this.formdata2.settleStartTime && value <= this.formdata2.settleStartTime) {
 		          	callback(new Error('开始日期不能大于结束日期'));
 		        } else {
 		          	callback();
 		        }
 	      	};
 			return {
+				checkSubAll: false,
+		      	checkedSubmenusFlag: false,
+		      	checkedSubmenus: [],
+		      	submenus: [],
+		      	isSubIndeterminate: true,
+      			
+		      	checkFuncsAll: {},
+		      	checkFuncs: [],
+		      	isFuncsIndeterminate: {},
+      			
 				formdata2: {
-					applyNo: "",
-					grpType: "",
+					batchNo: "",
+					batchType: "",
 					companyName: "",
-					companyNo: "",
-					departRange: [
-						{departRangeName: "广州分公司",departRangeNo: "1"},
-						{departRangeName: "上海分公司",departRangeNo: "1"}
+					organNo: "",
+					derpRange: [
+						{ derpRangeNo: "01", derpRangeName: "xx部" },
+						{ derpRangeNo: "02", derpRangeName: "行政部" }
 					],
-					roleRange: [
-						{roleRangeName: "张三",roleRangeNo: "P0000001"},
-						{roleRangeName: "李四",roleRangeNo: "P0000002"}
+					preRange: [
+						{preRangeName: "张三",preRangeNo: "P0000001"},
+						{preRangeName: "李四",preRangeNo: "P0000002"}
 					],
-					wageMonth: "",
-					wageStartTime: "",
-					wageEndTime: "",
+					month: "",
+					settleStartTime: "",
+					settleEndTime: "",
 					remark: ""
 				},
 				//类别列表
-				grpTypeList: [
-					{grpTypeNo: "1", grpTypeName: "工资"},
-					{grpTypeNo: "2", grpTypeName: "奖金"},
-					{grpTypeNo: "3", grpTypeName: "福利"},
+				batchTypeList: [
+					{batchTypeNo: "1", batchTypeName: "工资"},
+					{batchTypeNo: "2", batchTypeName: "奖金"},
+					{batchTypeNo: "3", batchTypeName: "福利"},
 				],
 				//公司列表
 				compList: [
 					{organNo: "01",organName: "广州分公司"}
 				],
 				//部门列表
-				departRangeList: [
-					{ departRangeNo: "01", departRangeName: "所有部门" },
-					{ departRangeNo: "02", departRangeName: "行政部" },
-					{ departRangeNo: "03", departRangeName: "信息部" }
+				derpRangeList: [
+					{ derpRangeNo: "01", derpRangeName: "所有部门" },
+					{ derpRangeNo: "02", derpRangeName: "行政部" },
+					{ derpRangeNo: "03", derpRangeName: "信息部" }
 				],
 				//人员列表
-				roleRangeList: [
-					{roleRangeNo: "P0000001", roleRangeName: "张三"},
-					{roleRangeNo: "P0000002", roleRangeName: "李四"},
-					{roleRangeNo: "P0000003", roleRangeName: "王五"}
+				preRangeList: [
+					{preRangeNo: "P0000001", preRangeName: "张三"},
+					{preRangeNo: "P0000002", preRangeName: "李四"},
+					{preRangeNo: "P0000003", preRangeName: "王五"}
 				],
 			 	rules: {
-			 		grpType: [
+			 		batchType: [
 			 			{ required: true, message: '类别不能为空', trigger: 'blur' }
 			 		],
-			 		companyNo: [
+			 		organNo: [
 			 			{ required: true, message: '公司名称不能为空', trigger: 'change' }
 			 		],
-			 		departRange: [
+			 		derpRange: [
 			 			{ required: true, message: '部门范围不能为空', trigger: 'change' }
 			 		],
-			 		wageMonth: [
+			 		month: [
 			 			{ required: true, message: '工资月份不能为空', trigger: 'change' }
 			 		],
-			 		wageStartTime: [
+			 		settleStartTime: [
 			 			{ require: "true", validator: checkWageStartTime, trigger: "change"}
 			 		],
-			 		wageEndTime: [
+			 		settleEndTime: [
 			 			{ require: "true", validator: checkWageEndTime, trigger: "change"}
 			 		],
 	          		remark: [
@@ -199,35 +201,106 @@
 		components: {
 			current
 		},
+		created() {
+			this.formdata2.derpRange.forEach(function(ele) {
+				console.log('ele',ele)
+		        this.checkedSubmenus.push(ele);
+		      }, this);
+		      console.log(this.checkedSubmenus)
+			this.formdata2.preRange.forEach(function(ele) {
+		        this.checkFuncs.push(ele.preRangeNo);
+		      }, this);
+			let batchNo = sessionStorage.getItem('wage_batchNo');
+			let params = {
+				batchNo: batchNo
+			}
+//			this.queryWageInfo(params);
+		},
 		methods: {
 			changeWageMonth(time) {
-				this.formdata2.wageMonth = time;
+				this.formdata2.month = time;
 			},
 			changeStartTime(time) {
-				this.formdata2.wageStartTime = time;
+				this.formdata2.settleStartTime = time;
 			},
 			changeEndTime(time) {
-				this.formdata2.wageEndTime = time;
+				this.formdata2.settleEndTime = time;
 				
 			},
-			//增加部门范围
-			handleAddDepart(command) {
-				console.log(command);
-				this.formdata2.departRange.push(command);
-			},
-			//清空部门范围
-			clearDepart() {
-				this.formdata2.departRange = [];
-			},
-			//增加人员范围
-			handleAddRole(command) {
-				console.log(command);
-				this.formdata2.roleRange.push(command)
-			},
-			//清空人员范围
-			clearRole() {
-				this.formdata2.roleRange = [];
-			},
+			// 部门范围 多选
+		    handleSubAllChange(event) {
+		      this.checkSubAll = event.target.checked;
+		      if (this.checkSubAll == true) {
+		        this.checkedSubmenus = this.derpRangeList;
+		        this.isSubIndeterminate = true;
+		      } else {
+		        this.checkedSubmenus = [];
+		        this.isSubIndeterminate = false;
+		      }
+		      this.checkedSubmenus.length > 0
+		        ? (this.checkedSubmenusFlag = true)
+		        : (this.checkedSubmenusFlag = false);
+		      this.formdata2.derpRange = this.checkedSubmenus;
+		      console.log("这是全选的derpRange", this.formdata2.derpRange);
+		    },
+		    handleCheckedSubsChange(val) {
+		      	let checkedCount = val.length;
+		      	this.isSubIndeterminate =
+		        	checkedCount > 0 && checkedCount < this.derpRangeList.length;
+		      	checkedCount > 0
+		        	? (this.checkedSubmenusFlag = true)
+		        	: (this.checkedSubmenusFlag = false);
+		      	checkedCount == this.derpRangeList.length
+		        	? (this.checkSubAll = true)
+		        	: (this.checkSubAll = false);
+		      	this.formdata2.derpRange = val;
+		      	console.log("这是derpRange", this.formdata2.derpRange);
+		    },
+		    // 人员范围 多选
+		    handleFuncsAllChange(event, index) {
+		      this.checkFuncsAll[index] = event.target.checked;
+		      let targetFucsList = [];
+		      this.preRangeList.forEach(function(ele) {
+		        targetFucsList.push(ele.preRangeNo);
+		      }, this);
+		      if (this.checkFuncsAll[index] == true) {
+		        this.$set(this.isFuncsIndeterminate, index, true);
+		        targetFucsList.forEach(function(ele) {
+		          if (JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ preRangeNo: ele })) == -1) {
+		            this.formdata2.preRange.push({ preRangeNo: ele });
+		          }
+		          if ( !this.isInArray(this.checkFuncs, ele) ) {
+		            this.checkFuncs.push(ele);
+		          }
+		        }, this);
+		      } else {
+		        this.$set(this.isFuncsIndeterminate, index, false);
+		        targetFucsList.forEach(function(ele, index) {
+		          if (JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ preRangeNo: ele })) != -1) {
+		            this.formdata2.preRange.splice(JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ preRangeNo: ele }))-1, 1);
+		          }
+		          if ( this.isInArray(this.checkFuncs, ele) ) {
+		            this.checkFuncs.splice(this.checkFuncs.indexOf(ele), 1);
+		          }
+		        }, this);
+		      }
+		      console.log("这是全选的checkFuncs", this.checkFuncs);
+		      console.log("preRange", this.formdata2.preRange);
+		    },
+		    handleCheckedFuncsChange(val, index) {
+		      if (val.length == this.preRangeList.length) {
+		        this.checkFuncsAll[index] = true;
+		        this.$set(this.isFuncsIndeterminate, index, true);
+		      } else {
+		        this.checkFuncsAll[index] = false;
+		        this.$set(this.isFuncsIndeterminate, index, false);
+		      }
+		      this.formdata2.preRange = [];
+		      val.forEach(function(ele) {
+		        this.formdata2.preRange.push({ preRangeNo: ele });
+		      }, this);
+		      console.log("preRange", this.formdata2.preRange);
+		    },
 	      	save(formName) {
 				const self = this;
 				self.$refs.formdata2.validate(valid => {
@@ -239,9 +312,22 @@
 			        }
 		       })
 			},
+			queryWageInfo(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/wage/queryWageFlowInfo',{params: params})
+				.then(function(res) {
+					console.log('WageInfo',res);
+					if(res.data.code === "S00000") {
+						self.formdata2 = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
 			modWageInfo(params) {
 				let self = this;
-				self.$axios.post(baseURL+'',params)
+				self.$axios.put(baseURL+'/wage/modifyWageFlowInfo',params)
 				.then(function(res) {
 					console.log('addWage',res);
 					if(res.data.code === "S00000") {
@@ -287,5 +373,10 @@
 	color: #ff9900;
     background: #FFFFFF;
     border: 1px solid #FF9900;
+}
+.leftside {
+	text-align: right;
+    padding: 9px 24px 0;
+    color: #999999;
 }
 </style>

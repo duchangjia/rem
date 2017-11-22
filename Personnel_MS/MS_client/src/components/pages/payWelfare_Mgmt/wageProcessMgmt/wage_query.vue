@@ -4,8 +4,11 @@
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
 				<span class="title-text">工资流程管理</span>
-				<el-button class="btn-primary" @click="handleAdd">新增</el-button>
-               	<el-button class="btn-primary" @click="handleSocial">社保数据导入</el-button>
+				<div class="titleBtn_wrapper">
+					<el-button class="btn-primary" @click="handleSocial">社保数据导入</el-button>
+					<el-button class="btn-primary" @click="handleAdd">新增</el-button>
+				</div>
+	               	
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
@@ -25,8 +28,7 @@
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工资月份" prop="startDate"">
-							<el-date-picker v-model="ruleForm2.startDate" type="month" placeholder="请选择" @change="changeStartTime">
-						   </el-date-picker>
+							<el-date-picker v-model="ruleForm2.startDate" type="month" placeholder="请选择" @change="changeStartTime"></el-date-picker>
 						</el-form-item>
 					</el-col>
 					<div class="queryButton_wrapper">
@@ -35,17 +37,17 @@
 					</div>
 				</el-form>
 				<el-table :data="transferDataList" border stripe style="width: 100%">
-					<el-table-column prop="applyNo" label="工资流程编号">
+					<el-table-column prop="batchNo" label="工资流程编号">
 						<template scope="scope">
-					        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
+					        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.batchNo }}</span>
 				      	</template>
 					</el-table-column>
-					<el-table-column prop="companyName" label="公司名称"></el-table-column>
-					<el-table-column prop="gryStartTime" label="结算开始日期" :formatter="gryStartTimeFormatter"></el-table-column>
-					<el-table-column prop="gryEndTime" label="结算结束日期" :formatter="gryEndTimeFormatter"></el-table-column>
-					<el-table-column prop="gongziMonth" label="工资月份" ></el-table-column>
+					<el-table-column prop="organName" label="公司名称"></el-table-column>
+					<el-table-column prop="settleStartTime" label="结算开始日期" :formatter="settleStartTimeFormatter"></el-table-column>
+					<el-table-column prop="settleEndTime" label="结算结束日期" :formatter="settleEndTimeFormatter"></el-table-column>
+					<el-table-column prop="month" label="工资月份" ></el-table-column>
 					<el-table-column prop="remark" label="备注" :show-overflow-tooltip="true"></el-table-column>
-					<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
+					<el-table-column prop="batchStatus" label="状态" :formatter="batchStatusFormatter"></el-table-column>
 					<el-table-column prop="createdBy" label="录入人"></el-table-column>
 					<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
 					<el-table-column label="操作" width="100">
@@ -56,9 +58,21 @@
 						      	</span>
 						      	<el-dropdown-menu slot="dropdown">
 						        	<el-dropdown-item command="handleExport">导出工资数据</el-dropdown-item>
-						        	<el-dropdown-item command="handleImport">导入工资数据</el-dropdown-item>
+						        	
+						        	<el-dropdown-item command="handleImport">导入工资数据
+						        		<el-upload class="upload-demo wage_upload" ref="upload" name="file"
+								  			 :data="formdata"
+								  			 :on-change="changeUpload" 
+								  			 :on-success="successUpload"
+								  			 action="/iem_hrm/wage/wageInfoImport"  
+								  			 :auto-upload="true"
+								  			 :headers="token"
+								  		>
+				                            <el-button slot="trigger" type="primary" class="uploadBtn" style="opacity: 0;">选取文件</el-button>
+				                        </el-upload>
+						        	</el-dropdown-item>
 						        	<el-dropdown-item command="handleEnter">单笔录入工资数据</el-dropdown-item>
-						        	<el-dropdown-item command="handleUse">启用</el-dropdown-item>
+						        	<el-dropdown-item command="handleStatus">启用</el-dropdown-item>
 						        	<el-dropdown-item command="handleEdit">编辑</el-dropdown-item>
 						        	<el-dropdown-item command="handleDelete">删除</el-dropdown-item>
 						      	</el-dropdown-menu>
@@ -96,13 +110,13 @@ export default {
 			},
 			transferDataList: [
 				{
-					applyNo: "20172017",
-					companyName: "深圳分公司",
-					gryStartTime: "2017-10-10",
-					gryEndTime: "2017-11-10",
-					gongziMonth: "2017-10-10",
+					batchNo: "20172017",
+					organName: "深圳分公司",
+					settleStartTime: "2017-10-10",
+					settleEndTime: "2017-11-10",
+					month: "2017-10-10",
 					remark: "的方式大力开发空间里的时间反对声浪附近逗留时间房价肯定里粉丝数量大幅减少的看风景",
-					status: "01",
+					batchStatus: "01",
 					createdBy: "P000000",
 					createdDate: "2017-11-21"
 				}
@@ -120,6 +134,13 @@ export default {
 	components: {
 		current
 	},
+	computed: {
+		formdata: function(){
+			return {
+				batchNo: sessionStorage.getItem('wage_batchNo')
+			}
+		}
+	},
 	created() {
 		this.queryFormFlag = false;
 		let params = {
@@ -128,19 +149,19 @@ export default {
 			
 		}
 		//查询工资列表
-		this.queryWageList(params);
+//		this.queryWageList(params);
 		//公司列表查询
 		this.queryCompList();
 	},
 	methods: {
-		gryStartTimeFormatter(row, column) {
-	      return row.gryStartTime ? moment(row.gryStartTime).format('YYYY-MM-DD') : null;
+		settleStartTimeFormatter(row, column) {
+	      return row.settleStartTime ? moment(row.settleStartTime).format('YYYY-MM-DD') : null;
 	   	}, 
-	   	gryEndTimeFormatter(row, column) {
-	      return row.gryEndTime ? moment(row.gryEndTime).format('YYYY-MM-DD') : null;
+	   	settleEndTimeFormatter(row, column) {
+	      return row.settleEndTime ? moment(row.settleEndTime).format('YYYY-MM-DD') : null;
 	   	}, 
-	   	statusFormatter(row, column) {
-	   		return row.status=="01" ? "录入" : row.status=="02" ? "启用" : "废弃";
+	   	batchStatusFormatter(row, column) {
+	   		return row.batchStatus=="01" ? "录入" : row.batchStatus=="02" ? "启用" : "废弃";
 	   	},
 	   	createdDateFormatter(row, column) {
 	      return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null;
@@ -149,6 +170,19 @@ export default {
 			this.ruleForm2.startDate = val;
 			console.log(val)
 		},
+		changeUpload(file, fileList) {
+	 		this.fileFlag = file;
+	 		this.formdata2.attachm = file.name;
+      	},
+      	successUpload(response, file, fileList) {
+      		console.log('response',response)
+      		if(response.code === "S00000") {
+      			this.$message({ message: response.retMsg, type: 'success' });
+      		}else {
+      			this.$message({ message: response.retMsg, type: 'success' });
+      		}
+      		
+      	},
 		changeComp(val) {
 			console.log(val);
 			const self = this;
@@ -165,25 +199,31 @@ export default {
 	    	this.$router.push('/add_wage');
 	    },
 		handleInfo(index, row) {
-			sessionStorage.setItem('infoWage_applyNo', row.applyNo);
+			sessionStorage.setItem('infoWage_batchNo', row.batchNo);
 			this.$router.push({
 				name: "wage_info",
 				params: {
-					applyNo: row.applyNo
+					batchNo: row.batchNo
 				}
 			})
 			
 		},
 		handlMenu(index, row) {
 			console.log('menu',row);
-			sessionStorage.setItem('wage_applyNo',row.applyNo);
+			sessionStorage.setItem('wage_batchNo',row.batchNo);
 		},
 		handleCommand(command) {
 			console.log(command)
-			let applyNo = sessionStorage.getItem('wage_applyNo');
+			let batchNo = sessionStorage.getItem('wage_batchNo');
+			let params = {};
+			console.log('batchNo',batchNo);
 			switch(command){
 				case 'handleExport':
 				  	//导出
+				  	params = {
+				  		batchNo: batchNo
+				  	}
+				  	this.handleExport(params);
 				  	break;
 				case 'handleImport':
 				  	//导入
@@ -192,12 +232,16 @@ export default {
 				  	//单笔录入工资
 					this.$router.push('/entry_wage');
 				  	break;
-				case 'handleUse':
+				case 'handleStatus':
 				  	//启用
+					params = {
+						batchNo: batchNo
+					}
+				  	this.updateWageStatus(params);
 				  	break;
 				case 'handleEdit':
 				 	 //编辑
-					sessionStorage.setItem('editWage_applyNo', applyNo);
+					sessionStorage.setItem('editWage_batchNo', batchNo);
 	            	this.$router.push('/edit_wage');
 				  	break;
 				case 'handleDelete':
@@ -208,14 +252,14 @@ export default {
 		                cancelButtonText: '取消',
 		                type: 'warning'
 		           	}).then(() => {
-		            	let params = {
-							applyNo: applyNo
+		            	params = {
+							batchNo: batchNo
 						}
 		            	console.log(params);
-		            	
+		            	self.deleteWageFlow(params);
 		            	
 		            }).catch(() => {
-		                this.$message('您已取消操作！');
+		                self.$message('您已取消操作！');
 		            });
 				  	break;
 				  
@@ -242,10 +286,10 @@ export default {
 					let params = {
 						"pageNum": self.pageNum,
 						"pageSize": self.pageSize,
-						
+						month: this.ruleForm2.startDate
 					};
-					//查询工资列表
-					
+					//条件查询工资列表
+					self.queryWageList(params);
 					
 				} else {
 					return false;
@@ -267,6 +311,7 @@ export default {
 				params = {
 					"pageNum": val,
 					"pageSize": self.pageSize,
+					month: self.ruleForm2.startDate
 					
 				}
 			} else {
@@ -275,7 +320,8 @@ export default {
 					"pageSize": self.pageSize
 				}
 			}
-			
+			//分页查询工资列表
+			self.queryWageList(params);
 		},
 		queryWageList(params) {
 			let self = this;
@@ -292,9 +338,73 @@ export default {
 				console.log(err);
 			})
 		},
+		deleteWageFlow(params) {
+			let self = this;
+			self.$axios.delete(baseURL+'/wage/deleteWageFlowInfo?batchNo='+params.batchNo)
+			.then(function(res) {
+				console.log('deleteWageFlow',res);
+				if(res.data.code === "S00000") {
+					self.$message({ message: '操作成功', type: 'success' });
+					let params = {
+						"pageNum": self.pageNum,
+						"pageSize": self.pageSize,
+						month: this.ruleForm2.startDate
+					};
+					//查询工资列表
+					self.queryWageList(params);
+				}
+			}).catch(function(err) {
+				console.log(err);
+			})
+		},
+		updateWageStatus(params) {
+			let self = this;
+			self.$axios.put(baseURL+'/wage/updateWageFlowStatus',params)
+			.then(function(res) {
+				console.log('updateWageStatus',res);
+				if(res.data.code === "S00000") {
+					self.$message({ message: '操作成功', type: 'success' });
+					let params = {
+						"pageNum": self.pageNum,
+						"pageSize": self.pageSize,
+						month: this.ruleForm2.startDate
+					};
+					//查询工资列表
+					self.queryWageList(params);
+				}
+			}).catch(function(err) {
+				console.log('error');
+			})
+		},
+		handleExport(params) {
+			const self = this;
+            this.$axios
+                .get("/iem_hrm/wage/wageInfoExport", { params: params, responseType: 'blob' })
+                .then((response) => {
+                    console.log(response);
+                    const fileName = "工资数据.xlsx"; 
+                    const blob = response.data;
+
+                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+
+                        window.navigator.msSaveOrOpenBlob(blob, fileName);
+                    } else {
+                        let elink = document.createElement('a'); // 创建a标签
+                        elink.download = fileName;
+                        elink.style.display = 'none';
+                        elink.href = URL.createObjectURL(blob);
+                        document.body.appendChild(elink);
+                        elink.click(); // 触发点击a标签事件
+                        document.body.removeChild(elink);
+                    }
+                }).catch((e) => {
+                    console.error(e)
+                    self.$message({ message: '下载失败', type: 'error' });
+                })
+		},
 		queryCompList() {
 			let self = this;
-			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
+			self.$axios.get(baseURL+'/wage/queryOrganByUserNo')
 			.then(function(res) {
 				console.log('CompList',res);
 				if(res.data.code === "S00000") {
@@ -307,7 +417,7 @@ export default {
 		},
 		queryDerpList(params) {
 			let self = this;
-			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
+			self.$axios.get(baseURL+'/wage/queryDerpByUserNo', {params: params})
 			.then(function(res) {
 				console.log('DerpList',res);
 				if(res.data.code === "S00000") {
@@ -332,6 +442,12 @@ export default {
 .payroll_query .imExport-btn-item {
     margin-right: 20px;
 }
+.titleBtn_wrapper {
+	float: right;
+}
+.titleBar .btn-primary {
+	float: none;
+}
 .el-button + .el-button {
     margin-left: 20px;
 }
@@ -339,5 +455,17 @@ export default {
 	cursor: pointer;
     color: #337ab7;
     text-decoration: underline;
+}
+.el-dropdown-menu__item {
+	position: relative;
+}
+.wage_upload {
+    position: absolute;
+    left: 2px;
+    top: 0;
+   
+}
+.wage_upload .uploadBtn {
+    padding: 10px 45px;
 }
 </style>

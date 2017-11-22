@@ -5,8 +5,8 @@
 			<div class="titleBar">
 				<span class="title-text">社保数据查询</span>
 				<div class="titleBtn_wrapper">
-                   	<el-button @click="handleSocial">导入</el-button>
-					<el-button type="primary" @click="handleAdd">导出</el-button>
+                   	<el-button class="btn-primary" @click="handleSocial">导入</el-button>
+					<el-button class="btn-primary">导出</el-button>
 				</div>
 				
 			</div>
@@ -43,8 +43,8 @@
 						</el-form-item>
 					</el-col>
 					<div class="queryButton_wrapper">
-						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
-						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
+						<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
+						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
 				<el-table :data="transferDataList" border stripe style="width: 100%">
@@ -307,5 +307,19 @@ export default {
 }
 .payroll_query .imExport-btn-item {
     margin-right: 20px;
+}
+.titleBtn_wrapper {
+	float: right;
+}
+.titleBar .btn-primary {
+	float: none;
+}
+.el-button + .el-button {
+    margin-left: 20px;
+}
+.link {
+	cursor: pointer;
+    color: #337ab7;
+    text-decoration: underline;
 }
 </style>

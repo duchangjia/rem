@@ -549,6 +549,11 @@ const routes = [
                 			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/socialSecurity_query.vue'], resolve)
                 		},
                 		{
+                			name: 'import_socialSecurity',
+                			path: '/import_socialSecurity',
+                			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/import_socialSecurity.vue'], resolve)
+                		},
+                		{
                 			name: 'edit_security',
                 			path: '/edit_security',
                 			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/edit_security.vue'], resolve)
