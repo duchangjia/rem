@@ -4,7 +4,7 @@
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
 				<span class="title-text">个人所得税税率设置</span>
-				<el-button type="primary" class="titleBtn_wrapper" @click="addRateGroup()">新增</el-button>
+				<el-button type="primary" class="btn-primary" @click="addRateGroup()">新增</el-button>
 			</div>
 			<div class="queryContent_inner">
 				<el-table :data="taxRateGroupList" border stripe style="width: 100%">
@@ -167,5 +167,9 @@ export default {
     height: 24px;
     background: url('../../../../static/img/common/delete.png') center no-repeat;
 }
-
+.link {
+	cursor: pointer;
+    color: #337ab7;
+    text-decoration: underline;
+}
 </style>

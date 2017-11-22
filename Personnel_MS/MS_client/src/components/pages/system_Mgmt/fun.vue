@@ -1,5 +1,5 @@
 <template>
-	<div class="query_wrapper">
+	<div class="fun">
 		<current yiji="系统管理" erji="功能管理"></current>
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
@@ -34,8 +34,8 @@
 						</el-form-item>
 					</el-col>
 					<div class="queryButton_wrapper">
-						<el-button class="resetform" @click="resetForm()">重置</el-button>
-						<el-button type="primary" @click="queryForm()">查询</el-button>
+						<el-button class="btn-default" @click="resetForm()">重置</el-button>
+						<el-button class="btn-primary" @click="queryForm()">查询</el-button>
 					</div>
 				</el-form>
 				<el-table :data="userList" border stripe style="width: 100%">
@@ -187,217 +187,20 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.fun {
 		padding-left: 20px;
 		width: 100%;
 	}
-	.fun .content {
-		width: 100%;
-		/*min-height: 530px;*/
-		padding: 0px 20px;
-		background: #ffffff;
-		clear: both;
-	}
-	.fun .content .title {
-		border-bottom: 1px solid #EEEEEE;
-	}
-	.fun .content .title .title-text {
-		display: inline-block;
-		position: relative;
-		padding: 14px 0px;
-		font-size: 16px;
-		height: 50px;
-	}
-	.fun .content .title .title-text:after {
-		content: '';
-		position: absolute;
-		left: 0;
-		bottom: -1px;
-		width: 100%;
-		height: 2px;
-		background: #333333;
-	}
-	.fun .content-inner {
-		padding: 30px 0px;
-	}
-	.fun .el-form-item__label {
-		color: #999999;
-		font-weight: normal;
-		padding: 8px 10px 8px 0;
-		margin: 0;
-	}
-	.fun .el-form-item {
-		margin-bottom: 30px;
-	}
-	.fun .el-input,
-	.fun .el-input__inner {
-		width: 164px;
-		height: 30px;
-		display: inline-block;
-		border-radius: 4px;
-	}
 	
-	.fun .el-form-item__content {
-		line-height: 30px;
-		position: relative;
-		font-size: 14px;
-	    float: left;
-	    margin-left: 0px!important;
-	}
-	.fun .button-wrap {
-		margin: 0px auto 20px;
-		width: 260px;
-		clear: both;
-		font-size: 0px;
-	}
-	.fun .el-input__inner {
-		border: 1px solid #EEEEEE;
-		color: #333333;
-	}
-	.fun .el-input__inner:hover {
-	    border-color: #FF9900;
-	}
-	.fun .el-button {
-		border: 1px solid #FF9900;
-		color: #FF9900;
-		padding: 7px 45px;
-		height: 30px;
-	}
-	.fun .el-button--primary {
-		color: #fff;
-		background-color: #FF9900;
-		border-color: #FF9900;
-	}
-	.fun .el-button+.el-button {
-	    margin-left: 20px;
-	}
-	.fun .el-table {
-	    background-color: #fff;
-	    border-left: 1px solid #EEEEEE;
-	    color: #666666;
-	}
-	.fun .el-table__footer-wrapper thead div, 
-	.fun .el-table__header-wrapper thead div {
-	    background-color: #f4f4f4;
-	    color: #666666;
-	}
-	.fun .el-table td,
-	.fun .el-table th {
-		text-align: center;
-	}
-	.fun .el-table--enable-row-hover .el-table__body tr:hover>td {
-	    background-color: #f8f8f8;
-	    background-clip: padding-box;
-	}
-	.fun .el-table--striped .el-table__body tr.el-table__row--striped td {
-	    background: #F8F8F8;
-	    background-clip: padding-box;
-	}
-	.fun .el-table th {
-		white-space: nowrap;
-		overflow: hidden;
-		background-color: #f4f4f4;
-		text-align: center;
-		box-shadow: inset 0 1px 0 0 #EEEEEE;
-	}
-	.fun .el-table--border td,
-	.fun .el-table--border th {
-		border-right: 1px solid #EEEEEE;
-	}
-	.fun .el-table td,
-	.fun .el-table th.is-leaf {
-		border-bottom: 1px solid #EEEEEE;
-	}
-	.fun .el-table .cell, 
-	.fun .el-table th>div {
-	    padding-left: 10px;
-	    padding-right: 10px;
-	}
-	.fun .el-table::after, 
-	.fun .el-table::before {
-	    content: '';
-	    position: absolute;
-     	background-color: transparent; 
-	}
 	.fun .icon-edit {
 	    display: inline-block;
 	    width: 24px;
 	    height: 24px;
+	    cursor: pointer;
 	    background: url('../../../../static/img/common/edit.png') center no-repeat;
 	}
-	.fun .icon-edit:hover {
-	    cursor: pointer;
-	}
-	.fun .el-pagination {
-		text-align: right;
-		margin-top: 40px;
-	    margin-right: 40px;
-        color: #282828;
-	}
-	.fun .el-pager li.active {
-	    border-color: #FF9900;
-	    background-color: #FF9900;
-	    color: #fff;
-	    cursor: default;
-	}
-	.fun .el-pager li {
-	    padding: 0 4px;
-	    border-right: 0;
-	    background: #fff;
-	    font-size: 12px;
-	    letter-spacing: -0.39px;
-	    min-width: 24px;
-	    height: 24px;
-	    line-height: 24px;
-	    text-align: center;
-	}
-	.fun .el-pager li:last-child {
-	    border-right: 1px solid #EEEEEE;
-	}
-	.fun .el-pagination button, 
-	.fun .el-pagination span {
-	    display: inline-block;
-	    font-size: 12px;
-	    letter-spacing: -0.39px;
-	    min-width: 24px;
-	    height: 24px;
-	    color: #282828;
-	    line-height: 24px;
-	    vertical-align: top;
-	    box-sizing: border-box;
-	}
-	.fun .el-pager li:hover {
-	    color: #FF9900!important;
-	}
-	.fun .el-pager li.active:hover {
-		color: #FFFFFF!important;
-	}
-	.fun .el-pagination button:hover {
-	    color: #FF9900;
-	}
-	.fun .el-pagination__editor {
-	    border: 1px solid #EEEEEE;
-	    border-radius: 2px;
-	    padding: 2px 2px;
-	    width: 24px;
-	}
-	.fun .el-pagination__editor:focus {
-	    outline: 0;
-	    border-color: #FF9900;
-	}
-	.fun .el-pagination .btn-next, 
-	.fun .el-pagination .btn-prev {
-	    border: 1px solid #EEEEEE;
-	    color: #282828;
-	}
-	.fun .el-autocomplete-suggestion__wrap, 
-	.fun .el-pager li {
-	    border: 1px solid #EEEEEE;
-	}
-	.fun .el-pager li.btn-quicknext, 
-	.fun .el-pager li.btn-quickprev {
-	    line-height: 28px;
-	    color: #282828;
+	.fun .el-button, .el-button + .el-button {
+	    margin-left: 20px;
 	}
 </style>
