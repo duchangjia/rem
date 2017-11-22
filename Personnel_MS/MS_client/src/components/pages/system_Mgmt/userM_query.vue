@@ -1,5 +1,5 @@
 <template>
-	<div class="query_wrapper">
+	<div class="userM_query">
 		<current yiji="系统管理" erji="用户管理"></current>
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
@@ -36,8 +36,8 @@
 						</el-form-item>
 					</el-col>
 					<div class="queryButton_wrapper">
-						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
-						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
+						<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
+						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
 				<el-table :data="operatorList" border stripe style="width: 100%">
@@ -247,6 +247,18 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.userM_query {	
+	padding-left: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+}
+.userM_query .el-button + .el-button {
+    margin-left: 20px;
+}
+.link {
+	cursor: pointer;
+    color: #337ab7;
+    text-decoration: underline;
+}
 </style>

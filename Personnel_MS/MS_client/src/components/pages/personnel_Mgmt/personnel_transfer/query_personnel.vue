@@ -35,8 +35,8 @@
 						</el-col>
 					<!--</div>-->
 					<div class="queryButton_wrapper">
-						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
-						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
+						<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
+						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
 				<el-table stripe :data="pactListInfo" border>
@@ -235,8 +235,10 @@
 </script>
 
 <style>
-	.query_transfer {
-		padding: 0 0 20px 20px;
-	}
-	
+.query_transfer {
+	padding: 0 0 20px 20px;
+}
+.query_transfer .el-button, .el-button + .el-button {
+margin-left: 20px;
+}
 </style>
