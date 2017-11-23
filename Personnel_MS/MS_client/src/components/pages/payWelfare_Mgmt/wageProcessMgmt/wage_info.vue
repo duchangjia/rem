@@ -28,7 +28,7 @@
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
-						<el-form-item label="状态" prop="grpStatus"">
+						<el-form-item label="状态" prop="grpStatus">
 							<el-input v-model="formdata2.grpStatus" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
@@ -47,7 +47,7 @@
 					  	</el-form-item>
 					</el-col>  	-->
 					<el-col :sm="24" :md="12">
-						<el-form-item label="工资月份" prop="wageMonth"">
+						<el-form-item label="工资月份" prop="wageMonth">
 							<el-date-picker
 						      v-model="formdata2.wageMonth"
 						      type="month"

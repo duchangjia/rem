@@ -29,7 +29,7 @@
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
-						<el-form-item label="工资月份" prop="month"">
+						<el-form-item label="工资月份" prop="month">
 							<el-date-picker type="month" v-model="formdata2.month" placeholder="请选择" @change="changeWageMonth" style="width:100%;">
 						   	</el-date-picker>
 						</el-form-item>

@@ -15,12 +15,12 @@
 						</el-form-item>
 					</el-col>
 					<el-col :sm="12" :md="6">
-						<el-form-item label="工资月份" prop="custNo"">
+						<el-form-item label="工资月份" prop="custNo">
 							<el-input v-model="ruleForm2.custNo" placeholder="请输入工号"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :sm="12" :md="6">
-						<el-form-item label="姓名" prop="custName"">
+						<el-form-item label="姓名" prop="custName">
 							<el-input v-model="ruleForm2.custName" placeholder="请输入姓名"></el-input>
 						</el-form-item>
 					</el-col>

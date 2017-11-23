@@ -1,8 +1,8 @@
 <template>
     <div id="home-wrapper">
         <v-head class="home-header"></v-head>
-        <div class="wrapper">
-            <v-Sidebar class="sider"></v-Sidebar>
+        <div :class='{"wrapper": true,"sidebarHide": hideSidebarFlag}'>
+            <v-Sidebar class="sider" @hideSidebar="hideSidebar"></v-Sidebar>
             <div class="container-wrapper">
                 <transition name="move" mode="out-in">
                     <router-view></router-view>
@@ -29,8 +29,19 @@
     import vHead from './Header.vue';
     import vSidebar from './Sidebar.vue';
     export default {
+    	data() {
+    		return {
+    			hideSidebarFlag: false
+    		}
+    	},
         components:{
             vHead, vSidebar
+        },
+        methods: {
+        	hideSidebar(value) {
+        		console.log('hide',value);
+        		this.hideSidebarFlag = value;
+        	}
         }
     }
 </script>
@@ -52,18 +63,16 @@
     }
     
     .wrapper{
-        display: flex;
-        display: -webkit-flex;
         width: 100%;
     }
-    /*.sider{
-        flex: 0 0 180px;
-        width: 180px;
-        background: #fff;
-    }*/
     .container-wrapper{
-        flex: 1;
+       	min-height: 100%;
+       	/*min-height: 600px;*/
+       	margin-left: 180px;
         background: #f4f4f4;
-        /* padding-left: 20px; */
+        transition: margin-left 0.28s ease-out;
+    }
+    .wrapper.sidebarHide .container-wrapper {
+    	margin-left: 60px;
     }
 </style>

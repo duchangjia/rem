@@ -12,7 +12,7 @@
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
-					<el-col :sm="12" :md="6">
+					<!--<el-col :sm="12" :md="6">
 						<el-form-item label="公司" prop="compName">
 							<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" @change="changeComp">
 								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
@@ -25,16 +25,19 @@
 								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
-					<el-col :sm="24" :md="12">
-						<el-form-item label="工资月份" prop="startDate"">
+					</el-col>-->
+					<el-col :sm="12" :md="6">
+						<el-form-item label="工资月份" prop="startDate">
 							<el-date-picker v-model="ruleForm2.startDate" type="month" placeholder="请选择" @change="changeStartTime"></el-date-picker>
 						</el-form-item>
 					</el-col>
-					<div class="queryButton_wrapper">
-						<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
-						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
-					</div>
+					<el-col :sm="12" :md="6">
+						<div class="queryButton_wrapper">
+							<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
+							<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
+						</div>
+					</el-col>
+						
 				</el-form>
 				<el-table :data="transferDataList" border stripe style="width: 100%">
 					<el-table-column prop="batchNo" label="工资流程编号">
@@ -149,7 +152,7 @@ export default {
 			
 		}
 		//查询工资列表
-//		this.queryWageList(params);
+		this.queryWageList(params);
 		//公司列表查询
 		this.queryCompList();
 	},
@@ -332,7 +335,7 @@ export default {
 			.then(function(res) {
 				console.log('WageList',res);
 				if(res.data.code === "S00000") {
-					self.transferDataList = res.data.data.list;
+					self.transferDataList = res.data.data.models;
 					self.pageNum = params.pageNum;
 					self.totalRows = Number(res.data.data.total);
 				}

@@ -10,7 +10,7 @@
 			<div class="add-wrapper">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
 					<el-col :sm="24" :md="12">
-						<el-form-item label="工资月份" prop="month"">
+						<el-form-item label="工资月份" prop="month">
 							<el-date-picker type="month" v-model="formdata2.month" @change="changeWageMonth" style="width:100%;"></el-date-picker>
 						</el-form-item>
 					</el-col>
@@ -55,7 +55,7 @@
 	                        <div class="menu">
 	                            <el-checkbox-button v-model="checkSubAll" :indeterminate="isSubIndeterminate" @change="handleSubAllChange" label="全部" class="menu-item"></el-checkbox-button>
 	                            <el-checkbox-group v-model="checkedSubmenus" @change="handleCheckedSubsChange">
-	                                <el-checkbox-button v-for="item in derpRangeList" :label="item" class="menu-item">{{item.derpRangeName}}</el-checkbox-button>
+	                                <el-checkbox-button v-for="item in derpRangeList" :label="item" class="menu-item">{{item.derpName}}</el-checkbox-button>
 	                            </el-checkbox-group>
 	                        </div>
 	                    </el-col>
@@ -69,7 +69,7 @@
 	                    <el-row :gutter="20">
 	                        <el-col :span="6" v-for="(depart, index) in formdata2.derpRange">
 	                            <div class="funcs-content">
-	                                <el-checkbox v-model="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ depart.derpRangeName }}</el-checkbox>
+	                                <el-checkbox v-model="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ depart.derpName }}</el-checkbox>
 	                                <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
 	                                    <el-checkbox v-for="item in preRangeList" :label="item.preRangeNo" v-bind:title="item.preRangeName" >{{ item.preRangeName }}</el-checkbox>
 	                                </el-checkbox-group>
@@ -130,8 +130,8 @@
 					companyName: "",
 					organNo: "",
 					derpRange: [
-						{derpRangeName: "广州分公司",derpRangeNo: "1"},
-						{derpRangeName: "上海分公司",derpRangeNo: "1"}
+						{derpName: "广州分公司",derpNo: "1"},
+						{derpName: "上海分公司",derpNo: "1"}
 					],
 					preRange: [
 						{preRangeName: "张三",preRangeNo: "P0000001"},
@@ -154,9 +154,9 @@
 				],
 				//部门列表
 				derpRangeList: [
-					{ derpRangeNo: "01", derpRangeName: "xx部" },
-					{ derpRangeNo: "02", derpRangeName: "行政部" },
-					{ derpRangeNo: "03", derpRangeName: "信息部" }
+					{ derpNo: "01", derpName: "xx部" },
+					{ derpNo: "02", derpName: "行政部" },
+					{ derpNo: "03", derpName: "信息部" }
 				],
 				//人员列表
 				preRangeList: [
@@ -219,6 +219,8 @@
 			// 部门范围 多选
 		    handleSubAllChange(event) {
 		      	this.checkSubAll = event.target.checked;
+		      	console.log('event',event);
+		      	console.log('this.checkSubAll',this.checkSubAll);
 		      	if (this.checkSubAll == true) {
 		        	this.checkedSubmenus = this.derpRangeList;
 		        	this.isSubIndeterminate = true;
@@ -231,13 +233,13 @@
 		        	: (this.checkedSubmenusFlag = false);
 		      	this.formdata2.derpRange = this.checkedSubmenus;
 		      	console.log("这是全选的derpRange", this.formdata2.derpRange);
-		      	let params = {
-			      	organNo: this.formdata2.organNo,
-			      	derpRanges: this.formdata2.derpRange
-		      	}
-		      	this.queryDerpAndUser(params);
+//		      	let params = {
+//			      	derpRange: this.formdata2.derpRange
+//		      	}
+//		      	this.queryDerpAndUser(params);
 		    },
 		    handleCheckedSubsChange(val) {
+		    	console.log('val',val.derpNo)
 		      	let checkedCount = val.length;
 		      	this.isSubIndeterminate =
 		        	checkedCount > 0 && checkedCount < this.derpRangeList.length;
@@ -250,8 +252,7 @@
 		      	this.formdata2.derpRange = val;
 		      	console.log("这是derpRange", this.formdata2.derpRange);
 		      	let params = {
-			      	organNo: this.formdata2.organNo,
-			      	derpRanges: this.formdata2.derpRange
+			      	derpNo: val.derpNo
 		      	}
 		      	this.queryDerpAndUser(params);
 		    },
@@ -337,11 +338,11 @@
 			},
 			queryDerpAndUser(params) {
 				let self = this;
-				self.$axios.get(baseURL+'/wage/queryDerpAndUserByOrganNo', {params: params})
+				self.$axios.get(baseURL+'/wage/queryDerpByUserNo', {params: params})
 				.then(function(res) {
 					console.log('userList',res);
 					if(res.data.code === "S00000") {
-						self.preRangeList = res.data.data.list;
+						self.preRangeList = res.data.data;
 					}
 					
 				}).catch(function(err) {
@@ -363,11 +364,11 @@
 			},
 			queryDerpList(params) {
 				let self = this;
-				self.$axios.get(baseURL+'/wage/queryDerpByUserNo', {params: params})
+				self.$axios.get(baseURL+'/wage/queryDerpByOrganNo', {params: params})
 				.then(function(res) {
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
-						self.departList = res.data.data;
+						self.derpRangeList = res.data.data;
 					}
 					
 				}).catch(function(err) {

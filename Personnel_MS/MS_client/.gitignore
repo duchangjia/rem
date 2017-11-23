@@ -2,7 +2,7 @@
 .vscode
 node_modules/
 static/build/.sass-cache
-
+config/index.js
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
