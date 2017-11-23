@@ -58,6 +58,9 @@
             width: 260px;
             clear: both;
             font-size: 0px;
+            .el-button+.el-button{
+                margin-left:20px;
+            }
         }
         .el-pagination {
             text-align: right;
