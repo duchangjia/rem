@@ -464,7 +464,7 @@
                                     border-color #ff9900
                 .button
                     margin 30px 0
-                    padding-left 38%
+                    padding-left 380px
                     button
                         width: 120px
                         height 30px

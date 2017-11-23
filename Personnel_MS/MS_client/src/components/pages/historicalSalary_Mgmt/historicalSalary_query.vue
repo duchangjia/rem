@@ -165,7 +165,7 @@ export default {
                 .get("/iem_hrm/EpCustPayFlow/exportEpCustPayFlows", { params: this.exportParams, responseType: 'blob' })
                 .then((response) => {
                     console.log(response);
-                    const fileName = "历史薪酬查询.xlsx"; 
+                    const fileName = "历史薪酬查询.xls"; 
                     const blob = response.data;
 
                     if (window.navigator && window.navigator.msSaveOrOpenBlob) {

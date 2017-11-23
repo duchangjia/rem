@@ -1,12 +1,10 @@
 <template>
-	<div class="query_wrapper">
+	<div class="overtime_query">
 		<current yiji="考勤管理" erji="加班管理"></current>
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
 				<span class="title-text">加班管理</span>
-				<div class="titleBtn_wrapper">
-					<el-button type="primary" @click="handleAdd">新增</el-button>
-				</div>
+				<el-button type="primary" class="btn-primary" @click="handleAdd">新增</el-button>
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
@@ -46,8 +44,8 @@
 						</el-form-item>
 					</el-col>
 					<div class="queryButton_wrapper">
-						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
-						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
+						<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
+						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
 				<el-table :data="transferDataList" border stripe style="width: 100%">
@@ -334,375 +332,14 @@ export default {
 }
 </script>
 
-<style>
-.query_wrapper {
+<style scoped>
+.overtime_query {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
 }
-.query_wrapper .queryContent_wrapper {
-	width: 100%;
-	padding: 0px 20px;
-	background: #ffffff;
-	clear: both;
-}
-
-.query_wrapper .titleBar {
-	border-bottom: 1px solid #EEEEEE;
-}
-
-.query_wrapper .titleBar .title-text {
-	display: inline-block;
-	position: relative;
-	padding: 14px 0px;
-	font-size: 16px;
-	height: 50px;
-}
-
-.query_wrapper .titleBar .title-text:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
-}
-.query_wrapper .titleBtn_wrapper {
-	float: right;
-	margin-top: 10px;
-}
-.query_wrapper .queryContent_inner {
-	padding: 30px 0px;
-}
-
-.query_wrapper .el-form-item__label {
-	color: #999999;
-	padding: 8px 10px 8px 0;
-	margin: 0;
-	font-weight: normal;
-}
-.query_wrapper .el-form-item {
-	margin-bottom: 30px;
-}
-
-.query_wrapper .el-input,
-.query_wrapper .el-input__inner {
-	width: 164px;
-	height: 30px;
-	display: inline-block;
-}
-
-.query_wrapper .el-form-item__content {
-	line-height: 30px;
-	position: relative;
-	font-size: 14px;
-}
-
-.query_wrapper .queryButton_wrapper {
-	margin: 0px auto 30px;
-	width: 260px;
-	clear: both;
-	font-size: 0px;
-}
-
-.query_wrapper .el-input__inner {
-	border: 1px solid #EEEEEE;
-	color: #333333;
-}
-
-.query_wrapper .el-input__inner:hover {
-	border-color: #FF9900;
-}
-
-.query_wrapper .el-button {
-	border: 1px solid #FF9900;
-	color: #FF9900;
-	padding: 7px 45px;
-	height: 30px;
-}
-
-.query_wrapper .el-button--primary {
-	color: #fff;
-	background-color: #FF9900;
-	border-color: #FF9900;
-}
-.query_wrapper .el-button+.el-button {
+.overtime_query .el-button + .el-button {
     margin-left: 20px;
-}
-.query_wrapper .el-table td,
-.query_wrapper .el-table th {
-	text-align: center;
-}
-.query_wrapper .link {
-	cursor: pointer;
-    color: #337ab7;
-    text-decoration: underline;
-}
-.query_wrapper .el-table th {
-	text-align: center;
-	/*box-shadow: inset 0 1px 0 0 #EEEEEE;*/
-}
-.query_wrapper .el-table .cell, .el-table th>div {
-    padding-left: 10px;
-    padding-right: 10px;
-    box-sizing: border-box;
-    text-overflow: ellipsis;
-}
-.query_wrapper .icon_edit {
-	width: 14px;
-	height: 14px;
-	cursor: pointer;
-	display: inline-block;
-	background: url(../../../../../static/img/common/edit.png);
-}
-
-.query_wrapper .el-pagination {
-	text-align: right;
-	margin-top: 30px;
-	margin-right: 40px;
-	color: #282828;
-}
-
-.query_wrapper .el-pager li.active {
-	border-color: #FF9900;
-	background-color: #FF9900;
-	color: #fff;
-	cursor: default;
-}
-
-.query_wrapper .el-pager li {
-	padding: 0 4px;
-	border-right: 0;
-	background: #fff;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	line-height: 24px;
-	text-align: center;
-}
-
-.query_wrapper .el-pager li:last-child {
-	border-right: 1px solid #EEEEEE;
-}
-
-.query_wrapper .el-pagination button,
-.query_wrapper .el-pagination span {
-	display: inline-block;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	color: #282828;
-	line-height: 24px;
-	vertical-align: top;
-	box-sizing: border-box;
-}
-
-.query_wrapper .el-pager li:hover {
-	color: #FF9900;
-}
-.query_wrapper .el-pager li.active {
-    border-color: #ff9900;
-    background-color: #ff9900;
-    color: #fff;
-    cursor: default;
-}
-.query_wrapper .el-pager li.active:hover {
-	cursor: pointer;
-	color: #ffffff;
-}
-
-.query_wrapper .el-pagination button:hover {
-	color: #FF9900;
-}
-.query_wrapper .el-pagination button.disabled:hover {
-	color: #e4e4e4;
-}
-
-.query_wrapper .el-pagination__editor {
-	border: 1px solid #EEEEEE;
-	border-radius: 2px;
-	padding: 2px 0px;
-	width: 24px;
-	min-width: 24px;
-}
-
-.query_wrapper .el-pagination__editor:focus {
-	outline: 0;
-	border-color: #FF9900;
-}
-
-.query_wrapper .el-pagination .btn-next,
-.query_wrapper .el-pagination .btn-prev {
-	border: 1px solid #EEEEEE;
-	color: #282828;
-}
-
-.query_wrapper .el-autocomplete-suggestion__wrap,
-.query_wrapper .el-pager li {
-	border: 1px solid #EEEEEE;
-}
-
-.query_wrapper .el-pager li.btn-quicknext,
-.query_wrapper .el-pager li.btn-quickprev {
-	line-height: 28px;
-	color: #282828;
-}
-.query_wrapper .el-upload__input {
-    display: none;
-}
-.query_wrapper .btn_wrap {
-	margin-top: 30px;
-}
-.query_wrapper .upload_btn {
-	display: inline-block;
-	left: 100%;
-}
-.query_wrapper .imExport-btn {
-	float: right;
-	margin-top: 19px;
-}
-.query_wrapper .imExport-btn .imExport-btn-item{
-	display: inline-block;
-	margin-left: 30px;
-	cursor: pointer;
-}
-.query_wrapper .icon-import {
-	display: inline-block;
-	width: 16px;
-	height: 16px;
-	background: url(../../../../../static/img/common/batch-import0.png);
-}
-.query_wrapper .icon-export {
-	display: inline-block;
-	width: 16px;
-	height: 16px;
-	background: url(../../../../../static/img/common/batch-export0.png);
-}
-.query_wrapper .icon-download {
-	display: inline-block;
-	width: 16px;
-	height: 16px;
-	background: url(../../../../../static/img/common/template-download0.png);
-}
-.query_wrapper .el-form-item__error {
-    left: 39px;
-}
-/*.query_wrapper .content {
-	width: 100%;
-	padding: 0px 20px;
-	background: #ffffff;
-	clear: both;
-}
-
-.query_wrapper .content .title {
-	border-bottom: 1px solid #EEEEEE;
-}
-
-.query_wrapper .content .title .title-text {
-	display: inline-block;
-	position: relative;
-	padding: 14px 0px;
-	font-size: 16px;
-	height: 50px;
-}
-
-.query_wrapper .content .title .title-text:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
-}
-.query_wrapper .title_button {
-	float: right;
-	margin-top: 10px;
-}
-.query_wrapper .content-inner {
-	padding: 30px 0px;
-}
-
-.query_wrapper .el-form-item__label {
-	color: #999999;
-	padding: 8px 10px 8px 0;
-	margin: 0;
-	font-weight: normal;
-}
-
-.query_wrapper .el-form-item {
-	margin-bottom: 30px;
-}
-
-.query_wrapper .el-input,
-.query_wrapper .el-input__inner {
-	width: 164px;
-	height: 30px;
-	display: inline-block;
-}
-
-.query_wrapper .el-form-item__content {
-	line-height: 30px;
-	position: relative;
-	font-size: 14px;
-}
-
-.query_wrapper .button-wrap {
-	margin: 0px auto 30px;
-	width: 260px;
-	clear: both;
-	font-size: 0px;
-}
-
-.query_wrapper .el-input__inner {
-	border: 1px solid #EEEEEE;
-	color: #333333;
-}
-
-.query_wrapper .el-input__inner:hover {
-	border-color: #FF9900;
-}
-
-.query_wrapper .el-button {
-	border: 1px solid #FF9900;
-	color: #FF9900;
-	padding: 7px 45px;
-	height: 30px;
-}
-.query_wrapper .el-button--primary {
-	color: #fff;
-	background-color: #FF9900;
-	border-color: #FF9900;
-}
-.query_wrapper .el-button+.el-button {
-    margin-left: 20px;
-}
-.query_wrapper .el-table td,
-.query_wrapper .el-table th {
-	text-align: center;
-}
-.query_wrapper .el-table td:first-child{
-	cursor: pointer;
-}
-.query_wrapper .link {
-	cursor: pointer;
-    color: #337ab7;
-    text-decoration: underline;
-}
-.query_wrapper .el-table td:first-child:hover{
-	color: #FF9900;
-}
-
-.query_wrapper .el-table th {
-	text-align: center;
-	box-shadow: inset 0 1px 0 0 #EEEEEE;
-}
-.query_wrapper .el-table .cell, .el-table th>div {
-    padding-left: 10px;
-    padding-right: 10px;
 }
 .icon_edit {
 	width: 14px;
@@ -711,7 +348,7 @@ export default {
 	display: inline-block;
 	background: url(../../../../../static/img/common/edit.png);
 }
-.query_wrapper .icon_delete {
+.icon_delete {
 	width: 14px;
 	height: 16px;
 	cursor: pointer;
@@ -719,108 +356,9 @@ export default {
 	margin-left: 20px;
 	background: url(../../../../../static/img/common/delete.png);
 }
-
-.query_wrapper .el-pagination {
-	text-align: right;
-	margin-top: 40px;
-	margin-right: 40px;
-	color: #282828;
-}
-
-.query_wrapper .el-pager li.active {
-	border-color: #FF9900;
-	background-color: #FF9900;
-	color: #fff;
-	cursor: default;
-}
-
-.query_wrapper .el-pager li {
-	padding: 0 4px;
-	border-right: 0;
-	background: #fff;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	line-height: 24px;
-	text-align: center;
-}
-
-.query_wrapper .el-pager li:last-child {
-	border-right: 1px solid #EEEEEE;
-}
-
-.query_wrapper .el-pagination button,
-.query_wrapper .el-pagination span {
-	display: inline-block;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	color: #282828;
-	line-height: 24px;
-	vertical-align: top;
-	box-sizing: border-box;
-}
-
-.query_wrapper .el-pager li:hover {
-	color: #FF9900;
-}
-.query_wrapper .el-pager li.active {
-    border-color: #ff9900;
-    background-color: #ff9900;
-    color: #fff;
-    cursor: default;
-}
-.query_wrapper .el-pager li.active:hover {
+.link {
 	cursor: pointer;
-	color: #ffffff;
+    color: #337ab7;
+    text-decoration: underline;
 }
-
-.query_wrapper .el-pagination button:hover {
-	color: #FF9900;
-}
-.query_wrapper .el-pagination button.disabled:hover {
-	color: #e4e4e4;
-}
-
-.query_wrapper .el-pagination__editor {
-	border: 1px solid #EEEEEE;
-	border-radius: 2px;
-	padding: 2px 0px;
-	width: 24px;
-	min-width: 24px;
-}
-
-.query_wrapper .el-pagination__editor:focus {
-	outline: 0;
-	border-color: #FF9900;
-}
-
-.query_wrapper .el-pagination .btn-next,
-.query_wrapper .el-pagination .btn-prev {
-	border: 1px solid #EEEEEE;
-	color: #282828;
-}
-
-.query_wrapper .el-autocomplete-suggestion__wrap,
-.query_wrapper .el-pager li {
-	border: 1px solid #EEEEEE;
-}
-
-.query_wrapper .el-pager li.btn-quicknext,
-.query_wrapper .el-pager li.btn-quickprev {
-	line-height: 28px;
-	color: #282828;
-}
-.query_wrapper .el-upload__input {
-    display: none;
-}
-.query_wrapper .btn_wrap {
-	margin-top: 30px;
-}
-.query_wrapper .upload_btn {
-	display: inline-block;
-	left: 100%;
-}*/
 </style>

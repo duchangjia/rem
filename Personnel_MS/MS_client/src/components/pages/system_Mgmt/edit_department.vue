@@ -20,7 +20,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="上级部门">
+                        <el-form-item label="上级部门" prop="organParentName">
                             <el-input v-model="formdata.organParentName" disabled></el-input>
                         </el-form-item>
                     </el-col>
@@ -94,6 +94,9 @@
                   ],
                   organName: [
                       {  required: true, message: '部门名称不能为空', trigger: 'blur' }
+                  ],
+                  organParentName: [
+                      {  required: true, message: '上级部门不能为空', trigger: 'blur' }
                   ],
                   organMgeName: [
                       {  required: true, message: '部门主管不能为空', trigger: 'blur' }

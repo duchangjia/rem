@@ -211,24 +211,9 @@
 		methods: {
 			changeStartTime(time) {
 				this.formdata2.leaveStartTime = time;
-//				let params = {
-//					leaveStartTime: this.formdata2.leaveStartTime,
-//					leaveEndTime: this.formdata2.leaveEndTime
-//				}
-//				if(this.formdata2.leaveEndTime) {
-//					this.calTimeSheet(params);
-//				}
 			},
 			changeEndTime(time) {
 				this.formdata2.leaveEndTime = time;
-//				let params = {
-//					leaveStartTime: this.formdata2.leaveStartTime,
-//					leaveEndTime: this.formdata2.leaveEndTime
-//				}
-//				console.log(params);
-//				if(this.formdata2.leaveStartTime) {
-//					this.calTimeSheet(params);
-//				}
 			},
 			changeValue(value) {
 		 		const self = this;

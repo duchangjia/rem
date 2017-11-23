@@ -177,7 +177,7 @@
                                             <!--</el-form-item>-->
                                             <el-form-item label="直线经理">
                                                 <el-input v-model="ruleForm.lineManager" :disabled="edit">
-                                                    <el-button slot="append" icon="search" @click="userNoSelect()" :disabled="edit"></el-button>
+                                                    <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
                                                 </el-input>
                                                 <messageBox
                                                         :title="boxTitle"
@@ -244,54 +244,52 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="上岗日期">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.leftJobTime" :disabled="edit" @change="changeLeftJobTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.leftJobTime" :disabled="edit" @change="changeleftJobTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.leftJobTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="工作日期">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.workTime" :disabled="edit" @change="changeWorkTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.workTime" :disabled="edit" @change="changeworkTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.workTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="职称日期">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.profTitleTime" :disabled="edit" @change="changeProfTitleTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.profTitleTime" :disabled="edit" @change="changeprofTitleTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.profTitleTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同开始">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactStartTime" :disabled="edit" @change="changeCompactStartTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactStartTime" :disabled="edit" @change="changeprofcompactStartTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.compactStartTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同终止">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactEndTime" :disabled="edit" @change="changeCompactEndTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactEndTime" :disabled="edit" @change="changeprofcompactEndTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.compactEndTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用开始">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probStartTime" :disabled="edit" @change="changeProbStartTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probStartTime" :disabled="edit" @change="changeprofprobStartTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.probStartTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用结束">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probEndTime" :disabled="edit" @change="changeProbEndTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probEndTime" :disabled="edit" @change="changeprofprobEndTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.probEndTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="招聘来源">
-                                                <el-select v-model="ruleForm.recruitQuarry" placeholder="招聘来源" :disabled="edit">
-                                                    <el-option label="网上招聘" value="01"></el-option>
-                                                    <el-option label="内部推荐" value="02"></el-option>
-                                                    <el-option label="现场招聘" value="03"></el-option>
-                                                    <el-option label="其他" value="99"></el-option>
-                                                </el-select>
+                                                <el-option label="网上招聘" value="01"></el-option>
+                                                <el-option label="内部推荐" value="02"></el-option>
+                                                <el-option label="现场招聘" value="03"></el-option>
+                                                <el-option label="其他" value="99"></el-option>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -909,6 +907,7 @@
             for(var tt in this.lock){
                 this.lock[tt] = true
             }
+            console.log(this.userNo)
             if(this.tabName=='first'){
                 this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+this.userNo)
                     .then(res=>{
@@ -929,26 +928,26 @@
             changeEntryTime(val) {
                 this.ruleForm.entryTime = val
             },
-            changeLeftJobTime(val) {
+            changeleftJobTime(val) {
                 this.ruleForm.leftJobTime = val
             },
-            changeWorkTime(val) {
-                this.ruleForm.workTime = val
+            changeworkTime(val) {
+                this.ruleForm.changeworkTime = val
             },
-            changeProfTitleTime(val) {
+            changeprofTitleTime(val) {
                 this.ruleForm.profTitleTime = val
             },
-            changeCompactStartTime(val) {
-                this.ruleForm.compactStartTime = val
+            changeprofcompactStartTime(val) {
+                this.ruleForm.profcompactStartTime = val
             },
-            changeCompactEndTime(val) {
-                this.ruleForm.compactEndTime = val
+            changeprofcompactEndTime(val) {
+                this.ruleForm.profcompactEndTime = val
             },
-            changeProbStartTime(val) {
-                this.ruleForm.probStartTime = val
+            changeprofprobStartTime(val) {
+                this.ruleForm.profprobStartTime = val
             },
-            changeProbEndTime(val) {
-                this.ruleForm.probEndTime = val
+            changeprofprobEndTime(val) {
+                this.ruleForm.profprobEndTime = val
             },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
@@ -1134,6 +1133,7 @@
                         })
                 }
                 if(tab.name==='second'&&this.lock.socialLock){
+                    console.log(333)
                     this.$axios.get('/iem_hrm/CustContact/queryCustContacts',{params:{userNo:this.userNo}})
                         .then(res=>{
                             this.social_item.userNo = this.userNo
@@ -1181,7 +1181,7 @@
                                     type: 'success',
                                     message: result
                                 });
-                                self.$router.push('personnel_archives')
+                                self.$router.push('query_archives')
                             }else{
                                 self.$message({
                                     type: 'error',
@@ -1218,11 +1218,6 @@
                         item.isShowEdit = false
                     })
                 }
-                if('second' === tabName) {
-                    this.social_item.lists.forEach(item=>{
-                        item.isShowEdit = false
-                    })
-                }
             },
             save(tabName) {
                 let self = this
@@ -1236,6 +1231,7 @@
                     }
                     self.$refs.ruleForm.validate((valid) => {
                         if (valid) {
+                            console.log(this.ruleForm)
                             for(var key in this.ruleForm){
                                 if(!this.ruleForm[key]){
                                     delete this.ruleForm[key]
@@ -1734,7 +1730,7 @@
                             border-radius 4px
                             font-family: PingFangSC-Regular;
                             font-size: 14px;
-                            color: #97A8BE;
+                            color: #333333;
                             letter-spacing: 0;
                             border 1px solid #bfcbd9;
                             padding 12px 15px
@@ -1758,7 +1754,7 @@
                             border-radius 4px
                             font-family: PingFangSC-Regular;
                             font-size: 14px;
-                            color: #97A8BE;
+                            color: #333333;
                             letter-spacing: 0;
                             border 1px solid #bfcbd9;
                             padding 12px 10px
@@ -1777,7 +1773,7 @@
                             padding 11px 30px 11px 0
                             font-family: PingFangSC-Regular;
                             font-size: 14px;
-                            color: #999;
+                            color: #3F3F3F;
                             letter-spacing: 0;
                             height 40px
                             margin-bottom  0

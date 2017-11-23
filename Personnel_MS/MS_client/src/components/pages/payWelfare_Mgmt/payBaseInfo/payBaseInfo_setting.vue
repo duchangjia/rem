@@ -455,5 +455,14 @@ table .el-button--danger:active {
 .el-message-box__headerbtn:hover .el-message-box__close {
   color: #ff9900;
 }
+.el-dialog__body {
+  padding: 0 20px 30px 20px;
+}
+.el-dialog__body .el-input__inner {
+  width: 164px;
+}
+.item-box .button-box .restBtn {
+  margin-right: 5px;
+}
 </style>
 

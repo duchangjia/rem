@@ -407,7 +407,6 @@ border-bottom: 1px solid #EEEEEE;
 	margin-top: 10px;
 	background: #F4F4F4;
 	border: 1px solid #F4F4F4;
-	border-radius: 0px;
 	font-size: 14px;
 	color: #333333;
 	width: 120px;
