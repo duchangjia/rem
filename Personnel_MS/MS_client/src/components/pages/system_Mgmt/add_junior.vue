@@ -1,6 +1,6 @@
 <template>
     <div class="add-junior">
-        <current yiji="系统管理" erji="组织架构" sanji="新增机构"></current>
+        <current yiji="系统管理系统管理" erji="组织架构组织架构" sanji="新增机构"></current>
         <div class="edit-content">
             <div class="title">
                 <span class="text">不增机构</span>

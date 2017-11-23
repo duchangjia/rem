@@ -3,15 +3,15 @@
         <div :class="{'bg_color':!ruleFrom.isShowEdit,'bg_color2':ruleFrom.isShowEdit}">
             <el-form :model="ruleFrom" :rules="rules" :ref="`ruleFrom${relationNum}`" label-width="100px">
                 <div class="title">
-                    <span v-show="false">关系人关系人{{relationNumber}}</span><i :class="{'el-icon-close':!ruleFrom.isShowEdit,'el-icon-edit':ruleFrom.isShowEdit}" @click="delOrEdit(ruleFrom.isShowEdit,relationNum)"></i>
+                    <span v-show="false">关系人关系人关系人关系人---{{relationNumber}}</span><i :class="{'el-icon-close':!ruleFrom.isShowEdit,'el-icon-edit':ruleFrom.isShowEdit}" @click="delOrEdit(ruleFrom.isShowEdit,relationNum)"></i>
                 </div>
                 <el-col :span="8">
-                    <el-form-item label="姓名" prop="contactName">
+                    <el-form-item label="姓名姓名" prop="contactName">
                         <el-input v-model="ruleFrom.contactName" :disabled="ruleFrom.isShowEdit"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                    <el-form-item label="与本人关系" prop="relationship">
+                    <el-form-item label="与本人关系与本人关系" prop="relationship">
                         <el-select v-model="ruleFrom.relationship" :disabled="ruleFrom.isShowEdit">
                             <el-option label="父母" value="01"></el-option>
                             <el-option label="配偶" value="02"></el-option>
@@ -23,7 +23,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                    <el-form-item label="联系电话" prop="telphone">
+                    <el-form-item label="联系电话联系电话" prop="telphone">
                         <el-input v-model="ruleFrom.telphone" :disabled="ruleFrom.isShowEdit" :maxlength="15"></el-input>
                     </el-form-item>
                 </el-col>
