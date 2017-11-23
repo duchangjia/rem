@@ -29,7 +29,7 @@
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
-						<el-form-item label="工资月份" prop="month"">
+						<el-form-item label="工资月份" prop="month">
 							<el-date-picker type="month" v-model="formdata2.month" placeholder="请选择" @change="changeWageMonth" style="width:100%;">
 						   	</el-date-picker>
 						</el-form-item>
@@ -306,7 +306,18 @@
 				self.$refs.formdata2.validate(valid => {
 			        if (valid) {
 			          	let params = {
-			          		
+			          		userNo: self.formdata2.userNo, // 用户的编号
+        					batchNo: self.formdata2.batchNo,// NOT NULL 批次编号
+							batchType: self.formdata2.batchType, // NOT NULL 类别;参数表:01工资02奖金03福利
+							organNo: self.formdata2.organNo, // NOT NULL 公司ID
+							derpRange: self.formdata2.derpRange, // 部门范围
+							preRange: self.formdata2.preRange, // 人员范围
+							batchName: self.formdata2.batchName, // 组名称
+							month: self.formdata2.month, // 工资的月份
+							settleStartTime: self.formdata2.settleStartTime, // 结算开始日期
+							settleEndTime: self.formdata2.settleEndTime, // 结算结束日期
+							batchStatus: self.formdata2.batchStatus, // 状态;参数表:01录入02启用03废弃
+							remark: self.formdata2.remark // 备注
 			          	}
 			          	self.modWageInfo(params);
 			        }

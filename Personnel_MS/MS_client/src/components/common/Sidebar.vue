@@ -1,6 +1,6 @@
 <template>
 	<div class="side" id='sidebar' :class="{'sider-active':isCollapse}">
-		<el-radio-group v-model="isCollapse">
+		<el-radio-group v-model="isCollapse" @change="changeRadio">
 			<el-radio-button :label="!isCollapse">
 				<i class="collapsible"></i>
 			</el-radio-button>
@@ -206,6 +206,10 @@ export default {
 		this.queryList();
 	},
 	methods: {
+		changeRadio(value) {
+			console.log('menu',value);
+			this.$emit('hideSidebar',value);
+		},
 		handleSelect(key, keyPath) {
 			//subMenu menuUrl
 			if (keyPath[1]) {
@@ -257,14 +261,17 @@ export default {
 
 <style>
 .sider {
-	flex: 0 0 180px;
 	width: 180px;
-	background: #FFFFFF;
-	transition: all 0.3s linear;
+    background: #FFFFFF;
+    transition: width 0.28s ease-out;
+    position: absolute;
+    left: 0;
+    top: 60px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .sider.sider-active {
-	flex: 0 0 60px;
 	width: 60px;
 }
 
@@ -469,7 +476,10 @@ export default {
 	border: 1px solid #f4f4f4;
 }
 
-
+.sider .el-menu:after, .el-menu:before {
+    display: table;
+    content: "";
+}
 /*.el-tooltip__popper.is-dark {
 	    background: #1f2d3d;
 	    color: #fff;

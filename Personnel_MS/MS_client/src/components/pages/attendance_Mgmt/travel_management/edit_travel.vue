@@ -1,5 +1,5 @@
 <template>
-	<div class="info_wrapper">
+	<div class="edit_travel">
 		<current yiji="考勤管理" erji="出差管理" sanji="出差修改">
 		</current>
 		<div class="content-wrapper">
@@ -355,5 +355,26 @@
 </script>
 
 <style>
-
+.edit_travel {
+	padding: 0 0 20px 20px;
+}
+.edit_travel .travelCity_wrap2{
+	padding-left: 0;
+}
+.edit_travel .travelCity_line {
+    width: 10px;
+    height: 1px;
+    display: inline-block;
+    background: #8391a5;
+    margin: 17px 5px;
+}
+.edit_travel .travelCity_wrap .el-form-item__content,
+.edit_travel .travelCity_wrap2 .el-form-item__content,
+.edit_travel .travelCity_wrap .el-input__inner,
+.edit_travel .travelCity_wrap2 .el-input__inner {
+	width: 130px!important;
+}
+.edit_travel .travelCity_wrap2 .el-form-item__content {
+	margin-left: 10px;
+}
 </style>

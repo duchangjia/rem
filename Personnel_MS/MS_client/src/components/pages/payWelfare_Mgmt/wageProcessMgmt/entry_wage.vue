@@ -15,12 +15,12 @@
 						</el-form-item>
 					</el-col>
 					<el-col :sm="12" :md="6">
-						<el-form-item label="工资月份" prop="custNo"">
+						<el-form-item label="工资月份" prop="custNo">
 							<el-input v-model="ruleForm2.custNo" placeholder="请输入工号"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :sm="12" :md="6">
-						<el-form-item label="姓名" prop="custName"">
+						<el-form-item label="姓名" prop="custName">
 							<el-input v-model="ruleForm2.custName" placeholder="请输入姓名"></el-input>
 						</el-form-item>
 					</el-col>
@@ -32,36 +32,35 @@
 						</el-form-item>
 					</el-col>
 					<div class="queryButton_wrapper">
-						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
-						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
+						<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
+						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
-				<el-table :data="transferDataList" border stripe style="width: 100%">
-					<el-table-column fixed="left" prop="applyNo" label="工资月份" width="100">
+				<el-table :data="transferDataList" border fit stripe style="width: 100%;">
+					<el-table-column prop="applyNo" label="工资月份" width="100">
 						<template scope="scope">
 					        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
 				      	</template>
 					</el-table-column>
-					<el-table-column prop="companyName" label="工号"></el-table-column>
-					<el-table-column prop="gryStartTime" label="姓名"></el-table-column>
-					<el-table-column prop="gryEndTime" label="基础工资"></el-table-column>
-					<el-table-column prop="gongziMonth" label="绩效工资" ></el-table-column>
-					<el-table-column prop="remark" label="岗位津贴" :show-overflow-tooltip="true"></el-table-column>
-					<el-table-column prop="status" label="通讯补贴"></el-table-column>
-					<el-table-column prop="jiaotongbt" label="交通补贴"></el-table-column>
-					<el-table-column prop="jixiaojiang" label="绩效奖金"></el-table-column>
-					<el-table-column prop="jiaban" label="加班工资"></el-table-column>
-					<el-table-column prop="qita" label="其他补贴"></el-table-column>
-					<el-table-column prop="chidao" label="迟到早退"></el-table-column>
-					<el-table-column prop="bingjia" label="病事假"></el-table-column>
-					<el-table-column prop="kuanggong" label="矿工"></el-table-column>
-					<el-table-column prop="shangbaoGeren" label="商保(个人)"></el-table-column>
-					<el-table-column prop="baoxianGeren" label="保险缴费合计(个人)"></el-table-column>
-					<el-table-column prop="baoxianDanwei" label="保险缴费合计(单位)"></el-table-column>
-					<el-table-column prop="baoxianjiaona" label="保险缴纳"></el-table-column>
-					<el-table-column prop="koushui" label="扣税"></el-table-column>
-					<el-table-column prop="shifa" label="实发"></el-table-column>
-					
+					<el-table-column prop="companyName" label="工号" width="100"></el-table-column>
+					<el-table-column prop="gryStartTime" label="姓名" width="100"></el-table-column>
+					<el-table-column prop="gryEndTime" label="基础工资" width="100"></el-table-column>
+					<el-table-column prop="gongziMonth" label="绩效工资" width="100"></el-table-column>
+					<el-table-column prop="remark" label="岗位津贴" :show-overflow-tooltip="true" width="100"></el-table-column>
+					<el-table-column prop="status" label="通讯补贴" width="100"></el-table-column>
+					<el-table-column prop="jiaotongbt" label="交通补贴" width="100"></el-table-column>
+					<el-table-column prop="jixiaojiang" label="绩效奖金" width="100"></el-table-column>
+					<el-table-column prop="jiaban" label="加班工资" width="100"></el-table-column>
+					<el-table-column prop="qita" label="其他补贴" width="100"></el-table-column>
+					<el-table-column prop="chidao" label="迟到早退" width="100"></el-table-column>
+					<el-table-column prop="bingjia" label="病事假" width="100"></el-table-column>
+					<el-table-column prop="kuanggong" label="矿工" width="100"></el-table-column>
+					<el-table-column prop="shangbaoGeren" label="商保(个人)" width="100"></el-table-column>
+					<el-table-column prop="baoxianGeren" label="保险缴费合计(个人)" width="100"></el-table-column>
+					<el-table-column prop="baoxianDanwei" label="保险缴费合计(单位)" width="100"></el-table-column>
+					<el-table-column prop="baoxianjiaona" label="保险缴纳" width="100"></el-table-column>
+					<el-table-column prop="koushui" label="扣税" width="100"></el-table-column>
+					<el-table-column prop="shifa" label="实发" width="100"></el-table-column>
 					
 				</el-table>
 				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
@@ -334,5 +333,8 @@ export default {
 }
 .payroll_query .imExport-btn-item {
     margin-right: 20px;
+}
+.el-button + .el-button {
+    margin-left: 20px;
 }
 </style>

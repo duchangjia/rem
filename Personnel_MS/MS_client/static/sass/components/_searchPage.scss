@@ -27,10 +27,16 @@
                 background: #333333;
             }
         }
-        .btn-primary{
+        .titleBtn_wrapper{
             float:right;
-            margin-top:10px;
+            .btn-primary{
+                margin-top:10px;
+            }
+            .el-button + .el-button {
+                margin-left: 20px;
+            }
         }
+            
     }
 
     .queryContent_inner {
@@ -58,6 +64,7 @@
             width: 260px;
             clear: both;
             font-size: 0px;
+            padding-top: 4px;
             .el-button+.el-button{
                 margin-left:20px;
             }

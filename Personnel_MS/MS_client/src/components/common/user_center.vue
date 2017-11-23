@@ -4,9 +4,9 @@
         <div class="main">
         	<div class="basic-sider">
 				<div class="top">
-					<img class="avatar" src="../../../static/img/common/avatar.png" width="100px" height="100px" alt="" />
-					<div class="name">卢小鱼</div>
-					<div class="job">技术经理</div>
+					<img class="avatar" :src="srcUrl" width="100px" height="100px" alt="" />
+					<div class="name">{{userInfo.custName}}</div>
+					<div class="job">{{custPostName}}</div>
 				</div>
 				<div class="bottom">
 					<div class="info"  :class="{'active':infoChange}" command="user_center" @click="handleCommand('user_center')">基本信息</div>
@@ -24,7 +24,18 @@
 <script type='text/ecmascript-6'>
     import vHeader from './Header.vue'
     import successTip from '../pages/user_Setting/successTip.vue'
+	const baseURL = 'iem_hrm';
     export default {
+    	data() {
+    		return {
+    			srcUrl: '../../../static/img/common/avatar.png',
+    			custPostName: '',
+    			userInfo: {
+    				custName: "",
+    				custPost: "",
+    			}
+    		}
+    	},
 		computed: {
 			infoChange() {
 				if (this.$route.path === '/user_center') {
@@ -36,12 +47,47 @@
         components: {
             vHeader,successTip
         },
+        created() {
+        	this.queryUserInfo();
+        },
         methods: {
         	handleCommand(commmand) {
 	            const _self = this;
 //	            _self.infoChange = !_self.infoChange;
 	            _self.$router.push(commmand);
-	        }
+	        },
+	        queryUserInfo() {
+				let self = this;
+				self.$axios.get(baseURL+'/CustInfo/queryCustRole')
+				.then(function(res) {
+					console.log('userInfo',res);
+					if(res.data.code === "S00000") {
+						self.userInfo = res.data.data[0];
+						self.queryCans();
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCans() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+				.then(function(res) {
+					console.log('queryCans',res);
+					if(res.data.code === "S00000") {
+						self.custPostList = res.data.data;
+						self.custPostList.forEach(function(ele) {
+							if(ele.paraValue === self.userInfo.custPost) {
+								self.custPostName = ele.paraShowMsg;
+							}
+						},this)
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			}
         },
     }
 
@@ -74,7 +120,7 @@
 }
 .user_center .basic-sider .top .name {
 	margin-bottom: 10px;
-	font-size: 20px;
+	font-size: 16px;
 	color: #333333;
 	letter-spacing: 0;
 	line-height: 20px;

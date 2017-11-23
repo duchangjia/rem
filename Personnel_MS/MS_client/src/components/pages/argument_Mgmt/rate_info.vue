@@ -4,7 +4,9 @@
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
 				<span class="title-text">个人所得税税率详情</span>
-				<el-button class="btn-primary" @click="addRate()">新增</el-button>
+				<div class="titleBtn_wrapper">
+					<el-button class="btn-primary" @click="addRate()">新增</el-button>
+				</div>
 			</div>
 			<div class="queryContent_inner">
 				<el-table :data="taxRateList" border stripe style="width: 100%">
