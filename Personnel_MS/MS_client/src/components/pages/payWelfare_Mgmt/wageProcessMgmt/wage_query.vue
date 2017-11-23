@@ -271,9 +271,12 @@ export default {
 //	 		this.formdata2.attachm = file.name;
       	},
       	successUpload(response, file, fileList) {
+      		console.log(response)
       		if(response.code === "S00000") {
       			this.$message({ message: '操作成功', type: 'success' });
       			this.$router.push('/travel_management');
+      		}else {
+      			this.$message({ message: response.retMsg, type: 'error' });
       		}
       		
       	},
