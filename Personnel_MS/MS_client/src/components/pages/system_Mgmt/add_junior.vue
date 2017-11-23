@@ -4,6 +4,7 @@
         <div class="edit-content">
             <div class="title">
                 <span class="text">新增机构</span>
+                <span class="text">新增机构</span>
                 <el-button type="primary" @click="save" class="save">保存</el-button>
             </div>
             <div class="department-info" v-show="formdata">

@@ -4,6 +4,7 @@
         <div class="edit-content">
             <div class="title">
                 <span class="text">编辑部门</span>
+                <span class="text">编辑部门</span>
                 <el-button type="primary" @click="save" class="save">保存</el-button>
             </div>
             <div class="department-info">
