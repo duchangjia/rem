@@ -159,7 +159,7 @@ import vFooter from './footer.vue';
                         class:'item-thr-list',
                         txt:'28',
                         title:'考勤与休假',
-                        url:''
+                        url:'ask_leave'
                     },
                     {
                         class:'item-four-list',

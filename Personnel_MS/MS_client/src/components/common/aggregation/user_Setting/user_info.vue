@@ -1,10 +1,8 @@
 <template>
-    <div class="user_info">
+    <div class="agg-content">
         <current yiji="首页" erji="基本信息"></current>
         <div class="content">
-        	<div class="title">
-        		<span class="title-text">基本信息</span>
-        	</div>
+			<contentTitle titleTxt="基本信息"></contentTitle>
         	<div class="content-inner clearfix user_con">
 				<div class="imgUserHead"><img src="../../../../../static/img/common/avatar.png" alt=""></div>
 				<el-form class="clearfix" :inline="true" label-width="100" >
@@ -37,7 +35,8 @@
 </template>
 
 <script type='text/ecmascript-6'>
-	import current from '../../../common/current_position.vue'
+	import current from '../common/current_position.vue'
+	import contentTitle from '../common/content_title.vue'
 	const getMsgURL = '/iem_hrm/CustInfo/queryCustSelfInfo'
     export default {
 		data() {
@@ -93,12 +92,14 @@
 					}
 				],
 				dialogTableVisible:false,
-				gridData:[]
+				gridData:[],
+				// titleTxt:'',
+				// showTitleBtn:false
 				
 			}
 		},
 		components: {
-			current
+			current,contentTitle
 		},
 		mounted() {
 			this.queryUserList();
@@ -113,17 +114,17 @@
 						assetTypeVal = '',
 						assetInfListName = [],
 						assetInfList = [];
-					self.msgList[0].val = data.userNo
-					self.msgList[1].val = data.custName
-					self.msgList[2].val = data.lineManager
-					self.msgList[3].val = data.derpName
-					self.msgList[4].val = data.custPost
-					self.msgList[5].val = data.custClass
-					self.msgList[6].val = data.organName
-					self.msgList[7].val = data.ownerCCC
-					self.msgList[8].val = data.compactEndTime
-					self.msgList[9].val = data.entryTime
-					self.msgList[10].val = data.mobileNo
+					self.msgList[0].val = data.userNo||'暂无数据'
+					self.msgList[1].val = data.custName||'暂无数据'
+					self.msgList[2].val = data.lineManager||'暂无数据'
+					self.msgList[3].val = data.derpName||'暂无数据'
+					self.msgList[4].val = data.custPost||'暂无数据'
+					self.msgList[5].val = data.custClass||'暂无数据'
+					self.msgList[6].val = data.organName||'暂无数据'
+					self.msgList[7].val = data.ownerCCC||'暂无数据'
+					self.msgList[8].val = data.compactEndTime||'暂无数据'
+					self.msgList[9].val = data.entryTime||'暂无数据'
+					self.msgList[10].val = data.mobileNo||'暂无数据'
 					for(let i = 0 ; i< data.assetInfList.length;i++){
 						let assetType = data.assetInfList[i].assetType;
 						switch(assetType){
@@ -214,56 +215,7 @@
 
 <style lang="scss">
 
-.user_info {
-	padding-left: 20px;
-	width: 100%;
-}
-
-.location-wrapper {
-	width: 100%;
-    height: 70px;
-    line-height: 70px;
-    font-size: 12px;
-}
-
-.location-wrapper .title {
-    color: #475669;
-    vertical-align: middle;
-}
-.location-wrapper .breadcrumb-inner {
-    font-size: 12px;
-    display: inline-block;
-    vertical-align: middle;
-}
-.user_info .content {
-	width: 100%;
-    height: calc(100% - 90px);
-	padding: 0px 40px;
-	background: #ffffff;
-}
-.user_info .content .title {
-	border-bottom: 1px solid #EEEEEE;
-}
-.user_info .content .title .title-text{
-	display: inline-block;
-	position: relative;
-	padding: 14px 0px;
-	font-size: 16px;
-	height: 50px;
-}
-.user_info .content .title .title-text:after{
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
-}
-
-
 .user_con{
-	margin:0 auto;
 	font-size:14px;
 	padding-top:30px;
 	padding-bottom:10px;
@@ -308,15 +260,13 @@
 				border:none;
 				padding:0;
 			}
-		}
-		
+		}	
 	}
-	.el-dialog__title{color:#333;font-weight:normal;}
-	.el-dialog__headerbtn .el-dialog__close{color:#ff9900;}
-	.el-dialog__headerbtn:hover .el-dialog__close{color:#ff6600;}
-	.el-dialog__header{background:#eef1f6;padding-bottom:20px;}
-	.el-dialog__body{padding-top:20px;}
-	.el-dialog__body p{margin-bottom:20px;color:#FF6666;}
+	.el-dialog__body p{
+		margin-bottom:20px;
+		color:#FF6666;
+	}
+	
 }
 
 </style>

@@ -55,6 +55,11 @@ const routes = [
                     path: '/agg_modify_password',
                     meta: { requireAuth: true, },
                     component: resolve => require(['../components/common/aggregation/user_Setting/modify_password.vue'], resolve)
+                },
+                {
+                    path:'/ask_leave',
+                    meta: { requireAuth: true, },
+                    component: resolve => require(['../components/common/aggregation/check_work/ask_leave.vue'], resolve)
                 }
             ]
         },

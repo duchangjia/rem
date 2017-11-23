@@ -1,10 +1,8 @@
 <template>
-	<div class="modifine_password">
+	<div class="agg-content">
 		<current yiji="首页" erji="修改密码"></current>
 		<div class="content">
-			<div class="title">
-				<span class="title-text">修改密码</span>
-			</div>
+			<contentTitle titleTxt="修改密码"></contentTitle>
 			<ul class="content-inner">
 				<el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
 					<el-form-item label="当前密码" prop="oldPass">
@@ -33,7 +31,8 @@
 </template>
 
 <script type='text/ecmascript-6'>
-	import current from '../../../common/current_position.vue'
+	import current from '../common/current_position.vue'
+	import contentTitle from '../common/content_title.vue'
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
@@ -89,7 +88,7 @@
 			};
 		},
 		components: {
-			current
+			current,contentTitle
 		},
 		created() {
 		},
@@ -142,83 +141,38 @@
 </script>
 
 <style lang="scss">
-	/** {
-		margin: 0;
-		padding: 0;
-	}*/
-	li {
-		list-style: none;
-	}
-	a {
-		text-decoration: none;
-	}
-	.modifine_password {
+	.agg-content {
 		padding-left: 20px;
 		width: 100%;
+		.content {
+			width: 100%;
+			height: calc(100% - 90px);
+			padding: 0px 40px;
+			background: #ffffff;
+			.content-inner {
+				padding-top: 30px;
+				
+			}
 	}
-	.location-wrapper {
-		width: 100%;
-		height: 70px;
-		line-height: 70px;
-		font-size: 12px;
-	}
-	.location-wrapper .title {
-		color: #475669;
-		vertical-align: middle;
-	}
-	.location-wrapper .breadcrumb-inner {
-		font-size: 12px;
-		display: inline-block;
-		vertical-align: middle;
-	}
-	.modifine_password .content {
-		width: 100%;
-		/*min-height: 530px;*/
-	    height: calc(100% - 90px);
-		padding: 0px 40px 20px;
-		background: #ffffff;
-	}
-	.modifine_password .content .title {
-		border-bottom: 1px solid #EEEEEE;
-	}
-	.modifine_password .content .title .title-text {
-		display: inline-block;
-		position: relative;
-		padding: 14px 0px;
-		font-size: 16px;
-		height: 50px;
-	}
-	.modifine_password .content .title .title-text:after {
-		content: '';
-		position: absolute;
-		left: 0;
-		bottom: -1px;
-		width: 100%;
-		height: 2px;
-		background: #333333;
-	}
-	.modifine_password .content-inner {
-		padding-top: 30px;
-	}
-	.modifine_password .el-form-item__label {
+	
+	.el-form-item__label {
 	    color: #999999;
 	}
-	.modifine_password .el-form-item__content {
+	.el-form-item__content {
 	    font-size: 0px;
 	}
-	.modifine_password .el-input,
-	.modifine_password .el-input__inner {
+	.el-input,.el-input__inner {
 	    width: 300px;
 	    display: inline-block;
 	}
-	.modifine_password .el-input__inner {
+	.el-input__inner {
 	    border: 1px solid #EEEEEE;
 	    color: #333333;
 	}
-	.modifine_password .el-input__inner:hover {
+	.el-input__inner:hover {
 	    border-color: #FF9900!important;
 	}
-	.modifine_password .el-input__icon {
+	.el-input__icon {
 	    position: absolute;
 	    width: 35px;
 	    height: 100%;
@@ -229,18 +183,18 @@
 	    transition: all .3s;
 	    font-size: 0px;
 	}
-	.modifine_password .tips {
+	.tips {
 		font-size: 14px;
 		color: #999999;
 		letter-spacing: 0;
 		margin-left: 40px;
 	}
-	.modifine_password .link {
+	.link {
 		cursor: pointer;
 		color: #337ab7;
     	text-decoration: underline;
 	}
-	.modifine_password .el-button {
+	.el-button {
 	    border: none;
 	    color: #fff;
 	    margin-top: 34px;
@@ -249,22 +203,18 @@
 	    width: 300px;
         margin-left: 18px;
 	}
-	.modifine_password .el-button, 
-	.modifine_password .el-textarea__inner {
+	.el-textarea__inner {
 	    font-size: 16px;
 	}
-	/*.el-button:focus, .el-button:hover {
-	    color: #fff;
-	    border-color: #ff9900;
-	    opacity: 0.5;
-	}*/
-	.modifine_password label {
+	 label {
 	    display: inline-block;
 	    max-width: 100%;
 	    margin-bottom: 5px;
 	    font-weight: normal;
         margin-right: 18px;
 	}
+}
+
 	.el-form-item__error {
 	    left: 28px;
 	}
