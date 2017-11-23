@@ -144,14 +144,15 @@ export default {
 		onRoutes() {
 		    //保持左侧菜单激活状态
 			let reg = /\//g
-//			console.log(this.$route.matched);
-//			return this.$route.matched[1].path.replace(reg, '');
+			console.log(this.$route.matched);
+			return this.$route.matched[1].path.replace(reg, '');
 		}
 	},
 	watch: {
 		$route: function() {
-			//sidebar导航highlight随路由变化
+			// sidebar导航highlight随路由变化
 			// console.log(this.$route.matched);
+			// alert(111)
 			// let path = this.$route.matched[1].path.substr(1);
 			// this.itemActive = {};
 			// this.itemActive[path] = 'is-active';

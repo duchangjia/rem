@@ -20,18 +20,20 @@
 					</el-form-item>
 					
 					<el-form-item>
-						<el-button @click="submitForm('ruleForm2')">确定</el-button>
+						<el-button @click="submitForm('ruleForm2')" class="bg-primary">确定</el-button>
 					</el-form-item>
 				</el-form>
 
 			</ul>
+			<el-dialog title="修改成功" :visible.sync="dialogTableVisible">
+				<div class="edit-tip txt-center ">恭喜您，密码修改成功，请重新<span class="c-primary cur-pointer" @click="goLogin()">登录</span></div>
+			</el-dialog>
 		</div>
 	</div>
 </template>
 
 <script type='text/ecmascript-6'>
 	import current from '../../../common/current_position.vue'
-	import Bus from '../../../../common/Bus.js'
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
@@ -47,7 +49,7 @@
 					callback(new Error('请输入新密码'));
 				}else if(!/^(?![0-9]+$)(?![a-zA-Z]+$)(?!([^(0-9a-zA-Z)]|[\(\)])+$)([^(0-9a-zA-Z)]|[\(\)]|[a-zA-Z]|[0-9]){6,20}$/.test(value)){
 					callback(new Error('请输入正确格式的密码'));
-				} else {
+				}else {
 					if(this.ruleForm2.checkPass !== '') {
 						this.$refs.ruleForm2.validateField('checkPass');
 					}
@@ -82,7 +84,8 @@
 						validator: validateCheckPass,
 						trigger: 'blur'
 					}]
-				}
+				},
+				dialogTableVisible:false
 			};
 		},
 		components: {
@@ -122,18 +125,23 @@
 				.then(function(res) {
 					console.log('updatePassword',res);
 					if(res.data.code === "S00000") {
-						Bus.$emit('showSuccessTip', '');
+						// Bus.$emit('showSuccessTip', '');
+						// alert(111);
+						self.dialogTableVisible = true;
 					}
 					
 				}).catch(function(err) {
 					console.log('error');
 				})
+			},
+			goLogin(){
+				this.$router.push('/login')
 			}
 		}
 	}
 </script>
 
-<style>
+<style lang="scss">
 	/** {
 		margin: 0;
 		padding: 0;
@@ -233,12 +241,10 @@
     	text-decoration: underline;
 	}
 	.modifine_password .el-button {
-	    background: #ff9900;
 	    border: none;
 	    color: #fff;
 	    margin-top: 34px;
 	    padding: 12px 15px;
-	    opacity: 0.6;
 	    border-radius: 4px;
 	    width: 300px;
         margin-left: 18px;
@@ -261,5 +267,11 @@
 	}
 	.el-form-item__error {
 	    left: 28px;
+	}
+	.edit-tip{
+		padding:40px 0;
+		span{
+			margin-left:10px;
+		}
 	}
 </style>

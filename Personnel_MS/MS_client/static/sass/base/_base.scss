@@ -72,7 +72,9 @@ ul{
 
 .bg-white {
 	background: $bg-wihte;
-;
+}
+.bg-primary{
+	background:$color-primary;
 }
 
 [v-cloak] {
@@ -142,4 +144,5 @@ ul{
 .container-wrap{
 	padding:0 0 20px 20px;
 }
-
+.txt-center{text-align:center}
+.cur-pointer{cursor:pointer}
