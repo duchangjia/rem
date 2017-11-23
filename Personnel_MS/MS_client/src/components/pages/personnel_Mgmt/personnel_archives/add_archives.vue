@@ -2,7 +2,7 @@
     <div class="add_archives">
         <current yiji="人事事务" erji="人事档案" sanji="员工新增"></current>
         <el-col :span="24">
-            <div class="content-wrapper">
+            <div class="content-wrapper-xx">
                 <div class="content">
                     <template>
                         <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -111,13 +111,13 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="个人邮箱" prop="perEmail">
+                                            <el-form-item label="个人邮箱">
                                                 <el-input v-model="ruleForm.perEmail"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="QQ">
-                                                <el-input v-model="ruleForm.qqAcct"></el-input>
+                                            <el-form-item label="公司邮箱">
+                                                <el-input v-model="ruleForm.comEmail"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -344,7 +344,7 @@
                                                                :show-file-list="false"
                                                                :auto-upload="false"
                                                                :headers="token">
-                                                        <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
+                                                        <el-button slot="trigger" type="primary" class="uploadBtn">上传附件</el-button>
                                                     </el-upload>
                                                 </el-form-item>
                                         </el-col>
@@ -720,6 +720,7 @@
                   homeTeleph: '',
                   perEmail: '',
                   qqAcct: '',
+                  comEmail: '',
                   atten: '',
                   attenTeleph: '',
                   origo: '',
@@ -776,7 +777,9 @@
                       { pattern: /^\d+(-)?\d+((-)?\d+)?$/, message: "请输入合法的紧急号码:例如纯数字", trigger: 'blur'}
                   ],
                   perEmail: [
-                      {required: true, message: '请输入个人邮箱', trigger: 'blur'},
+                      { pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, message: "请输入合法的邮箱" }
+                  ],
+                  comEmail: [
                       { pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, message: "请输入合法的邮箱" }
                   ],
               },
@@ -1600,7 +1603,7 @@
         position: relative;
         .test
             padding-left: 10px;
-        .content-wrapper
+        .content-wrapper-xx
             background: #fff;
             position relative
             .content
