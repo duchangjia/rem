@@ -94,7 +94,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="使用数量" prop="applyNum">
-                            <el-input v-model="applyCompanyInfo.applyNum"></el-input>
+                            <el-input v-model.number="applyCompanyInfo.applyNum"></el-input>
                         </el-form-item>
                         <el-form-item label="发生时间" prop="applyTime">
                             <el-date-picker
@@ -139,8 +139,7 @@
                         { required: true, message: '请选择使用类别', trigger: 'blur' }
                     ],
                     applyNum: [
-                        { required: true, message: '请输入使用数量', trigger: 'blur' },
-                        { pattern: /^(0|([1-9][0-9]{0,10}))$/, message: "请输入正整数",trigger: "blur" }
+                        { pattern: /^(0|([1-9][0-9]{0,10}))$/, message: "请输入正整数",trigger: "blur",required: true, }
                     ],
                     applyTime: [
                         { required: true, message: '请输入发生时间', trigger: 'blur' }
@@ -181,6 +180,14 @@
             let applyNo = this.$route.query.applyNo
             self.$axios.get('/iem_hrm/assetUse/getAssetUseByApplyNo/'+applyNo)
                 .then(res => {
+                     console.log(res)
+                    if(res.data.code == 'F00002'){
+                        self.$message({
+                            message:res.data.retMsg,
+                            type:'error'
+                        })
+                        return;
+                    }
                     self.applyCompanyInfo = res.data
                     switch (this.applyCompanyInfo.assetType) {
                         case "01":
@@ -199,6 +206,8 @@
                             this.applyCompanyInfo.assetType = "数码相机";
                         break;
                     }
+                   
+                    
                 })
                 .catch(e=>{
                     console.log(e)

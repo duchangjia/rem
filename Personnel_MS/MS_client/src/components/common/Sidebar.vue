@@ -241,7 +241,7 @@ export default {
 		    //保持左侧菜单激活状态
 			let reg = /\//g
 //			console.log(this.$route.matched);
-//			return this.$route.matched[1].path.replace(reg, '');
+			return this.$route.matched[1].path.replace(reg, '');
 		}
 	},
 	watch: {

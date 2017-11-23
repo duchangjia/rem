@@ -1,8 +1,8 @@
 <template>
     <div class="archives_detail">
-        <current yiji="人事事务" erji="人事档案" sanji="员工详情"></current>
+        <current yiji="人事事务人事事务" erji="人事档案人事档案" sanji="员工详情员工详情"></current>
         <el-col :span="24">
-            <div class="content-wrapper">
+            <div class="content-wrapper-xx">
                 <div class="content">
                     <template>
                         <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -109,13 +109,13 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="个人邮箱" prop="perEmail">
+                                            <el-form-item label="个人邮箱">
                                                 <el-input v-model="ruleForm.perEmail" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="QQ">
-                                                <el-input v-model="ruleForm.qqAcct" :disabled="edit"></el-input>
+                                            <el-form-item label="公司邮箱">
+                                                <el-input v-model="ruleForm.comEmail" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -177,7 +177,7 @@
                                             <!--</el-form-item>-->
                                             <el-form-item label="直线经理">
                                                 <el-input v-model="ruleForm.lineManager" :disabled="edit">
-                                                    <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
+                                                    <el-button slot="append" icon="search" @click="userNoSelect()" :disabled="edit"></el-button>
                                                 </el-input>
                                                 <messageBox
                                                         :title="boxTitle"
@@ -244,52 +244,54 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="上岗日期">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.leftJobTime" :disabled="edit" @change="changeleftJobTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.leftJobTime" :disabled="edit" @change="changeLeftJobTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.leftJobTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="工作日期">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.workTime" :disabled="edit" @change="changeworkTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.workTime" :disabled="edit" @change="changeWorkTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.workTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="职称日期">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.profTitleTime" :disabled="edit" @change="changeprofTitleTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.profTitleTime" :disabled="edit" @change="changeProfTitleTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.profTitleTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同开始">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactStartTime" :disabled="edit" @change="changeprofcompactStartTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactStartTime" :disabled="edit" @change="changeCompactStartTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.compactStartTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同终止">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactEndTime" :disabled="edit" @change="changeprofcompactEndTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactEndTime" :disabled="edit" @change="changeCompactEndTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.compactEndTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用开始">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probStartTime" :disabled="edit" @change="changeprofprobStartTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probStartTime" :disabled="edit" @change="changeProbStartTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.probStartTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用结束">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probEndTime" :disabled="edit" @change="changeprofprobEndTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probEndTime" :disabled="edit" @change="changeProbEndTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.probEndTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="招聘来源">
-                                                <el-option label="网上招聘" value="01"></el-option>
-                                                <el-option label="内部推荐" value="02"></el-option>
-                                                <el-option label="现场招聘" value="03"></el-option>
-                                                <el-option label="其他" value="99"></el-option>
+                                                <el-select v-model="ruleForm.recruitQuarry" placeholder="招聘来源" :disabled="edit">
+                                                    <el-option label="网上招聘" value="01"></el-option>
+                                                    <el-option label="内部推荐" value="02"></el-option>
+                                                    <el-option label="现场招聘" value="03"></el-option>
+                                                    <el-option label="其他" value="99"></el-option>
+                                                </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -330,6 +332,17 @@
                                         </el-col>
                                         <el-col :span="9">
                                             <el-form-item label="附件">
+                                                <!--<el-input v-model="ruleForm.attachm" style="position:absolute" :disabled="edit"></el-input>-->
+                                                <!--<el-upload class="upload-demo" ref="upload" name="file"-->
+                                                           <!--:on-change="handleFileUpload"-->
+                                                           <!--:on-success="successUpload"-->
+                                                           <!--action="/iem_hrm/CustFile/upload"-->
+                                                           <!--:show-file-list="false"-->
+                                                           <!--:auto-upload="false"-->
+                                                           <!--:headers="token">-->
+                                                    <!--<el-button slot="trigger" type="primary" class="uploadBtn">上传附件</el-button>-->
+                                                <!--</el-upload>-->
+                                                <!--<el-button class="downloadBtn" @click="handleDownload">下载附件</el-button>-->
                                                 <el-input v-model="ruleForm.attachm" :disabled="edit"></el-input><span class="attachment">选择文件</span>
                                             </el-form-item>
                                         </el-col>
@@ -583,8 +596,8 @@
                 </div>
                 <div class="button-wrapper">
                     <button @click="bianji(tabName)">编辑</button>
-                    <button class="special_1" @click="save(tabName)">保存</button>
-                    <button @click="del" v-show="tabName=='first'?true:tabName=='sixth'?true:false">{{tabName=='first'?'删除':'全部下载'}}</button>
+                    <button class="special_1" @click="save(tabName)">{{this.tabName=='sixth'?'全部下载':'保存'}}</button>
+                    <button @click="del" v-show="tabName=='first'?true:false">删除</button>
                 </div>
             </div>
         </el-col>
@@ -607,6 +620,7 @@
                     department:'',
                     CCC:'',
                 },
+                fileList: [],
                 fileList2: [],
                 imageUrl: '',
                 dialogImageUrl: '',
@@ -713,6 +727,7 @@
                     homeTeleph: '',
                     perEmail: '',
                     qqAcct: '',
+                    comEmail: '',
                     atten: '',
                     attenTeleph: '',
                     origo: '',
@@ -795,7 +810,9 @@
                         { pattern: /^\d+(-)?\d+((-)?\d+)?$/, message: "请输入合法的紧急号码:例如纯数字", trigger: 'blur'}
                     ],
                     perEmail: [
-                        {required: true, message: '请输入个人邮箱', trigger: 'blur'},
+                        { pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, message: "请输入合法的邮箱" }
+                    ],
+                    comEmail: [
                         { pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, message: "请输入合法的邮箱" }
                     ],
                 },
@@ -907,7 +924,6 @@
             for(var tt in this.lock){
                 this.lock[tt] = true
             }
-            console.log(this.userNo)
             if(this.tabName=='first'){
                 this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+this.userNo)
                     .then(res=>{
@@ -928,26 +944,26 @@
             changeEntryTime(val) {
                 this.ruleForm.entryTime = val
             },
-            changeleftJobTime(val) {
+            changeLeftJobTime(val) {
                 this.ruleForm.leftJobTime = val
             },
-            changeworkTime(val) {
-                this.ruleForm.changeworkTime = val
+            changeWorkTime(val) {
+                this.ruleForm.workTime = val
             },
-            changeprofTitleTime(val) {
+            changeProfTitleTime(val) {
                 this.ruleForm.profTitleTime = val
             },
-            changeprofcompactStartTime(val) {
-                this.ruleForm.profcompactStartTime = val
+            changeCompactStartTime(val) {
+                this.ruleForm.compactStartTime = val
             },
-            changeprofcompactEndTime(val) {
-                this.ruleForm.profcompactEndTime = val
+            changeCompactEndTime(val) {
+                this.ruleForm.compactEndTime = val
             },
-            changeprofprobStartTime(val) {
-                this.ruleForm.profprobStartTime = val
+            changeProbStartTime(val) {
+                this.ruleForm.probStartTime = val
             },
-            changeprofprobEndTime(val) {
-                this.ruleForm.profprobEndTime = val
+            changeProbEndTime(val) {
+                this.ruleForm.probEndTime = val
             },
             handleRemove(file, fileList) {
                 console.log(file, fileList);
@@ -1133,7 +1149,6 @@
                         })
                 }
                 if(tab.name==='second'&&this.lock.socialLock){
-                    console.log(333)
                     this.$axios.get('/iem_hrm/CustContact/queryCustContacts',{params:{userNo:this.userNo}})
                         .then(res=>{
                             this.social_item.userNo = this.userNo
@@ -1152,13 +1167,20 @@
                     this.$axios.get('/iem_hrm/CustFile/queryCustImgList',{params:{userNo:this.userNo}})
                         .then(res=>{
                             console.log(res)
+                            this.fileList = res.data.data
+//                            this.fileList2 = res.data.data.map(item=>{
+//                                return {
+//                                    name: item.fileName + item.imageSuffix,
+//                                    url: 'http://10.0.0.242:8888'+item.addr
+//                                }
+//                            })
                             this.fileList2 = res.data.data.map(item=>{
                                 return {
                                     name:item.split('/').pop(),
                                     url: 'http://10.0.0.242:8888'+item,
                                 }
                             })
-                            console.log(this.fileList2)
+                            console.log(this.fileList2,'----',this.fileList)
                             this.lock.certificatesLock = false
                         })
                         .catch(e=>{
@@ -1181,7 +1203,7 @@
                                     type: 'success',
                                     message: result
                                 });
-                                self.$router.push('query_archives')
+                                self.$router.push('personnel_archives')
                             }else{
                                 self.$message({
                                     type: 'error',
@@ -1218,6 +1240,11 @@
                         item.isShowEdit = false
                     })
                 }
+                if('second' === tabName) {
+                    this.social_item.lists.forEach(item=>{
+                        item.isShowEdit = false
+                    })
+                }
             },
             save(tabName) {
                 let self = this
@@ -1231,7 +1258,6 @@
                     }
                     self.$refs.ruleForm.validate((valid) => {
                         if (valid) {
-                            console.log(this.ruleForm)
                             for(var key in this.ruleForm){
                                 if(!this.ruleForm[key]){
                                     delete this.ruleForm[key]
@@ -1270,7 +1296,6 @@
                             });
                         }
                     })
-
                 }
                 if('second'===tabName) {
                     let socialItemLength = this.social_item.lists.length
@@ -1467,7 +1492,6 @@
                                                     message: result
                                                 });
                                             }
-
                                         })
                                         .catch(e=>{
                                             console.log(e)
@@ -1485,6 +1509,19 @@
                             }
                         });
                     }
+                }
+                if('sixth'===tabName) {
+                    let data = {
+                        path:this.fileList
+                    }
+                    console.log(data)
+                    this.$axios.get('/iem_hrm/CustFile/batchDownLoad', {params:data})
+                        .then(res=>{
+                            console.log(res)
+                        })
+                        .catch(e=>{
+                            console.log(e)
+                        })
                 }
             },
             add_item() {
@@ -1615,7 +1652,7 @@
         position: relative;
         .test
             padding-left: 10px;
-        .content-wrapper
+        .content-wrapper-xx
             background: #fff;
             position relative
             .button-wrapper
@@ -1730,7 +1767,7 @@
                             border-radius 4px
                             font-family: PingFangSC-Regular;
                             font-size: 14px;
-                            color: #333333;
+                            color: #97A8BE;
                             letter-spacing: 0;
                             border 1px solid #bfcbd9;
                             padding 12px 15px
@@ -1754,7 +1791,7 @@
                             border-radius 4px
                             font-family: PingFangSC-Regular;
                             font-size: 14px;
-                            color: #333333;
+                            color: #97A8BE;
                             letter-spacing: 0;
                             border 1px solid #bfcbd9;
                             padding 12px 10px
@@ -1773,7 +1810,7 @@
                             padding 11px 30px 11px 0
                             font-family: PingFangSC-Regular;
                             font-size: 14px;
-                            color: #3F3F3F;
+                            color: #999;
                             letter-spacing: 0;
                             height 40px
                             margin-bottom  0

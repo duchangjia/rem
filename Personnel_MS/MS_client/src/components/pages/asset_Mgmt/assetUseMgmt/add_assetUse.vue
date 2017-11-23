@@ -32,7 +32,7 @@
                                 :inputSecOption.sync="inputSecOption"
                                 :searchData.sync="searchData" 
                                 :searchUrl="searchUrl"
-                                :dialogVisible.sync="dialogVisible"
+                                :dialogVisible="dialogVisible"
                                 :pagination.sync="msgPagination"
                                 @dialogConfirm="dialogConfirm"
                                 ></messageBox>
@@ -109,7 +109,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="使用数量" prop="applyNum">
-                            <el-input  v-model="applyInfo.applyNum"></el-input>
+                            <el-input  v-model.number="applyInfo.applyNum"></el-input>
                         </el-form-item>
                         <el-form-item label="发生时间" prop="applyTime">
                             <!-- <el-input v-model="applyInfo.applyTime"></el-input> -->
@@ -145,7 +145,6 @@ import moment from "moment";
 export default {
   data() {
     return {
-        dialogVisible:false,
       rules: {
         applyUserNo: [
           { required: true, message: "请选择申请使用人工号", trigger: "blur" }
@@ -153,8 +152,7 @@ export default {
         assetNo: [{ required: true, message: "请选择资产编号", trigger: "change" }],
         applyType: [{ required: true, message: "请选择使用类别", trigger: "change" }],
         applyNum: [
-            { required: true, message: "请输入使用数量", trigger: "blur" },
-            { pattern: /^(0|([1-9][0-9]{0,10}))$/, message: "请输入正整数",trigger: "blur" }
+            { pattern: /^(0|([1-9][0-9]{0,10}))$/, message: "请输入正整数",trigger: "blur",required: true }
             ],
         applyTime: [{ required: true, message: "请输入发生时间", trigger: "blur" }],
         remark: [{ required: true, message: "请输入说明", trigger: "blur" }],
@@ -165,6 +163,7 @@ export default {
         assetNo: ""
       },
     tableOption:[],
+    dialogVisible:false,
     inputFirstOption:{},
     inputSecOption:{},
     msgPagination:{},
@@ -187,6 +186,7 @@ export default {
   methods: {
     dialogConfirm(ajaxNo){
         let self = this;
+        self.dialogVisible = false;
         self.$axios
         .get(
           self.saveUrl+
@@ -199,7 +199,7 @@ export default {
               type: "error"
             });
           }else{
-            self.dialogVisible = false;
+            
             switch(self.numType){
                 case 1:
                     self.applyUserInfo = res.data.data
