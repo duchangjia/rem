@@ -39,7 +39,6 @@
         },
         methods: {
         	hideSidebar(value) {
-        		console.log('hide',value);
         		this.hideSidebarFlag = value;
         	}
         }

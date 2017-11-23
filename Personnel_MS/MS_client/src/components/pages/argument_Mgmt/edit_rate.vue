@@ -4,7 +4,7 @@
 		<div class="content">
 			<div class="title">
 				<span class="title-text">税率修改</span>
-				<el-button type="primary" class="conserve" @click="save('rateInfo')">保存</el-button>
+				<el-button type="primary" class="toolBtn btn-primary" @click="save('rateInfo')">保存</el-button>
 			</div>
 			<div class="content-inner">
 				<el-form ref="rateInfo" :rules="rules" :model="rateInfo" label-width="100px">
@@ -194,7 +194,7 @@ border-bottom: 1px solid #EEEEEE;
 .edit_rate .content-inner {
 	padding: 30px 0px;
 }
-.edit_rate .conserve {
+.edit_rate .toolBtn {
 	float: right;
 	margin-top: 10px;
 	background: #F4F4F4;

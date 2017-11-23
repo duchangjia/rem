@@ -448,15 +448,15 @@ export default {
 .payroll_query .imExport-btn-item {
     margin-right: 20px;
 }
-.titleBtn_wrapper {
+/*.titleBtn_wrapper {
 	float: right;
-}
-.titleBar .btn-primary {
+}*/
+/*.titleBar .btn-primary {
 	float: none;
-}
-.el-button + .el-button {
+}*/
+/*.el-button + .el-button {
     margin-left: 20px;
-}
+}*/
 .link {
 	cursor: pointer;
     color: #337ab7;

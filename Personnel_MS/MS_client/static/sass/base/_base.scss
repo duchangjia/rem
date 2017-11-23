@@ -1,5 +1,4 @@
-
-//
+//公用样式
 *{
 	box-sizing: border-box;
 	margin:0;
@@ -72,7 +71,9 @@ ul{
 
 .bg-white {
 	background: $bg-wihte;
-;
+}
+.bg-primary{
+	background:$color-primary;
 }
 
 [v-cloak] {
@@ -126,9 +127,17 @@ ul{
 }
 
 .f-small {
-	font-size: .7rem;
+	font-size:12px;
 }
-
+.f-middle{
+	font-size:14px;
+}
+.f-big{
+	font-size:16px;
+}
+.f-large{
+	font-size:40px;
+}
 .c-gray-light {
 	color: $color-text-gray-light;
 }
@@ -142,4 +151,6 @@ ul{
 .container-wrap{
 	padding:0 0 20px 20px;
 }
-
+.txt-center{text-align:center}
+.cur-pointer{cursor:pointer}
+.inline-block{display:inline-block;}

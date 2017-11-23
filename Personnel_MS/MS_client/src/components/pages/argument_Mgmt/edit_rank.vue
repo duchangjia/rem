@@ -4,7 +4,7 @@
 		<div class="content">
 			<div class="title">
 				<span class="title-text">职级薪酬标准修改</span>
-				<el-button type="primary" class="conserve" @click="save('cParmDetal')">保存</el-button>
+				<el-button type="primary" class="toolBtn btn-primary" @click="save('cParmDetal')">保存</el-button>
 			</div>
 			<div class="content-inner">
 				<el-form ref="cParmDetal" :rules="rules" :model="cParmDetal" label-width="120px">
@@ -227,7 +227,7 @@
 		padding: 30px 0px;
 	}
 	
-	.edit_rank .conserve {
+	.edit_rank .toolBtn {
 		float: right;
 		margin-top: 10px;
 		background: #F4F4F4;

@@ -4,7 +4,9 @@
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
 				<span class="title-text">请假管理</span>
-				<el-button type="primary" class="btn-primary" @click="handleAdd">新增</el-button>
+				<div class="titleBtn_wrapper">
+					<el-button type="primary" class="btn-primary" @click="handleAdd">新增</el-button>
+				</div>
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
@@ -24,7 +26,7 @@
 							</el-form-item>
 						</el-col>
 						<el-col :span="12">
-							<el-form-item label="时间" prop="startDate"">
+							<el-form-item label="时间" prop="startDate">
 								<el-date-picker
 							      v-model="ruleForm2.startDate"
 							      type="date"

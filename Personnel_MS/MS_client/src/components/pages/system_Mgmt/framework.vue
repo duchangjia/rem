@@ -7,12 +7,34 @@
                     <div class="content-left-title" v-show="companies.organName"><img height="21px" src="../../../../static/img/common/home_logo.png" /><span class="head_quarters" @click="getInfo(companies.organNo)" :title="companies.organName">{{companies.organName}}</span></div>
                     <ul class="list " v-show="companies.childrenList" >
                         <!--<li class="guangzhou common L">广州分公司<span class="count">(111)</span></li>-->
-                        <li class="shanghai common L" v-for="(company, $index) in companies.childrenList" :key="$index" @click.stop.prevent="collapse(company.organNo, $event, null)" :class="`L${company.organNo}`">{{company.organName}}<span class="count"></span>
-                            <ul class="common-list">
+                        <li class="shanghai common L" v-for="(company, $index) in companies.childrenList" :key="$index" @click.stop.prevent="collapse(company.organNo, $event, null)" :class="`L${company.organNo}`">{{company.organName}}<span class="count">({{company.childrenList.length}})</span>
+                            <ul class="common-list" v-show="company.childrenList">
                                 <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
-                                <li class="common dot X" v-for="(department, index) in company.childrenList" :key="index" @click.stop.prevent="collapse(department.organNo, $event, company.organNo)" :class="`X${department.organNo}`">{{department.organName || '你好'}}<span class="count"></span>
-                                    <ul class="common-list-item">
-                                        <li class="common dot J" v-for="childDepartment in department.childrenList" @click.stop.prevent="collapse(childDepartment.organNo, $event, company.organNo)" :class="`J${childDepartment.organNo}`">{{childDepartment.organName}}<span class="count"></span></li>
+                                <li class="common dot X" v-for="(department, index) in company.childrenList" :key="index" @click.stop.prevent="collapse(department.organNo, $event, company.organNo)" :class="`X${department.organNo}`">{{department.organName}}<span class="count">({{department.childrenList.length}})</span>
+                                    <ul class="common-list-item" v-show="department.childrenList">
+                                        <li class="common dot J" v-for="(childDepartment,index) in department.childrenList" :key="index" @click.stop.prevent="collapse(childDepartment.organNo, $event, company.organNo)" :class="`J${childDepartment.organNo}`">{{childDepartment.organName}}<span class="count">({{childDepartment.childrenList.length}})</span>
+                                            <ul class="common-list-item" v-show="childDepartment.childrenList">
+                                                <li class="common dot W" v-for="(WchildDepartment,index) in childDepartment.childrenList" :key="index" @click.stop.prevent="collapse(WchildDepartment.organNo, $event, company.organNo)" :class="`W${WchildDepartment.organNo}`">{{WchildDepartment.organName}}<span class="count">({{WchildDepartment.childrenList.length}})</span>
+                                                    <ul class="common-list-item" v-show="WchildDepartment.childrenList">
+                                                        <li class="common dot A" v-for="(AchildDepartment,index) in WchildDepartment.childrenList" :key="index" @click.stop.prevent="collapse(AchildDepartment.organNo, $event, company.organNo)" :class="`A${AchildDepartment.organNo}`">{{AchildDepartment.organName}}<span class="count">({{AchildDepartment.childrenList.length}})</span>
+                                                            <ul class="common-list-item" v-show="AchildDepartment.childrenList">
+                                                                <li class="common dot C" v-for="(CchildDepartment,index) in AchildDepartment.childrenList" :key="index" @click.stop.prevent="collapse(CchildDepartment.organNo, $event, company.organNo)" :class="`C${CchildDepartment.organNo}`">{{CchildDepartment.organName}}<span class="count">({{CchildDepartment.childrenList.length}})</span>
+                                                                    <ul class="common-list-item" v-show="CchildDepartment.childrenList">
+                                                                        <li class="common dot B" v-for="(BchildDepartment,index) in CchildDepartment.childrenList" :key="index" @click.stop.prevent="collapse(BchildDepartment.organNo, $event, company.organNo)" :class="`B${BchildDepartment.organNo}`">{{BchildDepartment.organName}}<span class="count">({{BchildDepartment.childrenList.length}})</span>
+                                                                            <ul class="common-list-item" v-show="BchildDepartment.childrenList">
+                                                                                <li class="common dot D" v-for="(DchildDepartment,index) in BchildDepartment.childrenList" :key="index" @click.stop.prevent="collapse(DchildDepartment.organNo, $event, company.organNo)" :class="`D${DchildDepartment.organNo}`">{{DchildDepartment.organName}}<span class="count">({{DchildDepartment.childrenList.length}})</span>
+
+                                                                                </li>
+                                                                            </ul>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
                                         <!--<li class="common dot">一部<span class="count">(111)</span></li>-->
                                     </ul>
                                 </li>
@@ -175,7 +197,7 @@
                     organName: '',
                 },
                 companies: {
-                    organName: '',
+
                 },
                 tableData: '',
                 tableData2: ''
@@ -185,6 +207,7 @@
            let self = this
             self.$axios.get('/iem_hrm/organ/queryOrganList')
               .then( res => {
+                  console.log(res)
                   self.companies = res.data.data[0]
                   if(!self.companies){
                       this.$message('请点击新增按钮添加机构');
@@ -316,10 +339,11 @@
             },
             collapse(index, e, parent) {
                 let _self = this
-                var reg = /L/
-                var reg1 = /X/
-                var reg2 = /J/
-                if (reg.test(e.target.className)) {
+//                var reg = /L/
+//                var reg1 = /X/
+//                var reg2 = /J/
+                let name = e.target.className.split(' ')[2]
+                if (!parent) {
                     _self.$axios.get(`/iem_hrm/organ/queryCurrentAndParentOrganDetail/${index}`)
                         .then( res => {
                             _self.content = res.data.data
@@ -334,22 +358,13 @@
                         .catch( res=> {
                             console.log('请求公司下级详情数据超时')
                         })
-//                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
-//                        .then( res => {
-//                            _self.tableData2 = res.data.data
-//                        })
-//                        .catch( res=> {
-//                            console.log('请求公司员工数据超时')
-//                        })
                     $('.L'+ index + ' >ul').slideToggle('slow')
                     $('.L'+ index).siblings().find('ul').slideUp('slow')
                     $('.list').find('li').removeClass('active')
                     $('.head_quarters').removeClass('active')
                     $('.L'+ index).addClass('active')
-//                    $('.L'+ index).siblings().removeClass('active')
                 }
-                if (reg1.test(e.target.className) && parent!==null) {
-//                    console.log($('.L'+ parent+' .X'+ index)[0].childNodes[0].nodeValue)
+                if (parent!==null) {
                     _self.$axios.get(`/iem_hrm/organ/queryCurrentAndParentOrganDetail/${index}`)
                         .then( res => {
                             _self.content = res.data.data
@@ -364,65 +379,41 @@
                         .catch( res=> {
                             console.log('请求公司下级详情数据超时')
                         })
-//                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
-//                        .then( res => {
-//                            _self.tableData2 = res.data.data
-//                        })
-//                        .catch( res=> {
-//                            console.log('请求公司员工数据超时')
-//                            return false
-//                        })
-//                    _self.content.title = $('.L'+ parent+' .X'+ index)[0].childNodes[0].nodeValue
                     $('.list').find('li').removeClass('active')
                     $('.head_quarters').removeClass('active')
-                    $('.L'+ parent+' .X'+ index).addClass('active')
-//                    $('.L'+ parent+' .X'+ index).parents('.L').addClass('active')
-//                    $('.L'+ parent+' .X'+ index).siblings().removeClass('active')
-//                    $('.L'+ parent+' .X'+ index).parents('.L').siblings().removeClass('active')
-//                    $('.L'+ parent+' .X'+ index).parents('.L').siblings().find('.common-list>li').removeClass('active')
-//                   var str = $('.L'+ parent+' .X'+ index).parents('.L' + parent)[0].childNodes[0].nodeValue
-//                    _self.content.super = str
-//                   var lenght = $('.L'+ parent+' .X'+ index + ' >ul>li').length
-//                    for (let i=0;i<lenght;i++) {
-//                       var dep = $('.L'+ parent+' .X'+ index + ' >ul>li')[i].childNodes[0].nodeValue
-//                       var obj = {
-//                           dep: dep,
-//                           name: '方清丽',
-//                           state: '正常',
-//                           type: '三级部门'
-//                       }
-//                        _self.tableData.push(obj)
-//                    }
-                    $('.L'+ parent+' .X'+ index + ' >ul').slideToggle('slow')
-                    $('.L'+ parent+' .X'+ index).siblings().find('ul').slideUp('slow')
+                    $('.L'+ parent+' .'+name + index).addClass('active')
+                    $('.L'+ parent+' .'+name + index + ' >ul').slideToggle('slow')
+                    $('.L'+ parent+' .'+name + index).siblings().find('ul').slideUp('slow')
                 }
-                if (reg2.test(e.target.className) && parent!==null) {
-                    _self.$axios.get(`/iem_hrm/organ/queryCurrentAndParentOrganDetail/${index}`)
-                        .then(res => {
-                            _self.content = res.data.data
-                        })
-                        .catch( res=> {
-                            console.log('请求公司详情数据超时')
-                        })
-                    _self.$axios.get(`/iem_hrm/organ/queryChildOrganDetail/${index}`)
-                        .then( res => {
-                            _self.tableData = res.data.data
-                        })
-                        .catch( res=> {
-                            console.log('请求公司下级详情数据超时')
-                        })
-//                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
-//                        .then( res => {
-//                            _self.tableData2 = res.data.data
+//                if (reg2.test(e.target.className) && parent!==null) {
+//                    _self.$axios.get(`/iem_hrm/organ/queryCurrentAndParentOrganDetail/${index}`)
+//                        .then(res => {
+//                            _self.content = res.data.data
 //                        })
 //                        .catch( res=> {
-//                            console.log('请求公司员工数据超时')
-//                            return false
+//                            console.log('请求公司详情数据超时')
 //                        })
-                    $('.list').find('li').removeClass('active')
-                    $('.head_quarters').removeClass('active')
-                    $('.L'+ parent+' .J'+ index).addClass('active')
-                }
+//                    _self.$axios.get(`/iem_hrm/organ/queryChildOrganDetail/${index}`)
+//                        .then( res => {
+//                            _self.tableData = res.data.data
+//                        })
+//                        .catch( res=> {
+//                            console.log('请求公司下级详情数据超时')
+//                        })
+////                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
+////                        .then( res => {
+////                            _self.tableData2 = res.data.data
+////                        })
+////                        .catch( res=> {
+////                            console.log('请求公司员工数据超时')
+////                            return false
+////                        })
+//                    $('.list').find('li').removeClass('active')
+//                    $('.head_quarters').removeClass('active')
+//                    $('.L'+ parent+' .J'+ index).addClass('active')
+//                    $('.L'+ parent+' .J'+ index + ' >ul').slideToggle('slow')
+//                    $('.L'+ parent+' .J'+ index).siblings().find('ul').slideUp('slow')
+//                }
             },
             _reload() {
                 console.log('reload')

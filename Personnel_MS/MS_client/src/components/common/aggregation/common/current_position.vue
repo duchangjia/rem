@@ -12,11 +12,10 @@
                     <el-breadcrumb-item v-if="liuji" :to="{ path: links[5] }" class="test1">{{liuji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if='false'>{{activeTab}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if='false'>{{pactNo}}</el-breadcrumb-item>
-                    <el-breadcrumb-item v-if='false'>{{userNo}}</el-breadcrumb-item>
                 </el-breadcrumb>
             </el-col>
             <el-col :span="2" v-show="breadItemLength>1">
-                <img src="../../../static/img/common/back.png" alt="pic" width="19" height="12" class="pic" @click="jump">
+                <img src="../../../../../static/img/common/back.png" alt="pic" width="19" height="12" class="pic" @click="jump">
             </el-col>
         </el-row>
     </div>
@@ -45,13 +44,6 @@ export default {
                         pactNo: this.pactNo
                     }
                 })
-            } else if (this.userNo) {
-                this.$router.push({
-                    name: aa,
-                    params: {
-                        userNo: this.userNo
-                    }
-                })
             } else {
                 this.$router.push(aa)
             }
@@ -61,7 +53,7 @@ export default {
         links() {
             let _link = []
             if (this.yiji === '首页') {
-                _link.push('/home')
+                _link.push('/aggPage')
             }
             if (this.yiji === '系统管理') {
                 _link.push('/management_framework')
@@ -82,7 +74,7 @@ export default {
                 _link.push('/assetReq_manage')
             }
             if (this.yiji === '员工自助') {
-                _link.push('/stuffSelfHelp_manage')
+                _link.push('/query_personalInfo')
             }
             if (this.yiji === '历史薪酬查询') {
                 _link.push('/historicalSalary_Mgmt')
@@ -216,7 +208,7 @@ export default {
                 _link.push('/detail_payBaseInfo')
             }
             if (this.sanji === '调薪查询') {
-                _link.push('query_payChangeInfo')
+                _link.push('/query_payChangeInfo')
             }
             if (this.sanji === '人事调动明细查询') {
                 _link.push('/detail_transfer')
@@ -392,10 +384,6 @@ export default {
             default: ''
         },
         pactNo: {
-            type: String,
-            default: ''
-        },
-        userNo: {
             type: String,
             default: ''
         },

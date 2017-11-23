@@ -4,7 +4,7 @@
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
 				<span class="title-text">考勤记录管理</span>
-				<div class="imExport-btn">
+				<div class="titleBtn_wrapper">
 					<el-upload ref="upload" name="file" class="upload-demo imExport-btn-item"
 		  			 	:on-change="changeUpload" 
 		  			 	:on-success="successUpload"
@@ -386,13 +386,13 @@ export default {
 }
 .attendance_query .imExport-btn {
 	float: right;
-	margin-top: 13px;
 }
 .attendance_query .imExport-btn-item{
 	display: inline-block;
 	margin-left: 30px;
 	cursor: pointer;
 	vertical-align: middle;
+    margin-top: 13px;
 }
 .attendance_query .el-upload__input {
     display: none;

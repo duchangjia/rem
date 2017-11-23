@@ -4,7 +4,7 @@
 		<div class="content">
 			<div class="title">
 				<span class="title-text">福利缴纳系数新增</span>
-				<el-button type="primary" class="conserve" @click="save('insurancePayTemplateData')">保存</el-button>
+				<el-button class="toolBtn btn-primary" @click="save('insurancePayTemplateData')">保存</el-button>
 			</div>
 			<div class="content-inner">
 				<el-form ref="insurancePayTemplateData" :rules="rules" :model="insurancePayTemplateData" label-width="80px">
@@ -376,7 +376,7 @@ border-bottom: 1px solid #EEEEEE;
 .add_welfare .content-inner {
 	padding: 30px 0px;
 }
-.add_welfare .conserve {
+.add_welfare .toolBtn {
 	float: right;
 	margin-top: 10px;
 	background: #F4F4F4;

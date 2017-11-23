@@ -9,32 +9,32 @@
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="公司">
                             <el-input v-model="custInfo.organName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="申请部门">
                             <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="工号">
                             <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="姓名">
                             <el-input v-model="custInfo.custName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
                             <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="职级">
                             <el-input v-model="_custClass" :disabled="true"></el-input>
                         </el-form-item>
@@ -44,87 +44,87 @@
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">调整前薪酬基数信息</el-col>
                 <el-form :inline="true" :model="payChangeDetail" :label-position="labelPosition"  label-width="110px" style="margin-top:0;overflow:visible;">
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="基本工资">
                             <el-input v-model="payChangeDetail.oWagesBase" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="绩效工资">
                             <el-input v-model="payChangeDetail.oWagesPerf" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="岗位补贴">
                             <el-input v-model="payChangeDetail.oPostPension" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="通讯补贴">
                             <el-input v-model="payChangeDetail.oPhonePension" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="交通补贴">
                             <el-input v-model="payChangeDetail.oTrafficPension" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="生活补贴">
                             <el-input v-model="payChangeDetail.oLivingPension" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <!-- <el-col :span="12">
+                    <!-- <el-col :sm="24" :md="12">
                         <el-form-item label="全勤奖">
                             <el-input v-model="payChangeDetail.oAttendanceBonus" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="工龄奖">
                             <el-input v-model="payChangeDetail.oSeniorityPay" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col> -->
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="加班工资">
                             <el-input v-model="payChangeDetail.oOvertimePay" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="其他补贴">
                             <el-input v-model="payChangeDetail.oOtherPension" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>  
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险基数">
                             <el-input v-model="payChangeDetail.oEndmBase" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="医疗保险基数">
                             <el-input v-model="payChangeDetail.oMediBase" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="失业保险基数">
                             <el-input v-model="payChangeDetail.oUnemBase" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="工伤保险基数">
                             <el-input v-model="payChangeDetail.oEmplBase" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="生育保险基数">
                             <el-input v-model="payChangeDetail.oMateBase" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="公积金基数">
                             <el-input v-model="payChangeDetail.oHouseBase" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="保险缴纳标准">
                             <el-select v-model="payChangeDetail.oWelcoeNo" :disabled="true">
                                 <el-option v-for="item in insurancePayTemplates" :label="item.applyName" :value="item.applyNo"></el-option>
@@ -136,82 +136,82 @@
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">调整后薪酬基数信息</el-col>
                 <el-form :inline="true" :model="payChangeDetail" :rules="payChangeInfoRules" ref="payChangeDetailRules" :label-position="labelPosition"  label-width="110px" style="margin-top:0;overflow:visible;">
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="基本工资" prop="nWagesBase">
                             <el-input v-model="payChangeDetail.nWagesBase"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="绩效工资" prop="nWagesPerf">
                             <el-input v-model="payChangeDetail.nWagesPerf"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="岗位补贴" prop="nPostPension">
                             <el-input v-model="payChangeDetail.nPostPension"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="通讯补贴" prop="nPhonePension">
                             <el-input v-model="payChangeDetail.nPhonePension"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="交通补贴" prop="nTrafficPension">
                             <el-input v-model="payChangeDetail.nTrafficPension"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="生活补贴" prop="nLivingPension">
                             <el-input v-model="payChangeDetail.nLivingPension"></el-input>
                         </el-form-item>
                     </el-col>
-                    <!-- <el-col :span="12">
+                    <!-- <el-col :sm="24" :md="12">
                         <el-form-item label="全勤奖" prop="nAttendanceBonus">
                             <el-input v-model="payChangeDetail.nAttendanceBonus"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="工龄奖" prop="nSeniorityPay">
                             <el-input v-model="payChangeDetail.nSeniorityPay"></el-input>
                         </el-form-item>
                     </el-col> -->
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="加班工资" prop="nOvertimePay">
                             <el-input v-model="payChangeDetail.nOvertimePay"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="其他补贴" prop="nOtherPension">
                             <el-input v-model="payChangeDetail.nOtherPension"></el-input>
                         </el-form-item>
                     </el-col>  
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险基数" prop="nEndmBase">
                             <el-input v-model="payChangeDetail.nEndmBase"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="医疗保险基数" prop="nMediBase">
                             <el-input v-model="payChangeDetail.nMediBase"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="失业保险基数" prop="nUnemBase">
                             <el-input v-model="payChangeDetail.nUnemBase"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="工伤保险基数" prop="nEmplBase">
                             <el-input v-model="payChangeDetail.nEmplBase"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="生育保险基数" prop="nMateBase">
                             <el-input v-model="payChangeDetail.nMateBase"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="公积金基数" prop="nHouseBase">
                             <el-input v-model="payChangeDetail.nHouseBase"></el-input>
                         </el-form-item>
@@ -225,62 +225,62 @@
                     </el-col> 
                 </el-form>
                 <el-form :inline="true" :model="insurancePayTemp" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险(个人)">
                             <el-input v-model="insurancePayTemp.perEndmFixed"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险(单位)">
                             <el-input v-model="insurancePayTemp.comEndmFixed"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="医疗保险(个人)">
                             <el-input v-model="insurancePayTemp.perMediFixed"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="医疗保险(单位)">
                             <el-input v-model="insurancePayTemp.comMediFixed"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="失业保险(个人)">
                             <el-input v-model="insurancePayTemp.perUnemFixed"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="失业保险(单位)">
                             <el-input v-model="insurancePayTemp.comUnemFixed"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="工伤保险(个人)">
                             <el-input v-model="insurancePayTemp.perEmplFixed"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="工伤保险(单位)">
                             <el-input v-model="insurancePayTemp.comEmplFixed"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="生育保险(个人)">
                             <el-input v-model="insurancePayTemp.perMateFixed"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="生育保险(单位)">
                             <el-input v-model="insurancePayTemp.comMateFixed"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="公积金(个人)">
                             <el-input v-model="insurancePayTemp.perHousFixed"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="公积金(单位)">
                             <el-input v-model="insurancePayTemp.comHousFixed"></el-input>
                         </el-form-item>

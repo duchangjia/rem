@@ -4,7 +4,9 @@
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
 				<span class="title-text">出差管理</span>
-				<el-button type="primary" class="btn-primary" @click="handleAdd">新增</el-button>
+				<div class="titleBtn_wrapper">
+					<el-button type="primary" class="btn-primary" @click="handleAdd">新增</el-button>
+				</div>
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
@@ -23,7 +25,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
-						<el-form-item label="时间" prop="startDate"">
+						<el-form-item label="时间" prop="startDate">
 							<el-date-picker
 						      v-model="ruleForm2.startDate"
 						      type="date"
@@ -377,6 +379,21 @@ export default {
 <style scoped>
 .el-button + .el-button {
     margin-left: 20px;
+}
+.icon_edit {
+	width: 14px;
+	height: 14px;
+	cursor: pointer;
+	display: inline-block;
+	background: url(../../../../../static/img/common/edit.png);
+}
+.icon_delete {
+	width: 14px;
+	height: 16px;
+	cursor: pointer;
+	display: inline-block;
+	margin-left: 20px;
+	background: url(../../../../../static/img/common/delete.png);
 }
 .link {
 	cursor: pointer;

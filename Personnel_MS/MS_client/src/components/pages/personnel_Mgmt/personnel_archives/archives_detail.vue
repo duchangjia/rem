@@ -555,18 +555,26 @@
                             </el-tab-pane>
                             <el-tab-pane label="证件管理" name="sixth">
                                 <div class="sixth_wrapper">
-                                    <el-upload diabled
-                                            action="https://jsonplaceholder.typicode.com/posts/"
+                                    <el-upload :diabled="true"
+                                               name="file"
+                                               ref="upload2"
+                                            action="/iem_hrm/CustFile/batch/upload"
                                             list-type="picture-card"
+                                           :file-list="fileList2"
+                                           :data="certificates_list"
                                             :on-preview="handlePictureCardPreview"
                                             :on-remove="handleRemove"
-                                            multiple>
+                                           :on-change="handleFileUpload"
+                                           :on-success="successUpload"
+                                           :before-upload="checkUserNo"
+                                            multiple
+                                           :headers="token">
                                         <i class="el-icon-plus"></i>
                                         <div class="upload_text_text">添加照片/文件<br>按住Ctrl可多选</div>
                                         <!--<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
                                     </el-upload>
                                     <el-dialog v-model="dialogVisible2" size="tiny">
-                                        <img width="100%" :src="dialogImageUrl" alt="">
+                                        <img width="100%" :src="dialogImageUrl" alt="pic">
                                     </el-dialog>
                                 </div>
                             </el-tab-pane>
@@ -599,10 +607,14 @@
                     department:'',
                     CCC:'',
                 },
+                fileList2: [],
                 imageUrl: '',
                 dialogImageUrl: '',
                 dialogVisible2: false,
-
+                token: {
+                    Authorization:`Bearer `+localStorage.getItem('access_token'),
+                },
+                certificates_list: {},
                 dialogVisible: false,
                 tableOption:[],
                 inputFirstOption:{},
@@ -940,9 +952,48 @@
             handleRemove(file, fileList) {
                 console.log(file, fileList);
             },
+            handleFileUpload(file, fileList) {
+                console.log(file,'****handleFileUpload****',fileList)
+            },
+            successUpload(response, file, fileList) {
+//                console.log(response,'????????successUpload????????',file,'????????successUpload????????',fileList)
+//                if(response.code === "S00000") {
+//                    this.$message({ message: '操作成功', type: 'success' });
+//                    this.fileList2 = fileList
+////                    hrm_h0091 人事档案新增，附件上传错误:(没有那个文件或目录)
+//                }else if(response.code === 'hrm_h0093') {
+//                    this.$message({
+//                        message: response.retMsg,
+//                        type: 'error'
+//                    })
+//                    fileList.forEach((item,index)=>{
+//                        if(item.uid==file.uid){
+//                            fileList.splice(index,1)
+//                        }
+//                    })
+//                }else {
+//                    this.$message({
+//                        message: response.retMsg,
+//                        type: 'error'
+//                    })
+//                }
+            },
+            checkUserNo(file) {
+//                console.log(file,'------checkUserNo')
+//                if(!this.certificates_list.userNo){
+//                    this.$message({
+//                        type: 'error',
+//                        message: '请先填写基本信息并点击右上角保存'
+//                    });
+//                    return false
+//                }
+//                this.certificates_list.file = {
+//                    file
+//                }
+            },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
-                this.dialogVisible = true;
+                this.dialogVisible2 = true;
             },
             dialogConfirm(custInfo){
                 let self = this;
@@ -1085,7 +1136,6 @@
                     console.log(333)
                     this.$axios.get('/iem_hrm/CustContact/queryCustContacts',{params:{userNo:this.userNo}})
                         .then(res=>{
-                            console.log(res)
                             this.social_item.userNo = this.userNo
                             this.social_item.lists = res.data.data
                             this.social_item.lists.forEach(item=>{
@@ -1098,14 +1148,17 @@
                         })
                 }
                 if(tab.name==='sixth'&&this.lock.certificatesLock){
+                    console.log(this.userNo)
                     this.$axios.get('/iem_hrm/CustFile/queryCustImgList',{params:{userNo:this.userNo}})
                         .then(res=>{
                             console.log(res)
-//                            this.social_item.userNo = this.userNo
-//                            this.social_item.lists = res.data.data
-//                            this.social_item.lists.forEach(item=>{
-//                                self.$set(item,'isShowEdit', true)
-//                            })
+                            this.fileList2 = res.data.data.map(item=>{
+                                return {
+                                    name:item.split('/').pop(),
+                                    url: 'http://10.0.0.242:8888'+item,
+                                }
+                            })
+                            console.log(this.fileList2)
                             this.lock.certificatesLock = false
                         })
                         .catch(e=>{
@@ -1238,7 +1291,6 @@
                         }
                     })
                     this.social_item.lists = data
-                    console.log(this.social_item,22222)
                     this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
                         .then(res=>{
                             console.log(res)

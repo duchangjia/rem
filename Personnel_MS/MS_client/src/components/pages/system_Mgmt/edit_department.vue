@@ -198,7 +198,8 @@
                 //dialog打开
                 this.dialogVisible=true
                 //查询接口
-                this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
+//                this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
+                this.searchUrl = "/iem_hrm/CustInfo/selectDirectorInfList"
                 //点击确定后根据号码查询用户信息借口 没有则为空
                 this.saveUrl = ''
                 //dialog标题
