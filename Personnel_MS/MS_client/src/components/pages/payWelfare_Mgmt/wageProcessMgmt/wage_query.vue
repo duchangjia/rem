@@ -8,7 +8,6 @@
 					<el-button class="btn-primary" @click="handleSocial">社保数据导入</el-button>
 					<el-button class="btn-primary" @click="handleAdd">新增</el-button>
 				</div>
-	               	
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
