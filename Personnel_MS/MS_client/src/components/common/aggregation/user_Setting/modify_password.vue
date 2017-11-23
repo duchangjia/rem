@@ -1,5 +1,5 @@
 <template>
-	<div class="agg-content">
+	<div class="agg-content password-content">
 		<current yiji="首页" erji="修改密码"></current>
 		<div class="content">
 			<contentTitle titleTxt="修改密码"></contentTitle>
@@ -141,7 +141,7 @@
 </script>
 
 <style lang="scss">
-	.agg-content {
+	.password-content{
 		padding-left: 20px;
 		width: 100%;
 		.content {
@@ -213,11 +213,12 @@
 	    font-weight: normal;
         margin-right: 18px;
 	}
-}
-
 	.el-form-item__error {
 	    left: 28px;
 	}
+}
+
+	
 	.edit-tip{
 		padding:40px 0;
 		span{

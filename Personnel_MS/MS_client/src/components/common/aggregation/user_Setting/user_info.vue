@@ -7,7 +7,7 @@
 				<div class="imgUserHead"><img src="../../../../../static/img/common/avatar.png" alt=""></div>
 				<el-form class="clearfix" :inline="true" label-width="100" >
 					<el-col :sm="24" :md="12" v-for="(item,index) in msgList" >
-						<el-form-item :label="item.label" >
+						<el-form-item :label="item.label" class="no-border-input">
 							<div @click="searchAsset(index)">
 								<el-input v-model="item.val" readonly="readonly" ></el-input>
 							</div>
@@ -214,7 +214,6 @@
 </script>
 
 <style lang="scss">
-
 .user_con{
 	font-size:14px;
 	padding-top:30px;
@@ -238,16 +237,7 @@
 	form{
 		padding-left:100px;
 		text-align:center;
-		label{
-			color:#999;
-			font-weight:normal;
-			text-align:right;
-			padding:0;
-			height:36px;
-			line-height:36px;
-			min-width:110px;
-			margin-right:20px;
-		}
+		
 		.el-form-item__content{
 			width:100px;
 			&:last-child{
@@ -255,10 +245,6 @@
 				.el-input__inner{
 					cursor:pointer;
 				}
-			}
-			.el-input__inner{
-				border:none;
-				padding:0;
 			}
 		}	
 	}

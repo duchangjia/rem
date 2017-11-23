@@ -23,7 +23,10 @@
   height:20px;
 } 
 //搜索input框
-.el-select-dropdown__item.selected{background:#fff; color: #48576a;}
+.el-select-dropdown__item.selected{
+  background:$bg-wihte; 
+  color: #48576a;
+}
 .el-select-dropdown__item.selected.hover{
   background-color: #e4e8f1;
 }
@@ -33,4 +36,20 @@
         display:none;
     } 
 }
-
+//无边框input
+.no-border-input{
+  .el-form-item__label{
+      color:#999;
+      font-weight:normal;
+      text-align:right; 
+      padding:0;
+      height:36px;
+      line-height:36px;
+      min-width:110px;
+      margin-right:20px;
+  }
+  .el-input__inner{
+      border:none;
+      padding:0;
+  }
+}
