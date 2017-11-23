@@ -3,7 +3,7 @@
         <div class="login-wrap">
             <div class="header"></div>
             <div class="main">
-                <div class="img-wrapper"><img src="../../../static/img/login/omc_logo1.png" alt=""></div>
+                <div class="img-wrapper"><img src="../../../static/img/common/omc_logo1.png" alt=""></div>
                 <div class="form-wrapper">
                     <img src="../../../static/img/login/fly.png" alt="" width="86" height="77" class="fly">
                     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" class="form-content"  v-loading.fullscreen.lock="fullscreenLoading"  element-loading-text="登录中">

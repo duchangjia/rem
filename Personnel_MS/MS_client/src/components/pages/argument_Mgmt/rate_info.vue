@@ -1,12 +1,12 @@
 <template>
 	<div class="rate_info">
 		<current yiji="参数管理" erji="业务参数" sanji="个人所得税税率设置" siji="个人所得税税率详情"></current>
-		<div class="content">
-			<div class="title">
+		<div class="queryContent_wrapper">
+			<div class="titleBar">
 				<span class="title-text">个人所得税税率详情</span>
-				<el-button type="primary" @click="addRate()">新增</el-button>
+				<el-button class="btn-primary" @click="addRate()">新增</el-button>
 			</div>
-			<div class="content-inner">
+			<div class="queryContent_inner">
 				<el-table :data="taxRateList" border stripe style="width: 100%">
 					<el-table-column prop="applyNo" label="编号">
 						<template scope="scope">
@@ -168,88 +168,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .rate_info {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
 }
-.rate_info .content {
-	width: 100%;
-	min-height: 510px;
-	padding: 0px 20px;
-	background: #ffffff;
-	clear: both;
-}
-.rate_info .content .title {
-border-bottom: 1px solid #EEEEEE;
-}
 
-.rate_info .content .title .title-text {
-	display: inline-block;
-	position: relative;
-	padding: 14px 0px;
-	font-size: 16px;
-	height: 50px;
-}
-
-.rate_info .content .title .title-text:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
-}
-
-.rate_info .content-inner {
-	padding: 30px 0px;
-}
-.rate_info .el-button {
-	float: right;
-    margin-top: 10px;
-	border: 1px solid #FF9900;
-	color: #FF9900;
-	padding: 7px 45px;
-	height: 30px;
-	border-radius: 0px;
-}
-
-.rate_info .el-button.resetform {
-	margin-right: 20px;
-}
-
-.rate_info .el-button--primary {
-	color: #fff;
-	background-color: #FF9900;
-	border-color: #FF9900;
-}
-.rate_info .content-inner {
-	padding: 40px 0px;
-}
-
-.rate_info .el-table td,
-.rate_info .el-table th {
-	text-align: center;
-}
-
-.rate_info .link {
-	cursor: pointer;
-    color: #337ab7;
-    text-decoration: underline;
-}
-.rate_info .el-table th {
-	/*white-space: nowrap;
-	overflow: hidden;*/
-	text-align: center;
-	/*box-shadow: inset 0 1px 0 0 #EEEEEE;*/
-}
-.rate_info .el-table .cell, 
-.rate_info .el-table th>div {
-    padding-left: 10px;
-    padding-right: 10px;
-}
 .icon-delete {
     display: inline-block;
     width: 24px;
@@ -257,104 +182,4 @@ border-bottom: 1px solid #EEEEEE;
     background: url('../../../../static/img/common/delete.png') center no-repeat;
 }
 
-.rate_info .icon-edit:hover,
-.rate_info .icon-delete:hover {
-    cursor: pointer;
-}
-.rate_info .el-pagination {
-	text-align: right;
-	margin-top: 40px;
-	margin-right: 40px;
-	color: #282828;
-}
-
-.rate_info .el-pager li.active {
-	border-color: #FF9900;
-	background-color: #FF9900;
-	color: #fff;
-	cursor: default;
-}
-
-.rate_info .el-pager li {
-	padding: 0 4px;
-	border-right: 0;
-	background: #fff;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	line-height: 24px;
-	text-align: center;
-}
-
-.rate_info .el-pager li:last-child {
-	border-right: 1px solid #EEEEEE;
-}
-
-.rate_info .el-pagination button,
-.rate_info .el-pagination span {
-	display: inline-block;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	color: #282828;
-	line-height: 24px;
-	vertical-align: top;
-	box-sizing: border-box;
-}
-
-.rate_info .el-pager li:hover {
-	color: #FF9900;
-}
-.rate_info .el-pager li.active {
-    border-color: #ff9900;
-    background-color: #ff9900;
-    color: #fff;
-    cursor: default;
-}
-.rate_info .el-pager li.active:hover {
-	cursor: pointer;
-	color: #ffffff;
-}
-
-.rate_info .el-pagination button:hover {
-	color: #FF9900;
-}
-.rate_info .el-pagination button.disabled {
-    color: #e4e4e4;
-}
-.rate_info .el-pagination button.disabled:hover {
-	color: #e4e4e4;
-}
-
-.rate_info .el-pagination__editor {
-	border: 1px solid #EEEEEE;
-	border-radius: 2px;
-	padding: 2px 0px;
-	width: 24px;
-	min-width: 24px;
-}
-
-.rate_info .el-pagination__editor:focus {
-	outline: 0;
-	border-color: #FF9900;
-}
-
-.rate_info .el-pagination .btn-next,
-.rate_info .el-pagination .btn-prev {
-	border: 1px solid #EEEEEE;
-	color: #282828;
-}
-
-.rate_info .el-autocomplete-suggestion__wrap,
-.rate_info .el-pager li {
-	border: 1px solid #EEEEEE;
-}
-
-.rate_info .el-pager li.btn-quicknext,
-.rate_info .el-pager li.btn-quickprev {
-	line-height: 28px;
-	color: #282828;
-}
 </style>

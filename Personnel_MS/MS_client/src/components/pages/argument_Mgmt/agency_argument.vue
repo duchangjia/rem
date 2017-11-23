@@ -18,7 +18,7 @@
                             <!--<el-button class="toolBtn2" @click="search(searchValue)">查询</el-button>-->
                     <!--</el-form>-->
                     <div class="search">
-                        <span class="text">公司名称</span>
+                        <span class="text">查询条件</span>
                         <!--<input type="text" v-model="searchValue" placeholder="请输入机构名称">-->
                         <el-select v-model="searchValue" placeholder="请选择机构名称">
                             <el-option v-for="item in searchValueOption" :label="item" :value="item"></el-option>
@@ -411,7 +411,6 @@
         border: 1px solid #f90;
         color: #f90;
         margin-left: 20px;
-        margin-right: 20px;
     }
     .agency_argument .content table{
         display: flex;

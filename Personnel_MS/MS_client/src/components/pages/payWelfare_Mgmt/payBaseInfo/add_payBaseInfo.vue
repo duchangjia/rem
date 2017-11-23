@@ -56,7 +56,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">薪酬基数信息</el-col>
-                <el-form :inline="true" :model="addPayBaseInfo" :rules="rules" ref="addPayBaseInfoRules" :label-position="labelPosition"  label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="addPayBaseInfo" :rules="payBaseInfoRules" ref="addPayBaseInfoRules" :label-position="labelPosition"  label-width="110px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="基本工资" prop="wagesBase">
                             <el-input v-model="addPayBaseInfo.wagesBase" @blur="wagesBaseChange"></el-input>
@@ -71,7 +71,37 @@
                         <el-form-item label="岗位补贴" prop="postPension">
                             <el-input v-model="addPayBaseInfo.postPension"></el-input>
                         </el-form-item>
-                    </el-col>   
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="通讯补贴" prop="phonePension">
+                            <el-input v-model="addPayBaseInfo.phonePension"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="交通补贴" prop="trafficPension">
+                            <el-input v-model="addPayBaseInfo.trafficPension"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="生活补贴" prop="livingPension">
+                            <el-input v-model="addPayBaseInfo.livingPension"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <!-- <el-col :sm="24" :md="12">
+                        <el-form-item label="全勤奖">
+                            <el-input v-model="addPayBaseInfo.attendanceBonus"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="工龄奖">
+                            <el-input v-model="addPayBaseInfo.seniorityPay"></el-input>
+                        </el-form-item>
+                    </el-col> -->
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="加班工资" prop="overtimePay">
+                            <el-input v-model="addPayBaseInfo.overtimePay"></el-input>
+                        </el-form-item>
+                    </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="其他补贴" prop="otherPension">
                             <el-input v-model="addPayBaseInfo.otherPension"></el-input>
@@ -108,77 +138,76 @@
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="试用期比例" prop="probRatio">
-                            <el-input v-model="addPayBaseInfo.probRatio"></el-input>
+                        <el-form-item label="试用期工资" prop="wagesProb">
+                            <el-input v-model="addPayBaseInfo.wagesProb"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="保险缴纳标准" prop="welcoeNo">
                             <el-select v-model="addPayBaseInfo.welcoeNo" @change="welcoeNoChange">
-                                <el-option label="广州标准" value="0001"></el-option>
-                                <el-option label="深圳标准" value="0002"></el-option>
+                                <el-option v-for="item in insurancePayTemplates" :label="item.applyName" :value="item.applyNo"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col> 
                 </el-form>
                 <el-form :inline="true" :model="insurancePayTemp" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="养老保险(个人)" prop="perEndmFixed">
+                        <el-form-item label="养老保险(个人)">
                             <el-input v-model="insurancePayTemp.perEndmFixed"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="养老保险(单位)" prop="comEndmFixed">
+                        <el-form-item label="养老保险(单位)">
                             <el-input v-model="insurancePayTemp.comEndmFixed"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="医疗保险(个人)" prop="perMediFixed">
+                        <el-form-item label="医疗保险(个人)">
                             <el-input v-model="insurancePayTemp.perMediFixed"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="医疗保险(单位)" prop="comMediFixed">
+                        <el-form-item label="医疗保险(单位)">
                             <el-input v-model="insurancePayTemp.comMediFixed"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="失业保险(个人)" prop="perUnemFixed">
+                        <el-form-item label="失业保险(个人)">
                             <el-input v-model="insurancePayTemp.perUnemFixed"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="失业保险(单位)" prop="comUnemFixed">
+                        <el-form-item label="失业保险(单位)">
                             <el-input v-model="insurancePayTemp.comUnemFixed"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="工伤保险(个人)" prop="perEmplFixed">
+                        <el-form-item label="工伤保险(个人)">
                             <el-input v-model="insurancePayTemp.perEmplFixed"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="工伤保险(单位)" prop="comEmplFixed">
+                        <el-form-item label="工伤保险(单位)">
                             <el-input v-model="insurancePayTemp.comEmplFixed"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="生育保险(个人)" prop="perMateFixed">
+                        <el-form-item label="生育保险(个人)">
                             <el-input v-model="insurancePayTemp.perMateFixed"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="生育保险(单位)" prop="comMateFixed">
+                        <el-form-item label="生育保险(单位)">
                             <el-input v-model="insurancePayTemp.comMateFixed"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="公积金(个人)" prop="perHousFixed">
+                        <el-form-item label="公积金(个人)">
                             <el-input v-model="insurancePayTemp.perHousFixed"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="公积金(单位)" prop="comHousFixed">
+                        <el-form-item label="公积金(单位)">
                             <el-input v-model="insurancePayTemp.comHousFixed"></el-input>
                         </el-form-item>
                     </el-col>
@@ -223,6 +252,12 @@ export default {
         wagesBase: "",
         wagesPerf: "",
         postPension: "",
+        phonePension: "",
+        trafficPension: "",
+        livingPension: "",
+        attendanceBonus: "",
+        seniorityPay: "",
+        overtimePay: "",
         otherPension: "",
         endmBase: "",
         mediBase: "",
@@ -230,7 +265,7 @@ export default {
         emplBase: "",
         mateBase: "",
         houseBase: "",
-        probRatio: "",
+        wagesProb: "",
         welcoeNo: "",
         attachm: "",
         remark: ""
@@ -247,51 +282,68 @@ export default {
       searchUrl: "",
       saveUrl: "",
 
+      insurancePayTemplates: {},
       insurancePayTemp: {},
-      rules: {
+      payBaseInfoRules: {
         wagesBase: [
           { required: true, message: "基本工资不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         wagesPerf: [
           { required: true, message: "绩效工资不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         postPension: [
           { required: true, message: "岗位补贴不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
+        phonePension: [
+          { required: true, message: "通讯补贴不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
+        trafficPension: [
+          { required: true, message: "交通补贴不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
+        livingPension: [
+          { required: true, message: "生活补贴不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
+        overtimePay: [
+          { required: true, message: "加班工资不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         otherPension: [
           { required: true, message: "其他补贴不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         endmBase: [
           { required: true, message: "养老保险基数不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         mediBase: [
           { required: true, message: "医疗保险基数不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         unemBase: [
           { required: true, message: "失业保险基数不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         emplBase: [
           { required: true, message: "工伤保险基数不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         mateBase: [
           { required: true, message: "生育保险基数不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "只能输入两位小数点" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         houseBase: [
           { required: true, message: "公积金基数不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "格式为如:0.80" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
-        probRatio: [
-          { required: true, message: "使用期比例不能为空", trigger: "blur" },
-          { pattern: /^(0)+(.[0-9]{1,2})?$/, message: "格式为如:0.87" }
+        wagesProb: [
+          { required: true, message: "试用期工资不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         welcoeNo: [{ required: true, message: "请选择保险缴纳标准", trigger: "change" }],
         remark: []
@@ -301,6 +353,9 @@ export default {
   components: {
     current,
     messageBox
+  },
+  created() {
+    this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
   },
   computed: {
     _custClass: function() {
@@ -373,6 +428,17 @@ export default {
         });
     },
 
+    getAllInsurancePayTemplate() {
+      const self = this;
+      self.$axios
+        .get("/iem_hrm/InsurancePayTemplate/queryAllInsurancePayTemplate")
+        .then(res => {
+          self.insurancePayTemplates = res.data.data;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
     getInsurancePayTemp() {
       const self = this;
       let applyNo = self.addPayBaseInfo.welcoeNo;
@@ -381,7 +447,6 @@ export default {
           "/iem_hrm/InsurancePayTemplate/queryInsurancePayTemplate/" + applyNo
         )
         .then(res => {
-          console.log("已经请求保险缴纳标准回来了", res);
           self.insurancePayTemp = res.data.data;
         })
         .catch(() => {
@@ -392,19 +457,17 @@ export default {
       let salaryTop = 1500; // 该职级薪资上限，应从接口查出
       console.log(Number(this.addPayBaseInfo.wagesBase) > salaryTop);
       if (Number(this.addPayBaseInfo.wagesBase) > salaryTop) {
-        this.rules.remark.push({
+        this.payBaseInfoRules.remark.push({
           required: true,
           message: "请输入薪资超限说明",
           trigger: "blur"
         });
-        console.log(this.rules.remark);
+        console.log(this.payBaseInfoRules.remark);
       }
     },
     welcoeNoChange(val) {
-      const self = this;
-      self.addPayBaseInfo.welcoeNo = val;
-      console.log(val);
-      self.getInsurancePayTemp(); //根据参数值计算保险缴纳标准
+      this.addPayBaseInfo.welcoeNo = val;
+      this.getInsurancePayTemp(); //根据参数值计算保险缴纳标准
     },
     handleFileUpload(file, fileList) {
       console.log(file);
@@ -414,19 +477,19 @@ export default {
       this.$refs[addPayBaseInfoRules].validate(valid => {
         if (valid) {
           let newPayBaseInfo = this.addPayBaseInfo;
-          console.log(newPayBaseInfo);
+          console.log('newPayBaseInfo',newPayBaseInfo);
           this.$axios
             .post("/iem_hrm/pay/addPayBaseInfo", newPayBaseInfo)
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000") {
-                  this.$message({ type: "success", message: "薪酬基数新增成功!" });
+                  this.$message({ type: "success", message: "操作成功!" });
                   this.$router.push("/payBaseInfo_setting");
               }
-              else this.$message.error("薪酬基数新增失败！");
+              else this.$message.error("操作失败！");
             })
             .catch(() => {
-              this.$message.error("薪酬基数新增失败！");
+              this.$message.error("操作失败！");
             });
         } else {
           console.log("error submit!!");
@@ -441,5 +504,14 @@ export default {
 <style>
 .add_paybaseinfo {
   padding: 0 0 20px 20px;
+}
+.el-dialog__body {
+  padding: 0 20px 30px 20px;
+}
+.el-dialog__body .el-input__inner {
+  width: 164px;
+}
+.item-box .button-box .restBtn {
+  margin-right: 5px;
 }
 </style>

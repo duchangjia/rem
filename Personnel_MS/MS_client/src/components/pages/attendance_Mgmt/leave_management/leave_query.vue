@@ -1,22 +1,22 @@
 <template>
 	<div class="leave_query">
 		<current yiji="考勤管理" erji="请假管理"></current>
-		<div class="content">
-			<div class="title">
+		<div class="queryContent_wrapper">
+			<div class="titleBar">
 				<span class="title-text">请假管理</span>
-				<el-button type="primary" class="title_button" @click="handleAdd">新增</el-button>
+				<el-button type="primary" class="btn-primary" @click="handleAdd">新增</el-button>
 			</div>
-			<div class="content-inner">
+			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-col :span="6">
+						<el-col :sm="12" :md="6">
 							<el-form-item label="公司">
 								<el-select v-model="ruleForm2.organNo" @change="changeComp">
 									<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span="6">
+						<el-col :sm="12" :md="6">
 							<el-form-item label="部门">
 								<el-select v-model="ruleForm2.departOrgNo" value-key="departOrgNo">
 									<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
@@ -39,15 +39,15 @@
 							   </el-date-picker>
 							</el-form-item>
 						</el-col>
-						<el-col :span="6">
+						<el-col :sm="12" :md="6">
 							<el-form-item label="工号" prop="userNo">
 								<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
 							</el-form-item>
 						</el-col>
 					</div>
-					<div class="button-wrap">
-						<el-button class="resetform" @click="resetForm()">重置</el-button>
-						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
+					<div class="queryButton_wrapper">
+						<el-button class="btn-default" @click="resetForm()">重置</el-button>
+						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
 				<div class="info">
@@ -422,128 +422,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .leave_query {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
 }
 
-.leave_query .content {
-	width: 100%;
-	padding: 0px 20px;
-	background: #ffffff;
-	clear: both;
-}
-
-.leave_query .content .title {
-	border-bottom: 1px solid #EEEEEE;
-}
-
-.leave_query .content .title .title-text {
-	display: inline-block;
-	position: relative;
-	padding: 14px 0px;
-	font-size: 16px;
-	height: 50px;
-}
-
-.leave_query .content .title .title-text:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
-}
-.leave_query .title_button {
-	float: right;
-	margin-top: 10px;
-}
-.leave_query .content-inner {
-	padding: 30px 0px;
-}
-
-.leave_query .el-form-item__label {
-	color: #999999;
-	padding: 8px 10px 8px 0;
-	margin: 0;
-	font-weight: normal;
-}
-
-/*.leave_query .input-wrap .el-form-item {
-	float: left;
-}*/
-
-.leave_query .el-form-item {
-	margin-bottom: 30px;
-}
-
-.leave_query .el-input,
-.leave_query .el-input__inner {
-	width: 164px;
-	height: 30px;
-	display: inline-block;
-}
-
-.leave_query .el-form-item__content {
-	line-height: 30px;
-	position: relative;
-	font-size: 14px;
-}
-
-.leave_query .button-wrap {
-	margin: 0px auto 30px;
-	width: 260px;
-	clear: both;
-	font-size: 0px;
-}
-
-.leave_query .el-input__inner {
-	border: 1px solid #EEEEEE;
-	color: #333333;
-}
-
-.leave_query .el-input__inner:hover {
-	border-color: #FF9900;
-}
-
-.leave_query .el-button {
-	border: 1px solid #FF9900;
-	color: #FF9900;
-	padding: 7px 45px;
-	height: 30px;
-}
-
-.leave_query .el-button--primary {
-	color: #fff;
-	background-color: #FF9900;
-	border-color: #FF9900;
-}
-.leave_query .el-button+.el-button {
-    margin-left: 20px;
-}
-.leave_query .el-table td,
-.leave_query .el-table th {
-	text-align: center;
-}
-.leave_query .el-table td:first-child{
-	cursor: pointer;
-}
-.leave_query .link {
-	cursor: pointer;
-    color: #337ab7;
-    text-decoration: underline;
-}
-.leave_query .el-table td:first-child:hover{
-	color: #FF9900;
-}
-
-.leave_query .el-table th {
-	text-align: center;
-	box-shadow: inset 0 1px 0 0 #EEEEEE;
-}
 .icon_edit {
 	width: 14px;
 	height: 14px;
@@ -559,111 +444,12 @@ export default {
 	margin-left: 20px;
 	background: url(../../../../../static/img/common/delete.png);
 }
-
-.leave_query .el-pagination {
-	text-align: right;
-	margin-top: 40px;
-	margin-right: 40px;
-	color: #282828;
+.el-button + .el-button {
+    margin-left: 20px;
 }
-
-.leave_query .el-pager li.active {
-	border-color: #FF9900;
-	background-color: #FF9900;
-	color: #fff;
-	cursor: default;
-}
-
-.leave_query .el-pager li {
-	padding: 0 4px;
-	border-right: 0;
-	background: #fff;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	line-height: 24px;
-	text-align: center;
-}
-
-.leave_query .el-pager li:last-child {
-	border-right: 1px solid #EEEEEE;
-}
-
-.leave_query .el-pagination button,
-.leave_query .el-pagination span {
-	display: inline-block;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	color: #282828;
-	line-height: 24px;
-	vertical-align: top;
-	box-sizing: border-box;
-}
-
-.leave_query .el-pager li:hover {
-	color: #FF9900;
-}
-.leave_query .el-pager li.active {
-    border-color: #ff9900;
-    background-color: #ff9900;
-    color: #fff;
-    cursor: default;
-}
-.leave_query .el-pager li.active:hover {
+.link {
 	cursor: pointer;
-	color: #ffffff;
-}
-
-.leave_query .el-pagination button:hover {
-	color: #FF9900;
-}
-.leave_query .el-pagination button.disabled:hover {
-	color: #e4e4e4;
-}
-
-.leave_query .el-pagination__editor {
-	border: 1px solid #EEEEEE;
-	border-radius: 2px;
-	padding: 2px 0px;
-	width: 24px;
-	min-width: 24px;
-}
-
-.leave_query .el-pagination__editor:focus {
-	outline: 0;
-	border-color: #FF9900;
-}
-
-.leave_query .el-pagination .btn-next,
-.leave_query .el-pagination .btn-prev {
-	border: 1px solid #EEEEEE;
-	color: #282828;
-}
-
-.leave_query .el-autocomplete-suggestion__wrap,
-.leave_query .el-pager li {
-	border: 1px solid #EEEEEE;
-}
-
-.leave_query .el-pager li.btn-quicknext,
-.leave_query .el-pager li.btn-quickprev {
-	line-height: 28px;
-	color: #282828;
-}
-.leave_query .el-upload__input {
-    display: none;
-}
-.leave_query .btn_wrap {
-	margin-top: 30px;
-}
-.leave_query .upload_btn {
-	display: inline-block;
-	left: 100%;
-}
-.leave_query .el-form-item__error {
-    left: 39px;
+    color: #337ab7;
+    text-decoration: underline;
 }
 </style>

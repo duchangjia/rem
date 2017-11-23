@@ -83,8 +83,9 @@
 .queryContent_wrapper .el-button {
 	border: 1px solid #FF9900;
 	color: #FF9900;
-	padding: 7px 45px;
+	padding: 7px 0;
 	height: 30px;
+	width: 120px;
 }
 .queryContent_wrapper .el-button:focus, 
 .queryContent_wrapper .el-button:hover {
@@ -110,6 +111,7 @@
   padding: 7px 9px;
   border: none;
   font-size: 14px;
+  width: auto;
 }
 .queryContent_wrapper .el-button--small+.el-button--small {
 	margin-left: 0px;

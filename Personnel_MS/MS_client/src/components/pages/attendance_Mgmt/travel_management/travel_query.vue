@@ -4,7 +4,7 @@
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
 				<span class="title-text">出差管理</span>
-				<el-button type="primary" class="titleBtn_wrapper" @click="handleAdd">新增</el-button>
+				<el-button type="primary" class="btn-primary" @click="handleAdd">新增</el-button>
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
@@ -28,13 +28,17 @@
 						      v-model="ruleForm2.startDate"
 						      type="date"
 						      placeholder="选择日期"
-						      :picker-options="pickerOptions0" @change="changeStartTime">
+						      :picker-options="pickerOptions0" 
+						      @change="changeStartTime"
+						      >
 						   </el-date-picker> -
 							<el-date-picker
 						      v-model="ruleForm2.endDate"
 						      type="date"
 						      placeholder="选择日期"
-						      :picker-options="pickerOptions0" @change="changeEndTime">
+						      :picker-options="pickerOptions0" 
+						      @change="changeEndTime"
+						      >
 						   </el-date-picker>
 						</el-form-item>
 					</el-col>
@@ -44,8 +48,8 @@
 						</el-form-item>
 					</el-col>
 					<div class="queryButton_wrapper">
-						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
-						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
+						<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
+						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
 				<el-table :data="transferDataList" border stripe style="width: 100%">
@@ -370,6 +374,13 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+.el-button + .el-button {
+    margin-left: 20px;
+}
+.link {
+	cursor: pointer;
+    color: #337ab7;
+    text-decoration: underline;
+}
 </style>

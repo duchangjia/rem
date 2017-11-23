@@ -12,6 +12,7 @@
                     <el-breadcrumb-item v-if="liuji" :to="{ path: links[5] }" class="test1">{{liuji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if='false'>{{activeTab}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if='false'>{{pactNo}}</el-breadcrumb-item>
+                    <el-breadcrumb-item v-if='false'>{{userNo}}</el-breadcrumb-item>
                 </el-breadcrumb>
             </el-col>
             <el-col :span="2" v-show="breadItemLength>1">
@@ -44,6 +45,13 @@ export default {
                         pactNo: this.pactNo
                     }
                 })
+            } else if (this.userNo) {
+                this.$router.push({
+                    name: aa,
+                    params: {
+                        userNo: this.userNo
+                    }
+                })
             } else {
                 this.$router.push(aa)
             }
@@ -74,7 +82,7 @@ export default {
                 _link.push('/assetReq_manage')
             }
             if (this.yiji === '员工自助') {
-                _link.push('/query_personalInfo')
+                _link.push('/stuffSelfHelp_manage')
             }
             if (this.yiji === '历史薪酬查询') {
                 _link.push('/historicalSalary_Mgmt')
@@ -100,9 +108,6 @@ export default {
             }
             if (this.erji === '人事合同') {
                 _link.push('/personnel_contract')
-            }
-            if (this.erji === '人事档案') {
-                _link.push('/personnel_archives')
             }
             if (this.erji === '人事调动') {
             	_link.push('/personnel_transfer')
@@ -211,16 +216,10 @@ export default {
                 _link.push('/detail_payBaseInfo')
             }
             if (this.sanji === '调薪查询') {
-                _link.push('/query_payChangeInfo')
+                _link.push('query_payChangeInfo')
             }
             if (this.sanji === '人事调动明细查询') {
                 _link.push('/detail_transfer')
-            }
-            if (this.sanji === '员工新增') {
-                _link.push('/add_archives')
-            }
-            if (this.sanji === '员工详情') {
-                _link.push('/archives_detail')
             }
             if (this.sanji === '员工离职明细查询') {
                 _link.push('/detail_dimission')
@@ -393,6 +392,10 @@ export default {
             default: ''
         },
         pactNo: {
+            type: String,
+            default: ''
+        },
+        userNo: {
             type: String,
             default: ''
         },

@@ -8,7 +8,7 @@
                         <el-form :model="custInfo" :inline="true" ref="ruleForm2" class="demo-ruleForm">
                             <el-form-item label="公司名称">
                             <el-select v-model="custInfo.organNo"  placeholder="所属公司" @change="changeCompany" class="m-select">
-                                    <el-option v-for="item in companyName"
+                                    <el-option v-for="item in companyName" 
                                     :key="item.organNo" 
                                     :label="item.organName" 
                                     :value="item.organNo">

@@ -4,7 +4,7 @@
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
 				<span class="title-text">福利缴纳系数设置</span>
-				<el-button type="primary" class="titleBtn_wrapper" @click="addWelfare()">新增</el-button>
+				<el-button type="primary" class="btn-primary" @click="addWelfare()">新增</el-button>
 			</div>
 			<div class="queryContent_inner">
 				<el-table :data="payTemplatesList" border stripe style="width: 100%">
@@ -159,7 +159,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .welfare_coefficient {
 	padding-left: 20px;
     padding-bottom: 20px;
@@ -171,5 +171,9 @@ export default {
     height: 24px;
     background: url('../../../../static/img/common/delete.png') center no-repeat;
 }
-
+.link {
+	cursor: pointer;
+    color: #337ab7;
+    text-decoration: underline;
+}
 </style>
