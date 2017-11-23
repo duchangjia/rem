@@ -32,7 +32,7 @@
                                 :inputSecOption.sync="inputSecOption"
                                 :searchData.sync="searchData" 
                                 :searchUrl="searchUrl"
-                                :dialogVisible.sync="dialogVisible"
+                                :dialogVisible="dialogVisible"
                                 :pagination.sync="msgPagination"
                                 @dialogConfirm="dialogConfirm"
                                 ></messageBox>
@@ -145,7 +145,6 @@ import moment from "moment";
 export default {
   data() {
     return {
-        dialogVisible:false,
       rules: {
         applyUserNo: [
           { required: true, message: "请选择申请使用人工号", trigger: "blur" }
@@ -164,6 +163,7 @@ export default {
         assetNo: ""
       },
     tableOption:[],
+    dialogVisible:false,
     inputFirstOption:{},
     inputSecOption:{},
     msgPagination:{},
@@ -186,6 +186,7 @@ export default {
   methods: {
     dialogConfirm(ajaxNo){
         let self = this;
+        self.dialogVisible = false;
         self.$axios
         .get(
           self.saveUrl+
@@ -198,7 +199,7 @@ export default {
               type: "error"
             });
           }else{
-            self.dialogVisible = false;
+            
             switch(self.numType){
                 case 1:
                     self.applyUserInfo = res.data.data

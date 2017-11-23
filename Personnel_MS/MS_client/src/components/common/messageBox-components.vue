@@ -3,7 +3,7 @@
         <el-dialog :title="title"
         @close="dialogClose()"
         @open="dialogOpen()"
-        :visible.sync="dialogVisible"
+        :visible.sync = "dialogVisible"
         >
             <div class="item-box">
                 <el-form class="clearfix">
@@ -59,8 +59,12 @@ export default {
         stateName:'',
         stateNo:''
       },
-      secInpuShow:true
+      secInpuShow:true,
+      Visible:false
     };
+  },
+  created(){
+
   },
   methods: {
     dialogOpen(){
@@ -128,8 +132,7 @@ export default {
       this.custInfo = {};
     },
     dialogClose(){
-        this.dialogVisible = false
-        this.$emit('changeDialogVisible',false);
+      // this.$emit('update:dialogVisible',false)
     },
     handleCurrentChange(row, event, column) {
       this.custInfo = {}
@@ -219,7 +222,7 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss">
 .item-box .el-form{
   margin-bottom:20px;
 }
@@ -283,7 +286,7 @@ export default {
 }
 .item-box .el-input__inner{height:30px;}
 .toolbar{text-align:right;}
-.add_assetUser .content-wrapper .content .item-box .el-form-item .el-input{width:164px;}
+.item-box .el-form-item .el-input{width:164px !important;}
 .item-box .button-box{float:right;}
 .el-table__body-wrapper{overflow-x:hidden;}
 .el-table tr{cursor:pointer }
