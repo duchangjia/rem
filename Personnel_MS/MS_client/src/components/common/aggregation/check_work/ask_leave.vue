@@ -144,6 +144,10 @@ export default {
                 }
             }
         }
+        .el-form-item{
+            margin-bottom:0;
+            padding-top:10px;
+        }
         .msg-form{
             position: relative;
             right:60px;

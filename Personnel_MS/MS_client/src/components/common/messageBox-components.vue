@@ -3,7 +3,7 @@
         <el-dialog :title="title"
         @close="dialogClose()"
         @open="dialogOpen()"
-        :visible.sync = "dialogVisible"
+        :visible.sync = "visible"
         >
             <div class="item-box">
                 <el-form class="clearfix">
@@ -60,7 +60,7 @@ export default {
         stateNo:''
       },
       secInpuShow:true,
-      Visible:false
+      visible:false
     };
   },
   created(){
@@ -157,6 +157,17 @@ export default {
       self.$emit('dialogConfirm',self.custInfo);
     }
     
+  },
+  watch:{
+    dialogVisible:function(flag){
+       this.visible = flag;
+        return flag;
+    },
+    visible:function(flag){
+       this.$emit('update:dialogVisible',flag);
+        return flag;
+    }
+   
   },
   props: {
     title: {
