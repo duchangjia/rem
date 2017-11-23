@@ -4,6 +4,7 @@
         <div class="edit-content">
             <div class="title">
                 <span class="text">编辑部门</span>
+                <span class="text">编辑部门</span>
                 <el-button type="primary" @click="save" class="save">保存</el-button>
             </div>
             <div class="department-info">
@@ -51,7 +52,7 @@
                             <el-select placeholder="请选择部门类型" v-model="formdata.organType" disabled>
                                 <el-option label="总公司" value="01" v-show="show<1&&show==0"></el-option>
                                 <el-option label="分公司" value="02" v-show="show<2&&show==1"></el-option>
-                                <el-option label="办事处" value="03" v-show="show<2&&show==1"></el-option>
+                                <!--<el-option label="办事处" value="03" v-show="show<2&&show==1"></el-option>-->
                                 <el-option label="部门" value="04" v-show="show<=4&&(show==1||show==2||show==3||show==4)"></el-option>
                             </el-select>
                         </el-form-item>

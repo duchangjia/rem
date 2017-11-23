@@ -2,7 +2,8 @@
     <div class="archives_detail">
         <current yiji="人事事务" erji="人事档案" sanji="员工详情"></current>
         <el-col :span="24">
-            <div class="content-wrapper">
+            是是是
+            <div class="content-wrapper-xx">
                 <div class="content">
                     <template>
                         <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -109,13 +110,13 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="个人邮箱" prop="perEmail">
+                                            <el-form-item label="个人邮箱">
                                                 <el-input v-model="ruleForm.perEmail" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="QQ">
-                                                <el-input v-model="ruleForm.qqAcct" :disabled="edit"></el-input>
+                                            <el-form-item label="公司邮箱">
+                                                <el-input v-model="ruleForm.comEmail" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -330,6 +331,17 @@
                                         </el-col>
                                         <el-col :span="9">
                                             <el-form-item label="附件">
+                                                <!--<el-input v-model="ruleForm.attachm" style="position:absolute" :disabled="edit"></el-input>-->
+                                                <!--<el-upload class="upload-demo" ref="upload" name="file"-->
+                                                           <!--:on-change="handleFileUpload"-->
+                                                           <!--:on-success="successUpload"-->
+                                                           <!--action="/iem_hrm/CustFile/upload"-->
+                                                           <!--:show-file-list="false"-->
+                                                           <!--:auto-upload="false"-->
+                                                           <!--:headers="token">-->
+                                                    <!--<el-button slot="trigger" type="primary" class="uploadBtn">上传附件</el-button>-->
+                                                <!--</el-upload>-->
+                                                <!--<el-button class="downloadBtn" @click="handleDownload">下载附件</el-button>-->
                                                 <el-input v-model="ruleForm.attachm" :disabled="edit"></el-input><span class="attachment">选择文件</span>
                                             </el-form-item>
                                         </el-col>
@@ -583,8 +595,8 @@
                 </div>
                 <div class="button-wrapper">
                     <button @click="bianji(tabName)">编辑</button>
-                    <button class="special_1" @click="save(tabName)">保存</button>
-                    <button @click="del" v-show="tabName=='first'?true:tabName=='sixth'?true:false">{{tabName=='first'?'删除':'全部下载'}}</button>
+                    <button class="special_1" @click="save(tabName)">{{this.tabName=='sixth'?'全部下载':'保存'}}</button>
+                    <button @click="del" v-show="tabName=='first'?true:false">删除</button>
                 </div>
             </div>
         </el-col>
@@ -607,6 +619,7 @@
                     department:'',
                     CCC:'',
                 },
+                fileList: [],
                 fileList2: [],
                 imageUrl: '',
                 dialogImageUrl: '',
@@ -713,6 +726,7 @@
                     homeTeleph: '',
                     perEmail: '',
                     qqAcct: '',
+                    comEmail: '',
                     atten: '',
                     attenTeleph: '',
                     origo: '',
@@ -795,7 +809,9 @@
                         { pattern: /^\d+(-)?\d+((-)?\d+)?$/, message: "请输入合法的紧急号码:例如纯数字", trigger: 'blur'}
                     ],
                     perEmail: [
-                        {required: true, message: '请输入个人邮箱', trigger: 'blur'},
+                        { pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, message: "请输入合法的邮箱" }
+                    ],
+                    comEmail: [
                         { pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, message: "请输入合法的邮箱" }
                     ],
                 },
@@ -1152,13 +1168,20 @@
                     this.$axios.get('/iem_hrm/CustFile/queryCustImgList',{params:{userNo:this.userNo}})
                         .then(res=>{
                             console.log(res)
+                            this.fileList = res.data.data
+//                            this.fileList2 = res.data.data.map(item=>{
+//                                return {
+//                                    name: item.fileName + item.imageSuffix,
+//                                    url: 'http://10.0.0.242:8888'+item.addr
+//                                }
+//                            })
                             this.fileList2 = res.data.data.map(item=>{
                                 return {
                                     name:item.split('/').pop(),
                                     url: 'http://10.0.0.242:8888'+item,
                                 }
                             })
-                            console.log(this.fileList2)
+                            console.log(this.fileList2,'----',this.fileList)
                             this.lock.certificatesLock = false
                         })
                         .catch(e=>{
@@ -1270,7 +1293,6 @@
                             });
                         }
                     })
-
                 }
                 if('second'===tabName) {
                     let socialItemLength = this.social_item.lists.length
@@ -1467,7 +1489,6 @@
                                                     message: result
                                                 });
                                             }
-
                                         })
                                         .catch(e=>{
                                             console.log(e)
@@ -1485,6 +1506,19 @@
                             }
                         });
                     }
+                }
+                if('sixth'===tabName) {
+                    let data = {
+                        path:this.fileList
+                    }
+                    console.log(data)
+                    this.$axios.get('/iem_hrm/CustFile/batchDownLoad', {params:data})
+                        .then(res=>{
+                            console.log(res)
+                        })
+                        .catch(e=>{
+                            console.log(e)
+                        })
                 }
             },
             add_item() {
@@ -1615,7 +1649,7 @@
         position: relative;
         .test
             padding-left: 10px;
-        .content-wrapper
+        .content-wrapper-xx
             background: #fff;
             position relative
             .button-wrapper
