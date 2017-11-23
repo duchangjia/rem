@@ -15,7 +15,7 @@
                 </el-breadcrumb>
             </el-col>
             <el-col :span="2" v-show="breadItemLength>1">
-                <img src="../../../static/img/common/back.png" alt="pic" width="19" height="12" class="pic" @click="jump">
+                <img src="../../../../../static/img/common/back.png" alt="pic" width="19" height="12" class="pic" @click="jump">
             </el-col>
         </el-row>
     </div>
@@ -53,7 +53,7 @@ export default {
         links() {
             let _link = []
             if (this.yiji === '首页') {
-                _link.push('/home')
+                _link.push('/aggPage')
             }
             if (this.yiji === '系统管理') {
                 _link.push('/management_framework')

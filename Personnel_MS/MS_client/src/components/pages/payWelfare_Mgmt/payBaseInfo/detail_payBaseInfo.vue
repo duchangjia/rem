@@ -124,8 +124,8 @@
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                      <el-form-item label="试用期比例">
-                            <el-input v-model="payBaseInfoDetail.probRatio" :disabled="true"></el-input>
+                      <el-form-item label="试用期工资">
+                            <el-input v-model="payBaseInfoDetail.wagesProb" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">

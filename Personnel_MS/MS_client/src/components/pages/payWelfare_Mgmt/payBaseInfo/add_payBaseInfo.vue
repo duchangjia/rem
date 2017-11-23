@@ -98,7 +98,7 @@
                         </el-form-item>
                     </el-col> -->
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="加班工资">
+                        <el-form-item label="加班工资" prop="overtimePay">
                             <el-input v-model="addPayBaseInfo.overtimePay"></el-input>
                         </el-form-item>
                     </el-col> 
@@ -138,8 +138,8 @@
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="试用期比例" prop="probRatio">
-                            <el-input v-model="addPayBaseInfo.probRatio"></el-input>
+                        <el-form-item label="试用期工资" prop="wagesProb">
+                            <el-input v-model="addPayBaseInfo.wagesProb"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
@@ -265,7 +265,7 @@ export default {
         emplBase: "",
         mateBase: "",
         houseBase: "",
-        probRatio: "",
+        wagesProb: "",
         welcoeNo: "",
         attachm: "",
         remark: ""
@@ -339,11 +339,11 @@ export default {
         ],
         houseBase: [
           { required: true, message: "公积金基数不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "格式为如:0.80" }
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
-        probRatio: [
-          { required: true, message: "使用期比例不能为空", trigger: "blur" },
-          { pattern: /^(0)+(.[0-9]{1,2})?$/, message: "格式为如:0.87" }
+        wagesProb: [
+          { required: true, message: "试用期工资不能为空", trigger: "blur" },
+          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         welcoeNo: [{ required: true, message: "请选择保险缴纳标准", trigger: "change" }],
         remark: []

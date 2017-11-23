@@ -82,7 +82,7 @@ export default {
                 _link.push('/assetReq_manage')
             }
             if (this.yiji === '员工自助') {
-                _link.push('/query_personalInfo')
+                _link.push('/stuffSelfHelp_manage')
             }
             if (this.yiji === '历史薪酬查询') {
                 _link.push('/historicalSalary_Mgmt')
