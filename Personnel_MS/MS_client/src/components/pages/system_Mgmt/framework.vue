@@ -1,6 +1,6 @@
 <template>
     <div class="framework-content-wrapper">
-        <current yiji="系统管理" erji="组织架构"></current>
+        <current yiji="系统管理" erji="不知架构"></current>
         <div class="framework-content">
             事实上
             <el-col :span="6">

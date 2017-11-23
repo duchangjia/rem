@@ -1,6 +1,6 @@
 <template>
     <div class="archives_detail">
-        <current yiji="人事事务" erji="人事档案" sanji="员工详情"></current>
+        <current yiji="人事事务" erji="人事档案" sanji="员工详情部详情"></current>
         <el-col :span="24">
             是是是
             <div class="content-wrapper-xx">
