@@ -108,7 +108,7 @@
 			queryUserList() {
 				let self = this;
 				self.$axios.get(getMsgURL)
-				.then(function(res) {
+				.then(res =>{
 					console.log('List',res.data.data);
 					let data = res.data.data,
 						assetTypeVal = '',
