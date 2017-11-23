@@ -572,6 +572,7 @@
                                 <div class="sixth_wrapper">
                                     <el-upload name="file" ref="upload2"
                                             list-type="picture-card"
+                                           :file-list="fileList2"
                                             :on-preview="handlePictureCardPreview"
                                             :on-remove="handleRemove"
                                             :data="certificates_list"
@@ -586,7 +587,7 @@
                                         <!--<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>-->
                                     </el-upload>
                                     <el-dialog v-model="dialogVisible2" size="tiny">
-                                        <img width="100%" :src="dialogImageUrl" alt="pic">
+                                        <img width="100%" :src="dialogImageUrl" alt="">
                                     </el-dialog>
                                 </div>
                             </el-tab-pane>
@@ -617,9 +618,9 @@
                 department:'',
                   CCC:'',
               },
+              fileList2:[],
               imageUrl: '',
               dialogImageUrl: '',
-              fileFlag: '',
               token: {
                   Authorization:`Bearer `+localStorage.getItem('access_token'),
               },
@@ -1037,18 +1038,28 @@
                 this.tabName = tab.name
             },
             handleFileUpload(file, fileList) {
-                console.log(file,fileList)
+                console.log(file,'****handleFileUpload****',fileList)
 //                if('first'==this.tabName) {
 //                    this.fileFlag = file;
 //                    this.ruleForm2.attachm = file.name;
 //                }
             },
             successUpload(response, file, fileList) {
-                console.log(file,file)
-                console.log(response,'successUpload',fileList)
+                console.log(response,'????????successUpload????????',file,'????????successUpload????????',fileList)
                 if(response.code === "S00000") {
                     this.$message({ message: '操作成功', type: 'success' });
-//                    this.$router.push('/travel_management');
+                    this.fileList2 = fileList
+//                    hrm_h0091 人事档案新增，附件上传错误:(没有那个文件或目录)
+                }else if(response.code === 'hrm_h0093') {
+                    this.$message({
+                        message: response.retMsg,
+                        type: 'error'
+                    })
+                    fileList.forEach((item,index)=>{
+                        if(item.uid==file.uid){
+                            fileList.splice(index,1)
+                        }
+                    })
                 }else {
                     this.$message({
                         message: response.retMsg,
@@ -1057,8 +1068,8 @@
                 }
             },
             checkUserNo(file) {
-                console.log(file)
-                this.certificates_list.userNo = 'P0000120'
+                console.log(file,'------checkUserNo')
+//                this.certificates_list.userNo = 'P0000120'
                 if(!this.certificates_list.userNo){
                     this.$message({
                         type: 'error',
@@ -1191,7 +1202,6 @@
                     })
                 }
                 if('second'===tabName) {
-                    this.social_item.userNo = 'P0000120'
                     if(!this.social_item.userNo){
                         self.$message({
                             type: 'error',
@@ -1200,46 +1210,38 @@
                         return
                     }
                     let socialItemLength = this.social_item.lists.length
-                    let count = 0
                     this.social_item.lists = []
-                    console.log(this.$children)
+                    let count = 0
                     for (let i=0;i<socialItemLength;i++){
+                        count++
                         let name = 'ruleFrom'+i
-//                        let aa = this.$refs[name][0].checkValue()
-//                        self.$refs[name][0][0].validate((valid) => {
-                            if (true) {
-                                count++
-                                self.$refs[name][0].ruleFrom.isShowEdit = true
-                                this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
-                                if(count==socialItemLength){
-                                    this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
-                                        .then(res=>{
-                                            let result = res.data.retMsg
-                                            if('操作成功'==result){
-                                                self.$message({
-                                                    type: 'success',
-                                                    message: result
-                                                });
-                                            }else {
-                                                self.$message({
-                                                    type: 'error',
-                                                    message: result
-                                                });
-                                            }
-                                        })
-                                        .catch(e=>{
-                                            console.log(e)
-                                        })
-                                }else {
-                                    self.$message({
-                                        type: 'error',
-                                        message: '请填写完整信息！'
-                                    });
-                                }
-                            }
-//                        })
-//                        console.log(this.$refs['ruleFrom'+i][0].ruleFrom)
-//                        this.$refs['ruleFrom'+i][0].isShowEdit = true
+                        self.$refs[name][0].ruleFrom.isShowEdit = true
+                        this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
+                        if(count==socialItemLength){
+                            this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
+                                .then(res=>{
+                                    let result = res.data.retMsg
+                                    if('操作成功'==result){
+                                        self.$message({
+                                            type: 'success',
+                                            message: result
+                                        });
+                                    }else {
+                                        self.$message({
+                                            type: 'error',
+                                            message: result
+                                        });
+                                    }
+                                })
+                                .catch(e=>{
+                                    console.log(e)
+                                })
+                        }else {
+                            self.$message({
+                                type: 'error',
+                                message: '请填写完整信息！'
+                            });
+                        }
                     }
                 }
                 if('third'===tabName) {

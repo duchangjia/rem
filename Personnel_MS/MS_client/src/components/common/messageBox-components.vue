@@ -128,8 +128,8 @@ export default {
       this.custInfo = {};
     },
     dialogClose(){
-      this.$emit('changeDialogVisible',false);
-//        this.dialogVisible = false
+        this.dialogVisible = false
+        this.$emit('changeDialogVisible',false);
     },
     handleCurrentChange(row, event, column) {
       this.custInfo = {}
