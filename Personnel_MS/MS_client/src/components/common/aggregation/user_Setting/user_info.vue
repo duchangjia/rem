@@ -35,9 +35,9 @@
 </template>
 
 <script type='text/ecmascript-6'>
-	import api from '../../../../common/api/api.js'
 	import current from '../common/current_position.vue'
 	import contentTitle from '../common/content_title.vue'
+	import api from '../../../../common/api/api.js'
 	let {custSelfInfo,queryCustAsset} = api
     export default {
 		data() {
