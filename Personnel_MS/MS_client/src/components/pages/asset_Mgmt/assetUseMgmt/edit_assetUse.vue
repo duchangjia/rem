@@ -125,6 +125,8 @@
 <script type='text/ecmascript-6'>
     import current from "../../../common/current_position.vue";
     import moment from "moment";
+    import api from '../../../../common/api/api.js'
+    let {getAssetUseByApplyNo,modAssUse} = api
     export default {
         data() {
             return {
@@ -178,9 +180,8 @@
         created() {
             let self = this
             let applyNo = this.$route.query.applyNo
-            self.$axios.get('/iem_hrm/assetUse/getAssetUseByApplyNo/'+applyNo)
+            self.$axios.get(getAssetUseByApplyNo+applyNo)
                 .then(res => {
-                     console.log(res)
                     if(res.data.code == 'F00002'){
                         self.$message({
                             message:res.data.retMsg,
@@ -206,8 +207,6 @@
                             this.applyCompanyInfo.assetType = "数码相机";
                         break;
                     }
-                   
-                    
                 })
                 .catch(e=>{
                     console.log(e)
@@ -330,7 +329,7 @@
                 console.log(data)
                 self.$refs.applyCompanyInfo.validate(valid => {
                     if(valid){
-                        self.$axios.put('/iem_hrm/assetUse/modAssUse', data)
+                        self.$axios.put(modAssUse, data)
                         .then(res=>{
                             let resData = res.data.data;
                             console.log(resData)

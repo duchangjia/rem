@@ -32,7 +32,7 @@
                                 :inputSecOption.sync="inputSecOption"
                                 :searchData.sync="searchData" 
                                 :searchUrl="searchUrl"
-                                :dialogVisible="dialogVisible"
+                                :dialogVisible.sync="dialogVisible"
                                 :pagination.sync="msgPagination"
                                 @dialogConfirm="dialogConfirm"
                                 ></messageBox>

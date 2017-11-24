@@ -23,7 +23,7 @@
 				</el-form>
 
 			</ul>
-			<el-dialog title="修改成功" :visible.sync="dialogTableVisible">
+			<el-dialog title="修改成功" :visible.sync="dialogTableVisible" @close="closeDialog()">
 				<div class="edit-tip txt-center ">恭喜您，密码修改成功，请重新<span class="c-primary cur-pointer" @click="goLogin()">登录</span></div>
 			</el-dialog>
 		</div>
@@ -33,7 +33,8 @@
 <script type='text/ecmascript-6'>
 	import current from '../common/current_position.vue'
 	import contentTitle from '../common/content_title.vue'
-	const baseURL = 'iem_hrm';
+	import api from '../../../../common/api/api.js'
+	let {changePassword} = api
 	export default {
 		data() {
 			var checkoldPass = (rule, value, callback) => {
@@ -120,7 +121,7 @@
 			},
 			updatePassword(params) {
 				let self = this;
-				self.$axios.put(baseURL+'/user/changePassword',params)
+				self.$axios.put(changePassword,params)
 				.then(function(res) {
 					console.log('updatePassword',res);
 					if(res.data.code === "S00000") {
@@ -135,6 +136,10 @@
 			},
 			goLogin(){
 				this.$router.push('/login')
+			},
+			closeDialog(){
+				let self = this;
+				 self.goLogin();
 			}
 		}
 	}
@@ -142,13 +147,9 @@
 
 <style lang="scss">
 	.password-content{
-		padding-left: 20px;
-		width: 100%;
+		
 		.content {
-			width: 100%;
 			height: calc(100% - 90px);
-			padding: 0px 40px;
-			background: #ffffff;
 			.content-inner {
 				padding-top: 30px;
 				

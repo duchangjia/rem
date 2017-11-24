@@ -37,7 +37,8 @@
 <script type='text/ecmascript-6'>
 	import current from '../common/current_position.vue'
 	import contentTitle from '../common/content_title.vue'
-	const getMsgURL = '/iem_hrm/CustInfo/queryCustSelfInfo'
+	import api from '../../../../common/api/api.js'
+	let {custSelfInfo,queryCustAsset} = api
     export default {
 		data() {
 			return {
@@ -107,7 +108,7 @@
 		methods: {
 			queryUserList() {
 				let self = this;
-				self.$axios.get(getMsgURL)
+				self.$axios.get(custSelfInfo)
 				.then(res =>{
 					console.log('List',res.data.data);
 					let data = res.data.data,
@@ -177,7 +178,7 @@
 				}
                let self = this;
                self.$axios
-                .get("/iem_hrm/CustInfo/queryCustAsset")
+                .get(queryCustAsset)
                 .then(res => {
                     console.log(res)
                 self.gridData =  res.data.data
@@ -214,6 +215,7 @@
 </script>
 
 <style lang="scss">
+
 .user_con{
 	font-size:14px;
 	padding-top:30px;

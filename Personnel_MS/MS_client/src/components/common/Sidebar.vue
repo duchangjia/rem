@@ -259,7 +259,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .sider {
 	width: 180px;
     background: #FFFFFF;
