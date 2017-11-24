@@ -142,13 +142,9 @@
 
 <style lang="scss">
 	.password-content{
-		padding-left: 20px;
-		width: 100%;
+		
 		.content {
-			width: 100%;
 			height: calc(100% - 90px);
-			padding: 0px 40px;
-			background: #ffffff;
 			.content-inner {
 				padding-top: 30px;
 				

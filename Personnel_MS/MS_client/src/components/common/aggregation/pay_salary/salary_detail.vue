@@ -21,13 +21,12 @@
             </div>
             <div class="msg-list pl0">
                 <el-form :inline="true">
-                    <el-form-item label="选择月份" prop="searchTime">
+                    <el-form-item label="选择月份" >
                         <el-date-picker
                             type="month"
                             placeholder="选择查询月份"
                             class="month-input"
                             v-model="month"
-                            @change="changeMonth()"
                         >
                         </el-date-picker>
                     </el-form-item>
@@ -88,6 +87,7 @@
 <script>
 import current from '../common/current_position.vue'
 import contentTitle from '../common/content_title.vue'
+
 const getMsgURL = '/iem_hrm/CustInfo/queryCustSelfInfo'
 import moment from "moment";
 export default {
@@ -135,13 +135,12 @@ export default {
                 })
         },
         changeMonth(){
-            let self = this,
-               searchTime =  moment(self.searchTime).format("YYYY-MM-DD");
-                self.month = searchTime;
+            
         },
         searchSalary(){
-            let self = this;
-            console.log(self.month)
+            let self = this,
+                month = moment(self.month).format("YYYY-MM-DD");
+            console.log(month)
         }
     },
     components: {
