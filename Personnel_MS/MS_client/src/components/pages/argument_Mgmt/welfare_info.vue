@@ -210,7 +210,6 @@ export default {
 				],
 				perUnemRate: [
 					{ required: true, type: 'number', message: '请输入失业保险个人支付系数', trigger: 'blur' },
-					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" },
 					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				perUnemFixed: [

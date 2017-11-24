@@ -185,7 +185,7 @@ table .el-button--danger:active {
 }
 
 .add-wrapper .el-form-item__label {
-  margin-right: 14px;
+  /*margin-right: 14px;*/
 }
 
 .querybar .el-form--inline .el-form-item {
@@ -429,9 +429,11 @@ table .el-button--danger:active {
 .item-box .button-box .restBtn {
     margin-right: 5px;
 }
-/*add_wage 部门范围 人员范围*/
+
+/*add_wage 部门范围 人员范围 start*/
 .add-wrapper .menu-item {
-  display: inline-block;
+  /*display: inline-block;*/
+ float: left;
   margin-right: 20px;
   margin-bottom: 20px;
   border-radius: 2px;
@@ -439,7 +441,7 @@ table .el-button--danger:active {
 }
 
 .add-wrapper .menu .el-checkbox-group {
-  display: inline-block;
+  display: block;
 }
 
 .add-wrapper .menu .el-checkbox-button__inner {
@@ -575,5 +577,5 @@ table .el-button--danger:active {
 .el-select-dropdown__item.selected.hover {
   background-color: #ff9900;
 }
-
+/*add_wage 部门范围 人员范围 end*/
 </style>

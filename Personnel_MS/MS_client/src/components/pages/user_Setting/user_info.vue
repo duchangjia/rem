@@ -21,7 +21,7 @@
         		<li class="list-item">
     				<div class="left">系统权限</div>
     				<div class="right right3">
-        				<span class="sys-item" v-for="item in userInfoList">{{item.roleName}}</span>
+        				<span class="sys-item" v-for="item in userInfoList" :key="item">{{item.roleName}}</span>
         			</div>
         		</li>
         	</ul>

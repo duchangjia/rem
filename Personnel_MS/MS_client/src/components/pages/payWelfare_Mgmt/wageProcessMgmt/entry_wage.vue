@@ -36,12 +36,8 @@
 						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
-				<el-table :data="transferDataList" border fit stripe style="width: 100%;">
-					<el-table-column prop="applyNo" label="工资月份" width="100">
-						<template scope="scope">
-					        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
-				      	</template>
-					</el-table-column>
+				<el-table :data="socialInfoData" border fit stripe style="width: 100%;">
+					<el-table-column prop="applyNo" label="工资月份" width="100"></el-table-column>
 					<el-table-column prop="companyName" label="工号" width="100"></el-table-column>
 					<el-table-column prop="gryStartTime" label="姓名" width="100"></el-table-column>
 					<el-table-column prop="gryEndTime" label="基础工资" width="100"></el-table-column>
@@ -58,10 +54,13 @@
 					<el-table-column prop="shangbaoGeren" label="商保(个人)" width="100"></el-table-column>
 					<el-table-column prop="baoxianGeren" label="保险缴费合计(个人)" width="100"></el-table-column>
 					<el-table-column prop="baoxianDanwei" label="保险缴费合计(单位)" width="100"></el-table-column>
-					<el-table-column prop="baoxianjiaona" label="保险缴纳" width="100"></el-table-column>
+					<el-table-column prop="baoxianjiaona" label="保险缴纳" width="100">
+						<template scope="scope">
+					        <span class="link" @click="handleInfo(scope.$index, scope.row)">详情</span>
+				      	</template>
+					</el-table-column>
 					<el-table-column prop="koushui" label="扣税" width="100"></el-table-column>
 					<el-table-column prop="shifa" label="实发" width="100"></el-table-column>
-					
 				</el-table>
 				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
@@ -91,7 +90,7 @@ export default {
 				custName: "",
 				endDate: ''
 			},
-			transferDataList: [
+			socialInfoData: [
 				{
 					applyNo: "20172017",
 					companyName: "深圳分公司",
@@ -169,72 +168,13 @@ export default {
 		handleInfo(index, row) {
 			sessionStorage.setItem('infoWage_applyNo', row.applyNo);
 			this.$router.push({
-				name: "wage_info",
+				name: "edit_security",
 				params: {
 					applyNo: row.applyNo
 				}
 			})
 			
 		},
-		handlMenu(index, row) {
-			console.log('menu',row);
-			sessionStorage.setItem('wage_applyNo',row.applyNo);
-		},
-		handleCommand(command) {
-			console.log(command)
-			let applyNo = sessionStorage.getItem('wage_applyNo');
-			switch(command){
-				case 'handleExport':
-				  	//导出
-				  	break;
-				case 'handleImport':
-				  	//导入
-				  	break;
-				case 'handleEnter':
-				  	//单笔录入工资
-					this.$router.push('/entry_wage');
-				  	break;
-				case 'handleUse':
-				  	//启用
-				  	break;
-				case 'handleEdit':
-				 	 //编辑
-					sessionStorage.setItem('editWage_applyNo', applyNo);
-	            	this.$router.push('/edit_wage');
-				  	break;
-				case 'handleDelete':
-				  	//删除
-					const self = this;
-				 	self.$confirm('此操作将会删除该条信息, 是否继续?', '提示', {
-		                confirmButtonText: '确定',
-		                cancelButtonText: '取消',
-		                type: 'warning'
-		           	}).then(() => {
-		            	let params = {
-							applyNo: applyNo
-						}
-		            	console.log(params);
-		            	
-		            	
-		            }).catch(() => {
-		                this.$message('您已取消操作！');
-		            });
-				  	break;
-				  
-				default:
-			}
-
-		},
-		changeUpload(file, fileList) {
-//	 		this.formdata2.attachm = file.name;
-      	},
-      	successUpload(response, file, fileList) {
-      		if(response.code === "S00000") {
-      			this.$message({ message: '操作成功', type: 'success' });
-      			this.$router.push('/travel_management');
-      		}
-      		
-      	},
 		//查询
 		queryForm(formName) {
 			const self = this;
@@ -279,19 +219,17 @@ export default {
 			}
 			
 		},
-		queryTravelList(params) {
+		queryWageInfo(params) {
 			let self = this;
-			self.$axios.get(baseURL+'', {params: params})
+			self.$axios.get(baseURL+'/wage/',{params: params})
 			.then(function(res) {
-				console.log('TravelList',res);
+				console.log('wageInfo',res);
 				if(res.data.code === "S00000") {
-					self.transferDataList = res.data.data.list;
-					self.pageNum = params.pageNum;
-					self.totalRows = Number(res.data.data.total);
+					self.socialInfoData = res.data.data;
 				}
 				
 			}).catch(function(err) {
-				console.log(err);
+				console.log('error');
 			})
 		},
 		queryCompList() {
@@ -336,5 +274,10 @@ export default {
 }
 .el-button + .el-button {
     margin-left: 20px;
+}
+.link {
+	cursor: pointer;
+    color: #337ab7;
+    text-decoration: underline;
 }
 </style>

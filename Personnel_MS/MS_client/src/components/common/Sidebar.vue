@@ -118,14 +118,14 @@ export default {
 							menuUrl: 'wageProcess_manage',
 							menuName: '工资流程管理'
 						},
-						{
-							menuUrl: 'awardProcess_manage',
-							menuName: '奖金流程管理'
-						},
-						{
-							menuUrl: 'historyPay_query',
-							menuName: '历史薪酬查询'
-						}
+//						{
+//							menuUrl: 'awardProcess_manage',
+//							menuName: '奖金流程管理'
+//						},
+//						{
+//							menuUrl: 'historyPay_query',
+//							menuName: '历史薪酬查询'
+//						}
 					]
 				},
 				{
@@ -267,8 +267,6 @@ export default {
     position: absolute;
     left: 0;
     top: 60px;
-    overflow-x: hidden;
-    overflow-y: auto;
 }
 
 .sider.sider-active {

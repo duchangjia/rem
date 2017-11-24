@@ -11,14 +11,14 @@
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
-					<!--<el-col :sm="12" :md="6">
+					<el-col :sm="12" :md="6">
 						<el-form-item label="公司" prop="compName">
 							<el-select v-model="ruleForm2.organNo" value-key="compOrgNo" @change="changeComp">
 								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :sm="12" :md="6">
+					<!--<el-col :sm="12" :md="6">
 						<el-form-item label="部门" prop="departName">
 							<el-select v-model="ruleForm2.derpNo" value-key="derpNo">
 								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
@@ -106,9 +106,7 @@ export default {
 			ruleForm2: {
 				organNo: '',
 				derpNo: '',
-				userNo: "",
 				startDate: "",
-				endDate: ''
 			},
 			transferDataList: [
 				{
@@ -139,7 +137,7 @@ export default {
 	computed: {
 		formdata: function(){
 			return {
-				batchNo: sessionStorage.getItem('wage_batchNo')
+				batchNo: sessionStorage.getItem('wageQuery_batchNo')
 			}
 		}
 	},
@@ -187,12 +185,6 @@ export default {
       	},
 		changeComp(val) {
 			console.log(val);
-			const self = this;
-			let params = {
-				organNo: val
-			}
-			//部门列表查询
-			self.queryDerpList(params);
 		},
 		handleSocial() {
 			this.$router.push('/socialSecurity_query');
@@ -210,13 +202,13 @@ export default {
 			})
 			
 		},
+		//触发下拉菜单
 		handlMenu(index, row) {
-			console.log('menu',row);
-			sessionStorage.setItem('wage_batchNo',row.batchNo);
+			sessionStorage.setItem('wageQuery_batchNo',row.batchNo);
 		},
 		handleCommand(command) {
 			console.log(command)
-			let batchNo = sessionStorage.getItem('wage_batchNo');
+			let batchNo = sessionStorage.getItem('wageQuery_batchNo');
 			let params = {};
 			console.log('batchNo',batchNo);
 			switch(command){
@@ -239,6 +231,7 @@ export default {
 					params = {
 						batchNo: batchNo
 					}
+					//修改状态
 				  	this.updateWageStatus(params);
 				  	break;
 				case 'handleEdit':
@@ -258,6 +251,7 @@ export default {
 							batchNo: batchNo
 						}
 		            	console.log(params);
+		            	//删除工资流程信息
 		            	self.deleteWageFlow(params);
 		            	
 		            }).catch(() => {
@@ -291,6 +285,7 @@ export default {
 					let params = {
 						"pageNum": self.pageNum,
 						"pageSize": self.pageSize,
+						organNo: this.ruleForm2.organNo,
 						month: this.ruleForm2.startDate
 					};
 					//条件查询工资列表
@@ -316,6 +311,7 @@ export default {
 				params = {
 					"pageNum": val,
 					"pageSize": self.pageSize,
+						organNo: this.ruleForm2.organNo,
 					month: self.ruleForm2.startDate
 					
 				}
@@ -346,38 +342,40 @@ export default {
 		deleteWageFlow(params) {
 			let self = this;
 			self.$axios.delete(baseURL+'/wage/deleteWageFlowInfo?batchNo='+params.batchNo)
-			.then(function(res) {
+			.then((res) => {
 				console.log('deleteWageFlow',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
 					let params = {
 						"pageNum": self.pageNum,
 						"pageSize": self.pageSize,
+						organNo: this.ruleForm2.organNo,
 						month: this.ruleForm2.startDate
 					};
 					//查询工资列表
 					self.queryWageList(params);
 				}
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},
 		updateWageStatus(params) {
 			let self = this;
 			self.$axios.put(baseURL+'/wage/updateWageFlowStatus',params)
-			.then(function(res) {
+			.then((res) => {
 				console.log('updateWageStatus',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
-					let params = {
+					let param = {
 						"pageNum": self.pageNum,
 						"pageSize": self.pageSize,
+						organNo: this.ruleForm2.organNo,
 						month: this.ruleForm2.startDate
 					};
 					//查询工资列表
-					self.queryWageList(params);
+					self.queryWageList(param);
 				}
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log('error');
 			})
 		},

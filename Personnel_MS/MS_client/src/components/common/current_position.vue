@@ -151,6 +151,9 @@ export default {
             if (this.erji === '工资查询') {
                 _link.push('/historicalSalary_query')
             }
+			if (this.erji === '工资流程管理') {
+                _link.push('/wageProcess_manage')
+            }
 			
             if (this.sanji === '编辑部门') {
                 _link.push('/edit_department')
@@ -266,6 +269,21 @@ export default {
             if (this.sanji === '资产使用详情') {
                 _link.push('/detail_assetUse')
             }
+            if (this.sanji === '工资流程新增') {
+                _link.push('/add_wage')
+            }
+            if (this.sanji === '工资流程修改') {
+                _link.push('/edit_wage')
+            }
+            if (this.sanji === '录入工资') {
+                _link.push('/entry_wage')
+            }
+            if (this.sanji === '社保数据查询') {
+                _link.push('/socialSecurity_query')
+            }
+            if (this.sanji === '工资流程详情') {
+                _link.push('/wage_info')
+            }
             
 
             if (this.siji === '人事调动详情') {
@@ -349,6 +367,12 @@ export default {
             }
             if (this.siji === '资产修改') {
                 _link.push('/edit_asset')
+            }
+            if (this.siji === '保险详情') {
+                _link.push('/edit_security')
+            }
+            if (this.siji === '社保数据导入') {
+                _link.push('/import_socialSecurity')
             }
 
             if (this.wuji === '税率新增') {

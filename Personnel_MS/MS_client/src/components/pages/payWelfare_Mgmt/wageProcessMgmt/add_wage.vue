@@ -16,12 +16,12 @@
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="结算开始日期" prop="settleStartTime">
-				        	<el-date-picker type="datetime" v-model="formdata2.settleStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata2.settleStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="结算结束日期" prop="settleEndTime">
-				        	<el-date-picker type="datetime" v-model="formdata2.settleEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata2.settleEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col> 
 					<el-col :sm="24" :md="12">
@@ -55,7 +55,7 @@
 	                        <div class="menu">
 	                            <el-checkbox-button v-model="checkSubAll" :indeterminate="isSubIndeterminate" @change="handleSubAllChange" label="全部" class="menu-item"></el-checkbox-button>
 	                            <el-checkbox-group v-model="checkedSubmenus" @change="handleCheckedSubsChange">
-	                                <el-checkbox-button v-for="item in derpRangeList" :label="item" class="menu-item">{{item.derpName}}</el-checkbox-button>
+	                                <el-checkbox-button v-for="item in derpRangeList" :key="item.derpNo" :label="item" class="menu-item">{{item.derpName}}</el-checkbox-button>
 	                            </el-checkbox-group>
 	                        </div>
 	                    </el-col>
@@ -67,11 +67,11 @@
 	                </el-col>
 	                <el-col :span="21" class="rightside">
 	                    <el-row :gutter="20">
-	                        <el-col :span="6" v-for="(depart, index) in formdata2.derpRange">
+	                        <el-col :span="6" v-for="(depart, index) in formdata2.derpRange" :key="index">
 	                            <div class="funcs-content">
-	                                <el-checkbox v-model="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ depart.derpName }}</el-checkbox>
-	                                <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
-	                                    <el-checkbox v-for="item in preRangeList" :label="item.userNo" v-bind:title="item.custName" >{{ item.custName }}</el-checkbox>
+	                                <el-checkbox v-model="checkPresAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ depart.derpName }}</el-checkbox>
+	                                <el-checkbox-group v-model="checkPres" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
+	                                    <el-checkbox v-for="item in depart.preRangeList" :key="item.userNo" :label="item.userNo" v-bind:title="item.custName" >{{ item.custName }}</el-checkbox>
 	                                </el-checkbox-group>
 	                            </div>
 	                        </el-col>
@@ -121,8 +121,8 @@
 		      	submenus: [],
 		      	isSubIndeterminate: true,
       			
-		      	checkFuncsAll: {},
-		      	checkFuncs: [],
+		      	checkPresAll: {},
+		      	checkPres: [],
 		      	isFuncsIndeterminate: {},
       			
 				formdata2: {
@@ -130,12 +130,12 @@
 					organName: "",
 					organNo: "",
 					derpRange: [
-						{derpName: "广州分公司",derpNo: "1"},
-						{derpName: "上海分公司",derpNo: "1"}
+//						{derpName: "广州分公司",derpNo: "1"},
+//						{derpName: "上海分公司",derpNo: "1"}
 					],
 					preRange: [
-						{custName: "张三",userNo: "P0000001"},
-						{custName: "李四",userNo: "P0000002"}
+//						{custName: "张三",userNo: "P0000001"},
+//						{custName: "李四",userNo: "P0000002"}
 					],
 					month: "",
 					settleStartTime: "",
@@ -154,16 +154,21 @@
 				],
 				//部门列表
 				derpRangeList: [
-					{ derpNo: "01", derpName: "xx部" },
-					{ derpNo: "02", derpName: "行政部" },
-					{ derpNo: "03", derpName: "信息部" }
-				],
-				//人员列表
-				preRangeList: [
+					{ derpNo: "01", derpName: "xx部" ,
+					preRangeList: [
 					{userNo: "P0000001", custName: "张三"},
 					{userNo: "P0000002", custName: "李四"},
-					{userNo: "P0000003", custName: "王五"}
+					{userNo: "P0000003", custName: "王五"}],
+					},
+					{ derpNo: "02", derpName: "行政部"  ,
+					preRangeList: [
+					{userNo: "P0000004", custName: "张行政"},
+					{userNo: "P0000005", custName: "李行政"},
+					{userNo: "P0000006", custName: "王行政"}],
+					},
+					{ derpNo: "03", derpName: "信息部" }
 				],
+				
 			 	rules: {
 			 		batchType: [
 			 			{ required: true, message: '类别不能为空', trigger: 'blur' }
@@ -214,6 +219,7 @@
 				let params = {
 					organNo: value
 				}
+				sessionStorage.setItem('organNo',value)
 				//查询部门范围列表
 				this.queryDerpList(params);
 			},
@@ -223,8 +229,9 @@
 		      	if (this.checkSubAll == true) {
 		        	this.checkedSubmenus = this.derpRangeList;
 		        	this.isSubIndeterminate = true;
+		        	
 		        	let params = {
-				      	derpNo: "全部部门"
+		        		organNo: sessionStorage.getItem('organNo')
 			      	}
 		        	//查询人员范围列表（选全部部门时）
 			      	this.queryDerpAndUser(params);
@@ -241,9 +248,11 @@
 		    },
 		    handleCheckedSubsChange(val) {
 		    	console.log('val',val)
-		    	let derpChangeList = val;
 		      	let checkedCount = val.length;
-		      	let derpNo = derpChangeList[val.length-1].derpNo;
+		      	let derpNo = '';
+		      	if(val.length>0) {
+		      		derpNo = val[val.length-1].derpNo;
+		      	}
 		      	this.isSubIndeterminate =
 		        	checkedCount > 0 && checkedCount < this.derpRangeList.length;
 		      	checkedCount > 0
@@ -254,6 +263,7 @@
 		        	: (this.checkSubAll = false);
 		      	this.formdata2.derpRange = val;
 		      	console.log("这是derpRange", this.formdata2.derpRange);
+		      	
 		      	let params = {
 			      	derpNo: derpNo
 		      	}
@@ -262,41 +272,43 @@
 		    },
 		    // 人员范围 多选
 		    handleFuncsAllChange(event, index) {
-		      this.checkFuncsAll[index] = event.target.checked;
+		      this.checkPresAll[index] = event.target.checked;
 		      let targetFucsList = [];
-		      this.preRangeList.forEach(function(ele) {
+		      this.formdata2.derpRange[index].preRangeList.forEach(function(ele) {
 		        targetFucsList.push(ele.userNo);
 		      }, this);
-		      if (this.checkFuncsAll[index] == true) {
+		      console.log('targetFucsList',targetFucsList)
+		      if (this.checkPresAll[index] == true) {
 		        this.$set(this.isFuncsIndeterminate, index, true);
 		        targetFucsList.forEach(function(ele) {
 		          if (JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ userNo: ele })) == -1) {
 		            this.formdata2.preRange.push({ userNo: ele });
 		          }
-		          if ( !this.isInArray(this.checkFuncs, ele) ) {
-		            this.checkFuncs.push(ele);
+		          if ( !this.isInArray(this.checkPres, ele) ) {
+		            this.checkPres.push(ele);
 		          }
 		        }, this);
+		        console.log('this.checkPres',this.checkPres)
 		      } else {
 		        this.$set(this.isFuncsIndeterminate, index, false);
 		        targetFucsList.forEach(function(ele, index) {
 		          if (JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ userNo: ele })) != -1) {
 		            this.formdata2.preRange.splice(JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ userNo: ele }))-1, 1);
 		          }
-		          if ( this.isInArray(this.checkFuncs, ele) ) {
-		            this.checkFuncs.splice(this.checkFuncs.indexOf(ele), 1);
+		          if ( this.isInArray(this.checkPres, ele) ) {
+		            this.checkPres.splice(this.checkPres.indexOf(ele), 1);
 		          }
 		        }, this);
 		      }
-		      console.log("这是全选的checkFuncs", this.checkFuncs);
+		      console.log("这是全选的checkPres", this.checkPres);
 		      console.log("preRange", this.formdata2.preRange);
 		    },
 		    handleCheckedFuncsChange(val, index) {
-		      if (val.length == this.preRangeList.length) {
-		        this.checkFuncsAll[index] = true;
+		      if (val.length == this.formdata2.derpRange[index].preRangeList.length) {
+		        this.checkPresAll[index] = true;
 		        this.$set(this.isFuncsIndeterminate, index, true);
 		      } else {
-		        this.checkFuncsAll[index] = false;
+		        this.checkPresAll[index] = false;
 		        this.$set(this.isFuncsIndeterminate, index, false);
 		      }
 		      this.formdata2.preRange = [];
@@ -312,18 +324,19 @@
 				self.$refs.formdata2.validate(valid => {
 			        if (valid) {
 			        	let preRanges = [],
-			        		derpRanges = ['01','02'];
-			        	self.formdata2.derpRange.forEach(function(ele) {
+			        		preRange = [],
+			        		derpRanges = [],
+			        		derpRange = [];
+		        		self.formdata2.derpRange.forEach(function(ele) {
 			        		derpRanges.push(ele.derpNo);
+			        		derpRange.push(ele.derpNo);
 			        	},this);
 			        	self.formdata2.preRange.forEach(function(ele) {
 			        		preRanges.push(ele.userNo);
-			        	},this);
-			        	console.log('derpRanges',derpRanges)
-			        	console.log('preRanges',preRanges)
+			        		preRange.push(ele.userNo);
+			        	},this);  
 			          	let params = {
 			          		batchType: self.formdata2.batchType,
-							organName: self.formdata2.organName,
 							organNo: self.formdata2.organNo,
 							month: self.formdata2.month,
 							settleStartTime: self.formdata2.settleStartTime,
@@ -331,19 +344,19 @@
 							remark: self.formdata2.remark,
 			          		preRanges: preRanges,
 			          		derpRanges: derpRanges,
-			          		derpRange: JSON.stringify(derpRanges),
-			          		preRange: JSON.stringify(preRanges)
+			          		derpRange: JSON.stringify(derpRange),
+			          		preRange: JSON.stringify(preRange)
 			          		
 			          	}
 			          	console.log('params',params);
-			          	//新增公子流程信息
+			          	//新增工资流程信息
 			          	self.addWageInfo(params);
 			        }
 		       })
 			},
 			addWageInfo(params) {
 				let self = this;
-				self.$axios.get(baseURL+'/wage/addWageFlowManagerInfo',params)
+				self.$axios.post(baseURL+'/wage/addWageFlowManagerInfo',params)
 				.then(function(res) {
 					console.log('addWage',res);
 					if(res.data.code === "S00000") {
@@ -358,13 +371,30 @@
 			queryDerpAndUser(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/wage/queryDerpAndUserByDerpNo', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('userList',res);
 					if(res.data.code === "S00000") {
-						self.preRangeList = res.data.data;
+						self.derpRangeList.forEach(function(ele,num) {
+							if(ele.derpNo == res.data.data[0].derpNo) {
+								self.derpRangeList[num].preRangeList = res.data.data;
+								self.$set(self.derpRangeList, num, self.derpRangeList[num]);
+								console.log('self.derpRangeList',self.derpRangeList)
+							}else {
+								console.log('deparNo false')
+							}
+						})
+						self.formdata2.derpRange.forEach(function(ele,num) {
+							if(ele.derpNo == res.data.data[0].derpNo) {
+								self.formdata2.derpRange[num].preRangeList = res.data.data;
+								self.$set(self.formdata2.derpRange,num,self.formdata2.derpRange[num]);
+								console.log('self.formdata2.derpRange',self.formdata2.derpRange)
+							}else {
+								console.log('formdata2 false')
+							}
+						})
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
@@ -372,13 +402,13 @@
 			queryCompList() {
 				let self = this;
 				self.$axios.get(baseURL+'/wage/queryOrganByUserNo')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CompList',res);
 					if(res.data.code === "S00000") {
 						self.compList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
@@ -386,13 +416,13 @@
 			queryDerpList(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/wage/queryDerpByOrganNo', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.derpRangeList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
