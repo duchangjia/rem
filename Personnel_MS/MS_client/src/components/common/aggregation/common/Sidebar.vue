@@ -87,7 +87,10 @@ export default {
 					menuUrl: '5',
 					menuName: '薪资福利',
 					menuList: [
-						
+						{
+                            menuUrl: 'salary_detail',
+                            menuName: '个人薪资'
+                        }
 					]
 				},
 				{

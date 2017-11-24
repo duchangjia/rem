@@ -117,7 +117,7 @@ export default {
             }).catch(e=>{
                 self.$message({
                     type:'error',
-                    message:e.retMsg
+                    message:e.retMsg||'数据异常'
                 })
             })
         }

@@ -159,15 +159,12 @@ export default {
     
   },
   watch:{
-    dialogVisible:function(flag){
+    dialogVisible(flag){
        this.visible = flag;
-        return flag;
     },
-    visible:function(flag){
+    visible(flag){
        this.$emit('update:dialogVisible',flag);
-        return flag;
     }
-   
   },
   props: {
     title: {

@@ -60,6 +60,11 @@ const routes = [
                     path:'/ask_leave',
                     meta: { requireAuth: true, },
                     component: resolve => require(['../components/common/aggregation/check_work/ask_leave.vue'], resolve)
+                },
+                {
+                    path:'/salary_detail',
+                    meta: { requireAuth: true, },
+                    component: resolve => require(['../components/common/aggregation/pay_salary/salary_detail.vue'], resolve)
                 }
             ]
         },

@@ -4,7 +4,9 @@
         <div class="queryContent_wrapper">
             <div class="titleBar">
                 <span class="title-text">资产使用管理</span>
-                <el-button  @click="add" class="btn-primary">新增</el-button>
+                <div class="titleBtn_wrapper">
+                  <el-button  @click="add" class="btn-primary">新增</el-button>
+                </div>
             </div>
             <div class="queryContent_inner clearfix">
                 <el-form :inline="true">
