@@ -90,6 +90,8 @@
 import current from "../../../common/current_position.vue";
 import messageBox from "../../../common/messageBox-components.vue";
 import moment from "moment";
+import api from '../../../../common/api/api.js'
+let {assetUseQueryAssUseList,delAssUse} = api
 export default {
   data() {
     return {
@@ -150,7 +152,7 @@ export default {
       params.pageSize = self.pagination.pageSize;
       
       self.$axios
-        .get("/iem_hrm/assetUse/queryAssUseList", { params: params })
+        .get(assetUseQueryAssUseList, { params: params })
         .then(res => {
           self.assetInfoList = res.data.data.list;
           self.pagination.pageNum = res.data.data.pageNum;
@@ -188,7 +190,7 @@ export default {
         })
         .then(() => {
           self.$axios
-            .get("/iem_hrm/assetUse/delAssUse/" + row.applyNo)
+            .get(delAssUse + row.applyNo)
             .then(res => {
               let result = res.data.retMsg;
               if ("操作成功" === result) {
