@@ -38,7 +38,7 @@ module.exports = {
         },
       },
       '/iem_hrm': {
-           target: 'http://10.0.0.242:8888/',
+          //  target: 'http://10.0.0.242:8888/',
         // target: 'http://192.168.1.102:8888/',
 //         target: 'http://192.168.1.111:8888/',
         // target: 'http://10.0.0.242:8888/',
@@ -51,6 +51,7 @@ module.exports = {
         // target: 'http://192.168.137.83:8888/',
         // target: 'http://10.0.0.16:8888/',
         // target: 'http://10.0.0.30:8888/',
+        target: 'http://10.0.0.34:8888/',
         // target: 'http://localhost:3000/',
         changeOrigin: true,
         secure: false,
