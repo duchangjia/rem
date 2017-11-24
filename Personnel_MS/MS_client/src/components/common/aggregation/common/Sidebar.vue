@@ -1,5 +1,5 @@
 <template>
-	<div class="side" id='sidebar' :class="{'sider-active':isCollapse}">
+	<div class="side-bar" id='sidebar' :class="{'sider-active':isCollapse}">
 		<el-radio-group v-model="isCollapse">
 			<el-radio-button :label="!isCollapse">
 				<i class="collapsible"></i>
@@ -167,150 +167,120 @@ export default {
 }
 </script>
 
-<style>
-.sider {
+<style lang="sass">
+.side-bar {
 	flex: 0 0 180px;
 	width: 180px;
 	background: #FFFFFF;
 	transition: all 0.3s linear;
-}
-
-.sider.sider-active {
-	flex: 0 0 60px;
-	width: 60px;
-}
-
-.sider .collapsible {
-	display: inline-block;
-	width: 16px;
-	height: 13px;
-	background: url('../../../../../static/img/sidebar/collapsible.png') no-repeat;
-}
-
-.sider .collapse-btn {
-	width: 180px;
-	background: #ffffff;
-	transition: all 0.3s linear;
-}
-
-.sider .collapse-btn.collapse-active {
-	width: 60px;
-	background: #ffffff;
-}
-
-.sider .el-menu--collapse {
-	width: 60px;
-}
-
-.sider .el-radio-button {
-	display: inline-block;
-	max-width: 100%;
-	margin-bottom: 0px;
-	font-weight: 700;
-}
-
-.sider .el-radio-button__inner {
-	border: none;
-	transition: all 0.3s linear;
-	padding: 22.5px 22px;
-	font-size: 14px;
-	border-radius: 0;
-}
-
-.sider .button-collapse {
-	width: 180px;
-}
-
-.sider .el-radio-button:first-child .el-radio-button__inner {
-	border-left: none;
-	border-radius: 0px 0 0 0px;
-	box-shadow: none!important;
-}
-
-.sider .el-radio-button:first-child:last-child .el-radio-button__inner {
-	border-radius: 0px;
-}
-
-.sider .icon {
-	display: inline-block;
-	margin-right: 24px;
-	width: 20px;
-	height: 16px;
-}
-
-.sider .icon-home {
-	background: url('../../../../../static/img/sidebar/home0.png') no-repeat top center;
-}
-
-.sider .icon-sys {
-	background: url('../../../../../static/img/sidebar/sys0.png') no-repeat top center;
-}
-
-.sider .icon-csgl {
-	background: url('../../../../../static/img/sidebar/csgl0.png') no-repeat top center;
-}
-
-.sider .icon-khgx {
-	background: url('../../../../../static/img/sidebar/khgx0.png') no-repeat top center;
-}
-
-.sider .icon-xmgl {
-	background: url('../../../../../static/img/sidebar/xmgl0.png') no-repeat top center;
-}
-
-.sider .icon-ywgl {
-	background: url('../../../../../static/img/sidebar/ywgl0.png') no-repeat top center;
-}
-
-.sider .icon-tjbb {
-	background: url('../../../../../static/img/sidebar/tjbb0.png') no-repeat top center;
-}
-
-.sider .el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active,
-.el-menu-item.is-active {
-	color: #FF9900;
-}
-
-.sider .is-active .icon-home {
-	background: url('../../../../../static/img/sidebar/home1.png') no-repeat top center;
-}
-
-.sider .is-active .icon-sys {
-	background: url('../../../../../static/img/sidebar/sys1.png') no-repeat top center;
-}
-
-.sider .is-active .icon-csgl {
-	background: url('../../../../../static/img/sidebar/csgl1.png') no-repeat top center;
-}
-
-.sider .is-active .icon-khgx {
-	background: url('../../../../../static/img/sidebar/khgx1.png') no-repeat top center;
-}
-
-.sider .is-active .icon-xmgl {
-	background: url('../../../../../static/img/sidebar/xmgl1.png') no-repeat top center;
-}
-
-.sider .is-active .icon-ywgl {
-	background: url('../../../../../static/img/sidebar/ywgl1.png') no-repeat top center;
-}
-
-.sider .is-active .icon-tjbb {
-	background: url('../../../../../static/img/sidebar/tjbb1.png') no-repeat top center;
-}
-
-.sider .el-submenu .el-menu-item:hover,
-.el-submenu__title:hover {
-	background-color: #F4F4F4;
-}
-
-.sider .el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item:hover,
-.el-menu--horizontal.el-menu--dark .el-submenu .el-submenu-title:hover,
-.el-menu-item:hover {
-	background-color: #F4F4F4;
-}
-
-.sider .el-submenu .el-menu-item:hover,
+	.sider-active {
+		flex: 0 0 60px;
+		width: 60px;
+	}
+	.collapsible {
+		display: inline-block;
+		width: 16px;
+		height: 13px;
+		background: url('../../../../../static/img/sidebar/collapsible.png') no-repeat;
+	}
+	.collapse-btn {
+		width: 180px;
+		background: #ffffff;
+		transition: all 0.3s linear;
+	}
+	.collapse-btn.collapse-active {
+		width: 60px;
+		background: #ffffff;
+	}
+	.el-menu--collapse {
+		width: 60px;
+	}
+	.el-radio-button {
+		display: inline-block;
+		max-width: 100%;
+		margin-bottom: 0px;
+		font-weight: 700;
+	}
+	.el-radio-button__inner {
+		border: none;
+		transition: all 0.3s linear;
+		padding: 22.5px 22px;
+		font-size: 14px;
+		border-radius: 0;
+	}
+	.button-collapse {
+		width: 180px;
+	}
+	.el-radio-button:first-child .el-radio-button__inner {
+		border-left: none;
+		border-radius: 0px 0 0 0px;
+		box-shadow: none!important;
+	}
+	.el-radio-button:first-child:last-child .el-radio-button__inner {
+		border-radius: 0px;
+	}
+	.icon {
+		display: inline-block;
+		margin-right: 24px;
+		width: 20px;
+		height: 16px;
+	}
+	.icon-home {
+		background: url('../../../../../static/img/sidebar/home0.png') no-repeat top center;
+	}
+	.icon-sys {
+		background: url('../../../../../static/img/sidebar/sys0.png') no-repeat top center;
+	}
+	.icon-csgl {
+		background: url('../../../../../static/img/sidebar/csgl0.png') no-repeat top center;
+	}
+	.icon-khgx {
+		background: url('../../../../../static/img/sidebar/khgx0.png') no-repeat top center;
+	}
+	.icon-xmgl {
+		background: url('../../../../../static/img/sidebar/xmgl0.png') no-repeat top center;
+	}
+	.icon-ywgl {
+		background: url('../../../../../static/img/sidebar/ywgl0.png') no-repeat top center;
+	}
+	.icon-tjbb {
+		background: url('../../../../../static/img/sidebar/tjbb0.png') no-repeat top center;
+	}
+	.el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item.is-active,
+	.el-menu-item.is-active {
+		color: #FF9900;
+	}
+	.is-active .icon-home {
+		background: url('../../../../../static/img/sidebar/home1.png') no-repeat top center;
+	}
+	.is-active .icon-sys {
+		background: url('../../../../../static/img/sidebar/sys1.png') no-repeat top center;
+	}
+	.is-active .icon-csgl {
+		background: url('../../../../../static/img/sidebar/csgl1.png') no-repeat top center;
+	}
+	.is-active .icon-khgx {
+		background: url('../../../../../static/img/sidebar/khgx1.png') no-repeat top center;
+	}
+	.is-active .icon-xmgl {
+		background: url('../../../../../static/img/sidebar/xmgl1.png') no-repeat top center;
+	}
+	.is-active .icon-ywgl {
+		background: url('../../../../../static/img/sidebar/ywgl1.png') no-repeat top center;
+	}
+	.is-active .icon-tjbb {
+		background: url('../../../../../static/img/sidebar/tjbb1.png') no-repeat top center;
+	}
+	.el-submenu .el-menu-item:hover,
+	.el-submenu__title:hover {
+		background-color: #F4F4F4;
+	}
+	.el-menu--horizontal.el-menu--dark .el-submenu .el-menu-item:hover,
+	.el-menu--horizontal.el-menu--dark .el-submenu .el-submenu-title:hover,
+	.el-menu-item:hover {
+		background-color: #F4F4F4;
+	}
+	.sider .el-submenu .el-menu-item:hover,
 .el-submenu__title:hover {
 	background-color: #F4F4F4;
 }
@@ -337,12 +307,12 @@ export default {
 	white-space: nowrap;
 }
 
-.sider .el-submenu .el-menu {
+.el-submenu .el-menu {
 	background-color: #ffffff;
 	transition: all 0.3s linear!important;
 }
 
-.sider .el-menu {
+ .el-menu {
 	border-radius: 2px;
 	list-style: none;
 	position: relative;
@@ -352,7 +322,7 @@ export default {
 	transition: all 0.3s linear;
 }
 
-.sider .el-submenu__icon-arrow {
+ .el-submenu__icon-arrow {
 	position: absolute;
 	top: 50%;
 	right: 20px;
@@ -362,28 +332,32 @@ export default {
 	transform: rotateZ(-90deg);
 }
 
-.sider .el-submenu.is-opened>.el-submenu__title .el-submenu__icon-arrow {
+ .el-submenu.is-opened>.el-submenu__title .el-submenu__icon-arrow {
 	-ms-transform: rotate(0deg);
 	transform: rotateZ(0deg);
 }
 
-.sider .el-submenu.is-opened {
+ .el-submenu.is-opened {
 	border-top: 4px solid #f4f4f4;
 	border-bottom: 4px solid #f4f4f4;
 }
 
-.sider .el-menu--collapse .el-submenu.is-opened {
+ .el-menu--collapse .el-submenu.is-opened {
 	border-top: none;
 	border-bottom: none;
 }
 
-.sider .el-menu--collapse .el-submenu .el-menu {
+ .el-menu--collapse .el-submenu .el-menu {
 	border: 1px solid #f4f4f4;
 }
 
+}
 
-/*.el-tooltip__popper.is-dark {
-	    background: #1f2d3d;
-	    color: #fff;
-	}*/
+
+
+
+
+
+
+
 </style>

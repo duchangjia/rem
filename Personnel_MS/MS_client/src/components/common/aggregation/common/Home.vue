@@ -2,10 +2,12 @@
     <div id="home-wrapper">
         <v-head class="home-header"></v-head>
         <div class="wrapper">
-            <v-Sidebar class="sider"></v-Sidebar>
-            <div class="container-wrapper">
+            <v-Sidebar class="sider-bar"></v-Sidebar>
+            <div class="container-box">
                 <transition name="move" mode="out-in">
+                    <keep-alive>
                     <router-view></router-view>
+                    </keep-alive>
                 </transition>
             </div>
         </div>
@@ -48,7 +50,7 @@
         width: 180px;
         background: #fff;
     }*/
-    .container-wrapper{
+    .container-box{
         flex: 1;
         background: #f4f4f4;
         /* padding-left: 20px; */
