@@ -45,7 +45,7 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
     .home-header{
         /* min-width: 1280px; */
@@ -63,6 +63,8 @@
     
     .wrapper{
         width: 100%;
+        position: relative;
+        @include clearfix;
     }
     .container-wrapper{
        	min-height: 100%;
@@ -74,4 +76,5 @@
     .wrapper.sidebarHide .container-wrapper {
     	margin-left: 60px;
     }
+
 </style>
