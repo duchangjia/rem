@@ -31,18 +31,31 @@
                             <!--</el-form-item>-->
                         <!--</el-col>-->
                     <!--</el-form>-->
-                    <div class="search"><span>日期</span><el-date-picker type="date" placeholder="选择日期" v-model="content.date1"></el-date-picker><i>-</i><el-date-picker type="date" v-model="content.date2" placeholder="选择日期"></el-date-picker>
-                        <span class="special">类型</span><el-select v-model="content.value">
-                            <el-option
-                                    label="法定节假日"
-                                    value="1">
-                            </el-option>
-                            <el-option
-                                    label="正常工作日"
-                                    value="2">
-                            </el-option>
-                        </el-select>
-                    </div>
+                    <el-form class="search">
+                        <!--<span>日期</span>-->
+                        <el-col :sm="12" :md="9">
+                            <el-form-item label="日期">
+                                <div>
+                                    <el-date-picker type="date" placeholder="选择日期" v-model="content.date1"></el-date-picker><i>-</i><el-date-picker type="date" v-model="content.date2" placeholder="选择日期"></el-date-picker>
+                                </div>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="12" :md="6">
+                            <el-form-item label="类型">
+                                <el-select v-model="content.value">
+                                    <el-option
+                                            label="法定节假日"
+                                            value="1">
+                                    </el-option>
+                                    <el-option
+                                            label="正常工作日"
+                                            value="2">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                            <!--<span class="special">类型</span>-->
+                    </el-form>
                     <div class="button">
                         <button class="special_1" @click="reset">重置</button>
                         <button @click="search(content.date1, content.date2, content.value)">查询</button>
@@ -434,8 +447,9 @@
                                 &:focus
                                     border-color #ff9900
                 .button
-                    margin 30px 0
-                    padding-left 38%
+                    margin 0px 0 30px 0
+                    text-align center
+                    clear both
                     button
                         width: 120px
                         height 30px

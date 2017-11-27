@@ -182,7 +182,8 @@
                 .save
                     width: 120px
                     height 30px
-                    background: #F4F4F4;
+                    background: #f90;
+                    color #fff
                     border-radius 4px
                     border: none
                     outline none
@@ -193,9 +194,9 @@
                     position absolute
                     right 0px
                     bottom 10px
-                    &:hover
-                        background: #f90;
-                        color #fff
+                    //&:hover
+                        //background: #f90;
+                        //color #fff
             .content
                 padding 30px 0 0 8px
                 .item_group

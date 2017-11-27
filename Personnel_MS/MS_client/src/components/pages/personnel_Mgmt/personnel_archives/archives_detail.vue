@@ -9,7 +9,7 @@
                             <el-tab-pane label="员工基本信息" name="first">
                                 <div class="personal_information">
                                     <div class="first_title">
-                                        <el-upload disabled
+                                        <el-upload :disabled="edit"
                                                    ref="uploadAvatar"
                                                    class="avatar-uploader"
                                                    action="/iem_hrm/CustFile/batch/upload"
@@ -940,6 +940,20 @@
                     .catch(e=>{
                         console.log(e)
                     })
+                this.$axios.get('/iem_hrm/CustFile/queryCustImgs',{params:{userNo:this.userNo}})
+                    .then(res=>{
+                        console.log(res)
+//                        for(var name in res.data.data){
+//                            let item = {
+//                                name:name,
+//                                url:'data:image/'+name.substr(name.lastIndexOf('.')+1)+';base64,'+res.data.data[name]
+//                            }
+//                            this.fileList2.push(item)
+//                        }
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
             }
         },
         methods: {
@@ -1028,9 +1042,10 @@
 //                this.imageUrl = URL.createObjectURL(file.raw);
             },
             beforeAvatarUpload(file) {
+//                console.log(file)
                 const isJPG = file.type === 'image/jpeg';
                 const isLt2M = file.size / 1024 / 1024 < 2;
-                this.imageUrl = URL.createObjectURL(file.raw);
+                this.imageUrl = URL.createObjectURL(file);
                 this.user_avatar.userNo = this.userNo
                 this.user_avatar.file = {
                     file
