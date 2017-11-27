@@ -1,6 +1,6 @@
 <template>
     <div class="add_archives">
-        <current yiji="人事事务人事事务" erji="人事档案人事档案" sanji="员工新增员工新增"></current>
+        <current yiji="人事事务" erji="人事档案" sanji="员工新增"></current>
         <el-col :span="24">
             <div class="content-wrapper-xx">
                 <div class="content">
@@ -8,11 +8,13 @@
                         <el-tabs v-model="activeName" @tab-click="handleClick">
                             <el-tab-pane label="基本信息" name="first">
                                 <div class="first_title">
-                                    <el-upload
+                                    <el-upload ref="uploadAvatar"
                                             class="avatar-uploader"
-                                            action="https://jsonplaceholder.typicode.com/posts/"
+                                            action="/iem_hrm/CustFile/batch/upload"
                                             :show-file-list="false"
+                                            :data="user_avatar"
                                             :on-success="handleAvatarSuccess"
+                                            :headers="token"
                                             :before-upload="beforeAvatarUpload">
                                         <img v-if="imageUrl" :src="imageUrl" class="avatar">
                                         <div><div>添加照片</div></div>
@@ -570,7 +572,7 @@
                             </el-tab-pane>
                             <el-tab-pane label="证件管理" name="sixth">
                                 <div class="sixth_wrapper">
-                                    <el-upload name="file" ref="upload2"
+                                    <el-upload name="file"
                                             list-type="picture-card"
                                            :file-list="fileList2"
                                             :on-preview="handlePictureCardPreview"
@@ -699,6 +701,10 @@
               certificates_list:{
                 userNo:'',
                 file:{},
+              },
+              user_avatar: {
+                userNo: '',
+                file: {}
               },
               activeName: 'first',
               tabName:'first',
@@ -992,11 +998,23 @@
                 this.ruleForm2.probEndTime = val
             },
             handleAvatarSuccess(res, file) {
-                this.imageUrl = URL.createObjectURL(file.raw);
+                console.log(res)
+//                this.imageUrl = URL.createObjectURL(file.raw);
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
                 const isLt2M = file.size / 1024 / 1024 < 2;
+                this.imageUrl = URL.createObjectURL(file.raw);
+                if(!this.user_avatar.userNo){
+//                    this.$message({
+//                        type: 'error',
+//                        message: '请先填写基本信息并点击右上角保存'
+//                    });
+                    return false
+                }
+                this.user_avatar.file = {
+                    file
+                }
 
                 if (!isJPG) {
                     this.$message.error('上传头像图片只能是 JPG 格式!');
@@ -1007,30 +1025,41 @@
                 return isJPG && isLt2M;
             },
             handleRemove(file, fileList) {
-                if(file.response){
-                    let data = {
-                        userNo:file.response.data.userNo,
-                        imageId:file.response.data.imageId,
+                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    if(file.response){
+                        let data = {
+                            userNo:file.response.data.userNo,
+                            imageId:file.response.data.imageId,
+                        }
+                        this.$axios.delete('/iem_hrm/CustFile/delCustFile',{params:data})
+                            .then(res=>{
+                                let result = res.data.retMsg
+                                if("操作成功"==result){
+                                    this.$message({
+                                        type: 'success',
+                                        message: result
+                                    });
+                                }else {
+                                    this.$message({
+                                        type: 'error',
+                                        message: result
+                                    });
+                                }
+                            })
+                            .catch(e=>{
+                                console.log(e)
+                            })
                     }
-                    this.$axios.delete('/iem_hrm/CustFile/delCustFile',{params:data})
-                        .then(res=>{
-                            let result = res.data.retMsg
-                            if("操作成功"==result){
-                                this.$message({
-                                    type: 'success',
-                                    message: result
-                                });
-                            }else {
-                                this.$message({
-                                    type: 'error',
-                                    message: result
-                                });
-                            }
-                        })
-                        .catch(e=>{
-                            console.log(e)
-                        })
-                }
+                }).catch(()=>{
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                })
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
@@ -1041,11 +1070,7 @@
                 this.tabName = tab.name
             },
             handleFileUpload(file, fileList) {
-                console.log(file,'****handleFileUpload****',fileList)
-//                if('first'==this.tabName) {
-//                    this.fileFlag = file;
-//                    this.ruleForm2.attachm = file.name;
-//                }
+
             },
             successUpload(response, file, fileList) {
                 console.log(response,'????????successUpload????????',file,'????????successUpload????????',fileList)
@@ -1071,8 +1096,6 @@
                 }
             },
             checkUserNo(file) {
-                console.log(file,'------checkUserNo')
-//                this.certificates_list.userNo = 'P0000120'
                 if(!this.certificates_list.userNo){
                     this.$message({
                         type: 'error',
@@ -1178,6 +1201,8 @@
                                                 self.education_item.userNo = res.data.data
                                                 self.work_item.userNo = res.data.data
                                                 self.certificates_list.userNo = res.data.data
+                                                self.user_avatar.userNo = res.data.data
+                                                self.$refs.uploadAvatar.submit()
                                             }else{
                                                 self.$message({
                                                     type: 'error',

@@ -19,7 +19,7 @@ $imgBaseUrl: "../img";
 // Colors
 // --------------------------------------------------
 
-
+ 
 $bg-color: #f4f4f4;
 $bg-wihte:#fff;
 // 主色
@@ -36,7 +36,7 @@ $color-success-active: darken($color-success, 10%);
 $color-split: #ff9900;  //边框的颜色
 $color-bg: #eee;
 $color-text: #333333; //文案色
-$color-text-secondary: #97a8be; //次级文案
+$color-text-secondary: #999; //次级文案
 $color-text-gray: #7f8a96; //灰色文案
 $color-text-gray-light: #dbe0e9; //更灰色文案
 
@@ -47,9 +47,9 @@ $color-link-active: $color-primary-active; //链接色有可能不同于主色
 // Bars
 // --------------------------------------------------
 
-$bar-base-height:  2.2rem;
-$bar-tab-height:   2.5rem;
-$bar-side-spacing: 0.5rem;
+// $bar-base-height:  2.2rem;
+// $bar-tab-height:   2.5rem;
+// $bar-side-spacing: 0.5rem;
 
 
 // Cards
