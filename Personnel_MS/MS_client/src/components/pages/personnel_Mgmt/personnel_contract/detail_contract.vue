@@ -228,7 +228,7 @@ export default {
       if (this.activeName == "renewPactMsg") this.getPRenewList();
     } else {
       this.activeName = "basicPactMsg";
-      this.getPactDtl(); // 初始查合同基本详情
+      this.getPactDetail(); // 初始查合同基本详情
     }
   },
   computed: {
@@ -292,9 +292,9 @@ export default {
       this.activeName = tab.name;
       if (tab.name == "changePactMsg") this.getPChangeList();
       if (tab.name == "renewPactMsg") this.getPRenewList();
-      if (tab.name == "basicPactMsg") this.getPactDtl();
+      if (tab.name == "basicPactMsg") this.getPactDetail();
     },
-    getPactDtl() {
+    getPactDetail() {
       const self = this;
       let params = {
         pactNo: self.pactNo
@@ -319,7 +319,7 @@ export default {
       self.$axios
         .get("/iem_hrm/pact/queryPactChangeList", { params: params })
         .then(res => {
-          console.log(res);
+          console.log("pChangeList",res);
           self.PChangeListInfo = res.data.data.models;
           self.pChangePage.totalRows = res.data.total;
         })
@@ -337,7 +337,7 @@ export default {
       self.$axios
         .get("/iem_hrm/pact/queryPactRenewList", { params: params })
         .then(res => {
-          console.log(res);
+          console.log("pRenewList",res);
           self.PRenewListInfo = res.data.data.models;
           self.pRenewPage.totalRows = res.data.total;
         })
@@ -363,7 +363,8 @@ export default {
           name: "edit_pactChange",
           params: {
             pactNo: row.pactNo,
-            changeId: row.changeId
+            changeId: row.changeId,
+            userNo: row.userNo
           }
         });
       if (this.activeName == "renewPactMsg")
@@ -371,7 +372,8 @@ export default {
           name: "edit_pactRenew",
           params: {
             pactNo: row.pactNo,
-            renewId: row.renewId
+            renewId: row.renewId,
+            userNo: row.userNo
           }
         });
     },
@@ -458,7 +460,8 @@ export default {
         name: "detail_pactChange",
         params: {
           pactNo: row.pactNo,
-          changeId: row.changeId
+          changeId: row.changeId,
+          userNo: row.userNo
         }
       });
     },
@@ -467,7 +470,8 @@ export default {
         name: "detail_pactRenew",
         params: {
           pactNo: row.pactNo,
-          renewId: row.renewId
+          renewId: row.renewId,
+          userNo: row.userNo
         }
       });
     },
