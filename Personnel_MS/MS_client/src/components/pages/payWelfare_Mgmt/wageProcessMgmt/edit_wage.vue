@@ -138,14 +138,8 @@
 					batchType: "",
 					organName: "",
 					organNo: "",
-					derpRange: [
-//						{ derpNo: "01", derpName: "xx部" },
-//						{ derpNo: "02", derpName: "行政部" }
-					],
-					preRange: [
-//						{custName: "张三",userNo: "P0000001"},
-//						{custName: "李四",userNo: "P0000002"}
-					],
+					derpRange: [],
+					preRange: [],
 					month: "",
 					settleStartTime: "",
 					settleEndTime: "",
@@ -197,14 +191,13 @@
 			current
 		},
 		created() {
-			this.formdata2.derpRange.forEach(function(ele) {
-				console.log('ele',ele)
-		        this.checkedSubmenus.push(ele);
-		      }, this);
-		      console.log(this.checkedSubmenus)
-			this.formdata2.preRange.forEach(function(ele) {
-		        this.checkPres.push(ele.userNo);
-		      }, this);
+//			this.formdata2.derpRange.forEach(function(ele) {
+//		        this.checkedSubmenus.push(ele);
+//		      }, this);
+//		      console.log(this.checkedSubmenus)
+//			this.formdata2.preRange.forEach(function(ele) {
+//		        this.checkPres.push(ele.userNo);
+//		      }, this);
 			let batchNo = sessionStorage.getItem('editWage_batchNo');
 			let params = {
 				batchNo: batchNo
@@ -366,6 +359,15 @@
 					console.log('WageInfo',res);
 					if(res.data.code === "S00000") {
 						self.formdata2 = res.data.data;
+						let params = {
+			        		organNo: self.formdata2.organNo
+				     	}
+						//查询部门范围列表
+						this.queryDerpList(params);
+			        	//查询人员范围列表（选全部部门时）
+				      	this.queryDerpAndUser(params);
+				      	
+				      	this.checkPres = this.formdata2.preRange;
 					}
 					
 				}).catch((err) => {
@@ -376,7 +378,7 @@
 				let self = this;
 				self.$axios.put(baseURL+'/wage/modifyWageFlowInfo',params)
 				.then((res) => {
-					console.log('addWage',res);
+					console.log('modWage',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
 						self.$router.push('/wageProcess_manage');

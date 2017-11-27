@@ -431,6 +431,9 @@ table .el-button--danger:active {
 }
 
 /*add_wage 部门范围 人员范围 start*/
+.add-wrapper .menu {
+    margin-left: -15px;
+}
 .add-wrapper .menu-item {
   /*display: inline-block;*/
  float: left;

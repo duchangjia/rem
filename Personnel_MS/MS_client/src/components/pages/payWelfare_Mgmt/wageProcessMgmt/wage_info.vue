@@ -182,12 +182,8 @@
 			current
 		},
 		created() {
-			this.formdata2.preRange.forEach(function(ele) {
-		        this.checkPres.push(ele.userNo);
-		      }, this);
-			console.log('this.checkPres',this.checkPres);
-			console.log('length',this.formdata2.preRange.length)
-			let batchNo = sessionStorage.getItem('editWage_batchNo');
+			
+			let batchNo = sessionStorage.getItem('infoWage_batchNo');
 			let params = {
 				batchNo: batchNo
 			}
@@ -328,6 +324,17 @@
 					console.log('WageInfo',res);
 					if(res.data.code === "S00000") {
 						self.formdata2 = res.data.data;
+						
+						let params = {
+			        		organNo: self.formdata2.organNo
+				     	}
+						//查询部门范围列表
+						this.queryDerpList(params);
+			        	//查询人员范围列表（选全部部门时）
+				      	this.queryDerpAndUser(params);
+				      	
+				      	this.checkPres = this.formdata2.preRange;
+//						console.log(self.formdata2.preRange)
 					}
 					
 				}).catch((err) => {
@@ -344,6 +351,51 @@
 					}
 					
 				}).catch(function(err) {
+					console.log(err);
+				})
+			},
+			//查询部门范围列表
+			queryDerpList(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/wage/queryDerpByOrganNo', {params: params})
+				.then((res) => {
+					console.log('DerpList',res);
+					if(res.data.code === "S00000") {
+						self.derpRangeList = res.data.data;
+					}
+					
+				}).catch((err) => {
+					console.log(err);
+				})
+			},
+			//查询人员范围列表
+			queryDerpAndUser(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/wage/queryDerpAndUserByDerpNo', {params: params})
+				.then((res) => {
+					console.log('userList',res);
+					if(res.data.code === "S00000") {
+						self.derpRangeList.forEach(function(ele,num) {
+							if(ele.derpNo == res.data.data[0].derpNo) {
+								self.derpRangeList[num].preRangeList = res.data.data;
+								self.$set(self.derpRangeList, num, self.derpRangeList[num]);
+								console.log('self.derpRangeList',self.derpRangeList)
+							}else {
+								console.log('deparNo false')
+							}
+						})
+						self.formdata2.derpRange.forEach(function(ele,num) {
+							if(ele.derpNo == res.data.data[0].derpNo) {
+								self.formdata2.derpRange[num].preRangeList = res.data.data;
+								self.$set(self.formdata2.derpRange,num,self.formdata2.derpRange[num]);
+								console.log('self.formdata2.derpRange',self.formdata2.derpRange)
+							}else {
+								console.log('formdata2 false')
+							}
+						})
+					}
+					
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
