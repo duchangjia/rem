@@ -189,7 +189,7 @@
                     responseType: 'blob'
                 })
                 .then((response) => {
-				 	const fileName = params.filePath.substr(params.filePath.lastIndexOf("/")+1); 
+				 	const fileName = params.filePath.substr(params.filePath.lastIndexOf("/")+1);
                     const blob = response.data;
 
                     if (window.navigator && window.navigator.msSaveOrOpenBlob) {

@@ -1,6 +1,6 @@
 <template>
     <div class="archives_detail">
-        <current yiji="人事事务人事事务" erji="人事档案人事档案" sanji="员工详情员工详情"></current>
+        <current yiji="人事事务" erji="人事档案" sanji="员工详情"></current>
         <el-col :span="24">
             <div class="content-wrapper-xx">
                 <div class="content">
@@ -10,11 +10,14 @@
                                 <div class="personal_information">
                                     <div class="first_title">
                                         <el-upload disabled
-                                                class="avatar-uploader"
-                                                action="https://jsonplaceholder.typicode.com/posts/"
-                                                :show-file-list="false"
-                                                :on-success="handleAvatarSuccess"
-                                                :before-upload="beforeAvatarUpload">
+                                                   ref="uploadAvatar"
+                                                   class="avatar-uploader"
+                                                   action="/iem_hrm/CustFile/batch/upload"
+                                                   :show-file-list="false"
+                                                   :data="user_avatar"
+                                                   :on-success="handleAvatarSuccess"
+                                                   :headers="token"
+                                                   :before-upload="beforeAvatarUpload">
                                             <img v-if="imageUrl" :src="imageUrl" class="avatar">
                                             <div><div>添加照片</div></div>
                                         </el-upload>
@@ -568,7 +571,7 @@
                             </el-tab-pane>
                             <el-tab-pane label="证件管理" name="sixth">
                                 <div class="sixth_wrapper">
-                                    <el-upload :diabled="true"
+                                    <el-upload :disabled="certificates_list.certificates"
                                                name="file"
                                                ref="upload2"
                                             action="/iem_hrm/CustFile/batch/upload"
@@ -628,7 +631,12 @@
                 token: {
                     Authorization:`Bearer `+localStorage.getItem('access_token'),
                 },
-                certificates_list: {},
+                certificates_list: {
+                    certificates: true,
+                },
+                user_avatar:{
+
+                },
                 dialogVisible: false,
                 tableOption:[],
                 inputFirstOption:{},
@@ -966,46 +974,45 @@
                 this.ruleForm.probEndTime = val
             },
             handleRemove(file, fileList) {
-                console.log(file, fileList);
+                console.log(file, fileList,11111);
             },
             handleFileUpload(file, fileList) {
-                console.log(file,'****handleFileUpload****',fileList)
+//                console.log(file,'****handleFileUpload****',fileList)
             },
             successUpload(response, file, fileList) {
-//                console.log(response,'????????successUpload????????',file,'????????successUpload????????',fileList)
-//                if(response.code === "S00000") {
-//                    this.$message({ message: '操作成功', type: 'success' });
-//                    this.fileList2 = fileList
-////                    hrm_h0091 人事档案新增，附件上传错误:(没有那个文件或目录)
-//                }else if(response.code === 'hrm_h0093') {
-//                    this.$message({
-//                        message: response.retMsg,
-//                        type: 'error'
-//                    })
-//                    fileList.forEach((item,index)=>{
-//                        if(item.uid==file.uid){
-//                            fileList.splice(index,1)
-//                        }
-//                    })
-//                }else {
-//                    this.$message({
-//                        message: response.retMsg,
-//                        type: 'error'
-//                    })
-//                }
+                if(response.code === "S00000") {
+                    this.$message({ message: '操作成功', type: 'success' });
+                    this.fileList2 = fileList
+                }else if(response.code === 'hrm_h0093') {
+                    this.$message({
+                        message: response.retMsg,
+                        type: 'error'
+                    })
+                    fileList.forEach((item,index)=>{
+                        if(item.uid==file.uid){
+                            fileList.splice(index,1)
+                        }
+                    })
+                }else {
+                    this.$message({
+                        message: response.retMsg,
+                        type: 'error'
+                    })
+                }
             },
             checkUserNo(file) {
 //                console.log(file,'------checkUserNo')
-//                if(!this.certificates_list.userNo){
-//                    this.$message({
-//                        type: 'error',
-//                        message: '请先填写基本信息并点击右上角保存'
-//                    });
-//                    return false
-//                }
-//                this.certificates_list.file = {
-//                    file
-//                }
+                this.certificates_list.userNo = this.userNo
+                this.certificates_list.file = {
+                    file
+                }
+                if(!this.certificates_list.userNo){
+                    this.$message({
+                        type: 'error',
+                        message: '请先填写基本信息并点击右上角保存'
+                    });
+                    return false
+                }
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
@@ -1017,12 +1024,20 @@
                 self.dialogVisible = false;
             },
             handleAvatarSuccess(res, file) {
-                this.imageUrl = URL.createObjectURL(file.raw);
+                console.log(res)
+//                this.imageUrl = URL.createObjectURL(file.raw);
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
                 const isLt2M = file.size / 1024 / 1024 < 2;
-
+                this.imageUrl = URL.createObjectURL(file.raw);
+                this.user_avatar.userNo = this.userNo
+                this.user_avatar.file = {
+                    file
+                }
+                if(!this.user_avatar.userNo){
+                    return false
+                }
                 if (!isJPG) {
                     this.$message.error('上传头像图片只能是 JPG 格式!');
                 }
@@ -1163,25 +1178,15 @@
                         })
                 }
                 if(tab.name==='sixth'&&this.lock.certificatesLock){
-                    console.log(this.userNo)
-                    this.$axios.get('/iem_hrm/CustFile/queryCustImgList',{params:{userNo:this.userNo}})
+                    this.$axios.get('/iem_hrm/CustFile/queryCustImgs',{params:{userNo:this.userNo}})
                         .then(res=>{
-                            console.log(res)
-                            this.fileList = res.data.data
-//                            this.fileList2 = res.data.data.map(item=>{
-//                                return {
-//                                    name: item.fileName + item.imageSuffix,
-//                                    url: 'http://10.0.0.242:8888'+item.addr
-//                                }
-//                            })
-                            this.fileList2 = res.data.data.map(item=>{
-                                return {
-                                    name:item.split('/').pop(),
-                                    url: 'http://10.0.0.242:8888'+item,
+                            for(var name in res.data.data){
+                                let item = {
+                                        name:name,
+                                        url:'data:image/'+name.substr(name.lastIndexOf('.')+1)+';base64,'+res.data.data[name]
                                 }
-                            })
-                            console.log(this.fileList2,'----',this.fileList)
-                            this.lock.certificatesLock = false
+                                this.fileList2.push(item)
+                            }
                         })
                         .catch(e=>{
                             console.log(e)
@@ -1244,6 +1249,9 @@
                     this.social_item.lists.forEach(item=>{
                         item.isShowEdit = false
                     })
+                }
+                if('sixth' === tabName) {
+                    this.certificates_list.certificates = false
                 }
             },
             save(tabName) {
@@ -1511,16 +1519,29 @@
                     }
                 }
                 if('sixth'===tabName) {
-                    let data = {
-                        path:this.fileList
-                    }
-                    console.log(data)
-                    this.$axios.get('/iem_hrm/CustFile/batchDownLoad', {params:data})
+                    console.log(this.userNo)
+                    this.$axios.get('/iem_hrm/CustFile/downLoadZipFile',{params:{userNo:this.userNo}})
                         .then(res=>{
                             console.log(res)
+//                            let reader = new FileReader()
+//                            reader.onload = (e => {
+//                                let aa = e.target.result
+//                                console.log(aa,111)
+//                            })
+//                            reader.readAsDataURL(res.data)
+//                            console.log(res)
+//                            const blob = res.data;
+//                            let elink = document.createElement('a'); // 创建a标签
+////                            elink.download = fileName;
+//                            elink.style.display = 'none';
+//                            elink.href = URL.createObjectURL(blob);
+//                            document.body.appendChild(elink);
+//                            elink.click(); // 触发点击a标签事件
+//                            document.body.removeChild(elink);
                         })
                         .catch(e=>{
                             console.log(e)
+                            this.$message({ message: '下载附件失败', type: 'error' });
                         })
                 }
             },

@@ -1,9 +1,9 @@
 <template>
     <div class="edit-wrapper">
-        <current yiji="系统管理系统管理" erji="组织架构组织架构" sanji="编辑部门编辑部门"></current>
+        <current yiji="系统管理" erji="组织架构" sanji="编辑部门"></current>
         <div class="edit-content">
             <div class="title">
-                <span class="text">便便部门</span>
+                <span class="text">编辑部门</span>
                 <el-button type="primary" @click="save" class="save">保存</el-button>
             </div>
             <div class="department-info">
