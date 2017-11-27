@@ -121,7 +121,9 @@ export default {
                 wagesPerf:'0.00',
                 personWelf:'0.00',
                 otherCutPay:'0.00',
-                aftTaxIncom:'0.00'
+                aftTaxIncom:'0.00',
+                bonuses:'0.00',
+                realHair:'0.00'
             }
         }
     },
