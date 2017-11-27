@@ -77,3 +77,12 @@
       padding:0;
   }
 }
+//select
+.el-select{
+  &.m-select{
+    width:300px;
+    .el-input__inner{
+      width:100% !important;
+    }
+  }
+}

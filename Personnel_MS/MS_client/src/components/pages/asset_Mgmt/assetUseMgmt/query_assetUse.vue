@@ -69,7 +69,7 @@
                     </el-table-column>
                     <el-table-column align="center"  label="操作">
                         <template scope="scope">
-                            <i class="el-icon-edit" @click="edit(scope.row)"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="el-icon-edit" @click="edit(scope.row)"></i>
                             <i class="el-icon-delete2" @click="del(scope.row)"></i>
                         </template>
                     </el-table-column>
