@@ -48,7 +48,8 @@
 <script>
 import current from '../common/current_position.vue'
 import contentTitle from '../common/content_title.vue'
-const getMsgURL = '/iem_hrm/CustInfo/queryCustSelfInfo'
+import api from '../../../../common/api/api.js'
+let {custSelfInfo,querySalaryHoliday} = api
 export default {
     data(){
         return{
@@ -94,7 +95,7 @@ export default {
     methods:{
         getUser(){
             let self = this;
-                self.$axios.get(getMsgURL).then(res=>{
+                self.$axios.get(custSelfInfo).then(res=>{
                     let data = res.data.data;
                         self.msgList[0].val = data.custName||'暂无数据'
                         self.msgList[1].val = data.derpName||'暂无数据'
@@ -108,7 +109,7 @@ export default {
         },
         getTime(){
             let self= this;
-            self.$axios.get('/iem_hrm/CustInfo/querySalaryHoliday').then(res=>{
+            self.$axios.get(querySalaryHoliday).then(res=>{
                 let data = res.data;
                 self.vacationList[0].day = data.holiday
                 self.vacationList[1].day = data.leaveTime
@@ -117,7 +118,7 @@ export default {
             }).catch(e=>{
                 self.$message({
                     type:'error',
-                    message:e.retMsg
+                    message:e.retMsg||'数据异常'
                 })
             })
         }
@@ -143,6 +144,10 @@ export default {
                     height:100%;
                 }
             }
+        }
+        .el-form-item{
+            margin-bottom:0;
+            padding-top:10px;
         }
         .msg-form{
             position: relative;

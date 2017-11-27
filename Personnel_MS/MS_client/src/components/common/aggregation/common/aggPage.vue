@@ -153,7 +153,7 @@ import vFooter from './footer.vue';
                         class:'item-two-list',
                         txt:'21',
                         title:'薪资福利',
-                        url:''
+                        url:'salary_detail'
                     },
                     {
                         class:'item-thr-list',

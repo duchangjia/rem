@@ -6,11 +6,15 @@
             <el-col :span="24" class="titlebar">
                 <span class="title-text">薪酬基数设置</span>
                 <div style="float:right;">
-                  <el-upload class="upload-demo span-icon" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false">
-                    <el-button class="icon-import" @click="handleImport" title="批量导入"></el-button>
+                  <el-upload class="upload-demo span-icon" ref="upload" name="file" action="/iem_hrm/pay/payBaseInfoImport" 
+                      :on-change="changeUpload" 
+		  			 	        :on-success="successUpload"
+		  			 	        :show-file-list="false" 
+		  			 	        :headers="token">
+                    <el-button class="icon-import" slot="trigger" title="批量导入"></el-button>
                   </el-upload>
-                  <el-button class="span-icon icon-export" @click="handleExport" title="导出"></el-button>
-                  <el-button class="span-icon icon-download" @click="handleDownload" title="模板下载"></el-button>                  
+                  <el-button class="span-icon icon-export" @click="handleExport" title="批量导出"></el-button>
+                  <el-button class="span-icon icon-download" @click="handleDownloadTemplate" title="模板下载"></el-button>                  
                   <el-button type="primary" @click="handleAdd" class="toolBtn">新增</el-button>
                 </div>
             </el-col>
@@ -72,6 +76,7 @@
 
 <script type='text/ecmascript-6'>
 import current from "../../../common/current_position.vue";
+const baseURL = 'iem_hrm';
 export default {
   data() {
     return {
@@ -82,7 +87,10 @@ export default {
       pageNum: 1,
       pageSize: 10,
       totalRows: 1,
-      payBaseInfoList: []
+      payBaseInfoList: [],
+      token: {
+				Authorization:`Bearer `+localStorage.getItem('access_token'),
+			}
     };
   },
   components: {
@@ -132,19 +140,86 @@ export default {
     handleQuery() {
       this.getPayBaseInfoList(); //根据条件查询薪酬基数列表
     },
-    handleImport() {},
+    // 批量导入
+    changeUpload(file, fileList) {
+      console.log(file);
+    },
+    successUpload(res, file, fileList) {
+      console.log("import_response", res);
+      if (res.code === "S00000") {
+        this.$message({ message: "操作成功", type: "success" });
+      } else {
+        this.$message({ message: res, type: "info" });
+      }
+    },
+    // 批量导出
     handleExport() {
+      this.exportFile();
+    },
+    exportFile() {
       const self = this;
+      let params = {
+        userNo: self.filters.userNo,
+        custName: self.filters.custName
+      };
       self.$axios
-        .get("/iem_hrm/pay/payBaseDataExport", { params: params })
-        .then(res => {
-          console.log(res);
+        .get(baseURL + "/pay/payBaseDataExport", {
+          params: params,
+          responseType: "blob"
         })
-        .catch(() => {
-          console.log("error");
+        .then(res => {
+          console.log("response", res);
+          const fileName = "薪酬基本信息.xlsx";
+          const blob = res.data;
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blob, fileName);
+          } else {
+            let elink = document.createElement("a"); // 创建a标签
+            elink.download = fileName;
+            elink.style.display = "none";
+            elink.href = URL.createObjectURL(blob);
+            document.body.appendChild(elink);
+            elink.click(); // 触发点击a标签事件
+            document.body.removeChild(elink);
+          }
+        })
+        .catch(e => {
+          console.error(e);
+          self.$message({ message: "导出薪酬基数信息失败", type: "error" });
         });
     },
-    handleDownload() {},
+    // 模板下载
+    handleDownloadTemplate() {
+      this.downloadFile();
+    },
+    downloadFile() {
+      const self = this;
+      self.$axios
+        .get(baseURL + "/file/downloadTemplate?templateName=" + "薪酬基本信息模板", {
+          responseType: "blob",
+        })
+        .then(res => {
+          console.log(res);
+          const fileName = "薪酬基本信息模板.xlsx";
+          const blob = res.data;
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blob, fileName);
+          } else {
+            let elink = document.createElement("a"); // 创建a标签
+            elink.download = fileName;
+            elink.style.display = "none";
+            elink.href = URL.createObjectURL(blob);
+            document.body.appendChild(elink);
+            elink.click(); // 触发点击a标签事件
+            document.body.removeChild(elink);
+          }
+        })
+        .catch(e => {
+          console.error(e);
+          self.$message({ message: "下载模版失败", type: "error" });
+        });
+    },
+    
     handleAdd() {
       this.$router.push({
         name: "add_payBaseInfo"
@@ -172,8 +247,7 @@ export default {
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
                 this.getPayBaseInfoList();
-              }
-              else this.$message.error("操作失败！");
+              } else this.$message.error("操作失败！");
             })
             .catch(() => {
               this.$message.error("操作失败！");

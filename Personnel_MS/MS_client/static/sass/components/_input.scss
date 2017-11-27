@@ -4,6 +4,9 @@
 .el-select .el-input__inner:focus {
   border-color:$color-primary !important;
 }
+.el-form-item__label{
+  font-weight:normal;
+}
 //日期选择样式
 .el-date-editor{
   cursor: pointer;
@@ -22,6 +25,27 @@
 .el-date-table td{
   height:20px;
 } 
+//月份选择
+.el-date-picker{
+  .el-month-table{
+    td{
+      padding:10px 0;
+      .cell{
+        &:hover{
+          text-decoration:none;
+        }  
+      }
+     
+    }
+    .current,.current:not(.disabled){
+      .cell{
+        background-color:$color-primary !important;
+        
+      }
+    }
+  }
+}
+
 //搜索input框
 .el-select-dropdown__item.selected{
   background:$bg-wihte; 

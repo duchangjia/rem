@@ -4,7 +4,7 @@
 		<div class="content">
 			<div class="title">
 				<span class="title-text">福利缴纳系数详情</span>
-				<el-button type="primary" class="conserve" @click="save('payTempDel')">保存</el-button>			
+				<el-button type="primary" class="toolBtn btn-primary" @click="save('payTempDel')">保存</el-button>			
 			</div>
 			<div class="content-inner">
 				<el-form ref="payTempDel" :rules="rules" :model="payTempDel" label-width="80px">
@@ -210,7 +210,6 @@ export default {
 				],
 				perUnemRate: [
 					{ required: true, type: 'number', message: '请输入失业保险个人支付系数', trigger: 'blur' },
-					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" },
 					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
 				],
 				perUnemFixed: [
@@ -402,7 +401,7 @@ border-bottom: 1px solid #EEEEEE;
 .welfare_info .content-inner {
 	padding: 30px 0px;
 }
-.welfare_info .conserve {
+.welfare_info .toolBtn {
 	float: right;
 	margin-top: 10px;
 	background: #F4F4F4;

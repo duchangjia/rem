@@ -60,6 +60,11 @@ const routes = [
                     path:'/ask_leave',
                     meta: { requireAuth: true, },
                     component: resolve => require(['../components/common/aggregation/check_work/ask_leave.vue'], resolve)
+                },
+                {
+                    path:'/salary_detail',
+                    meta: { requireAuth: true, },
+                    component: resolve => require(['../components/common/aggregation/pay_salary/salary_detail.vue'], resolve)
                 }
             ]
         },
@@ -579,6 +584,11 @@ const routes = [
                 			name: 'edit_security',
                 			path: '/edit_security',
                 			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/edit_security.vue'], resolve)
+                		},
+                		{
+                			name: 'import_socialSecurity',
+                			path: '/import_socialSecurity',
+                			component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/import_socialSecurity.vue'], resolve)
                 		}
                 	]
                 	

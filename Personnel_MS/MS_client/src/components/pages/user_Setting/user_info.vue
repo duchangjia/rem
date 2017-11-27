@@ -8,20 +8,20 @@
         	<ul class="content-inner">
         		<li class="list-item">
         			<div class="left">公司</div>
-        			<div class="right">魔方分公司</div>
+        			<div class="right">{{userInfo.organName}}</div>
         		</li>
         		<li class="list-item">
         			<div class="left">部门</div>
-        			<div class="right">技术部</div>
+        			<div class="right">{{userInfo.derpName}}</div>
         		</li>
         		<li class="list-item">
         			<div class="left">岗位</div>
-        			<div class="right">技术经理</div>
+        			<div class="right">{{custPostName}}</div>
         		</li>
         		<li class="list-item">
     				<div class="left">系统权限</div>
     				<div class="right right3">
-        				<span class="sys-item" v-for="item in quanxianList">{{item}}</span>
+        				<span class="sys-item" v-for="item in userInfoList" :key="item">{{item.roleName}}</span>
         			</div>
         		</li>
         	</ul>
@@ -35,27 +35,52 @@
     export default {
 		data() {
 			return {
-				quanxianList: ['部门经营报表','角色管理','部门经营报表','角色管理','部门经营报表','角色管理','部门经营报表','角色管理','部门经营报表','角色管理']
+				custPostName: "",
+				userInfoList: [],
+				userInfo: {},
+				custPostList: []
+				
+				
 			}
 		},
 		components: {
 			current
 		},
 		created() {
-			let params = {
-				
-			}
-			this.queryUserList(params);
+			this.queryUserInfo();
 		},
 		methods: {
-			queryUserList(params) {
+			queryUserInfo() {
 				let self = this;
-				self.$axios.get(baseURL+'', {params: params})
+				self.$axios.get(baseURL+'/CustInfo/queryCustRole')
 				.then(function(res) {
-					console.log('List',res);
-					self.quanxianList = res.data.data.list;
+					console.log('userInfo',res);
+					if(res.data.code === "S00000") {
+						self.userInfoList = res.data.data;
+						self.userInfo = res.data.data[0];
+						self.queryCans()
+					}
+					
 				}).catch(function(err) {
-					console.log(err);
+					console.log('error');
+				})
+			},
+			queryCans() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+				.then(function(res) {
+					console.log('queryCans',res);
+					if(res.data.code === "S00000") {
+						self.custPostList = res.data.data;
+						self.custPostList.forEach(function(ele) {
+							if(ele.paraValue === self.userInfo.custPost) {
+								self.custPostName = ele.paraShowMsg;
+							}
+						},this)
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
 				})
 			}
 		}

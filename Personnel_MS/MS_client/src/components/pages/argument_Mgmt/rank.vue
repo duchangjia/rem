@@ -4,7 +4,9 @@
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
 				<span class="title-text">职级薪酬标准设置</span>
-				<el-button type="primary" class="btn-primary" @click="addWelfare()">新增</el-button>
+				<div class="titleBtn_wrapper">
+					<el-button type="primary" class="btn-primary" @click="addWelfare()">新增</el-button>
+				</div>
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :inline="true" ref="ruleForm2" class="demo-ruleForm">

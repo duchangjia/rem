@@ -116,7 +116,9 @@
                 <div class="queryContent_wrapper">
                     <div class="titleBar">
 				        <span class="title-text">查询页标题</span>
-                        <el-button class="btn-primary">标题按钮</el-button>
+                        <div class="titleBtn_wrapper">
+                            <el-button class="btn-primary">标题按钮</el-button>
+                        </div>
 			        </div>
                 </div>
                 <p>代码如下</p>
@@ -280,8 +282,10 @@ export default {
                     </div>
                 </div>`,
             searchTitleBar:`<div class="titleBar">
-				            <span class="title-text">查询页标题</span>
-                            <el-button class="btn-primary">标题按钮</el-button>
+				                <span class="title-text">查询页标题</span>
+                            <div class="titleBtn_wrapper">
+                                <el-button class="btn-primary">标题按钮</el-button>
+                            </div>
 			            </div>`,
             searchTitleHtml:`<div class="queryContent_inner">
                         <el-form>

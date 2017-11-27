@@ -15,12 +15,12 @@
 						</el-form-item>
 					</el-col>
 					<el-col :sm="12" :md="6">
-						<el-form-item label="工资月份" prop="custNo"">
+						<el-form-item label="工资月份" prop="custNo">
 							<el-input v-model="ruleForm2.custNo" placeholder="请输入工号"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :sm="12" :md="6">
-						<el-form-item label="姓名" prop="custName"">
+						<el-form-item label="姓名" prop="custName">
 							<el-input v-model="ruleForm2.custName" placeholder="请输入姓名"></el-input>
 						</el-form-item>
 					</el-col>
@@ -32,37 +32,35 @@
 						</el-form-item>
 					</el-col>
 					<div class="queryButton_wrapper">
-						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
-						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
+						<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
+						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
-				<el-table :data="transferDataList" border stripe style="width: 100%">
-					<el-table-column fixed="left" prop="applyNo" label="工资月份" width="100">
+				<el-table :data="socialInfoData" border fit stripe style="width: 100%;">
+					<el-table-column prop="applyNo" label="工资月份" width="100"></el-table-column>
+					<el-table-column prop="companyName" label="工号" width="100"></el-table-column>
+					<el-table-column prop="gryStartTime" label="姓名" width="100"></el-table-column>
+					<el-table-column prop="gryEndTime" label="基础工资" width="100"></el-table-column>
+					<el-table-column prop="gongziMonth" label="绩效工资" width="100"></el-table-column>
+					<el-table-column prop="remark" label="岗位津贴" :show-overflow-tooltip="true" width="100"></el-table-column>
+					<el-table-column prop="status" label="通讯补贴" width="100"></el-table-column>
+					<el-table-column prop="jiaotongbt" label="交通补贴" width="100"></el-table-column>
+					<el-table-column prop="jixiaojiang" label="绩效奖金" width="100"></el-table-column>
+					<el-table-column prop="jiaban" label="加班工资" width="100"></el-table-column>
+					<el-table-column prop="qita" label="其他补贴" width="100"></el-table-column>
+					<el-table-column prop="chidao" label="迟到早退" width="100"></el-table-column>
+					<el-table-column prop="bingjia" label="病事假" width="100"></el-table-column>
+					<el-table-column prop="kuanggong" label="矿工" width="100"></el-table-column>
+					<el-table-column prop="shangbaoGeren" label="商保(个人)" width="100"></el-table-column>
+					<el-table-column prop="baoxianGeren" label="保险缴费合计(个人)" width="100"></el-table-column>
+					<el-table-column prop="baoxianDanwei" label="保险缴费合计(单位)" width="100"></el-table-column>
+					<el-table-column prop="baoxianjiaona" label="保险缴纳" width="100">
 						<template scope="scope">
-					        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.applyNo }}</span>
+					        <span class="link" @click="handleInfo(scope.$index, scope.row)">详情</span>
 				      	</template>
 					</el-table-column>
-					<el-table-column prop="companyName" label="工号"></el-table-column>
-					<el-table-column prop="gryStartTime" label="姓名"></el-table-column>
-					<el-table-column prop="gryEndTime" label="基础工资"></el-table-column>
-					<el-table-column prop="gongziMonth" label="绩效工资" ></el-table-column>
-					<el-table-column prop="remark" label="岗位津贴" :show-overflow-tooltip="true"></el-table-column>
-					<el-table-column prop="status" label="通讯补贴"></el-table-column>
-					<el-table-column prop="jiaotongbt" label="交通补贴"></el-table-column>
-					<el-table-column prop="jixiaojiang" label="绩效奖金"></el-table-column>
-					<el-table-column prop="jiaban" label="加班工资"></el-table-column>
-					<el-table-column prop="qita" label="其他补贴"></el-table-column>
-					<el-table-column prop="chidao" label="迟到早退"></el-table-column>
-					<el-table-column prop="bingjia" label="病事假"></el-table-column>
-					<el-table-column prop="kuanggong" label="矿工"></el-table-column>
-					<el-table-column prop="shangbaoGeren" label="商保(个人)"></el-table-column>
-					<el-table-column prop="baoxianGeren" label="保险缴费合计(个人)"></el-table-column>
-					<el-table-column prop="baoxianDanwei" label="保险缴费合计(单位)"></el-table-column>
-					<el-table-column prop="baoxianjiaona" label="保险缴纳"></el-table-column>
-					<el-table-column prop="koushui" label="扣税"></el-table-column>
-					<el-table-column prop="shifa" label="实发"></el-table-column>
-					
-					
+					<el-table-column prop="koushui" label="扣税" width="100"></el-table-column>
+					<el-table-column prop="shifa" label="实发" width="100"></el-table-column>
 				</el-table>
 				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
@@ -92,7 +90,7 @@ export default {
 				custName: "",
 				endDate: ''
 			},
-			transferDataList: [
+			socialInfoData: [
 				{
 					applyNo: "20172017",
 					companyName: "深圳分公司",
@@ -170,72 +168,13 @@ export default {
 		handleInfo(index, row) {
 			sessionStorage.setItem('infoWage_applyNo', row.applyNo);
 			this.$router.push({
-				name: "wage_info",
+				name: "edit_security",
 				params: {
 					applyNo: row.applyNo
 				}
 			})
 			
 		},
-		handlMenu(index, row) {
-			console.log('menu',row);
-			sessionStorage.setItem('wage_applyNo',row.applyNo);
-		},
-		handleCommand(command) {
-			console.log(command)
-			let applyNo = sessionStorage.getItem('wage_applyNo');
-			switch(command){
-				case 'handleExport':
-				  	//导出
-				  	break;
-				case 'handleImport':
-				  	//导入
-				  	break;
-				case 'handleEnter':
-				  	//单笔录入工资
-					this.$router.push('/entry_wage');
-				  	break;
-				case 'handleUse':
-				  	//启用
-				  	break;
-				case 'handleEdit':
-				 	 //编辑
-					sessionStorage.setItem('editWage_applyNo', applyNo);
-	            	this.$router.push('/edit_wage');
-				  	break;
-				case 'handleDelete':
-				  	//删除
-					const self = this;
-				 	self.$confirm('此操作将会删除该条信息, 是否继续?', '提示', {
-		                confirmButtonText: '确定',
-		                cancelButtonText: '取消',
-		                type: 'warning'
-		           	}).then(() => {
-		            	let params = {
-							applyNo: applyNo
-						}
-		            	console.log(params);
-		            	
-		            	
-		            }).catch(() => {
-		                this.$message('您已取消操作！');
-		            });
-				  	break;
-				  
-				default:
-			}
-
-		},
-		changeUpload(file, fileList) {
-//	 		this.formdata2.attachm = file.name;
-      	},
-      	successUpload(response, file, fileList) {
-      		if(response.code === "S00000") {
-      			this.$message({ message: '操作成功', type: 'success' });
-      			this.$router.push('/travel_management');
-      		}
-      		
-      	},
 		//查询
 		queryForm(formName) {
 			const self = this;
@@ -280,19 +219,17 @@ export default {
 			}
 			
 		},
-		queryTravelList(params) {
+		queryWageInfo(params) {
 			let self = this;
-			self.$axios.get(baseURL+'', {params: params})
+			self.$axios.get(baseURL+'/wage/',{params: params})
 			.then(function(res) {
-				console.log('TravelList',res);
+				console.log('wageInfo',res);
 				if(res.data.code === "S00000") {
-					self.transferDataList = res.data.data.list;
-					self.pageNum = params.pageNum;
-					self.totalRows = Number(res.data.data.total);
+					self.socialInfoData = res.data.data;
 				}
 				
 			}).catch(function(err) {
-				console.log(err);
+				console.log('error');
 			})
 		},
 		queryCompList() {
@@ -334,5 +271,13 @@ export default {
 }
 .payroll_query .imExport-btn-item {
     margin-right: 20px;
+}
+.el-button + .el-button {
+    margin-left: 20px;
+}
+.link {
+	cursor: pointer;
+    color: #337ab7;
+    text-decoration: underline;
 }
 </style>
