@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <span class="homelogo logo-margin">
-            <img src="../../../../../static/img/common/home_logo.png" alt="" width="120" height="30" @click="link2Home" style="cursor: pointer">
+            <img src="../../../../../static/img/common/cmblogo2_2.png" alt="" width="120" height="30" @click="link2Home" style="cursor: pointer">
         </span>
         <span class="nav_list" v-for="item in navList" @click="linkTo(item.url)">
                 {{item.name}}

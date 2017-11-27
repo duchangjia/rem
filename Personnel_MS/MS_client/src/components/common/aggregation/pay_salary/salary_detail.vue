@@ -139,7 +139,7 @@ export default {
         },
         searchSalary(){
             let self = this,
-                month = moment(self.month).format("YYYY-MM-DD");
+                month = moment(self.month).format("YYYY-MM");
             console.log(month)
         }
     },

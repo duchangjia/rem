@@ -57,8 +57,8 @@
                 <div class="content-wrapper">
                     <div class="add-wrapper clearfix">
                         <el-form  label-width="110px" :inline="true" :model="data" ref="form" :rules="pactMsgRules">
-                            <el-col :sm="24" :md="12" prop="text">
-                                <el-form-item label="文本框">
+                            <el-col :sm="24" :md="12">
+                                <el-form-item label="文本框"  prop="text">
                                     <el-input v-model="data.text"></el-input>
                                 </el-form-item>
                             </el-col>
@@ -224,8 +224,8 @@ export default {
 
         formContent:`<div class="add-wrapper clearfix">
                         <el-form  label-width="110px" :inline="true" :model="data" ref="form" :rules="pactMsgRules">
-                            <el-col :sm="24" :md="12" prop="text">
-                                <el-form-item label="文本框">
+                            <el-col :sm="24" :md="12" >
+                                <el-form-item label="文本框" prop="text">
                                     <el-input v-model="data.text"></el-input>
                                 </el-form-item>
                             </el-col>

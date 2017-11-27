@@ -44,7 +44,7 @@
                 <el-table stripe :data="assetInfoList" >
                     <el-table-column align="center" prop="applyNo" label="使用编号" >
                         <template scope="scope">
-                            <span @click="handleAssetInfoDetail(scope.$index, scope.row)" class="linkSpan cur-pointer">{{ scope.row.applyNo }}</span>
+                            <span @click="handleAssetInfoDetail(scope.$index, scope.row)" class="color-link cur-pointer">{{ scope.row.applyNo }}</span>
                         </template>
                     </el-table-column>
                     <el-table-column align="center" prop="assetNo" label="资产编号" >

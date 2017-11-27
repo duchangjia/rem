@@ -1,140 +1,194 @@
 <template>
-    <div class="add_assetUser">
+    <div class="container-wrap">
         <current yiji="资产管理" erji="资产使用管理" sanji="资产使用新增"></current>
-        <el-col :span="24">
             <div class="content-wrapper">
-                <div class="title"><span class="text">资产使用新增</span><button class="add" @click="save">保存</button></div>
-                <div class="content">
-                    <el-form :model="info" :rules="rules" ref="info1" label-width="200px">
-                        <el-form-item label="公司名称">
-                            <el-select placeholder="请选择公司名称" :disabled="true" v-model="applyUserInfo.organName">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="申请部门名称">
-                            <el-select placeholder="请选择申请部门名称" :disabled="true" v-model="applyUserInfo.derpName">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="CCC">
-                            <el-select placeholder="请选择CCC" :disabled="true" v-model="applyUserInfo.ccc">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="申请使用人工号" prop="applyUserNo">
-                             <el-input readonly="readonly" v-model="info.applyUserNo" placeholder="请选择员工编号">
-                                <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
-                            </el-input>
-                            <messageBox 
-                                :title="boxTitle"
-                                :tableOption.sync="tableOption"  
-                                :inputFirstOption.sync="inputFirstOption" 
-                                :inputSecOption.sync="inputSecOption"
-                                :searchData.sync="searchData" 
-                                :searchUrl="searchUrl"
-                                :dialogVisible.sync="dialogVisible"
-                                :pagination.sync="msgPagination"
-                                @dialogConfirm="dialogConfirm"
-                                ></messageBox>
-                        </el-form-item>
-                        <el-form-item label="姓名">
-                            <el-input :disabled="true" v-model="applyUserInfo.custName"></el-input>
-                        </el-form-item>
-                        <el-form-item label="手机号">
-                            <el-input :disabled="true" v-model="applyUserInfo.mobileNo"></el-input>
-                        </el-form-item>
-                        <el-form-item label="岗位">
-                            <el-input :disabled="true" v-model="applyUserInfo.custPost"></el-input>
-                        </el-form-item>
-                        <el-form-item label="职级">
-                            <el-input :disabled="true" v-model="applyUserInfo.custClass"></el-input>
-                        </el-form-item>
+                <div class="titlebar">
+                    <span class="title-text">资产使用新增</span>
+                    <el-button type="primary" class="toolBtn btn-primary" @click="save">保存</el-button>
+                </div>
+                <div class="add-wrapper clearfix">
+                    <el-form  :model="info" :rules="rules" :inline="true" ref="info1" label-width="110px"  label-position="right" >
+                        <el-col :sm="24" :md="12" >
+                            <el-form-item label="公司名称">
+                                <el-select placeholder="请选择公司名称" :disabled="true" v-model="applyUserInfo.organName">
+                                    <el-option label="区域一" value="shanghai"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12" >
+                            <el-form-item label="申请部门名称">
+                                <el-select placeholder="请选择申请部门名称" :disabled="true" v-model="applyUserInfo.derpName">
+                                    <el-option label="区域一" value="shanghai"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12" >
+                            <el-form-item label="CCC">
+                                <el-select placeholder="请选择CCC" :disabled="true" v-model="applyUserInfo.ccc">
+                                    <el-option label="区域一" value="shanghai"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12" >
+                            <el-form-item label="申请使用人工号" prop="applyUserNo">
+                                <el-input readonly="readonly" v-model="info.applyUserNo" placeholder="请选择员工编号">
+                                    <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
+                                </el-input>
+                                <messageBox 
+                                    :title="boxTitle"
+                                    :tableOption.sync="tableOption"  
+                                    :inputFirstOption.sync="inputFirstOption" 
+                                    :inputSecOption.sync="inputSecOption"
+                                    :searchData.sync="searchData" 
+                                    :searchUrl="searchUrl"
+                                    :dialogVisible.sync="dialogVisible"
+                                    :pagination.sync="msgPagination"
+                                    @dialogConfirm="dialogConfirm"
+                                    ></messageBox>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="姓名">
+                                <el-input :disabled="true" v-model="applyUserInfo.custName"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="手机号">
+                                <el-input :disabled="true" v-model="applyUserInfo.mobileNo"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="岗位">
+                                <el-input :disabled="true" v-model="applyUserInfo.custPost"></el-input>
+                            </el-form-item>
+                        </el-col>
+                         <el-col :sm="24" :md="12">
+                            <el-form-item label="职级">
+                                <el-input :disabled="true" v-model="applyUserInfo.custClass"></el-input>
+                            </el-form-item>
+                         </el-col>
                     </el-form>
-                    <div class="form_info">资产信息</div>
-                    <el-form label-width="200px" :model="info" :rules="rules" ref="info2">
-                        <el-form-item label="资产编号" prop="assetNo">
-                            <el-input v-model="info.assetNo" placeholder="请选择资产编号" readonly="readonly">
-                                <el-button slot="append" icon="search"@click="assetNoSelect()"></el-button>
-                            </el-input>
-                        </el-form-item>
-                        <el-form-item label="购买单价">
-                            <el-input :disabled="true" v-model="assetInfo.buyUnitPrice"></el-input>
-                        </el-form-item>
-                        <el-form-item label="当前库存数量">
-                            <el-input :disabled="true" v-model="assetInfo.stockNum"></el-input>
-                        </el-form-item>
-                        <el-form-item label="购买金额">
-                            <el-input :disabled="true" v-model="assetInfo.buyAmount"></el-input>
-                        </el-form-item>
-                        <el-form-item label="制造商">
-                            <el-input :disabled="true" v-model="assetInfo.mfrs"></el-input>
-                        </el-form-item>
-                        <el-form-item label="供应商">
-                            <el-input :disabled="true" v-model="assetInfo.supplier"></el-input>
-                        </el-form-item>
-                        <el-form-item label="资产类别">
-                            <el-select placeholder="请选择资产类别" :disabled="true" v-model="assetInfo.assetType">
-                                <el-option label="区域一" value="shanghai"></el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="资产名称">
-                            <el-input :disabled="true" v-model="assetInfo.assetName"></el-input>
-                        </el-form-item>
-                        <el-form-item label="SN编号">
-                            <el-input :disabled="true" v-model="assetInfo.snNo"></el-input>
-                        </el-form-item>
-                        <el-form-item label="规格型号">
-                            <el-input :disabled="true" v-model="assetInfo.specType" ></el-input>
-                        </el-form-item>
-                        <el-form-item label="出厂时间">
-                            <el-input :disabled="true" :value="assetInfo.factoryTime"></el-input>
-                        </el-form-item>
-                        <el-form-item label="免维保截至时间">
-                            <el-input :disabled="true" :value="assetInfo.faxFreeTime"></el-input>
-                        </el-form-item>
-                        <el-form-item label="主要性能说明">
-                            <el-input type="textarea" :disabled="true" v-model="assetInfo.configInstr"></el-input>
-                        </el-form-item>
+                    <el-col :span="24" class="item-title">资产信息</el-col>
+                    <el-form label-width="110px" :model="info" :rules="rules" ref="info2" class="clearfix" :inline="true">
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="资产编号" prop="assetNo">
+                                <el-input v-model="info.assetNo" placeholder="请选择资产编号" readonly="readonly">
+                                    <el-button slot="append" icon="search"@click="assetNoSelect()"></el-button>
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="购买单价">
+                                <el-input :disabled="true" v-model="assetInfo.buyUnitPrice"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="当前库存数量">
+                                <el-input :disabled="true" v-model="assetInfo.stockNum"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="购买金额">
+                                <el-input :disabled="true" v-model="assetInfo.buyAmount"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="制造商">
+                                <el-input :disabled="true" v-model="assetInfo.mfrs"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="供应商">
+                                <el-input :disabled="true" v-model="assetInfo.supplier"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="资产类别">
+                                <el-select placeholder="请选择资产类别" :disabled="true" v-model="assetInfo.assetType">
+                                    <el-option label="区域一" value="shanghai"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="资产名称">
+                                <el-input :disabled="true" v-model="assetInfo.assetName"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="SN编号">
+                                <el-input :disabled="true" v-model="assetInfo.snNo"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="规格型号">
+                                <el-input :disabled="true" v-model="assetInfo.specType" ></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="出厂时间">
+                                <el-input :disabled="true" :value="assetInfo.factoryTime"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="免维保截至时间">
+                                <el-input :disabled="true" :value="assetInfo.faxFreeTime"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="主要性能说明">
+                                <el-input type="textarea" :disabled="true" v-model="assetInfo.configInstr"></el-input>
+                            </el-form-item>
+                        </el-col>
                     </el-form>
-                    <div class="form_info">使用信息</div>
-                    <el-form label-width="200px" :model="applyInfo" :rules="rules" ref="info3">
-                        <el-form-item label="使用类别" prop="applyType">
-                            <el-select placeholder="请选择使用类别" v-model="applyInfo.applyType">
-                                <el-option label="发放领用" value="01"></el-option>
-                                <el-option label="归还" value="02"></el-option>
-                                <el-option label="出借" value="03"></el-option>
-                                <el-option label="出售" value="04"></el-option>
-                                <el-option label="盘余" value="05"></el-option>
-                                <el-option label="盘亏" value="06"></el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="使用数量" prop="applyNum">
-                            <el-input  v-model.number="applyInfo.applyNum"></el-input>
-                        </el-form-item>
-                        <el-form-item label="发生时间" prop="applyTime">
-                            <!-- <el-input v-model="applyInfo.applyTime"></el-input> -->
-                            <el-date-picker
-                                v-model="applyInfo.applyTime"
-                                type="date"
-                                placeholder="选择日期"
-                                @change="changeDate()"
-                                >
-                            </el-date-picker>
-                        </el-form-item>
-                        <el-form-item label="状态" prop="applyStatus">
-                            <el-select placeholder="请选择状态" v-model="applyInfo.applyStatus">
-                                <el-option label="未核销/未归还" value="01"></el-option>
-                                <el-option label="已核销/已归还" value="02" :disabled="true"></el-option>
-                                <el-option label="不需要核销/不需要归还" value="03"></el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="说明" prop="remark">
-                            <el-input type="textarea" v-model="applyInfo.remark"></el-input>
-                        </el-form-item>
+                    <el-col :span="24" class="item-title">使用信息</el-col>
+                    <el-form label-width="110px" :model="applyInfo" :rules="rules" ref="info3" class="clearfix" :inline="true">
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="使用类别" prop="applyType">
+                                <el-select placeholder="请选择使用类别" v-model="applyInfo.applyType">
+                                    <el-option label="发放领用" value="01"></el-option>
+                                    <el-option label="归还" value="02"></el-option>
+                                    <el-option label="出借" value="03"></el-option>
+                                    <el-option label="出售" value="04"></el-option>
+                                    <el-option label="盘余" value="05"></el-option>
+                                    <el-option label="盘亏" value="06"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="使用数量" prop="applyNum">
+                                <el-input  v-model.number="applyInfo.applyNum"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="发生时间" prop="applyTime">
+                                <!-- <el-input v-model="applyInfo.applyTime"></el-input> -->
+                                <el-date-picker
+                                    v-model="applyInfo.applyTime"
+                                    type="date"
+                                    placeholder="选择日期"
+                                    @change="changeDate()"
+                                    style="width:100%;"
+                                    >
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="状态" prop="applyStatus">
+                                <el-select placeholder="请选择状态" v-model="applyInfo.applyStatus">
+                                    <el-option label="未核销/未归还" value="01"></el-option>
+                                    <el-option label="已核销/已归还" value="02" :disabled="true"></el-option>
+                                    <el-option label="不需要核销/不需要归还" value="03"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="24">
+                            <el-form-item label="说明" prop="remark">
+                                <el-input type="textarea" v-model="applyInfo.remark"></el-input>
+                            </el-form-item>
+                        </el-col>
                     </el-form>
                 </div>
             </div>
-        </el-col>
     </div>
 </template>
 
@@ -361,89 +415,3 @@ export default {
 };
 </script>
 
-<style lang='stylus' rel='stylesheet/stylus'>
-.add_assetUser {
-    padding: 0 0 20px 20px;
-    overflow: hidden;
-    position: relative;
-
-    .content-wrapper {
-        background: #fff;
-        padding-left: 20px;
-        padding-right: 20px;
-        min-height: 746px;
-
-        .title {
-            font-family: PingFangSC-Regular;
-            font-size: 16px;
-            color: #333333;
-            letter-spacing: 0;
-            height:50px;
-            line-height:50px;
-            border-bottom: 1px solid #f4f4f4;
-            position: relative;
-
-            .text {
-                border-bottom: 2px solid black;
-                display: inline-block;
-                height:50px;
-            }
-
-            .add {
-                float: right;
-                margin-top:8px;
-                background: #ff9900;
-                border: none;
-                color:#fff;
-                height:30px;
-                width:120px;
-                line-height:30px;
-                font-size:14px;
-                padding:0;
-                border-radius:4px;
-            }
-        }
-
-        .content {
-            padding-top: 42px;
-            overflow: hidden;
-
-            .form_info {
-                margin: 10px 0;
-                font-size: 16px;
-                padding-left: 20px;
-                font-weight: bold;
-            }
-
-            .el-form-item {
-                display: inline-block;
-
-                .el-form-item__label {
-                    color: #999;
-                }
-
-                .el-input, .el-select {
-                    width: 300px;
-
-                    .el-input__inner {
-                        width: 100%;
-
-                        &:hover {
-                            border-color: #f90;
-                        }
-                    }
-                }
-
-                .el-textarea__inner {
-                    min-width: 800px;
-                    min-height: 100px;
-
-                    &:hover, &:focus {
-                        border-color: #f90;
-                    }
-                }
-            }
-        }
-    }
-}
-</style>
