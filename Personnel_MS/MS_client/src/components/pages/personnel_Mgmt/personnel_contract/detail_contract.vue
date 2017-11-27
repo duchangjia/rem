@@ -12,77 +12,77 @@
                                     <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="纸质合同编号">
                                     <el-input v-model="basicPactMsg.paperPactNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="合同名称">
                                     <el-input v-model="basicPactMsg.pactName" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="公司名称">
                                     <el-input v-model="basicPactMsg.organName" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="部门名称">
                                     <el-input v-model="basicPactMsg.derpName" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="工号">
                                     <el-input v-model="basicPactMsg.userNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="员工姓名">
                                     <el-input v-model="basicPactMsg.custName" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="性别">
                                     <el-input v-model="_sex" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="身份证">
-                                    <el-input v-model="basicPactMsg.cert" :disabled="true"></el-input>
+                                    <el-input v-model="basicPactMsg.certNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="合同类型" prop="pactType">
                                     <el-input v-model="_pactType" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="签订日期" prop="signTime">
                                     <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.signTime" :disabled="true" style="width: 100%;"></el-date-picker>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="合同开始日期" prop="pactStartTime">
                                     <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStartTime" :disabled="true" style="width: 100%;"></el-date-picker>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="合同结束日期" prop="pactEndTime">
                                     <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactEndTime" :disabled="true" style="width: 100%;"></el-date-picker>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="合同状态" prop="pactStatus">
                                     <el-input v-model="_pactStatus" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="合同年限" prop="pactExpires">
                                     <el-input v-model="basicPactMsg.pactExpires" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :sm="24" :md="12">
                                 <el-form-item label="终止日期" prop="pactStopTime">
                                     <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStopTime" :disabled="true" style="width: 100%;"></el-date-picker>
                                 </el-form-item>
@@ -200,6 +200,7 @@ export default {
     return {
       activeName: "",
       labelPosition: "right",
+      userNo: "",
       pactNo: "",
       basicPactMsg: {},
       PChangeListInfo: [],
@@ -221,6 +222,7 @@ export default {
   },
   created() {
     this.pactNo = this.$route.params.pactNo;
+    this.userNo = this.$route.params.userNo;
     console.log("接到的pactNo:", this.pactNo);
     if (this.$route.params.activeTab) {
       this.activeName = this.$route.params.activeTab;
@@ -302,7 +304,7 @@ export default {
       self.$axios
         .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
-          console.log(res);
+          console.log('basicPactMsg',res);
           self.basicPactMsg = res.data.data;
         })
         .catch(() => {
@@ -440,10 +442,15 @@ export default {
       }
     },
     handleAddPChange() {
+      console.log("传过去的参数",{
+          pactNo: this.pactNo,
+          userNo: this.userNo
+        })
       this.$router.push({
         name: "add_pactChange",
         params: {
-          pactNo: this.pactNo
+          pactNo: this.pactNo,
+          userNo: this.userNo
         }
       });
     },
@@ -451,7 +458,8 @@ export default {
       this.$router.push({
         name: "add_pactRenew",
         params: {
-          pactNo: this.pactNo
+          pactNo: this.pactNo,
+          userNo: this.userNo
         }
       });
     },
