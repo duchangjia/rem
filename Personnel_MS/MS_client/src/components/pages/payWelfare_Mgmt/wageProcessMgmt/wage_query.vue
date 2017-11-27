@@ -142,14 +142,10 @@ export default {
 		}
 	},
 	created() {
-		this.queryFormFlag = false;
-		let params = {
-			"pageNum": this.pageNum,
-			"pageSize": this.pageSize,
-			
-		}
+		this.ruleForm2.organNo = '';
+		this.ruleForm2.startDate = '';
 		//查询工资列表
-		this.queryWageList(params);
+		this.queryWageList();
 		//公司列表查询
 		this.queryCompList();
 	},
@@ -205,10 +201,12 @@ export default {
 		//触发下拉菜单
 		handlMenu(index, row) {
 			sessionStorage.setItem('wageQuery_batchNo',row.batchNo);
+			sessionStorage.setItem('entryWage_organNo',row.organNo);
 		},
 		handleCommand(command) {
 			console.log(command)
 			let batchNo = sessionStorage.getItem('wageQuery_batchNo');
+			let organNo = sessionStorage.getItem('entryWage_organNo');
 			let params = {};
 			console.log('batchNo',batchNo);
 			switch(command){
@@ -224,6 +222,8 @@ export default {
 				  	break;
 				case 'handleEnter':
 				  	//单笔录入工资
+					sessionStorage.setItem('entryWage_batchNo', batchNo);
+					sessionStorage.setItem('entryWage_organNo', organNo);
 					this.$router.push('/entry_wage');
 				  	break;
 				case 'handleStatus':
@@ -281,15 +281,8 @@ export default {
 			const self = this;
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
-					self.queryFormFlag = true;
-					let params = {
-						"pageNum": self.pageNum,
-						"pageSize": self.pageSize,
-						organNo: this.ruleForm2.organNo,
-						month: this.ruleForm2.startDate
-					};
 					//条件查询工资列表
-					self.queryWageList(params);
+					self.queryWageList();
 					
 				} else {
 					return false;
@@ -305,27 +298,18 @@ export default {
 			this.ruleForm2.endDate = '';
 		},
 		handleCurrentChange(val) {
-			const self = this;
-			let params = {};
-			if(self.queryFormFlag) {
-				params = {
-					"pageNum": val,
-					"pageSize": self.pageSize,
-						organNo: this.ruleForm2.organNo,
-					month: self.ruleForm2.startDate
-					
-				}
-			} else {
-				params = {
-					"pageNum": val,
-					"pageSize": self.pageSize
-				}
-			}
+			this.pageNum = val;
 			//分页查询工资列表
-			self.queryWageList(params);
+			this.queryWageList();
 		},
-		queryWageList(params) {
+		queryWageList() {
 			let self = this;
+			let params = {
+				"pageNum": self.pageNum,
+				"pageSize": self.pageSize,
+				organNo: this.ruleForm2.organNo,
+				month: this.ruleForm2.startDate
+			};
 			self.$axios.get(baseURL+'/wage/queryWageFlowList', {params: params})
 			.then(function(res) {
 				console.log('WageList',res);
@@ -346,14 +330,9 @@ export default {
 				console.log('deleteWageFlow',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
-					let params = {
-						"pageNum": self.pageNum,
-						"pageSize": self.pageSize,
-						organNo: this.ruleForm2.organNo,
-						month: this.ruleForm2.startDate
-					};
+					
 					//查询工资列表
-					self.queryWageList(params);
+					self.queryWageList();
 				}
 			}).catch((err) => {
 				console.log(err);
@@ -366,14 +345,9 @@ export default {
 				console.log('updateWageStatus',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
-					let param = {
-						"pageNum": self.pageNum,
-						"pageSize": self.pageSize,
-						organNo: this.ruleForm2.organNo,
-						month: this.ruleForm2.startDate
-					};
+					
 					//查询工资列表
-					self.queryWageList(param);
+					self.queryWageList();
 				}
 			}).catch((err) => {
 				console.log('error');

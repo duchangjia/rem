@@ -59,13 +59,7 @@ export default {
 		current
 	},
 	created() {
-		const self = this;
-		let params = {
-			"pageNum": self.pageNum,
-			"pageSize": self.pageSize,
-			isDelete: "1"
-		};
-		self.selectTaxRateGroup(params);
+		this.selectTaxRateGroup();
 	},
 	methods: {
 		startTimeFormatter(row, column) {
@@ -110,16 +104,17 @@ export default {
             });
         },
         handleCurrentChange(val) {
-			const self = this;
-			let params = {
-				"pageNum": val,
-				"pageSize": self.pageSize
-			};
-			self.selectTaxRateGroup(params);
+			this.pageNum = val;
+			this.selectTaxRateGroup();
 		},
 		//查询个税组列表
-		selectTaxRateGroup(params) {
+		selectTaxRateGroup() {
 			const self = this;
+			let params = {
+				"pageNum": self.pageNum,
+				"pageSize": self.pageSize,
+				isDelete: "1"
+			};
 			self.$axios.get(baseURL+'/taxRateGroup/queryRGroupList',{params: params})
 				.then(function(res) {
 					console.log("queryRGroupList",res);
@@ -137,13 +132,9 @@ export default {
     		.then((res) => {
     			console.log("queryRateList",res);
     			if(res.data.code==="S00000") {
-    				this.$message({ type: 'success', message: res.data.retMsg });
-					let params = {
-						"pageNum": self.pageNum,
-						"pageSize": self.pageSize,
-						isDelete: "1"
-					};
-					self.selectTaxRateGroup(params);
+    				self.$message({ type: 'success', message: res.data.retMsg });
+					//查询个税组列表
+					self.selectTaxRateGroup();
     			} else {
     				console.log('error');
     			}

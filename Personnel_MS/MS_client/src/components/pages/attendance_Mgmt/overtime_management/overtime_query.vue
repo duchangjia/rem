@@ -131,13 +131,13 @@ export default {
 		current
 	},
 	created() {
-		this.queryFormFlag = false;
-		let params = {
-			"pageNum": this.pageNum,
-			"pageSize": this.pageSize
-		}
+		this.ruleForm2.organNo = '';
+		this.ruleForm2.departOrgNo = '';
+		this.ruleForm2.userNo = '';
+		this.ruleForm2.startDate = '';
+		this.ruleForm2.endDate = '';
 		//加班列表查询
-		this.queryWorkOtList(params);
+		this.queryWorkOtList();
 		//查询公司列表
 		this.queryCompList();
 	},
@@ -217,19 +217,8 @@ export default {
 			console.log(this.ruleForm2.startDate)
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
-					self.queryFormFlag = true;
-					let params = {
-						"pageNum": self.pageNum,
-						"pageSize": self.pageSize,
-						organNo: self.ruleForm2.organNo,
-						derpNo: self.ruleForm2.departOrgNo,
-						workOtUserNo: self.ruleForm2.userNo,
-						workotStartTime: self.ruleForm2.startDate,
-						workotEndTime: self.ruleForm2.endDate
-					};
-					console.log(params)
 					//加班列表查询
-					self.queryWorkOtList(params);
+					self.queryWorkOtList();
 					
 				} else {
 					return false;
@@ -244,30 +233,21 @@ export default {
 			this.ruleForm2.endDate = '';
 		},
 		handleCurrentChange(val) {
-			const self = this;
-			let params = {};
-			if(self.queryFormFlag) {
-				params = {
-					"pageNum": val,
-					"pageSize": self.pageSize,
-					organNo: self.ruleForm2.organNo,
-					derpNo: self.ruleForm2.departOrgNo,
-					workOtUserNo: self.ruleForm2.userNo,
-					workotStartTime: self.ruleForm2.startDate,
-					workotEndTime: self.ruleForm2.endDate
-					
-				}
-			} else {
-				params = {
-					"pageNum": val,
-					"pageSize": self.pageSize
-				}
-			}
+			this.pageNum = val;
 			//分页列表查询
-			this.queryWorkOtList(params);
+			this.queryWorkOtList();
 		},
-		queryWorkOtList(params) {
+		queryWorkOtList() {
 			let self = this;
+			let params = {
+				"pageNum": self.pageNum,
+				"pageSize": self.pageSize,
+				organNo: self.ruleForm2.organNo,
+				derpNo: self.ruleForm2.departOrgNo,
+				workOtUserNo: self.ruleForm2.userNo,
+				workotStartTime: self.ruleForm2.startDate,
+				workotEndTime: self.ruleForm2.endDate
+			};
 			self.$axios.get(baseURL+'/workot/queryWorkOtList', {params: params})
 			.then(function(res) {
 				console.log('queryTravelList',res);
@@ -287,18 +267,9 @@ export default {
 				console.log('deleteTravel',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
-					let param = {
-						"pageNum": self.pageNum,
-						"pageSize": self.pageSize,
-						organNo: self.ruleForm2.organNo,
-						derpNo: self.ruleForm2.departOrgNo,
-						workOtUserNo: self.ruleForm2.userNo,
-						workotStartTime: self.ruleForm2.startDate,
-						workotEndTime: self.ruleForm2.endDate
-					};
 					
 					//加班列表查询
-					self.queryWorkOtList(param);
+					self.queryWorkOtList();
 				}
 			}).catch(function(err) {
 				console.log(err);

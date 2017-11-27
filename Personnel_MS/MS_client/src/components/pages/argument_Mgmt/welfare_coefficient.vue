@@ -71,13 +71,9 @@ export default {
 		current
 	},
 	created() {
-		const self = this;
-		let params = {
-			pageNum: self.pageNum,
-			pageSize: self.pageSize
-		}
+		
 		//查询福利缴纳系数模版列表
-		self.queryInsurancePayTemplates(params);
+		this.queryInsurancePayTemplates();
 	},
 	methods: {
 		createdDateFormatter(row, column) {
@@ -113,18 +109,17 @@ export default {
             });
         },
         handleCurrentChange(val) {
-			console.log('当前页',val);
-			const self = this;
-			let params = {
-				pageNum: val,
-				pageSize: self.pageSize
-			}
+			this.pageNum = val;
 			//分页查询福利缴纳系数模版列表
-			self.queryInsurancePayTemplates(params);
+			this.queryInsurancePayTemplates();
 		},
 		//查询福利缴纳系数模版列表
-		queryInsurancePayTemplates(params) {
+		queryInsurancePayTemplates() {
 			const self = this;
+			let params = {
+				pageNum: self.pageNum,
+				pageSize: self.pageSize
+			}
 			self.$axios.get(baseURL+'/InsurancePayTemplate/queryInsurancePayTemplates/'+ params.pageNum + '/' + params.pageSize)
 			.then(function(res) {
 				console.log('res',res);
@@ -146,10 +141,7 @@ export default {
     			console.log(res);
     			if(res.data.code === "S00000") {
     				self.$message({ type: 'success', message: res.data.retMsg });
-					let params = {
-						pageNum: self.pageNum,
-						pageSize: self.pageSize
-					}
+					
 					//查询福利缴纳系数模版列表
 					self.queryInsurancePayTemplates(params);
     			}

@@ -332,7 +332,7 @@
 						this.queryDerpList(params);
 			        	//查询人员范围列表（选全部部门时）
 				      	this.queryDerpAndUser(params);
-				      	
+				      	//人员范围（反显）
 				      	this.checkPres = this.formdata2.preRange;
 //						console.log(self.formdata2.preRange)
 					}
@@ -362,6 +362,17 @@
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.derpRangeList = res.data.data;
+						let ranges = [];
+						self.derpRangeList.forEach(function(ele) {
+							self.formdata2.derpRange.forEach(function(eles) {
+								if(ele.derpNo == eles) {
+									ranges.push(ele);
+								}
+							})
+							
+						})
+						//部门范围（反显）
+						this.checkedSubmenus = ranges;
 					}
 					
 				}).catch((err) => {

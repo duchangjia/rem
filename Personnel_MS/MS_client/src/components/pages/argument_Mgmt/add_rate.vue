@@ -1,32 +1,45 @@
 <template>
 	<div class="add_rateGroup">
 		<current yiji="参数管理" erji="业务参数" sanji="个人所得税税率设置" siji="个人所得税税率详情" wuji="税率新增"></current>
-		<div class="content">
-			<div class="title">
+		<div class="content-wrapper">
+			<div class="titlebar">
 				<span class="title-text">税率新增</span>
 				<el-button type="primary" class="toolBtn btn-primary" @click="save('formdata')">保存</el-button>
 			</div>
-			<div class="content-inner">
-				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="100px">
-					<el-form-item label="组名称" prop="groupName">
-					    <el-input v-model="formdata.groupName" :disabled="true"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="下限" prop="groupLowerLimit">
-					    <el-input v-model="formdata.groupLowerLimit"></el-input>
-				  	</el-form-item>
-					<el-form-item label="上限" prop="groupLimit">
-					    <el-input v-model="formdata.groupLimit"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="百分率" prop="percentRate">
-					    <el-input v-model="formdata.percentRate"></el-input>
-					    <span class="percent_icon">%</span>
-				  	</el-form-item>
-				  	<el-form-item label="速算扣除数" prop="quickCal">
-					    <el-input v-model="formdata.quickCal"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="备注" prop="remark">
-					    <el-input v-model="formdata.remark"></el-input>
-				  	</el-form-item>
+			<div class="add-wrapper">
+				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="100px">
+					<el-col :sm="24" :md="12">
+						<el-form-item label="组名称" prop="groupName">
+						    <el-input v-model="formdata.groupName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>  
+					<el-col :sm="24" :md="12">
+						<el-form-item label="下限" prop="groupLowerLimit">
+						    <el-input v-model="formdata.groupLowerLimit"></el-input>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="上限" prop="groupLimit">
+						    <el-input v-model="formdata.groupLimit"></el-input>
+					  	</el-form-item>
+					</el-col>    	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="百分率" prop="percentRate">
+						    <el-input v-model="formdata.percentRate"></el-input>
+						    <span class="percent_icon">%</span>
+					  	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="速算扣除数" prop="quickCal">
+						    <el-input v-model="formdata.quickCal"></el-input>
+					  	</el-form-item>
+					</el-col>    	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="备注" prop="remark">
+						    <el-input v-model="formdata.remark"></el-input>
+					  	</el-form-item>
+					</el-col>    	
+					  	
 				</el-form>
 			</div>
 		</div>
@@ -140,82 +153,7 @@ export default {
     padding-bottom: 20px;
 	width: 100%;
 }
-.add_rateGroup .content {
-	width: 100%;
-	min-height: 510px;
-	padding: 0px 20px;
-	background: #ffffff;
-	clear: both;
-}
-.add_rateGroup .content .title {
-border-bottom: 1px solid #EEEEEE;
-}
 
-.add_rateGroup .content .title .title-text {
-	display: inline-block;
-	position: relative;
-	padding: 14px 0px;
-	font-size: 16px;
-	height: 50px;
-}
-
-.add_rateGroup .content .title .title-text:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
-}
-
-.add_rateGroup .content-inner {
-	padding: 30px 0px;
-}
-.add_rateGroup .toolBtn {
-	float: right;
-	margin-top: 10px;
-	background: #F4F4F4;
-	border: 1px solid #F4F4F4;
-	font-size: 14px;
-	color: #333333;
-	width: 120px;
-	height: 30px;
-	padding: 0;
-}
-.add_rateGroup .el-input__inner {
-    border: 1px solid #EEEEEE;
-    color: #999999;
-    width: 300px;
-    height: 40px;
-    margin-left: 30px;
-}
-.add_rateGroup .el-date-editor.el-input {
-    width: 300px;
-    margin-left: 30px;
-}
-.add_rateGroup .el-date-editor.el-input .el-input__inner {
-    margin-left: 0px;
-}
-.add_rateGroup .el-form-item__label {
-    text-align: right;
-    vertical-align: middle;
-    float: left;
-    font-size: 14px;
-    color: #999999;
-    line-height: 1;
-    padding: 11px 0px 11px 0;
-    box-sizing: border-box;
-}
-.add_rateGroup .el-input__inner:hover {
-    border-color: #FF9900;
-}
-.add_rateGroup .el-input.is-disabled .el-input__inner:hover {
-    border-color: #d1dbe5;
-}
-.add_rateGroup .el-form-item__error {
-    padding-left: 30px;
-}
 .add_rateGroup .percent_icon {
     position: absolute;
     top: 0px;
