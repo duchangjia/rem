@@ -1,17 +1,12 @@
-// @import './components/waves';
-// @import './components/bar';
-// @import './components/pull-to-refresh';
-// @import './components/list-item';
-@import './components/buttons';
-@import './components/messageBox';
-@import './components/input';
-@import './components/addPage';
-@import './components/searchPage';
-// @import './components/actionsheet';
-// @import "./components/picker";
-// @import "./components/panel";
-// @import "./components/no-more";
-// @import "./components/modal";
+
+@import './components/buttons';//按钮样式
+@import './components/messageBox';//弹窗样式
+@import './components/input';//文本框样式
+@import './components/addPage';//新增页面样式
+@import './components/searchPage';//查询页面样式
+@import './components/breadcrumb';//面包屑样式
+@import './components/aggPage';//聚合页模块样式
+
 
 
 
