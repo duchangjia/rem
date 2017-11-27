@@ -7,7 +7,7 @@
                     <el-button type="primary" class="toolBtn btn-primary" @click="save">保存</el-button>
                 </div>
                 <div class="add-wrapper clearfix">
-                    <el-form  :model="info" :rules="rules" :inline="true" ref="info1" label-width="110px"  label-position="right" >
+                    <el-form  :model="info" :rules="rules" :inline="true" ref="info1" label-width="130px"  label-position="right" >
                         <el-col :sm="24" :md="12" >
                             <el-form-item label="公司名称">
                                 <el-select placeholder="请选择公司名称" :disabled="true" v-model="applyUserInfo.organName">
@@ -69,7 +69,7 @@
                          </el-col>
                     </el-form>
                     <el-col :span="24" class="item-title">资产信息</el-col>
-                    <el-form label-width="110px" :model="info" :rules="rules" ref="info2" class="clearfix" :inline="true">
+                    <el-form label-width="130px" :model="info" :rules="rules" ref="info2" class="clearfix" :inline="true">
                         <el-col :sm="24" :md="12">
                             <el-form-item label="资产编号" prop="assetNo">
                                 <el-input v-model="info.assetNo" placeholder="请选择资产编号" readonly="readonly">
@@ -141,7 +141,7 @@
                         </el-col>
                     </el-form>
                     <el-col :span="24" class="item-title">使用信息</el-col>
-                    <el-form label-width="110px" :model="applyInfo" :rules="rules" ref="info3" class="clearfix" :inline="true">
+                    <el-form label-width="130px" :model="applyInfo" :rules="rules" ref="info3" class="clearfix" :inline="true">
                         <el-col :sm="24" :md="12">
                             <el-form-item label="使用类别" prop="applyType">
                                 <el-select placeholder="请选择使用类别" v-model="applyInfo.applyType">
@@ -193,9 +193,11 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import current from "../../../common/current_position.vue";
-import messageBox from "../../../common/messageBox-components.vue";
-import moment from "moment";
+import current from "../../../common/current_position.vue"
+import messageBox from "../../../common/messageBox-components.vue"
+import moment from "moment"
+import api from '../../../../common/api/api.js'
+let {addAssetUseINF} = api
 export default {
   data() {
     return {
@@ -267,7 +269,7 @@ export default {
           }
         })
         .catch(e => {
-          this.applyUserInfo = {};
+          self.applyUserInfo = {};
           self.$message({
             message:e.retMsg,
             type: "error"
@@ -372,7 +374,7 @@ export default {
                 if (valid) {
                   let data = Object.assign(this.applyInfo, this.info);
                       self.$axios
-                        .post("/iem_hrm/assetUse/addAssetUseINF", data)
+                        .post(addAssetUseINF, data)
                         .then(res => {
                           let result = res.data.retMsg;
                           if ("操作成功" === result) {

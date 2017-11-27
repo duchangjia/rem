@@ -159,6 +159,8 @@
 <script type='text/ecmascript-6'>
     import current from "../../../common/current_position.vue"
     import moment from 'moment'
+    import api from '../../../../common/api/api.js'
+    let {queryAssetUseDetails} = api
     export default {
         data() {
             return {
@@ -169,7 +171,7 @@
         created() {
             let self = this
             let applyNo = this.$route.query.applyNo
-            self.$axios.get('/iem_hrm/assetUse/queryAssetUseDetails/'+applyNo)
+            self.$axios.get(queryAssetUseDetails+applyNo)
                 .then(res => {
                     self.applyCompanyInfo = res.data
                     switch (self.applyCompanyInfo.assetType) {

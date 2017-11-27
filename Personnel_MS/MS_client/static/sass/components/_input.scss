@@ -86,3 +86,27 @@
     }
   }
 }
+//radio 样式
+.el-radio__input{
+  &.is-checked,&.is-focus{
+    .el-radio__inner{
+      background:#f90;
+      border-color:#f90;
+      &:after{
+         transform: translate(-50%,-50%) scale(1);
+      }
+    }
+  }
+  &:after{
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #fff;
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%) scale(0);
+    transition: transform .15s cubic-bezier(.71,-.46,.88,.6);
+  }
+}
