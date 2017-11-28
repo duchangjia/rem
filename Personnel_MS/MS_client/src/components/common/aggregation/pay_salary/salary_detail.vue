@@ -37,8 +37,7 @@
                <ul>
                    <li class="list-tit">
                        <label>应发金额</label>
-                       <span><input v-model="accountData.realHair" readonly="readonly"></span>
-                     <span>{{accountData.realHair|moneyFilter}}</span>
+                       <span><input v-model="accountData.allPay" readonly="readonly"></span>
                    </li>
                    <li>
                        <label>标准薪资<i class="ico-salary"></i></label>
@@ -124,7 +123,7 @@ export default {
                 otherCutPay:'0.00',
                 aftTaxIncom:'0.00',
                 bonuses:'0.00',
-                realHair:'0.00'
+                allPay:'0.00'
             }
         }
     },
@@ -165,6 +164,10 @@ export default {
                     self.accountData = res.data.data;
                     self.accountData.allCheckCount = self.accountData.lateArrivalPay+self.accountData.leavePay+self.accountData.absentPay
                     self.accountData.allTakeCount =  self.accountData.allCheckCount+self.accountData.personWelf+self.accountData.otherCutPay
+                    self.accountData.allPay = self.accountData.salaryStd+self.accountData.bonuses
+                    for(let i in self.accountData){
+                        self.accountData[i] = parseInt(self.accountData[i]).toFixed(2);
+                    }
             }).catch(e=>{
                 // self.$message({
                 //     message:e.retMsg||'数据异常',
@@ -227,6 +230,7 @@ export default {
     .msg-table{
         padding-top:0;
         border-bottom: none;
+        padding-bottom:30px;
         ul{
             li{
                 line-height:40px;
