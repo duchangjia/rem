@@ -14,8 +14,11 @@
                             </el-form-item>
                         </el-col>
                         <el-col :sm="12" :md="6">
+                            <div style="padding-top: 3px">
                                 <el-button class="toolBtn2 reset" @click="reset">重置</el-button>
                                 <el-button class="toolBtn2" @click="search(searchValue)">查询</el-button>
+                            </div>
+
                         </el-col>
                         <!--<el-button class="toolBtn2 reset" @click="reset">重置</el-button>-->
                         <!--<el-button class="toolBtn2" @click="search(searchValue)">查询</el-button>-->
@@ -402,7 +405,7 @@
         background: #fff;
         border: 1px solid #f90;
         color: #f90;
-        margin-right: 10px;
+        margin-right: 7px;
     }
     .agency_argument .content table{
         display: flex;

@@ -14,7 +14,6 @@
                                                    class="avatar-uploader"
                                                    action="/iem_hrm/CustFile/batch/upload"
                                                    :show-file-list="false"
-                                                   :data="user_avatar"
                                                    :on-success="handleAvatarSuccess"
                                                    :headers="token"
                                                    :before-upload="beforeAvatarUpload">
@@ -335,19 +334,34 @@
                                         </el-col>
                                         <el-col :span="9">
                                             <el-form-item label="附件">
-                                                <!--<el-input v-model="ruleForm.attachm" style="position:absolute" :disabled="edit"></el-input>-->
-                                                <!--<el-upload class="upload-demo" ref="upload" name="file"-->
-                                                           <!--:on-change="handleFileUpload"-->
-                                                           <!--:on-success="successUpload"-->
-                                                           <!--action="/iem_hrm/CustFile/upload"-->
-                                                           <!--:show-file-list="false"-->
-                                                           <!--:auto-upload="false"-->
-                                                           <!--:headers="token">-->
-                                                    <!--<el-button slot="trigger" type="primary" class="uploadBtn">上传附件</el-button>-->
-                                                <!--</el-upload>-->
-                                                <!--<el-button class="downloadBtn" @click="handleDownload">下载附件</el-button>-->
-                                                <el-input v-model="ruleForm.attachm" :disabled="edit"></el-input><span class="attachment">选择文件</span>
+                                                <el-input v-model="ruleForm.attachm" style="position:absolute"></el-input>
+                                                <el-upload class="upload-demo" ref="upload" name="file"
+                                                           action="/iem_hrm/CustInfo/insertCustInfo"
+                                                           :show-file-list="false"
+                                                           :auto-upload="false"
+                                                           :on-change="handleFileUpload"
+                                                           :on-success="successUpload"
+                                                           :headers="token"
+                                                           :before-upload="checkUserNo">
+                                                    <el-button slot="trigger" type="primary" class="uploadBtn" :disabled="edit">更换附件</el-button>
+                                                    <el-button type="primary" class="uploadBtn uploadBtn-special" @click="test">下载附件</el-button>
+                                                </el-upload>
+                                                <!--<el-button class="uploadBtn-special uploadBtn" type="primary">下载附件</el-button>-->
                                             </el-form-item>
+                                            <!--<el-form-item label="附件">-->
+                                                <!--&lt;!&ndash;<el-input v-model="ruleForm.attachm" style="position:absolute" :disabled="edit"></el-input>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<el-upload class="upload-demo" ref="upload" name="file"&ndash;&gt;-->
+                                                           <!--&lt;!&ndash;:on-change="handleFileUpload"&ndash;&gt;-->
+                                                           <!--&lt;!&ndash;:on-success="successUpload"&ndash;&gt;-->
+                                                           <!--&lt;!&ndash;action="/iem_hrm/CustFile/upload"&ndash;&gt;-->
+                                                           <!--&lt;!&ndash;:show-file-list="false"&ndash;&gt;-->
+                                                           <!--&lt;!&ndash;:auto-upload="false"&ndash;&gt;-->
+                                                           <!--&lt;!&ndash;:headers="token">&ndash;&gt;-->
+                                                    <!--&lt;!&ndash;<el-button slot="trigger" type="primary" class="uploadBtn">上传附件</el-button>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;</el-upload>&ndash;&gt;-->
+                                                <!--&lt;!&ndash;<el-button class="downloadBtn" @click="handleDownload">下载附件</el-button>&ndash;&gt;-->
+                                                <!--<el-input v-model="ruleForm.attachm" :disabled="edit"></el-input><span class="attachment">选择文件</span>-->
+                                            <!--</el-form-item>-->
                                         </el-col>
                                     </el-form>
                                 </div>
@@ -935,28 +949,32 @@
             if(this.tabName=='first'){
                 this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+this.userNo)
                     .then(res=>{
+                        console.log(res)
                         this.ruleForm = res.data.data
                     })
                     .catch(e=>{
                         console.log(e)
                     })
-                this.$axios.get('/iem_hrm/CustFile/queryCustImgs',{params:{userNo:this.userNo}})
-                    .then(res=>{
-                        console.log(res)
-//                        for(var name in res.data.data){
-//                            let item = {
-//                                name:name,
-//                                url:'data:image/'+name.substr(name.lastIndexOf('.')+1)+';base64,'+res.data.data[name]
-//                            }
-//                            this.fileList2.push(item)
-//                        }
-                    })
-                    .catch(e=>{
-                        console.log(e)
-                    })
+//                this.$axios.get('/iem_hrm/CustFile/queryCustImgs',{params:{userNo:this.userNo}})
+//                    .then(res=>{
+//                        console.log(res)
+////                        for(var name in res.data.data){
+////                            let item = {
+////                                name:name,
+////                                url:'data:image/'+name.substr(name.lastIndexOf('.')+1)+';base64,'+res.data.data[name]
+////                            }
+////                            this.fileList2.push(item)
+////                        }
+//                    })
+//                    .catch(e=>{
+//                        console.log(e)
+//                    })
             }
         },
         methods: {
+            test(event) {
+              console.log('test',event)
+            },
             holdBirthday(val){
                 this.ruleForm.birthday = val
             },
@@ -1850,12 +1868,24 @@
                             letter-spacing: 0;
                             height 40px
                             margin-bottom  0
-                    .attachment
-                        color #f90
-                        margin-left 20px
-                        font-size 14px
-                        &:hover
-                            text-decoration underline
+                    .upload-demo
+                        position absolute
+                        width 200px
+                    .el-upload__input
+                        display none
+                    .uploadBtn
+                        position: absolute;
+                        height: 40px;
+                        top: 0;
+                        right: -80px;
+                        margin: 0;
+                        border: 1px solid #ff9900;
+                        border-bottom-left-radius: 0;
+                        border-top-left-radius: 0;
+                        background: #ff9900;
+                        font-family: "PingFang SC";
+                    .uploadBtn-special
+                        right -170px
                 .second_title
                     padding 30px 8px 0 8px
                     font-family: PingFangSC-Regular;
@@ -2069,11 +2099,9 @@
             width 97%
             max-width 1024px
             .el-textarea__inner
-                height 40px
+                height 80px
                 &:hover
                     border 1px solid #f90
                 &:focus
                     border-color #f90
-
-
 </style>

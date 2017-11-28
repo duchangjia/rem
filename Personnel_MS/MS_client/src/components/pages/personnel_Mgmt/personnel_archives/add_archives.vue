@@ -719,7 +719,7 @@
               activeName: 'first',
               tabName:'first',
               ruleForm: {
-//                  avatar: '',
+                  avat: '',
                   custName: '',
                   certNo: '',
                   certType: '',
@@ -950,6 +950,11 @@
               test:'',
           }
         },
+//        watch:{
+//            user_info: function (val, oldVal) {
+//                this.user_info = val
+//            },
+//        },
         components: {
             current,socialRelationItem,messageBox
         },
@@ -1017,16 +1022,24 @@
             handleAvatarChange(file, fileList) {
 //                console.log(file)
                 this.imageUrl = URL.createObjectURL(file.raw);
-                this.ruleForm.avatar = file
+                this.ruleForm.avat = {
+                    file
+                }
             },
             handleAvatarSuccess(res, file) {
-                console.log(res)
-//                this.imageUrl = URL.createObjectURL(file.raw);
+                let self = this
+                console.log(res,'handleAvatarSuccess')
+                self.social_item.userNo = res.data.data
+                self.project_item.userNo = res.data.data
+                self.education_item.userNo = res.data.data
+                self.work_item.userNo = res.data.data
+                self.certificates_list.userNo = res.data.data
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
                 const isLt2M = file.size / 1024 / 1024 < 2;
-                this.user_avatar = Object.assign(this.ruleForm,this.ruleForm2)
+                this.user_info = Object.assign(this.ruleForm,this.ruleForm2)
+                console.log('beforeAvatarUpload',this.user_info)
                 if (!isJPG) {
                     this.$message.error('上传头像图片只能是 JPG 格式!');
                 }
@@ -1085,7 +1098,13 @@
             },
             successUpload(response, file, fileList) {
                 if(this.tabName == 'first') {
+                    let self = this
                     console.log(response)
+                    self.social_item.userNo = response.data.data
+                    self.project_item.userNo = response.data.data
+                    self.education_item.userNo = response.data.data
+                    self.work_item.userNo = response.data.data
+                    self.certificates_list.userNo = response.data.data
                 }
                 if(this.tabName == 'sixth') {
                     console.log(response,'????????successUpload????????',file,'????????successUpload????????',fileList)
@@ -1129,6 +1148,7 @@
                     }
                 }
                 if(this.tabName == 'sixth') {
+//                    this.certificates_list.userNo = 'P0001346'
                     if(!this.certificates_list.userNo){
                         this.$message({
                             type: 'error',
@@ -1137,8 +1157,9 @@
                         return false
                     }
                     this.certificates_list.file = {
-                        file
+                        file:file
                     }
+//                    console.log(this.certificates_list,'---',this.certificates_list.file)
                 }
             },
             dialogConfirm(custInfo){
@@ -1220,8 +1241,11 @@
                         if (valid) {
                             self.$refs.ruleForm2.validate((valid) => {
                                 if (valid) {
-                                    if(!self.ruleForm.avatar&&!self.ruleForm2.file){
+                                    console.log('111')
+//                                    if(!self.ruleForm.avatar&&!self.ruleForm2.file){
+//                                        console.log(222)
                                         let data = Object.assign(this.ruleForm,this.ruleForm2)
+                                    console.log(data)
                                         this.$axios.post('/iem_hrm/CustInfo/insertCustInfo', data)
                                             .then(res=>{
                                                 let result = res.data.retMsg
@@ -1249,11 +1273,13 @@
                                             .catch(e=>{
                                                 console.log(e)
                                             })
-                                    }else if(self.ruleForm.avatar&&!self.ruleForm2.file){
-                                        self.$refs.uploadAvatar.submit()
-                                    }else {
-                                        self.$refs.upload.submit()
-                                    }
+//                                    }else if(self.ruleForm.avatar&&!self.ruleForm2.file){
+//                                        console.log(333)
+//                                        self.$refs.uploadAvatar.submit()
+//                                    }else {
+//                                        console.log(444)
+//                                        self.$refs.upload.submit()
+//                                    }
 
                                 }else {
                                     self.$message({
