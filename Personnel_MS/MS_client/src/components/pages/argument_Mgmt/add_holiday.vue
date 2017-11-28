@@ -1,38 +1,40 @@
 <template>
     <div class="add_holiday">
         <current yiji="参数管理" erji="业务参数" sanji="免签节假日维护" siji="节假日新增"></current>
-        <el-col :span="24">
-            <div class="content-wrapper">
-                <div class="title"><span class="text">节假日新增</span><button class="save" @click="save">保存</button></div>
-                <el-form ref="form" :model="content" class="content" :rules="rules">
-                    <div>
-                        <el-form-item class="item_group" prop="dayDate">
-                            <span class="text">日期</span><el-date-picker type="date" class="common" v-model="content.dayDate" placeholder="选择日期"></el-date-picker>
+        <div class="content-wrapper">
+            <div class="titlebar">
+                <span class="title-text">节假日新增</span>
+                <el-button type="primary" class="toolBtn btn-primary" @click="save">保存</el-button>
+            </div>
+            <div class="add-wrapper clearfix">
+                <el-form label-width="110px" :inline="true" :model="content" ref="form" :rules="rules">
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="日期" prop="dayDate">
+                            <el-date-picker type="date" placeholder="选择日期" style="width:100%;" v-model="content.dayDate" @change="timePicker()"></el-date-picker>
                         </el-form-item>
-                        <el-form-item class="item_group" prop="dayFlag">
-                            <span class="text">类型</span><el-select v-model="content.dayFlag">
-                            <el-option
-                                    label="法定节假日"
-                                    value="1">
-                            </el-option>
-                            <el-option
-                                    label="正常工作日"
-                                    value="2">
-                            </el-option>
-                        </el-select>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="类型" prop="costType">
+                            <el-select placeholder="请选择日期类型" v-model="content.dayFlag">
+                                <el-option
+                                        label="法定节假日"
+                                        value="1">
+                                </el-option>
+                                <el-option
+                                        label="正常工作日"
+                                        value="2">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
-                        <!--<el-form-item class="item_group" prop="date2">-->
-                            <!--<span class="text">结束日期</span><el-date-picker type="date" v-model="content.date2" placeholder="选择日期"></el-date-picker>-->
-                        <!--</el-form-item>-->
-                    </div>
-                    <div>
-                        <el-form-item class="item_group">
-                            <span class="text">备注</span><el-input v-model="content.remark" class="common" :max-length="256"></el-input>
+                    </el-col>
+                    <el-col :sm="24" :md="12" >
+                        <el-form-item label="备注">
+                            <el-input v-model="content.remark" :maxlength="256"></el-input>
                         </el-form-item>
-                    </div>
+                    </el-col>
                 </el-form>
             </div>
-        </el-col>
+        </div>
     </div>
 </template>
 
@@ -48,17 +50,11 @@
                     remark: '',
                 },
                 rules: {
-                    region: [
-                        { required: true, message: '请选择类型', trigger: 'change' }
-                    ],
                     dayDate: [
                         {type:"date", required: true, message: '请选择日期', trigger: 'change' }
                     ],
                     dayFlag: [
                         { required: true, message: '请选择类型', trigger: 'change' }
-                    ],
-                    remark: [
-                        { required: true, message: '请输入备注', trigger: 'blur' }
                     ]
                 }
             }
@@ -114,74 +110,4 @@
         padding: 0 0 20px 20px;
         overflow: hidden;
         position: relative;
-        .test
-            padding-left: 10px;
-        .content-wrapper
-            background: #fff;
-            padding-left: 20px;
-            padding-right 20px
-            height: 746px;
-            .title
-                font-family: PingFangSC-Regular;
-                font-size: 16px;
-                color: #333333;
-                letter-spacing: 0;
-                height: 50px;
-                line-height: 50px;
-                border-bottom: 1px solid #f4f4f4;
-                position relative
-                .text
-                    border-bottom:2px solid black;
-                    display: inline-block;
-                    height: 50px;
-                .save
-                    width: 120px
-                    height 30px
-                    background: #f90;
-                    color #fff
-                    border: none
-                    border-radius 4px
-                    outline none
-                    font-family: PingFangSC-Regular;
-                    font-size: 14px;
-                    line-height 30px
-                    text-align center
-                    position absolute
-                    right 0px
-                    bottom 10px
-                    //&:hover
-                        //background: #f90;
-                        //color #fff
-            .content
-                padding 30px 0 0 8px
-                .item_group
-                    margin-bottom 30px
-                    height 40px
-                    line-height 40px
-                    display inline-block
-                    .text
-                        font-family: PingFangSC-Regular;
-                        font-size: 14px;
-                        color: #999999;
-                        letter-spacing: 0;
-                        margin-right 30px
-                        display inline-block
-                        width 60px
-                        height 40px
-                        line-height 40px
-                        text-align right
-                    .common
-                        margin-right 120px
-                    .el-input
-                        width 300px
-                        height 40px
-                        .el-input__inner
-                            width 100%
-                            height 100%
-                        .el-input__inner:focus
-                            border-color: #ff9900;
-                        .el-input__inner:hover
-                            border-color: #ff9900;
-                    .el-form-item__error
-                        left 90px
 </style>
