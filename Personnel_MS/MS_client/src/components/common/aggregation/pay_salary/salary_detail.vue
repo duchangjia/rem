@@ -212,12 +212,12 @@ export default {
             position: relative;
             right:60px;
         }
-       .el-date-editor{
+       .month-input{
             &.el-input{
                 width:280px;
                 .el-input__inner{
                     height: 32px;
-                    line-height:32px;
+                    line-height:normal;
                 }
             }
         }
