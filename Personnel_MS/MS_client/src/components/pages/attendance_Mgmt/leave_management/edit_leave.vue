@@ -206,6 +206,7 @@
 			}
 			//查询请假详情
 			this.leaveInfo(params);
+			//请假列表查询
 			this.querysysParamMgmt();
 		},
 		methods: {
@@ -268,11 +269,11 @@
 			},
 			querysysParamMgmt() {
 				let self = this;
-				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=11')
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=LEAVE_TYPE')
 				.then(function(res) {
 					console.log('sysParamMgmt',res);
 					if(res.data.code === "S00000") {
-//						self.formdata2 = res.data.data;
+//						self.leaveTypeList = res.data.data;
 					}
 					
 				}).catch(function(err) {
