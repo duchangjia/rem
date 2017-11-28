@@ -46,4 +46,25 @@ proxyTable: {
 npm run mockdev
 ```
 
+#git代码提交规范
+> 获取主干最新代码
+>> git checkout master<br>
+>> git pull<br>
 
+> 新建一个开发分支myfeature
+>> git checkout -b myfeature<br>
+
+> 日常代码提交
+>> git add "your_files"<br>
+>> git status<br>
+>> git commit --verbose<br>
+
+> 分支的开发过程中，要经常与主干保持同步。
+>> git fetch origin
+>> git rebase origin/master
+
+> 推送到远程仓库
+>> git push --force origin myfeature
+
+> 发出Pull Request
+>> 提交到远程仓库以后，就可以发出Pull Request到master分支，然后请求别人进行代码review，确认可以合并到master。
