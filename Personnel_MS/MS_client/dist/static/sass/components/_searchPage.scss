@@ -18,7 +18,7 @@
             font-size: 16px;
             height: 50px;
             &:after {
-                content: '';
+                content: ''; 
                 position: absolute;
                 left: 0;
                 bottom: -1px;
@@ -95,6 +95,16 @@
                         color: #FF9900;
                     }
                 }
+                li.active:hover{
+                    color: #fff;
+                }
+            }
+            .btn-next {
+                border-left: 1px solid #d1dbe5;
+            }
+            .el-pagination__editor {
+                padding: 2px 2px;
+                width: 24px;
             }
             button,span{
                 display: inline-block;
@@ -107,11 +117,18 @@
                 vertical-align: top;
                 box-sizing: border-box;
             }
+            button.disabled,button.disabled:hover {
+                color: #e4e4e4;
+                background-color: #fff;
+            }
         }
         .el-table .cell{
             padding-left: 10px;
             padding-right: 10px;
             text-align: center;
+            .el-icon-edit{
+                margin-right:10px;
+            }
         }
     }
 }

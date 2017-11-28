@@ -38,6 +38,7 @@
                    <li class="list-tit">
                        <label>应发金额</label>
                        <span><input v-model="accountData.realHair" readonly="readonly"></span>
+                     <span>{{accountData.realHair|moneyFilter}}</span>
                    </li>
                    <li>
                        <label>标准薪资<i class="ico-salary"></i></label>
@@ -175,8 +176,8 @@ export default {
     components: {
 	    current,contentTitle
     },
-    fiflters:{
-
+    filters:{
+       
     }
 }
 </script>

@@ -40,9 +40,12 @@
         form { 
             font-size: 0;
             margin-top: 30px;
+            @include clearfix;
         }
         .el-input__inner {
             width: 300px;
+            height:40px;
+            line-height:40px;
         }
         .el-form-item__label{
             font-weight:normal;
@@ -58,7 +61,7 @@
             height: 0;
             .uploadBtn{
                 position: absolute;
-                height:36px;
+                height:40px;
                 top: 0;
                 right: 0;
                 margin: 0;
@@ -72,6 +75,14 @@
                 display:none;
             }
         }
-        
+        .el-textarea__inner{
+            min-width:850px;
+        }
+        .item-title {
+            font-size: 14px;
+            height: 56px;
+            line-height: 56px;
+            padding-left: 8px;
+        }
     }
 }

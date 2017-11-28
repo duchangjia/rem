@@ -66,8 +66,7 @@ export default {
         stateNo:''
       },
       secInpuShow:true,
-      visible:false,
-      tableOption:[]
+      visible:false
     };
   },
   created(){
