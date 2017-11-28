@@ -123,12 +123,14 @@ export default {
     },
     assetTypeFormatter(row, column) {
       return row.assetType == "01"
-        ? "全部"
+        ? "办公用品"
         : row.assetType == "02"
-          ? "办公用品"
+          ? "电脑"
           : row.assetType == "03"
-            ? "电脑"
-            : row.assetType == "04" ? "后勤用品" : "异常";
+            ? "手机"
+            : row.assetType == "04" 
+              ? "后勤用品"
+               : row.assetType == "05" ? "数码相机" : "异常";
     },
     applyTypeFormatter(row, column) {
       return row.applyType == "01"
