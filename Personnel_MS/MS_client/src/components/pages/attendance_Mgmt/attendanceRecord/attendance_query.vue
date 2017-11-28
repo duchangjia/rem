@@ -285,7 +285,7 @@ export default {
 		//下载模版
 		downloadFile() {
 			const self = this;
-			self.$axios.get(baseURL+'/attence/download?templateName=考勤基本信息模板', {
+			self.$axios.get(baseURL+'/file/downloadTemplate?templateName=考勤基本信息模板', {
                     responseType: 'blob'
                 })
                 .then((response) => {
