@@ -49,7 +49,7 @@
                             </el-col>
                             <el-col :sm="24" :md="12">
                                 <el-form-item label="身份证">
-                                    <el-input v-model="basicPactMsg.certNo" :disabled="true"></el-input>
+                                    <el-input v-model="basicPactMsg.cert" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :sm="24" :md="12">
@@ -224,6 +224,7 @@ export default {
   created() {
     this.pactNo = this.$route.params.pactNo;
     this.userNo = this.$route.params.userNo;
+    console.log('詳情頁接到的userNo',this.userNo);
     if (this.$route.params.activeTab) {
       this.activeName = this.$route.params.activeTab;
       if (this.activeName == "changePactMsg") this.getPChangeList();

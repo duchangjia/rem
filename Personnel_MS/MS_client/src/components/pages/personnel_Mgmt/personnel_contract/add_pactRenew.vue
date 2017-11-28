@@ -1,6 +1,6 @@
 <template>
     <div class="add_pactRenew">
-        <current yiji="人事事务" erji="人事合同" sanji="合同续签" :activeTab="activeName" :pactNo="pactNo" :pactSubFlag='pactSubFlag'>
+        <current yiji="人事事务" erji="人事合同" sanji="合同续签" :activeTab="activeName" :pactNo="pactNo" :userNo='userNo' :pactSubFlag='pactSubFlag'>
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
@@ -177,13 +177,13 @@ export default {
   created() {
     this.pactNo = this.$route.params.pactNo;
     this.userNo = this.$route.params.userNo;
-    console.log('userNo',this.userNo);
     if (this.$route.params.pactSubFlag) {
       this.pactSubFlag = this.$route.params.pactSubFlag;
       this.activeName = "renewPactMsg";
     }
     this.getPactDetail();
     this.getCustInfo();
+    console.log('userNo',this.userNo);
     console.log('pactSubFlag',this.pactSubFlag);
     console.log('activeName',this.activeName);
   },
@@ -265,7 +265,8 @@ export default {
                     name: "detail_contract",
                     params: {
                       activeTab: this.activeName,
-                      pactNo: this.pactNo
+                      pactNo: this.pactNo,
+                      userNo: this.userNo
                     }
                   });
                 }

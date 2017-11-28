@@ -245,7 +245,6 @@ export default {
       this.editPRenewMsg.renewLostTime = val;
     },
     handleFileUpload(file, fileList) {
-      // this.fileList3 = fileList.slice(-3);
       console.log(file);
       this.editPRenewMsg.attachm = file.name;
     },
