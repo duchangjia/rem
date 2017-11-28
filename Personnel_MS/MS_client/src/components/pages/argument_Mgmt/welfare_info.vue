@@ -1,136 +1,179 @@
 <template>
 	<div class="welfare_info">
 		<current yiji="参数管理" erji="业务参数" sanji="福利缴纳系数设置" siji="福利缴纳系数详情"></current>
-		<div class="content">
-			<div class="title">
+		<div class="content-wrapper">
+			<div class="titlebar">
 				<span class="title-text">福利缴纳系数详情</span>
 				<el-button type="primary" class="toolBtn btn-primary" @click="save('payTempDel')">保存</el-button>			
 			</div>
-			<div class="content-inner">
-				<el-form ref="payTempDel" :rules="rules" :model="payTempDel" label-width="80px">
-					<el-form-item label="模版编号" prop="applyNo">
-					    <el-input v-model="payTempDel.applyNo" :disabled="true"></el-input>
-				  	</el-form-item>
-					<el-form-item label="模版名称" prop="applyName">
-					    <el-input v-model="payTempDel.applyName"></el-input>
-				  	</el-form-item>
-					<el-form-item label="模版备注">
-					    <el-input v-model="payTempDel.remark"></el-input>
-				  	</el-form-item>
-					<div class="form_box">
-						<div class="title">养老保险系数</div>
-						<div class="inner">
-							<el-form-item label="个人支付" prop="perEndmRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perEndmRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="perEndmFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perEndmFixed"></el-input>
-						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comEndmRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comEndmRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="comEndmFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comEndmFixed"></el-input>
-						  	</el-form-item>
-						</div>
-					</div>
-					<div class="form_box">
-						<div class="title">医疗保险系数</div>
-						<div class="inner">
-							<el-form-item label="个人支付" prop="perMediRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perMediRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="perMediFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perMediFixed"></el-input>
-						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comMediRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comMediRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="comMediFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comMediFixed"></el-input>
-						  	</el-form-item>
-						</div>
-					</div>
-					<div class="form_box">
-						<div class="title">失业保险系数</div>
-						<div class="inner">
-							<el-form-item label="个人支付" prop="perUnemRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perUnemRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="perUnemFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perUnemFixed"></el-input>
-						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comUnemRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comUnemRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="comUnemFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comUnemFixed"></el-input>
-						  	</el-form-item>
-						</div>
-					</div>
-					<div class="form_box">
-						<div class="title">工伤保险系数</div>
-						<div class="inner">
-							<el-form-item label="个人支付" prop="perEmplRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perEmplRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="perEmplFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perEmplFixed"></el-input>
-						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comEmplRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comEmplRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="comEmplFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comEmplFixed"></el-input>
-						  	</el-form-item>
-						</div>
-					</div>
-					<div class="form_box">
-						<div class="title">生育保险系数</div>
-						<div class="inner">
-							<el-form-item label="个人支付" prop="perMateRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perMateRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="perMateFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perMateFixed"></el-input>
-						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comMateRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comMateRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="comMateFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comMateFixed"></el-input>
-						  	</el-form-item>
-						</div>
-					</div>
-					<div class="form_box">
-						<div class="title">住房公积金系数</div>
-						<div class="inner">
-							<el-form-item label="个人支付" prop="perHousRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perHousRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="perHousFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.perHousFixed"></el-input>
-						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comHousRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comHousRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="comHousFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model.number="payTempDel.comHousFixed"></el-input>
-						  	</el-form-item>					
-						</div>
-					</div>
+			<div class="add-wrapper">
+				<el-form ref="payTempDel" :inline="true" :rules="rules" :model="payTempDel" label-width="80px">
+					<el-col :sm="24" :md="12">
+						<el-form-item label="模版编号" prop="applyNo">
+						    <el-input v-model="payTempDel.applyNo" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="模版名称" prop="applyName">
+						    <el-input v-model="payTempDel.applyName"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="模版备注">
+						    <el-input v-model="payTempDel.remark"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :span="24" class="item-title">养老保险系数</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="个人支付" prop="perEndmRate">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perEndmRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					  	
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item prop="perEndmFixed" label=" " label-width="0">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perEndmFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="单位支付" prop="comEndmRate">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comEndmRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					  	
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item prop="comEndmFixed" label=" " label-width="0">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comEndmFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :span="24" class="item-title">医疗保险系数</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="个人支付" prop="perMediRate">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perMediRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					  	
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item prop="perMediFixed" label=" " label-width="0">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perMediFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="单位支付" prop="comMediRate">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comMediRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					  	
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item prop="comMediFixed" label=" " label-width="0">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comMediFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :span="24" class="item-title">失业保险系数</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="个人支付" prop="perUnemRate">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perUnemRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					  	
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item prop="perUnemFixed" label=" " label-width="0">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perUnemFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="单位支付" prop="comUnemRate">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comUnemRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					  	
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item prop="comUnemFixed" label=" " label-width="0">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comUnemFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :span="24" class="item-title">工伤保险系数</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="个人支付" prop="perEmplRate">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perEmplRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					  	
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item prop="perEmplFixed" label=" " label-width="0">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perEmplFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="单位支付" prop="comEmplRate">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comEmplRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					  	
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item prop="comEmplFixed" label=" " label-width="0">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comEmplFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :span="24" class="item-title">生育保险系数</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="个人支付" prop="perMateRate">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perMateRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					  	
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item prop="perMateFixed" label=" " label-width="0">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perMateFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="单位支付" prop="comMateRate">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comMateRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					  	
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item prop="comMateFixed" label=" " label-width="0">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comMateFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :span="24" class="item-title">住房公积金系数</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="个人支付" prop="perHousRate">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perHousRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					  	
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item prop="perHousFixed" label=" " label-width="0">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perHousFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="单位支付" prop="comHousRate">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comHousRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					  	
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item prop="comHousFixed" label=" " label-width="0">
+					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comHousFixed"></el-input>
+					  	</el-form-item>	
+					</el-col>
+					
 				</el-form>
 			</div>
 		</div>
@@ -364,106 +407,16 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .welfare_info {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
 }
-.welfare_info .content {
-	width: 100%;
-	padding: 0px 20px;
-	background: #ffffff;
-	clear: both;
-}
-.welfare_info .content .title {
-border-bottom: 1px solid #EEEEEE;
-}
-
-.welfare_info .content .title .title-text {
-	display: inline-block;
-	position: relative;
-	padding: 14px 0px;
-	font-size: 16px;
-	height: 50px;
-}
-
-.welfare_info .content .title .title-text:after {
-	content: '';
+.welfare_info .plus {
 	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
+    top: 0px;
+    right: -70px;
 }
 
-.welfare_info .content-inner {
-	padding: 30px 0px;
-}
-.welfare_info .toolBtn {
-	float: right;
-	margin-top: 10px;
-	background: #F4F4F4;
-	border: 1px solid #F4F4F4;
-	font-size: 14px;
-	color: #333333;
-	width: 120px;
-	height: 30px;
-	padding: 0;
-}
-.welfare_info .form_box {
-	clear: both;
-}
-.welfare_info .form_box .title{
-	padding: 11px 0px 11px 10px;
-    margin-bottom: 20px;
-	color: #999999;
-	border: none;
-	clear: both;
-}
-.welfare_info .form_box .inner {
-	padding-left: 20px;
-}
-.welfare_info .form_box .plus {
-	margin-left: 10px;
-	margin-right: -20px;
-    margin-top: 10px;
-    float: left;
-}
-.welfare_info .form_box .el-form-item {
-	width: 45%;
-	float: left;
-}
-.welfare_info .form_box .el-form-item.formLeft {
-	clear: both;
-}
-.welfare_info .form_box .el-form-item.formRight {
-    margin-left: -50px;
-}
-.welfare_info .el-input__inner {
-    border: 1px solid #EEEEEE;
-    color: #999999;
-    width: 300px;
-    height: 40px;
-    margin-left: 30px;
-}
-.welfare_info .el-form-item__label {
-    text-align: right;
-    vertical-align: middle;
-    float: left;
-    font-size: 14px;
-    color: #999999;
-    line-height: 1;
-    padding: 11px 0px 11px 0;
-    box-sizing: border-box;
-}
-.welfare_info .el-input {
-    position: relative;
-    font-size: 14px;
-    width: 330px;
-}
-.welfare_info .el-form-item__error {
-    padding-left: 30px;
-}
 </style>

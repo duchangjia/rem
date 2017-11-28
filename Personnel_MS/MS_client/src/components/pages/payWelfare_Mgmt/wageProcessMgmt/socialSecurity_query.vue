@@ -90,18 +90,18 @@ export default {
 			},
 			welfareList: [
 				{
-					companyName: "深圳分公司",
-					custName: "小李",
-					idCard: "54000000000",
-					month: "2017-10",
-					endmTotal: "1",
-					mediTotal: "1",
-					unemTotal: "1",
-					mateTotal: "1",
-					emplTotal: "1",
-					houseTotal: "1",
-					createdBy: "P000000",
-					createdDate: "2017-10-1"
+					companyName: "",
+					custName: "",
+					idCard: "",
+					month: "",
+					endmTotal: "",
+					mediTotal: "",
+					unemTotal: "",
+					mateTotal: "",
+					emplTotal: "",
+					houseTotal: "",
+					createdBy: "",
+					createdDate: ""
 				}
 			],
 			//部门列表

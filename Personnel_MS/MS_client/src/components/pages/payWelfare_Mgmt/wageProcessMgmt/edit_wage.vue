@@ -191,19 +191,8 @@
 			current
 		},
 		created() {
-//			this.formdata2.derpRange.forEach(function(ele) {
-//		        this.checkedSubmenus.push(ele);
-//		      }, this);
-//		      console.log(this.checkedSubmenus)
-//			this.formdata2.preRange.forEach(function(ele) {
-//		        this.checkPres.push(ele.userNo);
-//		      }, this);
-			let batchNo = sessionStorage.getItem('editWage_batchNo');
-			let params = {
-				batchNo: batchNo
-			}
 			//查询工资流程信息
-			this.queryWageInfo(params);
+			this.queryWageInfo();
 			//查询公司列表
 			this.queryCompList();
 		},
@@ -283,6 +272,8 @@
 		        this.$set(this.isFuncsIndeterminate, index, true);
 		        targetFucsList.forEach(function(ele) {
 		          if (JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ userNo: ele })) == -1) {
+		            console.log('this.formdata2.preRange',this.formdata2.preRange)
+		            this.formdata2.preRange = [];
 		            this.formdata2.preRange.push({ userNo: ele });
 		          }
 		          if ( !this.isInArray(this.checkPres, ele) ) {
@@ -304,6 +295,7 @@
 		      console.log("preRange", this.formdata2.preRange);
 		    },
 		    handleCheckedFuncsChange(val, index) {
+		    	console.log('val',val)
 		      if (val.length == this.formdata2.derpRange[index].preRangeList.length) {
 		        this.checkPresAll[index] = true;
 		        this.$set(this.isFuncsIndeterminate, index, true);
@@ -313,6 +305,7 @@
 		      }
 		      this.formdata2.preRange = [];
 		      val.forEach(function(ele) {
+		      	console.log('this.formdata2.preRange',this.formdata2.preRange)
 		        this.formdata2.preRange.push({ userNo: ele });
 		      }, this);
 		      console.log("preRange", this.formdata2.preRange);
@@ -325,14 +318,18 @@
 			        		preRange = [],
 			        		derpRanges = [],
 			        		derpRange = [];
-		        		self.formdata2.derpRange.forEach(function(ele) {
-			        		derpRanges.push(ele.derpNo);
-			        		derpRange.push(ele.derpNo);
-			        	},this);
-			        	self.formdata2.preRange.forEach(function(ele) {
-			        		preRanges.push(ele.userNo);
-			        		preRange.push(ele.userNo);
-			        	},this); 
+			        	if(self.isArray(self.formdata2.derpRange)) {
+			        		self.formdata2.derpRange.forEach(function(ele) {
+				        		derpRanges.push(ele.derpNo);
+				        		derpRange.push(ele.derpNo);
+				        	},this);
+			        	}
+			        	if(self.isArray(self.formdata2.preRange)) {
+				        	self.formdata2.preRange.forEach(function(ele) {
+				        		preRanges.push(ele.userNo);
+				        		preRange.push(ele.userNo);
+				        	},this); 
+			        	}
 			          	let params = {
         					batchNo: self.formdata2.batchNo,
 							batchType: self.formdata2.batchType,
@@ -352,8 +349,12 @@
 			        }
 		       })
 			},
-			queryWageInfo(params) {
+			queryWageInfo() {
 				let self = this;
+				let batchNo = sessionStorage.getItem('editWage_batchNo');
+				let params = {
+					batchNo: batchNo
+				}
 				self.$axios.get(baseURL+'/wage/queryWageFlowInfo',{params: params})
 				.then((res) => {
 					console.log('WageInfo',res);
@@ -363,11 +364,11 @@
 			        		organNo: self.formdata2.organNo
 				     	}
 						//查询部门范围列表
-						this.queryDerpList(params);
+//						this.queryDerpList(params);
 			        	//查询人员范围列表（选全部部门时）
-				      	this.queryDerpAndUser(params);
+//				      	this.queryDerpAndUser(params);
 				      	//人员范围（反显）
-				      	this.checkPres = this.formdata2.preRange;
+//				      	this.checkPres = this.formdata2.preRange;
 					}
 					
 				}).catch((err) => {
@@ -440,23 +441,30 @@
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.derpRangeList = res.data.data;
-						let ranges = [];
-						self.derpRangeList.forEach(function(ele) {
-							self.formdata2.derpRange.forEach(function(eles) {
-								if(ele.derpNo == eles) {
-									ranges.push(ele);
-								}
-							})
-							
-						})
+//						let ranges = [];
+//						self.derpRangeList.forEach(function(ele) {
+//							self.formdata2.derpRange.forEach(function(eles) {
+//								if(ele.derpNo == eles) {
+//									ranges.push(ele);
+//								}
+//							})
+//							
+//						})
 						//部门范围（反显）
-						this.checkedSubmenus = ranges;
+//						this.checkedSubmenus = ranges;
 					}
 					
 				}).catch((err) => {
 					console.log(err);
 				})
 			},
+			isInArray(arr, val) {
+		      let testStr = "," + arr.join(",") + ",";
+		      return testStr.indexOf("," + val + ",") != -1;
+		   	},
+		   	isArray(o){
+				return Object.prototype.toString.call(o)=='[object Array]';
+			}
 		}
 	};
 </script>

@@ -181,14 +181,10 @@ export default {
 		current
 	},
 	created() {
-		this.queryFormFlag = false;
-		let batchNo = sessionStorage.getItem('entryWage_batchNo');
-		let organNo = sessionStorage.getItem('entryWage_organNo');
-		let params = {
-			organNo: organNo
-		}
+		//工资详情
+		this.queryWageInfo();
 		//部门列表查询
-		this.queryDerpList(params);
+		this.queryDerpList();
 	},
 	methods: {
 		handleInfo(index, row) {
@@ -261,8 +257,12 @@ export default {
 			};
 			this.autoCaclWage(params);
 		},
-		queryWageInfo(params) {
+		queryWageInfo() {
 			let self = this;
+			let batchNo = sessionStorage.getItem('entryWage_batchNo');
+			let params = {
+				batchNo: batchNo
+			}
 			self.$axios.get(baseURL+'/wage/',{params: params})
 			.then(function(res) {
 				console.log('wageInfo',res);
@@ -328,8 +328,12 @@ export default {
 				console.log(err);
 			})
 		},
-		queryDerpList(params) {
+		queryDerpList() {
 			let self = this;
+			let organNo = sessionStorage.getItem('entryWage_organNo');
+			let params = {
+				organNo: organNo
+			}
 			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
 			.then(function(res) {
 				console.log('DerpList',res);

@@ -354,5 +354,7 @@
 </script>
 
 <style>
-
+.edit_transfer {
+	padding: 0 0 20px 20px;
+}
 </style>

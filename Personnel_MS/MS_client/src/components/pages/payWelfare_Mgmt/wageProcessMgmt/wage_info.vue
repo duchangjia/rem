@@ -134,14 +134,8 @@
 					batchType: "",
 					organName: "",
 					organNo: "",
-					derpRange: [
-//						{ derpNo: "01", derpName: "xx部" },
-//						{ derpNo: "02", derpName: "行政部" }
-					],
-					preRange: [
-//						{custName: "张三",userNo: "P0000001"},
-//						{custName: "李四",userNo: "P0000002"}
-					],
+					derpRange: [],
+					preRange: [],
 					month: "",
 					batchStatus: "",
 					settleStartTime: "",
@@ -167,12 +161,7 @@
 					{batchStatus: '03', batchStatusName: '废弃'}
 				],
 				//部门列表
-				derpRangeList: [
-//					{ derpNo: "01", derpName: "xx部" },
-//					{ derpNo: "02", derpName: "行政部" },
-//					{ derpNo: "03", derpName: "信息部" }
-				],
-				
+				derpRangeList: [],
 			 	rules: {
 			 		
 				}
@@ -182,13 +171,8 @@
 			current
 		},
 		created() {
-			
-			let batchNo = sessionStorage.getItem('infoWage_batchNo');
-			let params = {
-				batchNo: batchNo
-			}
-//			//查询工资流程信息
-			this.queryWageInfo(params);
+			//查询工资流程信息
+			this.queryWageInfo();
 			//查询公司列表
 			this.queryCompList();
 		},
@@ -205,25 +189,25 @@
 			},
 			// 部门范围 多选
 		    handleSubAllChange(event) {
-		      this.checkSubAll = event.target.checked;
-		      if (this.checkSubAll == true) {
-		        this.checkedSubmenus = this.derpRangeList;
-		        this.isSubIndeterminate = true;
+		      	this.checkSubAll = event.target.checked;
+		      	if (this.checkSubAll == true) {
+		        	this.checkedSubmenus = this.derpRangeList;
+		        	this.isSubIndeterminate = true;
 		        
-		        let params = {
-	        		organNo: sessionStorage.getItem('organNo')
+		        	let params = {
+	        			organNo: sessionStorage.getItem('organNo')
+		      		}
+	        		//查询人员范围列表（选全部部门时）
+		      		this.queryDerpAndUser(params);
+		      	} else {
+		        	this.checkedSubmenus = [];
+		        	this.isSubIndeterminate = false;
 		      	}
-	        	//查询人员范围列表（选全部部门时）
-		      	this.queryDerpAndUser(params);
-		      } else {
-		        this.checkedSubmenus = [];
-		        this.isSubIndeterminate = false;
-		      }
-		      this.checkedSubmenus.length > 0
-		        ? (this.checkedSubmenusFlag = true)
-		        : (this.checkedSubmenusFlag = false);
-		      this.formdata2.derpRange = this.checkedSubmenus;
-		      console.log("这是全选的derpRange", this.formdata2.derpRange);
+		      	this.checkedSubmenus.length > 0
+		        	? (this.checkedSubmenusFlag = true)
+		        	: (this.checkedSubmenusFlag = false);
+		      	this.formdata2.derpRange = this.checkedSubmenus;
+		      	console.log("这是全选的derpRange", this.formdata2.derpRange);
 		    },
 		    handleCheckedSubsChange(val) {
 		      	let checkedCount = val.length;
@@ -250,91 +234,70 @@
 		    },
 		    // 人员范围 多选
 		    handleFuncsAllChange(event, index) {
-		      this.checkPresAll[index] = event.target.checked;
-		      let targetFucsList = [];
-		      this.formdata2.derpRange[index].preRangeList.forEach(function(ele) {
-		        targetFucsList.push(ele.userNo);
-		      }, this);
-		      if (this.checkPresAll[index] == true) {
-		        this.$set(this.isFuncsIndeterminate, index, true);
-		        targetFucsList.forEach(function(ele) {
-		          if (JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ userNo: ele })) == -1) {
-		            this.formdata2.preRange.push({ userNo: ele });
-		          }
-		          if ( !this.isInArray(this.checkPres, ele) ) {
-		            this.checkPres.push(ele);
-		          }
-		        }, this);
-		      } else {
-		        this.$set(this.isFuncsIndeterminate, index, false);
-		        targetFucsList.forEach(function(ele, index) {
-		          if (JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ userNo: ele })) != -1) {
-		            this.formdata2.preRange.splice(JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ userNo: ele }))-1, 1);
-		          }
-		          if ( this.isInArray(this.checkPres, ele) ) {
-		            this.checkPres.splice(this.checkPres.indexOf(ele), 1);
-		          }
-		        }, this);
-		      }
-		      console.log("这是全选的checkPres", this.checkPres);
-		      console.log("preRange", this.formdata2.preRange);
+		      	this.checkPresAll[index] = event.target.checked;
+		      	let targetFucsList = [];
+		      	this.formdata2.derpRange[index].preRangeList.forEach(function(ele) {
+		        	targetFucsList.push(ele.userNo);
+		      	}, this);
+		      	if (this.checkPresAll[index] == true) {
+		        	this.$set(this.isFuncsIndeterminate, index, true);
+		        	targetFucsList.forEach(function(ele) {
+		          	if (JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ userNo: ele })) == -1) {
+		            	this.formdata2.preRange.push({ userNo: ele });
+		          	}
+		          	if ( !this.isInArray(this.checkPres, ele) ) {
+		            	this.checkPres.push(ele);
+		          	}
+		        	}, this);
+		      	} else {
+		        	this.$set(this.isFuncsIndeterminate, index, false);
+		        	targetFucsList.forEach(function(ele, index) {
+		          	if (JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ userNo: ele })) != -1) {
+		            	this.formdata2.preRange.splice(JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ userNo: ele }))-1, 1);
+		          	}
+		          	if ( this.isInArray(this.checkPres, ele) ) {
+		            	this.checkPres.splice(this.checkPres.indexOf(ele), 1);
+		          	}
+		        	}, this);
+		      	}
+		      	console.log("这是全选的checkPres", this.checkPres);
+		      	console.log("preRange", this.formdata2.preRange);
 		    },
 		    handleCheckedFuncsChange(val, index) {
-		      if (val.length == this.formdata2.derpRange[index].preRangeList.length) {
-		        this.checkPresAll[index] = true;
-		        this.$set(this.isFuncsIndeterminate, index, true);
-		      } else {
-		        this.checkPresAll[index] = false;
-		        this.$set(this.isFuncsIndeterminate, index, false);
-		      }
-		      this.formdata2.preRange = [];
-		      val.forEach(function(ele) {
-		        this.formdata2.preRange.push({ userNo: ele });
-		      }, this);
-		      console.log("preRange", this.formdata2.preRange);
+		      	if (val.length == this.formdata2.derpRange[index].preRangeList.length) {
+		        	this.checkPresAll[index] = true;
+		        	this.$set(this.isFuncsIndeterminate, index, true);
+		      	} else {
+		        	this.checkPresAll[index] = false;
+		        	this.$set(this.isFuncsIndeterminate, index, false);
+		      	}
+		      	this.formdata2.preRange = [];
+		      	val.forEach(function(ele) {
+		        	this.formdata2.preRange.push({ userNo: ele });
+		      	}, this);
+		      	console.log("preRange", this.formdata2.preRange);
 		    },
-	      	save(formName) {
-				const self = this;
-				self.$refs.formdata2.validate(valid => {
-			        if (valid) {
-			          	let params = {
-			          		
-			          	}
-			          	self.addWageInfo(params);
-			        }
-		       })
-			},
-			addWageInfo(params) {
+			queryWageInfo() {
 				let self = this;
-				self.$axios.post(baseURL+'',params)
-				.then(function(res) {
-					console.log('addWage',res);
-					if(res.data.code === "S00000") {
-						self.$message({ message: '操作成功', type: 'success' });
-						self.$router.push('/wageProcess_manage');
-					}
-				}).catch(function(err) {
-					console.log('error');
-				})
-			},
-			queryWageInfo(params) {
-				let self = this;
+				let batchNo = sessionStorage.getItem('infoWage_batchNo');
+				let params = {
+					batchNo: batchNo
+				}
 				self.$axios.get(baseURL+'/wage/queryWageFlowInfo',{params: params})
 				.then((res) => {
 					console.log('WageInfo',res);
 					if(res.data.code === "S00000") {
 						self.formdata2 = res.data.data;
 						
-						let params = {
-			        		organNo: self.formdata2.organNo
-				     	}
+//						let params = {
+//			        		organNo: self.formdata2.organNo
+//				     	}
 						//查询部门范围列表
-						this.queryDerpList(params);
+//						this.queryDerpList(params);
 			        	//查询人员范围列表（选全部部门时）
-				      	this.queryDerpAndUser(params);
+//				      	this.queryDerpAndUser(params);
 				      	//人员范围（反显）
-				      	this.checkPres = this.formdata2.preRange;
-//						console.log(self.formdata2.preRange)
+//				      	this.checkPres = this.formdata2.preRange;
 					}
 					
 				}).catch((err) => {
@@ -362,17 +325,17 @@
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.derpRangeList = res.data.data;
-						let ranges = [];
-						self.derpRangeList.forEach(function(ele) {
-							self.formdata2.derpRange.forEach(function(eles) {
-								if(ele.derpNo == eles) {
-									ranges.push(ele);
-								}
-							})
-							
-						})
+//						let ranges = [];
+//						self.derpRangeList.forEach(function(ele) {
+//							self.formdata2.derpRange.forEach(function(eles) {
+//								if(ele.derpNo == eles) {
+//									ranges.push(ele);
+//								}
+//							})
+//							
+//						})
 						//部门范围（反显）
-						this.checkedSubmenus = ranges;
+//						this.checkedSubmenus = ranges;
 					}
 					
 				}).catch((err) => {

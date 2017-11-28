@@ -304,6 +304,7 @@
 		      console.log("preRange", this.formdata2.preRange);
 		    },
 		    handleCheckedFuncsChange(val, index) {
+		    	console.log('val',val)
 		      if (val.length == this.formdata2.derpRange[index].preRangeList.length) {
 		        this.checkPresAll[index] = true;
 		        this.$set(this.isFuncsIndeterminate, index, true);

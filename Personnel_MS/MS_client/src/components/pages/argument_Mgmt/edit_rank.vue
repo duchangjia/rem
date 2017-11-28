@@ -1,44 +1,58 @@
 <template>
 	<div class="edit_rank">
 		<current yiji="参数管理" erji="业务参数" sanji="职级薪酬标准设置" siji="职级薪酬标准修改"></current>
-		<div class="content">
-			<div class="title">
+		<div class="content-wrapper">
+			<div class="titlebar">
 				<span class="title-text">职级薪酬标准修改</span>
 				<el-button type="primary" class="toolBtn btn-primary" @click="save('cParmDetal')">保存</el-button>
 			</div>
-			<div class="content-inner">
-				<el-form ref="cParmDetal" :rules="rules" :model="cParmDetal" label-width="120px">
-					<el-form-item label="模版编号" prop="applyNo">
-						<el-input v-model="cParmDetal.applyNo" :disabled="true"></el-input>
-					</el-form-item>
-					<!--<el-form-item label="公司名称" prop="organName">
-						<el-input v-model="cParmDetal.organName" :disabled="true"></el-input>
-					</el-form-item>-->
-					<el-form-item label="公司名称">
-						<el-select v-model="cParmDetal.organNo" value-key="organNo" :disabled="true">
-							<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="模版名称" prop="applyName">
-						<el-input v-model="cParmDetal.applyName" placeholder=""></el-input>
-					</el-form-item>
-					<el-form-item label="职级" prop="rank">
-						<el-select v-model="cParmDetal.rank">
-							<el-option v-for="item in rankList" :key="item" :value="item"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="薪资标准下限" prop="salaryFloor">
-						<el-input v-model="cParmDetal.salaryFloor"></el-input>
-					</el-form-item>
-					<el-form-item label="薪资标准上限" prop="salaryTop">
-						<el-input v-model="cParmDetal.salaryTop"></el-input>
-					</el-form-item>
-					<el-form-item label="出差标准（人/天）">
-						<el-input v-model="cParmDetal.businessStandard"></el-input>
-					</el-form-item>
-					<el-form-item label="备注">
-						<el-input v-model="cParmDetal.remark"></el-input>
-					</el-form-item>
+			<div class="add-wrapper">
+				<el-form ref="cParmDetal" :inline="true" :rules="rules" :model="cParmDetal" label-width="130px">
+					<el-col :sm="24" :md="12">
+						<el-form-item label="模版编号" prop="applyNo">
+							<el-input v-model="cParmDetal.applyNo" :disabled="true"></el-input>
+						</el-form-item>
+					</el-col> 
+					<el-col :sm="24" :md="12">
+						<el-form-item label="公司名称">
+							<el-select v-model="cParmDetal.organNo" value-key="organNo" :disabled="true">
+								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="模版名称" prop="applyName">
+							<el-input v-model="cParmDetal.applyName" placeholder=""></el-input>
+						</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="职级" prop="rank">
+							<el-select v-model="cParmDetal.rank">
+								<el-option v-for="item in rankList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="薪资标准下限" prop="salaryFloor">
+							<el-input v-model="cParmDetal.salaryFloor"></el-input>
+						</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="薪资标准上限" prop="salaryTop">
+							<el-input v-model="cParmDetal.salaryTop"></el-input>
+						</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="出差标准（人/天）">
+							<el-input v-model="cParmDetal.businessStandard"></el-input>
+						</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="备注" prop="remark">
+							<el-input v-model="cParmDetal.remark"></el-input>
+						</el-form-item>
+					</el-col>	
+						
 				</el-form>
 			</div>
 		</div>
@@ -111,7 +125,10 @@
 						required: true,
 						validator: checkSalaryTop,
 						trigger: 'blur'
-					}]
+					}],
+					remark: [
+						{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
+					]
 				}
 			}
 		},
@@ -126,12 +143,12 @@
 				applyNo: applyNo,
 				organNo: organNo
 			}
-//			let params = {
-//				organNo: "112111",
-//				appllyNo: "1121110002"
-//			}
 			//查询职级薪酬模板详情
 			self.queryCParmDtl(params);
+			//查询公司列表
+			self.queryCompList();
+			//查询职级列表
+			self.queryCans();
 		},
 		methods: {
 			save(formName) {
@@ -152,7 +169,6 @@
 						self.modCparm(params);
 
 					} else {
-						this.$message.error('修改失败');
 						return false;
 					}
 				});
@@ -181,6 +197,29 @@
 				}).catch((err) => {
 					console.log(err);
 				})
+			},
+			queryCompList() {
+				let self = this;
+				self.$axios.get(baseURL+'/organ/queryAllCompany')
+				.then(function(res) {
+					console.log('CompList',res);
+					self.compList = res.data.data;
+				}).catch(function(err) {
+					console.log(err);
+				})
+			},
+			queryCans() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
+				.then(function(res) {
+					console.log('queryCans',res);
+					if(res.data.code === "S00000") {
+						self.rankList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
 			}
 		}
 	}
@@ -193,78 +232,5 @@
 		width: 100%;
 	}
 	
-	.edit_rank .content {
-		width: 100%;
-		min-height: 510px;
-		padding: 0px 20px;
-		background: #ffffff;
-		clear: both;
-	}
 	
-	.edit_rank .content .title {
-		border-bottom: 1px solid #EEEEEE;
-	}
-	
-	.edit_rank .content .title .title-text {
-		display: inline-block;
-		position: relative;
-		padding: 14px 0px;
-		font-size: 16px;
-		height: 50px;
-	}
-	
-	.edit_rank .content .title .title-text:after {
-		content: '';
-		position: absolute;
-		left: 0;
-		bottom: -1px;
-		width: 100%;
-		height: 2px;
-		background: #333333;
-	}
-	
-	.edit_rank .content-inner {
-		padding: 30px 0px;
-	}
-	
-	.edit_rank .toolBtn {
-		float: right;
-		margin-top: 10px;
-		background: #F4F4F4;
-		border: 1px solid #F4F4F4;
-		font-size: 14px;
-		color: #333333;
-		width: 120px;
-		height: 30px;
-		padding: 0;
-	}
-	
-	.edit_rank .el-form-item {
-		margin-bottom: 22px;
-		float: left;
-		width: 50%;
-	}
-	
-	.edit_rank .el-input__inner {
-		border: 1px solid #EEEEEE;
-		color: #999999;
-		width: 300px;
-		height: 40px;
-		margin-left: 30px;
-	}
-	
-	.edit_rank .el-form-item__label {
-		text-align: right;
-		vertical-align: middle;
-		float: left;
-		font-size: 14px;
-		color: #999999;
-		line-height: 1;
-		padding: 11px 0px 11px 0;
-		box-sizing: border-box;
-	}
-	
-	.edit_rank .el-form-item__error {
-		padding-left: 30px;
-	}
 </style>

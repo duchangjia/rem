@@ -291,16 +291,6 @@
 				}).catch(function(err) {
 					console.log('error');
 				})
-			},
-			calTimeSheet(params) {
-				let self = this;
-				self.$axios.get(baseURL+'/leave/calculateLeaveTime',{params})
-				.then(function(res) {
-					console.log('timeSheet',res);
-					self.formdata2.timeSheet = res.data;
-				}).catch(function(err) {
-					console.log('error');
-				})
 			}
 		}
 	};

@@ -1,134 +1,163 @@
 <template>
 	<div class="add_welfare">
 		<current yiji="参数管理" erji="业务参数" sanji="福利缴纳系数设置" siji="福利缴纳系数新增"></current>
-		<div class="content">
-			<div class="title">
+		<div class="content-wrapper">
+			<div class="titlebar">
 				<span class="title-text">福利缴纳系数新增</span>
 				<el-button class="toolBtn btn-primary" @click="save('insurancePayTemplateData')">保存</el-button>
 			</div>
-			<div class="content-inner">
-				<el-form ref="insurancePayTemplateData" :rules="rules" :model="insurancePayTemplateData" label-width="80px">
-					<el-form-item label="模版名称" prop="applyName">
-					    <el-input v-model="insurancePayTemplateData.applyName"></el-input>
-				  	</el-form-item>
-					<el-form-item label="模版备注">
-					    <el-input v-model="insurancePayTemplateData.remark"></el-input>
-				  	</el-form-item>
-					<div class="form_box">
-						<div class="title">养老保险系数</div>
-						<div class="inner">
-							<el-form-item label="个人支付" prop="perEndmRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perEndmRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="perEndmFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perEndmFixed"></el-input>
-						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comEndmRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEndmRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="comEndmFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEndmFixed"></el-input>
-						  	</el-form-item>
-						</div>
-					</div>
-					<div class="form_box">
-						<div class="title">医疗保险系数</div>
-						<div class="inner">
-							<el-form-item label="个人支付" prop="perMediRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perMediRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="perMediFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perMediFixed"></el-input>
-						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comMediRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMediRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="comMediFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMediFixed"></el-input>
-						  	</el-form-item>
-						</div>
-					</div>
-					<div class="form_box">
-						<div class="title">失业保险系数</div>
-						<div class="inner">
-							<el-form-item label="个人支付" prop="perUnemRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perUnemRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="perUnemFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perUnemFixed"></el-input>
-						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comUnemRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comUnemRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="comUnemFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comUnemFixed"></el-input>
-						  	</el-form-item>
-						</div>
-					</div>
-					<div class="form_box">
-						<div class="title">工伤保险系数</div>
-						<div class="inner">
-							<el-form-item label="个人支付" prop="perEmplRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perEmplRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="perEmplFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perEmplFixed"></el-input>
-						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comEmplRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEmplRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="comEmplFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEmplFixed"></el-input>
-						  	</el-form-item>
-						</div>
-					</div>
-					<div class="form_box">
-						<div class="title">生育保险系数</div>
-						<div class="inner">
-							<el-form-item label="个人支付" prop="perMateRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perMateRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="perMateFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perMateFixed"></el-input>
-						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comMateRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMateRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="comMateFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMateFixed"></el-input>
-						  	</el-form-item>
-						</div>
-					</div>
-					<div class="form_box">
-						<div class="title">住房公积金系数</div>
-						<div class="inner">
-							<el-form-item label="个人支付" prop="perHousRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perHousRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="perHousFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perHousFixed"></el-input>
-						  	</el-form-item>
-						  	<el-form-item label="单位支付" prop="comHousRate" class="formLeft">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comHousRate"></el-input>
-						  	</el-form-item>
-						  	<span class="plus">%+</span>
-						  	<el-form-item prop="comHousFixed" class="formRight">
-						      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comHousFixed"></el-input>
-						  	</el-form-item>					
-						</div>
-					</div>
-					<div class="form_box"></div>
+			<div class="add-wrapper">
+				<el-form ref="insurancePayTemplateData" :inline="true" :rules="rules" :model="insurancePayTemplateData" label-width="80px">
+					<el-col :sm="24" :md="12">
+						<el-form-item label="模版名称" prop="applyName">
+						    <el-input v-model="insurancePayTemplateData.applyName"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="模版备注">
+						    <el-input v-model="insurancePayTemplateData.remark"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :span="24" class="item-title">养老保险系数</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="个人支付" prop="perEndmRate">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perEndmRate"></el-input>
+					  		<span class="plus">%+</span>
+						</el-form-item>
+					  	
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label=" " prop="perEndmFixed" label-width="0">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perEndmFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="单位支付" prop="comEndmRate">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEndmRate"></el-input>
+							<span class="plus">%+</span>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label=" " prop="comEndmFixed" label-width="0">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEndmFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :span="24" class="item-title">医疗保险系数</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="个人支付" prop="perMediRate">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perMediRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label=" " prop="perMediFixed" label-width="0">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perMediFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="单位支付" prop="comMediRate">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMediRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label=" " prop="comMediFixed" label-width="0">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMediFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :span="24" class="item-title">失业保险系数</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="个人支付" prop="perUnemRate">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perUnemRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label=" " prop="perUnemFixed" label-width="0">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perUnemFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="单位支付" prop="comUnemRate">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comUnemRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label=" " prop="comUnemFixed" label-width="0">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comUnemFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :span="24" class="item-title">工伤保险系数</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="个人支付" prop="perEmplRate">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perEmplRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label=" " prop="perEmplFixed" label-width="0">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perEmplFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="单位支付" prop="comEmplRate">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEmplRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label=" " prop="comEmplFixed" label-width="0">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comEmplFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :span="24" class="item-title">生育保险系数</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="个人支付" prop="perMateRate">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perMateRate"></el-input>
+					  		<span class="plus">%+</span>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label=" " prop="perMateFixed" label-width="0">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perMateFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="单位支付" prop="comMateRate">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMateRate"></el-input>
+					  		<span class="plus">%+</span>
+					 	</el-form-item>	
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label=" " prop="comMateFixed" label-width="0">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comMateFixed"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :span="24" class="item-title">住房公积金系数</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="个人支付" prop="perHousRate">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perHousRate"></el-input>
+					  		<span class="plus">%+</span>
+					  </el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label=" " prop="perHousFixed" label-width="0">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.perHousFixed"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="单位支付" prop="comHousRate">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comHousRate"></el-input>
+					  		<span class="plus">%+</span>
+						</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label=" " prop="comHousFixed" label-width="0">
+					      	<el-input type="text" placeholder="" v-model="insurancePayTemplateData.comHousFixed"></el-input>
+					  	</el-form-item>	
+					</el-col>
+					
 				</el-form>
 			</div>
 		</div>
@@ -339,107 +368,16 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .add_welfare {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
 }
-.add_welfare .content {
-	width: 100%;
-	padding: 0px 20px;
-	background: #ffffff;
-	clear: both;
-}
-.add_welfare .content .title {
-border-bottom: 1px solid #EEEEEE;
-}
-
-.add_welfare .content .title .title-text {
-	display: inline-block;
-	position: relative;
-	padding: 14px 0px;
-	font-size: 16px;
-	height: 50px;
-}
-
-.add_welfare .content .title .title-text:after {
-	content: '';
+.add_welfare .plus {
 	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
-}
-
-.add_welfare .content-inner {
-	padding: 30px 0px;
-}
-.add_welfare .toolBtn {
-	float: right;
-	margin-top: 10px;
-	background: #F4F4F4;
-	border: 1px solid #F4F4F4;
-	font-size: 14px;
-	color: #333333;
-	width: 120px;
-	height: 30px;
-	padding: 0;
-}
-.add_welfare .form_box {
-	clear: both;
-}
-.add_welfare .form_box .title{
-	padding: 11px 0px 11px 10px;
-    margin-bottom: 20px;
-	color: #999999;
-	border: none;
-	clear: both;
-}
-.add_welfare .form_box .inner {
-	padding-left: 20px;
-}
-.add_welfare .form_box .plus {
-	margin-left: 10px;
-	margin-right: -20px;
-    margin-top: 10px;
-    float: left;
-}
-.add_welfare .form_box .el-form-item {
-	width: 45%;
-	float: left;
-}
-.add_welfare .form_box .el-form-item.formLeft {
-	clear: both;
-}
-.add_welfare .form_box .el-form-item.formRight {
-    margin-left: -50px;
-}
-.add_welfare .el-input__inner {
-    border: 1px solid #EEEEEE;
-    color: #999999;
-    width: 300px;
-    height: 40px;
-    margin-left: 30px;
-}
-.add_welfare .el-form-item__label {
-    text-align: right;
-    vertical-align: middle;
-    float: left;
-    font-size: 14px;
-    color: #999999;
-    line-height: 1;
-    padding: 11px 0px 11px 0;
-    box-sizing: border-box;
-}
-.add_welfare .el-input {
-    position: relative;
-    font-size: 14px;
-    width: 330px;
-}
-.add_welfare .el-form-item__error {
-    padding-left: 30px;
+    top: 0px;
+    right: -70px;
 }
 
 </style>

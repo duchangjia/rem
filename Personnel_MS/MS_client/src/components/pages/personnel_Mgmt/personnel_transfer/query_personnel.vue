@@ -62,7 +62,7 @@
 					</el-table-column>
 					<el-table-column align="center" prop="custStatus" label="状态" :formatter="custStatusFormatter">
 					</el-table-column>
-					<el-table-column align="center" label="操作" width="150">
+					<el-table-column align="center" label="操作" width="130">
 						<template scope="scope">
 							<el-button type="text" size="small" @click="handleTransfer(scope.$index, scope.row)">调动</el-button>
 							<el-button type="text" size="small" @click="handDimission(scope.$index, scope.row)">离职</el-button>

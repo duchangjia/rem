@@ -147,7 +147,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .add_rateGroup {
 	padding-left: 20px;
     padding-bottom: 20px;
@@ -157,6 +157,6 @@ export default {
 .add_rateGroup .percent_icon {
     position: absolute;
     top: 0px;
-    left: 340px;
+    left: 320px;
 }
 </style>

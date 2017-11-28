@@ -110,15 +110,15 @@ export default {
 			},
 			transferDataList: [
 				{
-					batchNo: "20172017",
-					organName: "深圳分公司",
-					settleStartTime: "2017-10-10",
-					settleEndTime: "2017-11-10",
-					month: "2017-10-10",
-					remark: "的方式大力开发空间里的时间反对声浪附近逗留时间房价肯定里粉丝数量大幅减少的看风景",
-					batchStatus: "01",
-					createdBy: "P000000",
-					createdDate: "2017-11-21"
+					batchNo: "",
+					organName: "",
+					settleStartTime: "",
+					settleEndTime: "",
+					month: "",
+					remark: "",
+					batchStatus: "",
+					createdBy: "",
+					createdDate: ""
 				}
 			],
 			//部门列表
