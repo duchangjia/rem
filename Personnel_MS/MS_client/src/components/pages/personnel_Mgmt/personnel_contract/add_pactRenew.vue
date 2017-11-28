@@ -1,6 +1,6 @@
 <template>
     <div class="add_pactRenew">
-        <current yiji="人事事务" erji="人事合同" sanji="合同续签">
+        <current yiji="人事事务" erji="人事合同" sanji="合同续签" :activeTab="activeName" :pactNo="pactNo" :pactSubFlag='pactSubFlag'>
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
@@ -128,6 +128,8 @@ export default {
   data() {
     return {
       labelPosition: "right",
+      pactSubFlag: "false",
+      activeName: "",
       userNo: "",
       pactNo: "",
       custInfo: {},
@@ -175,8 +177,15 @@ export default {
   created() {
     this.pactNo = this.$route.params.pactNo;
     this.userNo = this.$route.params.userNo;
+    console.log('userNo',this.userNo);
+    if (this.$route.params.pactSubFlag) {
+      this.pactSubFlag = this.$route.params.pactSubFlag;
+      this.activeName = "renewPactMsg";
+    }
     this.getPactDetail();
     this.getCustInfo();
+    console.log('pactSubFlag',this.pactSubFlag);
+    console.log('activeName',this.activeName);
   },
   computed: {
     _custClass: function() {
@@ -250,7 +259,16 @@ export default {
               console.log(res);
               if (res.data.code == "S00000"){
                 this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/personnel_contract");
+                this.$router.push("query_contract");
+                if (this.pactSubFlag == "true") {
+                  this.$router.push({
+                    name: "detail_contract",
+                    params: {
+                      activeTab: this.activeName,
+                      pactNo: this.pactNo
+                    }
+                  });
+                }
               } else this.$message.error("操作失败！");
             })
             .catch(() => {

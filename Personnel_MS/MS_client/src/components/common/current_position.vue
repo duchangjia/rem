@@ -13,6 +13,7 @@
                     <el-breadcrumb-item v-if='false'>{{activeTab}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if='false'>{{pactNo}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if='false'>{{userNo}}</el-breadcrumb-item>
+                    <el-breadcrumb-item v-if='false'>{{pactSubFlag}}</el-breadcrumb-item>
                 </el-breadcrumb>
             </el-col>
             <el-col :span="2" v-show="breadItemLength>1">
@@ -37,7 +38,15 @@ export default {
         jump() {
             let aa = this.link[this.breadItemLength - 2]
             if (!aa) return false
-            if(this.activeTab && this.pactNo){
+            if (this.activeTab && this.pactNo && this.pactSubFlag) {
+                this.$router.push({
+                    name: 'detail_contract',
+                    params: {
+                        activeTab: this.activeTab,
+                        pactNo: this.pactNo
+                    }
+                })
+            } else if(this.activeTab && this.pactNo){
                 this.$router.push({
                     name: aa,
                     params: {
@@ -107,7 +116,7 @@ export default {
                 _link.push('/management_framework')
             }
             if (this.erji === '人事合同') {
-                _link.push('/personnel_contract')
+                _link.push('query_contract')
             }
             if (this.erji === '人事调动') {
             	_link.push('/personnel_transfer')
@@ -420,6 +429,10 @@ export default {
             default: ''
         },
         userNo: {
+            type: String,
+            default: ''
+        },
+        pactSubFlag: {
             type: String,
             default: ''
         },
