@@ -1,6 +1,6 @@
 <template>
     <div class="edit_pactChange">
-        <current yiji="人事事务" erji="人事合同" sanji="合同详情" siji="合同变更修改" :activeTab="activeName">
+        <current yiji="人事事务" erji="人事合同" sanji="合同详情" siji="合同变更修改" :activeTab="activeName" :pactNo="pactNo">
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
@@ -9,22 +9,22 @@
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="合同编号">
                             <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="合同名称">
                             <el-input v-model="basicPactMsg.pactName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="合同签约时间">
                             <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.signTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="合同终止时间">
                             <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStopTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
@@ -33,45 +33,45 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">员工信息</el-col>
-                <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
-                    <el-col :span="12">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="工号">
-                            <el-input v-model="basicPactMsg.userNo" :disabled="true"></el-input>
+                            <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="姓名">
-                            <el-input v-model="basicPactMsg.custName" :disabled="true"></el-input>
+                            <el-input v-model="custInfo.custName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="身份证">
-                            <el-input v-model="basicPactMsg.cert" :disabled="true"></el-input>
+                            <el-input v-model="custInfo.certNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="公司">
-                            <el-input v-model="basicPactMsg.organName" :disabled="true"></el-input>
+                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="部门">
-                            <el-input v-model="basicPactMsg.derpName" :disabled="true"></el-input>
+                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="岗位">
-                            <el-input v-model="basicPactMsg.custPost" :disabled="true"></el-input>
+                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
-                            <el-input v-model="basicPactMsg.post" :disabled="true"></el-input>
+                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="职级">
-                            <el-input v-model="basicPactMsg.custClass" :disabled="true"></el-input>
+                            <el-input v-model="_custClass" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -79,17 +79,14 @@
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">合同变更信息</el-col>
                 <el-form :inline="true" :model="editPChangeMsg" :rules="pactMsgRules" ref="pactMsgRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="变更时间" prop="changeTime">
                             <el-date-picker type="date" placeholder="选择日期" v-model="editPChangeMsg.changeTime" @change="changeTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="变更类别" prop="changeType">
-                            <el-select v-model="editPChangeMsg.changeType">
-                                <el-option label="条款变更" value="01"></el-option>
-                                <el-option label="其他" value="99"></el-option>
-                            </el-select>
+                            <el-input v-model="_changeType"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
@@ -118,9 +115,11 @@ export default {
     return {
       labelPosition: "right",
       activeName: "changePactMsg",
+      userNo: "",
       pactNo: "",
       changeId: "",
       basicPactMsg: {},
+      custInfo: {},
       editPChangeMsg: {},
       pactMsgRules: {
         changeTime: [{ required: true, message: "请选择变更日期", trigger: "change" }],
@@ -133,13 +132,37 @@ export default {
     current
   },
   created() {
+    this.userNo = this.$route.params.userNo;
     this.pactNo = this.$route.params.pactNo;
     this.changeId = this.$route.params.changeId;
-    this.getPactDtl(this.pactNo);
-    this.getPChangeDtl();
+    this.getPactDetail();
+    this.getCustInfo(); 
+    this.getPChangeDetail();
+  },
+  computed: {
+    _custClass: function() {
+      if (this.custInfo.custClass == "B10") {
+        return "B10-初级软件工程师";
+      } else if (this.custInfo.custClass == "B11") {
+        return "B11-中级软件工程师";
+      } else if (this.custInfo.custClass == "B12") {
+        return "B12-高级软件工程师";
+      } else {
+        return "";
+      }
+    },
+    _changeType: function() {
+      if (this.editPChangeMsg.changeType == "01") {
+        return "条款变更";
+      } else if (this.editPChangeMsg.changeType == "99") {
+        return "其他";
+      } else {
+        return "";
+      }
+    }
   },
   methods: {
-    getPactDtl(pactNo) {
+    getPactDetail() {
       const self = this;
       let params = {
         pactNo: self.pactNo
@@ -153,7 +176,20 @@ export default {
           console.log("error");
         });
     },
-    getPChangeDtl(pactNo) {
+    getCustInfo() {
+      const self = this;
+      let userNo = self.userNo;
+      self.$axios
+        .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
+        .then(res => {
+          console.log('cusInfo', res);
+          self.custInfo = res.data.data;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+    getPChangeDetail() {
       const self = this;
       let params = {
         pactNo: self.pactNo,
@@ -162,7 +198,7 @@ export default {
       self.$axios
         .get("/iem_hrm/pact/queryPactChangeDetail", { params: params })
         .then(res => {
-          console.log('res',res);
+          console.log('PChangeDtl',res);
           self.editPChangeMsg = res.data.data;
         })
         .catch(() => {
@@ -193,7 +229,7 @@ export default {
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
                 this.$router.push({
-                  name: "personnel_contract",
+                  name: "detail_contract",
                   params: {
                     pactNo: this.pactNo,
                     activeTab: this.activeName

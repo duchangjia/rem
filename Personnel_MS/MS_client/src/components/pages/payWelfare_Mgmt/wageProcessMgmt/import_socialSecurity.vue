@@ -7,7 +7,6 @@
 				<span class="title-text">社保数据导入</span>
 				<div class="imExport-btn">
                     <span class="icon-import imExport-btn-item" title="导入" @click="handleImport"></span>
-					<span class="icon-export imExport-btn-item" title="导出" @click="handleExport"></span>
 					<span class="icon-download imExport-btn-item" title="下载模版" @click="handleDownloadTemplate"></span>
 				</div>
 			</div>
@@ -15,13 +14,13 @@
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称" prop="companyNo">
-							<el-select v-model="formdata2.companyNo" value-key="compOrgNo">
+							<el-select v-model="formdata2.companyNo">
 								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
-						<el-form-item label="社保数据周期" prop="wageMonth"">
+						<el-form-item label="社保数据周期" prop="wageMonth">
 							<el-date-picker v-model="formdata2.wageMonth" type="month" placeholder="请选择" @change="changeWageMonth"  style="width:100%;" >
 						   	</el-date-picker>
 						</el-form-item>
@@ -33,7 +32,7 @@
 					  			 :data="formdata"
 					  			 :on-change="changeUpload" 
 					  			 :on-success="successUpload"
-					  			 action="/iem_hrm/travel/modifyTravelInfo" 
+					  			 action="/iem_hrm/welfare/batchimport" 
 					  			 :show-file-list="false" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
@@ -80,7 +79,7 @@
 			 			{ required: true, message: '公司名称不能为空', trigger: 'blur' }
 			 		],
 			 		wageMonth: [
-			 			{ required: true, message: '社保数据周期不能为空', trigger: 'blur' }
+			 			{ required: true, message: '社保数据周期不能为空', trigger: 'change' }
 			 		]
 				}
 			}
@@ -91,8 +90,8 @@
 		computed: {
 			formdata: function(){
 				return {
-					companyNo: this.formdata2.companyNo,
-					wageMonth: this.formdata2.wageMonth
+					organNo: this.formdata2.companyNo,
+					month: this.formdata2.wageMonth
 				}
 			}
 		},
@@ -116,16 +115,14 @@
 	      		
 	      	},
 	      	handleDownloadTemplate() {
-	      		
+	      		//下载社保信息模版
+	      		this.downloadFile();
 	      	},
 	      	handleImport(formName) {
 				const self = this;
 				self.$refs.formdata2.validate(valid => {
 			        if (valid) {
-			          	let params = {
-			          		
-			          	}
-			          	self.modWageInfo(params);
+			          	self.$refs.upload.submit();
 			        }
 		       })
 			},
@@ -136,12 +133,9 @@
 			          	let params = {
 			          		
 			          	}
-			          	self.modWageInfo(params);
+			          	
 			        }
 		       })
-			},
-			download() {
-				
 			},
 			modWageInfo(params) {
 				let self = this;
@@ -158,14 +152,42 @@
 			},
 			queryCompList() {
 				let self = this;
-				self.$axios.get(baseURL+'/organ/queryAllCompany')
+				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
 				.then(function(res) {
 					console.log('CompList',res);
 					self.compList = res.data.data;
 				}).catch(function(err) {
 					console.log(err);
 				})
-			}
+			},
+			downloadFile() {
+				const self = this;
+				self.$axios.get(baseURL+'/file/downloadTemplate?templateName=社保基本信息模板', {
+	                    responseType: 'blob'
+	                })
+	                .then((response) => {
+						console.log(response);
+	                    const fileName = "社保基本信息模板.xlsx"; 
+	                    const blob = response.data;
+	
+	                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+	
+	                        window.navigator.msSaveOrOpenBlob(blob, fileName);
+	                    } else {
+	
+	                        let elink = document.createElement('a'); // 创建a标签
+	                        elink.download = fileName;
+	                        elink.style.display = 'none';
+	                        elink.href = URL.createObjectURL(blob);
+	                        document.body.appendChild(elink);
+	                        elink.click(); // 触发点击a标签事件
+	                        document.body.removeChild(elink);
+	                    }
+	                }).catch((e) => {
+	                    console.error(e)
+	                    self.$message({ message: '下载模版失败', type: 'error' });
+	                })
+			},
 		}
 	};
 </script>

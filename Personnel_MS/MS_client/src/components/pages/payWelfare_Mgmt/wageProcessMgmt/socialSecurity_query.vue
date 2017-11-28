@@ -6,7 +6,7 @@
 				<span class="title-text">社保数据查询</span>
 				<div class="titleBtn_wrapper">
                    	<el-button class="btn-primary" @click="handleSocial">导入</el-button>
-					<el-button class="btn-primary">导出</el-button>
+					<el-button class="btn-primary" @click="handleExport">导出</el-button>
 				</div>
 				
 			</div>
@@ -21,20 +21,20 @@
 					</el-col>
 					<el-col :sm="12" :md="6">
 						<el-form-item label="身份证号">
-							<el-input v-model="ruleForm2.certNo" placeholder="请输入身份证号"></el-input>
+							<el-input v-model="ruleForm2.idCard" placeholder="请输入身份证号"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
-						<el-form-item label="社保数据周期" prop="startDate"">
+						<el-form-item label="社保数据周期" prop="welfareStartTime">
 							<el-date-picker
-						      v-model="ruleForm2.startDate"
+						      v-model="ruleForm2.welfareStartTime"
 						      type="month"
 						      placeholder="选择日期"
 						      @change="changeStartTime"
 						     >
 						   	</el-date-picker> -
 							<el-date-picker
-						      v-model="ruleForm2.endDate"
+						      v-model="ruleForm2.welfareEndTime"
 						      type="month"
 						      placeholder="选择日期"
 						      @change="changeEndTime"
@@ -47,16 +47,16 @@
 						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
-				<el-table :data="transferDataList" border stripe style="width: 100%">
+				<el-table :data="welfareList" border stripe style="width: 100%">
 					<el-table-column prop="companyName" label="公司名称"></el-table-column>
 					<el-table-column prop="custName" label="姓名"></el-table-column>
-					<el-table-column prop="certNo" label="身份证号"></el-table-column>
-					<el-table-column prop="gryTime" label="社保数据周期" :formatter="gryTimeFormatter"></el-table-column>
-					<el-table-column prop="yanglaoTotal" label="养老合计" ></el-table-column>
-					<el-table-column prop="yiliaoTotal" label="医疗合计" ></el-table-column>
-					<el-table-column prop="siyeTotal" label="失业合计" ></el-table-column>
-					<el-table-column prop="shenyuTotal" label="生育合计" ></el-table-column>
-					<el-table-column prop="gongshangTotal" label="工伤合计" ></el-table-column>
+					<el-table-column prop="idCard" label="身份证号"></el-table-column>
+					<el-table-column prop="month" label="社保数据周期" ></el-table-column>
+					<el-table-column prop="endmTotal" label="养老合计" ></el-table-column>
+					<el-table-column prop="mediTotal" label="医疗合计" ></el-table-column>
+					<el-table-column prop="unemTotal" label="失业合计" ></el-table-column>
+					<el-table-column prop="mateTotal" label="生育合计" ></el-table-column>
+					<el-table-column prop="emplTotal" label="工伤合计" ></el-table-column>
 					<el-table-column prop="houseTotal" label="公积金合计" ></el-table-column>
 					<el-table-column prop="createdBy" label="录入人"></el-table-column>
 					<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
@@ -84,21 +84,21 @@ export default {
 			queryFormFlag: false,
 			ruleForm2: {
 				organNo: '',
-				certNo: '',
-				startDate: "",
-				endDate: ''
+				idCard: '',
+				welfareStartTime: "",
+				welfareEndTime: ''
 			},
-			transferDataList: [
+			welfareList: [
 				{
 					companyName: "深圳分公司",
 					custName: "小李",
-					certNo: "54000000000",
-					gryTime: "2017-10",
-					yanglaoTotal: "1",
-					yiliaoTotal: "1",
-					siyeTotal: "1",
-					shenyuTotal: "1",
-					gongshangTotal: "1",
+					idCard: "54000000000",
+					month: "2017-10",
+					endmTotal: "1",
+					mediTotal: "1",
+					unemTotal: "1",
+					mateTotal: "1",
+					emplTotal: "1",
 					houseTotal: "1",
 					createdBy: "P000000",
 					createdDate: "2017-10-1"
@@ -109,7 +109,7 @@ export default {
 			//公司列表
 			compList: [],
 			rules: {
-				startDate: [
+				welfareStartTime: [
 				]
 			}
 		}
@@ -119,47 +119,28 @@ export default {
 	},
 	created() {
 		this.queryFormFlag = false;
-		let params = {
-			"pageNum": this.pageNum,
-			"pageSize": this.pageSize,
-			
-		}
-		
+		this.ruleForm2.organNo = '';
+		this.ruleForm2.idCard = '';
+		this.ruleForm2.welfareStartTime = '';
+		this.ruleForm2.welfareEndTime = '';
+		//社保列表查询
+		this.queryWelfareList();
 		//公司列表查询
 		this.queryCompList();
 	},
 	methods: {
-		gryTimeFormatter(row, column) {
-	      return row.gryTime ? moment(row.gryTime).format('YYYY-MM-DD') : null;
+		monthFormatter(row, column) {
+	      return row.month ? moment(row.month).format('YYYY-MM') : null;
 	   	},
 	   	createdDateFormatter(row, column) {
 	      return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null;
 	    },
-		travelTypeFormatter(row, column) {
-	    	let travelType = '';
-	    	switch(row.travelType){
-				case '01':
-				  travelType = '业务拓展'
-				  break;
-				case '02':
-				  travelType = '项目实施'
-				  break;
-				case '03':
-				  travelType = '会议'
-				  break;
-				case '99':
-				  travelType = '其他'
-				  break;
-				default:
-			}
-	    	return travelType;
-		},
 		changeStartTime(val) {
-			this.ruleForm2.startDate = val;
+			this.ruleForm2.welfareStartTime = val;
 			console.log(val)
 		},
 		changeEndTime(val) {
-			this.ruleForm2.endDate = val;
+			this.ruleForm2.welfareEndTime = val;
 		},
 		changeComp(val) {
 			console.log(val);
@@ -167,75 +148,24 @@ export default {
 		handleSocial() {
 			this.$router.push('/import_socialSecurity');
 		},
-	    handleAdd() {
-	    	this.$router.push('/add_wage');
-	    },
-		handleInfo(index, row) {
-			sessionStorage.setItem('infoWage_applyNo', row.applyNo);
-			this.$router.push({
-				name: "wage_info",
-				params: {
-					applyNo: row.applyNo
-				}
-			})
-			
-		},
-		handlMenu(index, row) {
-			console.log('menu',row);
-			sessionStorage.setItem('wage_applyNo',row.applyNo);
-		},
-		handleCommand(command) {
-			console.log(command)
-			let applyNo = sessionStorage.getItem('wage_applyNo');
-			if(command === "handleExport") {
-				//导出
-				
-			}else if(command === "handleImport") {
-				//导入
-				
-			}else if(command === "handleEnter") {
-				//录入
-				
-			}else if(command === "handleUse") {
-				//启用
-				
-			}else if(command === "handleEdit") {
-				//编辑
-				sessionStorage.setItem('editWage_applyNo', applyNo);
-	            this.$router.push('/edit_wage');
-	            
-			}else if(command === "handleDelete") {
-				//删除
-				const self = this;
-			 	self.$confirm('此操作将会删除该条信息, 是否继续?', '提示', {
-	                confirmButtonText: '确定',
-	                cancelButtonText: '取消',
-	                type: 'warning'
-	           	}).then(() => {
-	            	let params = {
-						applyNo: applyNo
-					}
-	            	console.log(params);
-	            	
-	            	
-	            }).catch(() => {
-	                this.$message('您已取消操作！');
-	            });
+		handleExport() {
+			let self = this;
+			let params = {
+				organNo: self.ruleForm2.organNo,
+				idCard: self.ruleForm2.idCard,
+				welfareStartTime: self.ruleForm2.welfareStartTime,
+				welfareEndTime: self.ruleForm2.welfareEndTime
 			}
+			this.exportFile(params);
 		},
 		//查询
 		queryForm(formName) {
 			const self = this;
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
-					self.queryFormFlag = true;
-					let params = {
-						"pageNum": self.pageNum,
-						"pageSize": self.pageSize,
-						
-					};
-					//查询工资列表
 					
+					//条件社保列表查询
+					this.queryWelfareList();
 					
 				} else {
 					return false;
@@ -245,34 +175,30 @@ export default {
 		//重置
 		resetForm() {
 			this.ruleForm2.organNo = '';
-			this.ruleForm2.certNo = '';
-			this.ruleForm2.startDate = '';
-			this.ruleForm2.endDate = '';
+			this.ruleForm2.idCard = '';
+			this.ruleForm2.welfareStartTime = '';
+			this.ruleForm2.welfareEndTime = '';
 		},
 		handleCurrentChange(val) {
-			const self = this;
-			let params = {};
-			if(self.queryFormFlag) {
-				params = {
-					"pageNum": val,
-					"pageSize": self.pageSize,
-					
-				}
-			} else {
-				params = {
-					"pageNum": val,
-					"pageSize": self.pageSize
-				}
-			}
-			
+			this.pageNum = val;
+			//分页社保列表查询
+			this.queryWelfareList();
 		},
-		queryTravelList(params) {
+		queryWelfareList() {
 			let self = this;
-			self.$axios.get(baseURL+'', {params: params})
+			let params = {
+				"pageNum": self.pageNum,
+				"pageSize": self.pageSize,
+				organNo: self.ruleForm2.organNo,
+				idCard: self.ruleForm2.idCard,
+				welfareStartTime: self.ruleForm2.welfareStartTime,
+				welfareEndTime: self.ruleForm2.welfareEndTime
+			};
+			self.$axios.get(baseURL+'/welfare/queryWelfareList', {params: params})
 			.then(function(res) {
-				console.log('TravelList',res);
+				console.log('WelfareList',res);
 				if(res.data.code === "S00000") {
-					self.transferDataList = res.data.data.list;
+					self.welfareList = res.data.data.list;
 					self.pageNum = params.pageNum;
 					self.totalRows = Number(res.data.data.total);
 				}
@@ -293,7 +219,38 @@ export default {
 			}).catch(function(err) {
 				console.log(err);
 			})
-		}
+		},
+		//导出
+		exportFile(params) {
+			const self = this;
+			self.$axios.get(baseURL+'/welfare/exportWelfareInfo',{
+					params: params,
+                    responseType: 'blob'
+                })
+                .then((response) => {
+					console.log('response',response);
+                    const fileName = "社保信息.xlsx"; 
+                    const blob = response.data;
+//					debugger
+                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+
+                        window.navigator.msSaveOrOpenBlob(blob, fileName);
+                    } else {
+
+                        let elink = document.createElement('a'); // 创建a标签
+                        elink.download = fileName;
+                        elink.style.display = 'none';
+                        elink.href = URL.createObjectURL(blob);
+//						console.log('href',elink.href);
+                        document.body.appendChild(elink);
+                        elink.click(); // 触发点击a标签事件
+                        document.body.removeChild(elink);
+                    }
+                }).catch((e) => {
+                    console.error(e)
+                    self.$message({ message: '导出社保信息失败', type: 'error' });
+                })
+		},
 	}
 }
 </script>

@@ -111,8 +111,7 @@ export default {
 	       	},
 			pageNum: 1,
 			pageSize: 10,
-			totalRows: 2,
-			queryFormFlag: false,
+			totalRows: 1,
 			ruleForm2: {
 				organNo: '',
 				departOrgNo: '',
@@ -143,17 +142,9 @@ export default {
 				departOrgNo: ''
 			},
 			//部门列表
-			departList: [
-				{departName: "上海魔方分公司",departOrgNo: '01'},
-				{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-				{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
-			],
+			departList: [],
 			//公司列表
-			compList: [
-				{compName: "上海魔方分公司",compOrgNo: '01'},
-				{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-				{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
-			],
+			compList: [],
 			rules: {
 				startDate: [
 	            	{ validator: checkStartDate, trigger: 'change' }
@@ -168,13 +159,13 @@ export default {
 		current
 	},
 	created() {
-		this.queryFormFlag = false;
-		let params = {
-			"pageNum": this.pageNum,
-			"pageSize": this.pageSize
-		}
+		this.ruleForm2.organNo = '';
+		this.ruleForm2.departOrgNo = '';
+		this.ruleForm2.userNo = '';
+		this.ruleForm2.startDate = '';
+		this.ruleForm2.endDate = '';
 		//请假列表查询
-		this.queryLeaveList(params);
+		this.queryLeaveList();
 		//查询公司列表
 		this.queryCompList();
 	},
@@ -250,19 +241,8 @@ export default {
 			const self = this;
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
-					self.queryFormFlag = true;
-					let params = {
-						"pageNum": self.pageNum,
-						"pageSize": self.pageSize,
-						organNo: self.ruleForm2.organNo,
-						derpNo: self.ruleForm2.departOrgNo,
-						leaveUserNo: self.ruleForm2.userNo,
-						leaveStartTime: self.ruleForm2.startDate,
-						leaveEndTime: self.ruleForm2.endDate
-					};
-					console.log(params)
 					//请假列表查询
-					self.queryLeaveList(params);
+					self.queryLeaveList();
 					
 				} else {
 					return false;
@@ -278,30 +258,21 @@ export default {
 			this.ruleForm2.endDate = '';
 		},
 		handleCurrentChange(val) {
-			const self = this;
-			let params = {};
-			if(self.queryFormFlag) {
-				params = {
-					"pageNum": val,
-					"pageSize": self.pageSize,
-					organNo: self.ruleForm2.organNo,
-					derpNo: self.ruleForm2.departOrgNo,
-					leaveUserNo: self.ruleForm2.userNo,
-					leaveStartTime: self.ruleForm2.startDate,
-					leaveEndTime: self.ruleForm2.endDate
-					
-				}
-			} else {
-				params = {
-					"pageNum": val,
-					"pageSize": self.pageSize
-				}
-			}
+			this.pageNum = val;
 			//分页列表查询
-			this.queryLeaveList(params);
+			this.queryLeaveList();
 		},
-		queryLeaveList(params) {
+		queryLeaveList() {
 			let self = this;
+			let params = {
+				"pageNum": self.pageNum,
+				"pageSize": self.pageSize,
+				organNo: self.ruleForm2.organNo,
+				derpNo: self.ruleForm2.departOrgNo,
+				leaveUserNo: self.ruleForm2.userNo,
+				leaveStartTime: self.ruleForm2.startDate,
+				leaveEndTime: self.ruleForm2.endDate
+			};
 			self.$axios.get(baseURL+'/leave/queryLeaveList', {params: params})
 			.then(function(res) {
 				console.log('LeaveList',res);
@@ -322,18 +293,9 @@ export default {
 				console.log('deleteLeaveInfo',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
-					let param = {
-						"pageNum": self.pageNum,
-						"pageSize": self.pageSize,
-						organNo: self.ruleForm2.organNo,
-						derpNo: self.ruleForm2.derpNo,
-						userNo: self.ruleForm2.userNo,
-						leaveStartTime: self.ruleForm2.startDate,
-						leaveEndTime: self.ruleForm2.endDate
-					};
 					
 					//请假列表查询
-					self.queryLeaveList(param);
+					self.queryLeaveList();
 				}
 			}).catch(function(err) {
 				console.log(err);

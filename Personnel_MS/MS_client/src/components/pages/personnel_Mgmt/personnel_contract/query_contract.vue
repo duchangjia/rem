@@ -132,7 +132,8 @@ export default {
       this.$router.push({
         name: "detail_contract",
         params: {
-          pactNo: row.pactNo
+          pactNo: row.pactNo,
+          userNo: row.userNo
         }
       });
     },
@@ -190,7 +191,8 @@ export default {
       this.$router.push({
         name: "add_pactChange",
         params: {
-          pactNo: row.pactNo
+          pactNo: row.pactNo,
+          userNo: row.userNo
         }
       });
     },
@@ -198,7 +200,8 @@ export default {
       this.$router.push({
         name: "add_pactRenew",
         params: {
-          pactNo: row.pactNo
+          pactNo: row.pactNo,
+          userNo: row.userNo
         }
       });
     },

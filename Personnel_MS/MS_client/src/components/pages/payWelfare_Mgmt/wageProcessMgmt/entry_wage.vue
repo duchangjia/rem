@@ -4,6 +4,9 @@
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
 				<span class="title-text">录入工资</span>
+				<div class="titleBtn_wrapper">
+					<el-button type="primary" class="btn-primary" @click="autoCalc('formdata2')">自动计算</el-button>
+				</div>
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
@@ -15,7 +18,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :sm="12" :md="6">
-						<el-form-item label="工资月份" prop="custNo">
+						<el-form-item label="工号" prop="custNo">
 							<el-input v-model="ruleForm2.custNo" placeholder="请输入工号"></el-input>
 						</el-form-item>
 					</el-col>
@@ -26,7 +29,7 @@
 					</el-col>
 					<el-col :sm="12" :md="6">
 						<el-form-item label="社保缴纳差异情况" prop="difference" style="margin-left: -38px;">
-							<el-select v-model="ruleForm2.difference" @change="changeComp">
+							<el-select v-model="ruleForm2.difference">
 								<el-option v-for="item in differenceList" :key="item.differenceNo" :label="item.differenceName" :value="item.differenceNo"></el-option>
 							</el-select>
 						</el-form-item>
@@ -37,21 +40,79 @@
 					</div>
 				</el-form>
 				<el-table :data="socialInfoData" border fit stripe style="width: 100%;">
-					<el-table-column prop="applyNo" label="工资月份" width="100"></el-table-column>
-					<el-table-column prop="companyName" label="工号" width="100"></el-table-column>
-					<el-table-column prop="gryStartTime" label="姓名" width="100"></el-table-column>
-					<el-table-column prop="gryEndTime" label="基础工资" width="100"></el-table-column>
-					<el-table-column prop="gongziMonth" label="绩效工资" width="100"></el-table-column>
-					<el-table-column prop="remark" label="岗位津贴" :show-overflow-tooltip="true" width="100"></el-table-column>
-					<el-table-column prop="status" label="通讯补贴" width="100"></el-table-column>
-					<el-table-column prop="jiaotongbt" label="交通补贴" width="100"></el-table-column>
-					<el-table-column prop="jixiaojiang" label="绩效奖金" width="100"></el-table-column>
-					<el-table-column prop="jiaban" label="加班工资" width="100"></el-table-column>
-					<el-table-column prop="qita" label="其他补贴" width="100"></el-table-column>
-					<el-table-column prop="chidao" label="迟到早退" width="100"></el-table-column>
-					<el-table-column prop="bingjia" label="病事假" width="100"></el-table-column>
-					<el-table-column prop="kuanggong" label="矿工" width="100"></el-table-column>
-					<el-table-column prop="shangbaoGeren" label="商保(个人)" width="100"></el-table-column>
+					<el-table-column prop="month" label="工资月份" width="100"></el-table-column>
+					<el-table-column prop="userNo" label="工号" width="100"></el-table-column>
+					<el-table-column prop="custName" label="姓名" width="100"></el-table-column>
+					<el-table-column prop="wagesBase" label="基础工资" min-width="200px">
+						<template scope="scope">
+				          	<el-input size="small" v-model="scope.row.wagesBase" @change="handleEdit($event,'wagesBase')"></el-input>
+				        </template>
+					</el-table-column>
+					<el-table-column prop="wagesPerf" label="绩效工资" min-width="200px">
+						<template scope="scope">
+				          	<el-input size="small" v-model="scope.row.wagesPerf" @change="handleEdit($event,'wagesPerf')"></el-input>
+				        </template>
+					</el-table-column>
+					<el-table-column prop="postPension" label="岗位津贴" :show-overflow-tooltip="true" min-width="200px">
+						<template scope="scope">
+				          	<el-input size="small" v-model="scope.row.postPension" @change="handleEdit($event,'postPension')"></el-input>
+				        </template>
+					</el-table-column>
+					<el-table-column prop="phonePension" label="通讯补贴" min-width="200px">
+						<template scope="scope">
+				          	<el-input size="small" v-model="scope.row.phonePension" @change="handleEdit($event,'phonePension')"></el-input>
+				        </template>
+					</el-table-column>
+					<el-table-column prop="trafficPension" label="交通补贴" min-width="200px">
+						<template scope="scope">
+				          	<el-input size="small" v-model="scope.row.trafficPension" @change="handleEdit($event,'trafficPension')"></el-input>
+				        </template>
+					</el-table-column>
+					<el-table-column prop="livingPension" label="生活补助" min-width="200px">
+						<template scope="scope">
+				          	<el-input size="small" v-model="scope.row.livingPension" @change="handleEdit($event,'livingPension')"></el-input>
+				        </template>
+					</el-table-column>
+					<!--<el-table-column prop="jixiaojiang" label="绩效奖金" min-width="200px">
+						<template scope="scope">
+				          	<el-input size="small" v-model="scope.row.jixiaojiang" @change="handleEdit($event,'jixiaojiang')"></el-input>
+				        </template>
+					</el-table-column>-->
+					<el-table-column prop="overtimePay" label="加班工资" min-width="200px">
+						<template scope="scope">
+				          	<el-input size="small" v-model="scope.row.overtimePay" @change="handleEdit($event,'overtimePay')"></el-input>
+				        </template>
+					</el-table-column>
+					<el-table-column prop="otherPension" label="其他补贴" min-width="200px">
+						<template scope="scope">
+				          	<el-input size="small" v-model="scope.row.otherPension" @change="handleEdit($event,'otherPension')"></el-input>
+				        </template>
+					</el-table-column>
+					<el-table-column prop="chidao" label="迟到早退" min-width="200px">
+						<template scope="scope">
+				          	<el-input size="small" v-model="scope.row.chidao" @change="handleEdit($event,'chidao')"></el-input>
+				        </template>
+					</el-table-column>
+					<el-table-column prop="bingjia" label="病事假" min-width="200px">
+						<template scope="scope">
+				          	<el-input size="small" v-model="scope.row.bingjia" @change="handleEdit($event,'bingjia')"></el-input>
+				        </template>
+					</el-table-column>
+					<el-table-column prop="kuanggong" label="矿工" min-width="200px">
+						<template scope="scope">
+				          	<el-input size="small" v-model="scope.row.kuanggong" @change="handleEdit($event,'kuanggong')"></el-input>
+				        </template>
+					</el-table-column>
+					<el-table-column prop="shangbaoGeren" label="商保(个人)" min-width="200px">
+						<template scope="scope">
+				          	<el-input size="small" v-model="scope.row.shangbaoGeren" @change="handleEdit($event,'shangbaoGeren')"></el-input>
+				        </template>
+					</el-table-column>
+					<el-table-column prop="shangbaoDanwei" label="商保(单位)" min-width="200px">
+						<template scope="scope">
+				          	<el-input size="small" v-model="scope.row.shangbaoDanwei" @change="handleEdit($event,'shangbaoDanwei')"></el-input>
+				        </template>
+					</el-table-column>
 					<el-table-column prop="baoxianGeren" label="保险缴费合计(个人)" width="100"></el-table-column>
 					<el-table-column prop="baoxianDanwei" label="保险缴费合计(单位)" width="100"></el-table-column>
 					<el-table-column prop="baoxianjiaona" label="保险缴纳" width="100">
@@ -59,8 +120,8 @@
 					        <span class="link" @click="handleInfo(scope.$index, scope.row)">详情</span>
 				      	</template>
 					</el-table-column>
-					<el-table-column prop="koushui" label="扣税" width="100"></el-table-column>
-					<el-table-column prop="shifa" label="实发" width="100"></el-table-column>
+					<el-table-column prop="payTax" label="扣税" width="100"></el-table-column>
+					<el-table-column prop="realHair" label="实发" width="100"></el-table-column>
 				</el-table>
 				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
 				</el-pagination>
@@ -84,28 +145,27 @@ export default {
 			totalRows: 2,
 			queryFormFlag: false,
 			ruleForm2: {
-				organNo: '',
 				derpNo: '',
 				custNo: "",
 				custName: "",
-				endDate: ''
+				difference: ''
 			},
 			socialInfoData: [
 				{
-					applyNo: "20172017",
-					companyName: "深圳分公司",
-					gryStartTime: "2017-10-10",
-					gryEndTime: "2017-11-10",
-					gongziMonth: "2017-10-10",
-					remark: "的方式大力开发空间里的时间反对声浪附近逗留时间房价肯定里粉丝数量大幅减少的看风景",
-					status: "01",
+					month: "20172017",
+					userNo: "P00000",
+					custName: "小李",
+					wagesBase: "2000",
+					wagesPerf: "21",
+					postPension: "200",
+					phonePension: "20",
 					createdBy: "P000000",
 					createdDate: "2017-11-21"
 				}
 			],
 			//部门列表
 			departList: [],
-			//公司列表
+			//差异列表
 			differenceList: [
 				{differenceNo: "0",differenceName: "全部"},
 				{differenceNo: "1",differenceName: "无差异"},
@@ -122,55 +182,21 @@ export default {
 	},
 	created() {
 		this.queryFormFlag = false;
+		let batchNo = sessionStorage.getItem('entryWage_batchNo');
+		let organNo = sessionStorage.getItem('entryWage_organNo');
 		let params = {
-			"pageNum": this.pageNum,
-			"pageSize": this.pageSize,
-			
+			organNo: organNo
 		}
-		
-		//公司列表查询
-		this.queryCompList();
 		//部门列表查询
 		this.queryDerpList(params);
 	},
 	methods: {
-		gryStartTimeFormatter(row, column) {
-	      return row.gryStartTime ? moment(row.gryStartTime).format('YYYY-MM-DD') : null;
-	   	}, 
-	   	gryEndTimeFormatter(row, column) {
-	      return row.gryEndTime ? moment(row.gryEndTime).format('YYYY-MM-DD') : null;
-	   	}, 
-	   	statusFormatter(row, column) {
-	   		return row.status=="01" ? "录入" : row.status=="02" ? "启用" : "废弃";
-	   	},
-	   	createdDateFormatter(row, column) {
-	      return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null;
-	    },
-		changeStartTime(val) {
-			this.ruleForm2.startDate = val;
-			console.log(val)
-		},
-		changeComp(val) {
-			console.log(val);
-			const self = this;
-			let params = {
-				organNo: val
-			}
-			//部门列表查询
-			self.queryDerpList(params);
-		},
-		handleSocial() {
-			this.$router.push('/socialSecurity_query');
-		},
-	    handleAdd() {
-	    	this.$router.push('/add_wage');
-	    },
 		handleInfo(index, row) {
-			sessionStorage.setItem('infoWage_applyNo', row.applyNo);
+			sessionStorage.setItem('infoWage_month', row.month);
 			this.$router.push({
 				name: "edit_security",
 				params: {
-					applyNo: row.applyNo
+					month: row.month
 				}
 			})
 			
@@ -186,8 +212,8 @@ export default {
 						"pageSize": self.pageSize,
 						
 					};
-					//查询工资列表
-					
+					//查询
+					self.queryWageList(params);
 					
 				} else {
 					return false;
@@ -196,11 +222,10 @@ export default {
 		},
 		//重置
 		resetForm() {
-			this.ruleForm2.organNo = '';
 			this.ruleForm2.derpNo = '';
-			this.ruleForm2.userNo = '';
-			this.ruleForm2.startDate = '';
-			this.ruleForm2.endDate = '';
+			this.ruleForm2.custNo = '';
+			this.ruleForm2.custName = '';
+			this.ruleForm2.difference = '';
 		},
 		handleCurrentChange(val) {
 			const self = this;
@@ -219,6 +244,23 @@ export default {
 			}
 			
 		},
+		//编辑单元格
+		handleEdit(val,valKey) {
+			console.log('val',val)
+			console.log('valKey',valKey)
+			let params = {
+				
+			};
+			//工资信息录入
+			this.modWageInfo(params);
+		},
+		//自动计算
+		autoCalc() {
+			let params = {
+				
+			};
+			this.autoCaclWage(params);
+		},
 		queryWageInfo(params) {
 			let self = this;
 			self.$axios.get(baseURL+'/wage/',{params: params})
@@ -230,6 +272,47 @@ export default {
 				
 			}).catch(function(err) {
 				console.log('error');
+			})
+		},
+		modWageInfo(params) {
+			let self = this;
+			self.$axios.put(baseURL+'',params)
+			.then((res) => {
+				console.log('modWage',res);
+				if(res.data.code === "S00000") {
+					self.$message({ message: '操作成功', type: 'success' });
+					self.$router.push('/wageProcess_manage');
+				}
+			}).catch((err) => {
+				console.log('error');
+			})
+		},
+		autoCaclWage(params) {
+			let self = this;
+			self.$axios.put(baseURL+'', params)
+			.then(function(res) {
+				console.log('cacl',res);
+				if(res.data.code === "S00000") {
+					
+				}
+				
+			}).catch(function(err) {
+				console.log('error');
+			})
+		},
+		queryWageList(params) {
+			let self = this;
+			self.$axios.get(baseURL+'', {params: params})
+			.then(function(res) {
+				console.log('WageList',res);
+				if(res.data.code === "S00000") {
+//					self.transferDataList = res.data.data.models;
+					self.pageNum = params.pageNum;
+					self.totalRows = Number(res.data.data.total);
+				}
+				
+			}).catch(function(err) {
+				console.log(err);
 			})
 		},
 		queryCompList() {

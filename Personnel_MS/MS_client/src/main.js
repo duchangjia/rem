@@ -9,7 +9,7 @@ import 'element-ui/lib/theme-default/index.css';    // 默认主题
 // import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
 import echarts from 'echarts';
 import Bus from './common/Bus.js';
-
+import filters from './filters/filters.js'
 //Vue.config.productionTip = false
 // axios.defaults.headers['deviceId'] = '12345';
 Vue.use(ElementUI);

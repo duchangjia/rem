@@ -4,9 +4,10 @@
         @close="dialogClose()"
         @open="dialogOpen()"
         :visible.sync = "visible"
+        size="large"
         >
-            <div class="item-box">
-                <el-form class="clearfix">
+            <div class="item-box" id="msg_item_box">
+                <el-form class="clearfix" :inline="true">
                   <el-form-item :label="inputFirstOption.labelName">
                         <el-input :placeholder="inputFirstOption.placeholder" v-model="custInfo.stateName" ></el-input>
                     </el-form-item>
@@ -15,8 +16,12 @@
                         </el-input>
                     </el-form-item>
                     <div class="button-box">
-                        <el-button class="toolBtn restBtn" @click="reset()">重置</el-button>
-                        <el-button class="toolBtn" @click="getList()">查询</el-button>
+                      <el-form-item>
+                          <el-button class="btn-default" @click="reset()">重置</el-button>
+                      </el-form-item>
+                      <el-form-item>
+                          <el-button class="btn-primary" @click="getList()">查询</el-button>
+                      </el-form-item>
                     </div>
                 </el-form>
                 <el-table stripe :data="pactListInfo"  style="width:100%;" @row-click="handleCurrentChange" highlight-current-row>
@@ -40,10 +45,11 @@
                 v-show="pagination.totalRows>pagination.pageSize"
                 >
               </el-pagination>
+              <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="confirm()" class="btn-primary">确 定</el-button>
+              </span>
             </div>
-            <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="confirm()">确 定</el-button>
-            </span>
+           
         </el-dialog>        
     </div>
 </template>
@@ -60,7 +66,8 @@ export default {
         stateNo:''
       },
       secInpuShow:true,
-      visible:false
+      visible:false,
+      tableOption:[]
     };
   },
   created(){
@@ -230,86 +237,77 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-.item-box .el-form{
-  margin-bottom:20px;
+<style lang="scss" socped>
+#msg_item_box{
+  .el-form{
+    margin-bottom:20px;
+    margin-top:0;
+    .el-form-item:last-child{
+        margin-right:0;
+    }
+    .el-form-item{
+      .el-input__inner{
+        width:164px;
+        height:32px;
+        line-height:32px;
+      }
+    }
+    .button-box{
+      float:right;
+    }
+  }
+  
+  .my-autocomplete{
+    li{
+      line-height: 20px;
+      padding: 7px;
+    }
+    .name {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .addr{
+      font-size: 12px;
+      color: #b4b4b4;
+    }
+    .highlighted{
+      .addr {
+        color: #ddd;
+      }
+    } 
+  }
+  .el-table{
+    tr{
+      cursor:pointer;
+    } 
+  }
+  .el-dialog__footer{
+    text-align:left;
+  }
+  .dialog-footer{
+    position: relative;
+    top:10px;
+    }
 }
-.item-box .el-form-item:last-child{
-  margin-right:0;
-}
-.item-box .my-autocomplete li {
-  line-height: 20px;
-  padding: 7px;
-}
-.item-box .my-autocomplete .name {
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-.item-box .my-autocomplete .addr {
-  font-size: 12px;
-  color: #b4b4b4;
-}
-.item-box .my-autocomplete .highlighted .addr {
-  color: #ddd;
-}
-.item-box .el-radio__input.is-checked .el-radio__inner,.el-radio__input.is-focus .el-radio__inner{
-    background:#f90;
-    border-color:#f90;
-}
-.item-box .el-radio__inner:after {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: #fff;
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%) scale(0);
-    transition: transform .15s cubic-bezier(.71,-.46,.88,.6);
-}
-.item-box .el-radio__input.is-checked .el-radio__inner:after ,.el-radio__input.is-focus .el-radio__inner:after{
-    transform: translate(-50%,-50%) scale(1);
-}
-.item-box .button-box .toolBtn {
-    height:30px;
-    width: 120px;
-    background: #f90;
-    border: 1px solid #f90;
-    font-family: PingFangSC-Regular;
-    font-size: 14px;
-    color: #fff;
-    display: inline-block;
-    line-height:30px;
-    padding:0;
-    float:none;
-    margin-top: 0;
-}
-.item-box .button-box .restBtn{
-    background: #fff;
-    border: 1px solid #f90;
-    color: #f90;
-    display: inline-block;
-    margin-left: 10px;
-}
-.item-box .el-input__inner{height:30px;}
-.toolbar{text-align:right;}
-.item-box .el-form-item .el-input{width:164px !important;}
-.item-box .button-box{float:right;}
-.el-table__body-wrapper{overflow-x:hidden;}
-.el-table tr{cursor:pointer }
-.el-dialog__header{background:#f4f4f4;padding:10px 20px;}
-.el-dialog__title{color:#333;font-weight:normal;font-size:14px;}
-.el-dialog__headerbtn{font-size:14px;}
-.el-dialog__headerbtn .el-dialog__close{color:#ff9900;}
-.el-dialog--small{width:80%;}
-.item-box .el-form-item{width:270px;display:inline-block;}
-.el-form-item.is-required .el-form-item__label:before{display:none;}
-.el-dialog__footer{text-align:left;padding-left:40px;}
-.el-dialog__footer .el-button--primary{background:#f4f4f4;color:#333;border:none;padding:10px 40px;}
-.el-dialog__footer .el-button--primary:hover{background:#f90;color:#fff;}
-.content-wrapper .el-pager li.active{border-color: #ff9900;background-color: #ff9900;}
-.el-pager li:hover,.el-pagination button:hover{color:#ff9900;}
-.el-pagination__editor:focus{border-color: #ff9900}
-.pagination-toolbar{margin-top:20px;text-align:right}
+
+// .item-box .el-input__inner{height:30px;}
+// .toolbar{text-align:right;}
+// .item-box .el-form-item .el-input{width:164px !important;}
+// .item-box .button-box{float:right;}
+// .el-table__body-wrapper{overflow-x:hidden;}
+// .el-table tr{cursor:pointer }
+// .el-dialog__header{background:#f4f4f4;padding:10px 20px;}
+// .el-dialog__title{color:#333;font-weight:normal;font-size:14px;}
+// .el-dialog__headerbtn{font-size:14px;}
+// .el-dialog__headerbtn .el-dialog__close{color:#ff9900;}
+// .el-dialog--small{width:80%;}
+// .item-box .el-form-item{width:270px;display:inline-block;}
+// .el-form-item.is-required .el-form-item__label:before{display:none;}
+// .el-dialog__footer{text-align:left;padding-left:40px;}
+// .el-dialog__footer .el-button--primary{background:#f4f4f4;color:#333;border:none;padding:10px 40px;}
+// .el-dialog__footer .el-button--primary:hover{background:#f90;color:#fff;}
+// .content-wrapper .el-pager li.active{border-color: #ff9900;background-color: #ff9900;}
+// .el-pager li:hover,.el-pagination button:hover{color:#ff9900;}
+// .el-pagination__editor:focus{border-color: #ff9900}
+// .pagination-toolbar{margin-top:20px;text-align:right}
 </style>

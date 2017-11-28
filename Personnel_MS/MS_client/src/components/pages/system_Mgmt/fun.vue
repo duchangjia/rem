@@ -92,35 +92,19 @@
 			current
 		},
 		created() {
-			const self = this;
-			let params = {
-				"pageNum": self.pageNum,
-				"pageSize": self.pageSize
-			}
+			
 			//查询功能列表
-			self.queryFormFlag = false;
-			self.queryFunList(params);
+			this.queryFunList();
 			//查询功能编号
-			self.queryConditions();
+			this.queryConditions();
 		},
 		methods: {
 			statusFormatter(row, column) {
 		      	return row.status == 1 ? "正常" : row.status == 0 ? "停用" : "锁定";
 		    },
 			queryForm() {
-				const self = this;
-				self.userList = [];
-				let params = {
-					"pageNum": self.pageNum,
-					"pageSize": self.pageSize,
-				 	sysNo: self.formData.sysNo,
-					bsnNo: self.formData.bsnNo,
-					methodName: self.formData.methodName,
-					status: self.formData.status
-				}
 				//查询功能列表
-				self.queryFormFlag = true;
-				self.queryFunList(params);
+				this.queryFunList();
 				
 			},
 			resetForm() {
@@ -139,29 +123,21 @@
 	            });
 	       },
 			handleCurrentChange(val) {
-		        const self = this;
-				let params = {};
-				if(!self.queryFormFlag) {
-					params = {
-						"pageNum": val,
-						"pageSize": self.pageSize
-					}
-				} else {
-					params = {
-						"pageNum": val,
-						"pageSize": self.pageSize,
-						sysNo: self.formData.sysNo,
-						bsnNo: self.formData.bsnNo,
-						methodName: self.formData.methodName,
-						status: self.formData.status
-					}
-				}
+		       	this.pageNum = val;
 				//分页查询功能列表
-				self.queryFunList(params);
+				self.queryFunList();
 		        
 	     	},
-	     	queryFunList(params) {
+	     	queryFunList() {
 				const self = this;
+				let params = {
+					"pageNum": self.pageNum,
+					"pageSize": self.pageSize,
+				 	sysNo: self.formData.sysNo,
+					bsnNo: self.formData.bsnNo,
+					methodName: self.formData.methodName,
+					status: self.formData.status
+				}
 				self.$axios.get(baseURL+'/function/queryFuncList', {params: params})
 				.then(function(res) {
 					console.log('FuncList',res);

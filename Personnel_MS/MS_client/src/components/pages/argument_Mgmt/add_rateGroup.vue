@@ -1,28 +1,38 @@
 <template>
 	<div class="add_rateGroup">
 		<current yiji="参数管理" erji="业务参数" sanji="个人所得税税率设置" siji="税率组新增"></current>
-		<div class="content">
-			<div class="title">
+		<div class="content-wrapper">
+			<div class="titlebar">
 				<span class="title-text">税率组新增</span>
 				<el-button type="primary" class="toolBtn btn-primary" @click="save('formdata')">保存</el-button>
 			</div>
-			<div class="content-inner">
-				<el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
-					<el-form-item label="组名称" prop="groupName">
-					    <el-input v-model="formdata.groupName"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="起征点" prop="taxThreshold">
-					    <el-input v-model="formdata.taxThreshold"></el-input>
-				  	</el-form-item>
-				  	<el-form-item label="生效日期" prop="startTime">
-			        	<el-date-picker type="date" v-model="formdata.startTime" @change="changeStartTime"></el-date-picker>
-			      	</el-form-item>
-				  	<el-form-item label="失效日期" prop="endTime">
-			        	<el-date-picker type="date" v-model="formdata.endTime" @change="changeEndTime" placeholder="如无，则不填"></el-date-picker>
-			      	</el-form-item>
-				  	<el-form-item label="备注" prop="remark">
-					    <el-input v-model="formdata.remark"></el-input>
-				  	</el-form-item>
+			<div class="add-wrapper">
+				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="80px">
+					<el-col :sm="24" :md="12">
+						<el-form-item label="组名称" prop="groupName">
+						    <el-input v-model="formdata.groupName"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="起征点" prop="taxThreshold">
+						    <el-input v-model="formdata.taxThreshold"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="生效日期" prop="startTime">
+				        	<el-date-picker type="date" v-model="formdata.startTime" @change="changeStartTime" style="width: 100%;"></el-date-picker>
+				      	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="失效日期" prop="endTime">
+				        	<el-date-picker type="date" v-model="formdata.endTime" @change="changeEndTime" placeholder="如无，则不填" style="width: 100%;"></el-date-picker>
+				      	</el-form-item>
+					</el-col>  	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="备注" prop="remark">
+						    <el-input v-model="formdata.remark"></el-input>
+					  	</el-form-item>
+					</el-col>    
 				</el-form>
 			</div>
 		</div>
@@ -128,7 +138,7 @@ export default {
     padding-bottom: 20px;
 	width: 100%;
 }
-.add_rateGroup .content {
+/*.add_rateGroup .content {
 	width: 100%;
 	min-height: 510px;
 	padding: 0px 20px;
@@ -197,5 +207,5 @@ border-bottom: 1px solid #EEEEEE;
 }
 .add_rateGroup .el-form-item__error {
     padding-left: 30px;
-}
+}*/
 </style>

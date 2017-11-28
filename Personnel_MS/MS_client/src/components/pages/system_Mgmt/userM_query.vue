@@ -40,7 +40,7 @@
 						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
-				<el-table :data="operatorList" border stripe style="width: 100%">
+				<el-table :data="operatorList" border stripe fit style="width: 100%">
 					<el-table-column prop="userNo" label="工号">
 						<template scope="scope">
 					        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.userNo }}</span>
@@ -114,14 +114,12 @@ export default {
 		current
 	},
 	created() {
-		const self = this;
-		let params = {
-			"pageNum": self.pageNum,
-			"pageSize": self.pageSize
-		}
+		this.ruleForm2.organNo = '';
+		this.ruleForm2.derpNo = '';
+		this.ruleForm2.status = '';
+		this.ruleForm2.user = '';
 		//查询用户列表
-		self.queryFormFlag = false;
-		self.queryUserList(params);
+		this.queryUserList();
 		//公司列表查询
 		this.queryCompList();
 	},
@@ -153,20 +151,8 @@ export default {
 		},
 		//查询
 		queryForm(formName) {
-			const self = this;
-			let user = self.ruleForm2.user;
-			self.operatorList = [];
-			let params = {
-				"pageNum": self.pageNum,
-				"pageSize": self.pageSize,
-				"compOrganNo": self.ruleForm2.organNo,
-				"deptOrganNo": self.ruleForm2.derpNo,
-				"status": self.ruleForm2.status,
-				"userFeatureInfo": self.ruleForm2.user
-			}
 			//查询用户列表
-			self.queryFormFlag = true;
-			self.queryUserList(params);
+			this.queryUserList();
 		},
 		changeValue(value) {
 	 		const self = this;
@@ -187,28 +173,20 @@ export default {
 			this.ruleForm2.status = '';
 		},
 		handleCurrentChange(val) {
-			const self = this;
-			let params = {};
-			if(!self.queryFormFlag) {
-				params = {
-					"pageNum": val,
-					"pageSize": self.pageSize
-				}
-			} else {
-				params = {
-					"pageNum": val,
-					"pageSize": self.pageSize,
-					"compOrganNo": self.ruleForm2.organNo,
-					"deptOrganNo": self.ruleForm2.derpNo,
-					"status": self.ruleForm2.status,
-					"userFeatureInfo": self.ruleForm2.user
-				}
-			}
+			this.pageNum = val;
 			//分页查询用户列表
-			self.queryUserList(params);
+			this.queryUserList();
 		},
-		queryUserList(params) {
+		queryUserList() {
 			let self = this;
+			let params = {
+				"pageNum": self.pageNum,
+				"pageSize": self.pageSize,
+				"compOrganNo": self.ruleForm2.organNo,
+				"deptOrganNo": self.ruleForm2.derpNo,
+				"status": self.ruleForm2.status,
+				"userFeatureInfo": self.ruleForm2.user
+			}
 			self.$axios.get(baseURL+'/user/queryUserList', {params: params})
 			.then(function(res) {
 				console.log('UserList',res);

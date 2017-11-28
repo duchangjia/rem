@@ -51,7 +51,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="身份证">
-                            <el-input v-model="editPactMsg.cert" :disabled="true"></el-input>
+                            <el-input v-model="editPactMsg.certNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -189,7 +189,7 @@ export default {
   created() {
     this.pactNo = this.$route.params.pactNo;
     // 初始查合同基本详情
-    this.getPactDtl();
+    this.getPactDetail();
   },
   computed: {
     _sex: function() {
@@ -221,7 +221,7 @@ export default {
     }
   },
   methods: {
-    getPactDtl() {
+    getPactDetail() {
       const self = this;
       let params = {
         pactNo: this.pactNo
@@ -229,7 +229,7 @@ export default {
       self.$axios
         .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
-          console.log(res);
+          console.log('pactDetailMsg:',res);
           self.editPactMsg = res.data.data;
         })
         .catch(() => {

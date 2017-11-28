@@ -59,16 +59,8 @@ export default {
 		current
 	},
 	created() {
-		const self = this;
-		let groupName = self.$route.params.groupName;
-		let groupId = sessionStorage.getItem('groupId');
-		let params = {
-			"pageNum": self.pageNum,
-			"pageSize": self.pageSize,
-			groupId: groupId
-		};
 		//查询税率列表
-		self.queryRateList(params);
+		this.queryRateList();
 	},
 	methods: {
 		percentRateFormatter(row, column) {
@@ -119,19 +111,19 @@ export default {
             });
         },
         handleCurrentChange(val) {
+			this.pageNum = val;
+			//分页查询税率列表
+			this.queryRateList();
+		},
+		//查询个税列表
+		queryRateList() {
 			const self = this;
-			let groupId = this.$route.params.groupId;
+			let groupId = sessionStorage.getItem('groupId');
 			let params = {
-				"pageNum": val,
+				"pageNum": self.pageNum,
 				"pageSize": self.pageSize,
 				groupId: groupId
 			};
-			//分页查询税率列表
-			self.queryRateList(params);
-		},
-		//查询个税列表
-		queryRateList(params) {
-			const self = this;
 			self.$axios.get(baseURL+'/taxRateCtrl/queryRateList', { params: params})
 				.then(function(res) {
 					console.log("queryRateList",res);
@@ -149,15 +141,10 @@ export default {
     		.then((res) => {
     			console.log(res);
     			if(res.data.code === "S00000") {
-    				this.$message({ type: 'success', message: '删除成功!' });
-    				let groupId = sessionStorage.getItem('groupId');
-					let params = {
-						"pageNum": self.pageNum,
-						"pageSize": self.pageSize,
-						groupId: groupId
-					};
+    				self.$message({ type: 'success', message: '删除成功!' });
+    				
 					//查询税率列表
-					self.queryRateList(params);
+					self.queryRateList();
     			} else {
     				console.log(err);
     			}

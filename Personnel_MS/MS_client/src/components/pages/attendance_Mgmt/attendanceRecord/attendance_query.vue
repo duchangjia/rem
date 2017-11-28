@@ -35,7 +35,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
-						<el-form-item label="时间" prop="startDate"">
+						<el-form-item label="时间" prop="startDate">
 							<el-date-picker
 						      v-model="ruleForm2.startDate"
 						      type="date"
@@ -150,14 +150,15 @@ export default {
 		current
 	},
 	created() {
-		let params = {
-			pageNum: this.pageNum,
-			pageSize: this.pageSize
-		}
+		this.ruleForm2.compOrgNo = '',
+		this.ruleForm2.departOrgNo = '',
+		this.ruleForm2.userNo = '',
+		this.ruleForm2.startDate = '',
+		this.ruleForm2.endDate = ''
 		//查询公司列表
 		this.queryCompList();
 		//查询考勤列表
-		this.queryAttenceList(params);
+		this.queryAttenceList();
 	},
 	methods: {
 		attenceTypeFormatter(row, column) {
@@ -218,20 +219,10 @@ export default {
 		//查询
 		queryForm(formName) {
 			const self = this;
-			console.log(this.ruleForm2.startDate)
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
-					let params = {
-						pageNum: this.pageNum,
-						pageSize: this.pageSize,
-						organNo: self.ruleForm2.compOrgNo,
-						derpNo: self.ruleForm2.departOrgNo,
-						attenceUserNo: self.ruleForm2.userNo,
-						attenceStartTime: self.ruleForm2.startDate,
-						attenceEndTime: self.ruleForm2.endDate
-					}
 					//条件查询考勤列表
-					this.queryAttenceList(params);
+					self.queryAttenceList();
 					
 				} else {
 					return false;
@@ -247,12 +238,8 @@ export default {
 			this.ruleForm2.endDate = '';
 		},
 		handleCurrentChange(val) {
-			const self = this;
-			let params = {
-				"pageNum": val,
-				"pageSize": self.pageSize
-			}
-			self.queryAttenceList(params);
+			this.pageNum = val;
+			this.queryAttenceList();//分页查询考勤列表
 		},
 		//导出
 		handleExport() {
@@ -271,8 +258,17 @@ export default {
 			this.downloadFile();
 		},
 		//查询考勤列表
-		queryAttenceList(params) {
+		queryAttenceList() {
 			let self = this;
+			let params = {
+				pageNum: this.pageNum,
+				pageSize: this.pageSize,
+				organNo: self.ruleForm2.compOrgNo,
+				derpNo: self.ruleForm2.departOrgNo,
+				attenceUserNo: self.ruleForm2.userNo,
+				attenceStartTime: self.ruleForm2.startDate,
+				attenceEndTime: self.ruleForm2.endDate
+			}
 			self.$axios.get(baseURL+'/attence/queryAttenceList', {params: params})
 			.then(function(res) {
 				console.log('List',res);
@@ -289,12 +285,12 @@ export default {
 		//下载模版
 		downloadFile() {
 			const self = this;
-			self.$axios.get(baseURL+'/attence/download', {
+			self.$axios.get(baseURL+'/attence/download?templateName=考勤基本信息模板', {
                     responseType: 'blob'
                 })
                 .then((response) => {
 					console.log(response);
-                    const fileName = "考勤模板.xlsx"; 
+                    const fileName = "考勤基本信息模板.xlsx"; 
                     const blob = response.data;
 
                     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
@@ -336,7 +332,6 @@ export default {
                         elink.download = fileName;
                         elink.style.display = 'none';
                         elink.href = URL.createObjectURL(blob);
-//						console.log('href',elink.href);
                         document.body.appendChild(elink);
                         elink.click(); // 触发点击a标签事件
                         document.body.removeChild(elink);

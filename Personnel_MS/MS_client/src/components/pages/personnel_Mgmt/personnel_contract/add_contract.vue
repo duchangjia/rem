@@ -115,7 +115,7 @@
                             </el-upload>
 				  	    </el-form-item>
                     </el-col>
-                    <el-col :sm="24" :md="24">
+                    <el-col :span="24">
                         <el-form-item label="终止原因" prop="stopReason">
                             <el-input type="textarea" v-model="addPactMsg.stopReason"></el-input>
                         </el-form-item>

@@ -15,5 +15,11 @@ export default{
     //资产使用管理=>修改=>获取修改页面数据接口
     getAssetUseByApplyNo:baseUrl+'assetUse/getAssetUseByApplyNo/',
     //资产使用管理=>修改=>保存修改接口
-    modAssUse:baseUrl+'assetUse/modAssUse'
+    modAssUse:baseUrl+'assetUse/modAssUse',
+    //资产使用管理=>点击使用编号查看详情=>查询详情接口
+    queryAssetUseDetails:baseUrl+'assetUse/queryAssetUseDetails/',
+    //资产使用管理=>新增=>保存接口
+    addAssetUseINF:baseUrl+'assetUse/addAssetUseINF',
+    //根据月份查询个人薪资详情
+    queryCustSalary:baseUrl+'CustInfo/queryCustSalary/'
 }

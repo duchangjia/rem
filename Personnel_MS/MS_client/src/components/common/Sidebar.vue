@@ -262,11 +262,12 @@ export default {
 <style lang="scss">
 .sider {
 	width: 180px;
+	height:100%;
     background: #FFFFFF;
     transition: width 0.28s ease-out;
     position: absolute;
     left: 0;
-    top: 60px;
+    top:0;
 }
 
 .sider.sider-active {

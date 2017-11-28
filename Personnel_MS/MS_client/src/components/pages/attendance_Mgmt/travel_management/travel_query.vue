@@ -152,14 +152,13 @@ export default {
 		current
 	},
 	created() {
-		this.queryFormFlag = false;
-		let params = {
-			"pageNum": this.pageNum,
-			"pageSize": this.pageSize,
-			
-		}
+		this.ruleForm2.organNo = '';
+		this.ruleForm2.derpNo = '';
+		this.ruleForm2.userNo = '';
+		this.ruleForm2.startDate = '';
+		this.ruleForm2.endDate = '';
 		//出差列表查询
-		this.queryTravelList(params);
+		this.queryTravelList();
 		//公司列表查询
 		this.queryCompList();
 	},
@@ -262,19 +261,8 @@ export default {
 			const self = this;
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
-					self.queryFormFlag = true;
-					let params = {
-						"pageNum": self.pageNum,
-						"pageSize": self.pageSize,
-						organNo: self.ruleForm2.organNo,
-						derpNo: self.ruleForm2.derpNo,
-						travelUserNo: self.ruleForm2.userNo,
-						travelStartTime: self.ruleForm2.startDate,
-						travelEndTime: self.ruleForm2.endDate
-					};
-					
 					//出差列表查询
-					self.queryTravelList(params);
+					self.queryTravelList();
 					
 				} else {
 					return false;
@@ -290,25 +278,21 @@ export default {
 			this.ruleForm2.endDate = '';
 		},
 		handleCurrentChange(val) {
-			const self = this;
-			let params = {};
-			if(self.queryFormFlag) {
-				params = {
-					"pageNum": val,
-					"pageSize": self.pageSize,
-					
-				}
-			} else {
-				params = {
-					"pageNum": val,
-					"pageSize": self.pageSize
-				}
-			}
+			this.pageNum = val;
 			//分页出差列表查询
-			this.queryTravelList(params);
+			this.queryTravelList();
 		},
-		queryTravelList(params) {
+		queryTravelList() {
 			let self = this;
+			let params = {
+				"pageNum": self.pageNum,
+				"pageSize": self.pageSize,
+				organNo: self.ruleForm2.organNo,
+				derpNo: self.ruleForm2.derpNo,
+				travelUserNo: self.ruleForm2.userNo,
+				travelStartTime: self.ruleForm2.startDate,
+				travelEndTime: self.ruleForm2.endDate
+			};
 			self.$axios.get(baseURL+'/travel/queryTravelList', {params: params})
 			.then(function(res) {
 				console.log('TravelList',res);
@@ -355,18 +339,9 @@ export default {
 				console.log('deleteTravel',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
-					let param = {
-						"pageNum": self.pageNum,
-						"pageSize": self.pageSize,
-						organNo: self.ruleForm2.organNo,
-						derpNo: self.ruleForm2.derpNo,
-						travelUserNo: self.ruleForm2.userNo,
-						travelStartTime: self.ruleForm2.startDate,
-						travelEndTime: self.ruleForm2.endDate
-					};
 					
 					//出差列表查询
-					self.queryTravelList(param);
+					self.queryTravelList();
 				}
 			}).catch(function(err) {
 				console.log(err);

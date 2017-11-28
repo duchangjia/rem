@@ -7,7 +7,7 @@
 				<el-button type="primary" class="toolBtn btn-primary" @click="save('socialData')">保存</el-button>			
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="socialData" :rules="rules" :model="socialData" label-width="120px">
+				<el-form ref="socialData" :inline="true" :rules="rules" :model="socialData" label-width="120px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称" prop="organName">
 						    <el-input v-model="socialData.organName" :disabled="true"></el-input>
