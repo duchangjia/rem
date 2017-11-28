@@ -8,10 +8,6 @@
                     <el-form>
                         <el-col :span="6">
                             <el-form-item label="公司">
-                                <!--<el-select v-model="searchInfo.organName">-->
-                                    <!--<el-option label="深圳分公司" value="8801"></el-option>-->
-                                    <!--<el-option label="其他" value="9090"></el-option>-->
-                                <!--</el-select>-->
                                 <el-select v-model="searchInfo.organNo" placeholder="请选择公司名称" @change="selectDep(searchInfo.organNo)">
                                     <el-option :label="item.organName" :value="item.organNo" v-for="item in basicInfo.company"></el-option>
                                 </el-select>
@@ -41,29 +37,9 @@
                             </el-form-item>
                         </el-col>
                     </el-form>
-                    <!--<div class="item-wrapper">-->
-                        <!--<span class="text">公司</span><el-select v-model="searchInfo.organName" class="common">-->
-                        <!--<el-option label="深圳分公司" value="8801"></el-option>-->
-                        <!--<el-option label="其他" value="9090"></el-option>-->
-                    <!--</el-select>-->
-                        <!--<span class="text">部门</span><el-select v-model="searchInfo.derpName" class="common">-->
-                        <!--<el-option label="南山分部" value="88011"></el-option>-->
-                        <!--<el-option label="其他" value="9090"></el-option>-->
-                    <!--</el-select>-->
-                        <!--<span class="text">姓名</span><el-input placeholder="请输入工号或姓名" v-model="searchInfo.nameOrNo"></el-input>-->
-                    <!--</div>-->
-                    <!--<div class="item-wrapper">-->
-                        <!--<span class="text">状态</span><el-select v-model="searchInfo.custStatus" class="common">-->
-                        <!--<el-option label="试用期" value="01"></el-option>-->
-                        <!--<el-option label="合同期" value="02"></el-option>-->
-                        <!--<el-option label="已退休" value="03"></el-option>-->
-                        <!--<el-option label="已离职" value="04"></el-option>-->
-                        <!--<el-option label="停薪留职" value="05"></el-option>-->
-                    <!--</el-select>-->
-                    <!--</div>-->
                     <div class="button">
-                        <button class="special_1" @click="reset">重置</button>
-                        <button @click="search">查询</button>
+                            <button class="special_1" @click="reset">重置</button>
+                            <button @click="search">查询</button>
                     </div>
                     <table>
                         <tr><td v-for="th in table.th" >{{th}}</td></tr>
@@ -132,16 +108,7 @@
                   department:'',
               },
               gridData: [
-//                  {
-//                      num: '111289',
-//                      propp: 'IT资产',
-//                      oldaddress: '',
-//                      newaddress: 'BAB1400898 1518 弄',
-//                      company: '深圳前海橙色魔方技术有限公司 1518 弄',
-//                      momey: '笔记本电脑',
-//                      city: '深圳 1518 弄',
-//                      people: '张三 1518 弄',
-//                  },
+
               ],
               searchInfo: {
                   organNo: '',
@@ -152,28 +119,7 @@
               table: {
                   th:['工号', '姓名', '公司名称', '部门名称', '性别', '岗位', '手机', '入职时间', '状态', '资产'],
                   td:[
-//                      {
-//                          user_No: 'P0000008',
-//                          user_name: '张三李四王老五',
-//                          company_name: '深圳前海橙色魔方技术有限公司深圳前海橙色魔方技术有限公司',
-//                          department_name: '部门名称部门名称',
-//                          sex: '男',
-//                          position: 'JAVA开发',
-//                          phone: '13333333333',
-//                          in_time: '2019/01/01',
-//                          status: '离职',
-//                      },
-//                      {
-//                          user_No: 'P0000008',
-//                          user_name: '张三李四王老五',
-//                          company_name: '深圳前海橙色魔方技术有限公司',
-//                          department_name: '部门名称部门名称',
-//                          sex: '男',
-//                          position: 'JAVA开发',
-//                          phone: '13333333333',
-//                          in_time: '2019/01/01',
-//                          status: '离职',
-//                      },
+
                   ]
               },
               fenye: {
@@ -463,8 +409,9 @@
                                 &:focus
                                     border-color #ff9900
                 .button
-                    margin 30px 0
-                    padding-left 380px
+                    clear both
+                    margin 30px auto
+                    text-align center
                     button
                         width: 120px
                         height 30px

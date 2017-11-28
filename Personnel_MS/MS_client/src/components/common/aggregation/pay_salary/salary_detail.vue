@@ -37,47 +37,47 @@
                <ul>
                    <li class="list-tit">
                        <label>应发金额</label>
-                       <span>0.00</span>
+                       <span><input v-model="accountData.allPay" readonly="readonly"></span>
                    </li>
                    <li>
                        <label>标准薪资<i class="ico-salary"></i></label>
-                       <span>0.00</span>
+                       <span><input v-model="accountData.salaryStd" readonly="readonly"></span>
                        <ul class="sec-list">
                            <li>
                                <label>基本工资</label>
-                               <span>0.00</span>
+                               <span><input v-model="accountData.wagesBase" readonly="readonly"></span>
                            </li>
                            <li>
                                <label>绩效工资</label>
-                               <span>0.00</span>
+                               <span><input v-model="accountData.wagesPerf" readonly="readonly"></span>
                            </li>
                        </ul>
                    </li>
                    <li>
                         <label>奖金及补贴<i class="ico-salary"></i></label>
-                        <span>0.00</span>
+                        <span><input v-model="accountData.bonuses" readonly="readonly"></span>
                    </li>
                </ul>
                <ul>
                    <li class="list-tit">
                        <label>应扣金额</label>
-                       <span>0.00</span>
+                       <span><input v-model="accountData.allTakeCount" readonly="readonly"></span>
                    </li>
                    <li>
                        <label>考勤<i class="ico-salary"></i></label>
-                       <span>0.00</span>
+                       <span><input v-model="accountData.allCheckCount" readonly="readonly"></span>
                    </li>
                    <li>
                         <label>福利<i class="ico-salary"></i></label>
-                        <span>0.00</span>
+                        <span><input v-model="accountData.personWelf" readonly="readonly"></span>
                    </li>
                    <li>
                        <label>其他<i class="ico-salary"></i></label>
-                       <span>0.00</span>
+                       <span><input v-model="accountData.otherCutPay" readonly="readonly"></span> 
                    </li>
                    <li class="list-tit list-primary">
                        <label>实发金额</label>
-                       <span>0.00</span>
+                       <span><input v-model="accountData.aftTaxIncom" readonly="readonly"></span>
                    </li>
                </ul>
             </div>
@@ -87,9 +87,10 @@
 <script>
 import current from '../common/current_position.vue'
 import contentTitle from '../common/content_title.vue'
-
-const getMsgURL = '/iem_hrm/CustInfo/queryCustSelfInfo'
 import moment from "moment";
+import api from '../../../../common/api/api.js'
+let {custSelfInfo,queryCustSalary} = api
+
 export default {
     data(){
         return{
@@ -112,7 +113,18 @@ export default {
                 }
             ],
             month:'',
-            accountData:{}
+            accountData:{
+                salaryStd:'0.00',
+                allTakeCount:'0.00',
+                allCheckCount:'0.00',
+                wagesBase:'0.00',
+                wagesPerf:'0.00',
+                personWelf:'0.00',
+                otherCutPay:'0.00',
+                aftTaxIncom:'0.00',
+                bonuses:'0.00',
+                allPay:'0.00'
+            }
         }
     },
     mounted(){
@@ -122,7 +134,7 @@ export default {
     methods:{
         getUser(){
             let self = this;
-                self.$axios.get(getMsgURL).then(res=>{
+                self.$axios.get(custSelfInfo).then(res=>{
                     let data = res.data.data;
                         self.msgList[0].val = data.custName||'暂无数据'
                         self.msgList[1].val = data.derpName||'暂无数据'
@@ -141,11 +153,35 @@ export default {
             let self = this,
                 month = moment(self.month).format("YYYY-MM");
             console.log(month)
+            if(self.month == ''){
+                 self.$message({
+                    message:'请选择您所需要查询的月份',
+                    type:'error'
+                })
+                return
+            }
+            self.$axios.get(queryCustSalary+month).then(res=>{
+                    self.accountData = res.data.data;
+                    self.accountData.allCheckCount = self.accountData.lateArrivalPay+self.accountData.leavePay+self.accountData.absentPay
+                    self.accountData.allTakeCount =  self.accountData.allCheckCount+self.accountData.personWelf+self.accountData.otherCutPay
+                    self.accountData.allPay = self.accountData.salaryStd+self.accountData.bonuses
+                    for(let i in self.accountData){
+                        self.accountData[i] = parseInt(self.accountData[i]).toFixed(2);
+                    }
+            }).catch(e=>{
+                // self.$message({
+                //     message:e.retMsg||'数据异常',
+                //     type:'error'
+                // })
+            })
         }
     },
     components: {
 	    current,contentTitle
     },
+    filters:{
+       
+    }
 }
 </script>
 <style lang="scss">
@@ -194,12 +230,17 @@ export default {
     .msg-table{
         padding-top:0;
         border-bottom: none;
+        padding-bottom:30px;
         ul{
             li{
                 line-height:40px;
                 padding-left: 30px;
                 @include clearfix;
                 color:$color-text;
+                input{
+                    border:none;
+                    background:none;
+                }
                 label{
                     font-weight: normal;
                     font-size:14px;

@@ -5,28 +5,24 @@
             <div class="content-wrapper">
                 <div class="title"><span class="text">机构CCC管理</span><button class="add" @click="add">新增</button></div>
                 <div class="content">
-                    <!--<el-form class="search">-->
-                        <!--<el-col :span="6">-->
-                            <!--<el-form-item label="查询条件">-->
-                                <!--<el-select v-model="searchValue" placeholder="请选择机构名称">-->
-                                    <!--<el-option v-for="item in searchValueOption" :label="item" :value="item"></el-option>-->
-                                    <!--&lt;!&ndash;<el-option label="区域二" value="beijing"></el-option>&ndash;&gt;-->
-                                <!--</el-select>-->
-                            <!--</el-form-item>-->
-                        <!--</el-col>-->
-                            <!--<el-button class="toolBtn2 reset" @click="reset(searchValue)">重置</el-button>-->
-                            <!--<el-button class="toolBtn2" @click="search(searchValue)">查询</el-button>-->
-                    <!--</el-form>-->
-                    <div class="search">
-                        <span class="text">查询条件</span>
-                        <!--<input type="text" v-model="searchValue" placeholder="请输入机构名称">-->
-                        <el-select v-model="searchValue" placeholder="请选择机构名称">
-                            <el-option v-for="item in searchValueOption" :label="item" :value="item"></el-option>
-                            <!--<el-option label="区域二" value="beijing"></el-option>-->
-                        </el-select>
-                        <el-button class="toolBtn2 reset" @click="reset">重置</el-button>
-                        <el-button class="toolBtn2" @click="search(searchValue)">查询</el-button>
-                    </div>
+                    <el-form class="search" :inline="true">
+                        <el-col :sm="12" :md="6">
+                            <el-form-item label="查询条件">
+                                <el-select v-model="searchValue" placeholder="请选择机构名称">
+                                    <el-option v-for="item in searchValueOption" :label="item" :value="item"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="12" :md="6">
+                            <div style="padding-top: 3px">
+                                <el-button class="toolBtn2 reset" @click="reset">重置</el-button>
+                                <el-button class="toolBtn2" @click="search(searchValue)">查询</el-button>
+                            </div>
+
+                        </el-col>
+                        <!--<el-button class="toolBtn2 reset" @click="reset">重置</el-button>-->
+                        <!--<el-button class="toolBtn2" @click="search(searchValue)">查询</el-button>-->
+                    </el-form>
                     <table>
                         <tr><td v-for="th in table.th">{{th}}</td></tr>
                         <tr v-for="tds in table.td">
@@ -374,7 +370,7 @@
         padding-top: 30px;
     }
     .agency_argument .content-wrapper .content .search{
-        vertical-align: middle;
+        /*vertical-align: middle;*/
     }
     .agency_argument .content-wrapper .content .search .text{
         font-family: PingFangSC-Regular;
@@ -401,7 +397,6 @@
         background: #FF9900;
         border: none;
         border-radius: 4px;
-        vertical-align: middle;
         font-family: PingFangSC-Regular;
         font-size: 14px;
         color: #FFFFFF;
@@ -410,7 +405,7 @@
         background: #fff;
         border: 1px solid #f90;
         color: #f90;
-        margin-left: 20px;
+        margin-right: 7px;
     }
     .agency_argument .content table{
         display: flex;

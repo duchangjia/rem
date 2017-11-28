@@ -199,6 +199,7 @@ export default {
   data() {
     return {
       activeName: "",
+      pactSubFlag: 'false',
       labelPosition: "right",
       userNo: "",
       pactNo: "",
@@ -223,7 +224,6 @@ export default {
   created() {
     this.pactNo = this.$route.params.pactNo;
     this.userNo = this.$route.params.userNo;
-    console.log("接到的pactNo:", this.pactNo);
     if (this.$route.params.activeTab) {
       this.activeName = this.$route.params.activeTab;
       if (this.activeName == "changePactMsg") this.getPChangeList();
@@ -442,24 +442,24 @@ export default {
       }
     },
     handleAddPChange() {
-      console.log("传过去的参数",{
-          pactNo: this.pactNo,
-          userNo: this.userNo
-        })
+      this.pactSubFlag = 'true'; // 标记新增页为四级页面
       this.$router.push({
         name: "add_pactChange",
         params: {
           pactNo: this.pactNo,
-          userNo: this.userNo
+          userNo: this.userNo,
+          pactSubFlag: this.pactSubFlag
         }
       });
     },
     handleAddPRenew() {
+      this.pactSubFlag = 'true'; // 标记新增页为四级页面
       this.$router.push({
         name: "add_pactRenew",
         params: {
           pactNo: this.pactNo,
-          userNo: this.userNo
+          userNo: this.userNo,
+          pactSubFlag: this.pactSubFlag
         }
       });
     },

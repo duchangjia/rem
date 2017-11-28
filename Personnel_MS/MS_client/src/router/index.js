@@ -364,6 +364,11 @@ const routes = [
                             component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/query_contract.vue'], resolve)
                         },
                         {
+                            name: 'query_contract',
+                            path: '/query_contract',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/query_contract.vue'], resolve)
+                        },
+                        {
                             name: 'add_contract',
                             path: '/add_contract',
                             component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/add_contract.vue'], resolve)

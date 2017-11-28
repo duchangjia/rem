@@ -9,15 +9,20 @@ import 'element-ui/lib/theme-default/index.css';    // 默认主题
 // import 'element-ui/lib/theme-chalk/index.css';    // 默认主题
 import echarts from 'echarts';
 import Bus from './common/Bus.js';
-
+import filters from './filters/filters.js'
 //Vue.config.productionTip = false
 // axios.defaults.headers['deviceId'] = '12345';
 Vue.use(ElementUI);
 Vue.prototype.$axios = axios;
 Vue.prototype.$echarts = echarts;
 window.globalBus = Bus;
-
+// 实例化Vue的filter
+// console.log(Object.keys(filters),'过滤器名字');
+var filterKey = Object.keys(filters).forEach(k => Vue.filter(k, filters[k]));
 new Vue({
     router,
-    render: h => h(App)
+    render: h => h(App),
+    filters:{
+        filterKey
+    },
 }).$mount('#app');

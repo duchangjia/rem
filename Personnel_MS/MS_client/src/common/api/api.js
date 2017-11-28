@@ -19,5 +19,7 @@ export default{
     //资产使用管理=>点击使用编号查看详情=>查询详情接口
     queryAssetUseDetails:baseUrl+'assetUse/queryAssetUseDetails/',
     //资产使用管理=>新增=>保存接口
-    addAssetUseINF:baseUrl+'assetUse/addAssetUseINF'
+    addAssetUseINF:baseUrl+'assetUse/addAssetUseINF',
+    //根据月份查询个人薪资详情
+    queryCustSalary:baseUrl+'CustInfo/queryCustSalary/'
 }

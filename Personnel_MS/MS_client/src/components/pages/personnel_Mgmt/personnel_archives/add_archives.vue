@@ -10,9 +10,11 @@
                                 <div class="first_title">
                                     <el-upload ref="uploadAvatar"
                                             class="avatar-uploader"
-                                            action="/iem_hrm/CustFile/batch/upload"
+                                            action="/iem_hrm/CustInfo/insertCustInfo"
                                             :show-file-list="false"
-                                            :data="user_avatar"
+                                            :data="user_info"
+                                            :auto-upload="false"
+                                            :on-change="handleAvatarChange"
                                             :on-success="handleAvatarSuccess"
                                             :headers="token"
                                             :before-upload="beforeAvatarUpload">
@@ -340,12 +342,21 @@
                                                 <el-form-item label="附件">
                                                     <el-input v-model="ruleForm2.attachm" style="position:absolute"></el-input>
                                                     <el-upload class="upload-demo" ref="upload" name="file"
+                                                               action="/iem_hrm/CustInfo/insertCustInfo"
+                                                               :show-file-list="false"
+                                                               :data="user_info"
+                                                               :auto-upload="false"
                                                                :on-change="handleFileUpload"
                                                                :on-success="successUpload"
-                                                               action="/iem_hrm/CustFile/upload"
-                                                               :show-file-list="false"
-                                                               :auto-upload="false"
-                                                               :headers="token">
+                                                               :headers="token"
+                                                               :before-upload="checkUserNo">
+                                                    <!--<el-upload class="upload-demo" ref="upload" name="file"-->
+                                                               <!--:on-change="handleFileUpload"-->
+                                                               <!--:on-success="successUpload"-->
+                                                               <!--action="/iem_hrm/CustFile/upload"-->
+                                                               <!--:show-file-list="false"-->
+                                                               <!--:auto-upload="false"-->
+                                                               <!--:headers="token">-->
                                                         <el-button slot="trigger" type="primary" class="uploadBtn">上传附件</el-button>
                                                     </el-upload>
                                                 </el-form-item>
@@ -702,13 +713,13 @@
                 userNo:'',
                 file:{},
               },
-              user_avatar: {
-                userNo: '',
-                file: {}
+              user_info: {
+
               },
               activeName: 'first',
               tabName:'first',
               ruleForm: {
+                  avat: '',
                   custName: '',
                   certNo: '',
                   certType: '',
@@ -815,6 +826,7 @@
                   housAcct: '',
                   remark: '',
                   attachm: '',
+//                  file: '',
               },
               rules2: {
                   userNo: [
@@ -938,6 +950,11 @@
               test:'',
           }
         },
+//        watch:{
+//            user_info: function (val, oldVal) {
+//                this.user_info = val
+//            },
+//        },
         components: {
             current,socialRelationItem,messageBox
         },
@@ -997,25 +1014,32 @@
             changeProbEndTime(val) {
                 this.ruleForm2.probEndTime = val
             },
+            handleClick(tab, event) {
+//                console.log(tab, event);
+                this.tabName = tab.name
+            },
+
+            handleAvatarChange(file, fileList) {
+//                console.log(file)
+                this.imageUrl = URL.createObjectURL(file.raw);
+                this.ruleForm.avat = {
+                    file
+                }
+            },
             handleAvatarSuccess(res, file) {
-                console.log(res)
-//                this.imageUrl = URL.createObjectURL(file.raw);
+                let self = this
+                console.log(res,'handleAvatarSuccess')
+                self.social_item.userNo = res.data.data
+                self.project_item.userNo = res.data.data
+                self.education_item.userNo = res.data.data
+                self.work_item.userNo = res.data.data
+                self.certificates_list.userNo = res.data.data
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
                 const isLt2M = file.size / 1024 / 1024 < 2;
-                this.imageUrl = URL.createObjectURL(file.raw);
-                if(!this.user_avatar.userNo){
-//                    this.$message({
-//                        type: 'error',
-//                        message: '请先填写基本信息并点击右上角保存'
-//                    });
-                    return false
-                }
-                this.user_avatar.file = {
-                    file
-                }
-
+                this.user_info = Object.assign(this.ruleForm,this.ruleForm2)
+                console.log('beforeAvatarUpload',this.user_info)
                 if (!isJPG) {
                     this.$message.error('上传头像图片只能是 JPG 格式!');
                 }
@@ -1024,6 +1048,7 @@
                 }
                 return isJPG && isLt2M;
             },
+
             handleRemove(file, fileList) {
                 this.$confirm('此操作将永久删除, 是否继续?', '提示', {
                     confirmButtonText: '确定',
@@ -1065,46 +1090,76 @@
                 this.dialogImageUrl = file.url;
                 this.dialogVisible2 = true;
             },
-            handleClick(tab, event) {
-//                console.log(tab, event);
-                this.tabName = tab.name
-            },
             handleFileUpload(file, fileList) {
-
+                if(this.tabName == 'first') {
+                    this.ruleForm2.attachm = file.name
+                    this.ruleForm2.file = file
+                }
             },
             successUpload(response, file, fileList) {
-                console.log(response,'????????successUpload????????',file,'????????successUpload????????',fileList)
-                if(response.code === "S00000") {
-                    this.$message({ message: '操作成功', type: 'success' });
-                    this.fileList2 = fileList
+                if(this.tabName == 'first') {
+                    let self = this
+                    console.log(response)
+                    self.social_item.userNo = response.data.data
+                    self.project_item.userNo = response.data.data
+                    self.education_item.userNo = response.data.data
+                    self.work_item.userNo = response.data.data
+                    self.certificates_list.userNo = response.data.data
+                }
+                if(this.tabName == 'sixth') {
+                    console.log(response,'????????successUpload????????',file,'????????successUpload????????',fileList)
+                    if(response.code === "S00000") {
+                        this.$message({ message: '操作成功', type: 'success' });
+                        this.fileList2 = fileList
 //                    hrm_h0091 人事档案新增，附件上传错误:(没有那个文件或目录)
-                }else if(response.code === 'hrm_h0093') {
-                    this.$message({
-                        message: response.retMsg,
-                        type: 'error'
-                    })
-                    fileList.forEach((item,index)=>{
-                        if(item.uid==file.uid){
-                            fileList.splice(index,1)
-                        }
-                    })
-                }else {
-                    this.$message({
-                        message: response.retMsg,
-                        type: 'error'
-                    })
+                    }else if(response.code === 'hrm_h0093') {
+                        this.$message({
+                            message: response.retMsg,
+                            type: 'error'
+                        })
+                        fileList.forEach((item,index)=>{
+                            if(item.uid==file.uid){
+                                fileList.splice(index,1)
+                            }
+                        })
+                    }else {
+                        this.$message({
+                            message: response.retMsg,
+                            type: 'error'
+                        })
+                    }
                 }
             },
             checkUserNo(file) {
-                if(!this.certificates_list.userNo){
-                    this.$message({
-                        type: 'error',
-                        message: '请先填写基本信息并点击右上角保存'
-                    });
-                    return false
+                if(this.tabName == 'first') {
+                    if(this.ruleForm.avatar) {
+                        const isJPG = this.ruleForm.avatar.type === 'image/jpeg';
+                        const isLt2M = this.ruleForm.avatar.size / 1024 / 1024 < 2;
+                        this.user_info = Object.assign(this.ruleForm,this.ruleForm2)
+                        if (!isJPG) {
+                            this.$message.error('上传头像图片只能是 JPG 格式!');
+                        }
+                        if (!isLt2M) {
+                            this.$message.error('上传头像图片大小不能超过 2MB!');
+                        }
+                        return isJPG && isLt2M;
+                    }else {
+                        this.user_info = Object.assign(this.ruleForm,this.ruleForm2)
+                    }
                 }
-                this.certificates_list.file = {
-                    file
+                if(this.tabName == 'sixth') {
+//                    this.certificates_list.userNo = 'P0001346'
+                    if(!this.certificates_list.userNo){
+                        this.$message({
+                            type: 'error',
+                            message: '请先填写基本信息并点击右上角保存'
+                        });
+                        return false
+                    }
+                    this.certificates_list.file = {
+                        file:file
+                    }
+//                    console.log(this.certificates_list,'---',this.certificates_list.file)
                 }
             },
             dialogConfirm(custInfo){
@@ -1186,34 +1241,46 @@
                         if (valid) {
                             self.$refs.ruleForm2.validate((valid) => {
                                 if (valid) {
-                                    let data = Object.assign(this.ruleForm,this.ruleForm2)
-                                    this.$axios.post('/iem_hrm/CustInfo/insertCustInfo', data)
-                                        .then(res=>{
-                                            let result = res.data.retMsg
-                                            console.log(res.data.data)
-                                            if(result=="操作成功"){
-                                                self.$message({
-                                                    type: 'success',
-                                                    message: result
-                                                });
-                                                self.social_item.userNo = res.data.data
-                                                self.project_item.userNo = res.data.data
-                                                self.education_item.userNo = res.data.data
-                                                self.work_item.userNo = res.data.data
-                                                self.certificates_list.userNo = res.data.data
-                                                self.user_avatar.userNo = res.data.data
-                                                self.$refs.uploadAvatar.submit()
-                                            }else{
-                                                self.$message({
-                                                    type: 'error',
-                                                    message: result
-                                                });
-                                            }
+                                    console.log('111')
+//                                    if(!self.ruleForm.avatar&&!self.ruleForm2.file){
+//                                        console.log(222)
+                                        let data = Object.assign(this.ruleForm,this.ruleForm2)
+                                    console.log(data)
+                                        this.$axios.post('/iem_hrm/CustInfo/insertCustInfo', data)
+                                            .then(res=>{
+                                                let result = res.data.retMsg
+                                                console.log(res.data.data)
+                                                if(result=="操作成功"){
+                                                    self.$message({
+                                                        type: 'success',
+                                                        message: result
+                                                    });
+                                                    self.social_item.userNo = res.data.data
+                                                    self.project_item.userNo = res.data.data
+                                                    self.education_item.userNo = res.data.data
+                                                    self.work_item.userNo = res.data.data
+                                                    self.certificates_list.userNo = res.data.data
+//                                                self.user_avatar.userNo = res.data.data
+//                                                self.$refs.uploadAvatar.submit()
+                                                }else{
+                                                    self.$message({
+                                                        type: 'error',
+                                                        message: result
+                                                    });
+                                                }
 
-                                        })
-                                        .catch(e=>{
-                                            console.log(e)
-                                        })
+                                            })
+                                            .catch(e=>{
+                                                console.log(e)
+                                            })
+//                                    }else if(self.ruleForm.avatar&&!self.ruleForm2.file){
+//                                        console.log(333)
+//                                        self.$refs.uploadAvatar.submit()
+//                                    }else {
+//                                        console.log(444)
+//                                        self.$refs.upload.submit()
+//                                    }
+
                                 }else {
                                     self.$message({
                                         type: 'error',
@@ -1779,7 +1846,7 @@
                         position: absolute;
                         height: 40px;
                         top: 0;
-                        right: 0px;
+                        right: -80px;
                         margin: 0;
                         border: 1px solid #ff9900;
                         border-bottom-left-radius: 0;

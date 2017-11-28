@@ -236,7 +236,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" socped>
 #msg_item_box{
   .el-form{
     margin-bottom:20px;
