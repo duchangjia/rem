@@ -1,6 +1,6 @@
 <template>
     <div class="add_pactChange">
-        <current yiji="人事事务" erji="人事合同" sanji="合同变更" :activeTab="activeName" :pactNo="pactNo" :pactSubFlag='pactSubFlag'>
+        <current yiji="人事事务" erji="人事合同" sanji="合同变更" :activeTab="activeName" :pactNo="pactNo" :userNo='userNo' :pactSubFlag='pactSubFlag'>
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
@@ -150,7 +150,9 @@ export default {
     }
     this.getPactDetail();
     this.getCustInfo();
-    
+    console.log('userNo',this.userNo);
+    console.log('pactSubFlag',this.pactSubFlag);
+    console.log('activeName',this.activeName);
   },
   computed: {
     _custClass: function() {
@@ -224,7 +226,8 @@ export default {
                     name: "detail_contract",
                     params: {
                       activeTab: this.activeName,
-                      pactNo: this.pactNo
+                      pactNo: this.pactNo,
+                      userNo: this.userNo
                     }
                   });
                 }

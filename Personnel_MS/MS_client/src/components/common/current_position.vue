@@ -38,12 +38,13 @@ export default {
         jump() {
             let aa = this.link[this.breadItemLength - 2]
             if (!aa) return false
-            if (this.activeTab && this.pactNo && this.pactSubFlag) {
+            if (this.activeTab && this.pactNo && this.userNo && this.pactSubFlag) {
                 this.$router.push({
                     name: 'detail_contract',
                     params: {
                         activeTab: this.activeTab,
-                        pactNo: this.pactNo
+                        pactNo: this.pactNo,
+                        userNo: this.userNo
                     }
                 })
             } else if(this.activeTab && this.pactNo){

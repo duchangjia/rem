@@ -128,7 +128,6 @@ export default {
       
     },
     handlePactDetail(index, row) {
-      console.log('传递的pactNo:', row.pactNo);
       this.$router.push({
         name: "detail_contract",
         params: {

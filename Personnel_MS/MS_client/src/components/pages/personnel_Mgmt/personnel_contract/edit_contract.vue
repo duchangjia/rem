@@ -51,7 +51,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="身份证">
-                            <el-input v-model="editPactMsg.certNo" :disabled="true"></el-input>
+                            <el-input v-model="editPactMsg.cert" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -255,7 +255,6 @@ export default {
     handleSave(editPactMsgRules) {
       this.$refs[editPactMsgRules].validate(valid => {
         if (valid) {
-        //   let editPact = this.editPactMsg;
           let editPact = {};
           editPact.pactNo = this.editPactMsg.pactNo;
           editPact.paperPactNo = this.editPactMsg.paperPactNo;
