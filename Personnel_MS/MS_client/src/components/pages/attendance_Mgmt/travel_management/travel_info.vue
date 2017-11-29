@@ -237,4 +237,5 @@
 .travel_info .travelCity_wrap2 .el-form-item__content {
 	margin-left: 10px;
 }
+
 </style>

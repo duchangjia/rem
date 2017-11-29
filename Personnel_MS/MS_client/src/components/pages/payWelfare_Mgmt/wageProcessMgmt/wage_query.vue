@@ -82,7 +82,7 @@
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" >
 				</el-pagination>
 			</div>
 		</div>
@@ -174,6 +174,7 @@ export default {
       		console.log('response',response)
       		if(response.code === "S00000") {
       			this.$message({ message: response.retMsg, type: 'success' });
+      			this.$router.push('/wageProcess_manage');
       		}else {
       			this.$message({ message: response.retMsg, type: 'success' });
       		}
@@ -263,19 +264,6 @@ export default {
 			}
 
 		},
-		changeUpload(file, fileList) {
-//	 		this.formdata2.attachm = file.name;
-      	},
-      	successUpload(response, file, fileList) {
-      		console.log(response)
-      		if(response.code === "S00000") {
-      			this.$message({ message: '操作成功', type: 'success' });
-      			this.$router.push('/travel_management');
-      		}else {
-      			this.$message({ message: response.retMsg, type: 'error' });
-      		}
-      		
-      	},
 		//查询
 		queryForm(formName) {
 			const self = this;
@@ -419,15 +407,7 @@ export default {
 .payroll_query .imExport-btn-item {
     margin-right: 20px;
 }
-/*.titleBtn_wrapper {
-	float: right;
-}*/
-/*.titleBar .btn-primary {
-	float: none;
-}*/
-/*.el-button + .el-button {
-    margin-left: 20px;
-}*/
+
 .link {
 	cursor: pointer;
     color: #337ab7;

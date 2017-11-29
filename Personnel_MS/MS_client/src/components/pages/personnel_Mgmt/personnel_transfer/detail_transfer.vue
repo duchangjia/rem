@@ -1,76 +1,74 @@
 <template>
 	<div class="detail_transfer">
 		<current yiji="人事事务" erji="人事调动" sanji="人事调动明细查询"></current>
-		<div class="content">
-			<div class="title">
+		<div class="queryContent_wrapper">
+			<div class="titleBar">
 				<span class="title-text">人事调动明细查询</span>
-				<el-button type="primary" class="title_button" @click="handleAddTransfer()">新增</el-button>
+				<div class="titleBtn_wrapper">
+					<el-button class="btn-primary" @click="handleAddTransfer()">新增</el-button>
+				</div>
 			</div>
-			<div class="content-inner">
+			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
-					<div class="input-wrap">
-						<el-col :span="6">
-							<el-form-item label="公司" prop="compName">
-								<el-select v-model="ruleForm2.compOrgNo" value-key="compOrgNo" @change="changeValue">
-									<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
-								</el-select>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="部门" prop="departName">
-								<el-select v-model="ruleForm2.departOrgNo" value-key="departOrgNo" @change="changeValue">
-									<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
-								</el-select>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="开始时间" prop="startTime">
-								<el-date-picker
-							      v-model="ruleForm2.startTime"
-							      type="date"
-							      placeholder="选择日期"
-							      :picker-options="pickerOptions0" @change="changeStartTime">
-							   </el-date-picker>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="结束时间" prop="endTime">
-								<el-date-picker
-							      v-model="ruleForm2.endTime"
-							      type="date"
-							      placeholder="选择日期"
-							      :picker-options="pickerOptions0" @change="changeEndTime">
-							   </el-date-picker>
-							</el-form-item>
-						</el-col>
-					</div>
-					<div class="button-wrap">
-						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
-						<el-button type="primary" @click="queryForm('ruleForm2')">查询</el-button>
+					<el-col :sm="12" :md="6">
+						<el-form-item label="公司" prop="compName">
+							<el-select v-model="ruleForm2.organNo" value-key="organNo" @change="changeComp">
+								<el-option v-for="item in compList" :key="item.organNo" :label="item.compName" :value="item.organNo"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="12" :md="6">
+						<el-form-item label="部门" prop="departName">
+							<el-select v-model="ruleForm2.derpNo" value-key="derpNo" @change="changeComp">
+								<el-option v-for="item in departList" :key="item.derpNo" :label="item.departName" :value="item.derpNo"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="12" :md="6">
+						<el-form-item label="开始时间" prop="startTime">
+							<el-date-picker
+						      v-model="ruleForm2.startTime"
+						      type="date"
+						      placeholder="选择日期"
+						      :picker-options="pickerOptions0" @change="changeStartTime">
+						   </el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="12" :md="6">
+						<el-form-item label="结束时间" prop="endTime">
+							<el-date-picker
+						      v-model="ruleForm2.endTime"
+						      type="date"
+						      placeholder="选择日期"
+						      :picker-options="pickerOptions0" @change="changeEndTime">
+						   </el-date-picker>
+						</el-form-item>
+					</el-col>
+					<div class="queryButton_wrapper">
+						<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
+						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
 					</div>
 				</el-form>
-				<div class="info">
-					<el-table :data="transferDataList" border stripe style="width: 100%">
-						<el-table-column prop="workhisId" label="调动编号">
-							<template scope="scope">
-						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.workhisId }}</span>
-					      	</template>
-						</el-table-column>
-						<el-table-column prop="userNo" label="工号"></el-table-column>
-						<el-table-column prop="userName" label="姓名"></el-table-column>
-						<el-table-column prop="oldCompName" label="原公司名称"></el-table-column>
-						<el-table-column prop="oldDepartName" label="原部门名称"></el-table-column>
-						<el-table-column prop="shiftType" label="调动类型"></el-table-column>
-						<el-table-column prop="diaodongDate" label="调动日期"></el-table-column>
-						<el-table-column prop="shiftCameTime" label="调动生效日期" :formatter="travelTimeFormatter"></el-table-column>
-						<el-table-column align="center" label="操作" width="100">
-							<template scope="scope">
-								<span class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></span>
-							</template>
-						</el-table-column>
-					</el-table>
-				</div>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				<el-table :data="transferDataList" border stripe style="width: 100%">
+					<el-table-column prop="workhisId" label="调动编号">
+						<template scope="scope">
+					        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.workhisId }}</span>
+				      	</template>
+					</el-table-column>
+					<el-table-column prop="userNo" label="工号"></el-table-column>
+					<el-table-column prop="userName" label="姓名"></el-table-column>
+					<el-table-column prop="oldCompName" label="原公司名称"></el-table-column>
+					<el-table-column prop="oldDepartName" label="原部门名称"></el-table-column>
+					<el-table-column prop="shiftType" label="调动类型"></el-table-column>
+					<el-table-column prop="diaodongDate" label="调动日期"></el-table-column>
+					<el-table-column prop="shiftCameTime" label="调动生效日期" :formatter="travelTimeFormatter"></el-table-column>
+					<el-table-column align="center" label="操作" width="100">
+						<template scope="scope">
+							<span class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></span>
+						</template>
+					</el-table-column>
+				</el-table>
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -93,30 +91,30 @@ export default {
 			pageSize: 5,
 			totalRows: 2,
 			ruleForm2: {
-				compOrgNo: '',
-				departOrgNo: '',
+				organNo: '',
+				derpNo: '',
 				startTime: "",
 				endTime: ''
 			},
 			comp: {
 				compName: '',
-				compOrgNo: ''
+				organNo: ''
 			},
 			depart: {
 				departName: '',
-				departOrgNo: ''
+				derpNo: ''
 			},
 			//部门列表
 			departList: [
-				{departName: "上海魔方分公司",departOrgNo: '01'},
-				{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-				{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
+				{departName: "上海魔方分公司",derpNo: '01'},
+				{departName: "魔方分公司深圳分公司",derpNo: 'p1'},
+				{departName: "深圳前海橙色魔方信息技术有限公司",derpNo: '0'}
 			],
 			//公司列表
 			compList: [
-				{compName: "上海魔方分公司",compOrgNo: '01'},
-				{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-				{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
+				{compName: "上海魔方分公司",organNo: '01'},
+				{compName: "魔方分公司深圳分公司",organNo: 'p1'},
+				{compName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
 			],
 			transferDataList: [
 				{
@@ -128,16 +126,6 @@ export default {
 					shiftType: "",
 					diaodongDate: "",
 					shiftCameTime: ""
-				},
-				{
-					workhisId: "001001",
-					userNo: "p011111",
-					userName: "sdsd",
-					oldCompName: "xx",
-					oldDepartName: "xxx",
-					shiftType: "xx",
-					diaodongDate: "xx",
-					shiftCameTime: "xxx"
 				}
 			],
 			rules: {
@@ -150,22 +138,15 @@ export default {
 		current
 	},
 	created() {
-		const self = this;
-		let pageNum = self.pageNum;
-		let pageSize = self.pageSize;
-		let userNo = self.$route.params.userNo;
-		let params = {
-			"pageNum": pageNum,
-			"pageSize": pageSize,
-			userNo: userNo
-		}
 		//查询调动列表
-		self.queryCustShifthisList(pageNum,pageSize,params);
+		this.queryCustShifthisList();
+		//查询公司列表
+		this.queryCompList();
 	},
 	methods: {
 		travelTimeFormatter(row, column) {
 			let time = row.shiftCameTime;
-			return moment(time).format('YYYY-MM-DD');
+			return time?moment(time).format('YYYY-MM-DD'): null;
 		},
 		changeStartTime(val) {
 			this.ruleForm2.startTime = val;
@@ -176,9 +157,12 @@ export default {
 		handleAddTransfer() {
 			this.$router.push('/add_transfer');
 		},
-		changeValue(value) {
-		 		const self = this;
-	            console.log('value',value);
+		changeComp(value) {
+		 	console.log('value',value);
+            let params = {
+            	organNo: value
+            }
+            this.queryDerpList(params);
 	    },
 		handleEdit(index, row) {
 			console.log('row:',row);
@@ -207,59 +191,69 @@ export default {
 			console.log(this.ruleForm2.startTime)
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
-					console.log('submit')
-					const self = this;
-					let pageNum = self.pageNum;
-					let pageSize = self.pageSize;
-					let userNo = self.$route.params.userNo;
-					let params = {
-						"pageNum": pageNum,
-						"pageSize": pageSize,
-						userNo: userNo,
-						workhisId: '',
-						startTime: this.ruleForm2.startTime,
-						endTime: this.ruleForm2.endTime
-					}
 					//条件查询调动列表
-					self.queryCustShifthisList(pageNum,pageSize,params);
+					self.queryCustShifthisList();
 					
 				} else {
-					console.log('error submit!!');
 					return false;
 				}
 			});
 		},
 		//重置
 		resetForm() {
-			this.ruleForm2.compOrgNo = '';
-			this.ruleForm2.departOrgNo = '';
+			this.ruleForm2.organNo = '';
+			this.ruleForm2.derpNo = '';
 			this.ruleForm2.startTime = '';
 			this.ruleForm2.endTime = '';
 		},
 		handleCurrentChange(val) {
-			const self = this;
-			let pageNum = val;
-			let pageSize = self.pageSize;
-			let userNo = self.$route.params.userNo;
-			let params = {
-				"pageNum": pageNum,
-				"pageSize": pageSize,
-				userNo: userNo
-			}
+			this.pageNum = val;
 			//查询调动列表
-			self.queryCustShifthisList(pageNum,pageSize,params);
+			this.queryCustShifthisList();
 		},
 		//人事调动列表查询
-		queryCustShifthisList(pageNum,pageSize,params) {
+		queryCustShifthisList() {
 			let self = this;
+			let userNo = self.$route.params.userNo;
+			let params = {
+				"pageNum": self.pageNum,
+				"pageSize": self.pageSize,
+				userNo: userNo
+			}
 			self.$axios.get(baseURL+'/custShifthis/queryCustShifthisList', {params: params})
 			.then(function(res) {
 				console.log('CustShifthisList',res);
-				self.transferDataList = res.data.data.list;
-				self.pageNum = pageNum;
+//				self.transferDataList = res.data.data.list;
+				self.pageNum = params.pageNum;
 				self.totalRows = Number(res.data.data.total);
 			}).catch(function(err) {
 				console.log('error');
+			})
+		},
+		queryCompList() {
+			let self = this;
+			self.$axios.get(baseURL+'/wage/queryOrganByUserNo')
+			.then(function(res) {
+				console.log('CompList',res);
+				if(res.data.code === "S00000") {
+					self.compList = res.data.data;
+				}
+				
+			}).catch(function(err) {
+				console.log(err);
+			})
+		},
+		queryDerpList(params) {
+			let self = this;
+			self.$axios.get(baseURL+'/wage/queryDerpByUserNo', {params: params})
+			.then(function(res) {
+				console.log('DerpList',res);
+				if(res.data.code === "S00000") {
+					self.departList = res.data.data;
+				}
+				
+			}).catch(function(err) {
+				console.log(err);
 			})
 		}
 	}
@@ -267,122 +261,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 	
 .detail_transfer {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
-}
-
-.detail_transfer .content {
-	width: 100%;
-	padding: 0px 20px;
-	background: #ffffff;
-	clear: both;
-}
-
-.detail_transfer .content .title {
-	border-bottom: 1px solid #EEEEEE;
-}
-
-.detail_transfer .content .title .title-text {
-	display: inline-block;
-	position: relative;
-	padding: 14px 0px;
-	font-size: 16px;
-	height: 50px;
-}
-
-.detail_transfer .content .title .title-text:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
-}
-.detail_transfer .title_button {
-	float: right;
-	margin-top: 10px;
-}
-.detail_transfer .content-inner {
-	padding: 30px 0px;
-}
-
-.detail_transfer .el-form-item__label {
-	color: #999999;
-	font-weight: normal;
-	padding: 8px 10px 8px 0;
-	margin: 0;
-}
-.detail_transfer .el-form-item {
-	margin-bottom: 30px;
-}
-
-.detail_transfer .el-input,
-.detail_transfer .el-input__inner {
-	width: 164px;
-	height: 30px;
-	display: inline-block;
-	border-radius: 4px;
-}
-
-.detail_transfer .el-form-item__content {
-	line-height: 30px;
-	position: relative;
-	font-size: 14px;
-}
-
-.detail_transfer .button-wrap {
-	margin: 0px auto 30px;
-	width: 260px;
-	clear: both;
-	font-size: 0px;
-}
-
-.detail_transfer .el-input__inner {
-	border: 1px solid #EEEEEE;
-	color: #333333;
-}
-
-.detail_transfer .el-input__inner:hover {
-	border-color: #FF9900;
-}
-
-.detail_transfer .el-button {
-	border: 1px solid #FF9900;
-	color: #FF9900;
-	padding: 7px 45px;
-	height: 30px;
-}
-.detail_transfer .el-button+.el-button {
-    margin-left: 20px;
-}
-.detail_transfer .el-button--primary {
-	color: #fff;
-	background-color: #FF9900;
-	border-color: #FF9900;
-}
-.detail_transfer .el-table td,
-.detail_transfer .el-table th {
-	text-align: center;
-}
-.detail_transfer .el-table td:first-child{
-	cursor: pointer;
-}
-.detail_transfer .link {
-	cursor: pointer;
-    color: #337ab7;
-    text-decoration: underline;
-}
-.detail_transfer .el-table td:first-child:hover{
-	color: #FF9900;
-}
-.detail_transfer .el-table th {
-	text-align: center;
-	box-shadow: inset 0 1px 0 0 #EEEEEE;
 }
 .icon_edit {
 	width: 14px;
@@ -391,99 +275,9 @@ export default {
 	display: inline-block;
 	background: url(../../../../../static/img/common/edit.png);
 }
-
-
-.detail_transfer .el-pagination {
-	text-align: right;
-	margin-top: 40px;
-	margin-right: 40px;
-	color: #282828;
-}
-
-.detail_transfer .el-pager li.active {
-	border-color: #FF9900;
-	background-color: #FF9900;
-	color: #fff;
-	cursor: default;
-}
-
-.detail_transfer .el-pager li {
-	padding: 0 4px;
-	border-right: 0;
-	background: #fff;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	line-height: 24px;
-	text-align: center;
-}
-
-.detail_transfer .el-pager li:last-child {
-	border-right: 1px solid #EEEEEE;
-}
-
-.detail_transfer .el-pagination button,
-.detail_transfer .el-pagination span {
-	display: inline-block;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	color: #282828;
-	line-height: 24px;
-	vertical-align: top;
-	box-sizing: border-box;
-}
-
-.detail_transfer .el-pager li:hover {
-	color: #FF9900;
-}
-.detail_transfer .el-pager li.active {
-    border-color: #ff9900;
-    background-color: #ff9900;
-    color: #fff;
-    cursor: default;
-}
-.detail_transfer .el-pager li.active:hover {
+.link {
 	cursor: pointer;
-	color: #ffffff;
-}
-
-.detail_transfer .el-pagination button:hover {
-	color: #FF9900;
-}
-.detail_transfer .el-pagination button.disabled:hover {
-	color: #e4e4e4;
-}
-
-.detail_transfer .el-pagination__editor {
-	border: 1px solid #EEEEEE;
-	border-radius: 2px;
-	padding: 2px 0px;
-	width: 24px;
-	min-width: 24px;
-}
-
-.detail_transfer .el-pagination__editor:focus {
-	outline: 0;
-	border-color: #FF9900;
-}
-
-.detail_transfer .el-pagination .btn-next,
-.detail_transfer .el-pagination .btn-prev {
-	border: 1px solid #EEEEEE;
-	color: #282828;
-}
-
-.detail_transfer .el-autocomplete-suggestion__wrap,
-.detail_transfer .el-pager li {
-	border: 1px solid #EEEEEE;
-}
-
-.detail_transfer .el-pager li.btn-quicknext,
-.detail_transfer .el-pager li.btn-quickprev {
-	line-height: 28px;
-	color: #282828;
+    color: #337ab7;
+    text-decoration: underline;
 }
 </style>

@@ -1,75 +1,73 @@
 <template>
 	<div class="detail_dimission">
 		<current yiji="人事事务" erji="人事调动" sanji="员工离职明细查询"></current>
-		<div class="content">
-			<div class="title">
+		<div class="queryContent_wrapper">
+			<div class="titleBar">
 				<span class="title-text">员工离职明细查询</span>
-				<el-button type="primary" class="title_button" @click="handleAddTransfer()">新增</el-button>
+				<div class="titleBtn_wrapper">
+					<el-button class="btn-primary" @click="handleAddTransfer()">新增</el-button>
+				</div>
 			</div>
-			<div class="content-inner">
+			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
-					<div class="input-wrap">
-						<el-col :span="6">
-							<el-form-item label="公司" prop="compName">
-								<el-select v-model="comp" value-key="compOrgNo" @change="changeValue">
-									<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
-								</el-select>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="部门" prop="departName">
-								<el-select v-model="depart" value-key="departOrgNo" @change="changeValue">
-									<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
-								</el-select>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="开始时间" prop="startTime">
-								<el-date-picker
-							      v-model="ruleForm2.startTime"
-							      type="date"
-							      placeholder="选择日期"
-							      :picker-options="pickerOptions0" @change="changeStartTime">
-							   </el-date-picker>
-							</el-form-item>
-						</el-col>
-						<el-col :span="6">
-							<el-form-item label="结束时间" prop="endTime">
-								<el-date-picker
-							      v-model="ruleForm2.endTime"
-							      type="date"
-							      placeholder="选择日期"
-							      :picker-options="pickerOptions0" @change="changeEndTime">
-							   </el-date-picker>
-							</el-form-item>
-						</el-col>
-					</div>
-					<div class="button-wrap">
-						<el-button class="resetform" @click="resetForm('ruleForm2')">重置</el-button>
-						<el-button type="primary" @click="queryForm">查询</el-button>
+					<el-col :sm="12" :md="6">
+						<el-form-item label="公司" prop="organName">
+							<el-select v-model="ruleForm2.organNo" @change="changeComp">
+								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="12" :md="6">
+						<el-form-item label="部门" prop="derpName">
+							<el-select v-model="ruleForm2.derpNo">
+								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="12" :md="6">
+						<el-form-item label="开始时间" prop="startTime">
+							<el-date-picker
+						      v-model="ruleForm2.startTime"
+						      type="date"
+						      placeholder="选择日期"
+						      :picker-options="pickerOptions0" @change="changeStartTime">
+						   </el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :sm="12" :md="6">
+						<el-form-item label="结束时间" prop="endTime">
+							<el-date-picker
+						      v-model="ruleForm2.endTime"
+						      type="date"
+						      placeholder="选择日期"
+						      :picker-options="pickerOptions0" @change="changeEndTime">
+						   </el-date-picker>
+						</el-form-item>
+					</el-col>
+					<div class="queryButton_wrapper">
+						<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
+						<el-button class="btn-default" @click="queryForm">查询</el-button>
 					</div>
 				</el-form>
-				<div class="info">
-					<el-table :data="transferDataList" border stripe style="width: 100%">
-						<el-table-column prop="dimId" label="离职编号">
-							<template scope="scope">
-						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.dimId }}</span>
-					      	</template>
-						</el-table-column>
-						<el-table-column prop="userNo" label="工号"></el-table-column>
-						<el-table-column prop="userName" label="姓名"></el-table-column>
-						<el-table-column prop="compName" label="公司名称"></el-table-column>
-						<el-table-column prop="departName" label="部门名称"></el-table-column>
-						<el-table-column prop="dimType" label="离职类型"></el-table-column>
-						<el-table-column prop="dimTime" label="离职日期" :formatter="dimTimeFormatter"></el-table-column>
-						<el-table-column align="center" label="操作" width="100">
-							<template scope="scope">
-								<span class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></span>
-							</template>
-						</el-table-column>
-					</el-table>
-				</div>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				<el-table :data="transferDataList" border stripe style="width: 100%">
+					<el-table-column prop="dimId" label="离职编号">
+						<template scope="scope">
+					        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.dimId }}</span>
+				      	</template>
+					</el-table-column>
+					<el-table-column prop="userNo" label="工号"></el-table-column>
+					<el-table-column prop="userName" label="姓名"></el-table-column>
+					<el-table-column prop="organName" label="公司名称"></el-table-column>
+					<el-table-column prop="derpName" label="部门名称"></el-table-column>
+					<el-table-column prop="dimType" label="离职类型"></el-table-column>
+					<el-table-column prop="dimTime" label="离职日期" :formatter="dimTimeFormatter"></el-table-column>
+					<el-table-column align="center" label="操作" width="100">
+						<template scope="scope">
+							<span class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></span>
+						</template>
+					</el-table-column>
+				</el-table>
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -93,55 +91,45 @@ export default {
 			totalRows: 2,
 			queryFormFlag: false,
 			ruleForm2: {
-				compOrgNo: '',
-				departOrgNo: '',
+				organNo: '',
+				derpNo: '',
 				startTime: "",
 				endTime: ''
 			},
 			comp: {
-				compName: '',
-				compOrgNo: ''
+				organName: '',
+				organNo: ''
 			},
 			depart: {
-				departName: '',
-				departOrgNo: ''
+				derpName: '',
+				derpNo: ''
 			},
 			//部门列表
 			departList: [
-				{departName: "上海魔方分公司",departOrgNo: '01'},
-				{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-				{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
+				{derpName: "上海魔方分公司",derpNo: '01'},
+				{derpName: "魔方分公司深圳分公司",derpNo: 'p1'},
+				{derpName: "深圳前海橙色魔方信息技术有限公司",derpNo: '0'}
 			],
 			//公司列表
 			compList: [
-				{compName: "上海魔方分公司",compOrgNo: '01'},
-				{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-				{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
+				{organName: "上海魔方分公司",organNo: '01'},
+				{organName: "魔方分公司深圳分公司",organNo: 'p1'},
+				{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
 			],
 			transferDataList: [
 				{
 					dimId: "001001",
 					userNo: "p011111",
 					userName: "sdsd",
-					compName: "xx",
-					departName: "xx",
+					organName: "xx",
+					derpName: "xx",
 					dimType: "xx",
 					dimTime: "2017-10-01"
-				},
-				{
-					dimId: "001001",
-					userNo: "p011111",
-					userName: "sdsd",
-					compName: "",
-					departName: "",
-					dimType: "",
-					dimTime: "",
-					shengxiaoDate: ""
 				}
 			],
 			rules: {
-				compName: [],
-				departName: []
+				organName: [],
+				derpName: []
 			}
 		};
 	},
@@ -149,23 +137,15 @@ export default {
 		current
 	},
 	created() {
-		const self = this;
-		let pageNum = self.pageNum;
-		let pageSize = self.pageSize;
-		let userNo = self.$route.params.userNo;
-		let params = {
-			"pageNum": pageNum,
-			"pageSize": pageSize,
-			userNo: userNo
-		}
-		self.queryFormFlag = false;
 		//查询离职列表
-		self.queryCustDimhisList(pageNum,pageSize,params);
+		this.queryCustDimhisList();
+		//查询公司列表
+		this.queryCompList();
 	},
 	methods: {
 		dimTimeFormatter(row, column) {
 			let time = row.dimTime;
-			return moment(time).format('YYYY-MM-DD') || '';
+			return time?moment(time).format('YYYY-MM-DD') :null;
 		},
 		changeStartTime(val) {
 			this.ruleForm2.startTime = val;
@@ -176,9 +156,12 @@ export default {
 		handleAddTransfer() {
 			this.$router.push('/add_dimission');
 		},
-		changeValue(value) {
-		 		const self = this;
-	            console.log('value',value);
+		changeComp(value) {
+            console.log('value',value);
+            let params = {
+            	organNo: value
+            }
+            this.queryDerpList(params)
 	    },
 		handleEdit(index, row) {
 			console.log('row:',row);
@@ -203,59 +186,64 @@ export default {
 		},
 		//查询
 		queryForm() {
-			const self = this;
-			let pageNum = self.pageNum;
-			let pageSize = self.pageSize;
-			let userNo = self.$route.params.userNo;
-			let params = {
-				"pageNum": pageNum,
-				"pageSize": pageSize,
-				userNo: userNo,
-			}
-			self.queryFormFlag = true;
+			
 			//条件查询离职列表
-			self.queryCustDimhisList(pageNum,pageSize,params);
+			this.queryCustDimhisList();
 		},
 		//重置
 		resetForm() {
-			this.comp = {};
-			this.depart = {};
+			this.ruleForm2.organNo = '';
+			this.ruleForm2.derpNo = '';
 			this.ruleForm2.startTime = '';
 			this.ruleForm2.endTime = '';
 		},
 		handleCurrentChange(val) {
-			console.log(`当前页: ${val}`);
-			const self = this;
-			let pageNum = val;
-			let pageSize = self.pageSize;
-			let userNo = self.$route.params.userNo;
-			let params = {};
-			if(!self.queryFormFlag) {
-				params = {
-					"pageNum": pageNum,
-					"pageSize": pageSize,
-					userNo: userNo
-				}
-			} else {
-				params = {
-					"pageNum": pageNum,
-					"pageSize": pageSize,
-					userNo: userNo,
-					startTime: self.ruleForm2.startTime,
-					endTime: self.ruleForm2.endTime
-				}
-			}
+			this.pageNum = val;
 			//分页查询离职列表
-			self.queryCustDimhisList(pageNum,pageSize,params);
+			this.queryCustDimhisList();
 		},
-		queryCustDimhisList(pageNum,pageSize,params) {
+		queryCustDimhisList() {
 			let self = this;
+			let userNo = self.$route.params.userNo;
+			let params = {
+				"pageNum": self.pageNum,
+				"pageSize": self.pageSize,
+				userNo: userNo,
+				startTime: self.ruleForm2.startTime,
+				endTime: self.ruleForm2.endTime
+			}
 			self.$axios.get(baseURL+'/custDimhis/queryCustDimhisList', {params: params})
 			.then(function(res) {
 				console.log('CustDimhisList',res);
-				self.transferDataList = res.data.data.list;
-				self.pageNum = pageNum;
+//				self.transferDataList = res.data.data.list;
+				self.pageNum = params.pageNum;
 				self.totalRows = Number(res.data.data.total);
+			}).catch(function(err) {
+				console.log(err);
+			})
+		},
+		queryCompList() {
+			let self = this;
+			self.$axios.get(baseURL+'/wage/queryOrganByUserNo')
+			.then(function(res) {
+				console.log('CompList',res);
+				if(res.data.code === "S00000") {
+					self.compList = res.data.data;
+				}
+				
+			}).catch(function(err) {
+				console.log(err);
+			})
+		},
+		queryDerpList(params) {
+			let self = this;
+			self.$axios.get(baseURL+'/wage/queryDerpByUserNo', {params: params})
+			.then(function(res) {
+				console.log('DerpList',res);
+				if(res.data.code === "S00000") {
+					self.departList = res.data.data;
+				}
+				
 			}).catch(function(err) {
 				console.log(err);
 			})
@@ -273,118 +261,7 @@ export default {
 	width: 100%;
 }
 
-.detail_dimission .content {
-	width: 100%;
-	padding: 0px 20px;
-	background: #ffffff;
-	clear: both;
-}
 
-.detail_dimission .content .title {
-	border-bottom: 1px solid #EEEEEE;
-}
-
-.detail_dimission .content .title .title-text {
-	display: inline-block;
-	position: relative;
-	padding: 14px 0px;
-	font-size: 16px;
-	height: 50px;
-}
-
-.detail_dimission .content .title .title-text:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
-}
-.detail_dimission .title_button {
-	float: right;
-	margin-top: 10px;
-}
-.detail_dimission .content-inner {
-	padding: 30px 0px;
-}
-
-.detail_dimission .el-form-item__label {
-	color: #999999;
-	font-weight: normal;
-	padding: 8px 10px 8px 0;
-	margin: 0;
-}
-
-
-.detail_dimission .el-form-item {
-	margin-bottom: 30px;
-}
-
-.detail_dimission .el-input,
-.detail_dimission .el-input__inner {
-	width: 164px;
-	height: 30px;
-	display: inline-block;
-	border-radius: 4px;
-}
-
-.detail_dimission .el-form-item__content {
-	line-height: 30px;
-	position: relative;
-	font-size: 14px;
-}
-
-.detail_dimission .button-wrap {
-	margin: 0px auto 30px;
-	width: 260px;
-	clear: both;
-	font-size: 0px;
-}
-
-.detail_dimission .el-input__inner {
-	border: 1px solid #EEEEEE;
-	color: #333333;
-}
-
-.detail_dimission .el-input__inner:hover {
-	border-color: #FF9900;
-}
-
-.detail_dimission .el-button {
-	border: 1px solid #FF9900;
-	color: #FF9900;
-	padding: 7px 45px;
-	height: 30px;
-}
-
-.detail_dimission .el-button+.el-button {
-    margin-left: 20px;
-}
-.detail_dimission .el-button--primary {
-	color: #fff;
-	background-color: #FF9900;
-	border-color: #FF9900;
-}
-
-.detail_dimission .el-table td,
-.detail_dimission .el-table th {
-	text-align: center;
-}
-
-.detail_dimission .link {
-	cursor: pointer;
-    color: #337ab7;
-    text-decoration: underline;
-}
-.detail_dimission .el-table td:first-child:hover{
-	color: #FF9900;
-}
-
-.detail_dimission .el-table th {
-	text-align: center;
-	box-shadow: inset 0 1px 0 0 #EEEEEE;
-}
 .icon_edit {
 	width: 14px;
 	height: 14px;
@@ -392,98 +269,9 @@ export default {
 	display: inline-block;
 	background: url(../../../../../static/img/common/edit.png);
 }
-
-.detail_dimission .el-pagination {
-	text-align: right;
-	margin-top: 40px;
-	margin-right: 40px;
-	color: #282828;
-}
-
-.detail_dimission .el-pager li.active {
-	border-color: #FF9900;
-	background-color: #FF9900;
-	color: #fff;
-	cursor: default;
-}
-
-.detail_dimission .el-pager li {
-	padding: 0 4px;
-	border-right: 0;
-	background: #fff;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	line-height: 24px;
-	text-align: center;
-}
-
-.detail_dimission .el-pager li:last-child {
-	border-right: 1px solid #EEEEEE;
-}
-
-.detail_dimission .el-pagination button,
-.detail_dimission .el-pagination span {
-	display: inline-block;
-	font-size: 12px;
-	letter-spacing: -0.39px;
-	min-width: 24px;
-	height: 24px;
-	color: #282828;
-	line-height: 24px;
-	vertical-align: top;
-	box-sizing: border-box;
-}
-
-.detail_dimission .el-pager li:hover {
-	color: #FF9900;
-}
-.detail_dimission .el-pager li.active {
-    border-color: #ff9900;
-    background-color: #ff9900;
-    color: #fff;
-    cursor: default;
-}
-.detail_dimission .el-pager li.active:hover {
+.link {
 	cursor: pointer;
-	color: #ffffff;
-}
-
-.detail_dimission .el-pagination button:hover {
-	color: #FF9900;
-}
-.detail_dimission .el-pagination button.disabled:hover {
-	color: #e4e4e4;
-}
-
-.detail_dimission .el-pagination__editor {
-	border: 1px solid #EEEEEE;
-	border-radius: 2px;
-	padding: 2px 0px;
-	width: 24px;
-	min-width: 24px;
-}
-
-.detail_dimission .el-pagination__editor:focus {
-	outline: 0;
-	border-color: #FF9900;
-}
-
-.detail_dimission .el-pagination .btn-next,
-.detail_dimission .el-pagination .btn-prev {
-	border: 1px solid #EEEEEE;
-	color: #282828;
-}
-
-.detail_dimission .el-autocomplete-suggestion__wrap,
-.detail_dimission .el-pager li {
-	border: 1px solid #EEEEEE;
-}
-
-.detail_dimission .el-pager li.btn-quicknext,
-.detail_dimission .el-pager li.btn-quickprev {
-	line-height: 28px;
-	color: #282828;
+    color: #337ab7;
+    text-decoration: underline;
 }
 </style>
