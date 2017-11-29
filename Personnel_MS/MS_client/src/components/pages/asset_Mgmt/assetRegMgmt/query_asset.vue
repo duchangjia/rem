@@ -1,5 +1,5 @@
 <template>
-    <div class="query_asset">
+    <div class="query_wrapper">
         <current yiji="资产管理" erji="资产登记管理" sanji="资产信息查询">
         </current>
         <div class="content-wrapper">
@@ -206,7 +206,5 @@ export default {
 
 
 <style>
-.query_asset {
-  padding: 0 0 20px 20px;
-}
+
 </style>
