@@ -447,6 +447,7 @@ export default {
           "/iem_hrm/InsurancePayTemplate/queryInsurancePayTemplate/" + applyNo
         )
         .then(res => {
+          console.log('insurancePayTemp',res);
           self.insurancePayTemp = res.data.data;
         })
         .catch(() => {
@@ -486,7 +487,7 @@ export default {
                   this.$message({ type: "success", message: "操作成功!" });
                   this.$router.push("/payBaseInfo_setting");
               }
-              else this.$message.error("操作失败！");
+              else this.$message.error(res.data.retMsg);
             })
             .catch(() => {
               this.$message.error("操作失败！");

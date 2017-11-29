@@ -1,5 +1,5 @@
 <template>
-    <div class="detail_pactChange">
+    <div class="container-wrap">
         <current yiji="人事事务" erji="人事合同" sanji="合同详情" siji="合同变更详情" :activeTab="activeName" :pactNo="pactNo">
         </current>
         <div class="content-wrapper">
@@ -65,7 +65,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
-                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
+                            <el-input v-model="custInfo.post" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -213,7 +213,4 @@ export default {
 </script>
 
 <style>
-.detail_pactChange {
-  padding: 0 0 20px 20px;
-}
 </style>

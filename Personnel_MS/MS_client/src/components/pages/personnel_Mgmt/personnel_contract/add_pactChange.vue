@@ -1,11 +1,11 @@
 <template>
-    <div class="add_pactChange">
+    <div class="container-wrap">
         <current yiji="人事事务" erji="人事合同" sanji="合同变更" :activeTab="activeName" :pactNo="pactNo" :userNo='userNo' :pactSubFlag='pactSubFlag'>
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">合同变更</span>
-                <el-button type="primary" @click="handleSave('pactMsgRules')" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave('pactMsgRules')" class="toolBtn btn-primary">保存</el-button>
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
@@ -66,7 +66,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
-                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
+                            <el-input v-model="custInfo.post" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -247,7 +247,4 @@ export default {
 </script>
 
 <style>
-.add_pactChange {
-  padding: 0 0 20px 20px;
-}
 </style>

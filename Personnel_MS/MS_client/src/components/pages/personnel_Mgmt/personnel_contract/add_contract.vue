@@ -1,5 +1,5 @@
 <template>
-    <div class="add_contract">
+    <div class="container-wrap">
         <current yiji="人事事务" erji="人事合同" sanji="合同新增">
         </current>
         <div class="content-wrapper">
@@ -7,7 +7,7 @@
                 <span class="title-text">合同新增</span>
                 <el-button type="primary" @click="handleSave('addPactMsgRules')" class="toolBtn">保存</el-button>
             </div>
-            <div class="add-wrapper">
+            <div class="add-wrapper clearfix">
                 <el-form :inline="true" :model="addPactMsg" :rules="pactMsgRules" ref="addPactMsgRules" :label-position="labelPosition" label-width="110px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="纸质合同编号">
@@ -330,8 +330,4 @@ export default {
 </script>
 
 <style>
-.add_contract {
-  padding: 0 0 20px 20px;
-}
-
 </style>

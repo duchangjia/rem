@@ -1,5 +1,5 @@
 <template>
-    <div class="edit_contract">
+    <div class="container-wrap">
         <current yiji="人事事务" erji="人事合同" sanji="合同修改">
         </current>
         <div class="content-wrapper">
@@ -51,7 +51,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="身份证">
-                            <el-input v-model="editPactMsg.cert" :disabled="true"></el-input>
+                            <el-input v-model="editPactMsg.certNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -295,7 +295,4 @@ export default {
 </script>
 
 <style>
-.edit_contract {
-  padding: 0 0 20px 20px;
-}
 </style>

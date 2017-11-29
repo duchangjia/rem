@@ -1,5 +1,5 @@
 <template>
-    <div class="edit_role">
+    <div class="container-wrap">
         <current yiji="系统管理" erji="角色管理" sanji="编辑角色">
         </current>
         <div class="content-wrapper">
@@ -285,15 +285,7 @@ export default {
 
 
 <style>
-.edit_role {
-  padding: 0 0 20px 20px;
-}
-
 .edit_role .el-textarea__inner {
   width: 300px;
-}
-
-.add-wrapper {
-  clear: both;
 }
 </style>
