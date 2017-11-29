@@ -1,5 +1,5 @@
 <template>
-    <div class="add_role">
+    <div class="container-wrap">
         <current yiji="系统管理" erji="角色管理" sanji="新增角色">
         </current>
         <div class="content-wrapper">
@@ -257,15 +257,7 @@ export default {
 </script>
 
 <style>
-.add_role {
-  padding: 0 0 20px 20px;
-}
-
 .add_role .el-textarea__inner {
   width: 300px;
-}
-
-.add_role .content-wrapper {
-  padding: 0 20px 0;
 }
 </style>

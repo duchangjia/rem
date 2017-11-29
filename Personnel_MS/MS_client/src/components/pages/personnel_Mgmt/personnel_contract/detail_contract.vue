@@ -1,5 +1,5 @@
 <template>
-    <div class="detail_contract">
+    <div class="container-wrap">
         <current yiji="人事事务" erji="人事合同" sanji="合同详情">
         </current>
         <div class="content-wrapper">
@@ -49,7 +49,7 @@
                             </el-col>
                             <el-col :sm="24" :md="12">
                                 <el-form-item label="身份证">
-                                    <el-input v-model="basicPactMsg.cert" :disabled="true"></el-input>
+                                    <el-input v-model="basicPactMsg.certNo" :disabled="true"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :sm="24" :md="12">
@@ -145,7 +145,7 @@
                                 </template>
                             </el-table-column>
                         </el-table>
-                        <el-pagination class="toolbar" @current-change="handlePChangePage" :current-page.sync="pChangePage.pageNum" :page-size="pChangePage.pageSize" layout="prev, pager, next, jumper" :total="pChangePage.totalRows" v-show="pChangePage.totalRows>pChangePage.pageSize">
+                        <el-pagination class="toolbar" @current-change="handlePChangePage" :page-size="pChangePage.pageSize" layout="prev, pager, next, jumper" :total="pChangePage.totalRows" v-show="pChangePage.totalRows>pChangePage.pageSize">
                         </el-pagination>
                     </div>
                 </el-tab-pane>
@@ -183,7 +183,7 @@
                                 </template>
                             </el-table-column>
                         </el-table>
-                        <el-pagination class="toolbar" @current-change="handlePRenewPage" :current-page.sync="pRenewPage.pageNum" :page-size="pRenewPage.pageSize" layout="prev, pager, next, jumper" :total="pRenewPage.totalRows" v-show="pRenewPage.totalRows>pRenewPage.pageSize">
+                        <el-pagination class="toolbar" @current-change="handlePRenewPage" :page-size="pRenewPage.pageSize" layout="prev, pager, next, jumper" :total="pRenewPage.totalRows" v-show="pRenewPage.totalRows>pRenewPage.pageSize">
                         </el-pagination>
                     </div>
                 </el-tab-pane>
@@ -497,7 +497,4 @@ export default {
 </script>
 
 <style scoped>
-.detail_contract {
-  padding: 0 0 20px 20px;
-}
 </style>
