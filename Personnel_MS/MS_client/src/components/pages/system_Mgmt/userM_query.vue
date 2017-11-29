@@ -17,7 +17,7 @@
 					<el-col :sm="12" :md="6">
 						<el-form-item label="部门" prop="departName">
 							<el-select v-model="ruleForm2.derpNo" value-key="derpNo" @change="changeValue">
-								<el-option v-for="item in departList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -57,7 +57,7 @@
 					<el-table-column prop="mobile" label="手机"></el-table-column>
 					<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" >
 				</el-pagination>
 			</div>
 		</div>

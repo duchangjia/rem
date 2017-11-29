@@ -226,11 +226,11 @@
 </script>
 
 <style>
-	.edit_rank {
-		padding-left: 20px;
-		padding-bottom: 20px;
-		width: 100%;
-	}
+.edit_rank {
+	padding-left: 20px;
+	padding-bottom: 20px;
+	width: 100%;
+}
 	
 	
 </style>

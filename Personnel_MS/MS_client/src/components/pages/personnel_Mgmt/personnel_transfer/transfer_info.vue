@@ -10,15 +10,15 @@
 				<el-form ref="formdata" :inline="true" :model="formdata" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
-						    <el-select v-model="oldcomp" value-key="oldOrgId" @change="changeValue">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
+						    <el-select v-model="formdata.oldOrgId" value-key="oldOrgId" @change="changeValue">
+								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="部门名称">
-						    <el-select v-model="olddepart" value-key="oldDeprtId" @change="changeValue">
-								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
+						    <el-select v-model="formdata.oldDeprtId" value-key="oldDeprtId" @change="changeValue">
+								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	
@@ -32,7 +32,7 @@
 						    <el-input v-model="formdata.custName"></el-input>
 					  	</el-form-item>
 					</el-col>	
-					<div class="info-title">调动信息</div>  	
+					<el-col :span="24" class="item-title">调动信息</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动类型">
 						    <el-select v-model="formdata.shiftType" value-key="shiftType" @change="changeValue">
@@ -47,29 +47,29 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原公司名称">
-						    <el-select v-model="oldcomp" value-key="oldOrgId" @change="changeValue">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
+						    <el-select v-model="formdata.oldOrgId" value-key="oldOrgId" @change="changeValue">
+								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新公司名称">
-						    <el-select v-model="newcomp" value-key="newOrgId" @change="changeValue">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item"></el-option>
+						    <el-select v-model="formdata.newOrgId" value-key="newOrgId" @change="changeValue">
+								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原部门名称">
-						    <el-select v-model="olddepart" value-key="oldDeprtId" @change="changeValue">
-								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
+						    <el-select v-model="formdata.oldDeprtId" value-key="oldDeprtId" @change="changeValue">
+								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新部门名称">
-						    <el-select v-model="newdepart" value-key="newDeprtId" @change="changeValue">
-								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item"></el-option>
+						    <el-select v-model="formdata.newDeprtId" value-key="newDeprtId" @change="changeValue">
+								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
@@ -115,7 +115,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width:100%;">
-						    <el-button class="downloadBtn" @click="download()">下载</el-button>
+						    <el-button class="downloadBtn" @click="handleDownload">下载</el-button>
 					  	</el-form-item>
 					</el-col>  	
 					  	
@@ -203,14 +203,22 @@
 			}
 			//人事调动详情查询
 			this.queryCustShifthisInfo(params);
+			//查询公司列表
+			this.queryCompList();
 		},
 		methods: {
 			changeValue(value) {
 		 		const self = this;
 	            console.log('value',value);
 	      	},
-	      	download() {
-		      	
+	      	handleDownload() {
+	      		const self = this;
+	      		let params = {
+	      			filePath: self.formdata2.attachm,
+	      			isOnLine: "false"
+	      		}
+	      		//下载附件
+				self.downloadFile(params);
 	      	},
 			queryCustShifthisInfo(params) {
 				let self = this;
@@ -222,7 +230,60 @@
 				}).catch(function(err) {
 					console.log(err);
 				})
-			}
+			},
+			downloadFile(params) {
+				const self = this;
+				self.$axios.get(baseURL+'/leave/downLoadFile?filePath='+params.filePath +"&isOnLine=" + params.isOnLine, {
+				responseType: 'blob'
+ 				})
+                .then((response) => {
+                    const fileName = params.filePath.substr(params.filePath.lastIndexOf("/")+1); 
+                    const blob = response.data;
+
+                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+
+                        window.navigator.msSaveOrOpenBlob(blob, fileName);
+                    } else {
+
+                        let elink = document.createElement('a'); // 创建a标签
+                        elink.download = fileName;
+                        elink.style.display = 'none';
+                        elink.href = URL.createObjectURL(blob);
+                        document.body.appendChild(elink);
+                        elink.click(); // 触发点击a标签事件
+                        document.body.removeChild(elink);
+                    }
+                }).catch((e) => {
+                    console.error(e)
+                    this.$message({ message: '下载附件失败', type: 'error' });
+                })
+			},
+			queryCompList() {
+				let self = this;
+				self.$axios.get(baseURL+'/wage/queryOrganByUserNo')
+				.then(function(res) {
+					console.log('CompList',res);
+					if(res.data.code === "S00000") {
+						self.compList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log(err);
+				})
+			},
+			queryDerpList(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/wage/queryDerpByUserNo', {params: params})
+				.then(function(res) {
+					console.log('DerpList',res);
+					if(res.data.code === "S00000") {
+						self.departList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log(err);
+				})
+			},
 		}
 	};
 </script>

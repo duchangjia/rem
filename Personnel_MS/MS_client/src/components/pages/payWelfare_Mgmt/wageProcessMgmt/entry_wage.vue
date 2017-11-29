@@ -6,6 +6,7 @@
 				<span class="title-text">录入工资</span>
 				<div class="titleBtn_wrapper">
 					<el-button type="primary" class="btn-primary" @click="autoCalc('formdata2')">自动计算</el-button>
+					<el-button type="primary" class="btn-primary" @click="save">保存</el-button>
 				</div>
 			</div>
 			<div class="queryContent_inner">
@@ -105,24 +106,24 @@
 				          	<el-input size="small" v-model="scope.row.absentPay" @change="handleEdit($event,'absentPay',scope.row)"></el-input>
 				        </template>
 					</el-table-column>
-					<!--<el-table-column prop="shangbaoGeren" label="商保(个人)" min-width="200px">
-						<template scope="scope">
+					<el-table-column prop="perCommercialPay" label="商保(个人)" min-width="200px">
+						<!--<template scope="scope">
 				          	<el-input size="small" v-model="scope.row.shangbaoGeren" @change="handleEdit($event,'shangbaoGeren')"></el-input>
-				        </template>
+				        </template>-->
 					</el-table-column>
-					<el-table-column prop="shangbaoDanwei" label="商保(单位)" min-width="200px">
-						<template scope="scope">
+					<el-table-column prop="comCommercialPay" label="商保(单位)" min-width="200px">
+						<!--<template scope="scope">
 				          	<el-input size="small" v-model="scope.row.shangbaoDanwei" @change="handleEdit($event,'shangbaoDanwei')"></el-input>
-				        </template>
+				        </template>-->
 					</el-table-column>
-					<el-table-column prop="pertaxTotal" label="合计（扣税前）" min-width="200px">
+					<!--<el-table-column prop="pretaxTotal" label="合计（扣税前）" min-width="200px">
 						<template scope="scope">
-				          	<el-input size="small" v-model="scope.row.pertaxTotal" @change="handleEdit($event,'pertaxTotal')"></el-input>
+				          	<el-input size="small" v-model="scope.row.pretaxTotal" @change="handleEdit($event,'pretaxTotal')"></el-input>
 				        </template>
 					</el-table-column>-->
-					<el-table-column prop="baoxianGeren" label="保险缴费合计(个人)" width="100"></el-table-column>
-					<el-table-column prop="baoxianDanwei" label="保险缴费合计(单位)" width="100"></el-table-column>
-					<el-table-column prop="baoxianjiaona" label="保险缴纳" width="100">
+					<el-table-column prop="perPayTotal" label="保险缴费合计(个人)" width="100"></el-table-column>
+					<el-table-column prop="comPayTotal" label="保险缴费合计(单位)" width="100"></el-table-column>
+					<el-table-column label="保险缴纳" width="100">
 						<template scope="scope">
 					        <span class="link" @click="handleInfo(scope.$index, scope.row)">详情</span>
 				      	</template>
@@ -130,7 +131,7 @@
 					<el-table-column prop="payTax" label="扣税" width="100"></el-table-column>
 					<el-table-column prop="realHair" label="实发" width="100"></el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -189,6 +190,15 @@ export default {
 	components: {
 		current
 	},
+	computed: {
+//		comPayTotal: function(){
+//			const self = this;
+//			return self.socialInfoData[0].comEndmPay + 
+//						self.socialInfoData[0].comMediPay + self.socialInfoData[0].comUnemPay +
+//						self.socialInfoData[0].comEmplPay +self.socialInfoData[0].comMatePay + self.socialInfoData[0].comHousePay ;
+//					self.$set(self.socialInfoData, 0, self.socialInfoData[0]);
+//		}
+	},
 	created() {
 		this.ruleForm2.organNo = '';
 		this.ruleForm2.userNo = '';
@@ -203,7 +213,8 @@ export default {
 	},
 	methods: {
 		handleInfo(index, row) {
-			sessionStorage.setItem('infoWage_month', row.month);
+			sessionStorage.setItem('editSecurity_userNo', row.userNo);
+			sessionStorage.setItem('editSecurity_batchNo', row.batchNo);
 			this.$router.push({
 				name: "edit_security",
 				params: {
@@ -250,7 +261,7 @@ export default {
 				perEmplPay: row.perEmplPay,
 				perMatePay: row.perMatePay,
 				perHousePay: row.perHousePay,
-				pertaxTotal: row.pertaxTotal
+				pretaxTotal: row.pretaxTotal
 			};
 			params[valKey] = val;
 			//工资信息录入
@@ -260,6 +271,41 @@ export default {
 		autoCalc() {
 			
 			this.autoCaclWage();
+		},
+		save() {
+			const self = this;
+//			self.$refs.formdata2.validate(valid => {
+//		        if (valid) {
+//		        	
+		          	let params = {
+						batchNo: sessionStorage.getItem('entryWage_batchNo'),
+						userNo : self.socialInfoData[0].userNo,
+    					perEndmPay: self.socialInfoData[0].perEndmPay,
+						perMediPay: self.socialInfoData[0].perMediPay,
+						perUnemPay: self.socialInfoData[0].perUnemPay,
+						perEmplPay: self.socialInfoData[0].perEmplPay,
+						perMatePay: self.socialInfoData[0].perMatePay,
+						perHousePay: self.socialInfoData[0].perHousePay,
+						pretaxTotal: self.socialInfoData[0].pretaxTotal,
+						wagesBase: self.socialInfoData[0].wagesBase,  // 基础工资
+						postPension: self.socialInfoData[0].postPension,  // 岗位工资
+						wagesPerf: self.socialInfoData[0].wagesPerf, // 绩效工资
+						phonePension: self.socialInfoData[0].phonePension,// 通讯补贴
+						trafficPension: self.socialInfoData[0].trafficPension, // 交通补贴
+						livingPension: self.socialInfoData[0].livingPension,  // 生活补贴
+						otherPension: self.socialInfoData[0].otherPension, // 其他补贴
+						payBonus: self.socialInfoData[0].payBonus, // 绩效奖金
+						overtimePay: self.socialInfoData[0].overtimePay,  // 加班工资
+						lateArrivalPay: self.socialInfoData[0].lateArrivalPay, // 病事假扣款
+						absentPay: self.socialInfoData[0].absentPay, // 旷工扣款
+						otherCutPay: self.socialInfoData[0].otherCutPay,
+						payTax: self.socialInfoData[0].payTax,
+						realHair: self.socialInfoData[0].realHair
+		          	}
+		          	//保存修改
+		          	self.modWageInfo(params);
+//		        }
+//	       })
 		},
 		queryWageInfoList() {
 			let self = this;
@@ -272,13 +318,17 @@ export default {
 				diffType: self.ruleForm2.diffType
 			}
 			self.$axios.get(baseURL+'/wage/querySingleWageInfo',{params: params})
-			.then(function(res) {
+			.then((res) => {
 				console.log('wageInfo',res);
 				if(res.data.code === "S00000") {
 					self.socialInfoData = res.data.data.models;
+					let perPayTotal= Number(self.socialInfoData[0].perEndmPay) + Number(self.socialInfoData[0].perMediPay) + Number(self.socialInfoData[0].perUnemPay) +Number(self.socialInfoData[0].perEmplPay) +Number(self.socialInfoData[0].perMatePay) + Number(self.socialInfoData[0].perHousePay);
+					let comPayTotal= Number(self.socialInfoData[0].comEndmPay) + Number(self.socialInfoData[0].comMediPay) + Number(self.socialInfoData[0].comUnemPay) +Number(self.socialInfoData[0].comEmplPay) +Number(self.socialInfoData[0].comMatePay) + Number(self.socialInfoData[0].comHousePay);
+					self.socialInfoData[0].perPayTotal = perPayTotal.toFixed(2);
+					self.socialInfoData[0].comPayTotal = comPayTotal.toFixed(2);
+					self.$set(self.socialInfoData, 0, self.socialInfoData[0]);
 				}
-				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log('error');
 			})
 		},
@@ -298,8 +348,6 @@ export default {
 		autoCaclWage() {
 			let self = this;
 			let params = {
-//				batchNo: sessionStorage.getItem('entryWage_batchNo'),
-//				userNo : self.socialInfoData[0].userNo,
 				perEndmPay: self.socialInfoData[0].perEndmPay,
 				perMediPay: self.socialInfoData[0].perMediPay,
 				perUnemPay: self.socialInfoData[0].perUnemPay,
@@ -326,6 +374,9 @@ export default {
 				console.log('cacl',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
+					self.socialInfoData[0].payTax = res.data.data.payTax;//回写扣税
+					self.socialInfoData[0].realHair = res.data.data.realHair;//回写实发
+					self.$set(self.socialInfoData, 0, self.socialInfoData[0]);
 				}
 				
 			}).catch(function(err) {

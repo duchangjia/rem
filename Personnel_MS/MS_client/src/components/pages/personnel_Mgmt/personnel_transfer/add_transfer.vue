@@ -66,7 +66,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新公司名称" prop="newcompOrgNo">
-						    <el-select v-model="formdata2.newOrgId" value-key="newcompOrgNo">
+						    <el-select v-model="formdata2.newOrgId" value-key="newcompOrgNo" @cnange="changeComp">
 								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -243,7 +243,8 @@
 			current, messageBox
 		},
 		created() {
-			
+			//查询公司列表
+			this.queryCompList();
 		},
 		computed: {
 			addFormdata: function(){
@@ -269,6 +270,12 @@
 			}
 		},
 		methods: {
+			changeComp(val) {
+				let params = {
+					organNo: val
+				}
+				this.queryDerpList(params);
+			},
 	      	dialogConfirm(ajaxNo){
 	      		console.log(ajaxNo)
 		        let self = this;
@@ -323,7 +330,7 @@
 		        //dialog打开
 		        this.dialogVisible=true
 		        //查询接口
-		        this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
+		        this.searchUrl = "/iem_hrm/"
 		        //点击确定后根据号码查询用户信息借口 没有则为空
 		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
 		        //dialog标题
@@ -389,17 +396,17 @@
 				})
 			},
 			queryCompList() {
-			let self = this;
-			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-			.then(function(res) {
-				console.log('CompList',res);
-				if(res.data.code === "S00000") {
-					self.compList = res.data.data;
-				}
-				
-			}).catch(function(err) {
-				console.log(err);
-			})
+				let self = this;
+				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
+				.then(function(res) {
+					console.log('CompList',res);
+					if(res.data.code === "S00000") {
+						self.compList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log(err);
+				})
 			},
 			queryDerpList(params) {
 				let self = this;
