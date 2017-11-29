@@ -240,7 +240,7 @@ export default {
 #msg_item_box{
   .el-form{
     margin-bottom:20px;
-    margin-top:20px;
+    margin-top:0;
     .el-form-item:last-child{
         margin-right:0;
     }
