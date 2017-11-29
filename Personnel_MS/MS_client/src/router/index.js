@@ -44,12 +44,12 @@ const routes = [
                 {
                     path: '/',
                     meta: { requireAuth: true, },
-                    component: resolve => require(['../components/common/aggregation/user_Setting/user_Info.vue'], resolve)
+                    component: resolve => require(['../components/common/aggregation/user_Setting/user_info.vue'], resolve)
                 },
                 {
                     path: '/agg_uesr_center',
                     meta: { requireAuth: true, },
-                    component: resolve => require(['../components/common/aggregation/user_Setting/user_Info.vue'], resolve)
+                    component: resolve => require(['../components/common/aggregation/user_Setting/user_info.vue'], resolve)
                 },
                 {
                     path: '/agg_modify_password',
