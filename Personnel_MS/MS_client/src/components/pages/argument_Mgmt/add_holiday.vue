@@ -87,6 +87,10 @@
                                 console.log(res)
                             })
                             .catch(e=>{
+                                self.$message({
+                                    message: '新增失败,请稍后再试',
+                                    type: 'error'
+                                });
                                 console.log(e)
                             })
                         }else {

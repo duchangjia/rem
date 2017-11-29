@@ -163,15 +163,31 @@
             },
             handleCurrentChange(val) {
                 let self = this
-                let loadingInstance = this.$loading({
-                    target: '.form-content',
-                    lock: true,
-                    text: '加载中',
-                    customClass: 'loading-bg'
-                })
+                let organNo = self.searchInfo.organNo
+                let derpNo = self.searchInfo.derpNo
+                let nameOrNo = self.searchInfo.nameOrNo
+                let custStatus = self.searchInfo.custStatus
+                let data = {
+                    organNo,
+                    derpNo,
+                    nameOrNo,
+                    custStatus,
+                    pageNum:val
+                }
+                for(var name in data){
+                    if(data[name]==''){
+                        delete data[name]
+                    }
+                }
+//                let loadingInstance = this.$loading({
+//                    target: '.form-content',
+//                    lock: true,
+//                    text: '加载中',
+//                    customClass: 'loading-bg'
+//                })
                 self.$axios.get('/iem_hrm/CustInfo/queryCustInfList',{params:{pageNum:val}})
                     .then(res => {
-                        loadingInstance.close()
+//                        loadingInstance.close()
                         self.table.td = res.data.data.list
                         this.fenye.total = res.data.data.total
                         this.fenye.pageSize = res.data.data.pageSize
@@ -237,16 +253,16 @@
                         delete data[name]
                     }
                 }
-                let loadingInstance = this.$loading({
-                            target: '.form-content',
-                            lock: true,
-                            text: '加载中',
-                            customClass: 'loading-bg'
-                        })
+//                let loadingInstance = this.$loading({
+//                            target: '.form-content',
+//                            lock: true,
+//                            text: '加载中',
+//                            customClass: 'loading-bg'
+//                        })
                 self.$axios.get('/iem_hrm/CustInfo/queryCustInfList', {params:data})
                     .then(res => {
                         console.log(res)
-                        loadingInstance.close()
+//                        loadingInstance.close()
                         let length = res.data.data.list.length
                         if(!length) {
                             self.$message({
@@ -263,7 +279,7 @@
                         }
                     })
                     .catch(e=>{
-                        loadingInstance.close()
+//                        loadingInstance.close()
                         self.$message({
                             type: 'error',
                             message: '系统繁忙，请稍后再试'

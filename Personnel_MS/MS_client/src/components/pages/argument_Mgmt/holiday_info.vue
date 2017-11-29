@@ -23,6 +23,10 @@
                             <el-form-item label="类型">
                                 <el-select v-model="content.value" placeholder="选择日期类型">
                                     <el-option
+                                            label="全部"
+                                            value="99">
+                                    </el-option>
+                                    <el-option
                                             label="法定节假日"
                                             value="1">
                                     </el-option>
@@ -56,17 +60,6 @@
                             </template>
                         </el-table-column>
                     </el-table>
-                    <!--<table>-->
-                        <!--<tr><td v-for="th in table.th">{{th}}</td></tr>-->
-                        <!--<tr v-for="tds in table.td">-->
-                            <!--<td>{{tds.dayDate | formatDate1}}</td>-->
-                            <!--<td>{{tds.dayFlag=='1'?'法定节假日':'正常工作日'}}</td>-->
-                            <!--<td>{{tds.remark}}</td>-->
-                            <!--<td>{{tds.createdBy}}</td>-->
-                            <!--<td>{{tds.createdDate | formatDate}}</td>-->
-                            <!--<td><i class="el-icon-delete2" @click="del(tds.dayDate)"></i></td>-->
-                        <!--</tr>-->
-                    <!--</table>-->
                     <el-pagination
                             @size-change="handleSizeChange"
                             @current-change="handleCurrentChange"
@@ -77,62 +70,6 @@
                 </div>
             </div>
         </div>
-        <!--<el-col :span="24">-->
-            <!--<div class="content-wrapper">-->
-                <!--<div class="title"><span class="text">免签节假日维护</span><button class="add" @click="add">新增</button></div>-->
-                <!--<div class="content">-->
-
-                    <!--<el-form class="search">-->
-                        <!--&lt;!&ndash;<span>日期</span>&ndash;&gt;-->
-                        <!--<el-col :sm="12" :md="9">-->
-                            <!--<el-form-item label="日期">-->
-                                <!--<div>-->
-                                    <!--<el-date-picker type="date" placeholder="选择日期" v-model="content.date1"></el-date-picker><i>-</i><el-date-picker type="date" v-model="content.date2" placeholder="选择日期"></el-date-picker>-->
-                                <!--</div>-->
-                            <!--</el-form-item>-->
-                        <!--</el-col>-->
-                        <!--<el-col :sm="12" :md="6">-->
-                            <!--<el-form-item label="类型">-->
-                                <!--<el-select v-model="content.value">-->
-                                    <!--<el-option-->
-                                            <!--label="法定节假日"-->
-                                            <!--value="1">-->
-                                    <!--</el-option>-->
-                                    <!--<el-option-->
-                                            <!--label="正常工作日"-->
-                                            <!--value="2">-->
-                                    <!--</el-option>-->
-                                <!--</el-select>-->
-                            <!--</el-form-item>-->
-                        <!--</el-col>-->
-                            <!--&lt;!&ndash;<span class="special">类型</span>&ndash;&gt;-->
-                    <!--</el-form>-->
-                    <!--<div class="button">-->
-                        <!--<button class="special_1" @click="reset">重置</button>-->
-                        <!--<button @click="search(content.date1, content.date2, content.value)">查询</button>-->
-                    <!--</div>-->
-                    <!--<table>-->
-                        <!--<tr><td v-for="th in table.th">{{th}}</td></tr>-->
-                        <!--<tr v-for="tds in table.td">-->
-                            <!--<td>{{tds.dayDate | formatDate1}}</td>-->
-                            <!--<td>{{tds.dayFlag=='1'?'法定节假日':'正常工作日'}}</td>-->
-                            <!--<td>{{tds.remark}}</td>-->
-                            <!--<td>{{tds.createdBy}}</td>-->
-                            <!--<td>{{tds.createdDate | formatDate}}</td>-->
-                            <!--<td><i class="el-icon-delete2" @click="del(tds.dayDate)"></i></td>-->
-                        <!--</tr>-->
-                    <!--</table>-->
-                    <!--<el-pagination-->
-                            <!--@size-change="handleSizeChange"-->
-                            <!--@current-change="handleCurrentChange"-->
-                            <!--:page-size="fenye.pageSize"-->
-                            <!--layout="total,prev, pager, next, jumper"-->
-                            <!--:total="fenye.total">-->
-                    <!--</el-pagination>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</el-col>-->
-
 </template>
 
 <script type='text/ecmascript-6'>
@@ -182,11 +119,13 @@
                 console.log(val)
             },
             handleCurrentChange(val) {
-                console.log(val)
                 let self = this
                 let data = {
                     pageNum: val,
                     pageSize: self.fenye.pageSize,
+                    startDate: this.content.date1==''?'':moment(this.content.date1).format('YYYYMMDD'),
+                    endDate: this.content.date2==''?'':moment(this.content.date2).format('YYYYMMDD'),
+                    dayFlag: this.content.value=='99'?'':this.content.value,
                 }
                 self.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList',{params:data})
                     .then(res => {
@@ -207,11 +146,22 @@
             },
             search(value1,value2,type) {
                 let self = this
-                let startDate = moment(value1).format('YYYYMMDD')
-                let endDate = moment(value2).format('YYYYMMDD')
-                if(value1&&!value2&&!type) {
-                    this.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList', {params:{startDate:startDate}})
-                        .then(res => {
+                let data = {
+                    startDate: value1==''?'':moment(value1).format('YYYYMMDD'),
+                    endDate: value2==''?'':moment(value2).format('YYYYMMDD'),
+                    dayFlag: type=='99'?'':type,
+                }
+                this.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList', {params:data})
+                    .then(res => {
+                        console.log(res,data)
+                        if(res.data.data==''){
+                            self.$message({
+                                message: res.data.retMsg,
+                                type: 'info'
+                            });
+                            self.table.td = []
+                            self.fenye.total = 0
+                        }else {
                             self.table.td = res.data.data.list.map(item=>{
                                 return {
                                     createdBy: item.createdBy,
@@ -222,106 +172,15 @@
                                 }
                             })
                             self.fenye.total = res.data.data.total
-                        })
-                        .catch(e => {
-                            console.log(e)
-                        })
-                }
-                if(!value1&&value2&&!type) {
-                    this.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList', {params:{endDate:endDate}})
-                        .then(res => {
-                            self.table.td = res.data.data.list.map(item=>{
-                                return {
-                                    createdBy: item.createdBy,
-                                    createdDate: item.createdDate ,
-                                    dayDate: item.dayDate,
-                                    dayFlag: item.dayFlag,
-                                    remark: item.remark,
-                                }
-                            })
-                            self.fenye.total = res.data.data.total
-                        })
-                        .catch(e => {
-                            console.log(e)
-                        })
-                }
-                if(!value1&&!value2&&type) {
-                    this.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList', {params:{dayFlag:type}})
-                        .then(res => {
-                            self.table.td = res.data.data.list.map(item=>{
-                                return {
-                                    createdBy: item.createdBy,
-                                    createdDate: item.createdDate ,
-                                    dayDate: item.dayDate,
-                                    dayFlag: item.dayFlag,
-                                    remark: item.remark,
-                                }
-                            })
-                            self.fenye.total = res.data.data.total
-                        })
-                        .catch(e => {
-                            console.log(e)
-                        })
-                }
-                if(value1&&value2&&!type) {
-                    console.log(111)
-                    console.log(startDate,endDate)
-                    this.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList', {params:{startDate,endDate}})
-                        .then(res => {
-                            console.log(res)
-                            self.table.td = res.data.data.list.map(item=>{
-                                return {
-                                    createdBy: item.createdBy,
-                                    createdDate: item.createdDate ,
-                                    dayDate: item.dayDate,
-                                    dayFlag: item.dayFlag,
-                                    remark: item.remark,
-                                }
-                            })
-                            self.fenye.total = res.data.data.total
-                        })
-                        .catch(e => {
-                            console.log(e)
-                        })
-                }
-                if(value1&&!value2&&type) {
-                    this.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList', {params:{startDate,dayFlag:type}})
-                        .then(res => {
-                            console.log(res)
-                            self.table.td = res.data.data.list.map(item=>{
-                                return {
-                                    createdBy: item.createdBy,
-                                    createdDate: item.createdDate ,
-                                    dayDate: item.dayDate,
-                                    dayFlag: item.dayFlag,
-                                    remark: item.remark,
-                                }
-                            })
-                            self.fenye.total = res.data.data.total
-                        })
-                        .catch(e => {
-                            console.log(e)
-                        })
-                }
-                if(!value1&&value2&&type) {
-                    this.$axios.get('/iem_hrm/visaFreeHoliday/queryVisaFreeHoliayList', {params:{endDate,dayFlag:type}})
-                        .then(res => {
-                            self.table.td = res.data.data.list.map(item=>{
-                                return {
-                                    createdBy: item.createdBy,
-                                    createdDate: item.createdDate ,
-                                    dayDate: item.dayDate,
-                                    dayFlag: item.dayFlag,
-                                    remark: item.remark,
-                                }
-                            })
-                            self.fenye.total = res.data.data.total
-                        })
-                        .catch(e => {
-                            console.log(e)
-                        })
-                }
-
+                        }
+                    })
+                    .catch(e => {
+                        self.$message({
+                            message: '查询失败,请稍后再试',
+                            type: 'error'
+                        });
+                        console.log(e)
+                    })
             },
             reset() {
                 this.content.date1 = ''
@@ -349,7 +208,6 @@
                 this.$router.push('add_holiday')
             },
             del(value) {
-                console.log(value)
                 let self = this
                 this.$confirm('此操作将永久删除, 是否继续?', '提示', {
                     confirmButtonText: '确定',
@@ -389,6 +247,10 @@
                             }
                         })
                         .catch(e => {
+                            this.$message({
+                                type: 'error',
+                                message: '删除失败,请稍后再试'
+                            });
                             console.log(e)
                         })
                 }).catch(()=>{

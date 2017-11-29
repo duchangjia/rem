@@ -72,7 +72,7 @@
                     ],
                     costCode: [
                         { required: true, message: 'CCC值不能为空', trigger: 'blur'},
-                        { required: true, message: 'CCC值只能为数字', trigger: 'blur', type:'number' },
+                        { pattern: /^[0-9]*$/, message: "CCC值只能为数字" }
                     ],
                 },
                 optionItem:{},
@@ -109,6 +109,10 @@
                                     }
                                 })
                                 .catch(e=>{
+                                    self.$message({
+                                        message: '新增失败,请稍后再试',
+                                        type: 'error'
+                                    });
                                     console.log('新增CCC失败', e)
                                 })
                         }else {
