@@ -52,7 +52,7 @@
                         <el-table-column prop="dayFlag" label="类型" :formatter="percentRateFormatter"></el-table-column>
                         <el-table-column prop="remark" label="备注"></el-table-column>
                         <el-table-column prop="createdBy" label="创建ID"></el-table-column>
-                        <el-table-column prop="createdDate" label="创建时间" :formatter="formatDate"></el-table-column>
+                        <el-table-column prop="createdDate" label="创建时间"></el-table-column>
                         <el-table-column label="操作">
                             <template scope="scope">
                                 <!--<i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>-->
@@ -266,9 +266,6 @@
             formatDate1(row, column) {
                 return moment(row.dayDate).format('YYYY-MM-DD')
             },
-            formatDate(row, column) {
-                return moment(row.createdDate).format('YYYY-MM-DD hh:mm:ss')
-            }
         },
         filters: {
             formatDate1(time) {

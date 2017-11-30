@@ -82,6 +82,7 @@ export default {
 			sessionStorage.setItem('groupName',row.groupName);
             this.$router.push({
             	name: 'rate_info',
+				// 如果这里你测试不成功，就把params改用query,对应页面用query接收
             	params: {
             		groupName: row.groupName,
             		groupId: row.groupId

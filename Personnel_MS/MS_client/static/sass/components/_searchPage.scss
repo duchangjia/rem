@@ -130,5 +130,12 @@
                 margin-right:10px;
             }
         }
+        .el-table .link {
+            color: #337ab7;
+            text-decoration: underline;
+            &:hover {
+                cursor: pointer;
+            }
+        }
     }
 }

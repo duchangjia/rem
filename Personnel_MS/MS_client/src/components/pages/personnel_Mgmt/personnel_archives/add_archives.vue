@@ -571,11 +571,6 @@
                                                         <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
-                                                <!--<div class="button-wrapper">-->
-                                                    <!--<button @click="proSave" v-show="false">保存</button>-->
-                                                    <!--<button class="button_special" @click="proDel(index)">删除</button>-->
-                                                    <!--<span @click="delWorkItem">删除本条</span>-->
-                                                <!--</div>-->
                                             </el-form>
                                         </div>
                                     </div>
