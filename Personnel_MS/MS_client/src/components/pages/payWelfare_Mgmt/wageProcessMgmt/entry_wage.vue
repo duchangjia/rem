@@ -140,18 +140,13 @@
 
 <script type='text/ecmascript-6'>
 import current from '../../../common/current_position.vue'
-import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
 		return {
-			token: {
-				Authorization:`Bearer `+localStorage.getItem('access_token'),
-			},
 			pageNum: 1,
 			pageSize: 10,
-			totalRows: 2,
-			queryFormFlag: false,
+			totalRows: 1,
 			ruleForm2: {
 				organNo: '',
 				userNo: "",
@@ -190,15 +185,6 @@ export default {
 	components: {
 		current
 	},
-	computed: {
-//		comPayTotal: function(){
-//			const self = this;
-//			return self.socialInfoData[0].comEndmPay + 
-//						self.socialInfoData[0].comMediPay + self.socialInfoData[0].comUnemPay +
-//						self.socialInfoData[0].comEmplPay +self.socialInfoData[0].comMatePay + self.socialInfoData[0].comHousePay ;
-//					self.$set(self.socialInfoData, 0, self.socialInfoData[0]);
-//		}
-	},
 	created() {
 		this.ruleForm2.organNo = '';
 		this.ruleForm2.userNo = '';
@@ -221,7 +207,6 @@ export default {
 					month: row.month
 				}
 			})
-			
 		},
 		//查询
 		queryForm(formName) {
@@ -368,7 +353,6 @@ export default {
 				absentPay: self.socialInfoData[0].absentPay, // 旷工扣款
 				otherCutPay: self.socialInfoData[0].otherCutPay
 			}
-			console.log('autoC params',params)
 			self.$axios.post(baseURL+'/wage/reckonSingleWage', params)
 			.then(function(res) {
 				console.log('cacl',res);

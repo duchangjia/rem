@@ -41,13 +41,6 @@
 	                        </el-upload>
 					  	</el-form-item>
 					</el-col>
-					<!--<el-col :span="24">
-						<div class="importBtn_wrapper">
-							<el-button type="primary" class="toolBtn" @click="handleImport('formdata2')">导入</el-button>
-							<el-button type="primary" class="toolBtn" @click="handleExport('formdata2')">导出</el-button>
-							<el-button type="primary" class="toolBtn" @click="download">下载模版</el-button>
-						</div>
-					</el-col>-->
 				</el-form>
 			</div>
 		</div>
@@ -109,8 +102,10 @@
 	      	},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
-	      			this.$message({ message: '操作成功', type: 'success' });
+	      			this.$message({ message: response.retMsg, type: 'success' });
 	      			this.$router.push('/socialSecurity_query');
+	      		} else {
+	      			this.$message({ message: response.retMsg, type: 'error' });
 	      		}
 	      		
 	      	},
@@ -125,30 +120,6 @@
 			          	self.$refs.upload.submit();
 			        }
 		       })
-			},
-			handleExport(formName) {
-				const self = this;
-				self.$refs.formdata2.validate(valid => {
-			        if (valid) {
-			          	let params = {
-			          		
-			          	}
-			          	
-			        }
-		       })
-			},
-			modWageInfo(params) {
-				let self = this;
-				self.$axios.post(baseURL+'',params)
-				.then(function(res) {
-					console.log('addWage',res);
-					if(res.data.code === "S00000") {
-						self.$message({ message: '操作成功', type: 'success' });
-						self.$router.push('/wageProcess_manage');
-					}
-				}).catch(function(err) {
-					console.log('error');
-				})
 			},
 			queryCompList() {
 				let self = this;
