@@ -1,6 +1,7 @@
 .DS_Store
 .vscode
 node_modules/
+dist/
 static/build/.sass-cache
 config/index.js
 npm-debug.log*
