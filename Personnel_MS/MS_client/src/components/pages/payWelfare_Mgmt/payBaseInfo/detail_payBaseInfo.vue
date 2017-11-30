@@ -139,62 +139,62 @@
                 <el-form :inline="true" :model="insurancePayTemp" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险(个人)">
-                            <el-input v-model="insurancePayTemp.perEndmFixed" :disabled="true"></el-input>
+                            <el-input v-model="_perEndm"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                      <el-form-item label="养老保险(单位)">
-                            <el-input v-model="insurancePayTemp.comEndmFixed" :disabled="true"></el-input>
+                        <el-form-item label="养老保险(单位)">
+                            <el-input v-model="_comEndm"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                      <el-form-item label="医疗保险(个人)">
-                            <el-input v-model="insurancePayTemp.perMediFixed" :disabled="true"></el-input>
+                        <el-form-item label="医疗保险(个人)">
+                            <el-input v-model="_perMedi"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                      <el-form-item label="医疗保险(单位)">
-                            <el-input v-model="insurancePayTemp.comMediFixed" :disabled="true"></el-input>
+                        <el-form-item label="医疗保险(单位)">
+                            <el-input v-model="_comMedi"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                      <el-form-item label="失业保险(个人)">
-                            <el-input v-model="insurancePayTemp.perUnemFixed" :disabled="true"></el-input>
+                        <el-form-item label="失业保险(个人)">
+                            <el-input v-model="_perUnem"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                      <el-form-item label="失业保险(单位)">
-                            <el-input v-model="insurancePayTemp.comUnemFixed" :disabled="true"></el-input>
+                        <el-form-item label="失业保险(单位)">
+                            <el-input v-model="_comUnem"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                      <el-form-item label="工伤保险(个人)">
-                            <el-input v-model="insurancePayTemp.perEmplFixed" :disabled="true"></el-input>
+                        <el-form-item label="工伤保险(个人)">
+                            <el-input v-model="_perEmpl"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                      <el-form-item label="工伤保险(单位)">
-                            <el-input v-model="insurancePayTemp.comEmplFixed" :disabled="true"></el-input>
+                        <el-form-item label="工伤保险(单位)">
+                            <el-input v-model="_comEmpl"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                      <el-form-item label="生育保险(个人)">
-                            <el-input v-model="insurancePayTemp.perMateFixed" :disabled="true"></el-input>
+                        <el-form-item label="生育保险(个人)">
+                            <el-input v-model="_perMate"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                      <el-form-item label="生育保险(单位)">
-                            <el-input v-model="insurancePayTemp.comMateFixed" :disabled="true"></el-input>
+                        <el-form-item label="生育保险(单位)">
+                            <el-input v-model="_comMate"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                      <el-form-item label="公积金(个人)">
-                            <el-input v-model="insurancePayTemp.perHousFixed" :disabled="true"></el-input>
+                        <el-form-item label="公积金(个人)">
+                            <el-input v-model="_perHouse"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                      <el-form-item label="公积金(单位)">
-                            <el-input v-model="insurancePayTemp.comHousFixed" :disabled="true"></el-input>
+                        <el-form-item label="公积金(单位)">
+                            <el-input v-model="_comHouse"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -259,6 +259,42 @@ export default {
       } else {
         return "";
       }
+    },
+    _perEndm: function() {
+        return Number(this.payBaseInfoDetail.endmBase) * this.insurancePayTemp.perEndmRate + this.insurancePayTemp.perEndmFixed || 0;
+    },
+    _comEndm: function() {
+        return Number(this.payBaseInfoDetail.endmBase) * this.insurancePayTemp.comEndmRate + this.insurancePayTemp.comEndmFixed || 0;
+    },
+    _perMedi: function() {
+        return Number(this.payBaseInfoDetail.mediBase) * this.insurancePayTemp.perMediRate + this.insurancePayTemp.perMediFixed || 0;
+    },
+    _comMedi: function() {
+        return Number(this.payBaseInfoDetail.mediBase) * this.insurancePayTemp.comMediRate + this.insurancePayTemp.comMediFixed || 0;
+    },
+    _perUnem: function() {
+        return Number(this.payBaseInfoDetail.unemBase) * this.insurancePayTemp.perUnemRate + this.insurancePayTemp.perUnemFixed || 0;
+    },
+    _comUnem: function() {
+        return Number(this.payBaseInfoDetail.unemBase) * this.insurancePayTemp.comUnemRate + this.insurancePayTemp.comUnemFixed || 0;
+    },
+    _perEmpl: function() {
+        return Number(this.payBaseInfoDetail.emplBase) * this.insurancePayTemp.perEmplRate + this.insurancePayTemp.perEmplFixed || 0;
+    },
+    _comEmpl: function() {
+        return Number(this.payBaseInfoDetail.emplBase) * this.insurancePayTemp.comEmplRate + this.insurancePayTemp.comEmplFixed || 0;
+    },
+    _perMate: function() {
+        return Number(this.payBaseInfoDetail.mateBase) * this.insurancePayTemp.perMateRate + this.insurancePayTemp.perMateFixed || 0;
+    },
+    _comMate: function() {
+        return Number(this.payBaseInfoDetail.mateBase) * this.insurancePayTemp.comMateRate + this.insurancePayTemp.comMateFixed || 0;
+    },
+    _perHouse: function() {
+        return Number(this.payBaseInfoDetail.houseBase) * this.insurancePayTemp.perHousRate + this.insurancePayTemp.perHousFixed || 0;
+    },
+    _comHouse: function() {
+        return Number(this.payBaseInfoDetail.houseBase) * this.insurancePayTemp.comHousRate + this.insurancePayTemp.comHousFixed || 0;
     }
   },
   methods: {
