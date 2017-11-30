@@ -168,7 +168,6 @@ export default {
 		},
 		changeUpload(file, fileList) {
 	 		this.fileFlag = file;
-	 		this.formdata2.attachm = file.name;
       	},
       	successUpload(response, file, fileList) {
       		console.log('response',response)
@@ -176,7 +175,7 @@ export default {
       			this.$message({ message: response.retMsg, type: 'success' });
       			this.$router.push('/wageProcess_manage');
       		}else {
-      			this.$message({ message: response.retMsg, type: 'success' });
+      			this.$message({ message: response.retMsg, type: 'error' });
       		}
       		
       	},
