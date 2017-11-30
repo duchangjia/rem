@@ -37,43 +37,131 @@
                <ul>
                    <li class="list-tit">
                        <label>应发金额</label>
-                       <span><input v-model="accountData.allPay" readonly="readonly"></span>
+                       <span><input v-model="accountData.allPay||baseNum" readonly="readonly"></span>
                    </li>
                    <li>
-                       <label>标准薪资<i class="ico-salary"></i></label>
-                       <span><input v-model="accountData.salaryStd" readonly="readonly"></span>
-                       <ul class="sec-list">
+                       <label class="cur-pointer" @click="showSalary()">标准薪资<i class="ico-salary"></i></label>
+                       <span ><input v-model="accountData.salaryStd" readonly="readonly"></span>
+                       <ul class="sec-list" v-if="isSalary">
                            <li>
                                <label>基本工资</label>
-                               <span><input v-model="accountData.wagesBase" readonly="readonly"></span>
+                               <span><input v-model="accountData.wagesBase||baseNum"  readonly="readonly"></span>
                            </li>
                            <li>
                                <label>绩效工资</label>
-                               <span><input v-model="accountData.wagesPerf" readonly="readonly"></span>
+                               <span><input v-model="accountData.wagesPerf||baseNum" readonly="readonly"></span>
                            </li>
                        </ul>
                    </li>
                    <li>
-                        <label>奖金及补贴<i class="ico-salary"></i></label>
+                        <label class="cur-pointer"  @click="showBonus()">奖金及补贴<i class="ico-salary"></i></label>
                         <span><input v-model="accountData.bonuses" readonly="readonly"></span>
+                        <ul class="sec-list" v-if="isBonus">
+                           <li>
+                               <label>岗位津贴</label>
+                               <span><input v-model="accountData.postPension||baseNum" readonly="readonly"></span>
+                           </li>
+                           <li>
+                               <label>通讯补贴</label>
+                               <span><input v-model="accountData.phonePension||baseNum" readonly="readonly"></span>
+                           </li>
+                           <li>
+                               <label>交通补贴</label>
+                               <span><input v-model="accountData.trafficPension||baseNum" readonly="readonly"></span>
+                           </li>
+                           <li>
+                               <label>生活补贴</label>
+                               <span><input v-model="accountData.livingPension||baseNum" readonly="readonly"></span>
+                           </li>
+                           <li>
+                               <label>全勤奖</label>
+                               <span><input v-model="accountData.attendanceBonus||baseNum" readonly="readonly"></span>
+                           </li>
+                           <li>
+                               <label>工龄奖</label>
+                               <span><input v-model="accountData.seniorityPay||baseNum" readonly="readonly"></span>
+                           </li>
+                           <li>
+                               <label>加班工资</label>
+                               <span><input v-model="accountData.overtimePay||baseNum" readonly="readonly"></span>
+                           </li>
+                           <li>
+                               <label>其他</label>
+                               <span><input v-model="accountData.otherPension||baseNum" readonly="readonly"></span>
+                           </li>
+                       </ul>
                    </li>
                </ul>
                <ul>
                    <li class="list-tit">
-                       <label>应扣金额</label>
+                       <label >应扣金额</label>
                        <span><input v-model="accountData.allTakeCount" readonly="readonly"></span>
+                      
                    </li>
                    <li>
-                       <label>考勤<i class="ico-salary"></i></label>
-                       <span><input v-model="accountData.allCheckCount" readonly="readonly"></span>
+                       <label class="cur-pointer" @click="showWork()">考勤<i class="ico-salary"></i></label>
+                       <span><input v-model="accountData.allCheckCount||baseNum" readonly="readonly"></span>
+                       <span>迟到、事假、病假等考勤扣款合计</span>
+                        <ul class="sec-list" v-if="isWork">
+                           <li>
+                                <label>迟到早退</label>
+                               <span><input v-model="accountData.lateArrivalPay||baseNum" readonly="readonly"></span>
+                           </li>
+                           <li>
+                                <label>病事假</label>
+                                <span><input v-model="accountData.leavePay||baseNum" readonly="readonly"></span>
+                           </li>
+                           <li>
+                                <label>旷工</label>
+                               <span><input v-model="accountData.absentPay||baseNum" readonly="readonly"></span>
+                           </li>
+                       </ul>
                    </li>
                    <li>
-                        <label>福利<i class="ico-salary"></i></label>
-                        <span><input v-model="accountData.personWelf" readonly="readonly"></span>
+                       <label class="cur-pointer" @click="showWel()">福利<i class="ico-salary"></i></label>
+                       <span><input v-model="accountData.allWelCount||baseNum" readonly="readonly"></span>
+                       <span>迟到、事假、病假等考勤扣款合计</span>
+                        <ul class="sec-list"  v-if="isWel">
+                           <li>
+                                <label>养老保险个人缴费</label>
+                               <span><input v-model="accountData.perEndmPay||baseNum" readonly="readonly"></span>
+                           </li>
+                           <li>
+                                <label>医疗保险个人缴费</label>
+                               <span><input v-model="accountData.perMediPay||baseNum" readonly="readonly"></span>
+                           </li>
+                           <li>
+                                <label>失业保险个人缴费</label>
+                               <span><input v-model="accountData.perUnemPay||baseNum" readonly="readonly"></span>
+                           </li>
+                           <li>
+                                <label>工伤保险个人缴费</label>
+                               <span><input v-model="accountData.perEmplPay||baseNum" readonly="readonly"></span>
+                           </li>
+                           <li>
+                                <label>生育保险个人缴费</label>
+                               <span><input v-model="accountData.perMatePay||baseNum" readonly="readonly"></span>
+                           </li>
+                           <li>
+                                <label>商业保险个人缴费</label>
+                               <span><input v-model="accountData.perCommercialPay||baseNum" readonly="readonly"></span>
+                           </li>
+                           <li>
+                                <label>公积金个人缴费</label>
+                                <span><input v-model="accountData.perHousePay||baseNum" readonly="readonly"></span>
+                           </li>
+                       </ul>
                    </li>
+                  
                    <li>
-                       <label>其他<i class="ico-salary"></i></label>
+                       <label class="cur-pointer" @click="showOther()">其他<i class="ico-salary"></i></label>
                        <span><input v-model="accountData.otherCutPay" readonly="readonly"></span> 
+                       <ul class="sec-list" v-show="isOther">
+                           <li>
+                                <label>个人所得税</label>
+                               <span><input v-model="accountData.payTax" readonly="readonly"></span>
+                           </li>
+                       </ul>
                    </li>
                    <li class="list-tit list-primary">
                        <label>实发金额</label>
@@ -110,9 +198,16 @@ export default {
                 {
                     label:'工龄',
                     val:'暂无数据'
-                }
+                },
+               
             ],
+            isSalary:false,
+            isBonus:false,
+            isWork:false,
+            isWel:false,
+            isOther:false,
             month:'',
+            baseNum:'0.00',
             accountData:{
                 salaryStd:'0.00',
                 allTakeCount:'0.00',
@@ -146,8 +241,46 @@ export default {
                     })
                 })
         },
-        changeMonth(){
-            
+        showSalary(){
+            let self = this;
+            if(!self.isSalary){
+                self.isSalary = true
+            }else{
+                self.isSalary = false
+            }
+        },
+        showBonus(){
+            let self = this;
+            if(!self.isBonus){
+                self.isBonus = true
+            }else{
+                self.isBonus = false
+            }
+        },
+        showWork(){
+            let self = this;
+            if(!self.isWork){
+                self.isWork = true
+            }else{
+                self.isWork = false
+            }
+        },
+        showWel(){
+            let self = this;
+            if(!self.isWel){
+                self.isWel = true
+            }else{
+                self.isWel = false
+            }
+        },
+        showOther(){
+            let self = this;
+        
+            if(!self.isOther){
+                self.isOther = true
+            }else{
+                self.isOther = false
+            }
         },
         searchSalary(){
             let self = this,
@@ -162,12 +295,43 @@ export default {
             }
             self.$axios.get(queryCustSalary+month).then(res=>{
                     self.accountData = res.data.data;
-                    self.accountData.allCheckCount = self.accountData.lateArrivalPay+self.accountData.leavePay+self.accountData.absentPay
-                    self.accountData.allTakeCount =  self.accountData.allCheckCount+self.accountData.personWelf+self.accountData.otherCutPay
+                    //标准薪资金额
+                    self.accountData.salaryStd =  self.accountData.wagesPerf+self.accountData.wagesBase
+                    //奖金及补贴
+                    self.accountData.bonuses = self.accountData.postPension
+                        +self.accountData.phonePension
+                        +self.accountData.trafficPension
+                        +self.accountData.livingPension
+                        +self.accountData.attendanceBonus
+                        +self.accountData.seniorityPay
+                        +self.accountData.overtimePay
+                        +self.accountData.otherPension
+                    //应扣金额=>福利
+                    self.accountData.allWelCount = self.accountData.perEndmPay
+                        +self.accountData.perMediPay
+                        +self.accountData.perUnemPay
+                        +self.accountData.perEmplPay
+                        +self.accountData.perMatePay
+                        +self.accountData.perHousePay
+                        +self.accountData.perCommercialPay
+                    //应扣金额 =>考勤
+                    self.accountData.allCheckCount = self.accountData.lateArrivalPay
+                        +self.accountData.leavePay
+                        +self.accountData.absentPay
+                    //应扣金额=>其他
+                    self.accountData.otherCutPay = self.accountData.payTax
+                    //应扣金额
+                    self.accountData.allTakeCount =  self.accountData.allCheckCount
+                        +self.accountData.allWelCount
+                        +self.accountData.otherCutPay
+                   //应发金额
                     self.accountData.allPay = self.accountData.salaryStd+self.accountData.bonuses
+                    //实发金额
+                    self.accountData.aftTaxIncom = self.accountData.allPay-self.accountData.allTakeCount 
                     for(let i in self.accountData){
                         self.accountData[i] = parseInt(self.accountData[i]).toFixed(2);
                     }
+                    
             }).catch(e=>{
                 // self.$message({
                 //     message:e.retMsg||'数据异常',
@@ -175,6 +339,9 @@ export default {
                 // })
             })
         }
+    },
+    computed:{
+        
     },
     components: {
 	    current,contentTitle

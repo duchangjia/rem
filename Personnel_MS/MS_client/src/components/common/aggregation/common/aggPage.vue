@@ -145,31 +145,31 @@ import vFooter from './footer.vue';
                 navItem:[
                     {
                         class:'item-one-list',
-                        txt:'321',
+                        txt:'',
                         title:'个人信息',
                         url:'agg_uesr_center'
                     },
                     {
                         class:'item-two-list',
-                        txt:'21',
+                        txt:'',
                         title:'薪资福利',
                         url:'salary_detail'
                     },
                     {
                         class:'item-thr-list',
-                        txt:'28',
+                        txt:'',
                         title:'考勤与休假',
                         url:'ask_leave'
                     },
                     {
                         class:'item-four-list',
-                        txt:'24',
+                        txt:'',
                         title:'差旅',
                         url:''
                     },
                     {
                         class:'item-five-list',
-                        txt:'25',
+                        txt:'',
                         title:'费用报销',
                         url:''
 
@@ -345,7 +345,7 @@ import vFooter from './footer.vue';
 .agg-wrapper .wrapper{height:auto;}
 .agg-wrapper .nav_item .item-content .item-list .item-list-right{float: right;height:100%;width:50%;text-align:right;padding-right:20px;}
 .agg-wrapper.grey-bg{background:#f4f4f4;overflow-x: hidden;}
-.agg-wrapper .nav_item .item-content .item-list .item-txt-box{color:#464646;}
+.agg-wrapper .nav_item .item-content .item-list .item-txt-box{color:#464646;padding-top:8px;}
 .agg-wrapper .nav_item .item-content .item-list .item-txt-box .item-list-txt{font-size:18px;font-weight:500;margin-top:40px;margin-bottom:2px;}
 .agg-wrapper .search-list,.agg-wrapper .news-list{margin-bottom:20px;display:flex;justify-content:space-between;background:#f4f4f4;margin-left: -10px;margin-right: -10px;}
 .agg-wrapper .news-list{margin-bottom:0;position:relative;}
