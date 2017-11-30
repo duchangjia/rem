@@ -1,5 +1,5 @@
 <template>
-    <div class="role_mgmt">
+    <div class="container-wrap">
         <current yiji="系统管理" erji="角色管理">
         </current>
         <div class="content-wrapper">
@@ -124,8 +124,4 @@ export default {
 
 
 <style>
-.role_mgmt {
-  padding: 0 0 20px 20px;
-}
-
 </style>

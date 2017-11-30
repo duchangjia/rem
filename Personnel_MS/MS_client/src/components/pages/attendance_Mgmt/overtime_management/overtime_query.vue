@@ -72,7 +72,7 @@
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" >
 				</el-pagination>
 			</div>
 		</div>
@@ -310,9 +310,6 @@ export default {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
-}
-.overtime_query .el-button + .el-button {
-    margin-left: 20px;
 }
 .icon_edit {
 	width: 14px;

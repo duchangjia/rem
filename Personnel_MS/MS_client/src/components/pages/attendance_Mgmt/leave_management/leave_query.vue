@@ -76,7 +76,7 @@
 						</el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -407,9 +407,6 @@ export default {
 	display: inline-block;
 	margin-left: 20px;
 	background: url(../../../../../static/img/common/delete.png);
-}
-.el-button + .el-button {
-    margin-left: 20px;
 }
 .link {
 	cursor: pointer;

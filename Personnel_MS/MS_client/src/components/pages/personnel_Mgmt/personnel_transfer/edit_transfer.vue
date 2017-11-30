@@ -11,14 +11,14 @@
 				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
-						    <el-select v-model="formdata.oldOrgId" value-key="compOrgNo" @change="changeValue">
+						    <el-select v-model="formdata.oldOrgId" value-key="compOrgNo">
 								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="部门名称">
-						    <el-select v-model="formdata.oldDeprtId" value-key="departOrgNo" @change="changeValue">
+						    <el-select v-model="formdata.oldDeprtId" value-key="departOrgNo">
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -36,7 +36,7 @@
 					<el-col :span="24" class="item-title">调动信息</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动类型" prop="shiftType">
-						    <el-select v-model="formdata.shiftType" value-key="shiftType" @change="changeValue">
+						    <el-select v-model="formdata.shiftType" value-key="shiftType">
 								<el-option v-for="item in shiftTypeList" :key="item.shiftType" :label="item.shiftName" :value="item.shiftType"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -48,28 +48,28 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原公司名称">
-						    <el-select v-model="formdata.oldOrgId" value-key="compOrgNo" @change="changeValue">
+						    <el-select v-model="formdata.oldOrgId" value-key="compOrgNo">
 								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新公司名称" prop="newOrgId">
-						    <el-select v-model="formdata.newOrgId" value-key="newcompOrgNo" @change="changeValue">
+						    <el-select v-model="formdata.newOrgId" value-key="newcompOrgNo" @change="changeComp">
 								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原部门名称">
-						    <el-select v-model="formdata.oldDeprtId" value-key="departOrgNo" @change="changeValue">
+						    <el-select v-model="formdata.oldDeprtId" value-key="departOrgNo">
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新部门名称" prop="newDeprtId">
-						    <el-select v-model="formdata.newDeprtId" value-key="newdepartOrgNo" @change="changeValue">
+						    <el-select v-model="formdata.newDeprtId" value-key="newdepartOrgNo">
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -245,7 +245,10 @@
 				userNo: userNo,
 				workhisId: workhisId
 			}
+			//查询调动列表
 			this.queryCustShifthisInfo(params);
+			//查询公司列表
+			this.queryCompList();
 		},
 		computed: {
 			addFormdata: function(){
@@ -272,18 +275,15 @@
 			}
 		},
 		methods: {
-			handleRemove(file, fileList) {
-		        console.log(file, fileList);
-	      	},
-	      	handlePreview(file) {
-		        console.log(file);
-	      	},
 	      	changeShiftCameTime(time) {
 	      		console.log('time',time)
 	      	},
-			changeValue(value) {
-		 		const self = this;
+			changeComp(value) {
 	            console.log('value',value);
+	            let params = {
+					organNo: value
+				}
+				this.queryDerpList(params);
 	      	},
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
@@ -292,7 +292,7 @@
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
 	      			this.$message({ message: '操作成功', type: 'success' });
-	      			this.$router.push('/');
+	      			this.$router.push('/detail_transfer');
 	      		}
 	      		
 	      	},
@@ -300,37 +300,40 @@
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						let params = {
-							workhisId: self.formdata.workhisId,
-							oldOrgId: self.formdata.oldOrgId,
-							oldDeprtId: self.formdata.oldDeprtId,
-							newOrgId: self.formdata.newOrgId,
-							newDeprtId: self.formdata.newDeprtId,
-//							custName: self.formdata.custName,
-							userNo: self.formdata.userNo,
-							shiftType: self.formdata.shiftType,
-							shiftCameTime: self.formdata.shiftCameTime,
-							oldLineManager: self.formdata.oldLineManager,
-							newLineManager: self.formdata.newLineManager,
-							oldPost: self.formdata.oldPost,
-							newPost: self.formdata.newPost,
-							oldClass: self.formdata.oldClass,
-							newClass: self.formdata.newClass,
-							shiftReason: self.formdata.shiftReason,
-							attachm: self.formdata.attachm
+						self.$refs.upload.submit();
+						if(!self.fileFlag) {
+							let params = {
+								workhisId: self.formdata.workhisId,
+								oldOrgId: self.formdata.oldOrgId,
+								oldDeprtId: self.formdata.oldDeprtId,
+								newOrgId: self.formdata.newOrgId,
+								newDeprtId: self.formdata.newDeprtId,
+	//							custName: self.formdata.custName,
+								userNo: self.formdata.userNo,
+								shiftType: self.formdata.shiftType,
+								shiftCameTime: self.formdata.shiftCameTime,
+								oldLineManager: self.formdata.oldLineManager,
+								newLineManager: self.formdata.newLineManager,
+								oldPost: self.formdata.oldPost,
+								newPost: self.formdata.newPost,
+								oldClass: self.formdata.oldClass,
+								newClass: self.formdata.newClass,
+								shiftReason: self.formdata.shiftReason,
+								attachm: self.formdata.attachm
+							}
+							//无附件时修改
+							self.updateCustShif(params);
 						}
-						//人事调动修改
-						self.updateCustShif(params);
+						
 
 					} else {
-						this.$message.error('修改失败');
 						return false;
 					}
 				});
 			},
 			updateCustShif(params) {
 				let self = this;
-				self.$axios.put(baseURL+'/custShifthis/updateCustShifthis',params)
+				self.$axios.post(baseURL+'/custShifthis/updateCustShifthis',params)
 				.then(function(res) {
 					console.log('addCustShif',res);
 					
@@ -348,7 +351,33 @@
 				}).catch(function(err) {
 					console.log(err);
 				})
-			}
+			},
+			queryCompList() {
+				let self = this;
+				self.$axios.get(baseURL+'/wage/queryOrganByUserNo')
+				.then(function(res) {
+					console.log('CompList',res);
+					if(res.data.code === "S00000") {
+						self.compList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log(err);
+				})
+			},
+			queryDerpList(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/wage/queryDerpByUserNo', {params: params})
+				.then(function(res) {
+					console.log('DerpList',res);
+					if(res.data.code === "S00000") {
+						self.departList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log(err);
+				})
+			},
 		}
 	};
 </script>

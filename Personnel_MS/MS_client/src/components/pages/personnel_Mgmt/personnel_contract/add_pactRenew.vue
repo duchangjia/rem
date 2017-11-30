@@ -1,5 +1,5 @@
 <template>
-    <div class="add_pactRenew">
+    <div class="container-wrap">
         <current yiji="人事事务" erji="人事合同" sanji="合同续签" :activeTab="activeName" :pactNo="pactNo" :userNo='userNo' :pactSubFlag='pactSubFlag'>
         </current>
         <div class="content-wrapper">
@@ -66,7 +66,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
-                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
+                            <el-input v-model="custInfo.post" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -286,7 +286,4 @@ export default {
 </script>
 
 <style>
-.add_pactRenew {
-  padding: 0 0 20px 20px;
-}
 </style>

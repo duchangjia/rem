@@ -69,7 +69,7 @@
 	                    </el-col>
 	                </div>
                 </el-col>
-                <div class="func-permission" v-if="formdata2.preRange.length>0">
+                <div class="func-permission" v-if="checkedSubmenus.length>0">
 	                <el-col :span="3" class="leftside">
 	                    <div>人员范围</div>
 	                </el-col>

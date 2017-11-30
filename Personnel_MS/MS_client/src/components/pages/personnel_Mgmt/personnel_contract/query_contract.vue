@@ -1,5 +1,5 @@
 <template>
-    <div class="pact_mgmt">
+    <div class="container-wrap">
         <current yiji="人事事务" erji="人事合同">
         </current>
         <div class="content-wrapper">
@@ -23,15 +23,17 @@
                         </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-form-item>
-                      <el-button @click="handleReset" class="resetBtn" style="margin-right: 10px;">重置</el-button>
-                  </el-form-item>
-                  <el-form-item>
-                      <el-button type="primary" @click="handleQuery" class="queryBtn">查询</el-button>
-                  </el-form-item>
+                  <div class="queryButton_wrapper">
+                    <el-form-item>
+                      <el-button @click="handleReset" class="btn-default">重置</el-button>
+                    </el-form-item>
+                    <el-form-item>
+                      <el-button @click="handleQuery" class="btn-primary">查询</el-button>
+                    </el-form-item>
+                  </div>
+                  
                 </el-form>
             </el-col>
-
             <el-table stripe :data="pactListInfo" border>
                 <el-table-column align="center" label="合同编号">
                     <template scope="scope">
@@ -119,14 +121,20 @@ export default {
         });
     },
     pactTypeFormatter(row, column) {
-      return row.pactType == "01" ? "劳动合同" : row.pactType == "02" ? "保密协议" : "其他";
+      return row.pactType == "01"
+        ? "劳动合同"
+        : row.pactType == "02" ? "保密协议" : "其他";
     },
     pactStatusFormatter(row, column) {
-      return row.pactStatus == "01" ? "试用" : row.pactStatus == "02" ? "有效": row.pactStatus == "03" ? "提前解除": row.pactStatus == "04" ? "到期解除" : "其他";
+      return row.pactStatus == "01"
+        ? "试用"
+        : row.pactStatus == "02"
+          ? "有效"
+          : row.pactStatus == "03"
+            ? "提前解除"
+            : row.pactStatus == "04" ? "到期解除" : "其他";
     },
-    dateFormat(row, column) {
-      
-    },
+    dateFormat(row, column) {},
     handlePactDetail(index, row) {
       this.$router.push({
         name: "detail_contract",
@@ -145,7 +153,6 @@ export default {
       this.filters.pactType = "";
     },
     handleQuery() {
-      console.log("custName:" + this.filters.custName + " pactType:" + this.filters.pactType);
       this.getPactList(); //根据条件查询合同列表
     },
     handleAdd() {
@@ -175,8 +182,7 @@ export default {
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
                 this.getPactList();
-              }
-              else this.$message.error("操作失败");
+              } else this.$message.error("操作失败");
             })
             .catch(() => {
               this.$message.error("操作失败");
@@ -210,9 +216,5 @@ export default {
 };
 </script>
 
-
 <style>
-.pact_mgmt {
-  padding: 0 0 20px 20px;
-}
 </style>

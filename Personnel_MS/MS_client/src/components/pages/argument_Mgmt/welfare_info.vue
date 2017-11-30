@@ -29,7 +29,6 @@
 					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perEndmRate"></el-input>
 					  		<span class="plus">%+</span>
 					  	</el-form-item>
-					  	
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item prop="perEndmFixed" label=" " label-width="0">
@@ -41,7 +40,6 @@
 					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comEndmRate"></el-input>
 					  		<span class="plus">%+</span>
 					  	</el-form-item>
-					  	
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item prop="comEndmFixed" label=" " label-width="0">
@@ -54,7 +52,6 @@
 					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perMediRate"></el-input>
 					  		<span class="plus">%+</span>
 					  	</el-form-item>
-					  	
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item prop="perMediFixed" label=" " label-width="0">
@@ -66,7 +63,6 @@
 					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comMediRate"></el-input>
 					  		<span class="plus">%+</span>
 					  	</el-form-item>
-					  	
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item prop="comMediFixed" label=" " label-width="0">
@@ -79,7 +75,6 @@
 					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perUnemRate"></el-input>
 					  		<span class="plus">%+</span>
 					  	</el-form-item>
-					  	
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item prop="perUnemFixed" label=" " label-width="0">
@@ -104,7 +99,6 @@
 					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perEmplRate"></el-input>
 					  		<span class="plus">%+</span>
 					  	</el-form-item>
-					  	
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item prop="perEmplFixed" label=" " label-width="0">
@@ -116,7 +110,6 @@
 					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comEmplRate"></el-input>
 					  		<span class="plus">%+</span>
 					  	</el-form-item>
-					  	
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item prop="comEmplFixed" label=" " label-width="0">
@@ -129,7 +122,6 @@
 					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perMateRate"></el-input>
 					  		<span class="plus">%+</span>
 					  	</el-form-item>
-					  	
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item prop="perMateFixed" label=" " label-width="0">
@@ -141,7 +133,6 @@
 					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comMateRate"></el-input>
 					  		<span class="plus">%+</span>
 					  	</el-form-item>
-					  	
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item prop="comMateFixed" label=" " label-width="0">
@@ -154,7 +145,6 @@
 					      	<el-input type="text" placeholder="" v-model.number="payTempDel.perHousRate"></el-input>
 					  		<span class="plus">%+</span>
 					  	</el-form-item>
-					  	
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item prop="perHousFixed" label=" " label-width="0">
@@ -166,14 +156,12 @@
 					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comHousRate"></el-input>
 					  		<span class="plus">%+</span>
 					  	</el-form-item>
-					  	
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item prop="comHousFixed" label=" " label-width="0">
 					      	<el-input type="text" placeholder="" v-model.number="payTempDel.comHousFixed"></el-input>
 					  	</el-form-item>	
 					</el-col>
-					
 				</el-form>
 			</div>
 		</div>
@@ -221,99 +209,99 @@ export default {
 				],
 				perEndmRate: [
 					{ required: true, type: 'number', message: '请输入养老保险个人支付系数', trigger: 'blur' },
-					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内，可精确到小数点后6位" }
 				],
 				perEndmFixed: [
 					{ required: true, type: 'number', message: '请输入养老保险个人支付固定金额', trigger: 'blur' },
-					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位" }
 				],
 				comEndmRate: [
 					{ required: true, type: 'number', message: '请输入养老保险单位支付系数', trigger: 'blur' },
-					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内，可精确到小数点后6位" }
 				],
 				comEndmFixed: [
 					{ required: true, type: 'number', message: '请输入养老保险单位支付固定金额', trigger: 'blur' },
-					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位" }
 				],
 				perMediRate: [
 					{ required: true, type: 'number', message: '请输入医疗保险个人支付系数', trigger: 'blur' },
-					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内，可精确到小数点后6位" }
 				],
 				perMediFixed: [
 					{ required: true, type: 'number', message: '请输入医疗保险个人支付固定金额', trigger: 'blur' },
-					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位" }
 				],
 				comMediRate: [
 					{ required: true, type: 'number', message: '请输入医疗保险单位支付系数', trigger: 'blur' },
-					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内，可精确到小数点后6位" }
 				],
 				comMediFixed: [
 					{ required: true, type: 'number', message: '请输入医疗保险单位支付固定金额', trigger: 'blur' },
-					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位" }
 				],
 				perUnemRate: [
 					{ required: true, type: 'number', message: '请输入失业保险个人支付系数', trigger: 'blur' },
-					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内，可精确到小数点后6位" }
 				],
 				perUnemFixed: [
 					{ required: true, type: 'number', message: '请输入失业保险个人支付固定金额', trigger: 'blur' },
-					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位" }
 				],
 				comUnemRate: [
 					{ required: true, type: 'number', message: '请输入失业保险单位支付系数', trigger: 'blur' },
-					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内，可精确到小数点后6位" }
 				],
 				comUnemFixed: [
 					{ required: true, type: 'number', message: '请输入失业保险单位支付固定金额', trigger: 'blur' },
-					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位" }
 				],
 				perEmplRate: [
 					{ required: true, type: 'number', message: '请输入工伤保险个人支付系数', trigger: 'blur' },
-					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内，可精确到小数点后6位" }
 				],
 				perEmplFixed: [
 					{ required: true, type: 'number', message: '请输入工伤保险个人支付固定金额', trigger: 'blur' },
-					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位" }
 				],
 				comEmplRate: [
 					{ required: true, type: 'number', message: '请输入工伤保险单位支付系数', trigger: 'blur' },
-					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内，可精确到小数点后6位" }
 				],
 				comEmplFixed: [
 					{ required: true, type: 'number', message: '请输入工伤保险单位支付固定金额', trigger: 'blur' },
-					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位" }
 				],
 				perMateRate: [
 					{ required: true, type: 'number', message: '请输入生育保险个人支付系数', trigger: 'blur' },
-					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内，可精确到小数点后6位" }
 				],
 				perMateFixed: [
 					{ required: true, type: 'number', message: '请输入生育保险个人固定金额', trigger: 'blur' },
-					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位" }
 				],
 				comMateRate: [
 					{ required: true, type: 'number', message: '请输入生育保险单位支付系数', trigger: 'blur' },
-					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内，可精确到小数点后6位" }
 				],
 				comMateFixed: [
 					{ required: true, type: 'number', message: '请输入生育保险单位支付固定金额', trigger: 'blur' },
-					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位" }
 				],
 				perHousRate: [
 					{ required: true, type: 'number', message: '请输入住房公积金个人支付系数', trigger: 'blur' },
-					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内，可精确到小数点后6位" }
 				],
 				perHousFixed: [
 					{ required: true, type: 'number', message: '请输入住房公积金个人支付固定金额', trigger: 'blur' },
-					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位" }
 				],
 				comHousRate: [
 					{ required: true, type: 'number', message: '请输入住房公积金单位支付系数', trigger: 'blur' },
-					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内的数，可精确到小数点后6位" }
+					{ pattern: /^\d{1,2}(\.\d{1,6})?$/, message: "请输入一百以内，可精确到小数点后6位" }
 				],
 				comHousFixed: [
 					{ required: true, type: 'number', message: '请输入住房公积金单位支付固定金额', trigger: 'blur' },
-					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位" }
 				]
 			}
 		}

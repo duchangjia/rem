@@ -5,6 +5,7 @@
         @open="dialogOpen()"
         :visible.sync = "visible"
         size="large"
+        class="s-dialog"
         >
             <div class="item-box" id="msg_item_box">
                 <el-form class="clearfix" :inline="true">
@@ -240,7 +241,6 @@ export default {
 #msg_item_box{
   .el-form{
     margin-bottom:20px;
-    margin-top:20px;
     .el-form-item:last-child{
         margin-right:0;
     }
@@ -283,30 +283,17 @@ export default {
   .el-dialog__footer{
     text-align:left;
   }
+  
+  
   .dialog-footer{
     position: relative;
     top:10px;
     }
 }
-
-// .item-box .el-input__inner{height:30px;}
-// .toolbar{text-align:right;}
-// .item-box .el-form-item .el-input{width:164px !important;}
-// .item-box .button-box{float:right;}
-// .el-table__body-wrapper{overflow-x:hidden;}
-// .el-table tr{cursor:pointer }
-// .el-dialog__header{background:#f4f4f4;padding:10px 20px;}
-// .el-dialog__title{color:#333;font-weight:normal;font-size:14px;}
-// .el-dialog__headerbtn{font-size:14px;}
-// .el-dialog__headerbtn .el-dialog__close{color:#ff9900;}
-// .el-dialog--small{width:80%;}
-// .item-box .el-form-item{width:270px;display:inline-block;}
-// .el-form-item.is-required .el-form-item__label:before{display:none;}
-// .el-dialog__footer{text-align:left;padding-left:40px;}
-// .el-dialog__footer .el-button--primary{background:#f4f4f4;color:#333;border:none;padding:10px 40px;}
-// .el-dialog__footer .el-button--primary:hover{background:#f90;color:#fff;}
-// .content-wrapper .el-pager li.active{border-color: #ff9900;background-color: #ff9900;}
-// .el-pager li:hover,.el-pagination button:hover{color:#ff9900;}
-// .el-pagination__editor:focus{border-color: #ff9900}
-// .pagination-toolbar{margin-top:20px;text-align:right}
+.s-dialog{
+  .el-dialog__body{
+      padding: 30px 20px;
+  }
+}
+  
 </style>

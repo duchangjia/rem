@@ -51,6 +51,7 @@
             font-weight:normal;
             color: #999999;
             padding: 13px 12px 13px 0;
+            margin-right: 0;
         }
         .el-input-group--append{
             .el-input__inner {
@@ -83,6 +84,14 @@
             height: 56px;
             line-height: 56px;
             padding-left: 8px;
+        }
+    }
+    .add-wrapper.role-msg {
+        .el-form-item__label {
+            margin-right: 14px;
+        }
+        .el-textarea__inner {
+            min-width: 300px;
         }
     }
 }

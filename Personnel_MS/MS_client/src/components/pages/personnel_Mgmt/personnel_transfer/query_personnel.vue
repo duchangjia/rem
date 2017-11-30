@@ -8,31 +8,31 @@
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
-						<!--<el-col :span="6">
+						<!--<el-col :sm="12" :md="6">
 							<el-form-item label="公司" prop="company">
 								<el-select v-model="comp" value-key="compOrgNo" @change="changeValue">
 									<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.organName" :value="item"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span="6">
+						<el-col :sm="12" :md="6">
 							<el-form-item label="部门" prop="department">
 								<el-select v-model="depart" value-key="departOrgNo" @change="changeValue">
 									<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.derpName" :value="item"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>-->
-						<el-col :span="6">
+						<el-col :sm="12" :md="6">
 							<el-form-item label="工号" prop="userNo">
 								<el-input type="text" v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :span="6">
+						<el-col :sm="12" :md="6">
 							<el-form-item label="姓名" prop="custName">
 								<el-input type="text" v-model="ruleForm2.custName" placeholder="请输入姓名"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :span="6">
+						<el-col :sm="12" :md="6">
 							<div class="queryButton_wrapper">
 								<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
 								<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
@@ -40,10 +40,10 @@
 						</el-col>
 							
 				</el-form>
-				<el-table stripe :data="pactListInfo" border>
+				<el-table :data="pactListInfo" border stripe style="width: 100%">
 					<el-table-column align="center" label="工号">
 						<template scope="scope">
-							<span @click="handleDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.userNo }}</span>
+							<span class="link" @click="handleDetail(scope.$index, scope.row)">{{ scope.row.userNo }}</span>
 						</template>
 					</el-table-column>
 					<el-table-column align="center" prop="custName" label="姓名">
@@ -69,7 +69,7 @@
 						</template>
 					</el-table-column>
 				</el-table>
-				<el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				<el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows">
 				</el-pagination>
 			</div>
 

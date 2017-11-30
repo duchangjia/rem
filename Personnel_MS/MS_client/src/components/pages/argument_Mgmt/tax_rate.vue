@@ -26,7 +26,7 @@
 						</template>	
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" >
 				</el-pagination>
 			</div>
 		</div>
@@ -148,7 +148,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .tax_rate {
 	padding-left: 20px;
     padding-bottom: 20px;
