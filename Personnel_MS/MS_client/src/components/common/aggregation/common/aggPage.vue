@@ -17,6 +17,7 @@
                                 <p class="tit-size">{{item.title}}</p>
                             </div>
                         </div>
+                        <div class="unUse_item"></div>
                     </div>
                 </div>
             </div>
@@ -55,7 +56,7 @@
                     <div class="msg-item-box">
                         <div class="msg-item-head clearfix">
                             <div class="msg-item-tit tit-size">
-                                提示信息
+                                最新资讯
                             </div>
                             <div class="more-icon tit-size">
                                 MORE
@@ -125,15 +126,17 @@
                     <el-table-column prop="assetType" label="资产类型" align="center" :formatter="assetTypeFormatter"></el-table-column>
                     <el-table-column prop="custName" label="使用人"  align="center"></el-table-column>
                 </el-table>
-                <el-table :data="gridData" v-show="userShow" height="200" stripe>
+                <el-table :data="gridData" v-show="userShow" stripe>
                     <el-table-column prop="custName" label="姓名"  align="center"></el-table-column>
                     <el-table-column prop="userNo" label="工号" align="center"></el-table-column>
                     <el-table-column prop="derpName" label="部门" align="center"></el-table-column>
+                    <el-table-column prop="comEmail" label="公司邮箱"  align="center"></el-table-column>
+                    <el-table-column prop="custPost" label="职位" align="center"></el-table-column>
+                    <el-table-column prop="organName" label="合同实体" align="center"></el-table-column>
                 </el-table>
         </el-dialog> 
         </div>
          <v-footer class="home-footer"></v-footer> 
-             
     </div>
 </template>
 <<script>
@@ -162,13 +165,13 @@ import vFooter from './footer.vue';
                         url:'ask_leave'
                     },
                     {
-                        class:'item-four-list',
+                        class:'item-four-list disabled',
                         txt:'',
                         title:'差旅',
                         url:''
                     },
                     {
-                        class:'item-five-list',
+                        class:'item-five-list disabled',
                         txt:'',
                         title:'费用报销',
                         url:''
@@ -334,7 +337,7 @@ import vFooter from './footer.vue';
         }
     }
 </script>
-<style>
+<style lang="scss">
 .tit-size{font-size:16px;}
 .txt-size{color:#a7a7a7;}
 .mt{margin-top:20px;}
@@ -398,6 +401,21 @@ import vFooter from './footer.vue';
     box-shadow: 0 0 10px 0 rgba(204,204,204,0.50);
     cursor: pointer;
 }
-
+.disabled{
+    .item-list{
+         position: relative;
+        .unUse_item{
+            position: absolute;
+            top:0;
+            left:0;
+            width:100%;
+            height:100%;
+            opacity:0.5;
+            background:#999;
+            cursor:auto;
+        }
+    }
+   
+}
 </style>
 
