@@ -1,5 +1,5 @@
 <template>
-    <div id="home-wrapper">
+        <div id="home-wrapper">
         <v-head class="home-header"></v-head>
         <div :class='{"wrapper": true,"sidebarHide": hideSidebarFlag}'>
             <v-Sidebar class="sider" @hideSidebar="hideSidebar"></v-Sidebar>

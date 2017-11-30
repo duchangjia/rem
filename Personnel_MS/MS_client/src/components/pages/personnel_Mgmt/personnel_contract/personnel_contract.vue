@@ -1,6 +1,6 @@
 <template>
     <transition name="move" mode="out-in">
-        <router-view></router-view>
+        <keep-alive><router-view></router-view></keep-alive>
     </transition>
 </template>
 
