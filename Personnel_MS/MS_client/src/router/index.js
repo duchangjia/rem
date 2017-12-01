@@ -65,6 +65,11 @@ const routes = [
                     path:'/salary_detail',
                     meta: { requireAuth: true, },
                     component: resolve => require(['../components/common/aggregation/pay_salary/salary_detail.vue'], resolve)
+                },
+                {
+                    path:'/billing_imformation',
+                    meta: { requireAuth: true, },
+                    component: resolve => require(['../components/common/aggregation/exp_reimy/billing_imformation.vue'], resolve)
                 }
             ]
         },

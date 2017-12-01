@@ -110,7 +110,6 @@
                             </ul>
                         </div>
                     </div>
-                    
                 </div>   
             </div>
             <el-dialog :title="dialogTxt.title" :visible.sync="dialogTableVisible" size="large" >
@@ -171,11 +170,10 @@ import vFooter from './footer.vue';
                         url:''
                     },
                     {
-                        class:'item-five-list disabled',
+                        class:'item-five-list',
                         txt:'',
                         title:'费用报销',
-                        url:''
-
+                        url:'billing_imformation'
                     }
                 ],
                 searchData:{
