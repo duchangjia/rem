@@ -50,20 +50,8 @@ export default {
 					menuName: '考勤与休假',
 					menuList: [
 						{
-							menuUrl: '',
-							menuName: '出勤明细'
-						},
-						{
-							menuUrl: '',
-							menuName: '出勤统计'
-						},
-						{
 							menuUrl: 'ask_leave',
 							menuName: '请假'
-						},
-						{
-							menuUrl: '',
-							menuName: '加班'
 						}
 					]
 				},
