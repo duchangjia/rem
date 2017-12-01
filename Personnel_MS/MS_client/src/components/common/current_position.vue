@@ -4,7 +4,7 @@
             <el-col :span="22">
                 <span class="title">当前位置：</span>
                 <el-breadcrumb separator="/" class="breadcrumb-inner">
-                    <el-breadcrumb-item v-if="yiji" :to="{ path: link[0].path}" class="test1">{{yiji}}</el-breadcrumb-item>
+                    <el-breadcrumb-item v-if="yiji" class="test1">{{yiji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if="erji" :to="{ path: link[1].path }" class="test1">{{erji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if="sanji" :to="{ path: link[2].path }" class="test1">{{sanji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if="siji" :to="{ path: link[3].path }" class="test1">{{siji}}</el-breadcrumb-item>
@@ -33,7 +33,7 @@ export default {
     },
     created() {
         this.link = this.$route.matched
-        console.log(this.$route.matched)
+//        console.log(this.$route.matched)
         // 获取当期路由链的长度  例子:home/detail/01  此路由链的长度为3
         let length = this.$route.matched.length
         // 正则匹配以/开头和结尾的任意路由 例 /home/

@@ -55,16 +55,17 @@
                     <el-table-column prop="organName" label="公司名称"></el-table-column>
                     <el-table-column prop="derpName" label="部门名称"></el-table-column>
                     <el-table-column prop="sex" label="性别" :formatter="percentRateFormatter"></el-table-column>
-                    <el-table-column prop="custPost" label="岗位"></el-table-column>
+                    <el-table-column prop="custPost" label="岗位" :formatter="percentRateFormatter3"></el-table-column>
                     <el-table-column prop="mobileNo" label="手机"></el-table-column>
                     <el-table-column prop="entryTime" label="入职时间"></el-table-column>
                     <el-table-column prop="custStatus" label="状态" :formatter="percentRateFormatter2"></el-table-column>
                     <el-table-column label="资产">
                         <template scope="scope">
-                            <el-button type="text" size="small" @click="see(scope.row.userNo)">查看</el-button>
+                            <el-button type="text" class="special" size="small" @click="see(scope.row.userNo)">查看</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
+
                 <el-pagination
                         @size-change="handleSizeChange"
                         @current-change="handleCurrentChange"
@@ -101,98 +102,6 @@
                 </el-dialog>
             </div>
         </div>
-        <!--<el-col :span="24">-->
-            <!--<div class="content-wrapper">-->
-                <!--<div class="title"><span class="text">人事档案</span><button class="add" @click="add">新增</button></div>-->
-                <!--<div class="content">-->
-                    <!--<el-form>-->
-                        <!--<el-col :span="6">-->
-                            <!--<el-form-item label="公司">-->
-                                <!--<el-select v-model="searchInfo.organNo" placeholder="请选择公司名称" @change="selectDep(searchInfo.organNo)">-->
-                                    <!--<el-option :label="item.organName" :value="item.organNo" v-for="item in basicInfo.company"></el-option>-->
-                                <!--</el-select>-->
-                            <!--</el-form-item>-->
-                        <!--</el-col>-->
-                        <!--<el-col :span="6">-->
-                            <!--<el-form-item label="部门">-->
-                                <!--<el-select v-model="searchInfo.derpNo" placeholder="请选择部门名称">-->
-                                    <!--<el-option :label="item.derpName" :value="item.derpNo" v-for="item in basicInfo.department"></el-option>-->
-                                <!--</el-select>-->
-                            <!--</el-form-item>-->
-                        <!--</el-col>-->
-                        <!--<el-col :span="6">-->
-                            <!--<el-form-item label="姓名">-->
-                                <!--<el-input placeholder="请输入工号或姓名" v-model="searchInfo.nameOrNo"></el-input>-->
-                            <!--</el-form-item>-->
-                        <!--</el-col>-->
-                        <!--<el-col :span="6">-->
-                            <!--<el-form-item label="状态">-->
-                                <!--<el-select v-model="searchInfo.custStatus">-->
-                                    <!--<el-option label="试用期" value="01"></el-option>-->
-                                    <!--<el-option label="合同期" value="02"></el-option>-->
-                                    <!--<el-option label="已退休" value="03"></el-option>-->
-                                    <!--<el-option label="已离职" value="04"></el-option>-->
-                                    <!--<el-option label="停薪留职" value="05"></el-option>-->
-                                <!--</el-select>-->
-                            <!--</el-form-item>-->
-                        <!--</el-col>-->
-                    <!--</el-form>-->
-                    <!--<div class="button">-->
-                            <!--<button class="special_1" @click="reset">重置</button>-->
-                            <!--<button @click="search">查询</button>-->
-                    <!--</div>-->
-                    <!--<table>-->
-                        <!--<tr><td v-for="th in table.th" >{{th}}</td></tr>-->
-                        <!--<tr v-for="tds in table.td">-->
-                            <!--<td :title="tds.userNo" @click="detailInfo(tds.userNo)">{{tds.userNo}}</td>-->
-                            <!--&lt;!&ndash;<td :title="tds.userNo" @click="detailInfo(111)">111</td>&ndash;&gt;-->
-                            <!--<td :title="tds.custName">{{tds.custName}}</td>-->
-                            <!--<td :title="tds.organName">{{tds.organName}}</td>-->
-                            <!--<td :title="tds.derpName">{{tds.derpName}}</td>-->
-                            <!--<td :title="tds.sex">{{tds.sex=='01'?'男':'女'}}</td>-->
-                            <!--<td :title="tds.custPost">{{tds.custPost}}</td>-->
-                            <!--<td :title="tds.mobileNo">{{tds.mobileNo}}</td>-->
-                            <!--<td :title="tds.entryTime">{{tds.entryTime}}</td>-->
-                            <!--<td :title="tds.custStatus">{{tds.custStatus=='01'?'试用期':tds.custStatus=='02'?'合同期':tds.custStatus=='03'?'已退休':tds.custStatus=='04'?'已离职':'停薪留职'}}</td>-->
-                            <!--<td @click="see(tds.userNo)" class="see">查看</td></tr>-->
-                    <!--</table>-->
-                    <!--<el-pagination-->
-                            <!--@size-change="handleSizeChange"-->
-                            <!--@current-change="handleCurrentChange"-->
-                            <!--:page-size="fenye.pageSize"-->
-                            <!--layout="total,prev, pager, next, jumper"-->
-                            <!--:total="fenye.total">-->
-                    <!--</el-pagination>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</el-col>-->
-        <!--<div class="dialog-wrapper">-->
-            <!--<el-dialog title="个人资产查询" :visible.sync="dialogTableVisible">-->
-                <!--<div class="tishi">若实际使用的IT资产情况与以下显示信息不符，还请及时与XXXXXX联系核实并更改以确保您名下资产的准确性</div>-->
-                <!--<el-table :data="gridData"-->
-                          <!--stripe-->
-                          <!--border-->
-                          <!--&gt;-->
-                    <!--&lt;!&ndash;<el-table-column property="num" label="序号" align="center"></el-table-column>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<el-table-column property="propp" label="资产属性" align="center"></el-table-column>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<el-table-column property="oldaddress" label="旧编码" align="center"></el-table-column>&ndash;&gt;-->
-                    <!--<el-table-column property="assetName" label="资产名称" align="center"></el-table-column>-->
-                    <!--<el-table-column property="assetNo" label="资产编码" align="center"></el-table-column>-->
-                    <!--<el-table-column property="organName" label="公司" align="center"></el-table-column>-->
-                    <!--<el-table-column property="assetType" label="资产类型" align="center" :formatter="assetTypeFormatter"></el-table-column>-->
-                    <!--&lt;!&ndash;<el-table-column property="city" label="存放城市" align="center"></el-table-column>&ndash;&gt;-->
-                    <!--<el-table-column property="custName" label="使用人" align="center"></el-table-column>-->
-                <!--</el-table>-->
-                <!--<el-pagination-->
-                        <!--@size-change="handleSizeChange"-->
-                        <!--@current-change="handleCurrentChange2"-->
-                        <!--:page-size="fenye2.pageSize"-->
-                        <!--small-->
-                        <!--layout="total, prev, pager, next"-->
-                        <!--:total="fenye2.total">-->
-                <!--</el-pagination>-->
-            <!--</el-dialog>-->
-        <!--</div>-->
     </div>
 </template>
 
@@ -432,6 +341,9 @@
             percentRateFormatter2(row, column) {
                 return row.custStatus =='01'?'试用期':row.custStatus=='02'?'合同期':row.custStatus=='03'?'已退休':row.custStatus=='04'?'已离职':'停薪留职';
             },
+            percentRateFormatter3(row, column) {
+                return row.custPost =='01'?'架构师':row.custPost=='02'?'前端开发工程师':row.custPost=='03'?'测试工程师':'后端开发';
+            },
         },
     }
 </script>
@@ -459,6 +371,8 @@
                 margin-bottom 8px
             .el-table .cell, .el-table th>div
                 padding 0
+        .special
+            color #f90
 </style>
 
 <!--<style lang='stylus' rel='stylesheet/stylus'>-->

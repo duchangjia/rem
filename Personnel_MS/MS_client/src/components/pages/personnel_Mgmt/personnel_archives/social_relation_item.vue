@@ -6,7 +6,7 @@
                     <span v-show="false">关系人{{relationNumber}}</span><i :class="{'el-icon-close':!ruleFrom.isShowEdit,'el-icon-edit':ruleFrom.isShowEdit}" @click="delOrEdit(ruleFrom.isShowEdit,relationNum)"></i>
                 </div>
                 <el-col :span="8">
-                    <el-form-item label="姓名姓名" prop="contactName">
+                    <el-form-item label="姓名" prop="contactName">
                         <el-input v-model="ruleFrom.contactName" :disabled="ruleFrom.isShowEdit"></el-input>
                     </el-form-item>
                 </el-col>
@@ -38,6 +38,7 @@
                     </el-form-item>
                 </el-col>
             </el-form>
+            <!--<button @click="checkValue()">dianwo</button>-->
         </div>
     </div>
 </template>
@@ -87,11 +88,10 @@
         },
         methods: {
             checkValue() {
-                this.$refs['ruleFrom'+this.relationNum][0].validate((valid) => {
+                console.log(111)
+                this.$refs['ruleFrom'+this.relationNum].validate((valid) => {
                     if (valid) {
-                        return true
                     }else {
-                        return false
                     }
                 })
             },

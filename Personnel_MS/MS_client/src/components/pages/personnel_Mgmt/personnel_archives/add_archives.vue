@@ -174,9 +174,6 @@
                                         <el-col :span="8">
                                             <el-form-item label="CCC" prop="ownerCCC">
                                                 <el-select v-model="ruleForm2.ownerCCC" placeholder="请选择CCC">
-                                                    <!--<el-option label="管理CCC" value="01"></el-option>-->
-                                                    <!--<el-option label="售前CCC" value="02"></el-option>-->
-                                                    <!--<el-option label="项目CCC" value="03"></el-option>-->
                                                     <el-option :label="item=='01'?'管理CCC':item=='02'?'售前CCC':'项目CCC'" :value="item" v-for="item in basicInfo.CCC"></el-option>
                                                 </el-select>
                                             </el-form-item>
@@ -193,7 +190,7 @@
                                                         :inputSecOption.sync="inputSecOption"
                                                         :searchData.sync="searchData"
                                                         :searchUrl="searchUrl"
-                                                        :dialogVisible="dialogVisible"
+                                                        :dialogVisible.sync="dialogVisible"
                                                         :pagination.sync="msgPagination"
                                                         @dialogConfirm="dialogConfirm"
                                                         @changeDialogVisible="changeDialogVisible"
@@ -244,7 +241,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="入职日期">
+                                            <el-form-item label="入职日期" prop="entryTime">
                                                 <!--<el-date-picker v-model="ruleForm.gradTime" type="date" placeholder="选择日期" @change="changeGradtime"></el-date-picker>-->
                                                 <el-date-picker v-model="ruleForm2.entryTime" type="date" placeholder="选择日期" @change="changeEntryTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm2.entryTime"></el-input>-->
@@ -644,6 +641,8 @@
               saveUrl:'',
               boxTitle:'',
               numType:'',
+
+              userNo: '',
               social_item:{
                   userNo:'',
                   lists:[
@@ -742,6 +741,7 @@
               rules: {
                   custName: [
                       {required: true, message: '请输入姓名', trigger: 'blur'},
+                      { pattern: /(([\u4E00-\u9FA5]{2,7})|([a-zA-Z]{3,20}))/, message: "只能输入的姓名为全部中文或英文" }
                   ],
                   certNo: [
                       {required: true, message: '请输入身份证', trigger: 'blur'},
@@ -824,9 +824,6 @@
 //                  file: '',
               },
               rules2: {
-                  userNo: [
-                      {required: true, message: '请输入员工编号', trigger: 'blur'},
-                  ],
                   organNo: [
                       {required: true, message: '请选择公司名称', trigger: 'change'}
                   ],
@@ -848,23 +845,8 @@
                   custStatus: [
                       {required: true, message: '请选择员工状态', trigger: 'change'}
                   ],
-                  politics: [
-                      {required: true, message: '请选择政治面貌', trigger: 'change'}
-                  ],
-                  school: [
-                      {required: true, message: '请输入毕业学校', trigger: 'blur'}
-                  ],
-                  graduation: [
-                      {required: true, message: '请输入毕业时间', trigger: 'blur'}
-                  ],
-                  major: [
-                      {required: true, message: '请输入专业', trigger: 'blur'}
-                  ],
-                  phone: [
-                      {required: true, message: '请输入移动电话', trigger: 'blur'}
-                  ],
-                  email: [
-                      {required: true, message: '请输入个人邮箱', trigger: 'blur'}
+                  entryTime: [
+                      {required: true, message: '请选择入职时间', trigger: 'change'}
                   ],
               },
               ruleForm4: {
@@ -1045,6 +1027,7 @@
             },
 
             handleRemove(file, fileList) {
+                console.log('ffff')
                 this.$confirm('此操作将永久删除, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -1052,8 +1035,8 @@
                 }).then(() => {
                     if(file.response){
                         let data = {
-                            userNo:file.response.data.userNo,
-                            imageId:file.response.data.imageId,
+                            userNo:file.response.data[0].userNo,
+                            imageId:file.response.data[0].imageId,
                         }
                         this.$axios.delete('/iem_hrm/CustFile/delCustFile',{params:data})
                             .then(res=>{
@@ -1143,7 +1126,8 @@
                     }
                 }
                 if(this.tabName == 'sixth') {
-//                    this.certificates_list.userNo = 'P0001346'
+                    console.log('sixth')
+//                    this.certificates_list.userNo = 'P0000120'
                     if(!this.certificates_list.userNo){
                         this.$message({
                             type: 'error',
@@ -1151,10 +1135,9 @@
                         });
                         return false
                     }
-                    this.certificates_list.file = {
-                        file:file
-                    }
-//                    console.log(this.certificates_list,'---',this.certificates_list.file)
+//                    this.certificates_list.file = {
+//                        file:file
+//                    }
                 }
             },
             dialogConfirm(custInfo){
@@ -1236,25 +1219,23 @@
                         if (valid) {
                             self.$refs.ruleForm2.validate((valid) => {
                                 if (valid) {
-                                    console.log('111')
-//                                    if(!self.ruleForm.avatar&&!self.ruleForm2.file){
-//                                        console.log(222)
                                         let data = Object.assign(this.ruleForm,this.ruleForm2)
-                                    console.log(data)
+                                        console.log(data)
                                         this.$axios.post('/iem_hrm/CustInfo/insertCustInfo', data)
                                             .then(res=>{
                                                 let result = res.data.retMsg
-                                                console.log(res.data.data)
+                                                console.log(res,res.data.data)
                                                 if(result=="操作成功"){
                                                     self.$message({
                                                         type: 'success',
                                                         message: result
                                                     });
-                                                    self.social_item.userNo = res.data.data
-                                                    self.project_item.userNo = res.data.data
-                                                    self.education_item.userNo = res.data.data
-                                                    self.work_item.userNo = res.data.data
-                                                    self.certificates_list.userNo = res.data.data
+                                                    this.userNo = res.data.data
+                                                    self.social_item.userNo = this.userNo
+                                                    self.project_item.userNo = this.userNo
+                                                    self.education_item.userNo = this.userNo
+                                                    self.work_item.userNo = this.userNo
+                                                    self.certificates_list.userNo = this.userNo
 //                                                self.user_avatar.userNo = res.data.data
 //                                                self.$refs.uploadAvatar.submit()
                                                 }else{
@@ -1268,14 +1249,6 @@
                                             .catch(e=>{
                                                 console.log(e)
                                             })
-//                                    }else if(self.ruleForm.avatar&&!self.ruleForm2.file){
-//                                        console.log(333)
-//                                        self.$refs.uploadAvatar.submit()
-//                                    }else {
-//                                        console.log(444)
-//                                        self.$refs.upload.submit()
-//                                    }
-
                                 }else {
                                     self.$message({
                                         type: 'error',
@@ -1292,6 +1265,7 @@
                     })
                 }
                 if('second'===tabName) {
+//                    this.social_item.userNo = 'P0000120'
                     if(!this.social_item.userNo){
                         self.$message({
                             type: 'error',
@@ -1306,6 +1280,8 @@
                         count++
                         let name = 'ruleFrom'+i
                         self.$refs[name][0].ruleFrom.isShowEdit = true
+//                        self.$refs[name][0].checkValue()
+                        console.log('test')
                         this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
                         if(count==socialItemLength){
                             this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
@@ -1586,36 +1562,6 @@
                         isShowEdit: false
                     }
                 this.project_item.lists.push(item)
-            },
-            proSave() {
-                // 可删
-                if('fifth'===tabName) {
-//                    this.project_item.userNo = 'P0000129'
-                    if(!this.project_item.userNo){
-                        self.$message({
-                            type: 'error',
-                            message: '请先填写基本信息并点击右上角保存'
-                        });
-                        return
-                    }
-                    let projectItemLength = this.project_item.lists.length
-                    this.project_item.lists = []
-                    for (let i=0;i<projectItemLength;i++){
-                        console.log(this.$refs['ruleFrom'+i][0].ruleFrom)
-                        this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
-                        this.$refs['ruleFrom'+i][0].isShowEdit = true
-                    }
-                    console.log(this.social_item)
-                    this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
-                        .then(res=>{
-                            console.log(res)
-                            console.log('关系成功')
-                        })
-                        .catch(e=>{
-                            console.log('失败')
-                            console.log(e)
-                        })
-                }
             },
             proDel(isShow,index) {
                 if('fifth'==this.tabName){
