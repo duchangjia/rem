@@ -1,5 +1,5 @@
 <template>
-    <div class="edit_paybaseinfo">
+    <div class="container-wrap">
         <current yiji="薪酬福利" erji="薪酬基数设置" sanji="薪酬基数修改">
         </current>
         <div class="content-wrapper">
@@ -31,7 +31,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
-                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
+                            <el-input v-model="_custPost" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -308,6 +308,19 @@ export default {
     this.getInsurancePayTemp(); //初始查询保险缴纳标准
   },
   computed: {
+    _custPost: function() {
+      if (this.custInfo.custPost == "01") {
+        return "架构师";
+      } else if (this.custInfo.custPost == "02") {
+        return "前端开发工程师";
+      } else if (this.custInfo.custPost == "03") {
+        return "测试工程师";
+        } else if (this.custInfo.custPost == "04") {
+        return "后端开发";
+      } else {
+        return "";
+      }
+    },
     _custClass: function() {
       if (this.custInfo.custClass == "B10") {
         return "B10-初级软件工程师";
@@ -462,7 +475,4 @@ export default {
 </script>
 
 <style>
-.edit_paybaseinfo {
-  padding: 0 0 20px 20px;
-}
 </style>

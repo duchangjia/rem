@@ -1,5 +1,5 @@
 <template>
-    <div class="add_paybaseinfo">
+    <div class="container-wrap">
         <current yiji="薪酬福利" erji="薪酬基数设置" sanji="薪酬基数新增">
         </current>
         <div class="content-wrapper">
@@ -38,13 +38,13 @@
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="姓名" prop="custName">
+                        <el-form-item label="姓名">
                             <el-input v-model="custInfo.custName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="职务" prop="custPost">
-                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
+                        <el-form-item label="职务">
+                            <el-input v-model="_custPost" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -221,7 +221,13 @@
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
 				  		    <el-input v-model="addPayBaseInfo.attachm"></el-input>
-				  		    <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+                            <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" 
+                                :data="addPayBaseInfo"
+                                :on-change="handleFileUpload" 
+                                :on-success="successUpload"
+                                :show-file-list="false" 
+                                :auto-upload="false"
+                                :headers="token">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
 				  	    </el-form-item>
@@ -268,9 +274,13 @@ export default {
         wagesProb: "",
         welcoeNo: "",
         attachm: "",
+        fileList: [],
         remark: ""
       },
-      
+      token: {
+        Authorization: `Bearer ` + localStorage.getItem("access_token")
+      },
+
       dialogVisible: false,
       boxTitle: "",
       numType: "",
@@ -358,6 +368,19 @@ export default {
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
   },
   computed: {
+    _custPost: function() {
+      if (this.custInfo.custPost == "01") {
+        return "架构师";
+      } else if (this.custInfo.custPost == "02") {
+        return "前端开发工程师";
+      } else if (this.custInfo.custPost == "03") {
+        return "测试工程师";
+      } else if (this.custInfo.custPost == "04") {
+        return "后端开发";
+      } else {
+        return "";
+      }
+    },
     _custClass: function() {
       if (this.custInfo.custClass == "B10") {
         return "B10-初级软件工程师";
@@ -370,41 +393,90 @@ export default {
       }
     },
     _perEndm: function() {
-        return Number(this.addPayBaseInfo.endmBase) * this.insurancePayTemp.perEndmRate + this.insurancePayTemp.perEndmFixed || 0;
+      return (
+        Number(this.addPayBaseInfo.endmBase) *
+          this.insurancePayTemp.perEndmRate +
+          this.insurancePayTemp.perEndmFixed || 0
+      );
     },
     _comEndm: function() {
-        return Number(this.addPayBaseInfo.endmBase) * this.insurancePayTemp.comEndmRate + this.insurancePayTemp.comEndmFixed || 0;
+      return (
+        Number(this.addPayBaseInfo.endmBase) *
+          this.insurancePayTemp.comEndmRate +
+          this.insurancePayTemp.comEndmFixed || 0
+      );
     },
     _perMedi: function() {
-        return Number(this.addPayBaseInfo.mediBase) * this.insurancePayTemp.perMediRate + this.insurancePayTemp.perMediFixed || 0;
+      return (
+        Number(this.addPayBaseInfo.mediBase) *
+          this.insurancePayTemp.perMediRate +
+          this.insurancePayTemp.perMediFixed || 0
+      );
     },
     _comMedi: function() {
-        return Number(this.addPayBaseInfo.mediBase) * this.insurancePayTemp.comMediRate + this.insurancePayTemp.comMediFixed || 0;
+      return (
+        Number(this.addPayBaseInfo.mediBase) *
+          this.insurancePayTemp.comMediRate +
+          this.insurancePayTemp.comMediFixed || 0
+      );
     },
     _perUnem: function() {
-        return Number(this.addPayBaseInfo.unemBase) * this.insurancePayTemp.perUnemRate + this.insurancePayTemp.perUnemFixed || 0;
+      return (
+        Number(this.addPayBaseInfo.unemBase) *
+          this.insurancePayTemp.perUnemRate +
+          this.insurancePayTemp.perUnemFixed || 0
+      );
     },
     _comUnem: function() {
-        return Number(this.addPayBaseInfo.unemBase) * this.insurancePayTemp.comUnemRate + this.insurancePayTemp.comUnemFixed || 0;
+      return (
+        Number(this.addPayBaseInfo.unemBase) *
+          this.insurancePayTemp.comUnemRate +
+          this.insurancePayTemp.comUnemFixed || 0
+      );
     },
     _perEmpl: function() {
-        return Number(this.addPayBaseInfo.emplBase) * this.insurancePayTemp.perEmplRate + this.insurancePayTemp.perEmplFixed || 0;
+      return (
+        Number(this.addPayBaseInfo.emplBase) *
+          this.insurancePayTemp.perEmplRate +
+          this.insurancePayTemp.perEmplFixed || 0
+      );
     },
     _comEmpl: function() {
-        return Number(this.addPayBaseInfo.emplBase) * this.insurancePayTemp.comEmplRate + this.insurancePayTemp.comEmplFixed || 0;
+      return (
+        Number(this.addPayBaseInfo.emplBase) *
+          this.insurancePayTemp.comEmplRate +
+          this.insurancePayTemp.comEmplFixed || 0
+      );
     },
     _perMate: function() {
-        return Number(this.addPayBaseInfo.mateBase) * this.insurancePayTemp.perMateRate + this.insurancePayTemp.perMateFixed || 0;
+      return (
+        Number(this.addPayBaseInfo.mateBase) *
+          this.insurancePayTemp.perMateRate +
+          this.insurancePayTemp.perMateFixed || 0
+      );
     },
     _comMate: function() {
-        return Number(this.addPayBaseInfo.mateBase) * this.insurancePayTemp.comMateRate + this.insurancePayTemp.comMateFixed || 0;
+      return (
+        Number(this.addPayBaseInfo.mateBase) *
+          this.insurancePayTemp.comMateRate +
+          this.insurancePayTemp.comMateFixed || 0
+      );
     },
     _perHouse: function() {
-        return Number(this.addPayBaseInfo.houseBase) * this.insurancePayTemp.perHousRate + this.insurancePayTemp.perHousFixed || 0;
+      return (
+        Number(this.addPayBaseInfo.houseBase) *
+          this.insurancePayTemp.perHousRate +
+          this.insurancePayTemp.perHousFixed || 0
+      );
     },
     _comHouse: function() {
-        return Number(this.addPayBaseInfo.houseBase) * this.insurancePayTemp.comHousRate + this.insurancePayTemp.comHousFixed || 0;
-    }
+      return (
+        Number(this.addPayBaseInfo.houseBase) *
+          this.insurancePayTemp.comHousRate +
+          this.insurancePayTemp.comHousFixed || 0
+      );
+    },
+
   },
   methods: {
     userNoSelect() {
@@ -483,7 +555,7 @@ export default {
           "/iem_hrm/InsurancePayTemplate/queryInsurancePayTemplate/" + applyNo
         )
         .then(res => {
-          console.log('insurancePayTemp',res);
+          console.log("insurancePayTemp", res);
           self.insurancePayTemp = res.data.data;
         })
         .catch(() => {
@@ -491,43 +563,59 @@ export default {
         });
     },
     wagesBaseChange() {
-      let salaryTop = 1500; // 该职级薪资上限，应从接口查出
-      console.log(Number(this.addPayBaseInfo.wagesBase) > salaryTop);
-      if (Number(this.addPayBaseInfo.wagesBase) > salaryTop) {
-        this.payBaseInfoRules.remark.push({
-          required: true,
-          message: "请输入薪资超限说明",
-          trigger: "blur"
-        });
-        console.log(this.payBaseInfoRules.remark);
-      }
+      //   let salaryTop = 1500; // 该职级薪资上限，应从接口查出
+      //   console.log(Number(this.addPayBaseInfo.wagesBase) > salaryTop);
+      //   if (Number(this.addPayBaseInfo.wagesBase) > salaryTop) {
+      //     this.payBaseInfoRules.remark.push({
+      //       required: true,
+      //       message: "请输入薪资超限说明",
+      //       trigger: "blur"
+      //     });
+      //     console.log(this.payBaseInfoRules.remark);
+      //   }
     },
     welcoeNoChange(val) {
       this.addPayBaseInfo.welcoeNo = val;
       this.getInsurancePayTemp(); //根据参数值计算保险缴纳标准
     },
+    // 文件上传
     handleFileUpload(file, fileList) {
-      console.log(file);
-      this.addPayBaseInfo.attachm = file.name;
+      console.log("fileList:", fileList);
+      this.addPayBaseInfo.fileList = fileList;
+      this.addPayBaseInfo.attachm = "";
+      fileList.forEach(function(item) {
+        this.addPayBaseInfo.attachm += item.name + " ";
+      }, this);
+    },
+    successUpload(res, file, fileList) {
+      console.log("upload_response", res);
+      if (res.code === "S00000") {
+        this.$message({ message: "文件上传成功", type: "success" });
+      } else {
+        this.$message({ message: res, type: "info" });
+      }
     },
     handleSave(addPayBaseInfoRules) {
       this.$refs[addPayBaseInfoRules].validate(valid => {
         if (valid) {
-          let newPayBaseInfo = this.addPayBaseInfo;
-          console.log('newPayBaseInfo',newPayBaseInfo);
-          this.$axios
-            .post("/iem_hrm/pay/addPayBaseInfo", newPayBaseInfo)
-            .then(res => {
-              console.log(res);
-              if (res.data.code == "S00000") {
+          if (this.addPayBaseInfo.fileList.length != 0) {
+            this.$refs.upload.submit(); // 触发上传文件
+          } else {
+            let newPayBaseInfo = this.addPayBaseInfo;
+            console.log("newPayBaseInfo", newPayBaseInfo);
+            this.$axios
+              .post("/iem_hrm/pay/addPayBaseInfo", newPayBaseInfo)
+              .then(res => {
+                console.log(res);
+                if (res.data.code == "S00000") {
                   this.$message({ type: "success", message: "操作成功!" });
                   this.$router.push("/payBaseInfo_setting");
-              }
-              else this.$message.error(res.data.retMsg);
-            })
-            .catch(() => {
-              this.$message.error("操作失败！");
-            });
+                } else this.$message.error(res.data.retMsg);
+              })
+              .catch(() => {
+                this.$message.error("操作失败！");
+              });
+          }
         } else {
           console.log("error submit!!");
           return false;
@@ -539,16 +627,4 @@ export default {
 </script>
 
 <style>
-.add_paybaseinfo {
-  padding: 0 0 20px 20px;
-}
-.el-dialog__body {
-  padding: 0 20px 30px 20px;
-}
-.el-dialog__body .el-input__inner {
-  width: 164px;
-}
-.item-box .button-box .restBtn {
-  margin-right: 5px;
-}
 </style>

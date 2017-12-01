@@ -1,5 +1,5 @@
 <template>
-    <div class="paybaseinfo_mgmt">
+    <div class="container-wrap">
         <current yiji="薪酬福利" erji="调薪管理">
         </current>
         <div class="content-wrapper">
@@ -95,7 +95,7 @@ export default {
         custName: self.filters.custName
       };
       self.$axios
-        .get("/iem_hrm/CustInfo/queryCustInfList")
+        .get("/iem_hrm/CustInfo/queryCustInfList", { params: params })
         .then(res => {
           console.log('custInfoList',res);
           self.custInfoList = res.data.data.list;
@@ -139,7 +139,7 @@ export default {
     },
     handleQuery() {
       console.log(
-        "userNo:" + self.filters.userNo + " custName:" + self.filters.custName
+        "userNo:" + this.filters.userNo + " custName:" + this.filters.custName
       );
       this.getCustInfoList(); //根据条件查询员工列表
     },
@@ -157,7 +157,4 @@ export default {
 
 
 <style>
-.paybaseinfo_mgmt {
-  padding: 0 0 20px 20px;
-}
 </style>

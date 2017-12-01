@@ -1,5 +1,5 @@
 <template>
-    <div class="paychange_mgmt">
+    <div class="container-wrap">
         <current yiji="薪酬福利" erji="调薪管理" sanji="调薪查询">
         </current>
         <div class="content-wrapper">
@@ -189,7 +189,4 @@ export default {
 
 
 <style>
-.paychange_mgmt {
-  padding: 0 0 20px 20px;
-}
 </style>

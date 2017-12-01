@@ -1,5 +1,5 @@
 <template>
-    <div class="paybaseinfo_mgmt">
+    <div class="container-wrap">
         <current yiji="薪酬福利" erji="薪酬基数设置">
         </current>
         <div class="content-wrapper">
@@ -263,7 +263,4 @@ export default {
 
 
 <style>
-.paybaseinfo_mgmt {
-  padding: 0 0 20px 20px;
-}
 </style>

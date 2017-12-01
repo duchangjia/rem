@@ -20,6 +20,7 @@
                         <el-select v-model="filters.pactType">
                             <el-option label="劳动合同" value="01"></el-option>
                             <el-option label="保密协议" value="02"></el-option>
+                            <el-option label="其他" value="99"></el-option>
                         </el-select>
                     </el-form-item>
                   </el-col>
