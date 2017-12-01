@@ -87,7 +87,7 @@ export default {
 					menuName: '费用报销',
 					menuList: [
 						{
-                            menuUrl: 'salary_detail',
+                            menuUrl: 'billing_imformation',
                             menuName: '开票信息查询'
                         }
 					]

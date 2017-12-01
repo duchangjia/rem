@@ -136,7 +136,8 @@
             },
             edit(row) {
                 console.log(row)
-                this.$router.push({name: 'edit_ticket', query:{organNo:row.organNo}})
+                window.localStorage.setItem('ticketOrganNo',row.organNo)
+                this.$router.push('/edit_ticket')
 
             },
             del(row){
