@@ -30,12 +30,12 @@
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <el-input v-model="formdata.custPost" :disabled="true"></el-input>
+						    <el-input v-model="custPostName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <el-input v-model="formdata.custClass" :disabled="true"></el-input>
+						    <el-input v-model="custClass" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :span="24" class="item-title">出差信息</el-col>
@@ -114,6 +114,8 @@
 	export default {
 		data() {
 			return {
+				custPostName: '',
+				custClass: '',
 				formdata: {
 					organNo: "01",
 					deptNo: "",
@@ -153,6 +155,10 @@
 			}
 			//查询出差详情
 			this.queryTravelInfo(params);
+			//查询岗位列表
+			this.queryCustPostList();
+			//查询职级列表
+			this.queryCustClassList();
 		},
 		methods: {
 			changeStartTime(time) {
@@ -209,6 +215,40 @@
                     console.error(e)
                     this.$message({ message: '下载附件失败', type: 'error' });
                 })
+			},
+			queryCustPostList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+				.then(function(res) {
+					console.log('CustPost',res);
+					if(res.data.code === "S00000") {
+						res.data.data.forEach(function(ele) {
+							if(ele.paraValue === self.formdata.custPost) {
+								self.custPostName = ele.paraShowMsg;
+							}
+						},this)
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustClassList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
+				.then(function(res) {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						res.data.data.forEach(function(ele) {
+							if(ele.paraValue === self.formdata.custClass) {
+								self.custClass = ele.paraShowMsg;
+							}
+						},this)
+					}
+					custClass
+				}).catch(function(err) {
+					console.log('error');
+				})
 			}
 		}
 	};

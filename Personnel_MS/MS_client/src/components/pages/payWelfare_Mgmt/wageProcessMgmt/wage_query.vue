@@ -61,24 +61,25 @@
 						      	<el-dropdown-menu slot="dropdown">
 						        	<el-dropdown-item command="handleExport">导出工资数据</el-dropdown-item>
 						        	
-						        	<el-dropdown-item command="handleImport">导入工资数据
+						        	<el-dropdown-item :disabled=handleImportFlag[scope.$index] command="handleImport">导入工资数据
 						        		<el-upload class="upload-demo wage_upload" ref="upload" name="file"
 								  			 :data="formdata"
 								  			 :on-change="changeUpload" 
 								  			 :on-success="successUpload"
-								  			 action="/iem_hrm/wage/wageInfoImport"  
+								  			 action="/iem_hrm/wage/wageInfoImport"   
+					  			 			 :show-file-list="false" 
 								  			 :auto-upload="true"
 								  			 :headers="token"
 								  		>
 				                            <el-button slot="trigger" type="primary" class="uploadBtn" style="opacity: 0;">选取文件</el-button>
 				                        </el-upload>
 						        	</el-dropdown-item>
-						        	<el-dropdown-item command="handleEnter">单笔录入工资数据</el-dropdown-item>
-						        	<el-dropdown-item command="handleStatus">启用</el-dropdown-item>
-						        	<el-dropdown-item command="handleEdit">编辑</el-dropdown-item>
-						        	<el-dropdown-item command="handleDelete">删除</el-dropdown-item>
+						        	<el-dropdown-item :disabled=handleEnterFlag[scope.$index] command="handleEnter">单笔录入工资数据</el-dropdown-item>
+						        	<el-dropdown-item :disabled=handleStatusFlag[scope.$index] command="handleStatus">启用</el-dropdown-item>
+						        	<el-dropdown-item :disabled=handleEditFlag[scope.$index] command="handleEdit">编辑</el-dropdown-item>
+						        	<el-dropdown-item :disabled=handleDeleteFlag[scope.$index] command="handleDelete">删除</el-dropdown-item>
 						      	</el-dropdown-menu>
-						  	</el-dropdown>
+						 	</el-dropdown>	 
 						</template>	
 					</el-table-column>
 				</el-table>
@@ -102,7 +103,12 @@ export default {
 			pageNum: 1,
 			pageSize: 10,
 			totalRows: 2,
-			queryFormFlag: false,
+			handleImportFlag: [],
+			handleEnterFlag: [],
+			handleStatusFlag: [],
+			handleEditFlag: [],
+			handleDeleteFlag: [],
+			dropdownAbled: [],
 			ruleForm2: {
 				organNo: '',
 				derpNo: '',
@@ -202,6 +208,13 @@ export default {
 		handlMenu(index, row) {
 			sessionStorage.setItem('wageQuery_batchNo',row.batchNo);
 			sessionStorage.setItem('entryWage_organNo',row.organNo);
+			if(row.batchStatus == '02' || row.batchStatus == '03') {
+				this.$set(this.handleImportFlag, index, true);
+				this.$set(this.handleEnterFlag, index, true);
+				this.$set(this.handleEditFlag, index, true);
+				this.$set(this.handleStatusFlag, index, true);
+				this.$set(this.handleDeleteFlag, index, true);
+			}
 		},
 		handleCommand(command) {
 			console.log(command)
@@ -250,7 +263,6 @@ export default {
 		            	params = {
 							batchNo: batchNo
 						}
-		            	console.log(params);
 		            	//删除工资流程信息
 		            	self.deleteWageFlow(params);
 		            	
@@ -346,7 +358,7 @@ export default {
                 .get("/iem_hrm/wage/wageInfoExport", { params: params, responseType: 'blob' })
                 .then((response) => {
                     console.log(response);
-                    const fileName = "工资数据.xlsx"; 
+                    const fileName = "工资流程数据.xlsx"; 
                     const blob = response.data;
 
                     if (window.navigator && window.navigator.msSaveOrOpenBlob) {
@@ -423,5 +435,12 @@ export default {
 }
 .wage_upload .uploadBtn {
     padding: 10px 45px;
+}
+.disabled {
+	color: #e4e4e4;
+}
+.el-dropdown-menu__item.disabled:hover {
+    background-color: #FFFFFF;
+    color: #e4e4e4;
 }
 </style>

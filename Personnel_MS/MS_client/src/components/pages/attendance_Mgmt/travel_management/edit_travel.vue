@@ -31,12 +31,12 @@
 					</el-col>	
 				 	<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <el-input v-model="formdata2.custPost" :disabled="true"></el-input>
+						    <el-input v-model="custPostName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col> 	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <el-input v-model="formdata2.custClass" :disabled="true"></el-input>
+						    <el-input v-model="custClass" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24" class="item-title">出差信息</el-col>
@@ -138,6 +138,8 @@
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
 				fileFlag: '',
+				custPostName: '',
+				custClass: '',
 				formdata2: {
 					organNo: "",
 					deptNo: "",
@@ -218,6 +220,10 @@
 			this.queryTravelInfo(params);
 			//查询公司列表
 			this.queryCompList();
+			//查询岗位列表
+			this.queryCustPostList();
+			//查询职级列表
+			this.queryCustClassList()
 		},
 		methods: {
 			changeStartTime(time) {
@@ -304,26 +310,6 @@
 					console.log('error');
 				})
 			},
-			queryCompList() {
-				let self = this;
-				self.$axios.get(baseURL+'/organ/queryAllCompany')
-				.then(function(res) {
-					console.log('CompList',res);
-					self.compList = res.data.data;
-				}).catch(function(err) {
-					console.log(err);
-				})
-			},
-			queryDerpList(params) {
-				let self = this;
-				self.$axios.get(baseURL+'/organ/queryChildrenDep', {params: params})
-				.then(function(res) {
-					console.log('DerpList',res);
-					self.departList = res.data.data;
-				}).catch(function(err) {
-					console.log('err');
-				})
-			},
 			modifyTravelInfo(params) {
 				let self = this;
 				self.$axios.post(baseURL+'/travel/modifyTravelInfo',params)
@@ -346,6 +332,60 @@
 					if(res.data.code === "S00000") {
 						self.formdata2.travelDays = res.data.data.travelDays;
 					}
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCompList() {
+				let self = this;
+				self.$axios.get(baseURL+'/organ/queryAllCompany')
+				.then(function(res) {
+					console.log('CompList',res);
+					self.compList = res.data.data;
+				}).catch(function(err) {
+					console.log(err);
+				})
+			},
+			queryDerpList(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/organ/queryChildrenDep', {params: params})
+				.then(function(res) {
+					console.log('DerpList',res);
+					self.departList = res.data.data;
+				}).catch(function(err) {
+					console.log('err');
+				})
+			},
+			queryCustPostList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+				.then(function(res) {
+					console.log('CustPost',res);
+					if(res.data.code === "S00000") {
+						res.data.data.forEach(function(ele) {
+							if(ele.paraValue === self.formdata2.custPost) {
+								self.custPostName = ele.paraShowMsg;
+							}
+						},this)
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustClassList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
+				.then(function(res) {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						res.data.data.forEach(function(ele) {
+							if(ele.paraValue === self.formdata2.custClass) {
+								self.custClass = ele.paraShowMsg;
+							}
+						},this)
+					}
+					custClass
 				}).catch(function(err) {
 					console.log('error');
 				})

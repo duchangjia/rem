@@ -48,10 +48,10 @@
 			<div class="add-wrapper auth-assign">
 				<el-col :span="24">
 					<div class="context-menu">
-	                    <el-col :span="3" class="leftside">
+	                    <el-col :span="3" class="wage_legtside">
 	                        <div>部门范围</div>
 	                    </el-col>
-	                    <el-col :span="21" class="rightside">
+	                    <el-col :span="21" class="wage_rightside" v-if="derpRangeList.length>0">
 	                        <div class="menu">
 	                            <el-checkbox-button v-model="checkSubAll" :indeterminate="isSubIndeterminate" @change="handleSubAllChange" label="全部" class="menu-item"></el-checkbox-button>
 	                            <el-checkbox-group v-model="checkedSubmenus" @change="handleCheckedSubsChange">
@@ -62,10 +62,10 @@
 	                </div>
                 </el-col>
                 <div class="func-permission" v-if="checkedSubmenusFlag">
-	                <el-col :span="3" class="leftside">
+	                <el-col :span="3" class="wage_legtside">
 	                    <div>人员范围</div>
 	                </el-col>
-	                <el-col :span="21" class="rightside">
+	                <el-col :span="21" class="wage_rightside">
 	                    <el-row :gutter="20">
 	                        <el-col :span="6" v-for="(depart, index) in formdata2.derpRange" :key="index">
 	                            <div class="funcs-content">
@@ -150,23 +150,23 @@
 				],
 				//公司列表
 				compList: [
-					{organNo: "01",organName: "广州分公司"}
+					{organNo: "",organName: ""}
 				],
 				//部门列表
 				derpRangeList: [
-					{ derpNo: "01", derpName: "xx部" ,
-					preRangeList: [
-					{userNo: "P0000001", custName: "张三"},
-					{userNo: "P0000002", custName: "李四"},
-					{userNo: "P0000003", custName: "王五"}],
-					},
-					{ derpNo: "02", derpName: "行政部"  ,
-					preRangeList: [
-					{userNo: "P0000004", custName: "张行政"},
-					{userNo: "P0000005", custName: "李行政"},
-					{userNo: "P0000006", custName: "王行政"}],
-					},
-					{ derpNo: "03", derpName: "信息部" }
+//					{ derpNo: "01", derpName: "xx部" ,
+//					preRangeList: [
+//					{userNo: "P0000001", custName: "张三"},
+//					{userNo: "P0000002", custName: "李四"},
+//					{userNo: "P0000003", custName: "王五"}],
+//					},
+//					{ derpNo: "02", derpName: "行政部"  ,
+//					preRangeList: [
+//					{userNo: "P0000004", custName: "张行政"},
+//					{userNo: "P0000005", custName: "李行政"},
+//					{userNo: "P0000006", custName: "王行政"}],
+//					},
+//					{ derpNo: "03", derpName: "信息部" }
 				],
 				
 			 	rules: {
@@ -467,10 +467,12 @@
     background: #FFFFFF;
     border: 1px solid #FF9900;
 }
-.leftside {
+.wage_legtside {
 	text-align: right;
-    padding: 9px 24px 0;
+    padding: 9px 27px 0;
     color: #999999;
 }
-
+.wage_rightside {
+	margin-left: -10px;
+}
 </style>

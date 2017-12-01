@@ -10,69 +10,69 @@
 				<el-form ref="formdata" :inline="true" :model="formdata" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
-						    <el-select v-model="formdata.organNo" value-key="organNo" @change="changeValue">
+						    <el-select v-model="formdata.organNo" value-key="organNo" @change="changeValue" :disabled="true">
 								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="部门名称">
-						    <el-select v-model="formdata.derpNo" value-key="derpNo">
+						    <el-select v-model="formdata.derpNo" value-key="derpNo" :disabled="true">
 								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
-						    <el-input v-model="formdata.userNo"></el-input>
+						    <el-input v-model="formdata.userNo" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="姓名">
-						    <el-input v-model="formdata.custName"></el-input>
+						    <el-input v-model="formdata.custName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="身份证">
-						    <el-input v-model="formdata.certNo"></el-input>
+						    <el-input v-model="formdata.certNo" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <el-input v-model="formdata.custPost"></el-input>
+						    <el-input v-model="formdata.custPost" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <el-input v-model="formdata.custClass"></el-input>
+						    <el-input v-model="formdata.custClass" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="直线经理">
-						    <el-input v-model="formdata.lineManager"></el-input>
+						    <el-input v-model="formdata.lineManager" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :span="24" class="item-title">离职信息</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="离职时间">
-						    <el-input v-model="formdata.dimTime"></el-input>
+						    <el-date-picker type="datetime" v-model="formdata.dimTime" @change="changeDimTime" style="width: 100%;"></el-date-picker>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="离职类型">
-						    <el-select v-model="formdata.dimType" value-key="dimType">
+						    <el-select v-model="formdata.dimType" value-key="dimType" :disabled="true">
 								<el-option v-for="item in dimTypeList" :key="item.dimTypeNo" :label="item.dimTypeName" :value="item.dimTypeNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="去向">
-						    <el-input v-model="formdata.hasGone"></el-input>
+						    <el-input v-model="formdata.hasGone" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工资截止日">
-						    <el-input v-model="formdata.payEndTime"></el-input>
+						    <el-date-picker type="datetime" v-model="formdata.payEndTime" @change="changePayEndTime" style="width: 100%;"></el-date-picker>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24">
@@ -81,18 +81,18 @@
 							  type="textarea"
 							  :autosize="{ minRows: 5, maxRows: 5}"
 							  placeholder="请输入内容"
-							  v-model="formdata.dimReason">
+							  v-model="formdata.dimReason" :disabled="true">
 							</el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="最新更新人">
-						    <el-input v-model="formdata.updatedBy"></el-input>
+						    <el-input v-model="formdata.updatedBy" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="最新更新时间">
-						    <el-input v-model="formdata.updatedDate"></el-input>
+						    <el-input v-model="formdata.updatedDate" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -117,24 +117,24 @@
 		data() {
 			return {
 				formdata: {
-					organNo: "xxx",
-					organName: "xxx",
-					derpName: "xxx",
-					derpNo: "xxx",
-					custName: "xxx",
-					userNo: "xxx",
-					certNo: "xxx",
-					custPost: "xxx",
-					custClass: "xxx",
-					lineManager: "xxx",
-					dimTime: "xxx",
-					dimType: "xxx",
-					hasGone: "xxx",
-					payEndTime: "xxx",
-					dimReason: "xxx",
-					updatedBy: "xxx",
-					updatedDate: "xxx",
-					dimProveFlag: "xxx"
+					organNo: "",
+					organName: "",
+					derpName: "",
+					derpNo: "",
+					custName: "",
+					userNo: "",
+					certNo: "",
+					custPost: "",
+					custClass: "",
+					lineManager: "",
+					dimTime: "",
+					dimType: "",
+					hasGone: "",
+					payEndTime: "",
+					dimReason: "",
+					updatedBy: "",
+					updatedDate: "",
+					dimProveFlag: ""
 				},
 				
 				comp: {
@@ -178,18 +178,19 @@
 			current
 		},
 		created() {
-			let userNo = this.$route.params.userNo;
-			let workhisId = this.$route.params.workhisId;
-			let params = {
-				userNo: userNo,
-				workhisId: workhisId
-			}
-			//人事调动详情查询
-			this.queryCustDimhisDetail(params); 
+			
+			//人事离职详情查询
+			this.queryCustDimhisDetail(); 
 			//查询公司列表
 			this.queryCompList();
 		},
 		methods: {
+			changeDimTime(time) {
+				this.formdata.dimTime = time;
+			},
+			changePayEndTime(time) {
+				this.formdata.payEndTime = time;
+			},
 			changeValue(value) {
 		 		const self = this;
 	            console.log('value',value);
@@ -201,14 +202,21 @@
 	      			isOnLine: "false"
 	      		}
 	      		//下载附件
-				self.downloadFile(params);
+//				self.downloadFile(params);
 	      	},
-	      	queryCustDimhisDetail(params) {
+	      	queryCustDimhisDetail() {
 				let self = this;
+				let userNo = sessionStorage.getItem('infoDimission_userNo');
+				let workhisId = sessionStorage.getItem('infoDimission_dimId');
+				let params = {
+					userNo: userNo,
+					workhisId: workhisId
+				}
 				self.$axios.get(baseURL+'/custDimhis/queryCustDimhisDetail', {params: params})
 				.then(function(res) {
-					console.log('CustShifthisDetail',res);
+					console.log('dimDetail',res);
 					self.formdata = res.data.data;
+					self.formdata.dimProveFlag = self.formdata.dimProveFlag=='01' ? true: false;
 //					self.formdata.shiftCameTime = moment(self.formdata.shiftCameTime).format('YYYY-MM-DD hh:mm:ss');
 				}).catch(function(err) {
 					console.log(err);
@@ -216,7 +224,7 @@
 			},
 			queryCompList() {
 				let self = this;
-				self.$axios.get(baseURL+'/wage/queryOrganByUserNo')
+				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
 				.then(function(res) {
 					console.log('CompList',res);
 					if(res.data.code === "S00000") {
@@ -229,7 +237,7 @@
 			},
 			queryDerpList(params) {
 				let self = this;
-				self.$axios.get(baseURL+'/wage/queryDerpByUserNo', {params: params})
+				self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
 				.then(function(res) {
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {

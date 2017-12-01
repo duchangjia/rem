@@ -10,97 +10,115 @@
 				<el-form ref="formdata" :inline="true" :model="formdata" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
-						    <el-select v-model="formdata.oldOrgId" value-key="oldOrgId" @change="changeValue">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
-							</el-select>
+							<el-input v-model="formdata.oldOrganName" :disabled="true"></el-input>
+						    <!--<el-select v-model="formdata.oldOrgId" value-key="oldOrgId" @change="changeValue" :disabled="true">
+								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="部门名称">
-						    <el-select v-model="formdata.oldDeprtId" value-key="oldDeprtId" @change="changeValue">
+							<el-input v-model="formdata.oldDerpName" :disabled="true"></el-input>
+						    <!--<el-select v-model="formdata.oldDeprtId" value-key="oldDeprtId" @change="changeValue" :disabled="true">
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
-							</el-select>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
-						    <el-input v-model="formdata.userNo"></el-input>
+						    <el-input v-model="formdata.userNo" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="姓名">
-						    <el-input v-model="formdata.custName"></el-input>
+						    <el-input v-model="formdata.custName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :span="24" class="item-title">调动信息</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动类型">
-						    <el-select v-model="formdata.shiftType" value-key="shiftType" @change="changeValue">
+						    <el-select v-model="formdata.shiftType" value-key="shiftType" @change="changeValue" :disabled="true">
 								<el-option v-for="item in shiftTypeList" :key="item.shiftType" :label="item.shiftName" :value="item.shiftType"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动生效时间">
-						    <el-input v-model="formdata.shiftCameTime" style="width:100%;"></el-input>
+						    <el-input v-model="formdata.shiftCameTime" style="width:100%;" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原公司名称">
-						    <el-select v-model="formdata.oldOrgId" value-key="oldOrgId" @change="changeValue">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
-							</el-select>
+							<el-input v-model="formdata.oldOrganName" :disabled="true"></el-input>
+						    <!--<el-select v-model="formdata.oldOrgId" value-key="oldOrgId" @change="changeValue" :disabled="true">
+								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新公司名称">
-						    <el-select v-model="formdata.newOrgId" value-key="newOrgId" @change="changeValue">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
-							</el-select>
+							<el-input v-model="formdata.newOrganName" :disabled="true"></el-input>
+						    <!--<el-select v-model="formdata.newOrgId" value-key="newOrgId" @change="changeValue" :disabled="true">
+								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原部门名称">
-						    <el-select v-model="formdata.oldDeprtId" value-key="oldDeprtId" @change="changeValue">
+							<el-input v-model="formdata.oldDerpName" :disabled="true"></el-input>
+						    <!--<el-select v-model="formdata.oldDeprtId" value-key="oldDeprtId" @change="changeValue" :disabled="true">
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
-							</el-select>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新部门名称">
-						    <el-select v-model="formdata.newDeprtId" value-key="newDeprtId" @change="changeValue">
+							<el-input v-model="formdata.newDerpName" :disabled="true"></el-input>
+						    <!--<el-select v-model="formdata.newDeprtId" value-key="newDeprtId" @change="changeValue" :disabled="true">
 								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
-							</el-select>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原直线经理">
-						    <el-input v-model="formdata.oldLineManager"></el-input>
+						    <el-input v-model="formdata.oldLineManager" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新直线经理">
-						    <el-input v-model="formdata.newLineManager"></el-input>
+						    <el-input v-model="formdata.newLineManager" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原岗位">
-						    <el-input v-model="formdata.oldPost"></el-input>
+						    <el-input v-model="formdata.oldPost" :disabled="true"></el-input>
+						    <!--<el-select v-model="formdata.oldPost">
+								<el-option v-for="item in custPostList" :key="item.custPostNo" :label="item.custPostName" :value="item.custPostNo"></el-option>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新岗位">
-						    <el-input v-model="formdata.newPost"></el-input>
+						    <el-input v-model="formdata.newPost" :disabled="true"></el-input>
+						    <!--<el-select v-model="formdata.newPost">
+								<el-option v-for="item in custPostList" :key="item.custPostNo" :label="item.custPostName" :value="item.custPostNo"></el-option>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原职级">
-						    <el-input v-model="formdata.oldClass"></el-input>
+						    <el-input v-model="formdata.oldClass" :disabled="true"></el-input>
+						    <!--<el-select v-model="formdata.oldClass">
+								<el-option v-for="item in custClassList" :key="item.custClassNo" :label="item.custClassName" :value="item.custClassNo"></el-option>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新职级">
-						    <el-input v-model="formdata.newClass"></el-input>
+						    <el-input v-model="formdata.newClass" :disabled="true"></el-input>
+						    <!--<el-select v-model="formdata.newClass">
+								<el-option v-for="item in custClassList" :key="item.custClassNo" :label="item.custClassName" :value="item.custClassNo"></el-option>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24">
@@ -109,7 +127,7 @@
 							  type="textarea"
 							  :autosize="{ minRows: 5, maxRows: 5}"
 							  placeholder="请输入内容"
-							  v-model="formdata.shiftReason">
+							  v-model="formdata.shiftReason" :disabled="true">
 							</el-input>
 					  	</el-form-item>
 					</el-col>  	
@@ -134,11 +152,11 @@
 			return {
 				formdata: {
 					oldOrgId: "01",
-//					compName: "",
+//					organName: "",
 //					departName: "",
 					oldDeprtId: "01",
 					newOrgId: "02",
-//					newcompName: "",
+//					neworganName: "",
 //					newdepartName: "",
 					newDeprtId: "02",
 					custName: "sfsd",
@@ -153,34 +171,14 @@
 					newClass: "",
 					shiftReason: ""
 				},
-				oldcomp: {
-					compName: '',
-					compOrgNo: '01'
-				},
-				newcomp: {
-					compName: '',
-					compOrgNo: '0'
-				},
-				olddepart: {
-					departName: '',
-					departOrgNo: '01'
-				},
-				newdepart: {
-					departName: '',
-					departOrgNo: '0'
-				},
 				//部门列表
-				departList: [
-					{departName: "上海魔方分公司",departOrgNo: '01'},
-					{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-					{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
-				],
+				departList: [],
 				//公司列表
-				compList: [
-					{compName: "上海魔方分公司",compOrgNo: '01'},
-					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
-				],
+				compList: [],
+				//岗位列表
+				custPostList: [],
+				//职级列表
+				custClassList: [],
 				shiftTypeList: [
 					{shiftType: '01',shiftName: '晋升'},
 					{shiftType: '02',shiftName: '调动'},
@@ -195,14 +193,9 @@
 			current
 		},
 		created() {
-			let userNo = this.$route.params.userNo;
-			let workhisId = this.$route.params.workhisId;
-			let params = {
-				userNo: userNo,
-				workhisId: workhisId
-			}
+			
 			//人事调动详情查询
-			this.queryCustShifthisInfo(params);
+			this.queryCustShifthisInfo();
 			//查询公司列表
 			this.queryCompList();
 		},
@@ -218,10 +211,16 @@
 	      			isOnLine: "false"
 	      		}
 	      		//下载附件
-				self.downloadFile(params);
+//				self.downloadFile(params);
 	      	},
-			queryCustShifthisInfo(params) {
+			queryCustShifthisInfo() {
 				let self = this;
+				let userNo = sessionStorage.getItem('infoTransfer_userNo');
+				let workhisId = sessionStorage.getItem('infoTransfer_workhisId');
+				let params = {
+					userNo: userNo,
+					workhisId: workhisId
+				}
 				self.$axios.get(baseURL+'/custShifthis/queryCustShifthisDetail', {params: params})
 				.then(function(res) {
 					console.log('CustShifthisDetail',res);
@@ -260,7 +259,7 @@
 			},
 			queryCompList() {
 				let self = this;
-				self.$axios.get(baseURL+'/wage/queryOrganByUserNo')
+				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
 				.then(function(res) {
 					console.log('CompList',res);
 					if(res.data.code === "S00000") {
@@ -273,7 +272,7 @@
 			},
 			queryDerpList(params) {
 				let self = this;
-				self.$axios.get(baseURL+'/wage/queryDerpByUserNo', {params: params})
+				self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
 				.then(function(res) {
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
@@ -284,6 +283,42 @@
 					console.log(err);
 				})
 			},
+			queryCustPostList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+				.then(function(res) {
+					console.log('CustPost',res);
+					if(res.data.code === "S00000") {
+						self.custPostList = res.data.data;
+//						res.data.data.forEach(function(ele) {
+//							if(ele.paraValue === self.formdata2.custPost) {
+//								self.custPostName = ele.paraShowMsg;
+//							}
+//						},this)
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustClassList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
+				.then(function(res) {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						self.custClassList = res.data.data;
+//						res.data.data.forEach(function(ele) {
+//							if(ele.paraValue === self.formdata2.custClass) {
+//								self.custClass = ele.paraShowMsg;
+//							}
+//						},this)
+					}
+					custClass
+				}).catch(function(err) {
+					console.log('error');
+				})
+			}
 		}
 	};
 </script>

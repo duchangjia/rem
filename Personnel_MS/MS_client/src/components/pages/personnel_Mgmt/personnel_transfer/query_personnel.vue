@@ -95,7 +95,29 @@
 				},
 				pactListInfo: [
 					{
-						userNo: "P0000001",
+						userNo: "P0001314",
+						custName: "小李",
+						organName: "广州分公司",
+						derpName: "xxx",
+						sex: "男",
+						custPost: "java",
+						custClass: "B9",
+						mobileNo: "1313131333",
+						custStatus: "在职"
+					},
+					{
+						userNo: "P0001315",
+						custName: "小李",
+						organName: "广州分公司",
+						derpName: "xxx",
+						sex: "男",
+						custPost: "java",
+						custClass: "B9",
+						mobileNo: "1313131333",
+						custStatus: "在职"
+					},
+					{
+						userNo: "P0001359",
 						custName: "小李",
 						organName: "广州分公司",
 						derpName: "xxx",
@@ -170,10 +192,9 @@
 				const self = this;
 				self.$refs[formName].validate((valid) => {
 					if (valid) {
-						console.log('submit')
+						self.queryList();
 						
 					} else {
-						console.log('error submit!!');
 						return false;
 					}
 				});
@@ -188,20 +209,15 @@
 			},
 			//分页
 			handleCurrentChange(val) {
-				const self = this;
-				let pageNum = val;
-				let pageSize = self.pageSize;
-				let params = {
-					pageNum: pageNum,
-					pageSize: pageSize
-				}
+				this.pageNum = val;
 				//分页查询员工列表
-				self.queryList(pageNum,pageSize,params);
+				self.queryList();
 				
 			},
 			//员工调动
 			handleTransfer(index, row) {
 				const self = this;
+				sessionStorage.setItem('transfer_userNo', row.userNo);
 				this.$router.push({
 					name: "detail_transfer",
 					params: {
@@ -212,6 +228,7 @@
 			},
 			//员工离职
 			handDimission(index, row) {
+				sessionStorage.setItem('dimission_userNo', row.userNo);
 				this.$router.push({
 					name: "detail_dimission",
 					params: {
