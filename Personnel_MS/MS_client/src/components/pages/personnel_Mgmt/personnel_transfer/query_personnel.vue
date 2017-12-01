@@ -64,8 +64,8 @@
 					</el-table-column>
 					<el-table-column align="center" label="操作" width="130">
 						<template scope="scope">
-							<el-button type="text" size="small" @click="handleTransfer(scope.$index, scope.row)">调动</el-button>
-							<el-button type="text" size="small" @click="handDimission(scope.$index, scope.row)">离职</el-button>
+							<el-button type="text" size="small" :disabled=handleTransferFlag[scope.$index] @click="handleTransfer(scope.$index, scope.row)">调动</el-button>
+							<el-button type="text" size="small" :disabled=handDimissionFlag[scope.$index] @click="handDimission(scope.$index, scope.row)">离职</el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -87,67 +87,19 @@
 				pageNum: 1,
 				pageSize: 10,
 				totalRows: 1,
+				handleTransferFlag: [],
+				handDimissionFlag: [],
 				ruleForm2: {
 					organName: "",
 					derpName: "",
 					userNo: "",
 					custName: ""
 				},
-				pactListInfo: [
-					{
-						userNo: "P0001314",
-						custName: "小李",
-						organName: "广州分公司",
-						derpName: "xxx",
-						sex: "男",
-						custPost: "java",
-						custClass: "B9",
-						mobileNo: "1313131333",
-						custStatus: "在职"
-					},
-					{
-						userNo: "P0001315",
-						custName: "小李",
-						organName: "广州分公司",
-						derpName: "xxx",
-						sex: "男",
-						custPost: "java",
-						custClass: "B9",
-						mobileNo: "1313131333",
-						custStatus: "在职"
-					},
-					{
-						userNo: "P0001359",
-						custName: "小李",
-						organName: "广州分公司",
-						derpName: "xxx",
-						sex: "男",
-						custPost: "java",
-						custClass: "B9",
-						mobileNo: "1313131333",
-						custStatus: "在职"
-					}
-				],
-				comp: {
-					organName: '',
-					compOrgNo: ''
-				},
-				depart: {
-					derpName: '',
-					departOrgNo: ''
-				},
+				pactListInfo: [],
 				//部门列表
-				departList: [
-					{derpName: "上海魔方分公司",departOrgNo: '01'},
-					{derpName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-					{derpName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
-				],
+				departList: [],
 				//公司列表
-				compList: [
-					{organName: "上海魔方分公司",compOrgNo: '01'},
-					{organName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-					{organName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
-				],
+				compList: [],
 				rules: {
 
 				}
@@ -182,8 +134,6 @@
 		    },
 			//重置
 			resetForm() {
-				this.comp = {};
-				this.depart = {};
 				this.ruleForm2.userNo = '';
 				this.ruleForm2.custName = '';
 			},
@@ -211,7 +161,7 @@
 			handleCurrentChange(val) {
 				this.pageNum = val;
 				//分页查询员工列表
-				self.queryList();
+				this.queryList();
 				
 			},
 			//员工调动
@@ -240,12 +190,6 @@
 			changeValue(value) {
 		 		const self = this;
 	            console.log('value',value);
-//				self.userDetail.organName = self.comp.organName;
-//				self.userDetail.compOrgNo = self.comp.compOrgNo;
-//				self.userDetail.derpName = self.depart.derpName;
-//				self.userDetail.departOrgNo = self.depart.departOrgNo;
-//				self.userDetail.roleName = self.role.roleName;
-//				self.userDetail.roleNo = self.role.roleNo;
 	       },
 	       queryList() {
 				let self = this;
@@ -261,6 +205,16 @@
 					self.pactListInfo = res.data.data.list;
 					self.pageNum = params.pageNum;
 					self.totalRows = Number(res.data.data.total);
+					
+					self.pactListInfo.forEach(function(ele,index) {
+						if(ele.custStatus == '01' || ele.custStatus == '02') {
+							self.handleTransferFlag[index] = false;
+							self.handDimissionFlag[index] = false;
+						} else {
+							self.handleTransferFlag[index] = true;
+							self.handDimissionFlag[index] = true;
+						}
+					})
 				}).catch(function(err) {
 					console.log(err);
 				})

@@ -11,18 +11,12 @@
 				<el-form ref="formdata1" :inline="true" :rules="rules1" :model="formdata1" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
-							<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
-						    <!--<el-select v-model="formdata1.organNo" @change="changeValue">
-								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item"></el-option>
-							</el-select>-->
+							<el-input v-model="formdata1.organName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="部门名称">
 							<el-input v-model="formdata1.deptName" :disabled="true"></el-input>
-						    <!--<el-select v-model="formdata1.derpNo" >
-								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item"></el-option>
-							</el-select>-->
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
@@ -103,16 +97,6 @@
 							</el-input>
 					  	</el-form-item>
 					</el-col>  	
-					<!--<el-col :sm="24" :md="12">
-						<el-form-item label="最新更新人">
-						    <el-input v-model="formdata2.updatedBy"></el-input>
-					  	</el-form-item>
-					</el-col>  	
-					<el-col :sm="24" :md="12">
-						<el-form-item label="最新更新时间">
-						    <el-input v-model="formdata2.updatedDate"></el-input>
-					  	</el-form-item>
-					</el-col>  	-->
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width: 100%;">
 					  		<el-input v-model="formdata2.attachm"></el-input>
@@ -329,13 +313,13 @@
 			addCustDimhis(params) {
 				let self = this;
 				self.$axios.post(baseURL+'/custDimhis/addCustDimhis',params)
-				.then(function(res) {
+				.then((res) => {
 					console.log('addCustDimhis',res);
 					if(res.data.code == "S00000") {
-		      			this.$message({ message: '操作成功', type: 'success' });
-		      			this.$router.push('/detail_dimission');
+		      			self.$message({ message: '操作成功', type: 'success' });
+		      			self.$router.push('/detail_dimission');
 		      		}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
@@ -429,6 +413,20 @@
 		        //dialog标题
 		        this.boxTitle = '人工编号选择'
 		    },
+		    queryUserInfo() {
+				let self = this;
+				let userNo = sessionStorage.getItem('dimission_userNo');
+				let params = {
+					userNo: userNo
+				}
+				self.$axios.get(baseURL+'/CustInfo/querySelfDtl', {params})
+				.then(function(res) {
+					console.log('userInfo',res);
+					self.formdata1 = res.data;
+				}).catch(function(err) {
+					console.log(err);
+				})
+			}
 		}
 	};
 </script>
@@ -439,5 +437,11 @@
     padding-bottom: 20px;
 	width: 100%;
 }
-
+.add_dimission .el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: #ff9900;
+    border-color: #ff9900;
+}
+.add_dimission .el-checkbox__inner:hover {
+    border-color: #20a0ff;
+}
 </style>

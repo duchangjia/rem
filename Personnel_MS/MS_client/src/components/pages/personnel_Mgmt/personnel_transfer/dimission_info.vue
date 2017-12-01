@@ -10,16 +10,12 @@
 				<el-form ref="formdata" :inline="true" :model="formdata" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
-						    <el-select v-model="formdata.organNo" value-key="organNo" @change="changeValue" :disabled="true">
-								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item"></el-option>
-							</el-select>
+							<el-input v-model="formdata.organName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="部门名称">
-						    <el-select v-model="formdata.derpNo" value-key="derpNo" :disabled="true">
-								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item"></el-option>
-							</el-select>
+							<el-input v-model="formdata.derpName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
@@ -55,7 +51,7 @@
 					<el-col :span="24" class="item-title">离职信息</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="离职时间">
-						    <el-date-picker type="datetime" v-model="formdata.dimTime" @change="changeDimTime" style="width: 100%;"></el-date-picker>
+						    <el-date-picker type="date" v-model="formdata.dimTime" @change="changeDimTime" style="width: 100%;" :disabled="true"></el-date-picker>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -72,7 +68,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工资截止日">
-						    <el-date-picker type="datetime" v-model="formdata.payEndTime" @change="changePayEndTime" style="width: 100%;"></el-date-picker>
+						    <el-date-picker type="date" v-model="formdata.payEndTime" @change="changePayEndTime" style="width: 100%;" :disabled="true"></el-date-picker>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24">
@@ -92,13 +88,13 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="最新更新时间">
-						    <el-input v-model="formdata.updatedDate" :disabled="true"></el-input>
+						    <el-date-picker type="datetime" v-model="formdata.updatedDate" style="width: 100%;" :disabled="true"></el-date-picker>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width:100%;">
 						    <el-button class="downloadBtn" @click="handleDownload">下载</el-button>
-					  		<el-checkbox v-model="formdata.dimProveFlag">是否需要出具离职证明</el-checkbox>
+					  		<el-checkbox v-model="formdata.dimProveFlag" :disabled="true">是否需要出具离职证明</el-checkbox>
 					  	</el-form-item>
 					</el-col>  	
 					  	
@@ -116,55 +112,11 @@
 	export default {
 		data() {
 			return {
-				formdata: {
-					organNo: "",
-					organName: "",
-					derpName: "",
-					derpNo: "",
-					custName: "",
-					userNo: "",
-					certNo: "",
-					custPost: "",
-					custClass: "",
-					lineManager: "",
-					dimTime: "",
-					dimType: "",
-					hasGone: "",
-					payEndTime: "",
-					dimReason: "",
-					updatedBy: "",
-					updatedDate: "",
-					dimProveFlag: ""
-				},
-				
-				comp: {
-					organName: '',
-					organNo: 'p1'
-				},
-				newcomp: {
-					organName: '',
-					organNo: ''
-				},
-				depart: {
-					derpName: '',
-					derpNo: ''
-				},
-				newdepart: {
-					derpName: '',
-					derpNo: ''
-				},
+				formdata: {},
 				//部门列表
-				departList: [
-					{derpName: "上海魔方分公司",derpNo: '01'},
-					{derpName: "魔方分公司深圳分公司",derpNo: 'p1'},
-					{derpName: "深圳前海橙色魔方信息技术有限公司",derpNo: '0'}
-				],
+				departList: [],
 				//公司列表
-				compList: [
-					{organName: "上海魔方分公司",organNo: '01'},
-					{organName: "魔方分公司深圳分公司",organNo: 'p1'},
-					{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
-				],
+				compList: [],
 				dimTypeList: [
 					{dimTypeName:'辞退',dimTypeNo: "01"},
 					{dimTypeName:'退休',dimTypeNo: "02"},
@@ -207,10 +159,10 @@
 	      	queryCustDimhisDetail() {
 				let self = this;
 				let userNo = sessionStorage.getItem('infoDimission_userNo');
-				let workhisId = sessionStorage.getItem('infoDimission_dimId');
+				let dimId = sessionStorage.getItem('infoDimission_dimId');
 				let params = {
 					userNo: userNo,
-					workhisId: workhisId
+					dimId: dimId
 				}
 				self.$axios.get(baseURL+'/custDimhis/queryCustDimhisDetail', {params: params})
 				.then(function(res) {
@@ -285,5 +237,11 @@
     padding-bottom: 20px;
 	width: 100%;
 }
-
+.dimission_info .el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: #ff9900;
+    border-color: #ff9900;
+}
+.dimission_info .el-checkbox__inner:hover {
+    border-color: #20a0ff;
+}
 </style>
