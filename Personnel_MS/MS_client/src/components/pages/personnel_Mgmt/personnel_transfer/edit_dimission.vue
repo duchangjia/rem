@@ -11,16 +11,18 @@
 				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
-						    <el-select v-model="formdata.organNo" @change="changeComp">
+						    <el-input v-model="formdata.organName"></el-input>
+						    <!--<el-select v-model="formdata.organNo" @change="changeComp">
 								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item"></el-option>
-							</el-select>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="部门名称">
-						    <el-select v-model="formdata.derpNo" >
+						    <el-input v-model="formdata.derpName"></el-input>
+						    <!--<el-select v-model="formdata.derpNo" >
 								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item"></el-option>
-							</el-select>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
@@ -56,7 +58,7 @@
 					<el-col :span="24" class="item-title">离职信息</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="离职时间" prop="dimTime">
-						    <el-input v-model="formdata.dimTime"></el-input>
+						    <el-date-picker type="date" v-model="formdata.dimTime" @change="changeDimTime" style="width: 100%;"></el-date-picker>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
@@ -73,7 +75,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工资截止日" prop="payEndTime">
-						    <el-input v-model="formdata.payEndTime"></el-input>
+						    <el-date-picker type="date" v-model="formdata.payEndTime" @change="changePayEndTime" style="width: 100%;"></el-date-picker>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24">
@@ -131,54 +133,54 @@
 				},
 				fileFlag: '',
 				formdata: {
-					compOrgNo: "xxx",
-					compName: "xxx",
-					departName: "xxx",
-					departOrgNo: "xxx",
-					custName: "xxx",
-					userNo: "xxx",
-					certNo: "xxx",
-					custPost: "xxx",
-					custClass: "xxx",
-					lineManager: "xxx",
-					dimTime: "xxx",
-					dimType: "xxx",
-					hasGone: "xxx",
-					payEndTime: "xxx",
-					dimReason: "xxx",
-					updatedBy: "xxx",
-					updatedDate: "xxx",
+					organNo: "",
+					organName: "",
+					derpName: "",
+					derpNo: "",
+					custName: "",
+					userNo: "",
+					certNo: "",
+					custPost: "",
+					custClass: "",
+					lineManager: "",
+					dimTime: "",
+					dimType: "",
+					hasGone: "",
+					payEndTime: "",
+					dimReason: "",
+					updatedBy: "",
+					updatedDate: "",
 					attachm: "",
-					dimProveFlag: "xxx"
+					dimProveFlag: ""
 				},
 				
 				comp: {
-					compName: '',
-					compOrgNo: 'p1'
+					organName: '',
+					organNo: ''
 				},
 				newcomp: {
-					compName: '',
-					compOrgNo: ''
+					organName: '',
+					organNo: ''
 				},
 				depart: {
-					departName: '',
-					departOrgNo: ''
+					derpName: '',
+					derpNo: ''
 				},
 				newdepart: {
-					departName: '',
-					departOrgNo: ''
+					derpName: '',
+					derpNo: ''
 				},
 				//部门列表
 				departList: [
-					{departName: "上海魔方分公司",departOrgNo: '01'},
-					{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-					{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
+					{derpName: "上海魔方分公司",derpNo: '01'},
+					{derpName: "魔方分公司深圳分公司",derpNo: 'p1'},
+					{derpName: "深圳前海橙色魔方信息技术有限公司",derpNo: '0'}
 				],
 				//公司列表
 				compList: [
-					{compName: "上海魔方分公司",compOrgNo: '01'},
-					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
+					{organName: "上海魔方分公司",organNo: '01'},
+					{organName: "魔方分公司深圳分公司",organNo: 'p1'},
+					{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
 				],
 				dimTypeList: [
 					{dimTypeName:'辞退',dimTypeNo: "01"},
@@ -189,13 +191,13 @@
 				],
 				rules: {
 		          	dimTime: [
-		            	{ required: true, message: '离职时间不能为空', trigger: 'blur' }
+		            	{ required: true, message: '离职时间不能为空', trigger: 'change' }
 	          		],
 					dimType: [
 		            	{ required: true, message: '离职类型不能为空', trigger: 'blur' }
 	          		],
 					payEndTime: [
-		            	{ required: true, message: '工资截止日不能为空', trigger: 'blur' }
+		            	{ required: true, message: '工资截止日不能为空', trigger: 'change' }
 	          		],
 					dimReason: [
 		            	{ required: true, message: '离职原因不能为空', trigger: 'blur' }
@@ -208,26 +210,33 @@
 		},
 		computed: {
 			addFormdata: function(){
-				const self = this;
 				return {
-				    workhisId: self.formdata.workhisId,
-					
+				    dimId: this.formdata.dimId,
+					userNo: this.formdata.userNo,//工号
+				   	dimTime: this.formdata.dimTime,
+					dimType: this.formdata.dimType,
+					hasGone: this.formdata.hasGone,
+					payEndTime: this.formdata.payEndTime,
+					dimReason: this.formdata.dimReason,
+					attachm: this.formdata.attachm,
+					dimProveFlag: this.formdata.dimProveFlag ? '01': '02'
 				}
 			}
 		},
 		created() {
-			let userNo = this.$route.params.userNo;
-			let dimId = this.$route.params.dimId;
-			let params = {
-				userNo: userNo,
-				dimId: dimId
-			}
+			
 			//人事离职详情查询
-			this.queryCustDimhisDetail(params); 
+			this.queryCustDimhisDetail(); 
 			//查询公司列表
 			this.queryCompList();
 		},
 		methods: {
+			changeDimTime(time) {
+				this.formdata.dimTime = time;
+			},
+			changePayEndTime(time) {
+				this.formdata.payEndTime = time;
+			},
 			changeComp(value) {
 		 		console.log('value',value);
 	            let params = {
@@ -250,11 +259,20 @@
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						
+						self.$refs.upload.submit();
 						if(!this.fileFlag) {
 							let params = {
-								
+								dimId: this.formdata.dimId,
+								userNo: this.formdata.userNo,
+							   	dimTime: this.formdata.dimTime,
+								dimType: this.formdata.dimType,
+								hasGone: this.formdata.hasGone,
+								payEndTime: this.formdata.payEndTime,
+								dimReason: this.formdata.dimReason,
+								attachm: this.formdata.attachm,
+								dimProveFlag: this.formdata.dimProveFlag ? '01': '02'//01ture  02false
 							};
+							console.log('params',params)
 							//无附件时修改
 							self.updateCustDimhis(params);
 						}
@@ -270,20 +288,27 @@
 				self.$axios.put(baseURL+'/custDimhis/updateCustDimhis',params)
 				.then(function(res) {
 					console.log('updateCustDimhis',res);
-					if(res.code === "S00000") {
-		      			this.$message({ message: '操作成功', type: 'success' });
-		      			this.$router.push('/detail_dimission');
+					if(res.data.code === "S00000") {
+		      			self.$message({ message: '操作成功', type: 'success' });
+		      			self.$router.push('/detail_dimission');
 		      		}
 				}).catch(function(err) {
 					console.log('error');
 				})
 			},
-			queryCustDimhisDetail(params) {
+			queryCustDimhisDetail() {
 				let self = this;
+				let userNo = sessionStorage.getItem('editDimission_userNo');
+				let dimId = sessionStorage.getItem('editDimission_dimId');
+				let params = {
+					userNo: userNo,
+					dimId: dimId
+				}
 				self.$axios.get(baseURL+'/custDimhis/queryCustDimhisDetail', {params: params})
 				.then(function(res) {
-					console.log('CustShifthisDetail',res);
-//					self.formdata = res.data.data;
+					console.log('dimDetail',res);
+					self.formdata = res.data.data;
+					self.formdata.dimProveFlag = self.formdata.dimProveFlag=='01' ? true: false;
 //					self.formdata.updatedDate = moment(self.formdata.updatedDate).format('YYYY-MM-DD hh:mm:ss');
 				}).catch(function(err) {
 					console.log(err);
@@ -291,7 +316,7 @@
 			},
 			queryCompList() {
 				let self = this;
-				self.$axios.get(baseURL+'/wage/queryOrganByUserNo')
+				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
 				.then(function(res) {
 					console.log('CompList',res);
 					if(res.data.code === "S00000") {
@@ -304,7 +329,7 @@
 			},
 			queryDerpList(params) {
 				let self = this;
-				self.$axios.get(baseURL+'/wage/queryDerpByUserNo', {params: params})
+				self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
 				.then(function(res) {
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
@@ -314,7 +339,7 @@
 				}).catch(function(err) {
 					console.log(err);
 				})
-			}
+			},
 		}
 	};
 </script>

@@ -124,7 +124,7 @@
 			handleCurrentChange(val) {
 		       	this.pageNum = val;
 				//分页查询功能列表
-				self.queryFunList();
+				this.queryFunList();
 		        
 	     	},
 	     	queryFunList() {
@@ -149,7 +149,7 @@
 			},
 			queryConditions() {
 				const self = this;
-				self.$axios.get(baseURL+'function/selectSysPara')
+				self.$axios.get(baseURL+'/function/selectSysPara')
 				.then(function(res) {
 					console.log('Conditions',res);
 					self.menuQueryConditions = res.data;

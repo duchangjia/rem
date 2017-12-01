@@ -101,7 +101,7 @@
 				          	<el-input size="small" v-model="scope.row.leavePay" @change="handleEdit($event,'leavePay',scope.row)"></el-input>
 				        </template>
 					</el-table-column>
-					<el-table-column prop="absentPay" label="矿工" min-width="200px">
+					<el-table-column prop="absentPay" label="旷工" min-width="200px">
 						<template scope="scope">
 				          	<el-input size="small" v-model="scope.row.absentPay" @change="handleEdit($event,'absentPay',scope.row)"></el-input>
 				        </template>

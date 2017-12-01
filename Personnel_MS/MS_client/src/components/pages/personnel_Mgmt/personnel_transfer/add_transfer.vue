@@ -8,7 +8,7 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="100px">
+				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
 						    <el-input v-model="formdata1.companyName" :disabled="true"></el-input>
@@ -20,7 +20,7 @@
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
-						<el-form-item label="工号">
+						<el-form-item label="工号" prop="userNo">
 						    <el-input v-model="formdata1.userNo">
 						    	<el-button slot="append" icon="search" @click="userNoSelect"></el-button>
 						    </el-input>
@@ -43,7 +43,7 @@
 					  	</el-form-item>
 					</el-col>
 				</el-form>
-				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="100px">
+				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="110px">
 				  	<el-col :span="24" class="item-title">调动信息</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动类型" prop="shiftType">
@@ -54,40 +54,40 @@
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动生效时间" prop="shiftCameTime">
-						    <el-input v-model="formdata2.shiftCameTime"></el-input>
+						    <el-date-picker type="date" v-model="formdata2.shiftCameTime" @change="changeShiftCameTime" style="width: 100%;"></el-date-picker>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原公司名称">
-						    <el-select v-model="formdata2.oldOrgId" value-key="compOrgNo" >
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+						    <el-select v-model="formdata2.oldOrgId" :disabled="true">
+								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="新公司名称" prop="newcompOrgNo">
-						    <el-select v-model="formdata2.newOrgId" value-key="newcompOrgNo" @cnange="changeComp">
-								<el-option v-for="item in compList" :key="item.compOrgNo" :label="item.compName" :value="item.compOrgNo"></el-option>
+						<el-form-item label="新公司名称" prop="neworganNo">
+						    <el-select v-model="formdata2.newOrgId" @change="changeComp">
+								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原部门名称">
-						    <el-select v-model="formdata2.oldDeprtId" value-key="departOrgNo">
-								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
+						    <el-select v-model="formdata2.oldDeprtId" value-key="derpNo" :disabled="true">
+								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="新部门名称" prop="newdepartOrgNo">
-						    <el-select v-model="formdata2.newDeprtId" value-key="newdepartOrgNo">
-								<el-option v-for="item in departList" :key="item.departOrgNo" :label="item.departName" :value="item.departOrgNo"></el-option>
+						<el-form-item label="新部门名称" prop="newderpNo">
+						    <el-select v-model="formdata2.newDeprtId" value-key="newderpNo">
+								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原直线经理">
-						    <el-input v-model="formdata2.oldLineManager"></el-input>
+						    <el-input v-model="formdata2.oldLineManager" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -97,22 +97,34 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原岗位">
-						    <el-input v-model="formdata2.oldPost"></el-input>
+						    <el-input v-model="formdata2.oldPost" :disabled="true"></el-input>
+						    <!--<el-select v-model="formdata2.oldPost">
+								<el-option v-for="item in custPostList" :key="item.custPostNo" :label="item.custPostName" :value="item.custPostNo"></el-option>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新岗位" prop="newPost">
 						    <el-input v-model="formdata2.newPost"></el-input>
+						    <!--<el-select v-model="formdata2.newPost">
+								<el-option v-for="item in custPostList" :key="item.custPostNo" :label="item.custPostName" :value="item.custPostNo"></el-option>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原职级">
-						    <el-input v-model="formdata2.oldClass"></el-input>
+						    <el-input v-model="formdata2.oldClass" :disabled="true"></el-input>
+						    <!--<el-select v-model="formdata2.oldClass">
+								<el-option v-for="item in custClassList" :key="item.custClassNo" :label="item.custClassName" :value="item.custClassNo"></el-option>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新职级" prop="newClass">
 						    <el-input v-model="formdata2.newClass"></el-input>
+						    <!--<el-select v-model="formdata2.newClass">
+								<el-option v-for="item in custClassList" :key="item.custClassNo" :label="item.custClassName" :value="item.custClassNo"></el-option>
+							</el-select>-->
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24">
@@ -187,17 +199,13 @@
 					attachm: ""
 				},
 				//部门列表
-				departList: [
-					{departName: "上海魔方分公司",departOrgNo: '01'},
-					{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-					{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
-				],
+				departList: [],
 				//公司列表
-				compList: [
-					{compName: "上海魔方分公司",compOrgNo: '01'},
-					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
-				],
+				compList: [],
+				//岗位列表
+				custPostList: [],
+				//职级列表
+				custClassList: [],
 				shiftTypeList: [
 					{shiftType: '01',shiftName: '晋升'},
 					{shiftType: '02',shiftName: '调动'},
@@ -216,7 +224,7 @@
 		            	{ required: true, message: '调动类型不能为空', trigger: 'blur' }
 	          		],
 		          	shiftCameTime: [
-		          		{ required: true, message: '生效日期不能为空', trigger: 'blur' }
+		          		{ required: true, message: '生效日期不能为空', trigger: 'change' }
 		          	],
 		          	newOrgId: [
 		          		{ required: true, message: '新公司名不能为空', trigger: 'blur' }
@@ -245,24 +253,28 @@
 		created() {
 			//查询公司列表
 			this.queryCompList();
+			//查询岗位列表
+			this.queryCustPostList();
+			//查询职级列表
+			this.queryCustClassList();
 		},
 		computed: {
 			addFormdata: function(){
 				const self = this;
 				return {
-				    oldOrgId: self.formdata2.oldOrgId,
-					oldDeprtId: self.formdata2.oldDeprtId,
+				    oldOrgId: self.formdata1.oldOrgId,
+					oldDeprtId: self.formdata1.oldDeprtId,
 					newOrgId: self.formdata2.newOrgId,
 					newDeprtId: self.formdata2.newDeprtId,
 //					custName: self.formdata2.custName,
-					userNo: self.formdata2.userNo,
+					userNo: self.formdata1.userNo,
 					shiftType: self.formdata2.shiftType,
 					shiftCameTime: self.formdata2.shiftCameTime,
-					oldLineManager: self.formdata2.oldLineManager,
+					oldLineManager: self.formdata1.oldLineManager,
 					newLineManager: self.formdata2.newLineManager,
-					oldPost: self.formdata2.oldPost,
+					oldPost: self.formdata1.oldPost,
 					newPost: self.formdata2.newPost,
-					oldClass: self.formdata2.oldClass,
+					oldClass: self.formdata1.oldClass,
 					newClass: self.formdata2.newClass,
 					shiftReason: self.formdata2.shiftReason,
 					attachm: self.formdata2.attachm
@@ -270,10 +282,14 @@
 			}
 		},
 		methods: {
+			changeShiftCameTime(time) {
+	      		this.formdata2.shiftCameTime = time;
+	      	},
 			changeComp(val) {
 				let params = {
 					organNo: val
 				}
+				console.log('val',val)
 				this.queryDerpList(params);
 			},
 	      	dialogConfirm(ajaxNo){
@@ -285,6 +301,7 @@
 		        self.$axios
 		        .get( self.saveUrl, {params} )
 		        .then(res => {
+		        	console.log('res',res)
 		          	if (res.data.code == 'S00000'){
 		             	self.dialogVisible = false;
 			            self.formdata1 = res.data.data;
@@ -330,7 +347,7 @@
 		        //dialog打开
 		        this.dialogVisible=true
 		        //查询接口
-		        this.searchUrl = "/iem_hrm/"
+		        this.searchUrl = "/iem_hrm/CustInfo/queryCustInfList"
 		        //点击确定后根据号码查询用户信息借口 没有则为空
 		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
 		        //dialog标题
@@ -342,56 +359,59 @@
 	      	},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
-	      			this.$message({ message: '操作成功', type: 'success' });
+	      			this.$message({ message: response.retMsg, type: 'success' });
 	      			this.$router.push('/detail_transfer');
+	      		} else {
+	      			this.$message({ message: response.retMsg, type: 'error' });
 	      		}
 	      		
 	      	},
 	      	save(formName) {
 				const self = this;
-				this.$refs[formName].validate((valid) => {
-					if(valid) {
-						self.$refs.upload.submit();
-						if(!self.fileFlag) {
-							let params = {
-								oldOrgId: self.formdata2.oldOrgId,
-								oldDeprtId: self.formdata2.oldDeprtId,
-								newOrgId: self.formdata2.newOrgId,
-								newDeprtId: self.formdata2.newDeprtId,
-	//							custName: self.formdata2.custName,
-								userNo: self.formdata2.userNo,
-								shiftType: self.formdata2.shiftType,
-								shiftCameTime: self.formdata2.shiftCameTime,
-								oldLineManager: self.formdata2.oldLineManager,
-								newLineManager: self.formdata2.newLineManager,
-								oldPost: self.formdata2.oldPost,
-								newPost: self.formdata2.newPost,
-								oldClass: self.formdata2.oldClass,
-								newClass: self.formdata2.newClass,
-								shiftReason: self.formdata2.shiftReason,
-								attachm: self.formdata2.attachm
-							}
-							//无附件时人事调动添加
-							self.addCustShif(params);
-						}
-							
-						
-					} else {
-						this.$message.error('failvalid');
-						return false;
-					}
-				});
+				self.$refs.formdata1.validate(valid => {
+			        if (valid) {
+			          	self.$refs.formdata2.validate(valid => {
+			            	if (valid) {
+			            		self.$refs.upload.submit();
+								if(!self.fileFlag) {
+									let params = {
+//										oldOrgId: self.formdata1.oldOrgId,
+//										oldDeprtId: self.formdata1.oldDeprtId,
+										newOrgId: self.formdata2.newOrgId,
+										newDeprtId: self.formdata2.newDeprtId,
+					//					custName: self.formdata2.custName,
+										userNo: self.formdata1.userNo,
+										shiftType: self.formdata2.shiftType,
+										shiftCameTime: self.formdata2.shiftCameTime,
+//										oldLineManager: self.formdata1.oldLineManager,
+										newLineManager: self.formdata2.newLineManager,
+//										oldPost: self.formdata1.oldPost,
+										newPost: self.formdata2.newPost,
+//										oldClass: self.formdata1.oldClass,
+										newClass: self.formdata2.newClass,
+										shiftReason: self.formdata2.shiftReason,
+										attachm: self.formdata2.attachm
+									}
+									console.log('params',params)
+									//无附件时人事调动添加
+									self.addCustShif(params);
+								}
+			            	}
+			        	})
+			        }
+		       })
+				
 			},
 			addCustShif(params) {
 				let self = this;
 				self.$axios.post(baseURL+'/custShifthis/addCustShifthis',params)
-				.then(function(res) {
+				.then((res) => {
 					console.log('addCustShif',res);
-					if(response.code === "S00000") {
+					if(res.data.code == "S00000") {
 		      			this.$message({ message: '操作成功', type: 'success' });
 		      			this.$router.push('/detail_transfer');
 		      		}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
@@ -419,6 +439,32 @@
 					
 				}).catch(function(err) {
 					console.log(err);
+				})
+			},
+			queryCustPostList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+				.then(function(res) {
+					console.log('CustPost',res);
+					if(res.data.code === "S00000") {
+						self.custPostList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustClassList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
+				.then(function(res) {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						self.custClassList = res.data.data;
+					}
+					custClass
+				}).catch(function(err) {
+					console.log('error');
 				})
 			}
 		}

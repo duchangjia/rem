@@ -10,7 +10,7 @@
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
-					<el-col :sm="12" :md="6">
+					<!--<el-col :sm="12" :md="6">
 						<el-form-item label="公司" prop="organName">
 							<el-select v-model="ruleForm2.organNo" @change="changeComp">
 								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item"></el-option>
@@ -23,7 +23,7 @@
 								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item"></el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
+					</el-col>-->
 					<el-col :sm="12" :md="6">
 						<el-form-item label="开始时间" prop="startTime">
 							<el-date-picker
@@ -44,10 +44,13 @@
 						   </el-date-picker>
 						</el-form-item>
 					</el-col>
-					<div class="queryButton_wrapper">
-						<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
-						<el-button class="btn-default" @click="queryForm">查询</el-button>
-					</div>
+					<el-col :sm="12" :md="6">
+						<div class="queryButton_wrapper">
+							<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
+							<el-button class="btn-primary" @click="queryForm">查询</el-button>
+						</div>
+					</el-col>
+						
 				</el-form>
 				<el-table :data="transferDataList" border stripe style="width: 100%">
 					<el-table-column prop="dimId" label="离职编号">
@@ -56,7 +59,7 @@
 				      	</template>
 					</el-table-column>
 					<el-table-column prop="userNo" label="工号"></el-table-column>
-					<el-table-column prop="userName" label="姓名"></el-table-column>
+					<el-table-column prop="custName" label="姓名"></el-table-column>
 					<el-table-column prop="organName" label="公司名称"></el-table-column>
 					<el-table-column prop="derpName" label="部门名称"></el-table-column>
 					<el-table-column prop="dimType" label="离职类型"></el-table-column>
@@ -88,8 +91,7 @@ export default {
 	       	},
 			pageNum: 1,
 			pageSize: 10,
-			totalRows: 2,
-			queryFormFlag: false,
+			totalRows: 1,
 			ruleForm2: {
 				organNo: '',
 				derpNo: '',
@@ -120,7 +122,7 @@ export default {
 				{
 					dimId: "001001",
 					userNo: "p011111",
-					userName: "sdsd",
+					custName: "sdsd",
 					organName: "xx",
 					derpName: "xx",
 					dimType: "xx",
@@ -137,6 +139,8 @@ export default {
 		current
 	},
 	created() {
+		this.ruleForm2.startTime = '';
+		this.ruleForm2.endTime = '';
 		//查询离职列表
 		this.queryCustDimhisList();
 		//查询公司列表
@@ -164,7 +168,8 @@ export default {
             this.queryDerpList(params)
 	    },
 		handleEdit(index, row) {
-			console.log('row:',row);
+			sessionStorage.setItem('editDimission_userNo', row.userNo);
+			sessionStorage.setItem('editDimission_dimId', row.dimId);
             this.$router.push({
             	name: "edit_dimission",
             	params: {
@@ -174,7 +179,8 @@ export default {
             });
 		},
 		handleInfo(index, row) {
-			console.log('row:',row);
+			sessionStorage.setItem('infoDimission_userNo', row.userNo);
+			sessionStorage.setItem('infoDimission_dimId', row.dimId);
 			this.$router.push({
 				name: "dimission_info",
 				params: {
@@ -204,7 +210,7 @@ export default {
 		},
 		queryCustDimhisList() {
 			let self = this;
-			let userNo = self.$route.params.userNo;
+			let userNo = sessionStorage.getItem('dimission_userNo');
 			let params = {
 				"pageNum": self.pageNum,
 				"pageSize": self.pageSize,
@@ -212,10 +218,11 @@ export default {
 				startTime: self.ruleForm2.startTime,
 				endTime: self.ruleForm2.endTime
 			}
+			console.log('dim params', params)
 			self.$axios.get(baseURL+'/custDimhis/queryCustDimhisList', {params: params})
 			.then(function(res) {
 				console.log('CustDimhisList',res);
-//				self.transferDataList = res.data.data.list;
+				self.transferDataList = res.data.data.models;
 				self.pageNum = params.pageNum;
 				self.totalRows = Number(res.data.data.total);
 			}).catch(function(err) {
@@ -224,7 +231,7 @@ export default {
 		},
 		queryCompList() {
 			let self = this;
-			self.$axios.get(baseURL+'/wage/queryOrganByUserNo')
+			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
 			.then(function(res) {
 				console.log('CompList',res);
 				if(res.data.code === "S00000") {
@@ -237,7 +244,7 @@ export default {
 		},
 		queryDerpList(params) {
 			let self = this;
-			self.$axios.get(baseURL+'/wage/queryDerpByUserNo', {params: params})
+			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
 			.then(function(res) {
 				console.log('DerpList',res);
 				if(res.data.code === "S00000") {

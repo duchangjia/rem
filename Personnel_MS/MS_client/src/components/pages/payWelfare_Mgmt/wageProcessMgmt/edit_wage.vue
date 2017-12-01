@@ -56,10 +56,10 @@
 			<div class="add-wrapper auth-assign">
 				<el-col :span="24">
 					<div class="context-menu">
-	                    <el-col :span="3" class="leftside" style="text-align: right;">
+	                    <el-col :span="3" class="wage_legtside" style="text-align: right;">
 	                        <div>部门范围</div>
 	                    </el-col>
-	                    <el-col :span="21" class="rightside">
+	                    <el-col :span="21" class="wage_rightside">
 	                        <div class="menu">
 	                            <el-checkbox-button v-model="checkSubAll" :indeterminate="isSubIndeterminate" @change="handleSubAllChange" label="全部" class="menu-item"></el-checkbox-button>
 	                            <el-checkbox-group v-model="checkedSubmenus" @change="handleCheckedSubsChange">
@@ -70,10 +70,10 @@
 	                </div>
                 </el-col>
                 <div class="func-permission" v-if="checkedSubmenus.length>0">
-	                <el-col :span="3" class="leftside">
+	                <el-col :span="3" class="wage_legtside">
 	                    <div>人员范围</div>
 	                </el-col>
-	                <el-col :span="21" class="rightside">
+	                <el-col :span="21" class="wage_rightside">
 	                    <el-row :gutter="20">
 	                        <el-col :span="6" v-for="(depart, index) in formdata2.derpRange" :key="index">
 	                            <div class="funcs-content">
@@ -368,7 +368,7 @@
 			        	//查询人员范围列表（选全部部门时）
 //				      	this.queryDerpAndUser(params);
 				      	//人员范围（反显）
-//				      	this.checkPres = this.formdata2.preRange;
+				      	this.checkPres = JSON.parse(this.formdata2.preRange);
 					}
 					
 				}).catch((err) => {
@@ -501,9 +501,12 @@
     background: #FFFFFF;
     border: 1px solid #FF9900;
 }
-.leftside {
+.wage_legtside {
 	text-align: right;
-    padding: 9px 24px 0;
+    padding: 9px 27px 0;
     color: #999999;
+}
+.wage_rightside {
+	margin-left: -10px;
 }
 </style>

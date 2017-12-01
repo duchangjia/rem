@@ -1,5 +1,5 @@
 <template>
-	<div class="info_wrapper">
+	<div class="add_travel">
 		<current yiji="考勤管理" erji="出差管理" sanji="出差新增">
 		</current>
 		<div class="content-wrapper">
@@ -44,12 +44,12 @@
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <el-input v-model="formdata1.custPost" :disabled="true"></el-input>
+						    <el-input v-model="custPostName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <el-input v-model="formdata1.custClass" :disabled="true"></el-input>
+						    <el-input v-model="custClass" :disabled="true"></el-input>
 					  		<!--<el-select v-model="formdata2.custClass">
 								<el-option v-for="item in custClassList" :key="item.custClassNo" :label="item.label" :value="item.custClassNo"></el-option>
 							</el-select>-->
@@ -167,7 +167,9 @@
 			    saveUrl:'',
 			    boxTitle:'',
 			    numType:'',
-				
+			    
+				custPostName: '',
+				custClass: '',
 				formdata1: {},
 				formdata2: {
 					travelStartTime: "",
@@ -238,7 +240,10 @@
 			}
 		},
 		created() {
-			
+			//查询岗位列表
+			this.queryCustPostList();
+			//查询职级列表
+			this.queryCustClassList();
 		},
 		methods: {
 			changefile(file, fileList) {
@@ -351,6 +356,8 @@
 	      		if(response.code === "S00000") {
 	      			this.$message({ message: '操作成功', type: 'success' });
 	      			this.$router.push('/travel_management');
+	      		} else {
+	      			this.$message({ message: response.retMsg, type: 'error' });
 	      		}
 	      		
 	      	},
@@ -419,11 +426,67 @@
 				}).catch(function(err) {
 					console.log('error');
 				})
+			},
+			queryCustPostList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+				.then(function(res) {
+					console.log('CustPost',res);
+					if(res.data.code === "S00000") {
+						res.data.data.forEach(function(ele) {
+							if(ele.paraValue === self.formdata2.custPost) {
+								self.custPostName = ele.paraShowMsg;
+							}
+						},this)
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustClassList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
+				.then(function(res) {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						res.data.data.forEach(function(ele) {
+							if(ele.paraValue === self.formdata2.custClass) {
+								self.custClass = ele.paraShowMsg;
+							}
+						},this)
+					}
+					custClass
+				}).catch(function(err) {
+					console.log('error');
+				})
 			}
 		}
 	};
 </script>
 
-<style scoped>
+<style >
+.add_travel {
+	padding: 0 0 20px 20px;
+}	
+.add_travel .travelCity_wrap2{
+	padding-left: 0;
+}
+.add_travel .travelCity_line {
+    width: 10px;
+    height: 1px;
+    display: inline-block;
+    background: #8391a5;
+    margin: 17px 5px;
+}
+.add_travel .travelCity_wrap .el-form-item__content,
+.add_travel .travelCity_wrap2 .el-form-item__content,
+.add_travel .travelCity_wrap .el-input__inner,
+.add_travel .travelCity_wrap2 .el-input__inner {
+	width: 130px!important;
+}
+.add_travel .travelCity_wrap2 .el-form-item__content {
+	margin-left: 10px;
+}
 
 </style>

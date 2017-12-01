@@ -10,7 +10,7 @@
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
-					<el-col :sm="12" :md="6">
+					<!--<el-col :sm="12" :md="6">
 						<el-form-item label="公司" prop="compName">
 							<el-select v-model="ruleForm2.organNo" value-key="organNo" @change="changeComp">
 								<el-option v-for="item in compList" :key="item.organNo" :label="item.compName" :value="item.organNo"></el-option>
@@ -23,7 +23,7 @@
 								<el-option v-for="item in departList" :key="item.derpNo" :label="item.departName" :value="item.derpNo"></el-option>
 							</el-select>
 						</el-form-item>
-					</el-col>
+					</el-col>-->
 					<el-col :sm="12" :md="6">
 						<el-form-item label="开始时间" prop="startTime">
 							<el-date-picker
@@ -44,10 +44,13 @@
 						   </el-date-picker>
 						</el-form-item>
 					</el-col>
-					<div class="queryButton_wrapper">
-						<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
-						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
-					</div>
+					<el-col :sm="12" :md="6">
+						<div class="queryButton_wrapper">
+							<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
+							<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
+						</div>
+					</el-col>
+						
 				</el-form>
 				<el-table :data="transferDataList" border stripe style="width: 100%">
 					<el-table-column prop="workhisId" label="调动编号">
@@ -56,9 +59,9 @@
 				      	</template>
 					</el-table-column>
 					<el-table-column prop="userNo" label="工号"></el-table-column>
-					<el-table-column prop="userName" label="姓名"></el-table-column>
-					<el-table-column prop="oldCompName" label="原公司名称"></el-table-column>
-					<el-table-column prop="oldDepartName" label="原部门名称"></el-table-column>
+					<el-table-column prop="custName" label="姓名"></el-table-column>
+					<el-table-column prop="oldOrganName" label="原公司名称"></el-table-column>
+					<el-table-column prop="oldDerpName" label="原部门名称"></el-table-column>
 					<el-table-column prop="shiftType" label="调动类型"></el-table-column>
 					<el-table-column prop="diaodongDate" label="调动日期"></el-table-column>
 					<el-table-column prop="shiftCameTime" label="调动生效日期" :formatter="travelTimeFormatter"></el-table-column>
@@ -88,8 +91,8 @@ export default {
 	          }
 	       	},
 			pageNum: 1,
-			pageSize: 5,
-			totalRows: 2,
+			pageSize: 10,
+			totalRows: 1,
 			ruleForm2: {
 				organNo: '',
 				derpNo: '',
@@ -120,9 +123,9 @@ export default {
 				{
 					workhisId: "001001",
 					userNo: "p011111",
-					userName: "sdsd",
-					oldCompName: "",
-					oldDepartName: "",
+					custName: "sdsd",
+					oldOrganName: "",
+					oldDerpName: "",
 					shiftType: "",
 					diaodongDate: "",
 					shiftCameTime: ""
@@ -138,6 +141,8 @@ export default {
 		current
 	},
 	created() {
+		this.ruleForm2.startTime = '';
+		this.ruleForm2.endTime = '';
 		//查询调动列表
 		this.queryCustShifthisList();
 		//查询公司列表
@@ -166,6 +171,8 @@ export default {
 	    },
 		handleEdit(index, row) {
 			console.log('row:',row);
+			sessionStorage.setItem('editTransfer_userNo', row.userNo);
+			sessionStorage.setItem('editTransfer_workhisId', row.workhisId);
             this.$router.push({
             	name: "edit_transfer",
             	params: {
@@ -176,6 +183,8 @@ export default {
 		},
 		handleInfo(index, row) {
 			console.log('row:',row);
+			sessionStorage.setItem('infoTransfer_userNo', row.userNo);
+			sessionStorage.setItem('infoTransfer_workhisId', row.workhisId);
 			this.$router.push({
 				name: "transfer_info",
 				params: {
@@ -214,16 +223,19 @@ export default {
 		//人事调动列表查询
 		queryCustShifthisList() {
 			let self = this;
-			let userNo = self.$route.params.userNo;
+			let userNo = sessionStorage.getItem('transfer_userNo');
 			let params = {
 				"pageNum": self.pageNum,
 				"pageSize": self.pageSize,
-				userNo: userNo
+				userNo: userNo,
+				startTime: self.ruleForm2.startTime,
+				endTime: self.ruleForm2.endTime
 			}
+			console.log('trans params', params);
 			self.$axios.get(baseURL+'/custShifthis/queryCustShifthisList', {params: params})
 			.then(function(res) {
 				console.log('CustShifthisList',res);
-//				self.transferDataList = res.data.data.list;
+				self.transferDataList = res.data.data.models;
 				self.pageNum = params.pageNum;
 				self.totalRows = Number(res.data.data.total);
 			}).catch(function(err) {
