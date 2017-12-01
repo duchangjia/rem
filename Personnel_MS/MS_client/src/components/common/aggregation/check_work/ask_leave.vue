@@ -110,7 +110,7 @@ export default {
         getTime(){
             let self= this;
             self.$axios.get(querySalaryHoliday).then(res=>{
-                let data = res.data;
+                let data = res.data.data;
                 self.vacationList[0].day = data.holiday
                 self.vacationList[1].day = data.leaveTime
                 self.vacationList[2].day = data.restTime
