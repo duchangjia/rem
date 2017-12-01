@@ -392,8 +392,8 @@ export default {
     current
   },
   created() {
-    this.userNo = this.$route.params.userNo;
-    this.applyNo = this.$route.params.applyNo;
+    this.userNo = sessionStorage.getItem('payChangeInfo_userNo');
+    this.applyNo = sessionStorage.getItem('payChangeInfo_applyNo');
     this.getCustInfo(); // 查询用户信息
     this.getPayChangeDetail(); //查询调薪基数信息
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
@@ -582,7 +582,7 @@ export default {
                     userNo: this.userNo
                   }
                 });
-              } else this.$message.error("操作失败！");
+              } else this.$message.error(res.data.retMsg);
             })
             .catch(() => {
               this.$message.error("操作失败！");

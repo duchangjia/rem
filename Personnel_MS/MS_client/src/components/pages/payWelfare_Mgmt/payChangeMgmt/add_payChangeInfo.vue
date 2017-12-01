@@ -332,7 +332,7 @@ export default {
         nHouseBase: "",
         nProbRatio: "",
         nWelcoeNo: "",
-        updFlag: "",
+        updFlag: "02",
         chageStatus: "01"
       },
       insurancePayTemplates: [],
@@ -413,7 +413,7 @@ export default {
     current
   },
   created() {
-    this.userNo = this.$route.params.userNo;
+    this.userNo = sessionStorage.getItem('payChangeInfo_userNo');
     this.getCustInfo(); // 查询用户信息
     this.getPayBaseInfoDetail(); // 查询获取调整前薪酬信息
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
@@ -583,6 +583,7 @@ export default {
         .get("/iem_hrm/InsurancePayTemplate/queryAllInsurancePayTemplate")
         .then(res => {
           self.insurancePayTemplates = res.data.data;
+          console.log('保险缴纳模板',self.insurancePayTemplates);
         })
         .catch(() => {
           console.log("error");
@@ -640,13 +641,8 @@ export default {
               console.log(res);
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push({
-                  name: "query_payChangeInfo",
-                  params: {
-                    userNo: this.userNo
-                  }
-                });
-              } else this.$message.error("操作失败！");
+                this.$router.push("/query_payChangeInfo");
+              } else this.$message.error(res.data.retMsg);
             })
             .catch(() => {
               this.$message.error("操作失败！");

@@ -316,8 +316,8 @@ export default {
     current
   },
   created() {
-    this.userNo = this.$route.params.userNo;
-    this.applyNo = this.$route.params.applyNo;
+    this.userNo = sessionStorage.getItem('payChangeInfo_userNo');
+    this.applyNo = sessionStorage.getItem('payChangeInfo_applyNo');
     this.getCustInfo(); // 查询用户信息
     this.getPayChangeDetail(); //初始查询调薪基数信息
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板

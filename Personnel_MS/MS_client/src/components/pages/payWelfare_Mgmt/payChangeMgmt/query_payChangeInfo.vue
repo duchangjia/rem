@@ -90,7 +90,7 @@ export default {
   created() {
     this.filters.startTime = "";
     this.filters.endTime = "";
-    this.userNo = this.$route.params.userNo;
+    this.userNo = sessionStorage.getItem('payChangeInfo_userNo');
     this.getPayChangeInfoList(); //初始查询薪酬基数列表
   },
   methods: {
@@ -106,7 +106,7 @@ export default {
       self.$axios
         .get("/iem_hrm/epPayChageInf/queryEpPayChageInfList", { params: params })
         .then(res => {
-          console.log(res);
+          console.log('payChangeInfoList',res);
           self.payChangeInfoList = res.data.data.list;
           self.totalRows = res.data.data.total;
         })
@@ -114,15 +114,7 @@ export default {
           console.log("error");
         });
     },
-    handlePayChangeInfoDetail(index, row) {
-      this.$router.push({
-        name: "detail_payChangeInfo",
-        params: {
-          applyNo: row.applyNo,
-          userNo: row.userNo
-        }
-      });
-    },
+    
     handleCurrentChange(val) {
       this.pageNum = val;
       this.getPayChangeInfoList(); //分页查询调薪基数列表
@@ -149,7 +141,18 @@ export default {
         }
       });
     },
+    handlePayChangeInfoDetail(index, row) {
+      sessionStorage.setItem('payChangeInfo_applyNo', row.applyNo); // 暂存当前applyNo
+      this.$router.push({
+        name: "detail_payChangeInfo",
+        params: {
+          applyNo: row.applyNo,
+          userNo: row.userNo
+        }
+      });
+    },
     handleEdit(index, row) {
+      sessionStorage.setItem('payChangeInfo_applyNo', row.applyNo); // 暂存当前applyNo
       this.$router.push({
         name: "edit_payChangeInfo",
         params: {
@@ -173,7 +176,7 @@ export default {
                 this.$message({ type: "success", message: "操作成功!" });
                 this.getPayChangeInfoList();
               }
-              else this.$message.error("操作失败！");
+              else this.$message.error(res.data.retMsg);
             })
             .catch(() => {
               this.$message.error("操作失败！");

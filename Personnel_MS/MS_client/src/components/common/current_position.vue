@@ -69,12 +69,9 @@ export default {
                     }
                 })
             } else if (this.userNo) {
-                this.$router.push({
-                    name: aa,
-                    params: {
-                        userNo: this.userNo
-                    }
-                })
+                console.log("走我的判断了");
+                console.log(aa);
+                this.$router.push(aa)
             } else {
 //                this.$router.push(aa)
                 this.$router.go(-1)
