@@ -120,7 +120,7 @@
                    <li>
                        <label class="cur-pointer" @click="showWel()">福利<i class="ico-salary"></i></label>
                        <span><input v-model="accountData.allWelCount" readonly="readonly" :placeholder="baseNum"></span>
-                       <span>迟到、事假、病假等考勤扣款合计</span>
+                       <span>当月社保及公积金个人承担部分，包含补发补扣</span>
                         <ul class="sec-list"  v-if="isWel">
                            <li>
                                 <label>养老保险个人缴费</label>
