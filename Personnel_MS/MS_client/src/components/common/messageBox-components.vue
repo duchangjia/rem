@@ -292,7 +292,7 @@ export default {
 }
 .s-dialog{
   .el-dialog__body{
-      padding: 30px 20px;
+      padding: 0 20px 30px;
   }
 }
   
