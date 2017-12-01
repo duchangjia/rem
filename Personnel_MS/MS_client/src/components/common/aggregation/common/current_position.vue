@@ -14,7 +14,7 @@
                     <el-breadcrumb-item v-if='false'>{{pactNo}}</el-breadcrumb-item>
                 </el-breadcrumb>
             </el-col>
-            <el-col :span="2" v-show="breadItemLength>1">
+            <el-col :span="2" >
                 <img src="../../../../../static/img/common/back.png" alt="pic" width="19" height="12" class="pic" @click="jump">
             </el-col>
         </el-row>
@@ -34,19 +34,20 @@ export default {
     },
     methods: {
         jump() {
-            let aa = this.link[this.breadItemLength - 2]
-            if (!aa) return false
-            if(this.activeTab && this.pactNo){
-                this.$router.push({
-                    name: aa,
-                    params: {
-                        activeTab: this.activeTab,
-                        pactNo: this.pactNo
-                    }
-                })
-            } else {
-                this.$router.push(aa)
-            }
+            // let aa = this.link[this.breadItemLength - 2]
+            // if (!aa) return false
+            // if(this.activeTab && this.pactNo){
+            //     this.$router.push({
+            //         name: aa,
+            //         params: {
+            //             activeTab: this.activeTab,
+            //             pactNo: this.pactNo
+            //         }
+            //     })
+            // } else {
+            //     this.$router.push(aa)
+            // }
+            this.$router.push('/aggPage')
         },
     },
     computed: {
