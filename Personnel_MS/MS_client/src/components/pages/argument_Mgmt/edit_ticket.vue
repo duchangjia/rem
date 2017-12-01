@@ -7,14 +7,9 @@
               <el-form :inline="true" label-width="110px" :rules="rules" :model="custInfo" ref="info">
                   <el-col :sm="24" :md="12">
                       <el-form-item label="公司" prop="organName"  >
-                          <el-select v-model="custInfo.organName" disabled="disabled">
-                              <el-option
-                                v-for="item in companyName"
-                                :key="item.organName"
-                                :label="item.organName"
-                                :value="item.organName">
-                              </el-option>
-                          </el-select>
+                          <el-input v-model="custInfo.organName" disabled="disabled">
+                              
+                          </el-input>
                       </el-form-item>
                   </el-col>
                   <el-col :sm="24" :md="12">
@@ -96,33 +91,32 @@ export default {
       isDelete:false
     };
   },
-  created() {
+  mounted() {
     let self = this;
-    this.$axios
-      .get(
-        "/iem_hrm/organBillInfo/queryBillInfDtl/" + this.$route.query.organNo
-      )
-      .then(res => {
-        self.custInfo.organName = res.data.data.organName;
-        self.custInfo.organNo = res.data.data.organNo;
-        self.custInfo.organTaxNo = res.data.data.organTaxNo;
-         self.custInfo.organTel = res.data.data.organTel
-        self.custInfo.organAcct = res.data.data.organAcct;
-        self.custInfo.organAcctname = res.data.data.organAcctname;
-        self.custInfo.organAddr = res.data.data.organAddr;
-        self.custInfo.isDelete = res.data.data.isDelete;
-        if(self.custInfo.isDelete == '01'){
-          self.isDelete = true
-        }else{
-          self.isDelete = false
-        }
-        console.log(res);
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    self.getList();
   },
   methods: {
+    getList(){
+      let self = this,
+          organNo = localStorage.getItem('ticketOrganNo');
+      console.log(organNo);
+      self.$axios
+        .get(
+          "/iem_hrm/organBillInfo/queryBillInfDtl/" +organNo
+        )
+        .then(res => {
+          self.custInfo = res.data.data
+          if(self.custInfo.isDelete == '01'){
+            self.isDelete = true
+          }else{
+            self.isDelete = false
+          }
+          console.log(res);
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
     save() {
       console.log(this.info);
       let self = this;

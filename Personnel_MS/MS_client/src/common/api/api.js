@@ -23,6 +23,9 @@ export default{
     //根据月份查询个人薪资详情
     queryCustSalary:baseUrl+'CustInfo/queryCustSalary/',
     //首页=>权限查询显示菜单
-    jurisdictionUrl:baseUrl+'menu/queryMenuInfo'
+    jurisdictionUrl:baseUrl+'menu/queryMenuInfo',
+    //开票信息查询
+    billUrl:baseUrl+'epOrganBillInfoBySelf/queryBillInfoBySelf'
+
 
 }
