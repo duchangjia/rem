@@ -37,7 +37,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="部门主管" prop="organMgeName" class="organMgeName">
+                        <el-form-item label="部门主管" class="organMgeName">
                             <el-input v-model="formdata.organMgeName" v-show="false"></el-input>
                             <el-input v-model="formdata.organMgeId" v-show="false"></el-input>
                             <!--:on-icon-click="handleIconClick" icon="search"-->
@@ -51,7 +51,7 @@
                                     :inputSecOption.sync="inputSecOption"
                                     :searchData.sync="searchData"
                                     :searchUrl="searchUrl"
-                                    :dialogVisible="dialogVisible"
+                                    :dialogVisible.sync="dialogVisible"
                                     :pagination.sync="msgPagination"
                                     @dialogConfirm="dialogConfirm"
                                     @changeDialogVisible="changeDialogVisible"

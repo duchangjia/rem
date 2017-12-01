@@ -152,16 +152,15 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="公司名称" prop="organName">
-                                                <!--<el-input v-model="ruleForm.userName"></el-input>-->
+                                            <el-form-item label="公司名称" prop="organNo">
                                                 <el-select v-model="ruleForm.organNo" placeholder="请选择公司名称" :disabled="edit" @change="selectDep(ruleForm.organNo)">
                                                     <el-option :label="item.organName" :value="item.organNo" v-for="item in basicInfo.company"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="部门名称" prop="derpName">
-                                                <el-select v-model="ruleForm.derpName" placeholder="请选择部门名称" :disabled="edit" @change="selectCCC(ruleForm.organNo)">
+                                            <el-form-item label="部门名称" prop="derpNo">
+                                                <el-select v-model="ruleForm.derpNo" placeholder="请选择部门名称" :disabled="edit" @change="selectCCC(ruleForm.organNo)">
                                                     <el-option :label="item.derpName" :value="item.derpNo" v-for="item in basicInfo.department"></el-option>
                                                 </el-select>
                                             </el-form-item>
@@ -188,7 +187,7 @@
                                                         :inputSecOption.sync="inputSecOption"
                                                         :searchData.sync="searchData"
                                                         :searchUrl="searchUrl"
-                                                        :dialogVisible="dialogVisible"
+                                                        :dialogVisible.sync="dialogVisible"
                                                         :pagination.sync="msgPagination"
                                                         @dialogConfirm="dialogConfirm"
                                                         @changeDialogVisible="changeDialogVisible"
@@ -239,7 +238,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="入职日期">
+                                            <el-form-item label="入职日期" prop="entryTime">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.entryTime" :disabled="edit" @change="changeEntryTime"></el-date-picker>
                                                 <!--<el-input v-model="ruleForm.entryTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
@@ -584,10 +583,9 @@
                                 </div>
                             </el-tab-pane>
                             <el-tab-pane label="证件管理" name="sixth">
+                                <!--:disabled="certificates_list.certificates"-->
                                 <div class="sixth_wrapper">
-                                    <el-upload :disabled="certificates_list.certificates"
-                                               name="file"
-                                               ref="upload2"
+                                    <el-upload name="file"
                                             action="/iem_hrm/CustFile/batch/upload"
                                             list-type="picture-card"
                                            :file-list="fileList2"
@@ -612,7 +610,7 @@
                     </template>
                 </div>
                 <div class="button-wrapper">
-                    <button @click="bianji(tabName)">编辑</button>
+                    <button @click="bianji(tabName)" v-show="tabName=='sixth'?false:true">编辑</button>
                     <button class="special_1" @click="save(tabName)">{{this.tabName=='sixth'?'全部下载':'保存'}}</button>
                     <button @click="del" v-show="tabName=='first'?true:false">删除</button>
                 </div>
@@ -667,60 +665,60 @@
                 social_item:{
                     userNo:'',
                     lists:[
-                        {
-                            contactName: '',
-                            relationship: '',
-                            telphone: '',
-                            profession: '',
-                            post: '',
-                            addr: '',
-                            isShowEdit: false
-                        },
+//                        {
+//                            contactName: '',
+//                            relationship: '',
+//                            telphone: '',
+//                            profession: '',
+//                            post: '',
+//                            addr: '',
+//                            isShowEdit: false
+//                        },
                     ]
                 },
                 education_item:{
                     userNo:'',
                     lists:[
-                        {
-                            startTime: '',
-                            endTime: '',
-                            schoolName: '',
-                            major: '',
-                            education: '',
-                            desc: '',
-                            isShowEdit: false
-                        },
+//                        {
+//                            startTime: '',
+//                            endTime: '',
+//                            schoolName: '',
+//                            major: '',
+//                            education: '',
+//                            desc: '',
+//                            isShowEdit: false
+//                        },
                     ]
                 },
                 work_item:{
                     userNo:'',
                     lists:[
-                        {
-                            startTime: '',
-                            endTime: '',
-                            company: '',
-                            post1: '',
-                            duty: '',
-                            desc: '',
-                            isShowEdit: false
-                        },
+//                        {
+//                            startTime: '',
+//                            endTime: '',
+//                            company: '',
+//                            post1: '',
+//                            duty: '',
+//                            desc: '',
+//                            isShowEdit: false
+//                        },
                     ]
                 },
                 project_item:{
                     userNo:'',
                     lists:[
-                        {
-                            startTime: '',
-                            endTime: '',
-                            projectName: '',
-                            mainSkill: '',
-                            projectRole: '',
-                            softEnv: '',
-                            custom: '',
-                            projectDuty: '',
-                            desc: '',
-                            isShowEdit: false
-                        },
+//                        {
+//                            startTime: '',
+//                            endTime: '',
+//                            projectName: '',
+//                            mainSkill: '',
+//                            projectRole: '',
+//                            softEnv: '',
+//                            custom: '',
+//                            projectDuty: '',
+//                            desc: '',
+//                            isShowEdit: false
+//                        },
                     ]
                 },
                 activeName: 'first',
@@ -785,6 +783,7 @@
                 rules: {
                     custName: [
                         {required: true, message: '请输入姓名', trigger: 'blur'},
+                        { pattern: /(([\u4E00-\u9FA5]{2,7})|([a-zA-Z]{3,20}))/, message: "只能输入的姓名为全部中文或英文" }
                     ],
                     certNo: [
                         {required: true, message: '请输入身份证', trigger: 'blur'},
@@ -836,6 +835,30 @@
                     ],
                     comEmail: [
                         { pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, message: "请输入合法的邮箱" }
+                    ],
+                    organNo: [
+                        {required: true, message: '请选择公司名称', trigger: 'change'}
+                    ],
+                    derpNo: [
+                        {required: true, message: '请选择部门名称', trigger: 'change'}
+                    ],
+                    ownerCCC: [
+                        {required: true, message: '请选择CCC', trigger: 'change'}
+                    ],
+                    custType: [
+                        {required: true, message: '请选择员工类别', trigger: 'change'}
+                    ],
+                    custPost: [
+                        {required: true, message: '请选择岗位', trigger: 'change'}
+                    ],
+                    custClass: [
+                        {required: true, message: '请选择职级', trigger: 'change'}
+                    ],
+                    custStatus: [
+                        {required: true, message: '请选择员工状态', trigger: 'change'}
+                    ],
+                    entryTime: [
+                        {required: true, message: '请选择入职时间', trigger: 'change'}
                     ],
                 },
                 ruleForm4: {
@@ -1006,12 +1029,54 @@
                 this.ruleForm.probEndTime = val
             },
             handleRemove(file, fileList) {
-                console.log(file, fileList,11111);
+                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let data = {}
+                    if(file.response){
+                         data = {
+                            userNo:file.response.data[0].userNo,
+                            imageId:file.response.data[0].imageId,
+                        }
+                    }else {
+                         data = {
+                            userNo:file.userNo,
+                            imageId:file.imageId,
+                        }
+                    }
+                    console.log(data)
+                        this.$axios.delete('/iem_hrm/CustFile/delCustFile',{params:data})
+                            .then(res=>{
+                                let result = res.data.retMsg
+                                if("操作成功"==result){
+                                    this.$message({
+                                        type: 'success',
+                                        message: result
+                                    });
+                                }else {
+                                    this.$message({
+                                        type: 'error',
+                                        message: result
+                                    });
+                                }
+                            })
+                            .catch(e=>{
+                                console.log(e)
+                            })
+                }).catch(()=>{
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                })
             },
             handleFileUpload(file, fileList) {
 //                console.log(file,'****handleFileUpload****',fileList)
             },
             successUpload(response, file, fileList) {
+                console.log(response,111,fileList)
                 if(response.code === "S00000") {
                     this.$message({ message: '操作成功', type: 'success' });
                     this.fileList2 = fileList
@@ -1033,11 +1098,10 @@
                 }
             },
             checkUserNo(file) {
-//                console.log(file,'------checkUserNo')
                 this.certificates_list.userNo = this.userNo
-                this.certificates_list.file = {
-                    file
-                }
+//                this.certificates_list.file = {
+//                    file
+//                }
                 if(!this.certificates_list.userNo){
                     this.$message({
                         type: 'error',
@@ -1151,6 +1215,7 @@
                 if(tab.name==='fifth'&&this.lock.proLock){
                     this.$axios.get('/iem_hrm/employeeProjectExperience/queryEmployeeProjectExperienceList/'+this.userNo)
                         .then(res=>{
+                            console.log(res)
                             this.project_item.userNo = this.userNo
                             this.project_item.lists = res.data.data
                             this.project_item.lists.forEach(item=>{
@@ -1213,13 +1278,24 @@
                 if(tab.name==='sixth'&&this.lock.certificatesLock){
                     this.$axios.get('/iem_hrm/CustFile/queryCustImgs',{params:{userNo:this.userNo}})
                         .then(res=>{
-                            for(var name in res.data.data){
-                                let item = {
-                                        name:name,
-                                        url:'data:image/'+name.substr(name.lastIndexOf('.')+1)+';base64,'+res.data.data[name]
+                            console.log(res)
+//                            this.fileList2 = res.data.data
+//                            for(var name in res.data.data){
+//                                let item = {
+//                                        name:name,
+//                                        url:'data:image/'+name.substr(name.lastIndexOf('.')+1)+';base64,'+res.data.data[name]
+//                                }
+//                                this.fileList2.push(item)
+//                            }
+                            this.fileList2 = res.data.data.map(item=>{
+                                let obj = {
+                                    name: item.fileName,
+                                    url: 'data:image/'+item.imageSuffix.substr(1)+';base64,'+item.base64ImgStr
                                 }
-                                this.fileList2.push(item)
-                            }
+                                return Object.assign(item,obj)
+                            })
+                            console.log(this.fileList2)
+
                         })
                         .catch(e=>{
                             console.log(e)
@@ -1283,9 +1359,9 @@
                         item.isShowEdit = false
                     })
                 }
-                if('sixth' === tabName) {
-                    this.certificates_list.certificates = false
-                }
+//                if('sixth' === tabName) {
+//                    this.certificates_list.certificates = false
+//                }
             },
             save(tabName) {
                 let self = this
@@ -1552,25 +1628,28 @@
                     }
                 }
                 if('sixth'===tabName) {
-                    console.log(this.userNo)
-                    this.$axios.get('/iem_hrm/CustFile/downLoadZipFile',{params:{userNo:this.userNo}})
-                        .then(res=>{
+                    console.log(this.userNo,this.fileList2)
+                    let data = {
+                        userNo: this.userNo,
+//                        imageId: []
+                    }
+//                    let arr = []
+//                    data.imageId = this.fileList2.map(item=>{
+//                        return arr.push(item.imageId)
+//                    })
+                    this.$axios.get('/iem_hrm/CustFile/batchDownLoad',{
+                        params:data,
+                        responseType: 'blob'
+                    }).then(res=>{
+                            const blob = res.data;
                             console.log(res)
-//                            let reader = new FileReader()
-//                            reader.onload = (e => {
-//                                let aa = e.target.result
-//                                console.log(aa,111)
-//                            })
-//                            reader.readAsDataURL(res.data)
-//                            console.log(res)
-//                            const blob = res.data;
-//                            let elink = document.createElement('a'); // 创建a标签
-////                            elink.download = fileName;
-//                            elink.style.display = 'none';
-//                            elink.href = URL.createObjectURL(blob);
-//                            document.body.appendChild(elink);
-//                            elink.click(); // 触发点击a标签事件
-//                            document.body.removeChild(elink);
+                            let elink = document.createElement('a'); // 创建a标签
+                            elink.download = 'aaa.zip';
+                            elink.style.display = 'none';
+                            elink.href = URL.createObjectURL(blob);
+                            document.body.appendChild(elink);
+                            elink.click(); // 触发点击a标签事件
+                            document.body.removeChild(elink);
                         })
                         .catch(e=>{
                             console.log(e)
