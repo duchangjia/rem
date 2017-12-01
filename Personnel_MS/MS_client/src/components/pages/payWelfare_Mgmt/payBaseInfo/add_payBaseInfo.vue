@@ -245,14 +245,7 @@ export default {
   data() {
     return {
       labelPosition: "right",
-      custInfo: {
-        userNo: "",
-        custName: "",
-        organNo: "",
-        derpNo: "",
-        custpost: "",
-        custClass: ""
-      },
+      custInfo: {},
       addPayBaseInfo: {
         userNo: "",
         wagesBase: "",

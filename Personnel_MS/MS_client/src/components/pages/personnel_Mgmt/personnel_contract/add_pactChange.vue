@@ -231,7 +231,7 @@ export default {
                     }
                   });
                 }
-              } else this.$message.error("操作失败！");
+              } else this.$message.error(res.data.retMsg);
             })
             .catch(() => {
               this.$message.error("操作失败！");
