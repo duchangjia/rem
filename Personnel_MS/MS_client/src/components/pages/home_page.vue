@@ -6,55 +6,62 @@
         <!--</div>-->
         <current yiji="首页"></current>
         <el-row>
-            <el-col :span="23">
+            <el-col :span="24">
                 <ul class="list">
-                    <li class="list-item" v-for="(item, index) in listObj.imgIcon">
-                        <img :src="`../../../static/img/home/${item}.png`" alt="" width="56" height="56">
+                    <li class="list-item cur-pointer" v-for="(item, index) in listObj" v-if="item.show" @click="linkTo(item.url)">
+                        <img :src="`../../../static/img/home/${item.img}.png`" alt="" width="56" height="56">
                         <div class="des">
-                            <div class="count">{{listObj.listData}}</div>
-                            <div class="text">{{listObj.listText[index]}}</div>
+                            <div class="count" v-bind:class="item.class">{{item.listData}}</div>
+                            <div class="text">{{item.listText}}</div>
                         </div>
                     </li>
                 </ul>
             </el-col>
         </el-row>
-        <!--<ul class="list">-->
-            <!--<li class="list-item">-->
-                <!--<img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">-->
-                <!--<div class="des">-->
-                    <!--<div class="count">321</div>-->
-                    <!--<div class="text">项目一览</div>-->
-                <!--</div>-->
-            <!--</li>-->
-            <!--<li class="list-item">-->
-                <!--<img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">-->
-                <!--<div class="des">-->
-                    <!--<div class="count">321</div>-->
-                    <!--<div class="text">项目一览</div>-->
-                <!--</div>-->
-            <!--</li>-->
-            <!--<li class="list-item">-->
-                <!--<img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">-->
-                <!--<div class="des">-->
-                    <!--<div class="count">321</div>-->
-                    <!--<div class="text">项目一览</div>-->
-                <!--</div>-->
-            <!--</li>-->
-            <!--<li class="list-item">-->
-                <!--<img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">-->
-                <!--<div class="des">-->
-                    <!--<div class="count">321</div>-->
-                    <!--<div class="text">项目一览</div>-->
-                <!--</div>-->
-            <!--</li>-->
-            <!--<li class="list-item">-->
-                <!--<img src="../../../static/img/home/xmyl.png" alt="" width="56" height="56">-->
-                <!--<div class="des">-->
-                    <!--<div class="count">321</div>-->
-                    <!--<div class="text">项目一览</div>-->
-                <!--</div>-->
-            <!--</li>-->
-        <!--</ul>-->
+        <div class="news-list">
+                <div class="msg-item msg-large-item">
+                    <div class="msg-item-box">
+                        <div class="msg-item-head clearfix">
+                            <div class="msg-item-tit tit-size">
+                                代办事宜
+                            </div>
+                            <div class="more-icon tit-size">
+                                MORE
+                            </div>
+                        </div>
+                        <div class="msg-content">
+                            <ul>
+                                <li class="msg-list clearfix msg-large-list txt-size" v-for="item in newsList" v-bind:class="item.class">
+                                    <span class="msg-txt ">{{item.txt}}</span>
+                                    <div class="msg-time">{{item.time}}</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="msg-item msg-large-item">
+                    <div class="msg-item-box">
+                        <div class="msg-item-head clearfix">
+                            <div class="msg-item-tit tit-size">
+                                事件提醒
+                            </div>
+                            <div class="more-icon tit-size">
+                                MORE
+                            </div>
+                        </div>
+                        <div class="msg-content">
+                            <ul>
+                                <li class="msg-list clearfix msg-large-list txt-size" v-for="item in newsList" v-bind:class="item.class">
+                                    <div class="msg-icon"></div>
+                                    <span class="msg-txt ">{{item.txt}}</span>
+                                    <div class="msg-time">{{item.time}}</div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
 
             <!--<div class="content-wrapper">-->
         <el-row style="margin: 20px 0; overflow: hidden;" class="common-chart">
@@ -81,7 +88,7 @@
                     <div class="content-left info-msg common">
                         <div class="title-wrapper"><span class="title">提示信息</span><a href="#" class="more">MORE</a></div>
                         <ul class="info-msg-list">
-                            <li class="info-msg-item" v-for="item in infoObj">
+                            <li class="info-msg-item" v-for="item in infoObj" >
                                 <i class="info-msg-icon"></i>{{item.content}}<span class="text">{{item.date}}</span>
                             </li>
                             <!--<li class="info-msg-item">-->
@@ -162,14 +169,105 @@
 
 <script>
     import current from '../common/current_position.vue'
+    import api from '../../common/api/api.js'
+    let{ jurisdictionUrl  } = api
     export default {
         data() {
             return {
-                listObj: {
-                    imgIcon: ['xmyl', 'xmlx', 'sqlx', 'jygl', 'rygl'],
-                    listText: ['项目一览', '项目立项', '售前立项', '经营管理', '人员管理'],
-                    listData: 321
-                },
+                listObj:[
+                    {
+                        img:'ygxxcx1',
+                        show:true,
+                        url:'/personnel_archives',
+                        listText:'员工查询'
+                        ,listData:'321'
+                        ,class:'c-blue'
+                    },
+                    {
+                        img:'ygxz1',
+                        show:true,
+                        url:'/add_archives',
+                        listText:'员工新增'
+                        ,listData:'321'
+                        ,class:'c-pink'
+                    },
+                    {
+                        img:'htxz1',
+                        show:true,
+                        url:'/add_contract',
+                        listText:'合同新增'
+                        ,listData:'321'
+                        ,class:'c-green'
+                    },
+                    {   
+                        img:'zcxz1',
+                        show:true,
+                        url:'/add_asset',
+                        listText:'资产新增'
+                        ,listData:'321'
+                        ,class:'c-yellow'
+                    },
+                    {
+                        img:'rstd1',
+                        show:true,
+                        url:'/personnel_transfer',
+                        listText:'人事调动'
+                        ,listData:'321'
+                        ,class:'c-rgreen'
+                    }
+                ],
+                newsList:[
+                    {
+                        class:'',
+                        txt:'药药切克闹,煎饼果子来一套',
+                        link:'',
+                        time:'刚刚'
+                    },
+                    {
+                        class:'msg-sec-list',
+                        txt:'一个鸡蛋一块钱,喜欢脆的多放面',
+                        link:'',
+                        time:'15分钟前'
+                    },
+                    {
+                        class:'',
+                        txt:'药药切克闹,煎饼果子来一套',
+                        link:'',
+                        time:'刚刚'
+                    },
+                    {
+                        class:'msg-sec-list',
+                        txt:'一个鸡蛋一块钱,喜欢脆的多放面',
+                        link:'',
+                        time:'15分钟前'
+                    },
+                    {
+                        class:'',
+                        txt:'药药切克闹,煎饼果子来一套',
+                        link:'',
+                        time:'刚刚'
+                    }
+                ],
+                toDoList:[
+                    {
+                        class:'war-class',
+                        txt:'张三提交了请假单',
+                        link:'',
+                        time:'2017-8-30'
+                    },
+                    {
+                        class:'',
+                        txt:'李四提交了工作周报',
+                        link:'',
+                        time:'2017-8-30'
+                    },
+                    {
+                        class:'',
+                        txt:'王五提交了请假单',
+                        link:'',
+                        time:'2017-8-30'
+                    }
+                ],
                 infoObj: [
                     {content: '写点东西', date: '刚刚'},
                     {content: '写点东西', date: '刚刚'},
@@ -221,8 +319,20 @@
             this.drawLine2();
             this.drawLine3();
             this.drawLine4();
+            this.getList();
         },
         methods: {
+            linkTo(url){
+                alert(111);
+                this.$router.push(url);
+            },
+            getList(){
+                let self = this;
+                    
+                self.$axios.get(jurisdictionUrl).then(res=>{
+                    console.log(res)
+                })
+            },
             drawLine1() {
                 let myChart = this.$echarts.init(document.getElementById('myChart1'))
                 myChart.setOption({
@@ -724,83 +834,111 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .home_page{
         padding-left: 20px;
         padding-bottom: 20px;
+        .list{
+            @include clearfix;
+            background:$bg-wihte;
+            padding:20px 0;
+            .list-item{
+                float: left;
+                width:20%;
+                padding:0 30px;
+                .des{
+                    float: right;
+                }
+                .count{
+                    float: right;
+                    margin-bottom: 12px;
+                    font-family: PingFangSC-Regular;
+                    font-size: 24px;
+                    letter-spacing: -0.58px;
+                    line-height: 24px;
+                }
+                .text{
+                    float: right;
+                    clear: both;
+                    font-family: PingFangSC-Light;
+                    font-size: 16px;
+                    color: #333333;
+                    letter-spacing: 0;
+                    line-height: 16px;
+                }
+            }
+        }
+        .news-list{
+            margin-bottom:0;
+            position:relative;
+            margin-top:20px;
+            @include clearfix;
+            .msg-item{
+                width:50%;
+                display:block;
+                float: left;
+                padding-right:10px;
+                &:last-child{
+                    padding-left:10px;
+                    padding-right:0;
+                }
+                .msg-item-box{
+                    background:#fff;
+                    padding:20px;
+                    padding-bottom:15px;
+                    .msg-item-head{
+                        padding-bottom:20px;
+                        .msg-item-tit{
+                            float:left;
+                        }
+                        .more-icon{
+                            float:right;
+                            color:#ff9900;
+                            cursor:pointer;
+                        }
+                    }
+                    .msg-content{
+                        .msg-list{
+                            background:#f4f8ff;
+                            cursor:pointer;
+                            margin-bottom:10px;
+                            padding-right:10px;
+                            height: 25px;
+                            line-height: 25px;
+                            .war-class{
+                                background:#fef6f4;
+                                &:last-child{
+                                    margin-bottom: 0;
+                                }
+                            }
+                            .msg-icon{
+                                height:37px;
+                                width:40px;
+                                background:url('../../../static/img/home/mess4.png') no-repeat #a5d16c center;
+                                float:left;
+                            }
+                            .msg-txt{
+                                display:inline-block;
+                                padding-left:10px;
+                            }
+                            &.msg-sec-list{
+                                .msg-icon{
+                                    background:url('../../../static/img/home/mess3.png') no-repeat #fdcf58 center; 
+                                }
+                            } 
+                            .msg-time{
+                                float:right;
+                            }
+                        }
+                        .msg-large-list{
+                            height:37px;
+                            line-height: 37px;
+                            background:#f9f9f9;
+                        }
+                    }
+                }
+            }
     }
-    .home_page *{
-        padding: 0;
-        margin: 0;
-    }
-    .home_page ul{
-        list-style: none;
-    }
-    /*.home_page .test{*/
-        /*padding-left: 10px;*/
-    /*}*/
-    /*.current-location, .search{*/
-        /*display: inline-block;*/
-        /*height: 30px;*/
-        /*background: #fff;*/
-        /*box-sizing: border-box;*/
-        /*line-height: 30px;*/
-    /*}*/
-    /*.current-location{*/
-        /*width: 670px;*/
-        /*margin-right: 20px;*/
-        /*font-family: PingFangSC-Regular;*/
-        /*font-size: 12px;*/
-        /*color: #999999;*/
-        /*letter-spacing: 0;*/
-        /*padding-left: 10px;*/
-    /*}*/
-    /*.search{*/
-        /*display: inline-flex;*/
-        /*width: 390px;*/
-        /*vertical-align: middle;*/
-    /*}*/
-    /*.search-text{*/
-        /*flex: 1;*/
-        /*border: none;*/
-        /*text-indent: 1em;*/
-    /*}*/
-    /*.search-icon{*/
-        /*flex: 0 0 30px;*/
-        /*width: 30px;*/
-        /*height: 30px;*/
-        /*background: #E6E6E6 url(../../../static/img/home/search3.png) no-repeat center;*/
-        /*cursor: pointer;*/
-    /*}*/
-    .list{
-        display: flex;
-    }
-    .list-item{
-        flex: 1;
-        height: 100px;
-        background: #fff;
-        padding: 20px 35px 24px 20px;
-    }
-    .list-item .des{
-        float: right;
-    }
-    .list-item .count{
-        float: right;
-        margin-bottom: 12px;
-        font-family: PingFangSC-Regular;
-        font-size: 24px;
-        color: #FF6600;
-        letter-spacing: -0.58px;
-        line-height: 24px;
-    }
-    .list-item .text{
-        float: right;
-        clear: both;
-        font-family: PingFangSC-Light;
-        font-size: 16px;
-        color: #333333;
-        letter-spacing: 0;
-        line-height: 16px;
     }
     .content-wrapper{
         margin: 20px 0;

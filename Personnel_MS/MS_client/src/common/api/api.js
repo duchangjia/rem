@@ -21,5 +21,8 @@ export default{
     //资产使用管理=>新增=>保存接口
     addAssetUseINF:baseUrl+'assetUse/addAssetUseINF',
     //根据月份查询个人薪资详情
-    queryCustSalary:baseUrl+'CustInfo/queryCustSalary/'
+    queryCustSalary:baseUrl+'CustInfo/queryCustSalary/',
+    //首页=>权限查询显示菜单
+    jurisdictionUrl:baseUrl+'menu/queryMenuInfo'
+
 }
