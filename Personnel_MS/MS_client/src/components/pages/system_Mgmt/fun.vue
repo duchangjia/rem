@@ -8,9 +8,9 @@
 			<div class="queryContent_inner">
 				<el-form :model="formData" ref="formData" class="demo-ruleForm">
 					<el-col :sm="12" :md="6">
-						<el-form-item label="系统编号" prop="sysNo">
+						<el-form-item label="系统名称" prop="sysNo">
 							<el-select v-model="formData.sysNo" class="bg-white">
-								<el-option v-for="item in menuQueryConditions" :label="item.paraValue" :value="item.paraValue"></el-option>
+								<el-option v-for="item in menuQueryConditions" :label="item.paraShowmsg" :value="item.paraValue"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -39,7 +39,7 @@
 					</div>
 				</el-form>
 				<el-table :data="userList" border stripe style="width: 100%">
-					<el-table-column prop="sysNo" label="系统编号"></el-table-column>
+					<el-table-column prop="paraShowmsg" label="系统名称"></el-table-column>
 					<el-table-column prop="bsnNo" label="功能编号"></el-table-column>
 					<el-table-column prop="methodName" label="功能名称"></el-table-column>
 					<el-table-column prop="interfaceName" label="接口方法"></el-table-column>

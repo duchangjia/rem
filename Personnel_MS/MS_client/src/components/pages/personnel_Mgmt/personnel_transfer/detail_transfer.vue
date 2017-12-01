@@ -63,7 +63,7 @@
 					<el-table-column prop="oldOrganName" label="原公司名称"></el-table-column>
 					<el-table-column prop="oldDerpName" label="原部门名称"></el-table-column>
 					<el-table-column prop="shiftType" label="调动类型"></el-table-column>
-					<el-table-column prop="diaodongDate" label="调动日期"></el-table-column>
+					<el-table-column prop="createdDate" label="调动日期"></el-table-column>
 					<el-table-column prop="shiftCameTime" label="调动生效日期" :formatter="travelTimeFormatter"></el-table-column>
 					<el-table-column align="center" label="操作" width="100">
 						<template scope="scope">
@@ -99,38 +99,11 @@ export default {
 				startTime: "",
 				endTime: ''
 			},
-			comp: {
-				compName: '',
-				organNo: ''
-			},
-			depart: {
-				departName: '',
-				derpNo: ''
-			},
 			//部门列表
-			departList: [
-				{departName: "上海魔方分公司",derpNo: '01'},
-				{departName: "魔方分公司深圳分公司",derpNo: 'p1'},
-				{departName: "深圳前海橙色魔方信息技术有限公司",derpNo: '0'}
-			],
+			departList: [],
 			//公司列表
-			compList: [
-				{compName: "上海魔方分公司",organNo: '01'},
-				{compName: "魔方分公司深圳分公司",organNo: 'p1'},
-				{compName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
-			],
-			transferDataList: [
-				{
-					workhisId: "001001",
-					userNo: "p011111",
-					custName: "sdsd",
-					oldOrganName: "",
-					oldDerpName: "",
-					shiftType: "",
-					diaodongDate: "",
-					shiftCameTime: ""
-				}
-			],
+			compList: [],
+			transferDataList: [],
 			rules: {
 				compName: [],
 				departName: []

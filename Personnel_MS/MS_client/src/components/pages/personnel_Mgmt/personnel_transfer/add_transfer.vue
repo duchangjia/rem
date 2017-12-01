@@ -11,12 +11,12 @@
 				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
-						    <el-input v-model="formdata1.companyName" :disabled="true"></el-input>
+						    <el-input v-model="formdata1.organName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="部门名称">
-						    <el-input v-model="formdata1.deptName" :disabled="true"></el-input>
+						    <el-input v-model="formdata1.derpName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
@@ -59,9 +59,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原公司名称">
-						    <el-select v-model="formdata2.oldOrgId" :disabled="true">
-								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
-							</el-select>
+						    <el-input v-model="formdata1.organName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -73,9 +71,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原部门名称">
-						    <el-select v-model="formdata2.oldDeprtId" value-key="derpNo" :disabled="true">
-								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
-							</el-select>
+						    <el-input v-model="formdata1.derpName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -87,7 +83,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原直线经理">
-						    <el-input v-model="formdata2.oldLineManager" :disabled="true"></el-input>
+						    <el-input v-model="formdata1.lineManager" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -97,34 +93,30 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原岗位">
-						    <el-input v-model="formdata2.oldPost" :disabled="true"></el-input>
-						    <!--<el-select v-model="formdata2.oldPost">
-								<el-option v-for="item in custPostList" :key="item.custPostNo" :label="item.custPostName" :value="item.custPostNo"></el-option>
-							</el-select>-->
+						    <el-select v-model="formdata1.custPost" :disabled="true">
+								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新岗位" prop="newPost">
-						    <el-input v-model="formdata2.newPost"></el-input>
-						    <!--<el-select v-model="formdata2.newPost">
-								<el-option v-for="item in custPostList" :key="item.custPostNo" :label="item.custPostName" :value="item.custPostNo"></el-option>
-							</el-select>-->
+						    <el-select v-model="formdata2.newPost">
+								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原职级">
-						    <el-input v-model="formdata2.oldClass" :disabled="true"></el-input>
-						    <!--<el-select v-model="formdata2.oldClass">
-								<el-option v-for="item in custClassList" :key="item.custClassNo" :label="item.custClassName" :value="item.custClassNo"></el-option>
-							</el-select>-->
+						    <el-select v-model="formdata1.custClass" :disabled="true">
+								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新职级" prop="newClass">
-						    <el-input v-model="formdata2.newClass"></el-input>
-						    <!--<el-select v-model="formdata2.newClass">
-								<el-option v-for="item in custClassList" :key="item.custClassNo" :label="item.custClassName" :value="item.custClassNo"></el-option>
-							</el-select>-->
+						    <el-select v-model="formdata2.newClass">
+								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24">
@@ -191,7 +183,7 @@
 					shiftCameTime: "",
 					oldLineManager: "",
 					newLineManager: "",
-					oldPost: "",
+					custPost: "",
 					newPost: "",
 					oldClass: "",
 					newClass: "",
@@ -257,24 +249,20 @@
 			this.queryCustPostList();
 			//查询职级列表
 			this.queryCustClassList();
+			//查询员工信息
+			this.queryUserInfo();
 		},
 		computed: {
 			addFormdata: function(){
 				const self = this;
 				return {
-				    oldOrgId: self.formdata1.oldOrgId,
-					oldDeprtId: self.formdata1.oldDeprtId,
-					newOrgId: self.formdata2.newOrgId,
+				    newOrgId: self.formdata2.newOrgId,
 					newDeprtId: self.formdata2.newDeprtId,
-//					custName: self.formdata2.custName,
 					userNo: self.formdata1.userNo,
 					shiftType: self.formdata2.shiftType,
 					shiftCameTime: self.formdata2.shiftCameTime,
-					oldLineManager: self.formdata1.oldLineManager,
 					newLineManager: self.formdata2.newLineManager,
-					oldPost: self.formdata1.oldPost,
 					newPost: self.formdata2.newPost,
-					oldClass: self.formdata1.oldClass,
 					newClass: self.formdata2.newClass,
 					shiftReason: self.formdata2.shiftReason,
 					attachm: self.formdata2.attachm
@@ -375,19 +363,13 @@
 			            		self.$refs.upload.submit();
 								if(!self.fileFlag) {
 									let params = {
-//										oldOrgId: self.formdata1.oldOrgId,
-//										oldDeprtId: self.formdata1.oldDeprtId,
 										newOrgId: self.formdata2.newOrgId,
 										newDeprtId: self.formdata2.newDeprtId,
-					//					custName: self.formdata2.custName,
 										userNo: self.formdata1.userNo,
 										shiftType: self.formdata2.shiftType,
 										shiftCameTime: self.formdata2.shiftCameTime,
-//										oldLineManager: self.formdata1.oldLineManager,
 										newLineManager: self.formdata2.newLineManager,
-//										oldPost: self.formdata1.oldPost,
 										newPost: self.formdata2.newPost,
-//										oldClass: self.formdata1.oldClass,
 										newClass: self.formdata2.newClass,
 										shiftReason: self.formdata2.shiftReason,
 										attachm: self.formdata2.attachm
@@ -408,8 +390,8 @@
 				.then((res) => {
 					console.log('addCustShif',res);
 					if(res.data.code == "S00000") {
-		      			this.$message({ message: '操作成功', type: 'success' });
-		      			this.$router.push('/detail_transfer');
+		      			self.$message({ message: '操作成功', type: 'success' });
+		      			self.$router.push('/detail_transfer');
 		      		}
 				}).catch((err) => {
 					console.log('error');
@@ -462,9 +444,23 @@
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
 					}
-					custClass
+					
 				}).catch(function(err) {
 					console.log('error');
+				})
+			},
+			queryUserInfo() {
+				let self = this;
+				let userNo = sessionStorage.getItem('transfer_userNo');
+				let params = {
+					userNo: userNo
+				}
+				self.$axios.get(baseURL+'/CustInfo/querySelfDtl', {params})
+				.then(function(res) {
+					console.log('userInfo',res);
+					self.formdata1 = res.data;
+				}).catch(function(err) {
+					console.log(err);
 				})
 			}
 		}

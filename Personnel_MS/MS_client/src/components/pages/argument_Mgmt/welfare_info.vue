@@ -371,7 +371,8 @@ export default {
 				self.payTempDel = res.data.data;
 				for(let k in self.payTempDel) {
 					if(k.match('Rate')) {
-						self.payTempDel[k] = self.payTempDel[k]*100;
+						console.log(self.payTempDel[k],'lalalal')
+						self.payTempDel[k] = parseFloat((self.payTempDel[k]*100).toFixed(6));
 					}
 				}
 			}).catch(function(err) {

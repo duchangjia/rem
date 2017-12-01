@@ -11,48 +11,42 @@
 				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
-						    <el-input v-model="formdata.organName"></el-input>
-						    <!--<el-select v-model="formdata.organNo" @change="changeComp">
-								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item"></el-option>
-							</el-select>-->
+						    <el-input v-model="formdata.organName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="部门名称">
-						    <el-input v-model="formdata.derpName"></el-input>
-						    <!--<el-select v-model="formdata.derpNo" >
-								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item"></el-option>
-							</el-select>-->
+						    <el-input v-model="formdata.derpName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
-						    <el-input v-model="formdata.userNo"></el-input>
+						    <el-input v-model="formdata.userNo" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="姓名">
-						    <el-input v-model="formdata.custName"></el-input>
+						    <el-input v-model="formdata.custName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="身份证">
-						    <el-input v-model="formdata.certNo"></el-input>
+						    <el-input v-model="formdata.certNo" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <el-input v-model="formdata.custPost"></el-input>
+						    <el-input v-model="formdata.custPost" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <el-input v-model="formdata.custClass"></el-input>
+						    <el-input v-model="formdata.custClass" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="直线经理">
-						    <el-input v-model="formdata.lineManager"></el-input>
+						    <el-input v-model="formdata.lineManager" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24" class="item-title">离职信息</el-col>
@@ -89,16 +83,6 @@
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="最新更新人">
-						    <el-input v-model="formdata.updatedBy"></el-input>
-					  	</el-form-item>
-					</el-col>  	
-					<el-col :sm="24" :md="12">
-						<el-form-item label="最新更新时间">
-						    <el-input v-model="formdata.updatedDate"></el-input>
-					  	</el-form-item>
-					</el-col>  	
-					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width: 100%;">
 					  		<el-input v-model="formdata.attachm"></el-input>
 					  		<el-upload class="upload-demo" ref="upload" name="file"
@@ -132,56 +116,11 @@
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
 				fileFlag: '',
-				formdata: {
-					organNo: "",
-					organName: "",
-					derpName: "",
-					derpNo: "",
-					custName: "",
-					userNo: "",
-					certNo: "",
-					custPost: "",
-					custClass: "",
-					lineManager: "",
-					dimTime: "",
-					dimType: "",
-					hasGone: "",
-					payEndTime: "",
-					dimReason: "",
-					updatedBy: "",
-					updatedDate: "",
-					attachm: "",
-					dimProveFlag: ""
-				},
-				
-				comp: {
-					organName: '',
-					organNo: ''
-				},
-				newcomp: {
-					organName: '',
-					organNo: ''
-				},
-				depart: {
-					derpName: '',
-					derpNo: ''
-				},
-				newdepart: {
-					derpName: '',
-					derpNo: ''
-				},
+				formdata: {},
 				//部门列表
-				departList: [
-					{derpName: "上海魔方分公司",derpNo: '01'},
-					{derpName: "魔方分公司深圳分公司",derpNo: 'p1'},
-					{derpName: "深圳前海橙色魔方信息技术有限公司",derpNo: '0'}
-				],
+				departList: [],
 				//公司列表
-				compList: [
-					{organName: "上海魔方分公司",organNo: '01'},
-					{organName: "魔方分公司深圳分公司",organNo: 'p1'},
-					{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
-				],
+				compList: [],
 				dimTypeList: [
 					{dimTypeName:'辞退',dimTypeNo: "01"},
 					{dimTypeName:'退休',dimTypeNo: "02"},
@@ -350,5 +289,11 @@
     padding-bottom: 20px;
 	width: 100%;
 }
-
+.edit_dimission .el-checkbox__input.is-checked .el-checkbox__inner {
+    background-color: #ff9900;
+    border-color: #ff9900;
+}
+.edit_dimission .el-checkbox__inner:hover {
+    border-color: #20a0ff;
+}
 </style>

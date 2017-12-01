@@ -9,8 +9,8 @@
 			<div class="add-wrapper">
 				<el-form :inline="true" :model="userMsg" ref="userMsg" label-width="80px">
 					<el-col :sm="24" :md="12">
-						<el-form-item label="系统编号" prop="sysNo">
-							<el-input v-model="userMsg.sysNo" :disabled="true"></el-input>
+						<el-form-item label="系统名称" prop="sysNo">
+							<el-input v-model="userMsg.paraShowmsg" :disabled="true"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">

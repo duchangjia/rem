@@ -121,8 +121,8 @@
 				          	<el-input size="small" v-model="scope.row.pretaxTotal" @change="handleEdit($event,'pretaxTotal')"></el-input>
 				        </template>
 					</el-table-column>-->
-					<el-table-column prop="perPayTotal" label="保险缴费合计(个人)" width="100"></el-table-column>
-					<el-table-column prop="comPayTotal" label="保险缴费合计(单位)" width="100"></el-table-column>
+					<el-table-column prop="perPayTotal" label="保险缴费合计(个人)" width="100" :formatter="perPayTotalFormatter"></el-table-column>
+					<el-table-column prop="comPayTotal" label="保险缴费合计(单位)" width="100" :formatter="comPayTotalFormatter"></el-table-column>
 					<el-table-column label="保险缴纳" width="100">
 						<template scope="scope">
 					        <span class="link" @click="handleInfo(scope.$index, scope.row)">详情</span>
@@ -155,15 +155,15 @@ export default {
 			},
 			socialInfoData: [
 				{
-					month: "20172017",
-					userNo: "P00000",
-					custName: "小李",
-					wagesBase: "2000",
-					wagesPerf: "21",
-					postPension: "200",
-					phonePension: "20",
-					createdBy: "P000000",
-					createdDate: "2017-11-21"
+					month: "",
+					userNo: "",
+					custName: "",
+					wagesBase: "",
+					wagesPerf: "",
+					postPension: "",
+					phonePension: "",
+					createdBy: "",
+					createdDate: ""
 				}
 			],
 			//部门列表
@@ -198,6 +198,12 @@ export default {
 //		this.queryDerpList();
 	},
 	methods: {
+		perPayTotalFormatter(row, column) {
+	      return (Number(row.perEndmPay) + Number(row.perMediPay) + Number(row.perUnemPay) +Number(row.perEmplPay) +Number(row.perMatePay) + Number(row.perHousePay)).toFixed(2);
+	    },
+	    comPayTotalFormatter(row, column) {
+	      return (Number(row.comEndmPay) + Number(row.comMediPay) + Number(row.comUnemPay) +Number(row.comMatePay) + Number(row.comHousePay)).toFixed(2);
+	    },
 		handleInfo(index, row) {
 			sessionStorage.setItem('editSecurity_userNo', row.userNo);
 			sessionStorage.setItem('editSecurity_batchNo', row.batchNo);
@@ -307,11 +313,11 @@ export default {
 				console.log('wageInfo',res);
 				if(res.data.code === "S00000") {
 					self.socialInfoData = res.data.data.models;
-					let perPayTotal= Number(self.socialInfoData[0].perEndmPay) + Number(self.socialInfoData[0].perMediPay) + Number(self.socialInfoData[0].perUnemPay) +Number(self.socialInfoData[0].perEmplPay) +Number(self.socialInfoData[0].perMatePay) + Number(self.socialInfoData[0].perHousePay);
-					let comPayTotal= Number(self.socialInfoData[0].comEndmPay) + Number(self.socialInfoData[0].comMediPay) + Number(self.socialInfoData[0].comUnemPay) +Number(self.socialInfoData[0].comEmplPay) +Number(self.socialInfoData[0].comMatePay) + Number(self.socialInfoData[0].comHousePay);
-					self.socialInfoData[0].perPayTotal = perPayTotal.toFixed(2);
-					self.socialInfoData[0].comPayTotal = comPayTotal.toFixed(2);
-					self.$set(self.socialInfoData, 0, self.socialInfoData[0]);
+//					let perPayTotal= Number(self.socialInfoData[0].perEndmPay) + Number(self.socialInfoData[0].perMediPay) + Number(self.socialInfoData[0].perUnemPay) +Number(self.socialInfoData[0].perEmplPay) +Number(self.socialInfoData[0].perMatePay) + Number(self.socialInfoData[0].perHousePay);
+//					let comPayTotal= Number(self.socialInfoData[0].comEndmPay) + Number(self.socialInfoData[0].comMediPay) + Number(self.socialInfoData[0].comUnemPay) +Number(self.socialInfoData[0].comEmplPay) +Number(self.socialInfoData[0].comMatePay) + Number(self.socialInfoData[0].comHousePay);
+//					self.socialInfoData[0].perPayTotal = perPayTotal.toFixed(2);
+//					self.socialInfoData[0].comPayTotal = comPayTotal.toFixed(2);
+//					self.$set(self.socialInfoData, 0, self.socialInfoData[0]);
 				}
 			}).catch((err) => {
 				console.log('error');

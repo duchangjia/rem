@@ -120,13 +120,13 @@ export default {
 			],
 			transferDataList: [
 				{
-					dimId: "001001",
-					userNo: "p011111",
-					custName: "sdsd",
-					organName: "xx",
-					derpName: "xx",
-					dimType: "xx",
-					dimTime: "2017-10-01"
+					dimId: "",
+					userNo: "",
+					custName: "",
+					organName: "",
+					derpName: "",
+					dimType: "",
+					dimTime: ""
 				}
 			],
 			rules: {

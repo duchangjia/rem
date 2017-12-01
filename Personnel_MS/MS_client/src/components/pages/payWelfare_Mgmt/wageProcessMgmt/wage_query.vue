@@ -209,7 +209,7 @@ export default {
 			sessionStorage.setItem('wageQuery_batchNo',row.batchNo);
 			sessionStorage.setItem('entryWage_organNo',row.organNo);
 			if(row.batchStatus == '02' || row.batchStatus == '03') {
-				this.$set(this.handleImportFlag, index, true);
+//				this.$set(this.handleImportFlag, index, true);
 				this.$set(this.handleEnterFlag, index, true);
 				this.$set(this.handleEditFlag, index, true);
 				this.$set(this.handleStatusFlag, index, true);
@@ -310,7 +310,7 @@ export default {
 				month: this.ruleForm2.startDate
 			};
 			self.$axios.get(baseURL+'/wage/queryWageFlowList', {params: params})
-			.then(function(res) {
+			.then((res) => {
 				console.log('WageList',res);
 				if(res.data.code === "S00000") {
 					self.transferDataList = res.data.data.models;
@@ -318,7 +318,7 @@ export default {
 					self.totalRows = Number(res.data.data.total);
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},

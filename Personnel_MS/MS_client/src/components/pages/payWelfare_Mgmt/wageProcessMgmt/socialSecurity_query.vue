@@ -51,12 +51,24 @@
 					<el-table-column prop="companyName" label="公司名称"></el-table-column>
 					<el-table-column prop="custName" label="姓名"></el-table-column>
 					<el-table-column prop="idCard" label="身份证号"></el-table-column>
-					<el-table-column prop="month" label="社保数据周期" ></el-table-column>
+					<el-table-column prop="month" label="社保数据周期" min-width="100"></el-table-column>
+					<el-table-column prop="perEndmPay" label="养老(个人)" min-width="100"></el-table-column>
+					<el-table-column prop="comEndmPay" label="养老(公司)" min-width="100"></el-table-column>
 					<el-table-column prop="endmTotal" label="养老合计" ></el-table-column>
+					<el-table-column prop="perMediPay" label="医疗(个人)" min-width="100"></el-table-column>
+					<el-table-column prop="comMediPay" label="医疗(公司)" min-width="100"></el-table-column>
 					<el-table-column prop="mediTotal" label="医疗合计" ></el-table-column>
+					<el-table-column prop="perUnemPay" label="失业(个人)" min-width="100"></el-table-column>
+					<el-table-column prop="comUnemPay" label="失业(公司)" min-width="100"></el-table-column>
 					<el-table-column prop="unemTotal" label="失业合计" ></el-table-column>
+					<el-table-column prop="perMatePay" label="生育(个人)" min-width="100"></el-table-column>
+					<el-table-column prop="comMatePay" label="生育(公司)" min-width="100"></el-table-column>
 					<el-table-column prop="mateTotal" label="生育合计" ></el-table-column>
+					<el-table-column prop="perEmplPay" label="工伤(个人)" min-width="100"></el-table-column>
+					<el-table-column prop="comEmplPay" label="工伤(公司)" min-width="100"></el-table-column>
 					<el-table-column prop="emplTotal" label="工伤合计" ></el-table-column>
+					<el-table-column prop="comEmplPay" label="公积金(个人)" min-width="100"></el-table-column>
+					<el-table-column prop="perEmplPay" label="公积金(公司)" min-width="100"></el-table-column>
 					<el-table-column prop="houseTotal" label="公积金合计" ></el-table-column>
 					<el-table-column prop="createdBy" label="录入人"></el-table-column>
 					<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>

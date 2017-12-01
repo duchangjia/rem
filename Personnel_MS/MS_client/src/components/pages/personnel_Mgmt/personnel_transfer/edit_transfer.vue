@@ -12,17 +12,11 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
 							<el-input v-model="formdata.oldOrganName" :disabled="true"></el-input>
-						    <!--<el-select v-model="formdata.oldOrgId" value-key="organNo">
-								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
-							</el-select>-->
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="部门名称">
 							<el-input v-model="formdata.oldDerpName" :disabled="true"></el-input>
-						    <!--<el-select v-model="formdata.oldDeprtId" value-key="derpNo">
-								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
-							</el-select>-->
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
@@ -51,9 +45,6 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原公司名称">
 							<el-input v-model="formdata.oldOrganName" :disabled="true"></el-input>
-						    <!--<el-select v-model="formdata.oldOrgId" value-key="organNo">
-								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
-							</el-select>-->
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -66,9 +57,6 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原部门名称">
 							<el-input v-model="formdata.oldDerpName" :disabled="true"></el-input>
-						    <!--<el-select v-model="formdata.oldDeprtId" value-key="derpNo">
-								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
-							</el-select>-->
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -90,34 +78,30 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原岗位">
-						    <el-input v-model="formdata.oldPost" :disabled="true"></el-input>
-						    <!--<el-select v-model="formdata.oldPost">
-								<el-option v-for="item in custPostList" :key="item.custPostNo" :label="item.custPostName" :value="item.custPostNo"></el-option>
-							</el-select>-->
+						    <el-select v-model="formdata.oldPost" :disabled="true">
+								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新岗位" prop="newPost">
-						    <el-input v-model="formdata.newPost"></el-input>
-						    <!--<el-select v-model="formdata.newPost">
-								<el-option v-for="item in custPostList" :key="item.custPostNo" :label="item.custPostName" :value="item.custPostNo"></el-option>
-							</el-select>-->
+						    <el-select v-model="formdata.newPost">
+								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原职级">
-						    <el-input v-model="formdata.oldClass" :disabled="true"></el-input>
-						    <!--<el-select v-model="formdata.oldClass">
-								<el-option v-for="item in custClassList" :key="item.custClassNo" :label="item.custClassName" :value="item.custClassNo"></el-option>
-							</el-select>-->
+						    <el-select v-model="formdata.oldClass" :disabled="true">
+								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新职级" prop="newClass">
-						    <el-input v-model="formdata.newClass"></el-input>
-						    <!--<el-select v-model="formdata.newClass">
-								<el-option v-for="item in custClassList" :key="item.custClassNo" :label="item.custClassName" :value="item.custClassNo"></el-option>
-							</el-select>-->
+						    <el-select v-model="formdata.newClass">
+								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24">
@@ -300,7 +284,6 @@
 								oldDeprtId: self.formdata.oldDeprtId,
 								newOrgId: self.formdata.newOrgId,
 								newDeprtId: self.formdata.newDeprtId,
-	//							custName: self.formdata.custName,
 								userNo: self.formdata.userNo,
 								shiftType: self.formdata.shiftType,
 								shiftCameTime: self.formdata.shiftCameTime,
