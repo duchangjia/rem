@@ -323,7 +323,6 @@
         },
         methods: {
             linkTo(url){
-                alert(111);
                 this.$router.push(url);
             },
             getList(){
