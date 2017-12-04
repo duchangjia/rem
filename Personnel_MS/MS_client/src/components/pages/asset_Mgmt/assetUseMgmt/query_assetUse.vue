@@ -91,7 +91,7 @@ import current from "../../../common/current_position.vue";
 import messageBox from "../../../common/messageBox-components.vue";
 import moment from "moment";
 import api from '../../../../common/api/api.js'
-let {assetUseQueryAssUseList,delAssUse} = api
+let {assetUseQueryAssUseList,delAssUse,getAssetUseByApplyNo} = api
 export default {
   data() {
     return {
@@ -176,11 +176,24 @@ export default {
       });
     },
     edit(row) {
-      console.log(row.applyNo);
-      this.$router.push({
-        name: "edit_assetUse",
-        query: { applyNo: row.applyNo }
-      });
+      let self = this;
+      self.$axios.get(getAssetUseByApplyNo+row.applyNo).then(res=>{
+       if (res.data.code == "F00002") {
+          self.$message({
+            message: res.data.retMsg,
+            type: "error"
+          });
+          return;
+        }
+        self.$router.push({
+          name: "edit_assetUse",
+          query: { applyNo: row.applyNo }
+        });
+      }).catch(e=>{
+        console.log(e);
+      })
+      
+      
     },
     del(row) {
       let self = this;

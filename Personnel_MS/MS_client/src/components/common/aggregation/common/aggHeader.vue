@@ -156,7 +156,7 @@ export default {
 .header .nav_list{
     width:100px;
     text-align:center;
-    height:58px;
+    height:60px;
 }
 .header .nav_list:hover{
     color:#ff9900;

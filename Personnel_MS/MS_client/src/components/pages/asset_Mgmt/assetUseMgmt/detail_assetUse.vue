@@ -211,6 +211,17 @@
                             self.applyCompanyInfo.applyType = "盘亏";
                             break;
                     }
+                    switch (self.applyCompanyInfo.applyStatus) {
+                        case "01":
+                            self.applyCompanyInfo.applyStatus = "未核销/未归还";
+                            break;
+                        case "02":
+                            self.applyCompanyInfo.applyStatus = "已核销/已归还";
+                            break;
+                        case "03":
+                            self.applyCompanyInfo.applyStatus = "不需要核销/不需要归还";
+                            break;
+                    }
                 })
                 .catch(e=>{
                     console.log(e)
