@@ -138,15 +138,9 @@
 					{batchType: "03", batchTypeName: "福利"},
 				],
 				//公司列表
-				compList: [
-					{organNo: "01",organName: "广州分公司"}
-				],
+				compList: [],
 				//状态列表
-				batchStatusList: [
-					{batchStatus: '01', batchStatusName: '录入'},
-					{batchStatus: '02', batchStatusName: '启用'},
-					{batchStatus: '03', batchStatusName: '废弃'}
-				],
+				batchStatusList: [],
 				//部门列表
 				derpRangeList: [],
 			 	rules: {

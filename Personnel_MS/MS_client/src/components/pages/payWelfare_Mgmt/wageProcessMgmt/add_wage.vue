@@ -130,14 +130,8 @@
 					batchType: "",
 					organName: "",
 					organNo: "",
-					derpRange: [
-//						{derpName: "广州分公司",derpNo: "1"},
-//						{derpName: "上海分公司",derpNo: "1"}
-					],
-					preRange: [
-//						{custName: "张三",userNo: "P0000001"},
-//						{custName: "李四",userNo: "P0000002"}
-					],
+					derpRange: [],
+					preRange: [],
 					month: "",
 					settleStartTime: "",
 					settleEndTime: "",
@@ -150,25 +144,9 @@
 					{batchTypeNo: "03", batchTypeName: "福利"},
 				],
 				//公司列表
-				compList: [
-					{organNo: "",organName: ""}
-				],
+				compList: [],
 				//部门列表
-				derpRangeList: [
-//					{ derpNo: "01", derpName: "xx部" ,
-//					preRangeList: [
-//					{userNo: "P0000001", custName: "张三"},
-//					{userNo: "P0000002", custName: "李四"},
-//					{userNo: "P0000003", custName: "王五"}],
-//					},
-//					{ derpNo: "02", derpName: "行政部"  ,
-//					preRangeList: [
-//					{userNo: "P0000004", custName: "张行政"},
-//					{userNo: "P0000005", custName: "李行政"},
-//					{userNo: "P0000006", custName: "王行政"}],
-//					},
-//					{ derpNo: "03", derpName: "信息部" }
-				],
+				derpRangeList: [],
 				
 			 	rules: {
 			 		batchType: [

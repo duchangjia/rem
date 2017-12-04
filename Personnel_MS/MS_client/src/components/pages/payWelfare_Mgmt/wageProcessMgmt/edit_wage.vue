@@ -153,15 +153,9 @@
 					{batchTypeNo: "03", batchTypeName: "福利"},
 				],
 				//公司列表
-				compList: [
-					{organNo: "01",organName: "广州分公司"}
-				],
+				compList: [],
 				//部门列表
-				derpRangeList: [
-					{ derpNo: "01", derpName: "所有部门" },
-					{ derpNo: "02", derpName: "行政部" },
-					{ derpNo: "03", derpName: "信息部" }
-				],
+				derpRangeList: [],
 				
 			 	rules: {
 			 		batchType: [
