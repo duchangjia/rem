@@ -229,8 +229,8 @@ export default {
     boxTitle:'',
     numType:'',
     applyUserInfo: {},
-      assetInfo: {},
-      applyInfo: {
+    assetInfo: {},
+    applyInfo: {
         remark: "",
         applyStatus: "",
         applyTime: "",
@@ -255,15 +255,33 @@ export default {
               type: "error"
             });
           }else{
-            
             switch(self.numType){
                 case 1:
                     self.applyUserInfo = res.data.data
                     self.info.applyUserNo = ajaxNo.stateNo
                 break;
                 case 2:
+                    
                     self.assetInfo = res.data.data
-                     self.info.assetNo = ajaxNo.stateNo
+                    self.info.assetNo = ajaxNo.stateNo
+                    switch(self.assetInfo.assetType){
+                         case "01":
+                            self.assetInfo.assetType = "办公用品";
+                            break;
+                        case "02":
+                            self.assetInfo.assetType = "电脑";
+                            break;
+                        case "03":
+                            self.assetInfo.assetType = "手机";
+                            break;
+                        case "04":
+                            self.assetInfo.assetType = "后勤用品";
+                            break;
+                        case "05":
+                            self.assetInfo.assetType = "数码相机";
+                            break;
+                    }
+                    
                 break;
             }
           }
@@ -409,6 +427,9 @@ export default {
        this.applyInfo.applyTime = applyTime.toString();
         console.log(applyTime);
     }
+  },
+  filters:{
+    
   },
   components: {
     current,

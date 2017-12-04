@@ -225,13 +225,7 @@ export default {
     self.$axios
       .get(getAssetUseByApplyNo + applyNo)
       .then(res => {
-        if (res.data.code == "F00002") {
-          self.$message({
-            message: res.data.retMsg,
-            type: "error"
-          });
-          return;
-        }
+        
         self.applyCompanyInfo = res.data;
         switch (this.applyCompanyInfo.assetType) {
           case "01":
