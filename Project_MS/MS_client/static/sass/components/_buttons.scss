@@ -1,0 +1,65 @@
+//查询重置按钮
+.el-button{
+	&.btn-default,&.btn-default:hover{
+		color:$color-primary;
+		background:$bg-wihte;
+		@include size(120px,30px); 
+		padding:0;
+		border:$border-default;
+	}
+	&.btn-primary,&.btn-primary:hover{
+		color:#fff;
+		background:$color-primary;
+		@include size(120px,30px);
+		padding:0;
+		border:$border-default;
+	}
+}
+//删除修改小图标
+.el-icon-edit,.el-icon-delete2{
+	color:$color-primary;
+	cursor: pointer;
+	text-decoration: underline;
+}
+//分页按钮
+.el-pagination {
+	text-align: right;
+	margin-top: 30px;
+	margin-right: 40px;
+	color: #282828;
+	.el-pager{
+		li{
+			padding: 0 4px;
+			border-right: 0;
+			background: #fff;
+			font-size: 12px;
+			letter-spacing: -0.39px;
+			min-width: 24px;
+			height: 24px;
+			line-height: 24px;
+			text-align: center;
+			&.active{
+				border-color: #FF9900;
+				background-color: #FF9900;
+				color: #fff;
+				cursor: default;
+			}
+			&:hover {
+				color: #FF9900;
+			}
+		}
+	}
+	button,span{
+		display: inline-block;
+		font-size: 12px;
+		letter-spacing: -0.39px;
+		min-width: 24px;
+		height: 24px;
+		color: #282828;
+		line-height: 24px;
+		vertical-align: top;
+		box-sizing: border-box;
+	}
+}
+
+
