@@ -10,9 +10,9 @@
                                 <div class="first_title">
                                     <el-upload ref="uploadAvatar"
                                             class="avatar-uploader"
-                                            action="/iem_hrm/CustInfo/insertCustInfo"
+                                            action="/iem_hrm/CustInfo/uploadAvatar"
                                             :show-file-list="false"
-                                            :data="user_info"
+                                            :data="avatar"
                                             :auto-upload="false"
                                             :on-change="handleAvatarChange"
                                             :on-success="handleAvatarSuccess"
@@ -151,36 +151,36 @@
                                         </el-col>
                                     </el-form>
                                     <div class="text">职务信息</div>
-                                    <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px">
+                                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
                                         <el-col :span="8">
                                             <!--<el-form-item label="员工编号" prop="userNo">-->
-                                                <!--<el-input v-model="ruleForm2.userNo"></el-input>-->
+                                                <!--<el-input v-model="ruleForm.userNo"></el-input>-->
                                             <!--</el-form-item>-->
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="公司名称" prop="organNo">
-                                                    <el-select v-model="ruleForm2.organNo" placeholder="请选择公司名称" @change="selectDep(ruleForm2.organNo)">
+                                                    <el-select v-model="ruleForm.organNo" placeholder="请选择公司名称" @change="selectDep(ruleForm.organNo)">
                                                         <el-option :label="item.organName" :value="item.organNo" v-for="item in basicInfo.company"></el-option>
                                                     </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="部门名称" prop="derpNo">
-                                                <el-select v-model="ruleForm2.derpNo" placeholder="请选择部门名称" @change="selectCCC(ruleForm2.organNo)">
+                                                <el-select v-model="ruleForm.derpNo" placeholder="请选择部门名称" @change="selectCCC(ruleForm.organNo)">
                                                     <el-option :label="item.derpName" :value="item.derpNo" v-for="item in basicInfo.department"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="CCC" prop="ownerCCC">
-                                                <el-select v-model="ruleForm2.ownerCCC" placeholder="请选择CCC">
+                                                <el-select v-model="ruleForm.ownerCCC" placeholder="请选择CCC">
                                                     <el-option :label="item=='01'?'管理CCC':item=='02'?'售前CCC':'项目CCC'" :value="item" v-for="item in basicInfo.CCC"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="直线经理">
-                                                <el-input v-model="ruleForm2.lineManager">
+                                                <el-input v-model="ruleForm.lineManager" readOnly>
                                                     <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
                                                 </el-input>
                                                 <messageBox
@@ -200,7 +200,7 @@
 
                                         <el-col :span="8">
                                             <el-form-item label="员工类别" prop="custType">
-                                                <el-select v-model="ruleForm2.custType" placeholder="请选择员工类别">
+                                                <el-select v-model="ruleForm.custType" placeholder="请选择员工类别">
                                                     <el-option label="在编" value="01"></el-option>
                                                     <el-option label="借用" value="02"></el-option>
                                                     <el-option label="合同制" value="03"></el-option>
@@ -212,7 +212,7 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="岗位" prop="custPost">
-                                                <el-select v-model="ruleForm2.custPost" placeholder="请选择岗位">
+                                                <el-select v-model="ruleForm.custPost" placeholder="请选择岗位">
                                                     <el-option label="架构师" value="01"></el-option>
                                                     <el-option label="前端开发工程师" value="02"></el-option>
                                                     <el-option label="测试工程师" value="03"></el-option>
@@ -222,7 +222,7 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="职级" prop="custClass">
-                                                <el-select v-model="ruleForm2.custClass" placeholder="请选择职级">
+                                                <el-select v-model="ruleForm.custClass" placeholder="请选择职级">
                                                     <el-option label="B10-初级软件工程师" value="B10"></el-option>
                                                     <el-option label="B11-中级软件工程师" value="B11"></el-option>
                                                     <el-option label="B12-高级软件工程师" value="B12"></el-option>
@@ -231,7 +231,7 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="员工状态" prop="custStatus">
-                                                <el-select v-model="ruleForm2.custStatus" placeholder="请选择员工状态">
+                                                <el-select v-model="ruleForm.custStatus" placeholder="请选择员工状态">
                                                     <el-option label="试用期" value="01"></el-option>
                                                     <el-option label="合同期" value="02"></el-option>
                                                     <el-option label="已退休" value="03"></el-option>
@@ -242,57 +242,47 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="入职日期" prop="entryTime">
-                                                <!--<el-date-picker v-model="ruleForm.gradTime" type="date" placeholder="选择日期" @change="changeGradtime"></el-date-picker>-->
-                                                <el-date-picker v-model="ruleForm2.entryTime" type="date" placeholder="选择日期" @change="changeEntryTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm2.entryTime"></el-input>-->
+                                                <el-date-picker v-model="ruleForm.entryTime" type="date" placeholder="选择日期" @change="changeEntryTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="上岗日期">
-                                                <el-date-picker v-model="ruleForm2.leftJobTime" type="date" placeholder="选择日期" @change="changeleftJobTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm2.leftJobTime"></el-input>-->
+                                                <el-date-picker v-model="ruleForm.leftJobTime" type="date" placeholder="选择日期" @change="changeleftJobTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="工作日期">
-                                                <el-date-picker v-model="ruleForm2.workTime" type="date" placeholder="选择日期" @change="changeworkTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm2.workTime"></el-input>-->
+                                                <el-date-picker v-model="ruleForm.workTime" type="date" placeholder="选择日期" @change="changeworkTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="职称日期">
-                                                <el-date-picker v-model="ruleForm2.profTitleTime" type="date" placeholder="选择日期" @change="changeprofTitleTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm2.profTitleTime"></el-input>-->
+                                                <el-date-picker v-model="ruleForm.profTitleTime" type="date" placeholder="选择日期" @change="changeprofTitleTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同开始">
-                                                <el-date-picker v-model="ruleForm2.compactStartTime" type="date" placeholder="选择日期" @change="changeCompactStartTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm2.compactStartTime"></el-input>-->
+                                                <el-date-picker v-model="ruleForm.compactStartTime" type="date" placeholder="选择日期" @change="changeCompactStartTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同终止">
-                                                <el-date-picker v-model="ruleForm2.compactEndTime" type="date" placeholder="选择日期" @change="changeCompactEndTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm2.compactEndTime"></el-input>-->
+                                                <el-date-picker v-model="ruleForm.compactEndTime" type="date" placeholder="选择日期" @change="changeCompactEndTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用开始">
-                                                <el-date-picker v-model="ruleForm2.probStartTime" type="date" placeholder="选择日期" @change="changeProbStartTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm2.probStartTime"></el-input>-->
+                                                <el-date-picker v-model="ruleForm.probStartTime" type="date" placeholder="选择日期" @change="changeProbStartTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用结束">
-                                                <el-date-picker v-model="ruleForm2.probEndTime" type="date" placeholder="选择日期" @change="changeProbEndTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm2.probEndTime"></el-input>-->
+                                                <el-date-picker v-model="ruleForm.probEndTime" type="date" placeholder="选择日期" @change="changeProbEndTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="招聘来源">
-                                                <!--<el-input v-model="ruleForm.recruitQuarry"></el-input>-->
-                                                <el-select v-model="ruleForm2.recruitQuarry" placeholder="招聘来源">
+                                                <el-select v-model="ruleForm.recruitQuarry" placeholder="招聘来源">
                                                     <el-option label="网上招聘" value="01"></el-option>
                                                     <el-option label="内部推荐" value="02"></el-option>
                                                     <el-option label="现场招聘" value="03"></el-option>
@@ -302,58 +292,51 @@
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="开户银行">
-                                                <el-input v-model="ruleForm2.openBank"></el-input>
+                                                <el-input v-model="ruleForm.openBank"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="银行卡号">
-                                                <el-input v-model="ruleForm2.bankCardNo"></el-input>
+                                                <el-input v-model="ruleForm.bankCardNo"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="养老账号">
-                                                <el-input v-model="ruleForm2.endmAcct"></el-input>
+                                                <el-input v-model="ruleForm.endmAcct"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="医保账号">
-                                                <el-input v-model="ruleForm2.mediAcct"></el-input>
+                                                <el-input v-model="ruleForm.mediAcct"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="生育账号">
-                                                <el-input v-model="ruleForm2.mateAcct"></el-input>
+                                                <el-input v-model="ruleForm.mateAcct"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="公积金">
-                                                <el-input v-model="ruleForm2.housAcct"></el-input>
+                                                <el-input v-model="ruleForm.housAcct"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="23">
                                             <el-form-item label="备注">
-                                                <el-input type="textarea" v-model="ruleForm2.remark"></el-input>
+                                                <el-input type="textarea" v-model="ruleForm.remark"></el-input>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="9">
                                                 <el-form-item label="附件">
-                                                    <el-input v-model="ruleForm2.attachm" style="position:absolute"></el-input>
+                                                    <el-input v-model="ruleForm.attachm" style="position:absolute" readOnly></el-input>
                                                     <el-upload class="upload-demo" ref="upload" name="file"
                                                                action="/iem_hrm/CustInfo/insertCustInfo"
                                                                :show-file-list="false"
-                                                               :data="user_info"
+                                                               :data="ruleForm"
                                                                :auto-upload="false"
                                                                :on-change="handleFileUpload"
                                                                :on-success="successUpload"
                                                                :headers="token"
                                                                :before-upload="checkUserNo">
-                                                    <!--<el-upload class="upload-demo" ref="upload" name="file"-->
-                                                               <!--:on-change="handleFileUpload"-->
-                                                               <!--:on-success="successUpload"-->
-                                                               <!--action="/iem_hrm/CustFile/upload"-->
-                                                               <!--:show-file-list="false"-->
-                                                               <!--:auto-upload="false"-->
-                                                               <!--:headers="token">-->
                                                         <el-button slot="trigger" type="primary" class="uploadBtn">上传附件</el-button>
                                                     </el-upload>
                                                 </el-form-item>
@@ -374,7 +357,7 @@
                             </el-tab-pane>
                             <el-tab-pane label="工作经历" name="third" class="third_special">
                                 <div class="third-wrapper">
-                                    <div class="title"><span>工作经历</span><span class="text" @click="add_work_experience">添加</span></div>
+                                    <div class="title"><span>工作经历</span><span class="text" @click="add_item">添加</span></div>
                                     <div class="from-wrapper">
                                         <div v-for="(item, index) in work_item.lists" style="margin-top: 20px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`third${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
@@ -405,7 +388,7 @@
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="24">
-                                                    <el-form-item label="描述" prop="desc" class="fifth_common">
+                                                    <el-form-item label="工作描述" prop="desc" class="fifth_common">
                                                         <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
@@ -467,7 +450,7 @@
                             </el-tab-pane>
                             <el-tab-pane label="教育背景" name="fourth">
                                 <div class="fourth-wrapper">
-                                    <div class="title"><span>教育背景</span><span  class="text" @click="add_edu_experience">添加</span></div>
+                                    <div class="title"><span>教育背景</span><span  class="text" @click="add_item">添加</span></div>
                                     <div class="from-wrapper">
                                         <div v-for="(item, index) in education_item.lists" style="margin-top: 20px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fourth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
@@ -507,7 +490,7 @@
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="24">
-                                                    <el-form-item label="描述" prop="desc" class="fifth_common">
+                                                    <el-form-item label="描述" class="fifth_common">
                                                         <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
@@ -518,7 +501,7 @@
                             </el-tab-pane>
                             <el-tab-pane label="项目经历" name="fifth">
                                 <div class="fifth-wrapper">
-                                    <div class="title"><span>项目经历</span><span class="text" @click="add_pro_experience">添加</span></div>
+                                    <div class="title"><span>项目经历</span><span class="text" @click="add_item">添加</span></div>
                                     <div class="from-wrapper">
                                         <div v-for="(item, index) in project_item.lists" style="margin-top: 20px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fifth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
@@ -600,7 +583,6 @@
                     </template>
                     
                 </div>
-                <!--v-show="tabName=='first'||tabName=='second'||tabName=='sixth'"-->
                 <el-button class="add" @click="save(tabName)" :disabled="tabName=='sixth'?true:false">{{tabName=='sixth'?'全部下载':'保存'}}</el-button>
             </div>
         </el-col>
@@ -623,14 +605,23 @@
                 department:'',
                   CCC:'',
               },
-              fileList2:[],
-              imageUrl: '',
-              dialogImageUrl: '',
+              //公共数据
+              userNo: '',
               token: {
                   Authorization:`Bearer `+localStorage.getItem('access_token'),
               },
-
+              activeName: 'first',
+              tabName:'first',
+              //头像数据
+              imageUrl: '',
+              avatar:{
+                  userNo:'',
+              },
+              //证件管理数据
+              fileList2:[],
+              dialogImageUrl: '',
               dialogVisible2: false,
+              //弹窗数据
               dialogVisible: false,
               tableOption:[],
               inputFirstOption:{},
@@ -641,8 +632,7 @@
               saveUrl:'',
               boxTitle:'',
               numType:'',
-
-              userNo: '',
+              //选项卡数据
               social_item:{
                   userNo:'',
                   lists:[
@@ -705,15 +695,10 @@
               },
               certificates_list:{
                 userNo:'',
-                file:{},
               },
-              user_info: {
-
-              },
-              activeName: 'first',
-              tabName:'first',
+                //员工基础信息数据
               ruleForm: {
-                  avat: '',
+                  avatar: '',
                   custName: '',
                   certNo: '',
                   certType: '',
@@ -730,13 +715,37 @@
                   mobileNo: '',
                   homeTeleph: '',
                   perEmail: '',
-                  qqAcct: '',
                   comEmail: '',
                   atten: '',
                   attenTeleph: '',
                   origo: '',
                   permAddr: '',
                   liveAddr: '',
+                  organNo: '',
+                  derpNo: '',
+                  ownerCCC: '',
+                  lineManager: '',
+                  custType: '',
+                  custPost: '',
+                  custClass: '',
+                  custStatus: '',
+                  entryTime: '',
+                  leftJobTime: '',
+                  workTime: '',
+                  profTitleTime: '',
+                  compactStartTime: '',
+                  compactEndTime: '',
+                  probStartTime: '',
+                  probEndTime: '',
+                  recruitQuarry: '',
+                  openBank: '',
+                  bankCardNo: '',
+                  endmAcct: '',
+                  mediAcct: '',
+                  mateAcct: '',
+                  housAcct: '',
+                  remark: '',
+                  attachm: '',
               },
               rules: {
                   custName: [
@@ -794,36 +803,6 @@
                   comEmail: [
                       { pattern: /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/, message: "请输入合法的邮箱" }
                   ],
-              },
-              ruleForm2: {
-                  organNo: '',
-                  derpNo: '',
-                  ownerCCC: '',
-                  lineManager: '',
-                  custType: '',
-                  custPost: '',
-                  custClass: '',
-                  custStatus: '',
-                  entryTime: '',
-                  leftJobTime: '',
-                  workTime: '',
-                  profTitleTime: '',
-                  compactStartTime: '',
-                  compactEndTime: '',
-                  probStartTime: '',
-                  probEndTime: '',
-                  recruitQuarry: '',
-                  openBank: '',
-                  bankCardNo: '',
-                  endmAcct: '',
-                  mediAcct: '',
-                  mateAcct: '',
-                  housAcct: '',
-                  remark: '',
-                  attachm: '',
-//                  file: '',
-              },
-              rules2: {
                   organNo: [
                       {required: true, message: '请选择公司名称', trigger: 'change'}
                   ],
@@ -849,34 +828,7 @@
                       {required: true, message: '请选择入职时间', trigger: 'change'}
                   ],
               },
-              ruleForm4: {
-                  companyName: '',
-                  position: '',
-                  workDes: '',
-                  workTime1: '',
-                  workTime2: '',
-              },
-              rules4: {
-                  userNum: [
-                      {required: true, message: '请输入员工编号', trigger: 'blur'},
-                      {min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur'}
-                  ],
-                  companyName: [
-                      {required: true, message: '请输入公司名称', trigger: 'blur'}
-                  ],
-                  position: [
-                      {required: true, message: '请输入职位', trigger: 'blur'}
-                  ],
-                  workDes: [
-                      {required: true, message: '请输入工作描述', trigger: 'blur'}
-                  ],
-                  workTime1: [
-                      {required: true, message: '请选择日期', trigger: 'blur'}
-                  ],
-                  workTime2: [
-                      {required: true, message: '请选择日期', trigger: 'blur'}
-                  ],
-              },
+              //公共校验
               rules5: {
                   startTime: [
                       {type:'date', required: true, message: '请选择日期范围', trigger: 'change'}
@@ -903,7 +855,7 @@
                       {required: true, message: '请输入项目职责', trigger: 'blur'}
                   ],
                   desc: [
-                      {required: true, message: '请输入项目描述', trigger: 'blur'}
+                      {required: true, message: '请输入描述', trigger: 'blur'}
                   ],
                   schoolName: [
                       {required: true, message: '请输入学校名称', trigger: 'blur'}
@@ -924,14 +876,65 @@
                       {required: true, message: '请输入职责', trigger: 'blur'}
                   ],
               },
-              test:'',
           }
         },
-//        watch:{
-//            user_info: function (val, oldVal) {
-//                this.user_info = val
-//            },
-//        },
+        watch:{
+            userNo:{
+                handler: function (val, oldVal) {
+                    console.log(val,oldVal)
+                    this.social_item.lists = [
+                        {
+                            contactId: '',
+                            contactName: '',
+                            relationship: '',
+                            telphone: '',
+                            profession: '',
+                            post: '',
+                            addr: '',
+                            isShowEdit: false
+                        },
+                    ],
+                    this.project_item.lists = [
+                        {
+                            startTime: '',
+                            endTime: '',
+                            projectName: '',
+                            mainSkill: '',
+                            projectRole: '',
+                            softEnv: '',
+                            custom: '',
+                            projectDuty: '',
+                            desc: '',
+                            isShowEdit: false
+                        },
+                    ],
+                    this.education_item.lists = [
+                        {
+                            startTime: '',
+                            endTime: '',
+                            schoolName: '',
+                            major: '',
+                            education: '',
+                            desc: '',
+                            isShowEdit: false
+                        },
+                    ],
+                    this.work_item.lists = [
+                        {
+                            startTime: '',
+                            endTime: '',
+                            company: '',
+                            post1: '',
+                            duty: '',
+                            desc: '',
+                            isShowEdit: false
+                        },
+                    ],
+                    this.fileList2 = []
+                },
+//                immediate: true,
+            },
+        },
         components: {
             current,socialRelationItem,messageBox
         },
@@ -968,64 +971,55 @@
                 this.ruleForm.gradTime = val
             },
             changeEntryTime(val) {
-                this.ruleForm2.entryTime = val
+                this.ruleForm.entryTime = val
             },
             changeleftJobTime(val) {
-                this.ruleForm2.leftJobTime = val
+                this.ruleForm.leftJobTime = val
             },
             changeworkTime(val) {
-                this.ruleForm2.workTime = val
+                this.ruleForm.workTime = val
             },
             changeprofTitleTime(val) {
-                this.ruleForm2.profTitleTime = val
+                this.ruleForm.profTitleTime = val
             },
             changeCompactStartTime(val) {
-                this.ruleForm2.compactStartTime = val
+                this.ruleForm.compactStartTime = val
             },
             changeCompactEndTime(val) {
-                this.ruleForm2.compactEndTime = val
+                this.ruleForm.compactEndTime = val
             },
             changeProbStartTime(val) {
-                this.ruleForm2.probStartTime = val
+                this.ruleForm.probStartTime = val
             },
             changeProbEndTime(val) {
-                this.ruleForm2.probEndTime = val
+                this.ruleForm.probEndTime = val
             },
             handleClick(tab, event) {
 //                console.log(tab, event);
                 this.tabName = tab.name
             },
-
+            //头像上传
             handleAvatarChange(file, fileList) {
-//                console.log(file)
-                this.imageUrl = URL.createObjectURL(file.raw);
-                this.ruleForm.avat = {
-                    file
-                }
-            },
-            handleAvatarSuccess(res, file) {
-                let self = this
-                console.log(res,'handleAvatarSuccess')
-                self.social_item.userNo = res.data.data
-                self.project_item.userNo = res.data.data
-                self.education_item.userNo = res.data.data
-                self.work_item.userNo = res.data.data
-                self.certificates_list.userNo = res.data.data
-            },
-            beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg';
-                const isLt2M = file.size / 1024 / 1024 < 2;
-                this.user_info = Object.assign(this.ruleForm,this.ruleForm2)
-                console.log('beforeAvatarUpload',this.user_info)
+                const isJPG = file.raw.type === 'image/jpeg';
+                const isLt2M = file.raw.size / 1024 / 1024 < 2;
                 if (!isJPG) {
                     this.$message.error('上传头像图片只能是 JPG 格式!');
+                    return isJPG
                 }
                 if (!isLt2M) {
                     this.$message.error('上传头像图片大小不能超过 2MB!');
+                    return isLt2M
                 }
-                return isJPG && isLt2M;
+                this.ruleForm.avatar = true
+                this.imageUrl = URL.createObjectURL(file.raw);
             },
+            handleAvatarSuccess(res, file) {
+                console.log(res,'handleAvatarSuccess')
+            },
+            beforeAvatarUpload(file) {
 
+            },
+            //证件方法
             handleRemove(file, fileList) {
                 console.log('ffff')
                 this.$confirm('此操作将永久删除, 是否继续?', '提示', {
@@ -1070,19 +1064,31 @@
             },
             handleFileUpload(file, fileList) {
                 if(this.tabName == 'first') {
-                    this.ruleForm2.attachm = file.name
-                    this.ruleForm2.file = file
+                    this.ruleForm.attachm = file.name
                 }
             },
             successUpload(response, file, fileList) {
                 if(this.tabName == 'first') {
                     let self = this
-                    console.log(response)
-                    self.social_item.userNo = response.data.data
-                    self.project_item.userNo = response.data.data
-                    self.education_item.userNo = response.data.data
-                    self.work_item.userNo = response.data.data
-                    self.certificates_list.userNo = response.data.data
+                    let result = response.retMsg
+                    console.log(response,'successUpload',response.data)
+                    if('操作成功'==result){
+                        let aa = response.data
+                        self.social_item.userNo = aa
+                        self.project_item.userNo = aa
+                        self.education_item.userNo = aa
+                        self.work_item.userNo = aa
+                        self.certificates_list.userNo = aa
+                        self.avatar.userNo = aa
+                        if(self.ruleForm.avatar){
+                            console.log(self.avatar.userNo,'self.ruleForm.avatar')
+                            self.$refs.uploadAvatar.submit()
+                        }
+                        this.$message({ message: '操作成功', type: 'success' });
+                    }else {
+                        this.$message({ message: result, type: 'error' });
+                    }
+
                 }
                 if(this.tabName == 'sixth') {
                     console.log(response,'????????successUpload????????',file,'????????successUpload????????',fileList)
@@ -1109,25 +1115,8 @@
                 }
             },
             checkUserNo(file) {
-                if(this.tabName == 'first') {
-                    if(this.ruleForm.avatar) {
-                        const isJPG = this.ruleForm.avatar.type === 'image/jpeg';
-                        const isLt2M = this.ruleForm.avatar.size / 1024 / 1024 < 2;
-                        this.user_info = Object.assign(this.ruleForm,this.ruleForm2)
-                        if (!isJPG) {
-                            this.$message.error('上传头像图片只能是 JPG 格式!');
-                        }
-                        if (!isLt2M) {
-                            this.$message.error('上传头像图片大小不能超过 2MB!');
-                        }
-                        return isJPG && isLt2M;
-                    }else {
-                        this.user_info = Object.assign(this.ruleForm,this.ruleForm2)
-                    }
-                }
                 if(this.tabName == 'sixth') {
                     console.log('sixth')
-//                    this.certificates_list.userNo = 'P0000120'
                     if(!this.certificates_list.userNo){
                         this.$message({
                             type: 'error',
@@ -1135,14 +1124,12 @@
                         });
                         return false
                     }
-//                    this.certificates_list.file = {
-//                        file:file
-//                    }
                 }
             },
+            //弹出窗公共方法(3个)
             dialogConfirm(custInfo){
                 let self = this;
-                self.ruleForm2.lineManager = custInfo.stateName+'_'+custInfo.stateNo
+                self.ruleForm.lineManager = custInfo.stateName+'_'+custInfo.stateNo
                 self.dialogVisible = false;
             },
             userNoSelect(){
@@ -1192,11 +1179,12 @@
             changeDialogVisible(val) {
                 this.dialogVisible=val
             },
+            //选择部门和CCC的方法(2个)
             selectDep(organNo) {
                 let data = {organNo}
                 this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
                     .then(res=>{
-                        this.ruleForm2.derpNo = ''
+                        this.ruleForm.derpNo = ''
                         this.basicInfo.department = res.data.data
                     })
                     .catch(e=>{
@@ -1217,45 +1205,42 @@
                 if('first' === tabName){
                     self.$refs.ruleForm.validate((valid) => {
                         if (valid) {
-                            self.$refs.ruleForm2.validate((valid) => {
-                                if (valid) {
-                                        let data = Object.assign(this.ruleForm,this.ruleForm2)
-                                        console.log(data)
-                                        this.$axios.post('/iem_hrm/CustInfo/insertCustInfo', data)
-                                            .then(res=>{
-                                                let result = res.data.retMsg
-                                                console.log(res,res.data.data)
-                                                if(result=="操作成功"){
-                                                    self.$message({
-                                                        type: 'success',
-                                                        message: result
-                                                    });
-                                                    this.userNo = res.data.data
-                                                    self.social_item.userNo = this.userNo
-                                                    self.project_item.userNo = this.userNo
-                                                    self.education_item.userNo = this.userNo
-                                                    self.work_item.userNo = this.userNo
-                                                    self.certificates_list.userNo = this.userNo
-//                                                self.user_avatar.userNo = res.data.data
-//                                                self.$refs.uploadAvatar.submit()
-                                                }else{
-                                                    self.$message({
-                                                        type: 'error',
-                                                        message: result
-                                                    });
-                                                }
-
-                                            })
-                                            .catch(e=>{
-                                                console.log(e)
-                                            })
-                                }else {
-                                    self.$message({
-                                        type: 'error',
-                                        message: '请填写必须信息!'
-                                    });
-                                }
-                            })
+                            if(this.ruleForm.attachm) {
+                                console.log(this.ruleForm,'upload')
+                                self.$refs.upload.submit()
+                            }else {
+                                console.log(this.ruleForm,'正常提交')
+                                this.$axios.post('/iem_hrm/CustInfo/insertCustInfo', this.ruleForm)
+                                    .then(res=>{
+                                        let result = res.data.retMsg
+                                        console.log(res,res.data.data)
+                                        if(result=="操作成功"){
+                                            self.$message({
+                                                type: 'success',
+                                                message: result
+                                            });
+                                            this.userNo = res.data.data
+                                            self.social_item.userNo = this.userNo
+                                            self.project_item.userNo = this.userNo
+                                            self.education_item.userNo = this.userNo
+                                            self.work_item.userNo = this.userNo
+                                            self.certificates_list.userNo = this.userNo
+                                            self.avatar.userNo = res.data.data
+                                            if(self.ruleForm.avatar){
+                                                console.log('avatar',self.ruleForm.avatar,self.avatar)
+                                                self.$refs.uploadAvatar.submit()
+                                            }
+                                        }else{
+                                            self.$message({
+                                                type: 'error',
+                                                message: result
+                                            });
+                                        }
+                                    })
+                                    .catch(e=>{
+                                        console.log(e)
+                                    })
+                            }
                         }else {
                             self.$message({
                                 type: 'error',
@@ -1265,7 +1250,6 @@
                     })
                 }
                 if('second'===tabName) {
-//                    this.social_item.userNo = 'P0000120'
                     if(!this.social_item.userNo){
                         self.$message({
                             type: 'error',
@@ -1506,9 +1490,10 @@
                     }
                 }
             },
-
             add_item() {
-                let item = {
+//                new socialRelationItem().$mount().$appendTo('#secondContentWrapper')
+                if(this.tabName == 'second') {
+                    let item = {
                         contactName: '',
                         relationship: '',
                         telphone: '',
@@ -1517,27 +1502,10 @@
                         addr: '',
                         isShowEdit: false
                     }
-//                new socialRelationItem().$mount().$appendTo('#secondContentWrapper')
-                this.social_item.lists.push(item)
-
-            },
-            delRelationItem(relationNum) {
-                this.social_item.lists.splice(relationNum,1)
-            },
-            add_edu_experience() {
-                let item = {
-                        startTime: '',
-                        endTime: '',
-                        schoolName: '',
-                        major: '',
-                        education: '',
-                        desc: '',
-                        isShowEdit: false
-                    }
-                this.education_item.lists.push(item)
-            },
-            add_work_experience(){
-                let item = {
+                    this.social_item.lists.push(item)
+                }
+                if(this.tabName == 'third') {
+                    let item = {
                         startTime: '',
                         endTime: '',
                         company: '',
@@ -1546,10 +1514,22 @@
                         desc: '',
                         isShowEdit: false
                     }
-                this.work_item.lists.push(item)
-            },
-            add_pro_experience() {
-                let item = {
+                    this.work_item.lists.push(item)
+                }
+                if(this.tabName == 'fourth') {
+                    let item = {
+                        startTime: '',
+                        endTime: '',
+                        schoolName: '',
+                        major: '',
+                        education: '',
+                        desc: '',
+                        isShowEdit: false
+                    }
+                    this.education_item.lists.push(item)
+                }
+                if(this.tabName == 'fifth') {
+                    let item = {
                         startTime: '',
                         endTime: '',
                         projectName: '',
@@ -1561,7 +1541,13 @@
                         desc: '',
                         isShowEdit: false
                     }
-                this.project_item.lists.push(item)
+                    this.project_item.lists.push(item)
+                }
+
+
+            },
+            delRelationItem(relationNum) {
+                this.social_item.lists.splice(relationNum,1)
             },
             proDel(isShow,index) {
                 if('fifth'==this.tabName){
@@ -1623,9 +1609,6 @@
                 }
             },
         },
-        computed: {
-
-        }
     }
 </script>
 

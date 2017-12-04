@@ -1,6 +1,10 @@
 <template>
     <transition name="move" mode="out-in">
+<<<<<<< HEAD
            <router-view></router-view>
+=======
+            <router-view></router-view>
+>>>>>>> 1204save1
     </transition>
 </template>
 
