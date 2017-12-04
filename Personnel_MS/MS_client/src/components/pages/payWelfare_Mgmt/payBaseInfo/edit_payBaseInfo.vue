@@ -138,7 +138,7 @@
                         </el-form-item>
                     </el-col> 
                 </el-form>
-                <el-form :inline="true" :model="insurancePayTemp" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险(个人)">
                             <el-input v-model="_perEndm"></el-input>
@@ -208,11 +208,19 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
-                          <el-input v-model="editPayBaseInfo.attachm"></el-input>
-                          <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
-                              <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
-                          </el-upload>
-                        </el-form-item>
+				  		    <el-input v-model="editPayBaseInfo.attachm"></el-input>
+                            <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" 
+                                :on-change="handleFileUpload" 
+                                :on-success="successUpload"
+                                :file-list="fileList"
+                                :show-file-list="true" 
+                                :auto-upload="false"
+                                :headers="token"
+                                :name="filesName"
+                                :multiple="true">
+                                <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
+                            </el-upload>
+				  	    </el-form-item>
                     </el-col>
                 </el-form>
             </div>
@@ -229,6 +237,11 @@ export default {
       userNo: "",
       custInfo: {},
       editPayBaseInfo: {},
+      filesName: "files",
+      fileList: [],
+      token: {
+        Authorization: `Bearer ` + localStorage.getItem("access_token")
+      },
       insurancePayTemplates: {},
       insurancePayTemp: {},
       payBaseInfoRules: {
@@ -302,6 +315,7 @@ export default {
   },
   created() {
     this.userNo = this.$route.params.userNo;
+    console.log('接到的userNo:',this.userNo);
     this.getCustInfo(); //初始查询用户信息
     this.getPayBaseInfoDetail(); //初始查询薪酬基数详情
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
@@ -376,7 +390,7 @@ export default {
       self.$axios
         .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
         .then(res => {
-          console.log(res);
+          console.log('custInfo',res);
           self.custInfo = res.data.data;
         })
         .catch(() => {
@@ -390,7 +404,7 @@ export default {
         .get("/iem_hrm/pay/queryPayBaseInfoDetail/" + userNo)
         .then(res => {
           self.editPayBaseInfo = res.data.data;
-          console.log(self.editPayBaseInfo);
+          console.log('editPayBaseInfo',self.editPayBaseInfo);
         })
         .catch(() => {
           console.log("error");
@@ -402,6 +416,7 @@ export default {
         .get("/iem_hrm/InsurancePayTemplate/queryAllInsurancePayTemplate")
         .then(res => {
           self.insurancePayTemplates = res.data.data;
+          console.log('insurancePayTemplates',self.insurancePayTemplates);
         })
         .catch(() => {
           console.log("error");
@@ -426,8 +441,20 @@ export default {
       this.getInsurancePayTemp(); //根据参数值查询保险缴纳标准
     },
     handleFileUpload(file, fileList) {
-      console.log(file);
-      this.addPayBaseInfo.attachm = file.name;
+      this.fileList = fileList;
+      this.editPayBaseInfo.attachm = "";
+      fileList.forEach(function(item) {
+        this.editPayBaseInfo.attachm += item.name + " ";
+      }, this);
+      console.log("选中的fileList", fileList);
+      console.log("选中的this.fileList:", this.fileList);
+    },
+    successUpload(res, file, fileList) {
+      console.log("upload_response", res);
+      if (res.code == "S00000") {
+        this.$message({ type: "success", message: "文件上传成功!" });
+        // this.$router.push("/payBaseInfo_setting");
+      } else this.$message.error(res.retMsg);
     },
     handleSave(editPayBaseInfoRules) {
       this.$refs[editPayBaseInfoRules].validate(valid => {
