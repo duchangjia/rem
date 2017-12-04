@@ -322,7 +322,7 @@
             this.getList();
         },
         methods: {
-            linkTo(url){
+            linkTo(url){ 
                 this.$router.push(url);
             },
             getList(){
