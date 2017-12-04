@@ -48,7 +48,7 @@
 			<div class="add-wrapper auth-assign">
 				<el-col :span="24">
 					<div class="context-menu">
-	                    <el-col :span="3" class="wage_legtside">
+	                    <el-col :span="3" class="wage_leftside">
 	                        <div>部门范围</div>
 	                    </el-col>
 	                    <el-col :span="21" class="wage_rightside" v-if="derpRangeList.length>0">
@@ -61,11 +61,12 @@
 	                    </el-col>
 	                </div>
                 </el-col>
-                <div class="func-permission" v-if="checkedSubmenusFlag">
-	                <el-col :span="3" class="wage_legtside">
+                <div class="func-permission">
+	                <el-col :span="3" class="wage_leftside">
 	                    <div>人员范围</div>
+                		<span class="tips" v-show="checkPres.length==0">请选择人员范围</span>
 	                </el-col>
-	                <el-col :span="21" class="wage_rightside">
+	                <el-col :span="21" class="wage_rightside" v-if="checkedSubmenusFlag">
 	                    <el-row :gutter="20">
 	                        <el-col :span="6" v-for="(depart, index) in formdata2.derpRange" :key="index">
 	                            <div class="funcs-content">
@@ -219,8 +220,9 @@
 				let params = {
 					organNo: value
 				}
-				sessionStorage.setItem('organNo',value)
+				sessionStorage.setItem('organNo',value);
 				//查询部门范围列表
+				this.derpRangeList = [];
 				this.queryDerpList(params);
 			},
 			// 部门范围 多选
@@ -328,6 +330,7 @@
 			        		preRange = [],
 			        		derpRanges = [],
 			        		derpRange = [];
+//			        	self.preRanges = preRanges;
 		        		self.formdata2.derpRange.forEach(function(ele) {
 			        		derpRanges.push(ele.derpNo);
 			        		derpRange.push(ele.derpNo);
@@ -335,23 +338,26 @@
 			        	self.formdata2.preRange.forEach(function(ele) {
 			        		preRanges.push(ele.userNo);
 			        		preRange.push(ele.userNo);
-			        	},this);  
-			          	let params = {
-			          		batchType: self.formdata2.batchType,
-							organNo: self.formdata2.organNo,
-							month: self.formdata2.month,
-							settleStartTime: self.formdata2.settleStartTime,
-							settleEndTime: self.formdata2.settleEndTime,
-							remark: self.formdata2.remark,
-			          		preRanges: preRanges,
-			          		derpRanges: derpRanges,
-			          		derpRange: JSON.stringify(derpRange),
-			          		preRange: JSON.stringify(preRange)
-			          		
-			          	}
-			          	console.log('params',params);
-			          	//新增工资流程信息
-			          	self.addWageInfo(params);
+			        	},this); 
+			        	if(self.checkPres.length>0) {
+			        		let params = {
+				          		batchType: self.formdata2.batchType,
+								organNo: self.formdata2.organNo,
+								month: self.formdata2.month,
+								settleStartTime: self.formdata2.settleStartTime,
+								settleEndTime: self.formdata2.settleEndTime,
+								remark: self.formdata2.remark,
+				          		preRanges: preRanges,
+				          		derpRanges: derpRanges,
+				          		derpRange: JSON.stringify(derpRange),
+				          		preRange: JSON.stringify(preRange)
+				          		
+				          	}
+				          	console.log('params',params);
+				          	//新增工资流程信息
+				          	self.addWageInfo(params);
+			        	}
+				          	
 			        }
 		       })
 			},
@@ -467,12 +473,21 @@
     background: #FFFFFF;
     border: 1px solid #FF9900;
 }
-.wage_legtside {
-	text-align: right;
-    padding: 9px 27px 0;
+.add_wage .wage_leftside {
+    text-align: right;
+    padding: 9px 27px 10px;
     color: #999999;
+    position: relative;
+    margin-bottom: 20px;
 }
-.wage_rightside {
+.add_wage .wage_rightside {
 	margin-left: -10px;
+}
+.add_wage .tips {
+    position: absolute;
+    left: 40px;
+    bottom: -5px;
+    color: #ff4949;
+    font-size: 12px;
 }
 </style>
