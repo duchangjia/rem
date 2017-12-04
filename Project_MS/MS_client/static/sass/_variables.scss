@@ -1,0 +1,72 @@
+
+//
+// Variables
+// --------------------------------------------------
+
+// Type
+// --------------------------------------------------
+
+$font-family-default: "Helvetica Neue",Helvetica,Arial,sans-serif;
+$font-size-default:14px;
+$font-weight: 500;
+$font-weight-light: 400;
+$line-height-default:30px;
+
+
+//img
+$imgBaseUrl: "../img";
+
+// Colors
+// --------------------------------------------------
+
+ 
+$bg-color: #f4f4f4;
+$bg-wihte:#fff;
+// 主色
+$color-primary: #ff9900;
+$color-danger: #ff4949;
+$color-warning: #f60;
+$color-success: #4cd964;
+
+$color-primary-active: #20a0ff;
+$color-danger-active: darken($color-danger, 10%);
+$color-warning-active: darken($color-warning, 10%);
+$color-success-active: darken($color-success, 10%);
+
+$color-split: #ff9900;  //边框的颜色
+$color-bg: #eee;
+$color-text: #333333; //文案色
+$color-text-secondary: #999; //次级文案
+$color-text-gray: #7f8a96; //灰色文案
+$color-text-gray-light: #dbe0e9; //更灰色文案
+//链接色
+$color-link:#337ab7; //链接色有可能不同于主色
+$color-link-active: $color-primary-active; //链接色有可能不同于主色
+
+// Bars
+// --------------------------------------------------
+
+// $bar-base-height:  2.2rem;
+// $bar-tab-height:   2.5rem;
+// $bar-side-spacing: 0.5rem;
+
+
+// Cards
+// --------------------------------------------------
+
+$card-bg: #fff;
+
+
+// Buttons
+// --------------------------------------------------
+
+$button-font-size:14px;
+
+
+// Borders
+// --------------------------------------------------
+$border-default-width: 1px;
+$border-default-color: $color-split;
+$border-default: $border-default-width solid $border-default-color;
+$border-radius-default:0px;
+$border-radius:4px;
