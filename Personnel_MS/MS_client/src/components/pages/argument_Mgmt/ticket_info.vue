@@ -148,11 +148,9 @@
                     type: "warning"
                 })
                 .then(()=>{
-                    console.log(row.organNo)
                      self.$axios
                     .put("/iem_hrm/organBillInfo/delBillInf/" + row.organNo)
                     .then(res => {
-                        console.log(1111)
                     let result = res.data.retMsg;
                     if ("操作成功" === result) {
                         self.$message({

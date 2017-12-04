@@ -8,10 +8,8 @@
 export default {};
 </script>
 
-<<<<<<< HEAD
 <style>
 </style>
 
 
-=======
->>>>>>> 1204save1
+
