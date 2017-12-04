@@ -106,6 +106,7 @@ export default {
         )
         .then(res => {
           self.custInfo = res.data.data
+          
           if(self.custInfo.isDelete == '01'){
             self.isDelete = true
           }else{
@@ -127,10 +128,15 @@ export default {
       }
 
       self.$refs.info.validate((valid) => {
-          console.log(self.custInfo,'传入的对象');
+        let custInfo = self.custInfo;
+        delete custInfo.createdBy
+        delete custInfo.createdDate
+        delete custInfo.updatedBy
+        delete custInfo.updatedDate
+          console.log(custInfo,'传入的对象');
         if (valid) {
           self.$axios
-            .put("/iem_hrm/organBillInfo/modBillInf", self.custInfo)
+            .put("/iem_hrm/organBillInfo/modBillInf", custInfo)
             .then(res => {
               let result = res.data;
               if ((result.code = "S00000")) {
