@@ -12,7 +12,7 @@
                                         <el-upload :disabled="edit"
                                                    ref="uploadAvatar"
                                                    class="avatar-uploader"
-                                                   action="/iem_hrm/CustFile/batch/upload"
+                                                   action="/iem_hrm/CustInfo/uploadAvatar"
                                                    :show-file-list="false"
                                                    :on-success="handleAvatarSuccess"
                                                    :headers="token"
@@ -177,7 +177,7 @@
                                                 <!--<el-input v-model="ruleForm.lineManager" :disabled="edit"></el-input>-->
                                             <!--</el-form-item>-->
                                             <el-form-item label="直线经理">
-                                                <el-input v-model="ruleForm.lineManager" :disabled="edit">
+                                                <el-input v-model="ruleForm.lineManager" :disabled="edit" readOnly>
                                                     <el-button slot="append" icon="search" @click="userNoSelect()" :disabled="edit"></el-button>
                                                 </el-input>
                                                 <messageBox
@@ -333,7 +333,7 @@
                                         </el-col>
                                         <el-col :span="9">
                                             <el-form-item label="附件">
-                                                <el-input v-model="ruleForm.attachm" style="position:absolute"></el-input>
+                                                <el-input v-model="ruleForm.attachm" style="position:absolute" readOnly></el-input>
                                                 <el-upload class="upload-demo" ref="upload" name="file"
                                                            action="/iem_hrm/CustInfo/insertCustInfo"
                                                            :show-file-list="false"
@@ -343,24 +343,9 @@
                                                            :headers="token"
                                                            :before-upload="checkUserNo">
                                                     <el-button slot="trigger" type="primary" class="uploadBtn" :disabled="edit">更换附件</el-button>
-                                                    <el-button type="primary" class="uploadBtn uploadBtn-special" @click="test">下载附件</el-button>
+                                                    <el-button type="primary" class="uploadBtn uploadBtn-special" @click="downLoad">下载附件</el-button>
                                                 </el-upload>
-                                                <!--<el-button class="uploadBtn-special uploadBtn" type="primary">下载附件</el-button>-->
                                             </el-form-item>
-                                            <!--<el-form-item label="附件">-->
-                                                <!--&lt;!&ndash;<el-input v-model="ruleForm.attachm" style="position:absolute" :disabled="edit"></el-input>&ndash;&gt;-->
-                                                <!--&lt;!&ndash;<el-upload class="upload-demo" ref="upload" name="file"&ndash;&gt;-->
-                                                           <!--&lt;!&ndash;:on-change="handleFileUpload"&ndash;&gt;-->
-                                                           <!--&lt;!&ndash;:on-success="successUpload"&ndash;&gt;-->
-                                                           <!--&lt;!&ndash;action="/iem_hrm/CustFile/upload"&ndash;&gt;-->
-                                                           <!--&lt;!&ndash;:show-file-list="false"&ndash;&gt;-->
-                                                           <!--&lt;!&ndash;:auto-upload="false"&ndash;&gt;-->
-                                                           <!--&lt;!&ndash;:headers="token">&ndash;&gt;-->
-                                                    <!--&lt;!&ndash;<el-button slot="trigger" type="primary" class="uploadBtn">上传附件</el-button>&ndash;&gt;-->
-                                                <!--&lt;!&ndash;</el-upload>&ndash;&gt;-->
-                                                <!--&lt;!&ndash;<el-button class="downloadBtn" @click="handleDownload">下载附件</el-button>&ndash;&gt;-->
-                                                <!--<el-input v-model="ruleForm.attachm" :disabled="edit"></el-input><span class="attachment">选择文件</span>-->
-                                            <!--</el-form-item>-->
                                         </el-col>
                                     </el-form>
                                 </div>
@@ -409,7 +394,7 @@
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="24">
-                                                    <el-form-item label="描述" prop="desc" class="fifth_common">
+                                                    <el-form-item label="工作描述" prop="desc" class="fifth_common">
                                                         <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
@@ -511,7 +496,7 @@
                                                     </el-form-item>
                                                 </el-col>
                                                 <el-col :span="12">
-                                                    <el-form-item label="描述" prop="desc">
+                                                    <el-form-item label="描述">
                                                         <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
@@ -572,11 +557,6 @@
                                                         <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
-                                                <!--<div class="button-wrapper">-->
-                                                <!--<button @click="proSave" v-show="false">保存</button>-->
-                                                <!--<button class="button_special" @click="proDel(index)">删除</button>-->
-                                                <!--<span @click="delWorkItem">删除本条</span>-->
-                                                <!--</div>-->
                                             </el-form>
                                         </div>
                                     </div>
@@ -915,7 +895,7 @@
                         {required: true, message: '请输入项目职责', trigger: 'blur'}
                     ],
                     desc: [
-                        {required: true, message: '请输入项目描述', trigger: 'blur'}
+                        {required: true, message: '请输入描述', trigger: 'blur'}
                     ],
                     schoolName: [
                         {required: true, message: '请输入学校名称', trigger: 'blur'}
@@ -936,6 +916,7 @@
                         {required: true, message: '请输入职责', trigger: 'blur'}
                     ],
                 },
+                file:''
             }
         },
         components: {
@@ -978,25 +959,47 @@
                     .catch(e=>{
                         console.log(e)
                     })
-//                this.$axios.get('/iem_hrm/CustFile/queryCustImgs',{params:{userNo:this.userNo}})
-//                    .then(res=>{
-//                        console.log(res)
-////                        for(var name in res.data.data){
-////                            let item = {
-////                                name:name,
-////                                url:'data:image/'+name.substr(name.lastIndexOf('.')+1)+';base64,'+res.data.data[name]
-////                            }
-////                            this.fileList2.push(item)
-////                        }
-//                    })
-//                    .catch(e=>{
-//                        console.log(e)
-//                    })
+                this.$axios.get('/iem_hrm/CustInfo/queryCustAvatar/'+this.userNo)
+                    .then(res=>{
+                        console.log(res)
+                        let url = 'data:image/jpg;base64,'+res.data.data
+                        this.imageUrl = url
+
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
+                this.$axios.get('/iem_hrm/CustInfo/queryCustFile/'+this.userNo)
+                    .then(res=>{
+                        console.log(res)
+                        this.ruleForm.attachm = res.data[0].fileName+'.'+res.data[0].fileSuffix
+                        this.file = res.data[0]
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
             }
         },
         methods: {
-            test(event) {
-              console.log('test',event)
+            downLoad() {
+                let data = this.file.fileId
+                this.$axios.get('/iem_hrm/file/downloadFile/'+data,{
+                    responseType: 'blob'
+                }).then(res=>{
+                    const blob = res.data;
+                    console.log(res,data)
+                    let elink = document.createElement('a'); // 创建a标签
+                    elink.download = this.file.fileName+'.'+this.file.fileSuffix;
+                    elink.style.display = 'none';
+                    elink.href = URL.createObjectURL(blob);
+                    document.body.appendChild(elink);
+                    elink.click(); // 触发点击a标签事件
+                    document.body.removeChild(elink);
+                })
+                    .catch(e=>{
+                        console.log(e)
+                        this.$message({ message: '下载附件失败', type: 'error' });
+                    })
             },
             holdBirthday(val){
                 this.ruleForm.birthday = val
@@ -1631,12 +1634,7 @@
                     console.log(this.userNo,this.fileList2)
                     let data = {
                         userNo: this.userNo,
-//                        imageId: []
                     }
-//                    let arr = []
-//                    data.imageId = this.fileList2.map(item=>{
-//                        return arr.push(item.imageId)
-//                    })
                     this.$axios.get('/iem_hrm/CustFile/batchDownLoad',{
                         params:data,
                         responseType: 'blob'
