@@ -38,7 +38,6 @@
                     </el-form-item>
                 </el-col>
             </el-form>
-            <!--<button @click="checkValue()">dianwo</button>-->
         </div>
     </div>
 </template>
@@ -88,10 +87,12 @@
         },
         methods: {
             checkValue() {
-                console.log(111)
+                let self = this
                 this.$refs['ruleFrom'+this.relationNum].validate((valid) => {
                     if (valid) {
+                         self.$emit('pass_validate', 1)
                     }else {
+                        self.$emit('pass_validate', 0)
                     }
                 })
             },
