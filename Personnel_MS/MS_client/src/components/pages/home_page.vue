@@ -18,50 +18,59 @@
                 </ul>
             </el-col>
         </el-row>
-        <div class="news-list">
-                <div class="msg-item msg-large-item">
-                    <div class="msg-item-box">
-                        <div class="msg-item-head clearfix">
-                            <div class="msg-item-tit tit-size">
-                                代办事宜
-                            </div>
-                            <div class="more-icon tit-size">
-                                MORE
-                            </div>
+        <el-row class="news-list">
+            <div class="msg-item msg-large-item">
+                <div class="msg-item-box">
+                    <div class="msg-item-head clearfix">
+                        <div class="msg-item-tit tit-size">
+                            代办事宜
                         </div>
-                        <div class="msg-content">
-                            <ul>
-                                <li class="msg-list clearfix msg-large-list txt-size" v-for="item in newsList" v-bind:class="item.class">
-                                    <span class="msg-txt ">{{item.txt}}</span>
-                                    <div class="msg-time">{{item.time}}</div>
-                                </li>
-                            </ul>
+                        <div class="more-icon tit-size">
+                            MORE
                         </div>
                     </div>
-                </div>
-                <div class="msg-item msg-large-item">
-                    <div class="msg-item-box">
-                        <div class="msg-item-head clearfix">
-                            <div class="msg-item-tit tit-size">
-                                事件提醒
-                            </div>
-                            <div class="more-icon tit-size">
-                                MORE
-                            </div>
-                        </div>
-                        <div class="msg-content">
-                            <ul>
-                                <li class="msg-list clearfix msg-large-list txt-size" v-for="item in newsList" v-bind:class="item.class">
-                                    <div class="msg-icon"></div>
-                                    <span class="msg-txt ">{{item.txt}}</span>
-                                    <div class="msg-time">{{item.time}}</div>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="msg-content">
+                        <ul>
+                            <li class="msg-list clearfix msg-large-list txt-size" v-for="item in newsList" v-bind:class="item.class">
+                                <span class="msg-txt ">{{item.txt}}</span>
+                                <div class="msg-time">{{item.time}}</div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
-        
+            <div class="msg-item msg-large-item">
+                <div class="msg-item-box">
+                    <div class="msg-item-head clearfix">
+                        <div class="msg-item-tit tit-size">
+                            事件提醒
+                        </div>
+                        <div class="more-icon tit-size">
+                            MORE
+                        </div>
+                    </div>
+                    <div class="msg-content">
+                        <ul>
+                            <li class="msg-list clearfix msg-large-list txt-size" v-for="item in newsList" v-bind:class="item.class">
+                                <div class="msg-icon"></div>
+                                <span class="msg-txt ">{{item.txt}}</span>
+                                <div class="msg-time">{{item.time}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </el-row>
+        <el-row class="news-list common-chart">
+            <el-col :span="24">
+                <div class="canvas-box" id="myChart4"></div>
+            </el-col>
+            <div class="chart-button-list">
+                <span class="c-dark">近3月</span>
+                <span class="c-dark">近6月</span>
+                <span class="c-dark active">近一年</span>
+            </div>
+        </el-row>
 
             <!--<div class="content-wrapper">-->
         <el-row style="margin: 20px 0; overflow: hidden;" class="common-chart">
@@ -70,7 +79,7 @@
         </el-row>
         <el-row style="margin: 20px 0; overflow: hidden;" class="common-chart">
             <el-col :span="12"><div class="content-left" id="myChart3"></div></el-col>
-            <el-col :span="12"><div class="content-right" id="myChart4"></div></el-col>
+            <!-- <el-col :span="12"><div class="content-right" id="myChart4"></div></el-col> -->
         </el-row>
             <!--</div>-->
 
@@ -82,88 +91,8 @@
             <!--<div class="content-left" id="myChart3"></div>-->
             <!--<div class="content-right" id="myChart4"></div>-->
         <!--</div>-->
-        <div class="content-wrapper">
-            <el-row>
-                <el-col :span="12">
-                    <div class="content-left info-msg common">
-                        <div class="title-wrapper"><span class="title">提示信息</span><a href="#" class="more">MORE</a></div>
-                        <ul class="info-msg-list">
-                            <li class="info-msg-item" v-for="item in infoObj" >
-                                <i class="info-msg-icon"></i>{{item.content}}<span class="text">{{item.date}}</span>
-                            </li>
-                            <!--<li class="info-msg-item">-->
-                                <!--<i class="info-msg-icon"></i>写点东西<span class="text">刚刚</span>-->
-                            <!--</li>-->
-                            <!--<li class="info-msg-item">-->
-                                <!--<i class="info-msg-icon"></i>写点东西<span class="text">刚刚</span>-->
-                            <!--</li>-->
-                            <!--<li class="info-msg-item">-->
-                                <!--<i class="info-msg-icon"></i>写点东西<span class="text">刚刚</span>-->
-                            <!--</li>-->
-                            <!--<li class="info-msg-item">-->
-                                <!--<i class="info-msg-icon"></i>写点东西<span class="text">刚刚</span>-->
-                            <!--</li>-->
-                        </ul>
-                    </div>
-                </el-col>
-                <el-col :span="12">
-                    <div class="content-right todo common">
-                        <div class="event">
-                            <div class="title-wrapper"><span class="title">代办事宜</span><a href="#" class="more">MORE</a></div>
-                            <ul class="todo-list-common">
-                                <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
-                                <li class="line"></li>
-                                <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
-                                <li class="line"></li>
-                                <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
-                            </ul>
-                        </div>
-                        <div class="remind">
-                            <div class="title-wrapper"><span class="title">信息提醒</span><a href="#" class="more">MORE</a></div>
-                            <ul class="todo-list-common">
-                                <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
-                                <li class="line"></li>
-                                <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
-                                <li class="line"></li>
-                                <li>xiediandongxi.......<span class="date">2016-10-10</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </el-col>
-            </el-row>
-        </div>
-        <el-row>
-            <el-col :span="23">
-                <div class="content-wrapper item-pro">
-                    <div class="pro-title">项目进度表</div>
-                    <el-table
-                            stripe
-                            :data="tableData"
-                            border
-                            style="width: 1040px">
-                        <el-table-column
-                                align="center"
-                                prop="date"
-                                label="日期"
-                                width="260">
-                        </el-table-column>
-                        <el-table-column
-                                align="center"
-                                prop="name"
-                                label="姓名"
-                                width="260">
-                        </el-table-column>
-                        <el-table-column
-                                align="center"
-                                label="地址">
-                            <template scope="scope">
-                                <el-progress :percentage="scope.row.progress"></el-progress>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                </div>
-            </el-col>
-        </el-row>
+        
+        
     </div>
 </template>
 
@@ -267,58 +196,14 @@
                         link:'',
                         time:'2017-8-30'
                     }
-                ],
-                infoObj: [
-                    {content: '写点东西', date: '刚刚'},
-                    {content: '写点东西', date: '刚刚'},
-                    {content: '写点东西', date: '刚刚'},
-                    {content: '写点东西', date: '刚刚'},
-                    {content: '写点东西', date: '刚刚'},
-                ],
-                todoObj: [
-                    {content: '写点东西', date: '2016-10-10'},
-                    {content: '写点东西', date: '2016-10-10'},
-                    {content: '写点东西', date: '2016-10-10'},
-                    {content: '写点东西', date: '2016-10-10'},
-                    {content: '写点东西', date: '2016-10-10'},
-                ],
-                remindObj: [
-                    {content: '写点东西', date: '2016-10-10'},
-                    {content: '写点东西', date: '2016-10-10'},
-                    {content: '写点东西', date: '2016-10-10'},
-                    {content: '写点东西', date: '2016-10-10'},
-                    {content: '写点东西', date: '2016-10-10'},
-                ],
-                tableData: [{
-                    date: '2016-05-02',
-                    name: '王小虎',
-                    progress: 40,
-                }, {
-                    date: '2016-05-04',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1517 弄',
-                    progress: 50,
-                }, {
-                    date: '2016-05-01',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1519 弄',
-                    progress: 60,
-                }, {
-                    date: '2016-05-03',
-                    name: '王小虎',
-                    address: '上海市普陀区金沙江路 1516 弄',
-                    progress: 70,
-                }],
+                ]
             }
         },
         components: {
           current,
         },
         mounted() {
-            this.drawLine1();
-            this.drawLine2();
-            this.drawLine3();
-            this.drawLine4();
+            this.drawLine();
             this.getList();
         },
         methods: {
@@ -327,10 +212,165 @@
             },
             getList(){
                 let self = this;
-                    
                 self.$axios.get(jurisdictionUrl).then(res=>{
                     console.log(res)
                 })
+            },
+            drawLine(){
+                let myChart = this.$echarts.init(document.getElementById('myChart4'))
+                //定义图表option
+                var option = {
+                    //标题，每个图表最多仅有一个标题控件，每个标题控件可设主副标题
+                    title: {
+                        //主标题文本，'\n'指定换行
+                        text: '入离职情况（单位：人）',
+                        //主标题文本超链接
+                        link: '',
+                        //副标题文本，'\n'指定换行
+                        subtext: '',
+                        //副标题文本超链接
+                        sublink: '',
+                        //水平安放位置，默认为左侧，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
+                        x: 'left',
+                        //垂直安放位置，默认为全图顶端，可选为：'top' | 'bottom' | 'center' | {number}（y坐标，单位px）
+                        y: 'top',
+                        //设定标题风格
+                        textStyle:{
+                             //文字颜色
+                            color:'#333',
+                            //字体风格,'normal','italic','oblique'
+                            fontStyle:'normal',
+                            //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+                            fontWeight:'normal',
+                            //字体系列
+                            fontFamily:'sans-serif',
+                            //字体大小
+                    　　　　 fontSize:12
+                        }
+                    },
+                    grid: {  
+                        left: '40',
+                        x:25,
+                        y:45,
+                        x2:5,
+                        y2:20,
+                        borderWidth:1
+                    }  ,
+                    //提示框，鼠标悬浮交互时的信息提示
+                    tooltip: {
+                        //触发类型，默认（'item'）数据触发，可选为：'item' | 'axis'
+                        // trigger: 'axis'
+                    },
+                    //图例，每个图表最多仅有一个图例
+                    legend: {
+                        //显示策略，可选为：true（显示） | false（隐藏），默认值为true
+                        show: true,
+                        //水平安放位置，默认为全图居中，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
+                        x: 'center',
+                        //垂直安放位置，默认为全图顶端，可选为：'top' | 'bottom' | 'center' | {number}（y坐标，单位px）
+                        y: 'top',
+                        //legend的data: 用于设置图例，data内的字符串数组需要与sereis数组内每一个series的name值对应
+                        data: ['入职情况','离职情况']
+                    },
+                    //工具箱，每个图表最多仅有一个工具箱
+                    toolbox: {
+                        //显示策略，可选为：true（显示） | false（隐藏），默认值为false
+                        show: true,
+                        //启用功能，目前支持feature，工具箱自定义功能回调处理
+                        feature: {
+                          
+                        }
+                    },
+                    //是否启用拖拽重计算特性，默认关闭(即值为false)
+                    calculable: true,
+                    //直角坐标系中横轴数组，数组中每一项代表一条横轴坐标轴，仅有一条时可省略数值
+                    //横轴通常为类目型，但条形图时则横轴为数值型，散点图时则横纵均为数值型
+                    xAxis: [
+                        {
+                            //显示策略，可选为：true（显示） | false（隐藏），默认值为true
+                            show: true,
+                            //坐标轴类型，横轴默认为类目型'category'
+                            type: 'category',
+                            //类目型坐标轴文本标签数组，指定label内容。 数组项通常为文本，'\n'指定换行
+                            data: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
+                        }
+                    ],
+                    //直角坐标系中纵轴数组，数组中每一项代表一条纵轴坐标轴，仅有一条时可省略数值
+                    //纵轴通常为数值型，但条形图时则纵轴为类目型
+                    yAxis: [
+                        {
+                            //显示策略，可选为：true（显示） | false（隐藏），默认值为true
+                            show: true,
+                            //坐标轴类型，纵轴默认为数值型'value'
+                            type: 'value',
+                            //分隔区域，默认不显示
+                            splitArea: {show: true},
+                            min: 0,
+                            max:500,
+                        }
+                    ],
+
+                    //sereis的数据: 用于设置图表数据之用。series是一个对象嵌套的结构；对象内包含对象
+                    series: [
+                        {
+                            //系列名称，如果启用legend，该值将被legend.data索引相关
+                            name: '入职情况',
+                            //图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。
+                            type: 'bar',
+                            //系列中的数据内容数组，折线图以及柱状图时数组长度等于所使用类目轴文本标签数组axis.data的长度，并且他们间是一一对应的。数组项通常为数值
+                            data: [50, 40, 70, 230, 250,300, 350,360, 320, 420, 480,430],
+                            //柱状图的颜色
+                            itemStyle:{
+                                normal:{
+                                    color:'#badcf5'
+                                }
+                            }
+                            //系列中的数据标注内容
+                            // markPoint: {
+                            //     data: [
+                            //         {type: 'max', name: '最大值'},
+                            //         {type: 'min', name: '最小值'}
+                            //     ]
+                            // },
+                            //系列中的数据标线内容
+                            // markLine: {
+                            //     show:false,
+                            //     data: [
+                            //         {type: 'average', name: '平均值'}
+                            //     ]
+                            // }
+                        },
+                        {
+                            //系列名称，如果启用legend，该值将被legend.data索引相关
+                            name: '离职情况',
+                            //图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。
+                            type: 'bar',
+                            //系列中的数据内容数组，折线图以及柱状图时数组长度等于所使用类目轴文本标签数组axis.data的长度，并且他们间是一一对应的。数组项通常为数值
+                            data: [40, 30, 60, 220, 240,290, 340,350, 300, 400, 450,420],
+                            //柱状图的颜色
+                            itemStyle:{
+                                normal:{
+                                    color:'#7BBFF1'
+                                }
+                            }
+                            //系列中的数据标注内容
+                            // markPoint: {
+                            //     data: [
+                            //         {type: 'max', name: '最大值'},
+                            //         {type: 'min', name: '最小值'}
+                            //     ]
+                            // },
+                            //系列中的数据标线内容
+                            // markLine: {
+                            //     data: [
+                            //         {type: 'average', name: '平均值'}
+                            //     ]
+                            // }
+                        }
+                    ]
+                };
+                //为echarts对象加载数据
+                myChart.setOption(option);
             },
             drawLine1() {
                 let myChart = this.$echarts.init(document.getElementById('myChart1'))
@@ -567,266 +607,6 @@
                         }
                     ]
                 })
-//                var dataStyle = { //作用不明
-//                    normal: {
-//                        label: {show:false},
-//                        labelLine: {show:false},
-//                        shadowBlur: 40,
-//                        shadowColor: 'rgba(40, 40, 40, 0.5)',
-//                    }
-//                };
-//                var placeHolderStyle = { //作用不明  原来是这是pie图里面的
-//                    normal : {
-//                        color: 'rgba(0,0,0,0)',
-//                        label: {show:false},
-//                        labelLine: {show:false}
-//                    },
-//                    emphasis : {
-//                        color: 'rgba(0,0,0,0)'
-//                    }
-//                };
-//                var option = {
-//                    backgroundColor: '#fff', //图表的配置颜色
-//                    color: ['#45e8bc', '#33d7fb','#ffdf34','#eeeeee'], //每一项对应的颜色
-//                    tooltip : {  //提示框组件
-//                        show: true,
-//                        formatter: "{a} <br/>{b} : {c} ({d}%)"  //正则设置格式
-//                    },
-//                    legend: {  //图例组件
-//                        orient:'vertical', //图例的布局朝向
-//                        x:400,  //图例的位置--离左边的距离
-//                        y:50,  //图例的位置--离上边的距离
-//                        itemGap:20, //图例每项之间的间隔。横向布局时为水平间隔，纵向布局时为纵向间隔。
-//                        data:['高血压','高血脂','高血糖','会员总数']
-//                    },
-//                    series : [  //系列列表
-//                        {
-//                            name:'高血压',  //名字--用于tooltip的显示
-//                            type:'pie',    //类型--饼状图
-//                            clockWise:false,   //饼图的扇区是否是顺时针排布。
-//                            radius : [90,115], //饼图的半径，数组的第一项是内半径，第二项是外半径。 内半径是0就是一个真正的饼
-//                            center:['30%', '50%'], //饼图片的中心
-//                            itemStyle : dataStyle, //样式
-//                            hoverAnimation: true, //是否开启 hover 在扇区上的放大动画效果。
-//                            zlevel:2,
-////                            avoidLabelOverlap:true,
-//                            data:[  //系列中的数据内容数组
-//                                {
-//                                    value:360,     //数据值总的值
-//                                    name:'高血压'  //数据项名称。
-//                                },
-//                                {
-//                                    value:60,     //剩下的值
-//                                    name:'invisible',
-//                                    itemStyle : placeHolderStyle
-//                                }
-//
-//                            ],
-//                        },
-//                        {
-//                            name:'高血脂',
-//                            type:'pie',
-//                            clockWise:false,
-//                            radius : [70, 90],
-//                            center:['30%', '50%'], //饼图片的中心
-//                            itemStyle : dataStyle,
-//                            hoverAnimation: false,
-//                            zlevel:100,
-//                            data:[
-//                                {
-//                                    value:360,   //数据值总的值
-//                                    name:'高血脂'
-//                                },
-//                                {
-//                                    value:270,
-//                                    name:'invisible',
-//                                    itemStyle : placeHolderStyle
-//                                }
-//                            ]
-//                        },
-//                        {
-//                            name:'高血糖',
-//                            type:'pie',
-//                            clockWise:false,
-//                            hoverAnimation: false,
-//                            radius : [50, 70],
-//                            center:['30%', '50%'], //饼图片的中心
-//                            itemStyle : dataStyle,
-//
-//                            data:[
-//                                {
-//                                    value:360,
-//                                    name:'高血糖'
-//                                },
-//                                {
-//                                    value:300,
-//                                    name:'invisible',
-//                                    itemStyle : placeHolderStyle
-//                                }
-//                            ]
-//                        },
-//                        {
-//                            name:'会员总数',
-//                            type:'pie',
-//                            clockWise:false,
-//                            hoverAnimation: false,
-//                            radius : [90,115],
-//                            center:['30%', '50%'], //饼图片的中心
-//                            itemStyle : dataStyle,
-//                            zlevel:1,
-//                            data:[
-//                                {
-//                                    value:360,
-//                                    name:'会员总数'
-//                                },
-//                                {
-//                                    value:0,
-//                                    name:'invisible',
-//                                    itemStyle : placeHolderStyle
-//                                }
-//                            ],
-//                        },
-//                    ]
-//                };
-//                myChart.setOption(option);
-            },
-            drawLine4() {
-                let myChart = this.$echarts.init(document.getElementById('myChart4'))
-                //定义图表option
-                var option = {
-                    //标题，每个图表最多仅有一个标题控件，每个标题控件可设主副标题
-                    title: {
-                        //主标题文本，'\n'指定换行
-                        text: '2013年广州降水量与蒸发量统计报表',
-                        //主标题文本超链接
-                        link: 'http://www.tqyb.com.cn/weatherLive/climateForecast/2014-01-26/157.html',
-                        //副标题文本，'\n'指定换行
-                        subtext: 'www.stepday.com',
-                        //副标题文本超链接
-                        sublink: 'http://www.stepday.com/myblog/?Echarts',
-                        //水平安放位置，默认为左侧，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
-                        x: 'left',
-                        //垂直安放位置，默认为全图顶端，可选为：'top' | 'bottom' | 'center' | {number}（y坐标，单位px）
-                        y: 'top'
-                    },
-                    //提示框，鼠标悬浮交互时的信息提示
-                    tooltip: {
-                        //触发类型，默认（'item'）数据触发，可选为：'item' | 'axis'
-                        trigger: 'axis'
-                    },
-                    //图例，每个图表最多仅有一个图例
-                    legend: {
-                        //显示策略，可选为：true（显示） | false（隐藏），默认值为true
-                        show: true,
-                        //水平安放位置，默认为全图居中，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
-                        x: 'center',
-                        //垂直安放位置，默认为全图顶端，可选为：'top' | 'bottom' | 'center' | {number}（y坐标，单位px）
-                        y: 'top',
-                        //legend的data: 用于设置图例，data内的字符串数组需要与sereis数组内每一个series的name值对应
-                        data: ['蒸发量','降水量']
-                    },
-                    //工具箱，每个图表最多仅有一个工具箱
-                    toolbox: {
-                        //显示策略，可选为：true（显示） | false（隐藏），默认值为false
-                        show: true,
-                        //启用功能，目前支持feature，工具箱自定义功能回调处理
-                        feature: {
-                            //辅助线标志
-                            mark: {show: true},
-                            //dataZoom，框选区域缩放，自动与存在的dataZoom控件同步，分别是启用，缩放后退
-                            dataZoom: {
-                                show: true,
-                                title: {
-                                    dataZoom: '区域缩放',
-                                    dataZoomReset: '区域缩放后退'
-                                }
-                            },
-                            //数据视图，打开数据视图，可设置更多属性,readOnly 默认数据视图为只读(即值为true)，可指定readOnly为false打开编辑功能
-                            dataView: {show: true, readOnly: true},
-                            //magicType，动态类型切换，支持直角系下的折线图、柱状图、堆积、平铺转换
-                            magicType: {show: true, type: ['line', 'bar']},
-                            //restore，还原，复位原始图表
-                            restore: {show: true},
-                            //saveAsImage，保存图片（IE8-不支持）,图片类型默认为'png'
-                            saveAsImage: {show: true}
-                        }
-                    },
-                    //是否启用拖拽重计算特性，默认关闭(即值为false)
-                    calculable: true,
-                    //直角坐标系中横轴数组，数组中每一项代表一条横轴坐标轴，仅有一条时可省略数值
-                    //横轴通常为类目型，但条形图时则横轴为数值型，散点图时则横纵均为数值型
-                    xAxis: [
-                        {
-                            //显示策略，可选为：true（显示） | false（隐藏），默认值为true
-                            show: true,
-                            //坐标轴类型，横轴默认为类目型'category'
-                            type: 'category',
-                            //类目型坐标轴文本标签数组，指定label内容。 数组项通常为文本，'\n'指定换行
-                            data: ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
-                        }
-                    ],
-                    //直角坐标系中纵轴数组，数组中每一项代表一条纵轴坐标轴，仅有一条时可省略数值
-                    //纵轴通常为数值型，但条形图时则纵轴为类目型
-                    yAxis: [
-                        {
-                            //显示策略，可选为：true（显示） | false（隐藏），默认值为true
-                            show: true,
-                            //坐标轴类型，纵轴默认为数值型'value'
-                            type: 'value',
-                            //分隔区域，默认不显示
-                            splitArea: {show: true}
-                        }
-                    ],
-
-                    //sereis的数据: 用于设置图表数据之用。series是一个对象嵌套的结构；对象内包含对象
-                    series: [
-                        {
-                            //系列名称，如果启用legend，该值将被legend.data索引相关
-                            name: '蒸发量',
-                            //图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。
-                            type: 'bar',
-                            //系列中的数据内容数组，折线图以及柱状图时数组长度等于所使用类目轴文本标签数组axis.data的长度，并且他们间是一一对应的。数组项通常为数值
-                            data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3],
-                            //系列中的数据标注内容
-                            markPoint: {
-                                data: [
-                                    {type: 'max', name: '最大值'},
-                                    {type: 'min', name: '最小值'}
-                                ]
-                            },
-                            //系列中的数据标线内容
-                            markLine: {
-                                data: [
-                                    {type: 'average', name: '平均值'}
-                                ]
-                            }
-                        },
-                        {
-                            //系列名称，如果启用legend，该值将被legend.data索引相关
-                            name: '降水量',
-                            //图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。
-                            type: 'bar',
-                            //系列中的数据内容数组，折线图以及柱状图时数组长度等于所使用类目轴文本标签数组axis.data的长度，并且他们间是一一对应的。数组项通常为数值
-                            data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3],
-                            //系列中的数据标注内容
-                            markPoint: {
-                                data: [
-                                    {type: 'max', name: '最大值'},
-                                    {type: 'min', name: '最小值'}
-                                ]
-                            },
-                            //系列中的数据标线内容
-                            markLine: {
-                                data: [
-                                    {type: 'average', name: '平均值'}
-                                ]
-                            }
-                        }
-                    ]
-                };
-
-                //为echarts对象加载数据
-                myChart.setOption(option);
             }
 
         }
@@ -937,7 +717,25 @@
                     }
                 }
             }
-    }
+            .canvas-box{
+                background:#fff;
+                width: 100%;
+                height: 344px;
+                background: #fff;
+            }
+            .chart-button-list{
+                position: absolute;
+                top:20px;
+                right:20px;
+                span{
+                    cursor: pointer;
+                    margin-left:20px;
+                    &.active,&:hover{
+                        color:$color-primary;
+                    }
+                }
+            }
+        }
     }
     .content-wrapper{
         margin: 20px 0;
