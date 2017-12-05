@@ -220,17 +220,19 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
-				  		    <el-input v-model="addPayBaseInfo.attachm"></el-input>
-                            <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" 
+				  		              <el-input v-model="addPayBaseInfo.attachm"></el-input>
+                            <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/pay/addPayBaseInfo" 
                                 :data="addPayBaseInfo"
                                 :on-change="handleFileUpload" 
                                 :on-success="successUpload"
                                 :show-file-list="false" 
                                 :auto-upload="false"
-                                :headers="token">
+                                :headers="token"
+                                :name="filesName"
+                                :multiple="true">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
-				  	    </el-form-item>
+				  	            </el-form-item>
                     </el-col>
                 </el-form>
             </div>
@@ -267,9 +269,11 @@ export default {
         wagesProb: "",
         welcoeNo: "",
         attachm: "",
-        fileList: [],
+        // fileList: [],
         remark: ""
       },
+      filesName: "files",
+      fileList: [],
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
       },
@@ -468,8 +472,7 @@ export default {
           this.insurancePayTemp.comHousRate +
           this.insurancePayTemp.comHousFixed || 0
       );
-    },
-
+    }
   },
   methods: {
     userNoSelect() {
@@ -573,25 +576,28 @@ export default {
     },
     // 文件上传
     handleFileUpload(file, fileList) {
-      console.log("fileList:", fileList);
-      this.addPayBaseInfo.fileList = fileList;
+      // this.addPayBaseInfo.fileList = fileList;
+      this.fileList = fileList;
       this.addPayBaseInfo.attachm = "";
       fileList.forEach(function(item) {
         this.addPayBaseInfo.attachm += item.name + " ";
       }, this);
+      console.log("选中的fileList", fileList);
+      console.log("选中的this.fileList:", this.fileList);
     },
     successUpload(res, file, fileList) {
       console.log("upload_response", res);
-      if (res.code === "S00000") {
-        this.$message({ message: "文件上传成功", type: "success" });
-      } else {
-        this.$message({ message: res, type: "info" });
-      }
+      if (res.code == "S00000") {
+        this.$message({ type: "success", message: "操作成功!" });
+        this.$router.push("/payBaseInfo_setting");
+      } else this.$message.error(res.retMsg);
     },
     handleSave(addPayBaseInfoRules) {
       this.$refs[addPayBaseInfoRules].validate(valid => {
         if (valid) {
-          if (this.addPayBaseInfo.fileList.length != 0) {
+          console.log("触发上传时的addPayBaseInfo", this.addPayBaseInfo);
+          console.log("触发上传时的this.fileList:", this.fileList);
+          if (this.fileList.length != 0) {
             this.$refs.upload.submit(); // 触发上传文件
           } else {
             let newPayBaseInfo = this.addPayBaseInfo;
@@ -620,4 +626,5 @@ export default {
 </script>
 
 <style>
+
 </style>

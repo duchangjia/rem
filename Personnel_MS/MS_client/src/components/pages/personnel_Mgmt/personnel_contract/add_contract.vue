@@ -160,7 +160,7 @@ export default {
         attachm: "",
         stopReason: "",
         remark: "",
-        autoudFlag: ""
+        autoudFlag: "02"
       },
 
       dialogVisible: false,
