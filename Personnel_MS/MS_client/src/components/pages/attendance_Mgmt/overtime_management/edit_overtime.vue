@@ -208,10 +208,12 @@
 		},
 		methods: {
 			changeStartTime(time) {
-				this.formdata2.workotStartTime = time;
+				console.log('starttime',time);
+				this.workotStartTime = time;
 			},
 			changeEndTime(time) {
-				this.formdata2.workotEndTime = time;
+				console.log('endtime',time);
+				this.workotEndTime = time;
 			},
 			changeValue(value) {
 		 		const self = this;
