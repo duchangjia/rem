@@ -63,7 +63,7 @@
         </el-row>
         <el-row class="news-list common-chart">
             <el-col :span="24">
-                <div class="canvas-box" id="myChart4"></div>
+                <div class="canvas-box" id="bar_Chart"></div>
             </el-col>
             <div class="chart-button-list">
                 <span class="c-dark">近3月</span>
@@ -71,16 +71,33 @@
                 <span class="c-dark active">近一年</span>
             </div>
         </el-row>
-
+        <el-row class="news-list common-chart">
+            <el-col :span="24">
+                <div class="canvas-box" id="line_Chart"></div>
+            </el-col>
+            <div class="chart-button-list">
+                <span class="c-dark">近3月</span>
+                <span class="c-dark">近6月</span>
+                <span class="c-dark active">近一年</span>
+            </div>
+        </el-row>
+        <el-row gutter="20" class="news-list common-chart">
+            <el-col :span="12">
+                <div class="canvas-box" id="smBar_Chart"></div>
+            </el-col>
+            <el-col :span="12">
+                <div class="canvas-box" id="smLine_Chart"></div>
+            </el-col>
+        </el-row>
             <!--<div class="content-wrapper">-->
-        <el-row style="margin: 20px 0; overflow: hidden;" class="common-chart">
+        <!-- <el-row style="margin: 20px 0; overflow: hidden;" class="common-chart">
             <el-col :span="12"><div class="content-left" id="myChart1"></div></el-col>
             <el-col :span="12"><div class="content-right" id="myChart2"></div></el-col>
-        </el-row>
+        </el-row> 
         <el-row style="margin: 20px 0; overflow: hidden;" class="common-chart">
             <el-col :span="12"><div class="content-left" id="myChart3"></div></el-col>
-            <!-- <el-col :span="12"><div class="content-right" id="myChart4"></div></el-col> -->
-        </el-row>
+            <el-col :span="12"><div class="content-right" id="myChart4"></div></el-col>
+        </el-row>-->
             <!--</div>-->
 
         <!--<div class="content-wrapper">-->
@@ -203,8 +220,12 @@
           current,
         },
         mounted() {
-            this.drawLine();
-            this.getList();
+            let self = this;
+            self.drawBar();
+            self.drawLine();  
+            self.drawSmBar();
+            self.drawSmLine();   
+            self.getList();
         },
         methods: {
             linkTo(url){
@@ -216,14 +237,20 @@
                     console.log(res)
                 })
             },
-            drawLine(){
-                let myChart = this.$echarts.init(document.getElementById('myChart4'))
+            draw(id,option){
+                let myChart = this.$echarts.init(document.getElementById(id));
+                //为echarts对象加载数据
+                myChart.setOption(option);
+            },
+            drawBar(){
+                let self = this,
+                    id = 'bar_Chart',
                 //定义图表option
-                var option = {
+                    option = {
                     //标题，每个图表最多仅有一个标题控件，每个标题控件可设主副标题
                     title: {
                         //主标题文本，'\n'指定换行
-                        text: '入离职情况（单位：人）',
+                        text: '入离职情况',
                         //主标题文本超链接
                         link: '',
                         //副标题文本，'\n'指定换行
@@ -245,21 +272,24 @@
                             //字体系列
                             fontFamily:'sans-serif',
                             //字体大小
-                    　　　　 fontSize:12
+                    　　　　 fontSize:14
                         }
                     },
-                    grid: {  
-                        left: '40',
+                    //图表的pianyiliang
+                    grid:{  
+                        left:'40',
                         x:25,
                         y:45,
                         x2:5,
                         y2:20,
                         borderWidth:1
-                    }  ,
+                    },
                     //提示框，鼠标悬浮交互时的信息提示
                     tooltip: {
                         //触发类型，默认（'item'）数据触发，可选为：'item' | 'axis'
-                        // trigger: 'axis'
+                        trigger: 'axis',
+                        //悬浮后的单位
+                        formatter:'{b1}<br/>{a0}:{c0}人<br/>{a1}:{c1}人'
                     },
                     //图例，每个图表最多仅有一个图例
                     legend: {
@@ -292,7 +322,18 @@
                             //坐标轴类型，横轴默认为类目型'category'
                             type: 'category',
                             //类目型坐标轴文本标签数组，指定label内容。 数组项通常为文本，'\n'指定换行
-                            data: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月']
+                            data: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+                            axisLabel: {
+                                show: true,
+                                textStyle: {
+                                    color: '#333'
+                                }
+                            },
+                            axisLine:{
+                                lineStyle:{
+                                    color:'#FF9966'
+                                }
+                            }
                         }
                     ],
                     //直角坐标系中纵轴数组，数组中每一项代表一条纵轴坐标轴，仅有一条时可省略数值
@@ -307,6 +348,20 @@
                             splitArea: {show: true},
                             min: 0,
                             max:500,
+                            axisLabel: {
+                                show: true,
+                                textStyle: {
+                                    color: '#333'
+                                }
+                            },
+                            axisLine:{
+                                lineStyle:{
+                                    color:'#FF9966'
+                                }
+                            },
+                            splitLine:{
+                                show:true
+                            } 
                         }
                     ],
 
@@ -325,20 +380,6 @@
                                     color:'#badcf5'
                                 }
                             }
-                            //系列中的数据标注内容
-                            // markPoint: {
-                            //     data: [
-                            //         {type: 'max', name: '最大值'},
-                            //         {type: 'min', name: '最小值'}
-                            //     ]
-                            // },
-                            //系列中的数据标线内容
-                            // markLine: {
-                            //     show:false,
-                            //     data: [
-                            //         {type: 'average', name: '平均值'}
-                            //     ]
-                            // }
                         },
                         {
                             //系列名称，如果启用legend，该值将被legend.data索引相关
@@ -353,262 +394,310 @@
                                     color:'#7BBFF1'
                                 }
                             }
-                            //系列中的数据标注内容
-                            // markPoint: {
-                            //     data: [
-                            //         {type: 'max', name: '最大值'},
-                            //         {type: 'min', name: '最小值'}
-                            //     ]
-                            // },
-                            //系列中的数据标线内容
-                            // markLine: {
-                            //     data: [
-                            //         {type: 'average', name: '平均值'}
-                            //     ]
-                            // }
+                           
                         }
                     ]
                 };
-                //为echarts对象加载数据
-                myChart.setOption(option);
+                self.draw(id,option);
             },
-            drawLine1() {
-                let myChart = this.$echarts.init(document.getElementById('myChart1'))
-                myChart.setOption({
-                    title: {
-                        text: '部门收入趋势',
-                        textStyle: {
-                            fontFamily: "PingFangSC-Light",
-                            fontSize: 16,
-                            lineHeight: 20
-                        }
-                    },
-                    legend: {
-                        left: 0,
-                        padding:0,
-                        itemGap: 5,
-                        formatter: function (name) {
-                            return echarts.format.truncateText(name, 40, '14px Microsoft Yahei', '…');
+            drawLine() {
+                let self = this,
+                    id = 'line_Chart',
+                    option = {
+                        title: {
+                            text: '薪酬发放',//水平安放位置，默认为左侧，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
+                            x: 'left',
+                            //垂直安放位置，默认为全图顶端，可选为：'top' | 'bottom' | 'center' | {number}（y坐标，单位px）
+                            y: 'top',
+                            //设定标题风格
+                            textStyle:{
+                                //文字颜色
+                                color:'#333',
+                                //字体风格,'normal','italic','oblique'
+                                fontStyle:'normal',
+                                //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+                                fontWeight:'normal',
+                                //字体系列
+                                fontFamily:'sans-serif',
+                                //字体大小
+                        　　　　 fontSize:14
+                            }
+                        },
+                        legend: {
+                            left: 0,
+                            padding:0,
+                            itemGap: 5
+                        },
+                        grid:{  
+                            left: '40',
+                            x:25,
+                            y:45,
+                            x2:5,
+                            y2:20,
+                            borderWidth:1
                         },
                         tooltip: {
-                            show: true
+                            trigger:'item',
+                            formatter:'{c0}万元'
+
                         },
-                        backgroundColor:'#111',
-//                        label: {
-//                            show: true,
-//                            formatter: function (params) {
-//                                return params.value + '万元';
-//                            }
-//                        }
-                    },
-                    grid: {
-                        show:true,
-                        left: '7%',
-                        top: 70,
-                        borderColor:'transparent',
-                        //containLabel: true        // 让轴标签能在内容区里
-                    },
-                    tooltip: {
-                        trigger: 'axis',           // 要配合下面属性一起用。提示X轴信息
-                        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
-                            type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
-                        },
-                    },
-                    xAxis: {
-                        data: ["一月", "二月", "三月", "四月", "五月", "六月"],
-                        axisTick: {
-                            alignWithLabel: true           // 让X轴刻度位于data数据正中
-                        }
-                    },
-                    yAxis:[{
-//                            type: 'value',
-//                            min: 0,
-//                            max: 500,
-//                            interval: 100,
-//                            axisLabel: {
-//                                formatter: '{value} 万元'
-//                            },
-                            name: '万元',
-                            splitArea: {
-                              show: true,
-                                areaStyle: {
-                                  color: ['#F9F9F9','#fff']
+                        xAxis: {
+                            data: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+                            axisLabel: {
+                                show: true,
+                                textStyle: {
+                                    color: '#333'
                                 }
                             },
+                            axisLine:{
+                                lineStyle:{
+                                    color:'#FF9966'
+                                }
+                            }
                         },
-                    ],
-                    series: [{
-                        name: '收入',
-                        type:'line',
-//                        yAxisIndex: 1,   //如果是双Y轴坐标，index1表示使用右侧Y轴
-                        smooth: true,
-                        data: [50, 250, 150, 300, 270, 450]
-                    }],
-                    backgroundColor: '#fff',
-                })
-            },
-            drawLine2() {
-                var myChart = this.$echarts.init(document.getElementById('myChart2'));
-                myChart.setOption({
-                    title: {
-                        text:'饼状图',
-//                        subtext: '纯属虚构',
-//                        x: 'center'
-                    },
-                    backgroundColor: '#fff',
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: '{a} <br/>{b} : {c} ({d}%)'
-                    },
-                    toolbox: {
-                        show : true,
-                        feature : {
-                            mark : {show: true},
-                            dataView : {show: true, readOnly: false},
-                            magicType : {
-                                show: true,
-                                type: ['pie', 'funnel']
-                            },
-                            restore : {show: true},
-                            saveAsImage : {show: true}
-                        }
-                    },
-                    calculable : true,
-                    legend: {
-//                        x : 'center',
-//                        y : 'bottom',
-                        orient: 'vertical',
-                        // x: 'left',
-                        right:'10%',
-                        bottom:'center',
-                        height:80,
-//                        padding:20,
-//                        align:'left',
-//                        itemGap:'100',
-//                        itemWidth:30,
-//                        itemHeight:38,
-                        data:['TeamA','TeamB','TeamC','TeamD','TeamE','TeamF'],
-                        tooltip: {
-                            show: true
-                        }
-                    },
-//                    color: ['#000'],   //柱子或者图效颜色
-                    series : [
-                        {
-//                            type:'bar',
-//                            barWidth: '20%',   //柱状图柱子的宽度
-                            name:'访问来源',
-                            type:'pie',
-                            radius : [30, 110],
-                            center : ['25%', '55%'],
-                            roseType : 'radius',
-                            avoidLabelOverlap:false,
-                            label: {
-                                normal: {
-                                    show: false,
-                                    position: 'center'
-                                },
-                                emphasis: {
+                        yAxis:[
+                            {
+                                min: 0,
+                                max: 500,
+                                splitArea: {show: true},
+                                axisLabel: {
                                     show: true,
                                     textStyle: {
-                                        fontSize: '16',
-                                        fontWeight: 'bold'
+                                        color: '#333'
+                                    }
+                                },
+                                axisLine:{
+                                    lineStyle:{
+                                        color:'#FF9966'
                                     }
                                 }
                             },
-                            lableLine: {
-                                normal: {
-                                    show: false
-                                },
-                                emphasis: {
-                                    show: true
+                        ],
+                        series: [{
+                            type:'line',
+    //                        yAxisIndex: 1,   //如果是双Y轴坐标，index1表示使用右侧Y轴
+                            smooth: true,
+                            data: [50, 250, 150, 300, 270, 450,50, 250, 150, 300, 270, 450]
+                        }],
+                   
+                }
+                self.draw(id,option);
+            },
+            drawSmBar(){
+                let self = this,
+                    id = 'smBar_Chart',
+                    //定义图表option
+                    option = {
+                    //标题，每个图表最多仅有一个标题控件，每个标题控件可设主副标题
+                    title: {
+                        //主标题文本，'\n'指定换行
+                        text: '请假情况',
+                        //主标题文本超链接
+                        link: '',
+                        //副标题文本，'\n'指定换行
+                        subtext: '',
+                        //副标题文本超链接
+                        sublink: '',
+                        //水平安放位置，默认为左侧，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
+                        x: 'left',
+                        //垂直安放位置，默认为全图顶端，可选为：'top' | 'bottom' | 'center' | {number}（y坐标，单位px）
+                        y: 'top',
+                        //设定标题风格
+                        textStyle:{
+                             //文字颜色
+                            color:'#333',
+                            //字体风格,'normal','italic','oblique'
+                            fontStyle:'normal',
+                            //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+                            fontWeight:'normal',
+                            //字体系列
+                            fontFamily:'sans-serif',
+                            //字体大小
+                    　　　　 fontSize:14
+                        }
+                    },
+                    //图表的pianyiliang
+                    grid:{  
+                        left:'40',
+                        x:25,
+                        y:45,
+                        x2:5,
+                        y2:20,
+                        borderWidth:1
+                    },
+                    //提示框，鼠标悬浮交互时的信息提示
+                    tooltip: {
+                        //触发类型，默认（'item'）数据触发，可选为：'item' | 'axis'
+                        trigger: 'item',
+                        //悬浮后的单位
+                        formatter:'{a0}:{c0}人'
+                    },
+                    
+                    //工具箱，每个图表最多仅有一个工具箱
+                    toolbox: {
+                        //显示策略，可选为：true（显示） | false（隐藏），默认值为false
+                        show: true,
+                        //启用功能，目前支持feature，工具箱自定义功能回调处理
+                        feature: {
+                          
+                        }
+                    },
+                    //是否启用拖拽重计算特性，默认关闭(即值为false)
+                    calculable: true,
+                    //直角坐标系中横轴数组，数组中每一项代表一条横轴坐标轴，仅有一条时可省略数值
+                    //横轴通常为类目型，但条形图时则横轴为数值型，散点图时则横纵均为数值型
+                    xAxis: [
+                        {
+                            //显示策略，可选为：true（显示） | false（隐藏），默认值为true
+                            show: true,
+                            //坐标轴类型，横轴默认为类目型'category'
+                            type: 'category',
+                            //类目型坐标轴文本标签数组，指定label内容。 数组项通常为文本，'\n'指定换行
+                            data: ['一月','二月','三月','四月','五月','六月','七月'],
+                            axisLabel: {
+                                show: true,
+                                textStyle: {
+                                    color: '#333'
                                 }
                             },
-                            data:[
-                                {value:42, name:'TeamA'},
-                                {value:37, name:'TeamB'},
-                                {value:18, name:'TeamC'},
-                                {value:12, name:'TeamD'},
-                                {value:10, name:'TeamE'},
-                                {value:5, name:'TeamF'},
-                            ]
-                        },
-                    ]
-                })
-            },
-            drawLine3() {
-                var myChart = this.$echarts.init(document.getElementById('myChart3'));
-                myChart.setOption({
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: "{a} <br/>{b}: {c} ({d}%)"
-                    },
-                    legend: {
-                        orient: 'vertical',
-                        // x: 'left',
-                        right:'10%',
-                        bottom:'center',
-                        data:['直达','邮件营销','联盟广告']
-                    },
+                            axisLine:{
+                                lineStyle:{
+                                    color:'#FF9966'
+                                }
+                            }
+                        }
+                    ],
+                    //直角坐标系中纵轴数组，数组中每一项代表一条纵轴坐标轴，仅有一条时可省略数值
+                    //纵轴通常为数值型，但条形图时则纵轴为类目型
+                    yAxis: [
+                        {
+                            //显示策略，可选为：true（显示） | false（隐藏），默认值为true
+                            show: true,
+                            //坐标轴类型，纵轴默认为数值型'value'
+                            type: 'value',
+                            //分隔区域，默认不显示
+                            splitArea: {show: true},
+                            min: 0,
+                            max:500,
+                            axisLabel: {
+                                show: true,
+                                textStyle: {
+                                    color: '#333'
+                                }
+                            },
+                            axisLine:{
+                                lineStyle:{
+                                    color:'#FF9966'
+                                }
+                            },
+                            splitLine:{
+                                show:true
+                            } 
+                        }
+                    ],
+
+                    //sereis的数据: 用于设置图表数据之用。series是一个对象嵌套的结构；对象内包含对象
                     series: [
                         {
-                            name:'访问来源',
-                            type:'pie',
-                            radius: ['40%', '55%'],
-                            hoverAnimation: false,
-                            avoidLabelOverlap:false,
-                            label: {
-                                normal: {
-                                    formatter: '{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ',
-                                    backgroundColor: '#eee',
-                                    borderColor: '#aaa',
-                                    borderWidth: 1,
-                                    borderRadius: 4,
-                                    // shadowBlur:3,
-                                    // shadowOffsetX: 2,
-                                    // shadowOffsetY: 2,
-                                    // shadowColor: '#999',
-                                    // padding: [0, 7],
-                                    rich: {
-                                        a: {
-                                            color: '#999',
-                                            align: 'center'
-                                        },
-                                        // abg: {
-                                        //     backgroundColor: '#333',
-                                        //     width: '100%',
-                                        //     align: 'right',
-                                        //     height: 22,
-                                        //     borderRadius: [4, 4, 0, 0]
-                                        // },
-                                        hr: {
-                                            borderColor: '#aaa',
-                                            width: '100%',
-                                            borderWidth: 0.5,
-                                            height: 0
-                                        },
-                                        b: {
-                                            fontSize: 12,
-                                        },
-                                        per: {
-                                            color: '#eee',
-                                            backgroundColor: '#334455',
-                                            padding: [2, 4],
-                                            borderRadius: 2
-                                        }
+                            //系列名称，如果启用legend，该值将被legend.data索引相关
+                            name: '请假情况',
+                            //图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。
+                            type: 'bar',
+                            //系列中的数据内容数组，折线图以及柱状图时数组长度等于所使用类目轴文本标签数组axis.data的长度，并且他们间是一一对应的。数组项通常为数值
+                            data: [50, 40, 70, 230, 250,300, 350],
+                            //柱状图的颜色
+                            itemStyle:{
+                                normal:{
+                                    color:'#badcf5'
+                                }
+                            }
+                        }
+                    ]
+                };
+                self.draw(id,option);
+            },
+            drawSmLine(){
+                 let self = this,
+                    id = 'smLine_Chart',
+                    option = {
+                        title: {
+                            text: '合同到期',//水平安放位置，默认为左侧，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
+                            x: 'left',
+                            //垂直安放位置，默认为全图顶端，可选为：'top' | 'bottom' | 'center' | {number}（y坐标，单位px）
+                            y: 'top',
+                            //设定标题风格
+                            textStyle:{
+                                //文字颜色
+                                color:'#333',
+                                //字体风格,'normal','italic','oblique'
+                                fontStyle:'normal',
+                                //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+                                fontWeight:'normal',
+                                //字体系列
+                                fontFamily:'sans-serif',
+                                //字体大小
+                        　　　　 fontSize:14
+                            }
+                        },
+                        legend: {
+                            left: 0,
+                            padding:0,
+                            itemGap: 5
+                        },
+                        grid:{  
+                            left: '40',
+                            x:25,
+                            y:45,
+                            x2:5,
+                            y2:20,
+                            borderWidth:1
+                        },
+                        tooltip: {
+                            trigger:'item',
+                            formatter:'{c0}万元'
+
+                        },
+                        xAxis: {
+                            data: ['一月','二月','三月','四月','五月','六月','七月'],
+                            axisLabel: {
+                                show: true,
+                                textStyle: {
+                                    color: '#333'
+                                }
+                            },
+                            axisLine:{
+                                lineStyle:{
+                                    color:'#FF9966'
+                                }
+                            }
+                        },
+                        yAxis:[
+                            {
+                                min: 0,
+                                max: 500,
+                                splitArea: {show: true},
+                                axisLabel: {
+                                    show: true,
+                                    textStyle: {
+                                        color: '#333'
+                                    }
+                                },
+                                axisLine:{
+                                    lineStyle:{
+                                        color:'#FF9966'
                                     }
                                 }
                             },
-                            data:[
-                                {value:335, name:'直达',selected:true},
-                                {value:310, name:'邮件营销',selected:true},
-                                {value:234, name:'联盟广告',selected:true},
-                            ]
-                        }
-                    ]
-                })
+                        ],
+                        series: [{
+                            type:'line',
+    //                        yAxisIndex: 1,   //如果是双Y轴坐标，index1表示使用右侧Y轴
+                            smooth: true,
+                            data: [50, 250, 150, 300, 270, 450,50]
+                        }],
+                    };
+                    self.draw(id,option);
             }
-
         }
     }
 </script>
@@ -624,7 +713,7 @@
             .list-item{
                 float: left;
                 width:20%;
-                padding:0 30px;
+                padding:0 20px;
                 .des{
                     float: right;
                 }
@@ -718,11 +807,12 @@
                 }
             }
             .canvas-box{
-                background:#fff;
                 width: 100%;
                 height: 344px;
-                background: #fff;
+                background: #fff !important;
+                padding: 20px 14px 30px 20px !important;
             }
+           
             .chart-button-list{
                 position: absolute;
                 top:20px;
@@ -737,165 +827,4 @@
             }
         }
     }
-    .content-wrapper{
-        margin: 20px 0;
-        overflow: hidden;
-    }
-    .common-chart .content-left{
-        width: 530px;
-        height: 344px;
-        background: #fff;
-        margin-right: 20px;
-        float: left;
-        box-sizing: border-box;
-    }
-    .common-chart .content-right{
-        width: 530px;
-        height: 344px;
-        background: #fff;
-        float: left;
-        box-sizing: border-box;
-    }
-    .content-wrapper .content-left{
-        width: 530px;
-        height: 344px;
-        background: #fff;
-        margin-right: 20px;
-        float: left;
-        box-sizing: border-box;
-    }
-    .content-wrapper .content-right{
-        width: 530px;
-        height: 344px;
-        background: #fff;
-        float: left;
-        box-sizing: border-box;
-    }
-    .common-chart #myChart1{
-        padding: 20px 30px 20px 20px;
-        /*background: #fff !important;*/
-    }
-    .common-chart #myChart2{
-        padding: 20px 30px 38px 20px;
-        /*background: #fff !important;*/
-    }
-    .common-chart #myChart3{
-        padding: 20px 30px 51px 20px;
-        background: #fff !important;
-    }
-    .common-chart #myChart4{
-        padding: 20px 14px 30px 20px;
-        background: #fff !important;
-    }
-    .content-wrapper .info-msg{
-        padding: 20px 20px 24px 20px;
-        height: 324px;
-    }
-    .title-wrapper{
-        margin-bottom: 20px;
-        padding-right: 10px;
-    }
-    .content-wrapper .common .title{
-        font-family: PingFangSC-Light;
-        font-size: 16px;
-        color: #333333;
-        letter-spacing: 0;
-        line-height: 20px;
-        display: inline-block;
-        height: 20px;
-    }
-    .content-wrapper .common .more{
-        font-family: PingFangSC-Light;
-        font-size: 14px;
-        color: #FF6600;
-        letter-spacing: 0;
-        line-height: 20px;
-        float: right;
-        height: 20px;
-    }
-    .info-msg-item{
-        width: 490px;
-        height: 40px;
-        margin-bottom: 10px;
-        font-family: PingFangSC-Light;
-        font-size: 14px;
-        color: #666666;
-        letter-spacing: 0;
-        line-height: 40px;
-        background:  #F9F9F9;
-        overflow: hidden;
-        padding-right: 10px;
-    }
-    .info-msg-list .info-msg-icon{
-        width: 38px;
-        height: 40px;
-        float: left;
-        background: #A5D16C url("../../../static/img/home/mess4.png") no-repeat center;
-        margin-right: 10px;
-    }
-    .info-msg-list .text{
-        font-family: PingFangSC-Light;
-        font-size: 14px;
-        color: #666666;
-        letter-spacing: 0;
-        float: right;
-    }
-    .content-wrapper .todo{
-        height: auto;
-        background: transparent;
-    }
-    .todo .event, .todo .remind{
-        /*width: 530px;*/
-        /*height: 152px;*/
-        /*box-sizing: border-box;*/
-        margin-bottom: 20px;
-        padding: 20px 20px 12px 20px;
-        background: #fff;
-    }
-    .todo .remind{
-        margin-bottom: 0px;
-        padding-bottom: 16px;
-    }
-    .todo .remind .title-wrapper{
-        margin-bottom: 16px;
-    }
-    .common .todo-list-common{
-        width: 490px;
-        height: 80px;
-        display: flex;
-        flex-direction: column;
-        box-sizing: border-box;
-    }
-    .common .todo-list-common li{
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 10px;
-    }
-    .common .todo-list-common li:first-child{
-        background: #FEF6F4;
-    }
-    .common .todo-list-common li:last-child, .common .todo-list-common li:nth-child(3){
-        background: #F4F8FF;
-    }
-    .common .todo-list-common .line{
-        flex: 0 0 3px;
-    }
-    .item-pro{
-        /*width: 1080px;*/
-        height: 324px;
-        padding: 20px 20px 43px 20px;
-        background: #fff;
-    }
-    .item-pro .pro-title{
-        font-family: PingFangSC-Light;
-        font-size: 16px;
-        color: #333333;
-        letter-spacing: 0;
-        line-height: 20px;
-        height: 20px;
-        margin-bottom: 20px;
-    }
-
 </style>
