@@ -21,8 +21,8 @@
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号" prop="userNo">
-						    <el-input v-model="formdata1.userNo">
-						    	<el-button slot="append" icon="search" @click="userNoSelect"></el-button>
+						    <el-input v-model="formdata1.userNo" :disabled="true">
+						    	<!--<el-button slot="append" icon="search" @click="userNoSelect"></el-button>-->
 						    </el-input>
 						    <messageBox 
                                 :title="boxTitle"
@@ -49,12 +49,18 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <el-input v-model="formdata1.custPost" :disabled="true"></el-input>
+						    <!--<el-input v-model="formdata1.custPost" :disabled="true"></el-input>-->
+						    <el-select v-model="formdata1.custPost" :disabled="true">
+								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <el-input v-model="formdata1.custClass" :disabled="true"></el-input>
+						    <!--<el-input v-model="formdata1.custClass" :disabled="true"></el-input>-->
+						    <el-select v-model="formdata1.custClass" :disabled="true">
+								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -73,7 +79,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="离职类型" prop="dimType">
 						    <el-select v-model="formdata2.dimType" value-key="dimType">
-								<el-option v-for="item in dimTypeList" :key="item.dimTypeNo" :label="item.dimTypeName" :value="item.dimTypeNo"></el-option>
+								<el-option v-for="item in dimTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
@@ -143,68 +149,19 @@
 			    saveUrl:'',
 			    boxTitle:'',
 			    numType:'',
-				
-				formdata1: {
-					organNo: "",
-					organName: "",
-					derpName: "",
-					derpNo: "",
-					custName: "",
-					userNo: "",
-					certNo: "",
-					custPost: "",
-					custClass: "",
-				},
-				formdata2: {
-					organNo: "",
-					organName: "",
-					derpName: "",
-					derpNo: "",
-					custName: "",
-					userNo: "",
-					certNo: "",
-					custPost: "",
-					custClass: "",
-					lineManager: "",
-					dimTime: "",
-					dimType: "",
-					hasGone: "",
-					payEndTime: "",
-					dimReason: "",
-					updatedBy: "",
-					updatedDate: "",
-					attachm: "",
-					dimProveFlag: ""
-				},
-				
-				comp: {
-					organName: '',
-					organNo: ''
-				},
-				newcomp: {
-					organName: '',
-					organNo: ''
-				},
-				depart: {
-					derpName: '',
-					derpNo: ''
-				},
-				newdepart: {
-					derpName: '',
-					derpNo: ''
-				},
+				//用户基本信息
+				formdata1: {},
+				//离职信息
+				formdata2: {},
+				//岗位列表
+				custPostList: [],
+				//职级列表
+				custClassList: [],
 				//部门列表
-				departList: [
-					{derpName: "上海魔方分公司",derpNo: '01'},
-					{derpName: "魔方分公司深圳分公司",derpNo: 'p1'},
-					{derpName: "深圳前海橙色魔方信息技术有限公司",derpNo: '0'}
-				],
+				derpList: [],
 				//公司列表
-				compList: [
-					{organName: "上海魔方分公司",organNo: '01'},
-					{organName: "魔方分公司深圳分公司",organNo: 'p1'},
-					{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
-				],
+				compList: [],
+				//离职类型列表
 				dimTypeList: [
 					{dimTypeName:'辞退',dimTypeNo: "01"},
 					{dimTypeName:'退休',dimTypeNo: "02"},
@@ -240,7 +197,15 @@
 		created() {
 			
 			//查询公司列表
-			this.queryCompList();	
+//			this.queryCompList();	
+			//查询用户基本信息
+			this.queryUserInfo();
+			//查询岗位列表
+			this.queryCustPostList();
+			//查询职级列表
+			this.queryCustClassList();
+			//查询离职类型列表
+			this.querydimTypeList();
 		},
 		computed: {
 			addFormdata: function(){
@@ -342,7 +307,7 @@
 				.then(function(res) {
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
-						self.departList = res.data.data;
+						self.derpList = res.data.data;
 					}
 					
 				}).catch(function(err) {
@@ -419,12 +384,51 @@
 				let params = {
 					userNo: userNo
 				}
-				self.$axios.get(baseURL+'/CustInfo/querySelfDtl', {params})
+				self.$axios.get(baseURL+' CustInfo/queryCustInfoByUserNo/'+userNo)
 				.then(function(res) {
 					console.log('userInfo',res);
 					self.formdata1 = res.data;
 				}).catch(function(err) {
 					console.log(err);
+				})
+			},
+			queryCustPostList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+				.then(function(res) {
+					console.log('CustPost',res);
+					if(res.data.code === "S00000") {
+						self.custPostList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustClassList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
+				.then(function(res) {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						self.custClassList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			querydimTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=DIM_TYPE')
+				.then(function(res) {
+					console.log('dimType',res);
+					if(res.data.code === "S00000") {
+						self.dimTypeList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
 				})
 			}
 		}

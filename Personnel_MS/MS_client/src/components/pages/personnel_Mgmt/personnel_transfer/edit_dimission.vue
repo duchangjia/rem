@@ -36,12 +36,18 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <el-input v-model="formdata.custPost" :disabled="true"></el-input>
+						    <!--<el-input v-model="formdata.custPost" :disabled="true"></el-input>-->
+						    <el-select v-model="formdata1.custPost" :disabled="true">
+								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <el-input v-model="formdata.custClass" :disabled="true"></el-input>
+						    <!--<el-input v-model="formdata.custClass" :disabled="true"></el-input>-->
+						    <el-select v-model="formdata1.custClass" :disabled="true">
+								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -58,7 +64,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="离职类型" prop="dimType">
 						    <el-select v-model="formdata.dimType" value-key="dimType">
-								<el-option v-for="item in dimTypeList" :key="item.dimTypeNo" :label="item.dimTypeName" :value="item.dimTypeNo"></el-option>
+								<el-option v-for="item in dimTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
@@ -121,6 +127,11 @@
 				departList: [],
 				//公司列表
 				compList: [],
+				//岗位列表
+				custPostList: [],
+				//职级列表
+				custClassList: [],
+				//离职类型列表
 				dimTypeList: [
 					{dimTypeName:'辞退',dimTypeNo: "01"},
 					{dimTypeName:'退休',dimTypeNo: "02"},
@@ -168,6 +179,12 @@
 			this.queryCustDimhisDetail(); 
 			//查询公司列表
 			this.queryCompList();
+			//查询岗位列表
+			this.queryCustPostList();
+			//查询职级列表
+			this.queryCustClassList();
+			//查询离职类型列表
+			this.querydimTypeList();
 		},
 		methods: {
 			changeDimTime(time) {
@@ -279,6 +296,45 @@
 					console.log(err);
 				})
 			},
+			querydimTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=DIM_TYPE')
+				.then(function(res) {
+					console.log('dimType',res);
+					if(res.data.code === "S00000") {
+						self.dimTypeList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustPostList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+				.then(function(res) {
+					console.log('CustPost',res);
+					if(res.data.code === "S00000") {
+						self.custPostList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustClassList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
+				.then(function(res) {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						self.custClassList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			}
 		}
 	};
 </script>

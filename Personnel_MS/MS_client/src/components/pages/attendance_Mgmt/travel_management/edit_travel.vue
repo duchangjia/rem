@@ -385,7 +385,6 @@
 							}
 						},this)
 					}
-					custClass
 				}).catch(function(err) {
 					console.log('error');
 				})

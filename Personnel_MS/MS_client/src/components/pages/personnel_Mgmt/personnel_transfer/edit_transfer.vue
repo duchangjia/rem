@@ -33,7 +33,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动类型" prop="shiftType">
 						    <el-select v-model="formdata.shiftType" value-key="shiftType">
-								<el-option v-for="item in shiftTypeList" :key="item.shiftType" :label="item.shiftName" :value="item.shiftType"></el-option>
+								<el-option v-for="item in shiftTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>
@@ -148,24 +148,7 @@
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
 				fileFlag: '',
-				formdata: {
-					oldOrgId: "",
-					oldDeprtId: "",
-					newOrgId: "",
-					newDeprtId: "",
-					custName: "",
-					userNo: "",
-					shiftType: "",
-					shiftCameTime: "",
-					oldLineManager: "",
-					newLineManager: "",
-					oldPost: "",
-					newPost: "",
-					oldClass: "",
-					newClass: "",
-					shiftReason: "",
-					attachm: ""
-				},
+				formdata: {},
 				//部门列表
 				departList: [],
 				//公司列表
@@ -174,6 +157,7 @@
 				custPostList: [],
 				//职级列表
 				custClassList: [],
+				//调动类型列表
 				shiftTypeList: [
 					{shiftType: '01',shiftName: '晋升'},
 					{shiftType: '02',shiftName: '调动'},
@@ -215,7 +199,7 @@
 		},
 		created() {
 			
-			//查询调动列表
+			//查询调动信息
 			this.queryCustShifthisInfo();
 			//查询公司列表
 			this.queryCompList();
@@ -223,6 +207,8 @@
 			this.queryCustPostList();
 			//查询职级列表
 			this.queryCustClassList();
+			//查询调动类型列表
+			this.queryShiftTypeList();
 		},
 		computed: {
 			addFormdata: function(){
@@ -257,6 +243,7 @@
 	            let params = {
 					organNo: value
 				}
+	            //查询部门列表
 				this.queryDerpList(params);
 	      	},
 	      	changeUpload(file, fileList) {
@@ -384,11 +371,23 @@
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
 					}
-					custClass
 				}).catch(function(err) {
 					console.log('error');
 				})
-			}
+			},
+			queryShiftTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=SHIFT_TYPE')
+				.then(function(res) {
+					console.log('shiftTypeList',res);
+					if(res.data.code === "S00000") {
+						self.shiftTypeList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
 		}
 	};
 </script>
