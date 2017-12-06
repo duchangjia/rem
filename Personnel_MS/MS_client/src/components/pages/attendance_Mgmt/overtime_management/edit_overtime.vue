@@ -31,12 +31,18 @@
 					</el-col>		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <el-input v-model="formdata2.custPost" :disabled="true"></el-input>
+						    <!--<el-input v-model="formdata2.custPost" :disabled="true"></el-input>-->
+						    <el-select v-model="formdata2.custPost" :disabled="true">
+								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <el-input v-model="formdata2.custClass" :disabled="true"></el-input>
+						    <!--<el-input v-model="formdata2.custClass" :disabled="true"></el-input>-->
+						    <el-select v-model="formdata2.custClass" :disabled="true">
+								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>	  	
 					<el-col :span="24" class="item-title">加班信息</el-col>  	
@@ -125,14 +131,14 @@
 				formdata1: {
 				},
 				formdata2: {
-					companyName: "01",
+					companyName: "",
 					deptName: "",
 					userNo: "",
 					custName: "",
 					custPost: "",
 					custClass: "",
 					applyNo: "",
-					workotStartTime: "",
+					workotStartTime: "", //2017-10-12-21 10:20:20
 					workotEndTime: "",
 					workotType: "",
 					workotStartCity: "",
@@ -144,18 +150,8 @@
 					updateBy: "",
 					updateTime: ""
 				},
-				//部门列表
-				departList: [
-					{departName: "上海魔方分公司",departOrgNo: '01'},
-					{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-					{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
-				],
-				//公司列表
-				compList: [
-					{compName: "上海魔方分公司",compOrgNo: '01'},
-					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
-				],
+				custPostList: [],
+				custClassList: [],
 				workotTypeList: [
 					{label: '有薪加班', workotNo: '01'},
 					{label: '调休加班', workotNo: '02'}
@@ -190,6 +186,10 @@
 			}
 			//查询加班详细信息
 			this.workotInfo(params);
+			//查询岗位列表
+			this.queryCustPostList();
+			//查询职级列表
+			this.queryCustClassList();
 		},
 		computed: {
 			formdata: function(){
@@ -208,10 +208,12 @@
 		},
 		methods: {
 			changeStartTime(time) {
-				this.formdata2.workotStartTime = time;
+				console.log('starttime',time);
+				this.workotStartTime = time;
 			},
 			changeEndTime(time) {
-				this.formdata2.workotEndTime = time;
+				console.log('endtime',time);
+				this.workotEndTime = time;
 			},
 			changeValue(value) {
 		 		const self = this;
@@ -274,6 +276,31 @@
 		      			self.$message({ message: '操作成功', type: 'success' });
 						self.$router.push('/overtime_management');
 		      		}
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustPostList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+				.then(function(res) {
+					console.log('CustPost',res);
+					if(res.data.code === "S00000") {
+						self.custPostList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustClassList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
+				.then(function(res) {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						self.custClassList = res.data.data;
+					}
 				}).catch(function(err) {
 					console.log('error');
 				})

@@ -44,12 +44,18 @@
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <el-input v-model="formdata1.custPost" :disabled="true"></el-input>
+						    <!--<el-input v-model="formdata1.custPost" :disabled="true"></el-input>-->
+						    <el-select v-model="formdata1.custPost" :disabled="true">
+								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <el-input v-model="formdata1.custClass" :disabled="true"></el-input>
+						    <!--<el-input v-model="formdata1.custClass" :disabled="true"></el-input>-->
+						    <el-select v-model="formdata1.custClass" :disabled="true">
+								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col> 
 				</el-form>
@@ -67,8 +73,8 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="请假类型" prop="leaveType">
-						    <el-select v-model="formdata2.leaveType" value-key="leaveType">
-								<el-option v-for="item in leaveTypeList" :key="item.leaveNo" :label="item.label" :value="item.leaveNo"></el-option>
+						    <el-select v-model="formdata2.leaveType">
+								<el-option v-for="item in leaveTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
@@ -148,12 +154,10 @@
 			    saveUrl:'',
 			    boxTitle:'',
 			    numType:'',
-				formdata1: {
-					userNo: "",
-					custName: "",
-					custPost: "",
-					custClass: "",
-				},
+			    
+			    leaveStartTime: '',
+			    leaveEndTime: '',
+				formdata1: {},
 				formdata2: {
 					companyName: "",
 					deptName: "",
@@ -164,6 +168,8 @@
 					remark: "",
 					attachm: ""
 				},
+				custPostList: [],
+			    custClassList: [],
 				leaveTypeList: [
 					{label: '有薪休假', leaveNo: '01'},
 					{label: '事假', leaveNo: '02'},
@@ -217,7 +223,7 @@
 					applyNo: this.formdata2.applyNo, //请假编号
 					"userNo": self.formdata1.userNo, //"1004"
 	    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
-	    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
+	    			"leaveEndTime": self.leaveEndTime, //"2017-09-13 09:30"
 	    			"leaveType": self.formdata2.leaveType, //"3"
 	    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
 	    			"remark": self.formdata2.remark, //"请假的详细信息"
@@ -226,14 +232,19 @@
 			}
 		},
 		created() {
-			
+			//请假列表查询
+			this.queryLeaveTypeList();
+			//查询岗位列表
+			this.queryCustPostList();
+			//查询职级列表
+			this.queryCustClassList();
 		},
 		methods: {
 			changeStartTime(time) {
-				this.formdata2.leaveStartTime = time;
+				this.leaveStartTime = time;
 			},
 			changeEndTime(time) {
-				this.formdata2.leaveEndTime = time;
+				this.leaveEndTime = time;
 			},
 	      	queryUserInfo() {
 	      		let userNo = this.formdata1.userNo;
@@ -333,8 +344,8 @@
 									let params = {
 										applyNo: this.formdata2.applyNo, //请假编号
 										"userNo": self.formdata1.userNo, //"1004"
-						    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
-						    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
+						    			"leaveStartTime": self.leaveStartTime, //"2017-09-10 08:30"
+						    			"leaveEndTime": self.leaveEndTime, //"2017-09-13 09:30"
 						    			"leaveType": self.formdata2.leaveType, //"3"
 						    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
 						    			"remark": self.formdata2.remark, //"请假的详细信息"
@@ -369,6 +380,44 @@
 						self.$message({ message: '操作成功', type: 'success' });
 						self.$router.push('/leave_management');
 					}
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustPostList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+				.then(function(res) {
+					console.log('CustPost',res);
+					if(res.data.code === "S00000") {
+						self.custPostList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustClassList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
+				.then(function(res) {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						self.custClassList = res.data.data;
+					}
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryLeaveTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=LEAVE_TYPE')
+				.then(function(res) {
+					console.log('sysParamMgmt',res);
+					if(res.data.code === "S00000") {
+						self.leaveTypeList = res.data.data;
+					}
+					
 				}).catch(function(err) {
 					console.log('error');
 				})

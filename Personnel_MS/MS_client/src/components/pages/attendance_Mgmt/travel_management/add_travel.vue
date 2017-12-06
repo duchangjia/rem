@@ -120,8 +120,6 @@
 	                        </el-upload>
 					  	</el-form-item>
 					</el-col>  	
-					  	
-					  	
 				</el-form>
 			</div>
 		</div>
@@ -170,6 +168,8 @@
 			    
 				custPostName: '',
 				custClass: '',
+				travelStartTime: '',
+				travelEndTime: '',
 				formdata1: {},
 				formdata2: {
 					travelStartTime: "",
@@ -228,8 +228,8 @@
 				return {
 				    userNo: this.formdata1.userNo,//工号
 				    travelType: this.formdata2.travelType,//出差类型
-				    travelStartTime: this.formdata2.travelStartTime,//出差开始时间	
-				    travelEndTime: this.formdata2.travelEndTime, //出差结束时间
+				    travelStartTime: this.travelStartTime,//出差开始时间	
+				    travelEndTime: this.travelEndTime, //出差结束时间
 				    travelStartCity: this.formdata2.travelStartCity,//出差开始城市	
 				    travelArrivalCity: this.formdata2.travelArrivalCity,//出差到达城市
 				    travelDays: this.formdata2.travelDays, //出差天数  
@@ -251,24 +251,26 @@
 				this.formdata2.attachm = file.name;
 			},
 			changeStartTime(time) {
-				this.formdata2.travelStartTime = time;
+				console.log('starttime',time);
+				this.travelStartTime = time;
 				let params = {
-					travelStartTime: this.formdata2.travelStartTime,
-					travelEndTime: this.formdata2.travelEndTime
+					travelStartTime: this.travelStartTime,
+					travelEndTime: this.travelEndTime
 				}
 				if(this.formdata2.travelEndTime) {
 					this.calTravelDays(params);
 				}
-//				console.log(params);
+				console.log('start params',params);
 				
 			},
 			changeEndTime(time) {
-				this.formdata2.travelEndTime = time;
+				console.log('endtime',time);
+				this.travelEndTime = time;
 				let params = {
-					travelStartTime: this.formdata2.travelStartTime,
-					travelEndTime: this.formdata2.travelEndTime
+					travelStartTime: this.travelStartTime,
+					travelEndTime: this.travelEndTime
 				}
-				console.log(params);
+				console.log('end params',params);
 				if(this.formdata2.travelStartTime) {
 					this.calTravelDays(params);
 				}
@@ -372,8 +374,8 @@
 									let params = {
 									    userNo: self.formdata1.userNo,//工号
 									    travelType: self.formdata2.travelType,//出差类型
-									    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
-									    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
+									    travelStartTime: self.travelStartTime,//出差开始时间	
+									    travelEndTime: self.travelEndTime, //出差结束时间
 									    travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
 									    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
 									    travelDays: self.formdata2.travelDays, //出差天数  
@@ -456,7 +458,6 @@
 							}
 						},this)
 					}
-					custClass
 				}).catch(function(err) {
 					console.log('error');
 				})

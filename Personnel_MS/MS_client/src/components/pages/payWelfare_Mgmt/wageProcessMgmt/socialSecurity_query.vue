@@ -67,8 +67,8 @@
 					<el-table-column prop="perEmplPay" label="工伤(个人)" min-width="100"></el-table-column>
 					<el-table-column prop="comEmplPay" label="工伤(公司)" min-width="100"></el-table-column>
 					<el-table-column prop="emplTotal" label="工伤合计" ></el-table-column>
-					<el-table-column prop="comEmplPay" label="公积金(个人)" min-width="100"></el-table-column>
-					<el-table-column prop="perEmplPay" label="公积金(公司)" min-width="100"></el-table-column>
+					<el-table-column prop="perHousePay" label="公积金(个人)" min-width="100"></el-table-column>
+					<el-table-column prop="comHousePay" label="公积金(公司)" min-width="100"></el-table-column>
 					<el-table-column prop="houseTotal" label="公积金合计" ></el-table-column>
 					<el-table-column prop="createdBy" label="录入人"></el-table-column>
 					<el-table-column prop="createdDate" label="录入时间" :formatter="createdDateFormatter"></el-table-column>
@@ -235,7 +235,7 @@ export default {
 		//导出
 		exportFile(params) {
 			const self = this;
-			self.$axios.get(baseURL+'/welfare/exportWelfareInfo',{
+			self.$axios.get(baseURL+'/welfare/exportWelfareInfoByModel',{
 					params: params,
                     responseType: 'blob'
                 })

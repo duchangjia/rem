@@ -44,12 +44,18 @@
 					</el-col>		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <el-input v-model="formdata1.custPost" :disabled="true"></el-input>
+						    <!--<el-input v-model="formdata1.custPost" :disabled="true"></el-input>-->
+						    <el-select v-model="formdata1.custPost" :disabled="true">
+								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <el-input v-model="formdata1.custClass" :disabled="true"></el-input>
+						    <!--<el-input v-model="formdata1.custClass" :disabled="true"></el-input>-->
+						    <el-select v-model="formdata1.custClass" :disabled="true">
+								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>	 
 				</el-form>
@@ -149,14 +155,12 @@
 			    saveUrl:'',
 			    boxTitle:'',
 			    numType:'',
-				formdata1: {
-					companyName: "",
-					deptName: "",
-					userNo: "",
-					custName: "",
-					custPost: "",
-					custClass: "",
-				},
+			    
+			    workotStartTime: '',
+			    workotEndTime: '',
+			    //员工基本信息
+				formdata1: {},
+				//员工加班信息
 				formdata2: {
 					workotStartTime: "",
 					workotEndTime: "",
@@ -165,27 +169,19 @@
 					remark: "",
 					attachm: ""
 				},
-				//部门列表
-				departList: [
-					{departName: "上海魔方分公司",departOrgNo: '01'},
-					{departName: "魔方分公司深圳分公司",departOrgNo: 'p1'},
-					{departName: "深圳前海橙色魔方信息技术有限公司",departOrgNo: '0'}
-				],
-				//公司列表
-				compList: [
-					{compName: "上海魔方分公司",compOrgNo: '01'},
-					{compName: "魔方分公司深圳分公司",compOrgNo: 'p1'},
-					{compName: "深圳前海橙色魔方信息技术有限公司",compOrgNo: '0'}
-				],
+				custPostList: [],
+				custClassList: [],
 				workotTypeList: [
 					{label: '有薪加班', workotNo: '01'},
 					{label: '调休加班', workotNo: '02'}
 				],
+				//员工基本信息校验规则
 				rules1: {
 			 		userNo: [
 			 			{ required: true, message: '工号不能为空', trigger: 'blur' }
 			 		]
 			 	},
+			 	//员工加班信息校验规则
 			 	rules2: {
 			 		userNo: [
 			 			{ required: true, message: '工号不能为空', trigger: 'blur' }
@@ -217,8 +213,8 @@
 				const self = this;
 				return {
 					"userNo": self.formdata1.userNo,
-	    			"workotStartTime": self.formdata2.workotStartTime, 
-	    			"workotEndTime": self.formdata2.workotEndTime,
+	    			"workotStartTime": self.workotStartTime, 
+	    			"workotEndTime": self.workotEndTime,
 	    			"workotType": self.formdata2.workotType, 
 	    			"timeSheet": self.formdata2.timeSheet, 
 	    			"remark": self.formdata2.remark,
@@ -226,18 +222,23 @@
 				}
 			}
 		},
+		created() {
+			//查询岗位列表
+			this.queryCustPostList();
+			//查询职级列表
+			this.queryCustClassList();
+		},
 		methods: {
 			changefile(file, fileList) {
 				this.fileFlag = file;
 			},
 			changeStartTime(time) {
 				console.log('time',time);
-				
-				this.formdata2.workotStartTime = time;
+				this.workotStartTime = time;
 			},
 			changeEndTime(time) {
 				console.log('time',time);
-				this.formdata2.workotEndTime = time;
+				this.workotEndTime = time;
 			},
 			changeValue(value) {
 		 		const self = this;
@@ -329,13 +330,13 @@
 			        if (valid) {
 			          self.$refs.formdata2.validate(valid => {
 			            if (valid) {
-			            	console.log('valid')
+			            	
 			            	self.$refs.upload.submit();
 							if(!self.fileFlag) {
 							let params = {
 								"userNo": self.formdata1.userNo,
-				    			"workotStartTime": self.formdata2.workotStartTime, 
-				    			"workotEndTime": self.formdata2.workotEndTime,
+				    			"workotStartTime": self.workotStartTime, 
+				    			"workotEndTime": self.workotEndTime,
 				    			"workotType": self.formdata2.workotType, 
 				    			"timeSheet": self.formdata2.timeSheet, 
 				    			"remark": self.formdata2.remark
@@ -379,6 +380,31 @@
 //					if(res.data.code === "S00000") {
 						self.formdata2.timeSheet = res.data;
 //					}
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustPostList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+				.then(function(res) {
+					console.log('CustPost',res);
+					if(res.data.code === "S00000") {
+						self.custPostList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustClassList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
+				.then(function(res) {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						self.custClassList = res.data.data;
+					}
 				}).catch(function(err) {
 					console.log('error');
 				})
