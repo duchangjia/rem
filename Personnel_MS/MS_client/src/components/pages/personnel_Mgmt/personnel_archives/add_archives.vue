@@ -352,7 +352,7 @@
                                     </div>
                                 </div>
                             </el-tab-pane>
-                            <el-tab-pane label="工作经历" name="third" class="third_special">
+                            <el-tab-pane label="工作经历" name="third">
                                 <div class="third-wrapper">
                                     <div class="title"><span>工作经历</span><span class="text" @click="add_item">继续添加</span></div>
                                     <div class="from-wrapper">
