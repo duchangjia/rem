@@ -4,11 +4,13 @@ import utils from 'axios/lib/utils'
 import normalizeHeaderName from 'axios/lib/helpers/normalizeHeaderName'
 import Qs from 'qs'
 import router from '../router/index.js'
+import { Loading } from 'element-ui'
 // import store from '../store/index'
 // import { LOGIN, LOGOUT } from '../store/types'
 // import router from '../router/index'
 
 Promise.polyfill();
+let loadingInstance
 
 const DEFAULT_CONTENT_TYPE = {
     'Content-Type': 'application/x-www-form-urlencoded'
@@ -70,8 +72,8 @@ axios.defaults.transformRequest = [function transformRequest(data, headers) {
 
 
 //axios.defaults.baseURL = 'http://localhost:3000';
-
 // http request 拦截器
+
 axios.interceptors.request.use(
     // function (config) {
     // // Do something before request is sent
@@ -83,11 +85,16 @@ axios.interceptors.request.use(
     //     return Promise.reject(error);
     // }
     config => {
-    		let token = localStorage.getItem('access_token');
-           if (token) {
+            loadingInstance = Loading.service({
+                lock: true,
+                text: '加载中',
+                customClass: 'loading-bg'
+            })
+        let token = localStorage.getItem('access_token');
+       if (token) {
 //             config.headers.Authorization = `token ${store.state.token}`;
-				config.headers.Authorization = `Bearer ${token}`;
-           }
+            config.headers.Authorization = `Bearer ${token}`;
+       }
         return config;
     },
     err => {
@@ -99,6 +106,9 @@ axios.interceptors.request.use(
 // http response 拦截器
 axios.interceptors.response.use(
      response => {
+         if(loadingInstance) {
+             loadingInstance.close()
+         }
         return response;
     },
     error => {
@@ -111,6 +121,9 @@ axios.interceptors.response.use(
                         path: 'login',
                         query: {redirect: router.currentRoute.fullPath}
                     })
+            }
+            if(loadingInstance) {
+                loadingInstance.close()
             }
         }
         // console.log(JSON.stringify(error));//console : Error: Request failed with status code 402
