@@ -30,12 +30,18 @@
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <el-input v-model="custPostName" :disabled="true"></el-input>
+						    <!--<el-input v-model="custPostName" :disabled="true"></el-input>-->
+						    <el-select v-model="formdata.custPost" :disabled="true">
+								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <el-input v-model="custClass" :disabled="true"></el-input>
+						    <!--<el-input v-model="custClass" :disabled="true"></el-input>-->
+						    <el-select v-model="formdata.custClass" :disabled="true">
+								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>
 					<el-col :span="24" class="item-title">出差信息</el-col>
@@ -116,25 +122,12 @@
 			return {
 				custPostName: '',
 				custClass: '',
-				formdata: {
-					organNo: "01",
-					deptNo: "",
-					userNo: "",
-					custName: "",
-					custPost: "",
-					custClass: "",
-					travelStartTime: "",
-					travelEndTime: "",
-					travelType: "",
-					travelStartCity: "",
-					travelArrivalCity: "",
-					travelDays: "",
-					travelSTD: "",
-					remark: "",
-					attachm: "",
-					updateBy: "",
-					updateTime: ""
-				},
+				formdata: {},
+				//岗位列表
+				custPostList: [],
+				//职级列表
+				custClassList: [],
+				//出差类型列表
 				travelTypeList: [
 					{label: "业务拓展", travelNo: "01"},
 					{label: "项目实施", travelNo: "02"},
@@ -222,11 +215,7 @@
 				.then(function(res) {
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
-						res.data.data.forEach(function(ele) {
-							if(ele.paraValue === self.formdata.custPost) {
-								self.custPostName = ele.paraShowMsg;
-							}
-						},this)
+						self.custPostList = res.data.data;
 					}
 					
 				}).catch(function(err) {
@@ -236,17 +225,12 @@
 			queryCustClassList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
-						res.data.data.forEach(function(ele) {
-							if(ele.paraValue === self.formdata.custClass) {
-								self.custClass = ele.paraShowMsg;
-							}
-						},this)
+						self.custClassList = res.data.data;
 					}
-					custClass
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			}

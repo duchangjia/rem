@@ -195,6 +195,8 @@ export default {
       		console.log('response',response)
       		if(response.code === "S00000") {
       			this.$message({ message: '操作成功', type: 'success' });
+      			//查询考勤列表
+				this.queryAttenceList();
       		} else {
       			this.$message({ message: response, type: 'info' });
       		}

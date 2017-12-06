@@ -21,8 +21,8 @@
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号" prop="userNo">
-						    <el-input v-model="formdata1.userNo">
-						    	<el-button slot="append" icon="search" @click="userNoSelect"></el-button>
+						    <el-input v-model="formdata1.userNo" :disabled="true">
+						    	<!--<el-button slot="append" icon="search" @click="userNoSelect"></el-button>-->
 						    </el-input>
 						    <messageBox 
                                 :title="boxTitle"
@@ -48,7 +48,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动类型" prop="shiftType">
 						    <el-select v-model="formdata2.shiftType" value-key="shiftType">
-								<el-option v-for="item in shiftTypeList" :key="item.shiftType" :label="item.shiftName" :value="item.shiftType"></el-option>
+								<el-option v-for="item in shiftTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	
@@ -171,25 +171,10 @@
 			    searchUrl:'',
 			    saveUrl:'',
 			    boxTitle:'',
+			    //原信息
 			    formdata1: {},
-				formdata2: {
-					oldOrgId: "",
-					oldDeprtId: "",
-					newOrgId: "",
-					newDeprtId: "",
-					custName: "",
-					userNo: "",
-					shiftType: "",
-					shiftCameTime: "",
-					oldLineManager: "",
-					newLineManager: "",
-					custPost: "",
-					newPost: "",
-					oldClass: "",
-					newClass: "",
-					shiftReason: "",
-					attachm: ""
-				},
+			    //调动信息
+				formdata2: {},
 				//部门列表
 				departList: [],
 				//公司列表
@@ -243,14 +228,16 @@
 			current, messageBox
 		},
 		created() {
+			//查询员工信息
+			this.queryUserInfo();
 			//查询公司列表
 			this.queryCompList();
 			//查询岗位列表
 			this.queryCustPostList();
 			//查询职级列表
 			this.queryCustClassList();
-			//查询员工信息
-			this.queryUserInfo();
+			//查询调动类型列表
+			this.queryShiftTypeList();
 		},
 		computed: {
 			addFormdata: function(){
@@ -277,7 +264,7 @@
 				let params = {
 					organNo: val
 				}
-				console.log('val',val)
+				//查询部门列表
 				this.queryDerpList(params);
 			},
 	      	dialogConfirm(ajaxNo){
@@ -449,13 +436,26 @@
 					console.log('error');
 				})
 			},
+			queryShiftTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=SHIFT_TYPE')
+				.then(function(res) {
+					console.log('shiftTypeList',res);
+					if(res.data.code === "S00000") {
+						self.shiftTypeList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
 			queryUserInfo() {
 				let self = this;
 				let userNo = sessionStorage.getItem('transfer_userNo');
 				let params = {
 					userNo: userNo
 				}
-				self.$axios.get(baseURL+'/CustInfo/querySelfDtl', {params})
+				self.$axios.get(baseURL+'CustInfo/queryCustInfoByUserNo/userNo/'+ userNo)
 				.then(function(res) {
 					console.log('userInfo',res);
 					self.formdata1 = res.data;

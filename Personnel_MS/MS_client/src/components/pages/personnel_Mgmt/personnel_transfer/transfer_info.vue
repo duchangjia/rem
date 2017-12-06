@@ -32,7 +32,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动类型">
 						    <el-select v-model="formdata.shiftType" value-key="shiftType" @change="changeValue" :disabled="true">
-								<el-option v-for="item in shiftTypeList" :key="item.shiftType" :label="item.shiftName" :value="item.shiftType"></el-option>
+								<el-option v-for="item in shiftTypeList" :key="item.shiftType" :label="item.paraShowMsg" :value="item.shiftType"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
@@ -128,6 +128,7 @@
 	export default {
 		data() {
 			return {
+				//员工信息
 				formdata: {},
 				//部门列表
 				departList: [],
@@ -137,6 +138,7 @@
 				custPostList: [],
 				//职级列表
 				custClassList: [],
+				//调动类型列表
 				shiftTypeList: [
 					{shiftType: '01',shiftName: '晋升'},
 					{shiftType: '02',shiftName: '调动'},
@@ -160,6 +162,8 @@
 			this.queryCustPostList();
 			//查询职级列表
 			this.queryCustClassList();
+			//查询调动类型列表
+			this.queryShiftTypeList();
 		},
 		methods: {
 			changeValue(value) {
@@ -252,11 +256,6 @@
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
-//						res.data.data.forEach(function(ele) {
-//							if(ele.paraValue === self.formdata2.custPost) {
-//								self.custPostName = ele.paraShowMsg;
-//							}
-//						},this)
 					}
 					
 				}).catch(function(err) {
@@ -270,13 +269,20 @@
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
-//						res.data.data.forEach(function(ele) {
-//							if(ele.paraValue === self.formdata2.custClass) {
-//								self.custClass = ele.paraShowMsg;
-//							}
-//						},this)
 					}
-					custClass
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryShiftTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=SHIFT_TYPE')
+				.then(function(res) {
+					console.log('shiftTypeList',res);
+					if(res.data.code === "S00000") {
+						self.shiftTypeList = res.data.data;
+					}
+					
 				}).catch(function(err) {
 					console.log('error');
 				})

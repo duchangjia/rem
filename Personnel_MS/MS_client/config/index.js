@@ -29,7 +29,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://10.0.0.242:5555/',
+//      target: 'http://10.0.0.242:5555/',
+        target: 'http://14.21.69.222:5555/',
         // target: 'http://10.0.0.34:8888/',
         changeOrigin: true,
         secure: false,
@@ -38,7 +39,8 @@ module.exports = {
         },
       },
       '/iem_hrm': {
-        target: 'http://10.0.0.242:8888/',
+//      target: 'http://10.0.0.242:8888/',
+//				target: 'http://14.21.69.222:7070/',
         // target: 'http://192.168.1.102:8888/',
 //            target: 'http://192.168.1.111:8888/',
         // target: 'http://192.168.1.102:8888/',
@@ -55,7 +57,7 @@ module.exports = {
 //      target: 'http://192.168.1.116:8888/',
         // target: 'http://192.168.137.83:8888/',
         // target: 'http://192.168.1.130:8888/',
-//         target: 'http://192.168.137.3:8888/',
+           target: 'http://11.241.9.105:8888/',
         // target: 'http://10.0.0.16:8888/',
 //         target: 'http://10.0.0.30:8888/',
         // target: 'http://10.0.0.34:8888/',

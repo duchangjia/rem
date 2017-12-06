@@ -53,7 +53,7 @@
 					  	</el-form-item>
 					</el-col>	 
 				</el-form>
-				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="100px">
+				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="110px">
 				  	<el-col :span="24" class="item-title">加班信息</el-col> 
 				  	<el-col :sm="24" :md="12">
 						<el-form-item label="加班开始时间" prop="workotStartTime">
@@ -231,9 +231,12 @@
 				this.fileFlag = file;
 			},
 			changeStartTime(time) {
+				console.log('time',time);
+				
 				this.formdata2.workotStartTime = time;
 			},
 			changeEndTime(time) {
+				console.log('time',time);
 				this.formdata2.workotEndTime = time;
 			},
 			changeValue(value) {
