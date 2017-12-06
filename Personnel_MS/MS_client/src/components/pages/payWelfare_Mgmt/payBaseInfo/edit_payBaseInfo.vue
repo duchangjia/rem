@@ -45,9 +45,9 @@
                 <el-col :span="24" class="item-title">薪酬基数信息</el-col>
                 <el-form :inline="true" :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="基本工资" prop="wagesBase">
-                            <el-input v-model="editPayBaseInfo.wagesBase"></el-input>
-                        </el-form-item>
+                      <el-form-item label="基本工资" prop="wagesBase">
+                         <el-input v-model="editPayBaseInfo.wagesBase" @blur="wagesBaseChange"></el-input>
+                      </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                       <el-form-item label="绩效工资" prop="wagesPerf">
@@ -200,7 +200,7 @@
                         </el-form-item>
                     </el-col>
                 </el-form>
-                <el-form :inline="true" :model="editPayBaseInfo" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="24">
                         <el-form-item label="薪资超限说明" prop="remark">
                             <el-input type="textarea" v-model="editPayBaseInfo.remark"></el-input>
@@ -257,7 +257,7 @@ export default {
           { required: true, message: "岗位补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
-         phonePension: [
+        phonePension: [
           { required: true, message: "通讯补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
@@ -315,7 +315,7 @@ export default {
   },
   created() {
     this.userNo = this.$route.params.userNo;
-    console.log('接到的userNo:',this.userNo);
+    console.log("接到的userNo:", this.userNo);
     this.getCustInfo(); //初始查询用户信息
     this.getPayBaseInfoDetail(); //初始查询薪酬基数详情
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
@@ -329,7 +329,7 @@ export default {
         return "前端开发工程师";
       } else if (this.custInfo.custPost == "03") {
         return "测试工程师";
-        } else if (this.custInfo.custPost == "04") {
+      } else if (this.custInfo.custPost == "04") {
         return "后端开发";
       } else {
         return "";
@@ -347,40 +347,88 @@ export default {
       }
     },
     _perEndm: function() {
-        return Number(this.editPayBaseInfo.endmBase) * this.insurancePayTemp.perEndmRate + this.insurancePayTemp.perEndmFixed || 0;
+      return (
+        Math.round((Number(this.editPayBaseInfo.endmBase) *
+          this.insurancePayTemp.perEndmRate +
+          this.insurancePayTemp.perEndmFixed)*10)/10 || 0
+      );
     },
     _comEndm: function() {
-        return Number(this.editPayBaseInfo.endmBase) * this.insurancePayTemp.comEndmRate + this.insurancePayTemp.comEndmFixed || 0;
+      return (
+        Math.round((Number(this.editPayBaseInfo.endmBase) *
+          this.insurancePayTemp.comEndmRate +
+          this.insurancePayTemp.comEndmFixed)*10)/10 || 0
+      );
     },
     _perMedi: function() {
-        return Number(this.editPayBaseInfo.mediBase) * this.insurancePayTemp.perMediRate + this.insurancePayTemp.perMediFixed || 0;
+      return (
+        Math.round((Number(this.editPayBaseInfo.mediBase) *
+          this.insurancePayTemp.perMediRate +
+          this.insurancePayTemp.perMediFixed)*10)/10 || 0
+      );
     },
     _comMedi: function() {
-        return Number(this.editPayBaseInfo.mediBase) * this.insurancePayTemp.comMediRate + this.insurancePayTemp.comMediFixed || 0;
+      return (
+        Math.round((Number(this.editPayBaseInfo.mediBase) *
+          this.insurancePayTemp.comMediRate +
+          this.insurancePayTemp.comMediFixed)*10)/10 || 0
+      );
     },
     _perUnem: function() {
-        return Number(this.editPayBaseInfo.unemBase) * this.insurancePayTemp.perUnemRate + this.insurancePayTemp.perUnemFixed || 0;
+      return (
+        Math.round((Number(this.editPayBaseInfo.unemBase) *
+          this.insurancePayTemp.perUnemRate +
+          this.insurancePayTemp.perUnemFixed)*10)/10 || 0
+      );
     },
     _comUnem: function() {
-        return Number(this.editPayBaseInfo.unemBase) * this.insurancePayTemp.comUnemRate + this.insurancePayTemp.comUnemFixed || 0;
+      return (
+        Math.round((Number(this.editPayBaseInfo.unemBase) *
+          this.insurancePayTemp.comUnemRate +
+          this.insurancePayTemp.comUnemFixed)*10)/10 || 0
+      );
     },
     _perEmpl: function() {
-        return Number(this.editPayBaseInfo.emplBase) * this.insurancePayTemp.perEmplRate + this.insurancePayTemp.perEmplFixed || 0;
+      return (
+        Math.round((Number(this.editPayBaseInfo.emplBase) *
+          this.insurancePayTemp.perEmplRate +
+          this.insurancePayTemp.perEmplFixed)*10)/10 || 0
+      );
     },
     _comEmpl: function() {
-        return Number(this.editPayBaseInfo.emplBase) * this.insurancePayTemp.comEmplRate + this.insurancePayTemp.comEmplFixed || 0;
+      return (
+        Math.round((Number(this.editPayBaseInfo.emplBase) *
+          this.insurancePayTemp.comEmplRate +
+          this.insurancePayTemp.comEmplFixed)*10)/10 || 0
+      );
     },
     _perMate: function() {
-        return Number(this.editPayBaseInfo.mateBase) * this.insurancePayTemp.perMateRate + this.insurancePayTemp.perMateFixed || 0;
+      return (
+        Math.round((Number(this.editPayBaseInfo.mateBase) *
+          this.insurancePayTemp.perMateRate +
+          this.insurancePayTemp.perMateFixed)*10)/10 || 0
+      );
     },
     _comMate: function() {
-        return Number(this.editPayBaseInfo.mateBase) * this.insurancePayTemp.comMateRate + this.insurancePayTemp.comMateFixed || 0;
+      return (
+        Math.round((Number(this.editPayBaseInfo.mateBase) *
+          this.insurancePayTemp.comMateRate +
+          this.insurancePayTemp.comMateFixed)*10)/10 || 0
+      );
     },
     _perHouse: function() {
-        return Number(this.editPayBaseInfo.houseBase) * this.insurancePayTemp.perHousRate + this.insurancePayTemp.perHousFixed || 0;
+      return (
+        Math.round((Number(this.editPayBaseInfo.houseBase) *
+          this.insurancePayTemp.perHousRate +
+          this.insurancePayTemp.perHousFixed)*10)/10 || 0
+      );
     },
     _comHouse: function() {
-        return Number(this.editPayBaseInfo.houseBase) * this.insurancePayTemp.comHousRate + this.insurancePayTemp.comHousFixed || 0;
+      return (
+        Math.round((Number(this.editPayBaseInfo.houseBase) *
+          this.insurancePayTemp.comHousRate +
+          this.insurancePayTemp.comHousFixed)*10)/10 || 0
+      );
     }
   },
   methods: {
@@ -390,7 +438,7 @@ export default {
       self.$axios
         .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
         .then(res => {
-          console.log('custInfo',res);
+          console.log("custInfo", res);
           self.custInfo = res.data.data;
         })
         .catch(() => {
@@ -404,7 +452,7 @@ export default {
         .get("/iem_hrm/pay/queryPayBaseInfoDetail/" + userNo)
         .then(res => {
           self.editPayBaseInfo = res.data.data;
-          console.log('editPayBaseInfo',self.editPayBaseInfo);
+          console.log("editPayBaseInfo", self.editPayBaseInfo);
         })
         .catch(() => {
           console.log("error");
@@ -416,7 +464,7 @@ export default {
         .get("/iem_hrm/InsurancePayTemplate/queryAllInsurancePayTemplate")
         .then(res => {
           self.insurancePayTemplates = res.data.data;
-          console.log('insurancePayTemplates',self.insurancePayTemplates);
+          console.log("insurancePayTemplates", self.insurancePayTemplates);
         })
         .catch(() => {
           console.log("error");
@@ -431,6 +479,29 @@ export default {
         )
         .then(res => {
           self.insurancePayTemp = res.data.data;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+    wagesBaseChange() {
+      const self = this;
+      let userNo = self.custInfo.userNo;
+      self.$axios
+        .get("/iem_hrm/querUserSalaryTop/" + userNo)
+        .then(res => {
+          console.log("salaryTop", res);
+          self.salaryTop = res.data;
+          if (Number(this.editPayBaseInfo.wagesBase) > self.salaryTop) {
+            this.payBaseInfoRules.remark.push({
+              required: true,
+              message: "请输入薪资超限说明",
+              trigger: "blur"
+            });
+            console.log(this.payBaseInfoRules.remark);
+          } else {
+            this.payBaseInfoRules.remark = [];
+          }
         })
         .catch(() => {
           console.log("error");
@@ -475,9 +546,9 @@ export default {
           editPayBaseInfo.emplBase = this.editPayBaseInfo.emplBase;
           editPayBaseInfo.mateBase = this.editPayBaseInfo.mateBase;
           editPayBaseInfo.houseBase = this.editPayBaseInfo.houseBase;
-          editPayBaseInfo.wagesProb = this.editPayBaseInfo.wagesProb;    
-          editPayBaseInfo.welcoeNo = this.editPayBaseInfo.welcoeNo;   
-          editPayBaseInfo.remark = this.editPayBaseInfo.remark; 
+          editPayBaseInfo.wagesProb = this.editPayBaseInfo.wagesProb;
+          editPayBaseInfo.welcoeNo = this.editPayBaseInfo.welcoeNo;
+          editPayBaseInfo.remark = this.editPayBaseInfo.remark;
           console.log(editPayBaseInfo);
           this.$axios
             .put("/iem_hrm/pay/updatePayBaseInfo", editPayBaseInfo)
@@ -502,4 +573,5 @@ export default {
 </script>
 
 <style>
+
 </style>
