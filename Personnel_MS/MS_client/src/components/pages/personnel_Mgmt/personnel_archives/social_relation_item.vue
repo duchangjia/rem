@@ -122,15 +122,14 @@
 <style lang='stylus' rel='stylesheet/stylus'>
     .social_relation_item
         position relative
+        padding-bottom 30px
         .bg_color
             background: #f4f4f4;
             overflow hidden
-            margin-top 30px
             padding-bottom 18px
         .bg_color2
             background: #fff;
             overflow hidden
-            margin-top:30px;
             padding-bottom 18px
         .el-input
             width 215px

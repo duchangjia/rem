@@ -11,6 +11,7 @@ import { Loading } from 'element-ui'
 
 Promise.polyfill();
 let loadingInstance
+let count = 0
 
 const DEFAULT_CONTENT_TYPE = {
     'Content-Type': 'application/x-www-form-urlencoded'
@@ -90,6 +91,7 @@ axios.interceptors.request.use(
                 text: '加载中',
                 customClass: 'loading-bg'
             })
+        count++
         let token = localStorage.getItem('access_token');
        if (token) {
 //             config.headers.Authorization = `token ${store.state.token}`;
@@ -106,7 +108,7 @@ axios.interceptors.request.use(
 // http response 拦截器
 axios.interceptors.response.use(
      response => {
-         if(loadingInstance) {
+         if(--count <= 0) {
              loadingInstance.close()
          }
         return response;
@@ -122,7 +124,7 @@ axios.interceptors.response.use(
                         query: {redirect: router.currentRoute.fullPath}
                     })
             }
-            if(loadingInstance) {
+            if(--count <= 0) {
                 loadingInstance.close()
             }
         }

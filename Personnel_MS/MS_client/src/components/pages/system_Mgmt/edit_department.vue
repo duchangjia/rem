@@ -330,6 +330,9 @@
     width: 300px;
     height: 40px;
 }
+.edit-wrapper .department-info .organMgeName .el-form-item {
+    margin-top: 20px;
+}
 .edit-wrapper .department-info .organMgeName .el-input, .edit-wrapper .department-info .organMgeName .el-select{
     width: 253px;
     height: 40px;

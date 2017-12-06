@@ -173,7 +173,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="直线经理">
+                                            <el-form-item label="直线经理" class="line-manager">
                                                 <el-input v-model="ruleForm.lineManager" readOnly>
                                                     <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
                                                 </el-input>
@@ -356,7 +356,7 @@
                                 <div class="third-wrapper">
                                     <div class="title"><span>工作经历</span><span class="text" @click="add_item">继续添加</span></div>
                                     <div class="from-wrapper">
-                                        <div v-for="(item, index) in work_item.lists" style="margin-top: 20px; position: relative">
+                                        <div v-for="(item, index) in work_item.lists" style="margin-top: 30px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`third${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
                                                 <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
                                                 <el-col :span="12">
@@ -449,7 +449,7 @@
                                 <div class="fourth-wrapper">
                                     <div class="title"><span>教育背景</span><span  class="text" @click="add_item">继续添加</span></div>
                                     <div class="from-wrapper">
-                                        <div v-for="(item, index) in education_item.lists" style="margin-top: 20px; position: relative">
+                                        <div v-for="(item, index) in education_item.lists" style="margin-top: 30px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fourth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
                                                 <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
                                                 <el-col :span="12">
@@ -500,7 +500,7 @@
                                 <div class="fifth-wrapper">
                                     <div class="title"><span>项目经历</span><span class="text" @click="add_item">继续添加</span></div>
                                     <div class="from-wrapper">
-                                        <div v-for="(item, index) in project_item.lists" style="margin-top: 20px; position: relative">
+                                        <div v-for="(item, index) in project_item.lists" style="margin-top: 30px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fifth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
                                                 <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
                                                <el-col :span="12">
@@ -1680,7 +1680,7 @@
                         height 40px
                         .el-input__inner
                             width 100%
-                            height 100%
+                            height 40px
                             &:hover
                                 border-color #ff9900
                             &:focus
@@ -1760,6 +1760,11 @@
                             letter-spacing: 0;
                             height 40px
                             margin-bottom  0
+                    .line-manager
+                        .el-form
+                            margin-top 20px
+                        .el-form-item
+                            margin-bottom 0px
                     .upload-demo
                         position absolute
                         width 200px
@@ -1795,12 +1800,9 @@
                             text-decoration underline
                             cursor pointer
                 .second_content_wrapper
-                    /*padding-left 8px*/
-                    min-height 570px
-                    padding-bottom 20px
+                    padding-top 30px
                 .third-wrapper, .fourth-wrapper, .fifth-wrapper
-                    min-height 570px
-                    padding-bottom 20px
+                    padding-bottom 30px
                     .title
                         padding 30px 8px 0 8px
                         font-family: PingFangSC-Regular;
@@ -1814,13 +1816,12 @@
                             &:hover
                                 text-decoration underline
                     .from-wrapper
-                        margin-top 30px
                         .el-form
                             padding 40px 20px 18px 20px
                             background: #F4F4F4;
                             overflow hidden
                             .el-input
-                                width 445px
+                                width 425px
                                 height 40px
                             .el-input__inner
                                 width 100%
@@ -1857,7 +1858,7 @@
                                     text-decoration underline
                             .fifth_common
                                 .el-date-editor
-                                    width 210px
+                                    width 200px
                                 .el-textarea
                                     width 100%
                                 .el-textarea__inner
