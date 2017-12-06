@@ -31,12 +31,18 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
-                            <el-input v-model="_custPost" :disabled="true"></el-input>
+                            <!-- <el-input v-model="_custPost" :disabled="true"></el-input> -->
+                            <el-select v-model="custInfo.custPost" :disabled="true">
+                              <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职级">
-                            <el-input v-model="_custClass" :disabled="true"></el-input>
+                            <!-- <el-input v-model="_custClass" :disabled="true"></el-input> -->
+                            <el-select v-model="custInfo.custClass" :disabled="true">
+                              <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -232,16 +238,28 @@
 import current from "../../../common/current_position.vue";
 export default {
   data() {
+    let validateWagesProb = (rule, value, callback) => {
+      if (Number(value) > Number(this.editPayBaseInfo.wagesBase)) {
+        callback(new Error("试用期工资应小于基本工资"));
+      } else if (value.match(/^([1-9]\d*|0)(\.\d{2})?$/) == null) {
+        callback(new Error("可精确到小数点后2位的正数"));
+      } else {
+        callback();
+      }
+    };
     return {
       labelPosition: "right",
       userNo: "",
       custInfo: {},
       editPayBaseInfo: {},
+      salaryTop: 0,
       filesName: "files",
       fileList: [],
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
       },
+      custPostList: [],
+      custClassList: [],
       insurancePayTemplates: {},
       insurancePayTemp: {},
       payBaseInfoRules: {
@@ -303,7 +321,7 @@ export default {
         ],
         wagesProb: [
           { required: true, message: "试用期工资不能为空", trigger: "blur" },
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+          { validator: validateWagesProb, trigger: "blur" }
         ],
         welcoeNo: [{ required: true, message: "请选择保险缴纳标准", trigger: "change" }],
         remark: []
@@ -318,34 +336,12 @@ export default {
     console.log("接到的userNo:", this.userNo);
     this.getCustInfo(); //初始查询用户信息
     this.getPayBaseInfoDetail(); //初始查询薪酬基数详情
+    this.getCustPostList(); //查询岗位列表
+    this.getCustClassList(); //查询职级列表
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
     this.getInsurancePayTemp(); //初始查询保险缴纳标准
   },
   computed: {
-    _custPost: function() {
-      if (this.custInfo.custPost == "01") {
-        return "架构师";
-      } else if (this.custInfo.custPost == "02") {
-        return "前端开发工程师";
-      } else if (this.custInfo.custPost == "03") {
-        return "测试工程师";
-      } else if (this.custInfo.custPost == "04") {
-        return "后端开发";
-      } else {
-        return "";
-      }
-    },
-    _custClass: function() {
-      if (this.custInfo.custClass == "B10") {
-        return "B10-初级软件工程师";
-      } else if (this.custInfo.custClass == "B11") {
-        return "B11-中级软件工程师";
-      } else if (this.custInfo.custClass == "B12") {
-        return "B12-高级软件工程师";
-      } else {
-        return "";
-      }
-    },
     _perEndm: function() {
       return (
         Math.round((Number(this.editPayBaseInfo.endmBase) *
@@ -458,6 +454,36 @@ export default {
           console.log("error");
         });
     },
+    getCustPostList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST")
+        .then(res => {
+          console.log("CustPost", res);
+          if (res.data.code === "S00000") {
+            self.custPostList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
+    getCustClassList() {
+      let self = this;
+      self.$axios
+        .get(
+          "/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED"
+        )
+        .then(res => {
+          console.log("CustClass", res);
+          if (res.data.code === "S00000") {
+            self.custClassList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
     getAllInsurancePayTemplate() {
       const self = this;
       self.$axios
@@ -484,21 +510,22 @@ export default {
           console.log("error");
         });
     },
-    wagesBaseChange() {
+    wagesBaseChange(event) {
+      console.log("填入的基本工资", this.editPayBaseInfo.wagesBase);
       const self = this;
       let userNo = self.custInfo.userNo;
       self.$axios
-        .get("/iem_hrm/querUserSalaryTop/" + userNo)
+        .get("/iem_hrm/pay/querUserSalaryTop/" + userNo)
         .then(res => {
-          console.log("salaryTop", res);
-          self.salaryTop = res.data;
+          self.salaryTop = res.data.data;
+          console.log("salaryTop", self.salaryTop);
           if (Number(this.editPayBaseInfo.wagesBase) > self.salaryTop) {
+            this.payBaseInfoRules.remark = [];
             this.payBaseInfoRules.remark.push({
               required: true,
               message: "请输入薪资超限说明",
               trigger: "blur"
             });
-            console.log(this.payBaseInfoRules.remark);
           } else {
             this.payBaseInfoRules.remark = [];
           }
