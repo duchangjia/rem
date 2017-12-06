@@ -1835,7 +1835,7 @@
                         height 40px
                         .el-input__inner
                             width 100%
-                            height 100%
+                            height 40px
                             &:hover
                                 border-color #ff9900
                             &:focus
@@ -1914,6 +1914,11 @@
                             letter-spacing: 0;
                             height 40px
                             margin-bottom  0
+                    .line-manager
+                        .el-form
+                            margin-top 20px
+                        .el-form-item
+                            margin-bottom 0px
                     .upload-demo
                         position absolute
                         width 200px

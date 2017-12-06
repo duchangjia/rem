@@ -335,6 +335,9 @@
         width: 300px;
         height: 40px;
     }
+    .add-junior .department-info .organMgeName .el-form-item {
+        margin-top: 20px;
+    }
     .add-junior .department-info .organMgeName .el-input, .add-junior .department-info .organMgeName .el-select{
         width: 253px;
         height: 40px;
