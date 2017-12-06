@@ -34,7 +34,6 @@
                                         <el-col :span="8">
                                             <el-form-item label="身份证" prop="certNo">
                                                 <el-input v-model="ruleForm.certNo"></el-input>
-                                                <!--<el-input v-model="ruleForm.certType"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -152,11 +151,6 @@
                                     </el-form>
                                     <div class="text">职务信息</div>
                                     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
-                                        <el-col :span="8">
-                                            <!--<el-form-item label="员工编号" prop="userNo">-->
-                                                <!--<el-input v-model="ruleForm.userNo"></el-input>-->
-                                            <!--</el-form-item>-->
-                                        </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="公司名称" prop="organNo">
                                                     <el-select v-model="ruleForm.organNo" placeholder="请选择公司名称" @change="selectDep(ruleForm.organNo)">
@@ -347,17 +341,20 @@
                             <el-tab-pane label="社会关系" name="second">
                                 <div class="second-wrapper">
                                     <div class="second_title">
-                                        <span>社会关系</span><span class="text" @click="add_item">添加</span>
+                                        <span>社会关系</span><span class="text" @click="add_item">继续添加</span>
                                     </div>
-                                    <div class="second_content_wrapper" id="secondContentWrapper">
-                                        <socialRelationItem v-for="(item, index) in social_item.lists" :ruleFrom="item" :relationNum="index" @del_item="delRelationItem"
-                                        :ref="`ruleFrom${index}`"></socialRelationItem>
+                                    <div class="second_content_wrapper">
+                                        <socialRelationItem v-for="(item, index) in social_item.lists"
+                                                            :ruleFrom="item" :relationNum="index"
+                                                            @del_item="delRelationItem" @pass_validate="passValidate"
+                                                            :ref="`ruleFrom${index}`">
+                                        </socialRelationItem>
                                     </div>
                                 </div>
                             </el-tab-pane>
-                            <el-tab-pane label="工作经历" name="third" class="third_special">
+                            <el-tab-pane label="工作经历" name="third">
                                 <div class="third-wrapper">
-                                    <div class="title"><span>工作经历</span><span class="text" @click="add_item">添加</span></div>
+                                    <div class="title"><span>工作经历</span><span class="text" @click="add_item">继续添加</span></div>
                                     <div class="from-wrapper">
                                         <div v-for="(item, index) in work_item.lists" style="margin-top: 20px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`third${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
@@ -450,7 +447,7 @@
                             </el-tab-pane>
                             <el-tab-pane label="教育背景" name="fourth">
                                 <div class="fourth-wrapper">
-                                    <div class="title"><span>教育背景</span><span  class="text" @click="add_item">添加</span></div>
+                                    <div class="title"><span>教育背景</span><span  class="text" @click="add_item">继续添加</span></div>
                                     <div class="from-wrapper">
                                         <div v-for="(item, index) in education_item.lists" style="margin-top: 20px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fourth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
@@ -501,7 +498,7 @@
                             </el-tab-pane>
                             <el-tab-pane label="项目经历" name="fifth">
                                 <div class="fifth-wrapper">
-                                    <div class="title"><span>项目经历</span><span class="text" @click="add_item">添加</span></div>
+                                    <div class="title"><span>项目经历</span><span class="text" @click="add_item">继续添加</span></div>
                                     <div class="from-wrapper">
                                         <div v-for="(item, index) in project_item.lists" style="margin-top: 20px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fifth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
@@ -583,7 +580,7 @@
                     </template>
                     
                 </div>
-                <el-button class="add" @click="save(tabName)" :disabled="tabName=='sixth'?true:false">{{tabName=='sixth'?'全部下载':'保存'}}</el-button>
+                <el-button class="add" @click="save(tabName)" v-show="tabName=='sixth'?false:true">保存</el-button>
             </div>
         </el-col>
     </div>
@@ -605,6 +602,8 @@
                 department:'',
                   CCC:'',
               },
+              //判断校验是否通过
+              flag: false,
               //公共数据
               userNo: '',
               token: {
@@ -932,7 +931,6 @@
                     ],
                     this.fileList2 = []
                 },
-//                immediate: true,
             },
         },
         components: {
@@ -995,7 +993,6 @@
                 this.ruleForm.probEndTime = val
             },
             handleClick(tab, event) {
-//                console.log(tab, event);
                 this.tabName = tab.name
             },
             //头像上传
@@ -1088,14 +1085,12 @@
                     }else {
                         this.$message({ message: result, type: 'error' });
                     }
-
                 }
                 if(this.tabName == 'sixth') {
                     console.log(response,'????????successUpload????????',file,'????????successUpload????????',fileList)
                     if(response.code === "S00000") {
                         this.$message({ message: '操作成功', type: 'success' });
                         this.fileList2 = fileList
-//                    hrm_h0091 人事档案新增，附件上传错误:(没有那个文件或目录)
                     }else if(response.code === 'hrm_h0093') {
                         this.$message({
                             message: response.retMsg,
@@ -1116,7 +1111,6 @@
             },
             checkUserNo(file) {
                 if(this.tabName == 'sixth') {
-                    console.log('sixth')
                     if(!this.certificates_list.userNo){
                         this.$message({
                             type: 'error',
@@ -1258,40 +1252,42 @@
                         return
                     }
                     let socialItemLength = this.social_item.lists.length
-                    this.social_item.lists = []
                     let count = 0
                     for (let i=0;i<socialItemLength;i++){
-                        count++
+                        this.flag = false
                         let name = 'ruleFrom'+i
-                        self.$refs[name][0].ruleFrom.isShowEdit = true
-//                        self.$refs[name][0].checkValue()
-                        console.log('test')
-                        this.social_item.lists.push(this.$refs['ruleFrom'+i][0].ruleFrom)
-                        if(count==socialItemLength){
-                            this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
-                                .then(res=>{
-                                    let result = res.data.retMsg
-                                    if('操作成功'==result){
-                                        self.$message({
-                                            type: 'success',
-                                            message: result
-                                        });
-                                    }else {
-                                        self.$message({
-                                            type: 'error',
-                                            message: result
-                                        });
-                                    }
-                                })
-                                .catch(e=>{
-                                    console.log(e)
-                                })
-                        }else {
-                            self.$message({
-                                type: 'error',
-                                message: '请填写完整信息！'
-                            });
+                        self.$refs[name][0].checkValue()
+                        this.social_item.lists.splice(i,1,this.$refs['ruleFrom'+i][0].ruleFrom)
+                        if(this.flag) {
+                            count++
+                            self.$refs[name][0].ruleFrom.isShowEdit = true
                         }
+                    }
+                    console.log(this.social_item)
+                    if(count==socialItemLength){
+                        this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
+                            .then(res=>{
+                                let result = res.data.retMsg
+                                if('操作成功'==result){
+                                    self.$message({
+                                        type: 'success',
+                                        message: result
+                                    });
+                                }else {
+                                    self.$message({
+                                        type: 'error',
+                                        message: result
+                                    });
+                                }
+                            })
+                            .catch(e=>{
+                                console.log(e)
+                            })
+                    }else {
+                        self.$message({
+                            type: 'error',
+                            message: '请填写完整信息！'
+                        });
                     }
                 }
                 if('third'===tabName) {
@@ -1543,8 +1539,11 @@
                     }
                     this.project_item.lists.push(item)
                 }
-
-
+            },
+            passValidate(boolean) {
+                if(boolean) {
+                    this.flag = true
+                }
             },
             delRelationItem(relationNum) {
                 this.social_item.lists.splice(relationNum,1)

@@ -11,7 +11,7 @@
                     <el-col :sm="24" :md="12">
                         <el-form-item label="机构名称" prop="organName">
                             <el-select v-model="obj.organName" placeholder="请选择机构">
-                                <el-option v-for="item in optionItem"
+                                <el-option v-for="item in organItem"
                                            :label="item"
                                            :value="item">
                                 </el-option>
@@ -21,18 +21,7 @@
                     <el-col :sm="24" :md="12">
                         <el-form-item label="CCC类型" prop="costType">
                             <el-select placeholder="请选择CCC类型" v-model="obj.costType">
-                                <el-option
-                                        label="管理CCC"
-                                        value="01">
-                                </el-option>
-                                <el-option
-                                        label="售前CCC"
-                                        value="02">
-                                </el-option>
-                                <el-option
-                                        label="项目CCC"
-                                        value="03">
-                                </el-option>
+                                <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in cccItem"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
@@ -72,21 +61,30 @@
                     ],
                     costCode: [
                         { required: true, message: 'CCC值不能为空', trigger: 'blur'},
-                        { pattern: /^[^a-zA-Z0-9]*$/, message: "CCC值只能为数字或英文" }
+                        { pattern: /^[a-zA-Z0-9]*$/, message: "CCC值只能为数字或英文" }
                     ],
                 },
-                optionItem:{},
+                organItem:{},
+                cccItem:{},
             }
         },
         created() {
-          this.$axios.get('/iem_hrm/organ/getOrganName')
-              .then(res=>{
-                  console.log(res)
-                  this.optionItem = res.data.data
-              })
-              .catch(e=>{
-                  console.log(e)
-              })
+            let self = this
+            function COST_TYPE() {
+                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=COST_TYPE')
+            }
+            function getOrganName() {
+                return self.$axios.get('/iem_hrm/organ/getOrganName')
+            }
+            self.$axios.all([COST_TYPE(),getOrganName()])
+                .then(this.$axios.spread(function(res1,res2){
+                    console.log(res1,res2)
+                    self.cccItem = res1.data.data
+                    self.organItem = res2.data.data
+                }))
+                .catch(e=>{
+                    console.log(e)
+                });
         },
         methods: {
             save(){
