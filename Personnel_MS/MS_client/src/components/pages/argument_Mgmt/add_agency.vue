@@ -69,17 +69,18 @@
             }
         },
         created() {
+            let self = this
             function COST_TYPE() {
-                return this.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=COST_TYPE')
+                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=COST_TYPE')
             }
             function getOrganName() {
-                return this.$axios.get('/iem_hrm/organ/getOrganName')
+                return self.$axios.get('/iem_hrm/organ/getOrganName')
             }
-            this.$axios.all([COST_TYPE(),getOrganName()])
+            self.$axios.all([COST_TYPE(),getOrganName()])
                 .then(this.$axios.spread(function(res1,res2){
                     console.log(res1,res2)
-                    this.organItem = res1.data.data
-                    this.cccItem = res2.data.data
+                    self.cccItem = res1.data.data
+                    self.organItem = res2.data.data
                 }))
                 .catch(e=>{
                     console.log(e)
