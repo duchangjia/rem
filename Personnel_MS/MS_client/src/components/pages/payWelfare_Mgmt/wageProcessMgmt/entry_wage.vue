@@ -4,10 +4,10 @@
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
 				<span class="title-text">录入工资</span>
-				<div class="titleBtn_wrapper">
+				<!--<div class="titleBtn_wrapper">
 					<el-button type="primary" class="btn-primary" @click="autoCalc('formdata2')">自动计算</el-button>
 					<el-button type="primary" class="btn-primary" @click="save">保存</el-button>
-				</div>
+				</div>-->
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
@@ -107,14 +107,14 @@
 				        </template>
 					</el-table-column>
 					<el-table-column prop="perCommercialPay" label="商保(个人)" min-width="200px">
-						<!--<template scope="scope">
+						<template scope="scope">
 				          	<el-input size="small" v-model="scope.row.shangbaoGeren" @change="handleEdit($event,'shangbaoGeren')"></el-input>
-				        </template>-->
+				        </template>
 					</el-table-column>
 					<el-table-column prop="comCommercialPay" label="商保(单位)" min-width="200px">
-						<!--<template scope="scope">
+						<template scope="scope">
 				          	<el-input size="small" v-model="scope.row.shangbaoDanwei" @change="handleEdit($event,'shangbaoDanwei')"></el-input>
-				        </template>-->
+				        </template>
 					</el-table-column>
 					<!--<el-table-column prop="pretaxTotal" label="合计（扣税前）" min-width="200px">
 						<template scope="scope">
@@ -130,6 +130,12 @@
 					</el-table-column>
 					<el-table-column prop="payTax" label="扣税" width="100"></el-table-column>
 					<el-table-column prop="realHair" label="实发" width="100"></el-table-column>
+					<el-table-column label="操作" width="150">
+						<template scope="scope">
+							<el-button type="text" size="small" @click="handleCalc(scope.$index, scope.row)">自动计算</el-button>
+							<el-button type="text" size="small" @click="handleSave(scope.$index, scope.row)">保存修改</el-button>
+						</template>	
+					</el-table-column>
 				</el-table>
 				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows">
 				</el-pagination>
@@ -259,42 +265,72 @@ export default {
 			this.modWageInfo(params);
 		},
 		//自动计算
+		handleCalc(index,row) {
+			console.log('row',row);
+			let params = {
+				perEndmPay: row.perEndmPay,
+				perMediPay: row.perMediPay,
+				perUnemPay: row.perUnemPay,
+				perEmplPay: row.perEmplPay,
+				perMatePay: row.perMatePay,
+				perHousePay: row.perHousePay,
+				pretaxTotal: row.pretaxTotal,
+				wagesBase: row.wagesBase,  // 基础工资
+				postPension: row.postPension,  // 岗位工资
+				wagesPerf: row.wagesPerf, // 绩效工资
+				phonePension: row.phonePension,// 通讯补贴
+				trafficPension: row.trafficPension, // 交通补贴
+				livingPension: row.livingPension,  // 生活补贴
+				otherPension: row.otherPension, // 其他补贴
+				payBonus: row.payBonus, // 绩效奖金
+				overtimePay: row.overtimePay,  // 加班工资
+				lateArrivalPay: row.lateArrivalPay, // 病事假扣款
+				absentPay: row.absentPay, // 旷工扣款
+				otherCutPay: row.otherCutPay
+			}
+			this.autoCaclWage(params);
+		},
+		//保存
+		handleSave(index,row) {
+			let params = {
+				batchNo: row.batchNo,
+				userNo : row.userNo,
+				perEndmPay: row.perEndmPay,
+				perMediPay: row.perMediPay,
+				perUnemPay: row.perUnemPay,
+				perEmplPay: row.perEmplPay,
+				perMatePay: row.perMatePay,
+				perHousePay: row.perHousePay,
+				pretaxTotal: row.pretaxTotal,
+				wagesBase: row.wagesBase,  // 基础工资
+				postPension: row.postPension,  // 岗位工资
+				wagesPerf: row.wagesPerf, // 绩效工资
+				phonePension: row.phonePension,// 通讯补贴
+				trafficPension: row.trafficPension, // 交通补贴
+				livingPension: row.livingPension,  // 生活补贴
+				otherPension: row.otherPension, // 其他补贴
+				payBonus: row.payBonus, // 绩效奖金
+				overtimePay: row.overtimePay,  // 加班工资
+				lateArrivalPay: row.lateArrivalPay, // 病事假扣款
+				absentPay: row.absentPay, // 旷工扣款
+				otherCutPay: row.otherCutPay,
+				payTax: row.payTax,
+				realHair: row.realHair
+          	}
+          	//保存修改
+          	this.modWageInfo(params);
+		},
+		
 		autoCalc() {
 			
-			this.autoCaclWage();
+			
 		},
 		save() {
 			const self = this;
 //			self.$refs.formdata2.validate(valid => {
 //		        if (valid) {
 //		        	
-		          	let params = {
-						batchNo: sessionStorage.getItem('entryWage_batchNo'),
-						userNo : self.socialInfoData[0].userNo,
-    					perEndmPay: self.socialInfoData[0].perEndmPay,
-						perMediPay: self.socialInfoData[0].perMediPay,
-						perUnemPay: self.socialInfoData[0].perUnemPay,
-						perEmplPay: self.socialInfoData[0].perEmplPay,
-						perMatePay: self.socialInfoData[0].perMatePay,
-						perHousePay: self.socialInfoData[0].perHousePay,
-						pretaxTotal: self.socialInfoData[0].pretaxTotal,
-						wagesBase: self.socialInfoData[0].wagesBase,  // 基础工资
-						postPension: self.socialInfoData[0].postPension,  // 岗位工资
-						wagesPerf: self.socialInfoData[0].wagesPerf, // 绩效工资
-						phonePension: self.socialInfoData[0].phonePension,// 通讯补贴
-						trafficPension: self.socialInfoData[0].trafficPension, // 交通补贴
-						livingPension: self.socialInfoData[0].livingPension,  // 生活补贴
-						otherPension: self.socialInfoData[0].otherPension, // 其他补贴
-						payBonus: self.socialInfoData[0].payBonus, // 绩效奖金
-						overtimePay: self.socialInfoData[0].overtimePay,  // 加班工资
-						lateArrivalPay: self.socialInfoData[0].lateArrivalPay, // 病事假扣款
-						absentPay: self.socialInfoData[0].absentPay, // 旷工扣款
-						otherCutPay: self.socialInfoData[0].otherCutPay,
-						payTax: self.socialInfoData[0].payTax,
-						realHair: self.socialInfoData[0].realHair
-		          	}
-		          	//保存修改
-		          	self.modWageInfo(params);
+		          	
 //		        }
 //	       })
 		},
@@ -313,11 +349,6 @@ export default {
 				console.log('wageInfo',res);
 				if(res.data.code === "S00000") {
 					self.socialInfoData = res.data.data.models;
-//					let perPayTotal= Number(self.socialInfoData[0].perEndmPay) + Number(self.socialInfoData[0].perMediPay) + Number(self.socialInfoData[0].perUnemPay) +Number(self.socialInfoData[0].perEmplPay) +Number(self.socialInfoData[0].perMatePay) + Number(self.socialInfoData[0].perHousePay);
-//					let comPayTotal= Number(self.socialInfoData[0].comEndmPay) + Number(self.socialInfoData[0].comMediPay) + Number(self.socialInfoData[0].comUnemPay) +Number(self.socialInfoData[0].comEmplPay) +Number(self.socialInfoData[0].comMatePay) + Number(self.socialInfoData[0].comHousePay);
-//					self.socialInfoData[0].perPayTotal = perPayTotal.toFixed(2);
-//					self.socialInfoData[0].comPayTotal = comPayTotal.toFixed(2);
-//					self.$set(self.socialInfoData, 0, self.socialInfoData[0]);
 				}
 			}).catch((err) => {
 				console.log('error');
@@ -336,29 +367,9 @@ export default {
 				console.log('error');
 			})
 		},
-		autoCaclWage() {
+		autoCaclWage(params) {
 			let self = this;
-			let params = {
-				perEndmPay: self.socialInfoData[0].perEndmPay,
-				perMediPay: self.socialInfoData[0].perMediPay,
-				perUnemPay: self.socialInfoData[0].perUnemPay,
-				perEmplPay: self.socialInfoData[0].perEmplPay,
-				perMatePay: self.socialInfoData[0].perMatePay,
-				perHousePay: self.socialInfoData[0].perHousePay,
-				pretaxTotal: self.socialInfoData[0].pretaxTotal,
-				wagesBase: self.socialInfoData[0].wagesBase,  // 基础工资
-				postPension: self.socialInfoData[0].postPension,  // 岗位工资
-				wagesPerf: self.socialInfoData[0].wagesPerf, // 绩效工资
-				phonePension: self.socialInfoData[0].phonePension,// 通讯补贴
-				trafficPension: self.socialInfoData[0].trafficPension, // 交通补贴
-				livingPension: self.socialInfoData[0].livingPension,  // 生活补贴
-				otherPension: self.socialInfoData[0].otherPension, // 其他补贴
-				payBonus: self.socialInfoData[0].payBonus, // 绩效奖金
-				overtimePay: self.socialInfoData[0].overtimePay,  // 加班工资
-				lateArrivalPay: self.socialInfoData[0].lateArrivalPay, // 病事假扣款
-				absentPay: self.socialInfoData[0].absentPay, // 旷工扣款
-				otherCutPay: self.socialInfoData[0].otherCutPay
-			}
+			
 			self.$axios.post(baseURL+'/wage/reckonSingleWage', params)
 			.then(function(res) {
 				console.log('cacl',res);
