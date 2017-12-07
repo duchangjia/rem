@@ -247,7 +247,7 @@ export default {
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
                 this.getPayBaseInfoList();
-              } else this.$message.error("操作失败！");
+              } else this.$message.error(res.data.retMsg);
             })
             .catch(() => {
               this.$message.error("操作失败！");

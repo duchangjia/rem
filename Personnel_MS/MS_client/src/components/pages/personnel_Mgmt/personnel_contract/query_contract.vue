@@ -177,13 +177,13 @@ export default {
       })
         .then(() => {
           this.$axios
-            .put("/iem_hrm/pact/deletePact?pactNo=" + row.pactNo)
+            .delete("/iem_hrm/pact/deletePact?pactNo=" + row.pactNo)
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
                 this.getPactList();
-              } else this.$message.error("操作失败");
+              } else this.$message.error(res.data.retMsg);
             })
             .catch(() => {
               this.$message.error("操作失败");

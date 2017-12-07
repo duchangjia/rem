@@ -214,7 +214,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
-				  		    <el-input v-model="editPayBaseInfo.attachm"></el-input>
+				  		              <!-- <el-input v-model="editPayBaseInfo.attachm"></el-input>
                             <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" 
                                 :on-change="handleFileUpload" 
                                 :on-success="successUpload"
@@ -225,8 +225,18 @@
                                 :name="filesName"
                                 :multiple="true">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
+                            </el-upload> -->
+                            <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
+                                :on-preview="handlePreview"
+                                :on-remove="handleRemove"
+                                :on-change="handleFileUpload" 
+                                :on-success="successUpload"
+                                :limit="3"
+                                :on-exceed="handleExceed"
+                                :file-list="fileList">
+                                <el-button size="small" type="primary" class="downloadBtn">选取文件</el-button>
                             </el-upload>
-				  	    </el-form-item>
+				  	            </el-form-item>
                     </el-col>
                 </el-form>
             </div>
@@ -344,86 +354,122 @@ export default {
   computed: {
     _perEndm: function() {
       return (
-        Math.round((Number(this.editPayBaseInfo.endmBase) *
-          this.insurancePayTemp.perEndmRate +
-          this.insurancePayTemp.perEndmFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.editPayBaseInfo.endmBase) *
+            this.insurancePayTemp.perEndmRate +
+            this.insurancePayTemp.perEndmFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comEndm: function() {
       return (
-        Math.round((Number(this.editPayBaseInfo.endmBase) *
-          this.insurancePayTemp.comEndmRate +
-          this.insurancePayTemp.comEndmFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.editPayBaseInfo.endmBase) *
+            this.insurancePayTemp.comEndmRate +
+            this.insurancePayTemp.comEndmFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _perMedi: function() {
       return (
-        Math.round((Number(this.editPayBaseInfo.mediBase) *
-          this.insurancePayTemp.perMediRate +
-          this.insurancePayTemp.perMediFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.editPayBaseInfo.mediBase) *
+            this.insurancePayTemp.perMediRate +
+            this.insurancePayTemp.perMediFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comMedi: function() {
       return (
-        Math.round((Number(this.editPayBaseInfo.mediBase) *
-          this.insurancePayTemp.comMediRate +
-          this.insurancePayTemp.comMediFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.editPayBaseInfo.mediBase) *
+            this.insurancePayTemp.comMediRate +
+            this.insurancePayTemp.comMediFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _perUnem: function() {
       return (
-        Math.round((Number(this.editPayBaseInfo.unemBase) *
-          this.insurancePayTemp.perUnemRate +
-          this.insurancePayTemp.perUnemFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.editPayBaseInfo.unemBase) *
+            this.insurancePayTemp.perUnemRate +
+            this.insurancePayTemp.perUnemFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comUnem: function() {
       return (
-        Math.round((Number(this.editPayBaseInfo.unemBase) *
-          this.insurancePayTemp.comUnemRate +
-          this.insurancePayTemp.comUnemFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.editPayBaseInfo.unemBase) *
+            this.insurancePayTemp.comUnemRate +
+            this.insurancePayTemp.comUnemFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _perEmpl: function() {
       return (
-        Math.round((Number(this.editPayBaseInfo.emplBase) *
-          this.insurancePayTemp.perEmplRate +
-          this.insurancePayTemp.perEmplFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.editPayBaseInfo.emplBase) *
+            this.insurancePayTemp.perEmplRate +
+            this.insurancePayTemp.perEmplFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comEmpl: function() {
       return (
-        Math.round((Number(this.editPayBaseInfo.emplBase) *
-          this.insurancePayTemp.comEmplRate +
-          this.insurancePayTemp.comEmplFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.editPayBaseInfo.emplBase) *
+            this.insurancePayTemp.comEmplRate +
+            this.insurancePayTemp.comEmplFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _perMate: function() {
       return (
-        Math.round((Number(this.editPayBaseInfo.mateBase) *
-          this.insurancePayTemp.perMateRate +
-          this.insurancePayTemp.perMateFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.editPayBaseInfo.mateBase) *
+            this.insurancePayTemp.perMateRate +
+            this.insurancePayTemp.perMateFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comMate: function() {
       return (
-        Math.round((Number(this.editPayBaseInfo.mateBase) *
-          this.insurancePayTemp.comMateRate +
-          this.insurancePayTemp.comMateFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.editPayBaseInfo.mateBase) *
+            this.insurancePayTemp.comMateRate +
+            this.insurancePayTemp.comMateFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _perHouse: function() {
       return (
-        Math.round((Number(this.editPayBaseInfo.houseBase) *
-          this.insurancePayTemp.perHousRate +
-          this.insurancePayTemp.perHousFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.editPayBaseInfo.houseBase) *
+            this.insurancePayTemp.perHousRate +
+            this.insurancePayTemp.perHousFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comHouse: function() {
       return (
-        Math.round((Number(this.editPayBaseInfo.houseBase) *
-          this.insurancePayTemp.comHousRate +
-          this.insurancePayTemp.comHousFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.editPayBaseInfo.houseBase) *
+            this.insurancePayTemp.comHousRate +
+            this.insurancePayTemp.comHousFixed) *
+            10
+        ) / 10 || 0
       );
     }
   },
@@ -434,7 +480,6 @@ export default {
       self.$axios
         .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
         .then(res => {
-          console.log("custInfo", res);
           self.custInfo = res.data.data;
         })
         .catch(() => {
@@ -459,7 +504,6 @@ export default {
       self.$axios
         .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST")
         .then(res => {
-          console.log("CustPost", res);
           if (res.data.code === "S00000") {
             self.custPostList = res.data.data;
           }
@@ -471,11 +515,8 @@ export default {
     getCustClassList() {
       let self = this;
       self.$axios
-        .get(
-          "/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED"
-        )
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED")
         .then(res => {
-          console.log("CustClass", res);
           if (res.data.code === "S00000") {
             self.custClassList = res.data.data;
           }
@@ -490,7 +531,6 @@ export default {
         .get("/iem_hrm/InsurancePayTemplate/queryAllInsurancePayTemplate")
         .then(res => {
           self.insurancePayTemplates = res.data.data;
-          console.log("insurancePayTemplates", self.insurancePayTemplates);
         })
         .catch(() => {
           console.log("error");
@@ -538,8 +578,10 @@ export default {
       this.editPayBaseInfo.welcoeNo = val;
       this.getInsurancePayTemp(); //根据参数值查询保险缴纳标准
     },
-    handleFileUpload(file, fileList) {
-      this.fileList = fileList;
+
+    // 附件上传
+    handleFileUpload(file, fileList) { // 选择文件
+      // this.fileList = fileList;
       this.editPayBaseInfo.attachm = "";
       fileList.forEach(function(item) {
         this.editPayBaseInfo.attachm += item.name + " ";
@@ -547,13 +589,26 @@ export default {
       console.log("选中的fileList", fileList);
       console.log("选中的this.fileList:", this.fileList);
     },
-    successUpload(res, file, fileList) {
+    handleRemove(file, fileList) {  // 移除文件
+      console.log(file, fileList);
+    },
+    handlePreview(file) { // 点击已上传的文件链接时
+      console.log(file);
+    },
+    handleExceed(files, fileList) {  // 文件超出数量
+      this.$message.warning(
+        `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
+          fileList.length} 个文件`
+      );
+    },
+    successUpload(res, file, fileList) {  // 文件成功上传
       console.log("upload_response", res);
       if (res.code == "S00000") {
         this.$message({ type: "success", message: "文件上传成功!" });
         // this.$router.push("/payBaseInfo_setting");
       } else this.$message.error(res.retMsg);
     },
+
     handleSave(editPayBaseInfoRules) {
       this.$refs[editPayBaseInfoRules].validate(valid => {
         if (valid) {

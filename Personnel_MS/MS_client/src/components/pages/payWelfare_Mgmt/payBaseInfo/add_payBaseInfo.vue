@@ -226,8 +226,8 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
-				  		    <el-input v-model="addPayBaseInfo.attachm"></el-input>
-                            <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/pay/addPayBaseInfo" 
+				  		              <el-input v-model="addPayBaseInfo.attachm"></el-input>
+                            <el-upload class="upload-demo" ref="upload" action="/iem_hrm/pay/addPayBaseInfo" 
                                 :data="addPayBaseInfo"
                                 :on-change="handleFileUpload" 
                                 :on-success="successUpload"
@@ -238,7 +238,7 @@
                                 :multiple="true">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
-				  	    </el-form-item>
+				  	            </el-form-item>
                     </el-col>
                 </el-form>
             </div>
@@ -287,7 +287,7 @@ export default {
         remark: ""
       },
       salaryTop: 0,
-      filesName: "files",
+      filesName: "file",
       fileList: [],
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
@@ -568,7 +568,6 @@ export default {
       self.$axios
         .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST")
         .then(res => {
-          console.log("CustPost", res);
           if (res.data.code === "S00000") {
             self.custPostList = res.data.data;
           }
@@ -584,7 +583,6 @@ export default {
           "/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED"
         )
         .then(res => {
-          console.log("CustClass", res);
           if (res.data.code === "S00000") {
             self.custClassList = res.data.data;
           }
@@ -612,7 +610,6 @@ export default {
           "/iem_hrm/InsurancePayTemplate/queryInsurancePayTemplate/" + applyNo
         )
         .then(res => {
-          console.log("insurancePayTemp", res);
           self.insurancePayTemp = res.data.data;
         })
         .catch(() => {

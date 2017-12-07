@@ -389,7 +389,7 @@ export default {
         })
           .then(() => {
             this.$axios
-              .put(
+              .delete(
                 "/iem_hrm/pact/deletePactChange?pactNo=" +
                   row.pactNo +
                   "&changeId=" +
@@ -401,7 +401,7 @@ export default {
                   this.$message({ type: "success", message: "操作成功!" });
                   this.getPChangeList();
                 }
-                else this.$message.error("操作失败！");
+                else this.$message.error(res.data.retMsg);
               })
               .catch(() => {
                 this.$message.error("操作失败！");
@@ -419,7 +419,7 @@ export default {
         })
           .then(() => {
             this.$axios
-              .put(
+              .delete(
                 "/iem_hrm/pact/deletePactRenew?pactNo=" +
                   row.pactNo +
                   "&renewId=" +
@@ -431,7 +431,7 @@ export default {
                   this.$message({ type: "success", message: "操作成功!" });
                   this.getPRenewList();
                 }
-                else this.$message.error("操作失败！");
+                else this.$message.error(res.data.retMsg);
               })
               .catch(() => {
                 this.$message.error("操作失败！");
