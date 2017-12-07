@@ -124,9 +124,9 @@ axios.interceptors.response.use(
                         query: {redirect: router.currentRoute.fullPath}
                     })
             }
-            if(--count <= 0) {
-                loadingInstance.close()
-            }
+        }
+        if(--count <= 0) {
+            loadingInstance.close()
         }
         // console.log(JSON.stringify(error));//console : Error: Request failed with status code 402
         return Promise.reject(error.response.data)
