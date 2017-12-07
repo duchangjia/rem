@@ -44,15 +44,18 @@
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <el-input v-model="custPostName" :disabled="true"></el-input>
+						    <!--<el-input v-model="custPostName" :disabled="true"></el-input>-->
+						    <el-select v-model="formdata1.custPost" :disabled="true">
+								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <el-input v-model="custClass" :disabled="true"></el-input>
-					  		<!--<el-select v-model="formdata2.custClass">
-								<el-option v-for="item in custClassList" :key="item.custClassNo" :label="item.label" :value="item.custClassNo"></el-option>
-							</el-select>-->
+						    <!--<el-input v-model="custClass" :disabled="true"></el-input>-->
+					  		<el-select v-model="formdata1.custPost" :disabled="true">
+								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>  
 				</el-form>
@@ -182,6 +185,10 @@
 					remark: "",
 					attachm: "",
 				},
+				//岗位列表
+				custPostList: [],
+				//职级列表
+			    custClassList: [],
 				travelTypeList: [
 					{label: "业务拓展", travelNo: "01"},
 					{label: "项目实施", travelNo: "02"},
@@ -394,71 +401,63 @@
 			getUseInfoByUserNo(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/travel/getUseInfoByUserNo/',{params: params})
-				.then(function(res) {
+				.then((res)  => {
 					console.log('getUseInfoByUserNo',res);
 					if(res.data.code === "S00000") {
 						self.formdata1 = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err)  => {
 					console.log('error');
 				})
 			},
 			addTravelInfo(params) {
 				let self = this;
 				self.$axios.post(baseURL+'/travel/addTravelInfo',params)
-				.then(function(res) {
+				.then((res)  => {
 					console.log('addTravelInfo',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
 						self.$router.push('/travel_management');
 					}
-				}).catch(function(err) {
+				}).catch((err)  => {
 					console.log('error');
 				})
 			},
 			calTravelDays(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/travel/calTravelDays',{params})
-				.then(function(res) {
+				.then((res)  => {
 					console.log('calTravelDays',res);
 					if(res.data.code === "S00000") {
 						self.formdata2.travelDays = res.data.data.travelDays;
 					}
-				}).catch(function(err) {
+				}).catch((err)  => {
 					console.log('error');
 				})
 			},
 			queryCustPostList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res)  => {
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
-						res.data.data.forEach(function(ele) {
-							if(ele.paraValue === self.formdata2.custPost) {
-								self.custPostName = ele.paraShowMsg;
-							}
-						},this)
+						self.custPostList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err)  => {
 					console.log('error');
 				})
 			},
 			queryCustClassList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
-						res.data.data.forEach(function(ele) {
-							if(ele.paraValue === self.formdata2.custClass) {
-								self.custClass = ele.paraShowMsg;
-							}
-						},this)
+						self.custClassList = res.data.data;
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			}

@@ -178,7 +178,7 @@
 			formdata: function(){
 				const self = this;
 				return {
-					applyNo: this.formdata2.applyNo, //请假编号
+					applyNo: self.formdata2.applyNo, //请假编号
 					"userNo": self.formdata1.userNo, //"1004"
 	    			"leaveStartTime": self.leaveStartTime, //"2017-09-10 08:30"
 	    			"leaveEndTime": self.leaveEndTime, //"2017-09-13 09:30"
@@ -228,7 +228,7 @@
 						self.$refs.upload.submit();
 						if(!self.fileFlag) {
 							let params = {
-								applyNo: this.formdata2.applyNo, //请假编号
+								applyNo: self.formdata2.applyNo, //请假编号
 								"userNo": self.formdata1.userNo, //"1004"
 				    			"leaveStartTime": self.leaveStartTime, //"2017-09-10 08:30"
 				    			"leaveEndTime": self.leaveEndTime, //"2017-09-13 09:30"
