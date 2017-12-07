@@ -715,21 +715,6 @@ const routes = [
                                 component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/edit_asset.vue'], resolve)
                             }
                         ]
-                    },
-                    {
-                        name: 'detail_asset',
-                        path: '/detail_asset',
-                        component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/detail_asset.vue'], resolve)
-                    },
-                    {
-                        name: 'add_asset',
-                        path: '/add_asset',
-                        component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/add_asset.vue'], resolve)
-                    },
-                    {
-                        name: 'edit_asset',
-                        path: '/edit_asset',
-                        component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/edit_asset.vue'], resolve)
                     }
                 ]
             },
