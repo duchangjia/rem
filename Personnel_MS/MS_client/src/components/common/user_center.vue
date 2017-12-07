@@ -13,6 +13,7 @@
 					<div class="setword" :class="{'active':!infoChange}" command="modify_password" @click="handleCommand('modify_password')">修改密码</div>
 				</div>
 			</div>
+				<span class="back_icon" @click="backHome"></span>
         	<transition class="content" name="move" mode="out-in">
 	            <router-view></router-view>
 	        </transition>
@@ -55,7 +56,10 @@
 	            const _self = this;
 //	            _self.infoChange = !_self.infoChange;
 	            _self.$router.push(commmand);
-	        },
+			},
+			backHome() {
+				this.$router.push('/home');
+			},
 	        queryUserInfo() {
 				let self = this;
 				self.$axios.get(baseURL+'/CustInfo/queryCustRole')
@@ -102,6 +106,16 @@
 	display: flex;
 	width: 100%;
 	height: 600px;
+}
+.user_center .back_icon {
+	width: 19px;
+    height: 10px;
+    position: absolute;
+    right: 80px;
+    top: 77px;
+	z-index: 200;
+    cursor: pointer;
+	background: url("../../../static/img/common/back.png");
 }
 .user_center .main .basic-sider {
 	flex: 0 0 180px;
