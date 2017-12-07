@@ -146,14 +146,10 @@ import current from "../../../common/current_position.vue";
 export default {
   data() {
     // let validateBuyNum = (rule, value, callback) => {
-    //   if (!Number.isInteger(value)) {
-    //     callback(new Error("请输入正整数"));
+    //   if (value.match(/^([1-9]\d*|0)(\.\d{2})?$/) == null) {
+    //     callback(new Error("可精确到小数点后2位的正数"));
     //   } else {
-    //     if (value > 2147483647) {
-    //       callback(new Error("购买数量必须小于2147483647"));
-    //     } else {
-    //       callback();
-    //     }
+    //     callback();
     //   }
     // };
     return {
@@ -168,18 +164,22 @@ export default {
         buyUnitPrice: [
           {
             required: true,
-            type: "number",
             message: "购买单价不能为空",
             trigger: "blur"
           },
           { pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的正数" }
         ],
-        buyNum: [{ pattern: /^(0|([1-9][0-9]{0,10}))$/, message: "请输入正整数" }],
-        // buyNum: [{ validator: validateBuyNum, trigger: "blur" }],
+        buyNum: [
+          {
+            required: true,
+            message: "购买数量不能为空",
+            trigger: "blur"
+          },
+          { pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的正数" }
+        ],
         buyAmount: [
           {
             required: true,
-            type: "number",
             message: "购买金额不能为空",
             trigger: "blur"
           },
@@ -224,6 +224,7 @@ export default {
         .get("/iem_hrm/EpAssetInf/queryEpAssetInf/" + assetNo)
         .then(res => {
           self.assetInfoDetail = res.data.data;
+          console.log("assetInfoDetail", self.assetInfoDetail);
         })
         .catch(() => {
           console.log("error");
@@ -245,9 +246,7 @@ export default {
     getCustClassList() {
       let self = this;
       self.$axios
-        .get(
-          "/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED"
-        )
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED")
         .then(res => {
           if (res.data.code === "S00000") {
             self.custClassList = res.data.data;

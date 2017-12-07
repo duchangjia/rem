@@ -30,12 +30,18 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
-                            <el-input v-model="_custPost" :disabled="true"></el-input>
+                            <!-- <el-input v-model="_custPost" :disabled="true"></el-input> -->
+                            <el-select v-model="custInfo.custPost" :disabled="true">
+                              <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职级">
-                            <el-input v-model="_custClass" :disabled="true"></el-input>
+                            <!-- <el-input v-model="_custClass" :disabled="true"></el-input> -->
+                            <el-select v-model="custInfo.custClass" :disabled="true">
+                              <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -308,6 +314,8 @@ export default {
       applyNo: "",
       custInfo: {},
       payChangeDetail: {},
+      custPostList: [],
+      custClassList: [],
       insurancePayTemplates: {},
       insurancePayTemp: {}
     };
@@ -319,6 +327,8 @@ export default {
     this.userNo = sessionStorage.getItem('payChangeInfo_userNo');
     this.applyNo = sessionStorage.getItem('payChangeInfo_applyNo');
     this.getCustInfo(); // 查询用户信息
+    this.getCustPostList(); //查询岗位列表
+    this.getCustClassList(); //查询职级列表
     this.getPayChangeDetail(); //初始查询调薪基数信息
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
     this.getInsurancePayTemp(); // 初始查询保险缴纳标准
@@ -436,6 +446,36 @@ export default {
           self.payChangeDetail = res.data;
         })
         .catch(() => {
+          console.log("error");
+        });
+    },
+    getCustPostList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST")
+        .then(res => {
+          console.log("CustPost", res);
+          if (res.data.code === "S00000") {
+            self.custPostList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
+    getCustClassList() {
+      let self = this;
+      self.$axios
+        .get(
+          "/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED"
+        )
+        .then(res => {
+          console.log("CustClass", res);
+          if (res.data.code === "S00000") {
+            self.custClassList = res.data.data;
+          }
+        })
+        .catch(err => {
           console.log("error");
         });
     },
