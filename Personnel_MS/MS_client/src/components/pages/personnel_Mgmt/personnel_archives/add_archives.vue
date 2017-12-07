@@ -17,7 +17,7 @@
                                             :on-change="handleAvatarChange"
                                             :on-success="handleAvatarSuccess"
                                             :headers="token"
-                                            :before-upload="beforeAvatarUpload">
+                                            >
                                         <img v-if="imageUrl" :src="imageUrl" class="avatar">
                                         <div><div>添加照片</div></div>
                                     </el-upload>
@@ -330,7 +330,7 @@
                                                                :on-change="handleFileUpload"
                                                                :on-success="successUpload"
                                                                :headers="token"
-                                                               :before-upload="checkUserNo">
+                                                               >
                                                         <el-button slot="trigger" type="primary" class="uploadBtn">上传附件</el-button>
                                                     </el-upload>
                                                 </el-form-item>
@@ -1011,20 +1011,12 @@
                 this.imageUrl = URL.createObjectURL(file.raw);
             },
             handleAvatarSuccess(res, file) {
-                console.log(res,'handleAvatarSuccess')
-            },
-            beforeAvatarUpload(file) {
-
+                console.log(res,'头像上传',this.avatar.userNo)
             },
             //证件方法
             handleRemove(file, fileList) {
-                console.log('ffff')
-                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    if(file.response){
+                console.log(fileList,this.fileList2)
+                if(file.response&&file.response.data[0]){
                         let data = {
                             userNo:file.response.data[0].userNo,
                             imageId:file.response.data[0].imageId,
@@ -1037,23 +1029,19 @@
                                         type: 'success',
                                         message: result
                                     });
+                                    fileList.pop()
                                 }else {
                                     this.$message({
                                         type: 'error',
                                         message: result
                                     });
+                                    fileList.push(file)
                                 }
                             })
                             .catch(e=>{
                                 console.log(e)
                             })
                     }
-                }).catch(()=>{
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
-                })
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
@@ -1080,8 +1068,9 @@
                         if(self.ruleForm.avatar){
                             console.log(self.avatar.userNo,'self.ruleForm.avatar')
                             self.$refs.uploadAvatar.submit()
+                        }else {
+                            this.$message({ message: '操作成功', type: 'success' });
                         }
-                        this.$message({ message: '操作成功', type: 'success' });
                     }else {
                         this.$message({ message: result, type: 'error' });
                     }
@@ -1110,6 +1099,7 @@
                 }
             },
             checkUserNo(file) {
+                this.certificates_list.userNo = 'P0001346'
                 if(this.tabName == 'sixth') {
                     if(!this.certificates_list.userNo){
                         this.$message({
@@ -1223,6 +1213,11 @@
                                             if(self.ruleForm.avatar){
                                                 console.log('avatar',self.ruleForm.avatar,self.avatar)
                                                 self.$refs.uploadAvatar.submit()
+                                            }else {
+                                                self.$message({
+                                                type: 'success',
+                                                message: result
+                                            });
                                             }
                                         }else{
                                             self.$message({

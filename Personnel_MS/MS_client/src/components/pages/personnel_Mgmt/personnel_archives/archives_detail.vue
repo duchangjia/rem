@@ -9,17 +9,16 @@
                             <el-tab-pane label="员工基本信息" name="first">
                                 <div class="personal_information">
                                     <div class="first_title">
-                                        <el-upload :disabled="false"
+                                        <el-upload :disabled="edit"
                                                    ref="uploadAvatar"
                                                    class="avatar-uploader"
                                                    action="/iem_hrm/CustInfo/uploadAvatar"
                                                    :show-file-list="false"
                                                    :data="avatar"
-                                                   :auto-upload="false"
                                                    :on-success="handleAvatarSuccess"
                                                    :on-change="handleAvatarChange"
                                                    :headers="token"
-                                                   :before-upload="beforeAvatarUpload">
+                                                   >
                                             <img v-if="imageUrl" :src="imageUrl" class="avatar">
                                             <div><div>添加照片</div></div>
                                         </el-upload>
@@ -176,9 +175,6 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <!--<el-form-item label="直线经理">-->
-                                                <!--<el-input v-model="ruleForm.lineManager" :disabled="edit"></el-input>-->
-                                            <!--</el-form-item>-->
                                             <el-form-item label="直线经理">
                                                 <el-input v-model="ruleForm.lineManager" :disabled="edit" readOnly>
                                                     <el-button slot="append" icon="search" @click="userNoSelect()" :disabled="edit"></el-button>
@@ -197,7 +193,6 @@
                                                 ></messageBox>
                                             </el-form-item>
                                         </el-col>
-
                                         <el-col :span="8">
                                             <el-form-item label="员工类别" prop="custType">
                                                 <el-select v-model="ruleForm.custType" placeholder="请选择员工类别" :disabled="edit">
@@ -243,49 +238,41 @@
                                         <el-col :span="8">
                                             <el-form-item label="入职日期" prop="entryTime">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.entryTime" :disabled="edit" @change="changeEntryTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm.entryTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="上岗日期">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.leftJobTime" :disabled="edit" @change="changeLeftJobTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm.leftJobTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="工作日期">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.workTime" :disabled="edit" @change="changeWorkTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm.workTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="职称日期">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.profTitleTime" :disabled="edit" @change="changeProfTitleTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm.profTitleTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同开始">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactStartTime" :disabled="edit" @change="changeCompactStartTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm.compactStartTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="合同终止">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactEndTime" :disabled="edit" @change="changeCompactEndTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm.compactEndTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用开始">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probStartTime" :disabled="edit" @change="changeProbStartTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm.probStartTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
                                             <el-form-item label="试用结束">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probEndTime" :disabled="edit" @change="changeProbEndTime"></el-date-picker>
-                                                <!--<el-input v-model="ruleForm.probEndTime" :disabled="edit"></el-input>-->
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
@@ -336,20 +323,21 @@
                                         </el-col>
                                         <el-col :span="9">
                                             <el-form-item label="附件">
-                                                <el-input v-model="ruleForm.attachm" style="position:absolute" readOnly></el-input>
-                                                <el-upload class="upload-demo" ref="upload" name="file"
-                                                           action="/iem_hrm/CustInfo/modCustInf"
-                                                           :http-request="modCustInf"
-                                                           :show-file-list="false"
-                                                           :data="ruleForm"
-                                                           :auto-upload="false"
-                                                           :on-change="handleFileUpload"
-                                                           :on-success="successUpload"
-                                                           :headers="token"
-                                                           :before-upload="checkUserNo">
-                                                    <el-button slot="trigger" type="primary" class="uploadBtn" :disabled="edit">更换附件</el-button>
+                                                <el-input v-model="ruleForm.attachm" style="position:absolute" :disabled="edit" readOnly></el-input>
+                                                <!--<el-upload class="upload-demo" ref="upload" name="file"-->
+                                                           <!--action="/iem_hrm/CustInfo/modCustInf"-->
+                                                           <!--:http-request="modCustInf"-->
+                                                           <!--:show-file-list="false"-->
+                                                           <!--:data="ruleForm"-->
+                                                           <!--:auto-upload="false"-->
+                                                           <!--:on-change="handleFileUpload"-->
+                                                           <!--:on-success="successUpload"-->
+                                                           <!--:headers="token"-->
+                                                           <!--:before-upload="checkUserNo">-->
+                                                    <!--<el-button slot="trigger" type="primary" class="uploadBtn" :disabled="edit">更换附件</el-button>-->
                                                     <el-button type="primary" class="uploadBtn uploadBtn-special" @click="downLoad">下载附件</el-button>
-                                                </el-upload>
+                                                    <!--<el-button type="primary" class="uploadBtn uploadBtn-special" @click="downLoad">下载附件</el-button>-->
+                                                <!--</el-upload>-->
                                             </el-form-item>
                                         </el-col>
                                     </el-form>
@@ -520,7 +508,6 @@
                                 </div>
                             </el-tab-pane>
                             <el-tab-pane label="证件管理" name="sixth">
-                                <!--:disabled="certificates_list.certificates"-->
                                 <div class="sixth_wrapper">
                                     <el-upload name="file"
                                             action="/iem_hrm/CustFile/batch/upload"
@@ -529,7 +516,6 @@
                                            :data="certificates_list"
                                             :on-preview="handlePictureCardPreview"
                                             :on-remove="handleRemove"
-                                           :on-change="handleFileUpload"
                                            :on-success="successUpload"
                                            :before-upload="checkUserNo"
                                             multiple
@@ -573,20 +559,23 @@
                     CCC:'',
                 },
                 flag: false,
-                fileList: [],
-                fileList2: [],
+                //头像数据
                 imageUrl: '',
+                avatar:{
+                    userNo:'',
+                },
+                //证件数据
+                fileList2: [],
                 dialogImageUrl: '',
                 dialogVisible2: false,
                 token: {
                     Authorization:`Bearer `+localStorage.getItem('access_token'),
                 },
+                userNo: '',
                 certificates_list: {
                     certificates: true,
                 },
-                avatar:{
-                    userNo:'',
-                },
+                //弹窗数据
                 dialogVisible: false,
                 tableOption:[],
                 inputFirstOption:{},
@@ -597,70 +586,33 @@
                 saveUrl:'',
                 boxTitle:'',
                 numType:'',
-
-                userNo: '',
+                // 基础信息是否可修改
                 edit: true,
+                //项目数据
                 social_item:{
                     userNo:'',
                     lists:[
-//                        {
-//                            contactName: '',
-//                            relationship: '',
-//                            telphone: '',
-//                            profession: '',
-//                            post: '',
-//                            addr: '',
-//                            isShowEdit: false
-//                        },
                     ]
                 },
                 education_item:{
                     userNo:'',
                     lists:[
-//                        {
-//                            startTime: '',
-//                            endTime: '',
-//                            schoolName: '',
-//                            major: '',
-//                            education: '',
-//                            desc: '',
-//                            isShowEdit: false
-//                        },
                     ]
                 },
                 work_item:{
                     userNo:'',
                     lists:[
-//                        {
-//                            startTime: '',
-//                            endTime: '',
-//                            company: '',
-//                            post1: '',
-//                            duty: '',
-//                            desc: '',
-//                            isShowEdit: false
-//                        },
                     ]
                 },
                 project_item:{
                     userNo:'',
                     lists:[
-//                        {
-//                            startTime: '',
-//                            endTime: '',
-//                            projectName: '',
-//                            mainSkill: '',
-//                            projectRole: '',
-//                            softEnv: '',
-//                            custom: '',
-//                            projectDuty: '',
-//                            desc: '',
-//                            isShowEdit: false
-//                        },
                     ]
                 },
+                //默认激活的tab数据
                 activeName: 'first',
                 tabName:'first',
+                //tab锁
                 lock: {
                     proLock: '',
                     eduLock: '',
@@ -668,6 +620,7 @@
                     socialLock: '',
                     certificatesLock: '',
                 },
+                //基础信息
                 ruleForm: {
                     avatar: '',
                     custName: '',
@@ -719,6 +672,7 @@
                     remark: '',
                     attachm: '',
                 },
+                //基础信息校验
                 rules: {
                     custName: [
                         {required: true, message: '请输入姓名', trigger: 'blur'},
@@ -800,6 +754,7 @@
                         {required: true, message: '请选择入职时间', trigger: 'change'}
                     ],
                 },
+                // 公共校验
                 rules5: {
                     startTime: [
                         {type:'date', required: true, message: '请选择时间', trigger: 'change'}
@@ -847,6 +802,7 @@
                         {required: true, message: '请输入职责', trigger: 'blur'}
                     ],
                 },
+                // 附件下载
                 file:''
             }
         },
@@ -878,6 +834,7 @@
                     console.log(e)
                 });
             this.userNo = this.$route.query.userNo
+            this.avatar.userNo = this.$route.query.userNo
             for(var tt in this.lock){
                 this.lock[tt] = true
             }
@@ -892,18 +849,22 @@
                     })
                 this.$axios.get('/iem_hrm/CustInfo/queryCustAvatar/'+this.userNo)
                     .then(res=>{
-                        console.log(res)
-                        let url = 'data:image/jpg;base64,'+res.data.data
-                        this.imageUrl = url
+                        console.log(res,'头像查询')
+                        if(res.data.data) {
+                            let url = 'data:image/jpg;base64,'+res.data.data
+                            this.imageUrl = url
+                        }
                     })
                     .catch(e=>{
                         console.log(e)
                     })
                 this.$axios.get('/iem_hrm/CustInfo/queryCustFile/'+this.userNo)
                     .then(res=>{
-                        console.log(res)
-                        this.ruleForm.attachm = res.data[0].fileName+'.'+res.data[0].fileSuffix
-                        this.file = res.data[0]
+                        console.log(res,'附件查询')
+                        if(res.data[0]) {
+                            this.ruleForm.attachm = res.data[0].fileName+'.'+res.data[0].fileSuffix
+                            this.file = res.data[0]
+                        }
                     })
                     .catch(e=>{
                         console.log(e)
@@ -928,23 +889,24 @@
             },
             downLoad() {
                 let data = this.file.fileId
-                this.$axios.get('/iem_hrm/file/downloadFile/'+data,{
-                    responseType: 'blob'
-                }).then(res=>{
-                    const blob = res.data;
-                    console.log(res,data)
-                    let elink = document.createElement('a'); // 创建a标签
-                    elink.download = this.file.fileName+'.'+this.file.fileSuffix;
-                    elink.style.display = 'none';
-                    elink.href = URL.createObjectURL(blob);
-                    document.body.appendChild(elink);
-                    elink.click(); // 触发点击a标签事件
-                    document.body.removeChild(elink);
-                })
-                    .catch(e=>{
+                if(data) {
+                    this.$axios.get('/iem_hrm/file/downloadFile/'+data,{
+                        responseType: 'blob'
+                    }).then(res=>{
+                        const blob = res.data;
+                        console.log(res,data)
+                        let elink = document.createElement('a'); // 创建a标签
+                        elink.download = this.file.fileName+'.'+this.file.fileSuffix;
+                        elink.style.display = 'none';
+                        elink.href = URL.createObjectURL(blob);
+                        document.body.appendChild(elink);
+                        elink.click(); // 触发点击a标签事件
+                        document.body.removeChild(elink);
+                    }).catch(e=>{
                         console.log(e)
                         this.$message({ message: '下载附件失败', type: 'error' });
                     })
+                }
             },
             holdBirthday(val){
                 this.ruleForm.birthday = val
@@ -977,13 +939,8 @@
                 this.ruleForm.probEndTime = val
             },
             handleRemove(file, fileList) {
-                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    let data = {}
-                    if(file.response){
+                let data = {}
+                    if(file.response&&file.response.data[0]){
                          data = {
                             userNo:file.response.data[0].userNo,
                             imageId:file.response.data[0].imageId,
@@ -1008,17 +965,12 @@
                                         type: 'error',
                                         message: result
                                     });
+                                    fileList.push(file)
                                 }
                             })
                             .catch(e=>{
                                 console.log(e)
                             })
-                }).catch(()=>{
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
-                })
             },
             handleFileUpload(file, fileList) {
                 if(this.tabName == 'first') {
@@ -1050,7 +1002,7 @@
 //                    }
                 }
                 if(this.tabName == 'sixth') {
-                    console.log(response,111,fileList)
+                    console.log(response,'sixth',fileList)
                     if(response.code === "S00000") {
                         this.$message({ message: '操作成功', type: 'success' });
                         this.fileList2 = fileList
@@ -1106,11 +1058,10 @@
                 this.imageUrl = URL.createObjectURL(file.raw);
             },
             handleAvatarSuccess(res, file) {
-                console.log(res)
+                console.log(res,'头像上传')
 //                this.imageUrl = URL.createObjectURL(file.raw);
             },
-            beforeAvatarUpload(file) {
-            },
+            
             userNoSelect(){
                 //table
                 this.tableOption = [
@@ -1319,9 +1270,6 @@
                         item.isShowEdit = false
                     })
                 }
-//                if('sixth' === tabName) {
-//                    this.certificates_list.certificates = false
-//                }
             },
             save(tabName) {
                 let self = this
@@ -1950,12 +1898,9 @@
                             text-decoration underline
                             cursor pointer
                 .second_content_wrapper
-                    /*padding-left 8px*/
-                    min-height 570px
-                    padding-bottom 20px
+                    padding-top 30px
                 .third-wrapper, .fourth-wrapper, .fifth-wrapper
-                    min-height 570px
-                    padding-bottom 20px
+                    padding-bottom 30px
                     .title
                         padding 30px 8px 0 8px
                         font-family: PingFangSC-Regular;
