@@ -217,7 +217,7 @@ export default {
         .catch(e => {
           console.error(e);
           self.$message({ message: "下载模版失败", type: "error" });
-        });
+        }); 
     },
     
     handleAdd() {

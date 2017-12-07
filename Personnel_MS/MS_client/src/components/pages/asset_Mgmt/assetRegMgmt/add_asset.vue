@@ -44,12 +44,18 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="职务">
-                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
+                            <!-- <el-input v-model="custInfo.custPost" :disabled="true"></el-input> -->
+                            <el-select v-model="custInfo.custPost" :disabled="true">
+                              <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="职级">
-                            <el-input v-model="_custClass" :disabled="true"></el-input>
+                            <!-- <el-input v-model="_custClass" :disabled="true"></el-input> -->
+                            <el-select v-model="custInfo.custClass" :disabled="true">
+                              <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -188,6 +194,8 @@ export default {
       searchUrl: "",
       saveUrl: "",
 
+      custPostList: [],
+      custClassList: [],
       assetInfoRules: {
         buyUnitPrice: [
           { required: true, message: "购买单价不能为空", trigger: "blur" },
@@ -210,19 +218,9 @@ export default {
     current,
     messageBox
   },
-  created() {},
-  computed: {
-    _custClass: function() {
-      if (this.custInfo.custClass == "B10") {
-        return "B10-初级软件工程师";
-      } else if (this.custInfo.custClass == "B11") {
-        return "B11-中级软件工程师";
-      } else if (this.custInfo.custClass == "B12") {
-        return "B12-高级软件工程师";
-      } else {
-        return "";
-      }
-    }
+  created() {
+    this.getCustPostList(); //查询岗位列表
+    this.getCustClassList(); //查询职级列表
   },
   methods: {
     userNoSelect() {
@@ -273,16 +271,46 @@ export default {
           if (res.data.code == "S00000") {
             self.dialogVisible = false;
             self.custInfo = res.data.data;
-            self.addPactMsg.applyUserNo = self.custInfo.userNo;
-            self.addPactMsg.organNo = self.custInfo.organNo;
-            self.addPactMsg.derpNo = self.custInfo.derpNo;
-            console.log("custInfo", self.custInfo);
+            console.log("custInfo:", self.custInfo);
+            self.addAssetInfo.applyUserNo = self.custInfo.userNo;
+            self.addAssetInfo.organNo = self.custInfo.organNo;
+            self.addAssetInfo.derpNo = self.custInfo.derpNo;
           }
         })
         .catch(e => {
           console.log("error");
         });
     },
+
+    getCustPostList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custPostList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
+    getCustClassList() {
+      let self = this;
+      self.$axios
+        .get(
+          "/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED"
+        )
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custClassList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
+
     pickFactoryTime(val) {
       this.addAssetInfo.factoryTime = val;
     },
@@ -305,7 +333,7 @@ export default {
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
                 this.$router.push("/query_asset");
-              } else this.$message.error("操作失败！");
+              } else this.$message.error(res.data.retMsg);
             })
             .catch(() => {
               this.$message.error("操作失败！");

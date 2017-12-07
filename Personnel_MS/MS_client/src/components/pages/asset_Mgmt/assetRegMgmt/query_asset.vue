@@ -134,7 +134,6 @@ export default {
       };
       self.$axios
         .get("/iem_hrm/EpAssetInf/queryEpAssetInfList", { params: params })
-        // .get("/iem_hrm/queryEpAssetInfs", { params: params })
         .then(res => {
           console.log(res);
           self.assetInfoList = res.data.data.list;

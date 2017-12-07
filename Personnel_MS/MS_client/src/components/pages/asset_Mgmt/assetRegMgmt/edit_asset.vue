@@ -31,12 +31,18 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="职务">
-                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
+                            <!-- <el-input v-model="custInfo.custPost" :disabled="true"></el-input> -->
+                            <el-select v-model="custInfo.custPost" :disabled="true">
+                              <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="职级">
-                            <el-input v-model="_custClass" :disabled="true"></el-input>
+                            <!-- <el-input v-model="_custClass" :disabled="true"></el-input> -->
+                            <el-select v-model="custInfo.custClass" :disabled="true">
+                              <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -155,6 +161,8 @@ export default {
       assetNo: "",
       applyUserNo: "",
       custInfo: {},
+      custPostList: [],
+      custClassList: [],
       assetInfoDetail: {},
       assetInfoRules: {
         buyUnitPrice: [
@@ -191,21 +199,10 @@ export default {
   created() {
     this.assetNo = this.$route.params.assetNo;
     this.applyUserNo = this.$route.params.applyUserNo;
+    this.getCustPostList(); //查询岗位列表
+    this.getCustClassList(); //查询职级列表
     this.getCustInfo(); //初始查询用户信息
     this.getAssetInfoDetail(); //查询资产信息详情
-  },
-  computed: {
-    _custClass: function() {
-      if (this.custInfo.custClass == "B10") {
-        return "B10-初级软件工程师";
-      } else if (this.custInfo.custClass == "B11") {
-        return "B11-中级软件工程师";
-      } else if (this.custInfo.custClass == "B12") {
-        return "B12-高级软件工程师";
-      } else {
-        return "";
-      }
-    }
   },
   methods: {
     getCustInfo() {
@@ -229,6 +226,34 @@ export default {
           self.assetInfoDetail = res.data.data;
         })
         .catch(() => {
+          console.log("error");
+        });
+    },
+    getCustPostList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custPostList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
+    getCustClassList() {
+      let self = this;
+      self.$axios
+        .get(
+          "/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED"
+        )
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custClassList = res.data.data;
+          }
+        })
+        .catch(err => {
           console.log("error");
         });
     },
@@ -274,7 +299,7 @@ export default {
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
                 this.$router.push("/query_asset");
-              } else this.$message.error("操作失败！");
+              } else this.$message.error(res.data.retMsg);
             })
             .catch(() => {
               this.$message.error("操作失败！");
