@@ -1,6 +1,6 @@
 <template>
     <div class="user_info">
-        <current yiji="首页" erji="基本信息"></current>
+        <current class="current-user_info" yiji="首页" erji="基本信息"></current>
         <div class="content">
         	<div class="title">
         		<span class="title-text">基本信息</span>
@@ -21,7 +21,7 @@
         		<li class="list-item">
     				<div class="left">系统权限</div>
     				<div class="right right3">
-        				<span class="sys-item" v-for="item in userInfoList" :key="item">{{item.roleName}}</span>
+        				<span class="sys-item" v-for="item in userInfoList" :key="item.userNo">{{item.roleName}}</span>
         			</div>
         		</li>
         	</ul>
@@ -39,8 +39,6 @@
 				userInfoList: [],
 				userInfo: {},
 				custPostList: []
-				
-				
 			}
 		},
 		components: {
@@ -53,7 +51,7 @@
 			queryUserInfo() {
 				let self = this;
 				self.$axios.get(baseURL+'/CustInfo/queryCustRole')
-				.then(function(res) {
+				.then((res) => {
 					console.log('userInfo',res);
 					if(res.data.code === "S00000") {
 						self.userInfoList = res.data.data;
@@ -61,14 +59,14 @@
 						self.queryCans()
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCans() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res) => {
 					console.log('queryCans',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
@@ -79,7 +77,7 @@
 						},this)
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			}
@@ -103,25 +101,8 @@ a {
 	padding-left: 20px;
 	width: 100%;
 }
-.location-wrapper {
-	width: 100%;
-    height: 70px;
-    line-height: 70px;
-    font-size: 12px;
-}
-
-.location-wrapper .title {
-    color: #475669;
-    vertical-align: middle;
-}
-.location-wrapper .breadcrumb-inner {
-    font-size: 12px;
-    display: inline-block;
-    vertical-align: middle;
-}
 .user_info .content {
 	width: 100%;
-    height: calc(100% - 90px);
 	padding: 0px 40px;
 	background: #ffffff;
 }

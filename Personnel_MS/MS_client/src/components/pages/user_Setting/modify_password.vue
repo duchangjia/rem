@@ -25,6 +25,9 @@
 				</el-form>
 
 			</ul>
+			<el-dialog title="修改成功" :visible.sync="dialogTableVisible" @close="closeDialog()">
+				<div class="edit-tip txt-center ">恭喜您，密码修改成功，请重新<span class="c-primary cur-pointer" @click="goLogin()">登录</span></div>
+			</el-dialog>
 		</div>
 	</div>
 </template>
@@ -69,19 +72,11 @@
 					checkPass: '',
 					oldPass: ''
 				},
+				dialogTableVisible:false,
 				rules2: {
-					oldPass: [{
-						validator: checkoldPass,
-						trigger: 'blur'
-					}],
-					newPass: [{
-						validator: validateNewPass,
-						trigger: 'blur'
-					}],
-					checkPass: [{
-						validator: validateCheckPass,
-						trigger: 'blur'
-					}]
+					oldPass: [{ validator: checkoldPass, trigger: 'blur' }],
+					newPass: [{ validator: validateNewPass, trigger: 'blur' }],
+					checkPass: [{ validator: validateCheckPass, trigger: 'blur' }]
 				}
 			};
 		},
@@ -119,25 +114,29 @@
 			updatePassword(params) {
 				let self = this;
 				self.$axios.put(baseURL+'/user/changePassword',params)
-				.then(function(res) {
+				.then((res) => {
 					console.log('updatePassword',res);
 					if(res.data.code === "S00000") {
-						Bus.$emit('showSuccessTip', '');
+						// Bus.$emit('showSuccessTip', '');
+						self.dialogTableVisible = true;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
+			},
+			goLogin(){
+				this.$router.push('/login')
+			},
+			closeDialog(){
+				let self = this;
+				 self.goLogin();
 			}
 		}
 	}
 </script>
 
 <style>
-	/** {
-		margin: 0;
-		padding: 0;
-	}*/
 	li {
 		list-style: none;
 	}
@@ -148,25 +147,8 @@
 		padding-left: 20px;
 		width: 100%;
 	}
-	.location-wrapper {
-		width: 100%;
-		height: 70px;
-		line-height: 70px;
-		font-size: 12px;
-	}
-	.location-wrapper .title {
-		color: #475669;
-		vertical-align: middle;
-	}
-	.location-wrapper .breadcrumb-inner {
-		font-size: 12px;
-		display: inline-block;
-		vertical-align: middle;
-	}
 	.modifine_password .content {
 		width: 100%;
-		/*min-height: 530px;*/
-	    height: calc(100% - 90px);
 		padding: 0px 40px 20px;
 		background: #ffffff;
 	}
@@ -259,7 +241,14 @@
 	    font-weight: normal;
         margin-right: 18px;
 	}
-	.el-form-item__error {
+	.modifine_password .el-form-item__error {
 	    left: 28px;
 	}
+	.modifine_password .edit-tip{
+		padding:40px 0;
+		span{
+			margin-left:10px;
+		}
+	}
+
 </style>

@@ -32,7 +32,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动类型">
 						    <el-select v-model="formdata.shiftType" value-key="shiftType" @change="changeValue" :disabled="true">
-								<el-option v-for="item in shiftTypeList" :key="item.shiftType" :label="item.paraShowMsg" :value="item.shiftType"></el-option>
+								<el-option v-for="item in shiftTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	

@@ -384,10 +384,10 @@
 				let params = {
 					userNo: userNo
 				}
-				self.$axios.get(baseURL+' CustInfo/queryCustInfoByUserNo/'+userNo)
+				self.$axios.get(baseURL+'/CustInfo/queryCustInfoByUserNo/'+userNo)
 				.then(function(res) {
 					console.log('userInfo',res);
-					self.formdata1 = res.data;
+					self.formdata1 = res.data.data;
 				}).catch(function(err) {
 					console.log(err);
 				})

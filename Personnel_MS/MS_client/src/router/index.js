@@ -400,6 +400,21 @@ const routes = [
                 ]
             },
             {
+                path: '/preSale_query',
+                component: resolve => require(['../components/pages/attendance_Mgmt/preSale/preSale.vue'], resolve),
+                children: [
+                    {
+                        path: '/',
+                        component: resolve => require(['../components/pages/attendance_Mgmt/preSale/preSale_query.vue'], resolve),
+                    },
+                    {
+                        name: 'add_preSale',
+                        path: '/add_preSale',
+                        component: resolve => require(['../components/pages/attendance_Mgmt/preSale/add_preSale.vue'], resolve),
+                    }
+                ]
+            },
+            {
                 path: '/statement_1',
                 component: resolve => require(['../components/pages/statement_STAT/statement_1.vue'], resolve)
             },

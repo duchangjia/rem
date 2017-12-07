@@ -63,7 +63,7 @@
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="新公司名称" prop="neworganNo">
+						<el-form-item label="新公司名称" prop="newOrgId">
 						    <el-select v-model="formdata2.newOrgId" @change="changeComp">
 								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
@@ -75,8 +75,8 @@
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="新部门名称" prop="newderpNo">
-						    <el-select v-model="formdata2.newDeprtId" value-key="newderpNo">
+						<el-form-item label="新部门名称" prop="newDeprtId">
+						    <el-select v-model="formdata2.newDeprtId">
 								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -455,10 +455,10 @@
 				let params = {
 					userNo: userNo
 				}
-				self.$axios.get(baseURL+'CustInfo/queryCustInfoByUserNo/userNo/'+ userNo)
+				self.$axios.get(baseURL+'/CustInfo/queryCustInfoByUserNo/'+ userNo)
 				.then(function(res) {
 					console.log('userInfo',res);
-					self.formdata1 = res.data;
+					self.formdata1 = res.data.data;
 				}).catch(function(err) {
 					console.log(err);
 				})
