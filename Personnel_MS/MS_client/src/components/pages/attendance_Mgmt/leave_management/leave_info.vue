@@ -30,12 +30,18 @@
 					</el-col>		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <el-input v-model="formdata2.custPost" :disabled="true"></el-input>
+						    <!--<el-input v-model="formdata2.custPost" :disabled="true"></el-input>-->
+						    <el-select v-model="formdata2.custPost" :disabled="true">
+								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <el-input v-model="formdata2.custClass" :disabled="true"></el-input>
+						    <!--<el-input v-model="formdata2.custClass" :disabled="true"></el-input>-->
+						    <el-select v-model="formdata2.custClass" :disabled="true">
+								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>	  	
 				  	<el-col :span="24" class="item-title">请假信息</el-col>	  	
@@ -52,7 +58,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="请假类型" prop="leaveType">
 						    <el-select v-model="formdata2.leaveType" value-key="leaveType" @change="changeValue" :disabled="true">
-								<el-option v-for="item in leaveTypeList" :key="item.leaveNo" :label="item.label" :value="item.leaveNo"></el-option>
+								<el-option v-for="item in leaveTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	  	
@@ -100,25 +106,12 @@
 		data() {
 			return {
 				formdata: {},
-				formdata2: {
-					userNo: "",
-					custName: "",
-					custPost: "",
-					custClass: "",
-					orgId: "01",
-					deprtId: "",
-					leaveStartTime: "",
-					leaveEndTime: "",
-					leaveType: "",
-					leaveStartCity: "",
-					leaveArrivalCity: "",
-					timeSheet: "",
-					leaveSTD: "",
-					remark: "",
-					attachm: "",
-					updatedBy: "",
-					updatedDate: ""
-				},
+				formdata2: {},
+				//岗位列表
+				custPostList: [],
+				//职级列表
+			    custClassList: [],
+			    //请假类型列表
 				leaveTypeList: [
 					{label: '有薪休假', leaveNo: '01'},
 					{label: '事假', leaveNo: '02'},
@@ -154,7 +147,15 @@
 			let params = {
 				applyNo: applyNo
 			}
+			//查询请假详情
 			this.queryLeaveInfo(params);
+			//请假列表查询
+			this.queryLeaveTypeList();
+			//查询岗位列表
+			this.queryCustPostList();
+			//查询职级列表
+			this.queryCustClassList();
+			
 		},
 		methods: {
 			changeStartTime(time) {
@@ -214,6 +215,44 @@
                     console.error(e)
                     this.$message({ message: '下载附件失败', type: 'error' });
                 })
+			},
+			queryCustPostList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+				.then(function(res) {
+					console.log('CustPost',res);
+					if(res.data.code === "S00000") {
+						self.custPostList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryCustClassList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
+				.then(function(res) {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						self.custClassList = res.data.data;
+					}
+				}).catch(function(err) {
+					console.log('error');
+				})
+			},
+			queryLeaveTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=LEAVE_TYPE')
+				.then(function(res) {
+					console.log('sysParamMgmt',res);
+					if(res.data.code === "S00000") {
+						self.leaveTypeList = res.data.data;
+					}
+					
+				}).catch(function(err) {
+					console.log('error');
+				})
 			}
 		}
 	};

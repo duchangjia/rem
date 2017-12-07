@@ -100,6 +100,7 @@
 					  			 :data="formdata"
 					  			 :on-change="changeUpload"
 					  			 :on-success="successUpload"
+					  			 :beforeUpload="beforeAvatarUpload"
 					  			 action="/iem_hrm/leave/addLeaveInfo" 
 					  			 :show-file-list="false" 
 					  			 :auto-upload="false"
@@ -168,8 +169,11 @@
 					remark: "",
 					attachm: ""
 				},
+				//岗位列表
 				custPostList: [],
+				//职级列表
 			    custClassList: [],
+			    //请假类型列表
 				leaveTypeList: [
 					{label: '有薪休假', leaveNo: '01'},
 					{label: '事假', leaveNo: '02'},
@@ -220,9 +224,8 @@
 			formdata: function(){
 				const self = this;
 				return {
-					applyNo: this.formdata2.applyNo, //请假编号
 					"userNo": self.formdata1.userNo, //"1004"
-	    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
+	    			"leaveStartTime": self.leaveStartTime, //"2017-09-10 08:30"
 	    			"leaveEndTime": self.leaveEndTime, //"2017-09-13 09:30"
 	    			"leaveType": self.formdata2.leaveType, //"3"
 	    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
@@ -333,6 +336,21 @@
 	      		}
 		      		
 	      	},
+	      	// 上传前对文件的大小的判断
+		    beforeAvatarUpload (file) {
+//		      const extension = file.name.split('.')[1] === 'xls'
+//		      const extension2 = file.name.split('.')[1] === 'xlsx'
+//		      const extension3 = file.name.split('.')[1] === 'doc'
+//		      const extension4 = file.name.split('.')[1] === 'docx'
+		      const isLt2M = file.size / 1024 / 1024 < 1
+//		      if (!extension && !extension2 && !extension3 && !extension4) {
+//		        console.log('上传模板只能是 xls、xlsx、doc、docx 格式!')
+//		      }
+		      if (!isLt2M) {
+		      	this.$message({ message: '上传模板大小不能超过 1MB!', type: 'error' });
+		      }
+		      return  isLt2M	//extension || extension2 || extension3 || extension4 &&
+		    },
 	      	save(formName) {
 				const self = this;
 				self.$refs.formdata1.validate(valid => {
@@ -342,7 +360,6 @@
 			            		self.$refs.upload.submit();
 								if(!self.fileFlag) {
 									let params = {
-										applyNo: this.formdata2.applyNo, //请假编号
 										"userNo": self.formdata1.userNo, //"1004"
 						    			"leaveStartTime": self.leaveStartTime, //"2017-09-10 08:30"
 						    			"leaveEndTime": self.leaveEndTime, //"2017-09-13 09:30"

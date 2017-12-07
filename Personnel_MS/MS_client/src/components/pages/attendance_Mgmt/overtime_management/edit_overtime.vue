@@ -150,8 +150,10 @@
 					updateBy: "",
 					updateTime: ""
 				},
+				//岗位列表
 				custPostList: [],
-				custClassList: [],
+				//职级列表
+			    custClassList: [],
 				workotTypeList: [
 					{label: '有薪加班', workotNo: '01'},
 					{label: '调休加班', workotNo: '02'}
@@ -208,12 +210,10 @@
 		},
 		methods: {
 			changeStartTime(time) {
-				console.log('starttime',time);
-				this.workotStartTime = time;
+				this.formdata2.workotStartTime = time;
 			},
 			changeEndTime(time) {
-				console.log('endtime',time);
-				this.workotEndTime = time;
+				this.formdata2.workotEndTime = time;
 			},
 			changeValue(value) {
 		 		const self = this;
