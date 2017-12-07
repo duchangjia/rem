@@ -141,7 +141,7 @@ export default {
             ? "出借"
             : row.applyType == "04"
               ? "出售"
-              : row.applyType == "05" ? "盘余" : applyType == "06" ? "盘亏" : "异常";
+              : row.applyType == "05" ? "盘余" : row.applyType == "06" ? "盘亏" : "异常";
     },
     search() {
       let self = this;

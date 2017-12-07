@@ -66,9 +66,7 @@
                 <div class="canvas-box" id="bar_Chart"></div>
             </el-col>
             <div class="chart-button-list">
-                <span class="c-dark">近3月</span>
-                <span class="c-dark">近6月</span>
-                <span class="c-dark active">近一年</span>
+                <span class="c-dark" v-for="(item,index) of monthList" @click="monthChoose(index)" :class="{'active':index==number}">{{item.month}}</span>
             </div>
         </el-row>
         <el-row class="news-list common-chart">
@@ -76,12 +74,10 @@
                 <div class="canvas-box" id="line_Chart"></div>
             </el-col>
             <div class="chart-button-list">
-                <span class="c-dark">近3月</span>
-                <span class="c-dark">近6月</span>
-                <span class="c-dark active">近一年</span>
+                <span class="c-dark" v-for="(item,index) of monthList" @click="monthChoosePay(index)" :class="{'active':index==payNumber}">{{item.month}}</span>
             </div>
         </el-row>
-        <el-row gutter="20" class="news-list common-chart">
+        <el-row :gutter="20" class="news-list common-chart">
             <el-col :span="12">
                 <div class="canvas-box" id="smBar_Chart"></div>
             </el-col>
@@ -89,27 +85,6 @@
                 <div class="canvas-box" id="smLine_Chart"></div>
             </el-col>
         </el-row>
-            <!--<div class="content-wrapper">-->
-        <!-- <el-row style="margin: 20px 0; overflow: hidden;" class="common-chart">
-            <el-col :span="12"><div class="content-left" id="myChart1"></div></el-col>
-            <el-col :span="12"><div class="content-right" id="myChart2"></div></el-col>
-        </el-row> 
-        <el-row style="margin: 20px 0; overflow: hidden;" class="common-chart">
-            <el-col :span="12"><div class="content-left" id="myChart3"></div></el-col>
-            <el-col :span="12"><div class="content-right" id="myChart4"></div></el-col>
-        </el-row>-->
-            <!--</div>-->
-
-        <!--<div class="content-wrapper">-->
-            <!--<div class="content-left" id="myChart1"></div>-->
-            <!--<div class="content-right" id="myChart2"></div>-->
-        <!--</div>-->
-        <!--<div class="content-wrapper">-->
-            <!--<div class="content-left" id="myChart3"></div>-->
-            <!--<div class="content-right" id="myChart4"></div>-->
-        <!--</div>-->
-        
-        
     </div>
 </template>
 
@@ -120,6 +95,8 @@
     export default {
         data() {
             return {
+                number:0,
+                payNumber:0,
                 listObj:[
                     {
                         img:'ygxxcx1',
@@ -213,6 +190,17 @@
                         link:'',
                         time:'2017-8-30'
                     }
+                ],
+                monthList:[
+                    {
+                        month:'近3月'
+                    },
+                    {
+                        month:'近6月'
+                    },
+                    {
+                        month:'近一年'
+                    }
                 ]
             }
         },
@@ -236,6 +224,12 @@
                 self.$axios.get(jurisdictionUrl).then(res=>{
                     console.log(res)
                 })
+            },
+            monthChoose(index){
+                this.number=index
+            },
+            monthChoosePay(index){
+                this.payNumber=index
             },
             draw(id,option){
                 let myChart = this.$echarts.init(document.getElementById(id));

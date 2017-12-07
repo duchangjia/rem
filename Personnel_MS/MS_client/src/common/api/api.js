@@ -26,6 +26,4 @@ export default{
     jurisdictionUrl:baseUrl+'menu/queryMenuInfo',
     //开票信息查询
     billUrl:baseUrl+'epOrganBillInfoBySelf/queryBillInfoBySelf'
-
-
 }
