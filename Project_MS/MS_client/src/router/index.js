@@ -26,6 +26,138 @@ const routes = [
                 {
                     path: '/',
                     component: resolve => require(['../components/view/home_page.vue'], resolve)
+                },
+                {
+                    path: '/agg_uesr_center',
+                    meta: { requireAuth: true, },
+                    component: resolve => require(['../components/common/aggregation/user_Setting/user_info.vue'], resolve)
+                },
+                {
+                    path: '/agg_modify_password',
+                    meta: { requireAuth: true, },
+                    component: resolve => require(['../components/common/aggregation/user_Setting/modify_password.vue'], resolve)
+                },
+                {
+                    path: '/ask_leave',
+                    meta: { requireAuth: true, },
+                    component: resolve => require(['../components/common/aggregation/check_work/ask_leave.vue'], resolve)
+                },
+                {
+                    path: '/salary_detail',
+                    meta: { requireAuth: true, },
+                    component: resolve => require(['../components/common/aggregation/pay_salary/salary_detail.vue'], resolve)
+                },
+                {
+                    path: '/billing_imformation',
+                    meta: { requireAuth: true, },
+                    component: resolve => require(['../components/common/aggregation/exp_reimy/billing_imformation.vue'], resolve)
+                }
+            ]
+        },
+        {
+            path: '/web_standard',
+            component: resolve => require(['../components/common/web_standard.vue'], resolve)
+        },
+        {
+    
+            path: '/home',
+            meta: { requireAuth: true, },
+            component: resolve => require(['../components/common/Home.vue'], resolve),
+            children: [
+                {
+                    path: '/',
+                    component: resolve => require(['../components/pages/home_page.vue'], resolve)
+                },
+                {
+                    path: '/management_framework',
+                    component: resolve => require(['../components/pages/system_Mgmt/frame.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/system_Mgmt/framework.vue'], resolve)
+                        },
+                        {
+                            path: '/edit_department',
+                            component: resolve => require(['../components/pages/system_Mgmt/edit_department.vue'], resolve)
+                        },
+                        {
+                            path: '/add_person',
+                            component: resolve => require(['../components/pages/system_Mgmt/add_person.vue'], resolve)
+                        },
+                        {
+                            path: '/add_junior',
+                            component: resolve => require(['../components/pages/system_Mgmt/add_junior.vue'], resolve)
+                        }
+                    ]
+                },
+                {
+                    path: '/management_user',
+                    component: resolve => require(['../components/pages/system_Mgmt/manage_user.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/system_Mgmt/userM_query.vue'], resolve)
+                        },
+                        {
+                            name: 'edit_userM',
+                            path: '/edit_userM',
+                            component: resolve => require(['../components/pages/system_Mgmt/edit_userM.vue'], resolve)
+                        }
+                    ]
+                },
+                {
+                    path: '/management_role',
+                    component: resolve => require(['../components/pages/system_Mgmt/manage_role.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/system_Mgmt/query_role.vue'], resolve)
+                        },
+                        {
+                            path: '/add_role',
+                            component: resolve => require(['../components/pages/system_Mgmt/add_role.vue'], resolve)
+                        },
+                        {
+                            name: 'edit_role',
+                            path: '/edit_role',
+                            component: resolve => require(['../components/pages/system_Mgmt/edit_role.vue'], resolve)
+                        }
+                    ]
+                },
+                {
+                    path: '/argument_1',
+                    component: resolve => require(['../components/pages/argument_Mgmt/argument_1.vue'], resolve),
+    
+                },
+                {
+                    path: '/management_fun',
+                    component: resolve => require(['../components/pages/system_Mgmt/manage_fun.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/system_Mgmt/fun.vue'], resolve)
+                        },
+                        {
+                            name: 'edit_fun',
+                            path: '/edit_fun',
+                            component: resolve => require(['../components/pages/system_Mgmt/edit_fun.vue'], resolve)
+                        }
+                    ]
+                },
+                {
+                    path: '/preSale_query',
+                    component: resolve => require(['../components/pages/project_Mgmt/preSale/preSale.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/pages/project_Mgmt/preSale/preSale_query.vue'], resolve),
+                        },
+                        {
+                            name: 'add_preSale',
+                            path: '/add_preSale',
+                            component: resolve => require(['../components/pages/project_Mgmt/preSale/add_preSale.vue'], resolve),
+                        }
+                    ]
                 }
             ]
         }

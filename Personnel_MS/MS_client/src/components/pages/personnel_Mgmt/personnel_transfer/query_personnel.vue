@@ -54,7 +54,7 @@
 					</el-table-column>
 					<el-table-column align="center" prop="sex" label="性别" :formatter="custSexFormatter">
 					</el-table-column>
-					<el-table-column align="center" prop="custPost" label="岗位">
+					<el-table-column align="center" prop="custPost" label="岗位" :formatter="custPostFormatter">
 					</el-table-column>
 					<el-table-column align="center" prop="custClass" label="职级" :formatter="custClassFormatter">
 					</el-table-column>
@@ -117,7 +117,10 @@
 		methods: {
 			custSexFormatter(row, column) {
 		      return row.sex == "01" ? "男" : row.sex == "02" ? "女": row.sex == "99" ? "其他" : "";
-		    },
+			},
+			custPostFormatter(row, column) {
+				return row.custPost == "01" ? "架构师" : row.custPost == "02" ? "前端开发工程师": row.custPost == "03" ? "测试工程师": row.custPost == "04" ? "后端开发" : "";
+			},
 		    custClassFormatter(row, column) {
 		      return row.custClass == "B10" ? "B10-初级软件工程师" : row.custClass == "B11" ? "B11-中级软件工程师": row.custClass == "B12" ? "B12-高级软件工程师" : "";
 		    },

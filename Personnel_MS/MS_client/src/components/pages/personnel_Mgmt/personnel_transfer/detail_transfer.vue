@@ -62,7 +62,7 @@
 					<el-table-column prop="custName" label="姓名"></el-table-column>
 					<el-table-column prop="oldOrganName" label="原公司名称"></el-table-column>
 					<el-table-column prop="oldDerpName" label="原部门名称"></el-table-column>
-					<el-table-column prop="shiftType" label="调动类型"></el-table-column>
+					<el-table-column prop="shiftType" label="调动类型" :formatter="shiftTypeFormatter"></el-table-column>
 					<el-table-column prop="createdDate" label="调动日期"></el-table-column>
 					<el-table-column prop="shiftCameTime" label="调动生效日期" :formatter="travelTimeFormatter"></el-table-column>
 					<el-table-column align="center" label="操作" width="100">
@@ -122,6 +122,9 @@ export default {
 		this.queryCompList();
 	},
 	methods: {
+		shiftTypeFormatter(row, column) {
+			return row.shiftType == "01" ? "晋升" : row.shiftType == "02" ? "调动": row.shiftType == "03" ? "平调": row.shiftType == "04" ? "轮岗" : row.shiftType == "05" ? "工资调整" : row.shiftType == "99" ? "其他" : "";
+		},
 		travelTimeFormatter(row, column) {
 			let time = row.shiftCameTime;
 			return time?moment(time).format('YYYY-MM-DD'): null;

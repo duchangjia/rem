@@ -37,7 +37,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
 						    <!--<el-input v-model="formdata.custPost" :disabled="true"></el-input>-->
-						    <el-select v-model="formdata1.custPost" :disabled="true">
+						    <el-select v-model="formdata.custPost" :disabled="true">
 								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -45,14 +45,14 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
 						    <!--<el-input v-model="formdata.custClass" :disabled="true"></el-input>-->
-						    <el-select v-model="formdata1.custClass" :disabled="true">
+						    <el-select v-model="formdata.custClass" :disabled="true">
 								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="直线经理">
-						    <el-input v-model="formdata.lineManager" :disabled="true"></el-input>
+						    <el-input v-model="formdata.lineManagerName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24" class="item-title">离职信息</el-col>

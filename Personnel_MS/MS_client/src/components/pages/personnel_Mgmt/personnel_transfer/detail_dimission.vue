@@ -62,7 +62,7 @@
 					<el-table-column prop="custName" label="姓名"></el-table-column>
 					<el-table-column prop="organName" label="公司名称"></el-table-column>
 					<el-table-column prop="derpName" label="部门名称"></el-table-column>
-					<el-table-column prop="dimType" label="离职类型"></el-table-column>
+					<el-table-column prop="dimType" label="离职类型" :formatter="dimTypeFormatter"></el-table-column>
 					<el-table-column prop="dimTime" label="离职日期" :formatter="dimTimeFormatter"></el-table-column>
 					<el-table-column align="center" label="操作" width="100">
 						<template scope="scope">
@@ -147,6 +147,9 @@ export default {
 		this.queryCompList();
 	},
 	methods: {
+		dimTypeFormatter(row, column) {
+			return row.dimType == "01" ? "辞退" : row.dimType == "02" ? "退休": row.dimType == "03" ? "外调": row.dimType == "04" ? "辞职" : row.dimType == "05" ? "裁员" : row.dimType == "99" ? "其他" : "";
+		},
 		dimTimeFormatter(row, column) {
 			let time = row.dimTime;
 			return time?moment(time).format('YYYY-MM-DD') :null;

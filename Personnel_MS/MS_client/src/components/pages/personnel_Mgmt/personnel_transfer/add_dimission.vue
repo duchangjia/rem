@@ -16,7 +16,7 @@
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="部门名称">
-							<el-input v-model="formdata1.deptName" :disabled="true"></el-input>
+							<el-input v-model="formdata1.derpName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
