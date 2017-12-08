@@ -231,6 +231,7 @@ export default {
 			this.ruleForm2.departOrgNo = '';
 			this.ruleForm2.startDate = '';
 			this.ruleForm2.endDate = '';
+			this.ruleForm2.userNo = '';
 		},
 		handleCurrentChange(val) {
 			this.pageNum = val;

@@ -163,7 +163,7 @@ export default {
 	      return row.settleEndTime ? moment(row.settleEndTime).format('YYYY-MM-DD') : null;
 	   	}, 
 	   	batchStatusFormatter(row, column) {
-	   		return row.batchStatus=="01" ? "录入" : row.batchStatus=="02" ? "启用" : "废弃";
+	   		return row.batchStatus=="01" ? "录入" : row.batchStatus=="02" ? "启用" : row.batchStatus=="03" ? "废弃" : "";
 	   	},
 	   	createdDateFormatter(row, column) {
 	      return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null;

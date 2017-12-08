@@ -70,132 +70,124 @@ export default {
 				{
 					menuImg: 'icon-khgx',
 					menuUrl: '3',
-					menuName: '人事事务',
+					menuName: '项目管理',
 					menuList: [
 						{
-							menuUrl: 'personnel_contract',
-							menuName: '人事合同'
-						},
-						{
-							menuUrl: 'personnel_transfer',
-							menuName: '人事调动'
-						},
-                        {
-                            menuUrl: 'personnel_archives',
-                            menuName: '人事档案'
-                        }
-					]
-				},
-				{
-					menuImg: 'icon-csgl',
-					menuUrl: '4',
-					menuName: '参数管理',
-					menuList: [
-						{
-							menuUrl: 'argument_1',
-							menuName: '系统参数'
-						},
-						{
-							menuUrl: 'argument_2',
-							menuName: '业务参数'
-						},
-					]
-				},	
-				{
-					menuImg: 'icon-xmgl',
-					menuUrl: '5',
-					menuName: '薪酬福利',
-					menuList: [
-						{
-							menuUrl: 'payBaseInfo_setting',
-							menuName: '薪酬基数设置'
-						},
-						{
-							menuUrl: 'payChange_manage',
-							menuName: '调薪管理'
-						},
-						{
-							menuUrl: 'wageProcess_manage',
-							menuName: '工资流程管理'
-						},
-//						{
-//							menuUrl: 'awardProcess_manage',
-//							menuName: '奖金流程管理'
-//						},
-//						{
-//							menuUrl: 'historyPay_query',
-//							menuName: '历史薪酬查询'
-//						}
-					]
-				},
-				{
-					menuImg: 'icon-ywgl',
-					menuUrl: '6',
-					menuName: '考勤管理',
-					menuList: [
-						{
-							menuUrl: 'attendance_record',
-							menuName: '考勤记录管理'
-						},
-						{
-							menuUrl: 'travel_management',
-							menuName: '出差管理'
-						},
-						{
-							menuUrl: 'leave_management',
-							menuName: '请假管理'
-						},
-						{
-							menuUrl: 'overtime_management',
-							menuName: '加班管理'
+							menuUrl: 'preSale_query',
+							menuName: '售前立项'
 						}
 					]
 				},
-				{
-					menuImg: 'icon-tjbb',
-					menuUrl: '7',
-					menuName: '资产管理',
-					menuList: [
-						{
-							menuUrl: 'assetReq_manage',
-							menuName: '资产登记管理'
-						},
-                        {
-                            menuUrl: 'assetUse_manage',
-                            menuName: '资产使用管理'
-                        }
-					]
-				},
-				{
-					menuImg: 'icon-khgx',
-					menuUrl: '8',
-					menuName: '员工自助',
-					menuList: [
-						{
-							menuUrl: 'query_personalInfo',
-							menuName: '个人信息查询'
-						},
-						{
-							menuUrl: 'query_billingInfo',
-							menuName: '开票信息查询'
-						},
-						{
-							menuUrl: 'lineManager_Mgmt',
-							menuName: '直线经理管理'
-						}
-					]
-				},
-				{
-					menuImg: 'icon-xmgl',
-					menuUrl: '9',
-					menuName: '历史薪酬',
-					menuList: [
-						{
-							menuUrl: 'historicalSalary_query',
-							menuName: '工资查询'
-						}
-					]
-				},
+				// {
+				// 	menuImg: 'icon-csgl',
+				// 	menuUrl: '4',
+				// 	menuName: '参数管理',
+				// 	menuList: [
+				// 		{
+				// 			menuUrl: 'argument_1',
+				// 			menuName: '系统参数'
+				// 		},
+				// 		{
+				// 			menuUrl: 'argument_2',
+				// 			menuName: '业务参数'
+				// 		},
+				// 	]
+				// },	
+// 				{
+// 					menuImg: 'icon-xmgl',
+// 					menuUrl: '5',
+// 					menuName: '薪酬福利',
+// 					menuList: [
+// 						{
+// 							menuUrl: 'payBaseInfo_setting',
+// 							menuName: '薪酬基数设置'
+// 						},
+// 						{
+// 							menuUrl: 'payChange_manage',
+// 							menuName: '调薪管理'
+// 						},
+// 						{
+// 							menuUrl: 'wageProcess_manage',
+// 							menuName: '工资流程管理'
+// 						},
+// //						{
+// //							menuUrl: 'awardProcess_manage',
+// //							menuName: '奖金流程管理'
+// //						},
+// //						{
+// //							menuUrl: 'historyPay_query',
+// //							menuName: '历史薪酬查询'
+// //						}
+// 					]
+// 				},
+// 				{
+// 					menuImg: 'icon-ywgl',
+// 					menuUrl: '6',
+// 					menuName: '考勤管理',
+// 					menuList: [
+// 						{
+// 							menuUrl: 'attendance_record',
+// 							menuName: '考勤记录管理'
+// 						},
+// 						{
+// 							menuUrl: 'travel_management',
+// 							menuName: '出差管理'
+// 						},
+// 						{
+// 							menuUrl: 'leave_management',
+// 							menuName: '请假管理'
+// 						},
+// 						{
+// 							menuUrl: 'overtime_management',
+// 							menuName: '加班管理'
+// 						}
+// 					]
+// 				},
+// 				{
+// 					menuImg: 'icon-tjbb',
+// 					menuUrl: '7',
+// 					menuName: '资产管理',
+// 					menuList: [
+// 						{
+// 							menuUrl: 'assetReq_manage',
+// 							menuName: '资产登记管理'
+// 						},
+//                         {
+//                             menuUrl: 'assetUse_manage',
+//                             menuName: '资产使用管理'
+//                         }
+// 					]
+// 				},
+// 				{
+// 					menuImg: 'icon-khgx',
+// 					menuUrl: '8',
+// 					menuName: '员工自助',
+// 					menuList: [
+// 						{
+// 							menuUrl: 'query_personalInfo',
+// 							menuName: '个人信息查询'
+// 						},
+// 						{
+// 							menuUrl: 'query_billingInfo',
+// 							menuName: '开票信息查询'
+// 						},
+// 						{
+// 							menuUrl: 'lineManager_Mgmt',
+// 							menuName: '直线经理管理'
+// 						}
+// 					]
+// 				},
+// 				{
+// 					menuImg: 'icon-xmgl',
+// 					menuUrl: '9',
+// 					menuName: '历史薪酬',
+// 					menuList: [
+// 						{
+// 							menuUrl: 'historicalSalary_query',
+// 							menuName: '工资查询'
+// 						}
+// 					]
+// 				},
 				
 			]
 
@@ -242,18 +234,6 @@ export default {
 			let reg = /\//g
 //			console.log(this.$route.matched);
 			return this.$route.matched[1].path.replace(reg, '');
-		}
-	},
-	watch: {
-		$route: function() {
-			//sidebar导航highlight随路由变化
-//			console.log(this.$route.matched);
-//			let path = this.$route.matched[1].path.substr(1);
-//			this.itemActive = {};
-//			this.itemActive[path] = 'is-active';
-//			if (this.$route.matched.length == 3) {
-//				this.itemActive[this.subMenuOldIndex] = 'is-active';
-//			}
 		}
 	}
 }

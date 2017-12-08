@@ -94,7 +94,7 @@ export default {
 					companyName: "",
 					deptName: "1232",
 					projApplySta: "01", 
-					projIncmType: "T&M",
+					projIncmType: "01",
 					preSaleStartTime: "2017-10-10",
 					preSaleEndTime: "2017-10-11",
 					projName: "33212",

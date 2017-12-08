@@ -1,5 +1,5 @@
 <template>
-	<div class="payroll_query">
+	<div class="entry_wage">
 		<current yiji="薪酬福利" erji="工资流程管理" sanji="录入工资"></current>
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
@@ -18,13 +18,6 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<!--<el-col :sm="12" :md="6">
-						<el-form-item label="部门名称" prop="departName">
-							<el-select v-model="ruleForm2.derpNo" value-key="derpNo">
-								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>-->
 					<el-col :sm="12" :md="6">
 						<el-form-item label="工号" prop="userNo">
 							<el-input v-model="ruleForm2.userNo" placeholder="请输入工号"></el-input>
@@ -48,85 +41,138 @@
 					</div>
 				</el-form>
 				<el-table :data="socialInfoData" border fit stripe style="width: 100%;">
-					<el-table-column prop="month" label="工资月份" width="100"></el-table-column>
+					<el-table-column prop="month" label="工资月份" width="100" min-height="60px"></el-table-column>
 					<el-table-column prop="userNo" label="工号" width="100"></el-table-column>
 					<el-table-column prop="custName" label="姓名" width="100"></el-table-column>
-					<el-table-column prop="wagesBase" label="基础工资" min-width="200px">
+					<el-table-column prop="wagesBase" label="基础工资" min-width="200px"  :formatter="commonFormatter">
 						<template scope="scope">
-				          	<el-input size="small" v-model="scope.row.wagesBase" @change="handleEdit($event,'wagesBase',scope.row)"></el-input>
-				        </template>
+							<el-form :model="scope.row" :rules="rules1" class="demo-ruleForm">
+								<el-form-item label="" prop="wagesBase">
+									<el-input size="small" v-model="scope.row.wagesBase" @change="handleEdit($event, scope.$index, scope.row)"></el-input>
+								</el-form-item>
+							</el-form>
+						</template>
 					</el-table-column>
 					<el-table-column prop="wagesPerf" label="绩效工资" min-width="200px">
 						<template scope="scope">
-				          	<el-input size="small" v-model="scope.row.wagesPerf" @change="handleEdit($event,'wagesPerf',scope.row)"></el-input>
-				        </template>
+							<el-form :model="scope.row" :rules="rules1" class="demo-ruleForm">
+								<el-form-item label="" prop="wagesPerf">
+									<el-input size="small" v-model="scope.row.wagesPerf" @change="handleEdit($event, scope.$index, scope.row)"></el-input>
+								</el-form-item>
+							</el-form>
+						</template>
 					</el-table-column>
 					<el-table-column prop="postPension" label="岗位津贴" :show-overflow-tooltip="true" min-width="200px">
 						<template scope="scope">
-				          	<el-input size="small" v-model="scope.row.postPension" @change="handleEdit($event,'postPension',scope.row)"></el-input>
-				        </template>
+							<el-form :model="scope.row" :rules="rules1" class="demo-ruleForm">
+								<el-form-item label="" prop="postPension">
+									<el-input size="small" v-model="scope.row.postPension" @change="handleEdit($event, scope.$index, scope.row)"></el-input>
+								</el-form-item>
+							</el-form>
+						</template>
 					</el-table-column>
 					<el-table-column prop="phonePension" label="通讯补贴" min-width="200px">
 						<template scope="scope">
-				          	<el-input size="small" v-model="scope.row.phonePension" @change="handleEdit($event,'phonePension',scope.row)"></el-input>
-				        </template>
+							<el-form :model="scope.row" :rules="rules1" class="demo-ruleForm">
+								<el-form-item label="" prop="phonePension">
+									<el-input size="small" v-model="scope.row.phonePension" @change="handleEdit($event, scope.$index, scope.row)"></el-input>
+								</el-form-item>
+							</el-form>
+							
+						</template>
 					</el-table-column>
 					<el-table-column prop="trafficPension" label="交通补贴" min-width="200px">
 						<template scope="scope">
-				          	<el-input size="small" v-model="scope.row.trafficPension" @change="handleEdit($event,'trafficPension',scope.row)"></el-input>
-				        </template>
+							<el-form :model="scope.row" :rules="rules1" class="demo-ruleForm">
+								<el-form-item label="" prop="trafficPension">
+									<el-input size="small" v-model="scope.row.trafficPension" @change="handleEdit($event, scope.$index, scope.row)"></el-input>
+								</el-form-item>
+							</el-form>
+						</template>
 					</el-table-column>
 					<el-table-column prop="livingPension" label="生活补助" min-width="200px">
 						<template scope="scope">
-				          	<el-input size="small" v-model="scope.row.livingPension" @change="handleEdit($event,'livingPension',scope.row)"></el-input>
-				        </template>
+							<el-form :model="scope.row" :rules="rules1" class="demo-ruleForm">
+								<el-form-item label="" prop="livingPension">
+									<el-input size="small" v-model="scope.row.livingPension" @change="handleEdit($event, scope.$index, scope.row)"></el-input>
+								</el-form-item>
+							</el-form>
+						</template>
 					</el-table-column>
 					<el-table-column prop="overtimePay" label="加班工资" min-width="200px">
 						<template scope="scope">
-				          	<el-input size="small" v-model="scope.row.overtimePay" @change="handleEdit($event,'overtimePay',scope.row)"></el-input>
-				        </template>
+							<el-form :model="scope.row" :rules="rules1" class="demo-ruleForm">
+								<el-form-item label="" prop="overtimePay">
+									<el-input size="small" v-model="scope.row.overtimePay" @change="handleEdit($event, scope.$index, scope.row)"></el-input>
+								</el-form-item>
+							</el-form>
+						</template>
 					</el-table-column>
 					<el-table-column prop="otherPension" label="其他补贴" min-width="200px">
 						<template scope="scope">
-				          	<el-input size="small" v-model="scope.row.otherPension" @change="handleEdit($event,'otherPension',scope.row)"></el-input>
-				        </template>
+							<el-form :model="scope.row" :rules="rules1" class="demo-ruleForm">
+								<el-form-item label="" prop="otherPension">
+									<el-input size="small" v-model="scope.row.otherPension" @change="handleEdit($event, scope.$index, scope.row)"></el-input>
+								</el-form-item>
+							</el-form>
+						</template>
 					</el-table-column>
 					<el-table-column prop="lateArrivalPay" label="迟到早退" min-width="200px">
 						<template scope="scope">
-				          	<el-input size="small" v-model="scope.row.lateArrivalPay" @change="handleEdit($event,'lateArrivalPay',scope.row)"></el-input>
-				        </template>
+							<el-form :model="scope.row" :rules="rules1" class="demo-ruleForm">
+								<el-form-item label="" prop="lateArrivalPay">
+									<el-input size="small" v-model="scope.row.lateArrivalPay" @change="handleEdit($event, scope.$index, scope.row)"></el-input>
+								</el-form-item>
+							</el-form>
+						</template>
 					</el-table-column>
 					<el-table-column prop="leavePay" label="病事假" min-width="200px">
 						<template scope="scope">
-				          	<el-input size="small" v-model="scope.row.leavePay" @change="handleEdit($event,'leavePay',scope.row)"></el-input>
-				        </template>
+							<el-form :model="scope.row" :rules="rules1" class="demo-ruleForm">
+								<el-form-item label="" prop="leavePay">
+									<el-input size="small" v-model="scope.row.leavePay" @change="handleEdit($event, scope.$index, scope.row)"></el-input>
+								</el-form-item>
+							</el-form>
+						</template>
 					</el-table-column>
 					<el-table-column prop="absentPay" label="旷工" min-width="200px">
 						<template scope="scope">
-				          	<el-input size="small" v-model="scope.row.absentPay" @change="handleEdit($event,'absentPay',scope.row)"></el-input>
-				        </template>
+							<el-form :model="scope.row" :rules="rules1" class="demo-ruleForm">
+								<el-form-item label="" prop="absentPay">
+									<el-input size="small" v-model="scope.row.absentPay" @change="handleEdit($event, scope.$index, scope.row)"></el-input>
+								</el-form-item>
+							</el-form>
+						</template>
 					</el-table-column>
 					<el-table-column prop="perCommercialPay" label="商保(个人)" min-width="200px">
 						<template scope="scope">
-				          	<el-input size="small" v-model="scope.row.shangbaoGeren" @change="handleEdit($event,'shangbaoGeren')"></el-input>
-				        </template>
+							<el-form :model="scope.row" :rules="rules1" class="demo-ruleForm">
+								<el-form-item label="" prop="perCommercialPay">
+									<el-input size="small" v-model="scope.row.perCommercialPay" @change="handleEdit($event, scope.$index, scope.row)"></el-input>
+								</el-form-item>
+							</el-form>
+						</template>
 					</el-table-column>
 					<el-table-column prop="comCommercialPay" label="商保(单位)" min-width="200px">
 						<template scope="scope">
-				          	<el-input size="small" v-model="scope.row.shangbaoDanwei" @change="handleEdit($event,'shangbaoDanwei')"></el-input>
-				        </template>
+							<el-form :model="scope.row" :rules="rules1" class="demo-ruleForm">
+								<el-form-item label="" prop="comCommercialPay">
+									<el-input size="small" v-model="scope.row.comCommercialPay" @change="handleEdit($event, scope.$index, scope.row)"></el-input>
+								</el-form-item>
+							</el-form>
+						</template>
 					</el-table-column>
 					<!--<el-table-column prop="pretaxTotal" label="合计（扣税前）" min-width="200px">
 						<template scope="scope">
-				          	<el-input size="small" v-model="scope.row.pretaxTotal" @change="handleEdit($event,'pretaxTotal')"></el-input>
-				        </template>
+							<el-input size="small" v-model="scope.row.pretaxTotal" @change="handleEdit($event, scope.$index, scope.row)"></el-input>
+						</template>
 					</el-table-column>-->
 					<el-table-column prop="perPayTotal" label="保险缴费合计(个人)" width="100" :formatter="perPayTotalFormatter"></el-table-column>
 					<el-table-column prop="comPayTotal" label="保险缴费合计(单位)" width="100" :formatter="comPayTotalFormatter"></el-table-column>
 					<el-table-column label="保险缴纳" width="100">
 						<template scope="scope">
-					        <span class="link" @click="handleInfo(scope.$index, scope.row)">详情</span>
-				      	</template>
+							<span class="link" @click="handleInfo(scope.$index, scope.row)">详情</span>
+						</template>
 					</el-table-column>
 					<el-table-column prop="payTax" label="扣税" width="100"></el-table-column>
 					<el-table-column prop="realHair" label="实发" width="100"></el-table-column>
@@ -153,6 +199,8 @@ export default {
 			pageNum: 1,
 			pageSize: 10,
 			totalRows: 1,
+			//提示信息
+			tipsMsg: {},
 			ruleForm2: {
 				organNo: '',
 				userNo: "",
@@ -160,17 +208,7 @@ export default {
 				diffType: ''
 			},
 			socialInfoData: [
-				{
-					month: "",
-					userNo: "",
-					custName: "",
-					wagesBase: "",
-					wagesPerf: "",
-					postPension: "",
-					phonePension: "",
-					createdBy: "",
-					createdDate: ""
-				}
+				{wagesBase: ''}
 			],
 			//部门列表
 			departList: [],
@@ -184,6 +222,47 @@ export default {
 			],
 			rules: {
 				startDate: [
+				]
+			},
+			rules1: {
+				wagesBase: [
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'change' }
+				],
+				wagesPerf: [
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'change' }
+				],
+				postPension: [
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'change' }
+				],
+				phonePension: [
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'change' }
+				],
+				trafficPension: [
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'change' }
+				],
+				livingPension: [
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'change' }
+				],
+				overtimePay: [
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'change' }
+				],
+				otherPension: [
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'change' }
+				],
+				lateArrivalPay: [
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'change' }
+				],
+				leavePay: [
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'change' }
+				],
+				absentPay: [
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'change' }
+				],
+				perCommercialPay: [
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'change' }
+				],
+				comCommercialPay: [
+					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'change' }
 				]
 			}
 		}
@@ -204,6 +283,11 @@ export default {
 //		this.queryDerpList();
 	},
 	methods: {
+		commonFormatter(row, column) {
+			console.log('fomatter row', row);
+			console.log('fomatter column', column);
+			// return ;
+		},
 		perPayTotalFormatter(row, column) {
 	      return (Number(row.perEndmPay) + Number(row.perMediPay) + Number(row.perUnemPay) +Number(row.perEmplPay) +Number(row.perMatePay) + Number(row.perHousePay)).toFixed(2);
 	    },
@@ -246,23 +330,40 @@ export default {
 			this.queryWageInfoList();
 		},
 		//编辑单元格
-		handleEdit(val,valKey,row) {
-			console.log('row',row)
-			let params = {
-				batchNo: sessionStorage.getItem('entryWage_batchNo'),
-				userNo : row.userNo,
-				livingPension: row.livingPension,
-				perEndmPay: row.perEndmPay,
-				perMediPay: row.perMediPay,
-				perUnemPay: row.perUnemPay,
-				perEmplPay: row.perEmplPay,
-				perMatePay: row.perMatePay,
-				perHousePay: row.perHousePay,
-				pretaxTotal: row.pretaxTotal
-			};
-			params[valKey] = val;
-			//工资信息录入
-			this.modWageInfo(params);
+		handleEdit(val,index, row) {
+			console.log('val',val);
+			console.log('row',row);
+			if(/^\d{1,14}(\.\d{1,2})?$/.test(val)) {
+				console.log('test');
+				let params = {
+					batchNo: row.batchNo,
+					userNo : row.userNo,
+					livingPension: row.livingPension,
+					perEndmPay: row.perEndmPay,
+					perMediPay: row.perMediPay,
+					perUnemPay: row.perUnemPay,
+					perEmplPay: row.perEmplPay,
+					perMatePay: row.perMatePay,
+					perHousePay: row.perHousePay,
+					pretaxTotal: row.pretaxTotal,
+					perCommercialPay: row.perCommercialPay,//商保个人
+					comCommercialPay: row.comCommercialPay,//商保单位
+					wagesBase: row.wagesBase,  // 基础工资
+					postPension: row.postPension,  // 岗位工资
+					wagesPerf: row.wagesPerf, // 绩效工资
+					phonePension: row.phonePension,// 通讯补贴
+					trafficPension: row.trafficPension, // 交通补贴
+					livingPension: row.livingPension,  // 生活补贴
+					otherPension: row.otherPension, // 其他补贴
+					overtimePay: row.overtimePay,  // 加班工资
+					lateArrivalPay: row.lateArrivalPay, // 病事假扣款
+					absentPay: row.absentPay, // 旷工扣款
+					otherCutPay: row.otherCutPay
+				};
+				//工资信息录入
+				this.modWageInfo(params);
+			}
+			
 		},
 		//自动计算
 		handleCalc(index,row) {
@@ -275,6 +376,8 @@ export default {
 				perMatePay: row.perMatePay,
 				perHousePay: row.perHousePay,
 				pretaxTotal: row.pretaxTotal,
+				perCommercialPay: row.perCommercialPay,//商保个人
+				comCommercialPay: row.comCommercialPay,//商保单位
 				wagesBase: row.wagesBase,  // 基础工资
 				postPension: row.postPension,  // 岗位工资
 				wagesPerf: row.wagesPerf, // 绩效工资
@@ -288,7 +391,7 @@ export default {
 				absentPay: row.absentPay, // 旷工扣款
 				otherCutPay: row.otherCutPay
 			}
-			this.autoCaclWage(params);
+			this.autoCaclWage(index,params);
 		},
 		//保存
 		handleSave(index,row) {
@@ -302,6 +405,8 @@ export default {
 				perMatePay: row.perMatePay,
 				perHousePay: row.perHousePay,
 				pretaxTotal: row.pretaxTotal,
+				perCommercialPay: row.perCommercialPay,//商保个人
+				comCommercialPay: row.comCommercialPay,//商保单位
 				wagesBase: row.wagesBase,  // 基础工资
 				postPension: row.postPension,  // 岗位工资
 				wagesPerf: row.wagesPerf, // 绩效工资
@@ -367,7 +472,7 @@ export default {
 				console.log('error');
 			})
 		},
-		autoCaclWage(params) {
+		autoCaclWage(index,params) {
 			let self = this;
 			
 			self.$axios.post(baseURL+'/wage/reckonSingleWage', params)
@@ -375,9 +480,9 @@ export default {
 				console.log('cacl',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
-					self.socialInfoData[0].payTax = res.data.data.payTax;//回写扣税
-					self.socialInfoData[0].realHair = res.data.data.realHair;//回写实发
-					self.$set(self.socialInfoData, 0, self.socialInfoData[0]);
+					self.socialInfoData[index].payTax = res.data.data.payTax;//回写扣税
+					self.socialInfoData[index].realHair = res.data.data.realHair;//回写实发
+					self.$set(self.socialInfoData, index, self.socialInfoData[index]);
 				}
 				
 			}).catch(function(err) {
@@ -419,21 +524,24 @@ export default {
 </script>
 
 
-<style scoped>
-.payroll_query {
+<style>
+.entry_wage {
 	padding-left: 20px;
     padding-bottom: 20px;
 	width: 100%;
 }
-.payroll_query .imExport-btn-item {
+.entry_wage .imExport-btn-item {
     margin-right: 20px;
 }
-.el-button + .el-button {
-    margin-left: 20px;
-}
-.link {
+.entry_wage .link {
 	cursor: pointer;
     color: #337ab7;
     text-decoration: underline;
+}
+.entry_wage .el-table .cell .el-form-item {
+    margin-bottom: 0px;
+}
+.entry_wage .el-table .cell .el-form-item .el-form-item_error {
+    left: 30px;
 }
 </style>
