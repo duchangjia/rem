@@ -221,6 +221,7 @@
                                 :on-success="successUpload"
                                 :limit="3"
                                 :on-exceed="handleExceed"
+                                :headers="token"
                                 :file-list="fileList"
                                 :show-file-list="true">
                                 <el-button size="small" type="primary" class="">选取文件</el-button>
@@ -578,7 +579,11 @@ export default {
     // 附件上传
     handleFileUpload(file, fileList) { // 选择文件
       console.log("选中的fileList", fileList);
+
+      this.fileList = fileList;
+
       console.log("选中的this.fileList:", this.fileList);
+      
     },
     handleRemove(file, fileList) {  // 移除文件
       console.log(file, fileList);
