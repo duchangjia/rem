@@ -151,6 +151,9 @@
 					updateBy: "",
 					updateTime: ""
 				},
+				formdata2: {
+
+				},
 				//项目类型列表
                 projTypeList: [],
                 //收入类型列表
@@ -181,9 +184,9 @@
 	          			{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 	          		]
                 },
-                rules2: [
-
-                ]
+                rules2: {
+					
+				}
 			}
 		},
 		components: {
