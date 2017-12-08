@@ -175,7 +175,7 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :span="8">
-                                            <el-form-item label="直线经理">
+                                            <el-form-item label="直线经理" class="line-manager">
                                                 <el-input v-model="ruleForm.lineManager" :disabled="edit" readOnly>
                                                     <el-button slot="append" icon="search" @click="userNoSelect()" :disabled="edit"></el-button>
                                                 </el-input>
@@ -361,7 +361,7 @@
                                 <div class="third-wrapper">
                                     <div class="title"><span>工作经历</span><span  class="text" @click="add_pro_experience">继续添加</span></div>
                                     <div class="from-wrapper">
-                                        <div v-for="(item, index) in work_item.lists" style="margin-top: 20px; position: relative">
+                                        <div v-for="(item, index) in work_item.lists" style="margin-top: 30px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`third${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
                                                 <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
                                                 <el-col :span="12">
@@ -403,7 +403,7 @@
                                 <div class="fourth-wrapper">
                                     <div class="title"><span>教育背景</span><span class="text" @click="add_pro_experience">继续添加</span></div>
                                     <div class="from-wrapper">
-                                        <div v-for="(item, index) in education_item.lists" style="margin-top: 20px; position: relative">
+                                        <div v-for="(item, index) in education_item.lists" style="margin-top: 30px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fourth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
                                                 <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
                                                 <el-col :span="12">
@@ -440,8 +440,8 @@
                                                         </el-select>
                                                     </el-form-item>
                                                 </el-col>
-                                                <el-col :span="12">
-                                                    <el-form-item label="描述">
+                                                <el-col :span="24">
+                                                    <el-form-item label="描述" class="fifth_common">
                                                         <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
@@ -454,7 +454,7 @@
                                 <div class="fifth-wrapper">
                                     <div class="title"><span>项目经历</span><span class="text" @click="add_pro_experience">继续添加</span></div>
                                     <div class="from-wrapper">
-                                        <div v-for="(item, index) in project_item.lists" style="margin-top: 20px; position: relative">
+                                        <div v-for="(item, index) in project_item.lists" style="margin-top: 30px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fifth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
                                                 <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
                                                 <el-col :span="12">
@@ -1556,7 +1556,7 @@
                             const blob = res.data;
                             console.log(res)
                             let elink = document.createElement('a'); // 创建a标签
-                            elink.download = 'aaa.zip';
+                            elink.download = this.userNo+'.zip';
                             elink.style.display = 'none';
                             elink.href = URL.createObjectURL(blob);
                             document.body.appendChild(elink);
@@ -1914,13 +1914,12 @@
                             &:hover
                                 text-decoration underline
                     .from-wrapper
-                        margin-top 30px
                         .el-form
                             padding 40px 20px 18px 20px
                             background: #F4F4F4;
                             overflow hidden
                             .el-input
-                                width 445px
+                                width 425px
                                 height 40px
                             .el-input__inner
                                 width 100%
@@ -1957,7 +1956,7 @@
                                     text-decoration underline
                             .fifth_common
                                 .el-date-editor
-                                    width 210px
+                                    width 200px
                                 .el-textarea
                                     width 100%
                                 .el-textarea__inner
@@ -1989,11 +1988,6 @@
                                 color: #FFFFFF;
                                 line-height 40px
                                 text-align center
-                            .button_special
-                                background: #FFFFFF;
-                                color #333
-                                margin-right 20px
-                                margin 0 30px 0 20px
                             span
                                 cursor pointer
                                 &:hover
