@@ -8,37 +8,43 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata1')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="110px">
+				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="130px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="项目名称">
-							<el-input v-model="formdata1.projName" :disabled="true"></el-input>
+							<el-input v-model="formdata1.projName"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="收入类型">
-							<el-input v-model="formdata1.projIncmType" :disabled="true"></el-input>
+							<el-select v-model="formdata1.projIncmType">
+								<el-option v-for="item in projIncmTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="客户">
-						    <el-input v-model="formdata1.userNo" :disabled="true"></el-input>
+							<el-select v-model="formdata1.userNo">
+								<el-option v-for="item in userNoList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					 	</el-form-item>
 					</el-col>		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="服务管理模式">
-						    <el-input v-model="formdata1.fuwuModel" :disabled="true"></el-input>
+							<el-select v-model="formdata1.fuwuModel">
+								<el-option v-for="item in fuwuModelList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
 					  	</el-form-item>
 					</el-col>		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="项目类型">
-						    <el-select v-model="formdata1.projType" :disabled="true">
+						    <el-select v-model="formdata1.projType">
 								<el-option v-for="item in projTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="收入确认类型">
-						    <el-select v-model="formdata1.incmConfim" :disabled="true">
+						    <el-select v-model="formdata1.incmConfim">
 								<el-option v-for="item in incmConfimList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -56,9 +62,9 @@
 							</el-select>
 					  	</el-form-item>
 					</el-col>	 
-				  	<el-col :span="24">
+				  	<el-col :sm="24" :md="12">
 				  		<el-form-item class="xiangmuDidian" label="项目交付地" prop="xiangmuDidian">
-						    <el-input type="textarea" v-model="formdata1.xiangmuDidian"></el-input>
+						    <el-input type="text" v-model="formdata1.xiangmuDidian"></el-input>
 					  	</el-form-item>
 				  	</el-col>
                     <el-col :sm="24" :md="12">
@@ -157,9 +163,24 @@
 				//项目类型列表
                 projTypeList: [],
                 //收入类型列表
-                projIncmType: [
-                    {}
-                ],
+				projIncmTypeList: [
+					{paraValue: '01',paraShowMsg: 'Pipeline'},
+					{paraValue: '02',paraShowMsg: 'EATP'},
+					{paraValue: '03',paraShowMsg: 'Frotlog'},
+					{paraValue: '04',paraShowMsg: 'Backlog'}
+				],
+				//客户列表
+				userNoList: [
+					{paraValue: '01',paraShowMsg: '中国平安'},
+					{paraValue: '02',paraShowMsg: '招商银行'}
+				],
+				//服务管理模式列表
+				fuwuModelList: [
+					{paraValue: '01',paraShowMsg: '项目外包'},
+					{paraValue: '02',paraShowMsg: '人力外包'},
+					{paraValue: '03',paraShowMsg: '解决方案'},
+					{paraValue: '04',paraShowMsg: '其他'}
+				],
 				//收入确认类型列表
                 incmConfimList: [],
                 //订单类型列表

@@ -86,7 +86,6 @@
 </template>
 
 <script>
-	import Bus from '../../../common/Bus.js'
 	import current from '../../common/current_position.vue'
 	const baseURL = 'iem_hrm'
 	export default {
