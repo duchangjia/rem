@@ -216,9 +216,6 @@
         },
         mounted() {
             let self = this;
-            // self.drawBar();
-            // self.drawLine();  
-            // self.drawSmBar();
             self.leaveDraw();//请假信息
             self.drawSmLine();   
             self.monthChoose(2);//离入职图表
@@ -297,6 +294,8 @@
                             monthArray.push(data[i].month)
                             leaveArray.push(data[i].leaveNum)
                         }
+                       monthArray =  monthArray.slice(0,6);
+                       leaveArray = leaveArray.slice(0,6);
                         self.drawSmBar(monthArray,leaveArray);
                 })
             },
@@ -313,7 +312,7 @@
                     //标题，每个图表最多仅有一个标题控件，每个标题控件可设主副标题
                     title: {
                         //主标题文本，'\n'指定换行
-                        text: '入离职情况',
+                        text: '入离职情况(人)',
                         //主标题文本超链接
                         link: '',
                         //副标题文本，'\n'指定换行
@@ -352,7 +351,7 @@
                         //触发类型，默认（'item'）数据触发，可选为：'item' | 'axis'
                         trigger: 'axis',
                         //悬浮后的单位
-                        formatter:'{b1}<br/>{a0}:{c0}人<br/>{a1}:{c1}人'
+                        // formatter:'{b1}<br/>{a0}:{c0}人<br/>{a1}:{c1}人'
                     },
                     //图例，每个图表最多仅有一个图例
                     legend: {
