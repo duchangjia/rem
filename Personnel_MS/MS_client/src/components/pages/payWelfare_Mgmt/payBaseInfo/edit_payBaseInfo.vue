@@ -223,7 +223,7 @@
                                 :on-exceed="handleExceed"
                                 :file-list="fileList"
                                 :show-file-list="true">
-                                <el-button size="small" type="primary" class="downloadBtn">选取文件</el-button>
+                                <el-button size="small" type="primary" class="">选取文件</el-button>
                             </el-upload>
 				  	            </el-form-item>
                     </el-col>
@@ -577,16 +577,12 @@ export default {
 
     // 附件上传
     handleFileUpload(file, fileList) { // 选择文件
-      // this.fileList = fileList;
-      this.editPayBaseInfo.attachm = "";
-      fileList.forEach(function(item) {
-        this.editPayBaseInfo.attachm += item.name + " ";
-      }, this);
       console.log("选中的fileList", fileList);
       console.log("选中的this.fileList:", this.fileList);
     },
     handleRemove(file, fileList) {  // 移除文件
       console.log(file, fileList);
+      console.log('移除的file',file);
     },
     handlePreview(file) { // 点击已上传的文件链接时
       console.log(file);
