@@ -59,7 +59,7 @@
             }
         }
         .upload-demo {
-            height: 0;
+            height: auto;
             .uploadBtn{
                 position: absolute;
                 height:40px;
@@ -74,6 +74,16 @@
             }
             .el-upload__input{
                 display:none;
+            }
+            .el-button--primary {
+                height: 40px;
+                background-color: #ff9900;
+                border-color: #ff9900;
+            }
+            .el-button--primary:focus, 
+            .el-button--primary:hover {
+                background: #ff9900;
+                border-color: #ff9900;
             }
         }
         .el-textarea__inner{
