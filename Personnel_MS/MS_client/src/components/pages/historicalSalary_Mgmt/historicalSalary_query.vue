@@ -43,32 +43,34 @@
                     </el-col>
                 </el-form>
             </el-col>
-            <el-table stripe :data="assetInfoList" border>
-                <el-table-column align="center" prop="batchName" label="名称">
+            <el-table stripe :data="assetInfoList" border stripe style="width: 100%">
+                <el-table-column align="center" prop="batchName" label="名称" min-width = "120px">
                 </el-table-column>
-                <el-table-column align="center" prop="userNo" label="工号">
+                <el-table-column align="center" prop="userNo" label="工号" min-width = "120px">
                 </el-table-column>
-                <el-table-column align="center" prop="userName" label="姓名">
+                <el-table-column align="center" prop="userName" label="姓名" min-width = "120px">
                 </el-table-column>
-                <el-table-column align="center" prop="wagesBase" label="基础工资">
+                <el-table-column align="center" prop="wagesBase" label="基础工资" min-width = "120px">
                 </el-table-column>
-                <el-table-column align="center" prop="wagesPerf" label="绩效工资">
+                <el-table-column align="center" prop="wagesPerf" label="绩效工资" min-width = "120px">   
                 </el-table-column>
-                <el-table-column align="center" prop="otherPension" label="其他补贴">
+                <el-table-column align="center" prop="payBonus" label="当月奖金(+)" min-width = "120px">
                 </el-table-column>
-                <el-table-column align="center" prop="payCut" label="当月扣款(-)" style="text-wrap:normal;">
+                <el-table-column align="center" prop="pension" label="当月补贴(+)"  min-width = "120px">
                 </el-table-column>
-                <el-table-column align="center" prop="payBonus" label="当月奖金(+)">
+                <el-table-column align="center" prop="otherPension" label="其他奖金和补贴"  min-width = "120px">
                 </el-table-column>
-                <el-table-column align="center" prop="payAdjust" label="当月调整(+)">
+                <el-table-column align="center" prop="payCut" label="当月扣款(-)" min-width = "120px">
                 </el-table-column>
-                <el-table-column align="center" prop="perPublicFund" label="公积金">
+                <el-table-column align="center" prop="payAdjust" label="当月调整(+)" min-width = "120px">
                 </el-table-column>
-                <el-table-column align="center" prop="perSocialPay" label="社保">
+                <el-table-column align="center" prop="perPublicFund" label="个人公积金"  min-width = "120px">
                 </el-table-column>
-                <el-table-column align="center" prop="payTax" label="个人扣税部分">
+                <el-table-column align="center" prop="perSocialPay" label="个人社保" min-width = "120px">
                 </el-table-column>
-                <el-table-column align="center" prop="realHair" label="合计(实发)">
+                <el-table-column align="center" prop="payTax" label="个人扣税部分" min-width = "120px">
+                </el-table-column>
+                <el-table-column align="center" prop="realHair" label="合计(实发)" min-width = "120px">
                 </el-table-column>
             </el-table>
             <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">

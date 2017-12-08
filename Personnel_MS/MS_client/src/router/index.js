@@ -764,18 +764,18 @@ const routes = [
                 ]
             },
             {
-                path: '/historicalSalary_Mgmt',
+                path: '/historicalSalary_query',
                 component: resolve => require(['../components/pages/historicalSalary_Mgmt/historicalSalary_Mgmt.vue'], resolve),
                 children: [
                     {
                         path: '/',
                         component: resolve => require(['../components/pages/historicalSalary_Mgmt/historicalSalary_query.vue'], resolve)
                     },
-                    {
-                        name: 'historicalSalary_query',
-                        path: '/historicalSalary_query',
-                        component: resolve => require(['../components/pages/historicalSalary_Mgmt/historicalSalary_query.vue'], resolve)
-                    },
+                    //{
+                    //    name: 'historicalSalary_query',
+                    //    path: '/historicalSalary_query',
+                    //    component: resolve => require(['../components/pages/historicalSalary_Mgmt/historicalSalary_query.vue'], resolve)
+                    //},
                 ]
             },
             // {
