@@ -214,18 +214,6 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
-				  		              <!-- <el-input v-model="editPayBaseInfo.attachm"></el-input>
-                            <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" 
-                                :on-change="handleFileUpload" 
-                                :on-success="successUpload"
-                                :file-list="fileList"
-                                :show-file-list="true" 
-                                :auto-upload="false"
-                                :headers="token"
-                                :name="filesName"
-                                :multiple="true">
-                                <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
-                            </el-upload> -->
                             <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
                                 :on-preview="handlePreview"
                                 :on-remove="handleRemove"
@@ -233,7 +221,8 @@
                                 :on-success="successUpload"
                                 :limit="3"
                                 :on-exceed="handleExceed"
-                                :file-list="fileList">
+                                :file-list="fileList"
+                                :show-file-list="true">
                                 <el-button size="small" type="primary" class="downloadBtn">选取文件</el-button>
                             </el-upload>
 				  	            </el-form-item>
@@ -494,6 +483,13 @@ export default {
         .then(res => {
           self.editPayBaseInfo = res.data.data;
           console.log("editPayBaseInfo", self.editPayBaseInfo);
+
+          self.editPayBaseInfo.epFileManageList.forEach(function(ele) {
+            self.fileList.push({name: ele.fileName + "." + ele.fileSuffix, url: ele.fileAddr});
+          }, this);
+          
+          console.log('当前的fileList', self.fileList);
+
         })
         .catch(() => {
           console.log("error");
