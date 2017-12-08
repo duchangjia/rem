@@ -25,5 +25,11 @@ export default{
     //首页=>权限查询显示菜单
     jurisdictionUrl:baseUrl+'menu/queryMenuInfo',
     //开票信息查询
-    billUrl:baseUrl+'epOrganBillInfoBySelf/queryBillInfoBySelf'
+    billUrl:baseUrl+'epOrganBillInfoBySelf/queryBillInfoBySelf',
+    //人事管理系统首页=>入职离职表
+    queryStaffFlow:baseUrl+'staffFlow/queryStaffFlow',
+    //人事管理系统首页=>请假情况表
+    leaveForm:baseUrl+'leave/leaveForm',
+    //人事管理系统首页=>薪酬发放报表
+    queryPayroll:baseUrl+'epPayrollForm/queryPayroll/?month='
 }
