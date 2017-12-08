@@ -287,7 +287,7 @@ export default {
         remark: ""
       },
       salaryTop: 0,
-      filesName: "file",
+      filesName: "files",
       fileList: [],
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
