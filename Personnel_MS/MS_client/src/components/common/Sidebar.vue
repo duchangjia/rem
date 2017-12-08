@@ -149,10 +149,10 @@ export default {
 							menuUrl: 'overtime_management',
 							menuName: '加班管理'
 						},
-						{
-							menuUrl: 'preSale_query',
-							menuName: '售前立项'
-						}
+						// {
+						// 	menuUrl: 'preSale_query',
+						// 	menuName: '售前立项'
+						// }
 					]
 				},
 				{
