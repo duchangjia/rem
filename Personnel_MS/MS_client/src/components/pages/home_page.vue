@@ -66,7 +66,7 @@
                 <div class="canvas-box" id="bar_Chart"></div>
             </el-col>
             <div class="chart-button-list">
-                <span class="c-dark" v-for="(item,index) of monthList" @click="monthChoose(index)" :class="{'active':index==number}">{{item.month}}</span>
+                <span class="c-dark" v-for="(item,index) of monthList" @click="monthChoose(index,item)" :class="{'active':index==number}">{{item.month}}</span>
             </div>
         </el-row>
         <el-row class="news-list common-chart">
@@ -74,7 +74,7 @@
                 <div class="canvas-box" id="line_Chart"></div>
             </el-col>
             <div class="chart-button-list">
-                <span class="c-dark" v-for="(item,index) of monthList" @click="monthChoosePay(index)" :class="{'active':index==payNumber}">{{item.month}}</span>
+                <span class="c-dark" v-for="(item,index) of monthList" @click="monthChoosePay(index,item)" :class="{'active':index==payNumber}">{{item.month}}</span>
             </div>
         </el-row>
         <el-row :gutter="20" class="news-list common-chart">
@@ -91,7 +91,8 @@
 <script>
     import current from '../common/current_position.vue'
     import api from '../../common/api/api.js'
-    let{ jurisdictionUrl  } = api
+    let{ jurisdictionUrl,queryStaffFlow,leaveForm,queryPayroll} = api
+   
     export default {
         data() {
             return {
@@ -193,13 +194,19 @@
                 ],
                 monthList:[
                     {
-                        month:'近3月'
+                        month:'近3月',
+                        type:'01',
+                        payMonth:3
                     },
                     {
-                        month:'近6月'
+                        month:'近6月',
+                        type:'02',
+                        payMonth:6
                     },
                     {
-                        month:'近一年'
+                        month:'近一年',
+                        type:'03',
+                        payMonth:12
                     }
                 ]
             }
@@ -209,11 +216,13 @@
         },
         mounted() {
             let self = this;
-            self.drawBar();
-            self.drawLine();  
-            self.drawSmBar();
+            // self.drawBar();
+            // self.drawLine();  
+            // self.drawSmBar();
+            self.leaveDraw();//请假信息
             self.drawSmLine();   
-            self.getList();
+            self.monthChoose(2);//离入职图表
+            self.monthChoosePay(2);//薪酬发放
         },
         methods: {
             linkTo(url){
@@ -225,18 +234,78 @@
                     console.log(res)
                 })
             },
-            monthChoose(index){
-                this.number=index
+            monthChoose(index,item){
+                let params ={},
+                    self = this;
+                    if(item){
+                        params = {
+                            monthGapType:item.type
+                        };
+                    }else{
+                        params = {
+                            monthGapType:'03'
+                        };
+                    }
+                    
+                self.number=index
+                self.$axios.post(queryStaffFlow,params).then(res=>{
+                    let inJobArray = [],
+                        monthArray = [],
+                        outJobArray = [],
+                        data = res.data.data;
+
+                        for(let i = 0;i<data[0].length;i++){
+                            inJobArray.push(data[0][i].count);
+                            monthArray.push(data[0][i].month)
+                        }
+                       for(let i = 0;i<data[1].length;i++){
+                            outJobArray.push(data[1][i].count)
+                        }
+                    // console.log(data,inJobArray,outJobArray,monthArray)
+                    self.drawBar(inJobArray,outJobArray,monthArray)
+                })
             },
-            monthChoosePay(index){
-                this.payNumber=index
+            monthChoosePay(index,item){
+                let self = this,
+                    params = '';
+
+                    if(item){
+                        params = item.payMonth;
+                    }else{
+                        params = 12;
+                    }
+                    
+                self.payNumber=index
+                self.$axios.get(queryPayroll+params).then(res=>{
+                    let monthArray = [],
+                        payArray = [],
+                        data = res.data.data;
+                    for(let i = 0;i<data.length;i++){
+                        monthArray.push(data[i].month)
+                        payArray.push(data[i].realHairTotal)
+                    }
+                    self.drawLine(monthArray,payArray);
+                })
+            },
+            leaveDraw(){
+                let self = this;
+                 self.$axios.get(leaveForm).then(res=>{
+                     let monthArray = [],
+                        leaveArray = [],
+                        data = res.data.data;
+                        for(let i = 0;i<data.length;i++){
+                            monthArray.push(data[i].month)
+                            leaveArray.push(data[i].leaveNum)
+                        }
+                        self.drawSmBar(monthArray,leaveArray);
+                })
             },
             draw(id,option){
                 let myChart = this.$echarts.init(document.getElementById(id));
                 //为echarts对象加载数据
                 myChart.setOption(option);
             },
-            drawBar(){
+            drawBar(inJobArray,outJobArray,monthArray){
                 let self = this,
                     id = 'bar_Chart',
                 //定义图表option
@@ -316,7 +385,7 @@
                             //坐标轴类型，横轴默认为类目型'category'
                             type: 'category',
                             //类目型坐标轴文本标签数组，指定label内容。 数组项通常为文本，'\n'指定换行
-                            data: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+                            data: monthArray,
                             axisLabel: {
                                 show: true,
                                 textStyle: {
@@ -367,7 +436,7 @@
                             //图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。
                             type: 'bar',
                             //系列中的数据内容数组，折线图以及柱状图时数组长度等于所使用类目轴文本标签数组axis.data的长度，并且他们间是一一对应的。数组项通常为数值
-                            data: [50, 40, 70, 230, 250,300, 350,360, 320, 420, 480,430],
+                            data: inJobArray,
                             //柱状图的颜色
                             itemStyle:{
                                 normal:{
@@ -381,7 +450,7 @@
                             //图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。
                             type: 'bar',
                             //系列中的数据内容数组，折线图以及柱状图时数组长度等于所使用类目轴文本标签数组axis.data的长度，并且他们间是一一对应的。数组项通常为数值
-                            data: [40, 30, 60, 220, 240,290, 340,350, 300, 400, 450,420],
+                            data: outJobArray,
                             //柱状图的颜色
                             itemStyle:{
                                 normal:{
@@ -394,7 +463,7 @@
                 };
                 self.draw(id,option);
             },
-            drawLine() {
+            drawLine(monthArray,payArray) {
                 let self = this,
                     id = 'line_Chart',
                     option = {
@@ -436,7 +505,7 @@
 
                         },
                         xAxis: {
-                            data: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
+                            data: monthArray,
                             axisLabel: {
                                 show: true,
                                 textStyle: {
@@ -452,7 +521,7 @@
                         yAxis:[
                             {
                                 min: 0,
-                                max: 500,
+                                max: 1000,
                                 splitArea: {show: true},
                                 axisLabel: {
                                     show: true,
@@ -471,13 +540,13 @@
                             type:'line',
     //                        yAxisIndex: 1,   //如果是双Y轴坐标，index1表示使用右侧Y轴
                             smooth: true,
-                            data: [50, 250, 150, 300, 270, 450,50, 250, 150, 300, 270, 450]
+                            data: payArray
                         }],
                    
                 }
                 self.draw(id,option);
             },
-            drawSmBar(){
+            drawSmBar(monthArray,leaveArray){
                 let self = this,
                     id = 'smBar_Chart',
                     //定义图表option
@@ -547,7 +616,7 @@
                             //坐标轴类型，横轴默认为类目型'category'
                             type: 'category',
                             //类目型坐标轴文本标签数组，指定label内容。 数组项通常为文本，'\n'指定换行
-                            data: ['一月','二月','三月','四月','五月','六月','七月'],
+                            data: monthArray,
                             axisLabel: {
                                 show: true,
                                 textStyle: {
@@ -598,7 +667,7 @@
                             //图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。
                             type: 'bar',
                             //系列中的数据内容数组，折线图以及柱状图时数组长度等于所使用类目轴文本标签数组axis.data的长度，并且他们间是一一对应的。数组项通常为数值
-                            data: [50, 40, 70, 230, 250,300, 350],
+                            data: leaveArray,
                             //柱状图的颜色
                             itemStyle:{
                                 normal:{
@@ -608,6 +677,7 @@
                         }
                     ]
                 };
+               
                 self.draw(id,option);
             },
             drawSmLine(){
