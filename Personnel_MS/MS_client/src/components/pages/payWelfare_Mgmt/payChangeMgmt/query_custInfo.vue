@@ -99,6 +99,7 @@ export default {
         .then(res => {
           console.log('custInfoList',res);
           self.custInfoList = res.data.data.list;
+          self.totalRows = res.data.data.total;
         })
         .catch(() => {
           console.log("error");
