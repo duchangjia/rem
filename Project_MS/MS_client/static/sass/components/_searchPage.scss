@@ -43,7 +43,7 @@
         padding: 30px 0px;
         .el-form-item__label {
             color: #999999;
-            padding:11px 10px 8px 0;
+            // padding:11px 10px 8px 0;
             margin: 0;
             font-weight: normal;
         }
@@ -100,11 +100,22 @@
                 }
             }
             .btn-next {
-                border-left: 1px solid #d1dbe5;
+                border: 1px solid #d1dbe5;
+                border-radius: 0 2px 2px 0;
+                padding-left: 0;
+            }
+            .btn-prev {
+                border: 1px solid #d1dbe5;
+                border-radius: 2px 0 0 2px;
+                padding-right: 0;
             }
             .el-pagination__editor {
-                padding: 2px 2px;
+                padding: 0;
                 width: 24px;
+                .el-input__inner {
+                    width: 24px;
+                    height: 24px;
+                }
             }
             button,span{
                 display: inline-block;
