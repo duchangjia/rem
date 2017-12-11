@@ -31,5 +31,7 @@ export default{
     //人事管理系统首页=>请假情况表
     leaveForm:baseUrl+'leave/leaveForm',
     //人事管理系统首页=>薪酬发放报表
-    queryPayroll:baseUrl+'epPayrollForm/queryPayroll/?month='
+    queryPayroll:baseUrl+'epPayrollForm/queryPayroll',
+    //人事管理系统首页=>合同到期表
+    queryPactForm:baseUrl+'pactStatis/queryPactForm'
 }

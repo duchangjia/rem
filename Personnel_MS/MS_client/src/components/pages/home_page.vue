@@ -1,9 +1,5 @@
 <template>
     <div class="home_page">
-        <!--<div class="location-wrapper">-->
-            <!--<span class="current-location">当前位置：首页</span>-->
-            <!--<span class="search"><input type="text" class="search-text"><i class="search-icon"></i></span>-->
-        <!--</div>-->
         <current yiji="首页"></current>
         <el-row>
             <el-col :span="24">
@@ -11,7 +7,7 @@
                     <li class="list-item cur-pointer" v-for="(item, index) in listObj" v-if="item.show" @click="linkTo(item.url)">
                         <img :src="`../../../static/img/home/${item.img}.png`" alt="" width="56" height="56">
                         <div class="des">
-                            <div class="count" v-bind:class="item.class">{{item.listData}}</div>
+                            <div class="count" v-bind:class="item.class"></div>
                             <div class="text">{{item.listText}}</div>
                         </div>
                     </li>
@@ -61,28 +57,33 @@
                 </div>
             </div>
         </el-row>
-        <el-row class="news-list common-chart">
-            <el-col :span="24">
-                <div class="canvas-box" id="bar_Chart"></div>
-            </el-col>
-            <div class="chart-button-list">
-                <span class="c-dark" v-for="(item,index) of monthList" @click="monthChoose(index,item)" :class="{'active':index==number}">{{item.month}}</span>
-            </div>
-        </el-row>
-        <el-row class="news-list common-chart">
-            <el-col :span="24">
-                <div class="canvas-box" id="line_Chart"></div>
-            </el-col>
-            <div class="chart-button-list">
-                <span class="c-dark" v-for="(item,index) of monthList" @click="monthChoosePay(index,item)" :class="{'active':index==payNumber}">{{item.month}}</span>
-            </div>
-        </el-row>
-        <el-row :gutter="20" class="news-list common-chart">
+
+        <v-DrawBar 
+        :rightList="monthList"
+        :option="entryOption"
+        @jobEchart="jobEchart"
+        echartId="jobEchart"
+        ></v-DrawBar>
+        <v-DrawLine 
+        :rightList="monthList"
+        :option="salaryOption"
+        @salaryEchart="salaryEchart"
+        echartId="salaryEchart"
+        ></v-DrawLine>
+        <el-row :gutter="20">
             <el-col :span="12">
-                <div class="canvas-box" id="smBar_Chart"></div>
+                <v-DrawBar 
+                    :rightList="[]"
+                    :option="leaveOption"
+                    echartId="leaveEchart"
+                ></v-DrawBar>
             </el-col>
             <el-col :span="12">
-                <div class="canvas-box" id="smLine_Chart"></div>
+                <v-DrawLine 
+                    :rightList="[]"
+                    :option="contractOption"
+                    echartId="contractEchart"
+                ></v-DrawLine>
             </el-col>
         </el-row>
     </div>
@@ -90,14 +91,19 @@
 
 <script>
     import current from '../common/current_position.vue'
+    import vDrawBar from '../common/echart/drawBar.vue'
+    import vDrawLine from '../common/echart/drawLine.vue'
     import api from '../../common/api/api.js'
-    let{ jurisdictionUrl,queryStaffFlow,leaveForm,queryPayroll} = api
-   
+    let{queryStaffFlow,leaveForm,queryPayroll,queryPactForm} = api
     export default {
         data() {
             return {
                 number:0,
                 payNumber:0,
+                entryOption:{},
+                salaryOption:{},
+                leaveOption:{},
+                contractOption:{},
                 listObj:[
                     {
                         img:'ygxxcx1',
@@ -212,14 +218,14 @@
             }
         },
         components: {
-          current,
+          current,vDrawBar,vDrawLine
         },
         mounted() {
             let self = this;
-            self.leaveDraw();//请假信息
-            self.drawSmLine();   
-            self.monthChoose(2);//离入职图表
-            self.monthChoosePay(2);//薪酬发放
+            self.leaveEchart();//请假信息
+            self.contractEchart();//合同到期   
+            self.jobEchart();//离入职图表
+            self.salaryEchart();//薪酬发放
         },
         methods: {
             linkTo(url){
@@ -231,7 +237,8 @@
                     console.log(res)
                 })
             },
-            monthChoose(index,item){
+            jobEchart(item){
+                console.log(item);
                 let params ={},
                     self = this;
                     if(item){
@@ -244,7 +251,7 @@
                         };
                     }
                     
-                self.number=index
+                // self.number=index
                 self.$axios.post(queryStaffFlow,params).then(res=>{
                     let inJobArray = [],
                         monthArray = [],
@@ -262,18 +269,18 @@
                     self.drawBar(inJobArray,outJobArray,monthArray)
                 })
             },
-            monthChoosePay(index,item){
+            salaryEchart(item){
                 let self = this,
-                    params = '';
+                    params = {};
 
                     if(item){
-                        params = item.payMonth;
+                        params = {month:item.payMonth};
                     }else{
-                        params = 12;
+                        params = {month:12};
                     }
                     
-                self.payNumber=index
-                self.$axios.get(queryPayroll+params).then(res=>{
+                // self.payNumber=index
+                self.$axios.get(queryPayroll,{params:params}).then(res=>{
                     let monthArray = [],
                         payArray = [],
                         data = res.data.data;
@@ -284,7 +291,7 @@
                     self.drawLine(monthArray,payArray);
                 })
             },
-            leaveDraw(){
+            leaveEchart(){
                 let self = this;
                  self.$axios.get(leaveForm).then(res=>{
                      let monthArray = [],
@@ -294,21 +301,28 @@
                             monthArray.push(data[i].month)
                             leaveArray.push(data[i].leaveNum)
                         }
-                       monthArray =  monthArray.slice(0,6);
-                       leaveArray = leaveArray.slice(0,6);
                         self.drawSmBar(monthArray,leaveArray);
                 })
             },
-            draw(id,option){
-                let myChart = this.$echarts.init(document.getElementById(id));
-                //为echarts对象加载数据
-                myChart.setOption(option);
+            contractEchart(){
+                let self = this;
+                self.$axios.get( queryPactForm).then(res=>{
+                    let monthArray = [],
+                        contractArray = [],
+                        data = res.data.data;
+                        for(let i = 0;i<data.length;i++){
+                            monthArray.push(data[i].month)
+                            contractArray.push(data[i].pactNum)
+                        }
+                        self.drawSmLine(monthArray,contractArray);
+                }).catch(e=>{
+
+                })
             },
             drawBar(inJobArray,outJobArray,monthArray){
-                let self = this,
-                    id = 'bar_Chart',
+                let self = this;
                 //定义图表option
-                    option = {
+                    self.entryOption = {
                     //标题，每个图表最多仅有一个标题控件，每个标题控件可设主副标题
                     title: {
                         //主标题文本，'\n'指定换行
@@ -459,13 +473,11 @@
                            
                         }
                     ]
-                };
-                self.draw(id,option);
+                }
             },
             drawLine(monthArray,payArray) {
-                let self = this,
-                    id = 'line_Chart',
-                    option = {
+                let self = this;
+                    self.salaryOption = {
                         title: {
                             text: '薪酬发放',//水平安放位置，默认为左侧，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
                             x: 'left',
@@ -537,19 +549,15 @@
                         ],
                         series: [{
                             type:'line',
-    //                        yAxisIndex: 1,   //如果是双Y轴坐标，index1表示使用右侧Y轴
                             smooth: true,
                             data: payArray
-                        }],
-                   
+                        }]
                 }
-                self.draw(id,option);
             },
             drawSmBar(monthArray,leaveArray){
-                let self = this,
-                    id = 'smBar_Chart',
+                let self = this;
                     //定义图表option
-                    option = {
+                    self.leaveOption = {
                     //标题，每个图表最多仅有一个标题控件，每个标题控件可设主副标题
                     title: {
                         //主标题文本，'\n'指定换行
@@ -675,14 +683,15 @@
                             }
                         }
                     ]
+
                 };
                
-                self.draw(id,option);
+                // self.draw(id,option);
             },
-            drawSmLine(){
-                 let self = this,
-                    id = 'smLine_Chart',
-                    option = {
+            drawSmLine(monthArray,contractArray){
+                let self = this;
+                
+                self.contractOption = {
                         title: {
                             text: '合同到期',//水平安放位置，默认为左侧，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
                             x: 'left',
@@ -721,7 +730,7 @@
 
                         },
                         xAxis: {
-                            data: ['一月','二月','三月','四月','五月','六月','七月'],
+                            data: monthArray,
                             axisLabel: {
                                 show: true,
                                 textStyle: {
@@ -754,12 +763,10 @@
                         ],
                         series: [{
                             type:'line',
-    //                        yAxisIndex: 1,   //如果是双Y轴坐标，index1表示使用右侧Y轴
                             smooth: true,
-                            data: [50, 250, 150, 300, 270, 450,50]
+                            data: contractArray
                         }],
                     };
-                    self.draw(id,option);
             }
         }
     }
@@ -782,7 +789,7 @@
                 }
                 .count{
                     float: right;
-                    margin-bottom: 12px;
+                    margin-bottom: 20px;
                     font-family: PingFangSC-Regular;
                     font-size: 24px;
                     letter-spacing: -0.58px;
