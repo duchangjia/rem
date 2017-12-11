@@ -235,6 +235,7 @@
 					
 			},
 			changeEndTime(time) {
+				// this.formdata2.travelEndTime = time;
 				this.travelEndTime = time;
 				if(this.caclEndtimeFlag) {
 					let params = {
