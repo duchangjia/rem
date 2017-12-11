@@ -224,7 +224,7 @@
                                 :headers="token"
                                 :file-list="fileList"
                                 :show-file-list="true">
-                                <el-button size="small" type="primary" class="">选取文件</el-button>
+                                <el-button size="small" type="primary">选取文件</el-button>
                             </el-upload>
 				  	            </el-form-item>
                     </el-col>
@@ -253,7 +253,6 @@ export default {
       custInfo: {},
       editPayBaseInfo: {},
       salaryTop: 0,
-      filesName: "files",
       fileList: [],
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
