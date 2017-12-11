@@ -364,27 +364,27 @@ export default {
 		handleCalc(index,row) {
 			console.log('row',row);
 			let params = {
-				perEndmPay: row.perEndmPay,
-				perMediPay: row.perMediPay,
-				perUnemPay: row.perUnemPay,
-				perEmplPay: row.perEmplPay,
-				perMatePay: row.perMatePay,
-				perHousePay: row.perHousePay,
-				pretaxTotal: row.pretaxTotal,
-				perCommercialPay: row.perCommercialPay,//商保个人
-				comCommercialPay: row.comCommercialPay,//商保单位
-				wagesBase: row.wagesBase,  // 基础工资
-				postPension: row.postPension,  // 岗位工资
-				wagesPerf: row.wagesPerf, // 绩效工资
-				phonePension: row.phonePension,// 通讯补贴
-				trafficPension: row.trafficPension, // 交通补贴
-				livingPension: row.livingPension,  // 生活补贴
-				otherPension: row.otherPension, // 其他补贴
-				payBonus: row.payBonus, // 绩效奖金
-				overtimePay: row.overtimePay,  // 加班工资
-				lateArrivalPay: row.lateArrivalPay, // 病事假扣款
-				absentPay: row.absentPay, // 旷工扣款
-				otherCutPay: row.otherCutPay
+				wagesBase: row.wagesBase, //基本工资
+				wagesPerf: row.wagesPerf,	//绩效工资
+				postPension: row.postPension,	//岗位补贴
+				phonePension: row.phonePension,	//通讯补贴
+				trafficPension: row.trafficPension, 	//交通补贴
+				livingPension: row.livingPension,	//生活补贴
+				bonusPerf: row.bonusPerf,	//绩效奖金
+				overtimePay: row.overtimePay,	//加班工资
+				otherPension: row.otherPension,	//其他补贴
+				lateArrivalPay: row.lateArrivalPay,	//迟到早退
+				leavePay: row.leavePay,	//病事假
+				absentPay: row.absentPay,	//旷工
+				perCommercialPay: row.perCommercialPay,	//个人商业保险
+				otherCutPay: row.otherCutPay,	//其他扣款
+				perHousePay: row.perHousePay,	//个人公积基金
+				perEndmPay: row.perEndmPay,	//个人养老
+				perMediPay: row.perMediPay,	//个人医疗
+				perUnemPay: row.perUnemPay,	//个人失业 
+				perEmplPay: row.perEmplPay,	//个人工伤
+				perMatePay: row.perMatePay,	//个人生育
+				pretaxTotal: row.pretaxTotal	//税前合计
 			}
 			this.autoCaclWage(index,params);
 		},
