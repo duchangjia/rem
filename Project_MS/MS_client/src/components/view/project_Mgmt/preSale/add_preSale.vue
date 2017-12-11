@@ -1,11 +1,11 @@
 <template>
-	<div class="info_wrapper">
+	<div class="add_preSale">
 		<current yiji="项目管理" erji="售前立项" sanji="售前立项新增">
 		</current>
 		<div class="content-wrapper">
 			<div class="titlebar">
 				<span class="title-text">售前立项新增</span>
-				<el-button type="primary" class="toolBtn" @click="save('formdata1')">保存</el-button>
+				<!-- <el-button type="primary" class="toolBtn" @click="save('formdata1')">保存</el-button> -->
 			</div>
 			<div class="add-wrapper">
 				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="130px">
@@ -85,24 +85,81 @@
                 </el-form>
                 <el-col :span="24" class="item-title">销售信息</el-col>  
                 <el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="110px">
-					
-				  	<el-col :sm="24" :md="12">
-						<el-form-item label="附件" style="width: 100%;">
-				  		 	<el-input v-model="formdata1.attachm"></el-input>
-					  		<el-upload class="upload-demo" ref="upload" name="file"
-					  			 :data="formdata"
-					  			 :on-change="changeUpload"
-					  			 :on-success="successUpload"
-					  			 action="/iem_hrm/workot/modifyWorkOtInfo" 
-					  			 :show-file-list="false" 
-					  			 :auto-upload="false"
-					  			 :headers="token"
-					  		>
-	                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
-	                        </el-upload>
+					<el-col :sm="24" :md="12">
+				  		<el-form-item label="销售" prop="xiaoshou">
+						    <el-input type="text" v-model="formdata2.xiaoshou"></el-input>
 					  	</el-form-item>
-					</el-col>
+				  	</el-col>
+					  <el-col :sm="24" :md="12">
+				  		<el-form-item label="销售主管" prop="xiaoshouManger">
+						    <el-input type="text" v-model="formdata2.xiaoshouManger"></el-input>
+					  	</el-form-item>
+				  	</el-col>
+					<el-col :sm="24" :md="12">
+				  		<el-form-item label="项目说明" prop="xiangmuRemark">
+						    <el-input type="text" v-model="formdata2.xiangmuRemark"></el-input>
+					  	</el-form-item>
+				  	</el-col>
 				</el-form>
+				<el-col :span="24" class="item-title">立项预算</el-col>
+				<!-- <el-upload class="upload-demo" ref="upload" name="file"
+					:data="formdata"
+					:on-change="changeUpload"
+					:on-success="successUpload"
+					action="" 
+					:show-file-list="false" 
+					:auto-upload="false"
+					:headers="token"
+				>
+					<el-button slot="trigger" type="primary" class="uploadBtn">上传立项申请表</el-button>
+				</el-upload> -->
+				<el-form ref="formdata3" :inline="true"  :rules="rules3" :model="formdata3" label-width="110px">
+					<el-col :sm="24" :md="12">
+				  		<el-form-item label="总工作量" prop="xiaoshou">
+						    <el-input type="text" v-model="formdata3.xiaoshou"></el-input>
+					  	</el-form-item>
+				  	</el-col>
+					  <el-col :sm="24" :md="12">
+				  		<el-form-item label="人力成本" prop="xiaoshouManger">
+						    <el-input type="text" v-model="formdata3.xiaoshouManger"></el-input>
+					  	</el-form-item>
+				  	</el-col>
+					<el-col :sm="24" :md="12">
+				  		<el-form-item label="费用成本" prop="xiangmuRemark">
+						    <el-input type="text" v-model="formdata3.xiangmuRemark"></el-input>
+					  	</el-form-item>
+				  	</el-col>
+					<el-col :sm="24" :md="12">
+				  		<el-form-item label="分包成本" prop="xiangmuRemark">
+						    <el-input type="text" v-model="formdata3.xiangmuRemark"></el-input>
+					  	</el-form-item>
+				  	</el-col>
+					<el-col :sm="24" :md="12">
+				  		<el-form-item label="税金" prop="xiangmuRemark">
+						    <el-input type="text" v-model="formdata3.xiangmuRemark"></el-input>
+					  	</el-form-item>
+				  	</el-col>
+					<el-col :sm="24" :md="12">
+				  		<el-form-item label="总收入" prop="xiangmuRemark">
+						    <el-input type="text" v-model="formdata3.xiangmuRemark"></el-input>
+					  	</el-form-item>
+				  	</el-col>
+					<el-col :sm="24" :md="12">
+				  		<el-form-item label="毛利润(GM)%" prop="xiangmuRemark">
+						    <el-input type="text" v-model="formdata3.xiangmuRemark"></el-input>
+					  	</el-form-item>
+				  	</el-col>
+					<el-col :sm="24" :md="12">
+				  		<el-form-item label="净利润(GM)%" prop="xiangmuRemark">
+						    <el-input type="text" v-model="formdata3.xiangmuRemark"></el-input>
+					  	</el-form-item>
+				  	</el-col>
+				</el-form>
+				<div class="addPreSaleButton_wrapper">
+					<el-button class="btn-primary" @click="saveAndSubmit">保存提交审批</el-button>
+					<el-button class="btn-primary" @click="saveNotSbumit">保存暂不提交审批</el-button>
+					<el-button class="btn-primary" @click="notSave">取消</el-button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -160,6 +217,9 @@
 				formdata2: {
 
 				},
+				formdata3: {
+
+				},
 				//项目类型列表
                 projTypeList: [],
                 //收入类型列表
@@ -206,6 +266,9 @@
 	          		]
                 },
                 rules2: {
+					
+				},
+                rules3: {
 					
 				}
 			}
@@ -257,43 +320,75 @@
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
 	      			this.$message({ message: '操作成功', type: 'success' });
-					this.$router.push('/overtime_management');
+					// this.$router.push('/');
 	      		}
-	      	},
-	      	save(formName) {
-				const self = this;
-				this.$refs[formName].validate((valid) => {
-					if(valid) {
-						self.$refs.upload.submit();
-						if(!self.fileFlag) {
-							let params = {
-								"applyNo": self.formdata1.applyNo, 
-								"userNo": self.formdata1.userNo,
-				    			"yijiHTTime": self.formdata1.yijiHTTime, 
-				    			"yijiEndTime": self.formdata1.yijiEndTime,
-				    			"yijiHTMony": self.formdata1.yijiHTMony, 
-				    			"dindanType": self.formdata1.dindanType, 
-				    			"xiangmuDidian": self.formdata1.xiangmuDidian,
-				    			attachm: self.formdata1.attachm
-							}
-							//修改加班详细信息
-							self.modifyTravelInfo(params);
-						}
-							
-						
-					} else {
-						return false;
-					}
-				});
 			},
-			modifyTravelInfo(params) {
+			//保存提交审批
+			saveAndSubmit() {
 				let self = this;
-				self.$axios.post(baseURL+'/workot/modifyWorkOtInfo',params)
+				self.$refs.formdata1.validate(valid => {
+			        if (valid) {
+			          	self.$refs.formdata2.validate(valid => {
+							if (valid) {
+								self.$refs.formdata3.validate(valid => {
+									if (valid) {
+										let params = {
+
+										}
+										self.saveAndSubmit(params);
+									}
+								})
+							}
+						})
+					}
+				})
+
+			},
+			//保存不提交审批
+			saveNotSbumit() {
+				let self = this;
+				self.$refs.formdata1.validate(valid => {
+			        if (valid) {
+			          	self.$refs.formdata2.validate(valid => {
+							if (valid) {
+								self.$refs.formdata3.validate(valid => {
+									if (valid) {
+										let params = {
+
+										}
+										self.saveNotSubmit(params);
+									}
+								})
+							}
+						})
+					}
+				})	
+			},
+			//取消
+			notSave() {
+
+			},
+			saveAndSubmit(params) {
+				let self = this;
+				self.$axios.post(baseURL+'',params)
 				.then((res) => {
-					console.log('modifyTravelInfo',res);
+					console.log('saveAndSubmit',res);
 					if(res.data.code === "S00000") {
 		      			self.$message({ message: '操作成功', type: 'success' });
-						self.$router.push('/overtime_management');
+						// self.$router.push('/');
+		      		}
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
+			saveNotSubmit(params) {
+				let self = this;
+				self.$axios.post(baseURL+'',params)
+				.then((res) => {
+					console.log('saveNotSubmit',res);
+					if(res.data.code === "S00000") {
+		      			self.$message({ message: '操作成功', type: 'success' });
+						// self.$router.push('/');
 		      		}
 				}).catch((err) => {
 					console.log('error');
@@ -303,13 +398,13 @@
             queryprojIncmTypeList() {
                 let self = this;
                 self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PROJ_INCM_TYPE')
-                .then(function(res) {
+                .then((res) => {
                     console.log('projIncmTypeList',res);
                     if(res.data.code === "S00000") {
                         self.projIncmTypeList = res.data.data;
                     }
                     
-                }).catch(function(err) {
+                }).catch((err) => {
                     console.log('error');
                 })
             },
@@ -317,13 +412,13 @@
             queryincmConfimList() {
                 let self = this;
                 self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=INCM_CONFIM')
-                .then(function(res) {
+                .then((res) => {
                     console.log('incmConfimList',res);
                     if(res.data.code === "S00000") {
                         self.incmConfimList = res.data.data;
                     }
                     
-                }).catch(function(err) {
+                }).catch((err) => {
                     console.log('error');
                 })
             },
@@ -331,13 +426,13 @@
             queryprojTypeList() {
                 let self = this;
                 self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PROJ_TYPE')
-                .then(function(res) {
+                .then((res) => {
                     console.log('projTypeList',res);
                     if(res.data.code === "S00000") {
                         self.projTypeList = res.data.data;
                     }
                     
-                }).catch(function(err) {
+                }).catch((err) => {
                     console.log('error');
                 })
             },
@@ -346,5 +441,11 @@
 </script>
 
 <style>
-
+.add_preSale {
+	padding: 0 0 20px 20px;
+}
+.addPreSaleButton_wrapper {
+	width: 400px;
+	margin: 0 auto;
+}
 </style>
