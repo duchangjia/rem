@@ -126,12 +126,12 @@ export default {
 		return {
 			userInfo: {},
 			socialData: {
-				organName: 'xx',
-				derpName: 'xx',
-				userNo: 'xx',
-				custName: 'xx',
-				custPost: 'xx',
-				custClass: 'xx',
+				organName: '',
+				derpName: '',
+				userNo: '',
+				custName: '',
+				custPost: '',
+				custClass: '',
 				perEndmPay: '',
 				comEndmPay: '',
 				perMediPay: '',
@@ -258,10 +258,10 @@ export default {
 		},
 		querySocialInfo() {
 			const self = this;
-			let userNo = sessionStorage.getItem('editSecurity_userNo');
+			let idCard = sessionStorage.getItem('editSecurity_idCard');
 			let batchNo = sessionStorage.getItem('editSecurity_batchNo');
 			let params = {
-				userNo: userNo,
+				idCard: idCard,
 				batchNo: batchNo
 			}
 			self.$axios.get(baseURL+'/wage/queryDiffPay' ,{params: params})

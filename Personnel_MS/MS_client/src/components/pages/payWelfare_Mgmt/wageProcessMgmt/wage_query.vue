@@ -196,12 +196,7 @@ export default {
 	    },
 		handleInfo(index, row) {
 			sessionStorage.setItem('infoWage_batchNo', row.batchNo);
-			this.$router.push({
-				name: "wage_info",
-				params: {
-					batchNo: row.batchNo
-				}
-			})
+			this.$router.push("/wage_info");
 			
 		},
 		//触发下拉菜单

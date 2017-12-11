@@ -295,14 +295,9 @@ export default {
 	      return (Number(row.comEndmPay) + Number(row.comMediPay) + Number(row.comUnemPay) +Number(row.comMatePay) + Number(row.comHousePay)).toFixed(2);
 	    },
 		handleInfo(index, row) {
-			sessionStorage.setItem('editSecurity_userNo', row.userNo);
+			sessionStorage.setItem('editSecurity_idCard', row.idCard);
 			sessionStorage.setItem('editSecurity_batchNo', row.batchNo);
-			this.$router.push({
-				name: "edit_security",
-				params: {
-					month: row.month
-				}
-			})
+			this.$router.push("/edit_security");
 		},
 		//查询
 		queryForm(formName) {
