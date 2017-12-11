@@ -176,7 +176,7 @@
                             <el-form-item label="状态" prop="applyStatus">
                                 <el-select placeholder="请选择状态" v-model="applyInfo.applyStatus">
                                     <el-option label="未核销/未归还" value="01"></el-option>
-                                    <el-option label="已核销/已归还" value="02" :disabled="true"></el-option>
+                                    <el-option label="已核销/已归还" value="02"></el-option>
                                     <el-option label="不需要核销/不需要归还" value="03"></el-option>
                                 </el-select>
                             </el-form-item>

@@ -154,6 +154,7 @@
                                 type="date"
                                 placeholder="选择日期"
                                 @change="changeDate()"
+                                style="width:100%"
                                 >
                             </el-date-picker>
                         </el-form-item>
