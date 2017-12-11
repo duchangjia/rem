@@ -246,7 +246,7 @@
 						this.calTravelDays(params);
 					}
 				}
-				this.caclEndtimeFlag == true;
+				this.caclEndtimeFlag = true;
 			},
 			changeCompValue(value) {
 				const self = this;
