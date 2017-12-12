@@ -263,63 +263,63 @@ export default {
       insurancePayTemp: {},
       payBaseInfoRules: {
         wagesBase: [
-          { required: true, message: "基本工资不能为空", trigger: "blur" },
+          // { required: true, message: "基本工资不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         wagesPerf: [
-          { required: true, message: "绩效工资不能为空", trigger: "blur" },
+          // { required: true, message: "绩效工资不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         postPension: [
-          { required: true, message: "岗位补贴不能为空", trigger: "blur" },
+          // { required: true, message: "岗位补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         phonePension: [
-          { required: true, message: "通讯补贴不能为空", trigger: "blur" },
+          // { required: true, message: "通讯补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         trafficPension: [
-          { required: true, message: "交通补贴不能为空", trigger: "blur" },
+          // { required: true, message: "交通补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         livingPension: [
-          { required: true, message: "生活补贴不能为空", trigger: "blur" },
+          // { required: true, message: "生活补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         overtimePay: [
-          { required: true, message: "加班工资不能为空", trigger: "blur" },
+          // { required: true, message: "加班工资不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         otherPension: [
-          { required: true, message: "其他补贴不能为空", trigger: "blur" },
+          // { required: true, message: "其他补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         endmBase: [
-          { required: true, message: "养老保险基数不能为空", trigger: "blur" },
+          // { required: true, message: "养老保险基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         mediBase: [
-          { required: true, message: "医疗保险基数不能为空", trigger: "blur" },
+          // { required: true, message: "医疗保险基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         unemBase: [
-          { required: true, message: "失业保险基数不能为空", trigger: "blur" },
+          // { required: true, message: "失业保险基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         emplBase: [
-          { required: true, message: "工伤保险基数不能为空", trigger: "blur" },
+          // { required: true, message: "工伤保险基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         mateBase: [
-          { required: true, message: "生育保险基数不能为空", trigger: "blur" },
+          // { required: true, message: "生育保险基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         houseBase: [
-          { required: true, message: "公积金基数不能为空", trigger: "blur" },
+          // { required: true, message: "公积金基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         wagesProb: [
-          { required: true, message: "试用期工资不能为空", trigger: "blur" },
+          // { required: true, message: "试用期工资不能为空", trigger: "blur" },
           { validator: validateWagesProb, trigger: "blur" }
         ],
         welcoeNo: [{ required: true, message: "请选择保险缴纳标准", trigger: "change" }],
@@ -348,7 +348,7 @@ export default {
             this.insurancePayTemp.perEndmRate +
             this.insurancePayTemp.perEndmFixed) *
             10
-        ) / 10 || 0
+        ) / 10 || 0.0
       );
     },
     _comEndm: function() {
@@ -358,7 +358,7 @@ export default {
             this.insurancePayTemp.comEndmRate +
             this.insurancePayTemp.comEndmFixed) *
             10
-        ) / 10 || 0
+        ) / 10 || 0.0
       );
     },
     _perMedi: function() {
@@ -368,7 +368,7 @@ export default {
             this.insurancePayTemp.perMediRate +
             this.insurancePayTemp.perMediFixed) *
             10
-        ) / 10 || 0
+        ) / 10 || 0.0
       );
     },
     _comMedi: function() {
@@ -378,7 +378,7 @@ export default {
             this.insurancePayTemp.comMediRate +
             this.insurancePayTemp.comMediFixed) *
             10
-        ) / 10 || 0
+        ) / 10 || 0.0
       );
     },
     _perUnem: function() {
@@ -388,7 +388,7 @@ export default {
             this.insurancePayTemp.perUnemRate +
             this.insurancePayTemp.perUnemFixed) *
             10
-        ) / 10 || 0
+        ) / 10 || 0.0
       );
     },
     _comUnem: function() {
@@ -398,7 +398,7 @@ export default {
             this.insurancePayTemp.comUnemRate +
             this.insurancePayTemp.comUnemFixed) *
             10
-        ) / 10 || 0
+        ) / 10 || 0.0
       );
     },
     _perEmpl: function() {
@@ -408,7 +408,7 @@ export default {
             this.insurancePayTemp.perEmplRate +
             this.insurancePayTemp.perEmplFixed) *
             10
-        ) / 10 || 0
+        ) / 10 || 0.0
       );
     },
     _comEmpl: function() {
@@ -418,7 +418,7 @@ export default {
             this.insurancePayTemp.comEmplRate +
             this.insurancePayTemp.comEmplFixed) *
             10
-        ) / 10 || 0
+        ) / 10 || 0.0
       );
     },
     _perMate: function() {
@@ -428,7 +428,7 @@ export default {
             this.insurancePayTemp.perMateRate +
             this.insurancePayTemp.perMateFixed) *
             10
-        ) / 10 || 0
+        ) / 10 || 0.0
       );
     },
     _comMate: function() {
@@ -438,7 +438,7 @@ export default {
             this.insurancePayTemp.comMateRate +
             this.insurancePayTemp.comMateFixed) *
             10
-        ) / 10 || 0
+        ) / 10 || 0.0
       );
     },
     _perHouse: function() {
@@ -448,7 +448,7 @@ export default {
             this.insurancePayTemp.perHousRate +
             this.insurancePayTemp.perHousFixed) *
             10
-        ) / 10 || 0
+        ) / 10 || 0.0
       );
     },
     _comHouse: function() {
@@ -458,7 +458,7 @@ export default {
             this.insurancePayTemp.comHousRate +
             this.insurancePayTemp.comHousFixed) *
             10
-        ) / 10 || 0
+        ) / 10 || 0.0
       );
     }
   },
@@ -483,13 +483,19 @@ export default {
         .then(res => {
           self.editPayBaseInfo = res.data.data;
           console.log("editPayBaseInfo", self.editPayBaseInfo);
+          if (
+            self.editPayBaseInfo.epFileManageList &&
+            self.editPayBaseInfo.epFileManageList.length >= 1
+          ) {
+            self.editPayBaseInfo.epFileManageList.forEach(function(ele) {
+              self.fileList.push({
+                name: ele.fileName + "." + ele.fileSuffix,
+                url: ele.fileAddr
+              });
+            }, this);
+          }
 
-          self.editPayBaseInfo.epFileManageList.forEach(function(ele) {
-            self.fileList.push({name: ele.fileName + "." + ele.fileSuffix, url: ele.fileAddr});
-          }, this);
-          
-          console.log('当前的fileList', self.fileList);
-
+          console.log("当前的fileList", self.fileList);
         })
         .catch(() => {
           console.log("error");
@@ -576,28 +582,32 @@ export default {
     },
 
     // 附件上传
-    handleFileUpload(file, fileList) { // 选择文件
+    handleFileUpload(file, fileList) {
+      // 选择文件
       console.log("选中的fileList", fileList);
 
       this.fileList = fileList;
 
       console.log("选中的this.fileList:", this.fileList);
-      
     },
-    handleRemove(file, fileList) {  // 移除文件
+    handleRemove(file, fileList) {
+      // 移除文件
       console.log(file, fileList);
-      console.log('移除的file',file);
+      console.log("移除的file", file);
     },
-    handlePreview(file) { // 点击已上传的文件链接时
+    handlePreview(file) {
+      // 点击已上传的文件链接时
       console.log(file);
     },
-    handleExceed(files, fileList) {  // 文件超出数量
+    handleExceed(files, fileList) {
+      // 文件超出数量
       this.$message.warning(
         `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
           fileList.length} 个文件`
       );
     },
-    successUpload(res, file, fileList) {  // 文件成功上传
+    successUpload(res, file, fileList) {
+      // 文件成功上传
       console.log("upload_response", res);
       if (res.code == "S00000") {
         this.$message({ type: "success", message: "文件上传成功!" });

@@ -145,7 +145,7 @@
                                 </template>
                             </el-table-column>
                         </el-table>
-                        <el-pagination class="toolbar" @current-change="handlePChangePage" :page-size="pChangePage.pageSize" layout="prev, pager, next, jumper" :total="pChangePage.totalRows">
+                        <el-pagination class="toolbar" @current-change="handlePChangePage" :page-size="pChangePage.pageSize" layout="total, prev, pager, next, jumper" :total="pChangePage.totalRows">
                         </el-pagination>
                     </div>
                 </el-tab-pane>
@@ -183,7 +183,7 @@
                                 </template>
                             </el-table-column>
                         </el-table>
-                        <el-pagination class="toolbar" @current-change="handlePRenewPage" :page-size="pRenewPage.pageSize" layout="prev, pager, next, jumper" :total="pRenewPage.totalRows">
+                        <el-pagination class="toolbar" @current-change="handlePRenewPage" :page-size="pRenewPage.pageSize" layout="total, prev, pager, next, jumper" :total="pRenewPage.totalRows">
                         </el-pagination>
                     </div>
                 </el-tab-pane>

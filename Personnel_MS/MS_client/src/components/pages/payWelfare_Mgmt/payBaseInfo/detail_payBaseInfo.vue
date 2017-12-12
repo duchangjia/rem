@@ -212,18 +212,23 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="最新更新人">
-                            <el-input v-model="payBaseInfoDetail.updateBy" :disabled="true"></el-input>
+                            <el-input v-model="payBaseInfoDetail.updatedBy" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="最新更新时间">
-                            <el-date-picker type="date" v-model="payBaseInfoDetail.updateDate" :disabled="true" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" v-model="payBaseInfoDetail.updatedDate" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="附件" prop="attachm" style="width:100%;">
-					        <el-button class="downloadBtn" @click="downloadFile">下载</el-button>
-				  	    </el-form-item>
+                        <el-form-item label="附件">
+                            <el-button class="downloadBtn" @click="downloadFile">批量下载</el-button>
+                            <!-- <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
+                                :headers="token"
+                                :file-list="fileList"
+                                :show-file-list="true">
+                            </el-upload> -->
+                        </el-form-item>
                     </el-col>
                 </el-form>
             </div>
@@ -240,6 +245,10 @@ export default {
       userNo: "",
       custInfo: {},
       payBaseInfoDetail: {},
+      fileList: [],
+      token: {
+        Authorization: `Bearer ` + localStorage.getItem("access_token")
+      },
       custPostList: [],
       custClassList: [],
       insurancePayTemplates: {},
@@ -259,65 +268,89 @@ export default {
     this.getInsurancePayTemp(); //初始查询保险缴纳标准
   },
   computed: {
-    _custPost: function() {
-      if (this.custInfo.custPost == "01") {
-        return "架构师";
-      } else if (this.custInfo.custPost == "02") {
-        return "前端开发工程师";
-      } else if (this.custInfo.custPost == "03") {
-        return "测试工程师";
-        } else if (this.custInfo.custPost == "04") {
-        return "后端开发";
-      } else {
-        return "";
-      }
-    },
-    _custClass: function() {
-      if (this.custInfo.custClass == "B10") {
-        return "B10-初级软件工程师";
-      } else if (this.custInfo.custClass == "B11") {
-        return "B11-中级软件工程师";
-      } else if (this.custInfo.custClass == "B12") {
-        return "B12-高级软件工程师";
-      } else {
-        return "";
-      }
-    },
     _perEndm: function() {
-        return Number(this.payBaseInfoDetail.endmBase) * this.insurancePayTemp.perEndmRate + this.insurancePayTemp.perEndmFixed || 0;
+      return (
+        Number(this.payBaseInfoDetail.endmBase) *
+          this.insurancePayTemp.perEndmRate +
+          this.insurancePayTemp.perEndmFixed || 0.0
+      );
     },
     _comEndm: function() {
-        return Number(this.payBaseInfoDetail.endmBase) * this.insurancePayTemp.comEndmRate + this.insurancePayTemp.comEndmFixed || 0;
+      return (
+        Number(this.payBaseInfoDetail.endmBase) *
+          this.insurancePayTemp.comEndmRate +
+          this.insurancePayTemp.comEndmFixed || 0.0
+      );
     },
     _perMedi: function() {
-        return Number(this.payBaseInfoDetail.mediBase) * this.insurancePayTemp.perMediRate + this.insurancePayTemp.perMediFixed || 0;
+      return (
+        Number(this.payBaseInfoDetail.mediBase) *
+          this.insurancePayTemp.perMediRate +
+          this.insurancePayTemp.perMediFixed || 0.0
+      );
     },
     _comMedi: function() {
-        return Number(this.payBaseInfoDetail.mediBase) * this.insurancePayTemp.comMediRate + this.insurancePayTemp.comMediFixed || 0;
+      return (
+        Number(this.payBaseInfoDetail.mediBase) *
+          this.insurancePayTemp.comMediRate +
+          this.insurancePayTemp.comMediFixed || 0.0
+      );
     },
     _perUnem: function() {
-        return Number(this.payBaseInfoDetail.unemBase) * this.insurancePayTemp.perUnemRate + this.insurancePayTemp.perUnemFixed || 0;
+      return (
+        Number(this.payBaseInfoDetail.unemBase) *
+          this.insurancePayTemp.perUnemRate +
+          this.insurancePayTemp.perUnemFixed || 0.0
+      );
     },
     _comUnem: function() {
-        return Number(this.payBaseInfoDetail.unemBase) * this.insurancePayTemp.comUnemRate + this.insurancePayTemp.comUnemFixed || 0;
+      return (
+        Number(this.payBaseInfoDetail.unemBase) *
+          this.insurancePayTemp.comUnemRate +
+          this.insurancePayTemp.comUnemFixed || 0.0
+      );
     },
     _perEmpl: function() {
-        return Number(this.payBaseInfoDetail.emplBase) * this.insurancePayTemp.perEmplRate + this.insurancePayTemp.perEmplFixed || 0;
+      return (
+        Number(this.payBaseInfoDetail.emplBase) *
+          this.insurancePayTemp.perEmplRate +
+          this.insurancePayTemp.perEmplFixed || 0.0
+      );
     },
     _comEmpl: function() {
-        return Number(this.payBaseInfoDetail.emplBase) * this.insurancePayTemp.comEmplRate + this.insurancePayTemp.comEmplFixed || 0;
+      return (
+        Number(this.payBaseInfoDetail.emplBase) *
+          this.insurancePayTemp.comEmplRate +
+          this.insurancePayTemp.comEmplFixed || 0.0
+      );
     },
     _perMate: function() {
-        return Number(this.payBaseInfoDetail.mateBase) * this.insurancePayTemp.perMateRate + this.insurancePayTemp.perMateFixed || 0;
+      return (
+        Number(this.payBaseInfoDetail.mateBase) *
+          this.insurancePayTemp.perMateRate +
+          this.insurancePayTemp.perMateFixed || 0.0
+      );
     },
     _comMate: function() {
-        return Number(this.payBaseInfoDetail.mateBase) * this.insurancePayTemp.comMateRate + this.insurancePayTemp.comMateFixed || 0;
+      return (
+        Number(this.payBaseInfoDetail.mateBase) *
+          this.insurancePayTemp.comMateRate +
+          this.insurancePayTemp.comMateFixed || 0.0
+      );
     },
     _perHouse: function() {
-        return Number(this.payBaseInfoDetail.houseBase) * this.insurancePayTemp.perHousRate + this.insurancePayTemp.perHousFixed || 0;
+      return (
+        Number(this.payBaseInfoDetail.houseBase) *
+          this.insurancePayTemp.perHousRate +
+          this.insurancePayTemp.perHousFixed || 0.0
+      );
     },
     _comHouse: function() {
-        return Number(this.payBaseInfoDetail.houseBase) * this.insurancePayTemp.comHousRate + this.insurancePayTemp.comHousFixed || 0;
+      return (
+        Number(this.payBaseInfoDetail.houseBase) *
+          this.insurancePayTemp.comHousRate +
+          this.insurancePayTemp.comHousFixed || 0.0
+      );
     }
   },
   methods: {
@@ -327,7 +360,7 @@ export default {
       self.$axios
         .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
         .then(res => {
-          console.log(res);
+          console.log('custInfo_res',res);
           self.custInfo = res.data.data;
         })
         .catch(() => {
@@ -340,8 +373,21 @@ export default {
       self.$axios
         .get("/iem_hrm/pay/queryPayBaseInfoDetail/" + userNo)
         .then(res => {
-          console.log(res);
+          console.log('payBaseInfoDetail_res',res);
           self.payBaseInfoDetail = res.data.data;
+
+          if (
+            self.payBaseInfoDetail.epFileManageList &&
+            self.payBaseInfoDetail.epFileManageList.length >= 1
+          ) {
+            self.payBaseInfoDetail.epFileManageList.forEach(function(ele) {
+              self.fileList.push({
+                name: ele.fileName + "." + ele.fileSuffix,
+                url: ele.fileAddr
+              });
+            }, this);
+          }
+          console.log("当前的fileList", self.fileList);
         })
         .catch(() => {
           console.log("error");
@@ -408,4 +454,5 @@ export default {
 </script>
 
 <style>
+
 </style>
