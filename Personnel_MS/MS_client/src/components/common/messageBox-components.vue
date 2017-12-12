@@ -161,7 +161,7 @@ export default {
     },
     confirm(){
       let self =this;
-      self.$emit('chooseEntry',self.custInfo);
+      self.$emit('dialogConfirm',self.custInfo);
     }
     
   },
