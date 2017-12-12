@@ -137,7 +137,6 @@
 					  			 :on-change="changeUpload" 
 					  			 :on-success="successUpload"
 					  			 action="/iem_hrm/custShifthis/addCustShifthis" 
-					  			 :show-file-list="false" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
 					  		>

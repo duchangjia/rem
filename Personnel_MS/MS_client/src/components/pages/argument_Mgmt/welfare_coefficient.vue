@@ -42,29 +42,7 @@ export default {
 			pageNum: 1,
 			pageSize: 10,
 			totalRows: 1,
-			payTemplatesList: [
-				{
-					applyNo: "00001",
-					applyName: "广州地区缴纳",
-					remark: "",
-					createdBy: "",
-					createdDate: ""
-				},
-				{
-					applyNo: "00002",
-					applyName: "深圳地区缴纳",
-					remark: "",
-					createdBy: "",
-					createdDate: ""
-				},
-				{
-					applyNo: "00003",
-					applyName: "东莞地区缴纳",
-					remark: "",
-					createdBy: "",
-					createdDate: ""
-				}
-			]
+			payTemplatesList: []
 		}
 	},
 	components: {
@@ -84,12 +62,8 @@ export default {
 			this.$router.push('/add_welfare');
 		},
 		handleEdit(index, row) {
-            this.$router.push({
-            	name: 'welfare_info',
-            	params: {
-            		applyNo: row.applyNo
-            	}
-            });
+			sessionStorage.setItem('welfareInfo_applyNo', row.applyNo);
+            this.$router.push('/welfare_info');
 		},
 		handleDelete(index, row) {
             const self = this;
@@ -121,7 +95,7 @@ export default {
 				pageSize: self.pageSize
 			}
 			self.$axios.get(baseURL+'/InsurancePayTemplate/queryInsurancePayTemplates/'+ params.pageNum + '/' + params.pageSize)
-			.then(function(res) {
+			.then((res) => {
 				console.log('res',res);
 				if(res.data.code === "S00000") {
 					self.payTemplatesList = res.data.data.list;
@@ -129,7 +103,7 @@ export default {
 					self.totalRows = Number(res.data.data.total);
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err)
 			})
 		},
@@ -137,7 +111,7 @@ export default {
 		deleteInsurancePayTemplate(params) {
 			const self = this;
 			self.$axios.delete(baseURL+'/InsurancePayTemplate/deleteInsurancePayTemplate/' + params.applyNo)
-    		.then(function(res) {
+    		.then((res) => {
     			console.log(res);
     			if(res.data.code === "S00000") {
     				self.$message({ type: 'success', message: res.data.retMsg });
@@ -146,7 +120,7 @@ export default {
 					self.queryInsurancePayTemplates(params);
     			}
     			
-    		}).catch(function(err) {
+    		}).catch((err) => {
     		})
 		}
 	}
@@ -163,6 +137,7 @@ export default {
     display: inline-block;
     width: 24px;
     height: 24px;
+	cursor: pointer;
     background: url('../../../../static/img/common/delete.png') center no-repeat;
 }
 .link {

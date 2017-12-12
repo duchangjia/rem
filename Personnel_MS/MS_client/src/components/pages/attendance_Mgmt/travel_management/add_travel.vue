@@ -73,7 +73,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差类型" prop="travelType">
-						    <el-select v-model="formdata2.travelType" value-key="travelType" @change="changeValue">
+						    <el-select v-model="formdata2.travelType" value-key="travelType">
 								<el-option v-for="item in travelTypeList" :key="item.travelNo" :label="item.label" :value="item.travelNo"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -89,7 +89,7 @@
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差天数" prop="travelDays">
-						    <el-input v-model="formdata2.travelDays" :disabled="true"></el-input>
+						    <el-input v-model="formdata2.travelDays"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -260,32 +260,28 @@
 			changeStartTime(time) {
 				console.log('starttime',time);
 				this.travelStartTime = time;
-				let params = {
-					travelStartTime: this.travelStartTime,
-					travelEndTime: this.travelEndTime
-				}
-				if(this.formdata2.travelEndTime) {
-					this.calTravelDays(params);
-				}
-				console.log('start params',params);
+				// let params = {
+				// 	travelStartTime: this.travelStartTime,
+				// 	travelEndTime: this.travelEndTime
+				// }
+				// if(this.formdata2.travelEndTime) {
+				// 	this.calTravelDays(params);
+				// }
+				// console.log('start params',params);
 				
 			},
 			changeEndTime(time) {
 				console.log('endtime',time);
 				this.travelEndTime = time;
-				let params = {
-					travelStartTime: this.travelStartTime,
-					travelEndTime: this.travelEndTime
-				}
-				console.log('end params',params);
-				if(this.formdata2.travelStartTime) {
-					this.calTravelDays(params);
-				}
+				// let params = {
+				// 	travelStartTime: this.travelStartTime,
+				// 	travelEndTime: this.travelEndTime
+				// }
+				// console.log('end params',params);
+				// if(this.formdata2.travelStartTime) {
+				// 	this.calTravelDays(params);
+				// }
 			},
-			changeValue(value) {
-		 		const self = this;
-	            console.log('value',value);
-	      	},
 	      	queryUserInfo() {
 	      		let userNo = this.formdata1.userNo;
 	      		let params = {

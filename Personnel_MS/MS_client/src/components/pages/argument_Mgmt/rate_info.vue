@@ -5,7 +5,7 @@
 			<div class="titleBar">
 				<span class="title-text">个人所得税税率详情</span>
 				<div class="titleBtn_wrapper">
-					<el-button class="btn-primary" @click="addRate()">新增</el-button>
+					<el-button class="btn-primary" @click="handleAdd()">新增</el-button>
 				</div>
 			</div>
 			<div class="queryContent_inner">
@@ -66,31 +66,14 @@ export default {
 		percentRateFormatter(row, column) {
 	      return row.percentRate==0 ? 0 : row.percentRate*100;
 	    },
-		addRate() {
-			let groupName = this.$route.params.groupName;
-			let groupId = this.$route.params.groupId;
-			this.$router.push({
-				name: 'add_rate',
-				params: {
-					groupName: groupName,
-					groupId: groupId
-				}
-			});
+		handleAdd() {
+			let groupName = sessionStorage.getItem('rateInfo_groupName');
+			let groupId = sessionStorage.getItem('rateInfo_groupId');
+			this.$router.push('/add_rate');
 		},
 		handleEdit(index, row) {
-            this.$router.push({
-            	name: 'edit_rate',
-            	params: {
-            		applyNo: row.applyNo,
-            		groupId: row.groupId,
-            		applyNo: row.applyNo,
-            		groupLimit: row.groupLimit,
-            		groupLowerLimit: row.groupLowerLimit,
-            		remark: row.remark,
-            		percentRate: row.percentRate,
-            		quickCal: row.quickCal
-            	}
-            });
+			sessionStorage.setItem('editRate_rateInfo', JSON.stringify(row));
+            this.$router.push('/edit_rate');
 		},
 		handleDelete(index, row) {
         	const self = this;
@@ -118,19 +101,19 @@ export default {
 		//查询个税列表
 		queryRateList() {
 			const self = this;
-			let groupId = sessionStorage.getItem('groupId');
+			let groupId = sessionStorage.getItem('rateInfo_groupId');
 			let params = {
 				"pageNum": self.pageNum,
 				"pageSize": self.pageSize,
 				groupId: groupId
 			};
 			self.$axios.get(baseURL+'/taxRateCtrl/queryRateList', { params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log("queryRateList",res);
 					self.taxRateList = res.data.data.list;
 					self.pageNum = params.pageNum;
 					self.totalRows = Number(res.data.data.total);
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 		},
@@ -172,6 +155,7 @@ export default {
     display: inline-block;
     width: 24px;
     height: 24px;
+	cursor: pointer;
     background: url('../../../../static/img/common/delete.png') center no-repeat;
 }
 

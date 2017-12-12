@@ -93,15 +93,9 @@
 					businessStandard: "",
 					remark: ""
 				},
-				rankList: ['B10-高级开发软件工程师', 'B5-中级开发软件工程师', 'B5-UI'],
+				rankList: [],
 				//公司列表
-				compList: [
-					{organName: "上海分公司",organNo: '01'},
-					{organName: "魔方分公司深圳分公司",organNo: 'p1'},
-					{organName: "深圳前海橙色魔方信息技术有限公司5666666666666",organNo: '0'},
-					{organName: "上海魔方分公司",organNo: '1002'},
-					{organName: "魔方南山分公司",organNo: '1001'}
-				],
+				compList: [],
 				rules: {
 					compName: [
 //						{ required: true, message: '公司名称不能为空', trigger: 'blur' }
@@ -136,19 +130,12 @@
 			current
 		},
 		created() {
-			const self = this;
-			let applyNo = self.$route.params.applyNo;
-			let organNo = self.$route.params.organNo;
-			let params = {
-				applyNo: applyNo,
-				organNo: organNo
-			}
 			//查询职级薪酬模板详情
-			self.queryCParmDtl(params);
+			this.queryCParmDtl();
 			//查询公司列表
-			self.queryCompList();
+			this.queryCompList();
 			//查询职级列表
-			self.queryCans();
+			this.queryCans();
 		},
 		methods: {
 			save(formName) {
@@ -173,8 +160,14 @@
 					}
 				});
 			},
-			queryCParmDtl(params) {
+			queryCParmDtl() {
 				const self = this;
+				let applyNo = sessionStorage.getItem('editRank_applyNo');
+				let organNo = sessionStorage.getItem('editRank_organNo');
+				let params = {
+					applyNo: applyNo,
+					organNo: organNo
+				}	
 				self.$axios.get(baseURL + '/RankSalaryTemplate/queryCParmDtl/' + params.organNo + '/' + params.applyNo)
 					.then((res) => {
 						console.log('CParmDtl',res);
@@ -201,23 +194,23 @@
 			queryCompList() {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/queryAllCompany')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CompList',res);
 					self.compList = res.data.data;
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryCans() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
-				.then(function(res) {
+				.then((res) => {
 					console.log('queryCans',res);
 					if(res.data.code === "S00000") {
 						self.rankList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			}
