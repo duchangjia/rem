@@ -5,7 +5,7 @@
 		<div class="content-wrapper">
 			<div class="titlebar">
 				<span class="title-text">项目立项新增</span>
-				<!-- <el-button type="primary" class="toolBtn" @click="save('ruleForm')">保存</el-button> -->
+				<el-button type="primary" class="toolBtn" @click="save('ruleForm')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
 				<el-form ref="ruleForm" :inline="true"  :rules="rules" :model="ruleForm" label-width="130px">
@@ -113,7 +113,7 @@
 						    <el-input type="text" v-model="ruleForm.xiaoshouManger"></el-input>
 					  	</el-form-item>
 				  	</el-col>
-					<el-col :sm="24" :md="12">
+					<el-col :span='24'>
 				  		<el-form-item label="项目说明">
 							<el-input
 							  type="textarea"
@@ -124,18 +124,10 @@
 					  	</el-form-item>
 				  	</el-col>
 				</el-form>
-				<el-col :span="24" class="item-title">立项信息</el-col>
-				<!-- <el-upload class="upload-demo" ref="upload" name="file"
-					:data="formdata"
-					:on-change="changeUpload"
-					:on-success="successUpload"
-					action="" 
-					:show-file-list="false" 
-					:auto-upload="false"
-					:headers="token"
-				>
-					<el-button slot="trigger" type="primary" class="uploadBtn">上传立项申请表</el-button>
-				</el-upload> -->
+				<el-col :span="4" class="item-title">立项信息
+				</el-col>
+				<el-col :span="8" class="item-title" style='color:#999;'>本信息可手工填写，也可根据上传立项申请文件中获取</el-col>
+				<el-col :span="12" class="item-title"><el-button class="setUp-info-button">查看立项申请文件</el-button></el-col>
 				<el-form ref="ruleForm3" :inline="true"  :rules="rules" :model="ruleForm" label-width="110px">
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="部门名称">
@@ -206,7 +198,7 @@
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
-				  		<el-form-item label="毛利润（GM）%">
+				  		<el-form-item label="毛利润(GM)%">
 						    <el-input type="text" v-model="ruleForm.maolilv"></el-input>
 					  	</el-form-item>
 				  	</el-col>
@@ -216,11 +208,6 @@
 					  	</el-form-item>
 				  	</el-col>
 				</el-form>
-				<div class="addPreSaleButton_wrapper">
-					<el-button class="btn-primary" @click="saveAndSubmit">保存提交审批</el-button>
-					<el-button class="btn-primary" @click="saveNotSbumit">保存暂不提交审批</el-button>
-					<el-button class="btn-primary" @click="notSave">取消</el-button>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -265,7 +252,7 @@ export default {
         tax: "",
         totalshouru: "",
         maolilv: "",
-        jingliruan: "",
+        jingliruan: ""
       },
       rules: {}
     };
@@ -273,10 +260,18 @@ export default {
   components: {
     current
   },
-  created() {}
+  created() {},
+  methods: {
+    save() {}
+  }
 };
 </script>
 
-<style>
-
+<style lang='stylus' rel='stylesheet/stylus'>
+.add_preSale
+	.setUp-info-button
+		background #f90
+		color #FFF 
+		outline none 
+		border none
 </style>
