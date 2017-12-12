@@ -155,6 +155,16 @@ const routes = [
                     ]
                 },
                 {
+                    path: '/preCheck_query',
+                    component: resolve => require(['../components/view/project_Mgmt/preCheck/preCheck.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/view/project_Mgmt/preCheck/preCheck_query.vue'], resolve),
+                        }
+                    ]
+                },
+                {
                     path: '/proSetUp',
                     component: resolve => require(['../components/view/project_Mgmt/proSetUp/proSetUp.vue'], resolve),
                     children: [

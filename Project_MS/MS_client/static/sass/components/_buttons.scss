@@ -3,8 +3,10 @@
 	&.btn-default,&.btn-default:hover{
 		color:$color-primary;
 		background:$bg-wihte;
-		@include size(120px,30px); 
-		padding:0;
+		height:30px;
+		min-width:120px;
+		// @include size(120px,30px); 
+		padding:0 5px;
 		border:$border-default;
 	}
 	&.btn-primary,&.btn-primary:hover{

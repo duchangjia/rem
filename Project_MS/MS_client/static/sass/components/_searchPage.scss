@@ -49,15 +49,31 @@
         }
         .el-input{
             width:auto;
+            .el-input__inner{
+                color: #333333;
+                width: 164px;
+                height: 30px;
+                display: inline-block;
+            }
         }
-        .el-input__inner{
-            color: #333333;
-            width: 164px;
-            height: 30px;
-            display: inline-block;
+        .search_large{
+            width:auto;
+            .el-input__inner{
+                color: #333333;
+                width: 200px;
+                height: 30px;
+                display: inline-block;
+            }
         }
+        
+        
         .el-form-item {
 	        margin-bottom: 30px;
+        }
+        .large-label{
+            .el-form-item__label{
+                min-width:165px;
+            }
         }
         .queryButton_wrapper {
             margin: 0px auto 30px;
