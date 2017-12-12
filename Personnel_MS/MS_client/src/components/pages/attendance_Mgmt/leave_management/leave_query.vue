@@ -76,7 +76,7 @@
 						</el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="total,prev, pager, next, jumper" :total="totalRows">
 				</el-pagination>
 			</div>
 		</div>
