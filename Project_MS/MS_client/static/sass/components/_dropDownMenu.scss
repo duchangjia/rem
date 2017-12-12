@@ -1,0 +1,11 @@
+.el-dropdown{
+    .el-dropdown-link{
+        color:$color-primary;
+        outline:none;
+    }
+    
+}
+.el-dropdown-menu__item:not(.is-disabled):hover{
+    color:$color-primary;
+    background-color:$bg-color;
+}
