@@ -95,7 +95,7 @@
 						    <el-input type="text" v-model="formdata2.xiaoshouManger"></el-input>
 					  	</el-form-item>
 				  	</el-col>
-					<el-col :sm="24" :md="12">
+					<el-col :span="24">
 				  		<el-form-item label="项目说明" prop="xiangmuRemark">
 							<el-input
 							  type="textarea"
@@ -328,7 +328,7 @@
 					// this.$router.push('/');
 	      		}
 			},
-			//保存提交审批
+			//保存提交审批点击
 			saveAndSubmit() {
 				let self = this;
 				self.$refs.formdata1.validate(valid => {
@@ -349,7 +349,7 @@
 				})
 
 			},
-			//保存不提交审批
+			//保存不提交审批点击
 			saveNotSbumit() {
 				let self = this;
 				self.$refs.formdata1.validate(valid => {
@@ -369,10 +369,11 @@
 					}
 				})	
 			},
-			//取消
+			//取消点击
 			notSave() {
 
 			},
+			//保存提交
 			saveAndSubmit(params) {
 				let self = this;
 				self.$axios.post(baseURL+'',params)
@@ -380,12 +381,13 @@
 					console.log('saveAndSubmit',res);
 					if(res.data.code === "S00000") {
 		      			self.$message({ message: '操作成功', type: 'success' });
-						// self.$router.push('/');
+						// self.$router.push('/preSale_query');
 		      		}
 				}).catch((err) => {
 					console.log('error');
 				})
 			},
+			//保存不提交
 			saveNotSubmit(params) {
 				let self = this;
 				self.$axios.post(baseURL+'',params)
@@ -393,7 +395,7 @@
 					console.log('saveNotSubmit',res);
 					if(res.data.code === "S00000") {
 		      			self.$message({ message: '操作成功', type: 'success' });
-						// self.$router.push('/');
+						// self.$router.push('/preSale_query');
 		      		}
 				}).catch((err) => {
 					console.log('error');

@@ -1,11 +1,10 @@
 <template>
 	<div class="add_preSale">
-		<current yuji="项目管理" erji="售前立项" sanji="售前立项新增">
+		<current yuji="项目管理" erji="售前立项" sanji="售前立项修改">
 		</current>
 		<div class="content-wrapper">
 			<div class="titlebar">
-				<span class="title-text">售前立项新增</span>
-				<!-- <el-button type="primary" class="toolBtn" @click="save('formdata1')">保存</el-button> -->
+				<span class="title-text">售前立项修改</span>
 			</div>
 			<div class="add-wrapper">
 				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="130px">
@@ -19,6 +18,11 @@
 							<el-select v-model="formdata1.projIncmType">
 								<el-option v-for="item in projIncmTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
+					  	</el-form-item>
+					</el-col>			
+					<el-col :sm="24" :md="12">
+						<el-form-item label="机会号">
+							<el-input v-model="formdata1.jihuihao"></el-input>
 					  	</el-form-item>
 					</el-col>		
 					<el-col :sm="24" :md="12">
@@ -95,7 +99,7 @@
 						    <el-input type="text" v-model="formdata2.xiaoshouManger"></el-input>
 					  	</el-form-item>
 				  	</el-col>
-					<el-col :sm="24" :md="12">
+					<el-col :span="24">
 				  		<el-form-item label="项目说明" prop="xiangmuRemark">
 							<el-input
 							  type="textarea"
@@ -106,18 +110,19 @@
 					  	</el-form-item>
 				  	</el-col>
 				</el-form>
-				<el-col :span="24" class="item-title">立项预算</el-col>
-				<!-- <el-upload class="upload-demo" ref="upload" name="file"
-					:data="formdata"
-					:on-change="changeUpload"
-					:on-success="successUpload"
-					action="" 
-					:show-file-list="false" 
-					:auto-upload="false"
-					:headers="token"
-				>
-					<el-button slot="trigger" type="primary" class="uploadBtn">上传立项申请表</el-button>
-				</el-upload> -->
+				<el-col :span="24" class="item-title">立项预算
+					<!-- <el-upload class="upload-demo" ref="upload" name="file"
+						:data="formdata"
+						:on-change="changeUpload"
+						:on-success="successUpload"
+						action="" 
+						:show-file-list="false" 
+						:auto-upload="false"
+						:headers="token"
+					>
+						<el-button slot="trigger" type="primary" class="uploadBtn">上传立项申请表</el-button>
+					</el-upload> -->
+				</el-col>
 				<el-form ref="formdata3" :inline="true"  :rules="rules3" :model="formdata3" label-width="110px">
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="总工作量" prop="gongzuoTotal">
@@ -282,7 +287,8 @@
 			current
 		},
 		created() {
-			
+			//查询详情
+			// this.queryUserDetail();
             //查询收入金额列表
             //this.queryprojIncmTypeList()
 			//查询收入确认金额列表
@@ -340,7 +346,8 @@
 										let params = {
 
 										}
-										self.saveAndSubmit(params);
+										//更新(保存+提交)
+										self.saveAndSubmitInfo(params);
 									}
 								})
 							}
@@ -361,7 +368,8 @@
 										let params = {
 
 										}
-										self.saveNotSubmit(params);
+										//更新(保存不提交)
+										self.saveutNotSubmitInfo(params);
 									}
 								})
 							}
@@ -373,32 +381,58 @@
 			notSave() {
 
 			},
-			saveAndSubmit(params) {
-				let self = this;
-				self.$axios.post(baseURL+'',params)
+			//查询详情
+			queryUserDetail() {
+				const self = this;
+				let params = {
+
+				};
+				self.$axios.get(baseURL+'', params)
 				.then((res) => {
-					console.log('saveAndSubmit',res);
-					if(res.data.code === "S00000") {
-		      			self.$message({ message: '操作成功', type: 'success' });
-						// self.$router.push('/');
-		      		}
-				}).catch((err) => {
+					console.log('dtl', res);
+					if(res.data.code == 'S00000') {
+						self.formdata1 = res.data.data;
+					}
+					
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+			},
+			//更新(保存+提交)
+			saveAndSubmitInfo(params) {
+				const self = this;
+				self.$axios.put(baseURL+'',params)
+				.then((res) => {
+					console.log('保存+提交', res);
+					if(res.data.code=="S00000"){
+			        	self.$message({ message: '操作成功', type: 'success' });
+			        	// self.$router.push('/preSale_query');
+					} else {
+						console.log('error');
+					}
+				})
+				.catch((err) => {
 					console.log('error');
 				})
 			},
-			saveNotSubmit(params) {
-				let self = this;
-				self.$axios.post(baseURL+'',params)
+			//更新(保存不提交)
+			saveutNotSubmitInfo(params) {
+				const self = this;
+				self.$axios.put(baseURL+'',params)
 				.then((res) => {
-					console.log('saveNotSubmit',res);
-					if(res.data.code === "S00000") {
-		      			self.$message({ message: '操作成功', type: 'success' });
-						// self.$router.push('/');
-		      		}
-				}).catch((err) => {
+					console.log('保存不提交',res);
+					if(res.data.code=="S00000"){
+			        	self.$message({ message: '操作成功', type: 'success' });
+			        	// self.$router.push('/preSale_query');
+					} else {
+						console.log('error');
+					}
+				})
+				.catch((err) => {
 					console.log('error');
 				})
-            },
+			},
             //查询收入金额列表
             queryprojIncmTypeList() {
                 let self = this;
@@ -452,5 +486,9 @@
 .addPreSaleButton_wrapper {
 	width: 400px;
 	margin: 0 auto;
+}
+.add_preSale .item-title .uploadBtn {
+	right: 151px!important;
+	border-radius: 4px;
 }
 </style>

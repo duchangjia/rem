@@ -44,13 +44,13 @@
                     <el-col :span="22" class="rightside">
                         <div class="menu">
                             <el-radio-group v-model="menuRadio" @change="handleRadioMenusChange">
-                                <el-radio-button v-for="menu in menus" :label="menu.menuNo" class="menu-item">{{menu.menuName}}</el-radio-button>
+                                <el-radio-button v-for="menu in menus" :key="menu.menuNo" :label="menu.menuNo" class="menu-item">{{menu.menuName}}</el-radio-button>
                             </el-radio-group>
                         </div>
                         <div class="submenu" v-if="menuRadioFlag">
                             <el-checkbox-button v-model="checkSubAll" :indeterminate="isSubIndeterminate" @change="handleSubAllChange" label="全部" class="menu-item"></el-checkbox-button>
                             <el-checkbox-group v-model="checkedSubmenus" @change="handleCheckedSubsChange">
-                                <el-checkbox-button v-for="submenu in submenus" :label="submenu" class="menu-item">{{submenu.menuName}}</el-checkbox-button>
+                                <el-checkbox-button v-for="submenu in submenus" :key="submenu" :label="submenu" class="menu-item">{{submenu.menuName}}</el-checkbox-button>
                             </el-checkbox-group>
                         </div>
                     </el-col>
@@ -61,11 +61,11 @@
                     </el-col>
                     <el-col :span="22" class="rightside">
                         <el-row :gutter="20">
-                            <el-col :span="6" v-for="(funcs, index) in funcsList">
+                            <el-col :span="6" v-for="(funcs, index) in funcsList" :key="index">
                                 <div class="funcs-content">
                                     <el-checkbox :value="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
                                     <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
-                                        <el-checkbox v-for="funcsDtl in funcs.bsns" :label="funcsDtl.bsnNo" v-bind:title="funcsDtl.interfaceName" >{{ funcsDtl.interfaceName }}</el-checkbox>
+                                        <el-checkbox v-for="funcsDtl in funcs.bsns" :key="funcsDtl.bsnNo" :label="funcsDtl.bsnNo" v-bind:title="funcsDtl.interfaceName" >{{ funcsDtl.interfaceName }}</el-checkbox>
                                     </el-checkbox-group>
                                 </div>
                             </el-col>

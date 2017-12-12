@@ -1,11 +1,10 @@
 <template>
 	<div class="add_preSale">
-		<current yuji="项目管理" erji="售前立项" sanji="售前立项新增">
+		<current yuji="项目管理" erji="售前立项" sanji="售前立项详情">
 		</current>
 		<div class="content-wrapper">
 			<div class="titlebar">
-				<span class="title-text">售前立项新增</span>
-				<!-- <el-button type="primary" class="toolBtn" @click="save('formdata1')">保存</el-button> -->
+				<span class="title-text">售前立项详情</span>
 			</div>
 			<div class="add-wrapper">
 				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="130px">
@@ -21,6 +20,11 @@
 							</el-select>
 					  	</el-form-item>
 					</el-col>		
+					<el-col :sm="24" :md="12">
+						<el-form-item label="机会号">
+							<el-input v-model="formdata1.jihuihao"></el-input>
+					  	</el-form-item>
+					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="客户">
 							<el-select v-model="formdata1.userNo">
@@ -95,7 +99,7 @@
 						    <el-input type="text" v-model="formdata2.xiaoshouManger"></el-input>
 					  	</el-form-item>
 				  	</el-col>
-					<el-col :sm="24" :md="12">
+					<el-col :span="24">
 				  		<el-form-item label="项目说明" prop="xiangmuRemark">
 							<el-input
 							  type="textarea"
@@ -107,17 +111,6 @@
 				  	</el-col>
 				</el-form>
 				<el-col :span="24" class="item-title">立项预算</el-col>
-				<!-- <el-upload class="upload-demo" ref="upload" name="file"
-					:data="formdata"
-					:on-change="changeUpload"
-					:on-success="successUpload"
-					action="" 
-					:show-file-list="false" 
-					:auto-upload="false"
-					:headers="token"
-				>
-					<el-button slot="trigger" type="primary" class="uploadBtn">上传立项申请表</el-button>
-				</el-upload> -->
 				<el-form ref="formdata3" :inline="true"  :rules="rules3" :model="formdata3" label-width="110px">
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="总工作量" prop="gongzuoTotal">
@@ -160,11 +153,7 @@
 					  	</el-form-item>
 				  	</el-col>
 				</el-form>
-				<div class="addPreSaleButton_wrapper">
-					<el-button class="btn-primary" @click="saveAndSubmit">保存提交审批</el-button>
-					<el-button class="btn-primary" @click="saveNotSbumit">保存暂不提交审批</el-button>
-					<el-button class="btn-primary" @click="notSave">取消</el-button>
-				</div>
+				<el-col :span="24" class="item-title">审批历史</el-col>
 			</div>
 		</div>
 	</div>
@@ -282,12 +271,13 @@
 			current
 		},
 		created() {
-			
+			//查询详情
+			// this.queryUserDetail();
             //查询收入金额列表
             //this.queryprojIncmTypeList()
 			//查询收入确认金额列表
             // this.queryincmConfimList();
-            // //查询项目类型列表
+            //查询项目类型列表
             // this.queryprojTypeList()
 		},
 		computed: {
@@ -328,77 +318,23 @@
 					// this.$router.push('/');
 	      		}
 			},
-			//保存提交审批
-			saveAndSubmit() {
-				let self = this;
-				self.$refs.formdata1.validate(valid => {
-			        if (valid) {
-			          	self.$refs.formdata2.validate(valid => {
-							if (valid) {
-								self.$refs.formdata3.validate(valid => {
-									if (valid) {
-										let params = {
-
-										}
-										self.saveAndSubmit(params);
-									}
-								})
-							}
-						})
-					}
-				})
-
-			},
-			//保存不提交审批
-			saveNotSbumit() {
-				let self = this;
-				self.$refs.formdata1.validate(valid => {
-			        if (valid) {
-			          	self.$refs.formdata2.validate(valid => {
-							if (valid) {
-								self.$refs.formdata3.validate(valid => {
-									if (valid) {
-										let params = {
-
-										}
-										self.saveNotSubmit(params);
-									}
-								})
-							}
-						})
-					}
-				})	
-			},
-			//取消
-			notSave() {
-
-			},
-			saveAndSubmit(params) {
-				let self = this;
-				self.$axios.post(baseURL+'',params)
+			queryUserDetail() {
+				const self = this;
+				let params = {
+					
+				};
+				self.$axios.get(baseURL+'', params)
 				.then((res) => {
-					console.log('saveAndSubmit',res);
-					if(res.data.code === "S00000") {
-		      			self.$message({ message: '操作成功', type: 'success' });
-						// self.$router.push('/');
-		      		}
-				}).catch((err) => {
-					console.log('error');
+					console.log('dtl', res);
+					if(res.data.code == 'S00000') {
+						self.formdata1 = res.data.data;
+					}
+					
+				})
+				.catch((err) => {
+					console.log(err)
 				})
 			},
-			saveNotSubmit(params) {
-				let self = this;
-				self.$axios.post(baseURL+'',params)
-				.then((res) => {
-					console.log('saveNotSubmit',res);
-					if(res.data.code === "S00000") {
-		      			self.$message({ message: '操作成功', type: 'success' });
-						// self.$router.push('/');
-		      		}
-				}).catch((err) => {
-					console.log('error');
-				})
-            },
             //查询收入金额列表
             queryprojIncmTypeList() {
                 let self = this;
