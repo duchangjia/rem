@@ -152,18 +152,30 @@ const routes = [
                             path: '/add_preSale',
                             component: resolve => require(['../components/view/project_Mgmt/preSale/add_preSale.vue'], resolve),
                         },
+                    ]
+                },
+                {
+                    path: '/proSetUp',
+                    component: resolve => require(['../components/view/project_Mgmt/proSetUp/proSetUp.vue'], resolve),
+                    children: [
                         {
-                            name: 'edit_preSale',
-                            path: '/edit_preSale',
-                            component: resolve => require(['../components/view/project_Mgmt/preSale/edit_preSale.vue'], resolve),
+                            path: '/',
+                            component: resolve => require(['../components/view/project_Mgmt/proSetUp/proSetUp_query.vue'], resolve),
                         },
                         {
-                            name: 'preSale_info',
-                            path: '/preSale_info',
-                            component: resolve => require(['../components/view/project_Mgmt/preSale/preSale_info.vue'], resolve),
-                        }
+                            path: '/proSetUp_detail',
+                            component: resolve => require(['../components/view/project_Mgmt/proSetUp/proSetUp_detail.vue'], resolve),
+                        },
+                        {
+                            path: '/proSetUp_edit',
+                            component: resolve => require(['../components/view/project_Mgmt/proSetUp/proSetUp_edit.vue'], resolve),
+                        },
+                        {
+                            path: '/proSetUp_add',
+                            component: resolve => require(['../components/view/project_Mgmt/proSetUp/proSetUp_add.vue'], resolve),
+                        },
                     ]
-                }
+                },
             ]
         }
     ]

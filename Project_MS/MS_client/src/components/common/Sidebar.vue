@@ -75,7 +75,11 @@ export default {
 						{
 							menuUrl: 'preSale_query',
 							menuName: '售前立项'
-						}
+						},
+						{
+							menuUrl: 'proSetUp',
+							menuName: '项目立项'
+						},
 					]
 				},
 				// {
