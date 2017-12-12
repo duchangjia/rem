@@ -15,6 +15,7 @@
                                                    action="/iem_hrm/CustInfo/uploadAvatar"
                                                    :show-file-list="false"
                                                    :data="avatar"
+                                                   :auto-upload="false"
                                                    :on-success="handleAvatarSuccess"
                                                    :on-change="handleAvatarChange"
                                                    :headers="token"
@@ -323,21 +324,20 @@
                                         </el-col>
                                         <el-col :span="9">
                                             <el-form-item label="附件">
-                                                <el-input v-model="ruleForm.attachm" style="position:absolute" :disabled="edit" readOnly></el-input>
-                                                <!--<el-upload class="upload-demo" ref="upload" name="file"-->
-                                                           <!--action="/iem_hrm/CustInfo/modCustInf"-->
-                                                           <!--:http-request="modCustInf"-->
-                                                           <!--:show-file-list="false"-->
-                                                           <!--:data="ruleForm"-->
-                                                           <!--:auto-upload="false"-->
-                                                           <!--:on-change="handleFileUpload"-->
-                                                           <!--:on-success="successUpload"-->
-                                                           <!--:headers="token"-->
-                                                           <!--:before-upload="checkUserNo">-->
-                                                    <!--<el-button slot="trigger" type="primary" class="uploadBtn" :disabled="edit">更换附件</el-button>-->
+                                                <el-input v-model="ruleForm.attachm2" style="position:absolute" :disabled="edit" readOnly></el-input>
+                                                <el-upload class="upload-demo" ref="upload" name="file"
+                                                           action="/iem_hrm/CustInfo/modCustFile"
+                                                           :show-file-list="false"
+                                                           :data="avatar"
+                                                           :auto-upload="false"
+                                                           :on-change="handleFileUpload"
+                                                           :on-success="successUpload"
+                                                           :headers="token"
+                                                           :before-upload="checkUserNo">
+                                                    <el-button slot="trigger" type="primary" class="uploadBtn" :disabled="edit">更换附件</el-button>
                                                     <el-button type="primary" class="uploadBtn uploadBtn-special" @click="downLoad">下载附件</el-button>
                                                     <!--<el-button type="primary" class="uploadBtn uploadBtn-special" @click="downLoad">下载附件</el-button>-->
-                                                <!--</el-upload>-->
+                                                </el-upload>
                                             </el-form-item>
                                         </el-col>
                                     </el-form>
@@ -513,7 +513,7 @@
                                             action="/iem_hrm/CustFile/batch/upload"
                                             list-type="picture-card"
                                            :file-list="fileList2"
-                                           :data="certificates_list"
+                                           :data="avatar"
                                             :on-preview="handlePictureCardPreview"
                                             :on-remove="handleRemove"
                                            :on-success="successUpload"
@@ -533,7 +533,7 @@
                     </template>
                 </div>
                 <div class="button-wrapper">
-                    <button @click="bianji(tabName)" v-show="tabName=='sixth'?false:true">编辑</button>
+                    <button @click="bianji(tabName)" v-show="tabName=='first'?true:false">编辑</button>
                     <button class="special_1" @click="save(tabName)">{{this.tabName=='sixth'?'全部下载':'保存'}}</button>
                     <button @click="del" v-show="tabName=='first'?true:false">删除</button>
                 </div>
@@ -572,9 +572,6 @@
                     Authorization:`Bearer `+localStorage.getItem('access_token'),
                 },
                 userNo: '',
-                certificates_list: {
-                    certificates: true,
-                },
                 //弹窗数据
                 dialogVisible: false,
                 tableOption:[],
@@ -809,6 +806,7 @@
         components: {
             current,socialRelationItem,messageBox
         },
+
         created() {
             let self = this
             function getNation() {
@@ -843,6 +841,7 @@
                     .then(res=>{
                         console.log(res)
                         this.ruleForm = res.data.data
+                        this.$set(this.ruleForm,'attachm2','')
                     })
                     .catch(e=>{
                         console.log(e)
@@ -862,7 +861,7 @@
                     .then(res=>{
                         console.log(res,'附件查询')
                         if(res.data[0]) {
-                            this.ruleForm.attachm = res.data[0].fileName+'.'+res.data[0].fileSuffix
+                            this.ruleForm.attachm2 = res.data[0].fileName+'.'+res.data[0].fileSuffix
                             this.file = res.data[0]
                         }
                     })
@@ -939,6 +938,8 @@
                 this.ruleForm.probEndTime = val
             },
             handleRemove(file, fileList) {
+                console.log(file,fileList,this.fileList2)
+                let index = this.fileList2.indexOf(file)
                 let data = {}
                     if(file.response&&file.response.data[0]){
                          data = {
@@ -965,17 +966,22 @@
                                         type: 'error',
                                         message: result
                                     });
-                                    fileList.push(file)
+                                    fileList.splice(index,0,file)
                                 }
                             })
                             .catch(e=>{
                                 console.log(e)
+                                this.$message({
+                                    type: 'error',
+                                    message: e.retMsg
+                                });
+                                fileList.splice(index,0,file)
                             })
             },
             handleFileUpload(file, fileList) {
                 if(this.tabName == 'first') {
                     this.flag = true
-                    this.ruleForm.attachm = file.name
+                    this.ruleForm.attachm2 = file.name
                 }
             },
             successUpload(response, file, fileList) {
@@ -1025,8 +1031,7 @@
                 }
             },
             checkUserNo(file) {
-                this.certificates_list.userNo = this.userNo
-                if(!this.certificates_list.userNo){
+                if(!this.userNo){
                     this.$message({
                         type: 'error',
                         message: '请先填写基本信息并点击右上角保存'
@@ -1058,8 +1063,20 @@
                 this.imageUrl = URL.createObjectURL(file.raw);
             },
             handleAvatarSuccess(res, file) {
-                console.log(res,'头像上传')
-//                this.imageUrl = URL.createObjectURL(file.raw);
+                console.log(res,'修改头像上传',this.avatar.userNo)
+                let result = res.retMsg
+                this.ruleForm.avatar = ''
+//                if('操作成功'===result) {
+//                    this.$message({
+//                        type: 'success',
+//                        message: result
+//                    });
+//                } else {
+//                    this.$message({
+//                        type: 'error',
+//                        message: result
+//                    });
+//                }
             },
             
             userNoSelect(){
@@ -1183,8 +1200,18 @@
                 if(tab.name==='second'&&this.lock.socialLock){
                     this.$axios.get('/iem_hrm/CustContact/queryCustContacts',{params:{userNo:this.userNo}})
                         .then(res=>{
+                            console.log(res)
                             this.social_item.userNo = this.userNo
-                            this.social_item.lists = res.data.data
+                            this.social_item.lists = res.data.data.map(item => {
+                                return {
+                                    contactName: item.contactName,
+                                    relationship: item.relationship,
+                                    telphone: item.telphone,
+                                    profession: item.profession,
+                                    post: item.post,
+                                    addr: item.addr,
+                                }
+                            })
                             this.social_item.lists.forEach(item=>{
                                 self.$set(item,'isShowEdit', true)
                             })
@@ -1206,6 +1233,7 @@
                                 return Object.assign(item,obj)
                             })
                             console.log(this.fileList2)
+                            this.lock.certificatesLock = false
 
                         })
                         .catch(e=>{
@@ -1288,39 +1316,39 @@
                                     delete this.ruleForm[key]
                                 }
                             }
-                            delete this.ruleForm.attachm
-                            if(this.flag) {
-                                console.log(this.ruleForm,'modifine_upload')
-                                self.$refs.upload.submit()
-                            }else {
-                                console.log(this.ruleForm,'正常修改提交')
-                                this.$axios.put('/iem_hrm/CustInfo/modCustInf', this.ruleForm)
-                                    .then(res=>{
-                                        let result = res.data.retMsg
-                                        if ("操作成功"===result){
-                                            self.$message({
-                                                type: 'success',
-                                                message: result
-                                            });
-                                            this.edit = true
-                                            this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+this.userNo)
-                                                .then(res=>{
-                                                    this.ruleForm = res.data.data
-                                                })
-                                                .catch(e=>{
-                                                    console.log(e)
-                                                })
-                                        }else{
-                                            self.$message({
-                                                type: 'error',
-                                                message: result
-                                            });
-                                        }
-                                    })
-                                    .catch(e=>{
-                                        console.log(e)
-                                    })
-                            }
+                        console.log(this.ruleForm,'正常修改提交')
+                        this.$axios.put('/iem_hrm/CustInfo/modCustInf', this.ruleForm)
+                            .then(res=>{
+                                let result = res.data.retMsg
+                                if ("操作成功"===result){
+                                    self.$message({
+                                        type: 'success',
+                                        message: result
+                                    });
+                                    this.edit = true
+                                    if(this.ruleForm.avatar) {
+                                        self.$refs.uploadAvatar.submit()
+                                    }
+                                    if(this.flag) {
+                                        self.$refs.upload.submit()
+                                    }
+                                    this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+this.userNo)
+                                        .then(res=>{
+                                            this.ruleForm = res.data.data
+                                        })
+                                        .catch(e=>{
+                                            console.log(e)
+                                        })
+                                }else{
+                                    self.$message({
+                                        type: 'error',
+                                        message: result
+                                    });
+                                }
+                            })
+                            .catch(e=>{
+                                console.log(e)
+                            })
 
                         }else {
                             self.$message({
@@ -1353,6 +1381,7 @@
                                         type: 'success',
                                         message: result
                                     });
+                                    this.flag = false
                                 }else {
                                     self.$message({
                                         type: 'error',
@@ -1577,7 +1606,7 @@
                     profession: '',
                     post: '',
                     addr: '',
-                    isShow: true
+                    isShowEdit: false
                 }
                 this.social_item.lists.push(item)
             },

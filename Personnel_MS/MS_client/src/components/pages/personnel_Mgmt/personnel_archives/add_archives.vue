@@ -562,7 +562,6 @@
                                             :on-remove="handleRemove"
                                             :data="certificates_list"
                                             multiple
-                                            :on-change="handleFileUpload"
                                             :on-success="successUpload"
                                             :before-upload="checkUserNo"
                                             action="/iem_hrm/CustFile/batch/upload"
@@ -932,6 +931,13 @@
                     this.fileList2 = []
                 },
             },
+//            'ruleForm.certNo': {
+//                handler: function (val, oldVal) {
+//                    if(val!=oldVal) {
+//                        this.imageUrl = false
+//                    }
+//                }
+//            }
         },
         components: {
             current,socialRelationItem,messageBox
@@ -962,6 +968,13 @@
                 });
         },
         methods: {
+//            avatarHidden() {
+//                this.$watch('ruleForm.certNo', function (newVal, oldVal) {
+//                    if(newVal!==oldVal){
+//                        this.imageUrl = false
+//                    }
+//                })
+//            },
             changeBirthday(val) {
                 this.ruleForm.birthday = val
             },
@@ -1012,10 +1025,24 @@
             },
             handleAvatarSuccess(res, file) {
                 console.log(res,'头像上传',this.avatar.userNo)
+                let result = res.retMsg
+                if('操作成功'===result) {
+                    this.$message({
+                        type: 'success',
+                        message: result
+                    });
+                    this.ruleForm.avatar = ''
+                } else {
+                    this.$message({
+                        type: 'error',
+                        message: result
+                    });
+                }
             },
             //证件方法
             handleRemove(file, fileList) {
-                console.log(fileList,this.fileList2)
+                console.log(fileList,this.fileList2,file)
+                let index = this.fileList2.indexOf(file)
                 if(file.response&&file.response.data[0]){
                         let data = {
                             userNo:file.response.data[0].userNo,
@@ -1029,17 +1056,21 @@
                                         type: 'success',
                                         message: result
                                     });
-                                    fileList.pop()
                                 }else {
                                     this.$message({
                                         type: 'error',
                                         message: result
                                     });
-                                    fileList.push(file)
+                                    fileList.splice(index,0,file)
                                 }
                             })
                             .catch(e=>{
+                                this.$message({
+                                    type: 'error',
+                                    message: e.retMsg
+                                });
                                 console.log(e)
+                                fileList.splice(index,0,file)
                             })
                     }
             },
@@ -1050,6 +1081,7 @@
             handleFileUpload(file, fileList) {
                 if(this.tabName == 'first') {
                     this.ruleForm.attachm = file.name
+                    this.ruleForm.file = file.name
                 }
             },
             successUpload(response, file, fileList) {
@@ -1065,11 +1097,13 @@
                         self.work_item.userNo = aa
                         self.certificates_list.userNo = aa
                         self.avatar.userNo = aa
+                        this.ruleForm.file = ''
                         if(self.ruleForm.avatar){
                             console.log(self.avatar.userNo,'self.ruleForm.avatar')
                             self.$refs.uploadAvatar.submit()
                         }else {
                             this.$message({ message: '操作成功', type: 'success' });
+                            console.log('只带附件提交成功')
                         }
                     }else {
                         this.$message({ message: result, type: 'error' });
@@ -1099,7 +1133,7 @@
                 }
             },
             checkUserNo(file) {
-                this.certificates_list.userNo = 'P0001346'
+//                this.certificates_list.userNo = 'P0001401'
                 if(this.tabName == 'sixth') {
                     if(!this.certificates_list.userNo){
                         this.$message({
@@ -1189,7 +1223,7 @@
                 if('first' === tabName){
                     self.$refs.ruleForm.validate((valid) => {
                         if (valid) {
-                            if(this.ruleForm.attachm) {
+                            if(this.ruleForm.attachm&&this.ruleForm.file) {
                                 console.log(this.ruleForm,'upload')
                                 self.$refs.upload.submit()
                             }else {
