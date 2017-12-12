@@ -30,7 +30,6 @@
 					</el-col>		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <!--<el-input v-model="formdata2.custPost" :disabled="true"></el-input>-->
 						    <el-select v-model="formdata2.custPost" :disabled="true">
 								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
@@ -38,7 +37,6 @@
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <!--<el-input v-model="formdata2.custClass" :disabled="true"></el-input>-->
 						    <el-select v-model="formdata2.custClass" :disabled="true">
 								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
@@ -112,24 +110,7 @@
 				//职级列表
 			    custClassList: [],
 			    //请假类型列表
-				leaveTypeList: [
-					{label: '有薪休假', leaveNo: '01'},
-					{label: '事假', leaveNo: '02'},
-					{label: '病假', leaveNo: '03'},
-					{label: '因公外出', leaveNo: '04'},
-					{label: '出差', leaveNo: '05'},
-					{label: '婚假', leaveNo: '06'},
-					{label: '生育产假', leaveNo: '07'},
-					{label: '哺乳假', leaveNo: '08'},
-					{label: '护理假', leaveNo: '09'},
-					{label: '流产假', leaveNo: '10'},
-					{label: '产前检查', leaveNo: '11'},
-					{label: '丧假', leaveNo: '12'},
-					{label: '忘打卡', leaveNo: '13'},
-					{label: '忘带卡', leaveNo: '14'},
-					{label: '特殊', leaveNo: '15'},
-					{label: '调休假', leaveNo: '16'}
-				],
+				leaveTypeList: [],
 			 	rules: {
 		          	leaveType: [
 		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
@@ -141,14 +122,9 @@
 			current
 		},
 		created() {
-//			let applyNo = this.$route.params.applyNo;
-			let applyNo = sessionStorage.getItem('applyNo');
-			let userNo = this.$route.params.userNo;
-			let params = {
-				applyNo: applyNo
-			}
+			
 			//查询请假详情
-			this.queryLeaveInfo(params);
+			this.queryLeaveInfo();
 			//请假列表查询
 			this.queryLeaveTypeList();
 			//查询岗位列表
@@ -175,17 +151,21 @@
 	      			isOnLine: "false"
 	      		}
 	      		//下载附件
-				self.downloadFile(params);
+				self.downloadFile();
 	      	},
-			queryLeaveInfo(params) {
+			queryLeaveInfo() {
 				const self = this;
+				let applyNo = sessionStorage.getItem('leaveInfo_applyNo');
+				let params = {
+					applyNo: applyNo
+				}
 				self.$axios.get(baseURL+'/leave/queryLeaveInfos',{params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('queryLeaveInfo',res);
 					if(res.data.code === "S00000") {
 						self.formdata2 = res.data.data;
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
@@ -219,38 +199,38 @@
 			queryCustPostList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustClassList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryLeaveTypeList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=LEAVE_TYPE')
-				.then(function(res) {
+				.then((res) => {
 					console.log('sysParamMgmt',res);
 					if(res.data.code === "S00000") {
 						self.leaveTypeList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			}

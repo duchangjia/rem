@@ -57,7 +57,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差类型" prop="travelType">
 						    <el-select v-model="formdata2.travelType" value-key="travelType" >
-								<el-option v-for="item in travelTypeList" :key="item.travelNo" :label="item.label" :value="item.travelNo"></el-option>
+								<el-option v-for="item in travelTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
@@ -153,12 +153,8 @@
 				custPostList: [],
 				//职级列表
 			    custClassList: [],
-				travelTypeList: [
-					{label: "业务拓展", travelNo: "01"},
-					{label: "项目实施", travelNo: "02"},
-					{label: "会议", travelNo: "03"},
-					{label: "其他", travelNo: "99"}
-				],
+				//出差类型列表
+				travelTypeList: [],
 			 	rules: {
 			 		travelType: [
 		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
@@ -193,8 +189,8 @@
 					applyNo: this.formdata2.applyNo, //出差编号
 				    userNo: this.formdata2.userNo,//工号
 				    travelType: this.formdata2.travelType,//出差类型
-				    travelStartTime: this.travelStartTime,//出差开始时间	
-				    travelEndTime: this.travelEndTime, //出差结束时间
+				    travelStartTime: this.formdata2.travelStartTime,//出差开始时间	
+				    travelEndTime: this.formdata2.travelEndTime, //出差结束时间
 				    travelStartCity: this.formdata2.travelStartCity,//出差开始城市	
 				    travelArrivalCity: this.formdata2.travelArrivalCity,//出差到达城市
 				    travelDays: this.formdata2.travelDays, //出差天数  
@@ -205,27 +201,25 @@
 			}
 		},
 		created() {
-			let applyNo = this.$route.params.applyNo;
-			let userNo = this.$route.params.userNo;
-			let params = {
-				applyNo: applyNo
-			}
+			
 			//查询出差详情
-			this.queryTravelInfo(params);
+			this.queryTravelInfo();
 			//查询公司列表
 			this.queryCompList();
 			//查询岗位列表
 			this.queryCustPostList();
 			//查询职级列表
 			this.queryCustClassList()
+			//查询出差类型列表
+			this.queryTravelTypeList();
 		},
 		methods: {
 			changeStartTime(time) {
-				this.travelStartTime = time;
+				this.formdata2.travelStartTime = time;
 				// if(this.caclStarttimeFlag) {
 				// 	let params = {
-				// 		travelStartTime: this.travelStartTime,
-				// 		travelEndTime: this.travelEndTime
+				// 		travelStartTime: this.formdata2.travelStartTime,
+				// 		travelEndTime: this.formdata2.travelEndTime
 				// 	}
 				// 	if(this.formdata2.travelEndTime) {
 				// 		this.calTravelDays(params);
@@ -236,11 +230,11 @@
 			},
 			changeEndTime(time) {
 				// this.formdata2.travelEndTime = time;
-				this.travelEndTime = time;
+				this.formdata2.travelEndTime = time;
 				// if(this.caclEndtimeFlag) {
 				// 	let params = {
-				// 		travelStartTime: this.travelStartTime,
-				// 		travelEndTime: this.travelEndTime
+				// 		travelStartTime: this.formdata2.travelStartTime,
+				// 		travelEndTime: this.formdata2.travelEndTime
 				// 	}
 				// 	if(this.formdata2.travelStartTime) {
 				// 		this.calTravelDays(params);
@@ -281,8 +275,8 @@
 								applyNo: self.formdata2.applyNo, //出差编号
 							    userNo: self.formdata2.userNo,//工号
 							    travelType: self.formdata2.travelType,//出差类型
-							    travelStartTime: self.travelStartTime,//出差开始时间	
-							    travelEndTime: self.travelEndTime, //出差结束时间
+							    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
+							    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
 							    travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
 							    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
 							    travelDays: self.formdata2.travelDays, //出差天数  
@@ -299,8 +293,12 @@
 					}
 				});
 			},
-			queryTravelInfo(params) {
+			queryTravelInfo() {
 				let self = this;
+				let applyNo = sessionStorage.getItem('editTravel_applyNo');
+				let params = {
+					applyNo: applyNo
+				}
 				self.$axios.get(baseURL+'/travel/getTravelInfoByApplyNo',{params: params})
 				.then((res) => {
 					console.log('travelInfo',res);
@@ -378,6 +376,18 @@
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
+					}
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
+			queryTravelTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=TRAVEL_TYPE')
+				.then((res) => {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						self.travelTypeList = res.data.data;
 					}
 				}).catch((err) => {
 					console.log('error');

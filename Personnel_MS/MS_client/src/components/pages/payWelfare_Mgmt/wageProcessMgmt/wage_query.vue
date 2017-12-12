@@ -114,19 +114,7 @@ export default {
 				derpNo: '',
 				startDate: "",
 			},
-			transferDataList: [
-				{
-					batchNo: "",
-					organName: "",
-					settleStartTime: "",
-					settleEndTime: "",
-					month: "",
-					remark: "",
-					batchStatus: "",
-					createdBy: "",
-					createdDate: ""
-				}
-			],
+			transferDataList: [],
 			//部门列表
 			departList: [],
 			//公司列表
@@ -204,8 +192,7 @@ export default {
 			sessionStorage.setItem('wageQuery_batchNo',row.batchNo);
 			sessionStorage.setItem('entryWage_organNo',row.organNo);
 			if(row.batchStatus == '02' || row.batchStatus == '03') {
-//				this.$set(this.handleImportFlag, index, true);
-				this.$set(this.handleEnterFlag, index, true);
+				this.$set(this.handleEnterFlag, index, true);//按钮置灰
 				this.$set(this.handleEditFlag, index, true);
 				this.$set(this.handleStatusFlag, index, true);
 				this.$set(this.handleDeleteFlag, index, true);
@@ -376,26 +363,26 @@ export default {
 		queryCompList() {
 			let self = this;
 			self.$axios.get(baseURL+'/wage/queryOrganByUserNo')
-			.then(function(res) {
+			.then((res) => {
 				console.log('CompList',res);
 				if(res.data.code === "S00000") {
 					self.compList = res.data.data;
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},
 		queryDerpList(params) {
 			let self = this;
 			self.$axios.get(baseURL+'/wage/queryDerpByUserNo', {params: params})
-			.then(function(res) {
+			.then((res) => {
 				console.log('DerpList',res);
 				if(res.data.code === "S00000") {
 					self.departList = res.data.data;
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		}

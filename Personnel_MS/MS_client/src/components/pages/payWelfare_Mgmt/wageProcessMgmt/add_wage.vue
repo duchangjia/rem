@@ -198,7 +198,7 @@
 				let params = {
 					organNo: value
 				}
-				sessionStorage.setItem('organNo',value);
+				sessionStorage.setItem('addWage_organNo',value);
 				//查询部门范围列表
 				this.derpRangeList = [];
 				this.queryDerpList(params);
@@ -211,7 +211,7 @@
 		        	this.isSubIndeterminate = true;
 		        	
 		        	let params = {
-		        		organNo: sessionStorage.getItem('organNo')
+		        		organNo: sessionStorage.getItem('addWage_organNo')
 			      	}
 		        	//查询人员范围列表（选全部部门时）
 			      	this.queryDerpAndUser(params);
@@ -342,13 +342,13 @@
 			addWageInfo(params) {
 				let self = this;
 				self.$axios.post(baseURL+'/wage/addWageFlowManagerInfo',params)
-				.then(function(res) {
+				.then((res) => {
 					console.log('addWage',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
 						self.$router.push('/wageProcess_manage');
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},

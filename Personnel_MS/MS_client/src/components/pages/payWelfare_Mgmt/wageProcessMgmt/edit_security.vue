@@ -125,26 +125,7 @@ export default {
 	data() {
 		return {
 			userInfo: {},
-			socialData: {
-				organName: '',
-				derpName: '',
-				userNo: '',
-				custName: '',
-				custPost: '',
-				custClass: '',
-				perEndmPay: '',
-				comEndmPay: '',
-				perMediPay: '',
-				comMediPay: '',
-				perUnemPay: '',
-				comUnemPay: '',
-				perEmplPay: '',
-				comEmplPay: '',
-				perMatePay: '',
-				comMatePay: '',
-				perHousePay: '',
-				comHousePay: ''
-			},
+			socialData: {},
 			rules: {
 				applyName: [
 					{ required: true, message: '请输入模版名称', trigger: 'blur' }
@@ -247,12 +228,12 @@ export default {
 				userNo: userNo
 			}
 			self.$axios.get(baseURL+'/wage/queryCustInfoByUserNo' ,{params: params})
-			.then(function(res) {
+			.then((res) => {
 				console.log('userInfo',res);
 				if(res.data.code == "S00000") {
 					self.userInfo = res.data.data;
 				}
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log('err');
 			})
 		},
@@ -265,12 +246,12 @@ export default {
 				batchNo: batchNo
 			}
 			self.$axios.get(baseURL+'/wage/queryDiffPay' ,{params: params})
-			.then(function(res) {
+			.then((res) => {
 				console.log('socialInfo',res);
 				if(res.data.code == "S00000") {
 					self.socialData = res.data.data;
 				}
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log('err');
 			})
 		},

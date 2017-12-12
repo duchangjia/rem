@@ -173,7 +173,7 @@
 				let params = {
 					organNo: value
 				}
-				sessionStorage.setItem('organNo',value)
+				sessionStorage.setItem('infoWage_organNo',value);
 				//查询部门范围列表
 				this.queryDerpList(params);
 			},

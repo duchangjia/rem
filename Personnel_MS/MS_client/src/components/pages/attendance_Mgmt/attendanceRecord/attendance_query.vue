@@ -122,21 +122,7 @@ export default {
 			//公司列表
 			compList: [],
 			//考勤信息列表
-			transferDataList: [
-				{
-					attenceNo: "",//考勤编号
-					userNo: "",//用户编号 
-					custName: "",
-					attenceTime: "",//考勤日期 
-					attenceType: "",//考勤类型	
-					projNo: "",//项目ID
-					taskTime: "",//工时
-					attenceStatus: "",//状态
-					remark: "",//备注	
-					createdBy: "",
-					createdDate: ""
-				}
-			],
+			transferDataList: [],
 			rules: {
 				startDate: [
 	            	{ validator: checkStartDate, trigger: 'change' }
@@ -209,9 +195,6 @@ export default {
 		changeEndTime(val) {
 			this.ruleForm2.endDate = val;
 		},
-		handleImport() {
-			this.$router.push('/attendance_import');
-		},
 		changeComp(val) {
 			let params = {
 				organNo: val
@@ -273,7 +256,7 @@ export default {
 				attenceEndTime: self.ruleForm2.endDate
 			}
 			self.$axios.get(baseURL+'/attence/queryAttenceList', {params: params})
-			.then(function(res) {
+			.then((res) => {
 				console.log('List',res);
 				if(res.data.code === "S00000") {
 					self.transferDataList = res.data.data.list;
@@ -281,7 +264,7 @@ export default {
 					self.totalRows = Number(res.data.data.total);
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},
@@ -348,13 +331,13 @@ export default {
 		queryCompList() {
 			let self = this;
 			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-			.then(function(res) {
+			.then((res) => {
 				console.log('CompList',res);
 				if(res.data.code === "S00000") {
 					self.compList = res.data.data;
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},
@@ -362,13 +345,13 @@ export default {
 		queryDerpList(params) {
 			let self = this;
 			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
-			.then(function(res) {
+			.then((res) => {
 				console.log('DerpList',res);
 				if(res.data.code === "S00000") {
 					self.departList = res.data.data;
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		}

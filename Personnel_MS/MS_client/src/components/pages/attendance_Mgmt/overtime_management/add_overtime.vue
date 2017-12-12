@@ -44,7 +44,6 @@
 					</el-col>		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <!--<el-input v-model="formdata1.custPost" :disabled="true"></el-input>-->
 						    <el-select v-model="formdata1.custPost" :disabled="true">
 								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
@@ -52,7 +51,6 @@
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <!--<el-input v-model="formdata1.custClass" :disabled="true"></el-input>-->
 						    <el-select v-model="formdata1.custClass" :disabled="true">
 								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
@@ -73,8 +71,8 @@
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="加班类型" prop="workotType">
-						    <el-select v-model="formdata2.workotType" value-key="workotType" @change="changeValue">
-								<el-option v-for="item in workotTypeList" :key="item.workotNo" :label="item.label" :value="item.workotNo"></el-option>
+						    <el-select v-model="formdata2.workotType" value-key="workotType">
+								<el-option v-for="item in workotTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	  	
@@ -161,20 +159,13 @@
 			    //员工基本信息
 				formdata1: {},
 				//员工加班信息
-				formdata2: {
-					workotStartTime: "",
-					workotEndTime: "",
-					workotType: "",
-					timeSheet: "",
-					remark: "",
-					attachm: ""
-				},
+				formdata2: {},
+				//岗位列表
 				custPostList: [],
+				//职级列表
 				custClassList: [],
-				workotTypeList: [
-					{label: '有薪加班', workotNo: '01'},
-					{label: '调休加班', workotNo: '02'}
-				],
+				//加班类型列表
+				workotTypeList: [],
 				//员工基本信息校验规则
 				rules1: {
 			 		userNo: [
@@ -213,8 +204,8 @@
 				const self = this;
 				return {
 					"userNo": self.formdata1.userNo,
-	    			"workotStartTime": self.workotStartTime, 
-	    			"workotEndTime": self.workotEndTime,
+	    			"workotStartTime": self.formdata2.workotStartTime, 
+	    			"workotEndTime": self.formdata2.workotEndTime,
 	    			"workotType": self.formdata2.workotType, 
 	    			"timeSheet": self.formdata2.timeSheet, 
 	    			"remark": self.formdata2.remark,
@@ -227,6 +218,8 @@
 			this.queryCustPostList();
 			//查询职级列表
 			this.queryCustClassList();
+			//查询加班类型列表
+			this.queryWorkotTypeList();
 		},
 		methods: {
 			changefile(file, fileList) {
@@ -234,16 +227,12 @@
 			},
 			changeStartTime(time) {
 				console.log('time',time);
-				this.workotStartTime = time;
+				this.formdata2.workotStartTime = time;
 			},
 			changeEndTime(time) {
 				console.log('time',time);
-				this.workotEndTime = time;
+				this.formdata2.workotEndTime = time;
 			},
-			changeValue(value) {
-		 		const self = this;
-	            console.log('value',value);
-	      	},
 	      	queryUserInfo() {
 	      		let userNo = this.formdata1.userNo;
 	      		let params = {
@@ -335,8 +324,8 @@
 							if(!self.fileFlag) {
 							let params = {
 								"userNo": self.formdata1.userNo,
-				    			"workotStartTime": self.workotStartTime, 
-				    			"workotEndTime": self.workotEndTime,
+				    			"workotStartTime": self.formdata2.workotStartTime, 
+				    			"workotEndTime": self.formdata2.workotEndTime,
 				    			"workotType": self.formdata2.workotType, 
 				    			"timeSheet": self.formdata2.timeSheet, 
 				    			"remark": self.formdata2.remark
@@ -352,60 +341,70 @@
 			getUseInfoByUserNo(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/workot/getUseInfoByUserNo/',{params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('getUseInfoByUserNo',res);
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			addLeaveInfo(params) {
 				let self = this;
 				self.$axios.post(baseURL+'/workot/addWorkOtInfo',params)
-				.then(function(res) {
+				.then((res) => {
 					console.log('addLeaveInfo',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
 						self.$router.push('/overtime_management');
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			calTimeSheet(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/workot/calculateWorkOtTime',{params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('timeSheet',res);
-//					if(res.data.code === "S00000") {
-						self.formdata2.timeSheet = res.data;
-//					}
-				}).catch(function(err) {
+					self.formdata2.timeSheet = res.data;
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustPostList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustClassList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
+			queryWorkotTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=WORKOT_TYPE')
+				.then((res) => {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						self.workotTypeList = res.data.data;
+					}
+				}).catch((err) => {
 					console.log('error');
 				})
 			}

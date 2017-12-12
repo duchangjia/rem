@@ -59,7 +59,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="加班类型" prop="workotType">
 						    <el-select v-model="formdata2.workotType" value-key="workotType">
-								<el-option v-for="item in workotTypeList" :key="item.workotNo" :label="item.label" :value="item.workotNo"></el-option>
+								<el-option v-for="item in workotTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	  	
@@ -153,11 +153,9 @@
 				//岗位列表
 				custPostList: [],
 				//职级列表
-			    custClassList: [],
-				workotTypeList: [
-					{label: '有薪加班', workotNo: '01'},
-					{label: '调休加班', workotNo: '02'}
-				],
+				custClassList: [],
+				//加班类型列表
+				workotTypeList: [],
 			 	rules: {
 			 		workotStartTime: [
 		            	{ required: true, validator: checkWorkotStartTime, trigger: 'change' }
@@ -181,17 +179,15 @@
 			current
 		},
 		created() {
-			let applyNo = this.$route.params.applyNo;
-			let userNo = this.$route.params.userNo;
-			let params = {
-				applyNo: applyNo
-			}
+			
 			//查询加班详细信息
-			this.workotInfo(params);
+			this.workotInfo();
 			//查询岗位列表
 			this.queryCustPostList();
 			//查询职级列表
 			this.queryCustClassList();
+			//查询加班类型列表
+			this.queryWorkotTypeList();
 		},
 		computed: {
 			formdata: function(){
@@ -215,9 +211,6 @@
 			changeEndTime(time) {
 				this.formdata2.workotEndTime = time;
 			},
-			changeValue(value) {
-		 		const self = this;
-	      	},
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
 		 		this.formdata2.attachm = file.name;
@@ -254,54 +247,70 @@
 					}
 				});
 			},
-			workotInfo(params) {
+			workotInfo() {
 				const self = this;
+				let applyNo = sessionStorage.getItem('editOvertime_applyNo');
+				let params = {
+					applyNo: applyNo
+				}
 				self.$axios.get(baseURL+'/workot/queryWorkOtInfos',{params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('workotInfo',res);
 					if(res.data.code === "S00000") {
 						self.formdata2 = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			modifyTravelInfo(params) {
 				let self = this;
 				self.$axios.post(baseURL+'/workot/modifyWorkOtInfo',params)
-				.then(function(res) {
+				.then((res) => {
 					console.log('modifyTravelInfo',res);
 					if(res.data.code === "S00000") {
 		      			self.$message({ message: '操作成功', type: 'success' });
 						self.$router.push('/overtime_management');
 		      		}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustPostList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustClassList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
+			queryWorkotTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=WORKOT_TYPE')
+				.then((res) => {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						self.workotTypeList = res.data.data;
+					}
+				}).catch((err) => {
 					console.log('error');
 				})
 			}

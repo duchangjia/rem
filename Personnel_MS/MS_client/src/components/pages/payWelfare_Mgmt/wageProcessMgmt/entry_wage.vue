@@ -461,7 +461,6 @@ export default {
 				console.log('modWage',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
-//					self.$router.push('/wageProcess_manage');
 				}
 			}).catch((err) => {
 				console.log('error');
@@ -471,7 +470,7 @@ export default {
 			let self = this;
 			
 			self.$axios.post(baseURL+'/wage/reckonSingleWage', params)
-			.then(function(res) {
+			.then((res) => {
 				console.log('cacl',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
@@ -480,20 +479,20 @@ export default {
 					self.$set(self.socialInfoData, index, self.socialInfoData[index]);
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log('error');
 			})
 		},
 		queryCompList() {
 			let self = this;
 			self.$axios.get(baseURL+'/wage/queryOrganByUserNo')
-			.then(function(res) {
+			.then((res) => {
 				console.log('CompList',res);
 				if(res.data.code === "S00000") {
 					self.compList = res.data.data;
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},
@@ -504,13 +503,13 @@ export default {
 				organNo: organNo
 			}
 			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
-			.then(function(res) {
+			.then((res) => {
 				console.log('DerpList',res);
 				if(res.data.code === "S00000") {
 					self.departList = res.data.data;
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		}
@@ -534,9 +533,11 @@ export default {
     text-decoration: underline;
 }
 .entry_wage .el-table .cell .el-form-item {
-    margin-bottom: 0px;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
-.entry_wage .el-table .cell .el-form-item .el-form-item_error {
-    left: 30px;
+.entry_wage .el-table .el-form-item__content {
+    line-height: normal;
+    width: 164px;
 }
 </style>
