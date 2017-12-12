@@ -70,7 +70,7 @@
 					<el-table-column prop="createdBy" label="录入人"></el-table-column>
 					<el-table-column prop="createdDate" label="录入时间" :formatter="travelTimeFormatter"></el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" >
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="total,prev, pager, next, jumper" :total="totalRows" >
 				</el-pagination>
 			</div>
 		</div>

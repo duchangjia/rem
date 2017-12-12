@@ -102,7 +102,7 @@
 			current
 		},
 		created() {
-			let bsnNo = this.$route.params.bsnNo;
+			let bsnNo = sessionStorage.getItem('editFun_bsnNo');
 			let params = {
 				bsnNo: bsnNo
 			}
@@ -130,7 +130,7 @@
 			getUserInfo(params) {
 				const self = this;
 				self.$axios.get(baseURL+'/function/queryFuncInfo',{params: params})
-				.then(function(res){
+				.then((res) => {
 					console.log('UserInfo',res);
 					if(res.data.code=="S00000"){
 						self.userMsg = res.data.data;
@@ -140,7 +140,7 @@
 						console.log('error');
 					}
 				})
-				.catch(function(err){
+				.catch((err) => {
 					console.log('error');
 					
 				})
@@ -148,7 +148,7 @@
 			updateUserInfo(params) {
 				const self = this;
 				self.$axios.put(baseURL+'/function/modifyFuncInfo',params)
-				.then(function(res){
+				.then((res) => {
 					console.log('update',res);
 					if(res.data.code=="S00000"){
 						self.$message({ message: '操作成功', type: 'success' });
@@ -157,7 +157,7 @@
 						console.log('error')
 					}
 				})
-				.catch(function(err){
+				.catch((err) => {
 					console.log('error')
 				})
 			},

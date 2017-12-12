@@ -16,14 +16,14 @@
 					</el-col>
 					<el-col :sm="12" :md="6">
 						<el-form-item label="部门" prop="departName">
-							<el-select v-model="ruleForm2.derpNo" value-key="derpNo" @change="changeValue">
+							<el-select v-model="ruleForm2.derpNo" value-key="derpNo">
 								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :sm="12" :md="6">
 						<el-form-item label="用户" prop="user">
-							<el-input type="text" v-model="ruleForm2.user" placeholder="工号/姓名/手机/邮箱" @change="keyup"></el-input>
+							<el-input type="text" v-model="ruleForm2.user" placeholder="工号/姓名/手机/邮箱"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :sm="12" :md="6">
@@ -51,13 +51,13 @@
 					<el-table-column prop="userName" label="姓名"></el-table-column>
 					<el-table-column prop="roleName" label="角色">
 						<template scope="scope">
-					        <span class="roleSpan" v-for="item in scope.row.roles">{{ item.roleName }}</span>
+					        <span class="roleSpan" v-for="item in scope.row.roles" :key="item.roleName">{{ item.roleName }}</span>
 						</template>
 					</el-table-column>
 					<el-table-column prop="mobile" label="手机"></el-table-column>
 					<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" >
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="total,prev, pager, next, jumper" :total="totalRows" >
 				</el-pagination>
 			</div>
 		</div>
@@ -129,13 +129,8 @@ export default {
 	    },
 	    //详情页
 	    handleInfo(index, row) {
-			sessionStorage.setItem('user', row.userNo);
-            this.$router.push({
-            	name: 'edit_userM',
-            	params: {
-            		user: row.userNo
-            	}
-            });
+			sessionStorage.setItem('userMQuery_userNo', row.userNo);
+            this.$router.push('/edit_userM');
 		},
 		changeComp(val) {
 			console.log('comp',val);
@@ -146,25 +141,11 @@ export default {
 			//部门列表查询
 			self.queryDerpList(params);
 		},
-		keyup(val) {
-			console.log(val)
-		},
 		//查询
 		queryForm(formName) {
 			//查询用户列表
 			this.queryUserList();
 		},
-		changeValue(value) {
-	 		const self = this;
-	 		console.log(value)
-//          console.log('value',value);
-//				self.userDetail.compName = self.comp.compName;
-//				self.userDetail.compOrgNo = self.comp.compOrgNo;
-//				self.userDetail.departName = self.depart.departName;
-//				self.userDetail.departOrgNo = self.depart.departOrgNo;
-//				self.userDetail.roleName = self.role.roleName;
-//				self.userDetail.roleNo = self.role.roleNo;
-       },
 		//重置
 		resetForm() {
 			this.ruleForm2.organNo = '';
@@ -188,35 +169,35 @@ export default {
 				"userFeatureInfo": self.ruleForm2.user
 			}
 			self.$axios.get(baseURL+'/user/queryUserList', {params: params})
-			.then(function(res) {
+			.then((res) => {
 				console.log('UserList',res);
 				self.operatorList = res.data.data.models;
 				self.pageNum = params.pageNum;
 				self.totalRows = Number(res.data.data.total);
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},
 		queryCompList() {
 			let self = this;
 			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-			.then(function(res) {
+			.then((res) => {
 				console.log('CompList',res);
 				self.compList = res.data.data;
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},
 		queryDerpList(params) {
 			let self = this;
 			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
-			.then(function(res) {
+			.then((res) => {
 				console.log('DerpList',res);
 				if(res.data.code === "S00000") {
 					self.departList = res.data.data;
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		}
