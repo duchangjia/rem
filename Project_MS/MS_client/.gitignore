@@ -3,7 +3,7 @@
 node_modules/
 dist/
 static/build/.sass-cache
-config/index.js
+config/index.js 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
