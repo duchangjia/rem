@@ -65,7 +65,7 @@
 						</el-table-column>
 					</el-table>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows">
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="total, prev, pager, next, jumper" :total="totalRows">
 				</el-pagination>
 			</div>
 		</div>
@@ -163,11 +163,11 @@ export default {
         },
 		handleEdit(index, row) {
 			sessionStorage.setItem('jihuihao',row.jihuihao);
-            this.$router.push("/");
+            this.$router.push("/edit_preSale");
 		},
 		handleInfo(index, row) {
 			sessionStorage.setItem('jihuihao',row.jihuihao);
-			this.$router.push("/")
+			this.$router.push("/preSale_info");
 			
 		},
 		//查询
@@ -185,18 +185,17 @@ export default {
 		},
 		//重置
 		resetForm() {
-            console.log('reset',this.ruleForm2.jihuihao)
 			this.ruleForm2.projApplySta = '';
             this.ruleForm2.jihuihao = '';
             this.ruleForm2.projIncmType = '';
             this.ruleForm2.projType = '';
-            console.log('reset',this.ruleForm2.jihuihao)
 		},
 		handleCurrentChange(val) {
 			this.pageNum = val;
 			//分页列表查询
 			this.queryprojList();
 		},
+		//查询售前立项列表
 		queryprojList() {
 			let self = this;
 			let params = {
@@ -215,16 +214,17 @@ export default {
 				console.log(err);
 			})
 		},
+		//查询审批状态列表
 		queryprojApplyStaList() {
 			let self = this;
 			self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PROJ _APPLY_STA')
-			.then(function(res) {
+			.then((res) => {
 				console.log('projApplyStaList',res);
 				if(res.data.code === "S00000") {
 					self.projApplyStaList = res.data.data;
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log('error');
 			})
 		},
@@ -232,26 +232,26 @@ export default {
 		queryprojIncmTypeList() {
 			let self = this;
 			self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PROJ_INCM_TYPE')
-			.then(function(res) {
+			.then((res) => {
 				console.log('projIncmTypeList',res);
 				if(res.data.code === "S00000") {
 					self.projIncmTypeList = res.data.data;
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log('error');
 			})
 		},
 		queryprojTypeList() {
 			let self = this;
 			self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PROJ_TYPE')
-			.then(function(res) {
+			.then((res) => {
 				console.log('projTypeList',res);
 				if(res.data.code === "S00000") {
 					self.projTypeList = res.data.data;
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log('error');
 			})
 		},
