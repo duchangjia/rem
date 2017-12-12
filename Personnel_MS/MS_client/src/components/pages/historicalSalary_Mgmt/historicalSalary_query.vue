@@ -137,7 +137,7 @@ export default {
                 .then(res => {
                     console.log(res);
                     self.assetInfoList = res.data.data.list;
-                    self.pageNum = res.data.data.pageNum;
+                    self.pageNum = params.pageNum;
                     self.pageSize = res.data.data.pageSize;
                     self.totalRows = res.data.data.total;
                     self.exportParams = params;
