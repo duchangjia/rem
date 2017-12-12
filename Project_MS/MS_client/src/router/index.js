@@ -151,6 +151,16 @@ const routes = [
                             name: 'add_preSale',
                             path: '/add_preSale',
                             component: resolve => require(['../components/view/project_Mgmt/preSale/add_preSale.vue'], resolve),
+                        },
+                        {
+                            name: 'edit_preSale',
+                            path: '/edit_preSale',
+                            component: resolve => require(['../components/view/project_Mgmt/preSale/edit_preSale.vue'], resolve),
+                        },
+                        {
+                            name: 'preSale_info',
+                            path: '/preSale_info',
+                            component: resolve => require(['../components/view/project_Mgmt/preSale/preSale_info.vue'], resolve),
                         }
                     ]
                 }
