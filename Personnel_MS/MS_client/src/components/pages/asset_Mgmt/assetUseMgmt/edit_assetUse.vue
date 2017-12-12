@@ -132,7 +132,7 @@
                     <el-col :span="24" class="item-title">使用信息</el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="使用类别"  prop="applyType">
-                            <el-select placeholder="请选择使用类别" v-model="applyCompanyInfo.applyType" disabled="true">
+                            <el-select placeholder="请选择使用类别" v-model="applyCompanyInfo.applyType" :disabled="true">
                                 <el-option label="发放领用" value="01"></el-option>
                                 <el-option label="归还" value="02"></el-option>
                                 <el-option label="出借" value="03"></el-option>
@@ -144,7 +144,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="使用数量" prop="applyNum">
-                            <el-input v-model.number="applyCompanyInfo.applyNum" disabled="true"></el-input>
+                            <el-input v-model.number="applyCompanyInfo.applyNum" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -155,14 +155,14 @@
                                 placeholder="选择日期"
                                 @change="changeDate()"
                                 style="width:100%"
-                                disabled="true"
+                                :disabled="true"
                                 >
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
                      <el-col :sm="24" :md="12">
                         <el-form-item label="状态" prop="applyStatus" >
-                            <el-select placeholder="请选择状态" v-model="applyCompanyInfo.applyStatus" disabled="true">
+                            <el-select placeholder="请选择状态" v-model="applyCompanyInfo.applyStatus" :disabled="true">
                                 <el-option label="未核销/未归还" value="01"></el-option>
                                 <el-option label="已核销/已归还" value="02"></el-option>
                                 <el-option label="不需要核销/不需要归还" value="03"></el-option>
