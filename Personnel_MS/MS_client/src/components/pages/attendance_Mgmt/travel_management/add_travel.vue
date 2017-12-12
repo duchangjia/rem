@@ -74,7 +74,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差类型" prop="travelType">
 						    <el-select v-model="formdata2.travelType" value-key="travelType">
-								<el-option v-for="item in travelTypeList" :key="item.travelNo" :label="item.label" :value="item.travelNo"></el-option>
+								<el-option v-for="item in travelTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
@@ -174,28 +174,13 @@
 				travelStartTime: '',
 				travelEndTime: '',
 				formdata1: {},
-				formdata2: {
-					travelStartTime: "",
-					travelEndTime: "",
-					travelType: "",
-					travelStartCity: "",
-					travelArrivalCity: "",
-					travelDays: "",
-					travelSTD: "",
-					remark: "",
-					attachm: "",
-				},
+				formdata2: {},
 				//岗位列表
 				custPostList: [],
 				//职级列表
 			    custClassList: [],
-				travelTypeList: [
-					{label: "业务拓展", travelNo: "01"},
-					{label: "项目实施", travelNo: "02"},
-					{label: "会议", travelNo: "03"},
-					{label: "其他", travelNo: "99"}
-				],
-				custClassList: [],
+				//出差类型列表
+				travelTypeList: [],
 				rules1: {
 					userNo: [
 			 			{ required: true, message: '工号不能为空', trigger: 'blur' }
@@ -235,8 +220,8 @@
 				return {
 				    userNo: this.formdata1.userNo,//工号
 				    travelType: this.formdata2.travelType,//出差类型
-				    travelStartTime: this.travelStartTime,//出差开始时间	
-				    travelEndTime: this.travelEndTime, //出差结束时间
+				    travelStartTime: this.formdata2.travelStartTime,//出差开始时间	
+				    travelEndTime: this.formdata2.travelEndTime, //出差结束时间
 				    travelStartCity: this.formdata2.travelStartCity,//出差开始城市	
 				    travelArrivalCity: this.formdata2.travelArrivalCity,//出差到达城市
 				    travelDays: this.formdata2.travelDays, //出差天数  
@@ -251,6 +236,8 @@
 			this.queryCustPostList();
 			//查询职级列表
 			this.queryCustClassList();
+			//查询出差类型列表
+			this.queryTravelTypeList();
 		},
 		methods: {
 			changefile(file, fileList) {
@@ -259,10 +246,10 @@
 			},
 			changeStartTime(time) {
 				console.log('starttime',time);
-				this.travelStartTime = time;
+				this.formdata2.travelStartTime = time;
 				// let params = {
-				// 	travelStartTime: this.travelStartTime,
-				// 	travelEndTime: this.travelEndTime
+				// 	travelStartTime: this.formdata2.travelStartTime,
+				// 	travelEndTime: this.formdata2.travelEndTime
 				// }
 				// if(this.formdata2.travelEndTime) {
 				// 	this.calTravelDays(params);
@@ -272,10 +259,10 @@
 			},
 			changeEndTime(time) {
 				console.log('endtime',time);
-				this.travelEndTime = time;
+				this.formdata2.travelEndTime = time;
 				// let params = {
-				// 	travelStartTime: this.travelStartTime,
-				// 	travelEndTime: this.travelEndTime
+				// 	travelStartTime: this.formdata2.travelStartTime,
+				// 	travelEndTime: this.formdata2.travelEndTime
 				// }
 				// console.log('end params',params);
 				// if(this.formdata2.travelStartTime) {
@@ -377,8 +364,8 @@
 									let params = {
 									    userNo: self.formdata1.userNo,//工号
 									    travelType: self.formdata2.travelType,//出差类型
-									    travelStartTime: self.travelStartTime,//出差开始时间	
-									    travelEndTime: self.travelEndTime, //出差结束时间
+									    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
+									    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
 									    travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
 									    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
 									    travelDays: self.formdata2.travelDays, //出差天数  
@@ -452,6 +439,18 @@
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
+					}
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
+			queryTravelTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=TRAVEL_TYPE')
+				.then((res) => {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						self.travelTypeList = res.data.data;
 					}
 				}).catch((err) => {
 					console.log('error');

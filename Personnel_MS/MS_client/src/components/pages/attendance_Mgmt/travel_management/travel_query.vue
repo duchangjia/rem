@@ -19,7 +19,7 @@
 					</el-col>
 					<el-col :sm="12" :md="6">
 						<el-form-item label="部门" prop="departName">
-							<el-select v-model="ruleForm2.derpNo" value-key="derpNo" @change="changeValue">
+							<el-select v-model="ruleForm2.derpNo" value-key="derpNo">
 								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 							</el-select>
 						</el-form-item>
@@ -30,7 +30,6 @@
 						      v-model="ruleForm2.startDate"
 						      type="date"
 						      placeholder="选择日期"
-						      :picker-options="pickerOptions0" 
 						      @change="changeStartTime"
 						      >
 						   </el-date-picker> -
@@ -38,7 +37,6 @@
 						      v-model="ruleForm2.endDate"
 						      type="date"
 						      placeholder="选择日期"
-						      :picker-options="pickerOptions0" 
 						      @change="changeEndTime"
 						      >
 						   </el-date-picker>
@@ -104,15 +102,9 @@ export default {
 	        }
       	};
 		return {
-			pickerOptions0: {
-	          disabledDate(time) {
-//	            return time.getTime() < Date.now() - 8.64e7;
-	          }
-	       	},
 			pageNum: 1,
 			pageSize: 10,
-			totalRows: 2,
-			queryFormFlag: false,
+			totalRows: 1,
 			ruleForm2: {
 				organNo: '',
 				derpNo: '',
@@ -191,9 +183,6 @@ export default {
 			}
 	    	return travelType;
 		},
-		getLocalTime(nS) {     
-			
-	    }, 
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;
 		},
@@ -209,32 +198,16 @@ export default {
 			//部门列表查询
 			self.queryDerpList(params);
 		},
-		changeValue(value) {
-	 		const self = this;
-            console.log('value',value);
-	    },
 	    handleAdd() {
 	    	this.$router.push('/add_travel');
 	    },
 		handleEdit(index, row) {
-			console.log('row:',row);
-            this.$router.push({
-            	name: "edit_travel",
-            	params: {
-            		applyNo: row.applyNo,
-					userNo: row.userNo
-            	}
-            });
+			sessionStorage.setItem('editTravel_applyNo', row.applyNo);
+            this.$router.push("/edit_travel");
 		},
 		handleInfo(index, row) {
-			console.log('row:',row);
-			this.$router.push({
-				name: "travel_info",
-				params: {
-					applyNo: row.applyNo,
-					userNo: row.userNo
-				}
-			})
+			sessionStorage.setItem('InfoTravel_applyNo', row.applyNo);
+			this.$router.push("/travel_info");
 			
 		},
 		handleDelete(index, row) {
@@ -247,7 +220,6 @@ export default {
             	let params = {
 					applyNo: row.applyNo
 				}
-            	console.log(params);
             	//删除
 				self.deleteTravel(params);
             	
@@ -294,7 +266,7 @@ export default {
 				travelEndTime: self.ruleForm2.endDate
 			};
 			self.$axios.get(baseURL+'/travel/queryTravelList', {params: params})
-			.then(function(res) {
+			.then((res) => {
 				console.log('TravelList',res);
 				if(res.data.code === "S00000") {
 					self.transferDataList = res.data.data.list;
@@ -302,40 +274,40 @@ export default {
 					self.totalRows = Number(res.data.data.total);
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},
 		queryCompList() {
 			let self = this;
 			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-			.then(function(res) {
+			.then((res) => {
 				console.log('CompList',res);
 				if(res.data.code === "S00000") {
 					self.compList = res.data.data;
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},
 		queryDerpList(params) {
 			let self = this;
 			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
-			.then(function(res) {
+			.then((res) => {
 				console.log('DerpList',res);
 				if(res.data.code === "S00000") {
 					self.departList = res.data.data;
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},
 		deleteTravel(params) {
 			let self = this;
 			self.$axios.delete(baseURL+'/travel/deleteTravel?applyNo='+ params.applyNo)
-			.then(function(res) {
+			.then((res) => {
 				console.log('deleteTravel',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
@@ -343,7 +315,7 @@ export default {
 					//出差列表查询
 					self.queryTravelList();
 				}
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		}

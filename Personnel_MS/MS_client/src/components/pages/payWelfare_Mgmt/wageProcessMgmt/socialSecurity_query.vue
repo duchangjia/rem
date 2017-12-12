@@ -100,22 +100,7 @@ export default {
 				welfareStartTime: "",
 				welfareEndTime: ''
 			},
-			welfareList: [
-				{
-					companyName: "",
-					custName: "",
-					idCard: "",
-					month: "",
-					endmTotal: "",
-					mediTotal: "",
-					unemTotal: "",
-					mateTotal: "",
-					emplTotal: "",
-					houseTotal: "",
-					createdBy: "",
-					createdDate: ""
-				}
-			],
+			welfareList: [],
 			//部门列表
 			departList: [],
 			//公司列表
@@ -207,7 +192,7 @@ export default {
 				welfareEndTime: self.ruleForm2.welfareEndTime
 			};
 			self.$axios.get(baseURL+'/welfare/queryWelfareList', {params: params})
-			.then(function(res) {
+			.then((res) => {
 				console.log('WelfareList',res);
 				if(res.data.code === "S00000") {
 					self.welfareList = res.data.data.list;
@@ -215,20 +200,20 @@ export default {
 					self.totalRows = Number(res.data.data.total);
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},
 		queryCompList() {
 			let self = this;
 			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-			.then(function(res) {
+			.then((res) => {
 				console.log('CompList',res);
 				if(res.data.code === "S00000") {
 					self.compList = res.data.data;
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},

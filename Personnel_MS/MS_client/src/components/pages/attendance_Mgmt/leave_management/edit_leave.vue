@@ -31,7 +31,6 @@
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <!--<el-input v-model="formdata2.custPost" :disabled="true"></el-input>-->
 						    <el-select v-model="formdata2.custPost" :disabled="true">
 								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
@@ -39,7 +38,6 @@
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <!--<el-input v-model="formdata2.custClass" :disabled="true"></el-input>-->
 						    <el-select v-model="formdata2.custClass" :disabled="true">
 								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
@@ -134,24 +132,7 @@
 				formdata2: {},
 				custPostList: [],
 			    custClassList: [],
-				leaveTypeList: [
-					{label: '有薪休假', leaveNo: '01'},
-					{label: '事假', leaveNo: '02'},
-					{label: '病假', leaveNo: '03'},
-					{label: '因公外出', leaveNo: '04'},
-					{label: '出差', leaveNo: '05'},
-					{label: '婚假', leaveNo: '06'},
-					{label: '生育产假', leaveNo: '07'},
-					{label: '哺乳假', leaveNo: '08'},
-					{label: '护理假', leaveNo: '09'},
-					{label: '流产假', leaveNo: '10'},
-					{label: '产前检查', leaveNo: '11'},
-					{label: '丧假', leaveNo: '12'},
-					{label: '忘打卡', leaveNo: '13'},
-					{label: '忘带卡', leaveNo: '14'},
-					{label: '特殊', leaveNo: '15'},
-					{label: '调休假', leaveNo: '16'}
-				],
+				leaveTypeList: [],
 			 	rules: {
 			 		leaveStartTime: [
 		            	{ required: true, validator: checkLeaveStartTime, trigger: 'change' }
@@ -180,8 +161,8 @@
 				return {
 					applyNo: self.formdata2.applyNo, //请假编号
 					"userNo": self.formdata1.userNo, //"1004"
-	    			"leaveStartTime": self.leaveStartTime, //"2017-09-10 08:30"
-	    			"leaveEndTime": self.leaveEndTime, //"2017-09-13 09:30"
+	    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
+	    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
 	    			"leaveType": self.formdata2.leaveType, //"3"
 	    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
 	    			"remark": self.formdata2.remark, //"请假的详细信息"
@@ -190,13 +171,9 @@
 			}
 		},
 		created() {
-			let applyNo = sessionStorage.getItem('applyNo');
-			let userNo = this.$route.params.userNo;
-			let params = {
-				applyNo: applyNo
-			}
+			
 			//查询请假详情
-			this.leaveInfo(params);
+			this.leaveInfo();
 			//请假列表查询
 			this.queryLeaveTypeList();
 			//查询岗位列表
@@ -206,10 +183,10 @@
 		},
 		methods: {
 			changeStartTime(time) {
-				this.leaveStartTime = time;
+				this.formdata2.leaveStartTime = time;
 			},
 			changeEndTime(time) {
-				this.leaveEndTime = time;
+				this.formdata2.leaveEndTime = time;
 			},
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
@@ -230,8 +207,8 @@
 							let params = {
 								applyNo: self.formdata2.applyNo, //请假编号
 								"userNo": self.formdata1.userNo, //"1004"
-				    			"leaveStartTime": self.leaveStartTime, //"2017-09-10 08:30"
-				    			"leaveEndTime": self.leaveEndTime, //"2017-09-13 09:30"
+				    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
+				    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
 				    			"leaveType": self.formdata2.leaveType, //"3"
 				    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
 				    			"remark": self.formdata2.remark, //"请假的详细信息"
@@ -245,67 +222,71 @@
 					}
 				});
 			},
-			leaveInfo(params) {
+			leaveInfo() {
 				let self = this;
+				let applyNo = sessionStorage.getItem('editLeave_applyNo');
+				let params = {
+					applyNo: applyNo
+				}
 				self.$axios.get(baseURL+'/leave/queryLeaveInfos',{params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('leaveInfo',res);
 					if(res.data.code === "S00000") {
 						self.formdata2 = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryLeaveTypeList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=LEAVE_TYPE')
-				.then(function(res) {
+				.then((res) => {
 					console.log('sysParamMgmt',res);
 					if(res.data.code === "S00000") {
 						self.leaveTypeList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			modifyTravelInfo(params) {
 				let self = this;
 				self.$axios.post(baseURL+'/leave/modifyLeaveInfo',params)
-				.then(function(res) {
+				.then((res) => {
 					console.log('modifyTravelInfo',res);
 					if(res.data.code === "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
 						self.$router.push('/leave_management');
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustPostList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustClassList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			}

@@ -198,24 +198,12 @@ export default {
 	    	this.$router.push('/add_leave');
 	    },
 		handleEdit(index, row) {
-			sessionStorage.setItem('applyNo',row.applyNo);
-            this.$router.push({
-            	name: "edit_leave",
-            	params: {
-            		applyNo: row.applyNo,
-					userNo: row.userNo
-            	}
-            });
+			sessionStorage.setItem('editLeave_applyNo',row.applyNo);
+            this.$router.push("/edit_leave");
 		},
 		handleInfo(index, row) {
-			sessionStorage.setItem('applyNo',row.applyNo);
-			this.$router.push({
-				name: "leave_info",
-				params: {
-					applyNo: row.applyNo,
-					userNo: row.userNo
-				}
-			})
+			sessionStorage.setItem('leaveInfo_applyNo',row.applyNo);
+			this.$router.push("/leave_info");
 			
 		},
 		handleDelete(index, row) {
@@ -274,7 +262,7 @@ export default {
 				leaveEndTime: self.ruleForm2.endDate
 			};
 			self.$axios.get(baseURL+'/leave/queryLeaveList', {params: params})
-			.then(function(res) {
+			.then((res) => {
 				console.log('LeaveList',res);
 				if(res.data.code === "S00000") {
 					self.transferDataList = res.data.data.models;
@@ -282,14 +270,14 @@ export default {
 					self.totalRows = Number(res.data.data.total);
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},
 		deleteLeaveInfo(params) {
 			let self = this;
 			self.$axios.delete(baseURL+'/leave/deleteLeaveInfo?applyNo='+params.applyNo)
-			.then(function(res) {
+			.then((res) => {
 				console.log('deleteLeaveInfo',res);
 				if(res.data.code === "S00000") {
 					self.$message({ message: '操作成功', type: 'success' });
@@ -297,33 +285,33 @@ export default {
 					//请假列表查询
 					self.queryLeaveList();
 				}
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},
 		queryCompList() {
 			let self = this;
 			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-			.then(function(res) {
+			.then((res) => {
 				console.log('CompList',res);
 				if(res.data.code === "S00000") {
 					self.compList = res.data.data;
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},
 		queryDerpList(params) {
 			let self = this;
 			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
-			.then(function(res) {
+			.then((res) => {
 				console.log('DerpList',res);
 				if(res.data.code === "S00000") {
 					self.departList = res.data.data;
 				}
 				
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},

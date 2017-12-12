@@ -64,9 +64,7 @@
 					attachm: ""
 				},
 				//公司列表
-				compList: [
-					{organNo: "01",organName: "广州分公司"}
-				],
+				compList: [],
 			 	rules: {
 			 		companyNo: [
 			 			{ required: true, message: '公司名称不能为空', trigger: 'blur' }
@@ -124,10 +122,10 @@
 			queryCompList() {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CompList',res);
 					self.compList = res.data.data;
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},

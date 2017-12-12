@@ -134,18 +134,7 @@
 		      	checkPres: [],
 		      	isFuncsIndeterminate: {},
       			
-				formdata2: {
-					batchNo: "",
-					batchType: "",
-					organName: "",
-					organNo: "",
-					derpRange: [],
-					preRange: [],
-					month: "",
-					settleStartTime: "",
-					settleEndTime: "",
-					remark: ""
-				},
+				formdata2: {},
 				//类别列表
 				batchTypeList: [
 					{batchTypeNo: "01", batchTypeName: "工资"},
@@ -207,7 +196,7 @@
 				let params = {
 					organNo: value
 				}
-				sessionStorage.setItem('organNo',value)
+				sessionStorage.setItem('editWage_organNo',value);
 				//查询部门范围列表
 				this.queryDerpList(params);
 			},
@@ -219,7 +208,7 @@
 		        this.isSubIndeterminate = true;
 		        
 		        let params = {
-	        		organNo: sessionStorage.getItem('organNo')
+	        		organNo: sessionStorage.getItem('editWage_organNo')
 		      	}
 	        	//查询人员范围列表（选全部部门时）
 		      	this.queryDerpAndUser(params);

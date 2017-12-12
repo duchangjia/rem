@@ -55,8 +55,8 @@
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="加班类型" prop="workotType">
-						    <el-select v-model="formdata2.workotType" value-key="workotType" @change="changeValue" :disabled="true">
-								<el-option v-for="item in workotTypeList" :key="item.workotNo" :label="item.label" :value="item.workotNo"></el-option>
+						    <el-select v-model="formdata2.workotType" value-key="workotType" :disabled="true">
+								<el-option v-for="item in workotTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
@@ -102,35 +102,13 @@
 	export default {
 		data() {
 			return {
-				formdata1: {
-					userNo: "",
-					custName: "",
-					custPost: "",
-					custClass: "",
-				},
-				formdata2: {
-					companyName: "01",
-					deptName: "",
-					workotStartTime: "",
-					workotEndTime: "",
-					workotType: "",
-					workotStartCity: "",
-					workotArrivalCity: "",
-					timeSheet: "",
-					workotSTD: "",
-					remark: "",
-					attachm: "",
-					updatedBy: "",
-					updatedDate: ""
-				},
+				formdata2: {},
 				//岗位列表
 				custPostList: [],
 				//职级列表
 			    custClassList: [],
-				workotTypeList: [
-					{label: '有薪加班', workotNo: '01'},
-					{label: '调休加班', workotNo: '02'}
-				],
+				//加班类型列表
+				workotTypeList: [],
 			 	rules: {
 		          	workotType: [
 //		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
@@ -142,17 +120,15 @@
 			current
 		},
 		created() {
-			let applyNo = this.$route.params.applyNo;
-			let userNo = this.$route.params.userNo;
-			let params = {
-				applyNo: applyNo
-			}
+			
 			//查询加班信息
-			this.workotInfo(params);
+			this.workotInfo();
 			//查询岗位列表
 			this.queryCustPostList();
 			//查询职级列表
 			this.queryCustClassList();
+			//查询加班类型列表
+			this.queryWorkotTypeList();
 		},
 		methods: {
 			changeStartTime(time) {
@@ -161,10 +137,6 @@
 			changeEndTime(time) {
 				this.formdata2.workotEndTime = time;
 			},
-			changeValue(value) {
-		 		const self = this;
-	            console.log('value',value);
-	      	},
 	      	handleDownload() {
 	      		const self = this;
 	      		let params = {
@@ -174,8 +146,12 @@
 	      		//下载附件
 				self.downloadFile(params);
 	      	},
-			workotInfo(params) {
+			workotInfo() {
 				const self = this;
+				let applyNo = sessionStorage.getItem('infoOvertime_applyNo');
+				let params = {
+					applyNo: applyNo
+				}
 				self.$axios.get(baseURL+'/workot/queryWorkOtInfos',{params: params})
 				.then((res) => {
 					console.log('workotInfo',res);
@@ -234,6 +210,18 @@
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
+					}
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
+			queryWorkotTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=WORKOT_TYPE')
+				.then((res) => {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						self.workotTypeList = res.data.data;
 					}
 				}).catch((err) => {
 					console.log('error');
