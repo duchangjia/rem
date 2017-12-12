@@ -1,0 +1,1968 @@
+{
+  "user": [
+    {
+      "queryUser": {
+        "code": "S00000",
+        "data": {
+          "certNo": "123456",
+          "createdBy": "JINXIAO",
+          "createdDate": "2017-09-13 00:00:00",
+          "email": "admin@pactera.com",
+          "mobileTEL": "18910015767",
+          "organNo": "002",
+          "password": "",
+          "pwdLevel": "",
+          "remark": "admin用户",
+          "roles": "",
+          "status": "0",
+          "uId": "0001",
+          "updatedBy": "JINXIAO",
+          "updatedDate": "2017-09-20 00:00:00",
+          "userName": "jinx",
+          "userNo": "1"
+        },
+        "retMsg": "操作成功"
+      }
+    }
+  ],
+  "companies": [
+    {
+      "company": "广州分公司",
+      "department": [
+        {
+          "name": "行政部",
+          "child_department": [
+            "行政一部",
+            "行政二部",
+            "行政三部"
+          ]
+        },
+        {
+          "name": "财务部",
+          "child_department": [
+            "财务一部",
+            "财务二部",
+            "财务三部"
+          ]
+        },
+        {
+          "name": "产品研发部",
+          "child_department": [
+            "产品研发一部",
+            "产品研发二部",
+            "产品研发三部"
+          ]
+        },
+        {
+          "name": "系统设计部",
+          "child_department": [
+            "系统设计一部",
+            "系统设计二部",
+            "系统设计三部"
+          ]
+        },
+        {
+          "name": "互联网中心",
+          "child_department": [
+            "互联网中一心",
+            "互联网中二心",
+            "互联网中三心"
+          ]
+        }
+      ]
+    },
+    {
+      "company": "上海分公司",
+      "department": [
+        {
+          "name": "行政部",
+          "child_department": [
+            "行政一部",
+            "行政二部",
+            "行政三部"
+          ]
+        },
+        {
+          "name": "财务部",
+          "child_department": [
+            "财务一部",
+            "财务二部",
+            "财务三部"
+          ]
+        },
+        {
+          "name": "产品研发部",
+          "child_department": [
+            "产品研发一部",
+            "产品研发二部",
+            "产品研发三部"
+          ]
+        },
+        {
+          "name": "系统设计部",
+          "child_department": [
+            "系统设计一部",
+            "系统设计二部",
+            "系统设计三部"
+          ]
+        },
+        {
+          "name": "互联网中心",
+          "child_department": [
+            "互联网中一心",
+            "互联网中二心",
+            "互联网中三心"
+          ]
+        }
+      ]
+    }
+  ],
+  "queryOperatorList": {
+    "pageIndex": "1",
+    "pageRows": "10",
+    "pageCount": "100",
+    "totalRows": "1000",
+    "operatorListInfo": [
+      {
+        "userNo": "P001",
+        "userName": "小米",
+        "certNo": "210001",
+        "mobile": "123456",
+        "email": "123@123.com",
+        "compOrgNo": "100",
+        "compName": "广州分公司",
+        "departOrgNo": "1001",
+        "departName": "行政部",
+        "roleNo": "001",
+        "roleName": "文员",
+        "status": "1",
+        "remark": "备注"
+      },
+      {
+        "userNo": "P002",
+        "userName": "小心",
+        "certNo": "135134",
+        "mobile": "654321",
+        "email": "321@123.com",
+        "compOrgNo": "200",
+        "compName": "深圳分公司",
+        "departOrgNo": "2002",
+        "departName": "财务部",
+        "roleNo": "角色编号",
+        "roleName": "角色名称",
+        "status": "0",
+        "remark": "备注"
+      },
+      {
+        "userNo": "P003",
+        "userName": "小米",
+        "certNo": "210001",
+        "mobile": "123456",
+        "email": "123@123.com",
+        "compOrgNo": "100",
+        "compName": "广州分公司",
+        "departOrgNo": "1001",
+        "departName": "行政部",
+        "roleNo": "001",
+        "roleName": "文员",
+        "status": "2",
+        "remark": "备注"
+      },
+      {
+        "userNo": "P004",
+        "userName": "小米",
+        "certNo": "210001",
+        "mobile": "123456",
+        "email": "123@123.com",
+        "compOrgNo": "100",
+        "compName": "广州分公司",
+        "departOrgNo": "1001",
+        "departName": "行政部",
+        "roleNo": "001",
+        "roleName": "文员",
+        "status": "1",
+        "remark": "备注"
+      }
+    ]
+  },
+  "queryOperatorDetail": {
+    "userNo": "P001",
+    "userName": "小米",
+    "certNo": "20111",
+    "mobile": "12312131234",
+    "email": "123@123.com",
+    "compOrgNo": "所属公司机构号",
+    "compName": "所属公司名称",
+    "departOrgNo": "所属部门机构号",
+    "departName": "所属部门名称",
+    "roleNo": "角色编号",
+    "roleName": "角色名称",
+    "status": "1",
+    "remark": "备注",
+    "createdBy": "创建人",
+    "createdDate": "创建时间",
+    "updateBy": "创建人",
+    "updateDate": "创建时间"
+  },
+  "modifyOperatorInfo": {
+    "userNo": "0001"
+  },
+  "deleteOperatorInfo": {
+    "userNo": "0002",
+    "status": "0"
+  },
+  "lockUnlockOperator": {
+    "userNo": "0001",
+    "status": "2"
+  },
+  "resetPassword": {
+    "userNo": "0001"
+  },
+  "changePassword": {
+    "userNo": "0001"
+  },
+  "checkuser": {
+    "username": "cyj",
+    "password": "111"
+  },
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "getMenus": [
+    {
+      "icon": "el-icon-menu",
+      "index": "2",
+      "title": "表格",
+      "subs": [
+        {
+          "index": "/home/basetable",
+          "title": "基础表格"
+        },
+        {
+          "index": "/home/vuetable",
+          "title": "Vue表格组件"
+        }
+      ]
+    },
+    {
+      "icon": "el-icon-date",
+      "index": "3",
+      "title": "表单",
+      "subs": [
+        {
+          "index": "/home/baseform",
+          "title": "基本表单"
+        },
+        {
+          "index": "/home/vueeditor",
+          "title": "编辑器"
+        },
+        {
+          "index": "/home/markdown",
+          "title": "markdown"
+        },
+        {
+          "index": "/home/upload",
+          "title": "文件上传"
+        }
+      ]
+    },
+    {
+      "icon": "el-icon-star-on",
+      "index": "/home/basecharts",
+      "title": "图表"
+    },
+    {
+      "icon": "el-icon-upload2",
+      "index": "/home/drag",
+      "title": "拖拽"
+    }
+  ],
+  "queryRoleList": {
+    "pageIndex": "1",
+    "pageRows": "4",
+    "totalRows": "50",
+    "models": [
+      {
+        "roleNo": "001",
+        "roleName": "系统管理员",
+        "roleDescr": "我是描述是描述是描述是描述",
+        "status": "01",
+        "createdBy": "JINXIAO",
+        "createdDate": "2017-09-13 00:00:00",
+        "updateBy": "aaa",
+        "updateDate": "2017-10-09 00:00:00"
+      },
+      {
+        "roleNo": "002",
+        "roleName": "经理",
+        "roleDescr": "我是描述是描述是描述是描述",
+        "status": "01",
+        "createdBy": "JINXIAO",
+        "createdDate": "2017-09-13 00:00:00",
+        "updateBy": "aaa",
+        "updateDate": "2017-10-09 00:00:00"
+      },
+      {
+        "roleNo": "003",
+        "roleName": "出纳",
+        "roleDescr": "我是描述是描述是描述是描述",
+        "status": "02",
+        "createdBy": "JINXIAO",
+        "createdDate": "2017-09-13 00:00:00",
+        "updateBy": "aaa",
+        "updateDate": "2017-10-09 00:00:00"
+      },
+      {
+        "roleNo": "004",
+        "roleName": "系统管理员",
+        "roleDescr": "我是描述是描述是描述是描述",
+        "status": "01",
+        "createdBy": "JINXIAO",
+        "createdDate": "2017-09-13 00:00:00",
+        "updateBy": "aaa",
+        "updateDate": "2017-10-09 00:00:00"
+      },
+      {
+        "roleNo": "005",
+        "roleName": "人事",
+        "roleDescr": "我是描述是描述是描述是描述",
+        "status": "01",
+        "createdBy": "JINXIAO",
+        "createdDate": "2017-09-13 00:00:00",
+        "updateBy": "aaa",
+        "updateDate": "2017-10-09 00:00:00"
+      }
+    ]
+  },
+  "queryRoleDetail": {
+    "code": "S00000",
+    "retMsg": "操作成功",
+    "data": {
+      "status": "1",
+      "createdDate": 1505318400000,
+      "updatedDate": 1509638400000,
+      "createdBy": "JINXIAO",
+      "updatedBy": "dj",
+      "uid": "0001",
+      "roleNo": "111",
+      "roleName": "普通人员aaa",
+      "roleDescr": "权限比较高aaa",
+      "users": null,
+      "roleFuncSet": [
+        {
+          "status": "1",
+          "createdDate": null,
+          "updatedDate": null,
+          "createdBy": null,
+          "updatedBy": null,
+          "uid": null,
+          "bsnNo": "SY1001001",
+          "interfaceName": "机构列表查询",
+          "methodName": "queryOrganList",
+          "serviceName": "人事管理系统",
+          "remark": "角色关联功能",
+          "bsnUrl": "/organ/queryOrganList",
+          "menus": [
+            {
+              "status": "1",
+              "createdDate": null,
+              "updatedDate": null,
+              "createdBy": null,
+              "updatedBy": null,
+              "uid": null,
+              "sysNo": "1",
+              "menuNo": "m000003",
+              "menuName": "组织架构",
+              "upMenuNo": "m000002",
+              "menuLevel": "2",
+              "menuOrder": "3",
+              "menuUrl": "management_framework",
+              "menuDescr": "组织架构",
+              "menuImg": "",
+              "menuList": null
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "addRoleInfo": {
+    "roleName": "人事",
+    "roleDescr": "我是描述是描述是描述",
+    "status": "0"
+  },
+  "modifyRoleInfo": {
+    "roleNo": "001",
+    "roleName": "人事",
+    "roleDescr": "我是描述是描述是描述"
+  },
+  "deleteRoleInfo": {
+    "roleNo": "001"
+  },
+  "setRoleFunc": {
+    "roleNo": "001",
+    "roleFuncSet": [
+      {
+        "bsnNo": "234332",
+        "bsnSet": "1"
+      },
+      {
+        "bsnNo": "234332",
+        "bsnSet": "1"
+      }
+    ]
+  },
+  "queryInsurancePayTemplates": {
+    "total": "4",
+    "WelfareList": [
+      {
+        "applyNo": "10001",
+        "applyName": "深圳地区缴纳",
+        "remark": "xxx",
+        "createdBy": "p00001",
+        "createdDate": "0000"
+      },
+      {
+        "applyNo": "10002",
+        "applyName": "广州地区缴纳",
+        "remark": "xxx",
+        "createdBy": "p00002",
+        "createdDate": "000"
+      },
+      {
+        "applyNo": "10003",
+        "applyName": "汕尾地区缴纳",
+        "remark": "xxx",
+        "createdBy": "p00003",
+        "createdDate": "00"
+      },
+      {
+        "applyNo": "10004",
+        "applyName": "东莞地区缴纳",
+        "remark": "xxx",
+        "createdBy": "p00004",
+        "createdDate": "00"
+      }
+    ]
+  },
+  "queryInsurancePayTemplate": {
+    "applyNo": "0001",
+    "applyName": "深圳地区缴纳",
+    "perEndmRate": "10%",
+    "perEndmFixed": "5000.00",
+    "comEndmRate": "20%",
+    "comEndmFixed": "5500.00",
+    "perMediRate": "5%",
+    "perMediFixed": "500.00",
+    "comMediRate": "7%",
+    "comMediFixed": "3000.00",
+    "perUnemRate": "10%",
+    "perUnemFixed": "2000.00",
+    "comUnemRate": "15%",
+    "comUnemFixed": "1000.00",
+    "perEmplRate": "4%",
+    "perEmplFixed": "500.00",
+    "comEmplRate": "20%",
+    "comEmplFixed": "1500.00",
+    "perMateRate": "30%",
+    "perMateFixed": "3000.00",
+    "comMateRate": "50%",
+    "comMateFixed": "5000.00",
+    "perHousRate": "10%",
+    "perHousFixed": "1000.00",
+    "comHousRate": "15%",
+    "comHousFixed": "1500.00",
+    "remark": "xxxxxx"
+  },
+  "addInsurancePayTemplate": {
+    "code": "S000000"
+  },
+  "updateInsurancePayTemplate": {
+    "code": "S000000"
+  },
+  "deleteInsurancePayTemplate": {
+    "code": "S000000"
+  },
+  "insertTaxRateGroup": {
+    "code": "S000000"
+  },
+  "deleteTaxRateGroup": {
+    "code": "S000000"
+  },
+  "insertTaxRateCtrl": {
+    "code": "S000000"
+  },
+  "deleteTaxRateCtrl": {
+    "code": "S000000"
+  },
+  "queryWelfareList": {
+    "total": "4",
+    "WelfareList": [
+      {
+        "modelNo": "00001",
+        "modelName": "深圳地区缴纳",
+        "beiz": "xxx",
+        "ID": "p00001",
+        "time": "0000"
+      },
+      {
+        "modelNo": "00002",
+        "modelName": "广州地区缴纳",
+        "beiz": "xxx",
+        "ID": "p00002",
+        "time": "000"
+      },
+      {
+        "modelNo": "00003",
+        "modelName": "汕尾地区缴纳",
+        "beiz": "xxx",
+        "ID": "p00003",
+        "time": "00"
+      },
+      {
+        "modelNo": "00004",
+        "modelName": "东莞地区缴纳",
+        "beiz": "xxx",
+        "ID": "p00004",
+        "time": "00"
+      }
+    ]
+  },
+  "queryWelfareInfo": {
+    "modelNo": "00001",
+    "modelName": "深圳地区缴纳",
+    "beiz": "xxx",
+    "yangl_gr": "1",
+    "yangl_gr_r": "1",
+    "yangl_dw": "1",
+    "yangl_dw_r": "1",
+    "yiliao_gr": "1",
+    "yiliao_gr_r": "1",
+    "yiliao_dw": "1",
+    "yiliao_dw_r": "1",
+    "shiye_gr": "1",
+    "shiye_gr_r": "1",
+    "shiye_dw": "1",
+    "shiye_dw_r": "1",
+    "gongs_gr": "",
+    "gongs_gr_r": "",
+    "gongs_dw": "",
+    "gongs_dw_r": "",
+    "shengy_gr": "",
+    "shengy_gr_r": "",
+    "shengy_dw": "",
+    "shengy_dw_r": "",
+    "zhuf_gr": "",
+    "zhuf_gr_r": "",
+    "zhuf_dw": "",
+    "zhuf_dw_r": ""
+  },
+  "queryPactList": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "totalRows": "50",
+    "pactListArray": [
+      {
+        "pactNo": "001",
+        "paperPactNo": "p001",
+        "pactName": "一号合同",
+        "pactType": "1",
+        "userNo": "a123",
+        "custName": "王二狗",
+        "cert": "422000199012211222",
+        "organNo": "P001001",
+        "organName": "001公司",
+        "derpNo": "D001",
+        "derpName": "001部门",
+        "pactStatus": "1",
+        "signTime": "2017-09-13 00:00:00",
+        "pactStartTime": "2017-09-13 00:00:00",
+        "pactEndTime": "2020-09-13 00:00:00"
+      },
+      {
+        "pactNo": "002",
+        "paperPactNo": "p002",
+        "pactName": "二号合同",
+        "pactType": "1",
+        "userNo": "b123",
+        "custName": "李大锤",
+        "cert": "422000199012211222",
+        "organNo": "P001001",
+        "organName": "001公司",
+        "derpNo": "D002",
+        "derpName": "002部门",
+        "pactStatus": "1",
+        "signTime": "2017-09-20 00:00:00",
+        "pactStartTime": "2017-09-20 00:00:00",
+        "pactEndTime": "2020-09-20 00:00:00"
+      },
+      {
+        "pactNo": "003",
+        "paperPactNo": "p003",
+        "pactName": "三号合同",
+        "pactType": "0",
+        "userNo": "c123",
+        "custName": "王二狗",
+        "cert": "422000199012211222",
+        "organNo": "P001001",
+        "organName": "003公司",
+        "derpNo": "D003",
+        "derpName": "003部门",
+        "pactStatus": "1",
+        "signTime": "2017-08-10 00:00:00",
+        "pactStartTime": "2017-08-10 00:00:00",
+        "pactEndTime": "2020-08-10 00:00:00"
+      },
+      {
+        "pactNo": "004",
+        "paperPactNo": "p004",
+        "pactName": "四号合同",
+        "pactType": "1",
+        "userNo": "d123",
+        "custName": "张铁牛",
+        "cert": "422000199012211222",
+        "organNo": "P001002",
+        "organName": "002公司",
+        "derpNo": "D001",
+        "derpName": "001部门",
+        "pactStatus": "1",
+        "signTime": "2017-09-13 00:00:00",
+        "pactStartTime": "2017-09-13 00:00:00",
+        "pactEndTime": "2020-09-13 00:00:00"
+      }
+    ]
+  },
+  "addInsurancePayTemplate": {
+    "applyNo": "S000000"
+  },
+  "updateInsurancePayTemplate": {
+    "applyNo": "S000000"
+  },
+  "deleteInsurancePayTemplate": {
+    "applyNo": "S000000"
+  },
+  "selectTaxRateGroup": {
+    "total": "3",
+    "list": [
+      {
+        "groupId": "001016",
+        "groupNo": "1600qiz",
+        "startTime": "2017-08-18",
+        "endTime": "2017-10-20",
+        "createTime": "2017-08-10",
+        "remark": "xxxx"
+      },
+      {
+        "groupId": "001017",
+        "groupNo": "一一",
+        "startTime": "2017-08-18",
+        "endTime": "2017-10-20",
+        "createTime": "2017-08-10",
+        "createId": "000111",
+        "remark": "xxxx"
+      },
+      {
+        "groupId": "001018",
+        "groupNo": "一一",
+        "startTime": "2017-08-18",
+        "endTime": "2017-10-20",
+        "createTime": "2017-08-10",
+        "remark": "xxxx"
+      }
+    ]
+  },
+  "insertTaxRateGroup": {
+    "applyNo": "S000000"
+  },
+  "deleteTaxRateGroup": {
+    "applyNo": "S000000"
+  },
+  "selectTaxRateCtrl": {
+    "total": "4",
+    "list": [
+      {
+        "groupNo": "1600",
+        "groupId": "01001",
+        "applyNo": "0001",
+        "GroupLimit": "10000",
+        "GroupLowerLimit": "5000",
+        "remark": "xxxx",
+        "percentRate": "5%",
+        "quickCal": "0"
+      },
+      {
+        "groupNo": "1600",
+        "groupId": "01001",
+        "applyNo": "0001",
+        "GroupLimit": "10000",
+        "GroupLowerLimit": "5000",
+        "remark": "xxxx",
+        "percentRate": "5%",
+        "quickCal": "0"
+      },
+      {
+        "groupNo": "1600",
+        "groupId": "01001",
+        "applyNo": "0001",
+        "GroupLimit": "10000",
+        "GroupLowerLimit": "5000",
+        "remark": "xxxx",
+        "percentRate": "5%",
+        "quickCal": "0"
+      },
+      {
+        "groupN0": "1600",
+        "groupId": "01001",
+        "applyNo": "0001",
+        "GroupLimit": "10000",
+        "GroupLowerLimit": "5000",
+        "remark": "xxxx",
+        "percentRate": "5%",
+        "quickCal": "0"
+      }
+    ]
+  },
+  "insertTaxRateCtrl": {
+    "applyNo": "S000000"
+  },
+  "deleteTaxRateCtrl": {
+    "applyNo": "S000000"
+  },
+  "updaTeTaxRateCtrl": {
+    "applyNo": "S000000"
+  },
+  "queryCParmList": {
+    "total": "3",
+    "list": [
+      {
+        "applyNo": "p55001",
+        "applyName": "xxxxxx",
+        "compName": "xxxx",
+        "rank": "B10-高级开发软件工程师",
+        "salaryFloor": "5000.00",
+        "salaryTop": "10000.00",
+        "businessStandard": "50",
+        "remark": "xxx",
+        "createdId": "001",
+        "createdTime": "2017-10-10"
+      },
+      {
+        "applyNo": "p55002",
+        "applyName": "xxxxxx",
+        "compName": "xxxx",
+        "rank": "B10-高级开发软件工程师",
+        "salaryFloor": "5000.00",
+        "salaryTop": "10000.00",
+        "businessStandard": "50",
+        "remark": "xxx",
+        "createdId": "001",
+        "createdTime": "2017-10-10"
+      },
+      {
+        "applyNo": "p55003",
+        "applyName": "xxxxxx",
+        "compName": "xxxx",
+        "rank": "B10-高级开发软件工程师",
+        "salaryFloor": "5000.00",
+        "salaryTop": "10000.00",
+        "businessStandard": "50",
+        "remark": "xxx",
+        "createdId": "001",
+        "createdTime": "2017-10-10"
+      }
+    ]
+  },
+  "queryCParmDtl": {
+    "applyNo": "p55003",
+    "applyName": "xxxxxx",
+    "compName": "xxxx",
+    "rank": "B10-高级开发软件工程师",
+    "salaryFloor": "5000.00",
+    "salaryTop": "10000.00",
+    "businessStandard": "50",
+    "remark": "xxx"
+  },
+  "modCparm": {
+    "applyNo": "S000000"
+  },
+  "addCparm": {
+    "applyNo": "S000000"
+  },
+  "delCparm": {
+    "applyNo": "S000000"
+  },
+  "queryPactDetail": {
+    "pactNo": "004",
+    "paperPactNo": "P004",
+    "pactName": "四号合同",
+    "organNo": "P001002",
+    "organName": "002公司",
+    "derpNo": "D001",
+    "derpName": "001部门",
+    "custPost": "软件开发工程师",
+    "custClass": "Java开发",
+    "rank": "高级",
+    "userNo": "d123",
+    "custName": "张铁牛",
+    "sex": "1",
+    "cert": "422000199012211222",
+    "pactType": "1",
+    "pactStatus": "1",
+    "signTime": "2017-09-13 00:00:00",
+    "pactStartTime": "2017-09-13 00:00:00",
+    "pactEndTime": "2020-09-13 00:00:00",
+    "pactExpires": "3",
+    "pactStopTime": "2018-09-20 00:00:00",
+    "stopReason": "世界那么大，我想去看看",
+    "autoupFlag": "true",
+    "attachm": "JS23293923988",
+    "remark": "走了就不会再回来了",
+    "createdBy": "李大仁",
+    "createdDate": "2017-09-13 00:00:00",
+    "updateBy": "李大仁",
+    "updateDate": "2017-10-09 00:00:00"
+  },
+  "queryPactChangeList": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "totalRows": "50",
+    "PChangeListArray": [
+      {
+        "pactNo": "004",
+        "pactName": "四号合同",
+        "changeId": "change001",
+        "userNo": "d123",
+        "custName": "张铁牛",
+        "cert": "422000199012211222",
+        "organNo": "P001002",
+        "organName": "002公司",
+        "derpNo": "D001",
+        "derpName": "001部门",
+        "changeTime": "2017-09-13 00:00:00",
+        "changeType": "1"
+      },
+      {
+        "pactNo": "004",
+        "pactName": "四号合同",
+        "changeId": "change002",
+        "userNo": "d123",
+        "custName": "张铁牛",
+        "cert": "422000199012211222",
+        "organNo": "P001002",
+        "organName": "002公司",
+        "derpNo": "D001",
+        "derpName": "001部门",
+        "changeTime": "2017-08-13 00:00:00",
+        "changeType": "0"
+      }
+    ]
+  },
+  "queryPactChangeDetail": {
+    "pactNo": "004",
+    "pactName": "四号合同",
+    "changeId": "change002",
+    "userNo": "d123",
+    "custName": "张铁牛",
+    "cert": "422000199012211222",
+    "organNo": "P001002",
+    "organName": "002公司",
+    "derpNo": "D001",
+    "derpName": "001部门",
+    "custPost": "软件开发工程师",
+    "custClass": "Java开发",
+    "changeTime": "2017-08-13 00:00:00",
+    "changeType": "1",
+    "changeContent": "变更了变更了变更了变更了变更了",
+    "attachm": "JS23293923988",
+    "remark": "走了就不会再回来了",
+    "createdBy": "李大仁",
+    "createdDate": "2017-09-13 00:00:00",
+    "updateBy": "李大仁",
+    "updateDate": "2017-10-09 00:00:00"
+  },
+  "queryPactRenewList": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "totalRows": "50",
+    "PRenewListArray": [
+      {
+        "pactNo": "004",
+        "pactName": "四号合同",
+        "renewId": "renew001",
+        "userNo": "d123",
+        "custName": "张铁牛",
+        "cert": "422000199012211222",
+        "organNo": "P001002",
+        "organName": "002公司",
+        "derpNo": "D001",
+        "derpName": "001部门",
+        "renewTime": "2017-09-13 00:00:00",
+        "renewType": "1"
+      }
+    ]
+  },
+  "queryPactRenewDetail": {
+    "pactNo": "004",
+    "pactName": "四号合同",
+    "renewId": "renew001",
+    "userNo": "d123",
+    "custName": "张铁牛",
+    "cert": "422000199012211222",
+    "organNo": "P001002",
+    "organName": "002公司",
+    "derpNo": "D001",
+    "derpName": "001部门",
+    "custPost": "软件开发工程师",
+    "custClass": "Java开发",
+    "renewTime": "2017-08-13 00:00:00",
+    "renewType": "1",
+    "renewContent": "续签啊续签啊续签啊续签个鬼",
+    "attachm": "JS23293923988",
+    "remark": "走了就不会再回来了",
+    "createdBy": "李大仁",
+    "createdDate": "2017-09-13 00:00:00",
+    "updateBy": "李大仁",
+    "updateDate": "2017-10-09 00:00:00"
+  },
+  "queryPayBaseInfoList": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "total": "50",
+    "payBaseInfoArray": [
+      {
+        "userNo": "001",
+        "custName": "王二狗",
+        "cert": "422000199012211222",
+        "wagesBase": "8000.00",
+        "wagesPerf": "5000.00",
+        "postPension": "1500.00",
+        "otherPension": "800.00",
+        "endmBase": "3000.00",
+        "houseBase": "3000.00",
+        "welcoeNo": "1",
+        "entryTime": "2017-09-13 00:00:00",
+        "remark": "能力突出的"
+      },
+      {
+        "userNo": "002",
+        "custName": "李大锤",
+        "cert": "422000199012211222",
+        "wagesBase": "6000.00",
+        "wagesPerf": "3000.00",
+        "postPension": "1000.00",
+        "otherPension": "800.00",
+        "endmBase": "3000.00",
+        "houseBase": "3000.00",
+        "welcoeNo": "1",
+        "entryTime": "2017-09-13 00:00:00",
+        "remark": "能力突出"
+      },
+      {
+        "userNo": "003",
+        "custName": "张铁蛋",
+        "cert": "422000199012211222",
+        "wagesBase": "7500.00",
+        "wagesPerf": "3000.00",
+        "postPension": "1500.00",
+        "otherPension": "800.00",
+        "endmBase": "3000.00",
+        "houseBase": "3000.00",
+        "welcoeNo": "1",
+        "entryTime": "2017-09-13 00:00:00",
+        "remark": "能力突出突出突出突出"
+      },
+      {
+        "userNo": "004",
+        "custName": "李大帅",
+        "cert": "422000199012211222",
+        "wagesBase": "5000.00",
+        "wagesPerf": "3000.00",
+        "postPension": "1500.00",
+        "otherPension": "800.00",
+        "endmBase": "3000.00",
+        "houseBase": "3000.00",
+        "welcoeNo": "1",
+        "entryTime": "2017-09-13 00:00:00",
+        "remark": ""
+      }
+    ]
+  },
+  "queryPayBaseInfoDetail": {
+    "userNo": "004",
+    "custName": "李大帅",
+    "organName": "0",
+    "derpName": "0",
+    "custPost": "软件开发工程师",
+    "custClass": "Java开发",
+    "rank": "B10-高级开发工程师",
+    "cert": "422000199012211222",
+    "wagesBase": "5000.00",
+    "wagesPerf": "3000.00",
+    "postPension": "1500.00",
+    "otherPension": "800.00",
+    "endmBase": "3000.00",
+    "mediBase": "5000.00",
+    "unemBase": "2300.00",
+    "emplBase": "5000.00",
+    "mateBase": "5000.00",
+    "houseBase": "3000.00",
+    "probRatio": "0.80",
+    "welcoeNo": "1",
+    "entryTime": "2017-09-13 00:00:00",
+    "remark": "备注个啥啥啥啥啥",
+    "updateBy": "李大仁",
+    "updateDate": "2017-10-09 00:00:00"
+  },
+  "queryCustInfoList": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "total": "50",
+    "custInfoList": [
+      {
+        "userNo": "001",
+        "custName": "李大帅",
+        "organName": "总公司",
+        "derpName": "研发部",
+        "sex": "1",
+        "custPost": "软件开发工程师",
+        "custClass": "Java开发",
+        "mobileNo": "15877778777",
+        "custStatus": "0"
+      },
+      {
+        "userNo": "002",
+        "custName": "张铁蛋",
+        "organName": "总公司",
+        "derpName": "技术部",
+        "sex": "0",
+        "custPost": "软件开发工程师",
+        "custClass": "前端开发",
+        "mobileNo": "13856478777",
+        "custStatus": "1"
+      },
+      {
+        "userNo": "003",
+        "custName": "王大锤",
+        "organName": "深圳分公司",
+        "derpName": "技术部",
+        "sex": "1",
+        "custPost": "软件设计师",
+        "custClass": "UI设计师",
+        "mobileNo": "14723243278",
+        "custStatus": "2"
+      }
+    ]
+  },
+  "selectListEpPayChageInfo": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "total": "50",
+    "epPayChageInfoList": [
+      {
+        "applyNo": "0001",
+        "userNo": "001",
+        "custName": "李大帅",
+        "nWagesBase": "7000.00",
+        "nWagesPerf": "2000.00",
+        "nPostPension": "800.00",
+        "nOtherPension": "600.00",
+        "entryTime": "2017-09-13 00:00:00"
+      },
+      {
+        "applyNo": "0002",
+        "userNo": "003",
+        "custName": "王大锤",
+        "nWagesBase": "10000.00",
+        "nWagesPerf": "2500.00",
+        "nPostPension": "1000.00",
+        "nOtherPension": "600.00",
+        "entryTime": "2017-10-24 00:00:00"
+      }
+    ]
+  },
+  "queryCustContancts": {
+    "code": "S00000",
+    "retMsg": "操作成功",
+    "data": [
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "1",
+        "contactName": "孙悟空",
+        "relationship": "朋友",
+        "telphone": "12311312311",
+        "profession": "农民",
+        "post": "中级农民",
+        "addr": "南山区"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "2",
+        "contactName": "大日如来",
+        "relationship": "上级",
+        "telphone": "13311312322",
+        "profession": "土豪",
+        "post": "中级土豪",
+        "addr": "西天雷音寺"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "3",
+        "contactName": "孙悟空",
+        "relationship": "朋友",
+        "telphone": "13311312311",
+        "profession": "农民",
+        "post": "中级农民",
+        "addr": "南山区"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "4",
+        "contactName": "孙悟空",
+        "relationship": "朋友",
+        "telphone": "13311312311",
+        "profession": "农民",
+        "post": "中级农民",
+        "addr": "南山区"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "5",
+        "contactName": "孙猴子",
+        "relationship": "朋友",
+        "telphone": "13311312311",
+        "profession": "农民",
+        "post": "中级农民",
+        "addr": "南山区"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "6",
+        "contactName": "牛魔王",
+        "relationship": "朋友",
+        "telphone": "13311312311",
+        "profession": "土匪",
+        "post": "中级土匪",
+        "addr": "火焰山"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "8",
+        "contactName": "玉帝",
+        "relationship": "上级",
+        "telphone": "13311312322",
+        "profession": "土豪",
+        "post": "中级土豪",
+        "addr": "西天雷音寺"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "9",
+        "contactName": "牛魔王",
+        "relationship": "朋友",
+        "telphone": "13311312311",
+        "profession": "土匪",
+        "post": "中级土匪",
+        "addr": "火焰山"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "10",
+        "contactName": "houzi",
+        "relationship": "上级",
+        "telphone": "13311312322",
+        "profession": "土豪",
+        "post": "gao级土豪",
+        "addr": "xiao雷音寺"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "11",
+        "contactName": "houzi",
+        "relationship": "上级",
+        "telphone": "13311312322",
+        "profession": "土豪",
+        "post": "gao级土豪",
+        "addr": "xiao雷音寺"
+      },
+      {
+        "status": null,
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "userNo": "P0000001",
+        "contactId": "12",
+        "contactName": "孙悟空",
+        "relationship": "朋友",
+        "telphone": "13311312311",
+        "profession": "农民",
+        "post": "中级农民",
+        "addr": "南山区"
+      }
+    ]
+  },
+  "selectDetailEpPayChageInf": {
+    "applyNo": "0001",
+    "organName": "深圳分公司",
+    "derpName": "技术部",
+    "userNo": "001",
+    "custName": "李大帅",
+    "custPost": "软件设计师",
+    "custClass": "UI设计师",
+    "oWagesBase": "7000.00",
+    "oWagesPerf": "2000.00",
+    "oPostPension": "800.00",
+    "oOtherPension": "600.00",
+    "oEndmBase": "600.00",
+    "oMediBase": "600.00",
+    "oUnemBase": "600.00",
+    "oEmplBase": "600.00",
+    "oMateBase": "600.00",
+    "oHouseBase": "600.00",
+    "oWelcoeNo": "1",
+    "nWagesBase": "9000.00",
+    "nWagesPerf": "2500.00",
+    "nPostPension": "800.00",
+    "nOtherPension": "600.00",
+    "nEndmBase": "600.00",
+    "nMediBase": "600.00",
+    "nUnemBase": "600.00",
+    "nEmplBase": "600.00",
+    "nMateBase": "600.00",
+    "nHouseBase": "600.00",
+    "nWelcoeNo": "0",
+    "remark": "我是调薪的备注"
+  },
+  "addRate": {
+    "groupId": "0000000"
+  },
+  "upload": {
+    "code": "000000"
+  },
+  "queryEpAssetInfs": {
+    "pageIndex": "1",
+    "pageRows": "7",
+    "pageCount": "8",
+    "total": "50",
+    "list": [
+      {
+        "assetNo": "a001",
+        "assetName": "ThinkPad t430s",
+        "assetType": "03",
+        "buyUnitPrice": "4000",
+        "buyNum": "50",
+        "buyAmount": "200000",
+        "stockNum": "15",
+        "assetStatus": "02",
+        "organNo": "001",
+        "derpNo": "001",
+        "applyUserNo": "U0001",
+        "updateBy": "李大仁",
+        "updateDate": "2017-10-09 00:00:00"
+      },
+      {
+        "assetNo": "a002",
+        "assetName": "宜家拉克边桌",
+        "assetType": "02",
+        "buyUnitPrice": "49",
+        "buyNum": "100",
+        "buyAmount": "9800",
+        "stockNum": "42",
+        "assetStatus": "04",
+        "organNo": "001",
+        "derpNo": "002",
+        "applyUserNo": "U0012",
+        "updateBy": "李大仁",
+        "updateDate": "2017-10-31 00:00:00"
+      },
+      {
+        "assetNo": "a003",
+        "assetName": "晨光笔记本",
+        "assetType": "02",
+        "buyUnitPrice": "15",
+        "buyNum": "1000",
+        "buyAmount": "15000",
+        "stockNum": "370",
+        "assetStatus": "02",
+        "organNo": "002",
+        "derpNo": "002",
+        "applyUserNo": "U0001",
+        "updateBy": "李大仁",
+        "updateDate": "2017-10-09 00:00:00"
+      }
+    ]
+  },
+  "queryEpAssetInf": {
+    "buyApplyNo": "BE080017",
+    "assetNo": "a001",
+    "assetName": "ThinkPad t430s",
+    "assetType": "03",
+    "buyUnitPrice": "4000",
+    "buyNum": "50",
+    "buyAmount": "200000",
+    "stockNum": "15",
+    "mfrs": "XXX公司",
+    "supplier": "YYY公司",
+    "snNo": "b020024782357",
+    "specType": "SDA575",
+    "assetStatus": "02",
+    "organNo": "001",
+    "derpNo": "001",
+    "applyUserNo": "U0001",
+    "custName": "王二狗",
+    "custPost": "JAVA开发",
+    "custClass": "B2",
+    "factoryTime": "2015-10-09 00:00:00",
+    "faxfreeTime": "2016-10-09 00:00:00",
+    "derpLimit": "18",
+    "attachm": "",
+    "remark": "办公用品",
+    "updateBy": "李大仁",
+    "updateDate": "2017-10-09 00:00:00"
+  },
+  "queryParentMenu": {
+    "data": [
+      {
+        "status": "1",
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "sysNo": "1",
+        "menuNo": "m0002",
+        "menuName": "系统管理",
+        "upMenuNo": "",
+        "menuLevel": "0",
+        "menuOrder": "2",
+        "menuUrl": "2",
+        "menuDescr": "系统管理",
+        "menuImg": "icon-sys",
+        "menuList": null
+      },
+      {
+        "status": "1",
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "sysNo": "1",
+        "menuNo": "m0007",
+        "menuName": "人事事务",
+        "upMenuNo": "",
+        "menuLevel": "1",
+        "menuOrder": "7",
+        "menuUrl": "3",
+        "menuDescr": "人事事务",
+        "menuImg": "icon-khgx",
+        "menuList": null
+      },
+      {
+        "status": "1",
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "sysNo": "1",
+        "menuNo": "m0011",
+        "menuName": "参数管理",
+        "upMenuNo": "",
+        "menuLevel": "1",
+        "menuOrder": "11",
+        "menuUrl": "4",
+        "menuDescr": "参数管理",
+        "menuImg": "icon-csgl",
+        "menuList": null
+      },
+      {
+        "status": "1",
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "sysNo": "1",
+        "menuNo": "m0014",
+        "menuName": "薪酬福利",
+        "upMenuNo": "",
+        "menuLevel": "1",
+        "menuOrder": "14",
+        "menuUrl": "5",
+        "menuDescr": "薪酬福利",
+        "menuImg": "icon-xmgl",
+        "menuList": null
+      },
+      {
+        "status": "1",
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "sysNo": "1",
+        "menuNo": "m0020",
+        "menuName": "考勤管理",
+        "upMenuNo": "",
+        "menuLevel": "1",
+        "menuOrder": "20",
+        "menuUrl": "6",
+        "menuDescr": "考勤管理",
+        "menuImg": "icon-ywgl",
+        "menuList": null
+      },
+      {
+        "status": "1",
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "sysNo": "1",
+        "menuNo": "m0025",
+        "menuName": "资产管理",
+        "upMenuNo": "",
+        "menuLevel": "1",
+        "menuOrder": "25",
+        "menuUrl": "7",
+        "menuDescr": "资产管理",
+        "menuImg": "icon-tjbb",
+        "menuList": null
+      },
+      {
+        "status": "1",
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "sysNo": "1",
+        "menuNo": "m0028",
+        "menuName": "报表管理",
+        "upMenuNo": "",
+        "menuLevel": "1",
+        "menuOrder": "28",
+        "menuUrl": "8",
+        "menuDescr": "报表管理",
+        "menuImg": "icon-rptmg",
+        "menuList": null
+      },
+      {
+        "status": "1",
+        "createdDate": null,
+        "updatedDate": null,
+        "createdBy": null,
+        "updatedBy": null,
+        "uid": "0001",
+        "sysNo": "1",
+        "menuNo": "m0032",
+        "menuName": "员工自助",
+        "upMenuNo": "",
+        "menuLevel": "1",
+        "menuOrder": "32",
+        "menuUrl": "9",
+        "menuDescr": "员工自助",
+        "menuImg": "icon-epsh",
+        "menuList": null
+      }
+    ]
+  },
+  "queryChildMenuAndFunc": {
+    "data": [
+      {
+        "status": "1",
+        "createdDate": 1509530546000,
+        "updatedDate": 1509530546000,
+        "createdBy": "jx",
+        "updatedBy": "jx",
+        "uid": "0001",
+        "sysNo": "1",
+        "menuNo": "m0003",
+        "menuName": "组织架构",
+        "upMenuNo": "m0002",
+        "menuLevel": "2",
+        "menuOrder": "3",
+        "menuUrl": "management_framework",
+        "menuDescr": "组织架构",
+        "menuImg": "",
+        "menuList": null,
+        "bsns": [
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1001001",
+            "interfaceName": "机构列表查询",
+            "methodName": "queryOrganList",
+            "serviceName": "人事管理系统",
+            "remark": "机构列表查询关联",
+            "bsnUrl": "/hello*",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1001002",
+            "interfaceName": "机构新增",
+            "methodName": "addOrgan",
+            "serviceName": "人事管理系统",
+            "remark": "机构新增关联",
+            "bsnUrl": "/organ/addOrgan",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1001003",
+            "interfaceName": "机构修改",
+            "methodName": "modifyOrganInfo",
+            "serviceName": "人事管理系统",
+            "remark": "机构修改关联",
+            "bsnUrl": "/organ/modifyOrganInfo",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1001004",
+            "interfaceName": "机构删除",
+            "methodName": "deleteOrganInfo",
+            "serviceName": "人事管理系统",
+            "remark": "机构删除关联",
+            "bsnUrl": "/organ/deleteOrganInfo",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1001005",
+            "interfaceName": "查询当前机构信息",
+            "methodName": "queryCurrentOrgan",
+            "serviceName": "人事管理系统",
+            "remark": "查询当前机构信息关联",
+            "bsnUrl": "/organ/queryCurrentOrgan",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1001006",
+            "interfaceName": "查询当前机构及上级机构信息",
+            "methodName": "queryCurrentAndParentOrganDetail",
+            "serviceName": "人事管理系统",
+            "remark": "查询当前机构及上级机构信息关联",
+            "bsnUrl": "/organ/queryOrganAndParentOrganDetail",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1001007",
+            "interfaceName": "查询当前机构的直属下级机构列表详情",
+            "methodName": "queryChildOrganDetail",
+            "serviceName": "人事管理系统",
+            "remark": "查询当前机构的直属下级机构列表详情关联",
+            "bsnUrl": "/organ/queryChildOrganDetail",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1001008",
+            "interfaceName": "机构成员新增",
+            "methodName": "addOrganMember",
+            "serviceName": "人事管理系统",
+            "remark": "机构成员新增关联",
+            "bsnUrl": "/organ/addOrganMember",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1001009",
+            "interfaceName": "查询机构下人员列表",
+            "methodName": "queryOrganMember",
+            "serviceName": "人事管理系统",
+            "remark": "查询机构下人员列表关联",
+            "bsnUrl": "/organ/queryOrganMember",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1001010",
+            "interfaceName": "删除机构下的人员",
+            "methodName": "deleteOrganMember",
+            "serviceName": "人事管理系统",
+            "remark": "删除机构下的人员关联",
+            "bsnUrl": "/organ/deleteOrganMember",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1001011",
+            "interfaceName": "查询当前登录用户所在的公司和下属分公司",
+            "methodName": "queryCompanyAndBranchCompanyList",
+            "serviceName": "人事管理系统",
+            "remark": "查询当前登录用户所在的公司和下属分公司关联",
+            "bsnUrl": "/organ/queryCompanyAndBranchCompanyList",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1001012",
+            "interfaceName": "查询公司下的子部门",
+            "methodName": "queryChildrenDep",
+            "serviceName": "人事管理系统",
+            "remark": "查询公司下的子部门关联",
+            "bsnUrl": "/organ/queryChildrenDep",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1001013",
+            "interfaceName": "查询所有公司",
+            "methodName": "queryAllCompany",
+            "serviceName": "人事管理系统",
+            "remark": "查询所有公司关联",
+            "bsnUrl": "/organ/queryAllCompany",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1001014",
+            "interfaceName": "展示登录系统员工所在的公司机构树",
+            "methodName": "queryOrganListByUserNo",
+            "serviceName": "人事管理系统",
+            "remark": "展示登录系统员工所在的公司机构树关联",
+            "bsnUrl": "/organ/queryOrganListByUserNo",
+            "menus": null
+          }
+        ]
+      },
+      {
+        "status": "1",
+        "createdDate": 1509530546000,
+        "updatedDate": 1509530546000,
+        "createdBy": "jx",
+        "updatedBy": "jx",
+        "uid": "0001",
+        "sysNo": "1",
+        "menuNo": "m0005",
+        "menuName": "角色管理",
+        "upMenuNo": "m0002",
+        "menuLevel": "2",
+        "menuOrder": "5",
+        "menuUrl": "management_role",
+        "menuDescr": "角色管理",
+        "menuImg": "",
+        "menuList": null,
+        "bsns": [
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1002001",
+            "interfaceName": "角色列表查询",
+            "methodName": "queryRoleList",
+            "serviceName": "企业管理系统",
+            "remark": "角色列表查询关联",
+            "bsnUrl": "/role/queryRoleList",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1002002",
+            "interfaceName": "角色新增",
+            "methodName": "addRoleInfo",
+            "serviceName": "企业管理系统",
+            "remark": "角色列表查询关联",
+            "bsnUrl": "/role/addRoleInfo",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1002003",
+            "interfaceName": "角色修改",
+            "methodName": "modifyRoleInfo",
+            "serviceName": "企业管理系统",
+            "remark": "角色新增关联",
+            "bsnUrl": "/role/modifyRoleInfo",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1002004",
+            "interfaceName": "角色删除",
+            "methodName": "deleteRoleInfo",
+            "serviceName": "企业管理系统",
+            "remark": "角色修改关联",
+            "bsnUrl": "/role/deleteRoleInfo",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1002005",
+            "interfaceName": "角色详情查询",
+            "methodName": "queryRoleDetail",
+            "serviceName": "企业管理系统",
+            "remark": "角色详情查询关联",
+            "bsnUrl": "/role/queryRoleDetail",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1002006",
+            "interfaceName": "角色功能设置",
+            "methodName": "setRoleFunc",
+            "serviceName": "企业管理系统",
+            "remark": "角色功能的设置关联",
+            "bsnUrl": "/role/setRoleFunc",
+            "menus": null
+          }
+        ]
+      },
+      {
+        "status": "1",
+        "createdDate": 1509530546000,
+        "updatedDate": 1509530546000,
+        "createdBy": "jx",
+        "updatedBy": "jx",
+        "uid": "0001",
+        "sysNo": "1",
+        "menuNo": "m0004",
+        "menuName": "用户管理",
+        "upMenuNo": "m0002",
+        "menuLevel": "2",
+        "menuOrder": "4",
+        "menuUrl": "management_user",
+        "menuDescr": "用户管理",
+        "menuImg": "",
+        "menuList": null,
+        "bsns": [
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1004001",
+            "interfaceName": "用户列表查询",
+            "methodName": "queryUserList",
+            "serviceName": "人事管理系统",
+            "remark": "用户列表查询关联",
+            "bsnUrl": "/user/queryUserList",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1004002",
+            "interfaceName": "用户详细信息查询",
+            "methodName": "queryUserDetail",
+            "serviceName": "人事管理系统",
+            "remark": "用户详细信息查询关联",
+            "bsnUrl": "/user/queryUserDetail",
+            "menus": null
+          },
+          {
+            "status": "1",
+            "createdDate": null,
+            "updatedDate": null,
+            "createdBy": null,
+            "updatedBy": null,
+            "uid": null,
+            "bsnNo": "SY1004003",
+            "interfaceName": "用户修改",
+            "methodName": "updateUserInfo",
+            "serviceName": "人事管理系统",
+            "remark": "用户修改关联",
+            "bsnUrl": "/user/updateUserInfo",
+            "menus": null
+          }
+        ]
+      }
+    ]
+  },
+  "resetPassword": {
+    "code": "000000"
+  },
+  "changePassword": {
+    "code": "000000"
+  }
+}
