@@ -73,6 +73,10 @@ export default {
 					menuName: '项目管理',
 					menuList: [
 						{
+							menuUrl: 'preCheck_query',
+							menuName: '项目一览'
+						},
+						{
 							menuUrl: 'preSale_query',
 							menuName: '售前立项'
 						},
