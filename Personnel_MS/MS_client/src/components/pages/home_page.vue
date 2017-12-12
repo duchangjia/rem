@@ -876,25 +876,6 @@
                     }
                 }
             }
-            .canvas-box{
-                width: 100%;
-                height: 344px;
-                background: #fff !important;
-                padding: 20px 14px 30px 20px !important;
-            }
-           
-            .chart-button-list{
-                position: absolute;
-                top:20px;
-                right:20px;
-                span{
-                    cursor: pointer;
-                    margin-left:20px;
-                    &.active,&:hover{
-                        color:$color-primary;
-                    }
-                }
-            }
         }
     }
 </style>

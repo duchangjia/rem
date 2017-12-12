@@ -79,7 +79,7 @@
                     :page-size="pagination.pageSize"
                     :total="pagination.total"
                     layout="total,prev, pager, next, jumper"
-                    v-show="pagination.total>pagination.pageSize">
+                    >
                 </el-pagination>     
             </div>
         </div>
