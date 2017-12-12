@@ -1,6 +1,6 @@
 <template>
 	<div class="add_preSale">
-		<current yuji="项目管理" erji="售前立项" sanji="售前立项新增">
+		<current yiji="项目管理" erji="售前立项" sanji="售前立项新增">
 		</current>
 		<div class="content-wrapper">
 			<div class="titlebar">

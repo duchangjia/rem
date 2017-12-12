@@ -155,7 +155,7 @@ export default {
 	      return row.preSaleEndTime ? moment(row.preSaleEndTime).format('YYYY-MM-DD') : null;
 	   	}, 
 	    handleAdd() {
-	    	this.$router.push('/add_preSale');
+	    	this.$router.push('add_preSale');
         },
         handleDownloadTemplate() {
             //下载模版
@@ -343,9 +343,5 @@ export default {
 	margin-left: 20px;
 	background: url(../../../../../static/img/common/delete.png);
 }
-.link {
-	cursor: pointer;
-    color: #337ab7;
-    text-decoration: underline;
-}
+
 </style>
