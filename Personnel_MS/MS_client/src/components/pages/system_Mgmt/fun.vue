@@ -10,7 +10,7 @@
 					<el-col :sm="12" :md="6">
 						<el-form-item label="系统名称" prop="sysNo">
 							<el-select v-model="formData.sysNo" class="bg-white">
-								<el-option v-for="item in menuQueryConditions" :label="item.paraShowmsg" :value="item.paraValue"></el-option>
+								<el-option v-for="item in menuQueryConditions" :key="item.paraValue" :label="item.paraShowmsg" :value="item.paraValue"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -51,7 +51,7 @@
 	                    </template>
 					</el-table-column>
 				</el-table>
-				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" >
+				<el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="total,prev, pager, next, jumper" :total="totalRows" >
 				</el-pagination>
 			</div>
 		</div>
@@ -67,7 +67,6 @@
 				pageNum: 1,
 				pageSize: 10,
 				totalRows: 0,
-				queryFormFlag: false,
 				formData: {
 					methodName: '',
 					bsnNo: '',
@@ -113,13 +112,8 @@
 				this.formData.sysNo = '';
 			},
 	     	handleEdit(index, row) {
-	     		console.log(row.sysNo);
-	            this.$router.push({
-	            	name: 'edit_fun',
-	            	params: {
-						bsnNo: row.bsnNo
-	            	}
-	            });
+				sessionStorage.setItem('editFun_bsnNo', row.bsnNo);
+	            this.$router.push('/edit_fun');
 	       },
 			handleCurrentChange(val) {
 		       	this.pageNum = val;
@@ -138,22 +132,22 @@
 					status: self.formData.status
 				}
 				self.$axios.get(baseURL+'/function/queryFuncList', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('FuncList',res);
 					self.userList = res.data.data.list;
 					self.pageNum = params.pageNum;
 					self.totalRows = Number(res.data.data.total);
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryConditions() {
 				const self = this;
 				self.$axios.get(baseURL+'/function/selectSysPara')
-				.then(function(res) {
+				.then((res) => {
 					console.log('Conditions',res);
 					self.menuQueryConditions = res.data;
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			}

@@ -160,7 +160,7 @@
 		},
 		created(){
 			const self = this;
-			let user = self.$route.params.user;
+			let user = sessionStorage.getItem('userMQuery_userNo');
 			//查询用户详情
 			self.queryUserDetail(user);
 			//查询角色列表
@@ -233,7 +233,7 @@
 			queryUserDetail(user) {
 				const self = this;
 				self.$axios.get(baseURL+'/user/queryUserDetail/'+user)
-				.then(function(res){
+				.then((res) => {
 					self.userDetail = res.data.data;
 					self.oldStatus = self.userDetail.status;
 					self.comp = {
@@ -252,14 +252,14 @@
 						self.olduserDetail[i] = self.userDetail[i];
 					}
 				})
-				.catch(function(err){
+				.catch((err) => {
 					console.log(err)
 				})
 			},
 			updateUserInfo(params) {
 				const self = this;
 				self.$axios.put(baseURL+'/user/updateUserInfo',params)
-				.then(function(res){
+				.then((res) => {
 					if(res.data.code=="S00000"){
 			        	self.$message({ message: '操作成功', type: 'success' });
 			        	self.$router.push('/management_user');
@@ -267,30 +267,30 @@
 						console.log('error');
 					}
 				})
-				.catch(function(err){
+				.catch((err) => {
 					console.log('error');
 				})
 			},
 			queryRoleList() {
 				let self = this;
 				self.$axios.get(baseURL+'/role/queryRoleByUid')
-				.then(function(res) {
+				.then((res) => {
 					console.log('RoleList',res);
 					self.roleList = res.data.data;
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			resetPassword(params) {
 				const self = this;
 				self.$axios.put(baseURL+'/user/resetPassword', params)
-	          	.then(function(res){
+	          	.then((res) => {
 	          		console.log('resetPassword',res);
 	          		if(res.data.code=="S00000") {
 	          			self.$message({ message: '操作成功', type: 'success' });
 	          		}
 	          			
-	          	}).catch(function(err){
+	          	}).catch((err) => {
 	          		console.log('error');
 	          	})
 			}
