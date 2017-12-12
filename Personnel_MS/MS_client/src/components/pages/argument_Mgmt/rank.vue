@@ -12,7 +12,7 @@
 				<el-form :model="ruleForm2" :inline="true" ref="ruleForm2" class="demo-ruleForm">
 					<el-col :sm="12" :md="6">
 						<el-form-item label="公司名称" prop="organNo">
-							<el-select v-model="ruleForm2.organNo" value-key="organNo" @change="test">
+							<el-select v-model="ruleForm2.organNo" value-key="organNo">
 								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
 						</el-form-item>
@@ -62,7 +62,6 @@ export default {
 			pageNum: 1,
 			pageSize: 10,
 			totalRows: 1,
-			queryFormFlag: false,
 			ruleForm2: {
 				organNo: ""
 			},
@@ -85,16 +84,11 @@ export default {
 		}
 	},
 	created() {
-		const self = this;
-		self.queryFormFlag = false;
-		let params = {
-			"pageNum": self.pageNum,
-			"pageSize": self.pageSize
-		};
+		this.ruleForm2.organNo = '';
 		//查询职级薪酬列表
-		self.queryCParmList(params);
+		this.queryCParmList();
 		//查询公司列表
-		self.queryCompList();
+		this.queryCompList();
 	},
 	components: {
 		current
@@ -104,11 +98,8 @@ export default {
 			return row.remark.length>10?(row.remark.substr(0,10)+'......'):row.remark;
 		},
 		createdDateFormatter(row, column) {
-	      return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null
+	      return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null;
 	    },
-		test() {
-			console.log(this.ruleForm2.organNo)
-		},
 		addWelfare() {
 			this.$router.push('/add_rank');
 		},
@@ -116,25 +107,14 @@ export default {
 			this.ruleForm2.organNo = '';
 		},
 		queryForm() {
-			const self = this;
-			let params = {
-				"pageNum": self.pageNum,
-				"pageSize": self.pageSize,
-				organNo: self.ruleForm2.organNo
-			};
 			//查询职级薪酬列表
-			self.queryCParmList(params);
-			self.queryFormFlag = true;
+			this.queryCParmList();
 			
 		},
 		handleEdit(index, row) {
-            this.$router.push({
-            	name: 'edit_rank',
-            	params: {
-            		applyNo: row.applyNo,
-            		organNo: row.organNo
-            	}
-            });
+			sessionStorage.setItem('editRank_applyNo', row.applyNo);
+			sessionStorage.setItem('editRank_organNo', row.organNo);
+            this.$router.push('/edit_rank');
 		},
 		handleDelete(index, row) {
             const self = this;
@@ -155,27 +135,18 @@ export default {
             })
         },
         handleCurrentChange(val) {
-			const self = this;
-			let params = {};
-			if(self.queryFormFlag) {
-				params = {
-					"pageNum": val,
-					"pageSize": self.pageSize,
-					organNo: self.ruleForm2.organNo	
-				};
-			} else {
-				params = {
-					"pageNum": val,
-					"pageSize": self.pageSize
-				};
-			}
-			
+			this.pageNum = val;
 			//分页查询职级薪酬列表
-			self.queryCParmList(params);
+			this.queryCParmList();
 			
 		},
-		queryCParmList(params) {
+		queryCParmList() {
 			const self = this;
+			let params = {
+				"pageNum": self.pageNum,
+				"pageSize": self.pageSize,
+				organNo: self.ruleForm2.organNo
+			};
 			self.$axios.get(baseURL+'/RankSalaryTemplate/queryCParmList', {params: params})
 			.then((res) => {
 				console.log('list',res);
@@ -189,29 +160,25 @@ export default {
 		deleteCparm(params) {
 			const self = this;
 			self.$axios.delete(baseURL + '/RankSalaryTemplate/delCparm/' + params.organNo + '/'+params.applyNo)
-    		.then(function(res) {
+    		.then((res) => {
     			console.log('del',res);
     			if(res.data.code === "S00000") {
     				self.$message({ type: 'success', message: '操作成功!' });
-					let params = {
-						"pageNum": self.pageNum,
-						"pageSize": self.pageSize,
-						organNo: self.ruleForm2.organNo
-					};
+					
     				//查询职级薪酬列表
-					self.queryCParmList(params);
+					self.queryCParmList();
     			}
     			
-    		}).catch(function(err) {
+    		}).catch((err) => {
     		})
 		},
 		queryCompList() {
 			let self = this;
 			self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-			.then(function(res) {
+			.then((res) => {
 				console.log('CompList',res);
 				self.compList = res.data.data;
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log(err);
 			})
 		},
@@ -225,6 +192,7 @@ export default {
     display: inline-block;
     width: 24px;
     height: 24px;
+	cursor: pointer;
     background: url('../../../../static/img/common/delete.png') center no-repeat;
 }
 .link {

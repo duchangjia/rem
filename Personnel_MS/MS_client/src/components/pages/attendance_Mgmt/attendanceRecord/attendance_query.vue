@@ -61,9 +61,10 @@
 					</div>
 				</el-form>
 				<el-table :data="transferDataList" border stripe style="width: 100%">
-					<el-table-column prop="attenceNo" label="考勤编号"></el-table-column>
 					<el-table-column prop="userNo" label="工号"></el-table-column>
 					<el-table-column prop="custName" label="姓名"></el-table-column>
+					<el-table-column prop="companyName" label="公司名称"></el-table-column>
+					<el-table-column prop="deptName" label="部门名称"></el-table-column>
 					<el-table-column prop="attenceTime" label="考勤日期"></el-table-column>
 					<el-table-column prop="attenceType" label="类型" :formatter="attenceTypeFormatter"></el-table-column>
 					<el-table-column prop="taskTime" label="工时"></el-table-column>

@@ -311,7 +311,7 @@ export default {
 	},
 	created(){
 		const self = this;
-		let applyNo = self.$route.params.applyNo;
+		let applyNo = sessionStorage.getItem('welfareInfo_applyNo');
 		
 		//查询福利系数模版详情
 		self.queryInsurancePayTemplate(applyNo);
@@ -366,16 +366,15 @@ export default {
 		queryInsurancePayTemplate(params) {
 			const self = this;
 			self.$axios.get(baseURL+'/InsurancePayTemplate/queryInsurancePayTemplate/' + params)
-			.then(function(res) {
+			.then((res) => {
 				console.log('detalPagTemp',res);
 				self.payTempDel = res.data.data;
 				for(let k in self.payTempDel) {
 					if(k.match('Rate')) {
-						console.log(self.payTempDel[k],'lalalal')
 						self.payTempDel[k] = parseFloat((self.payTempDel[k]*100).toFixed(6));
 					}
 				}
-			}).catch(function(err) {
+			}).catch((err) => {
 				console.log('err');
 			})
 		},

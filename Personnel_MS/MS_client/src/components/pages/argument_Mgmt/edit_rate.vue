@@ -123,7 +123,7 @@ export default {
 		current
 	},
 	created() {
-		this.rateInfo = this.$route.params;
+		this.rateInfo = JSON.parse(sessionStorage.getItem('editRate_rateInfo'));
 		this.rateInfo.percentRate = this.rateInfo.percentRate*100;
 	},
 	methods: {

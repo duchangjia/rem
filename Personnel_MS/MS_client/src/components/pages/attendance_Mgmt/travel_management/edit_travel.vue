@@ -72,7 +72,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差天数" prop="travelDays">
-						    <el-input v-model="formdata2.travelDays" :disabled="true"></el-input>
+						    <el-input v-model="formdata2.travelDays"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -222,31 +222,31 @@
 		methods: {
 			changeStartTime(time) {
 				this.travelStartTime = time;
-				if(this.caclStarttimeFlag) {
-					let params = {
-						travelStartTime: this.travelStartTime,
-						travelEndTime: this.travelEndTime
-					}
-					if(this.formdata2.travelEndTime) {
-						this.calTravelDays(params);
-					}	
-				}
-				this.caclStarttimeFlag = true;
+				// if(this.caclStarttimeFlag) {
+				// 	let params = {
+				// 		travelStartTime: this.travelStartTime,
+				// 		travelEndTime: this.travelEndTime
+				// 	}
+				// 	if(this.formdata2.travelEndTime) {
+				// 		this.calTravelDays(params);
+				// 	}	
+				// }
+				// this.caclStarttimeFlag = true;
 					
 			},
 			changeEndTime(time) {
 				// this.formdata2.travelEndTime = time;
 				this.travelEndTime = time;
-				if(this.caclEndtimeFlag) {
-					let params = {
-						travelStartTime: this.travelStartTime,
-						travelEndTime: this.travelEndTime
-					}
-					if(this.formdata2.travelStartTime) {
-						this.calTravelDays(params);
-					}
-				}
-				this.caclEndtimeFlag = true;
+				// if(this.caclEndtimeFlag) {
+				// 	let params = {
+				// 		travelStartTime: this.travelStartTime,
+				// 		travelEndTime: this.travelEndTime
+				// 	}
+				// 	if(this.formdata2.travelStartTime) {
+				// 		this.calTravelDays(params);
+				// 	}
+				// }
+				// this.caclEndtimeFlag = true;
 			},
 			changeCompValue(value) {
 				const self = this;

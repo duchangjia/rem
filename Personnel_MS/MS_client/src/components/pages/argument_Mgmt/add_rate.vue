@@ -105,8 +105,8 @@ export default {
 		current
 	},
 	created() {
-		this.formdata.groupName = sessionStorage.getItem('groupName');
-		this.formdata.groupId = sessionStorage.getItem('groupId');
+		this.formdata.groupName = sessionStorage.getItem('rateInfo_groupName');
+		this.formdata.groupId = sessionStorage.getItem('rateInfo_groupId');
 	},
 	methods: {
 		save(formName) {

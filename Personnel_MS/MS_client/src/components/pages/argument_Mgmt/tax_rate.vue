@@ -12,7 +12,7 @@
 				<el-table :data="taxRateGroupList" border stripe style="width: 100%">
 					<el-table-column prop="groupName" label="组名称">
 						<template scope="scope">
-					        <span class="link" @click="handleEdit(scope.$index, scope.row)">{{ scope.row.groupName }}</span>
+					        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.groupName }}</span>
 				      	</template>
 					</el-table-column>
 					<el-table-column prop="remark" label="备注"></el-table-column>
@@ -77,12 +77,11 @@ export default {
 		addRateGroup() {
 			this.$router.push('/add_rateGroup');
 		},
-		handleEdit(index, row) {
-			sessionStorage.setItem('groupId',row.groupId);
-			sessionStorage.setItem('groupName',row.groupName);
+		handleInfo(index, row) {
+			sessionStorage.setItem('rateInfo_groupId',row.groupId);
+			sessionStorage.setItem('rateInfo_groupName',row.groupName);
             this.$router.push({
             	name: 'rate_info',
-				// 如果这里你测试不成功，就把params改用query,对应页面用query接收
             	params: {
             		groupName: row.groupName,
             		groupId: row.groupId
@@ -117,12 +116,12 @@ export default {
 				isDelete: "1"
 			};
 			self.$axios.get(baseURL+'/taxRateGroup/queryRGroupList',{params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log("queryRGroupList",res);
 					self.taxRateGroupList = res.data.data.list;
 					self.pageNum = params.pageNum;
 					self.totalRows = Number(res.data.data.total);
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err)
 				})
 		},
@@ -159,6 +158,7 @@ export default {
     display: inline-block;
     width: 24px;
     height: 24px;
+	cursor: pointer;
     background: url('../../../../static/img/common/delete.png') center no-repeat;
 }
 .link {
