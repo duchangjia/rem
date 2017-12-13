@@ -73,7 +73,7 @@
                 <el-table-column align="center" prop="realHair" label="合计(实发)" min-width = "120px">
                 </el-table-column>
             </el-table>
-            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="total,prev, pager, next, jumper" :total="totalRows" v-show="totalRows>pageSize">
+            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="total,prev, pager, next, jumper" :total="totalRows">
             </el-pagination>
             <!-- <el-pagination class="toolbar" @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" >
             </el-pagination> -->
