@@ -354,13 +354,13 @@ export default {
 		addInsurancePayTemplate(params) {
 			const self = this;
 			self.$axios.post(baseURL+'/InsurancePayTemplate/addInsurancePayTemplate', params)
-  			.then(function(res) {
+  			.then((res) => {
   				if(res.data.code === "S00000") {
   					self.$message({ message: '福利缴纳系数新增成功', type: 'success' });
 	  				self.$router.push('/welfare_coefficient');
   				}
 	  				
-  			}).catch(function(err) {
+  			}).catch((err) => {
   				console.log('error')
   			})
 		}

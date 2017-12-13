@@ -49,7 +49,6 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <!--<el-input v-model="formdata1.custPost" :disabled="true"></el-input>-->
 						    <el-select v-model="formdata1.custPost" :disabled="true">
 								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
@@ -57,7 +56,6 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <!--<el-input v-model="formdata1.custClass" :disabled="true"></el-input>-->
 						    <el-select v-model="formdata1.custClass" :disabled="true">
 								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
@@ -111,7 +109,7 @@
 					  			 :on-change="changeUpload" 
 					  			 :on-success="successUpload"
 					  			 action="/iem_hrm/custDimhis/addCustDimhis" 
-					  			 :show-file-list="false" 
+					  			 :show-file-list="true" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
 					  		>
@@ -162,13 +160,7 @@
 				//公司列表
 				compList: [],
 				//离职类型列表
-				dimTypeList: [
-					{dimTypeName:'辞退',dimTypeNo: "01"},
-					{dimTypeName:'退休',dimTypeNo: "02"},
-					{dimTypeName:'外调',dimTypeNo: "03"},
-					{dimTypeName:'辞职',dimTypeNo: "04"},
-					{dimTypeName:'裁员',dimTypeNo: "05"},
-				],
+				dimTypeList: [],
 				rules1: {
 					userNo: [
 			 			{ required: true, message: '工号不能为空', trigger: 'blur' }
@@ -210,14 +202,14 @@
 		computed: {
 			addFormdata: function(){
 				return {
-				    userNo: this.formdata1.userNo,//工号
-				   	dimTime: this.formdata1.dimTime,
-					dimType: this.formdata1.dimType,
-					hasGone: this.formdata1.hasGone,
-					payEndTime: this.formdata1.payEndTime,
-					dimReason: this.formdata1.dimReason,
-					attachm: this.formdata1.attachm,
-					dimProveFlag: this.formdata1.dimProveFlag
+					userNo: this.formdata1.userNo,//工号
+					dimTime: this.formdata2.dimTime,
+					dimType: this.formdata2.dimType,
+					hasGone: this.formdata2.hasGone,
+					payEndTime: this.formdata2.payEndTime,
+					dimReason: this.formdata2.dimReason,
+					attachm: this.formdata2.attachm,
+					dimProveFlag: this.formdata2.dimProveFlag ? '01': '02' //01->ture  02->false
 				}
 			}
 		},
@@ -291,26 +283,26 @@
 			queryCompList() {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CompList',res);
 					if(res.data.code === "S00000") {
 						self.compList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryDerpList(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.derpList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
@@ -385,49 +377,49 @@
 					userNo: userNo
 				}
 				self.$axios.get(baseURL+'/CustInfo/queryCustInfoByUserNo/'+userNo)
-				.then(function(res) {
+				.then((res) => {
 					console.log('userInfo',res);
 					self.formdata1 = res.data.data;
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryCustPostList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustClassList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			querydimTypeList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=DIM_TYPE')
-				.then(function(res) {
+				.then((res) => {
 					console.log('dimType',res);
 					if(res.data.code === "S00000") {
 						self.dimTypeList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			}
@@ -447,5 +439,8 @@
 }
 .add_dimission .el-checkbox__inner:hover {
     border-color: #20a0ff;
+}
+.add_dimission .el-upload-list {
+    margin: -40px 0 0 0;
 }
 </style>
