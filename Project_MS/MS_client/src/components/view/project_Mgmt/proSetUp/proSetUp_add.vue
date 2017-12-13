@@ -1,5 +1,5 @@
 <template>
-	<div class="add_preSale">
+	<div class="add_preSetUp">
 		<current yiji="项目管理" erji="项目立项" sanji="项目立项新增">
 		</current>
 		<div class="content-wrapper">
@@ -268,7 +268,7 @@ export default {
 </script>
 
 <style lang='stylus' rel='stylesheet/stylus'>
-.add_preSale
+.add_preSetUp
 	.setUp-info-button
 		background #f90
 		color #FFF 
