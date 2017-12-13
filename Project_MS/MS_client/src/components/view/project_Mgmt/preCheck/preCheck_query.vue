@@ -4,6 +4,7 @@
         <div class="queryContent_wrapper">
             <div class="titleBar">
                 <span class="title-text">项目一览</span>
+                
             </div>
             <div class="queryContent_inner clearfix">
                 <el-form :inline="true">
@@ -54,7 +55,7 @@
                         <el-button class="btn-primary" @click="search()">查询</el-button>
                     </div>   
                 </el-form>
-                <el-table stripe :data="tableList" class="table-nopad">
+                <el-table stripe :data="tableList" class="table-nopad" @row-click="saveItem">
                     <el-table-column align="center" prop="projImpDepno" label="部门编号">
                     </el-table-column>
                     <el-table-column align="center" prop="oppoNo" label="机会号" >
@@ -79,18 +80,14 @@
                     </el-table-column>
                     <el-table-column align="center"  label="操作">
                         <template scope="scope">
-                            <el-dropdown>
-                            <span class="el-dropdown-link">
-                                下拉菜单
-                            </span>
-                            <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item>项目详情</el-dropdown-item>
-                                <el-dropdown-item>项目编辑</el-dropdown-item>
-                                <el-dropdown-item>成员管理</el-dropdown-item>
-                                <el-dropdown-item>项目阶段</el-dropdown-item>
-                                <el-dropdown-item>项目分包</el-dropdown-item>
-                                <el-dropdown-item>项目结束</el-dropdown-item>
-                            </el-dropdown-menu>
+                            <el-dropdown @command="handleCommand" trigger="click">
+                                <span class="el-dropdown-link" >
+                                    下拉菜单
+                                </span>
+                                <el-dropdown-menu slot="dropdown" >
+                                    <el-dropdown-item :command="item.url" v-for="item in dropDownList">{{item.name}}</el-dropdown-item>
+                                    
+                                </el-dropdown-menu>
                             </el-dropdown>
                         </template>
                     </el-table-column>
@@ -128,12 +125,52 @@
                         projSaleLinemgr:'马经理',
                         projImpBegdate:'2017-12-12',
                         projImpEndate:'2017-12-13'
+                    },
+                    {
+                        projImpDepno:'1002',
+                        oppoNo:'100XXX',
+                        projNo:'1002020',
+                        projName:'赚钱项目',
+                        projStatus:'01',
+                        projIncmType:'02',
+                        projIncmConfim:'03',
+                        projSaleName:'周杰伦',
+                        projSaleLinemgr:'马经理',
+                        projImpBegdate:'2017-12-12',
+                        projImpEndate:'2017-12-13'
                     }
                 ],
                 pagination:{
                     pageSize:10,
                     total:20
-                }
+                },
+               
+                dropDownList:[
+                    {
+                        name:'项目详情',
+                        url:'/preCheck_detail'
+                    },
+                    {
+                        name:'项目编辑',
+                        url:'/preCheck_edit'
+                    },
+                    {
+                        name:'成员管理',
+                        url:'/preCheck_members'
+                    },
+                    {
+                        name:'项目阶段',
+                        url:'/preCheck_stage'
+                    },
+                    {
+                        name:'项目分包',
+                        url:''
+                    },
+                    {
+                        name:'项目结束',
+                        url:'end'
+                    }
+                ]
             }
         },
         mounted(){
@@ -147,7 +184,7 @@
             search(){
                 let self = this,
                     params = self.searchInfo;
-                console.log(params);
+                    console.log(params);
                 // self.$axios.get(queryProjList).then(res=>{
                 //     console.log(res);
                 // }).catch(e=>{
@@ -156,6 +193,34 @@
             },
             handleCurrentChange(val){
                 console.log(val)
+            },
+            saveItem(row, event, column){
+                window.localStorage.setItem('preCheckOppoNo',row.oppoNo);
+            },
+            handleCommand(command){
+                let self = this,
+                oppoNo =  localStorage.getItem('preCheckOppoNo');
+                console.log(command,oppoNo);
+                if(command == 'end'){
+                    self.$confirm('确定项目已经结束，不再进行预算、收入申报','确认项目关闭',{
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        self.$message({
+                            type: 'success',
+                            message: '项目结束成功!'
+                        });
+                    }).catch(() => {
+                        self.$message({
+                            type: 'info',
+                            message: '已取消'
+                        });          
+                    });
+                }else{
+                    self.$router.push(command);
+                }
+                
             }
         },
 		components: {

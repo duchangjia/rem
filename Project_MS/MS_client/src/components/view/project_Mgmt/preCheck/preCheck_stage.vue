@@ -1,9 +1,9 @@
 <template>
     <div class="container-wrap">
-        <current yiji="项目管理" erji="项目一览" sanji="项目详情"></current>
+        <current yiji="项目管理" erji="项目一览" sanji="项目阶段"></current>
         <div class="content-wrapper">
             <div class="titlebar">
-                <span class="title-text">项目详情</span>
+                <span class="title-text">项目阶段</span>
             </div>
             <div class="add-wrapper">
                 <el-form label-width="140px" :inline="true">
@@ -37,26 +37,7 @@
                                 <el-input :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="收入确认类型">
-                                <el-input :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="预计合同金额">
-                                <el-input :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="订单类型">
-                                <el-input :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="项目交付地">
-                                <el-input :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
+                  
                     <el-col :sm="24" :md="12">
                         <el-form-item label="预计合同签订时间">
                                 <el-input :disabled="true"></el-input>
@@ -67,21 +48,7 @@
                                 <el-input :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="收入类型">
-                                <el-input :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="合同编号">
-                                <el-input :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="项目状态">
-                                <el-input :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
+                  
 
                     <el-col :span="24" class="item-title">销售信息</el-col>
                     <el-col :sm="24" :md="12">
@@ -118,7 +85,13 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="实施进度">
-                                <el-input :disabled="true"></el-input>
+                            <el-input :disabled="true" class="sec-button-input">
+                                <el-button slot="append" icon="el-icon-search"></el-button>
+                                <el-button slot="append">上传项目计划</el-button>
+                            </el-input>
+                            <el-upload class="upload-demo">
+                                <el-button type="primary" class="uploadBtn">上传项目计划</el-button>
+                            </el-upload>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -145,41 +118,6 @@
                         <el-form-item label="项目说明">
                             <el-input type="textarea" :disabled="true" class="b-textarea"></el-input>
                         </el-form-item>
-                    </el-col>
-                    <el-col :span="24" class="item-title">项目分包</el-col>
-                    <el-col :span="24">
-                        <el-table stripe :data="tableList" class="table-add">
-                            <el-table-column align="center" prop="projImpDepno" label="分包合同号">
-                            </el-table-column>
-                            <el-table-column align="center" prop="projImpDepno" label="分包客户">
-                            </el-table-column>
-                            <el-table-column align="center" prop="projImpDepno" label="金额">
-                            </el-table-column>
-                            <el-table-column align="center" prop="projImpDepno" label="类型">
-                            </el-table-column>
-                            <el-table-column align="center" prop="projImpDepno" label="分包说明">
-                            </el-table-column>
-                        </el-table>
-                    </el-col>
-                    <el-col :span="24" class="item-title">项目材料</el-col>
-                    <el-col :span="24">
-                        <el-table stripe :data="tableList" class="table-add">
-                            <el-table-column align="center" prop="projImpDepno" label="编号">
-                            </el-table-column>
-                            <el-table-column align="center" prop="projImpDepno" label="类型">
-                            </el-table-column>
-                            <el-table-column align="center" prop="projImpDepno" label="名称">
-                            </el-table-column>
-                            <el-table-column align="center" prop="projImpDepno" label="说明">
-                            </el-table-column>
-                            <el-table-column align="center"  label="操作">
-                                <template scope="scope">
-                                    <el-button class="btn-primary">
-                                        下载
-                                    </el-button>
-                                </template>
-                            </el-table-column>
-                        </el-table>
                     </el-col>
                 </el-form>
             </div>

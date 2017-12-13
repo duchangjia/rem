@@ -166,6 +166,18 @@ const routes = [
                             path: '/preCheck_detail',
                             component: resolve => require(['../components/view/project_Mgmt/preCheck/preCheck_detail.vue'], resolve),
                         },
+                        {
+                            path:'/preCheck_edit',
+                            component: resolve => require(['../components/view/project_Mgmt/preCheck/preCheck_edit.vue'], resolve),
+                        },
+                        {
+                            path:'/preCheck_stage',
+                            component: resolve => require(['../components/view/project_Mgmt/preCheck/preCheck_stage.vue'], resolve),
+                        },
+                        {
+                            path:'/preCheck_members',
+                            component: resolve => require(['../components/view/project_Mgmt/preCheck/preCheck_members.vue'], resolve),
+                        }
                     ]
                 },
                 {
