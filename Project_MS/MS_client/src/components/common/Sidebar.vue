@@ -86,21 +86,17 @@ export default {
 						},
 					]
 				},
-				// {
-				// 	menuImg: 'icon-csgl',
-				// 	menuUrl: '4',
-				// 	menuName: '参数管理',
-				// 	menuList: [
-				// 		{
-				// 			menuUrl: 'argument_1',
-				// 			menuName: '系统参数'
-				// 		},
-				// 		{
-				// 			menuUrl: 'argument_2',
-				// 			menuName: '业务参数'
-				// 		},
-				// 	]
-				// },	
+				{
+					menuImg: 'icon-csgl',
+					menuUrl: '4',
+					menuName: '客户关系',
+					menuList: [
+						{
+							menuUrl: 'query_customer',
+							menuName: '客户一览'
+						}
+					]
+				},	
 // 				{
 // 					menuImg: 'icon-xmgl',
 // 					menuUrl: '5',

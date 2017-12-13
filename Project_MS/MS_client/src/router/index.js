@@ -186,6 +186,47 @@ const routes = [
                         },
                     ]
                 },
+                {
+                    path: '/query_customer',
+                    component: resolve => require(['../components/view/customer_Relations/customerInfo.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/view/customer_Relations/query_customer.vue'], resolve),
+                        },
+                        {
+                            name: 'query_customer',
+                            path: '/query_customer',
+                            component: resolve => require(['../components/view/customer_Relations/query_customer.vue'], resolve),
+                        },
+                        {
+                            name: 'add_customer',
+                            path: '/add_customer',
+                            component: resolve => require(['../components/view/customer_Relations/add_customer.vue'], resolve),
+                        },
+                        {
+                            name: 'edit_customer',
+                            path: '/edit_customer',
+                            component: resolve => require(['../components/view/customer_Relations/edit_customer.vue'], resolve),
+                        },
+                        {
+                            name: 'detail_customer',
+                            path: '/detail_customer',
+                            component: resolve => require(['../components/view/customer_Relations/detail_customer.vue'], resolve),
+                        },
+                        {
+                            name: 'billlingTemp_maintain',
+                            path: '/billlingTemp_maintain',
+                            component: resolve => require(['../components/view/customer_Relations/billlingTemp_maintain.vue'], resolve),
+                        },
+                        {
+                            name: 'custUnitPrice_maintain',
+                            path: '/custUnitPrice_maintain',
+                            component: resolve => require(['../components/view/customer_Relations/custUnitPrice_maintain.vue'], resolve),
+                        },
+
+                    ]
+                },
             ]
         }
     ]

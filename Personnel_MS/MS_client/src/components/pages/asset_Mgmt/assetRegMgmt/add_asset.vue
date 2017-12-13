@@ -1,5 +1,5 @@
 <template>
-    <div class="add_assetinfo">
+    <div class="container-wrap">
         <current yiji="资产管理" erji="资产登记管理" sanji="资产信息查询" siji="资产新增">
         </current>
         <div class="content-wrapper">
