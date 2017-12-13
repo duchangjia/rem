@@ -121,7 +121,7 @@
 
 <script type='text/ecmascript-6'>
     import current from '../../common/current_position.vue'
-    import $ from '../../../../static/jquery/dist/jquery.min'
+    import $ from '../../../../static/jquery/jquery.min'
     export default {
         data() {
             return {
