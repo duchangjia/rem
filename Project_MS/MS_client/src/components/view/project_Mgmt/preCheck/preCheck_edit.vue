@@ -192,7 +192,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="计划结束时间">
-                                <el-input :disabled="true"></el-input>
+                            <el-input :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">

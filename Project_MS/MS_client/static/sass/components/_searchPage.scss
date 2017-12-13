@@ -87,7 +87,9 @@
         }
         .table-button-box{
             margin-bottom:30px;
-            text-align: right;
+            .btn-default{
+                margin-left:10px;
+            }
         }
         .el-pagination {
             text-align: right;

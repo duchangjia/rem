@@ -81,12 +81,11 @@
                     <el-table-column align="center"  label="操作">
                         <template scope="scope">
                             <el-dropdown @command="handleCommand" trigger="click">
-                                <span class="el-dropdown-link" >
+                                <span class="el-dropdown-link cur-pointer">
                                     下拉菜单
                                 </span>
                                 <el-dropdown-menu slot="dropdown" >
                                     <el-dropdown-item :command="item.url" v-for="item in dropDownList">{{item.name}}</el-dropdown-item>
-                                    
                                 </el-dropdown-menu>
                             </el-dropdown>
                         </template>

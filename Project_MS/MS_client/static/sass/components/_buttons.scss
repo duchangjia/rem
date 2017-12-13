@@ -8,6 +8,10 @@
 		// @include size(120px,30px); 
 		padding:0 5px;
 		border:$border-default;
+		&.is-disabled{
+			color: #b4bccc;
+			border-color: #e6ebf5;
+		}
 	}
 	&.btn-primary,&.btn-primary:active{
 		color:#fff;
@@ -16,7 +20,10 @@
 		min-width:120px;
 		padding:0 5px;
 		border:$border-default;
-		
+		&.is-disabled{
+			color: #b4bccc;
+			border-color: #e6ebf5;
+		}
 	}
 	&.btn-primary:hover{
 		opacity:0.8;

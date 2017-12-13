@@ -1,0 +1,16 @@
+.el-checkbox__inner{
+    &:hover{
+        border-color:$color-primary;
+    }
+}
+.el-checkbox__input.is-checked{
+    .el-checkbox__inner{
+        border-color:$color-primary;
+        background:$color-primary;
+    }
+} 
+.el-checkbox__input.is-focus{
+    .el-checkbox__inner{
+        border-color:#d8dce5;
+    }
+}
