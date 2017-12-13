@@ -161,7 +161,11 @@ const routes = [
                         {
                             path: '/',
                             component: resolve => require(['../components/view/project_Mgmt/preCheck/preCheck_query.vue'], resolve),
-                        }
+                        },
+                        {
+                            path: '/preCheck_detail',
+                            component: resolve => require(['../components/view/project_Mgmt/preCheck/preCheck_detail.vue'], resolve),
+                        },
                     ]
                 },
                 {
