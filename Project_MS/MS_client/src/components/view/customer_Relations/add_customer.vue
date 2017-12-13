@@ -111,7 +111,6 @@ export default {
         setUpTime: "",
         Legal: "",
         comScale: ""
-
       },
       custInfoRules: {}
     };
@@ -129,6 +128,37 @@ export default {
     handleSave(addCustForm) {
       this.$refs[addCustForm].validate(valid => {
         if (valid) {
+          let saveSuccessFlag = false;
+          let newCustMsg = this.addCustMsg;
+          console.log(newCustMsg);
+          // this.$axios
+          //   .post("", newCustMsg)
+          //   .then(res => {
+          //     console.log(res);
+          //     if (res.data.code == "S00000") {
+          //       saveSuccessFlag = true;
+          //     } else this.$message.error(res.data.retMsg);
+          //   })
+          //   .catch(() => {
+          //     this.$message.error("操作失败！");
+          //   });
+
+          // 暂时赋值
+          saveSuccessFlag = true;
+
+          // 成功之后
+          if (saveSuccessFlag) {
+            const _this = this;
+            this.$confirm("操作成功！您是否立即新增联系人?", "提示", {
+              type: "success"
+            })
+              .then(() => {
+                _this.$router.push("/edit_customer");
+              })
+              .catch(() => {
+                _this.$router.push("/query_customer");
+              });
+          }
         } else {
           console.log("error submit!!");
           return false;
