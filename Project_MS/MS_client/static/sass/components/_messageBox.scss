@@ -18,6 +18,7 @@
 	.el-button--default:hover{
 		border-color:$color-primary;
 		color:$color-primary;
+		background-color:#fff;
 	}
 	.el-button--primary{ 
 		color:#fff;
@@ -25,7 +26,8 @@
 		border:$border-default;
 		&:hover{
 			color:#fff;
-			opacity:0.5
+			opacity:0.5;
+			background:$color-primary;
 		}
 	}
 }
@@ -36,6 +38,7 @@
 	.el-dialog__title{
 		font-weight:normal;
 		color:#333;
+		font-size: 14px;
 	}
 	.el-dialog__headerbtn{
 		.el-dialog__close{
