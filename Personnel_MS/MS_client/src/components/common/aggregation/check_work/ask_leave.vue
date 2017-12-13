@@ -114,7 +114,7 @@ export default {
                 self.vacationList[0].day = data.holiday
                 self.vacationList[1].day = data.leaveTime
                 self.vacationList[2].day = data.restTime
-                self.msgList[3].val = data.workAge||'暂无数据'
+                self.msgList[3].val = data.workAge
             }).catch(e=>{
                 self.$message({
                     type:'error',
