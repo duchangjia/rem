@@ -3,18 +3,23 @@
 	&.btn-default,&.btn-default:hover{
 		color:$color-primary;
 		background:$bg-wihte;
-		height:30px;
 		min-width:120px;
+		height:30px;
 		// @include size(120px,30px); 
 		padding:0 5px;
 		border:$border-default;
 	}
-	&.btn-primary,&.btn-primary:hover{
+	&.btn-primary,&.btn-primary:active{
 		color:#fff;
 		background:$color-primary;
-		@include size(120px,30px);
-		padding:0;
+		height:30px;
+		min-width:120px;
+		padding:0 5px;
 		border:$border-default;
+		
+	}
+	&.btn-primary:hover{
+		opacity:0.8;
 	}
 }
 //删除修改小图标
