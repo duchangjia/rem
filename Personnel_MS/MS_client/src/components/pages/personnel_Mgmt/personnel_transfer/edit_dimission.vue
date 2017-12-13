@@ -36,7 +36,6 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <!--<el-input v-model="formdata.custPost" :disabled="true"></el-input>-->
 						    <el-select v-model="formdata.custPost" :disabled="true">
 								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
@@ -44,7 +43,6 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <!--<el-input v-model="formdata.custClass" :disabled="true"></el-input>-->
 						    <el-select v-model="formdata.custClass" :disabled="true">
 								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
@@ -95,8 +93,8 @@
 					  			 :data="addFormdata"
 					  			 :on-change="changeUpload" 
 					  			 :on-success="successUpload"
-					  			 action="/iem_hrm" 
-					  			 :show-file-list="false" 
+					  			 action="/iem_hrm/custDimhis/updateCustDimhis" 
+					  			 :show-file-list="true" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
 					  		>
@@ -132,13 +130,7 @@
 				//职级列表
 				custClassList: [],
 				//离职类型列表
-				dimTypeList: [
-					{dimTypeName:'辞退',dimTypeNo: "01"},
-					{dimTypeName:'退休',dimTypeNo: "02"},
-					{dimTypeName:'外调',dimTypeNo: "03"},
-					{dimTypeName:'辞职',dimTypeNo: "04"},
-					{dimTypeName:'裁员',dimTypeNo: "05"},
-				],
+				dimTypeList: [],
 				rules: {
 		          	dimTime: [
 		            	{ required: true, message: '离职时间不能为空', trigger: 'change' }

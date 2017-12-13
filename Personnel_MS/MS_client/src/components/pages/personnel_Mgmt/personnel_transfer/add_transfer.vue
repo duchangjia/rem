@@ -47,7 +47,7 @@
 				  	<el-col :span="24" class="item-title">调动信息</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动类型" prop="shiftType">
-						    <el-select v-model="formdata2.shiftType" value-key="shiftType">
+						    <el-select v-model="formdata2.shiftType" @change="changeShiftType">
 								<el-option v-for="item in shiftTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -137,6 +137,7 @@
 					  			 :on-change="changeUpload" 
 					  			 :on-success="successUpload"
 					  			 action="/iem_hrm/custShifthis/addCustShifthis" 
+					  			 :show-file-list="true" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
 					  		>
@@ -182,14 +183,7 @@
 				custPostList: [],
 				//职级列表
 				custClassList: [],
-				shiftTypeList: [
-					{shiftType: '01',shiftName: '晋升'},
-					{shiftType: '02',shiftName: '调动'},
-					{shiftType: '03',shiftName: '平调'},
-					{shiftType: '04',shiftName: '轮岗'},
-					{shiftType: '05',shiftName: '工资调整'},
-					{shiftType: '99',shiftName: '其他'},
-				],
+				shiftTypeList: [],
 				rules1: {
 					userNo: [
 			 			{ required: true, message: '工号不能为空', trigger: 'blur' }
@@ -256,6 +250,16 @@
 			}
 		},
 		methods: {
+			changeShiftType(value) {
+				console.log('shiftType', value);
+				if(value==='05') {
+					console.log('true');
+					console.log(this.formdata1.organNo);
+					// this.formdata2.newOrgId = this.formdata1.organNo;
+					// this.formdata2.newDeprtId = this.formdata1.derpNo;
+					// this.formdata2.newLineManager = this.formdata1.lineManager;
+				}
+			},
 			changeShiftCameTime(time) {
 	      		this.formdata2.shiftCameTime = time;
 	      	},
@@ -386,65 +390,65 @@
 			queryCompList() {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CompList',res);
 					if(res.data.code === "S00000") {
 						self.compList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryDerpList(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.departList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryCustPostList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustClassList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryShiftTypeList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=SHIFT_TYPE')
-				.then(function(res) {
+				.then((res) => {
 					console.log('shiftTypeList',res);
 					if(res.data.code === "S00000") {
 						self.shiftTypeList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
@@ -455,10 +459,10 @@
 					userNo: userNo
 				}
 				self.$axios.get(baseURL+'/CustInfo/queryCustInfoByUserNo/'+ userNo)
-				.then(function(res) {
+				.then((res) => {
 					console.log('userInfo',res);
 					self.formdata1 = res.data.data;
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			}
@@ -472,99 +476,5 @@
     padding-bottom: 20px;
 	width: 100%;
 }
-/*.add_transfer .content {
-	width: 100%;
-	padding: 0px 20px;
-	background: #ffffff;
-	clear: both;
-}
-.add_transfer .content .title {
-	border-bottom: 1px solid #EEEEEE;
-}
 
-.add_transfer .content .title .title-text {
-	display: inline-block;
-	position: relative;
-	padding: 14px 0px;
-	font-size: 16px;
-	height: 50px;
-}
-
-.add_transfer .content .title .title-text:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: -1px;
-	width: 100%;
-	height: 2px;
-	background: #333333;
-}
-
-.add_transfer .content-inner {
-	padding: 30px 0px;
-}	
-.add_transfer .info-title{
-	padding: 11px 0px 11px 10px;
-    margin-bottom: 30px;
-	color: #999999;
-	border-bottom: none;
-}
-.add_transfer .el-input__inner {
-    border: 1px solid #EEEEEE;
-    color: #999999;
-    width: 300px;
-    height: 40px;
-    margin-left: 30px;
-}
-.add_transfer .el-form-item {
-	padding-left: 20px;
-}
-.add_transfer .el-form-item__label {
-    text-align: right;
-    vertical-align: middle;
-    float: left;
-    font-size: 14px;
-    color: #999999;
-    line-height: 1;
-    padding: 11px 0px 11px 0;
-    box-sizing: border-box;
-    font-weight: normal;
-}
-.add_transfer .el-textarea__inner {
-    margin-left: 30px;
-}
-.add_transfer .file_button {
-	color: #FF9900;
-	font-size: 14px;
-}
-.add_transfer .el-form-item__error {
-    left: 30px;
-}
-.add_transfer .uploadBtn {
-  position: absolute;
-  height: 38px;
-  top: 0;
-  right: 0;
-  margin: 0;
-  border: 1px solid #ff9900;
-  border-radius: 0;
-  background: #ff9900;
-  font-family: "PingFang SC";
-}
-.add_transfer .el-upload__input {
-    margin-left: 30px;
-    border: 1px solid #eeeeee;
-}
-.add_transfer .conserve {
-	float: right;
-	margin-top: 10px;
-	background: #F4F4F4;
-	border: 1px solid #F4F4F4;
-	border-radius: 0px;
-	font-size: 14px;
-	color: #333333;
-	width: 120px;
-	height: 30px;
-	padding: 0;
-}*/
 </style>

@@ -121,8 +121,8 @@
 					  			 :data="addFormdata"
 					  			 :on-change="changeUpload" 
 					  			 :on-success="successUpload"
-					  			 action="/iem_hrm" 
-					  			 :show-file-list="false" 
+					  			 action="/iem_hrm/custShifthis/updateCustShifthis" 
+					  			 :show-file-list="true" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
 					  		>
@@ -158,14 +158,7 @@
 				//职级列表
 				custClassList: [],
 				//调动类型列表
-				shiftTypeList: [
-					{shiftType: '01',shiftName: '晋升'},
-					{shiftType: '02',shiftName: '调动'},
-					{shiftType: '03',shiftName: '平调'},
-					{shiftType: '04',shiftName: '轮岗'},
-					{shiftType: '05',shiftName: '工资调整'},
-					{shiftType: '99',shiftName: '其他'},
-				],
+				shiftTypeList: [],
 			 	rules: {
 		          	shiftType: [
 		            	{ required: true, message: '调动类型不能为空', trigger: 'blur' }
@@ -219,7 +212,6 @@
 					oldDeprtId: self.formdata.oldDeprtId,
 					newOrgId: self.formdata.newOrgId,
 					newDeprtId: self.formdata.newDeprtId,
-//					custName: self.formdata.custName,
 					userNo: self.formdata.userNo,
 					shiftType: self.formdata.shiftType,
 					shiftCameTime: self.formdata.shiftCameTime,
