@@ -47,6 +47,14 @@
             height:40px;
             line-height:normal;
         }
+        .el-pagination__editor {
+            padding: 0;
+            width: 24px;
+            .el-input__inner {
+                width: 24px;
+                height: 24px;
+            }
+        }
         .el-form-item__label{
             font-weight:normal;
             color: #999999;
