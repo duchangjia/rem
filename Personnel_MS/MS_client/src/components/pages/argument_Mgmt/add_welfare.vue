@@ -341,7 +341,7 @@ export default {
 	          		};
 	          		for(let k in params) {
 						if(k.match('Rate')) {
-							params[k] = params[k]/100;
+							params[k] = parseFloat((params[k]/100).toFixed(8));
 						}
 					}
 	          		//新增福利系数模版

@@ -46,12 +46,12 @@
 					<el-col :span="24" class="item-title">请假信息</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="请假开始时间" prop="leaveStartTime">
-				        	<el-date-picker type="datetime" v-model="formdata2.leaveStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="datetime" v-model="formdata2.leaveStartTime" @change="changeStartTime" :editable="false" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="请假结束时间" prop="leaveEndTime">
-				        	<el-date-picker type="datetime" v-model="formdata2.leaveEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="datetime" v-model="formdata2.leaveEndTime" @change="changeEndTime" :editable="false" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
@@ -144,7 +144,8 @@
 		            	{ required: true, message: '请假类型不能为空', trigger: 'blur' }
 	          		],
 	          		timeSheet: [
-	          			{ required: true, type: 'number', message: '请假累计工时不能为空', trigger: 'blur' }
+	          			{ required: true, type: 'number', message: '请假累计工时不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的工时" }
 	          		],
 	          		remark: [
 	          			{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }

@@ -63,12 +63,12 @@
 					<el-col :span="24" class="item-title">出差信息</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差开始时间" prop="travelStartTime">
-				        	<el-date-picker type="datetime" v-model="formdata2.travelStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="datetime" v-model="formdata2.travelStartTime" @change="changeStartTime" :editable="false" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差结束时间" prop="travelEndTime">
-				        	<el-date-picker type="datetime" v-model="formdata2.travelEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="datetime" v-model="formdata2.travelEndTime" @change="changeEndTime" :editable="false" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -203,7 +203,8 @@
 		            	{ required: true, message: '出差到达城市不能为空', trigger: 'blur' }
 	          		],
 	          		travelDays: [
-		            	{ required: true, message: '出差天数不能为空', trigger: 'blur' }
+		            	{ required: true, message: '出差天数不能为空', trigger: 'blur' },
+						{ pattern: /^[\d(\.\d)?]{0,8}$/, message: "请输入正确的天数" }
 	          		],
 	          		remark: [
 		            	{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }

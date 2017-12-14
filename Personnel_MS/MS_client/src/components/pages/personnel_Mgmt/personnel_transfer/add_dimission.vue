@@ -71,7 +71,7 @@
 					<el-col :span="24" class="item-title">离职信息</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="离职时间" prop="dimTime">
-							<el-date-picker type="date" v-model="formdata2.dimTime" @change="changeDimTime" style="width: 100%;"></el-date-picker>
+							<el-date-picker type="date" v-model="formdata2.dimTime" @change="changeDimTime" :editable="false" style="width: 100%;"></el-date-picker>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
@@ -88,7 +88,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工资截止日" prop="payEndTime">
-							<el-date-picker type="date" v-model="formdata2.payEndTime" @change="changePayEndTime" style="width: 100%;"></el-date-picker>
+							<el-date-picker type="date" v-model="formdata2.payEndTime" @change="changePayEndTime" :editable="false" style="width: 100%;"></el-date-picker>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :span="24">
