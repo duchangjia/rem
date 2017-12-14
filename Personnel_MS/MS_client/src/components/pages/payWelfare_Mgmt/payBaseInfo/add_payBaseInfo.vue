@@ -371,12 +371,10 @@ export default {
     messageBox
   },
   created() {
-    console.log('接到的custInfo', sessionStorage.getItem("addPayChangeInfo_custInfo"));
     if(sessionStorage.getItem("addPayChangeInfo_custInfo")) {
-      this.custInfo = sessionStorage.getItem("addPayChangeInfo_custInfo");
+      this.custInfo = JSON.parse(sessionStorage.getItem("addPayChangeInfo_custInfo"));
       this.addPayBaseInfo.userNo = this.custInfo.userNo;
     }
-    // console.log('当前custInfo', this.custInfo);
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
     this.getCustPostList(); //查询岗位列表
     this.getCustClassList(); //查询职级列表
