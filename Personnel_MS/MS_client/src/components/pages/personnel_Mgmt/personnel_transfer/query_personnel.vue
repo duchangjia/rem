@@ -209,15 +209,15 @@
 					self.pageNum = params.pageNum;
 					self.totalRows = Number(res.data.data.total);
 					
-					self.pactListInfo.forEach(function(ele,index) {
-						if(ele.custStatus == '01' || ele.custStatus == '02') {
-							self.handleTransferFlag[index] = false;
-							self.handDimissionFlag[index] = false;
-						} else {
-							self.handleTransferFlag[index] = true;
-							self.handDimissionFlag[index] = true;
-						}
-					})
+					// self.pactListInfo.forEach(function(ele,index) {
+					// 	if(ele.custStatus == '01' || ele.custStatus == '02') {
+					// 		self.handleTransferFlag[index] = false;
+					// 		self.handDimissionFlag[index] = false;
+					// 	} else {
+					// 		self.handleTransferFlag[index] = true;
+					// 		self.handDimissionFlag[index] = true;
+					// 	}
+					// })
 				}).catch(function(err) {
 					console.log(err);
 				})

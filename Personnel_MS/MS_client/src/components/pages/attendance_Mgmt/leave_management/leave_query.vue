@@ -31,13 +31,15 @@
 							      v-model="ruleForm2.startDate"
 							      type="date"
 							      placeholder="选择日期"
-							      :picker-options="pickerOptions0" @change="changeStartTime">
+							      :picker-options="pickerOptions0"
+								   :editable="false" @change="changeStartTime">
 							   	</el-date-picker> -
 								<el-date-picker
 							      v-model="ruleForm2.endDate"
 							      type="date"
 							      placeholder="选择日期"
-							      :picker-options="pickerOptions0" @change="changeEndTime">
+							      :picker-options="pickerOptions0"
+								   :editable="false" @change="changeEndTime">
 							   </el-date-picker>
 							</el-form-item>
 						</el-col>

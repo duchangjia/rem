@@ -273,7 +273,7 @@
 			},
 			queryRoleList() {
 				let self = this;
-				self.$axios.get(baseURL+'/role/queryRoleByUid')
+				self.$axios.get(baseURL+'/role/queryRoleListByStatus')
 				.then((res) => {
 					console.log('RoleList',res);
 					self.roleList = res.data.data;

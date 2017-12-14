@@ -39,7 +39,7 @@
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动生效时间" prop="shiftCameTime">
-						    <el-date-picker type="date" v-model="formdata.shiftCameTime" @change="changeShiftCameTime" style="width: 100%;"></el-date-picker>
+						    <el-date-picker type="date" v-model="formdata.shiftCameTime" @change="changeShiftCameTime" :editable="false" style="width: 100%;"></el-date-picker>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -73,7 +73,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新直线经理" prop="newLineManager">
-						    <el-input v-model="formdata.newLineManager"></el-input>
+						    <el-input v-model="formdata.newLineManager" @change="newLineManagerChange"></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -143,11 +143,22 @@
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
+			var checkNewLineManager = (rule, value, callback) => {
+		        if (value == '') {
+		          	callback(new Error('直线经理不能为空'));
+		        } else if (!this.newLineManagerFlag) {
+					console.log('newLineManagerFlag',this.newLineManagerFlag)
+		          	callback(new Error('请输入正确的直线经理工号'));
+		        } else {
+		          	callback();
+		        }
+	      	};
 			return {
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
 				fileFlag: '',
+				newLineManagerFlag: '',
 				formdata: {},
 				//部门列表
 				departList: [],
@@ -173,7 +184,7 @@
 	          			{ required: true, message: '新部门名不能为空', trigger: 'blur' }
 		          	],
 					newLineManager: [
-						{ required: true, message: '新直线经理不能为空', trigger: 'blur' }
+						{ required: true, validator: checkNewLineManager, trigger: 'blur' }
 					],
 					newPost: [
 						{ required: true, message: '新岗位不能为空', trigger: 'blur' }
@@ -237,7 +248,25 @@
 				}
 	            //查询部门列表
 				this.queryDerpList(params);
-	      	},
+			},
+			  //校验直线经理是否存在
+			newLineManagerChange(value) {
+				let params = {
+					userNo: value
+				}
+				this.$axios.get(baseURL+'/CustInfo/queryCustInfoByUserNo/'+ value)
+				.then((res) => {
+					console.log('newLineManagerChange',res);
+					if(!res.data.data.userNo) {
+						this.newLineManagerFlag = false;
+					} else {
+						this.newLineManagerFlag = true;
+					}
+					
+				}).catch((err) => {
+					console.log(err);
+				})
+			},
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
 		 		this.formdata.attachm = file.name;
