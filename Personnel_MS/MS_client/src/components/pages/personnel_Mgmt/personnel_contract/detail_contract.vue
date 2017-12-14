@@ -104,7 +104,7 @@
                             </el-col>
                             <el-col :span="24">
                                 <el-form-item label=" " prop="autoudFlag">
-                                    <el-checkbox v-model="_autoudFlag" @change="">自动更新员工资料</el-checkbox>
+                                    <el-checkbox v-model="_autoudFlag">自动更新员工资料</el-checkbox>
                                 </el-form-item>
                             </el-col>
                         </el-form>
@@ -389,7 +389,7 @@ export default {
         })
           .then(() => {
             this.$axios
-              .delete(
+              .put(
                 "/iem_hrm/pact/deletePactChange?pactNo=" +
                   row.pactNo +
                   "&changeId=" +
@@ -419,7 +419,7 @@ export default {
         })
           .then(() => {
             this.$axios
-              .delete(
+              .put(
                 "/iem_hrm/pact/deletePactRenew?pactNo=" +
                   row.pactNo +
                   "&renewId=" +
