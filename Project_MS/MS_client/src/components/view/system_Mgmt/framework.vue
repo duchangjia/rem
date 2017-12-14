@@ -5,8 +5,8 @@
             <el-col :span="6">
                 <div class="content-left">
                     <div class="content-left-title" v-show="companies.organName"><img height="21px" src="../../../../static/img/common/home_logo.png" /><span class="head_quarters" @click="getInfo(companies.organNo)" :title="companies.organName">{{companies.organName}}</span></div>
-                    <ul class="list " v-show="companies.childrenList" >
-                        <li class="shanghai common L" v-for="(company, $index) in companies.childrenList" :key="$index" @click.stop.prevent="collapse(company.organNo, $event, null)" :class="`L${company.organNo}`">{{company.organName}}<span class="count">({{company.childrenList.length}})</span>
+                    <ul class="list " v-show="companies.childrenList">
+                        <li class="common L" v-for="(company, $index) in companies.childrenList" :key="$index" @click.stop.prevent="collapse(company.organNo, $event, null)" :class="`L${company.organNo}`">{{company.organName}}<span class="count">({{company.childrenList.length}})</span>
                             <ul class="common-list" v-show="company.childrenList">
                                 <li class="common dot X" v-for="(department, index) in company.childrenList" :key="index" @click.stop.prevent="collapse(department.organNo, $event, company.organNo)" :class="`X${department.organNo}`">{{department.organName}}<span class="count">({{department.childrenList.length}})</span>
                                     <ul class="common-list-item" v-show="department.childrenList">
@@ -21,7 +21,11 @@
                                                                         <li class="common dot B" v-for="(BchildDepartment,index) in CchildDepartment.childrenList" :key="index" @click.stop.prevent="collapse(BchildDepartment.organNo, $event, company.organNo)" :class="`B${BchildDepartment.organNo}`">{{BchildDepartment.organName}}<span class="count">({{BchildDepartment.childrenList.length}})</span>
                                                                             <ul class="common-list-item" v-show="BchildDepartment.childrenList">
                                                                                 <li class="common dot D" v-for="(DchildDepartment,index) in BchildDepartment.childrenList" :key="index" @click.stop.prevent="collapse(DchildDepartment.organNo, $event, company.organNo)" :class="`D${DchildDepartment.organNo}`">{{DchildDepartment.organName}}<span class="count">({{DchildDepartment.childrenList.length}})</span>
+                                                                                    <ul class="common-list-item" v-show="DchildDepartment.childrenList">
+                                                                                        <li class="common dot E" v-for="(EchildDepartment,index) in DchildDepartment.childrenList" :key="index" @click.stop.prevent="collapse(EchildDepartment.organNo, $event, company.organNo)" :class="`E${EchildDepartment.organNo}`">{{EchildDepartment.organName}}<span class="count">({{EchildDepartment.childrenList.length}})</span>
 
+                                                                                        </li>
+                                                                                    </ul>
                                                                                 </li>
                                                                             </ul>
                                                                         </li>
@@ -130,18 +134,15 @@
                     status:'',
                     organName: '',
                 },
-                companies: {
-
-                },
+                companies: '',
                 tableData: '',
-                tableData2: ''
             }
         },
         created() {
            let self = this
             self.$axios.get('/iem_hrm/organ/queryOrganList')
               .then( res => {
-                  console.log(res)
+                  console.log(res, '左侧机构树')
                   self.companies = res.data.data[0]
                   if(!self.companies){
                       this.$message('请点击新增按钮添加机构');
@@ -151,15 +152,15 @@
                           .then( res => {
                               self.content = res.data.data
                           })
-                          .catch( res=> {
-                              console.log('请求公司详情数据超时')
+                          .catch( e => {
+                              console.log('请求公司详情数据超时',e)
                           })
                       self.$axios.get('/iem_hrm/organ/queryChildOrganDetail/'+self.companies.organNo)
                           .then( res => {
                               self.tableData = res.data.data
                           })
-                          .catch( res=> {
-                              console.log('请求公司下级详情数据超时')
+                          .catch( e => {
+                              console.log('请求公司下级详情数据超时',e)
                           })
                   }
                   self.$nextTick(function () {
@@ -176,18 +177,9 @@
 
                   })
               })
-              .catch( res=> {
-                  console.log('请求公司数据超时')
+              .catch( e => {
+                  console.log('请求公司数据超时',e)
               })
-
-//            self.$axios.get('/iem_hrm/organ/queryOrganMember/0')
-//                .then( res => {
-//                    self.tableData2 = res.data.data
-//                })
-//                .catch( res=> {
-//                    console.log('请求公司员工数据超时')
-//                    return false
-//                })
         },
         methods: {
             handleSizeChange(val) {
@@ -205,19 +197,7 @@
                             console.log('请求公司下级详情数据超时222')
                         })
             },
-            handleCurrentChange2(val) {
-                let index = this.content.organNo
-                let _self = this
-                _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`, {params:{pageNum: val}})
-                    .then( res => {
-                        _self.tableData2 = res.data.data
-                    })
-                    .catch( res=> {
-                        console.log('请求公司员工详情数据超时222')
-                    })
-            },
             handleAdd(tt, queryNo) {
-//                this.$store.dispatch('change_frame', this.content)
                 window.sessionStorage.setItem('frame_queryNo', queryNo)
                 this.$router.push(tt);
             },
@@ -237,13 +217,6 @@
                     .catch( res=> {
                         console.log('请求公司下级详情数据超时')
                     })
-//                _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
-//                    .then( res => {
-//                        _self.tableData2 = res.data.data
-//                    })
-//                    .catch( res=> {
-//                        console.log('请求公司员工数据超时')
-//                    })
                 $('.list').find('li').removeClass('active')
                 $('.head_quarters').addClass('active')
             },
@@ -295,47 +268,6 @@
                     $('.L'+ parent+' .'+name + index + ' >ul').slideToggle('slow')
                     $('.L'+ parent+' .'+name + index).siblings().find('ul').slideUp('slow')
                 }
-//                if (reg2.test(e.target.className) && parent!==null) {
-//                    _self.$axios.get(`/iem_hrm/organ/queryCurrentAndParentOrganDetail/${index}`)
-//                        .then(res => {
-//                            _self.content = res.data.data
-//                        })
-//                        .catch( res=> {
-//                            console.log('请求公司详情数据超时')
-//                        })
-//                    _self.$axios.get(`/iem_hrm/organ/queryChildOrganDetail/${index}`)
-//                        .then( res => {
-//                            _self.tableData = res.data.data
-//                        })
-//                        .catch( res=> {
-//                            console.log('请求公司下级详情数据超时')
-//                        })
-////                    _self.$axios.get(`/iem_hrm/organ/queryOrganMember/${index}`)
-////                        .then( res => {
-////                            _self.tableData2 = res.data.data
-////                        })
-////                        .catch( res=> {
-////                            console.log('请求公司员工数据超时')
-////                            return false
-////                        })
-//                    $('.list').find('li').removeClass('active')
-//                    $('.head_quarters').removeClass('active')
-//                    $('.L'+ parent+' .J'+ index).addClass('active')
-//                    $('.L'+ parent+' .J'+ index + ' >ul').slideToggle('slow')
-//                    $('.L'+ parent+' .J'+ index).siblings().find('ul').slideUp('slow')
-//                }
-            },
-            _reload() {
-                console.log('reload')
-                this.$axios.get('/iem_hrm/organ/queryOrganList/0')
-                    .then( res => {
-                        console.log('reload.axios')
-                        console.log(res.data.data[0])
-                        return res.data.data[0]
-                    })
-                    .catch( res=> {
-                        console.log('请求公司数据超时')
-                    })
             },
             del(index) {
                 const self = this
@@ -395,7 +327,6 @@
                         .catch(res=>{
                             console.log('删除失败')
                         })
-
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -420,23 +351,18 @@
 }
 .framework-content-wrapper{
     padding:0px 0 20px 20px ;
-    /*overflow: hidden;*/
 }
 .framework-content-wrapper .framework-content{
-    /*display: flex;*/
     clear: both;
     overflow: hidden;
     background: #fff;
 }
 .framework-content-wrapper .framework-content .content-left{
-    /*flex: 0 0 350px;*/
-    /*width: 350px;*/
     background: #fff;
     padding: 32px 0 30000px 20px;
     margin-bottom: -29960px;
 }
 .framework-content-wrapper .framework-content .content-right{
-    /*flex: 1;*/
     padding: 0 40px 30000px 41px;
     margin-bottom: -29960px;
     background: #fff;
@@ -530,7 +456,6 @@
     font-size: 16px;
     color: #333333;
     letter-spacing: 0;
-    /*margin-right: 309px;*/
     border-bottom: 2px solid #363D47;
     height: 50px;
     line-height: 50px;
