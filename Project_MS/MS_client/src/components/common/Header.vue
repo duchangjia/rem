@@ -14,7 +14,7 @@
             </span>
             <el-dropdown trigger="hover" class="userinfo" @command="handleCommand">
                 <span class="el-dropdown-link">
-                    <img src="../../../static/img/common/avatar.png" width="32" height="32" class="useravatar" />您好，{{username}}
+                    <img src="../../../static/img/common/avatar.png" width="32" height="32" class="useravatar"/>您好，{{username}}
                     <i class="el-icon-caret-bottom el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown" split-button type="primary">
@@ -138,7 +138,12 @@ export default {
 
 .header .headerright .userinfo .useravatar {
     margin-right: 15px;
+    position: relative;
+    top:10px;
     border-radius: 50%;
+}
+.userinfo.el-dropdown .el-dropdown-link{
+        color: #cccccc;
 }
 
 .el-dropdown {

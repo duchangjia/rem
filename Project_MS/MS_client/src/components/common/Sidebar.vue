@@ -428,6 +428,8 @@ export default {
 	padding-left: 0;
 	background-color: #ffffff!important;
 	transition: all 0.3s linear;
+	overflow-x:hidden;
+	border-right:none;
 }
 
 .sider .el-submenu__icon-arrow {
