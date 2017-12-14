@@ -151,12 +151,12 @@
                     <el-col :sm="24" :md="12">
                         <el-form-item label="保险缴纳标准" prop="welcoeNo">
                             <el-select v-model="addPayBaseInfo.welcoeNo" @change="welcoeNoChange">
-                                <el-option v-for="item in insurancePayTemplates" :label="item.applyName" :value="item.applyNo"></el-option>
+                                <el-option v-for="(item, index) in insurancePayTemplates" :key="index" :label="item.applyName" :value="item.applyNo"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col> 
                 </el-form>
-                <el-form :inline="true" :model="insurancePayTemp" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险(个人)">
                             <el-input v-model="_perEndm"></el-input>
@@ -262,7 +262,14 @@ export default {
     };
     return {
       labelPosition: "right",
-      custInfo: {},
+      custInfo: {
+        organName: "",
+        derpName: "",
+        userNo: "",
+        custName: "",
+        custPost: "",
+        custClass: ""
+      },
       addPayBaseInfo: {
         userNo: "",
         wagesBase: "0.00",
@@ -306,67 +313,52 @@ export default {
 
       custPostList: [],
       custClassList: [],
-      insurancePayTemplates: {},
       insurancePayTemp: {},
+      insurancePayTemplates: {},
       payBaseInfoRules: {
         wagesBase: [
-          // { required: true, message: "基本工资不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         wagesPerf: [
-          // { required: true, message: "绩效工资不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         postPension: [
-          // { required: true, message: "岗位补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         phonePension: [
-          // { required: true, message: "通讯补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         trafficPension: [
-          // { required: true, message: "交通补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         livingPension: [
-          // { required: true, message: "生活补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         overtimePay: [
-          // { required: true, message: "加班工资不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         otherPension: [
-          // { required: true, message: "其他补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         endmBase: [
-          // { required: true, message: "养老保险基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         mediBase: [
-          // { required: true, message: "医疗保险基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         unemBase: [
-          // { required: true, message: "失业保险基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         emplBase: [
-          // { required: true, message: "工伤保险基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         mateBase: [
-          // { required: true, message: "生育保险基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         houseBase: [
-          // { required: true, message: "公积金基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         wagesProb: [
-          // { required: true, message: "试用期工资不能为空", trigger: "blur" },
           { validator: validateWagesProb, trigger: "blur" }
         ],
         welcoeNo: [{ required: true, message: "请选择保险缴纳标准", trigger: "change" }],
@@ -379,6 +371,12 @@ export default {
     messageBox
   },
   created() {
+    console.log('接到的custInfo', sessionStorage.getItem("addPayChangeInfo_custInfo"));
+    if(sessionStorage.getItem("addPayChangeInfo_custInfo")) {
+      this.custInfo = sessionStorage.getItem("addPayChangeInfo_custInfo");
+      this.addPayBaseInfo.userNo = this.custInfo.userNo;
+    }
+    // console.log('当前custInfo', this.custInfo);
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
     this.getCustPostList(); //查询岗位列表
     this.getCustClassList(); //查询职级列表

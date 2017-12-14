@@ -318,25 +318,43 @@ export default {
       labelPosition: "right",
       userNo: "",
       custInfo: {},
-      oldPayBaseInfo: {},
+      oldPayBaseInfo: {
+        wagesBase: "",
+        wagesPerf: "",
+        postPension: "",
+        phonePension: "",
+        trafficPension: "",
+        livingPension: "",
+        attendanceBonus: "",
+        seniorityPay: "",
+        overtimePay: "",
+        otherPension: "",
+        endmBase: "",
+        mediBase: "",
+        unemBase: "",
+        emplBase: "",
+        mateBase: "",
+        houseBase: "",
+        welcoeNo: ""
+      },
       newPayChangeInfo: {
-        nWagesBase: "",
-        nWagesPerf: "",
-        nPostPension: "",
-        nPhonePension: "",
-        nTrafficPension: "",
-        nLivingPension: "",
-        nAttendanceBonus: "",
-        nSeniorityPay: "",
-        nOvertimePay: "",
-        nOtherPension: "",
-        nEndmBase: "",
-        nMediBase: "",
-        nUnemBase: "",
-        nEmplBase: "",
-        nMateBase: "",
-        nHouseBase: "",
-        nProbRatio: "",
+        nWagesBase: "0.00",
+        nWagesPerf: "0.00",
+        nPostPension: "0.00",
+        nPhonePension: "0.00",
+        nTrafficPension: "0.00",
+        nLivingPension: "0.00",
+        nAttendanceBonus: "0.00",
+        nSeniorityPay: "0.00",
+        nOvertimePay: "0.00",
+        nOtherPension: "0.00",
+        nEndmBase: "0.00",
+        nMediBase: "0.00",
+        nUnemBase: "0.00",
+        nEmplBase: "0.00",
+        nMateBase: "0.00",
+        nHouseBase: "0.00",
+        nProbRatio: "0.00",
         nWelcoeNo: "",
         updFlag: "02",
         chageStatus: "01"
@@ -421,7 +439,8 @@ export default {
     current
   },
   created() {
-    this.userNo = sessionStorage.getItem('payChangeInfo_userNo');
+    this.userNo = sessionStorage.getItem("payChangeInfo_userNo");
+    console.log("接到的userNo", this.userNo);
     this.getCustInfo(); // 查询用户信息
     this.getCustPostList(); //查询岗位列表
     this.getCustClassList(); //查询职级列表
@@ -453,86 +472,122 @@ export default {
     },
     _perEndm: function() {
       return (
-        Math.round((Number(this.newPayChangeInfo.nEndmBase) *
-          this.insurancePayTemp.perEndmRate +
-          this.insurancePayTemp.perEndmFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.newPayChangeInfo.nEndmBase) *
+            this.insurancePayTemp.perEndmRate +
+            this.insurancePayTemp.perEndmFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comEndm: function() {
       return (
-        Math.round((Number(this.newPayChangeInfo.nEndmBase) *
-          this.insurancePayTemp.comEndmRate +
-          this.insurancePayTemp.comEndmFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.newPayChangeInfo.nEndmBase) *
+            this.insurancePayTemp.comEndmRate +
+            this.insurancePayTemp.comEndmFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _perMedi: function() {
       return (
-        Math.round((Number(this.newPayChangeInfo.nMediBase) *
-          this.insurancePayTemp.perMediRate +
-          this.insurancePayTemp.perMediFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.newPayChangeInfo.nMediBase) *
+            this.insurancePayTemp.perMediRate +
+            this.insurancePayTemp.perMediFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comMedi: function() {
       return (
-        Math.round((Number(this.newPayChangeInfo.nMediBase) *
-          this.insurancePayTemp.comMediRate +
-          this.insurancePayTemp.comMediFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.newPayChangeInfo.nMediBase) *
+            this.insurancePayTemp.comMediRate +
+            this.insurancePayTemp.comMediFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _perUnem: function() {
       return (
-        Math.round((Number(this.newPayChangeInfo.nUnemBase) *
-          this.insurancePayTemp.perUnemRate +
-          this.insurancePayTemp.perUnemFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.newPayChangeInfo.nUnemBase) *
+            this.insurancePayTemp.perUnemRate +
+            this.insurancePayTemp.perUnemFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comUnem: function() {
       return (
-        Math.round((Number(this.newPayChangeInfo.nUnemBase) *
-          this.insurancePayTemp.comUnemRate +
-          this.insurancePayTemp.comUnemFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.newPayChangeInfo.nUnemBase) *
+            this.insurancePayTemp.comUnemRate +
+            this.insurancePayTemp.comUnemFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _perEmpl: function() {
       return (
-        Math.round((Number(this.newPayChangeInfo.nEmplBase) *
-          this.insurancePayTemp.perEmplRate +
-          this.insurancePayTemp.perEmplFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.newPayChangeInfo.nEmplBase) *
+            this.insurancePayTemp.perEmplRate +
+            this.insurancePayTemp.perEmplFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comEmpl: function() {
       return (
-        Math.round((Number(this.newPayChangeInfo.nEmplBase) *
-          this.insurancePayTemp.comEmplRate +
-          this.insurancePayTemp.comEmplFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.newPayChangeInfo.nEmplBase) *
+            this.insurancePayTemp.comEmplRate +
+            this.insurancePayTemp.comEmplFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _perMate: function() {
       return (
-        Math.round((Number(this.newPayChangeInfo.nMateBase) *
-          this.insurancePayTemp.perMateRate +
-          this.insurancePayTemp.perMateFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.newPayChangeInfo.nMateBase) *
+            this.insurancePayTemp.perMateRate +
+            this.insurancePayTemp.perMateFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comMate: function() {
       return (
-        Math.round((Number(this.newPayChangeInfo.nMateBase) *
-          this.insurancePayTemp.comMateRate +
-          this.insurancePayTemp.comMateFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.newPayChangeInfo.nMateBase) *
+            this.insurancePayTemp.comMateRate +
+            this.insurancePayTemp.comMateFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _perHouse: function() {
       return (
-        Math.round((Number(this.newPayChangeInfo.nHouseBase) *
-          this.insurancePayTemp.perHousRate +
-          this.insurancePayTemp.perHousFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.newPayChangeInfo.nHouseBase) *
+            this.insurancePayTemp.perHousRate +
+            this.insurancePayTemp.perHousFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comHouse: function() {
       return (
-        Math.round((Number(this.newPayChangeInfo.nHouseBase) *
-          this.insurancePayTemp.comHousRate +
-          this.insurancePayTemp.comHousFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.newPayChangeInfo.nHouseBase) *
+            this.insurancePayTemp.comHousRate +
+            this.insurancePayTemp.comHousFixed) *
+            10
+        ) / 10 || 0
       );
     }
   },
@@ -557,7 +612,25 @@ export default {
         .get("/iem_hrm/pay/queryPayBaseInfoDetail/" + userNo)
         .then(res => {
           console.log("调整前基数", res);
-          self.oldPayBaseInfo = res.data.data;
+          if (res.data.data != null) {
+            self.oldPayBaseInfo = res.data.data;
+          } else {
+            sessionStorage.setItem('addPayChangeInfo_custInfo', JSON.stringify(self.custInfo)); // 暂存当前custInfo
+            let aaa = sessionStorage.getItem('addPayChangeInfo_custInfo');
+            console.log('暂存的custInfo', aaa);
+            this.$confirm("当前用户不存在薪酬基数，请先前往设置。", "提示", {
+              type: "warning"
+            })
+              .then(() => {
+                self.$router.push("/add_payBaseInfo");
+                // self.$router.push({
+                //   name: "add_payBaseInfo"
+                // });
+              })
+              .catch(() => {
+                self.$router.push("/query_payChangeInfo");
+              });
+          }
         })
         .catch(() => {
           console.log("error");
@@ -568,7 +641,6 @@ export default {
       self.$axios
         .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST")
         .then(res => {
-          console.log("CustPost", res);
           if (res.data.code === "S00000") {
             self.custPostList = res.data.data;
           }
@@ -580,11 +652,8 @@ export default {
     getCustClassList() {
       let self = this;
       self.$axios
-        .get(
-          "/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED"
-        )
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED")
         .then(res => {
-          console.log("CustClass", res);
           if (res.data.code === "S00000") {
             self.custClassList = res.data.data;
           }
@@ -599,7 +668,7 @@ export default {
         .get("/iem_hrm/InsurancePayTemplate/queryAllInsurancePayTemplate")
         .then(res => {
           self.insurancePayTemplates = res.data.data;
-          console.log('保险缴纳模板',self.insurancePayTemplates);
+          console.log("保险缴纳模板", self.insurancePayTemplates);
         })
         .catch(() => {
           console.log("error");
@@ -674,4 +743,5 @@ export default {
 </script>
 
 <style>
+
 </style>
