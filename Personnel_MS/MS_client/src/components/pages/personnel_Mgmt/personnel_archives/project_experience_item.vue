@@ -1,40 +1,36 @@
 <template>
-    <div class="social_relation_item">
+    <div class="project_experience_item">
         <div :class="{'bg_color':!ruleFrom.isShowEdit,'bg_color2':ruleFrom.isShowEdit}">
-            <el-form :model="ruleFrom" :rules="rules" :ref="`ruleFrom${relationNum}`" label-width="100px">
-                <div class="title">
-                    <span v-show="false">关系人{{relationNumber}}</span><i :class="{'el-icon-close':!ruleFrom.isShowEdit,'el-icon-edit':ruleFrom.isShowEdit}" @click="delOrEdit(ruleFrom.isShowEdit,relationNum)"></i>
-                </div>
-                <el-col :md="8" :sm="12">
-                    <el-form-item label="姓名" prop="contactName">
-                        <el-input v-model="ruleFrom.contactName" :disabled="ruleFrom.isShowEdit"></el-input>
+            <el-form :model="item" :rules="rules5" label-width="100px" :ref="`third${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
+                <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
+                <el-col :span="12">
+                    <div style="display: flex">
+                        <el-form-item label="时间" prop="startTime" class="fifth_common" style="margin-right: -40px">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
+                        </el-form-item>
+                        <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
+                            <el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>
+                        </el-form-item>
+                    </div>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="公司" prop="company">
+                        <el-input v-model="item.company" :disabled="item.isShowEdit"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :md="8" :sm="12">
-                    <el-form-item label="与本人关系" prop="relationship">
-                        <el-select v-model="ruleFrom.relationship" :disabled="ruleFrom.isShowEdit">
-                            <el-option label="父母" value="01"></el-option>
-                            <el-option label="配偶" value="02"></el-option>
-                            <el-option label="子女" value="03"></el-option>
-                            <el-option label="亲戚" value="04"></el-option>
-                            <el-option label="朋友" value="05"></el-option>
-                            <el-option label="其他" value="99"></el-option>
-                        </el-select>
+                <el-col :span="12">
+                    <el-form-item label="职务" prop="post1">
+                        <el-input v-model="item.post1" :disabled="item.isShowEdit"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :md="8" :sm="12">
-                    <el-form-item label="联系电话" prop="telphone">
-                        <el-input v-model="ruleFrom.telphone" :disabled="ruleFrom.isShowEdit" :maxlength="15"></el-input>
+                <el-col :span="12">
+                    <el-form-item label="职责" prop="duty">
+                        <el-input v-model="item.duty" :disabled="item.isShowEdit"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :md="8" :sm="12">
-                    <el-form-item label="职业">
-                        <el-input v-model="ruleFrom.profession" :disabled="ruleFrom.isShowEdit"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :md="16" :sm="24">
-                    <el-form-item label="地址" class="social-address">
-                        <el-input v-model="ruleFrom.addr" class="address_special" :disabled="ruleFrom.isShowEdit" :maxlength="150"></el-input>
+                <el-col :span="24">
+                    <el-form-item label="工作描述" prop="desc" class="fifth_common">
+                        <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
                     </el-form-item>
                 </el-col>
             </el-form>
@@ -48,12 +44,15 @@
             ruleFrom: {
                 type: Object,
                 default: {
-                    contactName: '',
-                    relationship: '',
-                    telphone: '',
-                    profession: '',
-                    post: '',
-                    addr: '',
+                    startTime: '',
+                    endTime: '',
+                    projectName: '',
+                    mainSkill: '',
+                    projectRole: '',
+                    softEnv: '',
+                    custom: '',
+                    projectDuty: '',
+                    desc: '',
                     isShowEdit: false
                 },
             },
@@ -80,7 +79,7 @@
                     ],
                     telphone: [
                         {required: true, message: '请输入联系电话', trigger: 'blur'},
-                        { pattern: /^[1][3578]\d{9}$/, message: "请输入合法的手机号码:例13几到18几的11位数字" }
+                        { pattern: /^[1][3578]\d{9}$/, message: "只能输入135至138开头的手机号码" }
                     ],
                 }
             }
@@ -90,7 +89,7 @@
                 let self = this
                 this.$refs['ruleFrom'+this.relationNum].validate((valid) => {
                     if (valid) {
-                         self.$emit('pass_validate', 1)
+                        self.$emit('pass_validate', 1)
                     }else {
                         self.$emit('pass_validate', 0)
                     }
@@ -120,16 +119,17 @@
 </script>
 
 <style lang='stylus' rel='stylesheet/stylus'>
-    .social_relation_item
+    .project_experience_item
         position relative
-        padding-bottom 30px
         .bg_color
             background: #f4f4f4;
             overflow hidden
+            margin-top 30px
             padding-bottom 18px
         .bg_color2
             background: #fff;
             overflow hidden
+            margin-top:30px;
             padding-bottom 18px
         .el-input
             width 215px

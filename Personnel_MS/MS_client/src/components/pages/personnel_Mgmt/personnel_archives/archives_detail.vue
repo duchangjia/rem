@@ -1,7 +1,7 @@
 <template>
     <div class="archives_detail">
         <current yiji="人事事务" erji="人事档案" sanji="员工详情"></current>
-        <el-col :span="24">
+        <el-col :md="24" :sm="24">
             <div class="content-wrapper-xx">
                 <div class="content">
                     <template>
@@ -26,17 +26,17 @@
                                         <div class="text-desc">员工照片</div>
                                     </div>
                                     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="姓名" prop="custName">
                                                 <el-input v-model="ruleForm.custName" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="身份证" prop="certNo">
                                                 <el-input v-model="ruleForm.certNo" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="性别" prop="sex" class="gender_special">
                                                 <el-radio-group v-model="ruleForm.sex" :disabled="edit">
                                                     <el-radio-button label="01">男</el-radio-button>
@@ -44,19 +44,19 @@
                                                 </el-radio-group>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="出生年月" prop="birthday">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.birthday" :disabled="edit" @change="holdBirthday"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="民族" prop="nation">
                                                 <el-select v-model="ruleForm.nation" placeholder="请选择民族" :disabled="edit">
                                                     <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.nation"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="婚姻状况" prop="marital" class="marriage_special">
                                                 <el-radio-group v-model="ruleForm.marital" :disabled="edit">
                                                     <el-radio-button label="01">未婚</el-radio-button>
@@ -65,21 +65,21 @@
                                                 </el-radio-group>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="学历" prop="education">
                                                 <el-select v-model="ruleForm.education" placeholder="请选择学历" :disabled="edit">
                                                     <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.education"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="学位" prop="degree">
                                                 <el-select v-model="ruleForm.degree" placeholder="请选择学位" :disabled="edit">
                                                     <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.degree"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="政治面貌" prop="politial" class="marriage_special">
                                                 <el-radio-group v-model="ruleForm.politial" :disabled="edit">
                                                     <el-radio-button label="01">党员</el-radio-button>
@@ -88,94 +88,94 @@
                                                 </el-radio-group>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="毕业学校" prop="gradSchool">
                                                 <el-input v-model="ruleForm.gradSchool" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="毕业时间" prop="gradTime">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.gradTime" :disabled="edit" @change="holdGradTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="专业" prop="major">
                                                 <el-input v-model="ruleForm.major" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="移动电话" prop="mobileNo">
                                                 <el-input v-model="ruleForm.mobileNo" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="家庭电话" prop="homeTeleph">
                                                 <el-input v-model="ruleForm.homeTeleph" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="个人邮箱">
                                                 <el-input v-model="ruleForm.perEmail" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="公司邮箱">
                                                 <el-input v-model="ruleForm.comEmail" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="紧急联系人">
                                                 <el-input v-model="ruleForm.atten" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="紧急电话" prop="attenTeleph">
                                                 <el-input v-model="ruleForm.attenTeleph" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="籍贯">
                                                 <el-input v-model="ruleForm.origo" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="户籍地址">
                                                 <el-input v-model="ruleForm.permAddr" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="现居住地">
                                                 <el-input v-model="ruleForm.liveAddr" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <hr style="width: 100%">
-                                        <el-col :span="8">
+                                        <hr style="width: 100%;margin-bottom: 30px">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="员工编号" prop="userNo">
                                                 <el-input v-model="ruleForm.userNo" :disabled="true"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="公司名称" prop="organNo">
                                                 <el-select v-model="ruleForm.organNo" placeholder="请选择公司名称" :disabled="edit" @change="selectDep(ruleForm.organNo)">
                                                     <el-option :label="item.organName" :value="item.organNo" v-for="item in basicInfo.company"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="部门名称" prop="derpNo">
                                                 <el-select v-model="ruleForm.derpNo" placeholder="请选择部门名称" :disabled="edit" @change="selectCCC(ruleForm.organNo)">
                                                     <el-option :label="item.derpName" :value="item.derpNo" v-for="item in basicInfo.department"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="CCC" prop="ownerCCC">
                                                 <el-select v-model="ruleForm.ownerCCC" placeholder="请选择CCC" :disabled="edit">
                                                     <el-option :label="item=='01'?'管理CCC':item=='02'?'售前CCC':'项目CCC'" :value="item" v-for="item in basicInfo.CCC"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="直线经理" class="line-manager">
                                                 <el-input v-model="ruleForm.lineManager" :disabled="edit" readOnly>
                                                     <el-button slot="append" icon="search" @click="userNoSelect()" :disabled="edit"></el-button>
@@ -194,7 +194,7 @@
                                                 ></messageBox>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="员工类别" prop="custType">
                                                 <el-select v-model="ruleForm.custType" placeholder="请选择员工类别" :disabled="edit">
                                                     <el-option label="在编" value="01"></el-option>
@@ -206,7 +206,7 @@
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="岗位" prop="custPost">
                                                 <el-select v-model="ruleForm.custPost" placeholder="请选择岗位" :disabled="edit">
                                                     <el-option label="架构师" value="01"></el-option>
@@ -216,7 +216,7 @@
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="职级" prop="custClass">
                                                 <el-select v-model="ruleForm.custClass" placeholder="请选择职级" :disabled="edit">
                                                     <el-option label="B10-初级软件工程师" value="B10"></el-option>
@@ -225,7 +225,7 @@
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="员工状态" prop="custStatus">
                                                 <el-select v-model="ruleForm.custStatus" placeholder="请选择员工状态" :disabled="edit">
                                                     <el-option label="试用期" value="01"></el-option>
@@ -236,47 +236,47 @@
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="入职日期" prop="entryTime">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.entryTime" :disabled="edit" @change="changeEntryTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="上岗日期">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.leftJobTime" :disabled="edit" @change="changeLeftJobTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="工作日期">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.workTime" :disabled="edit" @change="changeWorkTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="职称日期">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.profTitleTime" :disabled="edit" @change="changeProfTitleTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="合同开始">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactStartTime" :disabled="edit" @change="changeCompactStartTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="合同终止">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactEndTime" :disabled="edit" @change="changeCompactEndTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="试用开始">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probStartTime" :disabled="edit" @change="changeProbStartTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="试用结束">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probEndTime" :disabled="edit" @change="changeProbEndTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="招聘来源">
                                                 <el-select v-model="ruleForm.recruitQuarry" placeholder="招聘来源" :disabled="edit">
                                                     <el-option label="网上招聘" value="01"></el-option>
@@ -286,43 +286,43 @@
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="开户银行">
                                                 <el-input v-model="ruleForm.openBank" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="银行卡号">
                                                 <el-input v-model="ruleForm.bankCardNo" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="养老账号">
                                                 <el-input v-model="ruleForm.endmAcct" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="医保账号">
                                                 <el-input v-model="ruleForm.mediAcct" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="生育账号">
                                                 <el-input v-model="ruleForm.mateAcct" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="8">
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="公积金">
                                                 <el-input v-model="ruleForm.housAcct" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <hr style="width: 100%">
-                                        <el-col :span="23">
+                                        <hr style="width: 100%;margin-bottom: 30px">
+                                        <el-col :md="23" :sm="24">
                                             <el-form-item label="备注">
                                                 <el-input type="textarea" v-model="ruleForm.remark" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <el-col :span="9">
+                                        <el-col :md="9" :sm="24">
                                             <el-form-item label="附件">
                                                 <el-input v-model="ruleForm.attachm2" style="position:absolute" :disabled="edit" readOnly></el-input>
                                                 <el-upload class="upload-demo" ref="upload" name="file"
@@ -364,7 +364,7 @@
                                         <div v-for="(item, index) in work_item.lists" style="margin-top: 30px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`third${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
                                                 <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
-                                                <el-col :span="12">
+                                                <el-col :md="12" :sm="24">
                                                     <div style="display: flex">
                                                         <el-form-item label="时间" prop="startTime" class="fifth_common" style="margin-right: -40px">
                                                             <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
@@ -374,22 +374,22 @@
                                                         </el-form-item>
                                                     </div>
                                                 </el-col>
-                                                <el-col :span="12">
+                                                <el-col :md="12" :sm="24">
                                                     <el-form-item label="公司" prop="company">
                                                         <el-input v-model="item.company" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
-                                                <el-col :span="12">
+                                                <el-col :md="12" :sm="24">
                                                     <el-form-item label="职务" prop="post1">
                                                         <el-input v-model="item.post1" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
-                                                <el-col :span="12">
+                                                <el-col :md="12" :sm="24">
                                                     <el-form-item label="职责" prop="duty">
                                                         <el-input v-model="item.duty" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
-                                                <el-col :span="24">
+                                                <el-col :md="24" :sm="24">
                                                     <el-form-item label="工作描述" prop="desc" class="fifth_common">
                                                         <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
@@ -406,7 +406,7 @@
                                         <div v-for="(item, index) in education_item.lists" style="margin-top: 30px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fourth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
                                                 <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
-                                                <el-col :span="12">
+                                                <el-col :md="12" :sm="24">
                                                     <div style="display: flex">
                                                         <el-form-item label="时间" prop="startTime" class="fifth_common" style="margin-right: -40px">
                                                             <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
@@ -416,17 +416,17 @@
                                                         </el-form-item>
                                                     </div>
                                                 </el-col>
-                                                <el-col :span="12">
+                                                <el-col :md="12" :sm="24">
                                                     <el-form-item label="学校名称" prop="schoolName">
                                                         <el-input v-model="item.schoolName" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
-                                                <el-col :span="12">
+                                                <el-col :md="12" :sm="24">
                                                     <el-form-item label="专业" prop="major">
                                                         <el-input v-model="item.major" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
-                                                <el-col :span="12">
+                                                <el-col :md="12" :sm="24">
                                                     <el-form-item label="学历" prop="education">
                                                         <el-select v-model="item.education" :disabled="item.isShowEdit">
                                                             <el-option value="01" label="高中以下"></el-option>
@@ -440,7 +440,7 @@
                                                         </el-select>
                                                     </el-form-item>
                                                 </el-col>
-                                                <el-col :span="24">
+                                                <el-col :md="24" :sm="24">
                                                     <el-form-item label="描述" class="fifth_common">
                                                         <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
@@ -457,7 +457,7 @@
                                         <div v-for="(item, index) in project_item.lists" style="margin-top: 30px; position: relative">
                                             <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fifth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
                                                 <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
-                                                <el-col :span="12">
+                                                <el-col :md="12" :sm="24">
                                                     <div style="display: flex">
                                                         <el-form-item label="时间" prop="startTime" class="fifth_common" style="margin-right: -40px">
                                                             <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
@@ -467,37 +467,37 @@
                                                         </el-form-item>
                                                     </div>
                                                 </el-col>
-                                                <el-col :span="12">
+                                                <el-col :md="12" :sm="24">
                                                     <el-form-item label="项目名称" prop="projectName">
                                                         <el-input v-model="item.projectName" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
-                                                <el-col :span="12">
+                                                <el-col :md="12" :sm="24">
                                                     <el-form-item label="主要技能" prop="mainSkill">
                                                         <el-input v-model="item.mainSkill" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
-                                                <el-col :span="12">
+                                                <el-col :md="12" :sm="24">
                                                     <el-form-item label="项目角色" prop="projectRole">
                                                         <el-input v-model="item.projectRole" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
-                                                <el-col :span="12">
+                                                <el-col :md="12" :sm="24">
                                                     <el-form-item label="软件环境" prop="softEnv">
                                                         <el-input v-model="item.softEnv" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
-                                                <el-col :span="12">
+                                                <el-col :md="12" :sm="24">
                                                     <el-form-item label="客户" prop="custom">
                                                         <el-input v-model="item.custom" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
-                                                <el-col :span="24">
+                                                <el-col :md="24" :sm="24">
                                                     <el-form-item label="项目职责" prop="projectDuty" class="fifth_common">
                                                         <el-input type="textarea" v-model="item.projectDuty" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
                                                 </el-col>
-                                                <el-col :span="24">
+                                                <el-col :md="24" :sm="24">
                                                     <el-form-item label="项目描述" prop="desc" class="fifth_common">
                                                         <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
                                                     </el-form-item>
@@ -712,7 +712,7 @@
                     ],
                     mobileNo: [
                         {required: true, message: '请输入移动电话', trigger: 'blur'},
-                        { pattern: /^[1][3578]\d{9}$/, message: "请输入合法的移动号码:例13几到18几的11位数字" }
+                        { pattern: /^[1][3578]\d{9}$/, message: "请输入合法的手机号码:例13几到18几的11位数字" }
                     ],
                     homeTeleph: [
                         { pattern: /^\d+(-)?\d+((-)?\d+)?$/, message: "请输入合法的家庭号码:例如纯数字", trigger: 'blur'}
@@ -1131,6 +1131,7 @@
                 this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
                     .then(res=>{
                         this.basicInfo.department = res.data.data
+                        this.basicInfo.CCC = ''
                     })
                     .catch(e=>{
                         console.log(e)
@@ -1881,6 +1882,7 @@
                         font-size: 14px;
                         color: #333333;
                         letter-spacing: 0;
+                        clear both
                     .el-form-item
                         margin-bottom 30px
                         .el-form-item__label

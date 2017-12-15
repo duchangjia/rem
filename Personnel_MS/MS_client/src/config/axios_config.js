@@ -100,9 +100,11 @@ axios.interceptors.request.use(
         return config;
     },
     err => {
+        if(--count <= 0) {
+            loadingInstance.close()
+        }
         return Promise.reject(err);
     }
-
 )
 
 // http response 拦截器
