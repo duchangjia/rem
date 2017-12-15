@@ -82,7 +82,7 @@
 <style scoped>
     .argument_2 {
         padding: 0 0 20px 20px;
-        overflow: hidden;
+        /*overflow: hidden;*/
     }
     .argument_2 .test{
         padding-left: 10px;

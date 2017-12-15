@@ -1726,7 +1726,7 @@
 <style lang='stylus' rel='stylesheet/stylus'>
     .archives_detail
         padding: 0 0 20px 20px;
-        overflow: hidden;
+        /*overflow: hidden;*/
         position: relative;
         .test
             padding-left: 10px;
