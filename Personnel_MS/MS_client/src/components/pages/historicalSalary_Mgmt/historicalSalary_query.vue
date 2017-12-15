@@ -17,9 +17,14 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="6">
+                    <!-- <el-col :span="6">
                         <el-form-item label="名称">
                             <el-input v-model="filters.batchName" placeholder="请输入名称"></el-input>
+                        </el-form-item>
+                    </el-col> -->
+                    <el-col :span="6">
+                        <el-form-item label="编号">
+                            <el-input v-model="filters.batchNo" placeholder="请输入批次编号"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -44,8 +49,10 @@
                 </el-form>
             </el-col>
             <el-table stripe :data="assetInfoList" border stripe style="width: 100%">
-                <el-table-column align="center" prop="batchName" label="名称" min-width = "120px">
+                <el-table-column align="center" prop="batchNo" label="批次编号" min-width = "140px">
                 </el-table-column>
+                <!-- <el-table-column align="center" prop="batchName" label="名称" min-width = "120px">
+                </el-table-column> -->
                 <el-table-column align="center" prop="userNo" label="工号" min-width = "120px">
                 </el-table-column>
                 <el-table-column align="center" prop="userName" label="姓名" min-width = "120px">
@@ -73,7 +80,7 @@
                 <el-table-column align="center" prop="realHair" label="合计(实发)" min-width = "120px">
                 </el-table-column>
             </el-table>
-            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="total,prev, pager, next, jumper" :total="totalRows">
+            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="total,prev, pager, next,jumper" :total="totalRows">
             </el-pagination>
             <!-- <el-pagination class="toolbar" @current-change="handleCurrentChange" :page-size="pageSize" layout="prev, pager, next, jumper" :total="totalRows" >
             </el-pagination> -->
@@ -89,7 +96,8 @@ export default {
                 batchType: "",
                 batchName: "",
                 userNo: "",
-                userName: ""
+                userName: "",
+        		batchNo: ""
             },
             pageNum: 1,
             pageSize: 10,
@@ -117,6 +125,7 @@ export default {
         this.filters.userName = "";
         this.filters.batchType = "";
         this.filters.batchName = "";
+    	this.filters.batchNo = "";
         this.getHistoricalSalary(); //初始查询历史薪酬
     },
     methods: {
@@ -128,10 +137,11 @@ export default {
                 userNo: self.filters.userNo,
                 userName: self.filters.userName,
                 batchType: self.filters.batchType,
-                batchName: self.filters.batchName
+                batchName: self.filters.batchName,
+        		batchNo: self.filters.batchNo
             };
-            console.log("batchType:" + params.batchType);
-            console.log("pageNum:" + params.pageNum + "pageSize" + params.pageSize);
+            //console.log("batchType:" + params.batchType);
+            //console.log("pageNum:" + params.pageNum + "pageSize" + params.pageSize);
             self.$axios
                 .get("/iem_hrm/EpCustPayFlow/queryEpCustPayFlows", { params: params })
                 .then(res => {
@@ -162,7 +172,7 @@ export default {
         },
         handleExport() {
             const self = this;
-            console.log("执行导出" + this.exportParams.pageNum);
+            //console.log("执行导出" + this.exportParams.pageNum);
             this.$axios
                 .get("/iem_hrm/EpCustPayFlow/exportEpCustPayFlows", { params: this.exportParams, responseType: 'blob' })
                 .then((response) => {
@@ -192,6 +202,7 @@ export default {
              this.filters.userName = "";
               this.filters.batchType = "";
              this.filters.batchName = "";
+            this.filters.batchNo = "";
         }
     }
 };
