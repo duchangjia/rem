@@ -136,6 +136,6 @@
 <style lang='stylus' rel='stylesheet/stylus'>
     .modify_agency
         padding: 0 0 20px 20px;
-        overflow: hidden;
+        /*overflow: hidden;*/
         position: relative;
 </style>

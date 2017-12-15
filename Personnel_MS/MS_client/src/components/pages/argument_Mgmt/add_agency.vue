@@ -1,5 +1,5 @@
 <template>
-    <div class="add_agency">
+    <div class="add_agency clearfix">
         <current yiji="参数管理" erji="业务参数" sanji="机构CCC管理" siji="CCC新增"></current>
         <div class="content-wrapper">
             <div class="titlebar">
@@ -131,6 +131,7 @@
 <style lang='stylus' rel='stylesheet/stylus'>
     .add_agency
         padding: 0 0 20px 20px;
-        overflow: hidden;
+        /*overflow: hidden;*/
         position: relative;
+
 </style>

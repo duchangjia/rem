@@ -1645,7 +1645,7 @@
 <style lang='stylus' rel='stylesheet/stylus'>
     .add_archives
         padding: 0 0 20px 20px;
-        overflow: hidden;
+        /*overflow: hidden;*/
         position: relative;
         .test
             padding-left: 10px;

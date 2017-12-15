@@ -112,6 +112,6 @@
 <style lang='stylus' rel='stylesheet/stylus'>
     .add_holiday
         padding: 0 0 20px 20px;
-        overflow: hidden;
+        /*overflow: hidden;*/
         position: relative;
 </style>
