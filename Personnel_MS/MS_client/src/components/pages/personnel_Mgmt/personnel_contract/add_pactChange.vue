@@ -1,6 +1,6 @@
 <template>
     <div class="container-wrap">
-        <current yiji="人事事务" erji="人事合同" sanji="合同变更" :activeTab="activeName" :pactNo="pactNo" :userNo='userNo' :pactSubFlag='pactSubFlag'>
+        <current yiji="人事事务" erji="人事合同" sanji="合同变更">
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
@@ -142,17 +142,17 @@ export default {
     current
   },
   created() {
-    this.pactNo = this.$route.params.pactNo;
-    this.userNo = this.$route.params.userNo;
-    if (this.$route.params.pactSubFlag) {
-      this.pactSubFlag = this.$route.params.pactSubFlag;
+    this.pactNo = sessionStorage.getItem("contractInfo_pactNo");
+    this.userNo = sessionStorage.getItem("contractInfo_userNo");
+    if (sessionStorage.getItem("contractInfo_pactSubFlag") == "true") {
+      this.pactSubFlag = sessionStorage.getItem("contractInfo_pactSubFlag");
       this.activeName = "changePactMsg";
     }
     this.getPactDetail();
     this.getCustInfo();
-    console.log('userNo',this.userNo);
-    console.log('pactSubFlag',this.pactSubFlag);
-    console.log('activeName',this.activeName);
+    console.log("userNo", this.userNo);
+    console.log("pactSubFlag", this.pactSubFlag);
+    console.log("activeName", this.activeName);
   },
   computed: {
     _custClass: function() {
@@ -220,16 +220,9 @@ export default {
               console.log(res);
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("query_contract");
+                this.$router.push("/query_contract");
                 if (this.pactSubFlag == "true") {
-                  this.$router.push({
-                    name: "detail_contract",
-                    params: {
-                      activeTab: this.activeName,
-                      pactNo: this.pactNo,
-                      userNo: this.userNo
-                    }
-                  });
+                  this.$router.push("/detail_contract");
                 }
               } else this.$message.error(res.data.retMsg);
             })
@@ -247,4 +240,5 @@ export default {
 </script>
 
 <style>
+
 </style>

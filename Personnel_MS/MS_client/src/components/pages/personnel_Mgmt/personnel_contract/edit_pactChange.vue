@@ -1,6 +1,6 @@
 <template>
     <div class="container-wrap">
-        <current yiji="人事事务" erji="人事合同" sanji="合同详情" siji="合同变更修改" :activeTab="activeName" :pactNo="pactNo">
+        <current yiji="人事事务" erji="人事合同" sanji="合同详情" siji="合同变更修改">
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
@@ -132,9 +132,9 @@ export default {
     current
   },
   created() {
-    this.userNo = this.$route.params.userNo;
-    this.pactNo = this.$route.params.pactNo;
-    this.changeId = this.$route.params.changeId;
+    this.pactNo = sessionStorage.getItem('contractInfo_pactNo');
+    this.userNo = sessionStorage.getItem('contractInfo_userNo');
+    this.changeId = sessionStorage.getItem('contractInfo_changeId');
     this.getPactDetail();
     this.getCustInfo(); 
     this.getPChangeDetail();
@@ -228,13 +228,7 @@ export default {
               console.log(res);
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push({
-                  name: "detail_contract",
-                  params: {
-                    pactNo: this.pactNo,
-                    activeTab: this.activeName
-                  }
-                });
+                this.$router.push("/detail_contract");
               } else this.$message.error(res.data.retMsg);
             })
             .catch(() => {

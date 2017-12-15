@@ -1,6 +1,6 @@
 <template>
     <div class="container-wrap">
-        <current yiji="人事事务" erji="人事合同" sanji="合同续签" :activeTab="activeName" :pactNo="pactNo" :userNo='userNo' :pactSubFlag='pactSubFlag'>
+        <current yiji="人事事务" erji="人事合同" sanji="合同续签">
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
@@ -175,10 +175,10 @@ export default {
   },
   
   created() {
-    this.pactNo = this.$route.params.pactNo;
-    this.userNo = this.$route.params.userNo;
-    if (this.$route.params.pactSubFlag) {
-      this.pactSubFlag = this.$route.params.pactSubFlag;
+    this.pactNo = sessionStorage.getItem('contractInfo_pactNo');
+    this.userNo = sessionStorage.getItem('contractInfo_userNo');
+    if (sessionStorage.getItem("contractInfo_pactSubFlag") == "true") {
+      this.pactSubFlag = sessionStorage.getItem("contractInfo_pactSubFlag");
       this.activeName = "renewPactMsg";
     }
     this.getPactDetail();
@@ -252,23 +252,16 @@ export default {
           newPRenew.renewType = this.addPRenewMsg.renewType;
           newPRenew.renewContent = this.addPRenewMsg.renewContent;
           newPRenew.attachm = this.addPRenewMsg.attachm;
-          console.log(newPRenew);
+          console.log('newPRenew:',newPRenew);
           this.$axios
             .post("/iem_hrm/pact/addPactRenew", newPRenew)
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000"){
                 this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("query_contract");
+                this.$router.push("/query_contract");
                 if (this.pactSubFlag == "true") {
-                  this.$router.push({
-                    name: "detail_contract",
-                    params: {
-                      activeTab: this.activeName,
-                      pactNo: this.pactNo,
-                      userNo: this.userNo
-                    }
-                  });
+                  this.$router.push("/detail_contract");
                 }
               } else this.$message.error(res.data.retMsg);
             })

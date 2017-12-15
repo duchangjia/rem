@@ -99,6 +99,8 @@ export default {
   created() {
     this.filters.custName = "";
     this.filters.pactType = "";
+    sessionStorage.setItem("contractInfo_activeName", ""); // 设置activeName为空
+    sessionStorage.setItem("contractInfo_pactSubFlag", "false"); // 设置pactSubFlag为false
     this.getPactList(); //初始查询合同列表
   },
   methods: {
@@ -136,15 +138,7 @@ export default {
             : row.pactStatus == "04" ? "到期解除" : "其他";
     },
     dateFormat(row, column) {},
-    handlePactDetail(index, row) {
-      this.$router.push({
-        name: "detail_contract",
-        params: {
-          pactNo: row.pactNo,
-          userNo: row.userNo
-        }
-      });
-    },
+    
     handleCurrentChange(val) {
       this.pageNum = val;
       this.getPactList(); //分页查询合同列表
@@ -157,17 +151,16 @@ export default {
       this.getPactList(); //根据条件查询合同列表
     },
     handleAdd() {
-      this.$router.push({
-        name: "add_contract"
-      });
+      this.$router.push("/add_contract");
+    },
+    handlePactDetail(index, row) {
+      sessionStorage.setItem('contractInfo_pactNo', row.pactNo); // 暂存当前pactNo
+      sessionStorage.setItem('contractInfo_userNo', row.userNo); // 暂存当前userNo
+      this.$router.push("/detail_contract");
     },
     handleEdit(index, row) {
-      this.$router.push({
-        name: "edit_contract",
-        params: {
-          pactNo: row.pactNo
-        }
-      });
+      sessionStorage.setItem('contractInfo_pactNo', row.pactNo); // 暂存当前pactNo
+      this.$router.push("/edit_contract");
     },
     handleDelete(index, row) {
       this.$confirm("此操作将会删除该条合同, 是否继续?", "提示", {
@@ -194,22 +187,14 @@ export default {
         });
     },
     handlePChange(index, row) {
-      this.$router.push({
-        name: "add_pactChange",
-        params: {
-          pactNo: row.pactNo,
-          userNo: row.userNo
-        }
-      });
+      sessionStorage.setItem('contractInfo_pactNo', row.pactNo); // 暂存当前pactNo
+      sessionStorage.setItem('contractInfo_userNo', row.userNo); // 暂存当前userNo
+      this.$router.push("/add_pactChange");
     },
     handlePRenew(index, row) {
-      this.$router.push({
-        name: "add_pactRenew",
-        params: {
-          pactNo: row.pactNo,
-          userNo: row.userNo
-        }
-      });
+      sessionStorage.setItem('contractInfo_pactNo', row.pactNo); // 暂存当前pactNo
+      sessionStorage.setItem('contractInfo_userNo', row.userNo); // 暂存当前userNo
+      this.$router.push("/add_pactRenew");
     },
     handleTerminate(index, row) {},
     handleProbation(index, row) {}

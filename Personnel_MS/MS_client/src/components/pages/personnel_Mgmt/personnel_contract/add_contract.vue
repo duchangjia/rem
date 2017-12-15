@@ -298,7 +298,6 @@ export default {
       this.addPactMsg.pactStopTime = val;
     },
     handleFileUpload(file, fileList) {
-      // this.fileList3 = fileList.slice(-3);
       console.log(file);
       this.addPactMsg.attachm = file.name;
     },

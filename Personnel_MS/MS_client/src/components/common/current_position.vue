@@ -11,8 +11,6 @@
                     <el-breadcrumb-item v-if="wuji" :to="{ path: link[4].path }" class="test1">{{wuji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if="liuji" :to="{ path: link[5].path}" class="test1">{{liuji}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if='false'>{{activeTab}}</el-breadcrumb-item>
-                    <el-breadcrumb-item v-if='false'>{{pactNo}}</el-breadcrumb-item>
-                    <el-breadcrumb-item v-if='false'>{{userNo}}</el-breadcrumb-item>
                     <el-breadcrumb-item v-if='false'>{{pactSubFlag}}</el-breadcrumb-item>
                 </el-breadcrumb>
             </el-col>
@@ -51,29 +49,9 @@ export default {
         jump() {
             let aa = this.link[this.breadItemLength - 2]
             if (!aa) return false
-            if (this.activeTab && this.pactNo && this.userNo && this.pactSubFlag) {
-                this.$router.push({
-                    name: 'detail_contract',
-                    params: {
-                        activeTab: this.activeTab,
-                        pactNo: this.pactNo,
-                        userNo: this.userNo
-                    }
-                })
-            } else if(this.activeTab && this.pactNo){
-                this.$router.push({
-                    name: aa,
-                    params: {
-                        activeTab: this.activeTab,
-                        pactNo: this.pactNo
-                    }
-                })
-            } else if (this.userNo) {
-                console.log("走我的判断了");
-                console.log(aa);
+             if (this.userNo) {
                 this.$router.push(aa)
             } else {
-//                this.$router.push(aa)
                 this.$router.go(-1)
             }
         },

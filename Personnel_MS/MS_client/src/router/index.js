@@ -433,38 +433,49 @@ const routes = [
                     {
                         name: 'detail_contract',
                         path: '/detail_contract',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/detail_contract.vue'], resolve)
+                        redirect: '/detail_contract',
+                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/contract_detailInfo.vue'], resolve),
+                        children: [
+                            {
+                                path: '/',
+                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/detail_contract.vue'], resolve)
+                            },
+                            {
+                                name: 'detail_pactChange',
+                                path: '/detail_pactChange',
+                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/detail_pactChange.vue'], resolve)
+                            },
+                            {
+                                name: 'edit_pactChange',
+                                path: '/edit_pactChange',
+                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/edit_pactChange.vue'], resolve)
+                            },
+                            {
+                                name: 'detail_pactRenew',
+                                path: '/detail_pactRenew',
+                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/detail_pactRenew.vue'], resolve)
+                            },
+                            {
+                                name: 'edit_pactRenew',
+                                path: '/edit_pactRenew',
+                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/edit_pactRenew.vue'], resolve)
+                            }
+
+                        ]
                     },
+                    
                     {
                         name: 'add_pactChange',
                         path: '/add_pactChange',
                         component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/add_pactChange.vue'], resolve)
                     },
-                    {
-                        name: 'detail_pactChange',
-                        path: '/detail_pactChange',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/detail_pactChange.vue'], resolve)
-                    },
-                    {
-                        name: 'edit_pactChange',
-                        path: '/edit_pactChange',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/edit_pactChange.vue'], resolve)
-                    },
+                    
                     {
                         name: 'add_pactRenew',
                         path: '/add_pactRenew',
                         component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/add_pactRenew.vue'], resolve)
-                    },
-                    {
-                        name: 'detail_pactRenew',
-                        path: '/detail_pactRenew',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/detail_pactRenew.vue'], resolve)
-                    },
-                    {
-                        name: 'edit_pactRenew',
-                        path: '/edit_pactRenew',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/edit_pactRenew.vue'], resolve)
                     }
+                    
                 ]
             },
             {
