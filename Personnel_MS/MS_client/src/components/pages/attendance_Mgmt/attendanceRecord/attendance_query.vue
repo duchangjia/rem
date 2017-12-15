@@ -271,7 +271,7 @@ export default {
 		//下载模版
 		downloadFile() {
 			const self = this;
-			self.$axios.get(baseURL+'/file/downloadTemplate?templateName=考勤基本信息模板', {
+			self.$axios.get(baseURL+'/file/downloadTemplate?templateName=welfareTemplate', {
                     responseType: 'blob'
                 })
                 .then((response) => {
