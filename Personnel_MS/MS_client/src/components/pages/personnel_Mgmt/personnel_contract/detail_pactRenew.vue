@@ -1,6 +1,6 @@
 <template>
     <div class="container-wrap">
-        <current yiji="人事事务" erji="人事合同" sanji="合同详情" siji="合同续签详情" :activeTab="activeName" :pactNo="pactNo">
+        <current yiji="人事事务" erji="人事合同" sanji="合同详情" siji="合同续签详情">
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
@@ -90,12 +90,12 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="续签生效时间" prop="renewTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPRenewMsg.renewTime" :disabled="true" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPRenewMsg.renewCameTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="续签失效时间" prop="renewEndTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPRenewMsg.renewTime" :disabled="true" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="detailPRenewMsg.renewLostTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
@@ -133,9 +133,9 @@ export default {
     current
   },
   created() {
-    this.userNo = this.$route.params.userNo;
-    this.pactNo = this.$route.params.pactNo;
-    this.renewId = this.$route.params.renewId;
+    this.pactNo = sessionStorage.getItem('contractInfo_pactNo');
+    this.userNo = sessionStorage.getItem('contractInfo_userNo');
+    this.renewId = sessionStorage.getItem('contractInfo_renewId');
     this.getPactDetail(); // 合同基本信息
     this.getCustInfo(); // 用户信息
     this.getPRenewDetail(); // 合同续签信息
@@ -199,7 +199,7 @@ export default {
       self.$axios
         .get("/iem_hrm/pact/queryPactRenewDetail", { params: params })
         .then(res => {
-          console.log(res);
+          console.log('detailPRenewMsg',res);
           self.detailPRenewMsg = res.data.data;
         })
         .catch(() => {

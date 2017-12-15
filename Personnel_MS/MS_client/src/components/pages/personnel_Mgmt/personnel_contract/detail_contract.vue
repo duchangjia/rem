@@ -199,7 +199,7 @@ export default {
   data() {
     return {
       activeName: "",
-      pactSubFlag: 'false',
+      pactSubFlag: "false",
       labelPosition: "right",
       userNo: "",
       pactNo: "",
@@ -222,17 +222,17 @@ export default {
     current
   },
   created() {
-    this.pactNo = this.$route.params.pactNo;
-    this.userNo = this.$route.params.userNo;
-    console.log('詳情頁接到的userNo',this.userNo);
-    if (this.$route.params.activeTab) {
-      this.activeName = this.$route.params.activeTab;
+    this.pactNo = sessionStorage.getItem("contractInfo_pactNo");
+    this.userNo = sessionStorage.getItem("contractInfo_userNo");
+    if (sessionStorage.getItem("contractInfo_activeName") != "") {
+      this.activeName = sessionStorage.getItem("contractInfo_activeName");
       if (this.activeName == "changePactMsg") this.getPChangeList();
       if (this.activeName == "renewPactMsg") this.getPRenewList();
     } else {
       this.activeName = "basicPactMsg";
       this.getPactDetail(); // 初始查合同基本详情
     }
+    console.log('详情页当前的activeTab',this.activeName);
   },
   computed: {
     _sex: function() {
@@ -274,14 +274,20 @@ export default {
     },
     _autoudFlag: {
       get: function() {
-        if (this.basicPactMsg.autoudFlag == "01" || this.basicPactMsg.autoudFlag == true) {
+        if (
+          this.basicPactMsg.autoudFlag == "01" ||
+          this.basicPactMsg.autoudFlag == true
+        ) {
           return true;
-        } else if (this.basicPactMsg.autoudFlag == "02" || this.basicPactMsg.autoudFlag == false) {
+        } else if (
+          this.basicPactMsg.autoudFlag == "02" ||
+          this.basicPactMsg.autoudFlag == false
+        ) {
           return false;
-        } 
+        }
       },
       set: function(val) {
-        if(val == true) {
+        if (val == true) {
           this.basicPactMsg.autoudFlag = "01";
         } else {
           this.basicPactMsg.autoudFlag = "02";
@@ -293,6 +299,7 @@ export default {
     handleTabClick(tab, event) {
       console.log(tab.name);
       this.activeName = tab.name;
+      sessionStorage.setItem("contractInfo_activeName", this.activeName); // 暂存当前activeName
       if (tab.name == "changePactMsg") this.getPChangeList();
       if (tab.name == "renewPactMsg") this.getPRenewList();
       if (tab.name == "basicPactMsg") this.getPactDetail();
@@ -305,7 +312,7 @@ export default {
       self.$axios
         .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
-          console.log('basicPactMsg',res);
+          console.log("basicPactMsg", res);
           self.basicPactMsg = res.data.data;
         })
         .catch(() => {
@@ -322,9 +329,9 @@ export default {
       self.$axios
         .get("/iem_hrm/pact/queryPactChangeList", { params: params })
         .then(res => {
-          console.log("pChangeList",res);
+          console.log("pChangeList", res);
           self.PChangeListInfo = res.data.data.models;
-          self.pChangePage.totalRows = res.data.total;
+          self.pChangePage.totalRows = res.data.data.total;
         })
         .catch(() => {
           console.log("error");
@@ -340,9 +347,9 @@ export default {
       self.$axios
         .get("/iem_hrm/pact/queryPactRenewList", { params: params })
         .then(res => {
-          console.log("pRenewList",res);
+          console.log("pRenewList", res);
           self.PRenewListInfo = res.data.data.models;
-          self.pRenewPage.totalRows = res.data.total;
+          self.pRenewPage.totalRows = res.data.data.total;
         })
         .catch(() => {
           console.log("error");
@@ -356,29 +363,17 @@ export default {
         : row.changeType == "99" ? "其他" : "";
     },
     renewTypeFormatter(row, column) {
-      return row.renewType == "01"
-        ? "合同延期"
-        : row.renewType == "99" ? "其他" : "";
+      return row.renewType == "01" ? "合同延期" : row.renewType == "99" ? "其他" : "";
     },
     handleEdit(index, row) {
-      if (this.activeName == "changePactMsg")
-        this.$router.push({
-          name: "edit_pactChange",
-          params: {
-            pactNo: row.pactNo,
-            changeId: row.changeId,
-            userNo: row.userNo
-          }
-        });
-      if (this.activeName == "renewPactMsg")
-        this.$router.push({
-          name: "edit_pactRenew",
-          params: {
-            pactNo: row.pactNo,
-            renewId: row.renewId,
-            userNo: row.userNo
-          }
-        });
+      if (this.activeName == "changePactMsg") {
+        sessionStorage.setItem("contractInfo_changeId", row.changeId); // 暂存当前changeId
+        this.$router.push("/edit_pactChange");
+      }
+      if (this.activeName == "renewPactMsg") {
+        sessionStorage.setItem("contractInfo_renewId", row.renewId); // 暂存当前renewId
+        this.$router.push("/edit_pactRenew");
+      }
     },
     handleDelete(index, row) {
       if (this.activeName == "changePactMsg") {
@@ -400,8 +395,7 @@ export default {
                 if (res.data.code == "S00000") {
                   this.$message({ type: "success", message: "操作成功!" });
                   this.getPChangeList();
-                }
-                else this.$message.error(res.data.retMsg);
+                } else this.$message.error(res.data.retMsg);
               })
               .catch(() => {
                 this.$message.error("操作失败！");
@@ -430,8 +424,7 @@ export default {
                 if (res.data.code == "S00000") {
                   this.$message({ type: "success", message: "操作成功!" });
                   this.getPRenewList();
-                }
-                else this.$message.error(res.data.retMsg);
+                } else this.$message.error(res.data.retMsg);
               })
               .catch(() => {
                 this.$message.error("操作失败！");
@@ -443,46 +436,22 @@ export default {
       }
     },
     handleAddPChange() {
-      this.pactSubFlag = 'true'; // 标记新增页为四级页面
-      this.$router.push({
-        name: "add_pactChange",
-        params: {
-          pactNo: this.pactNo,
-          userNo: this.userNo,
-          pactSubFlag: this.pactSubFlag
-        }
-      });
+      this.pactSubFlag = "true"; // 标记新增页为四级页面
+      sessionStorage.setItem("contractInfo_pactSubFlag", this.pactSubFlag); // 暂存当前pactSubFlag
+      this.$router.push("/add_pactChange");
     },
     handleAddPRenew() {
-      this.pactSubFlag = 'true'; // 标记新增页为四级页面
-      this.$router.push({
-        name: "add_pactRenew",
-        params: {
-          pactNo: this.pactNo,
-          userNo: this.userNo,
-          pactSubFlag: this.pactSubFlag
-        }
-      });
+      this.pactSubFlag = "true"; // 标记新增页为四级页面
+      sessionStorage.setItem("contractInfo_pactSubFlag", this.pactSubFlag); // 暂存当前pactSubFlag
+      this.$router.push("/add_pactRenew");
     },
     handlePChangeDetail(index, row) {
-      this.$router.push({
-        name: "detail_pactChange",
-        params: {
-          pactNo: row.pactNo,
-          changeId: row.changeId,
-          userNo: row.userNo
-        }
-      });
+      sessionStorage.setItem("contractInfo_changeId", row.changeId); // 暂存当前changeId
+      this.$router.push("/detail_pactChange");
     },
     handlePRenewDetail(index, row) {
-      this.$router.push({
-        name: "detail_pactRenew",
-        params: {
-          pactNo: row.pactNo,
-          renewId: row.renewId,
-          userNo: row.userNo
-        }
-      });
+      sessionStorage.setItem("contractInfo_renewId", row.renewId); // 暂存当前renewId
+      this.$router.push("/detail_pactRenew");
     },
     handlePChangePage(val) {
       this.pChangePage.pageNum = val;
@@ -497,4 +466,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>

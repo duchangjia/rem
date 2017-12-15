@@ -149,6 +149,7 @@ export default {
     },
     handlePayChange(index, row) {
       sessionStorage.setItem('payChangeInfo_userNo', row.userNo); // 暂存当前userNo
+      
       this.$router.push({
         name: "query_payChangeInfo",
         params: {

@@ -1,6 +1,6 @@
 <template>
     <div class="container-wrap">
-        <current yiji="人事事务" erji="人事合同" sanji="合同详情" siji="合同变更详情" :activeTab="activeName" :pactNo="pactNo">
+        <current yiji="人事事务" erji="人事合同" sanji="合同详情" siji="合同变更详情">
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
@@ -133,10 +133,9 @@ export default {
     current
   },
   created() {
-    this.userNo = this.$route.params.userNo;
-    console.log('userNo:',this.userNo);
-    this.pactNo = this.$route.params.pactNo;
-    this.changeId = this.$route.params.changeId;
+    this.pactNo = sessionStorage.getItem('contractInfo_pactNo');
+    this.userNo = sessionStorage.getItem('contractInfo_userNo');
+    this.changeId = sessionStorage.getItem('contractInfo_changeId');
     this.getPactDetail(); // 合同基本信息
     this.getCustInfo(); // 用户信息
     this.getPChangeDetail(); // 合同变更信息

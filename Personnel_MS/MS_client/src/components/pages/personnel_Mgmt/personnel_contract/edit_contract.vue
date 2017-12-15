@@ -187,7 +187,8 @@ export default {
     current
   },
   created() {
-    this.pactNo = this.$route.params.pactNo;
+    // this.pactNo = this.$route.params.pactNo;
+    this.pactNo = sessionStorage.getItem('contractInfo_pactNo');
     // 初始查合同基本详情
     this.getPactDetail();
   },
