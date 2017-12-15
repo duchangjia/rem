@@ -8,25 +8,25 @@
                 <el-button type="primary" @click="handleSave('pactMsgRules')" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="oPRenewMsg" :label-position="labelPosition" label-width="110px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同编号">
-                            <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
+                            <el-input v-model="oPRenewMsg.pactNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同名称">
-                            <el-input v-model="basicPactMsg.pactName" :disabled="true"></el-input>
+                            <el-input v-model="oPRenewMsg.pactName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="上次生效时间">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.signTime" :disabled="true" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="oPRenewMsg.signTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="上次到期时间">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStopTime" :disabled="true" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="oPRenewMsg.pactStopTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -94,15 +94,14 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="续签生效时间" prop="renewCameTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPRenewMsg.renewCameTime" @change="renewCameTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPRenewMsg.renewCameTime" :picker-options="renewCameTimeOption" @change="renewCameTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="续签失效时间" prop="renewLostTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPRenewMsg.renewLostTime" @change="renewLostTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPRenewMsg.renewLostTime" :picker-options="renewLostTimeOption" @change="renewLostTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
-                    >
                     <el-col :span="24">
                         <el-form-item label="续签内容" prop="renewContent">
                             <el-input type="textarea" v-model="addPRenewMsg.renewContent"></el-input>
@@ -126,6 +125,7 @@
 import current from "../../../common/current_position.vue";
 export default {
   data() {
+    let that = this;
     return {
       labelPosition: "right",
       pactSubFlag: "false",
@@ -133,7 +133,7 @@ export default {
       userNo: "",
       pactNo: "",
       custInfo: {},
-      basicPactMsg: {},
+      oPRenewMsg: {},
       addPRenewMsg: {
         pactNo: "",
         renewTime: "",
@@ -142,6 +142,16 @@ export default {
         renewType: "",
         renewContent: "",
         attachm: ""
+      },
+      renewCameTimeOption: {
+        disabledDate(time) {
+          return time.getTime() < new Date(that.addPRenewMsg.renewTime).getTime() - 3600 * 1000 * 24;
+        }
+      },
+      renewLostTimeOption: {
+        disabledDate(time) {
+          return time.getTime() < new Date(that.addPRenewMsg.renewCameTime).getTime() - 3600 * 1000 * 24;
+        }
       },
       pactMsgRules: {
         renewTime: [
@@ -181,11 +191,8 @@ export default {
       this.pactSubFlag = sessionStorage.getItem("contractInfo_pactSubFlag");
       this.activeName = "renewPactMsg";
     }
-    this.getPactDetail();
+    this.getPRenewDetail();
     this.getCustInfo();
-    console.log('userNo',this.userNo);
-    console.log('pactSubFlag',this.pactSubFlag);
-    console.log('activeName',this.activeName);
   },
   computed: {
     _custClass: function() {
@@ -201,15 +208,17 @@ export default {
     }
   },
   methods: {
-    getPactDetail() {
+    getPRenewDetail() {
       const self = this;
       let params = {
-        pactNo: self.pactNo
+        pactNo: self.pactNo,
+        renewId: self.renewId
       };
       self.$axios
-        .get("/iem_hrm/pact/queryPactDetail", { params: params })
+        .get("/iem_hrm/pact/queryPactRenewDetail", { params: params })
         .then(res => {
-          self.basicPactMsg = res.data.data;
+          console.log('editPRenewMsg',res);
+          self.oPRenewMsg = res.data.data;
         })
         .catch(() => {
           console.log("error");
@@ -245,7 +254,7 @@ export default {
       this.$refs[pactMsgRules].validate(valid => {
         if (valid) {
           let newPRenew = {};
-          newPRenew.pactNo = this.basicPactMsg.pactNo;
+          newPRenew.pactNo = this.oPRenewMsg.pactNo;
           newPRenew.renewTime = this.addPRenewMsg.renewTime;
           newPRenew.renewCameTime = this.addPRenewMsg.renewCameTime;
           newPRenew.renewLostTime = this.addPRenewMsg.renewLostTime;

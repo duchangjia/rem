@@ -70,12 +70,12 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同开始日期" prop="pactStartTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.pactStartTime" @change="pactStartTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.pactStartTime" :picker-options="pactStartTimeOption" @change="pactStartTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同结束日期" prop="pactEndTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.pactEndTime" @change="pactEndTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.pactEndTime" :picker-options="pactEndTimeOption" @change="pactEndTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -96,7 +96,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="终止日期" prop="pactStopTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.pactStopTime" @change="pactStopTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="editPactMsg.pactStopTime" :picker-options="pactStopTimeOption" @change="pactStopTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -138,21 +138,27 @@ export default {
       pactNo: "",
       custInfo: {},
       editPactMsg: {},
-      pactSignOption: {
-        disabledDate(time) {
-          return time.getTime() < Date.now() - 8.64e7;
-        }
-      },
-      pactStartOption: {
-        disabledDate(time) {
-          return time.getTime() < Date.now() - 8.64e7;
-        }
-      },
-      pactEndOption: {
+      pactStartTimeOption: {
         disabledDate(time) {
           return (
-            time.getTime() < Date.now() - 8.64e7 ||
-            time.getTime() < new Date(that.editPactMsg.pactStartTime).getTime()
+            time.getTime() <
+            new Date(that.editPactMsg.signTime).getTime() - 3600 * 1000 * 24
+          );
+        }
+      },
+      pactEndTimeOption: {
+        disabledDate(time) {
+          return (
+            time.getTime() <
+            new Date(that.editPactMsg.pactStartTime).getTime() - 3600 * 1000 * 24
+          );
+        }
+      },
+      pactStopTimeOption: {
+        disabledDate(time) {
+          return (
+            time.getTime() <
+            new Date(that.editPactMsg.pactEndTime).getTime() - 3600 * 1000 * 24
           );
         }
       },
@@ -179,7 +185,8 @@ export default {
             trigger: "change"
           }
         ],
-        pactStatus: [{ required: true, message: "合同状态不能为空", trigger: "change" }]
+        pactStatus: [{ required: true, message: "合同状态不能为空", trigger: "change" }],
+        pactExpires: [{ required: true, message: "合同年限不能为空", trigger: "change" }]
       }
     };
   },
@@ -188,7 +195,7 @@ export default {
   },
   created() {
     // this.pactNo = this.$route.params.pactNo;
-    this.pactNo = sessionStorage.getItem('contractInfo_pactNo');
+    this.pactNo = sessionStorage.getItem("contractInfo_pactNo");
     // 初始查合同基本详情
     this.getPactDetail();
   },
@@ -206,14 +213,20 @@ export default {
     },
     _autoudFlag: {
       get: function() {
-        if (this.editPactMsg.autoudFlag == "01" || this.editPactMsg.autoudFlag == true) {
+        if (
+          this.editPactMsg.autoudFlag == "01" ||
+          this.editPactMsg.autoudFlag == true
+        ) {
           return true;
-        } else if (this.editPactMsg.autoudFlag == "02" || this.editPactMsg.autoudFlag == false) {
+        } else if (
+          this.editPactMsg.autoudFlag == "02" ||
+          this.editPactMsg.autoudFlag == false
+        ) {
           return false;
-        } 
+        }
       },
       set: function(val) {
-        if(val == true) {
+        if (val == true) {
           this.editPactMsg.autoudFlag = "01";
         } else {
           this.editPactMsg.autoudFlag = "02";
@@ -230,7 +243,7 @@ export default {
       self.$axios
         .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
-          console.log('pactDetailMsg:',res);
+          console.log("pactDetailMsg:", res);
           self.editPactMsg = res.data.data;
         })
         .catch(() => {
@@ -296,4 +309,5 @@ export default {
 </script>
 
 <style>
+
 </style>

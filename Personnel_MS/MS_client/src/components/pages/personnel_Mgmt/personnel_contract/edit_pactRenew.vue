@@ -8,25 +8,25 @@
                 <el-button type="primary" @click="handleSave('pactMsgRules')" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="editPRenewMsg" :label-position="labelPosition" label-width="110px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同编号">
-                            <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
+                            <el-input v-model="editPRenewMsg.pactNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同名称">
-                            <el-input v-model="basicPactMsg.pactName" :disabled="true"></el-input>
+                            <el-input v-model="editPRenewMsg.pactName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="上次生效时间">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.signTime" :disabled="true" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="editPRenewMsg.renewCameTimeLast" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="上次到期时间">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStopTime" :disabled="true" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="editPRenewMsg.renewLostTimeLast" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -91,12 +91,12 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="续签生效时间">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="editPRenewMsg.renewCameTime" @change="renewCameTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="editPRenewMsg.renewCameTime" :picker-options="renewCameTimeOption" @change="renewCameTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="续签失效时间">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="editPRenewMsg.renewLostTime" @change="renewLostTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="editPRenewMsg.renewLostTime" :picker-options="renewLostTimeOption" @change="renewLostTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
@@ -122,15 +122,32 @@
 import current from "../../../common/current_position.vue";
 export default {
   data() {
+    let that = this;
     return {
       labelPosition: "right",
       activeName: "renewPactMsg",
       userNo: "",
       pactNo: "",
       renewId: "",
-      basicPactMsg: {},
       custInfo: {},
       editPRenewMsg: {},
+      renewCameTimeOption: {
+        disabledDate(time) {
+          return (
+            time.getTime() <
+            new Date(that.editPRenewMsg.renewTime).getTime() - 3600 * 1000 * 24
+          );
+        }
+      },
+      renewLostTimeOption: {
+        disabledDate(time) {
+          return (
+            time.getTime() <
+            new Date(that.editPRenewMsg.renewCameTime).getTime() -
+              3600 * 1000 * 24
+          );
+        }
+      },
       pactMsgRules: {
         renewTime: [
           {
@@ -162,10 +179,9 @@ export default {
     current
   },
   created() {
-    this.pactNo = sessionStorage.getItem('contractInfo_pactNo');
-    this.userNo = sessionStorage.getItem('contractInfo_userNo');
-    this.renewId = sessionStorage.getItem('contractInfo_renewId');
-    this.getPactDetail();
+    this.pactNo = sessionStorage.getItem("contractInfo_pactNo");
+    this.userNo = sessionStorage.getItem("contractInfo_userNo");
+    this.renewId = sessionStorage.getItem("contractInfo_renewId");
     this.getCustInfo();
     this.getPRenewDetail();
   },
@@ -192,15 +208,17 @@ export default {
     }
   },
   methods: {
-    getPactDetail() {
+    getPRenewDetail() {
       const self = this;
       let params = {
-        pactNo: self.pactNo
+        pactNo: self.pactNo,
+        renewId: self.renewId
       };
       self.$axios
-        .get("/iem_hrm/pact/queryPactDetail", { params: params })
+        .get("/iem_hrm/pact/queryPactRenewDetail", { params: params })
         .then(res => {
-          self.basicPactMsg = res.data.data;
+          console.log("editPRenewMsg", res);
+          self.editPRenewMsg = res.data.data;
         })
         .catch(() => {
           console.log("error");
@@ -212,29 +230,14 @@ export default {
       self.$axios
         .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
         .then(res => {
-          console.log('cusInfo', res);
+          console.log("cusInfo", res);
           self.custInfo = res.data.data;
         })
         .catch(() => {
           console.log("error");
         });
     },
-    getPRenewDetail() {
-      const self = this;
-      let params = {
-        pactNo: self.pactNo,
-        renewId: self.renewId
-      };
-      self.$axios
-        .get("/iem_hrm/pact/queryPactRenewDetail", { params: params })
-        .then(res => {
-          console.log('editPRenewMsg',res);
-          self.editPRenewMsg = res.data.data;
-        })
-        .catch(() => {
-          console.log("error");
-        });
-    },
+
     renewTimeChange(val) {
       this.editPRenewMsg.renewTime = val;
     },
@@ -260,7 +263,7 @@ export default {
           newPRenew.renewType = this.editPRenewMsg.renewType;
           newPRenew.renewContent = this.editPRenewMsg.renewContent;
           newPRenew.attachm = this.editPRenewMsg.attachm;
-          console.log('newPRenew:',newPRenew);
+          console.log("newPRenew:", newPRenew);
           this.$axios
             .put("/iem_hrm/pact/updatePactRenew", newPRenew)
             .then(res => {
@@ -284,4 +287,5 @@ export default {
 </script>
 
 <style>
+
 </style>
