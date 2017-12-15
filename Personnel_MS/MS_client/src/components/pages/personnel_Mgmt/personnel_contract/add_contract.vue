@@ -78,12 +78,12 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同开始日期" prop="pactStartTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStartTime" @change="pactStartTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStartTime" :picker-options="pactStartTimeOption" @change="pactStartTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同结束日期" prop="pactEndTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactEndTime" @change="pactEndTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactEndTime" :picker-options="pactEndTimeOption" @change="pactEndTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -104,7 +104,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="终止日期" prop="pactStopTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStopTime" @change="pactStopTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStopTime" :picker-options="pactStopTimeOption" @change="pactStopTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -127,7 +127,7 @@
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label=" " prop="autoudFlag">
-                            <el-checkbox v-model="_autoudFlag" @change="">自动更新员工资料</el-checkbox>
+                            <el-checkbox v-model="_autoudFlag">自动更新员工资料</el-checkbox>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -174,6 +174,22 @@ export default {
       searchUrl: "",
       saveUrl: "",
 
+      pactStartTimeOption: {
+        disabledDate(time) {
+          return time.getTime() < new Date(that.addPactMsg.signTime).getTime() - 3600 * 1000 * 24;
+        }
+      },
+      pactEndTimeOption: {
+        disabledDate(time) {
+          return time.getTime() < new Date(that.addPactMsg.pactStartTime).getTime() - 3600 * 1000 * 24;
+        }
+      },
+      pactStopTimeOption: {
+        disabledDate(time) {
+          return time.getTime() < new Date(that.addPactMsg.pactEndTime).getTime() - 3600 * 1000 * 24;
+        }
+      },
+
       pactMsgRules: {
         userNo: [{ required: true, message: "工号不能为空", trigger: "blur" }],
         pactType: [{ required: true, message: "合同类型不能为空", trigger: "change" }],
@@ -184,7 +200,8 @@ export default {
         pactEndTime: [
           { required: true, message: "合同结束日期不能为空", trigger: "change" }
         ],
-        pactStatus: [{ required: true, message: "合同状态不能为空", trigger: "change" }]
+        pactStatus: [{ required: true, message: "合同状态不能为空", trigger: "change" }],
+        pactExpires: [{ required: true, message: "合同年限不能为空", trigger: "change" }]
       }
     };
   },

@@ -7,25 +7,25 @@
                 <span class="title-text">合同续签详情</span>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="detailPRenewMsg" :label-position="labelPosition" label-width="110px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同编号">
-                            <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
+                            <el-input v-model="detailPRenewMsg.pactNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同名称">
-                            <el-input v-model="basicPactMsg.pactName" :disabled="true"></el-input>
+                            <el-input v-model="detailPRenewMsg.pactName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="上次生效时间">
-                            <el-date-picker type="date" v-model="basicPactMsg.signTime" :disabled="true" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" v-model="detailPRenewMsg.renewCameTimeLast" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="上次到期时间">
-                            <el-date-picker type="date" v-model="basicPactMsg.pactStopTime" :disabled="true" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" v-model="detailPRenewMsg.renewLostTimeLast" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -124,7 +124,6 @@ export default {
       userNo: "",
       pactNo: "",
       changeId: "",
-      basicPactMsg: {},
       custInfo: {},
       detailPRenewMsg: {}
     };
@@ -133,10 +132,9 @@ export default {
     current
   },
   created() {
-    this.pactNo = sessionStorage.getItem('contractInfo_pactNo');
-    this.userNo = sessionStorage.getItem('contractInfo_userNo');
-    this.renewId = sessionStorage.getItem('contractInfo_renewId');
-    this.getPactDetail(); // 合同基本信息
+    this.pactNo = sessionStorage.getItem("contractInfo_pactNo");
+    this.userNo = sessionStorage.getItem("contractInfo_userNo");
+    this.renewId = sessionStorage.getItem("contractInfo_renewId");
     this.getCustInfo(); // 用户信息
     this.getPRenewDetail(); // 合同续签信息
   },
@@ -163,15 +161,17 @@ export default {
     }
   },
   methods: {
-    getPactDetail() {
+    getPRenewDetail(pactNo) {
       const self = this;
       let params = {
-        pactNo: self.pactNo
+        pactNo: self.pactNo,
+        renewId: self.renewId
       };
       self.$axios
-        .get("/iem_hrm/pact/queryPactDetail", { params: params })
+        .get("/iem_hrm/pact/queryPactRenewDetail", { params: params })
         .then(res => {
-          self.basicPactMsg = res.data.data;
+          console.log("detailPRenewMsg", res);
+          self.detailPRenewMsg = res.data.data;
         })
         .catch(() => {
           console.log("error");
@@ -183,24 +183,8 @@ export default {
       self.$axios
         .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
         .then(res => {
-          console.log('cusInfo', res);
+          console.log("cusInfo", res);
           self.custInfo = res.data.data;
-        })
-        .catch(() => {
-          console.log("error");
-        });
-    },
-    getPRenewDetail(pactNo) {
-      const self = this;
-      let params = {
-        pactNo: self.pactNo,
-        renewId: self.renewId
-      };
-      self.$axios
-        .get("/iem_hrm/pact/queryPactRenewDetail", { params: params })
-        .then(res => {
-          console.log('detailPRenewMsg',res);
-          self.detailPRenewMsg = res.data.data;
         })
         .catch(() => {
           console.log("error");
@@ -212,4 +196,5 @@ export default {
 </script>
 
 <style>
+
 </style>
