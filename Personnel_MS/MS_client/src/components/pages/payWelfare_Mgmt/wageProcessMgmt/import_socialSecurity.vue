@@ -131,7 +131,7 @@
 			},
 			downloadFile() {
 				const self = this;
-				self.$axios.get(baseURL+'/file/downloadTemplate?templateName=社保基本信息模板', {
+				self.$axios.get(baseURL+'/file/downloadTemplate?templateName=welfareTemplate', {
 	                    responseType: 'blob'
 	                })
 	                .then((response) => {
