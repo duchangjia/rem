@@ -37,7 +37,7 @@ module.exports = {
           '^/api': '/api'
         },
       },
-      '/iem_hrm': {
+      '/iem_pmg': {
         target: 'http://10.0.0.242:8888/',
         // target: 'http://14.21.69.222:5555/api/hrm/',
         // target: 'http://192.168.1.102:8888/',

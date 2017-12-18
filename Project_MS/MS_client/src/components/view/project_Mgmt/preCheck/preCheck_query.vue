@@ -106,7 +106,6 @@
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
     import api from "../../../../common/api/api.js"
-    let { queryProjList } = api
 	export default {
 		data() {
 			return{
@@ -173,8 +172,10 @@
                 ]
             }
         },
-        mounted(){
+        created(){
            let self = this;
+           self.searchInfo = {};
+           self.queryprojList();
 		},
         methods:{
             resetForm(){
@@ -182,9 +183,10 @@
                 self.searchInfo = {};
             },
             search(){
-                let self = this,
-                    params = self.searchInfo;
-                    console.log(params);
+                let self = this;
+                self.queryprojList();
+                    // params = self.searchInfo;
+                    // console.log(params);
                 // self.$axios.get(queryProjList).then(res=>{
                 //     console.log(res);
                 // }).catch(e=>{
@@ -207,17 +209,10 @@
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-
-
-                        self.$message({
-                            type: 'success',
-                            message: '项目结束成功!'
-                        });
+                        //关闭项目
+                        self.updatedEnd();
                     }).catch(() => {
-                        self.$message({
-                            type: 'info',
-                            message: '已取消'
-                        });          
+                        self.$message({ type: 'info', message: '已取消操作' });          
                     });
                 }else{
                     self.$router.push(command);
@@ -228,6 +223,8 @@
             queryprojList() {
                 let self = this;
                 let params = self.searchInfo;
+                params.pageNum = self.pagination.pageNum;
+                params.pageSize = self.pagination.pageSize;
                 console.log('params', params);
                 self.$axios.get(api.queryProjList, {params: params})
                 .then((res) => {
@@ -236,6 +233,24 @@
                         self.tableList = res.data.data.models;
                         self.pagination.pageNum = params.pageNum;
                         self.pagination.total = Number(res.data.data.total);
+                    }
+                    
+                }).catch((err) => {
+                    console.log(err);
+                })
+            },
+            //查询项目一览列表
+            updatedEnd() {
+                let self = this;
+                let params = {
+                    
+                };
+                console.log('params', params);
+                self.$axios.get( api.updateProj, {params: params})
+                .then((res) => {
+                    console.log('tableList',res);
+                    if(res.data.code === "S00000") {
+                         self.$message({  type: 'success', message: '操作成功!' });   
                     }
                     
                 }).catch((err) => {
