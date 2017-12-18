@@ -20,12 +20,12 @@
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="生效日期" prop="startTime">
-				        	<el-date-picker type="date" v-model="formdata.startTime" @change="changeStartTime" style="width: 100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata.startTime" @change="changeStartTime" :editable="false" style="width: 100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="失效日期" prop="endTime">
-				        	<el-date-picker type="date" v-model="formdata.endTime" @change="changeEndTime" placeholder="如无，则不填" style="width: 100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata.endTime" @change="changeEndTime" placeholder="如无，则不填" :editable="false" style="width: 100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">

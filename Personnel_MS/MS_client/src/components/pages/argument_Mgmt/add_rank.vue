@@ -61,21 +61,21 @@
 		data() {
 			var checkSalaryTop = (rule, value, callback) => {
 				if(value === '') {
-					callback(new Error('薪资标准上限不能为空'));
-				} else if(!/^\d{1,14}(\.\d{1,2})?$/.test(value)) {
-					callback(new Error('请输入正确的金额'));
-				}else if(Number(value) <= Number(this.formdata.salaryFloor)) {
+					callback(new Error('请输入薪资标准上限'));
+				} else if(Number(value) <= Number(this.formdata.salaryFloor)) {
+					console.log('top <')
 					callback(new Error('上限值必须大于下限值!'));
 				} else {
 					callback();
 				}
 			};
-			var checkSalaryFloor = (rule, value, callback) => {
+			var checksalaryFloor = (rule, value, callback) => {
 				if(value === '') {
-					callback(new Error('薪资标准下限不能为空'));
-				} else if(!/^\d{1,14}(\.\d{1,2})?$/.test(value)) {
-					callback(new Error('请输入正确的金额'));
-				}else {
+					callback(new Error('请输入薪资标准下限'));
+				} else if(Number(value) >= Number(this.formdata.SalaryTop)) {
+					console.log('floor >')
+					callback(new Error('下限值必须小于上限值!'));
+				} else {
 					callback();
 				}
 			};
@@ -112,15 +112,16 @@
 						{ required: true, message: '职级不能为空', trigger: 'blur' }
 					],
 					salaryFloor: [
-						{ required: true, message: '薪资标准下限不能为空', trigger: 'blur' },
-						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额" }
+						{required: true,validator: checksalaryFloor,trigger: 'blur'},
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额",trigger: 'blur'}
 					],
 					salaryTop: [
-						{ required: true, validator: checkSalaryTop, trigger: 'blur' }
+						{required: true,validator: checkSalaryTop,trigger: 'blur'},
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额",trigger: 'blur'}
 					],
 					businessStandard: [
 						{ message: '请输入出差标准天数', trigger: 'blur' },
-						{ pattern: /^\d*$/, message: "请输入出差标准天数" }
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的天数"}
 					],
 					remark: [
 						{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }

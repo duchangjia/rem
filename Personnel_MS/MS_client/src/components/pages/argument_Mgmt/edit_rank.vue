@@ -43,7 +43,7 @@
 						</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="出差标准（人/天）">
+						<el-form-item label="出差标准（人/天）" prop="businessStandard">
 							<el-input v-model="cParmDetal.businessStandard"></el-input>
 						</el-form-item>
 					</el-col>	
@@ -100,26 +100,23 @@
 					compName: [
 //						{ required: true, message: '公司名称不能为空', trigger: 'blur' }
 					],
-					applyName: [{
-						required: true,
-						message: '模版名称不能为空',
-						trigger: 'blur'
-					}],
-					rank: [{
-						required: true,
-						message: '职级不能为空',
-						trigger: 'blur'
-					}],
-					salaryFloor: [{
-						required: true,
-						validator: checksalaryFloor,
-						trigger: 'blur'
-					}],
-					salaryTop: [{
-						required: true,
-						validator: checkSalaryTop,
-						trigger: 'blur'
-					}],
+					applyName: [
+						{required: true,message: '模版名称不能为空',trigger: 'blur'}
+					],
+					rank: [
+						{required: true,message: '职级不能为空',trigger: 'blur'}
+					],
+					salaryFloor: [
+						{required: true,validator: checksalaryFloor,trigger: 'blur'},
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'blur'}
+					],
+					salaryTop: [
+						{required: true,validator: checkSalaryTop,trigger: 'blur'},
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'blur'}
+					],
+					businessStandard: [
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的天数", trigger: 'blur'}
+					],
 					remark: [
 						{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 					]
@@ -172,6 +169,9 @@
 					.then((res) => {
 						console.log('CParmDtl',res);
 						self.cParmDetal = res.data.data;
+						for(let k in self.cParmDetal) {
+							self.cParmDetal[k] = self.cParmDetal[k] + '';
+						}
 						
 					}).catch((err) => {
 						console.log(err);
