@@ -154,6 +154,15 @@
 				  	</el-col>
 				</el-form>
 				<el-col :span="24" class="item-title">审批历史</el-col>
+				<!-- <el-col :span="24"> -->
+					<ul class="shenpiList">
+						<li>
+							<span>2017-10-10 09:00:09</span>
+							<span>李总</span>
+							<span>审批通过</span>
+						</li>
+					</ul>
+				<!-- </el-col> -->
 			</div>
 		</div>
 	</div>
@@ -388,5 +397,10 @@
 .addPreSaleButton_wrapper {
 	width: 400px;
 	margin: 0 auto;
+}
+.shenpiList {
+	padding-left: 20px;
+    color: #999999;
+    font-size: 14px;
 }
 </style>
