@@ -60,7 +60,7 @@
                         <el-form-item label="部门状态" prop="status">
                             <el-select placeholder="请选择部门状态" v-model="formdata.status">
                                 <el-option label="启用" value="1"></el-option>
-                                <el-option label="停用" value="2"></el-option>
+                                <el-option label="停用" value="0"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>

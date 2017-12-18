@@ -148,7 +148,7 @@
                                                 <el-input v-model="ruleForm.liveAddr" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <hr style="width: 100%;margin-bottom: 30px">
+                                        <hr style="width: 100%;margin-bottom: 30px;clear: both">
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="员工编号" prop="userNo">
                                                 <el-input v-model="ruleForm.userNo" :disabled="true"></el-input>
@@ -316,7 +316,7 @@
                                                 <el-input v-model="ruleForm.housAcct" :disabled="edit"></el-input>
                                             </el-form-item>
                                         </el-col>
-                                        <hr style="width: 100%;margin-bottom: 30px">
+                                        <hr style="width: 100%;margin-bottom: 30px;clear: both">
                                         <el-col :md="23" :sm="24">
                                             <el-form-item label="备注">
                                                 <el-input type="textarea" v-model="ruleForm.remark" :disabled="edit"></el-input>
@@ -412,7 +412,7 @@
                                                             <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
                                                         </el-form-item>
                                                         <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
-                                                            <el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>
+                                                            <el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit" :picker-options="pickerOptions0"></el-date-picker>
                                                         </el-form-item>
                                                     </div>
                                                 </el-col>
@@ -549,7 +549,14 @@
     import moment from 'moment'
     export default {
         data() {
+            let that = this
             return {
+                pickerOptions0: {
+                    disabledDate(time) {
+                        console.log(new Date(that.startTime).getTime())
+                        return time.getTime() < new Date(that.startTime).getTime() - 3600 * 1000 * 24
+                    }
+                },
                 basicInfo:{
                     nation:'',
                     education:'',
@@ -1424,6 +1431,7 @@
                                 this.work_item.lists[i].isShowEdit = true
                                 data.lists[i].startTime = moment(data.lists[i].startTime).format('YYYY-MM-DD')
                                 data.lists[i].endTime = moment(data.lists[i].endTime).format('YYYY-MM-DD')
+                                console.log(data)
                                 if(count==workItemLength){
                                     this.$axios.post('/iem_hrm/epCustWorkHis/saveEpCustWorkHiss', data)
                                         .then(res=>{
@@ -1989,10 +1997,15 @@
                                 .el-date-editor
                                     width 200px
                                 .el-textarea
-                                    width 100%
+                                    width: 101%;
+                                    max-width: 1000px;
                                 .el-textarea__inner
                                     width: 100%
                                     height: 120px
+                                @-moz-document url-prefix()
+                                    .el-textarea
+                                        width: 99%;
+                                        max-width: 1020px;
                             .fifth_special
                                 .el-form-item__label
                                     margin-left -30px
