@@ -55,7 +55,7 @@
                         <el-button class="btn-primary" @click="search()">查询</el-button>
                     </div>   
                 </el-form>
-                <el-table stripe :data="tableList" class="table-nopad" @row-click="saveItem">
+                <el-table stripe border :data="tableList" class="table-nopad" @row-click="saveItem">
                     <el-table-column align="center" prop="projImpDepno" label="部门编号">
                     </el-table-column>
                     <el-table-column align="center" prop="oppoNo" label="机会号" >
@@ -85,7 +85,7 @@
                                     下拉菜单
                                 </span>
                                 <el-dropdown-menu slot="dropdown" >
-                                    <el-dropdown-item :command="item.url" v-for="item in dropDownList">{{item.name}}</el-dropdown-item>
+                                    <el-dropdown-item :command="item.url" v-for="item in dropDownList" :key="item.url">{{item.name}}</el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
                         </template>
@@ -140,8 +140,9 @@
                     }
                 ],
                 pagination:{
+                    pageNum: 1,
                     pageSize:10,
-                    total:20
+                    total:1
                 },
                
                 dropDownList:[
@@ -206,6 +207,8 @@
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
+
+
                         self.$message({
                             type: 'success',
                             message: '项目结束成功!'
@@ -220,7 +223,25 @@
                     self.$router.push(command);
                 }
                 
-            }
+            },
+            //查询项目一览列表
+            queryprojList() {
+                let self = this;
+                let params = self.searchInfo;
+                console.log('params', params);
+                self.$axios.get(api.queryProjList, {params: params})
+                .then((res) => {
+                    console.log('tableList',res);
+                    if(res.data.code === "S00000") {
+                        self.tableList = res.data.data.models;
+                        self.pagination.pageNum = params.pageNum;
+                        self.pagination.total = Number(res.data.data.total);
+                    }
+                    
+                }).catch((err) => {
+                    console.log(err);
+                })
+            },
         },
 		components: {
 			current

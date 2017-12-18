@@ -297,6 +297,8 @@ export default {
 		handleInfo(index, row) {
 			sessionStorage.setItem('editSecurity_idCard', row.idCard);
 			sessionStorage.setItem('editSecurity_batchNo', row.batchNo);
+			sessionStorage.setItem('editSecurity_month', row.month);
+			sessionStorage.setItem('editSecurity_userNo', row.userNo);
 			this.$router.push("/edit_security");
 		},
 		//查询
