@@ -56,7 +56,7 @@
                     </el-col>
                     <el-col :span="22" class="rightside">
                         <el-row :gutter="20">
-                            <el-col :span="6" v-for="(funcs, index) in funcsList">
+                            <el-col :span="6" v-for="(funcs, index) in funcsList" :key="index">
                                 <div class="funcs-content">
                                     <el-checkbox v-model="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
                                     <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange($event,index)"  class="func-item">

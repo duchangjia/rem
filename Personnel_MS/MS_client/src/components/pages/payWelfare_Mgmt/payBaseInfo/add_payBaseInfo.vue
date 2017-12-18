@@ -5,7 +5,7 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">薪酬基数新增</span>
-                <el-button type="primary" @click="handleSave('addPayBaseInfoRules')" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
@@ -21,7 +21,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工号">
-                            <el-input v-model="custInfo.userNo" placeholder="请选择员工编号">
+                            <el-input v-model="custInfo.userNo" placeholder="请选择员工编号" :readonly="true">
                                 <el-button slot="append" icon="search" @click="userNoSelect"></el-button>
                             </el-input>
                             <messageBox 
@@ -44,7 +44,6 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
-                            <!-- <el-input v-model="_custPost" :disabled="true"></el-input> -->
                             <el-select v-model="custInfo.custPost" :disabled="true">
                               <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
@@ -52,7 +51,6 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职级">
-                            <!-- <el-input v-model="_custClass" :disabled="true"></el-input> -->
                             <el-select v-model="custInfo.custClass" :disabled="true">
                               <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
@@ -62,90 +60,90 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">薪酬基数信息</el-col>
-                <el-form :inline="true" :model="addPayBaseInfo" :rules="payBaseInfoRules" ref="addPayBaseInfoRules" :label-position="labelPosition"  label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="addPayBaseInfo" :rules="payBaseInfoRules" ref="addPayBaseInfoRules1" :label-position="labelPosition"  label-width="110px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="基本工资" prop="wagesBase">
-                            <el-input v-model="addPayBaseInfo.wagesBase" @blur="wagesBaseChange"></el-input>
+                            <el-input v-model="addPayBaseInfo.wagesBase" placeholder="0.00" @blur="wagesBaseChange"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="绩效工资" prop="wagesPerf">
-                            <el-input v-model="addPayBaseInfo.wagesPerf"></el-input>
+                            <el-input v-model="addPayBaseInfo.wagesPerf" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="岗位补贴" prop="postPension">
-                            <el-input v-model="addPayBaseInfo.postPension"></el-input>
+                            <el-input v-model="addPayBaseInfo.postPension" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="通讯补贴" prop="phonePension">
-                            <el-input v-model="addPayBaseInfo.phonePension"></el-input>
+                            <el-input v-model="addPayBaseInfo.phonePension" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="交通补贴" prop="trafficPension">
-                            <el-input v-model="addPayBaseInfo.trafficPension"></el-input>
+                            <el-input v-model="addPayBaseInfo.trafficPension" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="生活补贴" prop="livingPension">
-                            <el-input v-model="addPayBaseInfo.livingPension"></el-input>
+                            <el-input v-model="addPayBaseInfo.livingPension" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col>
                     <!-- <el-col :sm="24" :md="12">
                         <el-form-item label="全勤奖">
-                            <el-input v-model="addPayBaseInfo.attendanceBonus"></el-input>
+                            <el-input v-model="addPayBaseInfo.attendanceBonus" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工龄奖">
-                            <el-input v-model="addPayBaseInfo.seniorityPay"></el-input>
+                            <el-input v-model="addPayBaseInfo.seniorityPay" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col> -->
                     <el-col :sm="24" :md="12">
                         <el-form-item label="加班工资" prop="overtimePay">
-                            <el-input v-model="addPayBaseInfo.overtimePay"></el-input>
+                            <el-input v-model="addPayBaseInfo.overtimePay" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="其他补贴" prop="otherPension">
-                            <el-input v-model="addPayBaseInfo.otherPension"></el-input>
+                            <el-input v-model="addPayBaseInfo.otherPension" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col>  
                     <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险基数" prop="endmBase">
-                            <el-input v-model="addPayBaseInfo.endmBase"></el-input>
+                            <el-input v-model="addPayBaseInfo.endmBase" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="医疗保险基数" prop="mediBase">
-                            <el-input v-model="addPayBaseInfo.mediBase"></el-input>
+                            <el-input v-model="addPayBaseInfo.mediBase" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="失业保险基数" prop="unemBase">
-                            <el-input v-model="addPayBaseInfo.unemBase"></el-input>
+                            <el-input v-model="addPayBaseInfo.unemBase" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工伤保险基数" prop="emplBase">
-                            <el-input v-model="addPayBaseInfo.emplBase"></el-input>
+                            <el-input v-model="addPayBaseInfo.emplBase" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="生育保险基数" prop="mateBase">
-                            <el-input v-model="addPayBaseInfo.mateBase"></el-input>
+                            <el-input v-model="addPayBaseInfo.mateBase" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="公积金基数" prop="houseBase">
-                            <el-input v-model="addPayBaseInfo.houseBase"></el-input>
+                            <el-input v-model="addPayBaseInfo.houseBase" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="试用期工资" prop="wagesProb">
-                            <el-input v-model="addPayBaseInfo.wagesProb"></el-input>
+                            <el-input v-model="addPayBaseInfo.wagesProb" placeholder="0.00"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
@@ -218,7 +216,7 @@
                         </el-form-item>
                     </el-col>
                 </el-form>
-                <el-form :inline="true" :model="addPayBaseInfo" :rules="payBaseInfoRules" ref="addPayBaseInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :model="addPayBaseInfo" :rules="payBaseInfoRules" ref="addPayBaseInfoRules2" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="24">
                         <el-form-item label="薪资超限说明" prop="remark">
                             <el-input type="textarea" v-model="addPayBaseInfo.remark"></el-input>
@@ -254,7 +252,10 @@ export default {
     let validateWagesProb = (rule, value, callback) => {
       if (Number(value) > Number(this.addPayBaseInfo.wagesBase)) {
         callback(new Error("试用期工资应小于基本工资"));
-      } else if (value.match(/^([1-9]\d*|0)(\.\d{2})?$/) == null) {
+      } else if (
+        value != "" &&
+        value.match(/^([1-9]\d*|0)(\.\d{2})?$/) == null
+      ) {
         callback(new Error("可精确到小数点后2位的正数"));
       } else {
         callback();
@@ -272,23 +273,23 @@ export default {
       },
       addPayBaseInfo: {
         userNo: "",
-        wagesBase: "0.00",
-        wagesPerf: "0.00",
-        postPension: "0.00",
-        phonePension: "0.00",
-        trafficPension: "0.00",
-        livingPension: "0.00",
-        attendanceBonus: "0.00",
-        seniorityPay: "0.00",
-        overtimePay: "0.00",
-        otherPension: "0.00",
-        endmBase: "0.00",
-        mediBase: "0.00",
-        unemBase: "0.00",
-        emplBase: "0.00",
-        mateBase: "0.00",
-        houseBase: "0.00",
-        wagesProb: "0.00",
+        wagesBase: "",
+        wagesPerf: "",
+        postPension: "",
+        phonePension: "",
+        trafficPension: "",
+        livingPension: "",
+        attendanceBonus: "",
+        seniorityPay: "",
+        overtimePay: "",
+        otherPension: "",
+        endmBase: "",
+        mediBase: "",
+        unemBase: "",
+        emplBase: "",
+        mateBase: "",
+        houseBase: "",
+        wagesProb: "",
         welcoeNo: "",
         attachm: "",
         remark: ""
@@ -358,9 +359,7 @@ export default {
         houseBase: [
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
-        wagesProb: [
-          { validator: validateWagesProb, trigger: "blur" }
-        ],
+        wagesProb: [{ validator: validateWagesProb, trigger: "blur" }],
         welcoeNo: [{ required: true, message: "请选择保险缴纳标准", trigger: "change" }],
         remark: []
       }
@@ -371,8 +370,10 @@ export default {
     messageBox
   },
   created() {
-    if(sessionStorage.getItem("addPayChangeInfo_custInfo")) {
-      this.custInfo = JSON.parse(sessionStorage.getItem("addPayChangeInfo_custInfo"));
+    if (sessionStorage.getItem("addPayChangeInfo_custInfo")) {
+      this.custInfo = JSON.parse(
+        sessionStorage.getItem("addPayChangeInfo_custInfo")
+      );
       this.addPayBaseInfo.userNo = this.custInfo.userNo;
     }
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
@@ -387,7 +388,7 @@ export default {
             this.insurancePayTemp.perEndmRate +
             this.insurancePayTemp.perEndmFixed) *
             10
-        ) / 10 || 0.00
+        ) / 10 || 0.0
       );
     },
     _comEndm: function() {
@@ -397,7 +398,7 @@ export default {
             this.insurancePayTemp.comEndmRate +
             this.insurancePayTemp.comEndmFixed) *
             10
-        ) / 10 || 0.00
+        ) / 10 || 0.0
       );
     },
     _perMedi: function() {
@@ -407,7 +408,7 @@ export default {
             this.insurancePayTemp.perMediRate +
             this.insurancePayTemp.perMediFixed) *
             10
-        ) / 10 || 0.00
+        ) / 10 || 0.0
       );
     },
     _comMedi: function() {
@@ -417,7 +418,7 @@ export default {
             this.insurancePayTemp.comMediRate +
             this.insurancePayTemp.comMediFixed) *
             10
-        ) / 10 || 0.00
+        ) / 10 || 0.0
       );
     },
     _perUnem: function() {
@@ -427,7 +428,7 @@ export default {
             this.insurancePayTemp.perUnemRate +
             this.insurancePayTemp.perUnemFixed) *
             10
-        ) / 10 || 0.00
+        ) / 10 || 0.0
       );
     },
     _comUnem: function() {
@@ -437,7 +438,7 @@ export default {
             this.insurancePayTemp.comUnemRate +
             this.insurancePayTemp.comUnemFixed) *
             10
-        ) / 10 || 0.00
+        ) / 10 || 0.0
       );
     },
     _perEmpl: function() {
@@ -447,7 +448,7 @@ export default {
             this.insurancePayTemp.perEmplRate +
             this.insurancePayTemp.perEmplFixed) *
             10
-        ) / 10 || 0.00
+        ) / 10 || 0.0
       );
     },
     _comEmpl: function() {
@@ -457,7 +458,7 @@ export default {
             this.insurancePayTemp.comEmplRate +
             this.insurancePayTemp.comEmplFixed) *
             10
-        ) / 10 || 0.00
+        ) / 10 || 0.0
       );
     },
     _perMate: function() {
@@ -467,7 +468,7 @@ export default {
             this.insurancePayTemp.perMateRate +
             this.insurancePayTemp.perMateFixed) *
             10
-        ) / 10 || 0.00
+        ) / 10 || 0.0
       );
     },
     _comMate: function() {
@@ -477,7 +478,7 @@ export default {
             this.insurancePayTemp.comMateRate +
             this.insurancePayTemp.comMateFixed) *
             10
-        ) / 10 || 0.00
+        ) / 10 || 0.0
       );
     },
     _perHouse: function() {
@@ -487,7 +488,7 @@ export default {
             this.insurancePayTemp.perHousRate +
             this.insurancePayTemp.perHousFixed) *
             10
-        ) / 10 || 0.00
+        ) / 10 || 0.0
       );
     },
     _comHouse: function() {
@@ -497,7 +498,7 @@ export default {
             this.insurancePayTemp.comHousRate +
             this.insurancePayTemp.comHousFixed) *
             10
-        ) / 10 || 0.00
+        ) / 10 || 0.0
       );
     }
   },
@@ -575,9 +576,7 @@ export default {
     getCustClassList() {
       let self = this;
       self.$axios
-        .get(
-          "/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED"
-        )
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED")
         .then(res => {
           if (res.data.code === "S00000") {
             self.custClassList = res.data.data;
@@ -657,34 +656,69 @@ export default {
         this.$router.push("/payBaseInfo_setting");
       } else this.$message.error(res.retMsg);
     },
-    handleSave(addPayBaseInfoRules) {
-      this.$refs[addPayBaseInfoRules].validate(valid => {
+    handleSave() {
+      let rulesValid1 = false;
+      let rulesValid2 = false;
+
+      this.$refs.addPayBaseInfoRules1.validate(valid => {
         if (valid) {
-          console.log("触发上传时的addPayBaseInfo", this.addPayBaseInfo);
-          console.log("触发上传时的this.fileList:", this.fileList);
-          if (this.fileList.length != 0) {
-            this.$refs.upload.submit(); // 触发上传文件
-          } else {
-            let newPayBaseInfo = this.addPayBaseInfo;
-            console.log("newPayBaseInfo", newPayBaseInfo);
-            this.$axios
-              .post("/iem_hrm/pay/addPayBaseInfo", newPayBaseInfo)
-              .then(res => {
-                console.log(res);
-                if (res.data.code == "S00000") {
-                  this.$message({ type: "success", message: "操作成功!" });
-                  this.$router.push("/payBaseInfo_setting");
-                } else this.$message.error(res.data.retMsg);
-              })
-              .catch(() => {
-                this.$message.error("操作失败！");
-              });
-          }
+          rulesValid1 = true;
         } else {
           console.log("error submit!!");
+          this.$message({
+            type: "error",
+            message: "请确保必填信息填写正确!"
+          });
           return false;
         }
       });
+      this.$refs.addPayBaseInfoRules2.validate(valid => {
+        if (valid) {
+          rulesValid2 = true;
+        } else {
+          console.log("error submit!!");
+          if(rulesValid1 == true) {
+            this.$message({
+            type: "error",
+            message: "请确保必填信息填写正确!"
+          });
+          }
+          return false;
+        }
+      });
+
+      if (rulesValid1 && rulesValid2) {
+        console.log("触发上传时的addPayBaseInfo", this.addPayBaseInfo);
+        console.log("触发上传时的this.fileList:", this.fileList);
+        if (this.fileList.length != 0) {
+          this.$refs.upload.submit(); // 触发上传文件
+        } else {
+          let newPayBaseInfo = this.addPayBaseInfo;
+          for (var key in newPayBaseInfo) {
+            if (
+              newPayBaseInfo[key] == "" &&
+              key != "welcoeNo" &&
+              key != "attachm" &&
+              key != "remark"
+            ) {
+              newPayBaseInfo[key] = "0.00";
+            }
+          }
+          console.log("newPayBaseInfo", newPayBaseInfo);
+          this.$axios
+            .post("/iem_hrm/pay/addPayBaseInfo", newPayBaseInfo)
+            .then(res => {
+              console.log(res);
+              if (res.data.code == "S00000") {
+                this.$message({ type: "success", message: "操作成功!" });
+                this.$router.push("/payBaseInfo_setting");
+              } else this.$message.error(res.data.retMsg);
+            })
+            .catch(() => {
+              this.$message.error("操作失败！");
+            });
+        }
+      }
     }
   }
 };

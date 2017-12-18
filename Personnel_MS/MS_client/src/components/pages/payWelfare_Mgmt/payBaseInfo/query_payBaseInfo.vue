@@ -121,14 +121,6 @@ export default {
           console.log("error");
         });
     },
-    handlePayBaseInfoDetail(index, row) {
-      this.$router.push({
-        name: "detail_payBaseInfo",
-        params: {
-          userNo: row.userNo
-        }
-      });
-    },
     handleCurrentChange(val) {
       this.pageNum = val;
       this.getPayBaseInfoList(); //分页查询薪酬基数列表
@@ -225,13 +217,13 @@ export default {
         name: "add_payBaseInfo"
       });
     },
+    handlePayBaseInfoDetail(index, row) {
+      sessionStorage.setItem('payBaseInfo_userNo', row.userNo); 
+      this.$router.push("/detail_payBaseInfo");
+    },
     handleEdit(index, row) {
-      this.$router.push({
-        name: "edit_payBaseInfo",
-        params: {
-          userNo: row.userNo
-        }
-      });
+      sessionStorage.setItem('payBaseInfo_userNo', row.userNo); 
+      this.$router.push("/edit_payBaseInfo");
     },
     handleDelete(index, row) {
       this.$confirm("此操作将会删除该条薪酬基数信息, 是否继续?", "提示", {

@@ -5,7 +5,7 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">调薪基数修改</span>
-                <el-button type="primary" @click="handleSave('payChangeDetailRules')" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
@@ -141,7 +141,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">调整后薪酬基数信息</el-col>
-                <el-form :inline="true" :model="payChangeDetail" :rules="payChangeInfoRules" ref="payChangeDetailRules" :label-position="labelPosition"  label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="payChangeDetail" :rules="payChangeInfoRules" ref="payChangeDetailRules1" :label-position="labelPosition"  label-width="110px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="基本工资" prop="nWagesBase">
                             <el-input v-model="payChangeDetail.nWagesBase"></el-input>
@@ -225,7 +225,7 @@
                     <el-col :span="24">
                         <el-form-item label="保险缴纳标准" prop="nWelcoeNo">
                             <el-select v-model="payChangeDetail.nWelcoeNo" @change="nWelcoeNoChange">
-                                <el-option v-for="item in insurancePayTemplates" :label="item.applyName" :value="item.applyNo"></el-option>
+                                <el-option v-for="(item, index) in insurancePayTemplates" :label="item.applyName" :key="index" :value="item.applyNo"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col> 
@@ -292,7 +292,7 @@
                         </el-form-item>
                     </el-col>
                 </el-form>
-                <el-form :inline="true" :model="payChangeDetail" :rules="payChangeInfoRules" ref="payChangeDetailRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :model="payChangeDetail" :rules="payChangeInfoRules" ref="payChangeDetailRules2" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="24">
                         <el-form-item label="调薪说明" prop="remark">
                             <el-input type="textarea" v-model="payChangeDetail.remark"></el-input>
@@ -433,86 +433,122 @@ export default {
     },
     _perEndm: function() {
       return (
-        Math.round((Number(this.payChangeDetail.nEndmBase) *
-          this.insurancePayTemp.perEndmRate +
-          this.insurancePayTemp.perEndmFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.payChangeDetail.nEndmBase) *
+            this.insurancePayTemp.perEndmRate +
+            this.insurancePayTemp.perEndmFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comEndm: function() {
       return (
-        Math.round((Number(this.payChangeDetail.nEndmBase) *
-          this.insurancePayTemp.comEndmRate +
-          this.insurancePayTemp.comEndmFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.payChangeDetail.nEndmBase) *
+            this.insurancePayTemp.comEndmRate +
+            this.insurancePayTemp.comEndmFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _perMedi: function() {
       return (
-        Math.round((Number(this.payChangeDetail.nMediBase) *
-          this.insurancePayTemp.perMediRate +
-          this.insurancePayTemp.perMediFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.payChangeDetail.nMediBase) *
+            this.insurancePayTemp.perMediRate +
+            this.insurancePayTemp.perMediFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comMedi: function() {
       return (
-        Math.round((Number(this.payChangeDetail.nMediBase) *
-          this.insurancePayTemp.comMediRate +
-          this.insurancePayTemp.comMediFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.payChangeDetail.nMediBase) *
+            this.insurancePayTemp.comMediRate +
+            this.insurancePayTemp.comMediFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _perUnem: function() {
       return (
-        Math.round((Number(this.payChangeDetail.nUnemBase) *
-          this.insurancePayTemp.perUnemRate +
-          this.insurancePayTemp.perUnemFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.payChangeDetail.nUnemBase) *
+            this.insurancePayTemp.perUnemRate +
+            this.insurancePayTemp.perUnemFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comUnem: function() {
       return (
-        Math.round((Number(this.payChangeDetail.nUnemBase) *
-          this.insurancePayTemp.comUnemRate +
-          this.insurancePayTemp.comUnemFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.payChangeDetail.nUnemBase) *
+            this.insurancePayTemp.comUnemRate +
+            this.insurancePayTemp.comUnemFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _perEmpl: function() {
       return (
-        Math.round((Number(this.payChangeDetail.nEmplBase) *
-          this.insurancePayTemp.perEmplRate +
-          this.insurancePayTemp.perEmplFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.payChangeDetail.nEmplBase) *
+            this.insurancePayTemp.perEmplRate +
+            this.insurancePayTemp.perEmplFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comEmpl: function() {
       return (
-        Math.round((Number(this.payChangeDetail.nEmplBase) *
-          this.insurancePayTemp.comEmplRate +
-          this.insurancePayTemp.comEmplFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.payChangeDetail.nEmplBase) *
+            this.insurancePayTemp.comEmplRate +
+            this.insurancePayTemp.comEmplFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _perMate: function() {
       return (
-        Math.round((Number(this.payChangeDetail.nMateBase) *
-          this.insurancePayTemp.perMateRate +
-          this.insurancePayTemp.perMateFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.payChangeDetail.nMateBase) *
+            this.insurancePayTemp.perMateRate +
+            this.insurancePayTemp.perMateFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comMate: function() {
       return (
-        Math.round((Number(this.payChangeDetail.nMateBase) *
-          this.insurancePayTemp.comMateRate +
-          this.insurancePayTemp.comMateFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.payChangeDetail.nMateBase) *
+            this.insurancePayTemp.comMateRate +
+            this.insurancePayTemp.comMateFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _perHouse: function() {
       return (
-        Math.round((Number(this.payChangeDetail.nHouseBase) *
-          this.insurancePayTemp.perHousRate +
-          this.insurancePayTemp.perHousFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.payChangeDetail.nHouseBase) *
+            this.insurancePayTemp.perHousRate +
+            this.insurancePayTemp.perHousFixed) *
+            10
+        ) / 10 || 0
       );
     },
     _comHouse: function() {
       return (
-        Math.round((Number(this.payChangeDetail.nHouseBase) *
-          this.insurancePayTemp.comHousRate +
-          this.insurancePayTemp.comHousFixed)*10)/10 || 0
+        Math.round(
+          (Number(this.payChangeDetail.nHouseBase) *
+            this.insurancePayTemp.comHousRate +
+            this.insurancePayTemp.comHousFixed) *
+            10
+        ) / 10 || 0
       );
     }
   },
@@ -565,9 +601,7 @@ export default {
     getCustClassList() {
       let self = this;
       self.$axios
-        .get(
-          "/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED"
-        )
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED")
         .then(res => {
           console.log("CustClass", res);
           if (res.data.code === "S00000") {
@@ -607,55 +641,79 @@ export default {
       this.payChangeDetail.nWelcoeNo = val;
       this.getInsurancePayTemp(); //根据参数值计算保险缴纳标准
     },
-    handleSave(payChangeDetailRules) {
-      this.$refs[payChangeDetailRules].validate(valid => {
+    handleSave() {
+      let rulesValid1 = false;
+      let rulesValid2 = false;
+
+      this.$refs.payChangeDetailRules1.validate(valid => {
         if (valid) {
-          let editPayChangeDetail = {};
-          editPayChangeDetail.userNo = this.userNo;
-          editPayChangeDetail.applyNo = this.payChangeDetail.applyNo;
-          editPayChangeDetail.nWagesBase = this.payChangeDetail.nWagesBase;
-          editPayChangeDetail.nWagesPerf = this.payChangeDetail.nWagesPerf;
-          editPayChangeDetail.nPostPension = this.payChangeDetail.nPostPension;
-          editPayChangeDetail.nPhonePension = this.payChangeDetail.nPhonePension;
-          editPayChangeDetail.nTrafficPension = this.payChangeDetail.nTrafficPension;
-          editPayChangeDetail.nLivingPension = this.payChangeDetail.nLivingPension;
-          editPayChangeDetail.nAttendanceBonus = this.payChangeDetail.nAttendanceBonus;
-          editPayChangeDetail.nSeniorityPay = this.payChangeDetail.nSeniorityPay;
-          editPayChangeDetail.nOvertimePay = this.payChangeDetail.nOvertimePay;
-          editPayChangeDetail.nOtherPension = this.payChangeDetail.nOtherPension;
-          editPayChangeDetail.nEndmBase = this.payChangeDetail.nEndmBase;
-          editPayChangeDetail.nMediBase = this.payChangeDetail.nMediBase;
-          editPayChangeDetail.nUnemBase = this.payChangeDetail.nUnemBase;
-          editPayChangeDetail.nEmplBase = this.payChangeDetail.nEmplBase;
-          editPayChangeDetail.nMateBase = this.payChangeDetail.nMateBase;
-          editPayChangeDetail.nHouseBase = this.payChangeDetail.nHouseBase;
-          editPayChangeDetail.nWelcoeNo = this.payChangeDetail.nWelcoeNo;
-          editPayChangeDetail.remark = this.payChangeDetail.remark;
-          editPayChangeDetail.updFlag = this.payChangeDetail.updFlag;
-          editPayChangeDetail.chageStatus = this.payChangeDetail.chageStatus;
-          console.log(editPayChangeDetail);
-          this.$axios
-            .put("/iem_hrm/epPayChageInf/modEpPayChageInf", editPayChangeDetail)
-            .then(res => {
-              console.log(res);
-              if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push({
-                  name: "query_payChangeInfo",
-                  params: {
-                    userNo: this.userNo
-                  }
-                });
-              } else this.$message.error(res.data.retMsg);
-            })
-            .catch(() => {
-              this.$message.error("操作失败！");
-            });
+          rulesValid1 = true;
         } else {
           console.log("error submit!!");
+          this.$message({
+            type: "error",
+            message: "请确保必填信息填写正确!"
+          });
           return false;
         }
       });
+      this.$refs.payChangeDetailRules2.validate(valid => {
+        if (valid) {
+          rulesValid2 = true;
+        } else {
+          console.log("error submit!!");
+          if (rulesValid1 == true) {
+            this.$message({
+              type: "error",
+              message: "请确保必填信息填写正确!"
+            });
+          }
+          return false;
+        }
+      });
+      if (rulesValid1 && rulesValid2) {
+        let editPayChangeDetail = {};
+        editPayChangeDetail.userNo = this.userNo;
+        editPayChangeDetail.applyNo = this.payChangeDetail.applyNo;
+        editPayChangeDetail.nWagesBase = this.payChangeDetail.nWagesBase;
+        editPayChangeDetail.nWagesPerf = this.payChangeDetail.nWagesPerf;
+        editPayChangeDetail.nPostPension = this.payChangeDetail.nPostPension;
+        editPayChangeDetail.nPhonePension = this.payChangeDetail.nPhonePension;
+        editPayChangeDetail.nTrafficPension = this.payChangeDetail.nTrafficPension;
+        editPayChangeDetail.nLivingPension = this.payChangeDetail.nLivingPension;
+        editPayChangeDetail.nAttendanceBonus = this.payChangeDetail.nAttendanceBonus;
+        editPayChangeDetail.nSeniorityPay = this.payChangeDetail.nSeniorityPay;
+        editPayChangeDetail.nOvertimePay = this.payChangeDetail.nOvertimePay;
+        editPayChangeDetail.nOtherPension = this.payChangeDetail.nOtherPension;
+        editPayChangeDetail.nEndmBase = this.payChangeDetail.nEndmBase;
+        editPayChangeDetail.nMediBase = this.payChangeDetail.nMediBase;
+        editPayChangeDetail.nUnemBase = this.payChangeDetail.nUnemBase;
+        editPayChangeDetail.nEmplBase = this.payChangeDetail.nEmplBase;
+        editPayChangeDetail.nMateBase = this.payChangeDetail.nMateBase;
+        editPayChangeDetail.nHouseBase = this.payChangeDetail.nHouseBase;
+        editPayChangeDetail.nWelcoeNo = this.payChangeDetail.nWelcoeNo;
+        editPayChangeDetail.remark = this.payChangeDetail.remark;
+        editPayChangeDetail.updFlag = this.payChangeDetail.updFlag;
+        editPayChangeDetail.chageStatus = this.payChangeDetail.chageStatus;
+        console.log(editPayChangeDetail);
+        this.$axios
+          .put("/iem_hrm/epPayChageInf/modEpPayChageInf", editPayChangeDetail)
+          .then(res => {
+            console.log(res);
+            if (res.data.code == "S00000") {
+              this.$message({ type: "success", message: "操作成功!" });
+              this.$router.push({
+                name: "query_payChangeInfo",
+                params: {
+                  userNo: this.userNo
+                }
+              });
+            } else this.$message.error(res.data.retMsg);
+          })
+          .catch(() => {
+            this.$message.error("操作失败！");
+          });
+      }
     }
   }
 };
