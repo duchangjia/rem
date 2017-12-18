@@ -231,7 +231,15 @@
 
 				},
 				//项目类型列表
-                projTypeList: [],
+                projTypeList: [
+					{paraValue: '01',paraShowMsg: '应用系统开发'},
+					{paraValue: '02',paraShowMsg: '软件产品开发'},
+					{paraValue: '03',paraShowMsg: '应用维护升级'},
+					{paraValue: '04',paraShowMsg: '系统集成'},
+					{paraValue: '05',paraShowMsg: '信息系统安全'},
+					{paraValue: '06',paraShowMsg: '咨询服务'},
+					{paraValue: '07',paraShowMsg: '其他'},
+				],
                 //收入类型列表
 				projIncmTypeList: [
 					{paraValue: '01',paraShowMsg: 'Pipeline'},
@@ -252,7 +260,10 @@
 					{paraValue: '04',paraShowMsg: '其他'}
 				],
 				//收入确认类型列表
-                incmConfimList: [],
+                incmConfimList: [
+					{paraValue: '01',paraShowMsg: '外包'},
+					{paraValue: '02',paraShowMsg: '固定金额'},
+				],
                 //订单类型列表
 				dindanTypeList: [
 					{label: '有薪加班', workotNo: '01'},

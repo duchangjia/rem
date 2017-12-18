@@ -210,7 +210,7 @@
                         type: 'warning'
                     }).then(() => {
                         //关闭项目
-                        self.updatedEnd();
+                        self.closeProj();
                     }).catch(() => {
                         self.$message({ type: 'info', message: '已取消操作' });          
                     });
@@ -240,13 +240,13 @@
                 })
             },
             //查询项目一览列表
-            updatedEnd() {
+            closeProj() {
                 let self = this;
                 let params = {
                     
                 };
                 console.log('params', params);
-                self.$axios.get( api.updateProj, {params: params})
+                self.$axios.get( api.closeProj, {params: params})
                 .then((res) => {
                     console.log('tableList',res);
                     if(res.data.code === "S00000") {
