@@ -5,7 +5,7 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">薪酬基数修改</span>
-                <el-button type="primary" @click="handleSave('editPayBaseInfoRules')" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
@@ -31,7 +31,6 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
-                            <!-- <el-input v-model="_custPost" :disabled="true"></el-input> -->
                             <el-select v-model="custInfo.custPost" :disabled="true">
                               <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
@@ -39,7 +38,6 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职级">
-                            <!-- <el-input v-model="_custClass" :disabled="true"></el-input> -->
                             <el-select v-model="custInfo.custClass" :disabled="true">
                               <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
@@ -49,7 +47,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">薪酬基数信息</el-col>
-                <el-form :inline="true" :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules1" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                       <el-form-item label="基本工资" prop="wagesBase">
                          <el-input v-model="editPayBaseInfo.wagesBase" @blur="wagesBaseChange"></el-input>
@@ -138,8 +136,7 @@
                     <el-col :sm="24" :md="12">
                       <el-form-item label="保险缴纳标准" prop="welcoeNo">
                             <el-select v-model="editPayBaseInfo.welcoeNo" @change="welcoeNoChange">
-                                <el-option v-for="item in insurancePayTemplates" :label="item.applyName" :value="item.applyNo"></el-option>
-
+                                <el-option v-for="(item, index) in insurancePayTemplates" :label="item.applyName" :key="index" :value="item.applyNo"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col> 
@@ -206,7 +203,7 @@
                         </el-form-item>
                     </el-col>
                 </el-form>
-                <el-form :inline="true" :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules2" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="24">
                         <el-form-item label="薪资超限说明" prop="remark">
                             <el-input type="textarea" v-model="editPayBaseInfo.remark"></el-input>
@@ -239,13 +236,20 @@ import current from "../../../common/current_position.vue";
 export default {
   data() {
     let validateWagesProb = (rule, value, callback) => {
-      if (Number(value) > Number(this.editPayBaseInfo.wagesBase)) {
-        callback(new Error("试用期工资应小于基本工资"));
-      } else if (value.match(/^([1-9]\d*|0)(\.\d{2})?$/) == null) {
-        callback(new Error("可精确到小数点后2位的正数"));
+      if (typeof value == "string") {
+        if (Number(value) > Number(this.editPayBaseInfo.wagesBase)) {
+          callback(new Error("试用期工资应小于基本工资"));
+        } else if (
+          value != "" &&
+          value.match(/^([1-9]\d*|0)(\.\d{2})?$/) == null
+        ) {
+          callback(new Error("可精确到小数点后2位的正数"));
+        }
+      } else if (typeof value == "number") {
+          callback();
       } else {
-        callback();
-      }
+          callback();
+        }
     };
     return {
       labelPosition: "right",
@@ -263,65 +267,48 @@ export default {
       insurancePayTemp: {},
       payBaseInfoRules: {
         wagesBase: [
-          // { required: true, message: "基本工资不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         wagesPerf: [
-          // { required: true, message: "绩效工资不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         postPension: [
-          // { required: true, message: "岗位补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         phonePension: [
-          // { required: true, message: "通讯补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         trafficPension: [
-          // { required: true, message: "交通补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         livingPension: [
-          // { required: true, message: "生活补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         overtimePay: [
-          // { required: true, message: "加班工资不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         otherPension: [
-          // { required: true, message: "其他补贴不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         endmBase: [
-          // { required: true, message: "养老保险基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         mediBase: [
-          // { required: true, message: "医疗保险基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         unemBase: [
-          // { required: true, message: "失业保险基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         emplBase: [
-          // { required: true, message: "工伤保险基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         mateBase: [
-          // { required: true, message: "生育保险基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
         houseBase: [
-          // { required: true, message: "公积金基数不能为空", trigger: "blur" },
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
-        wagesProb: [
-          // { required: true, message: "试用期工资不能为空", trigger: "blur" },
-          { validator: validateWagesProb, trigger: "blur" }
-        ],
+        wagesProb: [{ validator: validateWagesProb, trigger: "blur" }],
         welcoeNo: [{ required: true, message: "请选择保险缴纳标准", trigger: "change" }],
         remark: []
       }
@@ -331,8 +318,7 @@ export default {
     current
   },
   created() {
-    this.userNo = this.$route.params.userNo;
-    console.log("接到的userNo:", this.userNo);
+    this.userNo = sessionStorage.getItem("payBaseInfo_userNo");
     this.getCustInfo(); //初始查询用户信息
     this.getPayBaseInfoDetail(); //初始查询薪酬基数详情
     this.getCustPostList(); //查询岗位列表
@@ -615,46 +601,71 @@ export default {
       } else this.$message.error(res.retMsg);
     },
 
-    handleSave(editPayBaseInfoRules) {
-      this.$refs[editPayBaseInfoRules].validate(valid => {
+    handleSave() {
+      let rulesValid1 = false;
+      let rulesValid2 = false;
+
+      this.$refs.editPayBaseInfoRules1.validate(valid => {
         if (valid) {
-          let editPayBaseInfo = {};
-          editPayBaseInfo.userNo = this.editPayBaseInfo.userNo;
-          editPayBaseInfo.wagesBase = this.editPayBaseInfo.wagesBase;
-          editPayBaseInfo.wagesPerf = this.editPayBaseInfo.wagesPerf;
-          editPayBaseInfo.postPension = this.editPayBaseInfo.postPension;
-          editPayBaseInfo.phonePension = this.editPayBaseInfo.phonePension;
-          editPayBaseInfo.trafficPension = this.editPayBaseInfo.trafficPension;
-          editPayBaseInfo.livingPension = this.editPayBaseInfo.livingPension;
-          editPayBaseInfo.overtimePay = this.editPayBaseInfo.overtimePay;
-          editPayBaseInfo.otherPension = this.editPayBaseInfo.otherPension;
-          editPayBaseInfo.endmBase = this.editPayBaseInfo.endmBase;
-          editPayBaseInfo.mediBase = this.editPayBaseInfo.mediBase;
-          editPayBaseInfo.unemBase = this.editPayBaseInfo.unemBase;
-          editPayBaseInfo.emplBase = this.editPayBaseInfo.emplBase;
-          editPayBaseInfo.mateBase = this.editPayBaseInfo.mateBase;
-          editPayBaseInfo.houseBase = this.editPayBaseInfo.houseBase;
-          editPayBaseInfo.wagesProb = this.editPayBaseInfo.wagesProb;
-          editPayBaseInfo.welcoeNo = this.editPayBaseInfo.welcoeNo;
-          editPayBaseInfo.remark = this.editPayBaseInfo.remark;
-          console.log(editPayBaseInfo);
-          this.$axios
-            .put("/iem_hrm/pay/updatePayBaseInfo", editPayBaseInfo)
-            .then(res => {
-              console.log(res);
-              if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/payBaseInfo_setting");
-              } else this.$message.error(res.data.retMsg);
-            })
-            .catch(() => {
-              this.$message.error("操作失败！");
-            });
+          rulesValid1 = true;
         } else {
           console.log("error submit!!");
+          this.$message({
+            type: "error",
+            message: "请确保必填信息填写正确!"
+          });
           return false;
         }
       });
+      this.$refs.editPayBaseInfoRules2.validate(valid => {
+        if (valid) {
+          rulesValid2 = true;
+        } else {
+          console.log("error submit!!");
+          if (rulesValid1 == true) {
+            this.$message({
+              type: "error",
+              message: "请确保必填信息填写正确!"
+            });
+          }
+          return false;
+        }
+      });
+
+      if (rulesValid1 && rulesValid2) {
+        let editPayBaseInfo = {};
+        editPayBaseInfo.userNo = this.editPayBaseInfo.userNo;
+        editPayBaseInfo.wagesBase = this.editPayBaseInfo.wagesBase;
+        editPayBaseInfo.wagesPerf = this.editPayBaseInfo.wagesPerf;
+        editPayBaseInfo.postPension = this.editPayBaseInfo.postPension;
+        editPayBaseInfo.phonePension = this.editPayBaseInfo.phonePension;
+        editPayBaseInfo.trafficPension = this.editPayBaseInfo.trafficPension;
+        editPayBaseInfo.livingPension = this.editPayBaseInfo.livingPension;
+        editPayBaseInfo.overtimePay = this.editPayBaseInfo.overtimePay;
+        editPayBaseInfo.otherPension = this.editPayBaseInfo.otherPension;
+        editPayBaseInfo.endmBase = this.editPayBaseInfo.endmBase;
+        editPayBaseInfo.mediBase = this.editPayBaseInfo.mediBase;
+        editPayBaseInfo.unemBase = this.editPayBaseInfo.unemBase;
+        editPayBaseInfo.emplBase = this.editPayBaseInfo.emplBase;
+        editPayBaseInfo.mateBase = this.editPayBaseInfo.mateBase;
+        editPayBaseInfo.houseBase = this.editPayBaseInfo.houseBase;
+        editPayBaseInfo.wagesProb = this.editPayBaseInfo.wagesProb;
+        editPayBaseInfo.welcoeNo = this.editPayBaseInfo.welcoeNo;
+        editPayBaseInfo.remark = this.editPayBaseInfo.remark;
+        console.log(editPayBaseInfo);
+        this.$axios
+          .put("/iem_hrm/pay/updatePayBaseInfo", editPayBaseInfo)
+          .then(res => {
+            console.log(res);
+            if (res.data.code == "S00000") {
+              this.$message({ type: "success", message: "操作成功!" });
+              this.$router.push("/payBaseInfo_setting");
+            } else this.$message.error(res.data.retMsg);
+          })
+          .catch(() => {
+            this.$message.error("操作失败！");
+          });
+      }
     }
   }
 };

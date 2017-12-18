@@ -30,7 +30,6 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
-                            <!-- <el-input v-model="_custPost" :disabled="true"></el-input> -->
                             <el-select v-model="custInfo.custPost" :disabled="true">
                               <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
@@ -38,7 +37,6 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职级">
-                            <!-- <el-input v-model="_custClass" :disabled="true"></el-input> -->
                             <el-select v-model="custInfo.custClass" :disabled="true">
                               <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
@@ -137,7 +135,7 @@
                     <el-col :sm="24" :md="12">
                       <el-form-item label="保险缴纳标准">
                             <el-select v-model="payBaseInfoDetail.welcoeNo" @change="welcoeNoChange" :disabled="true">
-                                <el-option v-for="item in insurancePayTemplates" :label="item.applyName" :value="item.applyNo"></el-option>
+                                <el-option v-for="(item, index) in insurancePayTemplates" :label="item.applyName" :key="index" :value="item.applyNo"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col> 
@@ -259,7 +257,7 @@ export default {
     current
   },
   created() {
-    this.userNo = this.$route.params.userNo;
+    this.userNo = sessionStorage.getItem("payBaseInfo_userNo");
     this.getCustInfo(); //初始查询用户信息
     this.getPayBaseInfoDetail(); //初始查询薪酬基数信息
     this.getCustPostList(); //查询岗位列表

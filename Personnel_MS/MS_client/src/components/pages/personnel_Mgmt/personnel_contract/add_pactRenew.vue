@@ -8,25 +8,25 @@
                 <el-button type="primary" @click="handleSave('pactMsgRules')" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="oPRenewMsg" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同编号">
-                            <el-input v-model="oPRenewMsg.pactNo" :disabled="true"></el-input>
+                            <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同名称">
-                            <el-input v-model="oPRenewMsg.pactName" :disabled="true"></el-input>
+                            <el-input v-model="basicPactMsg.pactName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="上次生效时间">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="oPRenewMsg.signTime" :disabled="true" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactStartTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="上次到期时间">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="oPRenewMsg.pactStopTime" :disabled="true" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" v-model="basicPactMsg.pactEndTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -133,7 +133,7 @@ export default {
       userNo: "",
       pactNo: "",
       custInfo: {},
-      oPRenewMsg: {},
+      basicPactMsg: {},
       addPRenewMsg: {
         pactNo: "",
         renewTime: "",
@@ -191,7 +191,7 @@ export default {
       this.pactSubFlag = sessionStorage.getItem("contractInfo_pactSubFlag");
       this.activeName = "renewPactMsg";
     }
-    this.getPRenewDetail();
+    this.getPactDetail();
     this.getCustInfo();
   },
   computed: {
@@ -208,17 +208,16 @@ export default {
     }
   },
   methods: {
-    getPRenewDetail() {
+    getPactDetail() {
       const self = this;
       let params = {
-        pactNo: self.pactNo,
-        renewId: self.renewId
+        pactNo: self.pactNo
       };
       self.$axios
-        .get("/iem_hrm/pact/queryPactRenewDetail", { params: params })
+        .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
-          console.log('editPRenewMsg',res);
-          self.oPRenewMsg = res.data.data;
+          console.log('basicPactMsg',res);
+          self.basicPactMsg = res.data.data;
         })
         .catch(() => {
           console.log("error");
@@ -254,7 +253,7 @@ export default {
       this.$refs[pactMsgRules].validate(valid => {
         if (valid) {
           let newPRenew = {};
-          newPRenew.pactNo = this.oPRenewMsg.pactNo;
+          newPRenew.pactNo = this.basicPactMsg.pactNo;
           newPRenew.renewTime = this.addPRenewMsg.renewTime;
           newPRenew.renewCameTime = this.addPRenewMsg.renewCameTime;
           newPRenew.renewLostTime = this.addPRenewMsg.renewLostTime;

@@ -83,6 +83,7 @@ import current from "../../common/current_position.vue";
 export default {
   data() {
     return {
+      roleNo: "",
       roleDetail: {},
       editRoleMsg: {
         roleNo: "",
@@ -117,6 +118,7 @@ export default {
     current
   },
   created() {
+    this.roleNo = sessionStorage.getItem("roleMgmt_roleNo");
     this.queryRoleDetail(); // 查询角色详情
     this.queryParentMenu(); // 查询父级菜单
   },
@@ -124,7 +126,7 @@ export default {
     queryRoleDetail() {
       const self = this;
       let params = {
-        roleNo: self.$route.params.roleNo
+        roleNo: self.roleNo
       };
       console.log(params);
       self.$axios.get('/iem_hrm/role/queryRoleDetail', { params })

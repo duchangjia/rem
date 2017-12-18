@@ -55,7 +55,6 @@ export default {
       };
       self.$axios
         .get("/iem_hrm/role/queryRoleList", { params: params })
-        // .get("/iem_hrm/queryRoleList", { params: params })
         .then((res) => {
           console.log('roleList',res);
           self.roleListInfo = res.data.data.models;
@@ -67,25 +66,18 @@ export default {
         });
     },
     statusFormatter(row, column) {
-      return row.status == "1" ? "有效" : row.status == "0" ? "无效" : "异常";
+      return row.status == "1" ? "有效" : row.status == "0" ? "无效" : "";
     },
     handleCurrentChange(val) {
-      const self = this;
-      self.pageNum = val;
-      self.getRoleList(); //分页查询角色列表
+      this.pageNum = val;
+      this.getRoleList(); //分页查询角色列表
     },
     handleAdd() {
       this.$router.push("/add_role");
     },
     handleEdit(index, row) {
-      this.$router.push({
-        path: "/edit_role",
-        name: "edit_role",
-        params: {
-          roleNo: row.roleNo,
-          status: row.status
-        }
-      });
+      sessionStorage.setItem("roleMgmt_roleNo", row.roleNo); // 暂存当前roleNo
+      this.$router.push("/edit_role");
     },
     handleDelete(index, row) {
       let targetRole = {};
@@ -105,17 +97,17 @@ export default {
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "删除成功!" })
+                this.$message({ type: "success", message: "操作成功!" })
                 this.getRoleList();
               }
-              else this.$message.error("删除角色失败！");
+              else this.$message.error(res.data.retMsg);
             })
             .catch(() => {
-              this.$message.error("删除角色失败！");
+              this.$message.error("操作失败！");
             });
         })
         .catch(() => {
-          this.$message("您已取消删除角色！");
+          this.$message("您已取消操作！");
         });
     }
   }
