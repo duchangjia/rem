@@ -21,7 +21,7 @@
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="社保数据周期" prop="wageMonth">
-							<el-date-picker v-model="formdata2.wageMonth" type="month" placeholder="请选择" @change="changeWageMonth"  style="width:100%;" >
+							<el-date-picker v-model="formdata2.wageMonth" type="month" placeholder="请选择" @change="changeWageMonth" :editable="false" style="width:100%;" >
 						   	</el-date-picker>
 						</el-form-item>
 					</el-col>
