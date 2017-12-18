@@ -27,7 +27,7 @@
 					</el-col>-->
 					<el-col :sm="12" :md="6">
 						<el-form-item label="工资月份" prop="startDate">
-							<el-date-picker v-model="ruleForm2.startDate" type="month" placeholder="请选择" @change="changeStartTime"></el-date-picker>
+							<el-date-picker v-model="ruleForm2.startDate" type="month" placeholder="请选择" @change="changeStartTime" :editable="false"></el-date-picker>
 						</el-form-item>
 					</el-col>
 					<el-col :sm="12" :md="6">

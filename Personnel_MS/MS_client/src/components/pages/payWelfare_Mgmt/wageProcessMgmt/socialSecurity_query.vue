@@ -31,6 +31,7 @@
 						      type="month"
 						      placeholder="选择日期"
 						      @change="changeStartTime"
+							   :editable="false"
 						     >
 						   	</el-date-picker> -
 							<el-date-picker
@@ -38,6 +39,7 @@
 						      type="month"
 						      placeholder="选择日期"
 						      @change="changeEndTime"
+							   :editable="false"
 						     >
 						   </el-date-picker>
 						</el-form-item>

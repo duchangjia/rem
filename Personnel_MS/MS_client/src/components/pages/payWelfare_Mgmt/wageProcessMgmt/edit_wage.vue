@@ -30,19 +30,19 @@
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工资月份" prop="month">
-							<el-date-picker type="month" v-model="formdata2.month" placeholder="请选择" @change="changeWageMonth" style="width:100%;">
+							<el-date-picker type="month" v-model="formdata2.month" placeholder="请选择" @change="changeWageMonth" :editable="false" style="width:100%;">
 						   	</el-date-picker>
 						</el-form-item>
 					</el-col>
 					  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="结算开始日期" prop="settleStartTime">
-				        	<el-date-picker type="date" v-model="formdata2.settleStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata2.settleStartTime" @change="changeStartTime" :editable="false" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="结算结束日期" prop="settleEndTime">
-				        	<el-date-picker type="date" v-model="formdata2.settleEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata2.settleEndTime" @change="changeEndTime" :editable="false" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col> 
 					<el-col :span="24">

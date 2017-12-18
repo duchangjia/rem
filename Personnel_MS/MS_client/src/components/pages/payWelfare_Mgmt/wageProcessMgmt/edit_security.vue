@@ -133,7 +133,7 @@ export default {
 	data() {
 		return {
 			userInfo: {},
-			socialData: {countPerEndmPay: 0},
+			socialData: {},
 			//岗位列表
 			custPostList: [],
 			//职级列表
@@ -273,6 +273,9 @@ export default {
 					self.socialData = res.data.data;
 					for(let k in self.socialData) {
 						self.socialData[k] = self.socialData[k] + '';
+						if(self.socialData[k] === '') {
+							self.socialData[k] = '0';
+						}
 					}
 
 				}
