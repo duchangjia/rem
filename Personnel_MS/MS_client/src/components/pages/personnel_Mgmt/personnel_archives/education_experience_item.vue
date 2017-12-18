@@ -1,6 +1,6 @@
 <template>
     <div style="margin-top: 30px; position: relative">
-        <el-form :model="ruleForm" :rules="rules" label-width="100px" :ref="`workItem${index}`" :class="{'bg_color':!ruleForm.isShowEdit,'bg_color2':ruleForm.isShowEdit}">
+        <el-form :model="ruleForm" :rules="rules" label-width="100px" :ref="`fourth${index}`" :class="{'bg_color':!ruleForm.isShowEdit,'bg_color2':ruleForm.isShowEdit}">
             <i :class="{'el-icon-close':!ruleForm.isShowEdit,'el-icon-edit':ruleForm.isShowEdit}" @click="delOrEdit(ruleForm.isShowEdit,index)" class="fifthIcon"></i>
             <el-col :md="12" :sm="24">
                 <div style="display: flex">
@@ -8,27 +8,36 @@
                         <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.startTime" :disabled="ruleForm.isShowEdit"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
-                        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.endTime" :disabled="ruleForm.isShowEdit"　:picker-options="pickerOptions"></el-date-picker>
+                        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.endTime" :disabled="ruleForm.isShowEdit" :picker-options="pickerOptions"></el-date-picker>
                     </el-form-item>
                 </div>
             </el-col>
             <el-col :md="12" :sm="24">
-                <el-form-item label="公司" prop="company">
-                    <el-input v-model="ruleForm.company" :disabled="ruleForm.isShowEdit"></el-input>
+                <el-form-item label="学校名称" prop="schoolName">
+                    <el-input v-model="ruleForm.schoolName" :disabled="ruleForm.isShowEdit"></el-input>
                 </el-form-item>
             </el-col>
             <el-col :md="12" :sm="24">
-                <el-form-item label="职务" prop="post1">
-                    <el-input v-model="ruleForm.post1" :disabled="ruleForm.isShowEdit"></el-input>
+                <el-form-item label="专业" prop="major">
+                    <el-input v-model="ruleForm.major" :disabled="ruleForm.isShowEdit"></el-input>
                 </el-form-item>
             </el-col>
             <el-col :md="12" :sm="24">
-                <el-form-item label="职责" prop="duty">
-                    <el-input v-model="ruleForm.duty" :disabled="ruleForm.isShowEdit"></el-input>
+                <el-form-item label="学历" prop="education">
+                    <el-select v-model="ruleForm.education" :disabled="ruleForm.isShowEdit">
+                        <el-option value="01" label="高中以下"></el-option>
+                        <el-option value="02" label="高中"></el-option>
+                        <el-option value="03" label="大专"></el-option>
+                        <el-option value="04" label="本科"></el-option>
+                        <el-option value="05" label="硕士"></el-option>
+                        <el-option value="06" label="博士"></el-option>
+                        <el-option value="07" label="博士以上"></el-option>
+                        <el-option value="99" label="其他"></el-option>
+                    </el-select>
                 </el-form-item>
             </el-col>
             <el-col :md="24" :sm="24">
-                <el-form-item label="工作描述" prop="desc" class="fifth_common">
+                <el-form-item label="描述" class="fifth_common">
                     <el-input type="textarea" v-model="ruleForm.desc" :disabled="ruleForm.isShowEdit"></el-input>
                 </el-form-item>
             </el-col>
@@ -55,9 +64,9 @@
                 ruleForm: {
                     startTime: '',
                     endTime: '',
-                    company: '',
-                    post1: '',
-                    duty: '',
+                    schoolName: '',
+                    major: '',
+                    education: '',
                     desc: '',
                     isShowEdit: false
                 },
@@ -68,17 +77,14 @@
                     endTime: [
                         {type:'date', required: true, message: '请选择日期', trigger: 'change'}
                     ],
-                    company: [
-                        {required: true, message: '请输入公司', trigger: 'blur'}
+                    schoolName: [
+                        {required: true, message: '请输入学校名称', trigger: 'blur'}
                     ],
-                    post1: [
-                        {required: true, message: '请输入职务', trigger: 'blur'}
+                    major: [
+                        {required: true, message: '请输入专业', trigger: 'blur'}
                     ],
-                    duty: [
-                        {required: true, message: '请输入职责', trigger: 'blur'}
-                    ],
-                    desc: [
-                        {required: true, message: '请输入工作描述', trigger: 'blur'}
+                    education: [
+                        {required: true, message: '请选择学历', trigger: 'change'}
                     ],
                 }
             }
@@ -86,7 +92,7 @@
         methods: {
             checkValue() {
                 let self = this
-                this.$refs['workItem'+this.index].validate((valid) => {
+                this.$refs['educationItem'+this.index].validate((valid) => {
                     if (valid) {
                         self.$emit('pass_validate', 1)
                     }else {

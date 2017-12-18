@@ -3,7 +3,7 @@
         <div :class="{'bg_color':!ruleFrom.isShowEdit,'bg_color2':ruleFrom.isShowEdit}">
             <el-form :model="ruleFrom" :rules="rules" :ref="`ruleFrom${relationNum}`" label-width="100px">
                 <div class="title">
-                    <span v-show="false">关系人{{relationNumber}}</span><i :class="{'el-icon-close':!ruleFrom.isShowEdit,'el-icon-edit':ruleFrom.isShowEdit}" @click="delOrEdit(ruleFrom.isShowEdit,relationNum)"></i>
+                    <i :class="{'el-icon-close':!ruleFrom.isShowEdit,'el-icon-edit':ruleFrom.isShowEdit}" @click="delOrEdit(ruleFrom.isShowEdit,relationNum)"></i>
                 </div>
                 <el-col :md="8" :sm="12">
                     <el-form-item label="姓名" prop="contactName">
@@ -61,11 +61,6 @@
                 type: Number,
                 default: 0
             },
-        },
-        computed: {
-            relationNumber() {
-                return this.relationNum*1+1
-            }
         },
         data() {
             return {
@@ -174,6 +169,11 @@
                 left 30px
         .social-address
             .address_special
-                width 91%
-                max-width 600px
+                width: 93%;
+                max-width: 612px;
+        @-moz-document url-prefix()
+            .social-address
+                .address_special
+                    width: 91%;
+                    max-width: 624px;
 </style>
