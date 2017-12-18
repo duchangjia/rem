@@ -38,7 +38,9 @@
 						    <el-input v-model="userInfo.custClass" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>
-					<el-col :span="24" class="item-title">详情信息</el-col>
+					<el-col :span="24" class="item-title">详情信息
+						<span class="item-title-tips">提示:（1）输入框中反显值为财务人员依据社保局导入数据展示；（2）如果系统计算值与社保局导入数据不一致时，输入框下方区域红色高亮显示；</span>
+					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="养老保险(个人)" prop="perEndmPay" class="formLeft">
 					      	<el-input type="text" placeholder="" v-model.number="socialData.perEndmPay"></el-input>
@@ -227,6 +229,7 @@ export default {
 			let params = {
 				userNo: userNo
 			}
+			console.log('userNO', params.userNo);
 			self.$axios.get(baseURL+'/wage/queryCustInfoByUserNo' ,{params: params})
 			.then((res) => {
 				console.log('userInfo',res);
@@ -241,10 +244,13 @@ export default {
 			const self = this;
 			let idCard = sessionStorage.getItem('editSecurity_idCard');
 			let batchNo = sessionStorage.getItem('editSecurity_batchNo');
+			let month = sessionStorage.getItem('editSecurity_month');
 			let params = {
 				idCard: idCard,
-				batchNo: batchNo
+				batchNo: batchNo,
+				month: month
 			}
+			console.log('params', params);
 			self.$axios.get(baseURL+'/wage/queryDiffPay' ,{params: params})
 			.then((res) => {
 				console.log('socialInfo',res);
@@ -288,5 +294,8 @@ export default {
 .welfare_info .el-form-item__error {
     left: 105px;
 }
-
+.item-title-tips {
+	color: #999999;
+	padding-left: 20px;
+}
 </style>

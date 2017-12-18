@@ -51,8 +51,9 @@
 					<el-table-column prop="userName" label="姓名"></el-table-column>
 					<el-table-column prop="roleName" label="角色">
 						<template scope="scope">
-					        <span class="roleSpan" v-for="item in scope.row.roles" :key="item.roleName">{{ item.roleName }}</span>
+					        <span class="roleSpan" v-for="(item,i) in scope.row.roles" :key="i" style="padding:2px 10px; display: inline-block; ">{{ item.roleName }}</span>
 						</template>
+						<!-- <span v-show="i<scope.row.roles.length-1" style="padding-right:10px;">,</span> -->
 					</el-table-column>
 					<el-table-column prop="mobile" label="手机"></el-table-column>
 					<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
