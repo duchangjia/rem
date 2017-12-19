@@ -143,6 +143,20 @@ import messageBox from "../../../common/messageBox-components.vue";
 export default {
   data() {
     let that = this;
+    let validateStartTime = (rule, value, callback) => { 
+      if (value < that.addPactMsg.signTime) {
+        callback(new Error("合同开始日期不能早于签订日期"));
+      } else {
+        callback();
+      }
+    };
+    let validateEndTime = (rule, value, callback) => { 
+      if (value < that.addPactMsg.pactStartTime) {
+        callback(new Error("合同结束日期不能早于开始日期"));
+      } else {
+        callback();
+      }
+    };
     return {
       labelPosition: "right",
       custInfo: {},
@@ -176,17 +190,26 @@ export default {
 
       pactStartTimeOption: {
         disabledDate(time) {
-          return time.getTime() < new Date(that.addPactMsg.signTime).getTime() - 3600 * 1000 * 24;
+          return (
+            time.getTime() <
+            new Date(that.addPactMsg.signTime).getTime() - 3600 * 1000 * 24
+          );
         }
       },
       pactEndTimeOption: {
         disabledDate(time) {
-          return time.getTime() < new Date(that.addPactMsg.pactStartTime).getTime() - 3600 * 1000 * 24;
+          return (
+            time.getTime() <
+            new Date(that.addPactMsg.pactStartTime).getTime() - 3600 * 1000 * 24
+          );
         }
       },
       pactStopTimeOption: {
         disabledDate(time) {
-          return time.getTime() < new Date(that.addPactMsg.pactEndTime).getTime() - 3600 * 1000 * 24;
+          return (
+            time.getTime() <
+            new Date(that.addPactMsg.pactEndTime).getTime() - 3600 * 1000 * 24
+          );
         }
       },
 
@@ -195,13 +218,19 @@ export default {
         pactType: [{ required: true, message: "合同类型不能为空", trigger: "change" }],
         signTime: [{ required: true, message: "签订日期不能为空", trigger: "change" }],
         pactStartTime: [
-          { required: true, message: "合同开始日期不能为空", trigger: "change" }
+          { required: true, message: "合同开始日期不能为空", trigger: "change" },
+          { type: "date", validator: validateStartTime, trigger: "change" }
         ],
         pactEndTime: [
-          { required: true, message: "合同结束日期不能为空", trigger: "change" }
+          { required: true, message: "合同结束日期不能为空", trigger: "change" },
+          { type: "date", validator: validateEndTime, trigger: "change" }
         ],
-        pactStatus: [{ required: true, message: "合同状态不能为空", trigger: "change" }],
-        pactExpires: [{ required: true, message: "合同年限不能为空", trigger: "change" }]
+        pactStatus: [
+          { required: true, message: "合同状态不能为空", trigger: "change" }
+        ],
+        pactExpires: [
+          { required: true, message: "合同年限不能为空", trigger: "blur" }
+        ]
       }
     };
   },
@@ -294,7 +323,7 @@ export default {
             self.dialogVisible = false;
             self.custInfo = res.data.data;
             self.addPactMsg.userNo = self.custInfo.userNo;
-            console.log('custInfo', self.custInfo);
+            console.log("custInfo", self.custInfo);
           }
         })
         .catch(e => {
@@ -346,4 +375,5 @@ export default {
 </script>
 
 <style>
+
 </style>

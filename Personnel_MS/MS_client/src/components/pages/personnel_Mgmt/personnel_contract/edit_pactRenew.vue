@@ -123,6 +123,20 @@ import current from "../../../common/current_position.vue";
 export default {
   data() {
     let that = this;
+    let validateRenewCameTime = (rule, value, callback) => { 
+      if (value < that.editPRenewMsg.renewTime) {
+        callback(new Error("续签生效日期不能早于续签日期"));
+      } else {
+        callback();
+      }
+    };
+    let validateRenewLostTime = (rule, value, callback) => { 
+      if (value < that.editPRenewMsg.renewCameTime) {
+        callback(new Error("续签失效日期不能早于续签生效日期"));
+      } else {
+        callback();
+      }
+    };
     return {
       labelPosition: "right",
       activeName: "renewPactMsg",
@@ -150,25 +164,15 @@ export default {
       },
       pactMsgRules: {
         renewTime: [
-          {
-            required: true,
-            message: "请选择续签日期",
-            trigger: "change"
-          }
+          { required: true, message: "请选择续签日期", trigger: "change" }
         ],
         renewCameTime: [
-          {
-            required: true,
-            message: "请选择续签生效日期",
-            trigger: "change"
-          }
+          { required: true, message: "请选择续签生效日期", trigger: "change" },
+          { type: "date", validator: validateRenewCameTime, trigger: "change" }
         ],
         renewLostTime: [
-          {
-            required: true,
-            message: "请选择续签失效日期",
-            trigger: "change"
-          }
+          { required: true, message: "请选择续签失效日期", trigger: "change" },
+          { type: "date", validator: validateRenewLostTime, trigger: "change" }
         ],
         renewType: [{ required: true, message: "请选择续签类别", trigger: "blur" }],
         renewContent: [{ required: true, message: "请输入续签内容", trigger: "blur" }]
