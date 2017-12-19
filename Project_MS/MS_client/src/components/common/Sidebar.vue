@@ -84,6 +84,10 @@ export default {
 							menuUrl: 'proSetUp',
 							menuName: '项目立项'
 						},
+						{
+							menuUrl: 'proAcceptance',
+							menuName: '项目验收'
+						}
 					]
 				},
 				{

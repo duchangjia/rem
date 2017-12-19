@@ -64,11 +64,11 @@
                     </el-table-column>
                     <el-table-column align="center" prop="projName" label="项目名称" >
                     </el-table-column>
-                    <el-table-column align="center" prop="projStatus" label="项目状态">
+                    <el-table-column align="center" prop="projStatus" label="项目状态" :formatter="projStatusFormatter">
                     </el-table-column>
-                    <el-table-column align="center" prop="projIncmType" label="收入类型" >
+                    <el-table-column align="center" prop="projIncmType" label="收入类型" :formatter="projIncmTypeFormatter">
                     </el-table-column>
-                    <el-table-column align="center" prop="projIncmConfim" label="收入确认类型" >
+                    <el-table-column align="center" prop="projIncmConfim" label="收入确认类型" :formatter="projIncmConfimFormatter">
                     </el-table-column>
                     <el-table-column align="center" prop="projSaleName" label="销售" >
                     </el-table-column>
@@ -118,20 +118,7 @@
                         projName:'赚钱项目',
                         projStatus:'01',
                         projIncmType:'02',
-                        projIncmConfim:'03',
-                        projSaleName:'周杰伦',
-                        projSaleLinemgr:'马经理',
-                        projImpBegdate:'2017-12-12',
-                        projImpEndate:'2017-12-13'
-                    },
-                    {
-                        projImpDepno:'1002',
-                        oppoNo:'100XXX',
-                        projNo:'1002020',
-                        projName:'赚钱项目',
-                        projStatus:'01',
-                        projIncmType:'02',
-                        projIncmConfim:'03',
+                        projIncmConfim:'02',
                         projSaleName:'周杰伦',
                         projSaleLinemgr:'马经理',
                         projImpBegdate:'2017-12-12',
@@ -143,7 +130,6 @@
                     pageSize:10,
                     total:1
                 },
-               
                 dropDownList:[
                     {
                         name:'项目详情',
@@ -178,21 +164,26 @@
            self.queryprojList();
 		},
         methods:{
+            projStatusFormatter(row, column) {
+                return row.projStatus=='01' ? '售前' : row.projStatus=='02' ? '实施' : row.projStatus=='03' ? '结束' : '';
+            },
+            projIncmTypeFormatter(row, column) {
+                return row.projIncmType=='01'? 'Pipeline' : row.projIncmType=='02' ? 'EATP' : row.projIncmType=='03' ? 'Frotlog' : row.projIncmType=='04' ? 'Backlog' : '';
+            },
+            projIncmConfimFormatter(row, column) {
+                return row.projIncmConfim=='01'? '外包' : row.projIncmConfim=='02' ? '固定金额' : '';
+            },
+            //重置
             resetForm(){
                 let self = this;
                 self.searchInfo = {};
             },
+            //点击查询
             search(){
                 let self = this;
                 self.queryprojList();
-                    // params = self.searchInfo;
-                    // console.log(params);
-                // self.$axios.get(queryProjList).then(res=>{
-                //     console.log(res);
-                // }).catch(e=>{
-
-                // })
             },
+            //分页
             handleCurrentChange(val){
                 console.log(val)
             },
