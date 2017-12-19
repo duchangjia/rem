@@ -144,61 +144,61 @@
                 <el-form :inline="true" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险(个人)">
-                            <el-input v-model="_perEndm"></el-input>
+                            <el-input v-model="_perEndm" :readonly="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险(单位)">
-                            <el-input v-model="_comEndm"></el-input>
+                            <el-input v-model="_comEndm" :readonly="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="医疗保险(个人)">
-                            <el-input v-model="_perMedi"></el-input>
+                            <el-input v-model="_perMedi" :readonly="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="医疗保险(单位)">
-                            <el-input v-model="_comMedi"></el-input>
+                            <el-input v-model="_comMedi" :readonly="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="失业保险(个人)">
-                            <el-input v-model="_perUnem"></el-input>
+                            <el-input v-model="_perUnem" :readonly="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="失业保险(单位)">
-                            <el-input v-model="_comUnem"></el-input>
+                            <el-input v-model="_comUnem" :readonly="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工伤保险(个人)">
-                            <el-input v-model="_perEmpl"></el-input>
+                            <el-input v-model="_perEmpl" :readonly="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工伤保险(单位)">
-                            <el-input v-model="_comEmpl"></el-input>
+                            <el-input v-model="_comEmpl" :readonly="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="生育保险(个人)">
-                            <el-input v-model="_perMate"></el-input>
+                            <el-input v-model="_perMate" :readonly="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="生育保险(单位)">
-                            <el-input v-model="_comMate"></el-input>
+                            <el-input v-model="_comMate" :readonly="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="公积金(个人)">
-                            <el-input v-model="_perHouse"></el-input>
+                            <el-input v-model="_perHouse" :readonly="true"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="公积金(单位)">
+                        <el-form-item label="公积金(单位)" :readonly="true">
                             <el-input v-model="_comHouse"></el-input>
                         </el-form-item>
                     </el-col>
