@@ -86,6 +86,9 @@
         </el-form>
       </div>
       <div class="add-wrapper">
+        <el-col :span="24" class="subtitlebar"><span class="title-text">客户联系人</span>
+          <el-button type="text" class="addBtn" @click="addCustContact" >新增</el-button>
+        </el-col> 
         <el-table stripe :data="custContactList" border>
           <el-table-column align="center" prop="userNo" label="姓名">
           </el-table-column>
@@ -110,6 +113,9 @@
         </el-pagination>
       </div>
       <div class="add-wrapper">
+        <el-col :span="24" class="subtitlebar"><span class="title-text">公司销售信息</span>
+          <el-button type="text" class="addBtn" @click="addSalesInfo">新增</el-button>
+        </el-col>
         <el-table stripe :data="salesInfoList" border>
           <el-table-column align="center" prop="userNo" label="姓名">
           </el-table-column>
@@ -177,6 +183,14 @@ export default {
     handleSalesInfoPage(val) {
       this.salesInfoPage.pageNum = val;
       this.getSalesInfoList(); //分页查询公司销售信息列表
+    },
+    // 新增客户联系人
+    addCustContact() {
+
+    },
+    // 新增公司销售信息
+    addSalesInfo() {
+
     },
     handleSave(editCustForm) {
       this.$refs[editCustForm].validate(valid => {
