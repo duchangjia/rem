@@ -174,7 +174,7 @@
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="直线经理" class="line-manager">
-                                                <el-input v-model="ruleForm.lineManager" readOnly>
+                                                <el-input v-model="ruleForm.lineManager" placeholder="请选择员工编号" :readonly="true">
                                                     <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
                                                 </el-input>
                                                 <messageBox
@@ -321,7 +321,7 @@
                                         </el-col>
                                         <el-col :md="9" :sm="24">
                                                 <el-form-item label="附件">
-                                                    <el-input v-model="ruleForm.attachm" style="position:absolute" readOnly></el-input>
+                                                    <el-input v-model="ruleForm.attachm" style="position:absolute" :readOnly="true"></el-input>
                                                     <el-upload class="upload-demo" ref="upload" name="file"
                                                                action="/iem_hrm/CustInfo/insertCustInfo"
                                                                :show-file-list="false"
@@ -356,69 +356,18 @@
                                 <div class="third-wrapper">
                                     <div class="title"><span>工作经历</span><span class="text" @click="add_item">继续添加</span></div>
                                     <div class="from-wrapper">
-                                        <workItem v-for="(item, index) in work_item" :index="index"
+                                        <workItem v-for="(item, index) in work_item" :index="index" :ruleForm="item"
                                                   @del_item="delRelationItem" @pass_validate="passValidate"
                                                   :ref="`workItem${index}`">
                                         </workItem>
                                     </div>
-                                    <!--<div class="from-wrapper">-->
-                                            <!--<el-form :model="ruleForm4" :rules="rules4" ref="ruleForm4" label-width="100px">-->
-                                                <!--<el-form-item label="公司名称" prop="companyName">-->
-                                                    <!--<el-input v-model="ruleForm4.companyName"></el-input>-->
-                                                <!--</el-form-item>-->
-                                                <!--<el-form-item label="职位" prop="position" class="position_special">-->
-                                                    <!--<el-input v-model="ruleForm4.position"></el-input>-->
-                                                <!--</el-form-item>-->
-                                                <!--<el-form-item label="工作时间" prop="workTime1" class="workTime_common">-->
-                                                    <!--<el-date-picker type="date" placeholder="选择日期" v-model="ruleForm4.workTime1"></el-date-picker>-->
-                                                <!--</el-form-item>-->
-                                                <!--<el-form-item label="至" prop="workTime2" class="workTime_common workTime_special">-->
-                                                    <!--<el-date-picker type="date" v-model="ruleForm4.workTime2" placeholder="选择日期"></el-date-picker>-->
-                                                <!--</el-form-item>-->
-                                                <!--<el-form-item label="工作描述" prop="workDes">-->
-                                                    <!--<el-input v-model="ruleForm4.workDes" type="textarea" class="workDes_special"></el-input>-->
-                                                <!--</el-form-item>-->
-                                                <!--<div class="button-wrapper">-->
-                                                    <!--<button>保存</button>-->
-                                                    <!--<button class="button_special">取消</button>-->
-                                                    <!--<span @click="delWorkItem">删除本条</span>-->
-                                                <!--</div>-->
-                                            <!--</el-form>-->
-                                    <!--</div>-->
-                                    <!--<div class="work_list">-->
-                                        <!--<div class="mask"></div>-->
-                                        <!--<div class="line1">-->
-                                            <!--<div class="line1_title">-->
-                                                <!--<span class="circle"></span>-->
-                                                <!--<span>深圳前海橙色魔方技术有限公司</span>-->
-                                                <!--<span class="line1_time">2015/09 - 2017/10<i class="el-icon-edit"></i></span>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="zhiwei">UI设计师</div>-->
-                                        <!--<div class="description">-->
-                                            <!--这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--<div class="work_list">-->
-                                        <!--<div class="line1">-->
-                                            <!--<div class="line1_title">-->
-                                                <!--<span class="circle"></span>-->
-                                                <!--<span>深圳前海橙色魔方技术有限公司</span>-->
-                                                <!--<span class="line1_time">2015/09 - 2017/10<i class="el-icon-edit"></i></span>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="zhiwei">UI设计师</div>-->
-                                        <!--<div class="description">-->
-                                            <!--这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里-->
-                                        <!--</div>-->
-                                    <!--</div>-->
                                 </div>
                             </el-tab-pane>
                             <el-tab-pane label="教育背景" name="fourth">
                                 <div class="fourth-wrapper">
                                     <div class="title"><span>教育背景</span><span  class="text" @click="add_item">继续添加</span></div>
                                     <div class="from-wrapper">
-                                        <educationItem v-for="(item, index) in education_item" :index="index"
+                                        <educationItem v-for="(item, index) in education_item" :index="index" :ruleForm="item"
                                                   @del_item="delRelationItem" @pass_validate="passValidate"
                                                   :ref="`educationItem${index}`">
                                         </educationItem>
@@ -429,7 +378,7 @@
                                 <div class="fifth-wrapper">
                                     <div class="title"><span>项目经历</span><span class="text" @click="add_item">继续添加</span></div>
                                     <div class="from-wrapper">
-                                        <projectItem v-for="(item, index) in project_item" :index="index"
+                                        <projectItem v-for="(item, index) in project_item" :index="index" :ruleForm="item"
                                                        @del_item="delRelationItem" @pass_validate="passValidate"
                                                        :ref="`projectItem${index}`">
                                         </projectItem>
@@ -566,6 +515,7 @@
               ],
                 //员工基础信息数据
               ruleForm: {
+                  avatarFlag:'',
                   custName: '',
                   certNo: '',
                   certType: '',
@@ -613,6 +563,7 @@
                   housAcct: '',
                   remark: '',
                   attachm: '',
+                  attachmFlag: '',
               },
               rules: {
                   custName: [
@@ -751,9 +702,12 @@
                             },
                         ],
                         this.fileList2 = []
-                        this.$refs.workItem0[0].resetForm()
-                        this.$refs.educationItem0[0].resetForm()
-                        this.$refs.projectItem0[0].resetForm()
+//                        this.$refs.workItem0[0].ruleForm.isShowEdit = false
+//                        this.$refs.educationItem0[0].ruleForm.isShowEdit = false
+//                        this.$refs.projectItem0[0].ruleForm.isShowEdit = false
+//                        this.$refs.workItem0[0].resetForm()
+//                        this.$refs.educationItem0[0].resetForm()
+//                        this.$refs.projectItem0[0].resetForm()
                     }
                 },
             },
@@ -814,7 +768,9 @@
                     return isLt2M
                 }
                 // 标记头像上传是否需要触发
-                this.ruleForm.avatar = true
+                if(this.ruleForm.avatarName == file.name) return
+                this.ruleForm.avatarFlag = true
+                this.ruleForm.avatarName = file.name
                 this.imageUrl = URL.createObjectURL(file.raw);
             },
             handleAvatarSuccess(res, file) {
@@ -825,7 +781,6 @@
                         type: 'success',
                         message: result
                     });
-                    this.ruleForm.avatar = ''
                 } else {
                     this.$message({
                         type: 'error',
@@ -835,51 +790,53 @@
             },
             //证件方法
             handleRemove(file, fileList) {
-                console.log(fileList,this.fileList2,file)
-                let index = this.fileList2.indexOf(file)
-                fileList.splice(index,0,file)
-                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    if(file.response&&file.response.data[0]){
-                        let data = {
-                            userNo:file.response.data[0].userNo,
-                            imageId:file.response.data[0].imageId,
-                        }
-                        this.$axios.delete('/iem_hrm/CustFile/delCustFile',{params:data})
-                            .then(res=>{
-                                let result = res.data.retMsg
-                                if("操作成功"==result){
-                                    this.$message({
-                                        type: 'success',
-                                        message: result
-                                    });
-                                    fileList.splice(index,1)
-                                }else {
+                if(this.flag) {
+                    console.log(fileList,this.fileList2,file)
+                    let index = this.fileList2.indexOf(file)
+                    fileList.splice(index,0,file)
+                    this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        if(file.response&&file.response.data[0]){
+                            let data = {
+                                userNo:file.response.data[0].userNo,
+                                imageId:file.response.data[0].imageId,
+                            }
+                            this.$axios.delete('/iem_hrm/CustFile/delCustFile',{params:data})
+                                .then(res=>{
+                                    let result = res.data.retMsg
+                                    if("操作成功"==result){
+                                        this.$message({
+                                            type: 'success',
+                                            message: result
+                                        });
+                                        fileList.splice(index,1)
+                                    }else {
+                                        this.$message({
+                                            type: 'error',
+                                            message: result
+                                        });
+//                                    fileList.splice(index,0,file)
+                                    }
+                                })
+                                .catch(e=>{
                                     this.$message({
                                         type: 'error',
-                                        message: result
+                                        message: e.retMsg
                                     });
-//                                    fileList.splice(index,0,file)
-                                }
-                            })
-                            .catch(e=>{
-                                this.$message({
-                                    type: 'error',
-                                    message: e.retMsg
-                                });
-                                console.log(e)
+                                    console.log(e)
 //                                fileList.splice(index,0,file)
-                            })
-                    }
-                }).catch(()=>{
-                    this.$message({
-                        type: 'info',
-                        message: '已取消删除'
-                    });
-                })
+                                })
+                        }
+                    }).catch(()=>{
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    })
+                }
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
@@ -887,6 +844,7 @@
             },
             handleFileUpload(file, fileList) {
                 if(this.tabName == 'first') {
+                    if(this.ruleForm.attachm == file.name ) return
                     this.ruleForm.attachm = file.name
                     this.ruleForm.attachmFlag = true
                 }
@@ -898,8 +856,8 @@
                     console.log(response,'successUpload',response.data)
                     if('操作成功'==result){
                         self.uploadUserNo.userNo = this.userNo = response.data
-                        this.ruleForm.attachmFlag = false
-                        if(self.ruleForm.avatar){
+                        if(self.ruleForm.avatarFlag){
+                            self.ruleForm.avatarFlag = ''
                             console.log(self.uploadUserNo.userNo,'提交头像上传去了')
                             self.$refs.uploadAvatar.submit()
                         }else {
@@ -914,6 +872,7 @@
                     console.log(response,'????????successUpload????????',file,'????????successUpload????????',fileList)
                     if(response.code === "S00000") {
                         this.$message({ message: '操作成功', type: 'success' });
+                        this.flag = true
                         this.fileList2 = fileList
                     }else if(response.code === 'hrm_h0093') {
                         this.$message({
@@ -940,6 +899,7 @@
                             type: 'error',
                             message: '请先填写基本信息并点击右上角保存'
                         });
+                        this.flag = false
                         return false
                     }
                 }
@@ -1004,6 +964,7 @@
                     .then(res=>{
                         this.ruleForm.derpNo = ''
                         this.basicInfo.department = res.data.data
+                        this.ruleForm.ownerCCC = ''
                         this.basicInfo.CCC = ''
                     })
                     .catch(e=>{
@@ -1048,7 +1009,8 @@
                         }
                     })
                     if(rule1 && rule2) {
-                        if(this.ruleForm.attachm&&this.ruleForm.attachmFlag) {
+                        if(this.ruleForm.attachm && this.ruleForm.attachmFlag) {
+                            this.ruleForm.attachmFlag = ''
                             console.log(this.ruleForm,'upload')
                             self.$refs.upload.submit()
                         }else {
@@ -1064,8 +1026,9 @@
                                         });
                                         this.userNo = res.data.data
                                         self.uploadUserNo.userNo = this.userNo
-                                        if(self.ruleForm.avatar){
-                                            console.log('avatar',self.ruleForm.avatar,self.uploadUserNo)
+                                        if(self.ruleForm.avatarFlag){
+                                            self.ruleForm.avatarFlag = ''
+                                            console.log('avatar',self.ruleForm.avatarFlag,self.uploadUserNo)
                                             self.$refs.uploadAvatar.submit()
                                         }else {
                                             self.$message({
@@ -1082,6 +1045,10 @@
                                 })
                                 .catch(e=>{
                                     console.log(e)
+                                    self.$message({
+                                        type: 'error',
+                                        message: '添加失败,请稍后重试！'
+                                    });
                                 })
                         }
                     }
@@ -1129,6 +1096,10 @@
                             })
                             .catch(e=>{
                                 console.log(e)
+                                self.$message({
+                                    type: 'error',
+                                    message: '添加失败,请稍后重试！'
+                                });
                             })
                     }else {
                         self.$message({
@@ -1834,3 +1805,54 @@
                 &:focus
                     border-color #f90
 </style>
+<!--<div class="from-wrapper">-->
+<!--<el-form :model="ruleForm4" :rules="rules4" ref="ruleForm4" label-width="100px">-->
+<!--<el-form-item label="公司名称" prop="companyName">-->
+<!--<el-input v-model="ruleForm4.companyName"></el-input>-->
+<!--</el-form-item>-->
+<!--<el-form-item label="职位" prop="position" class="position_special">-->
+<!--<el-input v-model="ruleForm4.position"></el-input>-->
+<!--</el-form-item>-->
+<!--<el-form-item label="工作时间" prop="workTime1" class="workTime_common">-->
+<!--<el-date-picker type="date" placeholder="选择日期" v-model="ruleForm4.workTime1"></el-date-picker>-->
+<!--</el-form-item>-->
+<!--<el-form-item label="至" prop="workTime2" class="workTime_common workTime_special">-->
+<!--<el-date-picker type="date" v-model="ruleForm4.workTime2" placeholder="选择日期"></el-date-picker>-->
+<!--</el-form-item>-->
+<!--<el-form-item label="工作描述" prop="workDes">-->
+<!--<el-input v-model="ruleForm4.workDes" type="textarea" class="workDes_special"></el-input>-->
+<!--</el-form-item>-->
+<!--<div class="button-wrapper">-->
+<!--<button>保存</button>-->
+<!--<button class="button_special">取消</button>-->
+<!--<span @click="delWorkItem">删除本条</span>-->
+<!--</div>-->
+<!--</el-form>-->
+<!--</div>-->
+<!--<div class="work_list">-->
+<!--<div class="mask"></div>-->
+<!--<div class="line1">-->
+<!--<div class="line1_title">-->
+<!--<span class="circle"></span>-->
+<!--<span>深圳前海橙色魔方技术有限公司</span>-->
+<!--<span class="line1_time">2015/09 - 2017/10<i class="el-icon-edit"></i></span>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="zhiwei">UI设计师</div>-->
+<!--<div class="description">-->
+<!--这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="work_list">-->
+<!--<div class="line1">-->
+<!--<div class="line1_title">-->
+<!--<span class="circle"></span>-->
+<!--<span>深圳前海橙色魔方技术有限公司</span>-->
+<!--<span class="line1_time">2015/09 - 2017/10<i class="el-icon-edit"></i></span>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="zhiwei">UI设计师</div>-->
+<!--<div class="description">-->
+<!--这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里-->
+<!--</div>-->
+<!--</div>-->
