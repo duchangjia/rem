@@ -360,26 +360,42 @@
 					console.log('userList',res);
 					if(res.data.code === "S00000") {
 						self.derpRangeList.forEach(function(ele,num) {
-							res.data.data.forEach(function(elem1, index1) {
-								if(self.derpRangeList[num].derpNo == elem1.derpNo) {
-									self.derpRangeList[num].preRangeList.push(elem1);
-									self.$set(self.derpRangeList, num, self.derpRangeList[num]);
-								}else {
-									// console.log('derpNo false')
-								}
-
-							})
+							if(ele.derpNo == res.data.data[0].derpNo) {
+								self.derpRangeList[num].preRangeList = res.data.data;
+								self.$set(self.derpRangeList, num, self.derpRangeList[num]);
+							}else {
+								console.log('derpNo false')
+							}
 						})
 						self.formdata2.derpRange.forEach(function(ele,num) {
-							res.data.data.forEach(function(elem1, index1) {
-								if(ele.derpNo == elem1.derpNo) {
-									self.formdata2.derpRange[num].preRangeList = res.data.data;
-									self.$set(self.formdata2.derpRange,num,self.formdata2.derpRange[num]);
-								}else {
-									// console.log('formdata2 false')
-								}
-							})
+							if(ele.derpNo == res.data.data[0].derpNo) {
+								self.formdata2.derpRange[num].preRangeList = res.data.data;
+								self.$set(self.formdata2.derpRange,num,self.formdata2.derpRange[num]);
+							}else {
+								console.log('formdata2 false')
+							}
 						})
+						// self.derpRangeList.forEach(function(ele,num) {
+						// 	res.data.data.forEach(function(elem1, index1) {
+						// 		if(self.derpRangeList[num].derpNo == elem1.derpNo) {
+						// 			self.derpRangeList[num].preRangeList.push(elem1);
+						// 			self.$set(self.derpRangeList, num, self.derpRangeList[num]);
+						// 		}else {
+						// 			// console.log('derpNo false')
+						// 		}
+
+						// 	})
+						// })
+						// self.formdata2.derpRange.forEach(function(ele,num) {
+						// 	res.data.data.forEach(function(elem1, index1) {
+						// 		if(ele.derpNo == elem1.derpNo) {
+						// 			self.formdata2.derpRange[num].preRangeList = res.data.data;
+						// 			self.$set(self.formdata2.derpRange,num,self.formdata2.derpRange[num]);
+						// 		}else {
+						// 			// console.log('formdata2 false')
+						// 		}
+						// 	})
+						// })
 									console.log('self.derpRangeList',self.derpRangeList)
 									console.log('self.formdata2.derpRange',self.formdata2.derpRange)
 					}
@@ -410,9 +426,9 @@
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.derpRangeList = res.data.data;
-						self.derpRangeList.forEach(function(ele,num) {
-							ele.preRangeList = [];
-						})
+						// self.derpRangeList.forEach(function(ele,num) {
+						// 	ele.preRangeList = [];
+						// })
 					}
 					
 				}).catch((err) => {
