@@ -1997,8 +1997,8 @@
                                 .el-date-editor
                                     width 200px
                                 .el-textarea
-                                    width: 101%;
-                                    max-width: 1000px;
+                                    width: 99.5%;
+                                    max-width: 1013px;
                                 .el-textarea__inner
                                     width: 100%
                                     height: 120px

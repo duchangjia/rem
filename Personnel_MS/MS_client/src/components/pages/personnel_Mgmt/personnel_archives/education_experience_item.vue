@@ -1,6 +1,6 @@
 <template>
     <div style="margin-top: 30px; position: relative">
-        <el-form :model="ruleForm" :rules="rules" label-width="100px" :ref="`fourth${index}`" :class="{'bg_color':!ruleForm.isShowEdit,'bg_color2':ruleForm.isShowEdit}">
+        <el-form :model="ruleForm" :rules="rules" label-width="100px" :ref="`educationItem${index}`" :class="{'bg_color':!ruleForm.isShowEdit,'bg_color2':ruleForm.isShowEdit}">
             <i :class="{'el-icon-close':!ruleForm.isShowEdit,'el-icon-edit':ruleForm.isShowEdit}" @click="delOrEdit(ruleForm.isShowEdit,index)" class="fifthIcon"></i>
             <el-col :md="12" :sm="24">
                 <div style="display: flex">
@@ -55,6 +55,15 @@
         },
         data() {
             let that = this
+            let validateEndTime = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请选择日期'));
+                } else if (value  < that.ruleForm.startTime) {
+                    callback(new Error('结束日期不能小于开始日期'));
+                } else {
+                    callback();
+                }
+            }
             return {
                 pickerOptions: {
                     disabledDate(time) {
@@ -75,7 +84,7 @@
                         {type:'date', required: true, message: '请选择日期', trigger: 'change'}
                     ],
                     endTime: [
-                        {type:'date', required: true, message: '请选择日期', trigger: 'change'}
+                        {type:'date', validator: validateEndTime, trigger: 'change'}
                     ],
                     schoolName: [
                         {required: true, message: '请输入学校名称', trigger: 'blur'}
@@ -119,6 +128,9 @@
                     this.ruleForm.isShowEdit = !isShow
                 }
             },
+            resetForm() {
+                this.$refs.educationItem0.resetFields();
+            }
         },
     }
 </script>
