@@ -53,7 +53,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="预计合同金额" prop="projPreconAmt">
-                                <el-input v-model="salesInfo.projPreconAmt"></el-input>
+                            <el-input v-model="salesInfo.projPreconAmt"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -112,7 +112,7 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                <el-col :span="24" class="item-title">销售信息</el-col>
+                    <el-col :span="24" class="item-title">销售信息</el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="销售" prop="projSaleName">
                                 <el-input v-model="salesInfo.projSaleName"></el-input>

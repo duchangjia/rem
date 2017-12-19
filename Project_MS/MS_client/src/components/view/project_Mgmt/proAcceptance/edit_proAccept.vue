@@ -1,10 +1,10 @@
 <template>
 	<div class="add_preSale">
-		<current yuji="项目管理" erji="售前立项" sanji="售前立项修改">
+		<current yuji="项目管理" erji="项目验收">
 		</current>
 		<div class="content-wrapper">
 			<div class="titlebar">
-				<span class="title-text">售前立项修改</span>
+				<span class="title-text">项目验收</span>
 			</div>
 			<div class="add-wrapper">
 				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="130px">

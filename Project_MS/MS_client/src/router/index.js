@@ -213,6 +213,11 @@ const routes = [
                     ]
                 },
                 {
+                    path: '/proAcceptance',
+                    component: resolve => require(['../components/view/project_Mgmt/proAcceptance/edit_proAccept.vue'], resolve),
+                    
+                },
+                {
                     path: '/query_customer',
                     component: resolve => require(['../components/view/customer_Relations/customerInfo.vue'], resolve),
                     children: [
@@ -253,6 +258,7 @@ const routes = [
 
                     ]
                 },
+                
             ]
         }
     ]
