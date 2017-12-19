@@ -46,6 +46,15 @@
         },
         data() {
             let that = this
+            let validateEndTime = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请选择日期'));
+                    } else if (value  < that.ruleForm.startTime) {
+                        callback(new Error('结束日期不能小于开始日期'));
+                    } else {
+                        callback();
+                    }
+                }
             return {
                 pickerOptions: {
                     disabledDate(time) {
@@ -66,7 +75,7 @@
                         {type:'date', required: true, message: '请选择日期', trigger: 'change'}
                     ],
                     endTime: [
-                        {type:'date', required: true, message: '请选择日期', trigger: 'change'}
+                        {type:'date', validator: validateEndTime, trigger: 'change'}
                     ],
                     company: [
                         {required: true, message: '请输入公司', trigger: 'blur'}
@@ -113,6 +122,9 @@
                     this.ruleForm.isShowEdit = !isShow
                 }
             },
+            resetForm() {
+                this.$refs.workItem0.resetFields();
+            }
         },
     }
 </script>
