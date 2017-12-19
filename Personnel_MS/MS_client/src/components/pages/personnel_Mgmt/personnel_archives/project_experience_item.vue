@@ -58,6 +58,21 @@
                 type: Number,
                 default: 0
             },
+            ruleForm: {
+                type: Object,
+                default: {
+                    startTime: '',
+                    endTime: '',
+                    projectName: '',
+                    mainSkill: '',
+                    projectRole: '',
+                    softEnv: '',
+                    custom: '',
+                    projectDuty: '',
+                    desc: '',
+                    isShowEdit: false
+                }
+            },
         },
         data() {
             let that = this
@@ -76,24 +91,12 @@
                         return time.getTime() < that.ruleForm.startTime
                     },
                 },
-                ruleForm: {
-                    startTime: '',
-                    endTime: '',
-                    projectName: '',
-                    mainSkill: '',
-                    projectRole: '',
-                    softEnv: '',
-                    custom: '',
-                    projectDuty: '',
-                    desc: '',
-                    isShowEdit: false
-                },
                 rules: {
                     startTime: [
-                        {type:'date', required: true, message: '请选择日期', trigger: 'change'}
+                        {type:'date', required: true, message: '请选择日期', trigger: 'blur'}
                     ],
                     endTime: [
-                        {type:'date', validator: validateEndTime, trigger: 'change'}
+                        {type:'date', validator: validateEndTime, trigger: 'blur'}
                     ],
                     projectName: [
                         {required: true, message: '请输入项目名称', trigger: 'blur'}

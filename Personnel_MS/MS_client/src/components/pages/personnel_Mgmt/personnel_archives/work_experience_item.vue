@@ -43,6 +43,18 @@
                 type: Number,
                 default: 0
             },
+            ruleForm: {
+                type: Object,
+                default: {
+                    startTime: '',
+                    endTime: '',
+                    company: '',
+                    post1: '',
+                    duty: '',
+                    desc: '',
+                    isShowEdit: false
+                }
+            },
         },
         data() {
             let that = this
@@ -61,21 +73,12 @@
                         return time.getTime() < that.ruleForm.startTime
                     },
                 },
-                ruleForm: {
-                    startTime: '',
-                    endTime: '',
-                    company: '',
-                    post1: '',
-                    duty: '',
-                    desc: '',
-                    isShowEdit: false
-                },
                 rules: {
                     startTime: [
-                        {type:'date', required: true, message: '请选择日期', trigger: 'change'}
+                        {type:'date', required: true, message: '请选择日期', trigger: 'blur'}
                     ],
                     endTime: [
-                        {type:'date', validator: validateEndTime, trigger: 'change'}
+                        {type:'date', validator: validateEndTime, trigger: 'blur'}
                     ],
                     company: [
                         {required: true, message: '请输入公司', trigger: 'blur'}

@@ -37,7 +37,7 @@
                 </el-form-item>
             </el-col>
             <el-col :md="24" :sm="24">
-                <el-form-item label="描述" class="fifth_common">
+                <el-form-item label="专业描述" class="fifth_common" prop="desc">
                     <el-input type="textarea" v-model="ruleForm.desc" :disabled="ruleForm.isShowEdit"></el-input>
                 </el-form-item>
             </el-col>
@@ -51,6 +51,18 @@
             index: {
                 type: Number,
                 default: 0
+            },
+            ruleForm: {
+                type: Object,
+                default: {
+                    startTime: '',
+                    endTime: '',
+                    schoolName: '',
+                    major: '',
+                    education: '',
+                    desc: '',
+                    isShowEdit: false
+                }
             },
         },
         data() {
@@ -70,21 +82,12 @@
                         return time.getTime() < that.ruleForm.startTime
                     },
                 },
-                ruleForm: {
-                    startTime: '',
-                    endTime: '',
-                    schoolName: '',
-                    major: '',
-                    education: '',
-                    desc: '',
-                    isShowEdit: false
-                },
                 rules: {
                     startTime: [
-                        {type:'date', required: true, message: '请选择日期', trigger: 'change'}
+                        {type:'date', required: true, message: '请选择日期', trigger: 'blur'}
                     ],
                     endTime: [
-                        {type:'date', validator: validateEndTime, trigger: 'change'}
+                        {type:'date', validator: validateEndTime, trigger: 'blur'}
                     ],
                     schoolName: [
                         {required: true, message: '请输入学校名称', trigger: 'blur'}
@@ -93,7 +96,10 @@
                         {required: true, message: '请输入专业', trigger: 'blur'}
                     ],
                     education: [
-                        {required: true, message: '请选择学历', trigger: 'change'}
+                        {required: true, message: '请选择学历', trigger: 'blur'}
+                    ],
+                    desc: [
+                        {required: true, message: '请输入专业描述', trigger: 'blur'}
                     ],
                 }
             }
