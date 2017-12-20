@@ -331,7 +331,7 @@
                                                                :on-success="successUpload"
                                                                :headers="token"
                                                                >
-                                                        <el-button slot="trigger" type="primary" class="uploadBtn">{{this.ruleForm.attachm2==''?'上传':'更换'}}附件</el-button>
+                                                        <el-button slot="trigger" type="primary" class="uploadBtn">{{this.ruleForm.attachm==''?'上传':'更换'}}附件</el-button>
                                                     </el-upload>
                                                 </el-form-item>
                                         </el-col>
@@ -430,7 +430,7 @@
             let validateEndTime = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请选择试用结束日期'));
-                } else if (value  < that.ruleForm.probStartTime) {
+                } else if (new Date(value)  < new Date(that.ruleForm.probStartTime)) {
                     callback(new Error('试用结日期不能小于试用开始日期'));
                 } else {
                     callback();
