@@ -29,7 +29,7 @@
                             <!--<el-input v-model="formdata.organMgeName"></el-input>-->
                             <el-input v-model="formdata.organMgeName" v-show="false"></el-input>
                             <el-input v-model="formdata.organMgeId" v-show="false"></el-input>
-                            <el-input v-model="formdata.organMgeNameAndId" placeholder="请选择员工">
+                            <el-input v-model="formdata.organMgeNameAndId" placeholder="请选择员工" :readonly="true">
                                 <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
                             </el-input>
                             <messageBox
