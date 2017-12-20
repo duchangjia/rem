@@ -13,11 +13,17 @@
 			<div class="add-wrapper">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
 					<el-col :sm="24" :md="12">
-						<el-form-item label="公司名称" prop="companyNo">
+						<!-- <el-form-item label="公司名称" prop="companyNo">
 							<el-select v-model="formdata2.comp" vue-key="companyNo" @change="changeComp">
 								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item"></el-option>
 							</el-select>
-					  	</el-form-item>
+					  	</el-form-item> -->
+						  <el-form-item label="所属公司">
+							<el-select v-model="formdata2.comp" value-key="organNo" placeholder="所属公司" @change="changeComp">
+								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="社保数据周期" prop="wageMonth">
@@ -60,7 +66,7 @@
 				formdata2: {
 					comp: {
 						organName: '',
-						companyNo: "",
+						organNo: "",
 					},
 					// companyName: "",
 					// companyNo: "",
@@ -85,8 +91,8 @@
 		computed: {
 			formdata: function(){
 				return {
-					organNo: this.formdata2.comp.companyNo,
-					organNo: this.formdata2.comp.organName,
+					organNo: this.formdata2.comp.organNo,
+					organName: this.formdata2.comp.organName,
 					month: this.formdata2.wageMonth
 				}
 			}
