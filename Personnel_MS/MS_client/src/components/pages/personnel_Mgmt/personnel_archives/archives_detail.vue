@@ -334,7 +334,7 @@
                                                            :on-success="successUpload"
                                                            :headers="token"
                                                            >
-                                                    <el-button slot="trigger" type="primary" class="uploadBtn" :disabled="edit">{{this.ruleForm.attachm2==''?'上传':'更换'}}附件</el-button>
+                                                    <el-button slot="trigger" type="primary" class="uploadBtn" :disabled="edit">{{this.file==''?'上传':'更换'}}附件</el-button>
                                                     <el-button type="primary" class="uploadBtn uploadBtn-special" @click="downLoad">下载附件</el-button>
                                                     <!--<el-button type="primary" class="uploadBtn uploadBtn-special" @click="downLoad">下载附件</el-button>-->
                                                 </el-upload>
@@ -441,7 +441,7 @@
             let validateEndTime = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('请选择试用结束日期'));
-                } else if (value  < that.ruleForm.probStartTime) {
+                } else if (new Date(value)  < new Date(that.ruleForm.probStartTime)) {
                     callback(new Error('试用结日期不能小于试用开始日期'));
                 } else {
                     callback();
@@ -830,6 +830,16 @@
                             type: 'success',
                             message: result
                         });
+                        this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+this.userNo)
+                            .then(res=>{
+                                console.log(res,'重新加载基本信息')
+                                this.ruleForm = res.data.data
+                                this.$set(this.ruleForm,'attachm2','')
+                                if(this.file) this.ruleForm.attachm2 = this.file.fileName+'.'+this.file.fileSuffix
+                            })
+                            .catch(e=>{
+                                console.log(e)
+                            })
                     } else {
                         this.$message({
                             type: 'error',
@@ -890,6 +900,16 @@
                         type: 'success',
                         message: result
                     });
+                    this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+this.userNo)
+                        .then(res=>{
+                            console.log(res,'重新加载基本信息')
+                            this.ruleForm = res.data.data
+                            this.$set(this.ruleForm,'attachm2','')
+                            if(this.file) this.ruleForm.attachm2 = this.file.fileName+'.'+this.file.fileSuffix
+                        })
+                        .catch(e=>{
+                            console.log(e)
+                        })
                 } else {
                     this.$message({
                         type: 'error',
@@ -1158,10 +1178,10 @@
                                         });
                                         this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+this.userNo)
                                             .then(res=>{
-                                                console.log(res,2222)
+                                                console.log(res,'重新加载基本信息')
                                                 this.ruleForm = res.data.data
                                                 this.$set(this.ruleForm,'attachm2','')
-                                                this.ruleForm.attachm2 = this.file.fileName+'.'+this.file.fileSuffix
+                                                if(this.file) this.ruleForm.attachm2 = this.file.fileName+'.'+this.file.fileSuffix
                                             })
                                             .catch(e=>{
                                                 console.log(e)
