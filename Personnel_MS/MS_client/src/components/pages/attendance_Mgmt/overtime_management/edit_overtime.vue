@@ -79,21 +79,21 @@
 					  	</el-form-item>
 				  	</el-col>
 				  	<el-col :sm="24" :md="12">
-						<el-form-item label="附件" style="width: 100%;">
-				  		 	<el-input v-model="formdata2.attachm"></el-input>
-					  		<el-upload class="upload-demo" ref="upload"
-					  			 :data="formdata"
+						<el-form-item label="附件">
+				  		 	<!-- <el-input v-model="formdata2.attachm"></el-input> -->
+					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
+					  			 :on-exceed="handleExceed"
+								 :on-preview="handlePreview"
+                                 :on-remove="handleRemove"
 					  			 :on-change="changeUpload"
 					  			 :on-success="successUpload"
 								 :beforeUpload="beforeAvatarUpload"  
-					  			 action="/iem_hrm/workot/modifyWorkOtInfo" 
-					  			 :show-file-list="false" 
-					  			 :auto-upload="false"
-								 :name="filesName"
+					  			 :show-file-list="true" 
 					  			 :headers="token"
-								 :multiple="true"
+								 :limit="3"
+								 :file-list="fileList"
 					  		>
-	                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
+	                            <el-button slot="trigger" type="primary" >选取文件</el-button>
 	                        </el-upload>
 					  	</el-form-item>
 					</el-col>
@@ -130,7 +130,7 @@
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
-				filesName: "files",
+				fileList: [],
 				fileFlag: '',
 				formdata1: {
 				},
@@ -216,19 +216,44 @@
 			changeEndTime(time) {
 				this.formdata2.workotEndTime = time;
 			},
+	      	//上传附件
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-				//  this.formdata2.attachm = file.name;
-				fileList.forEach(function(item) {
-					this.formdata2.attachm += item.name + " ";
-				}, this);
-				console.log("选中的fileList", fileList);
-	      	},
+				// this.formdata2.attachm = file.name;
+				// fileList.forEach(function(item) {
+				// 	this.formdata2.attachm += item.name + " ";
+				// }, this);
+				this.fileList = fileList;
+				console.log("选中的fileList", fileList); 
+			},
+			handleRemove(file, fileList) {
+				// 移除文件
+				console.log(file, fileList);
+				console.log("移除的file", file);
+				let params = {
+					fileId: file.fileId
+				}
+				this.removeFile(params);
+			},
+			handlePreview(file) {
+				// 点击已上传的文件链接时
+				console.log(file);
+			},
+			handleExceed(files, fileList) {
+				// 文件超出数量
+				this.$message.warning(
+					`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
+					fileList.length} 个文件`
+				);
+			},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
+					  file.fileId = response.data;
 	      			this.$message({ message: '操作成功', type: 'success' });
-					this.$router.push('/overtime_management');
-	      		}
+					// this.$router.push('/leave_management');
+				  }
+				  console.log('this.fileList',this.fileList);
+				  console.log('上传成功的file',file);
 			},
 			  // 上传前对文件的大小的判断
 		    beforeAvatarUpload (file) {
@@ -249,8 +274,13 @@
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						self.$refs.upload.submit();
-						if(!self.fileFlag) {
+						// self.$refs.upload.submit();
+						// if(!self.fileFlag) {
+							let fileIds = [];
+							for(let k in self.fileList) {
+								fileIds.push(self.fileList[k].fileId);
+							}
+							console.log('fileIds',fileIds)
 							let params = {
 								"applyNo": self.formdata2.applyNo, 
 								"userNo": self.formdata2.userNo,
@@ -259,11 +289,12 @@
 				    			"workotType": self.formdata2.workotType, 
 				    			"timeSheet": self.formdata2.timeSheet, 
 				    			"remark": self.formdata2.remark,
-				    			attachm: self.formdata2.attachm
+								// attachm: self.formdata2.attachm
+								fileIds: fileIds
 							}
 							//修改加班详细信息
 							self.modifyTravelInfo(params);
-						}
+						// }
 							
 						
 					} else {
@@ -282,8 +313,18 @@
 					console.log('workotInfo',res);
 					if(res.data.code === "S00000") {
 						self.formdata2 = res.data.data;
-						for(let k in self.formdata2) {
-							self.formdata2[k] = self.formdata2[k] + '';
+						self.formdata2.timeSheet = self.formdata2.timeSheet + '';
+						if (
+							self.formdata2.epFileManageList &&
+							self.formdata2.epFileManageList.length >= 1
+						) {
+							self.formdata2.epFileManageList.forEach(function(ele) {
+							self.fileList.push({
+								name: ele.fileName + "." + ele.fileSuffix,
+								url: ele.fileAddr,
+                				fileId: ele.fileId
+							});
+							}, this);
 						}
 					}
 					
@@ -300,6 +341,18 @@
 		      			self.$message({ message: '操作成功', type: 'success' });
 						self.$router.push('/overtime_management');
 		      		}
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
+			removeFile(params) {
+				let self = this;
+				self.$axios.delete(baseURL+'/file/deleteFile/'+params.fileId)
+				.then((res) => {
+					console.log('deleteFile',res);
+					if(res.data.code === "S00000") {
+						self.$message({ message: '操作成功', type: 'success' });
+					}
 				}).catch((err) => {
 					console.log('error');
 				})

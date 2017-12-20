@@ -18,13 +18,11 @@
 	            <router-view></router-view>
 	        </transition>
         </div>
-        <!-- <success-tip></success-tip> -->
     </div>
 </template>
 
 <script type='text/ecmascript-6'>
     import vHeader from './Header.vue'
-    // import successTip from '../pages/user_Setting/successTip.vue'
 	const baseURL = 'iem_hrm';
     export default {
     	data() {
@@ -63,21 +61,21 @@
 	        queryUserInfo() {
 				let self = this;
 				self.$axios.get(baseURL+'/CustInfo/queryCustRole')
-				.then(function(res) {
+				.then((res) => {
 					console.log('userInfo',res);
 					if(res.data.code === "S00000") {
 						self.userInfo = res.data.data[0];
 						self.queryCans();
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCans() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res) => {
 					console.log('queryCans',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
@@ -88,7 +86,7 @@
 						},this)
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			}
