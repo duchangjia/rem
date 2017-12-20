@@ -309,10 +309,12 @@
 }
 .wage_info .wage_leftside {
 	text-align: right;
-    padding: 9px 27px 10px;
+    padding: 9px 13px 10px;
     color: #999999;
     position: relative;
-    margin-bottom: 20px;
+	margin-bottom: 20px;
+	font-size: 14px;
+	width: 110px;
 }
 .wage_info .wage_rightside {
 	margin-left: -10px;
