@@ -480,6 +480,8 @@
                 uploadUserNo:{
                     userNo:'',
                 },
+                successAlert:'',
+                count: 0,
                 token: {
                     Authorization:`Bearer `+localStorage.getItem('access_token'),
                 },
@@ -514,7 +516,6 @@
                 },
                 //基础信息
                 ruleForm: {
-                    avatarName: '',
                     custName: '',
                     certNo: '',
                     sex: '',
@@ -712,6 +713,7 @@
                 this.$axios.get('/iem_hrm/CustInfo/queryCustFile/'+this.userNo)
                     .then(res=>{
                         console.log(res,'附件查询')
+                        this.$set(this.ruleForm,'attachm2','')
                         if(res.data[0]) {
                             this.file = res.data[0]
                             this.ruleForm.attachm2 = this.file.fileName+'.'+this.file.fileSuffix
@@ -762,11 +764,10 @@
             },
             // 附件方法
             handleFileUpload(file, fileList) {
-                if(this.tabName == 'first') {
-                    if(this.ruleForm.attachm2 == file.name) return
-                    this.flag = true
-                    this.ruleForm.attachm2 = file.name
-                }
+                if(this.ruleForm.attachm2 == file.name) return
+                this.ruleForm.fujianFlag = true
+                this.ruleForm.attachm2 = file.name
+                console.log(file.name,this.ruleForm.attachm2,'1111')
             },
             // 证件方法
             handleRemove(file, fileList) {
@@ -823,23 +824,18 @@
             },
             successUpload(response, file, fileList) {
                 if(this.tabName == 'first') {
-                    console.log(response)
+                    console.log(response,'上传附件成功')
                     let result = response.retMsg
-                    if('操作成功'===result) {
+                    if('操作成功'==result) {
+                        if(--this.count <= 0){
+                            this.refreshInfo()
+                        }
+                        if(this.successAlert) return
                         this.$message({
                             type: 'success',
                             message: result
                         });
-                        this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+this.userNo)
-                            .then(res=>{
-                                console.log(res,'重新加载基本信息')
-                                this.ruleForm = res.data.data
-                                this.$set(this.ruleForm,'attachm2','')
-                                if(this.file) this.ruleForm.attachm2 = this.file.fileName+'.'+this.file.fileSuffix
-                            })
-                            .catch(e=>{
-                                console.log(e)
-                            })
+                        this.successAlert = true
                     } else {
                         this.$message({
                             type: 'error',
@@ -895,21 +891,15 @@
                 console.log(res,'修改头像上传成功',this.uploadUserNo.userNo)
                 let result = res.retMsg
                 if('操作成功'===result) {
-                    if(this.ruleForm.bothFlag) return
+                    if(--this.count <= 0){
+                        this.refreshInfo()
+                    }
+                    if(this.successAlert) return
                     this.$message({
                         type: 'success',
                         message: result
                     });
-                    this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+this.userNo)
-                        .then(res=>{
-                            console.log(res,'重新加载基本信息')
-                            this.ruleForm = res.data.data
-                            this.$set(this.ruleForm,'attachm2','')
-                            if(this.file) this.ruleForm.attachm2 = this.file.fileName+'.'+this.file.fileSuffix
-                        })
-                        .catch(e=>{
-                            console.log(e)
-                        })
+                    this.successAlert = true
                 } else {
                     this.$message({
                         type: 'error',
@@ -1145,62 +1135,41 @@
                     }
                     self.$refs.ruleForm.validate((valid) => {
                         if (valid) {
-                        for(var key in this.ruleForm){
-                            if(!this.ruleForm[key]){
-                                delete this.ruleForm[key]
+                            for(var key in this.ruleForm){
+                                if(!this.ruleForm[key]){
+                                    delete this.ruleForm[key]
+                                }
                             }
-                        }
-                        console.log(this.ruleForm,'正常修改提交')
-                        this.$axios.put('/iem_hrm/CustInfo/modCustInf', this.ruleForm)
-                            .then(res=>{
-                                let result = res.data.retMsg
-                                if ("操作成功"===result){
+                            this.count++
+                            console.log(this.ruleForm,'正常修改提交')
+                            this.$axios.put('/iem_hrm/CustInfo/modCustInf', this.ruleForm)
+                                .then(res=>{
+                                    let result = res.data.retMsg
                                     this.edit = true
-                                    if(this.ruleForm.avatarFlag || this.flag) {
-                                        console.log('提交头像和附件去了')
-                                        if(this.ruleForm.avatarFlag && this.flag) {
-                                            this.ruleForm.avatarFlag = ''
-                                            this.flag = ''
-                                            this.ruleForm.bothFlag = true
-                                            self.$refs.uploadAvatar.submit()
-                                            self.$refs.upload.submit()
-                                        }else if(this.ruleForm.avatarFlag) {
-                                            this.ruleForm.avatarFlag = ''
-                                            self.$refs.uploadAvatar.submit()
-                                        }else {
-                                            this.flag = ''
-                                            self.$refs.upload.submit()
+                                    if ("操作成功"===result){
+                                        if(--this.count <= 0){
+                                            this.refreshInfo()
                                         }
-                                    }else {
+                                        if(this.successAlert) return
                                         self.$message({
                                             type: 'success',
                                             message: result
                                         });
-                                        this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+this.userNo)
-                                            .then(res=>{
-                                                console.log(res,'重新加载基本信息')
-                                                this.ruleForm = res.data.data
-                                                this.$set(this.ruleForm,'attachm2','')
-                                                if(this.file) this.ruleForm.attachm2 = this.file.fileName+'.'+this.file.fileSuffix
-                                            })
-                                            .catch(e=>{
-                                                console.log(e)
-                                            })
+                                        this.successAlert = true
+                                    }else{
+                                        self.$message({
+                                            type: 'error',
+                                            message: result
+                                        });
                                     }
-                                }else{
+                                })
+                                .catch(e=>{
                                     self.$message({
                                         type: 'error',
-                                        message: result
+                                        message: '添加失败,请稍后重试！'
                                     });
-                                }
-                            })
-                            .catch(e=>{
-                                self.$message({
-                                    type: 'error',
-                                    message: '添加失败,请稍后重试！'
-                                });
-                                console.log(e)
-                            })
+                                    console.log(e)
+                                })
                         }else {
                             self.$message({
                                 type: 'error',
@@ -1208,6 +1177,18 @@
                             });
                         }
                     })
+                    if(this.ruleForm.avatarFlag) {
+                        console.log('提交头像去了')
+                        this.count++
+                        this.ruleForm.avatarFlag = ''
+                        self.$refs.uploadAvatar.submit()
+                    }
+                    if(this.ruleForm.fujianFlag) {
+                        console.log('提交附件去了')
+                        this.count++
+                        this.ruleForm.fujianFlag = ''
+                        self.$refs.upload.submit()
+                    }
                 }
                 if('second'===tabName) {
                     let socialItemLength = this.social_item.length
@@ -1454,6 +1435,35 @@
                         .catch(e=>{
                             console.log(e)
                             this.$message({ message: '下载附件失败', type: 'error' });
+                        })
+                }
+            },
+            refreshInfo() {
+                this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+this.userNo)
+                    .then(res=>{
+                        console.log(res,'重新加载基本信息')
+                        this.ruleForm = res.data.data
+                        this.$set(this.ruleForm,'attachm2','')
+                        if(this.file) {
+                            this.ruleForm.attachm2 = this.file.fileName+'.'+this.file.fileSuffix
+                        }
+                        this.count = 0
+                        this.successAlert = false
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
+                if(this.ruleForm.fujianFlag === '') {
+                    this.$axios.get('/iem_hrm/CustInfo/queryCustFile/'+this.userNo)
+                        .then(res=>{
+                            console.log(res,'附件查询重新加载')
+                            if(res.data[0]) {
+                                this.file = res.data[0]
+                                this.ruleForm.attachm2 = this.file.fileName+'.'+this.file.fileSuffix
+                            }
+                        })
+                        .catch(e=>{
+                            console.log(e)
                         })
                 }
             },
