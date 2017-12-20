@@ -22,19 +22,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号" prop="userNo">
 						    <el-input v-model="formdata1.userNo" :disabled="true">
-						    	<!--<el-button slot="append" icon="search" @click="userNoSelect"></el-button>-->
 						    </el-input>
-						    <messageBox 
-                                :title="boxTitle"
-                                :tableOption.sync="tableOption"  
-                                :inputFirstOption.sync="inputFirstOption" 
-                                :inputSecOption.sync="inputSecOption"
-                                :searchData.sync="searchData" 
-                                :searchUrl="searchUrl"
-                                :dialogVisible.sync="dialogVisible"
-                                :pagination.sync="msgPagination"
-                                @dialogConfirm="dialogConfirm"
-                                ></messageBox>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
@@ -172,17 +160,8 @@
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
 				fileFlag: '',
-				newLineManagerFlag: '',
+				newLineManagerFlag: '',//判断新直线经理是否存在标志
 				
-				dialogVisible:false,
-			    tableOption:[],
-			    inputFirstOption:{},
-			    inputSecOption:{},
-			    msgPagination:{},
-			    searchData:{},
-			    searchUrl:'',
-			    saveUrl:'',
-			    boxTitle:'',
 			    //原信息
 			    formdata1: {},
 			    //调动信息
@@ -300,67 +279,6 @@
 					console.log(err);
 				})
 			},
-	      	dialogConfirm(ajaxNo){
-	      		console.log(ajaxNo)
-		        let self = this;
-		        let params = {
-		        	userNo: ajaxNo.stateNo
-		        }
-		        self.$axios
-		        .get( self.saveUrl, {params} )
-		        .then(res => {
-		        	console.log('res',res)
-		          	if (res.data.code == 'S00000'){
-		             	self.dialogVisible = false;
-			            self.formdata1 = res.data.data;
-		          	}
-		        })
-		        .catch(e => {
-			        console.log('error')
-		        });
-		    },
-		    userNoSelect(){
-		        //table
-		        this.tableOption = [
-		            {
-		                thName:'工号',//table 表头
-		                dataKey:'userNo'//table-col所绑定的prop值
-		            },
-		            {
-		                thName:'姓名',//table 表头
-		                dataKey:'custName'//table-col所绑定的prop值
-		            }
-		            ];
-		        //input 第一个搜索框的配置项
-		        this.inputFirstOption  = {
-		            labelName:'姓名',//label头
-		            placeholder:'请输入姓名'//input placeholder
-		        },
-		        //input 第二个搜索框的配置项
-		        this.inputSecOption  = {
-		            labelName:'工号',
-		            placeholder:'请输入工号'
-		        },
-		        //搜索所需传值
-		        this.searchData = {
-		            custName:'',
-		            userNo:''
-		        }
-		        //table分页所需传值
-		        this.msgPagination =  {
-		            pageNum:1,
-		            pageSize:5,
-		            totalRows:0
-		        }
-		        //dialog打开
-		        this.dialogVisible=true
-		        //查询接口
-		        this.searchUrl = "/iem_hrm/CustInfo/queryCustInfList"
-		        //点击确定后根据号码查询用户信息借口 没有则为空
-		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
-		        //dialog标题
-		        this.boxTitle = '人工编号选择'
-		    },
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
 		 		this.formdata2.attachm = file.name;
