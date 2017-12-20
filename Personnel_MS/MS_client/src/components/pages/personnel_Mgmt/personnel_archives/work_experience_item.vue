@@ -8,7 +8,7 @@
                         <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.startTime" :disabled="ruleForm.isShowEdit"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
-                        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.endTime" :disabled="ruleForm.isShowEdit"　:picker-options="pickerOptions"></el-date-picker>
+                        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.endTime" :disabled="ruleForm.isShowEdit" :picker-options="pickerOptions"></el-date-picker>
                     </el-form-item>
                 </div>
             </el-col>
@@ -54,6 +54,17 @@
                     desc: '',
                     isShowEdit: false
                 }
+//                default: function () {
+//                    return {
+//                        startTime: '',
+//                        endTime: '',
+//                        company: '',
+//                        post1: '',
+//                        duty: '',
+//                        desc: '',
+//                        isShowEdit: false
+//                    }
+//                }
             },
         },
         data() {

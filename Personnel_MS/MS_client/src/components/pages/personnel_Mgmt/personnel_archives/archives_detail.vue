@@ -177,7 +177,7 @@
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="直线经理" class="line-manager">
-                                                <el-input v-model="ruleForm.lineManager" :disabled="edit" :readOnly="true">
+                                                <el-input v-model="ruleForm.lineManager" :disabled="edit" :readonly="true">
                                                     <el-button slot="append" icon="search" @click="userNoSelect()" :disabled="edit"></el-button>
                                                 </el-input>
                                                 <messageBox
@@ -263,17 +263,17 @@
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="合同终止">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactEndTime" :disabled="edit" @change="changeCompactEndTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactEndTime" :disabled="edit" @change="changeCompactEndTime" :picker-options="pickerOptions"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
-                                            <el-form-item label="试用开始">
+                                            <el-form-item label="试用开始" prop="probStartTime">
                                                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probStartTime" :disabled="edit" @change="changeProbStartTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
-                                            <el-form-item label="试用结束">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probEndTime" :disabled="edit" @change="changeProbEndTime"></el-date-picker>
+                                            <el-form-item label="试用结束" prop="probEndTime">
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probEndTime" :disabled="edit" @change="changeProbEndTime" :picker-options="pickerOptions1"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
@@ -324,7 +324,7 @@
                                         </el-col>
                                         <el-col :md="9" :sm="24">
                                             <el-form-item label="附件">
-                                                <el-input v-model="ruleForm.attachm2" style="position:absolute" :disabled="edit" :readOnly="true"></el-input>
+                                                <el-input v-model="ruleForm.attachm2" style="position:absolute" :disabled="edit" :readonly="true"></el-input>
                                                 <el-upload class="upload-demo" ref="upload" name="file"
                                                            action="/iem_hrm/CustInfo/modCustFile"
                                                            :show-file-list="false"
@@ -333,7 +333,7 @@
                                                            :on-change="handleFileUpload"
                                                            :on-success="successUpload"
                                                            :headers="token"
-                                                           :before-upload="checkUserNo">
+                                                           >
                                                     <el-button slot="trigger" type="primary" class="uploadBtn" :disabled="edit">更换附件</el-button>
                                                     <el-button type="primary" class="uploadBtn uploadBtn-special" @click="downLoad">下载附件</el-button>
                                                     <!--<el-button type="primary" class="uploadBtn uploadBtn-special" @click="downLoad">下载附件</el-button>-->
@@ -349,7 +349,7 @@
                                         <span>成员信息</span><span class="text" @click="addItem">继续添加</span>
                                     </div>
                                     <div class="second_content_wrapper">
-                                        <socialItem v-for="(item, index) in social_item.lists"
+                                        <socialItem v-for="(item, index) in social_item"
                                                             :ruleFrom="item" :relationNum="index"
                                                             @del_item="delRelationItem" @pass_validate="passValidate"
                                                             :ref="`ruleFrom${index}`">
@@ -362,7 +362,7 @@
                                     <div class="title"><span>工作经历</span><span  class="text" @click="addItem">继续添加</span></div>
                                     <div class="from-wrapper">
                                         <workItem v-for="(item, index) in work_item"
-                                                    :ruleFrom="item" :index="index"
+                                                    :ruleForm="item" :index="index"
                                                     @del_item="delRelationItem" @pass_validate="passValidate"
                                                     :ref="`workItem${index}`">
                                         </workItem>
@@ -374,7 +374,7 @@
                                     <div class="title"><span>教育背景</span><span class="text" @click="addItem">继续添加</span></div>
                                     <div class="from-wrapper">
                                         <educationItem v-for="(item, index) in education_item"
-                                                  :ruleFrom="item" :index="index"
+                                                  :ruleForm="item" :index="index"
                                                   @del_item="delRelationItem" @pass_validate="passValidate"
                                                   :ref="`educationItem${index}`">
                                         </educationItem>
@@ -385,56 +385,11 @@
                                 <div class="fifth-wrapper">
                                     <div class="title"><span>项目经历</span><span class="text" @click="addItem">继续添加</span></div>
                                     <div class="from-wrapper">
-                                        <div v-for="(item, index) in project_item.lists" style="margin-top: 30px; position: relative">
-                                            <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fifth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
-                                                <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
-                                                <el-col :md="12" :sm="24">
-                                                    <div style="display: flex">
-                                                        <el-form-item label="时间" prop="startTime" class="fifth_common" style="margin-right: -40px">
-                                                            <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
-                                                        </el-form-item>
-                                                        <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
-                                                            <el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>
-                                                        </el-form-item>
-                                                    </div>
-                                                </el-col>
-                                                <el-col :md="12" :sm="24">
-                                                    <el-form-item label="项目名称" prop="projectName">
-                                                        <el-input v-model="item.projectName" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :md="12" :sm="24">
-                                                    <el-form-item label="主要技能" prop="mainSkill">
-                                                        <el-input v-model="item.mainSkill" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :md="12" :sm="24">
-                                                    <el-form-item label="项目角色" prop="projectRole">
-                                                        <el-input v-model="item.projectRole" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :md="12" :sm="24">
-                                                    <el-form-item label="软件环境" prop="softEnv">
-                                                        <el-input v-model="item.softEnv" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :md="12" :sm="24">
-                                                    <el-form-item label="客户" prop="custom">
-                                                        <el-input v-model="item.custom" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :md="24" :sm="24">
-                                                    <el-form-item label="项目职责" prop="projectDuty" class="fifth_common">
-                                                        <el-input type="textarea" v-model="item.projectDuty" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :md="24" :sm="24">
-                                                    <el-form-item label="项目描述" prop="desc" class="fifth_common">
-                                                        <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                            </el-form>
-                                        </div>
+                                        <projectItem v-for="(item, index) in project_item"
+                                                       :ruleForm="item" :index="index"
+                                                       @del_item="delRelationItem" @pass_validate="passValidate"
+                                                       :ref="`projectItem${index}`">
+                                        </projectItem>
                                     </div>
                                 </div>
                             </el-tab-pane>
@@ -448,7 +403,6 @@
                                             :on-preview="handlePictureCardPreview"
                                             :on-remove="handleRemove"
                                            :on-success="successUpload"
-                                           :before-upload="checkUserNo"
                                             multiple
                                            :headers="token">
                                         <i class="el-icon-plus"></i>
@@ -483,7 +437,27 @@
     import moment from 'moment'
     export default {
         data() {
+            let that = this
+            let validateEndTime = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请选择试用结束日期'));
+                } else if (value  < that.ruleForm.probStartTime) {
+                    callback(new Error('试用结日期不能小于试用开始日期'));
+                } else {
+                    callback();
+                }
+            }
             return {
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() < new Date(that.ruleForm.compactStartTime) - 3600*1000*24
+                    },
+                },
+                pickerOptions1: {
+                    disabledDate(time) {
+                        return time.getTime() < new Date(that.ruleForm.probStartTime) - 3600*1000*24
+                    },
+                },
                 basicInfo:{
                     nation:'',
                     education:'',
@@ -494,6 +468,7 @@
                 },
                 // 标记
                 flag: false,
+                selectFlag: false,
                 //头像数据
                 imageUrl: '',
                 //证件数据
@@ -670,53 +645,11 @@
                     entryTime: [
                         {required: true, message: '请选择入职时间', trigger: 'change'}
                     ],
-                },
-                // 公共校验
-                rules5: {
-                    startTime: [
-                        {type:'date', required: true, message: '请选择时间', trigger: 'change'}
+                    probStartTime: [
+                        {required: true, message: '请选择试用开始时间', trigger: 'change'}
                     ],
-                    endTime: [
-                        {type:'date', required: true, message: '请选择时间', trigger: 'change'}
-                    ],
-                    projectName: [
-                        {required: true, message: '请输入项目名称', trigger: 'blur'}
-                    ],
-                    mainSkill: [
-                        {required: true, message: '请输入主要技能', trigger: 'blur'}
-                    ],
-                    projectRole: [
-                        {required: true, message: '请输入项目角色', trigger: 'blur'}
-                    ],
-                    softEnv: [
-                        {required: true, message: '请输入软件环境', trigger: 'blur'}
-                    ],
-                    custom: [
-                        {required: true, message: '请输入客户', trigger: 'blur'}
-                    ],
-                    projectDuty: [
-                        {required: true, message: '请输入项目职责', trigger: 'blur'}
-                    ],
-                    desc: [
-                        {required: true, message: '请输入描述', trigger: 'blur'}
-                    ],
-                    schoolName: [
-                        {required: true, message: '请输入学校名称', trigger: 'blur'}
-                    ],
-                    major: [
-                        {required: true, message: '请输入专业', trigger: 'blur'}
-                    ],
-                    education: [
-                        {required: true, message: '请选择学历', trigger: 'change'}
-                    ],
-                    company: [
-                        {required: true, message: '请输入公司', trigger: 'blur'}
-                    ],
-                    post1: [
-                        {required: true, message: '请输入职务', trigger: 'blur'}
-                    ],
-                    duty: [
-                        {required: true, message: '请输入职责', trigger: 'blur'}
+                    probEndTime: [
+                        {type:'date',required: true, validator: validateEndTime, trigger: 'change'}
                     ],
                 },
                 // 附件下载
@@ -806,6 +739,7 @@
                         console.log(e)
                     })
             },
+            // 下载附件
             downLoad() {
                 let data = this.file.fileId
                 if(data) {
@@ -827,82 +761,65 @@
                     })
                 }
             },
-            holdBirthday(val){
-                this.ruleForm.birthday = val
-            },
-            holdGradTime(val){
-                this.ruleForm.gradTime = val
-            },
-            changeEntryTime(val) {
-                this.ruleForm.entryTime = val
-            },
-            changeLeftJobTime(val) {
-                this.ruleForm.leftJobTime = val
-            },
-            changeWorkTime(val) {
-                this.ruleForm.workTime = val
-            },
-            changeProfTitleTime(val) {
-                this.ruleForm.profTitleTime = val
-            },
-            changeCompactStartTime(val) {
-                this.ruleForm.compactStartTime = val
-            },
-            changeCompactEndTime(val) {
-                this.ruleForm.compactEndTime = val
-            },
-            changeProbStartTime(val) {
-                this.ruleForm.probStartTime = val
-            },
-            changeProbEndTime(val) {
-                this.ruleForm.probEndTime = val
-            },
-            handleRemove(file, fileList) {
-                console.log(file,fileList,this.fileList2)
-                let index = this.fileList2.indexOf(file)
-                let data = {}
-                    if(file.response&&file.response.data[0]){
-                         data = {
-                            userNo:file.response.data[0].userNo,
-                            imageId:file.response.data[0].imageId,
-                        }
-                    }else {
-                         data = {
-                            userNo:file.userNo,
-                            imageId:file.imageId,
-                        }
-                    }
-                    console.log(data)
-                        this.$axios.delete('/iem_hrm/CustFile/delCustFile',{params:data})
-                            .then(res=>{
-                                let result = res.data.retMsg
-                                if("操作成功"==result){
-                                    this.$message({
-                                        type: 'success',
-                                        message: result
-                                    });
-                                }else {
-                                    this.$message({
-                                        type: 'error',
-                                        message: result
-                                    });
-                                    fileList.splice(index,0,file)
-                                }
-                            })
-                            .catch(e=>{
-                                console.log(e)
-                                this.$message({
-                                    type: 'error',
-                                    message: e.retMsg
-                                });
-                                fileList.splice(index,0,file)
-                            })
-            },
+            // 附件方法
             handleFileUpload(file, fileList) {
                 if(this.tabName == 'first') {
                     this.flag = true
                     this.ruleForm.attachm2 = file.name
                 }
+            },
+            // 证件方法
+            handleRemove(file, fileList) {
+                console.log(file,fileList,this.fileList2)
+                let index = this.fileList2.indexOf(file)
+                fileList.splice(index,0,file)
+                this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let data = {}
+                    if(file.response&&file.response.data[0]){
+                        data = {
+                            userNo:file.response.data[0].userNo,
+                            imageId:file.response.data[0].imageId,
+                        }
+                    }else {
+                        data = {
+                            userNo:file.userNo,
+                            imageId:file.imageId,
+                        }
+                    }
+                    console.log(data)
+                    this.$axios.delete('/iem_hrm/CustFile/delCustFile',{params:data})
+                        .then(res=>{
+                            let result = res.data.retMsg
+                            if("操作成功"==result){
+                                this.$message({
+                                    type: 'success',
+                                    message: result
+                                });
+                                fileList.splice(index,1)
+                            }else {
+                                this.$message({
+                                    type: 'error',
+                                    message: result
+                                });
+                            }
+                        })
+                        .catch(e=>{
+                            console.log(e)
+                            this.$message({
+                                type: 'error',
+                                message: e.retMsg
+                            });
+                        })
+                }).catch(()=>{
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                })
             },
             successUpload(response, file, fileList) {
                 if(this.tabName == 'first') {
@@ -950,24 +867,11 @@
                     }
                 }
             },
-            checkUserNo(file) {
-                if(!this.userNo){
-                    this.$message({
-                        type: 'error',
-                        message: '请先填写基本信息并点击右上角保存'
-                    });
-                    return false
-                }
-            },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
                 this.dialogVisible2 = true;
             },
-            dialogConfirm(custInfo){
-                let self = this;
-                self.ruleForm.lineManager = custInfo.stateName+'_'+custInfo.stateNo
-                self.dialogVisible = false;
-            },
+            // 头像上传方法
             handleAvatarChange(file, fileList) {
                 const isJPG = file.raw.type === 'image/jpeg';
                 const isLt2M = file.raw.size / 1024 / 1024 < 2;
@@ -998,7 +902,7 @@
 //                    });
 //                }
             },
-            
+            // 选择经理方法
             userNoSelect(){
                 //table
                 this.tableOption = [
@@ -1046,14 +950,23 @@
             changeDialogVisible(val) {
                 this.dialogVisible=val
             },
+            dialogConfirm(custInfo){
+                let self = this;
+                self.ruleForm.lineManager = custInfo.stateName+'_'+custInfo.stateNo
+                self.dialogVisible = false;
+            },
+            // 选择机构方法
             selectDep(organNo) {
                 let data = {organNo}
                 this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
                     .then(res=>{
                         this.basicInfo.department = res.data.data
-                        this.ruleForm.derpNo = ''
-                        this.ruleForm.ownerCCC = ''
-                        this.basicInfo.CCC = ''
+                        if(this.selectFlag) {
+                            this.ruleForm.derpNo = ''
+                            this.ruleForm.ownerCCC = ''
+                            this.basicInfo.CCC = []
+                        }
+                        this.selectFlag = true
                     })
                     .catch(e=>{
                         console.log(e)
@@ -1075,9 +988,8 @@
                     this.$axios.get('/iem_hrm/employeeProjectExperience/queryEmployeeProjectExperienceList/'+this.userNo)
                         .then(res=>{
                             console.log(res)
-                            this.project_item.userNo = this.userNo
-                            this.project_item.lists = res.data.data
-                            this.project_item.lists.forEach(item=>{
+                            this.project_item = res.data.data
+                            this.project_item.forEach(item=>{
                                 self.$set(item,'isShowEdit', true)
                                 item.startTime = new Date(item.startTime)
                                 item.endTime = new Date(item.endTime)
@@ -1091,9 +1003,8 @@
                 if(tab.name==='fourth'&&this.lock.eduLock){
                     this.$axios.get('/iem_hrm/epCustEduHis/queryEpCustEduHis',{params:{userNo:this.userNo}})
                         .then(res=>{
-                            this.education_item.userNo = this.userNo
-                            this.education_item.lists = res.data.data
-                            this.education_item.lists.forEach(item=>{
+                            this.education_item = res.data.data
+                            this.education_item.forEach(item=>{
                                 self.$set(item,'isShowEdit', true)
                                 item.startTime = new Date(item.startTime)
                                 item.endTime = new Date(item.endTime)
@@ -1107,13 +1018,18 @@
                 if(tab.name==='third'&&this.lock.workLock){
                     this.$axios.get('/iem_hrm/epCustWorkHis/queryEpCustWorkHis',{params:{userNo:this.userNo}})
                         .then(res=>{
-                            this.work_item = res.data.data
-                            this.work_item.forEach(item=>{
-                                self.$set(item,'isShowEdit', true)
-                                item.startTime = new Date(item.startTime)
-                                item.endTime = new Date(item.endTime)
-                            })
                             this.lock.workLock = false
+                            this.work_item = res.data.data.map(item=>{
+                                return {
+                                    startTime: new Date(item.startTime),
+                                    endTime: new Date(item.endTime),
+                                    company: item.company,
+                                    post1: item.post1,
+                                    duty: item.duty,
+                                    desc: item.desc,
+                                    isShowEdit: true
+                                }
+                            })
                         })
                         .catch(e=>{
                             console.log(e)
@@ -1122,9 +1038,8 @@
                 if(tab.name==='second'&&this.lock.socialLock){
                     this.$axios.get('/iem_hrm/CustContact/queryCustContacts',{params:{userNo:this.userNo}})
                         .then(res=>{
-                            console.log(res)
-                            this.social_item.userNo = this.userNo
-                            this.social_item.lists = res.data.data.map(item => {
+                            this.lock.socialLock = false
+                            this.social_item = res.data.data.map(item => {
                                 return {
                                     contactName: item.contactName,
                                     relationship: item.relationship,
@@ -1132,12 +1047,9 @@
                                     profession: item.profession,
                                     post: item.post,
                                     addr: item.addr,
+                                    isShowEdit: true
                                 }
                             })
-                            this.social_item.lists.forEach(item=>{
-                                self.$set(item,'isShowEdit', true)
-                            })
-                            this.lock.socialLock = false
                         })
                         .catch(e=>{
                             console.log(e)
@@ -1163,6 +1075,7 @@
                         })
                 }
             },
+            // 删除档案
             del() {
                 let self = this
                 this.$confirm('此操作将永久删除, 是否继续?', '提示', {
@@ -1188,6 +1101,10 @@
                         })
                         .catch(e=>{
                             console.log(e)
+                            self.$message({
+                                type: 'error',
+                                message: '删除失败,请稍后再试！'
+                            });
                         })
                 }).catch(()=>{
                     this.$message({
@@ -1199,26 +1116,6 @@
             bianji(tabName){
                 if('first' === tabName) {
                     this.edit = false
-                }
-                if('fifth' === tabName) {
-                    this.project_item.lists.forEach(item=>{
-                        item.isShowEdit = false
-                    })
-                }
-                if('fourth' === tabName) {
-                    this.education_item.lists.forEach(item=>{
-                        item.isShowEdit = false
-                    })
-                }
-                if('third' === tabName) {
-                    this.work_item.lists.forEach(item=>{
-                        item.isShowEdit = false
-                    })
-                }
-                if('second' === tabName) {
-                    this.social_item.lists.forEach(item=>{
-                        item.isShowEdit = false
-                    })
                 }
             },
             save(tabName) {
@@ -1249,6 +1146,7 @@
                                     });
                                     this.edit = true
                                     if(this.ruleForm.avatar) {
+                                        console.log('提交头像去了')
                                         self.$refs.uploadAvatar.submit()
                                     }
                                     if(this.flag) {
@@ -1281,21 +1179,25 @@
                     })
                 }
                 if('second'===tabName) {
-                    let socialItemLength = this.social_item.lists.length
+                    let socialItemLength = this.social_item.length
                     let count = 0
                     for (let i=0;i<socialItemLength;i++){
                         this.flag = false
                         let name = 'ruleFrom'+i
                         self.$refs[name][0].checkValue()
-                        this.social_item.lists.splice(i,1,this.$refs['ruleFrom'+i][0].ruleFrom)
+                        this.social_item.splice(i,1,this.$refs[name][0].ruleFrom)
                         if(this.flag) {
                             count++
                             self.$refs[name][0].ruleFrom.isShowEdit = true
                         }
                     }
-                    console.log(this.social_item)
                     if(count==socialItemLength){
-                        this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
+                        let data = {
+                            userNo: this.userNo,
+                            lists: this.social_item
+                        }
+                        console.log(data,'详情页社会关系提交数据')
+                        this.$axios.post('/iem_hrm/CustContact/saveCustContacts', data)
                             .then(res=>{
                                 let result = res.data.retMsg
                                 if('操作成功'==result){
@@ -1313,11 +1215,15 @@
                             })
                             .catch(e=>{
                                 console.log(e)
+                                self.$message({
+                                    type: 'error',
+                                    message: '添加失败,请稍后重试！'
+                                });
                             })
                     }else {
                         self.$message({
                             type: 'error',
-                            message: '请填写完整信息！'
+                            message: '请确保必填信息填写正确！'
                         });
                     }
                 }
@@ -1380,118 +1286,118 @@
                 }
                 if('fourth'===tabName) {
                     let educationItemLength = this.education_item.length
-                    let data = {
-                        userNo : this.education_item.userNo,
-                        lists : this.education_item.lists.map(item=>{
-                            return {
-                                startTime: item.startTime,
-                                endTime: item.endTime,
-                                schoolName: item.schoolName,
-                                major: item.major,
-                                education: item.education,
-                                desc: item.desc,
-                            }
-                        }),
-                    }
                     let count = 0
                     for (let i=0;i<educationItemLength;i++){
-                        let name = 'fourth'+i
-                        self.$refs[name][0].validate((valid) => {
-                            if (valid) {
-                                count++
-                                this.education_item.lists[i].isShowEdit = true
-                                data.lists[i].startTime = moment(data.lists[i].startTime).format('YYYY-MM-DD')
-                                data.lists[i].endTime = moment(data.lists[i].endTime).format('YYYY-MM-DD')
-                                if(count==educationItemLength){
-                                    this.$axios.post('/iem_hrm/epCustEduHis/saveEpCustEduHiss', data)
-                                        .then(res=>{
-                                            let result = res.data.retMsg
-                                            if(result==='操作成功'){
-                                                self.$message({
-                                                    type: 'success',
-                                                    message: result
-                                                });
-                                            }else {
-                                                self.$message({
-                                                    type: 'error',
-                                                    message: result
-                                                });
-                                            }
-                                        })
-                                        .catch(e=>{
-                                            console.log(e)
-                                            self.$message({
-                                                type: 'error',
-                                                message: '添加失败,请稍后重试！'
-                                            });
-                                        })
+                        let name = 'educationItem'+i
+                        this.flag = false
+                        self.$refs[name][0].checkValue()
+                        this.education_item.splice(i,1,this.$refs[name][0].ruleForm)
+                        if(this.flag) {
+                            count++
+                            self.$refs[name][0].ruleForm.isShowEdit = true
+                        }
+                    }
+                    if(count==educationItemLength){
+                        let data = {
+                            userNo : this.userNo,
+                            lists : this.education_item.map(item=>{
+                                return {
+                                    startTime: moment(item.startTime).format('YYYY-MM-DD'),
+                                    endTime: moment(item.endTime).format('YYYY-MM-DD'),
+                                    schoolName: item.schoolName,
+                                    major: item.major,
+                                    education: item.education,
+                                    desc: item.desc,
                                 }
-                            } else {
+                            }),
+                        }
+                        console.log(data,'详情页教育经历提交的数据')
+                        this.$axios.post('/iem_hrm/epCustEduHis/saveEpCustEduHiss', data)
+                            .then(res=>{
+                                let result = res.data.retMsg
+                                if(result==='操作成功'){
+                                    self.$message({
+                                        type: 'success',
+                                        message: result
+                                    });
+                                }else {
+                                    self.$message({
+                                        type: 'error',
+                                        message: result
+                                    });
+                                }
+                            })
+                            .catch(e=>{
+                                console.log(e)
                                 self.$message({
                                     type: 'error',
-                                    message: '请填写完整信息！'
+                                    message: '添加失败,请稍后重试！'
                                 });
-                            }
+                            })
+                    }else {
+                        self.$message({
+                            type: 'error',
+                            message: '请确保必填信息填写正确！'
                         });
                     }
                 }
                 if('fifth'===tabName) {
-                    let projectItemLength = this.project_item.lists.length
-                    let data = {
-                        userNo : this.project_item.userNo,
-                        lists : this.project_item.lists.map(item=>{
-                            return {
-                                startTime: item.startTime,
-                                endTime: item.endTime,
-                                projectName: item.projectName,
-                                mainSkill: item.mainSkill,
-                                projectRole: item.projectRole,
-                                softEnv: item.softEnv,
-                                custom: item.custom,
-                                projectDuty: item.projectDuty,
-                                desc: item.desc,
-                            }
-                        }),
-                    }
+                    let projectItemLength = this.project_item.length
                     let count = 0
                     for (let i=0;i<projectItemLength;i++){
-                        let name = 'fifth'+i
-                        self.$refs[name][0].validate((valid) => {
-                            if (valid) {
-                                count++
-                                this.project_item.lists[i].isShowEdit = true
-                                data.lists[i].startTime = moment(data.lists[i].startTime).format('YYYY-MM-DD')
-                                data.lists[i].endTime = moment(data.lists[i].endTime).format('YYYY-MM-DD')
-                                if(count==projectItemLength){
-                                    this.$axios.post('/iem_hrm/employeeProjectExperience/addEmployeeProjectExperienceInfo', data)
-                                        .then(res=>{
-                                            let result = res.data.retMsg
-                                            if(result==='操作成功'){
-                                                self.$message({
-                                                    type: 'success',
-                                                    message: result
-                                                });
-                                            }else {
-                                                self.$message({
-                                                    type: 'error',
-                                                    message: result
-                                                });
-                                            }
-                                        })
-                                        .catch(e=>{
-                                            console.log(e)
-                                            self.$message({
-                                                type: 'error',
-                                                message: '添加失败,请稍后重试！'
-                                            });
-                                        })
+                        let name = 'projectItem'+i
+                        this.flag = false
+                        self.$refs[name][0].checkValue()
+                        this.project_item.splice(i,1,this.$refs[name][0].ruleForm)
+                        if(this.flag) {
+                            count++
+                            self.$refs[name][0].ruleForm.isShowEdit = true
+                        }
+                    }
+                    if(count==projectItemLength){
+                        let data = {
+                            userNo : this.userNo,
+                            lists : this.project_item.map(item=>{
+                                return {
+                                    startTime: moment(item.startTime).format('YYYY-MM-DD'),
+                                    endTime: moment(item.endTime).format('YYYY-MM-DD'),
+                                    projectName: item.projectName,
+                                    mainSkill: item.mainSkill,
+                                    projectRole: item.projectRole,
+                                    softEnv: item.softEnv,
+                                    custom: item.custom,
+                                    projectDuty: item.projectDuty,
+                                    desc: item.desc,
                                 }
-                            } else {
+                            }),
+                        }
+                        console.log(data,'详情页项目经历提交的数据')
+                        this.$axios.post('/iem_hrm/employeeProjectExperience/addEmployeeProjectExperienceInfo', data)
+                            .then(res=>{
+                                let result = res.data.retMsg
+                                if(result==='操作成功'){
+                                    self.$message({
+                                        type: 'success',
+                                        message: result
+                                    });
+                                }else {
+                                    self.$message({
+                                        type: 'error',
+                                        message: result
+                                    });
+                                }
+                            })
+                            .catch(e=>{
+                                console.log(e)
                                 self.$message({
                                     type: 'error',
-                                    message: '请填写完整信息！'
+                                    message: '添加失败,请稍后重试！'
                                 });
-                            }
+                            })
+                    }else {
+                        self.$message({
+                            type: 'error',
+                            message: '请确保必填信息填写正确！'
                         });
                     }
                 }
@@ -1525,8 +1431,11 @@
                     this.flag = true
                 }
             },
-            delRelationItem(relationNum) {
-                this.social_item.lists.splice(relationNum,1)
+            delRelationItem(index) {
+                if(this.tabName == 'second') this.social_item.splice(index,1)
+                if(this.tabName == 'third') this.work_item.splice(index,1)
+                if(this.tabName == 'fourth') this.education_item.splice(index,1)
+                if(this.tabName == 'fifth') this.project_item.splice(index,1)
             },
             addItem() {
                 if('second'==this.tabName) {
@@ -1581,64 +1490,35 @@
                     this.work_item.push(item)
                 }
             },
-            proDel(isShow,index) {
-                if('fifth'==this.tabName){
-                    if(!isShow)  {
-                        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(() => {
-                            this.project_item.lists.splice(index,1)
-                        }).catch(()=>{
-                            this.$message({
-                                type: 'info',
-                                message: '已取消删除'
-                            });
-                        })
-                    }
-                    if(isShow) {
-                        this.project_item.lists[index].isShowEdit = !isShow
-                    }
-                }
-                if('fourth'==this.tabName){
-                    if(!isShow)  {
-                        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(() => {
-                            this.education_item.lists.splice(index,1)
-                        }).catch(()=>{
-                            this.$message({
-                                type: 'info',
-                                message: '已取消删除'
-                            });
-                        })
-                    }
-                    if(isShow) {
-                        this.education_item.lists[index].isShowEdit = !isShow
-                    }
-                }
-                if('third'==this.tabName){
-                    if(!isShow)  {
-                        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(() => {
-                            this.work_item.lists.splice(index,1)
-                        }).catch(()=>{
-                            this.$message({
-                                type: 'info',
-                                message: '已取消删除'
-                            });
-                        })
-                    }
-                    if(isShow) {
-                        this.work_item.lists[index].isShowEdit = !isShow
-                    }
-                }
+            holdBirthday(val){
+                this.ruleForm.birthday = val
+            },
+            holdGradTime(val){
+                this.ruleForm.gradTime = val
+            },
+            changeEntryTime(val) {
+                this.ruleForm.entryTime = val
+            },
+            changeLeftJobTime(val) {
+                this.ruleForm.leftJobTime = val
+            },
+            changeWorkTime(val) {
+                this.ruleForm.workTime = val
+            },
+            changeProfTitleTime(val) {
+                this.ruleForm.profTitleTime = val
+            },
+            changeCompactStartTime(val) {
+                this.ruleForm.compactStartTime = val
+            },
+            changeCompactEndTime(val) {
+                this.ruleForm.compactEndTime = val
+            },
+            changeProbStartTime(val) {
+                this.ruleForm.probStartTime = val
+            },
+            changeProbEndTime(val) {
+                this.ruleForm.probEndTime = val
             },
         },
     }

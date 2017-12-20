@@ -261,17 +261,17 @@
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="合同终止">
-                                                <el-date-picker v-model="ruleForm.compactEndTime" type="date" placeholder="选择日期" @change="changeCompactEndTime"></el-date-picker>
+                                                <el-date-picker v-model="ruleForm.compactEndTime" type="date" placeholder="选择日期" @change="changeCompactEndTime" :picker-options="pickerOptions"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
-                                            <el-form-item label="试用开始">
+                                            <el-form-item label="试用开始" prop="probStartTime">
                                                 <el-date-picker v-model="ruleForm.probStartTime" type="date" placeholder="选择日期" @change="changeProbStartTime"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
-                                            <el-form-item label="试用结束">
-                                                <el-date-picker v-model="ruleForm.probEndTime" type="date" placeholder="选择日期" @change="changeProbEndTime"></el-date-picker>
+                                            <el-form-item label="试用结束" prop="probEndTime">
+                                                <el-date-picker v-model="ruleForm.probEndTime" type="date" placeholder="选择日期" @change="changeProbEndTime" :picker-options="pickerOptions1"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
@@ -321,7 +321,7 @@
                                         </el-col>
                                         <el-col :md="9" :sm="24">
                                                 <el-form-item label="附件">
-                                                    <el-input v-model="ruleForm.attachm" style="position:absolute" :readOnly="true"></el-input>
+                                                    <el-input v-model="ruleForm.attachm" style="position:absolute" :readonly="true"></el-input>
                                                     <el-upload class="upload-demo" ref="upload" name="file"
                                                                action="/iem_hrm/CustInfo/insertCustInfo"
                                                                :show-file-list="false"
@@ -426,7 +426,27 @@
     import moment from 'moment'
     export default {
         data() {
+            let that = this
+            let validateEndTime = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请选择试用结束日期'));
+                } else if (value  < that.ruleForm.probStartTime) {
+                    callback(new Error('试用结日期不能小于试用开始日期'));
+                } else {
+                    callback();
+                }
+            }
           return {
+              pickerOptions: {
+                  disabledDate(time) {
+                      return time.getTime() < new Date(that.ruleForm.compactStartTime) - 3600*1000*24
+                  },
+              },
+              pickerOptions1: {
+                  disabledDate(time) {
+                      return time.getTime() < new Date(that.ruleForm.probStartTime) - 3600*1000*24
+                  },
+              },
               // 基础信息
               basicInfo:{
                 nation:'',
@@ -644,6 +664,12 @@
                   ],
                   entryTime: [
                       {required: true, message: '请选择入职时间', trigger: 'change'}
+                  ],
+                  probStartTime: [
+                      {required: true, message: '请选择试用开始时间', trigger: 'change'}
+                  ],
+                  probEndTime: [
+                      {type:'date',required: true, validator: validateEndTime, trigger: 'change'}
                   ],
               },
           }
