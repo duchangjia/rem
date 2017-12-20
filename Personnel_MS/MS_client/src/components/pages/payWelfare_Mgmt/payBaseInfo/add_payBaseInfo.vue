@@ -677,34 +677,35 @@ export default {
           rulesValid2 = true;
         } else {
           console.log("error submit!!");
-          if(rulesValid1 == true) {
+          if (rulesValid1 == true) {
             this.$message({
-            type: "error",
-            message: "请确保必填信息填写正确!"
-          });
+              type: "error",
+              message: "请确保必填信息填写正确!"
+            });
           }
           return false;
         }
       });
 
       if (rulesValid1 && rulesValid2) {
+        
+        for (var key in this.addPayBaseInfo) {
+          if (
+            this.addPayBaseInfo[key] == "" &&
+            key != "welcoeNo" &&
+            key != "attachm" &&
+            key != "remark"
+          ) {
+            this.addPayBaseInfo[key] = "0.00";
+          }
+        }
+        let newPayBaseInfo = this.addPayBaseInfo;
+        console.log("newPayBaseInfo", newPayBaseInfo);
         console.log("触发上传时的addPayBaseInfo", this.addPayBaseInfo);
         console.log("触发上传时的this.fileList:", this.fileList);
         if (this.fileList.length != 0) {
           this.$refs.upload.submit(); // 触发上传文件
         } else {
-          let newPayBaseInfo = this.addPayBaseInfo;
-          for (var key in newPayBaseInfo) {
-            if (
-              newPayBaseInfo[key] == "" &&
-              key != "welcoeNo" &&
-              key != "attachm" &&
-              key != "remark"
-            ) {
-              newPayBaseInfo[key] = "0.00";
-            }
-          }
-          console.log("newPayBaseInfo", newPayBaseInfo);
           this.$axios
             .post("/iem_hrm/pay/addPayBaseInfo", newPayBaseInfo)
             .then(res => {

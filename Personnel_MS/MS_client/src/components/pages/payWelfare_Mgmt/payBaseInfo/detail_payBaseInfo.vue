@@ -221,12 +221,16 @@
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
                             <el-button class="downloadBtn" @click="downloadFile">批量下载</el-button>
-                            <!-- <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
+                            <el-upload class="upload-demo uploadDisabled" ref="upload" name="file"  action="/iem_hrm/file/addFile" multiple
                                 :headers="token"
                                 :file-list="fileList"
-                                :show-file-list="true">
-                            </el-upload> -->
+                                :show-file-list="true"
+                                :auto-upload="false"
+                                :http-request="downLoadOnly">
+                            </el-upload>
+
                         </el-form-item>
+                        
                     </el-col>
                 </el-form>
             </div>
@@ -358,7 +362,7 @@ export default {
       self.$axios
         .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
         .then(res => {
-          console.log('custInfo_res',res);
+          console.log("custInfo_res", res);
           self.custInfo = res.data.data;
         })
         .catch(() => {
@@ -371,7 +375,7 @@ export default {
       self.$axios
         .get("/iem_hrm/pay/queryPayBaseInfoDetail/" + userNo)
         .then(res => {
-          console.log('payBaseInfoDetail_res',res);
+          console.log("payBaseInfoDetail_res", res);
           self.payBaseInfoDetail = res.data.data;
 
           if (
@@ -446,7 +450,36 @@ export default {
       this.payBaseInfoDetail.welcoeNo = val;
       this.getInsurancePayTemp(); //根据参数值查询保险缴纳标准
     },
-    downloadFile() {}
+    // 批量下载
+    downloadFile() {
+      let data = {
+        fileId: "000000000000"
+      };
+      this.$axios
+        // /iem_hrm/file/downloadFile/{fileId}
+        .get("/iem_hrm/file/downloadFile", {
+          params: data,
+          responseType: "blob"
+        })
+        .then(res => {
+          const blob = res.data;
+          console.log(res);
+          let elink = document.createElement("a"); // 创建a标签
+          elink.download = this.userNo + ".zip";
+          elink.style.display = "none";
+          elink.href = URL.createObjectURL(blob);
+          document.body.appendChild(elink);
+          elink.click(); // 触发点击a标签事件
+          document.body.removeChild(elink);
+        })
+        .catch(e => {
+          console.log(e);
+          this.$message({ message: "批量下载文件失败", type: "error" });
+        });
+    },
+    downLoadOnly(aaa) {
+        console.log('moren', aaa);
+    }
   }
 };
 </script>
