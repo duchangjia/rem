@@ -89,14 +89,17 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width: 100%;">
 					  		<el-input v-model="formdata.attachm"></el-input>
-					  		<el-upload class="upload-demo" ref="upload" name="file"
+					  		<el-upload class="upload-demo" ref="upload" 
 					  			 :data="addFormdata"
 					  			 :on-change="changeUpload" 
 					  			 :on-success="successUpload"
+					  			 :beforeUpload="beforeAvatarUpload"
 					  			 action="/iem_hrm/custDimhis/updateCustDimhis" 
 					  			 :show-file-list="true" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
+								 :name="filesName"
+                                 :multiple="true"
 					  		>
 	                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
 	                        </el-upload>
@@ -119,6 +122,7 @@
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
+				filesName: "files",
 				fileFlag: '',
 				formdata: {},
 				//部门列表
@@ -194,7 +198,10 @@
 	      	},
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-		 		this.formdata.attachm = file.name;
+				//  this.formdata.attachm = file.name;
+				 fileList.forEach(function(item) {
+					this.formdata.attachm += item.name + " ";
+				}, this);
 	      	},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
@@ -202,7 +209,22 @@
 	      			this.$router.push('/detail_dimission');
 	      		}
 	      		
-	      	},
+			},
+			// 上传前对文件的大小的判断
+		    beforeAvatarUpload (file) {
+//		      const extension = file.name.split('.')[1] === 'xls'
+//		      const extension2 = file.name.split('.')[1] === 'xlsx'
+//		      const extension3 = file.name.split('.')[1] === 'doc'
+//		      const extension4 = file.name.split('.')[1] === 'docx'
+		      const isLt2M = file.size / 1024 / 1024 < 10
+//		      if (!extension && !extension2 && !extension3 && !extension4) {
+//		        console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
+//		      }
+		      if (!isLt2M) {
+		      	this.$message({ message: '上传文件大小不能超过 10MB!', type: 'error' });
+		      }
+		      return  isLt2M	//extension || extension2 || extension3 || extension4 &&
+		    },
 	      	save(formName) {
 				const self = this;
 				this.$refs[formName].validate((valid) => {

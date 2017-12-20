@@ -18,13 +18,13 @@
 	            <router-view></router-view>
 	        </transition>
         </div>
-        <success-tip></success-tip>
+        <!-- <success-tip></success-tip> -->
     </div>
 </template>
 
 <script type='text/ecmascript-6'>
     import vHeader from './Header.vue'
-    import successTip from '../pages/user_Setting/successTip.vue'
+    // import successTip from '../pages/user_Setting/successTip.vue'
 	const baseURL = 'iem_hrm';
     export default {
     	data() {
@@ -46,7 +46,7 @@
 			}
 		},
         components: {
-            vHeader,successTip
+            vHeader
         },
         created() {
         	this.queryUserInfo();
