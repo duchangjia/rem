@@ -216,9 +216,8 @@ export default {
 			compList: [],
 			//差异列表
 			diffTypeList: [
-				{diffTypeNo: "0",diffTypeName: "全部"},
-				{diffTypeNo: "1",diffTypeName: "无差异"},
-				{diffTypeNo: "2",diffTypeName: "有差异"},
+				{diffTypeNo: "0",diffTypeName: "无差异"},
+				{diffTypeNo: "1",diffTypeName: "有差异"},
 			],
 			rules: {
 				startDate: [

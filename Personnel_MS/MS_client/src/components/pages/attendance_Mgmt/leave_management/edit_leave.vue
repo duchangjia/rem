@@ -63,7 +63,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="请假累计工时" prop="timeSheet">
-						    <el-input v-model.number="formdata2.timeSheet" placeholder="请输入请假累计工时"></el-input>
+						    <el-input v-model="formdata2.timeSheet" placeholder="请输入请假累计工时"></el-input>
 					  	</el-form-item>
 					</el-col> 
 				  	<el-col :span="24">
@@ -79,14 +79,17 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width: 100%;">
 				  		 	<el-input v-model="formdata2.attachm"></el-input>
-					  		<el-upload class="upload-demo" ref="upload" name="file"
+					  		<el-upload class="upload-demo" ref="upload" 
 					  			 :data="formdata"
 					  			 :on-change="changeUpload"
 					  			 :on-success="successUpload"
+								 :beforeUpload="beforeAvatarUpload"  
 					  			 action="/iem_hrm/leave/modifyLeaveInfo" 
 					  			 :show-file-list="false" 
 					  			 :auto-upload="false"
+								 :name="filesName"
 					  			 :headers="token"
+								 :multiple="true"
 					  		>
 	                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
 	                        </el-upload>
@@ -125,6 +128,7 @@
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
+				filesName: "files",
 				fileFlag: '',
 				leaveStartTime: '',
 				leaveEndTime: '',
@@ -144,7 +148,7 @@
 		            	{ required: true, message: '请假类型不能为空', trigger: 'blur' }
 	          		],
 	          		timeSheet: [
-	          			{ required: true, type: 'number', message: '请假累计工时不能为空', trigger: 'blur' },
+	          			{ required: true, message: '请假累计工时不能为空', trigger: 'blur' },
 						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的工时" }
 	          		],
 	          		remark: [
@@ -191,14 +195,33 @@
 			},
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-		 		this.formdata2.attachm = file.name;
+				// this.formdata2.attachm = file.name;
+				fileList.forEach(function(item) {
+					this.formdata2.attachm += item.name + " ";
+				}, this);
+				console.log("选中的fileList", fileList); 
 	      	},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
 	      			this.$message({ message: '操作成功', type: 'success' });
 					this.$router.push('/leave_management');
 	      		}
-	      	},
+			},
+			  // 上传前对文件的大小的判断
+		    beforeAvatarUpload (file) {
+//		      const extension = file.name.split('.')[1] === 'xls'
+//		      const extension2 = file.name.split('.')[1] === 'xlsx'
+//		      const extension3 = file.name.split('.')[1] === 'doc'
+//		      const extension4 = file.name.split('.')[1] === 'docx'
+		      const isLt2M = file.size / 1024 / 1024 < 10
+//		      if (!extension && !extension2 && !extension3 && !extension4) {
+//		        console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
+//		      }
+		      if (!isLt2M) {
+		      	this.$message({ message: '上传文件大小不能超过 10MB!', type: 'error' });
+		      }
+		      return  isLt2M	//extension || extension2 || extension3 || extension4 &&
+		    },
 	      	save(formName) {
 				const self = this;
 				this.$refs[formName].validate((valid) => {
@@ -234,6 +257,9 @@
 					console.log('leaveInfo',res);
 					if(res.data.code === "S00000") {
 						self.formdata2 = res.data.data;
+						for(let k in self.formdata2) {
+							self.formdata2[k] = self.formdata2[k] + '';
+						}
 					}
 					
 				}).catch((err) => {

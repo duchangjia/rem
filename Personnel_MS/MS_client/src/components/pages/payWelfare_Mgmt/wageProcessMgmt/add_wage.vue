@@ -217,9 +217,6 @@
 		        		organNo: sessionStorage.getItem('addWage_organNo')
 			      	}
 					//查询人员范围列表（选全部部门时）
-					// this.derpRangeList.forEach(function(ele,num) {
-					// 	ele.preRangeList = [];
-					// })
 			      	this.queryDerpAndUser(params);
 		      	} else {
 		        	this.checkedSubmenus = [];
@@ -255,13 +252,6 @@
 			      	derpNo: derpNo
 		      	}
 				  //查询人员范围列表（单个部门时）
-				  	// this.derpRangeList.forEach(function(ele,num) {
-					// 	if(ele.derpNo == derpNo) {
-					// 		console.log(ele.derpNo,'---'+derpNo)
-					// 		ele.preRangeList = [];
-					// 	}
-						
-					// })
 		      	this.queryDerpAndUser(params);
 		    },
 		    // 人员范围 多选
@@ -380,9 +370,6 @@
 							self.derpRangeList.forEach(function(ele,num) {
 								ele.preRangeList = [];
 							})
-							// self.formdata2.derpRange.forEach(function(ele,num) {
-							// 	ele.preRangeList = [];
-							// })
 							self.derpRangeList.forEach(function(ele,num) {
 								res.data.data.forEach(function(elem1, index1) {
 									if(self.derpRangeList[num].derpNo == elem1.derpNo) {
@@ -394,16 +381,6 @@
 
 								})
 							})
-							// self.formdata2.derpRange.forEach(function(ele,num) {
-							// 	res.data.data.forEach(function(elem1, index1) {
-							// 		if(ele.derpNo == elem1.derpNo) {
-							// 			self.formdata2.derpRange[num].preRangeList.push(elem1);
-							// 			self.$set(self.formdata2.derpRange,num,self.formdata2.derpRange[num]);
-							// 		}else {
-							// 			console.log('formdata2 false')
-							// 		}
-							// 	})
-							// })
 						} else {//查单个部门人员时
 							console.log('self.checkSubAllFlag',self.checkSubAllFlag);
 							console.log('查单个部门人员时的userList',res);
@@ -416,14 +393,6 @@
 									console.log('derpNo false')
 								}
 							})
-							// self.formdata2.derpRange.forEach(function(ele,num) {
-							// 	if(ele.derpNo == res.data.data[0].derpNo) {
-							// 		self.formdata2.derpRange[num].preRangeList = res.data.data;
-							// 		self.$set(self.formdata2.derpRange,num,self.formdata2.derpRange[num]);
-							// 	}else {
-							// 		console.log('formdata2 false')
-							// 	}
-							// })
 						}
 						
 						console.log('self.derpRangeList',self.derpRangeList)
@@ -456,6 +425,7 @@
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.derpRangeList = res.data.data;
+						self.checkedSubmenus = [];//重选公司清空之前公司的部门列表
 					}
 					
 				}).catch((err) => {
