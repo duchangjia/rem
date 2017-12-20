@@ -251,7 +251,6 @@
 							if(ele.derpNo == res.data.data[0].derpNo) {
 								self.derpRangeList[num].preRangeList = res.data.data;
 								self.$set(self.derpRangeList, num, self.derpRangeList[num]);
-								console.log('self.derpRangeList',self.derpRangeList)
 							}else {
 								console.log('deparNo false')
 							}
@@ -260,13 +259,13 @@
 							if(ele.derpNo == res.data.data[0].derpNo) {
 								self.formdata2.derpRange[num].preRangeList = res.data.data;
 								self.$set(self.formdata2.derpRange,num,self.formdata2.derpRange[num]);
-								console.log('self.formdata2.derpRange',self.formdata2.derpRange)
 							}else {
 								console.log('formdata2 false')
 							}
 						})
+								console.log('self.derpRangeList',self.derpRangeList)
+								console.log('self.formdata2.derpRange',self.formdata2.derpRange)
 					}
-					
 				}).catch((err) => {
 					console.log(err);
 				})

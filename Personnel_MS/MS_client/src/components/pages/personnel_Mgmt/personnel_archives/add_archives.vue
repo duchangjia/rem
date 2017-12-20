@@ -12,7 +12,7 @@
                                             class="avatar-uploader"
                                             action="/iem_hrm/CustInfo/uploadAvatar"
                                             :show-file-list="false"
-                                            :data="avatar"
+                                            :data="uploadUserNo"
                                             :auto-upload="false"
                                             :on-change="handleAvatarChange"
                                             :on-success="handleAvatarSuccess"
@@ -174,7 +174,7 @@
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="直线经理" class="line-manager">
-                                                <el-input v-model="ruleForm.lineManager" readOnly>
+                                                <el-input v-model="ruleForm.lineManager" placeholder="请选择员工编号" :readonly="true">
                                                     <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
                                                 </el-input>
                                                 <messageBox
@@ -321,7 +321,7 @@
                                         </el-col>
                                         <el-col :md="9" :sm="24">
                                                 <el-form-item label="附件">
-                                                    <el-input v-model="ruleForm.attachm" style="position:absolute" readOnly></el-input>
+                                                    <el-input v-model="ruleForm.attachm" style="position:absolute" :readOnly="true"></el-input>
                                                     <el-upload class="upload-demo" ref="upload" name="file"
                                                                action="/iem_hrm/CustInfo/insertCustInfo"
                                                                :show-file-list="false"
@@ -344,7 +344,7 @@
                                         <span>社会关系</span><span class="text" @click="add_item">继续添加</span>
                                     </div>
                                     <div class="second_content_wrapper">
-                                        <socialItem v-for="(item, index) in social_item.lists"
+                                        <socialItem v-for="(item, index) in social_item"
                                                             :ruleFrom="item" :relationNum="index"
                                                             @del_item="delRelationItem" @pass_validate="passValidate"
                                                             :ref="`ruleFrom${index}`">
@@ -356,69 +356,18 @@
                                 <div class="third-wrapper">
                                     <div class="title"><span>工作经历</span><span class="text" @click="add_item">继续添加</span></div>
                                     <div class="from-wrapper">
-                                        <workItem v-for="(item, index) in work_item" :index="index"
+                                        <workItem v-for="(item, index) in work_item" :index="index" :ruleForm="item"
                                                   @del_item="delRelationItem" @pass_validate="passValidate"
                                                   :ref="`workItem${index}`">
                                         </workItem>
                                     </div>
-                                    <!--<div class="from-wrapper">-->
-                                            <!--<el-form :model="ruleForm4" :rules="rules4" ref="ruleForm4" label-width="100px">-->
-                                                <!--<el-form-item label="公司名称" prop="companyName">-->
-                                                    <!--<el-input v-model="ruleForm4.companyName"></el-input>-->
-                                                <!--</el-form-item>-->
-                                                <!--<el-form-item label="职位" prop="position" class="position_special">-->
-                                                    <!--<el-input v-model="ruleForm4.position"></el-input>-->
-                                                <!--</el-form-item>-->
-                                                <!--<el-form-item label="工作时间" prop="workTime1" class="workTime_common">-->
-                                                    <!--<el-date-picker type="date" placeholder="选择日期" v-model="ruleForm4.workTime1"></el-date-picker>-->
-                                                <!--</el-form-item>-->
-                                                <!--<el-form-item label="至" prop="workTime2" class="workTime_common workTime_special">-->
-                                                    <!--<el-date-picker type="date" v-model="ruleForm4.workTime2" placeholder="选择日期"></el-date-picker>-->
-                                                <!--</el-form-item>-->
-                                                <!--<el-form-item label="工作描述" prop="workDes">-->
-                                                    <!--<el-input v-model="ruleForm4.workDes" type="textarea" class="workDes_special"></el-input>-->
-                                                <!--</el-form-item>-->
-                                                <!--<div class="button-wrapper">-->
-                                                    <!--<button>保存</button>-->
-                                                    <!--<button class="button_special">取消</button>-->
-                                                    <!--<span @click="delWorkItem">删除本条</span>-->
-                                                <!--</div>-->
-                                            <!--</el-form>-->
-                                    <!--</div>-->
-                                    <!--<div class="work_list">-->
-                                        <!--<div class="mask"></div>-->
-                                        <!--<div class="line1">-->
-                                            <!--<div class="line1_title">-->
-                                                <!--<span class="circle"></span>-->
-                                                <!--<span>深圳前海橙色魔方技术有限公司</span>-->
-                                                <!--<span class="line1_time">2015/09 - 2017/10<i class="el-icon-edit"></i></span>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="zhiwei">UI设计师</div>-->
-                                        <!--<div class="description">-->
-                                            <!--这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--<div class="work_list">-->
-                                        <!--<div class="line1">-->
-                                            <!--<div class="line1_title">-->
-                                                <!--<span class="circle"></span>-->
-                                                <!--<span>深圳前海橙色魔方技术有限公司</span>-->
-                                                <!--<span class="line1_time">2015/09 - 2017/10<i class="el-icon-edit"></i></span>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="zhiwei">UI设计师</div>-->
-                                        <!--<div class="description">-->
-                                            <!--这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里-->
-                                        <!--</div>-->
-                                    <!--</div>-->
                                 </div>
                             </el-tab-pane>
                             <el-tab-pane label="教育背景" name="fourth">
                                 <div class="fourth-wrapper">
                                     <div class="title"><span>教育背景</span><span  class="text" @click="add_item">继续添加</span></div>
                                     <div class="from-wrapper">
-                                        <educationItem v-for="(item, index) in education_item" :index="index"
+                                        <educationItem v-for="(item, index) in education_item" :index="index" :ruleForm="item"
                                                   @del_item="delRelationItem" @pass_validate="passValidate"
                                                   :ref="`educationItem${index}`">
                                         </educationItem>
@@ -429,56 +378,10 @@
                                 <div class="fifth-wrapper">
                                     <div class="title"><span>项目经历</span><span class="text" @click="add_item">继续添加</span></div>
                                     <div class="from-wrapper">
-                                        <div v-for="(item, index) in project_item.lists" style="margin-top: 30px; position: relative">
-                                            <el-form :model="item" :rules="rules5" label-width="100px" :ref="`fifth${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
-                                                <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
-                                               <el-col :md="12" :sm="24">
-                                                       <div style="display: flex">
-                                                           <el-form-item label="时间" prop="startTime" class="fifth_common" style="margin-right: -40px">
-                                                               <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
-                                                           </el-form-item>
-                                                           <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
-                                                               <el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>
-                                                           </el-form-item>
-                                                       </div>
-                                               </el-col>
-                                                <el-col :md="12" :sm="24">
-                                                    <el-form-item label="项目名称" prop="projectName">
-                                                        <el-input v-model="item.projectName" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :md="12" :sm="24">
-                                                    <el-form-item label="主要技能" prop="mainSkill">
-                                                        <el-input v-model="item.mainSkill" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :md="12" :sm="24">
-                                                    <el-form-item label="项目角色" prop="projectRole">
-                                                        <el-input v-model="item.projectRole" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :md="12" :sm="24">
-                                                    <el-form-item label="软件环境" prop="softEnv">
-                                                        <el-input v-model="item.softEnv" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :md="12" :sm="24">
-                                                    <el-form-item label="客户" prop="custom">
-                                                        <el-input v-model="item.custom" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :md="24" :sm="24">
-                                                    <el-form-item label="项目职责" prop="projectDuty" class="fifth_common">
-                                                        <el-input type="textarea" v-model="item.projectDuty" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                                <el-col :md="24" :sm="24">
-                                                    <el-form-item label="项目描述" prop="desc" class="fifth_common">
-                                                        <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
-                                                    </el-form-item>
-                                                </el-col>
-                                            </el-form>
-                                        </div>
+                                        <projectItem v-for="(item, index) in project_item" :index="index" :ruleForm="item"
+                                                       @del_item="delRelationItem" @pass_validate="passValidate"
+                                                       :ref="`projectItem${index}`">
+                                        </projectItem>
                                     </div>
                                 </div>
                             </el-tab-pane>
@@ -489,7 +392,7 @@
                                            :file-list="fileList2"
                                             :on-preview="handlePictureCardPreview"
                                             :on-remove="handleRemove"
-                                            :data="certificates_list"
+                                            :data="uploadUserNo"
                                             multiple
                                             :on-success="successUpload"
                                             :before-upload="checkUserNo"
@@ -518,31 +421,13 @@
     import socialItem from './social_relation_item.vue'
     import workItem from './work_experience_item.vue'
     import educationItem from './education_experience_item.vue'
+    import projectItem from './project_experience_item.vue'
     import messageBox from "../../../common/messageBox-components.vue"
     import moment from 'moment'
     export default {
-
         data() {
           return {
-              workrouqi: {},
-              workDisabledTime0: {
-                  disabledDate: (time) => {
-
-                      return  time.getTime() < this.work_item.lists[0].startTime
-//                      return this.workrouqi
-                  }
-              },
-//              pickerOptions() {
-//                if(this.project_item.lists.length) {
-//                    this.project_item.lists.forEach((item,index)=>{
-//                        this.disabledTime.project_item[index] = {
-//                            disabledDate: (time) => {
-//                                return time.getTime() < item.startTime
-//                            }
-//                        }
-//                    })
-//                }
-//              },
+              // 基础信息
               basicInfo:{
                 nation:'',
                 education:'',
@@ -555,6 +440,9 @@
               flag: false,
               //公共数据
               userNo: '',
+              uploadUserNo:{
+                  userNo: '',
+              },
               token: {
                   Authorization:`Bearer `+localStorage.getItem('access_token'),
               },
@@ -562,9 +450,6 @@
               tabName:'first',
               //头像数据
               imageUrl: '',
-              avatar:{
-                  userNo:'',
-              },
               //证件管理数据
               fileList2:[],
               dialogImageUrl: '',
@@ -581,11 +466,8 @@
               boxTitle:'',
               numType:'',
               //选项卡数据
-              social_item:{
-                  userNo:'',
-                  lists:[
+              social_item:[
                       {
-                          contactId: '',
                           contactName: '',
                           relationship: '',
                           telphone: '',
@@ -594,25 +476,21 @@
                           addr: '',
                           isShowEdit: false
                       },
-                  ]
-              },
-              project_item:{
-                  userNo:'',
-                  lists:[
-                      {
-                          startTime: '',
-                          endTime: '',
-                          projectName: '',
-                          mainSkill: '',
-                          projectRole: '',
-                          softEnv: '',
-                          custom: '',
-                          projectDuty: '',
-                          desc: '',
-                          isShowEdit: false
-                      },
-                  ]
-              },
+              ],
+              project_item:[
+                  {
+                      startTime: '',
+                      endTime: '',
+                      projectName: '',
+                      mainSkill: '',
+                      projectRole: '',
+                      softEnv: '',
+                      custom: '',
+                      projectDuty: '',
+                      desc: '',
+                      isShowEdit: false
+                  },
+              ],
               education_item:[
                   {
                       startTime: '',
@@ -635,12 +513,9 @@
                       isShowEdit: false
                   },
               ],
-              certificates_list:{
-                userNo:'',
-              },
                 //员工基础信息数据
               ruleForm: {
-                  avatar: '',
+                  avatarFlag:'',
                   custName: '',
                   certNo: '',
                   certType: '',
@@ -688,6 +563,7 @@
                   housAcct: '',
                   remark: '',
                   attachm: '',
+                  attachmFlag: '',
               },
               rules: {
                   custName: [
@@ -770,92 +646,69 @@
                       {required: true, message: '请选择入职时间', trigger: 'change'}
                   ],
               },
-              //公共校验
-              rules5: {
-                  startTime: [
-                      {type:'date', required: true, message: '请选择日期范围', trigger: 'change'}
-                  ],
-                  endTime: [
-                      {type:'date', required: true, message: '请选择时间', trigger: 'change'}
-                  ],
-                  projectName: [
-                      {required: true, message: '请输入项目名称', trigger: 'blur'}
-                  ],
-                  mainSkill: [
-                      {required: true, message: '请输入主要技能', trigger: 'blur'}
-                  ],
-                  projectRole: [
-                      {required: true, message: '请输入项目角色', trigger: 'blur'}
-                  ],
-                  softEnv: [
-                      {required: true, message: '请输入软件环境', trigger: 'blur'}
-                  ],
-                  custom: [
-                      {required: true, message: '请输入客户', trigger: 'blur'}
-                  ],
-                  projectDuty: [
-                      {required: true, message: '请输入项目职责', trigger: 'blur'}
-                  ],
-                  desc: [
-                      {required: true, message: '请输入描述', trigger: 'blur'}
-                  ],
-              },
           }
         },
         watch:{
+            //　监视userNo是否发生改变，如改变，清空选项卡数据，如没有改变则不清空
             userNo:{
                 handler: function (val, oldVal) {
-                    console.log(val,oldVal)
-                    if(oldVal=='') return
-                    this.social_item.lists = [
-                        {
-                            contactId: '',
-                            contactName: '',
-                            relationship: '',
-                            telphone: '',
-                            profession: '',
-                            post: '',
-                            addr: '',
-                            isShowEdit: false
-                        },
-                    ],
-                    this.project_item.lists = [
-                        {
-                            startTime: '',
-                            endTime: '',
-                            projectName: '',
-                            mainSkill: '',
-                            projectRole: '',
-                            softEnv: '',
-                            custom: '',
-                            projectDuty: '',
-                            desc: '',
-                            isShowEdit: false
-                        },
-                    ],
-                    this.education_item = [
-                        {
-                            startTime: '',
-                            endTime: '',
-                            schoolName: '',
-                            major: '',
-                            education: '',
-                            desc: '',
-                            isShowEdit: false
-                        },
-                    ],
-                    this.work_item = [
-                        {
-                            startTime: '',
-                            endTime: '',
-                            company: '',
-                            post1: '',
-                            duty: '',
-                            desc: '',
-                            isShowEdit: false
-                        },
-                    ],
-                    this.fileList2 = []
+                    console.log('新:'+val,'旧:'+oldVal,'监视userNo')
+                    if(oldVal!=='') {
+                        this.social_item = [
+                            {
+                                contactName: '',
+                                relationship: '',
+                                telphone: '',
+                                profession: '',
+                                post: '',
+                                addr: '',
+                                isShowEdit: false
+                            },
+                        ],
+                        this.project_item = [
+                            {
+                                startTime: '',
+                                endTime: '',
+                                projectName: '',
+                                mainSkill: '',
+                                projectRole: '',
+                                softEnv: '',
+                                custom: '',
+                                projectDuty: '',
+                                desc: '',
+                                isShowEdit: false
+                            },
+                        ],
+                        this.education_item = [
+                            {
+                                startTime: '',
+                                endTime: '',
+                                schoolName: '',
+                                major: '',
+                                education: '',
+                                desc: '',
+                                isShowEdit: false
+                            },
+                        ],
+                        this.work_item = [
+                            {
+                                startTime: '',
+                                endTime: '',
+                                company: '',
+                                post1: '',
+                                duty: '',
+                                desc: '',
+                                isShowEdit: false
+                            },
+                        ],
+                        this.fileList2 = []
+//                        this.$refs.workItem0[0].ruleForm.isShowEdit = false
+//                        this.$refs.educationItem0[0].ruleForm.isShowEdit = false
+//                        this.$refs.projectItem0[0].ruleForm.isShowEdit = false
+//                        this.$refs.workItem0[0].resetForm()
+//                        this.$refs.educationItem0[0].resetForm()
+//                        this.$refs.projectItem0[0].resetForm()
+                    }
                 },
             },
 //            'ruleForm.certNo': {
@@ -867,7 +720,7 @@
 //            }
         },
         components: {
-            current,socialItem,workItem,educationItem,messageBox
+            current,socialItem,workItem,educationItem,projectItem,messageBox
         },
         created() {
             let self = this
@@ -902,39 +755,6 @@
 //                    }
 //                })
 //            },
-            changeBirthday(val) {
-                this.ruleForm.birthday = val
-            },
-            changeGradtime(val) {
-                this.ruleForm.gradTime = val
-            },
-            changeEntryTime(val) {
-                this.ruleForm.entryTime = val
-            },
-            changeleftJobTime(val) {
-                this.ruleForm.leftJobTime = val
-            },
-            changeworkTime(val) {
-                this.ruleForm.workTime = val
-            },
-            changeprofTitleTime(val) {
-                this.ruleForm.profTitleTime = val
-            },
-            changeCompactStartTime(val) {
-                this.ruleForm.compactStartTime = val
-            },
-            changeCompactEndTime(val) {
-                this.ruleForm.compactEndTime = val
-            },
-            changeProbStartTime(val) {
-                this.ruleForm.probStartTime = val
-            },
-            changeProbEndTime(val) {
-                this.ruleForm.probEndTime = val
-            },
-            handleClick(tab, event) {
-                this.tabName = tab.name
-            },
             //头像上传
             handleAvatarChange(file, fileList) {
                 const isJPG = file.raw.type === 'image/jpeg';
@@ -947,18 +767,20 @@
                     this.$message.error('上传头像图片大小不能超过 2MB!');
                     return isLt2M
                 }
-                this.ruleForm.avatar = true
+                // 标记头像上传是否需要触发
+                if(this.ruleForm.avatarName == file.name) return
+                this.ruleForm.avatarFlag = true
+                this.ruleForm.avatarName = file.name
                 this.imageUrl = URL.createObjectURL(file.raw);
             },
             handleAvatarSuccess(res, file) {
-                console.log(res,'头像上传',this.avatar.userNo)
+                console.log(res,'头像上传')
                 let result = res.retMsg
                 if('操作成功'===result) {
                     this.$message({
                         type: 'success',
                         message: result
                     });
-                    this.ruleForm.avatar = ''
                 } else {
                     this.$message({
                         type: 'error',
@@ -968,38 +790,53 @@
             },
             //证件方法
             handleRemove(file, fileList) {
-                console.log(fileList,this.fileList2,file)
-                let index = this.fileList2.indexOf(file)
-                if(file.response&&file.response.data[0]){
-                        let data = {
-                            userNo:file.response.data[0].userNo,
-                            imageId:file.response.data[0].imageId,
-                        }
-                        this.$axios.delete('/iem_hrm/CustFile/delCustFile',{params:data})
-                            .then(res=>{
-                                let result = res.data.retMsg
-                                if("操作成功"==result){
-                                    this.$message({
-                                        type: 'success',
-                                        message: result
-                                    });
-                                }else {
+                if(this.flag) {
+                    console.log(fileList,this.fileList2,file)
+                    let index = this.fileList2.indexOf(file)
+                    fileList.splice(index,0,file)
+                    this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        if(file.response&&file.response.data[0]){
+                            let data = {
+                                userNo:file.response.data[0].userNo,
+                                imageId:file.response.data[0].imageId,
+                            }
+                            this.$axios.delete('/iem_hrm/CustFile/delCustFile',{params:data})
+                                .then(res=>{
+                                    let result = res.data.retMsg
+                                    if("操作成功"==result){
+                                        this.$message({
+                                            type: 'success',
+                                            message: result
+                                        });
+                                        fileList.splice(index,1)
+                                    }else {
+                                        this.$message({
+                                            type: 'error',
+                                            message: result
+                                        });
+//                                    fileList.splice(index,0,file)
+                                    }
+                                })
+                                .catch(e=>{
                                     this.$message({
                                         type: 'error',
-                                        message: result
+                                        message: e.retMsg
                                     });
-                                    fileList.splice(index,0,file)
-                                }
-                            })
-                            .catch(e=>{
-                                this.$message({
-                                    type: 'error',
-                                    message: e.retMsg
-                                });
-                                console.log(e)
-                                fileList.splice(index,0,file)
-                            })
-                    }
+                                    console.log(e)
+//                                fileList.splice(index,0,file)
+                                })
+                        }
+                    }).catch(()=>{
+                        this.$message({
+                            type: 'info',
+                            message: '已取消删除'
+                        });
+                    })
+                }
             },
             handlePictureCardPreview(file) {
                 this.dialogImageUrl = file.url;
@@ -1007,8 +844,9 @@
             },
             handleFileUpload(file, fileList) {
                 if(this.tabName == 'first') {
+                    if(this.ruleForm.attachm == file.name ) return
                     this.ruleForm.attachm = file.name
-                    this.ruleForm.file = file.name
+                    this.ruleForm.attachmFlag = true
                 }
             },
             successUpload(response, file, fileList) {
@@ -1017,14 +855,10 @@
                     let result = response.retMsg
                     console.log(response,'successUpload',response.data)
                     if('操作成功'==result){
-                        let aa = response.data
-                        self.social_item.userNo = aa
-                        self.project_item.userNo = aa
-                        self.certificates_list.userNo = aa
-                        self.avatar.userNo = aa
-                        this.ruleForm.file = ''
-                        if(self.ruleForm.avatar){
-                            console.log(self.avatar.userNo,'self.ruleForm.avatar')
+                        self.uploadUserNo.userNo = this.userNo = response.data
+                        if(self.ruleForm.avatarFlag){
+                            self.ruleForm.avatarFlag = ''
+                            console.log(self.uploadUserNo.userNo,'提交头像上传去了')
                             self.$refs.uploadAvatar.submit()
                         }else {
                             this.$message({ message: '操作成功', type: 'success' });
@@ -1038,6 +872,7 @@
                     console.log(response,'????????successUpload????????',file,'????????successUpload????????',fileList)
                     if(response.code === "S00000") {
                         this.$message({ message: '操作成功', type: 'success' });
+                        this.flag = true
                         this.fileList2 = fileList
                     }else if(response.code === 'hrm_h0093') {
                         this.$message({
@@ -1059,11 +894,12 @@
             },
             checkUserNo(file) {
                 if(this.tabName == 'sixth') {
-                    if(!this.certificates_list.userNo){
+                    if(!this.userNo){
                         this.$message({
                             type: 'error',
                             message: '请先填写基本信息并点击右上角保存'
                         });
+                        this.flag = false
                         return false
                     }
                 }
@@ -1128,6 +964,7 @@
                     .then(res=>{
                         this.ruleForm.derpNo = ''
                         this.basicInfo.department = res.data.data
+                        this.ruleForm.ownerCCC = ''
                         this.basicInfo.CCC = ''
                     })
                     .catch(e=>{
@@ -1143,6 +980,7 @@
                         console.log(e)
                     })
             },
+            // 核心,保存数据的方法
             save(tabName) {
                 let self = this
                 if('first' === tabName){
@@ -1154,7 +992,7 @@
                         }else {
                             self.$message({
                                 type: 'error',
-                                message: '请填写必须信息!'
+                                message: '请确保必填信息填写正确!'
                             });
                         }
                     })
@@ -1165,13 +1003,14 @@
                             if(rule1) {
                                 self.$message({
                                     type: 'error',
-                                    message: '请填写必须信息!'
+                                    message: '请确保必填信息填写正确!'
                                 });
                             }
                         }
                     })
                     if(rule1 && rule2) {
-                        if(this.ruleForm.attachm&&this.ruleForm.file) {
+                        if(this.ruleForm.attachm && this.ruleForm.attachmFlag) {
+                            this.ruleForm.attachmFlag = ''
                             console.log(this.ruleForm,'upload')
                             self.$refs.upload.submit()
                         }else {
@@ -1179,19 +1018,17 @@
                             this.$axios.post('/iem_hrm/CustInfo/insertCustInfo', this.ruleForm)
                                 .then(res=>{
                                     let result = res.data.retMsg
-                                    console.log(res,res.data.data)
+                                    console.log(res,res.data.data,'正常提交响应')
                                     if(result=="操作成功"){
                                         self.$message({
                                             type: 'success',
                                             message: result
                                         });
                                         this.userNo = res.data.data
-                                        self.social_item.userNo = this.userNo
-                                        self.project_item.userNo = this.userNo
-                                        self.certificates_list.userNo = this.userNo
-                                        self.avatar.userNo = res.data.data
-                                        if(self.ruleForm.avatar){
-                                            console.log('avatar',self.ruleForm.avatar,self.avatar)
+                                        self.uploadUserNo.userNo = this.userNo
+                                        if(self.ruleForm.avatarFlag){
+                                            self.ruleForm.avatarFlag = ''
+                                            console.log('avatar',self.ruleForm.avatarFlag,self.uploadUserNo)
                                             self.$refs.uploadAvatar.submit()
                                         }else {
                                             self.$message({
@@ -1208,33 +1045,41 @@
                                 })
                                 .catch(e=>{
                                     console.log(e)
+                                    self.$message({
+                                        type: 'error',
+                                        message: '添加失败,请稍后重试！'
+                                    });
                                 })
                         }
                     }
                 }
                 if('second'===tabName) {
-                    if(!this.social_item.userNo){
+                    if(!this.userNo){
                         self.$message({
                             type: 'error',
                             message: '请先填写基本信息并点击右上角保存'
                         });
                         return
                     }
-                    let socialItemLength = this.social_item.lists.length
+                    let socialItemLength = this.social_item.length
                     let count = 0
                     for (let i=0;i<socialItemLength;i++){
                         this.flag = false
                         let name = 'ruleFrom'+i
                         self.$refs[name][0].checkValue()
-                        this.social_item.lists.splice(i,1,this.$refs['ruleFrom'+i][0].ruleFrom)
+                        this.social_item.splice(i,1,this.$refs[name][0].ruleFrom)
                         if(this.flag) {
                             count++
                             self.$refs[name][0].ruleFrom.isShowEdit = true
                         }
                     }
-                    console.log(this.social_item)
                     if(count==socialItemLength){
-                        this.$axios.post('/iem_hrm/CustContact/saveCustContacts', this.social_item)
+                        let data = {
+                            userNo: this.userNo,
+                            lists: this.social_item
+                        }
+                        console.log(data,'社会关系提交数据')
+                        this.$axios.post('/iem_hrm/CustContact/saveCustContacts', data)
                             .then(res=>{
                                 let result = res.data.retMsg
                                 if('操作成功'==result){
@@ -1251,11 +1096,15 @@
                             })
                             .catch(e=>{
                                 console.log(e)
+                                self.$message({
+                                    type: 'error',
+                                    message: '添加失败,请稍后重试！'
+                                });
                             })
                     }else {
                         self.$message({
                             type: 'error',
-                            message: '请填写完整信息！'
+                            message: '请确保必填信息填写正确！'
                         });
                     }
                 }
@@ -1275,54 +1124,54 @@
                         this.flag = false
                         let name = 'workItem'+i
                         self.$refs[name][0].checkValue()
-                        this.work_item.splice(i,1,this.$refs[name][0].ruleFrom)
+                        this.work_item.splice(i,1,this.$refs[name][0].ruleForm)
                         if(this.flag) {
                             count++
-                            self.$refs[name][0].ruleFrom.isShowEdit = true
+                            self.$refs[name][0].ruleForm.isShowEdit = true
                         }
-                        if(count==workItemLength){
-                            let data = {
-                                userNo : this.userNo,
-                                lists : this.work_item.map(item=>{
-                                    return {
-                                        startTime: moment(item.startTime).format('YYYY-MM-DD'),
-                                        endTime: moment(item.endTime).format('YYYY-MM-DD'),
-                                        company: item.company,
-                                        post1: item.post1,
-                                        duty: item.duty,
-                                        desc: item.desc,
-                                    }
-                                }),
-                            }
-                            console.log(data,'工作经历提交的数据')
-                            this.$axios.post('/iem_hrm/epCustWorkHis/saveEpCustWorkHiss', data)
-                                .then(res=>{
-                                    let result = res.data.retMsg
-                                    if(result==='操作成功'){
-                                        self.$message({
-                                            type: 'success',
-                                            message: result
-                                        });
-                                    }else {
-                                        self.$message({
-                                            type: 'error',
-                                            message: result
-                                        });
-                                    }
-                                })
-                                .catch(e=>{
-                                    console.log(e)
+                    }
+                    if(count==workItemLength){
+                        let data = {
+                            userNo : this.userNo,
+                            lists : this.work_item.map(item=>{
+                                return {
+                                    startTime: moment(item.startTime).format('YYYY-MM-DD'),
+                                    endTime: moment(item.endTime).format('YYYY-MM-DD'),
+                                    company: item.company,
+                                    post1: item.post1,
+                                    duty: item.duty,
+                                    desc: item.desc,
+                                }
+                            }),
+                        }
+                        console.log(data,'工作经历提交的数据')
+                        this.$axios.post('/iem_hrm/epCustWorkHis/saveEpCustWorkHiss', data)
+                            .then(res=>{
+                                let result = res.data.retMsg
+                                if(result==='操作成功'){
+                                    self.$message({
+                                        type: 'success',
+                                        message: result
+                                    });
+                                }else {
                                     self.$message({
                                         type: 'error',
-                                        message: '添加失败,请稍后重试！'
+                                        message: result
                                     });
-                                })
-                        }else {
-                            self.$message({
-                                type: 'error',
-                                message: '请确保必填信息填写正确！'
-                            });
-                        }
+                                }
+                            })
+                            .catch(e=>{
+                                console.log(e)
+                                self.$message({
+                                    type: 'error',
+                                    message: '添加失败,请稍后重试！'
+                                });
+                            })
+                    }else {
+                        self.$message({
+                            type: 'error',
+                            message: '请确保必填信息填写正确！'
+                        });
                     }
                 }
                 if('fourth'===tabName) {
@@ -1339,124 +1188,125 @@
                         let name = 'educationItem'+i
                         this.flag = false
                         self.$refs[name][0].checkValue()
-                        this.education_item.splice(i,1,this.$refs[name][0].ruleFrom)
+                        this.education_item.splice(i,1,this.$refs[name][0].ruleForm)
                         if(this.flag) {
                             count++
-                            self.$refs[name][0].ruleFrom.isShowEdit = true
+                            self.$refs[name][0].ruleForm.isShowEdit = true
                         }
-                        if(count==workItemLength){
-                            let data = {
-                                userNo : this.userNo,
-                                lists : this.education_item.map(item=>{
-                                    return {
-                                        startTime: moment(item.startTime).format('YYYY-MM-DD'),
-                                        endTime: moment(item.endTime).format('YYYY-MM-DD'),
-                                        schoolName: item.schoolName,
-                                        major: item.major,
-                                        education: item.education,
-                                        desc: item.desc,
-                                    }
-                                }),
-                            }
-                            console.log(data,'教育经历提交的数据')
-                            this.$axios.post('/iem_hrm/epCustEduHis/saveEpCustEduHiss', data)
-                                .then(res=>{
-                                    let result = res.data.retMsg
-                                    if(result==='操作成功'){
-                                        self.$message({
-                                            type: 'success',
-                                            message: result
-                                        });
-                                    }else {
-                                        self.$message({
-                                            type: 'error',
-                                            message: result
-                                        });
-                                    }
-                                })
-                                .catch(e=>{
-                                    console.log(e)
+                    }
+                    if(count==educationItemLength){
+                        let data = {
+                            userNo : this.userNo,
+                            lists : this.education_item.map(item=>{
+                                return {
+                                    startTime: moment(item.startTime).format('YYYY-MM-DD'),
+                                    endTime: moment(item.endTime).format('YYYY-MM-DD'),
+                                    schoolName: item.schoolName,
+                                    major: item.major,
+                                    education: item.education,
+                                    desc: item.desc,
+                                }
+                            }),
+                        }
+                        console.log(data,'教育经历提交的数据')
+                        this.$axios.post('/iem_hrm/epCustEduHis/saveEpCustEduHiss', data)
+                            .then(res=>{
+                                let result = res.data.retMsg
+                                if(result==='操作成功'){
+                                    self.$message({
+                                        type: 'success',
+                                        message: result
+                                    });
+                                }else {
                                     self.$message({
                                         type: 'error',
-                                        message: '添加失败,请稍后重试！'
+                                        message: result
                                     });
-                                })
-                        }else {
-                            self.$message({
-                                type: 'error',
-                                message: '请确保必填信息填写正确！'
-                            });
-                        }
+                                }
+                            })
+                            .catch(e=>{
+                                console.log(e)
+                                self.$message({
+                                    type: 'error',
+                                    message: '添加失败,请稍后重试！'
+                                });
+                            })
+                    }else {
+                        self.$message({
+                            type: 'error',
+                            message: '请确保必填信息填写正确！'
+                        });
                     }
                 }
                 if('fifth'===tabName) {
-                    if(!this.project_item.userNo){
+                    if(!this.userNo){
                         self.$message({
                             type: 'error',
                             message: '请先填写基本信息并点击右上角保存'
                         });
                         return
                     }
-                    let projectItemLength = this.project_item.lists.length
-                    let data = {
-                        userNo : this.project_item.userNo,
-                        lists : this.project_item.lists.map(item=>{
-                            return {
-                                startTime: item.startTime,
-                                endTime: item.endTime,
-                                projectName: item.projectName,
-                                mainSkill: item.mainSkill,
-                                projectRole: item.projectRole,
-                                softEnv: item.softEnv,
-                                custom: item.custom,
-                                projectDuty: item.projectDuty,
-                                desc: item.desc,
-                            }
-                        }),
-                    }
+                    let projectItemLength = this.project_item.length
                     let count = 0
                     for (let i=0;i<projectItemLength;i++){
-                        let name = 'fifth'+i
-                        self.$refs[name][0].validate((valid) => {
-                            if (valid) {
-                                count++
-                                this.project_item.lists[i].isShowEdit = true
-                                data.lists[i].startTime = moment(data.lists[i].startTime).format('YYYY-MM-DD')
-                                data.lists[i].endTime = moment(data.lists[i].endTime).format('YYYY-MM-DD')
-                                if(count==projectItemLength){
-                                    this.$axios.post('/iem_hrm/employeeProjectExperience/addEmployeeProjectExperienceInfo', data)
-                                        .then(res=>{
-                                            let result = res.data.retMsg
-                                            if(result==='操作成功'){
-                                                self.$message({
-                                                    type: 'success',
-                                                    message: result
-                                                });
-                                            }else {
-                                                self.$message({
-                                                    type: 'error',
-                                                    message: result
-                                                });
-                                            }
-                                        })
-                                        .catch(e=>{
-                                            console.log(e)
-                                            self.$message({
-                                                type: 'error',
-                                                message: '添加失败,请稍后重试！'
-                                            });
-                                        })
+                        let name = 'projectItem'+i
+                        this.flag = false
+                        self.$refs[name][0].checkValue()
+                        this.project_item.splice(i,1,this.$refs[name][0].ruleForm)
+                        if(this.flag) {
+                            count++
+                            self.$refs[name][0].ruleForm.isShowEdit = true
+                        }
+                    }
+                    if(count==projectItemLength){
+                        let data = {
+                            userNo : this.userNo,
+                            lists : this.project_item.map(item=>{
+                                return {
+                                    startTime: moment(item.startTime).format('YYYY-MM-DD'),
+                                    endTime: moment(item.endTime).format('YYYY-MM-DD'),
+                                    projectName: item.projectName,
+                                    mainSkill: item.mainSkill,
+                                    projectRole: item.projectRole,
+                                    softEnv: item.softEnv,
+                                    custom: item.custom,
+                                    projectDuty: item.projectDuty,
+                                    desc: item.desc,
                                 }
-                            } else {
+                            }),
+                        }
+                        console.log(data,'项目经历提交的数据')
+                        this.$axios.post('/iem_hrm/employeeProjectExperience/addEmployeeProjectExperienceInfo', data)
+                            .then(res=>{
+                                let result = res.data.retMsg
+                                if(result==='操作成功'){
+                                    self.$message({
+                                        type: 'success',
+                                        message: result
+                                    });
+                                }else {
+                                    self.$message({
+                                        type: 'error',
+                                        message: result
+                                    });
+                                }
+                            })
+                            .catch(e=>{
+                                console.log(e)
                                 self.$message({
                                     type: 'error',
-                                    message: '请填写完整信息！'
+                                    message: '添加失败,请稍后重试！'
                                 });
-                            }
+                            })
+                    }else {
+                        self.$message({
+                            type: 'error',
+                            message: '请确保必填信息填写正确！'
                         });
                     }
                 }
             },
+            // 新增选项卡信息的方法
             add_item() {
 //                new socialRelationItem().$mount().$appendTo('#secondContentWrapper')
                 if(this.tabName == 'second') {
@@ -1469,7 +1319,7 @@
                         addr: '',
                         isShowEdit: false
                     }
-                    this.social_item.lists.push(item)
+                    this.social_item.push(item)
                 }
                 if(this.tabName == 'third') {
                     let item = {
@@ -1508,78 +1358,54 @@
                         desc: '',
                         isShowEdit: false
                     }
-                    this.project_item.lists.push(item)
+                    this.project_item.push(item)
                 }
             },
+            // 选项卡组件是否通过校验方法
             passValidate(boolean) {
                 if(boolean) {
                     this.flag = true
                 }
             },
+            // 删除选项卡信息的方法
             delRelationItem(index) {
-                if(this.tabName == 'second') this.social_item.lists.splice(index,1)
+                if(this.tabName == 'second') this.social_item.splice(index,1)
                 if(this.tabName == 'third') this.work_item.splice(index,1)
                 if(this.tabName == 'fourth') this.education_item.splice(index,1)
-
+                if(this.tabName == 'fifth') this.project_item.splice(index,1)
             },
-            proDel(isShow,index) {
-                if('fifth'==this.tabName){
-                    if(!isShow)  {
-                        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(() => {
-                            this.project_item.lists.splice(index,1)
-                        }).catch(()=>{
-                            this.$message({
-                                type: 'info',
-                                message: '已取消删除'
-                            });
-                        })
-                    }
-                    if(isShow) {
-                        this.project_item.lists[index].isShowEdit = !isShow
-                    }
-                }
-                if('fourth'==this.tabName){
-                    if(!isShow)  {
-                        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(() => {
-                            this.education_item.lists.splice(index,1)
-                        }).catch(()=>{
-                            this.$message({
-                                type: 'info',
-                                message: '已取消删除'
-                            });
-                        })
-                    }
-                    if(isShow) {
-                        this.education_item.lists[index].isShowEdit = !isShow
-                    }
-                }
-                if('third'==this.tabName){
-                    if(!isShow)  {
-                        this.$confirm('此操作将永久删除, 是否继续?', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(() => {
-                            this.work_item.lists.splice(index,1)
-                        }).catch(()=>{
-                            this.$message({
-                                type: 'info',
-                                message: '已取消删除'
-                            });
-                        })
-                    }
-                    if(isShow) {
-                        this.work_item.lists[index].isShowEdit = !isShow
-                    }
-                }
+            changeBirthday(val) {
+                this.ruleForm.birthday = val
+            },
+            changeGradtime(val) {
+                this.ruleForm.gradTime = val
+            },
+            changeEntryTime(val) {
+                this.ruleForm.entryTime = val
+            },
+            changeleftJobTime(val) {
+                this.ruleForm.leftJobTime = val
+            },
+            changeworkTime(val) {
+                this.ruleForm.workTime = val
+            },
+            changeprofTitleTime(val) {
+                this.ruleForm.profTitleTime = val
+            },
+            changeCompactStartTime(val) {
+                this.ruleForm.compactStartTime = val
+            },
+            changeCompactEndTime(val) {
+                this.ruleForm.compactEndTime = val
+            },
+            changeProbStartTime(val) {
+                this.ruleForm.probStartTime = val
+            },
+            changeProbEndTime(val) {
+                this.ruleForm.probEndTime = val
+            },
+            handleClick(tab, event) {
+                this.tabName = tab.name
             },
         },
     }
@@ -1835,8 +1661,8 @@
                                 .el-date-editor
                                     width 200px
                                 .el-textarea
-                                    width: 101%;
-                                    max-width: 1000px;
+                                    width: 99.5%;
+                                    max-width: 1013px;
                                 .el-textarea__inner
                                     width: 100%
                                     height: 120px
@@ -1979,3 +1805,54 @@
                 &:focus
                     border-color #f90
 </style>
+<!--<div class="from-wrapper">-->
+<!--<el-form :model="ruleForm4" :rules="rules4" ref="ruleForm4" label-width="100px">-->
+<!--<el-form-item label="公司名称" prop="companyName">-->
+<!--<el-input v-model="ruleForm4.companyName"></el-input>-->
+<!--</el-form-item>-->
+<!--<el-form-item label="职位" prop="position" class="position_special">-->
+<!--<el-input v-model="ruleForm4.position"></el-input>-->
+<!--</el-form-item>-->
+<!--<el-form-item label="工作时间" prop="workTime1" class="workTime_common">-->
+<!--<el-date-picker type="date" placeholder="选择日期" v-model="ruleForm4.workTime1"></el-date-picker>-->
+<!--</el-form-item>-->
+<!--<el-form-item label="至" prop="workTime2" class="workTime_common workTime_special">-->
+<!--<el-date-picker type="date" v-model="ruleForm4.workTime2" placeholder="选择日期"></el-date-picker>-->
+<!--</el-form-item>-->
+<!--<el-form-item label="工作描述" prop="workDes">-->
+<!--<el-input v-model="ruleForm4.workDes" type="textarea" class="workDes_special"></el-input>-->
+<!--</el-form-item>-->
+<!--<div class="button-wrapper">-->
+<!--<button>保存</button>-->
+<!--<button class="button_special">取消</button>-->
+<!--<span @click="delWorkItem">删除本条</span>-->
+<!--</div>-->
+<!--</el-form>-->
+<!--</div>-->
+<!--<div class="work_list">-->
+<!--<div class="mask"></div>-->
+<!--<div class="line1">-->
+<!--<div class="line1_title">-->
+<!--<span class="circle"></span>-->
+<!--<span>深圳前海橙色魔方技术有限公司</span>-->
+<!--<span class="line1_time">2015/09 - 2017/10<i class="el-icon-edit"></i></span>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="zhiwei">UI设计师</div>-->
+<!--<div class="description">-->
+<!--这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="work_list">-->
+<!--<div class="line1">-->
+<!--<div class="line1_title">-->
+<!--<span class="circle"></span>-->
+<!--<span>深圳前海橙色魔方技术有限公司</span>-->
+<!--<span class="line1_time">2015/09 - 2017/10<i class="el-icon-edit"></i></span>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="zhiwei">UI设计师</div>-->
+<!--<div class="description">-->
+<!--这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里是描述的内容这里-->
+<!--</div>-->
+<!--</div>-->

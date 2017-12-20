@@ -1,5 +1,5 @@
 //新增修改页样式
-.content-wrapper{
+.content-wrapper {
     background: #ffffff;
     padding: 0 20px 20px;
     color: #333333;
@@ -15,7 +15,7 @@
             display: inline-block;
             height: 50px;
             position: relative;
-            &:after{
+            &:after {
                 content: "";
                 position: absolute;
                 left: 0;
@@ -28,24 +28,32 @@
         .toolBtn {
             float: right;
             margin-top: 10px;
-            /* border-radius: 0; */
             height: 30px;
             width: 120px;
             background: #ff9900;
             border: none;
-            padding:0;
+            padding: 0;
         }
-    } 
-    .add-wrapper{
-        form { 
+    }
+    .add-wrapper {
+        form {
             font-size: 0;
             margin-top: 30px;
             @include clearfix;
         }
+        .el-dialog__body {
+            form {
+                margin-top: 0;
+                .el-form-item:last-child {
+                    margin-bottom: 0;
+                }
+            }
+
+        }
         .el-input__inner {
             width: 300px;
-            height:40px;
-            line-height:normal;
+            height: 40px;
+            line-height: normal;
         }
         .el-pagination__editor {
             padding: 0;
@@ -55,42 +63,41 @@
                 height: 24px;
             }
         }
-        .el-form-item__label{
-            font-weight:normal;
-            color: #999999;
-            // padding: 13px 12px 13px 0;
+        .el-form-item__label {
+            font-weight: normal;
+            color: #999999; // padding: 13px 12px 13px 0;
             margin-right: 0;
         }
-        .el-input-group--append{
+        .el-input-group--append {
             .el-input__inner {
                 width: 241px;
             }
         }
-        .sec-button-input{
+        .sec-button-input {
             .el-input__inner {
                 width: 127px;
             }
         }
         .upload-demo {
             height: 0;
-            .uploadBtn{
+            .uploadBtn {
                 position: absolute;
-                height:40px;
+                height: 40px;
                 top: 0;
                 right: 0;
                 margin: 0;
-                border:none;
+                border: none;
                 border-bottom-left-radius: 0;
                 border-top-left-radius: 0;
                 background: #ff9900;
                 font-family: "PingFang SC";
             }
-            .el-upload__input{
-                display:none;
+            .el-upload__input {
+                display: none;
             }
         }
-        .el-textarea__inner{
-            min-width:860px;
+        .el-textarea__inner {
+            min-width: 860px;
             font-family: inherit;
         }
         .item-title {
@@ -99,10 +106,6 @@
             line-height: 56px;
             padding-left: 8px;
         }
-        // .el-select .el-input__inner,
-        // .w_180 .el-input__inner {
-        //     width: 180px;
-        // }
         .w_full .el-input__inner {
             min-width: 860px;
         }
@@ -113,6 +116,27 @@
         }
         .el-textarea__inner {
             min-width: 300px;
+        }
+    }
+    .subtitlebar {
+        height: 24px;
+        line-height: 24px;
+        font-size: 14px;
+        font-family: "PingFangSC Regular";
+        padding-left: 10px;
+        margin: 15px 0 10px;
+        .title-text {
+            display: inline-block;
+            height: 24px;
+            position: relative;
+            color: #333333;
+        }
+        .addBtn {
+            float: right;
+            color: #ff9900;
+            border: none;
+            padding: 5px;
+            padding-right: 0;
         }
     }
 }

@@ -1,10 +1,10 @@
 <template>
 	<div class="add_preSale">
-		<current yuji="项目管理" erji="售前立项" sanji="售前立项修改">
+		<current yuji="项目管理" erji="项目验收">
 		</current>
 		<div class="content-wrapper">
 			<div class="titlebar">
-				<span class="title-text">售前立项修改</span>
+				<span class="title-text">项目验收</span>
 			</div>
 			<div class="add-wrapper">
 				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="130px">
@@ -12,19 +12,24 @@
 						<el-form-item label="项目名称">
 							<el-input v-model="formdata1.projName"></el-input>
 					  	</el-form-item>
-					</el-col>	
+					</el-col>
 					<el-col :sm="24" :md="12">
+						<el-form-item label="项目编号">
+							<el-input v-model="formdata1.projNo"></el-input>
+					  	</el-form-item>
+					</el-col>		
+					<!-- <el-col :sm="24" :md="12">
 						<el-form-item label="收入类型">
 							<el-select v-model="formdata1.projIncmType">
 								<el-option v-for="item in projIncmTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
-					</el-col>			
-					<el-col :sm="24" :md="12">
+					</el-col>			 -->
+					<!-- <el-col :sm="24" :md="12">
 						<el-form-item label="机会号">
 							<el-input v-model="formdata1.jihuihao"></el-input>
 					  	</el-form-item>
-					</el-col>		
+					</el-col>		 -->
 					<el-col :sm="24" :md="12">
 						<el-form-item label="客户">
 							<el-select v-model="formdata1.userNo">
@@ -59,46 +64,29 @@
                             <el-input v-model.number="formdata1.yujiHTMony"></el-input>
 					  	</el-form-item>
 					</el-col>	  	
-					<el-col :sm="24" :md="12">
-						<el-form-item label="订单类型" prop="dindanType">
-						    <el-select v-model="formdata1.dindanType">
-								<el-option v-for="item in dindanTypeList" :key="item.workotNo" :label="item.label" :value="item.workotNo"></el-option>
-							</el-select>
-					  	</el-form-item>
-					</el-col>	 
 				  	<el-col :sm="24" :md="12">
-				  		<el-form-item class="xiangmuDidian" label="项目交付地" prop="xiangmuDidian">
-						    <el-input type="text" v-model="formdata1.xiangmuDidian"></el-input>
+				  		<el-form-item label="合同编号" prop="hetongNo">
+						    <el-input type="text" v-model="formdata1.hetongNo"></el-input>
 					  	</el-form-item>
 				  	</el-col>
-                    <el-col :sm="24" :md="12">
-						<el-form-item label="预计合同签订时间" prop="yujiHTTime">
-				        	<el-date-picker type="datetime" v-model="formdata1.yujiHTTime" @change="changeYujiHTTime" style="width:100%;"></el-date-picker>
-				      	</el-form-item>
-					</el-col>
-                    <el-col :sm="24" :md="12">
-						<el-form-item label="预计结束时间" prop="yujiStartTime">
-				        	<el-date-picker type="datetime" v-model="formdata1.yujiStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
-				      	</el-form-item>
-					</el-col>	  	
-					<el-col :sm="24" :md="12">
-						<el-form-item label="预计结束时间" prop="yujiEndTime">
-				        	<el-date-picker type="datetime" v-model="formdata1.yujiEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
-				      	</el-form-item>
-					</el-col>
                 </el-form>
-                <el-col :span="24" class="item-title">销售信息</el-col>  
+                <el-col :span="24" class="item-title">验收信息</el-col>  
                 <el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="110px">
+					<el-col :sm="24" :md="12">
+				  		<el-form-item label="项目经理" prop="xiaoshouManger">
+						    <el-input type="text" v-model="formdata2.xiaoshouManger"></el-input>
+					  	</el-form-item>
+				  	</el-col>
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="销售" prop="xiaoshou">
 						    <el-input type="text" v-model="formdata2.xiaoshou"></el-input>
 					  	</el-form-item>
 				  	</el-col>
-					  <el-col :sm="24" :md="12">
-				  		<el-form-item label="销售主管" prop="xiaoshouManger">
-						    <el-input type="text" v-model="formdata2.xiaoshouManger"></el-input>
-					  	</el-form-item>
-				  	</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="预计验收时间" prop="yujiEndTime">
+				        	<el-date-picker type="datetime" v-model="formdata1.yujiEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
+				      	</el-form-item>
+					</el-col>
 					<el-col :span="24">
 				  		<el-form-item label="项目说明" prop="xiangmuRemark">
 							<el-input
@@ -110,37 +98,26 @@
 					  	</el-form-item>
 				  	</el-col>
 				</el-form>
-				<el-col :span="24" class="item-title">立项预算
-					<!-- <el-upload class="upload-demo" ref="upload" name="file"
-						:data="formdata"
-						:on-change="changeUpload"
-						:on-success="successUpload"
-						action="" 
-						:show-file-list="false" 
-						:auto-upload="false"
-						:headers="token"
-					>
-						<el-button slot="trigger" type="primary" class="uploadBtn">上传立项申请表</el-button>
-					</el-upload> -->
-				</el-col>
+				<el-col :span="24" class="item-title">客户方联系人</el-col>
 				<el-form ref="formdata3" :inline="true"  :rules="rules3" :model="formdata3" label-width="110px">
 					<el-col :sm="24" :md="12">
-				  		<el-form-item label="总工作量" prop="gongzuoTotal">
-						    <el-input type="text" v-model="formdata3.gongzuoTotal"></el-input>
+				  		<el-form-item label="客户方联系人" prop="kehufName">
+						    <el-input type="text" v-model="formdata3.kehufName"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					  <el-col :sm="24" :md="12">
-				  		<el-form-item label="人力成本" prop="renliCB">
-						    <el-input type="text" v-model="formdata3.renliCB"></el-input>
+				  		<el-form-item label="联系电话" prop="phone">
+						    <el-input type="text" v-model="formdata3.phone"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
-				  		<el-form-item label="费用成本" prop="feiyongCB">
-						    <el-input type="text" v-model="formdata3.feiyongCB"></el-input>
+				  		<el-form-item label="联系邮箱" prop="email">
+						    <el-input type="text" v-model="formdata3.email"></el-input>
 					  	</el-form-item>
 				  	</el-col>
+				<el-col :span="24" class="item-title">验收材料</el-col>	  
 					<el-col :sm="24" :md="12">
-				  		<el-form-item label="分包成本" prop="fenbaoCB">
+				  		<el-form-item label="验收报告" prop="fenbaoCB">
 						    <el-input type="text" v-model="formdata3.fenbaoCB"></el-input>
 					  	</el-form-item>
 				  	</el-col>

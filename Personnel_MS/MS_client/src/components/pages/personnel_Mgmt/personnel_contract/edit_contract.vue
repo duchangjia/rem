@@ -133,6 +133,20 @@ import current from "../../../common/current_position.vue";
 export default {
   data() {
     let that = this;
+    let validateStartTime = (rule, value, callback) => {
+      if (value < that.editPactMsg.signTime) {
+        callback(new Error("合同开始日期不能早于签订日期"));
+      } else {
+        callback();
+      }
+    };
+    let validateEndTime = (rule, value, callback) => {
+      if (value < that.editPactMsg.pactStartTime) {
+        callback(new Error("合同结束日期不能早于开始日期"));
+      } else {
+        callback();
+      }
+    };
     return {
       labelPosition: "right",
       pactNo: "",
@@ -150,7 +164,8 @@ export default {
         disabledDate(time) {
           return (
             time.getTime() <
-            new Date(that.editPactMsg.pactStartTime).getTime() - 3600 * 1000 * 24
+            new Date(that.editPactMsg.pactStartTime).getTime() -
+              3600 * 1000 * 24
           );
         }
       },
@@ -164,29 +179,19 @@ export default {
       },
       pactMsgRules: {
         pactType: [{ required: true, message: "合同类型不能为空", trigger: "change" }],
-        signTime: [
-          {
-            required: true,
-            message: "签订日期不能为空",
-            trigger: "change"
-          }
-        ],
+        signTime: [{ required: true, message: "签订日期不能为空", trigger: "change" }],
         pactStartTime: [
-          {
-            required: true,
-            message: "合同开始日期不能为空",
-            trigger: "change"
-          }
+          { required: true, message: "合同开始日期不能为空", trigger: "change" },
+          { type: "date", validator: validateStartTime, trigger: "change" }
         ],
         pactEndTime: [
-          {
-            required: true,
-            message: "合同结束日期不能为空",
-            trigger: "change"
-          }
+          { required: true, message: "合同结束日期不能为空", trigger: "change" },
+          { type: "date", validator: validateEndTime, trigger: "change" }
         ],
-        pactStatus: [{ required: true, message: "合同状态不能为空", trigger: "change" }],
-        pactExpires: [{ required: true, message: "合同年限不能为空", trigger: "change" }]
+        pactStatus: [
+          { required: true, message: "合同状态不能为空", trigger: "change" }
+        ],
+        pactExpires: [{ required: true, message: "合同年限不能为空", trigger: "blur" }]
       }
     };
   },

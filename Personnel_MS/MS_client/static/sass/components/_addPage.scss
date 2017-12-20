@@ -95,6 +95,7 @@
             line-height: 56px;
             padding-left: 8px;
         }
+        
     }
     .add-wrapper.role-msg {
         .el-form-item__label {
@@ -102,6 +103,27 @@
         }
         .el-textarea__inner {
             min-width: 300px;
+        }
+    }
+    .subtitlebar {
+        height: 24px;
+        line-height: 24px;
+        font-size: 14px;
+        font-family: "PingFangSC Regular";
+        padding-left: 10px;
+        margin-bottom: 15px;
+        .title-text {
+            display: inline-block;
+            height: 24px;
+            position: relative;
+            color: #333333;
+        }
+        .addBtn {
+            float: right;
+            color: #ff9900;
+            border: none;
+            padding: 5px;
+            padding-right: 0;
         }
     }
 }

@@ -106,12 +106,16 @@
                     <el-col :span="24">
                         <el-form-item label="验收报告">
                             <el-upload
+                          ref="upload"
                           class=""
                           action="https://jsonplaceholder.typicode.com/posts/"
+                         
                           :on-preview="handlePreview"
                           :on-remove="handleRemove"
                           multiple
-                          :limit="1"
+                          :limit="10"
+                          :show-file-list="true"
+                          :on-success="handleSuccess"
                           :on-exceed="handleExceed"
                           :file-list="fileList">
                           <el-button size="small" type="primary">点击上传验收报告</el-button>
@@ -121,14 +125,10 @@
                     </el-col>                   
                 </el-form>
                  <!-- 验收材料                                        -->
-                 <div>
-                                                          
-                         
-                 </div>
-                 <div>
+                 <div class="queryButton_wrapper">
                     <el-col :sm="24">
-                        <el-button class="btn-primary">保存</el-button>
-                        <el-button class="btn-primary">取消</el-button>
+                        <el-button class="btn-primary" @click="saveAccept">保存</el-button>
+                        <el-button class="resetform btn-default" @click="abolishAccept">取消</el-button>
                     </el-col> 
                  </div>                        
                  
@@ -227,8 +227,8 @@
                     }
                   }]
                 },
-                //上传文件
-                 fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}]
+                //文件上传
+                fileList:[],
             }
         },
         methods:{
@@ -239,10 +239,50 @@
                 console.log(file);
               },
               handleExceed(files, fileList) {
-                this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+                this.$message.warning(`当前限制选择 10个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+              },
+              //取消
+              abolishAccept(){
+                this.proAccept={};
+                this.proAcceptInfor={};
+                this.visitorContact={};
+                this.$refs.upload.clearFiles();
+                this.loadPage();
+              },
+              //保存
+              saveAccept(){
+                console.log(this.proAccept)
+              },
+              //上传成功
+              handleSuccess(response, file, fileList){
+                //console.log(response, file, fileList)
+                //this.fileList=fileList
+                //clearFiles
+                console.log(file)
+                //this.fileName=file.name
+                /*for(let i=0;i<fileList.length;i++){
+                    console.log(fileList[i].name)    
+                }*/
+                
+              },
+              //进入页面加载固定数据
+              loadPage(){
+                var self=this;
+                let param={
+
+                }
+                self.axios.get(api,{
+                    params:{
+
+                    }
+                })
+                .then((res)=>{
+
+                })
               }
         },
         created(){
+            this.loadPage();
            //查询项目信息详情
             // this.queryProjAndSalesInfo();
             //查询项目实施信息详情
@@ -368,5 +408,12 @@
 <style scoped>
     form>div{
         min-height:63px;
+    }
+    .queryButton_wrapper{
+        margin: 0px auto 30px;
+        width: 260px;
+        clear: both;
+        font-size: 0px;
+        padding-top: 4px;
     }
 </style>

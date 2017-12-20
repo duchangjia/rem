@@ -43,16 +43,9 @@
                 type: Number,
                 default: 0
             },
-        },
-        data() {
-            let that = this
-            return {
-                pickerOptions: {
-                    disabledDate(time) {
-                        return time.getTime() < that.ruleForm.startTime
-                    },
-                },
-                ruleForm: {
+            ruleForm: {
+                type: Object,
+                default: {
                     startTime: '',
                     endTime: '',
                     company: '',
@@ -60,13 +53,32 @@
                     duty: '',
                     desc: '',
                     isShowEdit: false
+                }
+            },
+        },
+        data() {
+            let that = this
+            let validateEndTime = (rule, value, callback) => {
+                    if (value === '') {
+                        callback(new Error('请选择日期'));
+                    } else if (value  < that.ruleForm.startTime) {
+                        callback(new Error('结束日期不能小于开始日期'));
+                    } else {
+                        callback();
+                    }
+                }
+            return {
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() < that.ruleForm.startTime
+                    },
                 },
                 rules: {
                     startTime: [
-                        {type:'date', required: true, message: '请选择日期', trigger: 'change'}
+                        {type:'date', required: true, message: '请选择日期', trigger: 'blur'}
                     ],
                     endTime: [
-                        {type:'date', required: true, message: '请选择日期', trigger: 'change'}
+                        {type:'date', validator: validateEndTime, trigger: 'blur'}
                     ],
                     company: [
                         {required: true, message: '请输入公司', trigger: 'blur'}
@@ -113,6 +125,9 @@
                     this.ruleForm.isShowEdit = !isShow
                 }
             },
+            resetForm() {
+                this.$refs.workItem0.resetFields();
+            }
         },
     }
 </script>

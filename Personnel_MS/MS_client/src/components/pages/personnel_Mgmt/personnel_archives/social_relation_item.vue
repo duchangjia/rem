@@ -70,7 +70,7 @@
                         { pattern: /(([\u4E00-\u9FA5]{2,7})|([a-zA-Z]{3,20}))/, message: "只能输入的姓名为全部中文或英文" }
                     ],
                     relationship: [
-                        {required: true, message: '请输入与本人关系', trigger: 'blur'},
+                        {required: true, message: '请选择与本人关系', trigger: 'blur'},
                         { min: 1, max: 2, message: '长度在 1到 2个字符', trigger: 'blur' }
                     ],
                     telphone: [
@@ -169,8 +169,8 @@
                 left 30px
         .social-address
             .address_special
-                width: 93%;
-                max-width: 612px;
+                width: 92%;
+                max-width: 619px;
         @-moz-document url-prefix()
             .social-address
                 .address_special

@@ -88,6 +88,11 @@ export default {
 							menuUrl: 'proAccept',
 							menuName: '项目验收'
 						},
+/*=======
+							menuUrl: 'proAcceptance',
+							menuName: '项目验收'
+						}
+>>>>>>> 07ca0e21d13802cdec9d9570bc8f7d654556ae1e*/
 					]
 				},
 				{

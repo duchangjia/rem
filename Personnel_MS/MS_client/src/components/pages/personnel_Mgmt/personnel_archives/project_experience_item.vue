@@ -1,47 +1,64 @@
 <template>
-    <div class="project_experience_item">
-        <div :class="{'bg_color':!ruleFrom.isShowEdit,'bg_color2':ruleFrom.isShowEdit}">
-            <el-form :model="item" :rules="rules5" label-width="100px" :ref="`third${index}`" :class="{'bg_color':!item.isShowEdit,'bg_color2':item.isShowEdit}">
-                <i :class="{'el-icon-close':!item.isShowEdit,'el-icon-edit':item.isShowEdit}" @click="proDel(item.isShowEdit,index)" class="fifthIcon"></i>
-                <el-col :span="12">
-                    <div style="display: flex">
-                        <el-form-item label="时间" prop="startTime" class="fifth_common" style="margin-right: -40px">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="item.startTime" :disabled="item.isShowEdit"></el-date-picker>
-                        </el-form-item>
-                        <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="item.endTime" :disabled="item.isShowEdit"></el-date-picker>
-                        </el-form-item>
-                    </div>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="公司" prop="company">
-                        <el-input v-model="item.company" :disabled="item.isShowEdit"></el-input>
+    <div style="margin-top: 30px; position: relative">
+        <el-form :model="ruleForm" :rules="rules" label-width="100px" :ref="`projectItem${index}`" :class="{'bg_color':!ruleForm.isShowEdit,'bg_color2':ruleForm.isShowEdit}">
+            <i :class="{'el-icon-close':!ruleForm.isShowEdit,'el-icon-edit':ruleForm.isShowEdit}" @click="delOrEdit(ruleForm.isShowEdit,index)" class="fifthIcon"></i>
+            <el-col :md="12" :sm="24">
+                <div style="display: flex">
+                    <el-form-item label="时间" prop="startTime" class="fifth_common" style="margin-right: -40px">
+                        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.startTime" :disabled="ruleForm.isShowEdit"></el-date-picker>
                     </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="职务" prop="post1">
-                        <el-input v-model="item.post1" :disabled="item.isShowEdit"></el-input>
+                    <el-form-item label="至" prop="endTime" class="fifth_common fifth_special">
+                        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.endTime" :disabled="ruleForm.isShowEdit" :picker-options="pickerOptions"></el-date-picker>
                     </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="职责" prop="duty">
-                        <el-input v-model="item.duty" :disabled="item.isShowEdit"></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="24">
-                    <el-form-item label="工作描述" prop="desc" class="fifth_common">
-                        <el-input type="textarea" v-model="item.desc" :disabled="item.isShowEdit"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-form>
-        </div>
+                </div>
+            </el-col>
+            <el-col :md="12" :sm="24">
+                <el-form-item label="项目名称" prop="projectName">
+                    <el-input v-model="ruleForm.projectName" :disabled="ruleForm.isShowEdit"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="24">
+                <el-form-item label="主要技能" prop="mainSkill">
+                    <el-input v-model="ruleForm.mainSkill" :disabled="ruleForm.isShowEdit"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="24">
+                <el-form-item label="项目角色" prop="projectRole">
+                    <el-input v-model="ruleForm.projectRole" :disabled="ruleForm.isShowEdit"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="24">
+                <el-form-item label="软件环境" prop="softEnv">
+                    <el-input v-model="ruleForm.softEnv" :disabled="ruleForm.isShowEdit"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :md="12" :sm="24">
+                <el-form-item label="客户" prop="custom">
+                    <el-input v-model="ruleForm.custom" :disabled="ruleForm.isShowEdit"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :md="24" :sm="24">
+                <el-form-item label="项目职责" prop="projectDuty" class="fifth_common">
+                    <el-input type="textarea" v-model="ruleForm.projectDuty" :disabled="ruleForm.isShowEdit"></el-input>
+                </el-form-item>
+            </el-col>
+            <el-col :md="24" :sm="24">
+                <el-form-item label="项目描述" prop="desc" class="fifth_common">
+                    <el-input type="textarea" v-model="ruleForm.desc" :disabled="ruleForm.isShowEdit"></el-input>
+                </el-form-item>
+            </el-col>
+        </el-form>
     </div>
 </template>
 
 <script type='text/ecmascript-6'>
     export default {
         props: {
-            ruleFrom: {
+            index: {
+                type: Number,
+                default: 0
+            },
+            ruleForm: {
                 type: Object,
                 default: {
                     startTime: '',
@@ -54,32 +71,53 @@
                     projectDuty: '',
                     desc: '',
                     isShowEdit: false
-                },
+                }
             },
-            relationNum: {
-                type: Number,
-                default: 0
-            },
-        },
-        computed: {
-            relationNumber() {
-                return this.relationNum*1+1
-            }
         },
         data() {
+            let that = this
+            let validateEndTime = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请选择日期'));
+                } else if (value  < that.ruleForm.startTime) {
+                    callback(new Error('结束日期不能小于开始日期'));
+                } else {
+                    callback();
+                }
+            }
             return {
+                pickerOptions: {
+                    disabledDate(time) {
+                        return time.getTime() < that.ruleForm.startTime
+                    },
+                },
                 rules: {
-                    contactName: [
-                        {required: true, message: '请输入姓名', trigger: 'blur'},
-                        { pattern: /(([\u4E00-\u9FA5]{2,7})|([a-zA-Z]{3,20}))/, message: "只能输入的姓名为全部中文或英文" }
+                    startTime: [
+                        {type:'date', required: true, message: '请选择日期', trigger: 'blur'}
                     ],
-                    relationship: [
-                        {required: true, message: '请输入与本人关系', trigger: 'blur'},
-                        { min: 1, max: 2, message: '长度在 1到 2个字符', trigger: 'blur' }
+                    endTime: [
+                        {type:'date', validator: validateEndTime, trigger: 'blur'}
                     ],
-                    telphone: [
-                        {required: true, message: '请输入联系电话', trigger: 'blur'},
-                        { pattern: /^[1][3578]\d{9}$/, message: "只能输入135至138开头的手机号码" }
+                    projectName: [
+                        {required: true, message: '请输入项目名称', trigger: 'blur'}
+                    ],
+                    mainSkill: [
+                        {required: true, message: '请输入主要技能', trigger: 'blur'}
+                    ],
+                    projectRole: [
+                        {required: true, message: '请输入项目角色', trigger: 'blur'}
+                    ],
+                    softEnv: [
+                        {required: true, message: '请输入软件环境', trigger: 'blur'}
+                    ],
+                    custom: [
+                        {required: true, message: '请输入客户', trigger: 'blur'}
+                    ],
+                    projectDuty: [
+                        {required: true, message: '请输入项目职责', trigger: 'blur'}
+                    ],
+                    desc: [
+                        {required: true, message: '请输入项目描述', trigger: 'blur'}
                     ],
                 }
             }
@@ -87,7 +125,7 @@
         methods: {
             checkValue() {
                 let self = this
-                this.$refs['ruleFrom'+this.relationNum].validate((valid) => {
+                this.$refs['projectItem'+this.index].validate((valid) => {
                     if (valid) {
                         self.$emit('pass_validate', 1)
                     }else {
@@ -95,14 +133,14 @@
                     }
                 })
             },
-            delOrEdit(isShow,relationNum) {
+            delOrEdit(isShow,index) {
                 if(!isShow)  {
                     this.$confirm('此操作将永久删除, 是否继续?', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                        this.$emit('del_item', relationNum)
+                        this.$emit('del_item', index)
                     }).catch(()=>{
                         this.$message({
                             type: 'info',
@@ -111,69 +149,14 @@
                     })
                 }
                 if(isShow) {
-                    this.ruleFrom.isShowEdit = !isShow
+                    this.ruleForm.isShowEdit = !isShow
                 }
             },
-        }
+            resetForm() {
+                this.$refs.projectItem0.resetFields();
+            }
+        },
     }
 </script>
 
-<style lang='stylus' rel='stylesheet/stylus'>
-    .project_experience_item
-        position relative
-        .bg_color
-            background: #f4f4f4;
-            overflow hidden
-            margin-top 30px
-            padding-bottom 18px
-        .bg_color2
-            background: #fff;
-            overflow hidden
-            margin-top:30px;
-            padding-bottom 18px
-        .el-input
-            width 215px
-            height 40px
-        .el-input__inner
-            width 100%
-            height 100%
-            &:hover
-                border-color #ff9900
-            &:focus
-                border-color #ff9900
-        .el-select
-            width 215px
-            height 40px
-            .el-input
-                height 100%
-                .el-input__inner
-                    width 100%
-                    height 100%
-                    &:hover
-                        border-color #ff9900
-                    &:focus
-                        border-color #ff9900
-        .title
-            height 40px
-            box-sizing border-box
-            padding 10px 20px 10px 20px
-            .el-icon-close, .el-icon-edit
-                color #f90
-                width: 14px
-                height: 14px
-                cursor pointer
-                position absolute
-                top: 14px;
-                right: 20px;
-                &:hover
-                    text-decoration underline
-        .el-form-item
-            .el-form-item__label
-                margin-right 30px
-            .el-form-item__error
-                left 30px
-        .social-address
-            .address_special
-                width 91%
-                max-width 600px
-</style>
+

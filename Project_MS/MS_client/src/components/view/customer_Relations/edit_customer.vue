@@ -85,9 +85,13 @@
           </el-col>
         </el-form>
       </div>
+
       <div class="add-wrapper">
+        <el-col :span="24" class="subtitlebar"><span class="title-text">客户联系人</span>
+          <el-button type="text" class="addBtn" @click="addCustContactVisible = true">新增</el-button>
+        </el-col>
         <el-table stripe :data="custContactList" border>
-          <el-table-column align="center" prop="userNo" label="姓名">
+          <el-table-column align="center" prop="userName" label="姓名">
           </el-table-column>
           <el-table-column align="center" prop="derpName" label="部门">
           </el-table-column>
@@ -106,11 +110,41 @@
           </el-table-column>
         </el-table>
         <el-pagination class="toolbar" @current-change="handleCustContactPage" :page-size="custContactPage.pageSize" layout="total, prev, pager, next, jumper"
-          :total="custContactPage.totalRows">
+          :total="custContactPage.totalRows" v-show="custContactPage.totalRows>custContactPage.pageSize">
         </el-pagination>
+        <el-dialog title="客户联系人-新增" :visible.sync="addCustContactVisible">
+          <el-form :model="addCustContactForm" :label-position="labelPosition" label-width="80px">
+            <el-form-item label="姓名">
+              <el-input v-model="addCustContactForm.userName"></el-input>
+            </el-form-item>
+            <el-form-item label="部门">
+              <el-input v-model="addCustContactForm.derpName"></el-input>
+            </el-form-item>
+            <el-form-item label="职务">
+              <el-input v-model="addCustContactForm.custPost"></el-input>
+            </el-form-item>
+            <el-form-item label="手机">
+              <el-input v-model="addCustContactForm.phoneTel"></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱">
+              <el-input v-model="addCustContactForm.email"></el-input>
+            </el-form-item>
+            <el-form-item label="办公电话">
+              <el-input v-model="addCustContactForm.comTel"></el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button class="btn-default" @click="addCustContactVisible = false">取 消</el-button>
+            <el-button type="primary" class="btn-primary" @click="addCustContactConfirm">确 定</el-button>
+          </div>
+        </el-dialog>
       </div>
+
       <div class="add-wrapper">
-        <el-table stripe :data="salesInfoList" border>
+        <el-col :span="24" class="subtitlebar"><span class="title-text">公司销售信息</span>
+          <el-button type="text" class="addBtn" @click="addSalesContactVisible = true">新增</el-button>
+        </el-col>
+        <el-table stripe :data="salesContactList" border>
           <el-table-column align="center" prop="userNo" label="姓名">
           </el-table-column>
           <el-table-column align="center" prop="derpName" label="部门">
@@ -127,9 +161,35 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination class="toolbar" @current-change="handleSalesInfoPage" :page-size="salesInfoPage.pageSize" layout="total, prev, pager, next, jumper"
-          :total="salesInfoPage.totalRows">
+        <el-pagination class="toolbar" @current-change="handleSalesContactPage" :page-size="salesContactPage.pageSize" layout="total, prev, pager, next, jumper"
+          :total="salesContactPage.totalRows" v-show="salesContactPage.totalRows>salesContactPage.pageSize">
         </el-pagination>
+        <el-dialog title="销售联系人-新增" :visible.sync="addSalesContactVisible">
+          <el-form :model="addSalesContactForm" :label-position="labelPosition" label-width="80px">
+            <el-form-item label="姓名">
+              <el-input v-model="addSalesContactForm.userName"></el-input>
+            </el-form-item>
+            <el-form-item label="部门">
+              <el-input v-model="addSalesContactForm.derpName"></el-input>
+            </el-form-item>
+            <el-form-item label="职务">
+              <el-input v-model="addSalesContactForm.custPost"></el-input>
+            </el-form-item>
+            <el-form-item label="手机">
+              <el-input v-model="addSalesContactForm.phoneTel"></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱">
+              <el-input v-model="addSalesContactForm.email"></el-input>
+            </el-form-item>
+            <el-form-item label="办公电话">
+              <el-input v-model="addSalesContactForm.comTel"></el-input>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button class="btn-default" @click="addSalesContactVisible = false">取 消</el-button>
+            <el-button type="primary" class="btn-primary" @click="addSalesContactConfirm">确 定</el-button>
+          </div>
+        </el-dialog>
       </div>
 
     </div>
@@ -137,60 +197,90 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import current from "../../common/current_position.vue";
-import Vue from "vue";
-export default {
-  data() {
-    return {
-      labelPosition: "right",
-      editCustMsg: {},
-      custContactList: [],
-      salesInfoList: [],
-      custContactPage: {
-        pageNum: 1,
-        pageSize: 10,
-        totalRows: 1
-      },
-      salesInfoPage: {
-        pageNum: 1,
-        pageSize: 10,
-        totalRows: 1
-      },
-      custInfoRules: {}
-    };
-  },
-  components: {
-    current
-  },
-  created() {
-    const self = this;
-  },
-  methods: {
-    getCustomerDetail() {}, // 客户详情
-    getCustContactList() {}, // 联系人列表
-    getSalesInfoList() {}, // 公司销售信息列表
-    handleEdit(index, row) {},
-    handleCustContactPage(val) {
-      this.custContactPage.pageNum = val;
-      this.getCustContactList(); //分页查询联系人列表
+  import current from "../../common/current_position.vue";
+  import Vue from "vue";
+  export default {
+    data() {
+      return {
+        labelPosition: "right",
+        editCustMsg: {},
+        custContactList: [],
+        salesContactList: [],
+        custContactPage: {
+          pageNum: 1,
+          pageSize: 5,
+          totalRows: 0
+        },
+        salesContactPage: {
+          pageNum: 1,
+          pageSize: 5,
+          totalRows: 0
+        },
+        addCustContactVisible: false,
+        addSalesContactVisible: false,
+        addCustContactForm: {
+          userName: "",
+          derpName: "",
+          custPost: "",
+          phoneTel: "",
+          email: "",
+          comTel: ""
+        },
+        addSalesContactForm: {
+          userName: "",
+          derpName: "",
+          custPost: "",
+          phoneTel: "",
+          email: "",
+          comTel: ""
+        },
+
+        custInfoRules: {}
+      };
     },
-    handleSalesInfoPage(val) {
-      this.salesInfoPage.pageNum = val;
-      this.getSalesInfoList(); //分页查询公司销售信息列表
+    components: {
+      current
     },
-    handleSave(editCustForm) {
-      this.$refs[editCustForm].validate(valid => {
-        if (valid) {
-        } else {
-          console.log("error submit!!");
-          return false;
-        }
-      });
+    created() {
+      const self = this;
+    },
+    methods: {
+      getCustomerDetail() {}, // 客户详情
+      getCustContactList() {}, // 联系人列表
+      getSalesContactList() {}, // 公司销售信息列表
+      handleEdit(index, row) {},
+      handleCustContactPage(val) {
+        this.custContactPage.pageNum = val;
+        this.getCustContactList(); //分页查询联系人列表
+      },
+      handleSalesContactPage(val) {
+        this.salesContactPage.pageNum = val;
+        this.getSalesContactList(); //分页查询公司销售信息列表
+      },
+      // 新增客户联系人
+      addCustContactConfirm() {
+        this.addCustContactVisible = false;
+        console.log(this.addCustContactForm);
+      },
+      // 新增公司销售信息
+      addSalesContactConfirm() {
+        this.addSalesContactVisible = false;
+        console.log(this.addSalesContactForm);
+      },
+      pickSetUpTimeTime(val) {
+        this.editCustMsg.setUpTime = val;
+      },
+      handleSave(editCustForm) {
+        this.$refs[editCustForm].validate(valid => {
+          if (valid) {} else {
+            console.log("error submit!!");
+            return false;
+          }
+        });
+      }
     }
-  }
-};
+  };
 </script>
 
-<style>
-
+<style lang="scss" socped>
 </style>
