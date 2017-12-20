@@ -86,6 +86,11 @@
                 border-color: #ff9900;
             }
         }
+        .upload-demo.uploadDisabled {
+            .el-upload {
+                display: none;
+            }
+        }
         .el-textarea__inner{
             min-width:850px;
         }
