@@ -253,6 +253,16 @@ const routes = [
 
                     ]
                 },
+                {
+                    path: '/proAccept',
+                    component: resolve => require(['../components/view/project_Mgmt/proAccept/proAccept.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/view/project_Mgmt/proAccept/proAccept_edit.vue'], resolve)
+                        },
+                    ]
+                }
             ]
         }
     ]
