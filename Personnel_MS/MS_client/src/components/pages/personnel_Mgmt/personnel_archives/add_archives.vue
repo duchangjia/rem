@@ -331,7 +331,7 @@
                                                                :on-success="successUpload"
                                                                :headers="token"
                                                                >
-                                                        <el-button slot="trigger" type="primary" class="uploadBtn">上传附件</el-button>
+                                                        <el-button slot="trigger" type="primary" class="uploadBtn">{{this.ruleForm.attachm2==''?'上传':'更换'}}附件</el-button>
                                                     </el-upload>
                                                 </el-form-item>
                                         </el-col>

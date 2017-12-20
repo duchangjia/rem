@@ -14,7 +14,7 @@
                                                    class="avatar-uploader"
                                                    action="/iem_hrm/CustInfo/uploadAvatar"
                                                    :show-file-list="false"
-                                                   :data="avatar"
+                                                   :data="uploadUserNo"
                                                    :auto-upload="false"
                                                    :on-success="handleAvatarSuccess"
                                                    :on-change="handleAvatarChange"
@@ -328,13 +328,13 @@
                                                 <el-upload class="upload-demo" ref="upload" name="file"
                                                            action="/iem_hrm/CustInfo/modCustFile"
                                                            :show-file-list="false"
-                                                           :data="avatar"
+                                                           :data="uploadUserNo"
                                                            :auto-upload="false"
                                                            :on-change="handleFileUpload"
                                                            :on-success="successUpload"
                                                            :headers="token"
                                                            >
-                                                    <el-button slot="trigger" type="primary" class="uploadBtn" :disabled="edit">更换附件</el-button>
+                                                    <el-button slot="trigger" type="primary" class="uploadBtn" :disabled="edit">{{this.ruleForm.attachm2==''?'上传':'更换'}}附件</el-button>
                                                     <el-button type="primary" class="uploadBtn uploadBtn-special" @click="downLoad">下载附件</el-button>
                                                     <!--<el-button type="primary" class="uploadBtn uploadBtn-special" @click="downLoad">下载附件</el-button>-->
                                                 </el-upload>
@@ -399,7 +399,7 @@
                                             action="/iem_hrm/CustFile/batch/upload"
                                             list-type="picture-card"
                                            :file-list="fileList2"
-                                           :data="avatar"
+                                           :data="uploadUserNo"
                                             :on-preview="handlePictureCardPreview"
                                             :on-remove="handleRemove"
                                            :on-success="successUpload"
@@ -477,7 +477,7 @@
                 dialogVisible2: false,
                 // 公共数据
                 userNo: '',
-                avatar:{
+                uploadUserNo:{
                     userNo:'',
                 },
                 token: {
@@ -514,7 +514,7 @@
                 },
                 //基础信息
                 ruleForm: {
-                    avatar: '',
+                    avatarName: '',
                     custName: '',
                     certNo: '',
                     sex: '',
@@ -684,7 +684,7 @@
                     console.log(e)
                 });
             this.userNo = this.$route.query.userNo
-            this.avatar.userNo = this.$route.query.userNo
+            this.uploadUserNo.userNo = this.$route.query.userNo
             // tab锁全部变成真
             for(var tt in this.lock){
                 this.lock[tt] = true
@@ -694,7 +694,6 @@
                     .then(res=>{
                         console.log(res,'基础数据查询')
                         this.ruleForm = res.data.data
-                        this.$set(this.ruleForm,'attachm2','')
                     })
                     .catch(e=>{
                         console.log(e)
@@ -714,8 +713,8 @@
                     .then(res=>{
                         console.log(res,'附件查询')
                         if(res.data[0]) {
-                            this.ruleForm.attachm2 = res.data[0].fileName+'.'+res.data[0].fileSuffix
                             this.file = res.data[0]
+                            this.ruleForm.attachm2 = this.file.fileName+'.'+this.file.fileSuffix
                         }
                     })
                     .catch(e=>{
@@ -764,6 +763,7 @@
             // 附件方法
             handleFileUpload(file, fileList) {
                 if(this.tabName == 'first') {
+                    if(this.ruleForm.attachm2 == file.name) return
                     this.flag = true
                     this.ruleForm.attachm2 = file.name
                 }
@@ -824,25 +824,18 @@
             successUpload(response, file, fileList) {
                 if(this.tabName == 'first') {
                     console.log(response)
-//                    let self = this
-//                    let result = response.retMsg
-//                    console.log(response,'successUpload',response.data)
-//                    if('操作成功'==result){
-//                        let aa = response.data
-//                        self.social_item.userNo = aa
-//                        self.project_item.userNo = aa
-//                        self.education_item.userNo = aa
-//                        self.work_item.userNo = aa
-//                        self.certificates_list.userNo = aa
-//                        self.avatar.userNo = aa
-//                        if(self.ruleForm.avatar){
-//                            console.log(self.avatar.userNo,'self.ruleForm.avatar')
-//                            self.$refs.uploadAvatar.submit()
-//                        }
-//                        this.$message({ message: '操作成功', type: 'success' });
-//                    }else {
-//                        this.$message({ message: result, type: 'error' });
-//                    }
+                    let result = response.retMsg
+                    if('操作成功'===result) {
+                        this.$message({
+                            type: 'success',
+                            message: result
+                        });
+                    } else {
+                        this.$message({
+                            type: 'error',
+                            message: result
+                        });
+                    }
                 }
                 if(this.tabName == 'sixth') {
                     console.log(response,'sixth',fileList)
@@ -883,24 +876,26 @@
                     this.$message.error('上传头像图片大小不能超过 2MB!');
                     return isLt2M
                 }
-                this.ruleForm.avatar = true
+                if(this.ruleForm.avatarName == file.name) return
+                this.ruleForm.avatarFlag = true
+                this.ruleForm.avatarName = file.name
                 this.imageUrl = URL.createObjectURL(file.raw);
             },
             handleAvatarSuccess(res, file) {
-                console.log(res,'修改头像上传',this.avatar.userNo)
+                console.log(res,'修改头像上传成功',this.uploadUserNo.userNo)
                 let result = res.retMsg
-                this.ruleForm.avatar = ''
-//                if('操作成功'===result) {
-//                    this.$message({
-//                        type: 'success',
-//                        message: result
-//                    });
-//                } else {
-//                    this.$message({
-//                        type: 'error',
-//                        message: result
-//                    });
-//                }
+                if('操作成功'===result) {
+                    if(this.ruleForm.bothFlag) return
+                    this.$message({
+                        type: 'success',
+                        message: result
+                    });
+                } else {
+                    this.$message({
+                        type: 'error',
+                        message: result
+                    });
+                }
             },
             // 选择经理方法
             userNoSelect(){
@@ -1130,35 +1125,48 @@
                     }
                     self.$refs.ruleForm.validate((valid) => {
                         if (valid) {
-                            for(var key in this.ruleForm){
-                                if(!this.ruleForm[key]){
-                                    delete this.ruleForm[key]
-                                }
+                        for(var key in this.ruleForm){
+                            if(!this.ruleForm[key]){
+                                delete this.ruleForm[key]
                             }
+                        }
                         console.log(this.ruleForm,'正常修改提交')
                         this.$axios.put('/iem_hrm/CustInfo/modCustInf', this.ruleForm)
                             .then(res=>{
                                 let result = res.data.retMsg
                                 if ("操作成功"===result){
-                                    self.$message({
-                                        type: 'success',
-                                        message: result
-                                    });
                                     this.edit = true
-                                    if(this.ruleForm.avatar) {
-                                        console.log('提交头像去了')
-                                        self.$refs.uploadAvatar.submit()
+                                    if(this.ruleForm.avatarFlag || this.flag) {
+                                        console.log('提交头像和附件去了')
+                                        if(this.ruleForm.avatarFlag && this.flag) {
+                                            this.ruleForm.avatarFlag = ''
+                                            this.flag = ''
+                                            this.ruleForm.bothFlag = true
+                                            self.$refs.uploadAvatar.submit()
+                                            self.$refs.upload.submit()
+                                        }else if(this.ruleForm.avatarFlag) {
+                                            this.ruleForm.avatarFlag = ''
+                                            self.$refs.uploadAvatar.submit()
+                                        }else {
+                                            this.flag = ''
+                                            self.$refs.upload.submit()
+                                        }
+                                    }else {
+                                        self.$message({
+                                            type: 'success',
+                                            message: result
+                                        });
+                                        this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+this.userNo)
+                                            .then(res=>{
+                                                console.log(res,2222)
+                                                this.ruleForm = res.data.data
+                                                this.$set(this.ruleForm,'attachm2','')
+                                                this.ruleForm.attachm2 = this.file.fileName+'.'+this.file.fileSuffix
+                                            })
+                                            .catch(e=>{
+                                                console.log(e)
+                                            })
                                     }
-                                    if(this.flag) {
-                                        self.$refs.upload.submit()
-                                    }
-                                    this.$axios.get('/iem_hrm/CustInfo/queryCustInfoByUserNo/'+this.userNo)
-                                        .then(res=>{
-                                            this.ruleForm = res.data.data
-                                        })
-                                        .catch(e=>{
-                                            console.log(e)
-                                        })
                                 }else{
                                     self.$message({
                                         type: 'error',
@@ -1167,13 +1175,16 @@
                                 }
                             })
                             .catch(e=>{
+                                self.$message({
+                                    type: 'error',
+                                    message: '添加失败,请稍后重试！'
+                                });
                                 console.log(e)
                             })
-
                         }else {
                             self.$message({
                                 type: 'error',
-                                message: '请填写必须信息!'
+                                message: '请确保必填信息填写正确!'
                             });
                         }
                     })
