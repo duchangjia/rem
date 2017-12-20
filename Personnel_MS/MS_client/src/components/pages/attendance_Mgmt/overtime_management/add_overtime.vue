@@ -102,7 +102,7 @@
 					  			 action="/iem_hrm/workot/addWorkOtInfo" 
 					  			 :show-file-list="false" 
 					  			 :auto-upload="false"
-								 :name="filesName"
+								 name="files"
 					  			 :headers="token"
 								 :multiple="true"
 					  		>

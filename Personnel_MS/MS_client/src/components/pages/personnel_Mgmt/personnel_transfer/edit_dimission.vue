@@ -87,21 +87,21 @@
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="附件" style="width: 100%;">
-					  		<el-input v-model="formdata.attachm"></el-input>
-					  		<el-upload class="upload-demo" ref="upload" 
-					  			 :data="addFormdata"
-					  			 :on-change="changeUpload" 
+						<el-form-item label="附件" >
+					  		<!-- <el-input v-model="formdata.attachm"></el-input> -->
+					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
+                                 :on-exceed="handleExceed"
+								 :on-preview="handlePreview"
+                                 :on-remove="handleRemove"
+					  			 :on-change="changeUpload"
 					  			 :on-success="successUpload"
-					  			 :beforeUpload="beforeAvatarUpload"
-					  			 action="/iem_hrm/custDimhis/updateCustDimhis" 
+								 :beforeUpload="beforeAvatarUpload"  
 					  			 :show-file-list="true" 
-					  			 :auto-upload="false"
 					  			 :headers="token"
-								 :name="filesName"
-                                 :multiple="true"
+								 :limit="3"
+								 :file-list="fileList"
 					  		>
-	                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
+	                            <el-button slot="trigger" type="primary">选取文件</el-button>
 	                        </el-upload>
 	                        <el-checkbox v-model="formdata.dimProveFlag">是否需要出具离职证明</el-checkbox>
 					  	</el-form-item>
@@ -122,7 +122,7 @@
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
-				filesName: "files",
+				fileList: [],
 				fileFlag: '',
 				formdata: {},
 				//部门列表
@@ -196,19 +196,44 @@
 	            }
 	            this.queryDerpList(params);
 	      	},
+	      	//上传附件
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-				//  this.formdata.attachm = file.name;
-				 fileList.forEach(function(item) {
-					this.formdata.attachm += item.name + " ";
-				}, this);
-	      	},
+				// this.formdata2.attachm = file.name;
+				// fileList.forEach(function(item) {
+				// 	this.formdata2.attachm += item.name + " ";
+				// }, this);
+				this.fileList = fileList;
+				console.log("选中的fileList", fileList); 
+			},
+			handleRemove(file, fileList) {
+				// 移除文件
+				console.log(file, fileList);
+				console.log("移除的file", file);
+				let params = {
+					fileId: file.fileId
+				}
+				this.removeFile(params);
+			},
+			handlePreview(file) {
+				// 点击已上传的文件链接时
+				console.log(file);
+			},
+			handleExceed(files, fileList) {
+				// 文件超出数量
+				this.$message.warning(
+					`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
+					fileList.length} 个文件`
+				);
+			},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
+					file.fileId = response.data;
 	      			this.$message({ message: '操作成功', type: 'success' });
-	      			this.$router.push('/detail_dimission');
+	      			// this.$router.push('/detail_dimission');
 	      		}
-	      		
+	      		console.log('this.fileList',this.fileList);
+				  console.log('上传成功的file',file);
 			},
 			// 上传前对文件的大小的判断
 		    beforeAvatarUpload (file) {

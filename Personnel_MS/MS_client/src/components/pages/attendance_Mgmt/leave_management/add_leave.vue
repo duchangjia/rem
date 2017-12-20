@@ -103,7 +103,7 @@
 					  			 :show-file-list="false" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
-								 :name="filesName"
+								 name="files"
                                  :multiple="true"
 					  		>
 	                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
@@ -144,6 +144,7 @@
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
+				fileList: [],
 				filesName: "files",
 				fileFlag: '',
 				//工号选择弹框数据
@@ -210,7 +211,7 @@
 	    			"leaveType": self.formdata2.leaveType, //"3"
 	    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
 	    			"remark": self.formdata2.remark, //"请假的详细信息"
-	    			attachm: self.formdata2.attachm
+	    			// attachm: self.formdata2.attachm
 				}
 			}
 		},
@@ -343,7 +344,7 @@
 			        if (valid) {
 			          	self.$refs.formdata2.validate(valid => {
 			           	 	if (valid) {
-			            		self.$refs.upload.submit();
+			            		self.$refs.upload.submit();//触发上传
 								if(!self.fileFlag) {
 									let params = {
 										"userNo": self.formdata1.userNo, //"1004"
@@ -352,7 +353,7 @@
 						    			"leaveType": self.formdata2.leaveType, //"3"
 						    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
 						    			"remark": self.formdata2.remark, //"请假的详细信息"
-						    			attachm: self.formdata2.attachm
+						    			// attachm: self.formdata2.attachm
 									}
 									//无附件时新增
 									self.addLeaveInfo(params);

@@ -507,8 +507,8 @@
 .add_travel .travelCity_wrap2 .el-form-item__content {
 	margin-left: 10px;
 }
-/* .add_travel .el-input--small .el-input__inner {
+.add_travel .el-input--small .el-input__inner {
     height: 30px;
     width: 145px;
-} */
+}
 </style>
