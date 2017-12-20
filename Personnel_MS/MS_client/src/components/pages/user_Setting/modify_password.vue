@@ -34,7 +34,6 @@
 
 <script type='text/ecmascript-6'>
 	import current from '../../common/current_position.vue'
-	import Bus from '../../../common/Bus.js'
 	const baseURL = 'iem_hrm';
 	export default {
 		data() {
@@ -117,7 +116,6 @@
 				.then((res) => {
 					console.log('updatePassword',res);
 					if(res.data.code === "S00000") {
-						// Bus.$emit('showSuccessTip', '');
 						self.dialogTableVisible = true;
 					}
 					
@@ -229,11 +227,6 @@
 	.modifine_password .el-textarea__inner {
 	    font-size: 16px;
 	}
-	/*.el-button:focus, .el-button:hover {
-	    color: #fff;
-	    border-color: #ff9900;
-	    opacity: 0.5;
-	}*/
 	.modifine_password label {
 	    display: inline-block;
 	    max-width: 100%;
@@ -246,9 +239,9 @@
 	}
 	.modifine_password .edit-tip{
 		padding:40px 0;
-		span{
-			margin-left:10px;
-		}
+		
 	}
-
+	.modifine_password .edit-tip span{
+		margin-left:10px;
+	}
 </style>

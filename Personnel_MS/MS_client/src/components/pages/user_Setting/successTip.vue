@@ -18,7 +18,7 @@
 	export default {
 		data() {
 			return {
-				errflag: true
+				errflag: false
 //				errmessage:{
 //					content:'登录失败!账号或者密码有误，请填写正确的账号和密码。',
 //					title:'温馨提示'
@@ -26,13 +26,13 @@
 			}
 		},
 		created(){
-			Bus.$on('showSuccessTip',(msg) => {
-				this.errflag = false;
-				if(msg !== ''){
-					this.errmessage = msg;
-				}
+			// Bus.$on('showSuccessTip',(msg) => {
+			// 	this.errflag = false;
+			// 	if(msg !== ''){
+			// 		this.errmessage = msg;
+			// 	}
 				
-			})
+			// })
 		},
 	    methods: {
 	    	close() {
