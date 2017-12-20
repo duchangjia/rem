@@ -14,8 +14,8 @@
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称" prop="companyNo">
-							<el-select v-model="formdata2.companyNo">
-								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+							<el-select v-model="formdata2.comp" vue-key="companyNo" @change="changeComp">
+								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>
@@ -58,8 +58,12 @@
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
 				formdata2: {
-					companyName: "",
-					companyNo: "",
+					comp: {
+						organName: '',
+						companyNo: "",
+					},
+					// companyName: "",
+					// companyNo: "",
 					wageMonth: "",
 					attachm: ""
 				},
@@ -81,7 +85,8 @@
 		computed: {
 			formdata: function(){
 				return {
-					organNo: this.formdata2.companyNo,
+					organNo: this.formdata2.comp.companyNo,
+					organNo: this.formdata2.comp.organName,
 					month: this.formdata2.wageMonth
 				}
 			}
@@ -91,6 +96,10 @@
 			this.queryCompList();
 		},
 		methods: {
+			changeComp(val) {
+				console.log('comp', val)
+				console.log('this.formdata2.comp',this.formdata2.comp)
+			},
 			changeWageMonth(time) {
 				this.formdata2.wageMonth = time;
 			},

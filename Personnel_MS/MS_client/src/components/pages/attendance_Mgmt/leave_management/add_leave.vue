@@ -94,15 +94,17 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width: 100%;">
 				  		 	<el-input v-model="formdata2.attachm"></el-input>
-					  		<el-upload class="upload-demo" ref="upload" name="file"
+					  		<el-upload class="upload-demo" ref="upload"
+					  			 action="/iem_hrm/leave/addLeaveInfo" 
 					  			 :data="formdata"
 					  			 :on-change="changeUpload"
 					  			 :on-success="successUpload"
 					  			 :beforeUpload="beforeAvatarUpload"
-					  			 action="/iem_hrm/leave/addLeaveInfo" 
 					  			 :show-file-list="false" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
+								 :name="filesName"
+                                 :multiple="true"
 					  		>
 	                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
 	                        </el-upload>
@@ -142,7 +144,9 @@
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
+				filesName: "files",
 				fileFlag: '',
+				//工号选择弹框数据
 				dialogVisible:false,
 			    tableOption:[],
 			    inputFirstOption:{},
@@ -153,13 +157,14 @@
 			    saveUrl:'',
 			    boxTitle:'',
 			    numType:'',
-			    
+				
+				 
 			    leaveStartTime: '',
 				leaveEndTime: '',
 				//员工基本信息
 				formdata1: {},
 				//请假信息
-				formdata2: {},
+				formdata2: {attachm: "",},
 				//岗位列表
 				custPostList: [],
 				//职级列表
@@ -302,14 +307,20 @@
 		    },
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-		 		this.formdata2.attachm = file.name;
-	      	},
+				//  this.formdata2.attachm = file.name;
+				fileList.forEach(function(item) {
+					this.formdata2.attachm += item.name + " ";
+				}, this);
+				console.log("选中的fileList", fileList);
+			},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
 	      			this.$message({ message: '操作成功', type: 'success' });
 					this.$router.push('/leave_management');
-	      		}
-		      		
+	      		} else {
+					this.$message.error(response.retMsg);
+				
+				}
 	      	},
 	      	// 上传前对文件的大小的判断
 		    beforeAvatarUpload (file) {
@@ -317,12 +328,12 @@
 //		      const extension2 = file.name.split('.')[1] === 'xlsx'
 //		      const extension3 = file.name.split('.')[1] === 'doc'
 //		      const extension4 = file.name.split('.')[1] === 'docx'
-		      const isLt2M = file.size / 1024 / 1024 < 1
+		      const isLt2M = file.size / 1024 / 1024 < 10
 //		      if (!extension && !extension2 && !extension3 && !extension4) {
-//		        console.log('上传模板只能是 xls、xlsx、doc、docx 格式!')
+//		        console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
 //		      }
 		      if (!isLt2M) {
-		      	this.$message({ message: '上传模板大小不能超过 1MB!', type: 'error' });
+		      	this.$message({ message: '上传文件大小不能超过 10MB!', type: 'error' });
 		      }
 		      return  isLt2M	//extension || extension2 || extension3 || extension4 &&
 		    },
@@ -418,6 +429,6 @@
 	};
 </script>
 
-<style scoped>
+<style >
 
 </style>
