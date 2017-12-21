@@ -117,7 +117,7 @@
 	      	};
 			return {
 				checkSubAll: false,
-				checkSubAllFlag: false,
+				checkSubAllFlag: false,//部门全选按钮是否由认为点击选中
 		      	checkedSubmenusFlag: false,
 		      	checkedSubmenus: [],
 		      	submenus: [],
@@ -207,12 +207,10 @@
 			// 部门范围 多选
 		    handleSubAllChange(event) {
 				  this.checkSubAll = event.target.checked;
-				  this.checkSubAllFlag = event.target.checked;
-				  console.log('checkSubAllFlag',this.checkSubAllFlag);
 		      	if (this.checkSubAll == true) {
 		        	this.checkedSubmenus = this.derpRangeList;
 		        	this.isSubIndeterminate = true;
-		        	
+		        	this.checkSubAllFlag = true;
 		        	let params = {
 		        		organNo: sessionStorage.getItem('addWage_organNo')
 			      	}
@@ -220,7 +218,8 @@
 			      	this.queryDerpAndUser(params);
 		      	} else {
 		        	this.checkedSubmenus = [];
-		        	this.isSubIndeterminate = false;
+					this.isSubIndeterminate = false;
+					this.checkSubAllFlag = false;
 		      	}
 		      	this.checkedSubmenus.length > 0
 		        	? (this.checkedSubmenusFlag = true)
@@ -232,7 +231,8 @@
 		    handleCheckedSubsChange(val) {
 		    	console.log('val',val)
 		      	let checkedCount = val.length;
-		      	let derpNo = '';
+				  let derpNo = '';
+				  this.checkSubAllFlag = false;
 		      	if(val.length>0) {
 		      		derpNo = val[val.length-1].derpNo;
 		      	}
@@ -364,8 +364,8 @@
 					console.log('userList',res);
 					if(res.data.code === "S00000") {
 						
+						console.log('self.checkSubAllFlag',self.checkSubAllFlag);
 						if(self.checkSubAllFlag) {//查全部人员时
-							console.log('self.checkSubAllFlag',self.checkSubAllFlag);
 							console.log('查全部人员时的userList',res);
 							self.derpRangeList.forEach(function(ele,num) {
 								ele.preRangeList = [];
@@ -382,7 +382,6 @@
 								})
 							})
 						} else {//查单个部门人员时
-							console.log('self.checkSubAllFlag',self.checkSubAllFlag);
 							console.log('查单个部门人员时的userList',res);
 							self.derpRangeList.forEach(function(ele,num) {
 								if(ele.derpNo == res.data.data[0].derpNo) {

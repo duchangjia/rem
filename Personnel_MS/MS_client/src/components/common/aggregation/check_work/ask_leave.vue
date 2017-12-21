@@ -148,6 +148,7 @@ export default {
         .el-form-item{
             margin-bottom:0;
             padding-top:10px;
+            width:300px;
         }
         .msg-form{
             position: relative;

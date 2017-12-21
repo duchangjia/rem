@@ -38,7 +38,8 @@
 	import current from '../common/current_position.vue'
 	import contentTitle from '../common/content_title.vue'
 	import api from '../../../../common/api/api.js'
-	let {custSelfInfo,queryCustAsset} = api
+	// let {custSelfInfo,queryCustAsset} = api
+	const baseURL = 'iem_hrm';
     export default {
 		data() {
 			return {
@@ -94,6 +95,12 @@
 				],
 				dialogTableVisible:false,
 				gridData:[],
+				//岗位列表
+				custPostList: [],
+				//职级列表
+				custClassList: [],
+				//CCC列表
+				costTypeList: [],
 				// titleTxt:'',
 				// showTitleBtn:false
 				
@@ -102,13 +109,22 @@
 		components: {
 			current,contentTitle
 		},
-		mounted() {
+		created() {
+			//查询岗位列表
+			this.queryCustPostList();
+			//查询职级列表
+			this.queryCustClassList();
+			//查询CCC列表
+			this.queryCostTypeList();
+			//查询头像
+			// this.queryUserImage();
+			//查询用户信息
 			this.queryUserList();
 		},
 		methods: {
 			queryUserList() {
 				let self = this;
-				self.$axios.get(custSelfInfo)
+				self.$axios.get(api.custSelfInfo)
 				.then(res =>{
 					console.log('List',res.data.data);
 					let data = res.data.data,
@@ -126,6 +142,21 @@
 					self.msgList[8].val = data.compactEndTime||'暂无数据'
 					self.msgList[9].val = data.entryTime||'暂无数据'
 					self.msgList[10].val = data.mobileNo||'暂无数据'
+					self.custPostList.forEach((ele,num) => {
+						if(ele.paraValue == self.msgList[4].val) {
+							self.msgList[4].val = ele.paraShowMsg;
+						}
+					});
+					self.custClassList.forEach((ele,num) => {
+						if(ele.paraValue == self.msgList[5].val) {
+							self.msgList[5].val = ele.paraShowMsg;
+						}
+					});
+					self.costTypeList.forEach(ele => {
+						if(ele.paraValue == self.msgList[7].val) {
+							self.msgList[7].val = ele.paraShowMsg;
+						}
+					})
 					for(let i = 0 ; i< data.assetInfList.length;i++){
 						let assetType = data.assetInfList[i].assetType;
 						switch(assetType){
@@ -208,7 +239,57 @@
                 : row.assetType == "03"
                     ? "电脑"
                     : row.assetType == "04" ? "后勤用品" : "异常";
-            }
+			},
+			queryCustPostList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+				.then((res) => {
+					console.log('CustPost',res);
+					if(res.data.code === "S00000") {
+						self.custPostList = res.data.data;
+					}
+					
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
+			queryCustClassList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
+				.then((res) => {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						self.custClassList = res.data.data;
+					}
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
+			queryCostTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=COST_TYPE')
+				.then((res) => {
+					console.log('costType',res);
+					if(res.data.code === "S00000") {
+						self.costTypeList = res.data.data;
+					}
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
+			queryUserImage() {
+				this.$axios.get(baseURL+'/CustInfo/queryLoadCustAvatar')
+                    .then(res=>{
+                        console.log(res,'头像查询')
+                        if(res.data.data) {
+                            let url = 'data:image/jpg;base64,'+res.data.data
+                            this.imageUrl = url
+                        }
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
+			}
 		}
 
     }
