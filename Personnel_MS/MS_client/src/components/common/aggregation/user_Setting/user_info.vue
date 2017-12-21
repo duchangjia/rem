@@ -4,7 +4,10 @@
         <div class="content">
 			<contentTitle titleTxt="基本信息"></contentTitle>
         	<div class="content-inner clearfix user_con">
-				<div class="imgUserHead"><img src="../../../../../static/img/common/avatar.png" alt=""></div>
+				<div class="imgUserHead">
+					<!-- <img src="../../../../../static/img/common/avatar.png" alt=""> -->
+					<img v-if="imageUrl" :src="imageUrl">
+				</div>
 				<el-form class="clearfix" :inline="true" label-width="100" >
 					<el-col :sm="24" :md="12" v-for="(item,index) in msgList" >
 						<el-form-item :label="item.label" class="no-border-input">
@@ -43,6 +46,8 @@
     export default {
 		data() {
 			return {
+				//头像数据
+                imageUrl: '',
 				msgList:[
 					{
 						label:'工号',
@@ -109,13 +114,7 @@
 		components: {
 			current,contentTitle
 		},
-		created() {
-			//查询岗位列表
-			this.queryCustPostList();
-			//查询职级列表
-			this.queryCustClassList();
-			//查询CCC列表
-			this.queryCostTypeList();
+		mounted() {
 			//查询头像
 			// this.queryUserImage();
 			//查询用户信息
@@ -138,25 +137,18 @@
 					self.msgList[4].val = data.custPost||'暂无数据'
 					self.msgList[5].val = data.custClass||'暂无数据'
 					self.msgList[6].val = data.organName||'暂无数据'
-					self.msgList[7].val = data.ownerCCC||'暂无数据'
+					self.msgList[7].val = data.costCode||'暂无数据'
 					self.msgList[8].val = data.compactEndTime||'暂无数据'
 					self.msgList[9].val = data.entryTime||'暂无数据'
 					self.msgList[10].val = data.mobileNo||'暂无数据'
-					self.custPostList.forEach((ele,num) => {
-						if(ele.paraValue == self.msgList[4].val) {
-							self.msgList[4].val = ele.paraShowMsg;
-						}
-					});
-					self.custClassList.forEach((ele,num) => {
-						if(ele.paraValue == self.msgList[5].val) {
-							self.msgList[5].val = ele.paraShowMsg;
-						}
-					});
-					self.costTypeList.forEach(ele => {
-						if(ele.paraValue == self.msgList[7].val) {
-							self.msgList[7].val = ele.paraShowMsg;
-						}
-					})
+					
+					
+					//查询岗位列表
+					this.queryCustPostList();
+					//查询职级列表
+					this.queryCustClassList();
+					//查询直线经理
+					self.queryUserInfo(self.msgList[2].val);
 					for(let i = 0 ; i< data.assetInfList.length;i++){
 						let assetType = data.assetInfList[i].assetType;
 						switch(assetType){
@@ -247,6 +239,11 @@
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
+						self.custPostList.forEach((ele,num) => {
+							if(ele.paraValue == self.msgList[4].val) {
+								self.msgList[4].val = ele.paraShowMsg;
+							}
+						});
 					}
 					
 				}).catch((err) => {
@@ -260,18 +257,11 @@
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
-					}
-				}).catch((err) => {
-					console.log('error');
-				})
-			},
-			queryCostTypeList() {
-				let self = this;
-				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=COST_TYPE')
-				.then((res) => {
-					console.log('costType',res);
-					if(res.data.code === "S00000") {
-						self.costTypeList = res.data.data;
+						self.custClassList.forEach((ele,num) => {
+							if(ele.paraValue == self.msgList[5].val) {
+								self.msgList[5].val = ele.paraShowMsg;
+							}
+						});
 					}
 				}).catch((err) => {
 					console.log('error');
@@ -280,7 +270,7 @@
 			queryUserImage() {
 				this.$axios.get(baseURL+'/CustInfo/queryLoadCustAvatar')
                     .then(res=>{
-                        console.log(res,'头像查询')
+                        console.log('头像查询', res)
                         if(res.data.data) {
                             let url = 'data:image/jpg;base64,'+res.data.data
                             this.imageUrl = url
@@ -289,6 +279,16 @@
                     .catch(e=>{
                         console.log(e)
                     })
+			},
+			queryUserInfo(userNo) {
+				let self = this;
+				self.$axios.get(baseURL+'/CustInfo/queryCustInfoByUserNo/'+ userNo)
+				.then((res) => {
+					console.log('userInfo',res);
+					self.msgList[2].val = res.data.data.custName;
+				}).catch((err) => {
+					console.log(err);
+				})
 			}
 		}
 

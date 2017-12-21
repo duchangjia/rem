@@ -49,7 +49,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新公司名称" prop="newOrgId">
-						    <el-select v-model="formdata.newOrgId" @change="changeComp">
+						    <el-select v-model="formdata.newOrgId" @change="changeComp" :disabled=disabledFlag>
 								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -73,7 +73,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新直线经理" prop="newLineManager">
-						    <el-input v-model="formdata.newLineManager" @change="newLineManagerChange"></el-input>
+						    <el-input v-model="formdata.newLineManager" @change="newLineManagerChange" :disabled=disabledFlag></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -85,7 +85,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新岗位" prop="newPost">
-						    <el-select v-model="formdata.newPost">
+						    <el-select v-model="formdata.newPost" :disabled=disabledFlag>
 								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -99,7 +99,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新职级" prop="newClass">
-						    <el-select v-model="formdata.newClass">
+						    <el-select v-model="formdata.newClass" :disabled=disabledFlag>
 								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -161,8 +161,9 @@
 				},
 				fileList: [],
 				fileFlag: '',
-				newLineManagerFlag: true,
-				disabledFlag: flase,
+				newLineManagerFlag: true,//判断新直线经理是否存在标志
+				disabledFlag: false, //判断调动类型是否工资调整
+				//员工信息
 				formdata: {},
 				//部门列表
 				departList: [],
@@ -255,17 +256,22 @@
 			},
 			changeShiftType(val) {
 				console.log('shiftType',val);
-				console.log('self.formdata.newOrgId'+self.formdata.newOrgId);
+				console.log('self.formdata.newOrgId'+this.formdata.newOrgId);
 				let self = this;
-				if(val === '') {
-					// self.formdata.newOrgId = self.formdata.oldOrgId;
-					// self.formdata.newDeprtId = self.formdata.oldDeprtId;
-					// self.formdata.newLineManager = self.formdata.oldLineManager;
-					// self.formdata.newPost = self.formdata.oldPost;
-					// self.formdata.newClass = self.formdata.oldClass;
-					// self.disabledFlag=true;
+				if(val === '05') {//工资调整时
+					self.formdata.newOrgId = self.formdata.oldOrgId;
+					self.formdata.newDeprtId = self.formdata.oldDeprtId;
+					self.formdata.newLineManager = self.formdata.oldLineManager;
+					self.formdata.newPost = self.formdata.oldPost;
+					self.formdata.newClass = self.formdata.oldClass;
+					self.disabledFlag=true;
 				} else {
-					// self.disabledFlag=false;
+					self.formdata.newOrgId = '';
+					self.formdata.newDeprtId = '';
+					self.formdata.newLineManager = '';
+					self.formdata.newPost = '';
+					self.formdata.newClass = '';
+					self.disabledFlag=false;
 				}
 				
 			},
@@ -297,10 +303,29 @@
 				// 移除文件
 				console.log(file, fileList);
 				console.log("移除的file", file);
-				let params = {
-					fileId: file.fileId
-				}
-				this.removeFile(params);
+				let index = this.fileList.indexOf(file);
+				fileList.splice(index, 0, file);
+				this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+					confirmButtonText: "确定",
+					cancelButtonText: "取消",
+					type: "warning"
+				}).then(() => {
+					this.$axios.delete("/iem_hrm/file/deleteFile/" + file.fileId)
+						.then(res => {
+						let result = res.data.retMsg;
+						if ("操作成功" == result) {
+							this.$message({ type: "success", message: result });
+							fileList.splice(index, 1);
+						} else {
+							this.$message({ type: "error", message: result });
+						}
+						}).catch(e => {
+							console.log(e);
+							this.$message({ type: "error", message: e.retMsg });
+					});
+				}).catch(() => {
+					this.$message({ type: "info", message: "已取消删除" });
+				});
 			},
 			handlePreview(file) {
 				// 点击已上传的文件链接时
@@ -413,20 +438,6 @@
 					}
 				}).catch((err) => {
 					console.log(err);
-				})
-			},
-			removeFile(params) {
-				let self = this;
-				self.$axios.delete(baseURL+'/file/deleteFile/'+params.fileId)
-				.then((res) => {
-					console.log('deleteFile',res);
-					if(res.data.code === "S00000") {
-						self.$message({ message: '操作成功', type: 'success' });
-					} else {
-						self.$message({ message: res.data.retMsg, type: 'error' });
-					}
-				}).catch((err) => {
-					console.log('error');
 				})
 			},
 			queryCompList() {

@@ -52,7 +52,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新公司名称" prop="newOrgId">
-						    <el-select v-model="formdata2.newOrgId" @change="changeComp">
+						    <el-select v-model="formdata2.newOrgId" @change="changeComp" :disabled=disabledFlag>
 								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -64,7 +64,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新部门名称" prop="newDeprtId">
-						    <el-select v-model="formdata2.newDeprtId">
+						    <el-select v-model="formdata2.newDeprtId" :disabled=disabledFlag>
 								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -76,7 +76,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新直线经理" prop="newLineManager">
-						    <el-input v-model="formdata2.newLineManager" @change="newLineManagerChange"></el-input>
+						    <el-input v-model="formdata2.newLineManager" @change="newLineManagerChange" :disabled=disabledFlag></el-input>
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
@@ -88,7 +88,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新岗位" prop="newPost">
-						    <el-select v-model="formdata2.newPost">
+						    <el-select v-model="formdata2.newPost" :disabled=disabledFlag>
 								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -102,7 +102,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新职级" prop="newClass">
-						    <el-select v-model="formdata2.newClass">
+						    <el-select v-model="formdata2.newClass" :disabled=disabledFlag>
 								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -165,11 +165,19 @@
 				filesName: "files",
 				fileFlag: '',
 				newLineManagerFlag: '',//判断新直线经理是否存在标志
-				
-			    //原信息
+				disabledFlag: false, //判断调动类型是否工资调整
+			    //原员工信息
 			    formdata1: {},
 			    //调动信息
-				formdata2: {attachm: ''},
+				formdata2: {
+					attachm: '',
+					newOrgId: '',
+					newDeprtId: '',
+					newLineManager: '',
+					newPost: '',
+					newClass: ''
+					
+				},
 				//部门列表
 				departList: [],
 				//公司列表
@@ -244,16 +252,6 @@
 			}
 		},
 		methods: {
-			changeShiftType(value) {
-				console.log('shiftType', value);
-				if(value==='05') {
-					console.log('true');
-					console.log(this.formdata1.organNo);
-					// this.formdata2.newOrgId = this.formdata1.organNo;
-					// this.formdata2.newDeprtId = this.formdata1.derpNo;
-					// this.formdata2.newLineManager = this.formdata1.lineManager;
-				}
-			},
 			changeShiftCameTime(time) {
 	      		this.formdata2.shiftCameTime = time;
 	      	},
@@ -263,6 +261,28 @@
 				}
 				//查询部门列表
 				this.queryDerpList(params);
+			},
+			changeShiftType(val) {
+				console.log('shiftType',val);
+				let self = this;
+				console.log('self.formdata1.oldOrgId',self.formdata1.organNo);
+				if(val === '05') {//工资调整时
+					self.formdata2.newOrgId = self.formdata1.organNo;
+					self.formdata2.newDeprtId = self.formdata1.derpNo;
+					self.formdata2.newLineManager = self.formdata1.lineManager;
+					self.formdata2.newPost = self.formdata1.custPost;
+					self.formdata2.newClass = self.formdata1.custClass;
+					self.disabledFlag=true;
+					self.newLineManagerFlag = true;
+				} else {
+					self.formdata2.newOrgId = '';
+					self.formdata2.newDeprtId = '';
+					self.formdata2.newLineManager = '';
+					self.formdata2.newPost = '';
+					self.formdata2.newClass = '';
+					self.disabledFlag=false;
+				}
+				
 			},
 			//校验直线经理是否存在
 			newLineManagerChange(value) {
