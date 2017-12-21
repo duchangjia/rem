@@ -40,7 +40,7 @@
                        <span><input v-model="accountData.allPay" readonly="readonly" :placeholder="baseNum"></span>
                    </li>
                    <li>
-                       <label class="cur-pointer" @click="showSalary()">标准薪资<i class="ico-salary"></i></label>
+                       <label class="cur-pointer" @click="showSalary(isSalary=!isSalary)">标准薪资<i class="ico-salary"></i></label>
                        <span ><input v-model="accountData.salaryStd" readonly="readonly" :placeholder="baseNum"></span>
                        <ul class="sec-list" v-if="isSalary">
                            <li>
@@ -54,9 +54,9 @@
                        </ul>
                    </li>
                    <li>
-                        <label class="cur-pointer"  @click="showBonus()">奖金及补贴<i class="ico-salary"></i></label>
+                        <label class="cur-pointer"  @click="showBonus(isBonus=!isBonus)">奖金及补贴<i class="ico-salary"></i></label>
                         <span><input v-model="accountData.bonuses" readonly="readonly" :placeholder="baseNum"></span>
-                        <ul class="sec-list" v-if="isBonus">
+                            <ul class="sec-list" v-show="isBonus">
                            <li>
                                <label>岗位津贴</label>
                                <span><input v-model="accountData.postPension" readonly="readonly" :placeholder="baseNum"></span>
@@ -99,7 +99,7 @@
                       
                    </li>
                    <li>
-                       <label class="cur-pointer" @click="showWork()">考勤<i class="ico-salary"></i></label>
+                       <label class="cur-pointer" @click="showWork(isWork=!isWork)">考勤<i class="ico-salary"></i></label>
                        <span><input v-model="accountData.allCheckCount" readonly="readonly" :placeholder="baseNum"></span>
                        <span>迟到、事假、病假等考勤扣款合计</span>
                         <ul class="sec-list" v-if="isWork">
@@ -118,7 +118,7 @@
                        </ul>
                    </li>
                    <li>
-                       <label class="cur-pointer" @click="showWel()">福利<i class="ico-salary"></i></label>
+                       <label class="cur-pointer" @click="showWel(isWel=!isWel)">福利<i class="ico-salary"></i></label>
                        <span><input v-model="accountData.allWelCount" readonly="readonly" :placeholder="baseNum"></span>
                        <span>当月社保及公积金个人承担部分，包含补发补扣</span>
                         <ul class="sec-list"  v-if="isWel">
@@ -154,7 +154,7 @@
                    </li>
                   
                    <li>
-                       <label class="cur-pointer" @click="showOther()">其他<i class="ico-salary"></i></label>
+                       <label class="cur-pointer" @click="showOther(isOther=!isOther)">其他<i class="ico-salary"></i></label>
                        <span><input v-model="accountData.otherCutPay" readonly="readonly" :placeholder="baseNum"></span> 
                        <ul class="sec-list" v-show="isOther">
                            <li>
@@ -177,7 +177,7 @@ import current from '../common/current_position.vue'
 import contentTitle from '../common/content_title.vue'
 import moment from "moment";
 import api from '../../../../common/api/api.js'
-let {custSelfInfo,queryCustSalary} = api
+let {custSelfInfo,queryCustSalary,querySalaryHoliday} = api
 
 export default {
     data(){
@@ -222,56 +222,24 @@ export default {
             let self = this;
                 self.$axios.get(custSelfInfo).then(res=>{
                     let data = res.data.data;
-                        self.msgList[0].val = data.custName||'暂无数据'
-                        self.msgList[1].val = data.derpName||'暂无数据'
-                        self.msgList[2].val = data.userNo||'暂无数据'
+                    self.msgList[0].val = data.custName||'暂无数据'
+                    self.msgList[1].val = data.derpName||'暂无数据'
+                    self.msgList[2].val = data.userNo||'暂无数据'
                 }).catch(e=>{
                     self.$message({
                         message:e.retMsg||'数据异常',
                         type:'error'
                     })
                 })
-        },
-        showSalary(){
-            let self = this;
-            if(!self.isSalary){
-                self.isSalary = true
-            }else{
-                self.isSalary = false
-            }
-        },
-        showBonus(){
-            let self = this;
-            if(!self.isBonus){
-                self.isBonus = true
-            }else{
-                self.isBonus = false
-            }
-        },
-        showWork(){
-            let self = this;
-            if(!self.isWork){
-                self.isWork = true
-            }else{
-                self.isWork = false
-            }
-        },
-        showWel(){
-            let self = this;
-            if(!self.isWel){
-                self.isWel = true
-            }else{
-                self.isWel = false
-            }
-        },
-        showOther(){
-            let self = this;
-        
-            if(!self.isOther){
-                self.isOther = true
-            }else{
-                self.isOther = false
-            }
+                self.$axios.get(querySalaryHoliday).then(res=>{
+                    let data = res.data.data;
+                    self.msgList[3].val = data.workAge+'' || '暂无数据'
+                }).catch(e=>{
+                    self.$message({
+                        message:e.retMsg||'数据异常',
+                        type:'error'
+                    })
+                })
         },
         searchSalary(){
             let self = this,
@@ -401,6 +369,7 @@ export default {
                 input{
                     border:none;
                     background:none;
+                    margin-left: 15px;
                 }
                 label{
                     font-weight: normal;
@@ -417,6 +386,9 @@ export default {
                 .sec-list{
                     li{
                         color:$color-text-secondary;
+                    }
+                    li:first-child{
+                        background: green;
                     }
                     label{
                         padding-left:35px;
@@ -436,8 +408,11 @@ export default {
                 }
             }
         }
-        
+    }
+    .slide-enter-active {
+        animation: bounce-in 2s;
     }
 }
+
 </style>
 
