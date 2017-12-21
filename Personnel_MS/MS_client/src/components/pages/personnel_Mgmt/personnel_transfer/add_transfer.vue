@@ -239,8 +239,7 @@
 					newLineManager: self.formdata2.newLineManager,
 					newPost: self.formdata2.newPost,
 					newClass: self.formdata2.newClass,
-					shiftReason: self.formdata2.shiftReason,
-					attachm: self.formdata2.attachm
+					shiftReason: self.formdata2.shiftReason
 				}
 			}
 		},
@@ -285,10 +284,10 @@
 			},
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-				//  this.formdata2.attachm = file.name;
-				 fileList.forEach(function(item) {
-					this.formdata2.attachm += item.name + " ";
-				}, this);
+				 this.formdata2.attachm = file.name;
+				//  fileList.forEach(function(item) {
+				// 	this.formdata2.attachm += item.name + " ";
+				// }, this);
 				console.log("选中的fileList", fileList);
 	      	},
 	      	successUpload(response, file, fileList) {
@@ -332,8 +331,7 @@
 										newLineManager: self.formdata2.newLineManager,
 										newPost: self.formdata2.newPost,
 										newClass: self.formdata2.newClass,
-										shiftReason: self.formdata2.shiftReason,
-										attachm: self.formdata2.attachm
+										shiftReason: self.formdata2.shiftReason
 									}
 									console.log('params',params)
 									//无附件时人事调动添加

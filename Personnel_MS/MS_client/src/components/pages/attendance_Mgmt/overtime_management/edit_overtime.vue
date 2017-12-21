@@ -80,8 +80,7 @@
 				  	</el-col>
 				  	<el-col :sm="24" :md="12">
 						<el-form-item label="附件">
-				  		 	<!-- <el-input v-model="formdata2.attachm"></el-input> -->
-					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
+					  		<el-upload class="upload-demo" ref="upload" name="files" action="/iem_hrm/file/addFile" multiple
 					  			 :on-exceed="handleExceed"
 								 :on-preview="handlePreview"
                                  :on-remove="handleRemove"
@@ -195,19 +194,7 @@
 			this.queryWorkotTypeList();
 		},
 		computed: {
-			formdata: function(){
-				const self = this;
-				return {
-					"applyNo": self.formdata2.applyNo, 
-					"userNo": self.formdata2.userNo,
-	    			"workotStartTime": self.formdata2.workotStartTime, 
-	    			"workotEndTime": self.formdata2.workotEndTime,
-	    			"workotType": self.formdata2.workotType, 
-	    			"timeSheet": self.formdata2.timeSheet, 
-	    			"remark": self.formdata2.remark,
-	    			attachm: self.formdata2.attachm
-				}
-			}
+			
 		},
 		methods: {
 			changeStartTime(time) {
@@ -219,16 +206,11 @@
 	      	//上传附件
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-				// this.formdata2.attachm = file.name;
-				// fileList.forEach(function(item) {
-				// 	this.formdata2.attachm += item.name + " ";
-				// }, this);
 				this.fileList = fileList;
 				console.log("选中的fileList", fileList); 
 			},
 			handleRemove(file, fileList) {
 				// 移除文件
-				console.log(file, fileList);
 				console.log("移除的file", file);
 				let params = {
 					fileId: file.fileId
@@ -274,8 +256,6 @@
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						// self.$refs.upload.submit();
-						// if(!self.fileFlag) {
 							let fileIds = [];
 							for(let k in self.fileList) {
 								fileIds.push(self.fileList[k].fileId);
@@ -294,7 +274,6 @@
 							}
 							//修改加班详细信息
 							self.modifyTravelInfo(params);
-						// }
 							
 						
 					} else {

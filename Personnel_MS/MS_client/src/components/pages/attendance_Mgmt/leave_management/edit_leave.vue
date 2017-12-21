@@ -79,7 +79,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件">
 				  		 	<!-- <el-input v-model="formdata2.attachm"></el-input> -->
-					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
+					  		<el-upload class="upload-demo" ref="upload" name="files" action="/iem_hrm/file/addFile" multiple 
                                  :on-exceed="handleExceed"
 								 :on-preview="handlePreview"
                                  :on-remove="handleRemove"
@@ -161,19 +161,7 @@
 			current
 		},
 		computed: {
-			formdata: function(){
-				const self = this;
-				return {
-					applyNo: self.formdata2.applyNo, //请假编号
-					"userNo": self.formdata1.userNo, //"1004"
-	    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
-	    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
-	    			"leaveType": self.formdata2.leaveType, //"3"
-	    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
-	    			"remark": self.formdata2.remark, //"请假的详细信息"
-	    			attachm: self.formdata2.attachm
-				}
-			}
+			
 		},
 		created() {
 			
@@ -252,8 +240,6 @@
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						// self.$refs.upload.submit();
-						// if(!self.fileFlag) {
 							let fileIds = [];
 							for(let k in self.fileList) {
 								fileIds.push(self.fileList[k].fileId);
@@ -272,7 +258,6 @@
 							}
 							//修改出差详情
 							self.modifyTravelInfo(params);
-						// }
 					} else {
 						return false;
 					}
@@ -290,9 +275,6 @@
 					if(res.data.code === "S00000") {
 						self.formdata2 = res.data.data;
 						self.formdata2.timeSheet = self.formdata2.timeSheet + '';
-						// for(let k in self.formdata2) {
-						// 	self.formdata2[k] = self.formdata2[k] + '';
-						// }
 						if (
 							self.formdata2.epFileManageList &&
 							self.formdata2.epFileManageList.length >= 1

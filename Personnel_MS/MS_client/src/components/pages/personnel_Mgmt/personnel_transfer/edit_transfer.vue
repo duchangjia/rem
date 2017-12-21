@@ -116,20 +116,20 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width: 100%;">
-					  		<el-input v-model="formdata.attachm"></el-input>
-					  		<el-upload class="upload-demo" ref="upload"
-					  			 :data="addFormdata"
-					  			 :on-change="changeUpload" 
+					  		<!-- <el-input v-model="formdata.attachm"></el-input> -->
+					  		<el-upload class="upload-demo" ref="upload" name="files" action="/iem_hrm/file/addFile" multiple 
+                                 :on-exceed="handleExceed"
+								 :on-preview="handlePreview"
+                                 :on-remove="handleRemove"
+					  			 :on-change="changeUpload"
 					  			 :on-success="successUpload"
-					  			 :beforeUpload="beforeAvatarUpload"
-					  			 action="/iem_hrm/custShifthis/updateCustShifthis" 
-					  			 :show-file-list="false" 
-					  			 :auto-upload="false"
+								 :beforeUpload="beforeAvatarUpload"  
+					  			 :show-file-list="true" 
 					  			 :headers="token"
-								 :name="filesName" 
-                                 :multiple="true"
+								 :limit="3"
+								 :file-list="fileList"
 					  		>
-	                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
+	                            <el-button slot="trigger" type="primary">选取文件</el-button>
 	                        </el-upload>
 					  	</el-form-item>
 					</el-col>  	
@@ -160,9 +160,9 @@
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
-				filesName: "files",
+				fileList: [],
 				fileFlag: '',
-				newLineManagerFlag: '',
+				newLineManagerFlag: true,
 				formdata: {},
 				//部门列表
 				departList: [],
@@ -271,24 +271,46 @@
 					console.log(err);
 				})
 			},
+	      	//上传附件
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-				//  this.formdata.attachm = file.name;
-				 fileList.forEach(function(item) {
-					this.formdata.attachm += item.name + " ";
-				}, this);
-				console.log("选中的fileList", fileList);
-	      	},
+				// this.formdata2.attachm = file.name;
+				// fileList.forEach(function(item) {
+				// 	this.formdata2.attachm += item.name + " ";
+				// }, this);
+				this.fileList = fileList;
+				console.log("选中的fileList", fileList); 
+			},
+			handleRemove(file, fileList) {
+				// 移除文件
+				console.log(file, fileList);
+				console.log("移除的file", file);
+				let params = {
+					fileId: file.fileId
+				}
+				this.removeFile(params);
+			},
+			handlePreview(file) {
+				// 点击已上传的文件链接时
+				console.log(file);
+				
+			},
+			handleExceed(files, fileList) {
+				// 文件超出数量
+				this.$message.warning(
+					`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
+					fileList.length} 个文件`
+				);
+			},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
-	      			this.$message({ message: response.retMsg, type: 'success' });
-	      			this.$router.push('/detail_transfer');
-	      		} else {
-	      			this.$message({ message: response.retMsg, type: 'error' });
-	      		}
-	      		
+					  file.fileId = response.data;
+	      			this.$message({ message: '操作成功', type: 'success' });
+				  }
+				  console.log('this.fileList',this.fileList);
+				  console.log('上传成功的file',file);
 			},
-			// 上传前对文件的大小的判断
+			  // 上传前对文件的大小的判断
 		    beforeAvatarUpload (file) {
 //		      const extension = file.name.split('.')[1] === 'xls'
 //		      const extension2 = file.name.split('.')[1] === 'xlsx'
@@ -308,7 +330,11 @@
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
 						self.$refs.upload.submit();
-						if(!self.fileFlag) {
+						// if(!self.fileFlag) {
+							let fileIds = [];
+							for(let k in self.fileList) {
+								fileIds.push(self.fileList[k].fileId);
+							}
 							let params = {
 								workhisId: self.formdata.workhisId,
 								oldOrgId: self.formdata.oldOrgId,
@@ -325,12 +351,13 @@
 								oldClass: self.formdata.oldClass,
 								newClass: self.formdata.newClass,
 								shiftReason: self.formdata.shiftReason,
-								attachm: self.formdata.attachm
+								// attachm: self.formdata.attachm,
+								fileIds: fileIds
 							}
 							console.log('params',params)
 							//无附件时修改
 							self.updateCustShif(params);
-						}
+						// }
 						
 
 					} else {
@@ -364,8 +391,34 @@
 					console.log('CustShifthisDetail',res);
 					self.formdata = res.data.data;
 					self.formdata.shiftCameTime = moment(self.formdata.shiftCameTime).format('YYYY-MM-DD hh:mm:ss');
+					if (
+						self.formdata.epFileManageList &&
+						self.formdata.epFileManageList.length >= 1
+					) {
+						self.formdata.epFileManageList.forEach(function(ele) {
+							self.fileList.push({
+								name: ele.fileName + "." + ele.fileSuffix,
+								url: ele.fileAddr,
+								fileId: ele.fileId
+							});
+						}, this);
+					}
 				}).catch(function(err) {
 					console.log(err);
+				})
+			},
+			removeFile(params) {
+				let self = this;
+				self.$axios.delete(baseURL+'/file/deleteFile/'+params.fileId)
+				.then((res) => {
+					console.log('deleteFile',res);
+					if(res.data.code === "S00000") {
+						self.$message({ message: '操作成功', type: 'success' });
+					} else {
+						self.$message({ message: res.data.retMsg, type: 'error' });
+					}
+				}).catch((err) => {
+					console.log('error');
 				})
 			},
 			queryCompList() {
