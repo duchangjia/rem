@@ -97,7 +97,6 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width:100%;">
-						    <!-- <el-button class="downloadBtn" @click="handleDownload">下载</el-button> -->
 							<ul>
 								<li v-for="item in fileList" :key="item.fileId">
 									<span class="fileText">{{item.name}}</span>
@@ -162,7 +161,8 @@
 			changeValue(value) {
 		 		const self = this;
 	            console.log('value',value);
-	      	},
+			  },
+			  //下载附件
 	      	handleDownloadFile(file) {
 				console.log(file);
 				let params = {
@@ -185,10 +185,10 @@
 					self.formdata = res.data.data;
 					self.formdata.dimProveFlag = self.formdata.dimProveFlag=='01' ? true: false;
 					if (
-						self.formdata2.epFileManageList &&
-						self.formdata2.epFileManageList.length >= 1
+						self.formdata.epFileManageList &&
+						self.formdata.epFileManageList.length >= 1
 					) {
-						self.formdata2.epFileManageList.forEach(function(ele) {
+						self.formdata.epFileManageList.forEach(function(ele) {
 						self.fileList.push({
 							name: ele.fileName + "." + ele.fileSuffix,
 							url: ele.fileAddr,

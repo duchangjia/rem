@@ -177,7 +177,23 @@
 				self.$axios.get(baseURL+'/travel/getTravelInfoByApplyNo',{params: params})
 				.then((res) => {
 					console.log('travelInfo',res);
-					self.formdata = res.data.data;
+					if(res.data.code === "S00000") {
+						self.formdata = res.data.data;
+						// self.formdata.travelDays = self.formdata2.travelDays + '';
+						if (
+							self.formdata.epFileManageList &&
+							self.formdata.epFileManageList.length >= 1
+						) {
+							self.formdata.epFileManageList.forEach(function(ele) {
+							self.fileList.push({
+								name: ele.fileName + "." + ele.fileSuffix,
+								url: ele.fileAddr,
+								fileId: ele.fileId
+							});
+							}, this);
+						}
+					}
+
 				}).catch((err) => {
 					console.log('error');
 				})
@@ -273,16 +289,16 @@
 .travel_info .travelCity_wrap2 .el-form-item__content {
 	margin-left: 10px;
 }
-.fileText {
+.travel_info .fileText {
 	color: #999999;
 	font-size: 14px;
 	padding-right: 20px;
 }
-.downBtn {
+.travel_info .downBtn {
 	color: #ffffff;
 	background: #ff9900;
 }
-.el-button.downBtn:focus, .el-button.downBtn:hover {
+.travel_info .el-button.downBtn:focus, .el-button.downBtn:hover {
     color: #ffffff;
     border-color: #ff9900;
 }
