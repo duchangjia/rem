@@ -246,10 +246,10 @@ export default {
           callback(new Error("可精确到小数点后2位的正数"));
         }
       } else if (typeof value == "number") {
-          callback();
+        callback();
       } else {
-          callback();
-        }
+        callback();
+      }
     };
     return {
       labelPosition: "right",
@@ -261,6 +261,7 @@ export default {
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
       },
+      fileIds: [],
       custPostList: [],
       custClassList: [],
       insurancePayTemplates: {},
@@ -569,21 +570,15 @@ export default {
 
     // 附件上传
     handleFileUpload(file, fileList) {
-      // 选择文件
-      console.log("选中的fileList", fileList);
-
       this.fileList = fileList;
-
       console.log("选中的this.fileList:", this.fileList);
     },
     handleRemove(file, fileList) {
-      // 移除文件
-      console.log(file, fileList);
+      console.log(file, fileList); // 移除文件
       console.log("移除的file", file);
     },
     handlePreview(file) {
-      // 点击已上传的文件链接时
-      console.log(file);
+      console.log(file); // 点击已上传的文件链接时
     },
     handleExceed(files, fileList) {
       // 文件超出数量
@@ -595,9 +590,11 @@ export default {
     successUpload(res, file, fileList) {
       // 文件成功上传
       console.log("upload_response", res);
+      console.log("upload_response_fileList", fileList);
       if (res.code == "S00000") {
         this.$message({ type: "success", message: "文件上传成功!" });
-        // this.$router.push("/payBaseInfo_setting");
+        this.fileIds.push(res.data);
+        console.log('this.fileIds', this.fileIds);
       } else this.$message.error(res.retMsg);
     },
 
@@ -652,6 +649,7 @@ export default {
         editPayBaseInfo.wagesProb = this.editPayBaseInfo.wagesProb;
         editPayBaseInfo.welcoeNo = this.editPayBaseInfo.welcoeNo;
         editPayBaseInfo.remark = this.editPayBaseInfo.remark;
+        editPayBaseInfo.fileIds = this.fileIds;
         console.log(editPayBaseInfo);
         this.$axios
           .put("/iem_hrm/pay/updatePayBaseInfo", editPayBaseInfo)
