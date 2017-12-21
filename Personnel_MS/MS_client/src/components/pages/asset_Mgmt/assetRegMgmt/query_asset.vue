@@ -154,15 +154,7 @@ export default {
               ? "后勤用品"
               : row.assetType == "05" ? "数码相机" : "";
     },
-    handleAssetInfoDetail(index, row) {
-      this.$router.push({
-        name: "detail_asset",
-        params: {
-          assetNo: row.assetNo,
-          applyUserNo: row.applyUserNo
-        }
-      });
-    },
+    
     handleCurrentChange(val) {
       this.pageNum = val;
       this.getAssetInfoList(); //分页查询资产信息列表
@@ -177,21 +169,20 @@ export default {
       this.getAssetInfoList(); //根据条件查询资产信息列表
     },
     handleAdd() {
-      this.$router.push({
-        name: "add_asset",
-        params: {}
-      });
+      this.$router.push("/add_asset");
+    },
+    handleAssetInfoDetail(index, row) {
+      sessionStorage.setItem('assetInfo_assetNo', row.assetNo); // 暫存assetNo
+      sessionStorage.setItem('assetInfo_applyUserNo', row.applyUserNo); // 暫存applyUserNo
+      this.$router.push("/detail_asset");
     },
     handleEdit(index, row) {
-      this.$router.push({
-        name: "edit_asset",
-        params: {
-          assetNo: row.assetNo,
-          applyUserNo: row.applyUserNo
-        }
-      });
+      sessionStorage.setItem('assetInfo_assetNo', row.assetNo); // 暫存assetNo
+      sessionStorage.setItem('assetInfo_applyUserNo', row.applyUserNo); // 暫存applyUserNo
+      this.$router.push("/edit_asset");
     },
     handleAssetUse(index, row) {
+      sessionStorage.setItem('assetInfo_assetNo', row.assetNo); // 暫存assetNo
       this.$router.push({
         name: "query_assetUse",
         params: {

@@ -31,7 +31,6 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="职务">
-                            <!-- <el-input v-model="custInfo.custPost" :disabled="true"></el-input> -->
                             <el-select v-model="custInfo.custPost" :disabled="true">
                               <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
@@ -39,7 +38,6 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="职级">
-                            <!-- <el-input v-model="_custClass" :disabled="true"></el-input> -->
                             <el-select v-model="custInfo.custClass" :disabled="true">
                               <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
@@ -123,9 +121,20 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="附件">
-                            <el-input v-model="assetInfoDetail.attachm"></el-input>
+                            <!-- <el-input v-model="assetInfoDetail.attachm"></el-input>
                             <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
+                            </el-upload> -->
+                            <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
+                                :on-remove="handleRemove"
+                                :on-change="handleFileUpload" 
+                                :on-success="successUpload"
+                                :limit="3"
+                                :on-exceed="handleExceed"
+                                :headers="token"
+                                :file-list="fileList"
+                                :show-file-list="true">
+                                <el-button size="small" type="primary">选取文件</el-button>
                             </el-upload>
                         </el-form-item>
                     </el-col>
@@ -160,6 +169,10 @@ export default {
       custPostList: [],
       custClassList: [],
       assetInfoDetail: {},
+      fileList: [],
+      token: {
+        Authorization: `Bearer ` + localStorage.getItem("access_token")
+      },
       assetInfoRules: {
         buyUnitPrice: [
           {
@@ -197,8 +210,10 @@ export default {
     current
   },
   created() {
-    this.assetNo = this.$route.params.assetNo;
-    this.applyUserNo = this.$route.params.applyUserNo;
+    // this.assetNo = this.$route.params.assetNo;
+    // this.applyUserNo = this.$route.params.applyUserNo;
+    this.assetNo = sessionStorage.getItem("assetInfo_assetNo");
+    this.applyUserNo = sessionStorage.getItem("assetInfo_applyUserNo");
     this.getCustPostList(); //查询岗位列表
     this.getCustClassList(); //查询职级列表
     this.getCustInfo(); //初始查询用户信息
@@ -225,6 +240,18 @@ export default {
         .then(res => {
           self.assetInfoDetail = res.data.data;
           console.log("assetInfoDetail", self.assetInfoDetail);
+          if (
+            self.assetInfoDetail.epFileManageList &&
+            self.assetInfoDetail.epFileManageList.length >= 1
+          ) {
+            self.assetInfoDetail.epFileManageList.forEach(function(ele) {
+              self.fileList.push({
+                name: ele.fileName + "." + ele.fileSuffix,
+                url: ele.fileAddr,
+                fileId: ele.fileId
+              });
+            }, this);
+          }
         })
         .catch(() => {
           console.log("error");
@@ -262,13 +289,77 @@ export default {
     pickFaxfreeTime(val) {
       this.assetInfoDetail.faxfreeTime = val;
     },
+    // 附件上传
     handleFileUpload(file, fileList) {
-      console.log(file);
-      this.assetInfoDetail.attachm = file.name;
+      this.fileList = fileList;
+      console.log("选中的this.fileList:", this.fileList);
+    },
+    handleRemove(file, fileList) {
+      console.log("移除的file", file);
+      console.log("移除的fileList", fileList);
+      let index = this.fileList.indexOf(file);
+      fileList.splice(index, 0, file);
+      this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$axios
+            .delete("/iem_hrm/file/deleteFile/" + file.fileId)
+            .then(res => {
+              let result = res.data.retMsg;
+              if ("操作成功" == result) {
+                this.$message({
+                  type: "success",
+                  message: result
+                });
+                fileList.splice(index, 1);
+              } else {
+                this.$message({
+                  type: "error",
+                  message: result
+                });
+              }
+            })
+            .catch(e => {
+              console.log(e);
+              this.$message({
+                type: "error",
+                message: e.retMsg
+              });
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    handleExceed(files, fileList) {
+      // 文件超出数量
+      this.$message.warning(
+        `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
+          fileList.length} 个文件`
+      );
+    },
+    successUpload(res, file, fileList) {
+      // 文件成功上传
+      console.log("upload_res_fileList", fileList);
+      if (res.code == "S00000") {
+        file.fileId = res.data;
+        this.$message({ type: "success", message: "文件上传成功!" });
+      } else this.$message.error(res.retMsg);
     },
     handleSave(editAssetInfoRules) {
       this.$refs[editAssetInfoRules].validate(valid => {
         if (valid) {
+          let fileIds = [];
+          for (let k in this.fileList) {
+            fileIds.push(this.fileList[k].fileId);
+          }
+          console.log("fileIds", fileIds);
           let editAssetInfo = {};
           editAssetInfo.applyUserNo = this.custInfo.userNo;
           editAssetInfo.organNo = this.custInfo.organNo;
@@ -290,6 +381,7 @@ export default {
           editAssetInfo.specType = this.assetInfoDetail.specType;
           editAssetInfo.factoryTime = this.assetInfoDetail.factoryTime;
           editAssetInfo.remark = this.assetInfoDetail.remark;
+          editAssetInfo.fileIds = fileIds;
           console.log("editAssetInfo", editAssetInfo);
           this.$axios
             .put("/iem_hrm/EpAssetInf/updateEpAssetInf", editAssetInfo)
@@ -305,6 +397,10 @@ export default {
             });
         } else {
           console.log("error submit!!");
+          this.$message({
+            type: "error",
+            message: "请确保必填信息填写正确!"
+          });
           return false;
         }
       });

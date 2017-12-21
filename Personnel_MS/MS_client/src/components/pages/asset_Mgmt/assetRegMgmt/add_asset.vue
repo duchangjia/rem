@@ -137,7 +137,7 @@
                     <el-col :span="12">
                         <el-form-item label="附件">
                             <el-input v-model="addAssetInfo.attachm"></el-input>
-                            <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" 
+                            <el-upload class="upload-demo" style="height:0;" ref="upload" name="file" action="/iem_hrm/file/addFile" 
                                 :headers="token"
                                 :on-change="handleFileUpload" 
                                 :on-success="successUpload"

@@ -225,7 +225,7 @@
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
 				  		              <el-input v-model="addPayBaseInfo.attachm"></el-input>
-                            <el-upload class="upload-demo" ref="upload" name="files" action="/iem_hrm/pay/addPayBaseInfo" 
+                            <el-upload class="upload-demo" style="height:0;" ref="upload" name="files" action="/iem_hrm/pay/addPayBaseInfo" 
                                 :data="addPayBaseInfo"
                                 :on-change="handleFileUpload" 
                                 :on-success="successUpload"
