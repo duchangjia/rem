@@ -211,7 +211,6 @@
 	    			"leaveType": self.formdata2.leaveType, //"3"
 	    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
 	    			"remark": self.formdata2.remark, //"请假的详细信息"
-	    			// attachm: self.formdata2.attachm
 				}
 			}
 		},
@@ -308,10 +307,10 @@
 		    },
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-				//  this.formdata2.attachm = file.name;
-				fileList.forEach(function(item) {
-					this.formdata2.attachm += item.name + " ";
-				}, this);
+				 this.formdata2.attachm = file.name;
+				// fileList.forEach(function(item) {
+				// 	this.formdata2.attachm += item.name + " ";
+				// }, this);
 				console.log("选中的fileList", fileList);
 			},
 	      	successUpload(response, file, fileList) {
@@ -353,7 +352,6 @@
 						    			"leaveType": self.formdata2.leaveType, //"3"
 						    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
 						    			"remark": self.formdata2.remark, //"请假的详细信息"
-						    			// attachm: self.formdata2.attachm
 									}
 									//无附件时新增
 									self.addLeaveInfo(params);

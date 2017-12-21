@@ -63,6 +63,8 @@
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
+				fileFlag: false,
+				fileFlagStep: 1,
 				formdata2: {
 					comp: {
 						organName: '',
@@ -110,9 +112,16 @@
 				this.formdata2.wageMonth = time;
 			},
 			changeUpload(file, fileList) {
-		 		this.fileFlag = file;
-		 		this.formdata2.attachm = file.name;
-	      	},
+				 this.formdata2.attachm = file.name;
+				 if(this.fileFlagStep == 1) {//上传成功时
+					this.fileFlag = true;
+					this.fileFlagStep = 2;
+				 }else {//上传失败时
+					 this.fileFlag = false;
+					this.fileFlagStep = 1;
+				 }
+		 		 
+			},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
 	      			this.$message({ message: response.retMsg, type: 'success' });
@@ -130,7 +139,13 @@
 				const self = this;
 				self.$refs.formdata2.validate(valid => {
 			        if (valid) {
-			          	self.$refs.upload.submit();
+						if(!self.fileFlag) {
+							self.$message({ message: '请重新选择附件!', type: 'error' });
+						} else {
+							self.$refs.upload.submit();
+						}
+						  
+							  
 			        }
 		       })
 			},

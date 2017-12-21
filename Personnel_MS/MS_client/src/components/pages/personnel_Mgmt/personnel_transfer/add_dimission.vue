@@ -190,7 +190,6 @@
 					hasGone: this.formdata2.hasGone,
 					payEndTime: this.formdata2.payEndTime,
 					dimReason: this.formdata2.dimReason,
-					attachm: this.formdata2.attachm,
 					dimProveFlag: this.formdata2.dimProveFlag ? '01': '02' //01->ture  02->false
 				}
 			}
@@ -211,10 +210,10 @@
 	      	},
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-				//  this.formdata2.attachm = file.name;
-				 fileList.forEach(function(item) {
-					this.formdata2.attachm += item.name + " ";
-				}, this);
+				 this.formdata2.attachm = file.name;
+				//  fileList.forEach(function(item) {
+				// 	this.formdata2.attachm += item.name + " ";
+				// }, this);
 	      	},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
@@ -255,7 +254,6 @@
 										hasGone: this.formdata2.hasGone,
 										payEndTime: this.formdata2.payEndTime,
 										dimReason: this.formdata2.dimReason,
-										attachm: this.formdata2.attachm,
 										dimProveFlag: this.formdata2.dimProveFlag ? '01': '02' //01ture  02false
 									}
 									console.log('params',params)

@@ -88,7 +88,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width:100%;">
 						    <!-- <el-button class="downloadBtn" @click="handleDownload">下载</el-button> -->
-							<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
+							<!-- <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
                                  :on-exceed="handleExceed"
 								 :on-preview="handlePreview"
                                  :on-remove="handleRemove"
@@ -100,7 +100,13 @@
 								 :file-list="fileList"
 					  		>
 	                            <el-button slot="trigger" type="primary" disabled>选取文件</el-button>
-	                        </el-upload>
+	                        </el-upload> -->
+							<ul>
+								<li v-for="item in fileList" :key="item.fileId">
+									<span class="fileText">{{item.name}}</span>
+									<el-button class="downBtn" @click="handleDownloadFile(item)">下载</el-button>
+								</li>
+							</ul>
 					  	</el-form-item>
 					</el-col>	  	
 					  	
@@ -171,19 +177,19 @@
 				// 移除文件
 				console.log(file, fileList);
 				console.log("移除的file", file);
-				let params = {
-					fileId: file.fileId
-				}
-				this.removeFile(params);
+				// let params = {
+				// 	fileId: file.fileId
+				// }
+				// this.removeFile(params);
 			},
 			handlePreview(file) {
 				// 点击已上传的文件链接时
 				console.log(file);
-				let params = {
-					name: file.name,
-					fileId: file.fileId
-				}
-				this.downloadFile(params);
+				// let params = {
+				// 	name: file.name,
+				// 	fileId: file.fileId
+				// }
+				// this.downloadFile(params);
 			},
 			handleExceed(files, fileList) {
 				// 文件超出数量
@@ -199,15 +205,14 @@
 	      		}
 	      		
 			},
-	      	handleDownload() {
-	      		const self = this;
-	      		let params = {
-	      			filePath: self.formdata2.attachm,
-	      			isOnLine: "false"
-	      		}
-	      		//下载附件
-				self.downloadFile();
-	      	},
+			handleDownloadFile(file) {
+				console.log(file);
+				let params = {
+					name: file.name,
+					fileId: file.fileId
+				}
+				this.downloadFile(params);
+			},
 			queryLeaveInfo() {
 				const self = this;
 				let applyNo = sessionStorage.getItem('leaveInfo_applyNo');
@@ -318,5 +323,17 @@
 </script>
 
 <style>
-
+.fileText {
+	color: #999999;
+	font-size: 14px;
+	padding-right: 20px;
+}
+.downBtn {
+	color: #ffffff;
+	background: #ff9900;
+}
+.el-button.downBtn:focus, .el-button.downBtn:hover {
+    color: #ffffff;
+    border-color: #ff9900;
+}
 </style>

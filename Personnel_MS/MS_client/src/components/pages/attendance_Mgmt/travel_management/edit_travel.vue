@@ -93,7 +93,7 @@
 				  	<el-col :sm="24" :md="12">
 						<el-form-item label="附件">
 				  		 	<!-- <el-input v-model="formdata2.attachm"></el-input> -->
-					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
+					  		<el-upload class="upload-demo" ref="upload" name="files" action="/iem_hrm/file/addFile" multiple
 					  			 :on-exceed="handleExceed"
 								 :on-preview="handlePreview"
                                  :on-remove="handleRemove"
@@ -189,21 +189,7 @@
 			current
 		},
 		computed: {
-			formdata: function(){
-				return {
-					applyNo: this.formdata2.applyNo, //出差编号
-				    userNo: this.formdata2.userNo,//工号
-				    travelType: this.formdata2.travelType,//出差类型
-				    travelStartTime: this.formdata2.travelStartTime,//出差开始时间	
-				    travelEndTime: this.formdata2.travelEndTime, //出差结束时间
-				    travelStartCity: this.formdata2.travelStartCity,//出差开始城市	
-				    travelArrivalCity: this.formdata2.travelArrivalCity,//出差到达城市
-				    travelDays: this.formdata2.travelDays, //出差天数  
-				    travelSTD: this.formdata2.travelSTD,//差补标准
-				    remark: this.formdata2.remark,//备注
-				    attachm: this.formdata2.attachm//附件
-				}
-			}
+			
 		},
 		created() {
 			
@@ -261,10 +247,6 @@
 	      	//上传附件
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-				// this.formdata2.attachm = file.name;
-				// fileList.forEach(function(item) {
-				// 	this.formdata2.attachm += item.name + " ";
-				// }, this);
 				this.fileList = fileList;
 				console.log("选中的fileList", fileList); 
 			},
@@ -317,8 +299,6 @@
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						self.$refs.upload.submit();
-						// if(!self.fileFlag){
 							let params = {
 								applyNo: self.formdata2.applyNo, //出差编号
 							    userNo: self.formdata2.userNo,//工号
@@ -334,7 +314,6 @@
 							}
 							//修改信息
 							self.modifyTravelInfo(params);
-						// }
 						
 					} else {
 						return false;

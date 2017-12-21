@@ -231,8 +231,7 @@
 				    travelArrivalCity: this.formdata2.travelArrivalCity,//出差到达城市
 				    travelDays: this.formdata2.travelDays, //出差天数  
 				    travelSTD: this.formdata1.travelSTD,//差补标准
-				    remark: this.formdata2.remark,//备注
-				    attachm: this.formdata2.attachm//附件
+				    remark: this.formdata2.remark || '',//备注
 				}
 			}
 		},
@@ -347,10 +346,10 @@
 		    },
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-				//  this.formdata2.attachm = file.name;
-				  fileList.forEach(function(item) {
-					this.formdata2.attachm += item.name + " ";
-				}, this);
+				 this.formdata2.attachm = file.name;
+				//   fileList.forEach(function(item) {
+				// 	this.formdata2.attachm += item.name + " ";
+				// }, this);
 				console.log("选中的fileList", fileList);
 	      	},
 	      	successUpload(response, file, fileList) {
@@ -394,9 +393,9 @@
 									    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
 									    travelDays: self.formdata2.travelDays, //出差天数  
 									    travelSTD: self.formdata1.travelSTD,//差补标准
-									    remark: self.formdata2.remark,//备注
-									    attachm: self.formdata2.attachm//附件
+									    remark: self.formdata2.remark || '',//备注
 									}
+									console.log('params', params)
 									//无附件时新增信息
 									self.addTravelInfo(params);
 								}

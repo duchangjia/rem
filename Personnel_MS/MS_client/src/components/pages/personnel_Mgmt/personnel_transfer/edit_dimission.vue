@@ -89,7 +89,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" >
 					  		<!-- <el-input v-model="formdata.attachm"></el-input> -->
-					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
+					  		<el-upload class="upload-demo" ref="upload" name="files" action="/iem_hrm/file/addFile" multiple 
                                  :on-exceed="handleExceed"
 								 :on-preview="handlePreview"
                                  :on-remove="handleRemove"
@@ -155,19 +155,7 @@
 			current
 		},
 		computed: {
-			addFormdata: function(){
-				return {
-				    dimId: this.formdata.dimId,
-					userNo: this.formdata.userNo,//工号
-				   	dimTime: this.formdata.dimTime,
-					dimType: this.formdata.dimType,
-					hasGone: this.formdata.hasGone,
-					payEndTime: this.formdata.payEndTime,
-					dimReason: this.formdata.dimReason,
-					attachm: this.formdata.attachm,
-					dimProveFlag: this.formdata.dimProveFlag ? '01': '02'
-				}
-			}
+			
 		},
 		created() {
 			
@@ -199,16 +187,11 @@
 	      	//上传附件
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-				// this.formdata2.attachm = file.name;
-				// fileList.forEach(function(item) {
-				// 	this.formdata2.attachm += item.name + " ";
-				// }, this);
 				this.fileList = fileList;
 				console.log("选中的fileList", fileList); 
 			},
 			handleRemove(file, fileList) {
 				// 移除文件
-				console.log(file, fileList);
 				console.log("移除的file", file);
 				let params = {
 					fileId: file.fileId
@@ -254,8 +237,10 @@
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						self.$refs.upload.submit();
-						if(!this.fileFlag) {
+							let fileIds = [];
+							for(let k in self.fileList) {
+								fileIds.push(self.fileList[k].fileId);
+							}
 							let params = {
 								dimId: this.formdata.dimId,
 								userNo: this.formdata.userNo,
@@ -264,13 +249,13 @@
 								hasGone: this.formdata.hasGone,
 								payEndTime: this.formdata.payEndTime,
 								dimReason: this.formdata.dimReason,
-								attachm: this.formdata.attachm,
-								dimProveFlag: this.formdata.dimProveFlag ? '01': '02'//01ture  02false
+								// attachm: this.formdata.attachm,
+								dimProveFlag: this.formdata.dimProveFlag ? '01': '02',  //01ture  02false
+								fileIds: fileIds
 							};
 							console.log('params',params)
 							//无附件时修改
 							self.updateCustDimhis(params);
-						}
 							
 
 					} else {
@@ -281,13 +266,13 @@
 			updateCustDimhis(params) {
 				let self = this;
 				self.$axios.put(baseURL+'/custDimhis/updateCustDimhis',params)
-				.then(function(res) {
+				.then((res) => {
 					console.log('updateCustDimhis',res);
 					if(res.data.code === "S00000") {
 		      			self.$message({ message: '操作成功', type: 'success' });
 		      			self.$router.push('/detail_dimission');
 		      		}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
@@ -300,77 +285,102 @@
 					dimId: dimId
 				}
 				self.$axios.get(baseURL+'/custDimhis/queryCustDimhisDetail', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('dimDetail',res);
 					self.formdata = res.data.data;
 					self.formdata.dimProveFlag = self.formdata.dimProveFlag=='01' ? true: false;
-//					self.formdata.updatedDate = moment(self.formdata.updatedDate).format('YYYY-MM-DD hh:mm:ss');
-				}).catch(function(err) {
+					if (
+						self.formdata2.epFileManageList &&
+						self.formdata2.epFileManageList.length >= 1
+					) {
+						self.formdata2.epFileManageList.forEach(function(ele) {
+							self.fileList.push({
+								name: ele.fileName + "." + ele.fileSuffix,
+								url: ele.fileAddr,
+								fileId: ele.fileId
+							});
+						}, this);
+					}
+				}).catch((err) => {
 					console.log(err);
+				})
+			},
+			removeFile(params) {
+				let self = this;
+				self.$axios.delete(baseURL+'/file/deleteFile/'+params.fileId)
+				.then((res) => {
+					console.log('deleteFile',res);
+					if(res.data.code === "S00000") {
+						self.$message({ message: '操作成功', type: 'success' });
+					} else {
+						self.$message({ message: res.data.retMsg, type: 'error' });
+					}
+				}).catch((err) => {
+					console.log('error');
 				})
 			},
 			queryCompList() {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CompList',res);
 					if(res.data.code === "S00000") {
 						self.compList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryDerpList(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.departList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			querydimTypeList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=DIM_TYPE')
-				.then(function(res) {
+				.then((res) => {
 					console.log('dimType',res);
 					if(res.data.code === "S00000") {
 						self.dimTypeList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustPostList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustClassList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			}

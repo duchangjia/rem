@@ -310,10 +310,10 @@
 		    },
 		    changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-				//  this.formdata2.attachm = file.name;
-				fileList.forEach(function(item) {
-					this.formdata2.attachm += item.name + " ";
-				}, this);
+				 this.formdata2.attachm = file.name;
+				// fileList.forEach(function(item) {
+				// 	this.formdata2.attachm += item.name + " ";
+				// }, this);
 				console.log("选中的fileList", fileList);
 	      	},
 	      	successUpload(response, file, fileList) {
