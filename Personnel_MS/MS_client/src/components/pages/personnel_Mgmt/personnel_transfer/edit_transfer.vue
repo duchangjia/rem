@@ -324,8 +324,6 @@
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						self.$refs.upload.submit();
-						// if(!self.fileFlag) {
 							let fileIds = [];
 							for(let k in self.fileList) {
 								fileIds.push(self.fileList[k].fileId);
@@ -346,13 +344,11 @@
 								oldClass: self.formdata.oldClass,
 								newClass: self.formdata.newClass,
 								shiftReason: self.formdata.shiftReason,
-								// attachm: self.formdata.attachm,
 								fileIds: fileIds
 							}
 							console.log('params',params)
 							//无附件时修改
 							self.updateCustShif(params);
-						// }
 						
 
 					} else {
@@ -363,13 +359,13 @@
 			updateCustShif(params) {
 				let self = this;
 				self.$axios.put(baseURL+'/custShifthis/updateCustShifthis',params)
-				.then(function(res) {
+				.then((res) => {
 					console.log('update',res);
 					if(res.data.code == "S00000") {
 						self.$message({ message: '操作成功', type: 'success' });
 						self.$router.push('/detail_transfer');
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
@@ -382,7 +378,7 @@
 					workhisId: workhisId
 				}
 				self.$axios.get(baseURL+'/custShifthis/queryCustShifthisDetail', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustShifthisDetail',res);
 					self.formdata = res.data.data;
 					self.formdata.shiftCameTime = moment(self.formdata.shiftCameTime).format('YYYY-MM-DD hh:mm:ss');
@@ -398,7 +394,7 @@
 							});
 						}, this);
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
@@ -419,64 +415,64 @@
 			queryCompList() {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CompList',res);
 					if(res.data.code == "S00000") {
 						self.compList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryDerpList(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.departList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryCustPostList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustClassList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryShiftTypeList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=SHIFT_TYPE')
-				.then(function(res) {
+				.then((res) => {
 					console.log('shiftTypeList',res);
 					if(res.data.code === "S00000") {
 						self.shiftTypeList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},

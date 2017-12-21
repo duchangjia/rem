@@ -337,19 +337,20 @@
 					if(res.data.code === "S00000") {
 						self.formdata2 = res.data.data;
 						self.formdata2.travelDays = self.formdata2.travelDays + '';
+						if (
+							self.formdata2.epFileManageList &&
+							self.formdata2.epFileManageList.length >= 1
+						) {
+							self.formdata2.epFileManageList.forEach(function(ele) {
+							self.fileList.push({
+								name: ele.fileName + "." + ele.fileSuffix,
+								url: ele.fileAddr,
+								fileId: ele.fileId
+							});
+							}, this);
+						}
 					}
-					if (
-						self.formdata2.epFileManageList &&
-						self.formdata2.epFileManageList.length >= 1
-					) {
-						self.formdata2.epFileManageList.forEach(function(ele) {
-						self.fileList.push({
-							name: ele.fileName + "." + ele.fileSuffix,
-							url: ele.fileAddr,
-							fileId: ele.fileId
-						});
-						}, this);
-					}
+					
 					
 				}).catch((err) => {
 					console.log('error');

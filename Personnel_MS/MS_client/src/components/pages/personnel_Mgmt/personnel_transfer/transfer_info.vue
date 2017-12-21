@@ -110,7 +110,7 @@
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="附件" style="width:100%;">
+						<el-form-item label="附件" >
 						    <ul>
 								<li v-for="item in fileList" :key="item.fileId">
 									<span class="fileText">{{item.name}}</span>
@@ -145,14 +145,7 @@
 				//职级列表
 				custClassList: [],
 				//调动类型列表
-				shiftTypeList: [
-					{shiftType: '01',shiftName: '晋升'},
-					{shiftType: '02',shiftName: '调动'},
-					{shiftType: '03',shiftName: '平调'},
-					{shiftType: '04',shiftName: '轮岗'},
-					{shiftType: '05',shiftName: '工资调整'},
-					{shiftType: '99',shiftName: '其他'},
-				],
+				shiftTypeList: [],
 			};
 		},
 		components: {
@@ -175,7 +168,8 @@
 			changeValue(value) {
 		 		const self = this;
 	            console.log('value',value);
-	      	},
+			  },
+			  //下载附件
 	      	handleDownloadFile(file) {
 				console.log(file);
 				let params = {
@@ -193,15 +187,15 @@
 					workhisId: workhisId
 				}
 				self.$axios.get(baseURL+'/custShifthis/queryCustShifthisDetail', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustShifthisDetail',res);
 					self.formdata = res.data.data;
 					self.formdata.shiftCameTime = moment(self.formdata.shiftCameTime).format('YYYY-MM-DD hh:mm:ss');
 					if (
-						self.formdata2.epFileManageList &&
-						self.formdata2.epFileManageList.length >= 1
+						self.formdata.epFileManageList &&
+						self.formdata.epFileManageList.length >= 1
 					) {
-						self.formdata2.epFileManageList.forEach(function(ele) {
+						self.formdata.epFileManageList.forEach(function(ele) {
 						self.fileList.push({
 							name: ele.fileName + "." + ele.fileSuffix,
 							url: ele.fileAddr,
@@ -209,7 +203,7 @@
 						});
 						}, this);
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
@@ -243,64 +237,64 @@
 			queryCompList() {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CompList',res);
 					if(res.data.code === "S00000") {
 						self.compList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryDerpList(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.departList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryCustPostList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustClassList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryShiftTypeList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=SHIFT_TYPE')
-				.then(function(res) {
+				.then((res) => {
 					console.log('shiftTypeList',res);
 					if(res.data.code === "S00000") {
 						self.shiftTypeList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			}

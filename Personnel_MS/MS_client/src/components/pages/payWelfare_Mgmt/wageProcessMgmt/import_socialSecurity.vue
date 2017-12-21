@@ -113,10 +113,10 @@
 			},
 			changeUpload(file, fileList) {
 				 this.formdata2.attachm = file.name;
-				 if(this.fileFlagStep == 1) {//上传成功时
+				 if(this.fileFlagStep == 1) {//选择文件
 					this.fileFlag = true;
 					this.fileFlagStep = 2;
-				 }else {//上传失败时
+				 }else {//上传失败/成功
 					 this.fileFlag = false;
 					this.fileFlagStep = 1;
 				 }
