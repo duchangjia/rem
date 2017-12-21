@@ -192,10 +192,29 @@
 			handleRemove(file, fileList) {
 				// 移除文件
 				console.log("移除的file", file);
-				let params = {
-					fileId: file.fileId
-				}
-				this.removeFile(params);
+				let index = this.fileList.indexOf(file);
+				fileList.splice(index, 0, file);
+				this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+					confirmButtonText: "确定",
+					cancelButtonText: "取消",
+					type: "warning"
+				}).then(() => {
+					this.$axios.delete("/iem_hrm/file/deleteFile/" + file.fileId)
+						.then(res => {
+						let result = res.data.retMsg;
+						if ("操作成功" == result) {
+							this.$message({ type: "success", message: result });
+							fileList.splice(index, 1);
+						} else {
+							this.$message({ type: "error", message: result });
+						}
+						}).catch(e => {
+							console.log(e);
+							this.$message({ type: "error", message: e.retMsg });
+					});
+				}).catch(() => {
+					this.$message({ type: "info", message: "已取消删除" });
+				});
 			},
 			handlePreview(file) {
 				// 点击已上传的文件链接时
@@ -300,20 +319,6 @@
 					}
 				}).catch((err) => {
 					console.log(err);
-				})
-			},
-			removeFile(params) {
-				let self = this;
-				self.$axios.delete(baseURL+'/file/deleteFile/'+params.fileId)
-				.then((res) => {
-					console.log('deleteFile',res);
-					if(res.data.code === "S00000") {
-						self.$message({ message: '操作成功', type: 'success' });
-					} else {
-						self.$message({ message: res.data.retMsg, type: 'error' });
-					}
-				}).catch((err) => {
-					console.log('error');
 				})
 			},
 			queryCompList() {

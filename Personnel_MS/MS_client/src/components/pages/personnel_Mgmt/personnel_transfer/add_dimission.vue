@@ -98,7 +98,7 @@
 					  			 :on-success="successUpload"
 					  			 :beforeUpload="beforeAvatarUpload"
 					  			 action="/iem_hrm/custDimhis/addCustDimhis" 
-					  			 :show-file-list="true" 
+					  			 :show-file-list="false" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
 								 :name="filesName"
@@ -132,7 +132,7 @@
 				//用户基本信息
 				formdata1: {},
 				//离职信息
-				formdata2: {},
+				formdata2: {attachm: ''},
 				//岗位列表
 				custPostList: [],
 				//职级列表
@@ -187,7 +187,7 @@
 					userNo: this.formdata1.userNo,//工号
 					dimTime: this.formdata2.dimTime,
 					dimType: this.formdata2.dimType,
-					hasGone: this.formdata2.hasGone,
+					hasGone: this.formdata2.hasGone || '',
 					payEndTime: this.formdata2.payEndTime,
 					dimReason: this.formdata2.dimReason,
 					dimProveFlag: this.formdata2.dimProveFlag ? '01': '02' //01->ture  02->false
