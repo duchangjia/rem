@@ -137,10 +137,12 @@
                     <el-col :span="12">
                         <el-form-item label="附件">
                             <el-input v-model="addAssetInfo.attachm"></el-input>
-                            <el-upload class="upload-demo" style="height:0;" ref="upload" name="file" action="/iem_hrm/file/addFile" 
+                            <el-upload class="upload-demo" style="height:0;" ref="upload" name="files" action="/iem_hrm/EpAssetInf/addEpAssetInf" 
                                 :headers="token"
+                                :data="addAssetInfo"
                                 :on-change="handleFileUpload" 
                                 :on-success="successUpload"
+                                :auto-upload="false"
                                 :show-file-list="false" >
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
@@ -330,7 +332,8 @@ export default {
       // 文件成功上传
       console.log("upload_response", res);
       if (res.code == "S00000") {
-        this.$message({ type: "success", message: "文件上傳成功!" });
+        this.$message({ type: "success", message: "操作成功!" });
+        this.$router.push("/query_asset");
       } else this.$message.error(res.retMsg);
     },
 
@@ -338,23 +341,10 @@ export default {
       this.$refs[addAssetInfoRules].validate(valid => {
         if (valid) {
           console.log("newAssetInfo", this.addAssetInfo);
-        //   if (this.addAssetInfo.attachm != "") {
-        //     this.$refs.upload.submit(); // 触发上传文件
-        //   } else {
-        //     this.$axios
-        //       .post("/iem_hrm/EpAssetInf/addEpAssetInf", this.addAssetInfo)
-        //       .then(res => {
-        //         console.log(res);
-        //         if (res.data.code == "S00000") {
-        //           this.$message({ type: "success", message: "操作成功!" });
-        //           this.$router.push("/query_asset");
-        //         } else this.$message.error(res.data.retMsg);
-        //       })
-        //       .catch(() => {
-        //         this.$message.error("操作失败！");
-        //       });
-        //   }
-          this.$axios
+          if (this.addAssetInfo.attachm != "") {
+            this.$refs.upload.submit(); // 触发上传文件
+          } else {
+            this.$axios
               .post("/iem_hrm/EpAssetInf/addEpAssetInf", this.addAssetInfo)
               .then(res => {
                 console.log(res);
@@ -366,6 +356,7 @@ export default {
               .catch(() => {
                 this.$message.error("操作失败！");
               });
+          }
         } else {
           console.log("error submit!!");
           this.$message({

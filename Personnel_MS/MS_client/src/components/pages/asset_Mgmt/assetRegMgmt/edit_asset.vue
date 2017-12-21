@@ -210,8 +210,6 @@ export default {
     current
   },
   created() {
-    // this.assetNo = this.$route.params.assetNo;
-    // this.applyUserNo = this.$route.params.applyUserNo;
     this.assetNo = sessionStorage.getItem("assetInfo_assetNo");
     this.applyUserNo = sessionStorage.getItem("assetInfo_applyUserNo");
     this.getCustPostList(); //查询岗位列表

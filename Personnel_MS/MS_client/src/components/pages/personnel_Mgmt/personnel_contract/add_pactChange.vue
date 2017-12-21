@@ -78,7 +78,8 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">合同变更信息</el-col>
-                <el-form :inline="true" :model="addPChangeMsg" :rules="pactMsgRules" ref="pactMsgRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="addPChangeMsg" :rules="pactMsgRules" ref="pactMsgRules" :label-position="labelPosition" label-width="110px"
+                    style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="变更时间" prop="changeTime">
                             <el-date-picker type="date" placeholder="选择日期" v-model="addPChangeMsg.changeTime" @change="changeTimeChange" style="width: 100%;"></el-date-picker>
@@ -99,11 +100,17 @@
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="附件" prop="attachm">
-				  		    <el-input v-model="addPChangeMsg.attachm"></el-input>
-				  		    <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+                            <el-input v-model="addPChangeMsg.attachm"></el-input>
+                            <el-upload class="upload-demo" style="height:0;" ref="upload" name="files" action="/iem_hrm/pact/addPactChange" 
+                                    :headers="token"
+                                    :data="addPChangeMsg" 
+                                    :on-change="handleFileUpload" 
+                                    :on-success="successUpload" 
+                                    :auto-upload="false"
+                                    :show-file-list="false">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
-				  	    </el-form-item>
+                        </el-form-item>
                     </el-col>
                 </el-form>
             </div>
@@ -131,10 +138,31 @@ export default {
         changeContent: "",
         attachm: ""
       },
+      token: {
+        Authorization: `Bearer ` + localStorage.getItem("access_token")
+      },
       pactMsgRules: {
-        changeTime: [{ required: true, message: "请选择变更日期", trigger: "change" }],
-        changeType: [{ required: true, message: "请选择变更类别", trigger: "blur" }],
-        changeContent: [{ required: true, message: "请输入变更内容", trigger: "blur" }]
+        changeTime: [
+          {
+            required: true,
+            message: "请选择变更日期",
+            trigger: "change"
+          }
+        ],
+        changeType: [
+          {
+            required: true,
+            message: "请选择变更类别",
+            trigger: "blur"
+          }
+        ],
+        changeContent: [
+          {
+            required: true,
+            message: "请输入变更内容",
+            trigger: "blur"
+          }
+        ]
       }
     };
   },
@@ -148,6 +176,8 @@ export default {
       this.pactSubFlag = sessionStorage.getItem("contractInfo_pactSubFlag");
       this.activeName = "changePactMsg";
     }
+    this.addPChangeMsg.pactNo = this.pactNo;
+    this.addPChangeMsg.userNo = this.userNo;
     this.getPactDetail();
     this.getCustInfo();
     console.log("userNo", this.userNo);
@@ -174,7 +204,9 @@ export default {
         pactNo: self.pactNo
       };
       self.$axios
-        .get("/iem_hrm/pact/queryPactDetail", { params: params })
+        .get("/iem_hrm/pact/queryPactDetail", {
+          params: params
+        })
         .then(res => {
           self.basicPactMsg = res.data.data;
         })
@@ -199,36 +231,47 @@ export default {
     changeTimeChange(val) {
       this.addPChangeMsg.changeTime = val;
     },
+    // 文件上传
     handleFileUpload(file, fileList) {
-      console.log(file);
       this.addPChangeMsg.attachm = file.name;
+    },
+    successUpload(res, file, fileList) {
+      // 文件成功上传
+      console.log("upload_response", res);
+      if (res.code == "S00000") {
+        this.$message({ type: "success", message: "操作成功!" });
+        if (this.pactSubFlag == "true") {
+          this.$router.push("/detail_contract");
+        }
+        this.$router.push("/query_contract");
+      } else this.$message.error(res.retMsg);
     },
     handleSave(pactMsgRules) {
       this.$refs[pactMsgRules].validate(valid => {
         if (valid) {
-          let newPChange = {};
-          newPChange.pactNo = this.pactNo;
-          newPChange.userNo = this.userNo;
-          newPChange.changeTime = this.addPChangeMsg.changeTime;
-          newPChange.changeType = this.addPChangeMsg.changeType;
-          newPChange.changeContent = this.addPChangeMsg.changeContent;
-          newPChange.attachm = this.addPChangeMsg.attachm;
-          console.log(newPChange);
-          this.$axios
-            .post("/iem_hrm/pact/addPactChange", newPChange)
-            .then(res => {
-              console.log(res);
-              if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/query_contract");
-                if (this.pactSubFlag == "true") {
-                  this.$router.push("/detail_contract");
-                }
-              } else this.$message.error(res.data.retMsg);
-            })
-            .catch(() => {
-              this.$message.error("操作失败！");
-            });
+          if (this.addPChangeMsg.attachm != "") {
+            this.$refs.upload.submit(); // 触发上传文件
+          } else {
+            console.log("newPChange", this.addPChangeMsg);
+            this.$axios
+              .post("/iem_hrm/pact/addPactChange", this.addPChangeMsg)
+              .then(res => {
+                console.log(res);
+                if (res.data.code == "S00000") {
+                  this.$message({
+                    type: "success",
+                    message: "操作成功!"
+                  });
+                  this.$router.push("/query_contract");
+                  if (this.pactSubFlag == "true") {
+                    this.$router.push("/detail_contract");
+                  }
+                } else this.$message.error(res.data.retMsg);
+              })
+              .catch(() => {
+                this.$message.error("操作失败！");
+              });
+          }
         } else {
           console.log("error submit!!");
           return false;
