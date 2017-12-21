@@ -96,9 +96,15 @@
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="附件">
-				  		    <el-input v-model="editPChangeMsg.attachm"></el-input>
-				  		    <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
-                                <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
+                            <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple :on-remove="handleRemove"
+                                :on-change="handleFileUpload" 
+                                :on-success="successUpload" 
+                                :limit="3" 
+                                :on-exceed="handleExceed" 
+                                :headers="token"
+                                :file-list="fileList" 
+                                :show-file-list="true">
+                                <el-button size="small" type="primary">选取文件</el-button>
                             </el-upload>
 				  	    </el-form-item>
                     </el-col>
@@ -121,6 +127,10 @@ export default {
       basicPactMsg: {},
       custInfo: {},
       editPChangeMsg: {},
+      fileList: [],
+      token: {
+        Authorization: `Bearer ` + localStorage.getItem("access_token")
+      },
       pactMsgRules: {
         changeTime: [{ required: true, message: "请选择变更日期", trigger: "change" }],
         changeType: [{ required: true, message: "请选择变更类别", trigger: "blur" }],
@@ -132,11 +142,11 @@ export default {
     current
   },
   created() {
-    this.pactNo = sessionStorage.getItem('contractInfo_pactNo');
-    this.userNo = sessionStorage.getItem('contractInfo_userNo');
-    this.changeId = sessionStorage.getItem('contractInfo_changeId');
+    this.pactNo = sessionStorage.getItem("contractInfo_pactNo");
+    this.userNo = sessionStorage.getItem("contractInfo_userNo");
+    this.changeId = sessionStorage.getItem("contractInfo_changeId");
     this.getPactDetail();
-    this.getCustInfo(); 
+    this.getCustInfo();
     this.getPChangeDetail();
   },
   computed: {
@@ -182,7 +192,7 @@ export default {
       self.$axios
         .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
         .then(res => {
-          console.log('cusInfo', res);
+          console.log("cusInfo", res);
           self.custInfo = res.data.data;
         })
         .catch(() => {
@@ -198,8 +208,20 @@ export default {
       self.$axios
         .get("/iem_hrm/pact/queryPactChangeDetail", { params: params })
         .then(res => {
-          console.log('PChangeDtl',res);
           self.editPChangeMsg = res.data.data;
+          console.log("PChangeDtl", self.editPChangeMsg);
+          if (
+            self.editPChangeMsg.epFileManageList &&
+            self.editPChangeMsg.epFileManageList.length >= 1
+          ) {
+            self.editPChangeMsg.epFileManageList.forEach(function(ele) {
+              self.fileList.push({
+                name: ele.fileName + "." + ele.fileSuffix,
+                url: ele.fileAddr,
+                fileId: ele.fileId
+              });
+            }, this);
+          }
         })
         .catch(() => {
           console.log("error");
@@ -208,13 +230,80 @@ export default {
     changeTimeChange(val) {
       this.editPChangeMsg.changeTime = val;
     },
+    // 附件上传
     handleFileUpload(file, fileList) {
-      console.log(file);
-      this.editPChangeMsg.attachm = file.name;
+      this.fileList = fileList;
+      console.log("选中的this.fileList:", this.fileList);
+    },
+    handleRemove(file, fileList) {
+      console.log("移除的file", file);
+      console.log("移除的fileList", fileList);
+      let index = this.fileList.indexOf(file);
+      fileList.splice(index, 0, file);
+      this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$axios
+            .delete("/iem_hrm/file/deleteFile/" + file.fileId)
+            .then(res => {
+              let result = res.data.retMsg;
+              if ("操作成功" == result) {
+                this.$message({
+                  type: "success",
+                  message: result
+                });
+                fileList.splice(index, 1);
+              } else {
+                this.$message({
+                  type: "error",
+                  message: result
+                });
+              }
+            })
+            .catch(e => {
+              console.log(e);
+              this.$message({
+                type: "error",
+                message: e.retMsg
+              });
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
+    },
+    handleExceed(files, fileList) {
+      // 文件超出数量
+      this.$message.warning(
+        `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
+          fileList.length} 个文件`
+      );
+    },
+    successUpload(res, file, fileList) {
+      // 文件成功上传
+      console.log("upload_res_fileList", fileList);
+      if (res.code == "S00000") {
+        file.fileId = res.data;
+        this.$message({
+          type: "success",
+          message: "文件上传成功!"
+        });
+      } else this.$message.error(res.retMsg);
     },
     handleSave(pactMsgRules) {
       this.$refs[pactMsgRules].validate(valid => {
         if (valid) {
+          let fileIds = [];
+          for (let k in this.fileList) {
+            fileIds.push(this.fileList[k].fileId);
+          }
+          console.log("fileIds", fileIds);
           let newPChange = {};
           newPChange.pactNo = this.pactNo;
           newPChange.changeId = this.changeId;
@@ -222,6 +311,7 @@ export default {
           newPChange.changeType = this.editPChangeMsg.changeType;
           newPChange.changeContent = this.editPChangeMsg.changeContent;
           newPChange.attachm = this.editPChangeMsg.attachm;
+          newPChange.fileIds = fileIds;
           this.$axios
             .put("/iem_hrm/pact/updatePactChange", newPChange)
             .then(res => {
@@ -245,4 +335,5 @@ export default {
 </script>
 
 <style>
+
 </style>

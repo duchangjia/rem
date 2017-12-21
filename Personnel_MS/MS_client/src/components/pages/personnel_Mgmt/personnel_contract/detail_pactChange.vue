@@ -105,7 +105,12 @@
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="附件" prop="attachm">
-					        <el-button class="downloadBtn" @click="downloadFile">下载</el-button>
+                            <ul>
+                                <li v-for="item in fileList" :key="item.fileId">
+                                    <span class="fileText">{{item.fileName + "." + item.fileSuffix}}</span>
+                                    <el-button class="downBtn" @click="handleDownloadFile(item)">下载</el-button>
+                                </li>
+                            </ul>
 				  	    </el-form-item>
                     </el-col>
                 </el-form>
@@ -126,7 +131,11 @@ export default {
       changeId: "",
       basicPactMsg: {},
       custInfo: {},
-      detailPChangeMsg: {}
+      detailPChangeMsg: {},
+      fileList: [],
+      token: {
+        Authorization: `Bearer ` + localStorage.getItem("access_token")
+      },
     };
   },
   components: {
@@ -199,14 +208,55 @@ export default {
       self.$axios
         .get("/iem_hrm/pact/queryPactChangeDetail", { params: params })
         .then(res => {
-          console.log('PChangeDtl',res);
           self.detailPChangeMsg = res.data.data;
+          console.log("detailPChangeMsg", self.detailPChangeMsg);
+          if (
+            self.detailPChangeMsg.epFileManageList &&
+            self.detailPChangeMsg.epFileManageList.length >= 1
+          ) {
+            self.fileList = self.detailPChangeMsg.epFileManageList;
+          }
         })
         .catch(() => {
           console.log("error");
         });
     },
-    downloadFile() {}
+    // 附件下载
+    handleDownloadFile(file) {
+      console.log(file);
+      let params = {
+        name: file.fileName + "." + file.fileSuffix,
+        fileId: file.fileId
+      };
+      this.downloadFile(params);
+    },
+    downloadFile(params) {
+      const self = this;
+      self.$axios
+        .get("/iem_hrm/file/downloadFile/" + params.fileId, {
+          responseType: "blob"
+        })
+        .then(response => {
+          const fileName = params.name;
+          const blob = response.data;
+
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blob, fileName);
+          } else {
+            let elink = document.createElement("a"); // 创建a标签
+            elink.download = fileName;
+            elink.style.display = "none";
+            elink.href = URL.createObjectURL(blob);
+            document.body.appendChild(elink);
+            elink.click(); // 触发点击a标签事件
+            document.body.removeChild(elink);
+          }
+        })
+        .catch(e => {
+          console.error(e);
+          this.$message({ message: "下载附件失败", type: "error" });
+        });
+    },
   }
 };
 </script>

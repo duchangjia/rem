@@ -110,7 +110,13 @@
                     <el-col :span="24">
                         <el-form-item label="附件" prop="attachm">
 				  		    <el-input v-model="addPRenewMsg.attachm"></el-input>
-				  		    <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+				  		    <el-upload class="upload-demo" style="height:0;" ref="upload" name="files" action="/iem_hrm/pact/addPactRenew" 
+                                    :headers="token"
+                                    :data="addPRenewMsg" 
+                                    :on-change="handleFileUpload" 
+                                    :on-success="successUpload" 
+                                    :auto-upload="false"
+                                    :show-file-list="false">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
 				  	    </el-form-item>
@@ -126,14 +132,14 @@ import current from "../../../common/current_position.vue";
 export default {
   data() {
     let that = this;
-    let validateRenewCameTime = (rule, value, callback) => { 
+    let validateRenewCameTime = (rule, value, callback) => {
       if (value < that.addPRenewMsg.renewTime) {
         callback(new Error("续签生效日期不能早于续签日期"));
       } else {
         callback();
       }
     };
-    let validateRenewLostTime = (rule, value, callback) => { 
+    let validateRenewLostTime = (rule, value, callback) => {
       if (value < that.addPRenewMsg.renewCameTime) {
         callback(new Error("续签失效日期不能早于续签生效日期"));
       } else {
@@ -157,14 +163,24 @@ export default {
         renewContent: "",
         attachm: ""
       },
+      token: {
+        Authorization: `Bearer ` + localStorage.getItem("access_token")
+      },
       renewCameTimeOption: {
         disabledDate(time) {
-          return time.getTime() < new Date(that.addPRenewMsg.renewTime).getTime() - 3600 * 1000 * 24;
+          return (
+            time.getTime() <
+            new Date(that.addPRenewMsg.renewTime).getTime() - 3600 * 1000 * 24
+          );
         }
       },
       renewLostTimeOption: {
         disabledDate(time) {
-          return time.getTime() < new Date(that.addPRenewMsg.renewCameTime).getTime() - 3600 * 1000 * 24;
+          return (
+            time.getTime() <
+            new Date(that.addPRenewMsg.renewCameTime).getTime() -
+              3600 * 1000 * 24
+          );
         }
       },
       pactMsgRules: {
@@ -185,14 +201,15 @@ export default {
   components: {
     current
   },
-  
+
   created() {
-    this.pactNo = sessionStorage.getItem('contractInfo_pactNo');
-    this.userNo = sessionStorage.getItem('contractInfo_userNo');
+    this.pactNo = sessionStorage.getItem("contractInfo_pactNo");
+    this.userNo = sessionStorage.getItem("contractInfo_userNo");
     if (sessionStorage.getItem("contractInfo_pactSubFlag") == "true") {
       this.pactSubFlag = sessionStorage.getItem("contractInfo_pactSubFlag");
       this.activeName = "renewPactMsg";
     }
+    this.addPRenewMsg.pactNo = this.pactNo;
     this.getPactDetail();
     this.getCustInfo();
   },
@@ -218,7 +235,7 @@ export default {
       self.$axios
         .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
-          console.log('basicPactMsg',res);
+          console.log("basicPactMsg", res);
           self.basicPactMsg = res.data.data;
         })
         .catch(() => {
@@ -231,7 +248,7 @@ export default {
       self.$axios
         .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
         .then(res => {
-          console.log('cusInfo', res);
+          console.log("cusInfo", res);
           self.custInfo = res.data.data;
         })
         .catch(() => {
@@ -247,37 +264,44 @@ export default {
     renewLostTimeChange(val) {
       this.addPRenewMsg.renewLostTime = val;
     },
+    // 文件上传
     handleFileUpload(file, fileList) {
-      console.log(file);
       this.addPRenewMsg.attachm = file.name;
+    },
+    successUpload(res, file, fileList) {
+      // 文件成功上传
+      console.log("upload_response", res);
+      if (res.code == "S00000") {
+        this.$message({ type: "success", message: "操作成功!" });
+        if (this.pactSubFlag == "true") {
+          this.$router.push("/detail_contract");
+        }
+        this.$router.push("/query_contract");
+      } else this.$message.error(res.retMsg);
     },
     handleSave(pactMsgRules) {
       this.$refs[pactMsgRules].validate(valid => {
         if (valid) {
-          let newPRenew = {};
-          newPRenew.pactNo = this.basicPactMsg.pactNo;
-          newPRenew.renewTime = this.addPRenewMsg.renewTime;
-          newPRenew.renewCameTime = this.addPRenewMsg.renewCameTime;
-          newPRenew.renewLostTime = this.addPRenewMsg.renewLostTime;
-          newPRenew.renewType = this.addPRenewMsg.renewType;
-          newPRenew.renewContent = this.addPRenewMsg.renewContent;
-          newPRenew.attachm = this.addPRenewMsg.attachm;
-          console.log('newPRenew:',newPRenew);
-          this.$axios
-            .post("/iem_hrm/pact/addPactRenew", newPRenew)
-            .then(res => {
-              console.log(res);
-              if (res.data.code == "S00000"){
-                this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/query_contract");
-                if (this.pactSubFlag == "true") {
-                  this.$router.push("/detail_contract");
-                }
-              } else this.$message.error(res.data.retMsg);
-            })
-            .catch(() => {
-              this.$message.error("操作失败！");
-            });
+          if (this.addPRenewMsg.attachm != "") {
+            this.$refs.upload.submit(); // 触发上传文件
+          } else {
+            console.log("newPRenew:", this.addPRenewMsg);
+            this.$axios
+              .post("/iem_hrm/pact/addPactRenew", this.addPRenewMsg)
+              .then(res => {
+                console.log(res);
+                if (res.data.code == "S00000") {
+                  this.$message({ type: "success", message: "操作成功!" });
+                  this.$router.push("/query_contract");
+                  if (this.pactSubFlag == "true") {
+                    this.$router.push("/detail_contract");
+                  }
+                } else this.$message.error(res.data.retMsg);
+              })
+              .catch(() => {
+                this.$message.error("操作失败！");
+              });
+          }
         } else {
           console.log("error submit!!");
           return false;
@@ -289,4 +313,5 @@ export default {
 </script>
 
 <style>
+
 </style>
