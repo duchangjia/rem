@@ -300,7 +300,7 @@
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
 					  file.fileId = response.data;
-	      			this.$message({ message: '操作成功', type: 'success' });
+	      			this.$message({ message: '操作成功,请点击保存按钮,保存修改', type: 'success' });
 				  }
 				  console.log('this.fileList',this.fileList);
 				  console.log('上传成功的file',file);
