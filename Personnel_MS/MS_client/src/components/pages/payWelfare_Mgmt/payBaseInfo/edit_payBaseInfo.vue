@@ -633,8 +633,6 @@ export default {
       if (res.code == "S00000") {
         file.fileId = res.data;
         this.$message({ type: "success", message: "文件上传成功!" });
-        // this.fileIds.push(res.data);
-        // console.log("this.fileIds", this.fileIds);
       } else this.$message.error(res.retMsg);
     },
 

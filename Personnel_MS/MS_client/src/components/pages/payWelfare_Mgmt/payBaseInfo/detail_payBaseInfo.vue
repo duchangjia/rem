@@ -220,21 +220,12 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
-                            <!-- <el-button class="downloadBtn" @click="downloadFile">批量下载</el-button>
-                            <el-upload class="upload-demo uploadDisabled" ref="upload" name="file"  action="/iem_hrm/file/addFile" multiple
-                                :headers="token"
-                                :file-list="fileList"
-                                :show-file-list="true"
-                                :auto-upload="false"
-                                :http-request="downLoadOnly">
-                            </el-upload> -->
                             <ul>
 								<li v-for="item in fileList" :key="item.fileId">
 									<span class="fileText">{{item.fileName + "." + item.fileSuffix}}</span>
 									<el-button class="downBtn" @click="handleDownloadFile(item)">下载</el-button>
 								</li>
 							</ul>
-
                         </el-form-item>
                         
                     </el-col>
@@ -254,7 +245,6 @@ export default {
       custInfo: {},
       payBaseInfoDetail: {},
       fileList: [],
-      fileListFlag: false,
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
       },
@@ -389,18 +379,8 @@ export default {
             self.payBaseInfoDetail.epFileManageList &&
             self.payBaseInfoDetail.epFileManageList.length >= 1
           ) {
-            self.fileListFlag = true;
-            // self.payBaseInfoDetail.epFileManageList.forEach(function(ele) {
-            //   self.fileList.push({
-            //     name: ele.fileName + "." + ele.fileSuffix,
-            //     url: ele.fileAddr,
-            //     fileId: ele.fileId
-            //   });
-            // }, this);
             self.fileList = self.payBaseInfoDetail.epFileManageList;
-          } else {
-            self.fileListFlag = false;
-          }
+          } 
           console.log("当前的fileList", self.fileList);
         })
         .catch(() => {
@@ -466,6 +446,7 @@ export default {
     handleDownloadFile(file) {
       console.log(file);
       let params = {
+        name: file.fileName + "." + file.fileSuffix,
         fileId: file.fileId
       };
       this.downloadFile(params);
@@ -477,7 +458,7 @@ export default {
           responseType: "blob"
         })
         .then(response => {
-          const fileName = params.fileName;
+          const fileName = params.name;
           const blob = response.data;
 
           if (window.navigator && window.navigator.msSaveOrOpenBlob) {
