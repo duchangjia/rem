@@ -96,7 +96,8 @@
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="附件">
-                            <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple :on-remove="handleRemove"
+                            <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
+                                :on-remove="handleRemove"
                                 :on-change="handleFileUpload" 
                                 :on-success="successUpload" 
                                 :limit="3" 
@@ -326,6 +327,10 @@ export default {
             });
         } else {
           console.log("error submit!!");
+          this.$message({
+            type: "error",
+            message: "请确保必填信息填写正确!"
+          });
           return false;
         }
       });
