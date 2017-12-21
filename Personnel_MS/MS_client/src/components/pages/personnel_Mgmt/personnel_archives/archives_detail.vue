@@ -1147,6 +1147,11 @@
                                     let result = res.data.retMsg
                                     this.edit = true
                                     if ("操作成功"===result){
+                                        if(this.ruleForm.fujianFlag) {
+                                            console.log('提交附件去了')
+                                            this.ruleForm.fujianFlag = ''
+                                            self.$refs.upload.submit()
+                                        }
                                         if(--this.count <= 0){
                                             this.refreshInfo()
                                         }
@@ -1184,10 +1189,10 @@
                         self.$refs.uploadAvatar.submit()
                     }
                     if(this.ruleForm.fujianFlag) {
-                        console.log('提交附件去了')
+//                        console.log('提交附件去了')
                         this.count++
-                        this.ruleForm.fujianFlag = ''
-                        self.$refs.upload.submit()
+//                        this.ruleForm.fujianFlag = ''
+//                        self.$refs.upload.submit()
                     }
                 }
                 if('second'===tabName) {

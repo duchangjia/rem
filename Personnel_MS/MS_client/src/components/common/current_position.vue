@@ -56,7 +56,6 @@ export default {
             }
         },
     },
-
     props: {
         yiji: {
             type: String,
