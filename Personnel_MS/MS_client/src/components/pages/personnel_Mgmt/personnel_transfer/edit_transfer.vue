@@ -32,7 +32,7 @@
 					<el-col :span="24" class="item-title">调动信息</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="调动类型" prop="shiftType">
-						    <el-select v-model="formdata.shiftType" value-key="shiftType">
+						    <el-select v-model="formdata.shiftType" value-key="shiftType" @change="changeShiftType">
 								<el-option v-for="item in shiftTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -61,7 +61,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新部门名称" prop="newDeprtId">
-						    <el-select v-model="formdata.newDeprtId">
+						    <el-select v-model="formdata.newDeprtId" :disabled=disabledFlag>
 								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -162,6 +162,7 @@
 				fileList: [],
 				fileFlag: '',
 				newLineManagerFlag: true,
+				disabledFlag: flase,
 				formdata: {},
 				//部门列表
 				departList: [],
@@ -251,6 +252,22 @@
 				}
 	            //查询部门列表
 				this.queryDerpList(params);
+			},
+			changeShiftType(val) {
+				console.log('shiftType',val);
+				console.log('self.formdata.newOrgId'+self.formdata.newOrgId);
+				let self = this;
+				if(val === '') {
+					// self.formdata.newOrgId = self.formdata.oldOrgId;
+					// self.formdata.newDeprtId = self.formdata.oldDeprtId;
+					// self.formdata.newLineManager = self.formdata.oldLineManager;
+					// self.formdata.newPost = self.formdata.oldPost;
+					// self.formdata.newClass = self.formdata.oldClass;
+					// self.disabledFlag=true;
+				} else {
+					// self.disabledFlag=false;
+				}
+				
 			},
 			  //校验直线经理是否存在
 			newLineManagerChange(value) {
