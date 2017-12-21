@@ -220,14 +220,20 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
-                            <el-button class="downloadBtn" @click="downloadFile">批量下载</el-button>
+                            <!-- <el-button class="downloadBtn" @click="downloadFile">批量下载</el-button>
                             <el-upload class="upload-demo uploadDisabled" ref="upload" name="file"  action="/iem_hrm/file/addFile" multiple
                                 :headers="token"
                                 :file-list="fileList"
                                 :show-file-list="true"
                                 :auto-upload="false"
                                 :http-request="downLoadOnly">
-                            </el-upload>
+                            </el-upload> -->
+                            <ul>
+								<li v-for="item in fileList" :key="item.fileId">
+									<span class="fileText">{{item.fileName + "." + item.fileSuffix}}</span>
+									<el-button class="downBtn" @click="handleDownloadFile(item)">下载</el-button>
+								</li>
+							</ul>
 
                         </el-form-item>
                         
@@ -248,6 +254,7 @@ export default {
       custInfo: {},
       payBaseInfoDetail: {},
       fileList: [],
+      fileListFlag: false,
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
       },
@@ -382,12 +389,17 @@ export default {
             self.payBaseInfoDetail.epFileManageList &&
             self.payBaseInfoDetail.epFileManageList.length >= 1
           ) {
-            self.payBaseInfoDetail.epFileManageList.forEach(function(ele) {
-              self.fileList.push({
-                name: ele.fileName + "." + ele.fileSuffix,
-                url: ele.fileAddr
-              });
-            }, this);
+            self.fileListFlag = true;
+            // self.payBaseInfoDetail.epFileManageList.forEach(function(ele) {
+            //   self.fileList.push({
+            //     name: ele.fileName + "." + ele.fileSuffix,
+            //     url: ele.fileAddr,
+            //     fileId: ele.fileId
+            //   });
+            // }, this);
+            self.fileList = self.payBaseInfoDetail.epFileManageList;
+          } else {
+            self.fileListFlag = false;
           }
           console.log("当前的fileList", self.fileList);
         })
@@ -450,35 +462,40 @@ export default {
       this.payBaseInfoDetail.welcoeNo = val;
       this.getInsurancePayTemp(); //根据参数值查询保险缴纳标准
     },
-    // 批量下载
-    downloadFile() {
-      let data = {
-        fileId: "000000000000"
+    // 附件下载
+    handleDownloadFile(file) {
+      console.log(file);
+      let params = {
+        fileId: file.fileId
       };
-      this.$axios
-        // /iem_hrm/file/downloadFile/{fileId}
-        .get("/iem_hrm/file/downloadFile", {
-          params: data,
+      this.downloadFile(params);
+    },
+    downloadFile(params) {
+      const self = this;
+      self.$axios
+        .get("/iem_hrm/file/downloadFile/" + params.fileId, {
           responseType: "blob"
         })
-        .then(res => {
-          const blob = res.data;
-          console.log(res);
-          let elink = document.createElement("a"); // 创建a标签
-          elink.download = this.userNo + ".zip";
-          elink.style.display = "none";
-          elink.href = URL.createObjectURL(blob);
-          document.body.appendChild(elink);
-          elink.click(); // 触发点击a标签事件
-          document.body.removeChild(elink);
+        .then(response => {
+          const fileName = params.fileName;
+          const blob = response.data;
+
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blob, fileName);
+          } else {
+            let elink = document.createElement("a"); // 创建a标签
+            elink.download = fileName;
+            elink.style.display = "none";
+            elink.href = URL.createObjectURL(blob);
+            document.body.appendChild(elink);
+            elink.click(); // 触发点击a标签事件
+            document.body.removeChild(elink);
+          }
         })
         .catch(e => {
-          console.log(e);
-          this.$message({ message: "批量下载文件失败", type: "error" });
+          console.error(e);
+          this.$message({ message: "下载附件失败", type: "error" });
         });
-    },
-    downLoadOnly(aaa) {
-        console.log('moren', aaa);
     }
   }
 };

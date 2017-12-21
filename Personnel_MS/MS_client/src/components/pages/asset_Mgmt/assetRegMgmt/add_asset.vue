@@ -137,7 +137,11 @@
                     <el-col :span="12">
                         <el-form-item label="附件">
                             <el-input v-model="addAssetInfo.attachm"></el-input>
-                            <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
+                            <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" 
+                                :headers="token"
+                                :on-change="handleFileUpload" 
+                                :on-success="successUpload"
+                                :show-file-list="false" >
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
                         </el-form-item>
@@ -181,6 +185,9 @@ export default {
         derpLimit: "",
         attachm: "",
         remark: ""
+      },
+      token: {
+        Authorization: `Bearer ` + localStorage.getItem("access_token")
       },
 
       dialogVisible: false,
@@ -298,9 +305,7 @@ export default {
     getCustClassList() {
       let self = this;
       self.$axios
-        .get(
-          "/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED"
-        )
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED")
         .then(res => {
           if (res.data.code === "S00000") {
             self.custClassList = res.data.data;
@@ -317,29 +322,56 @@ export default {
     pickFaxfreeTime(val) {
       this.addAssetInfo.faxfreeTime = val;
     },
+    // 文件上传
     handleFileUpload(file, fileList) {
-      console.log(file);
       this.addAssetInfo.attachm = file.name;
     },
+    successUpload(res, file, fileList) {
+      // 文件成功上传
+      console.log("upload_response", res);
+      if (res.code == "S00000") {
+        this.$message({ type: "success", message: "文件上傳成功!" });
+      } else this.$message.error(res.retMsg);
+    },
+
     handleSave(addAssetInfoRules) {
       this.$refs[addAssetInfoRules].validate(valid => {
         if (valid) {
-          let newAssetInfo = this.addAssetInfo;
-          console.log(newAssetInfo);
+          console.log("newAssetInfo", this.addAssetInfo);
+        //   if (this.addAssetInfo.attachm != "") {
+        //     this.$refs.upload.submit(); // 触发上传文件
+        //   } else {
+        //     this.$axios
+        //       .post("/iem_hrm/EpAssetInf/addEpAssetInf", this.addAssetInfo)
+        //       .then(res => {
+        //         console.log(res);
+        //         if (res.data.code == "S00000") {
+        //           this.$message({ type: "success", message: "操作成功!" });
+        //           this.$router.push("/query_asset");
+        //         } else this.$message.error(res.data.retMsg);
+        //       })
+        //       .catch(() => {
+        //         this.$message.error("操作失败！");
+        //       });
+        //   }
           this.$axios
-            .post("/iem_hrm/EpAssetInf/addEpAssetInf", newAssetInfo)
-            .then(res => {
-              console.log(res);
-              if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/query_asset");
-              } else this.$message.error(res.data.retMsg);
-            })
-            .catch(() => {
-              this.$message.error("操作失败！");
-            });
+              .post("/iem_hrm/EpAssetInf/addEpAssetInf", this.addAssetInfo)
+              .then(res => {
+                console.log(res);
+                if (res.data.code == "S00000") {
+                  this.$message({ type: "success", message: "操作成功!" });
+                  this.$router.push("/query_asset");
+                } else this.$message.error(res.data.retMsg);
+              })
+              .catch(() => {
+                this.$message.error("操作失败！");
+              });
         } else {
           console.log("error submit!!");
+          this.$message({
+            type: "error",
+            message: "请确保必填信息填写正确!"
+          });
           return false;
         }
       });

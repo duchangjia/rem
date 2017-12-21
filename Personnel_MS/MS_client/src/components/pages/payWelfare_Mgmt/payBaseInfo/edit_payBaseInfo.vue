@@ -261,7 +261,7 @@ export default {
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
       },
-      fileIds: [],
+      // fileIds: [],
       custPostList: [],
       custClassList: [],
       insurancePayTemplates: {},
@@ -477,7 +477,8 @@ export default {
             self.editPayBaseInfo.epFileManageList.forEach(function(ele) {
               self.fileList.push({
                 name: ele.fileName + "." + ele.fileSuffix,
-                url: ele.fileAddr
+                url: ele.fileAddr,
+                fileId: ele.fileId
               });
             }, this);
           }
@@ -574,8 +575,47 @@ export default {
       console.log("选中的this.fileList:", this.fileList);
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList); // 移除文件
       console.log("移除的file", file);
+      console.log("移除的fileList", fileList);
+      let index = this.fileList.indexOf(file);
+      fileList.splice(index, 0, file);
+      this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          this.$axios
+            .delete("/iem_hrm/file/deleteFile/" + file.fileId)
+            .then(res => {
+              let result = res.data.retMsg;
+              if ("操作成功" == result) {
+                this.$message({
+                  type: "success",
+                  message: result
+                });
+                fileList.splice(index, 1);
+              } else {
+                this.$message({
+                  type: "error",
+                  message: result
+                });
+              }
+            })
+            .catch(e => {
+              console.log(e);
+              this.$message({
+                type: "error",
+                message: e.retMsg
+              });
+            });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     },
     handlePreview(file) {
       console.log(file); // 点击已上传的文件链接时
@@ -589,12 +629,12 @@ export default {
     },
     successUpload(res, file, fileList) {
       // 文件成功上传
-      console.log("upload_response", res);
-      console.log("upload_response_fileList", fileList);
+      console.log("upload_res_fileList", fileList);
       if (res.code == "S00000") {
+        file.fileId = res.data;
         this.$message({ type: "success", message: "文件上传成功!" });
-        this.fileIds.push(res.data);
-        console.log('this.fileIds', this.fileIds);
+        // this.fileIds.push(res.data);
+        // console.log("this.fileIds", this.fileIds);
       } else this.$message.error(res.retMsg);
     },
 
@@ -630,6 +670,11 @@ export default {
       });
 
       if (rulesValid1 && rulesValid2) {
+        let fileIds = [];
+        for (let k in this.fileList) {
+          fileIds.push(this.fileList[k].fileId);
+        }
+        console.log("fileIds", fileIds);
         let editPayBaseInfo = {};
         editPayBaseInfo.userNo = this.editPayBaseInfo.userNo;
         editPayBaseInfo.wagesBase = this.editPayBaseInfo.wagesBase;
@@ -649,7 +694,7 @@ export default {
         editPayBaseInfo.wagesProb = this.editPayBaseInfo.wagesProb;
         editPayBaseInfo.welcoeNo = this.editPayBaseInfo.welcoeNo;
         editPayBaseInfo.remark = this.editPayBaseInfo.remark;
-        editPayBaseInfo.fileIds = this.fileIds;
+        editPayBaseInfo.fileIds = fileIds;
         console.log(editPayBaseInfo);
         this.$axios
           .put("/iem_hrm/pay/updatePayBaseInfo", editPayBaseInfo)
