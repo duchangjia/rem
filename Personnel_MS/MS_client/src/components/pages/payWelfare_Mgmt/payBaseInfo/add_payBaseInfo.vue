@@ -225,14 +225,13 @@
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
 				  		              <el-input v-model="addPayBaseInfo.attachm"></el-input>
-                            <el-upload class="upload-demo" ref="upload" action="/iem_hrm/pay/addPayBaseInfo" 
+                            <el-upload class="upload-demo" ref="upload" name="files" action="/iem_hrm/pay/addPayBaseInfo" 
                                 :data="addPayBaseInfo"
                                 :on-change="handleFileUpload" 
                                 :on-success="successUpload"
                                 :show-file-list="false" 
                                 :auto-upload="false"
                                 :headers="token"
-                                :name="filesName"
                                 :multiple="true">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
@@ -295,7 +294,6 @@ export default {
         remark: ""
       },
       salaryTop: 0,
-      filesName: "files",
       fileList: [],
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")

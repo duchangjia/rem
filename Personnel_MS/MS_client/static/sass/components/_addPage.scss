@@ -100,6 +100,19 @@
             line-height: 56px;
             padding-left: 8px;
         }
+        .fileText {
+            color: #999999;
+            font-size: 14px;
+            padding-right: 20px;
+        }
+        .downBtn {
+            color: #ffffff;
+            background: #ff9900;
+        }
+        .el-button.downBtn:focus, .el-button.downBtn:hover {
+            color: #ffffff;
+            border-color: #ff9900;
+        }
         
     }
     .add-wrapper.role-msg {
