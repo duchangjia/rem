@@ -287,10 +287,10 @@
 					self.formdata = res.data.data;
 					self.formdata.dimProveFlag = self.formdata.dimProveFlag=='01' ? true: false;
 					if (
-						self.formdata2.epFileManageList &&
-						self.formdata2.epFileManageList.length >= 1
+						self.formdata.epFileManageList &&
+						self.formdata.epFileManageList.length >= 1
 					) {
-						self.formdata2.epFileManageList.forEach(function(ele) {
+						self.formdata.epFileManageList.forEach(function(ele) {
 							self.fileList.push({
 								name: ele.fileName + "." + ele.fileSuffix,
 								url: ele.fileAddr,
