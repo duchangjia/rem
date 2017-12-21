@@ -78,8 +78,7 @@
 				  	</el-col> 	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件">
-				  		 	<!-- <el-input v-model="formdata2.attachm"></el-input> -->
-					  		<el-upload class="upload-demo" ref="upload" name="files" action="/iem_hrm/file/addFile" multiple 
+					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
                                  :on-exceed="handleExceed"
 								 :on-preview="handlePreview"
                                  :on-remove="handleRemove"
@@ -184,10 +183,6 @@
 			//上传附件
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-				// this.formdata2.attachm = file.name;
-				// fileList.forEach(function(item) {
-				// 	this.formdata2.attachm += item.name + " ";
-				// }, this);
 				this.fileList = fileList;
 				console.log("选中的fileList", fileList); 
 			},
@@ -253,7 +248,6 @@
 				    			"leaveType": self.formdata2.leaveType, //"3"
 				    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
 				    			"remark": self.formdata2.remark, //"请假的详细信息"
-								// attachm: self.formdata2.attachm,
 								fileIds: fileIds
 							}
 							//修改出差详情

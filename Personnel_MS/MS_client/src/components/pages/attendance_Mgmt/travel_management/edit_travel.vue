@@ -92,8 +92,7 @@
 				  	</el-col>
 				  	<el-col :sm="24" :md="12">
 						<el-form-item label="附件">
-				  		 	<!-- <el-input v-model="formdata2.attachm"></el-input> -->
-					  		<el-upload class="upload-demo" ref="upload" name="files" action="/iem_hrm/file/addFile" multiple
+					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
 					  			 :on-exceed="handleExceed"
 								 :on-preview="handlePreview"
                                  :on-remove="handleRemove"
@@ -272,7 +271,7 @@
 			},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
-					  file.fileId = response.data;
+					file.fileId = response.data;
 	      			this.$message({ message: '操作成功', type: 'success' });
 					// this.$router.push('/leave_management');
 				  }
@@ -299,6 +298,10 @@
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
+							let fileIds = [];
+							for(let k in self.fileList) {
+								fileIds.push(self.fileList[k].fileId);
+							}
 							let params = {
 								applyNo: self.formdata2.applyNo, //出差编号
 							    userNo: self.formdata2.userNo,//工号
@@ -309,9 +312,11 @@
 							    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
 							    travelDays: self.formdata2.travelDays, //出差天数  
 							    travelSTD: self.formdata2.travelSTD,//差补标准
-							    remark: self.formdata2.remark,//备注
-							    //attachm: self.formdata2.attachm//附件
+								remark: self.formdata2.remark,//备注
+								fileIds: fileIds
 							}
+							console.log('self.fileList',self.fileList);
+							console.log('params',params);
 							//修改信息
 							self.modifyTravelInfo(params);
 						

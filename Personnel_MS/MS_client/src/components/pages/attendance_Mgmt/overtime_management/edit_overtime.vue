@@ -80,7 +80,7 @@
 				  	</el-col>
 				  	<el-col :sm="24" :md="12">
 						<el-form-item label="附件">
-					  		<el-upload class="upload-demo" ref="upload" name="files" action="/iem_hrm/file/addFile" multiple
+					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
 					  			 :on-exceed="handleExceed"
 								 :on-preview="handlePreview"
                                  :on-remove="handleRemove"
@@ -269,7 +269,6 @@
 				    			"workotType": self.formdata2.workotType, 
 				    			"timeSheet": self.formdata2.timeSheet, 
 				    			"remark": self.formdata2.remark,
-								// attachm: self.formdata2.attachm
 								fileIds: fileIds
 							}
 							//修改加班详细信息

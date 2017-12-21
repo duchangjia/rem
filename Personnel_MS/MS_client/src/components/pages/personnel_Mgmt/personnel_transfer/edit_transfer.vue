@@ -115,9 +115,8 @@
 					  	</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="附件" style="width: 100%;">
-					  		<!-- <el-input v-model="formdata.attachm"></el-input> -->
-					  		<el-upload class="upload-demo" ref="upload" name="files" action="/iem_hrm/file/addFile" multiple 
+						<el-form-item label="附件">
+					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
                                  :on-exceed="handleExceed"
 								 :on-preview="handlePreview"
                                  :on-remove="handleRemove"
@@ -274,10 +273,6 @@
 	      	//上传附件
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-				// this.formdata2.attachm = file.name;
-				// fileList.forEach(function(item) {
-				// 	this.formdata2.attachm += item.name + " ";
-				// }, this);
 				this.fileList = fileList;
 				console.log("选中的fileList", fileList); 
 			},

@@ -89,7 +89,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" >
 					  		<!-- <el-input v-model="formdata.attachm"></el-input> -->
-					  		<el-upload class="upload-demo" ref="upload" name="files" action="/iem_hrm/file/addFile" multiple 
+					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
                                  :on-exceed="handleExceed"
 								 :on-preview="handlePreview"
                                  :on-remove="handleRemove"
@@ -249,7 +249,6 @@
 								hasGone: this.formdata.hasGone,
 								payEndTime: this.formdata.payEndTime,
 								dimReason: this.formdata.dimReason,
-								// attachm: this.formdata.attachm,
 								dimProveFlag: this.formdata.dimProveFlag ? '01': '02',  //01ture  02false
 								fileIds: fileIds
 							};
