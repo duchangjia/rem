@@ -9,34 +9,34 @@
             </div>
             <div class="add-wrapper">
                 <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="公司名称">
                             <el-input v-model="custInfo.organName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="申请部门名称">
                             <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="工号">
                             <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="姓名">
                             <el-input v-model="custInfo.custName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
                             <el-select v-model="custInfo.custPost" :disabled="true">
                               <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="职级">
                             <el-select v-model="custInfo.custClass" :disabled="true">
                               <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
@@ -48,37 +48,37 @@
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">采购信息</el-col>
                 <el-form :inline="true" :model="assetInfoDetail" :rules="assetInfoRules" ref="editAssetInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="采购订单号" prop="buyApplyNo">
                             <el-input v-model="assetInfoDetail.buyApplyNo"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="购买单价" prop="buyUnitPrice">
                             <el-input v-model="assetInfoDetail.buyUnitPrice"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="购买数量" prop="buyNum">
                             <el-input v-model="assetInfoDetail.buyNum" :maxlength="10"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="购买金额" prop="buyAmount">
                             <el-input v-model="assetInfoDetail.buyAmount"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="制造商" prop="mfrs">
                             <el-input v-model="assetInfoDetail.mfrs"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="供应商" prop="supplier">
                             <el-input v-model="assetInfoDetail.supplier"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="资产类别">
                           <el-select v-model="assetInfoDetail.assetType">
                             <el-option label="办公用品" value="01"></el-option>
@@ -89,42 +89,38 @@
                           </el-select>
                       </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="资产名称" prop="assetName">
                             <el-input v-model="assetInfoDetail.assetName"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="SN编号" prop="snNo">
                             <el-input v-model="assetInfoDetail.snNo"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="规格型号" prop="specType">
                             <el-input v-model="assetInfoDetail.specType"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="出厂时间" prop="factoryTime">
                             <el-date-picker type="date" placeholder="选择日期" v-model="assetInfoDetail.factoryTime" @change="pickFactoryTime" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="免维保截止时间" prop="faxfreeTime">
                             <el-date-picker type="date" placeholder="选择日期" v-model="assetInfoDetail.faxfreeTime" @change="pickFaxfreeTime" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="折旧年限" prop="derpLimit">
                             <el-input v-model="assetInfoDetail.derpLimit" ></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
-                            <!-- <el-input v-model="assetInfoDetail.attachm"></el-input>
-                            <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
-                                <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
-                            </el-upload> -->
                             <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
                                 :on-remove="handleRemove"
                                 :on-change="handleFileUpload" 
