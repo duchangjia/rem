@@ -76,8 +76,21 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新直线经理" prop="newLineManager">
-						    <el-input v-model="formdata2.newLineManager" @change="newLineManagerChange" :disabled=disabledFlag></el-input>
-					  	</el-form-item>
+						    <el-input v-model="formdata2.newLineManager" @change="newLineManagerChange" :disabled=disabledFlag>
+								<el-button slot="append" icon="search" @click="userNoSelect"></el-button>
+							</el-input>
+					  		<messageBox 
+                                :title="boxTitle"
+                                :tableOption.sync="tableOption"  
+                                :inputFirstOption.sync="inputFirstOption" 
+                                :inputSecOption.sync="inputSecOption"
+                                :searchData.sync="searchData" 
+                                :searchUrl="searchUrl"
+                                :dialogVisible.sync="dialogVisible"
+                                :pagination.sync="msgPagination"
+                                @dialogConfirm="dialogConfirm"
+                                ></messageBox>
+						</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原岗位">
@@ -151,10 +164,12 @@
 			var checkNewLineManager = (rule, value, callback) => {
 		        if (value == '') {
 		          	callback(new Error('直线经理不能为空'));
-		        } else if (!this.newLineManagerFlag) {
-					console.log('newLineManagerFlag',this.newLineManagerFlag)
-		          	callback(new Error('请输入正确的直线经理工号'));
-		        } else {
+				} 
+				// else if (!this.newLineManagerFlag) {
+					// console.log('newLineManagerFlag',this.newLineManagerFlag)
+		          	// callback(new Error('请输入正确的直线经理工号'));
+				// } 
+				else {
 		          	callback();
 		        }
 	      	};
@@ -164,7 +179,7 @@
 				},
 				filesName: "files",
 				fileFlag: '',
-				newLineManagerFlag: '',//判断新直线经理是否存在标志
+				newLineManagerFlag: false,//判断新直线经理是否存在标志
 				disabledFlag: false, //判断调动类型是否工资调整
 			    //原员工信息
 			    formdata1: {},
@@ -187,6 +202,18 @@
 				//职级列表
 				custClassList: [],
 				shiftTypeList: [],
+
+				dialogVisible:false,
+			    tableOption:[],
+			    inputFirstOption:{},
+			    inputSecOption:{},
+			    msgPagination:{},
+			    searchData:{},
+			    searchUrl:'',
+			    saveUrl:'',
+			    boxTitle:'',
+				numType:'',
+
 				rules1: {
 					userNo: [
 			 			{ required: true, message: '工号不能为空', trigger: 'blur' }
@@ -376,6 +403,68 @@
 					console.log('error');
 				})
 			},
+			dialogConfirm(ajaxNo){
+		        let self = this;
+		        let params = {
+		        	userNo: ajaxNo.stateNo
+		        }
+		        self.$axios
+		        .get( self.saveUrl, {params} )
+		        .then(res => {
+		          if (res.data.code == 'S00000'){
+		            self.dialogVisible = false;
+		            self.formdata2.newLineManager = res.data.data.userNo;
+		          }
+		        })
+		        .catch(e => {
+		          console.log('error')
+		        });
+		    },
+		    userNoSelect(){
+		        //table
+		        this.tableOption = [
+		            {
+		                thName:'工号',//table 表头
+		                dataKey:'userNo'//table-col所绑定的prop值
+		            },
+		            {
+		                thName:'姓名',//table 表头
+		                dataKey:'custName'//table-col所绑定的prop值
+		            }
+		            ];
+		        //input 第一个搜索框的配置项
+		        this.inputFirstOption  = {
+		            labelName:'姓名',//label头
+		            placeholder:'请输入姓名'//input placeholder
+		        },
+		        //input 第二个搜索框的配置项
+		        this.inputSecOption  = {
+		            labelName:'工号',
+		            placeholder:'请输入工号'
+		        },
+		        //搜索所需传值
+		        this.searchData = {
+		            custName:'',
+		            userNo:''
+		        }
+		        //table分页所需传值
+		        this.msgPagination =  {
+		            pageNum:1,
+		            pageSize:5,
+		            totalRows:0
+		        }
+		        //点击确定后需要修改的对象 numType为changeNo方法所改变的type
+		//      this.applyUserInfo = this.applyUserInfo
+		        this.numType = 1
+		        //dialog打开
+		        this.dialogVisible=true
+		        //查询接口
+		        this.searchUrl = "/iem_hrm/CustInfo/queryCustInfList"
+		        //点击确定后根据号码查询用户信息借口 没有则为空
+		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
+		        //dialog标题
+		        this.boxTitle = '人工编号选择'
+		    },
 			queryCompList() {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
