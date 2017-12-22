@@ -1,12 +1,12 @@
 <template>
-    <div class="container-wrap">
+    <div class="container-wrap" id="pactMgmt">
         <current yiji="人事事务" erji="人事合同">
         </current>
         <div class="queryContent_wrapper">
             <div class="titleBar">
-              <span class="title-text">人事调动</span>
+              <span class="title-text">人事合同</span>
                 <div class="titleBtn_wrapper">
-                  <el-button type="primary" class="btn-primary" @click="handleAdd">新增客户</el-button>
+                  <el-button type="primary" class="btn-primary" @click="handleAdd">新增</el-button>
                 </div>
             </div>
             <div class="queryContent_inner">
@@ -73,46 +73,6 @@
             </el-pagination>
 
             </div>
-
-            <el-table stripe :data="pactListInfo" border>
-                <el-table-column align="center" label="合同编号">
-                    <template scope="scope">
-                        <span @click="handlePactDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.pactNo }}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column align="center" prop="paperPactNo" label="纸质合同编号">
-                </el-table-column>
-                <el-table-column align="center" prop="userNo" label="工号">
-                </el-table-column>
-                <el-table-column align="center" prop="custName" label="姓名">
-                </el-table-column>
-                <el-table-column align="center" prop="organName" label="公司名称">
-                </el-table-column>
-                <el-table-column align="center" prop="derpName" label="部门名称">
-                </el-table-column>
-                <el-table-column align="center" prop="pactType" label="合同类型" :formatter="pactTypeFormatter">
-                </el-table-column>
-                <el-table-column align="center" prop="pactStatus" label="合同状态" :formatter="pactStatusFormatter">
-                </el-table-column>
-                <el-table-column align="center" prop="signTime" label="签订日期">
-                </el-table-column>
-                <el-table-column align="center" prop="pactStartTime" label="合同开始日期">
-                </el-table-column>
-                <el-table-column align="center" prop="pactEndTime" label="合同结束日期">
-                </el-table-column>
-                <el-table-column align="center" label="操作" width="120">
-                    <template scope="scope">
-                        <el-button type="text" size="small" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-                        <el-button type="text" size="small" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-                        <el-button type="text" size="small" @click="handlePChange(scope.$index, scope.row)">变更</el-button>
-                        <el-button type="text" size="small" @click="handlePRenew(scope.$index, scope.row)">续签</el-button>
-                        <!-- <el-button size="small" @click="handleTerminate(scope.$index, scope.row)">解除</el-button>
-                        <el-button size="small" @click="handleProbation(scope.$index, scope.row)">试用</el-button> -->
-                    </template>
-                </el-table-column>
-            </el-table>
-            <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="total, prev, pager, next, jumper" :total="totalRows">
-            </el-pagination>
         </div>
     </div>
 </template>
