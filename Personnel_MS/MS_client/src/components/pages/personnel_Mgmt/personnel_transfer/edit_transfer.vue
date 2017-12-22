@@ -73,8 +73,21 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新直线经理" prop="newLineManager">
-						    <el-input v-model="formdata.newLineManager" @change="newLineManagerChange" :disabled=disabledFlag></el-input>
-					  	</el-form-item>
+						    <el-input v-model="formdata.newLineManager" @change="newLineManagerChange" :disabled=disabledFlag >
+								<el-button slot="append" icon="search" @click="userNoSelect"></el-button>
+							</el-input>
+					  		<messageBox 
+                                :title="boxTitle"
+                                :tableOption.sync="tableOption"  
+                                :inputFirstOption.sync="inputFirstOption" 
+                                :inputSecOption.sync="inputSecOption"
+                                :searchData.sync="searchData" 
+                                :searchUrl="searchUrl"
+                                :dialogVisible.sync="dialogVisible"
+                                :pagination.sync="msgPagination"
+                                @dialogConfirm="dialogConfirm"
+                                ></messageBox>
+						  </el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原岗位">
@@ -141,6 +154,7 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
+	import messageBox from "../../../common/messageBox-components.vue";
 	import moment from 'moment'
 	const baseURL = 'iem_hrm';
 	export default {
@@ -163,6 +177,7 @@
 				fileFlag: '',
 				newLineManagerFlag: true,//判断新直线经理是否存在标志
 				disabledFlag: false, //判断调动类型是否工资调整
+				triRemoveFlag: true,
 				//员工信息
 				formdata: {},
 				//部门列表
@@ -175,6 +190,18 @@
 				custClassList: [],
 				//调动类型列表
 				shiftTypeList: [],
+
+				dialogVisible:false,
+			    tableOption:[],
+			    inputFirstOption:{},
+			    inputSecOption:{},
+			    msgPagination:{},
+			    searchData:{},
+			    searchUrl:'',
+			    saveUrl:'',
+			    boxTitle:'',
+				numType:'',
+				
 			 	rules: {
 		          	shiftType: [
 		            	{ required: true, message: '调动类型不能为空', trigger: 'blur' }
@@ -204,7 +231,8 @@
 			}
 		},
 		components: {
-			current
+			current,
+			messageBox
 		},
 		created() {
 			
@@ -300,32 +328,35 @@
 				console.log("选中的fileList", fileList); 
 			},
 			handleRemove(file, fileList) {
-				// 移除文件
-				console.log(file, fileList);
-				console.log("移除的file", file);
-				let index = this.fileList.indexOf(file);
-				fileList.splice(index, 0, file);
-				this.$confirm("此操作将永久删除, 是否继续?", "提示", {
-					confirmButtonText: "确定",
-					cancelButtonText: "取消",
-					type: "warning"
-				}).then(() => {
-					this.$axios.delete("/iem_hrm/file/deleteFile/" + file.fileId)
-						.then(res => {
-						let result = res.data.retMsg;
-						if ("操作成功" == result) {
-							this.$message({ type: "success", message: result });
-							fileList.splice(index, 1);
-						} else {
-							this.$message({ type: "error", message: result });
-						}
-						}).catch(e => {
-							console.log(e);
-							this.$message({ type: "error", message: e.retMsg });
+				if(this.triRemoveFlag) {
+					// 移除文件
+					console.log(file, fileList);
+					console.log("移除的file", file);
+					let index = this.fileList.indexOf(file);
+					fileList.splice(index, 0, file);
+					this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+						confirmButtonText: "确定",
+						cancelButtonText: "取消",
+						type: "warning"
+					}).then(() => {
+						this.$axios.delete("/iem_hrm/file/deleteFile/" + file.fileId)
+							.then(res => {
+							let result = res.data.retMsg;
+							if ("操作成功" == result) {
+								this.$message({ type: "success", message: result });
+								fileList.splice(index, 1);
+							} else {
+								this.$message({ type: "error", message: result });
+							}
+							}).catch(e => {
+								console.log(e);
+								this.$message({ type: "error", message: e.retMsg });
+						});
+					}).catch(() => {
+						this.$message({ type: "info", message: "已取消删除" });
 					});
-				}).catch(() => {
-					this.$message({ type: "info", message: "已取消删除" });
-				});
+				}
+				
 			},
 			handlePreview(file) {
 				// 点击已上传的文件链接时
@@ -358,8 +389,11 @@
 //		        console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
 //		      }
 		      if (!isLt2M) {
-		      	this.$message({ message: '上传文件大小不能超过 10MB!', type: 'error' });
-		      }
+				  this.$message({ message: '上传文件大小不能超过 10MB!', type: 'error' });
+				  this.triRemoveFlag = false;
+		      } else {
+				  this.triRemoveFlag = true;
+			  }
 		      return  isLt2M	//extension || extension2 || extension3 || extension4 &&
 		    },
 	      	save(formName) {
@@ -440,6 +474,68 @@
 					console.log(err);
 				})
 			},
+			dialogConfirm(ajaxNo){
+		        let self = this;
+		        let params = {
+		        	userNo: ajaxNo.stateNo
+		        }
+		        self.$axios
+		        .get( self.saveUrl, {params} )
+		        .then(res => {
+		          if (res.data.code == 'S00000'){
+		            self.dialogVisible = false;
+		            self.formdata.newLineManager = res.data.data.userNo;
+		          }
+		        })
+		        .catch(e => {
+		          console.log('error')
+		        });
+		    },
+		    userNoSelect(){
+		        //table
+		        this.tableOption = [
+		            {
+		                thName:'工号',//table 表头
+		                dataKey:'userNo'//table-col所绑定的prop值
+		            },
+		            {
+		                thName:'姓名',//table 表头
+		                dataKey:'custName'//table-col所绑定的prop值
+		            }
+		            ];
+		        //input 第一个搜索框的配置项
+		        this.inputFirstOption  = {
+		            labelName:'姓名',//label头
+		            placeholder:'请输入姓名'//input placeholder
+		        },
+		        //input 第二个搜索框的配置项
+		        this.inputSecOption  = {
+		            labelName:'工号',
+		            placeholder:'请输入工号'
+		        },
+		        //搜索所需传值
+		        this.searchData = {
+		            custName:'',
+		            userNo:''
+		        }
+		        //table分页所需传值
+		        this.msgPagination =  {
+		            pageNum:1,
+		            pageSize:5,
+		            totalRows:0
+		        }
+		        //点击确定后需要修改的对象 numType为changeNo方法所改变的type
+		//      this.applyUserInfo = this.applyUserInfo
+		        this.numType = 1
+		        //dialog打开
+		        this.dialogVisible=true
+		        //查询接口
+		        this.searchUrl = "/iem_hrm/CustInfo/queryCustInfList"
+		        //点击确定后根据号码查询用户信息借口 没有则为空
+		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
+		        //dialog标题
+		        this.boxTitle = '人工编号选择'
+		    },
 			queryCompList() {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')

@@ -30,7 +30,8 @@
 						      v-model="ruleForm2.startTime"
 						      type="date"
 						      placeholder="选择日期"
-						      :picker-options="pickerOptions0" @change="changeStartTime">
+						      :picker-options="pickerOptions0"
+							  :editable="false" @change="changeStartTime">
 						   </el-date-picker>
 						</el-form-item>
 					</el-col>
@@ -40,7 +41,8 @@
 						      v-model="ruleForm2.endTime"
 						      type="date"
 						      placeholder="选择日期"
-						      :picker-options="pickerOptions0" @change="changeEndTime">
+						      :picker-options="pickerOptions0"
+							  :editable="false" @change="changeEndTime">
 						   </el-date-picker>
 						</el-form-item>
 					</el-col>
