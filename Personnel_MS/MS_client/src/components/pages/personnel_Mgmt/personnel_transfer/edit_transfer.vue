@@ -266,11 +266,11 @@
 					self.formdata.newClass = self.formdata.oldClass;
 					self.disabledFlag=true;
 				} else {
-					self.formdata.newOrgId = '';
-					self.formdata.newDeprtId = '';
-					self.formdata.newLineManager = '';
-					self.formdata.newPost = '';
-					self.formdata.newClass = '';
+					// self.formdata.newOrgId = '';
+					// self.formdata.newDeprtId = '';
+					// self.formdata.newLineManager = '';
+					// self.formdata.newPost = '';
+					// self.formdata.newClass = '';
 					self.disabledFlag=false;
 				}
 				
