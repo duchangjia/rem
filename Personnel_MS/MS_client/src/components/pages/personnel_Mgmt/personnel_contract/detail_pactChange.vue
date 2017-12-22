@@ -60,17 +60,23 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="岗位">
-                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
+                            <el-select v-model="custInfo.custPost" :disabled="true">
+                                <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
-                            <el-input v-model="custInfo.post" :disabled="true"></el-input>
+                            <el-select v-model="custInfo.custPost" :disabled="true">
+                                <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职级">
-                            <el-input v-model="_custClass" :disabled="true"></el-input>
+                            <el-select v-model="custInfo.custClass" :disabled="true">
+                                <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-form>
@@ -136,31 +142,24 @@ export default {
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
       },
+      custPostList: [],
+      custClassList: []
     };
   },
   components: {
     current
   },
   created() {
-    this.pactNo = sessionStorage.getItem('contractInfo_pactNo');
-    this.userNo = sessionStorage.getItem('contractInfo_userNo');
-    this.changeId = sessionStorage.getItem('contractInfo_changeId');
+    this.pactNo = sessionStorage.getItem("contractInfo_pactNo");
+    this.userNo = sessionStorage.getItem("contractInfo_userNo");
+    this.changeId = sessionStorage.getItem("contractInfo_changeId");
     this.getPactDetail(); // 合同基本信息
     this.getCustInfo(); // 用户信息
     this.getPChangeDetail(); // 合同变更信息
+    this.getCustPostList(); //查询岗位列表
+    this.getCustClassList(); //查询职级列表
   },
   computed: {
-    _custClass: function() {
-      if (this.custInfo.custClass == "B10") {
-        return "B10-初级软件工程师";
-      } else if (this.custInfo.custClass == "B11") {
-        return "B11-中级软件工程师";
-      } else if (this.custInfo.custClass == "B12") {
-        return "B12-高级软件工程师";
-      } else {
-        return "";
-      }
-    },
     _changeType: function() {
       if (this.detailPChangeMsg.changeType == "01") {
         return "条款变更";
@@ -192,7 +191,7 @@ export default {
       self.$axios
         .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
         .then(res => {
-          console.log('cusInfo', res);
+          console.log("cusInfo", res);
           self.custInfo = res.data.data;
         })
         .catch(() => {
@@ -218,6 +217,32 @@ export default {
           }
         })
         .catch(() => {
+          console.log("error");
+        });
+    },
+    getCustPostList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custPostList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
+    getCustClassList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custClassList = res.data.data;
+          }
+        })
+        .catch(err => {
           console.log("error");
         });
     },
@@ -256,10 +281,11 @@ export default {
           console.error(e);
           this.$message({ message: "下载附件失败", type: "error" });
         });
-    },
+    }
   }
 };
 </script>
 
 <style>
+
 </style>

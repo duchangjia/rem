@@ -60,19 +60,25 @@
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
-            <el-form-item label="岗位">
-              <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
-            </el-form-item>
+              <el-form-item label="岗位">
+                  <el-select v-model="custInfo.custPost" :disabled="true">
+                      <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                  </el-select>
+              </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
-            <el-form-item label="职务">
-              <el-input v-model="custInfo.post" :disabled="true"></el-input>
-            </el-form-item>
+              <el-form-item label="职务">
+                  <el-select v-model="custInfo.custPost" :disabled="true">
+                      <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                  </el-select>
+              </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
-            <el-form-item label="职级">
-              <el-input v-model="_custClass" :disabled="true"></el-input>
-            </el-form-item>
+              <el-form-item label="职级">
+                  <el-select v-model="custInfo.custClass" :disabled="true">
+                      <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                  </el-select>
+              </el-form-item>
           </el-col>
         </el-form>
       </div>
@@ -159,6 +165,8 @@ export default {
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
       },
+      custPostList: [],
+      custClassList: [],
       renewCameTimeOption: {
         disabledDate(time) {
           return (
@@ -234,19 +242,10 @@ export default {
     this.renewId = sessionStorage.getItem("contractInfo_renewId");
     this.getCustInfo();
     this.getPRenewDetail();
+    this.getCustPostList(); //查询岗位列表
+    this.getCustClassList(); //查询职级列表
   },
   computed: {
-    _custClass: function() {
-      if (this.custInfo.custClass == "B10") {
-        return "B10-初级软件工程师";
-      } else if (this.custInfo.custClass == "B11") {
-        return "B11-中级软件工程师";
-      } else if (this.custInfo.custClass == "B12") {
-        return "B12-高级软件工程师";
-      } else {
-        return "";
-      }
-    },
     _renewType: function() {
       if (this.editPRenewMsg.renewType == "01") {
         return "合同延期";
@@ -298,6 +297,32 @@ export default {
           self.custInfo = res.data.data;
         })
         .catch(() => {
+          console.log("error");
+        });
+    },
+    getCustPostList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custPostList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
+    getCustClassList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custClassList = res.data.data;
+          }
+        })
+        .catch(err => {
           console.log("error");
         });
     },
