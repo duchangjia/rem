@@ -244,6 +244,8 @@ export default {
           value.match(/^([1-9]\d*|0)(\.\d{2})?$/) == null
         ) {
           callback(new Error("可精确到小数点后2位的正数"));
+        } else {
+          callback();
         }
       } else if (typeof value == "number") {
         callback();
@@ -261,7 +263,6 @@ export default {
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
       },
-      // fileIds: [],
       custPostList: [],
       custClassList: [],
       insurancePayTemplates: {},
@@ -542,6 +543,7 @@ export default {
     },
     wagesBaseChange(event) {
       console.log("填入的基本工资", this.editPayBaseInfo.wagesBase);
+      console.log("wagesBase类型",typeof(this.editPayBaseInfo.wagesBase));
       const self = this;
       let userNo = self.custInfo.userNo;
       self.$axios
