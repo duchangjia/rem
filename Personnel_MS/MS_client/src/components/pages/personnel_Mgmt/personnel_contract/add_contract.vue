@@ -108,6 +108,7 @@
               <el-upload class="upload-demo" style="height:0;" ref="upload" name="files" action="/iem_hrm/pact/addPact" 
                   :headers="token"
                   :data="addPactMsg"
+                  :beforeUpload="beforeAvatarUpload" 
                   :on-change="handleFileUpload" 
                   :on-success="successUpload"
                   :auto-upload="false"
@@ -390,6 +391,20 @@ export default {
       this.addPactMsg.pactStopTime = val;
     },
     // 文件上传
+    beforeAvatarUpload(file) {
+      // const extension = file.name.split('.')[1] === 'xls'
+      // const extension2 = file.name.split('.')[1] === 'xlsx'
+      // const extension3 = file.name.split('.')[1] === 'doc'
+      // const extension4 = file.name.split('.')[1] === 'docx'
+      // if (!extension && !extension2 && !extension3 && !extension4) {
+      // 		console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
+      // }
+      const isLt2M = file.size / 1024 / 1024 < 10;
+      if (!isLt2M) {
+        this.$message({ message: "上传文件大小不能超过 10MB!", type: "error" });
+      }
+      return isLt2M; //extension || extension2 || extension3 || extension4 &&
+    },
     handleFileUpload(file, fileList) {
       this.addPactMsg.attachm = file.name;
     },

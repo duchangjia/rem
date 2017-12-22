@@ -137,5 +137,11 @@
                 cursor: pointer;
             }
         }
+        .el-table .el-button--text {
+            color: #ff9900;
+        }
+        .el-table .el-button, .el-table .el-button+.el-button {
+            margin: 0 5px;
+        }
     }
 }
