@@ -1063,17 +1063,16 @@
                 if(tab.name==='sixth'&&this.lock.certificatesLock){
                     this.$axios.get('/iem_hrm/CustFile/queryCustImgs',{params:{userNo:this.userNo}})
                         .then(res=>{
-                            console.log(res)
+                            console.log(res,'服务器返回的证件数据反显')
                             this.fileList2 = res.data.data.map(item=>{
                                 let obj = {
-                                    name: item.fileName,
+                                    name: item.fileName+item.imageSuffix,
                                     url: 'data:image/'+item.imageSuffix.substr(1)+';base64,'+item.base64ImgStr
                                 }
                                 return Object.assign(item,obj)
                             })
-                            console.log(this.fileList2)
+                            console.log(this.fileList2,'处理后证件数据反显')
                             this.lock.certificatesLock = false
-
                         })
                         .catch(e=>{
                             console.log(e)

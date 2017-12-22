@@ -387,9 +387,6 @@ export default {
                     li{
                         color:$color-text-secondary;
                     }
-                    li:first-child{
-                        background: green;
-                    }
                     label{
                         padding-left:35px;
                     }
