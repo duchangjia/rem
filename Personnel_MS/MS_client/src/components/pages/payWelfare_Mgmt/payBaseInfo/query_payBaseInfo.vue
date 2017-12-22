@@ -2,10 +2,10 @@
     <div class="container-wrap">
         <current yiji="薪酬福利" erji="薪酬基数设置">
         </current>
-        <div class="content-wrapper">
-            <el-col :span="24" class="titlebar">
-                <span class="title-text">薪酬基数设置</span>
-                <div style="float:right;">
+        <div class="queryContent_wrapper">
+            <div class="titleBar">
+              <span class="title-text">薪酬基数设置</span>
+                <div class="titleBtn_wrapper">
                   <el-upload class="upload-demo span-icon" ref="upload" name="file" action="/iem_hrm/pay/payBaseInfoImport" 
                       :on-change="changeUpload" 
 		  			 	        :on-success="successUpload"
@@ -14,62 +14,61 @@
                     <el-button class="icon-import" slot="trigger" title="批量导入"></el-button>
                   </el-upload>
                   <el-button class="span-icon icon-export" @click="handleExport" title="批量导出"></el-button>
-                  <el-button class="span-icon icon-download" @click="handleDownloadTemplate" title="模板下载"></el-button>                  
-                  <el-button type="primary" @click="handleAdd" class="toolBtn">新增</el-button>
+                  <el-button class="span-icon icon-download" @click="handleDownloadTemplate" title="模板下载"></el-button>
+                  <el-button type="primary" class="btn-primary" @click="handleAdd">新增</el-button>
                 </div>
-            </el-col>
-            <el-col :span="24" class="querybar" style="padding-bottom: 0px;">
-                <el-form :inline="true" :model="filters">
-                  <el-col :span="5">
-                    <el-form-item label="工号">
-                        <el-input v-model="filters.userNo" placeholder="请输入工号"></el-input>
+            </div>
+            <div class="queryContent_inner">
+              <el-form :inline="true" :model="filters" class="demo-ruleForm">
+                <el-col :sm="12" :md="5">
+                   <el-form-item label="工号">
+                      <el-input v-model="filters.userNo" placeholder="请输入工号"></el-input>
                     </el-form-item>
-                  </el-col>
-                  <el-col :span="5">
-                    <el-form-item label="姓名">
+                </el-col>
+                <el-col :sm="12" :md="6">
+                  <el-form-item label="姓名">
                         <el-input v-model="filters.custName" placeholder="请输入姓名"></el-input>
                     </el-form-item>
-                  </el-col>
-                  <el-form-item>
-                      <el-button @click="handleReset" class="resetBtn" style="margin-right: 10px;">重置</el-button>
-                  </el-form-item>
-                  <el-form-item>
-                      <el-button type="primary" @click="handleQuery" class="queryBtn">查询</el-button>
-                  </el-form-item>
-                </el-form>
-            </el-col>
-
-            <el-table stripe :data="payBaseInfoList" border>
-                <el-table-column align="center" label="工号">
-                    <template scope="scope">
-                        <span @click="handlePayBaseInfoDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.userNo }}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column align="center" prop="userName" label="姓名">
-                </el-table-column>
-                <el-table-column align="center" prop="wagesBase" label="基本工资">
-                </el-table-column>
-                <el-table-column align="center" prop="wagesPerf" label="绩效工资">
-                </el-table-column>
-                <el-table-column align="center" prop="postPension" label="岗位津贴">
-                </el-table-column>
-                <el-table-column align="center" prop="otherPension" label="其他补贴">
-                </el-table-column>
-                <el-table-column align="center" prop="endmBase" label="养老保险基数">
-                </el-table-column>
-                <el-table-column align="center" prop="houseBase" label="公积金基数">
-                </el-table-column>
-                <el-table-column align="center" prop="createdDate" label="录入时间">
-                </el-table-column>
-                <el-table-column align="center" label="操作">
-                    <template scope="scope">
-                        <i class="icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
-                        <i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
-                    </template>
-                </el-table-column>
-            </el-table>
-            <el-pagination class="toolbar" @current-change="handleCurrentChange" :page-size="pageSize" layout="total, prev, pager, next, jumper" :total="totalRows">
-            </el-pagination>
+                </el-col>
+                <el-col :sm="12" :md="6">
+                  <div class="queryButton_wrapper">
+                    <el-button @click="handleReset" class="btn-default">重置</el-button>
+                    <el-button @click="handleQuery" class="btn-primary">查询</el-button>
+                  </div>
+                </el-col>
+				      </el-form>
+              <el-table stripe :data="payBaseInfoList" border>
+                  <el-table-column align="center" label="工号">
+                      <template scope="scope">
+                          <span @click="handlePayBaseInfoDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.userNo }}</span>
+                      </template>
+                  </el-table-column>
+                  <el-table-column align="center" prop="userName" label="姓名">
+                  </el-table-column>
+                  <el-table-column align="center" prop="wagesBase" label="基本工资">
+                  </el-table-column>
+                  <el-table-column align="center" prop="wagesPerf" label="绩效工资">
+                  </el-table-column>
+                  <el-table-column align="center" prop="postPension" label="岗位津贴">
+                  </el-table-column>
+                  <el-table-column align="center" prop="otherPension" label="其他补贴">
+                  </el-table-column>
+                  <el-table-column align="center" prop="endmBase" label="养老保险基数">
+                  </el-table-column>
+                  <el-table-column align="center" prop="houseBase" label="公积金基数">
+                  </el-table-column>
+                  <el-table-column align="center" prop="createdDate" label="录入时间">
+                  </el-table-column>
+                  <el-table-column align="center" label="操作">
+                      <template scope="scope">
+                          <i class="icon-edit" @click="handleEdit(scope.$index, scope.row)"></i>
+                          <i class="icon-delete" @click="handleDelete(scope.$index, scope.row)"></i>
+                      </template>
+                  </el-table-column>
+              </el-table>
+              <el-pagination class="toolbar" @current-change="handleCurrentChange" :page-size="pageSize" layout="total, prev, pager, next, jumper" :total="totalRows">
+              </el-pagination>
+            </div>
         </div>
     </div>
 </template>

@@ -2,34 +2,33 @@
     <div class="container-wrap">
         <current yiji="薪酬福利" erji="调薪管理" sanji="调薪查询">
         </current>
-        <div class="content-wrapper">
-            <el-col :span="24" class="titlebar">
-                <span class="title-text">调薪查询</span>
-                <el-button type="primary" @click="handleAdd" class="toolBtn">调薪</el-button>
-            </el-col>
-
-            <el-col :span="24" class="querybar" style="padding-bottom: 0px;">
-                <el-form :inline="true" :model="filters">
-                  <el-col :span="6">
-                    <el-form-item label="开始时间" prop="startTime">
+        <div class="queryContent_wrapper">
+            <div class="titleBar">
+              <span class="title-text">调薪查询</span>
+                <div class="titleBtn_wrapper">
+                  <el-button type="primary" class="btn-primary" @click="handleAdd">调薪</el-button>
+                </div>
+            </div>
+            <div class="queryContent_inner">
+              <el-form :inline="true" :model="filters" class="demo-ruleForm">
+                <el-col :sm="12" :md="6">
+                   <el-form-item label="开始时间" prop="startTime">
                         <el-date-picker type="date" placeholder="选择日期" v-model="filters.startTime" @change="startTimeChange" style="width: 100%;"></el-date-picker>
                     </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item label="结束时间" prop="endTime">
+                </el-col>
+                <el-col :sm="12" :md="6">
+                  <el-form-item label="结束时间" prop="endTime">
                         <el-date-picker type="date" placeholder="选择日期" v-model="filters.endTime" :picker-options="endTimeOption" @change="endTimeChange" style="width: 100%;"></el-date-picker>
                     </el-form-item>
-                  </el-col>
-                  <el-form-item>
-                      <el-button @click="handleReset" class="resetBtn" style="margin-right: 10px;">重置</el-button>
-                  </el-form-item>
-                  <el-form-item>
-                      <el-button type="primary" @click="handleQuery" class="queryBtn">查询</el-button>
-                  </el-form-item>
-                </el-form>
-            </el-col>
-
-            <el-table stripe :data="payChangeInfoList" border>
+                </el-col>
+                <el-col :sm="12" :md="6">
+                  <div class="queryButton_wrapper">
+                    <el-button @click="handleReset" class="btn-default">重置</el-button>
+                    <el-button @click="handleQuery" class="btn-primary">查询</el-button>
+                  </div>
+                </el-col>
+				      </el-form>
+              <el-table stripe :data="payChangeInfoList" border>
                 <el-table-column align="center" label="调薪编号">
                     <template scope="scope">
                         <span @click="handlePayChangeInfoDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.applyNo }}</span>
@@ -58,6 +57,7 @@
             </el-table>
             <el-pagination class="toolbar" @current-change="handleCurrentChange" :page-size="pageSize" layout="total, prev, pager, next, jumper" :total="totalRows">
             </el-pagination>
+            </div>
         </div>
     </div>
 </template>
