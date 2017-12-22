@@ -13,7 +13,7 @@
             </span>
             <div  class="userinfo" >
                 <span class="el-dropdown-link">
-                    <img src="../../../../../static/img/common/avatar.png" width="32" height="32" class="useravatar" />您好，{{username}}
+                    <img v-if="imageUrl" :src="imageUrl" width="32" height="32" class="useravatar" />您好，{{username}}
                 </span>
             </div>
             <span @click="loginout()">
@@ -26,7 +26,8 @@
 export default {
     data() {
         return {
-            name: 'ifdp'
+            name: 'ifdp',
+            imageUrl: ''
         }
     },
     computed: {
@@ -34,6 +35,9 @@ export default {
             let username = localStorage.getItem('ms_username');
             return username ? username : this.name;
         }
+    },
+    created() {
+        this.queryUserImage();
     },
     methods: {
         loginout() {
@@ -63,7 +67,20 @@ export default {
         // },
         link2Home() {
             this.$router.push('/aggPage')
-        }
+        },
+        queryUserImage() {
+            this.$axios.get('/iem_hrm/CustInfo/queryLoadCustAvatar')
+                .then(res=>{
+                    console.log('头像查询', res)
+                    if(res.data.data) {
+                        let url = 'data:image/jpg;base64,'+res.data.data
+                        this.imageUrl = url
+                    }
+                })
+                .catch(e=>{
+                    console.log(e)
+                })
+        },
     }
 }
 </script>

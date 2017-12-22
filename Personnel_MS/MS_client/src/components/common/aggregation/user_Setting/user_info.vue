@@ -5,11 +5,10 @@
 			<contentTitle titleTxt="基本信息"></contentTitle>
         	<div class="content-inner clearfix user_con">
 				<div class="imgUserHead">
-					<!-- <img src="../../../../../static/img/common/avatar.png" alt=""> -->
 					<img v-if="imageUrl" :src="imageUrl">
 				</div>
 				<el-form class="clearfix" :inline="true" label-width="100" >
-					<el-col :sm="24" :md="12" v-for="(item,index) in msgList" >
+					<el-col :sm="24" :md="12" v-for="(item,index) in msgList" :key="index">
 						<el-form-item :label="item.label" class="no-border-input">
 							<div @click="searchAsset(index)">
 								<el-input v-model="item.val" readonly="readonly" ></el-input>

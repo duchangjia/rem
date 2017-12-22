@@ -4,7 +4,7 @@
         <div class="main">
         	<div class="basic-sider">
 				<div class="top">
-					<img class="avatar" :src="srcUrl" width="100px" height="100px" alt="" />
+					<img class="avatar" v-if="imageUrl" :src="imageUrl" width="100px" height="100px" alt="" />
 					<div class="name">{{userInfo.custName}}</div>
 					<div class="job">{{custPostName}}</div>
 				</div>
@@ -27,7 +27,7 @@
     export default {
     	data() {
     		return {
-    			srcUrl: '../../../static/img/common/avatar.png',
+    			imageUrl: '',
     			custPostName: '',
     			userInfo: {
     				custName: "",
@@ -47,7 +47,8 @@
             vHeader
         },
         created() {
-        	this.queryUserInfo();
+			this.queryUserInfo();
+			this.queryUserImage();
         },
         methods: {
         	handleCommand(commmand) {
@@ -89,7 +90,20 @@
 				}).catch((err) => {
 					console.log('error');
 				})
-			}
+			},
+			queryUserImage() {
+            	this.$axios.get(baseURL+'/CustInfo/queryLoadCustAvatar')
+                .then(res=>{
+                    console.log('头像查询', res)
+                    if(res.data.data) {
+                        let url = 'data:image/jpg;base64,'+res.data.data
+                        this.imageUrl = url
+                    }
+                })
+                .catch(e=>{
+                    console.log(e)
+                })
+        },
         },
     }
 
