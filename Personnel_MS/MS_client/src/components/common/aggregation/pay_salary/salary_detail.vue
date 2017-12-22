@@ -40,7 +40,7 @@
                        <span><input v-model="accountData.allPay" readonly="readonly" :placeholder="baseNum"></span>
                    </li>
                    <li>
-                       <label class="cur-pointer" @click="showSalary(isSalary=!isSalary)">标准薪资<i class="ico-salary"></i></label>
+                       <label class="cur-pointer" @click="isSalary=!isSalary">标准薪资<i class="ico-salary"></i></label>
                        <span ><input v-model="accountData.salaryStd" readonly="readonly" :placeholder="baseNum"></span>
                        <ul class="sec-list" v-if="isSalary">
                            <li>
@@ -54,7 +54,7 @@
                        </ul>
                    </li>
                    <li>
-                        <label class="cur-pointer"  @click="showBonus(isBonus=!isBonus)">奖金及补贴<i class="ico-salary"></i></label>
+                        <label class="cur-pointer"  @click="isBonus=!isBonus">奖金及补贴<i class="ico-salary"></i></label>
                         <span><input v-model="accountData.bonuses" readonly="readonly" :placeholder="baseNum"></span>
                             <ul class="sec-list" v-show="isBonus">
                            <li>
@@ -99,7 +99,7 @@
                       
                    </li>
                    <li>
-                       <label class="cur-pointer" @click="showWork(isWork=!isWork)">考勤<i class="ico-salary"></i></label>
+                       <label class="cur-pointer" @click="isWork=!isWork">考勤<i class="ico-salary"></i></label>
                        <span><input v-model="accountData.allCheckCount" readonly="readonly" :placeholder="baseNum"></span>
                        <span>迟到、事假、病假等考勤扣款合计</span>
                         <ul class="sec-list" v-if="isWork">
@@ -118,7 +118,7 @@
                        </ul>
                    </li>
                    <li>
-                       <label class="cur-pointer" @click="showWel(isWel=!isWel)">福利<i class="ico-salary"></i></label>
+                       <label class="cur-pointer" @click="isWel=!isWel">福利<i class="ico-salary"></i></label>
                        <span><input v-model="accountData.allWelCount" readonly="readonly" :placeholder="baseNum"></span>
                        <span>当月社保及公积金个人承担部分，包含补发补扣</span>
                         <ul class="sec-list"  v-if="isWel">
@@ -154,7 +154,7 @@
                    </li>
                   
                    <li>
-                       <label class="cur-pointer" @click="showOther(isOther=!isOther)">其他<i class="ico-salary"></i></label>
+                       <label class="cur-pointer" @click="isOther=!isOther">其他<i class="ico-salary"></i></label>
                        <span><input v-model="accountData.otherCutPay" readonly="readonly" :placeholder="baseNum"></span> 
                        <ul class="sec-list" v-show="isOther">
                            <li>
