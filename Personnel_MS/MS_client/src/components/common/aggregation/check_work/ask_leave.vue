@@ -6,7 +6,7 @@
 			<div class="msg-list">
                 <el-row :gutter="20">
                     <el-col :span="4" class="head-img-box">
-                        <div class="imgUserHead"><img src="../../../../../static/img/common/avatar.png" alt=""></div>
+                        <div class="imgUserHead"><img v-if="imageUrl" :src="imageUrl" alt=""></div>
                     </el-col>
                     <el-col :span="16">
                        <el-form :inline="true" class="msg-form">
@@ -53,6 +53,7 @@ let {custSelfInfo,querySalaryHoliday} = api
 export default {
     data(){
         return{
+            imageUrl: '',
             msgList:[
                 {
                     label:'姓名',
@@ -91,6 +92,7 @@ export default {
         let self = this;
             self.getTime();
             self.getUser();
+            self.queryUserImage();
     },
     methods:{
         getUser(){
@@ -121,7 +123,20 @@ export default {
                     message:e.retMsg||'数据异常'
                 })
             })
-        }
+        },
+        queryUserImage() {
+            this.$axios.get('/iem_hrm/CustInfo/queryLoadCustAvatar')
+                .then(res=>{
+                    console.log('头像查询', res)
+                    if(res.data.data) {
+                        let url = 'data:image/jpg;base64,'+res.data.data
+                        this.imageUrl = url
+                    }
+                })
+                .catch(e=>{
+                    console.log(e)
+                })
+        },
     },
     components: {
 	    current,contentTitle

@@ -419,7 +419,17 @@ export default {
 				realHair: row.realHair
           	}
           	//保存修改
-          	this.modWageInfo(params);
+			//   this.modWageInfo(params);
+			let self = this;
+			  self.$axios.post(baseURL+'/wage/addCustPayInfo',params)
+			.then((res) => {
+				console.log('modWage',res);
+				if(res.data.code === "S00000") {
+					self.$message({ message: '操作成功', type: 'success' });
+				}
+			}).catch((err) => {
+				console.log('error');
+			})
 		},
 		
 		autoCalc() {
@@ -461,7 +471,7 @@ export default {
 			.then((res) => {
 				console.log('modWage',res);
 				if(res.data.code === "S00000") {
-					self.$message({ message: '操作成功', type: 'success' });
+					
 				}
 			}).catch((err) => {
 				console.log('error');
