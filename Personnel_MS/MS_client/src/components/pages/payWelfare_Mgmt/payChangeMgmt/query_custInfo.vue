@@ -2,33 +2,30 @@
     <div class="container-wrap">
         <current yiji="薪酬福利" erji="调薪管理">
         </current>
-        <div class="content-wrapper">
-            <el-col :span="24" class="titlebar">
-                <span class="title-text">调薪管理</span>
-            </el-col>
-
-            <el-col :span="24" class="querybar" style="padding-bottom: 0px;">
-                <el-form :inline="true" :model="filters">
-                  <el-col :span="5">
-                    <el-form-item label="工号">
-                        <el-input v-model="filters.userNo" placeholder="请输入工号"></el-input>
+        <div class="queryContent_wrapper">
+            <div class="titleBar">
+              <span class="title-text">调薪管理</span>
+            </div>
+            <div class="queryContent_inner">
+              <el-form :inline="true" :model="filters" class="demo-ruleForm">
+                <el-col :sm="12" :md="5">
+                   <el-form-item label="工号">
+                      <el-input v-model="filters.userNo" placeholder="请输入工号"></el-input>
                     </el-form-item>
-                  </el-col>
-                  <el-col :span="5">
-                    <el-form-item label="姓名">
+                </el-col>
+                <el-col :sm="12" :md="6">
+                  <el-form-item label="姓名">
                         <el-input v-model="filters.custName" placeholder="请输入姓名"></el-input>
                     </el-form-item>
-                  </el-col>
-                  <el-form-item>
-                      <el-button @click="handleReset" class="resetBtn" style="margin-right: 10px;">重置</el-button>
-                  </el-form-item>
-                  <el-form-item>
-                      <el-button type="primary" @click="handleQuery" class="queryBtn">查询</el-button>
-                  </el-form-item>
-                </el-form>
-            </el-col>
-
-            <el-table stripe :data="custInfoList" border>
+                </el-col>
+                <el-col :sm="12" :md="6">
+                  <div class="queryButton_wrapper">
+                    <el-button @click="handleReset" class="btn-default">重置</el-button>
+                    <el-button @click="handleQuery" class="btn-primary">查询</el-button>
+                  </div>
+                </el-col>
+				      </el-form>
+              <el-table stripe :data="custInfoList" border>
                 <el-table-column align="center" label="工号">
                     <template scope="scope">
                         <span @click="handleCustInfoDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.userNo }}</span>
@@ -58,6 +55,7 @@
             </el-table>
             <el-pagination class="toolbar" @current-change="handleCurrentChange" :page-size="pageSize" layout="total, prev, pager, next, jumper" :total="totalRows">
             </el-pagination>
+            </div>
         </div>
     </div>
 </template>
