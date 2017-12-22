@@ -1,20 +1,21 @@
 <template>
-    <div class="container-wrap">
+    <div class="container-wrap payBase_Info">
         <current yiji="薪酬福利" erji="薪酬基数设置">
         </current>
         <div class="queryContent_wrapper">
             <div class="titleBar">
               <span class="title-text">薪酬基数设置</span>
                 <div class="titleBtn_wrapper">
-                  <el-upload class="upload-demo span-icon" ref="upload" name="file" action="/iem_hrm/pay/payBaseInfoImport" 
+                  <el-upload ref="upload" name="file" class="upload-demo imExport-btn-item"
                       :on-change="changeUpload" 
-		  			 	        :on-success="successUpload"
-		  			 	        :show-file-list="false" 
-		  			 	        :headers="token">
-                    <el-button class="icon-import" slot="trigger" title="批量导入"></el-button>
+                      :on-success="successUpload"
+                      action="/iem_hrm/attence/batchimport" 
+                      :show-file-list="false" 
+                      :headers="token">
+                      <span class="icon-import" slot="trigger" title="批量导入"></span>
                   </el-upload>
-                  <el-button class="span-icon icon-export" @click="handleExport" title="批量导出"></el-button>
-                  <el-button class="span-icon icon-download" @click="handleDownloadTemplate" title="模板下载"></el-button>
+                  <span class="icon-export imExport-btn-item" title="批量导出" @click="handleExport"></span>
+                  <span class="icon-download imExport-btn-item" title="下载模版" @click="handleDownloadTemplate"></span>
                   <el-button type="primary" class="btn-primary" @click="handleAdd">新增</el-button>
                 </div>
             </div>
@@ -254,4 +255,37 @@ export default {
 
 
 <style>
+.payBase_Info .imExport-btn {
+	float: right;
+}
+.payBase_Info .imExport-btn-item{
+	display: inline-block;
+	margin-left: 20px;
+	cursor: pointer;
+	vertical-align: middle;
+}
+
+.payBase_Info .el-upload__input {
+    display: none;
+}
+.payBase_Info .icon-import {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+	background: url(../../../../../static/img/common/batch-import0.png);
+}
+.payBase_Info .icon-export {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(../../../../../static/img/common/batch-export0.png);
+}
+.payBase_Info .icon-download {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+  background: url(../../../../../static/img/common/template-download0.png);
+  margin-right: 20px;
+}
 </style>

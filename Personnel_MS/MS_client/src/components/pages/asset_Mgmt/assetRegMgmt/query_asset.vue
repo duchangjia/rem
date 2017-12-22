@@ -2,21 +2,27 @@
     <div class="container-wrap">
         <current yiji="资产管理" erji="资产登记管理" sanji="资产信息查询">
         </current>
-        <div class="content-wrapper">
-            <el-col :span="24" class="titlebar">
+        <div class="queryContent_wrapper">
+            <!-- <el-col :span="24" class="titlebar">
                 <span class="title-text">资产信息查询</span>
                 <el-button type="primary" @click="handleAdd" class="toolBtn">新增</el-button>
-            </el-col>
+            </el-col> -->
+            <div class="titleBar">
+                <span class="title-text">资产信息查询</span>
+                <div class="titleBtn_wrapper">
+                    <el-button class="btn-primary" @click="handleAdd">新增</el-button>
+                </div>
+            </div>
 
-            <el-col :span="24" class="querybar" style="padding:10px 0 0 0;">
-                <el-form :inline="true" :model="filters">
-                    <el-col :span="6">
-                      <el-form-item label="资产编号">
+            <div class="queryContent_inner">
+              <el-form :inline="true" :model="filters" class="demo-ruleForm">
+                <el-col :span="6">
+                  <el-form-item label="资产编号">
                         <el-input v-model="filters.assetNo" placeholder="请输入资产编号"></el-input>
                       </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                      <el-form-item label="资产类型">
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="资产类型">
                         <el-select v-model="filters.assetType">
                             <el-option label="全部" value=""></el-option>
                             <el-option label="办公用品" value="01"></el-option>
@@ -26,29 +32,27 @@
                             <el-option label="数码相机" value="05"></el-option>
                         </el-select>
                       </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                      <el-form-item label="资产名称">
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="资产名称">
                         <el-input v-model="filters.assetName" placeholder="请输入资产名称"></el-input>
                       </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                      <el-form-item label="资产状态">
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="资产状态">
                         <el-select v-model="filters.status">
                             <el-option label="全部" value=""></el-option>
                             <el-option label="有效" value="1"></el-option>
                             <el-option label="无效" value="0"></el-option>
                         </el-select>
                       </el-form-item>
-                    </el-col>
-                    <el-col :span="24" class="button-wrap">
-                      <el-button class="resetBtn" @click="handleReset">重置</el-button>
-						          <el-button class="queryBtn" @click="handleQuery">查询</el-button>
-                    </el-col>
-                </el-form> 
-            </el-col>
-
-            <el-table stripe :data="assetInfoList" border>
+                </el-col>
+                <div class="queryButton_wrapper">
+                  <el-button class="btn-default" @click="handleReset">重置</el-button>
+                  <el-button class="btn-primary" @click="handleQuery">查询</el-button>
+                </div>
+              </el-form>
+              <el-table stripe :data="assetInfoList" border>
                 <el-table-column align="center" label="资产编号">
                     <template scope="scope">
                         <span @click="handleAssetInfoDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.assetNo }}</span>
@@ -83,6 +87,9 @@
             </el-table>
             <el-pagination class="toolbar" @current-change="handleCurrentChange" :page-size="pageSize" layout="total, prev, pager, next, jumper" :total="totalRows">
             </el-pagination>
+
+            </div>
+            
         </div>
     </div>
 </template>
