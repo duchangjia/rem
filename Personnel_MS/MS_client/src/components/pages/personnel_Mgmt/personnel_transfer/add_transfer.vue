@@ -275,11 +275,11 @@
 					self.disabledFlag=true;
 					self.newLineManagerFlag = true;
 				} else {
-					self.formdata2.newOrgId = '';
-					self.formdata2.newDeprtId = '';
-					self.formdata2.newLineManager = '';
-					self.formdata2.newPost = '';
-					self.formdata2.newClass = '';
+					// self.formdata2.newOrgId = '';
+					// self.formdata2.newDeprtId = '';
+					// self.formdata2.newLineManager = '';
+					// self.formdata2.newPost = '';
+					// self.formdata2.newClass = '';
 					self.disabledFlag=false;
 				}
 				

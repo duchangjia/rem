@@ -116,7 +116,7 @@
 		},
 		mounted() {
 			//查询头像
-			// this.queryUserImage();
+			this.queryUserImage();
 			//查询用户信息
 			this.queryUserList();
 		},
@@ -147,8 +147,10 @@
 					this.queryCustPostList();
 					//查询职级列表
 					this.queryCustClassList();
+					//查询CCC列表
+					this.queryCostTypeList();
 					//查询直线经理
-					self.queryUserInfo(self.msgList[2].val);
+					// self.queryUserInfo(self.msgList[2].val);
 					for(let i = 0 ; i< data.assetInfList.length;i++){
 						let assetType = data.assetInfList[i].assetType;
 						switch(assetType){
@@ -260,6 +262,23 @@
 						self.custClassList.forEach((ele,num) => {
 							if(ele.paraValue == self.msgList[5].val) {
 								self.msgList[5].val = ele.paraShowMsg;
+							}
+						});
+					}
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
+			queryCostTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=COST_TYPE')
+				.then((res) => {
+					console.log('costType',res);
+					if(res.data.code === "S00000") {
+						self.custClassList = res.data.data;
+						self.custClassList.forEach((ele,num) => {
+							if(ele.paraValue == self.msgList[7].val) {
+								self.msgList[7].val = ele.paraShowMsg;
 							}
 						});
 					}
