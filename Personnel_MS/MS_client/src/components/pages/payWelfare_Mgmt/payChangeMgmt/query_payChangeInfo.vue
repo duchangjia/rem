@@ -31,7 +31,7 @@
               <el-table stripe :data="payChangeInfoList" border>
                 <el-table-column align="center" label="调薪编号">
                     <template scope="scope">
-                        <span @click="handlePayChangeInfoDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.applyNo }}</span>
+                        <span @click="handlePayChangeInfoDetail(scope.$index, scope.row)" class="link">{{ scope.row.applyNo }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" prop="userNo" label="工号">

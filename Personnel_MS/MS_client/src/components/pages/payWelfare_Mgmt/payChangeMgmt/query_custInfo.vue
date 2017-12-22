@@ -28,7 +28,7 @@
               <el-table stripe :data="custInfoList" border>
                 <el-table-column align="center" label="工号">
                     <template scope="scope">
-                        <span @click="handleCustInfoDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.userNo }}</span>
+                        <span @click="handleCustInfoDetail(scope.$index, scope.row)" class="link">{{ scope.row.userNo }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" prop="custName" label="姓名">

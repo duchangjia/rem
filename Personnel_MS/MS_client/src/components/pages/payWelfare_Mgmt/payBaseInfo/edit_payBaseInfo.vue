@@ -212,8 +212,8 @@
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
                             <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
-                                :on-preview="handlePreview"
                                 :on-remove="handleRemove"
+                                :beforeUpload="beforeAvatarUpload" 
                                 :on-change="handleFileUpload" 
                                 :on-success="successUpload"
                                 :limit="3"
@@ -263,6 +263,7 @@ export default {
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
       },
+      triRemoveFlag: true,
       custPostList: [],
       custClassList: [],
       insurancePayTemplates: {},
@@ -483,7 +484,6 @@ export default {
               });
             }, this);
           }
-
           console.log("当前的fileList", self.fileList);
         })
         .catch(() => {
@@ -543,7 +543,7 @@ export default {
     },
     wagesBaseChange(event) {
       console.log("填入的基本工资", this.editPayBaseInfo.wagesBase);
-      console.log("wagesBase类型",typeof(this.editPayBaseInfo.wagesBase));
+      console.log("wagesBase类型", typeof this.editPayBaseInfo.wagesBase);
       const self = this;
       let userNo = self.custInfo.userNo;
       self.$axios
@@ -572,55 +572,72 @@ export default {
     },
 
     // 附件上传
+    beforeAvatarUpload(file) {
+      // const extension = file.name.split('.')[1] === 'xls'
+      // const extension2 = file.name.split('.')[1] === 'xlsx'
+      // const extension3 = file.name.split('.')[1] === 'doc'
+      // const extension4 = file.name.split('.')[1] === 'docx'
+      // if (!extension && !extension2 && !extension3 && !extension4) {
+      // 		console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
+      // }
+
+      const isLt2M = file.size / 1024 / 1024 < 10;
+      if (!isLt2M) {
+        this.$message({ message: "上传文件大小不能超过 10MB!", type: "error" });
+        this.triRemoveFlag = false;
+      } else {
+        this.triRemoveFlag = true;
+      }
+      return isLt2M; //extension || extension2 || extension3 || extension4 &&
+    },
     handleFileUpload(file, fileList) {
       this.fileList = fileList;
       console.log("选中的this.fileList:", this.fileList);
     },
     handleRemove(file, fileList) {
-      console.log("移除的file", file);
-      console.log("移除的fileList", fileList);
-      let index = this.fileList.indexOf(file);
-      fileList.splice(index, 0, file);
-      this.$confirm("此操作将永久删除, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      })
-        .then(() => {
-          this.$axios
-            .delete("/iem_hrm/file/deleteFile/" + file.fileId)
-            .then(res => {
-              let result = res.data.retMsg;
-              if ("操作成功" == result) {
-                this.$message({
-                  type: "success",
-                  message: result
-                });
-                fileList.splice(index, 1);
-              } else {
+      if (this.triRemoveFlag) {
+        console.log("移除的file", file);
+        console.log("移除的fileList", fileList);
+        let index = this.fileList.indexOf(file);
+        fileList.splice(index, 0, file);
+        this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.$axios
+              .delete("/iem_hrm/file/deleteFile/" + file.fileId)
+              .then(res => {
+                let result = res.data.retMsg;
+                if ("操作成功" == result) {
+                  this.$message({
+                    type: "success",
+                    message: result
+                  });
+                  fileList.splice(index, 1);
+                } else {
+                  this.$message({
+                    type: "error",
+                    message: result
+                  });
+                }
+              })
+              .catch(e => {
+                console.log(e);
                 this.$message({
                   type: "error",
-                  message: result
+                  message: e.retMsg
                 });
-              }
-            })
-            .catch(e => {
-              console.log(e);
-              this.$message({
-                type: "error",
-                message: e.retMsg
               });
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除"
             });
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除"
           });
-        });
-    },
-    handlePreview(file) {
-      console.log(file); // 点击已上传的文件链接时
+      }
     },
     handleExceed(files, fileList) {
       // 文件超出数量

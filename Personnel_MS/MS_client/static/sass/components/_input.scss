@@ -110,3 +110,7 @@
     transition: transform .15s cubic-bezier(.71,-.46,.88,.6);
   }
 }
+.el-input.is-disabled .el-input__inner, 
+.el-textarea.is-disabled .el-textarea__inner {
+  background-color: #f7f7f7;
+}

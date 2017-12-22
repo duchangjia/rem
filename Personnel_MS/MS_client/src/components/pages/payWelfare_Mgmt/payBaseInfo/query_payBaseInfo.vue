@@ -41,7 +41,7 @@
               <el-table stripe :data="payBaseInfoList" border>
                   <el-table-column align="center" label="工号">
                       <template scope="scope">
-                          <span @click="handlePayBaseInfoDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.userNo }}</span>
+                          <span @click="handlePayBaseInfoDetail(scope.$index, scope.row)" class="link">{{ scope.row.userNo }}</span>
                       </template>
                   </el-table-column>
                   <el-table-column align="center" prop="userName" label="姓名">
@@ -288,4 +288,5 @@ export default {
   background: url(../../../../../static/img/common/template-download0.png);
   margin-right: 20px;
 }
+
 </style>
