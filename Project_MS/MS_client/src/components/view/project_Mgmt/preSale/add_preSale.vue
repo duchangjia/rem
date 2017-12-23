@@ -170,7 +170,7 @@
 	</div>
 </template>
 
-<script type='text/ecmascript-6'>
+<script>
 	import current from "../../../common/current_position.vue";
 	const baseURL = 'iem_hrm';
 	export default {
@@ -192,6 +192,15 @@
 		        } else {
 		          	callback();
 		        }
+	      	};
+	      	var validatorYujiHTMony=(rule,value, callback)=>{
+	      		if(value==''){
+	      			callback(new Error('预计合同金额不能为空'));
+	      		}else if(!Number.isInteger(value)){
+	      			callback(new Error('请输入数字值'));
+	      		}else{
+	      			callback();
+	      		}
 	      	};
 			return {
 				token: {
@@ -254,13 +263,16 @@
 					{label: '调休加班', workotNo: '02'}
 				],
 			 	rules1: {
+			 		yujiHTMony:[
+			 			{required: true, validator: validatorYujiHTMony, trigger: 'change'}
+			 		],
 			 		yujiStartTime: [
 		            	{ required: true, validator: checkWorkotStartTime, trigger: 'change' }
 	          		],
 					yujiEndTime: [
 		            	{ required: true, validator: checkWorkotEndTime, trigger: 'change' }
 	          		],
-		          	yujiHTMony: [
+		          	/*yujiHTMony: [
 		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
 	          		],
 	          		dindanType: [
@@ -268,7 +280,7 @@
 	          		],
 	          		xiangmuDidian: [
 	          			{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
-	          		]
+	          		]*/
                 },
                 rules2: {
 					
@@ -447,7 +459,7 @@
 	};
 </script>
 
-<style>
+<style scoped>
 .add_preSale {
 	padding: 0 0 20px 20px;
 }
@@ -455,4 +467,14 @@
 	width: 400px;
 	margin: 0 auto;
 }
+form>div{
+        min-height:63px;
+    }
+    .queryButton_wrapper{
+        margin: 0px auto 30px;
+        width: 260px;
+        clear: both;
+        font-size: 0px;
+        padding-top: 4px;
+    }
 </style>

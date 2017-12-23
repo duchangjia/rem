@@ -56,6 +56,7 @@
 						<el-table-column prop="projApplySta" label="审批状态" :formatter="projApplyStaFormatter"></el-table-column>
 						<el-table-column prop="projIncmType" label="收入类型" :formatter="projIncmTypeFormatter"></el-table-column>
 						<el-table-column prop="projType" label="项目类型" :formatter="projTypeFormatter"></el-table-column>
+						<el-table-column prop="projSell" label="销售" :formatter="projSellFormatter"></el-table-column>
 						<el-table-column prop="preSaleStartTime" label="预售开始日期" :formatter="preSaleStartTimeFormatter"></el-table-column>
 						<el-table-column prop="preSaleEndTime" label="预售结束日期" :formatter="preSaleEndTimeFormatter"></el-table-column>
 						<el-table-column label="操作" width="100">
@@ -72,7 +73,7 @@
 	</div>
 </template>
 
-<script type='text/ecmascript-6'>
+<script>
 import current from '../../../common/current_position.vue'
 import moment from 'moment'
 const baseURL = 'iem_hrm'
@@ -92,6 +93,7 @@ export default {
 				{
 					jihuihao: "00002",
 					companyName: "",
+					projSell:"丽丽",
 					deptName: "1232",
 					projApplySta: "01", 
 					projIncmType: "01",

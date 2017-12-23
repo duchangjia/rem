@@ -6,10 +6,10 @@
                 <span class="title-text">项目验收</span>
             </div>
             <div class="add-wrapper">
-                <el-form label-width="140px" :inline="true">
+                <el-form :model="proAccept" :rules="rules1" ref="proAccept" label-width="140px" :inline="true">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="项目名称">
-                            <el-input v-model="proAccept.proName"></el-input>
+                            <el-input v-model="proAccept.proName" placeholder="请输入项目名称"></el-input>
                         </el-form-item>
                     </el-col>                   
                     <el-col :sm="24" :md="12">
@@ -55,7 +55,8 @@
                             <el-input v-model="proAccept.pactNumber"></el-input>
                         </el-form-item>
                     </el-col>
-
+                </el-form>
+                <el-form :model="proAcceptInfor" :rules="rules2" ref="proAcceptInfor" label-width="140px" :inline="true">
                     <el-col :span="24" class="item-title">验收信息</el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="项目经理">
@@ -68,7 +69,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col>
-                        <el-form-item label="销售">
+                        <el-form-item label="预计验收时间">
                             <div class="block">
                                 <el-date-picker
                                   v-model="proAcceptInfor.AcceptTime"
@@ -85,7 +86,8 @@
                             <el-input type="textarea" class="b-textarea" v-model="proAcceptInfor.remark"></el-input>
                         </el-form-item>
                     </el-col>
-
+                </el-form>
+                <el-form :model="visitorContact" :rules="rules3" ref="visitorContact" label-width="140px" :inline="true">
                     <el-col :span="24" class="item-title">客户方联系人</el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="客户方联系人">
@@ -93,12 +95,12 @@
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="联系电话">
+                        <el-form-item label="联系电话" prop="contactPhone">
                             <el-input v-model="visitorContact.contactPhone"></el-input>
                         </el-form-item>
                     </el-col>                   
                     <el-col :span="24">
-                        <el-form-item label="联系邮箱">
+                        <el-form-item label="联系邮箱" prop="contactEmall">
                             <el-input v-model="visitorContact.contactEmall"></el-input>
                         </el-form-item>
                     </el-col>
@@ -108,8 +110,7 @@
                             <el-upload
                           ref="upload"
                           class=""
-                          action="https://jsonplaceholder.typicode.com/posts/"
-                         
+                          action="https://jsonplaceholder.typicode.com/posts/"                         
                           :on-preview="handlePreview"
                           :on-remove="handleRemove"
                           multiple
@@ -142,6 +143,29 @@
     // let { queryProjAndSalesInfo,queryProjImpleInfo,queryProjFileInfo} = api
 	export default {
 		data() {
+            //判断邮箱
+            var validateEmall = (rule, value, callback) => {
+                let rexg=/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+                if(!value){
+                    callback();
+                }
+                if(!(rexg.test(value))){
+                     callback(new Error('输入的邮箱不对'));
+                }else{
+                     callback();
+                }
+            };
+            //判断手机号
+            var validatePhone=(rule, value, callback) => {
+                let rexg=/^1[34578]\d{9}$/;
+                if(!value){
+                    callback();
+                }                
+                if(!(rexg.test(this.visitorContact.contactPhone))){
+                    callback(new Error('输入的手机号码不对'));
+                    return false;
+                }
+            };
 			return{
                 proAccept:{
                     proName:'',
@@ -229,6 +253,21 @@
                 },
                 //文件上传
                 fileList:[],
+                rules1:{
+                    
+                },
+                rules2:{
+                    
+                },
+                //验证字段的规则
+                rules3: {
+                  contactEmall: [
+                    { validator: validateEmall, trigger: 'change' }
+                  ],
+                  contactPhone:[
+                    { validator: validatePhone, trigger: 'change' }
+                  ],
+                }
             }
         },
         methods:{
@@ -250,20 +289,67 @@
                 this.loadPage();
               },
               //保存
-              saveAccept(){
-                console.log(this.proAccept)
+              saveAccept() {
+                var self=this;
+                self.$refs.proAccept.validate((valid) => {
+                  if (valid) {
+                    self.$refs.proAcceptInfor.validate((valid) => {
+                      if (valid) {
+                        self.$refs.visitorContact.validate((valid) => {
+                          if (valid) {
+                            alert('submit!');
+                            let param={
+                                proName:this.proAccept.proName,
+                                proNumber:this.proAccept.proNumber,
+                                visitor:this.proAccept.visitor,
+                                serviceManageMode:this.proAccept.serviceManageMode,
+                                proType:this.proAccept.proType,
+                                sureType:this.proAccept.sureType,
+                                estimatedAmount:this.proAccept.estimatedAmount,
+                                pactNumber:this.proAccept.pactNumber,
+                                AcceptTime:this.proAcceptInfor.AcceptTime,
+                                projImpStep:this.proAcceptInfor.projImpStep,
+                                proExplain:this.proAcceptInfor.proExplain,
+                                contactPhone:this.visitorContact.contactPhone,
+                                contactEmall:this.visitorContact.contactEmall,
+                            }
+                            /*self.axios.get(api,{
+                                params:param
+                            })
+                            .then((res)=>{
+                                let res=res.data;
+                                self.proManager=res.proManager;
+                                self.proSell=res.proSell;
+                                self.customerContact=res.customerContact;
+                                self.visitorList=res.visitorList;
+                                self.serviceManageModeList=res.serviceManageModeList;
+                                self.proTypeList=res.proTypeList;
+                                self.sureTypeList=res.sureTypeList;
+                                self.ProjFileList=res.ProjFileList;
+                            })
+                            .catch((err)=>{
+                                console.log(err)
+                            })*/
+                          } else {
+                            console.log('error submit!!');
+                            return false;
+                          }
+                        });
+                      } else {
+                        console.log('error submit!!');
+                        return false;
+                      }
+                    });
+                  } else {
+                    console.log('error submit!!');
+                    return false;
+                  }
+                });
               },
               //上传成功
               handleSuccess(response, file, fileList){
-                //console.log(response, file, fileList)
-                //this.fileList=fileList
-                //clearFiles
                 console.log(file)
-                //this.fileName=file.name
-                /*for(let i=0;i<fileList.length;i++){
-                    console.log(fileList[i].name)    
-                }*/
-                
+
               },
               //进入页面加载固定数据
               loadPage(){
@@ -271,14 +357,21 @@
                 let param={
 
                 }
-                self.axios.get(api,{
+                 /*self.axios.get(api,{
                     params:{
 
                     }
                 })
                 .then((res)=>{
+                   let res=res.data;
+                    self.proManager=res.proManager;
+                    self.proSell=res.proSell;
+                    self.customerContact=res.customerContact;
 
                 })
+                .catch((err)=>{
+                    console.log(err)
+                })*/
               }
         },
         created(){

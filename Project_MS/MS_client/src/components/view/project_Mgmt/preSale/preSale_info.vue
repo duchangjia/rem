@@ -9,13 +9,13 @@
 			<div class="add-wrapper">
 				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="130px">
 					<el-col :sm="24" :md="12">
-						<el-form-item label="项目名称">
-							<el-input v-model="formdata1.projName"></el-input>
+						<el-form-item label="项目名称" >
+							<el-input v-model="formdata1.projName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="收入类型">
-							<el-select v-model="formdata1.projIncmType">
+							<el-select v-model="formdata1.projIncmType" :disabled="true">
 								<el-option v-for="item in projIncmTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
