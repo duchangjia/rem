@@ -277,8 +277,9 @@ export default {
         this.$message({ type: "success", message: "操作成功!" });
         if (this.pactSubFlag == "true") {
           this.$router.push("/detail_contract");
+        } else {
+          this.$router.push("/query_contract");
         }
-        this.$router.push("/query_contract");
       } else this.$message.error(res.retMsg);
     },
     handleSave(pactMsgRules) {
@@ -297,9 +298,10 @@ export default {
                     type: "success",
                     message: "操作成功!"
                   });
-                  this.$router.push("/query_contract");
                   if (this.pactSubFlag == "true") {
                     this.$router.push("/detail_contract");
+                  } else {
+                    this.$router.push("/query_contract");
                   }
                 } else this.$message.error(res.data.retMsg);
               })

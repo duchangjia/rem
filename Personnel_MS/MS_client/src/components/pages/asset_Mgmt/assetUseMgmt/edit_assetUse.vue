@@ -17,21 +17,20 @@
                     :inline="true">
                         <el-col :sm="24" :md="12">
                             <el-form-item label="公司名称">
-                                <el-select placeholder="请选择公司名称" :disabled="true" v-model="applyCompanyInfo.organName">
-                                    <el-option :label="applyCompanyInfo.organName" :value="applyCompanyInfo.organName"></el-option>
-                                </el-select>
+                                <el-input v-model="applyCompanyInfo.organName" :disabled="true">
+                                </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :sm="24" :md="12">
                             <el-form-item label="申请部门名称">
-                                <el-select placeholder="请选择申请部门名称" :disabled="true" v-model="applyCompanyInfo.derpName">
-                                </el-select>
+                                <el-input v-model="applyCompanyInfo.derpName" :disabled="true">
+                                </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :sm="24" :md="12">
                             <el-form-item label="CCC">
-                                <el-select placeholder="请选择CCC" :disabled="true" v-model="applyCompanyInfo.ccc">
-                                </el-select>
+                                <el-input v-model="applyCompanyInfo.ccc" :disabled="true">
+                                </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :sm="24" :md="12">
@@ -52,12 +51,16 @@
                         </el-col>
                         <el-col :sm="24" :md="12">
                             <el-form-item label="岗位">
-                                <el-input :disabled="true" v-model="applyCompanyInfo.custPost"></el-input>
+                                <el-select :disabled="true" v-model="applyCompanyInfo.custPost">
+                                    <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                         <el-col :sm="24" :md="12">
                             <el-form-item label="职级">
-                                <el-input :disabled="true" v-model="applyCompanyInfo.custClass"></el-input>
+                                <el-select :disabled="true" v-model="applyCompanyInfo.custClass">
+                                    <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                                </el-select>
                             </el-form-item>
                         </el-col>
                     <!-- </el-form> -->
@@ -217,7 +220,9 @@ export default {
         applyType: ""
       },
       applyUserInfo: {},
-      assetInfo: {}
+      assetInfo: {},
+      custPostList: [],
+      custClassList: []
     };
   },
   filters: {},
@@ -227,8 +232,8 @@ export default {
     self.$axios
       .get(getAssetUseByApplyNo + applyNo)
       .then(res => {
-        
         self.applyCompanyInfo = res.data;
+        console.log("applyCompanyInfo", self.applyCompanyInfo);
         switch (this.applyCompanyInfo.assetType) {
           case "01":
             this.applyCompanyInfo.assetType = "办公用品";
@@ -246,112 +251,57 @@ export default {
             this.applyCompanyInfo.assetType = "数码相机";
             break;
         }
+        switch (this.applyCompanyInfo.ccc) {
+          case "01":
+            this.applyCompanyInfo.ccc = "管理CCC";
+            break;
+          case "02":
+            this.applyCompanyInfo.ccc = "售前CCC";
+            break;
+          case "03":
+            this.applyCompanyInfo.ccc = "项目CCC";
+            break;
+        }
       })
       .catch(e => {
         console.log(e);
       });
+    self.getCustPostList(); //查询岗位列表
+    self.getCustClassList(); //查询职级列表
   },
   methods: {
-    // getUserInfo() {
-    //     let self = this,
-    //         applyUserNo = this.applyCompanyInfo.applyUserNo;
-    //         console.log(applyUserNo)
-    //     this.$axios.get('/iem_hrm/assetUse/queryAssetUserByApplyUserNo/'+applyUserNo)
-    //         .then(res=>{
-    //             let resData = res.data.data;
-    //             console.log(resData);
-    //             if(resData == null){
-    //                 self.$message({
-    //                     message:res.data.retMsg,
-    //                     type: 'error'
-    //                 });
-    //                 this.applyCompanyInfo.organName = ''
-    //                 this.applyCompanyInfo.derpName = ''
-    //                 this.applyCompanyInfo.ccc = ''
-    //                 this.applyCompanyInfo.custName = ''
-    //                 this.applyCompanyInfo.mobileNo = ''
-    //                 this.applyCompanyInfo.custPost = ''
-    //                 this.applyCompanyInfo.custClass = ''
-    //                 this.applyCompanyInfo.applyUserNo  = applyUserNo
-    //                 return
-    //             }
-    //             this.applyCompanyInfo.organName = resData.organName
-    //             this.applyCompanyInfo.derpName = resData.derpName
-    //             this.applyCompanyInfo.ccc = resData.ccc
-    //             this.applyCompanyInfo.custName = resData.custName
-    //             this.applyCompanyInfo.mobileNo = resData.mobileNo
-    //             this.applyCompanyInfo.custPost = resData.custPost
-    //             this.applyCompanyInfo.custClass = resData.custClass
-    //             this.applyCompanyInfo.applyUserNo  = applyUserNo
-
-    //         })
-    //         .catch(e=>{
-    //             // this.applyUserInfo = {}
-    //             self.$message({
-    //                 message:e.retMsg,
-    //                 type: 'error'
-    //             });
-    //             console.log(e)
-    //         })
-    // },
-    // getAssetInfo() {
-    //     let self = this,
-    //        assetNo = this.applyCompanyInfo.assetNo;
-    //     console.log(assetNo)
-    //     this.$axios.get('/iem_hrm/assetUse/queryAssetUserByAssetNo/'+assetNo)
-    //         .then(res=>{
-    //             let resData = res.data.data
-    //              if(resData == null){
-    //                 self.$message({
-    //                     message: res.data.retMsg,
-    //                     type: 'error'
-    //                 });
-    //                 this.applyCompanyInfo.buyUnitPrice = ''
-    //                 this.applyCompanyInfo.stockNum = ''
-    //                 this.applyCompanyInfo.buyAmount = ''
-    //                 this.applyCompanyInfo.mfrs = ''
-    //                 this.applyCompanyInfo.supplier = ''
-    //                 this.applyCompanyInfo.assetType = ''
-    //                 this.applyCompanyInfo.assetName = ''
-    //                 this.applyCompanyInfo.snNo = ''
-    //                 this.applyCompanyInfo.specType = ''
-    //                 this.applyCompanyInfo.factoryTime = ''
-    //                 this.applyCompanyInfo.faxFreeTime = ''
-    //                 this.applyCompanyInfo.remark = ''
-    //                 this.applyCompanyInfo.assetNo = assetNo
-    //                 return;
-    //             }
-
-    //             this.applyCompanyInfo.buyUnitPrice = resData.buyUnitPrice
-    //             this.applyCompanyInfo.stockNum = resData.stockNum
-    //             this.applyCompanyInfo.buyAmount = resData.buyAmount
-    //             this.applyCompanyInfo.mfrs = resData.mfrs
-    //             this.applyCompanyInfo.supplier = resData.supplier
-    //             this.applyCompanyInfo.assetType = resData.assetType
-    //             this.applyCompanyInfo.assetName = resData.assetName
-    //             this.applyCompanyInfo.snNo = resData.snNo
-    //             this.applyCompanyInfo.specType = resData.specType
-    //             this.applyCompanyInfo.factoryTime = resData.factoryTime
-    //             this.applyCompanyInfo.faxFreeTime = resData.faxFreeTime
-    //             this.applyCompanyInfo.remark = resData.remark
-    //             this.applyCompanyInfo.assetNo = assetNo
-    //             console.log(this.applyCompanyInfo, this.assetInfo)
-    //         })
-    //         .catch(e=>{
-    //             this.assetInfo = {}
-    //             self.$message({
-    //                 message:e.retMsg,
-    //                 type: 'error'
-    //             });
-    //             console.log(e)
-    //         })
-    // },
     changeDate() {
       let applyTime = moment(this.applyCompanyInfo.applyTime).format(
         "YYYY-MM-DD"
       );
       this.applyCompanyInfo.applyTime = applyTime.toString();
       console.log(applyTime);
+    },
+    getCustPostList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custPostList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
+    getCustClassList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custClassList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
     },
     save() {
       let self = this;
