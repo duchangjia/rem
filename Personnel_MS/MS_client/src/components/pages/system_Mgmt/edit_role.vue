@@ -140,9 +140,10 @@ export default {
 
           self.roleDetail.roleFuncSet.forEach(function(ele) {
              self.checkFuncs.push(ele.bsnNo);
-             self.editRoleMsg.roleFuncSet.push({ bsnNo: ele });
+             self.editRoleMsg.roleFuncSet.push({ bsnNo: ele.bsnNo });
           }, this);
-          console.log("選中的功能：" , self.checkFuncs);
+          console.log("当前选中的功能：", self.checkFuncs);
+          console.log("当前的roleFuncSet：", self.editRoleMsg.roleFuncSet);
 
         })
         .catch(() => {
