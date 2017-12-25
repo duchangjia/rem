@@ -1835,8 +1835,8 @@
                                 .el-date-editor
                                     width 200px
                                 .el-textarea
-                                    width: 99.5%;
-                                    max-width: 1013px;
+                                        width: 98.5%;
+                                        max-width: 1024px;
                                 .el-textarea__inner
                                     width: 100%
                                     height: 120px
