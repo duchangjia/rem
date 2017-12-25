@@ -50,7 +50,7 @@ export default {
     getRoleList() {
       const self = this;
       let params = {
-        pageNum: self.pageNum || 1,
+        pageNum: self.pageNum,
         pageSize: self.pageSize
       };
       self.$axios
@@ -58,8 +58,7 @@ export default {
         .then((res) => {
           console.log('roleList',res);
           self.roleListInfo = res.data.data.models;
-          self.pageNum = Number(res.data.data.pageNum);
-          self.totalRows = Number(res.data.data.total);
+          self.totalRows = res.data.data.total;
         })
         .catch(() => {
           console.log("error");
@@ -80,9 +79,6 @@ export default {
       this.$router.push("/edit_role");
     },
     handleDelete(index, row) {
-      let targetRole = {};
-      targetRole.roleNo = row.roleNo;
-      console.log(targetRole);
       this.$confirm("此操作将会删除该条角色, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -90,10 +86,7 @@ export default {
       })
         .then(() => {
           this.$axios
-            .delete(
-              "/iem_hrm/role/deleteRoleInfo?roleNo=" + row.roleNo,
-              targetRole
-            )
+            .delete( "/iem_hrm/role/deleteRoleInfo?roleNo=" + row.roleNo )
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000") {

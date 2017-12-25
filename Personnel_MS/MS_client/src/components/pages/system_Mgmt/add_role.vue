@@ -236,13 +236,17 @@ export default {
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
                 this.$router.push("/management_role");
-              } else this.$message.error("操作失败！");
+              } else this.$message.error(res.data.retMsg);
             })
             .catch(() => {
               this.$message.error("操作失败！");
             });
         } else {
           console.log("error submit!!");
+          this.$message({
+            type: "error",
+            message: "请确保必填信息填写正确!"
+          });
           return false;
         }
       });
