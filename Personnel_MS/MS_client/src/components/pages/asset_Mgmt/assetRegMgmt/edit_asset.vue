@@ -106,12 +106,12 @@
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="出厂时间" prop="factoryTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="assetInfoDetail.factoryTime" @change="pickFactoryTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="assetInfoDetail.factoryTime" @change="pickFactoryTime" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="免维保截止时间" prop="faxfreeTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="assetInfoDetail.faxfreeTime" @change="pickFaxfreeTime" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="assetInfoDetail.faxfreeTime" @change="pickFaxfreeTime" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">

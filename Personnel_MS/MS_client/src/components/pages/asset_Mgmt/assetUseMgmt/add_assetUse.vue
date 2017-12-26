@@ -165,6 +165,7 @@
                                 <!-- <el-input v-model="applyInfo.applyTime"></el-input> -->
                                 <el-date-picker
                                     v-model="applyInfo.applyTime"
+                                     :editable="false"
                                     type="date"
                                     placeholder="选择日期"
                                     @change="changeDate()"

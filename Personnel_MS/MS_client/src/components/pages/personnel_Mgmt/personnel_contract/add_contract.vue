@@ -65,18 +65,18 @@
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="签订日期" prop="signTime">
-              <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.signTime" @change="signTimeChange" style="width: 100%;"></el-date-picker>
+              <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="addPactMsg.signTime" @change="signTimeChange" style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="合同开始日期" prop="pactStartTime">
-              <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStartTime" :picker-options="pactStartTimeOption" @change="pactStartTimeChange"
+              <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="addPactMsg.pactStartTime" :picker-options="pactStartTimeOption" @change="pactStartTimeChange"
                 style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="合同结束日期" prop="pactEndTime">
-              <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactEndTime" :picker-options="pactEndTimeOption" @change="pactEndTimeChange"
+              <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="addPactMsg.pactEndTime" :picker-options="pactEndTimeOption" @change="pactEndTimeChange"
                 style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
@@ -98,7 +98,7 @@
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="终止日期" prop="pactStopTime">
-              <el-date-picker type="date" placeholder="选择日期" v-model="addPactMsg.pactStopTime" :picker-options="pactStopTimeOption" @change="pactStopTimeChange"
+              <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="addPactMsg.pactStopTime" :picker-options="pactStopTimeOption" @change="pactStopTimeChange"
                 style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
