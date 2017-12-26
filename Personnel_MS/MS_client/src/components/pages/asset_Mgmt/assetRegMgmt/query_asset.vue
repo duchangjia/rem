@@ -55,7 +55,7 @@
               <el-table stripe :data="assetInfoList" border>
                 <el-table-column align="center" label="资产编号">
                     <template scope="scope">
-                        <span @click="handleAssetInfoDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.assetNo }}</span>
+                        <span @click="handleAssetInfoDetail(scope.$index, scope.row)" class="link">{{ scope.row.assetNo }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" prop="assetType" label="资产类型" :formatter="assetTypeFormatter">
