@@ -630,16 +630,24 @@ export default {
               this.payBaseInfoRules.remark = [];
             }
           } else {
-            sessionStorage.setItem("addPayBaseInfo_custClass",this.custInfo.custClass); // 暂存当前用户职级
-            this.$confirm(res.data.retMsg + " 职级是:" + this.custInfo.custClass +"。可能将导致薪酬基数新增失败，请先前往设置该职级薪酬标准模板。", "提示", {
-              type: "warning"
-            })
+            sessionStorage.setItem(
+              "addPayBaseInfo_custClass",
+              this.custInfo.custClass
+            ); // 暂存当前用户职级
+            this.$confirm(
+              res.data.retMsg +
+                " 职级是:" +
+                this.custInfo.custClass +
+                "。可能将导致薪酬基数新增失败，请先前往设置该职级薪酬标准模板。",
+              "提示",
+              {
+                type: "warning"
+              }
+            )
               .then(() => {
-                this.$router.push('/add_rank');
+                this.$router.push("/add_rank");
               })
-              .catch(() => {
-              });
-
+              .catch(() => {});
           }
         })
         .catch(() => {
@@ -678,7 +686,11 @@ export default {
       console.log("upload_response", res);
       if (res.code == "S00000") {
         this.$message({ type: "success", message: "操作成功!" });
-        this.$router.push("/payBaseInfo_setting");
+        if (sessionStorage.getItem("addPayChangeInfo_custInfo")) {
+          this.$router.push("/add_payChangeInfo");
+        } else {
+          this.$router.push("/payBaseInfo_setting");
+        }
       } else this.$message.error(res.retMsg);
     },
     handleSave() {
@@ -735,7 +747,11 @@ export default {
               console.log(res);
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/payBaseInfo_setting");
+                if (sessionStorage.getItem("addPayChangeInfo_custInfo")) {
+                  this.$router.push("/add_payChangeInfo");
+                } else {
+                  this.$router.push("/payBaseInfo_setting");
+                }
               } else this.$message.error(res.data.retMsg);
             })
             .catch(() => {

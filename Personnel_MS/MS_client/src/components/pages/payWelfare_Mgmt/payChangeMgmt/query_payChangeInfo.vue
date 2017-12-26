@@ -134,12 +134,7 @@ export default {
       this.getPayChangeInfoList(); //根据条件查询调薪基数列表
     },
     handleAdd() {
-      this.$router.push({
-        name: "add_payChangeInfo",
-        params: {
-          userNo: this.userNo
-        }
-      });
+      this.$router.push("/add_payChangeInfo");
     },
     handlePayChangeInfoDetail(index, row) {
       sessionStorage.setItem('payChangeInfo_applyNo', row.applyNo); // 暂存当前applyNo
