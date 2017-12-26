@@ -544,22 +544,25 @@ export default {
     wagesBaseChange(event) {
       console.log("填入的基本工资", this.editPayBaseInfo.wagesBase);
       console.log("wagesBase类型", typeof this.editPayBaseInfo.wagesBase);
-      const self = this;
-      let userNo = self.custInfo.userNo;
-      self.$axios
+      let userNo = this.custInfo.userNo;
+      this.$axios
         .get("/iem_hrm/pay/querUserSalaryTop/" + userNo)
         .then(res => {
-          self.salaryTop = res.data.data;
-          console.log("salaryTop", self.salaryTop);
-          if (Number(this.editPayBaseInfo.wagesBase) > self.salaryTop) {
-            this.payBaseInfoRules.remark = [];
-            this.payBaseInfoRules.remark.push({
-              required: true,
-              message: "请输入薪资超限说明",
-              trigger: "blur"
-            });
+          if (res.data.code == "S00000") {
+            this.salaryTop = res.data.data;
+            console.log("salaryTop", this.salaryTop);
+            if (Number(this.editPayBaseInfo.wagesBase) > this.salaryTop) {
+              this.payBaseInfoRules.remark = [];
+              this.payBaseInfoRules.remark.push({
+                required: true,
+                message: "请输入薪资超限说明",
+                trigger: "blur"
+              });
+            } else {
+              this.payBaseInfoRules.remark = [];
+            }
           } else {
-            this.payBaseInfoRules.remark = [];
+            this.$message.error(res.data.retMsg);
           }
         })
         .catch(() => {
