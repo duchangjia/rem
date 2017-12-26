@@ -5,13 +5,13 @@
 			<contentTitle titleTxt="有薪假期查询"></contentTitle>
 			<div class="msg-list">
                 <el-row :gutter="20">
-                    <el-col :span="4" class="head-img-box">
+                    <el-col :span="6" class="head-img-box">
                         <div class="imgUserHead"><img v-if="imageUrl" :src="imageUrl" alt=""></div>
                     </el-col>
-                    <el-col :span="16">
+                    <el-col :span="15">
                        <el-form :inline="true" class="msg-form">
                             <el-col :sm="24" :md="12" v-for="(item,index) in msgList" >
-                                <el-form-item :label="item.label" class="no-border-input">
+                                <el-form-item :label="item.label" class="no-border-input short-label">
                                     <el-input v-model="item.val" readonly="readonly" ></el-input>
                                 </el-form-item>
 					        </el-col>
@@ -162,8 +162,8 @@ export default {
         }
         .el-form-item{
             margin-bottom:0;
-            padding-top:10px;
-            width:300px;
+            // padding-top:10px;
+            // width:300px;
         }
         .msg-form{
             position: relative;

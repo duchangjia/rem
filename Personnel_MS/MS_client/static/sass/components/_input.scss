@@ -69,14 +69,23 @@
       padding:0;
       height:36px;
       line-height:36px;
-      min-width:110px;
+      width: 100px;
       margin-right:20px;
   }
   .el-input__inner{
       border:none;
       padding:0;
   }
+  .el-form-item__content {
+    line-height: inherit;
+  }
 }
+.no-border-input.short-label {
+  .el-form-item__label {
+    max-width: 60px;
+  }
+}
+
 //select
 .el-select{
   &.m-select{
