@@ -87,7 +87,7 @@
                 <el-form :inline="true" :model="editPChangeMsg" :rules="pactMsgRules" ref="pactMsgRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="变更时间" prop="changeTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="editPChangeMsg.changeTime" @change="changeTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="editPChangeMsg.changeTime" @change="changeTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">

@@ -87,7 +87,7 @@
                 <el-form :inline="true" :model="addPRenewMsg" :rules="pactMsgRules" ref="pactMsgRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="续签时间" prop="renewTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPRenewMsg.renewTime" @change="renewTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="addPRenewMsg.renewTime" @change="renewTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -100,12 +100,12 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="续签生效时间" prop="renewCameTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPRenewMsg.renewCameTime" :picker-options="renewCameTimeOption" @change="renewCameTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="addPRenewMsg.renewCameTime" :picker-options="renewCameTimeOption" @change="renewCameTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="续签失效时间" prop="renewLostTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPRenewMsg.renewLostTime" :picker-options="renewLostTimeOption" @change="renewLostTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="addPRenewMsg.renewLostTime" :picker-options="renewLostTimeOption" @change="renewLostTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
