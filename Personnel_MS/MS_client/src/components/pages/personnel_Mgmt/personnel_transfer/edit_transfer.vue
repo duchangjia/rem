@@ -50,7 +50,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新公司名称" prop="newOrgId">
 						    <el-select v-model="formdata.newOrgId" @change="changeComp" :disabled=disabledFlag>
-								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+								<el-option v-for="item in compListAll" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
@@ -61,7 +61,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新部门名称" prop="newDeprtId">
-						    <el-select v-model="formdata.newDeprtId" :disabled=disabledFlag>
+						    <el-select v-model="formdata.newDeprtId" @change="changeDerp" :disabled=disabledFlag>
 								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -73,9 +73,12 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新直线经理" prop="newLineManager">
-						    <el-input v-model="formdata.newLineManager" @change="newLineManagerChange" :disabled=disabledFlag >
+							<el-select v-model="formdata.newLineManager" :disabled=disabledFlag>
+								<el-option v-for="item in userList" :key="item.userNo" :label="item.userNo" :value="item.userNo"></el-option>
+							</el-select>
+						    <!-- <el-input v-model="formdata.newLineManager" @change="newLineManagerChange" :disabled=disabledFlag >
 								<el-button slot="append" icon="search" @click="userNoSelect"></el-button>
-							</el-input>
+							</el-input> -->
 					  		<messageBox 
                                 :title="boxTitle"
                                 :tableOption.sync="tableOption"  
@@ -162,10 +165,12 @@
 			var checkNewLineManager = (rule, value, callback) => {
 		        if (value == '') {
 		          	callback(new Error('直线经理不能为空'));
-		        } else if (!this.newLineManagerFlag) {
-					console.log('newLineManagerFlag',this.newLineManagerFlag)
-		          	callback(new Error('请输入正确的直线经理工号'));
-		        } else {
+				} 
+				// else if (!this.newLineManagerFlag) {
+				// 	console.log('newLineManagerFlag',this.newLineManagerFlag)
+		        //   	callback(new Error('请输入正确的直线经理工号'));
+				// }
+				 else {
 		          	callback();
 		        }
 	      	};
@@ -178,12 +183,17 @@
 				newLineManagerFlag: true,//判断新直线经理是否存在标志
 				disabledFlag: false, //判断调动类型是否工资调整
 				triRemoveFlag: true,
+				changeCompStepFlag: true,
 				//员工信息
 				formdata: {},
 				//部门列表
 				departList: [],
 				//公司列表
 				compList: [],
+				//所有公司列表
+				compListAll: [],
+				//员工列表
+				userList: [],
 				//岗位列表
 				custPostList: [],
 				//职级列表
@@ -240,6 +250,8 @@
 			this.queryCustShifthisInfo();
 			//查询公司列表
 			this.queryCompList();
+			//查询所有公司列表
+			this.queryAllCompList();
 			//查询岗位列表
 			this.queryCustPostList();
 			//查询职级列表
@@ -279,8 +291,27 @@
 	            let params = {
 					organNo: value
 				}
-	            //查询部门列表
-				this.queryDerpList(params);
+				//查询部门列表
+				this.queryDerpList(params);	
+				sessionStorage.setItem('editTransfer_organNo', value);
+				if(this.changeCompStepFlag){
+					this.changeCompStepFlag = false;
+				}else {
+					this.formdata.newDeprtId = '';
+					this.formdata.newLineManager = '';
+					this.formdata.newPost = '';
+					this.formdata.newClass = '';
+					this.userList = [];
+				}
+			},
+			changeDerp(val) {
+				let organNo = sessionStorage.getItem('editTransfer_organNo');
+				let params = {
+					organNo: organNo,
+					derpNo: val
+				};
+				//查询员工列表
+				this.queryUserList(params);
 			},
 			changeShiftType(val) {
 				console.log('shiftType',val);
@@ -549,6 +580,19 @@
 					console.log(err);
 				})
 			},
+			queryAllCompList() {
+				let self = this;
+				self.$axios.get(baseURL+'/organ/queryAllCompany')
+				.then((res) => {
+					console.log('All',res);
+					if(res.data.code == "S00000") {
+						self.compListAll = res.data.data;
+					}
+					
+				}).catch((err) => {
+					console.log(err);
+				})
+			},
 			queryDerpList(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
@@ -556,6 +600,19 @@
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.departList = res.data.data;
+					}
+					
+				}).catch((err) => {
+					console.log(err);
+				})
+			},
+			queryUserList(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/CustInfo/queryAllCust', {params: params})
+				.then((res) => {
+					console.log('userList',res);
+					if(res.data.code === "S00000") {
+						self.userList = res.data.data;
 					}
 					
 				}).catch((err) => {

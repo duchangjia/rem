@@ -171,6 +171,7 @@
 			handleTransfer(index, row) {
 				const self = this;
 				sessionStorage.setItem('transfer_userNo', row.userNo);
+				sessionStorage.setItem('transfer_custStatus',row.custStatus);
 				this.$router.push({
 					name: "detail_transfer",
 					params: {
@@ -182,6 +183,7 @@
 			//员工离职
 			handDimission(index, row) {
 				sessionStorage.setItem('dimission_userNo', row.userNo);
+				sessionStorage.setItem('dimission_custStatus',row.custStatus);
 				this.$router.push({
 					name: "detail_dimission",
 					params: {
@@ -209,15 +211,15 @@
 					self.pageNum = params.pageNum;
 					self.totalRows = Number(res.data.data.total);
 					
-					// self.pactListInfo.forEach(function(ele,index) {
-					// 	if(ele.custStatus == '01' || ele.custStatus == '02') {
-					// 		self.handleTransferFlag[index] = false;
-					// 		self.handDimissionFlag[index] = false;
-					// 	} else {
-					// 		self.handleTransferFlag[index] = true;
-					// 		self.handDimissionFlag[index] = true;
-					// 	}
-					// })
+					self.pactListInfo.forEach(function(ele,index) {
+						if(ele.custStatus == '03' || ele.custStatus == '04') {
+							self.handleTransferFlag[index] = true;
+							// self.handDimissionFlag[index] = true;
+						} else {
+							self.handleTransferFlag[index] = false;
+							// self.handDimissionFlag[index] = false;
+						}
+					})
 				}).catch(function(err) {
 					console.log(err);
 				})
@@ -232,5 +234,8 @@
 }
 .query_transfer .el-button + .el-button {
 	margin-left: 20px;
+}
+.queryContent_wrapper .queryContent_inner .el-table .el-button--text.is-disabled {
+    color: #bfcbd9;
 }
 </style>

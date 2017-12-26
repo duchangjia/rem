@@ -5,7 +5,7 @@
 			<div class="titleBar">
 				<span class="title-text">员工离职明细查询</span>
 				<div class="titleBtn_wrapper">
-					<el-button class="btn-primary" @click="handleAddTransfer()">新增</el-button>
+					<el-button class="btn-primary" :disabled=addDimissionFlag @click="handleAddTransfer()">新增</el-button>
 				</div>
 			</div>
 			<div class="queryContent_inner">
@@ -94,6 +94,7 @@ export default {
 			pageNum: 1,
 			pageSize: 10,
 			totalRows: 1,
+			addDimissionFlag: false,
 			ruleForm2: {
 				organNo: '',
 				derpNo: '',
@@ -141,6 +142,12 @@ export default {
 		current
 	},
 	created() {
+		var custStatus = sessionStorage.getItem('dimission_custStatus');
+		if(custStatus === '03' || custStatus === '04') {
+			this.addDimissionFlag = true;
+		}else {
+			this.addDimissionFlag = false;
+		}
 		this.ruleForm2.startTime = '';
 		this.ruleForm2.endTime = '';
 		//查询离职列表
