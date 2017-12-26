@@ -78,8 +78,8 @@
 	                    <el-row :gutter="20">
 	                        <el-col :span="6" v-for="(depart, index) in checkedSubmenus" :key="index">
 	                            <div class="funcs-content">
-	                                <el-checkbox v-model="checkPresAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ depart.derpName }}</el-checkbox>
-	                                <el-checkbox-group v-model="checkPres" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
+	                                <el-checkbox v-model="checkPresAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index,depart.preRangeList)" class="func-checkall">{{ depart.derpName }}</el-checkbox>
+	                                <el-checkbox-group v-model="checkPres" @change="handleCheckedFuncsChange($event,index,depart.preRangeList)"  class="func-item">
 	                                    <el-checkbox v-for="item in depart.preRangeList" :key="item.userNo" :label="item.userNo" v-bind:title="item.custName" >{{ item.custName }}</el-checkbox>
 	                                </el-checkbox-group>
 	                            </div>
@@ -134,7 +134,8 @@
 				checkSubAllFlag: false,
 		      	checkPres: [],
 		      	isFuncsIndeterminate: {},
-      			
+				preSrange: [],//人员反显中间存储
+
 				formdata2: {},
 				//类别列表
 				batchTypeList: [
@@ -249,7 +250,7 @@
 		      	this.queryDerpAndUser(params);
 		    },
 		    // 人员范围 多选
-		    handleFuncsAllChange(event, index) {
+		    handleFuncsAllChange(event, index,MpreRangeList) {
 		      this.checkPresAll[index] = event.target.checked;
 		      let targetFucsList = [];
 		      this.checkedSubmenus[index].preRangeList.forEach(function(ele) {
@@ -266,7 +267,9 @@
 		          }
 		        }, this);
 		      } else {
-		        this.$set(this.isFuncsIndeterminate, index, false);
+				this.$set(this.isFuncsIndeterminate, index, false);
+				// this.formdata2.derpRange.splice(index, 1);//没有选择人员时去掉相应部门
+				// this.checkedSubmenus = this.formdata2.derpRange;
 		        targetFucsList.forEach(function(ele, index) {
 		          if (JSON.stringify(this.formdata2.preRange).indexOf(ele) != -1) {
 		            this.formdata2.preRange.splice(JSON.stringify(this.formdata2.preRange).indexOf(ele)-1, 1);
@@ -275,25 +278,29 @@
 		            this.checkPres.splice(this.checkPres.indexOf(ele), 1);
 		          }
 		        }, this);
-		      }
+			  }
+			  console.log("这是全选人员的derpRange", this.formdata2.derpRange);
 		      console.log("这是全选的checkPres", this.checkPres);
-		      console.log("preRange", this.formdata2.preRange);
+		      console.log("这是全选的preRange", this.formdata2.preRange);
 		    },
-		    handleCheckedFuncsChange(val, index) {
+		    handleCheckedFuncsChange(val, index,MpreRangeList) {
 		    	console.log('val',val)
 		      if (val.length == this.checkedSubmenus[index].preRangeList.length) {
 		        this.checkPresAll[index] = true;
 		        this.$set(this.isFuncsIndeterminate, index, true);
 		      } else {
 		        this.checkPresAll[index] = false;
-		        this.$set(this.isFuncsIndeterminate, index, false);
+				this.$set(this.isFuncsIndeterminate, index, false);
+				// this.formdata2.derpRange.splice(index, 1);//没有选择人员时去掉相应部门
+				// this.checkedSubmenus = this.formdata2.derpRange;
 		      }
 		      this.formdata2.preRange = [];
 		      val.forEach(function(ele) {
 		        this.formdata2.preRange.push(ele);
-		      }, this);
-		      console.log("checkPres", this.checkPres);
-		      console.log("this.formdata2.preRange", this.formdata2.preRange);
+			  }, this);
+			  console.log("这是单选人员的derpRange", this.formdata2.derpRange);
+		      console.log("这是单选人员的checkPres", this.checkPres);
+		      console.log("这是单选人员的preRange", this.formdata2.preRange);
 		    },
 	      	save(formName) {
 				const self = this;
@@ -312,10 +319,20 @@
 			        		derpRanges = self.formdata2.derpRange;
 			        		derpRange = self.formdata2.derpRange;
 			        	}
+						let checkObj = {};
+						console.log('self.formdata2.preRange',self.formdata2.preRange)
 			        	self.formdata2.preRange.forEach(function(ele) {
+							console.log('pre ele', ele);
 			        		preRanges.push(ele.userNo);
-			        		preRange.push(ele.userNo);
-			        	},this); 
+							preRange.push(ele.userNo);
+							// if(JSON.stringify(checkObj).indexOf(ele.derpNo) == -1) {
+							// 	console.log('true')
+							// 	checkObj.derpNo = ele.derpNo;
+							// 	derpRanges.push(ele.derpNo);
+							// 	derpRange.push(ele.derpNo);
+							// }
+						},this); 
+						
 			        	if(self.checkPres.length>0) {
 			        		let params = {
 	        					batchNo: self.formdata2.batchNo,
@@ -351,8 +368,13 @@
 						self.formdata2 = res.data.data;
 						self.formdata2.preRange = JSON.parse(self.formdata2.preRange);
 						self.formdata2.derpRange = JSON.parse(self.formdata2.derpRange);
-				      	//人员范围（反显）
-				      	self.checkPres = self.formdata2.preRange;
+						// let range = [];
+						// self.formdata2.preRange.forEach(function(ele) {
+						// 	range.push({userNo: ele})
+						// })
+				      	// 人员范围（反显）
+						  self.checkPres = self.formdata2.preRange;
+						  console.log('人员反显的checkPres',self.checkPres)
 					}
 					
 				}).catch((err) => {
@@ -378,9 +400,24 @@
 				self.$axios.get(baseURL+'/wage/queryDerpAndUserByDerpNo', {params: params})
 				.then((res) => {
 					if(res.data.code === "S00000") {
+						// let preSrange = [];
+						res.data.data.forEach(function(ele) {
+							console.log('renyuan ele' ,ele);
+							if(JSON.stringify(self.formdata2.preRange).indexOf(ele.userNo) != -1) {
+								console.log('renyuan true');
+								if(JSON.stringify(self.preSrange).indexOf(JSON.stringify(ele)) ==-1){
+									self.preSrange.push(ele);
+								}
+								
+							}
+						})
+				      	// //人员范围（反显）
+						//   self.checkPres = self.preSrange;
+						//   console.log('人员反显的checkPres',self.checkPres)
+
 						if(self.checkSubAllFlag) {//查全部人员时
-							console.log('self.checkSubAllFlag',self.checkSubAllFlag);
-							console.log('查全部人员时的userList',res);
+							// console.log('self.checkSubAllFlag',self.checkSubAllFlag);
+							// console.log('查全部人员时的userList',res);
 							self.derpRangeList.forEach(function(ele,num) {
 								ele.preRangeList = [];
 							})
@@ -390,64 +427,30 @@
 							self.derpRangeList.forEach(function(ele,num) {
 								res.data.data.forEach(function(elem1, index1) {
 									if(self.derpRangeList[num].derpNo == elem1.derpNo) {
-										console.log(self.derpRangeList[num].derpNo+'-----'+elem1.derpNo);
+										// console.log(self.derpRangeList[num].derpNo+'-----'+elem1.derpNo);
 										self.derpRangeList[num].preRangeList.push(elem1);
 										self.$set(self.derpRangeList, num, self.derpRangeList[num]);
 									}else {
-										console.log('derpNo false')
+										// console.log('derpNo false')
 									}
 
 								})
 							})
-							// self.formdata2.derpRange.forEach(function(ele,num) {
-							// 	res.data.data.forEach(function(elem1, index1) {
-							// 		if(ele.derpNo == elem1.derpNo) {
-							// 			self.formdata2.derpRange[num].preRangeList.push(elem1);
-							// 			self.$set(self.formdata2.derpRange,num,self.formdata2.derpRange[num]);
-							// 		}else {
-							// 			console.log('formdata2 false')
-							// 		}
-							// 	})
-							// })
 						} else {//查单个部门人员时
-							console.log('self.checkSubAllFlag',self.checkSubAllFlag);
-							console.log('查单个部门人员时的userList',res);
+							// console.log('self.checkSubAllFlag',self.checkSubAllFlag);
+							// console.log('查单个部门人员时的userList',res);
 							self.derpRangeList.forEach(function(ele,num) {							
 								if(ele.derpNo == res.data.data[0].derpNo) {
-									console.log('derpNo'+ele.derpNo+ '-----'+res.data.data[0].derpNo);
+									// console.log('derpNo'+ele.derpNo+ '-----'+res.data.data[0].derpNo);
 									self.derpRangeList[num].preRangeList = res.data.data;
 									self.$set(self.derpRangeList, num, self.derpRangeList[num]);
 								}else {
-									console.log('derpNo false')
+									// console.log('derpNo false')
 								}
 							})
-							// self.formdata2.derpRange.forEach(function(ele,num) {
-							// 	if(ele.derpNo == res.data.data[0].derpNo) {
-							// 		self.formdata2.derpRange[num].preRangeList = res.data.data;
-							// 		self.$set(self.formdata2.derpRange,num,self.formdata2.derpRange[num]);
-							// 	}else {
-							// 		console.log('formdata2 false')
-							// 	}
-							// })
 						}
-						// self.derpRangeList.forEach(function(ele,num) {
-						// 	if(ele.derpNo == res.data.data[0].derpNo) {
-						// 		self.derpRangeList[num].preRangeList = res.data.data;
-						// 		self.$set(self.derpRangeList, num, self.derpRangeList[num]);
-						// 	}else {
-						// 		console.log('derpNo false')
-						// 	}
-						// })
-						// self.formdata2.derpRange.forEach(function(ele,num) {
-						// 	if(ele.derpNo == res.data.data[0].derpNo) {
-						// 		self.formdata2.derpRange[num].preRangeList = res.data.data;
-						// 		self.$set(self.formdata2.derpRange,num,self.formdata2.derpRange[num]);
-						// 	}else {
-						// 		console.log('formdata2 false')
-						// 	}
-						// })
-								console.log('self.derpRangeList',self.derpRangeList)
-								console.log('self.formdata2.derpRange',self.formdata2.derpRange)
+								// console.log('self.derpRangeList',self.derpRangeList)
+								// console.log('self.formdata2.derpRange',self.formdata2.derpRange)
 					}
 					
 				}).catch((err) => {
@@ -494,6 +497,7 @@
 						})
 						//部门范围（反显）
 						self.checkedSubmenus = ranges;
+						console.log('部门反显的checkedSubmenus',self.checkedSubmenus)
 					}
 					
 				}).catch((err) => {

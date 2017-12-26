@@ -70,7 +70,7 @@
 	                    <el-row :gutter="20">
 	                        <el-col :span="6" v-for="(depart, index) in checkedSubmenus" :key="index">
 	                            <div class="funcs-content">
-	                                <el-checkbox v-model="checkPresAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ depart.derpName }}</el-checkbox>
+	                                <el-checkbox v-model="checkPresAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index,depart.preRangeList)" class="func-checkall">{{ depart.derpName }}</el-checkbox>
 	                                <el-checkbox-group v-model="checkPres" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
 	                                    <el-checkbox v-for="item in depart.preRangeList" :key="item.userNo" :label="item" v-bind:title="item.custName" >{{ item.custName }}</el-checkbox>
 	                                </el-checkbox-group>
@@ -255,34 +255,26 @@
 		      	this.queryDerpAndUser(params);
 		    },
 		    // 人员范围 多选
-		    handleFuncsAllChange(event, index) {
+		    handleFuncsAllChange(event, index, MpreRangeList) {
+				console.log('MpreRangeList',MpreRangeList)
 		      this.checkPresAll[index] = event.target.checked;
-		      let targetFucsList = [];
-		      this.formdata2.derpRange[index].preRangeList.forEach(function(ele) {
-		        targetFucsList.push(ele.userNo);
-		      }, this);
-		      console.log('targetFucsList',targetFucsList)
 		      if (this.checkPresAll[index] == true) {
-		        this.$set(this.isFuncsIndeterminate, index, true);
-		        targetFucsList.forEach(function(ele) {
-		          if (JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ userNo: ele })) == -1) {
-		            this.formdata2.preRange.push({ userNo: ele });
-		          }
-		          if ( !this.isInArray(this.checkPres, ele) ) {
-		            this.checkPres.push(ele);
-		          }
-		        }, this);
+				this.$set(this.isFuncsIndeterminate, index, true);
+				MpreRangeList.forEach(function(ele) {
+					  if (JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify( ele )) == -1) {
+						this.formdata2.preRange.push( ele );
+						this.checkPres = this.formdata2.preRange;
+					}
+				},this)
 		        console.log('this.checkPres',this.checkPres)
 		      } else {
-		        this.$set(this.isFuncsIndeterminate, index, false);
-		        targetFucsList.forEach(function(ele, index) {
-		          if (JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ userNo: ele })) != -1) {
-		            this.formdata2.preRange.splice(JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify({ userNo: ele }))-1, 1);
-		          }
-		          if ( this.isInArray(this.checkPres, ele) ) {
-		            this.checkPres.splice(this.checkPres.indexOf(ele), 1);
-		          }
-		        }, this);
+				this.$set(this.isFuncsIndeterminate, index, false);
+				MpreRangeList.forEach(function(ele) {
+					  if (JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify( ele )) != -1) {
+						this.formdata2.preRange.splice(JSON.stringify(this.formdata2.preRange).indexOf(JSON.stringify( ele ))-1, 1);
+						this.checkPres = this.formdata2.preRange;
+					}
+				},this)
 		      }
 		      console.log("这是全选的checkPres", this.checkPres);
 		      console.log("preRange", this.formdata2.preRange);
@@ -298,8 +290,9 @@
 		      }
 		      this.formdata2.preRange = [];
 		      val.forEach(function(ele) {
-		        this.formdata2.preRange.push({ userNo: ele });
-		      }, this);
+		        this.formdata2.preRange.push( ele );
+			  }, this);
+			  console.log("这是单选的checkPres", this.checkPres);
 		      console.log("preRange", this.formdata2.preRange);
 		      
 		    },
@@ -317,15 +310,18 @@
 						// 	console.log('der ele',ele)
 			        	// 	derpRanges.push(ele.derpNo);
 			        	// 	derpRange.push(ele.derpNo);
-			        	// },this);
+						// },this);
+						let checkObj = {};
+						console.log('self.formdata2.preRange',self.formdata2.preRange)
 			        	self.formdata2.preRange.forEach(function(ele) {
 							console.log('pre ele',ele)
 			        		preRanges.push(ele.userNo);
 							preRange.push(ele.userNo);
-			        		derpRanges.push(ele.derpNo);
-			        		derpRange.push(ele.derpNo);
-							if(JSON.stringify(derpRange).indexOf(ele.derpNo)) {
+							if(JSON.stringify(checkObj).indexOf(ele.derpNo) == -1) {
 								console.log('true')
+								checkObj.derpNo = ele.derpNo;
+								derpRanges.push(ele.derpNo);
+								derpRange.push(ele.derpNo);
 							}
 						},this); 
 			        	if(self.checkPres.length>0) {
