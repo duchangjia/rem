@@ -1,17 +1,17 @@
 <template>
-	<div class="agg-content ask-leave">
+	<div class="agg-content salary-detail">
 		<current yiji="首页" erji="考勤与休假" sanji="有薪假期查询"></current>
 		<div class="content">
 			<contentTitle titleTxt="个人薪资查询"></contentTitle>
 			<div class="msg-list">
                 <el-row :gutter="20">
-                    <el-col :span="4" class="head-img-box">
+                    <el-col :span="6" class="head-img-box">
                         <div class="imgUserHead"><img v-if="imageUrl" :src="imageUrl" alt=""></div>
                     </el-col>
-                    <el-col :span="16">
+                    <el-col :span="15">
                        <el-form :inline="true" class="msg-form">
                             <el-col :sm="24" :md="12" v-for="(item,index) in msgList" >
-                                <el-form-item :label="item.label" class="no-border-input">
+                                <el-form-item :label="item.label" class="no-border-input short-label">
                                     <el-input v-model="item.val" readonly="readonly" ></el-input>
                                 </el-form-item>
 					        </el-col>
@@ -329,7 +329,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.ask-leave{
+.salary-detail{
     .msg-list{
         padding:30px 0 30px 30px;
         border-bottom: 1px solid #EEEEEE;
@@ -350,7 +350,7 @@ export default {
         }
         .el-form-item{
             margin-bottom:0;
-            padding-top:10px;
+            vertical-align: middle;
         }
         .msg-form{
             position: relative;
@@ -360,14 +360,13 @@ export default {
             &.el-input{
                 width:280px;
                 .el-input__inner{
-                    height: 32px;
+                    height: 30px;
                     line-height:normal;
                 }
             }
         }
         .btn-mt{
-            margin-top:13px;
-            margin-left:20px;
+            vertical-align: middle;
         }
         
     }
