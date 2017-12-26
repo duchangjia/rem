@@ -617,8 +617,6 @@ export default {
               "addPayChangeInfo_custInfo",
               JSON.stringify(self.custInfo)
             ); // 暂存当前custInfo
-            let aaa = sessionStorage.getItem("addPayChangeInfo_custInfo");
-            console.log("暂存的custInfo", aaa);
             this.$confirm("当前用户不存在薪酬基数，请先前往设置。", "提示", {
               type: "warning"
             })

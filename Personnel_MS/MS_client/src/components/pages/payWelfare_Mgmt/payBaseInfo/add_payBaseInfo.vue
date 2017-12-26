@@ -612,22 +612,34 @@ export default {
     },
     wagesBaseChange(event) {
       console.log("填入的基本工资", this.addPayBaseInfo.wagesBase);
-      const self = this;
-      let userNo = self.custInfo.userNo;
-      self.$axios
+      let userNo = this.custInfo.userNo;
+      this.$axios
         .get("/iem_hrm/pay/querUserSalaryTop/" + userNo)
         .then(res => {
-          self.salaryTop = res.data.data;
-          console.log("salaryTop", self.salaryTop);
-          if (Number(this.addPayBaseInfo.wagesBase) > self.salaryTop) {
-            this.payBaseInfoRules.remark = [];
-            this.payBaseInfoRules.remark.push({
-              required: true,
-              message: "请输入薪资超限说明",
-              trigger: "blur"
-            });
+          if (res.data.code == "S00000") {
+            this.salaryTop = res.data.data;
+            console.log("salaryTop", this.salaryTop);
+            if (Number(this.addPayBaseInfo.wagesBase) > this.salaryTop) {
+              this.payBaseInfoRules.remark = [];
+              this.payBaseInfoRules.remark.push({
+                required: true,
+                message: "请输入薪资超限说明",
+                trigger: "blur"
+              });
+            } else {
+              this.payBaseInfoRules.remark = [];
+            }
           } else {
-            this.payBaseInfoRules.remark = [];
+            sessionStorage.setItem("addPayBaseInfo_custClass",this.custInfo.custClass); // 暂存当前用户职级
+            this.$confirm(res.data.retMsg + " 职级是:" + this.custInfo.custClass +"。可能将导致薪酬基数新增失败，请先前往设置该职级薪酬标准模板。", "提示", {
+              type: "warning"
+            })
+              .then(() => {
+                this.$router.push('/add_rank');
+              })
+              .catch(() => {
+              });
+
           }
         })
         .catch(() => {

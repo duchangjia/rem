@@ -213,9 +213,7 @@ export default {
     },
     
     handleAdd() {
-      this.$router.push({
-        name: "add_payBaseInfo"
-      });
+      this.$router.push("/add_payBaseInfo");
     },
     handlePayBaseInfoDetail(index, row) {
       sessionStorage.setItem('payBaseInfo_userNo', row.userNo); 
