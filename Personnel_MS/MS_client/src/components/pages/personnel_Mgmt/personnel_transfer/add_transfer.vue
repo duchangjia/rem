@@ -52,8 +52,8 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新公司名称" prop="newOrgId">
-						    <el-select v-model="formdata2.newOrgId" @change="changeComp" :disabled=disabledFlag>
-								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
+						    <el-select v-model="formdata2.newOrgId" @change="changeComp" :disabled=disabledFlag >
+								<el-option v-for="item in compListAll" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>  	
@@ -64,7 +64,7 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新部门名称" prop="newDeprtId">
-						    <el-select v-model="formdata2.newDeprtId" :disabled=disabledFlag>
+						    <el-select v-model="formdata2.newDeprtId" :disabled=disabledFlag @change="changeDerp">
 								<el-option v-for="item in departList" :key="item.derpNo" :label="item.derpName" :value="item.derpNo"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -76,9 +76,12 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="新直线经理" prop="newLineManager">
-						    <el-input v-model="formdata2.newLineManager" @change="newLineManagerChange" :disabled=disabledFlag>
+							<el-select v-model="formdata2.newLineManager" :disabled=disabledFlag>
+								<el-option v-for="item in userList" :key="item.userNo" :label="item.userNo" :value="item.custName"></el-option>
+							</el-select>
+						    <!-- <el-input v-model="formdata2.newLineManager" @change="newLineManagerChange" :disabled=disabledFlag>
 								<el-button slot="append" icon="search" @click="userNoSelect"></el-button>
-							</el-input>
+							</el-input> -->
 					  		<messageBox 
                                 :title="boxTitle"
                                 :tableOption.sync="tableOption"  
@@ -181,6 +184,7 @@
 				fileFlag: '',
 				newLineManagerFlag: false,//判断新直线经理是否存在标志
 				disabledFlag: false, //判断调动类型是否工资调整
+				changeCompStepFlag: true,
 			    //原员工信息
 			    formdata1: {},
 			    //调动信息
@@ -197,6 +201,10 @@
 				departList: [],
 				//公司列表
 				compList: [],
+				//全部公司列表
+				compListAll: [],
+				//员工列表
+				userList: [],
 				//岗位列表
 				custPostList: [],
 				//职级列表
@@ -255,6 +263,8 @@
 			this.queryUserInfo();
 			//查询公司列表
 			this.queryCompList();
+			//查询所有公司列表
+			this.queryAllCompList();
 			//查询岗位列表
 			this.queryCustPostList();
 			//查询职级列表
@@ -288,6 +298,24 @@
 				}
 				//查询部门列表
 				this.queryDerpList(params);
+				sessionStorage.setItem('addTransfer_organNo', val);
+				if(this.changeCompStepFlag){
+					this.changeCompStepFlag = false;
+				}else {
+					this.formdata2.newDeprtId = '';
+					this.formdata2.newLineManager = '';
+					this.formdata2.newPost = '';
+					this.formdata2.newClass = '';
+					this.userList = [];
+				}
+			},
+			changeDerp(val) {
+				let organNo = sessionStorage.getItem('addTransfer_organNo');
+				let params = {
+					organNo: organNo,
+					derpNo: val
+				};
+				this.queryUserList(params);
 			},
 			changeShiftType(val) {
 				console.log('shiftType',val);
@@ -459,7 +487,7 @@
 		        //dialog打开
 		        this.dialogVisible=true
 		        //查询接口
-		        this.searchUrl = "/iem_hrm/CustInfo/queryCustInfList"
+		        this.searchUrl = "/iem_hrm/CustInfo/queryAllCust"
 		        //点击确定后根据号码查询用户信息借口 没有则为空
 		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
 		        //dialog标题
@@ -478,6 +506,19 @@
 					console.log(err);
 				})
 			},
+			queryAllCompList() {
+				let self = this;
+				self.$axios.get(baseURL+'/organ/queryAllCompany')
+				.then((res) => {
+					console.log('CompListAll',res);
+					if(res.data.code === "S00000") {
+						self.compListAll = res.data.data;
+					}
+					
+				}).catch((err) => {
+					console.log(err);
+				})
+			},
 			queryDerpList(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
@@ -485,6 +526,19 @@
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.departList = res.data.data;
+					}
+					
+				}).catch((err) => {
+					console.log(err);
+				})
+			},
+			queryUserList(params) {
+				let self = this;
+				self.$axios.get(baseURL+'/CustInfo/queryAllCust', {params: params})
+				.then((res) => {
+					console.log('userList',res);
+					if(res.data.code === "S00000") {
+						self.userList = res.data.data;
 					}
 					
 				}).catch((err) => {

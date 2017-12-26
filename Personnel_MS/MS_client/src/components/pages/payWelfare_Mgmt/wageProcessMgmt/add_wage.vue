@@ -72,7 +72,7 @@
 	                            <div class="funcs-content">
 	                                <el-checkbox v-model="checkPresAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ depart.derpName }}</el-checkbox>
 	                                <el-checkbox-group v-model="checkPres" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
-	                                    <el-checkbox v-for="item in depart.preRangeList" :key="item.userNo" :label="item.userNo" v-bind:title="item.custName" >{{ item.custName }}</el-checkbox>
+	                                    <el-checkbox v-for="item in depart.preRangeList" :key="item.userNo" :label="item" v-bind:title="item.custName" >{{ item.custName }}</el-checkbox>
 	                                </el-checkbox-group>
 	                            </div>
 	                        </el-col>
@@ -313,14 +313,21 @@
 			        		derpRanges = [],
 			        		derpRange = [];
 //			        	self.preRanges = preRanges;
-		        		self.formdata2.derpRange.forEach(function(ele) {
+		        		// self.formdata2.derpRange.forEach(function(ele) {
+						// 	console.log('der ele',ele)
+			        	// 	derpRanges.push(ele.derpNo);
+			        	// 	derpRange.push(ele.derpNo);
+			        	// },this);
+			        	self.formdata2.preRange.forEach(function(ele) {
+							console.log('pre ele',ele)
+			        		preRanges.push(ele.userNo);
+							preRange.push(ele.userNo);
 			        		derpRanges.push(ele.derpNo);
 			        		derpRange.push(ele.derpNo);
-			        	},this);
-			        	self.formdata2.preRange.forEach(function(ele) {
-			        		preRanges.push(ele.userNo);
-			        		preRange.push(ele.userNo);
-			        	},this); 
+							if(JSON.stringify(derpRange).indexOf(ele.derpNo)) {
+								console.log('true')
+							}
+						},this); 
 			        	if(self.checkPres.length>0) {
 			        		let params = {
 				          		batchType: self.formdata2.batchType,
