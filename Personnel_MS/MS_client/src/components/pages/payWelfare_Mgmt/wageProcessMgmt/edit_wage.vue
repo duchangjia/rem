@@ -79,7 +79,7 @@
 	                        <el-col :span="6" v-for="(depart, index) in checkedSubmenus" :key="index">
 	                            <div class="funcs-content">
 	                                <el-checkbox v-model="checkPresAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index,depart.preRangeList)" class="func-checkall">{{ depart.derpName }}</el-checkbox>
-	                                <el-checkbox-group v-model="checkPres" @change="handleCheckedFuncsChange($event,index,depart.preRangeList)"  class="func-item">
+	                                <el-checkbox-group v-model="checkPres" @change="handleCheckedFuncsChange($event,index,depart)"  class="func-item">
 	                                    <el-checkbox v-for="item in depart.preRangeList" :key="item.userNo" :label="item.userNo" v-bind:title="item.custName" >{{ item.custName }}</el-checkbox>
 	                                </el-checkbox-group>
 	                            </div>
@@ -135,7 +135,7 @@
 		      	checkPres: [],
 		      	isFuncsIndeterminate: {},
 				preSrange: [],//人员反显中间存储
-
+				checkATFlagList: [],
 				formdata2: {},
 				//类别列表
 				batchTypeList: [
@@ -283,17 +283,51 @@
 		      console.log("这是全选的checkPres", this.checkPres);
 		      console.log("这是全选的preRange", this.formdata2.preRange);
 		    },
-		    handleCheckedFuncsChange(val, index,MpreRangeList) {
-		    	console.log('val',val)
-		      if (val.length == this.checkedSubmenus[index].preRangeList.length) {
-		        this.checkPresAll[index] = true;
-		        this.$set(this.isFuncsIndeterminate, index, true);
-		      } else {
-		        this.checkPresAll[index] = false;
-				this.$set(this.isFuncsIndeterminate, index, false);
-				// this.formdata2.derpRange.splice(index, 1);//没有选择人员时去掉相应部门
-				// this.checkedSubmenus = this.formdata2.derpRange;
-		      }
+		    handleCheckedFuncsChange(val, index,MDerp) {
+				console.log('val',val)
+				//.preRangeList
+				let checkATFlag = '';
+				let checkAFalse = '';
+				let checkATrue = '';
+				console.log('MDerp.preRangeList.length',MDerp.preRangeList.length)
+				MDerp.preRangeList.forEach(function(ele){
+					
+					console.log('false')
+					if(JSON.stringify(val).indexOf(ele.userNo) !=-1) {
+						console.log('true')
+						this.checkATFlagList[index] = true;
+					}else {
+						this.checkATFlagList[index] = false;
+					}
+				},this)
+				// if(checkATrue || checkAFalse) {
+				// 	this.checkATFlagList[index] = true;
+				// } else {
+					// this.checkATFlagList[index] = false;
+				// }
+				// this.checkATFlagList[index] = checkATFlag;
+				console.log('checkATFlag',this.checkATFlagList);
+				if(this.checkATFlagList[index]) {
+					this.checkPresAll[index] = true;
+					this.$set(this.isFuncsIndeterminate, index, true);
+					if(JSON.stringify(this.formdata2.derpRange).indexOf(JSON.stringify(MDerp)) ==-1) {
+						// this.formdata2.derpRange.push(MDerp);
+					}
+					
+				} else {
+					this.checkPresAll[index] = false;
+					this.$set(this.isFuncsIndeterminate, index, false);
+					// this.formdata2.derpRange.splice(index, 1);//没有选择人员时去掉相应部门
+				}
+		    //   if (val.length == this.checkedSubmenus[index].preRangeList.length) {
+		    //     this.checkPresAll[index] = true;
+		    //     this.$set(this.isFuncsIndeterminate, index, true);
+		    //   } else {
+		    //     this.checkPresAll[index] = false;
+			// 	this.$set(this.isFuncsIndeterminate, index, false);
+			// 	// this.formdata2.derpRange.splice(index, 1);//没有选择人员时去掉相应部门
+			// 	// this.checkedSubmenus = this.formdata2.derpRange;
+		    //   }
 		      this.formdata2.preRange = [];
 		      val.forEach(function(ele) {
 		        this.formdata2.preRange.push(ele);
@@ -310,15 +344,15 @@
 			        		preRange = [],
 			        		derpRanges = [],
 			        		derpRange = [];
-			        	if(JSON.stringify(self.formdata2.derpRange).indexOf('derpNo') != -1) {
-			        		self.formdata2.derpRange.forEach(function(ele) {
-				        		derpRanges.push(ele.derpNo);
-				        		derpRange.push(ele.derpNo);
-				        	},this);
-			        	} else {
-			        		derpRanges = self.formdata2.derpRange;
-			        		derpRange = self.formdata2.derpRange;
-			        	}
+			        	// if(JSON.stringify(self.formdata2.derpRange).indexOf('derpNo') != -1) {
+			        	// 	self.formdata2.derpRange.forEach(function(ele) {
+				        // 		derpRanges.push(ele.derpNo);
+				        // 		derpRange.push(ele.derpNo);
+				        // 	},this);
+			        	// } else {
+			        	// 	derpRanges = self.formdata2.derpRange;
+			        	// 	derpRange = self.formdata2.derpRange;
+			        	// }
 						let checkObj = {};
 						console.log('self.formdata2.preRange',self.formdata2.preRange)
 			        	self.formdata2.preRange.forEach(function(ele) {
@@ -332,7 +366,28 @@
 							// 	derpRange.push(ele.derpNo);
 							// }
 						},this); 
-						
+						self.formdata2.derpRange.forEach(function(ele,index) {
+							let checkFlag_1 = '';
+							let checkFlag_2 = '';
+							if(ele.preRangeList) {
+								ele.preRangeList.forEach(function(ele2,index2) {
+									if(JSON.stringify(self.formdata2.preRange).indexOf(ele2.userNo) !=-1) {
+										console.log('true');
+										checkFlag_1 = true;
+									} else {
+										console.log('false');
+										checkFlag_2 = false;
+									}
+								})
+								if(checkFlag_1 || checkFlag_2) {
+									derpRange.push(ele.derpNo);
+								} else {
+									// derpRange
+								}
+							}
+							
+						})
+						console.log('derpRange',derpRange)
 			        	if(self.checkPres.length>0) {
 			        		let params = {
 	        					batchNo: self.formdata2.batchNo,
@@ -399,6 +454,7 @@
 				let self = this;
 				self.$axios.get(baseURL+'/wage/queryDerpAndUserByDerpNo', {params: params})
 				.then((res) => {
+					console.log('userList',res)
 					if(res.data.code === "S00000") {
 						// let preSrange = [];
 						res.data.data.forEach(function(ele) {
@@ -497,6 +553,10 @@
 						})
 						//部门范围（反显）
 						self.checkedSubmenus = ranges;
+						self.formdata2.derpRange = ranges;
+						for(let i=0;i<self.checkedSubmenus.length;i++) {
+							self.checkATFlagList[i] = true;
+						}
 						console.log('部门反显的checkedSubmenus',self.checkedSubmenus)
 					}
 					

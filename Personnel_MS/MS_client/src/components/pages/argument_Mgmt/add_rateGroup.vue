@@ -49,7 +49,7 @@ export default {
 	        if (value === '') {
 	          	callback();
 	        } else if (value <= this.formdata.startTime) {
-	          	callback(new Error('请输入正确的失效日期'));
+	          	callback(new Error('失效日期必须大于生效日期'));
 	        } else {
 	          	callback();
 	        }
