@@ -8,13 +8,7 @@
                     <el-button type="primary" class="toolBtn btn-primary" @click="save">保存</el-button>
                 </div>
                 <div class="add-wrapper clearfix">
-                    <el-form 
-                    label-width="110px"
-                    label-position="right"  
-                    :rules="rules" 
-                    ref="applyCompanyInfo" 
-                    :model="applyCompanyInfo" 
-                    :inline="true">
+                    <el-form :model="applyCompanyInfo" label-width="122px" label-position="right" :inline="true">
                         <el-col :sm="24" :md="12">
                             <el-form-item label="公司名称">
                                 <el-input v-model="applyCompanyInfo.organName" :disabled="true">
@@ -29,7 +23,7 @@
                         </el-col>
                         <el-col :sm="24" :md="12">
                             <el-form-item label="CCC">
-                                <el-input v-model="applyCompanyInfo.ccc" :disabled="true">
+                                <el-input v-model="applyCompanyInfo.costCode" :disabled="true">
                                 </el-input>
                             </el-form-item>
                         </el-col>
@@ -63,8 +57,8 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                    <!-- </el-form> -->
-                    <el-col :span="24" class="item-title">资产信息</el-col>
+                        <!-- </el-form> -->
+                        <el-col :span="24" class="item-title">资产信息</el-col>
                         <el-col :sm="24" :md="12">
                             <el-form-item label="资产编号" prop="assetNo">
                                 <el-input v-model="applyCompanyInfo.assetNo" :disabled="true">
@@ -127,56 +121,56 @@
                                 <el-input :disabled="true" v-model="applyCompanyInfo.faxFreeTime"></el-input>
                             </el-form-item>
                         </el-col>
+                    </el-form>
+                    <el-form :model="applyCompanyInfo" label-width="122px" label-position="right" style="margin-top:0;">
                         <el-col :span="24">
                             <el-form-item label="主要性能说明">
                                 <el-input type="textarea" :disabled="true" v-model="applyCompanyInfo.configInstr"></el-input>
                             </el-form-item>
                         </el-col>
+                    </el-form>
                     <el-col :span="24" class="item-title">使用信息</el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="使用类别"  prop="applyType">
-                            <el-select placeholder="请选择使用类别" v-model="applyCompanyInfo.applyType" :disabled="true">
-                                <el-option label="发放领用" value="01"></el-option>
-                                <el-option label="归还" value="02"></el-option>
-                                <el-option label="出借" value="03"></el-option>
-                                <el-option label="出售" value="04"></el-option>
-                                <el-option label="盘余" value="05"></el-option>
-                                <el-option label="盘亏" value="06"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="使用数量" prop="applyNum">
-                            <el-input v-model.number="applyCompanyInfo.applyNum" :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="发生时间" prop="applyTime">
-                            <el-date-picker
-                                v-model="applyCompanyInfo.applyTime"
-                                type="date"
-                                placeholder="选择日期"
-                                @change="changeDate()"
-                                style="width:100%"
-                                :disabled="true"
-                                >
-                            </el-date-picker>
-                        </el-form-item>
-                    </el-col>
-                     <el-col :sm="24" :md="12">
-                        <el-form-item label="状态" prop="applyStatus" >
-                            <el-select placeholder="请选择状态" v-model="applyCompanyInfo.applyStatus" :disabled="true">
-                                <el-option label="未核销/未归还" value="01"></el-option>
-                                <el-option label="已核销/已归还" value="02"></el-option>
-                                <el-option label="不需要核销/不需要归还" value="03"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item label="说明" prop="remark">
-                            <el-input type="textarea" v-model="applyCompanyInfo.remark"></el-input>
-                        </el-form-item>
-                    </el-col>
+                    <el-form :model="applyCompanyInfo" label-width="122px" label-position="right" :rules="rules" ref="applyCompanyInfo1" :inline="true">
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="使用类别" prop="applyType">
+                                <el-select placeholder="请选择使用类别" v-model="applyCompanyInfo.applyType" :disabled="true">
+                                    <el-option label="发放领用" value="01"></el-option>
+                                    <el-option label="归还" value="02"></el-option>
+                                    <el-option label="出借" value="03"></el-option>
+                                    <el-option label="出售" value="04"></el-option>
+                                    <el-option label="盘余" value="05"></el-option>
+                                    <el-option label="盘亏" value="06"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="使用数量" prop="applyNum">
+                                <el-input v-model.number="applyCompanyInfo.applyNum" :disabled="true"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="发生时间" prop="applyTime">
+                                <el-date-picker v-model="applyCompanyInfo.applyTime" type="date" placeholder="选择日期" @change="changeDate()" style="width:100%"
+                                    :disabled="true">
+                                </el-date-picker>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="状态" prop="applyStatus">
+                                <el-select placeholder="请选择状态" v-model="applyCompanyInfo.applyStatus" :disabled="true">
+                                    <el-option label="未核销/未归还" value="01"></el-option>
+                                    <el-option label="已核销/已归还" value="02"></el-option>
+                                    <el-option label="不需要核销/不需要归还" value="03"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                    </el-form>
+                    <el-form :model="applyCompanyInfo" label-width="122px" label-position="right" :rules="rules" ref="applyCompanyInfo2" style="margin-top:0;">                        
+                        <el-col :span="24">
+                            <el-form-item label="说明" prop="remark">
+                                <el-input type="textarea" v-model="applyCompanyInfo.remark"></el-input>
+                            </el-form-item>
+                        </el-col>
                     </el-form>
                 </div>
             </div>
@@ -193,7 +187,13 @@ export default {
   data() {
     return {
       rules: {
-        applyType: [{ required: true, message: "请选择使用类别", trigger: "blur" }],
+        applyType: [
+          {
+            required: true,
+            message: "请选择使用类别",
+            trigger: "blur"
+          }
+        ],
         applyNum: [
           {
             pattern: /^(0|([1-9][0-9]{0,10}))$/,
@@ -202,9 +202,27 @@ export default {
             required: true
           }
         ],
-        applyTime: [{ required: true, message: "请输入发生时间", trigger: "blur" }],
-        remark: [{ required: true, message: "请输入说明", trigger: "blur" }],
-        applyStatus: [{ required: true, message: "请选择状态", trigger: "blur" }]
+        applyTime: [
+          {
+            required: true,
+            message: "请输入发生时间",
+            trigger: "blur"
+          }
+        ],
+        remark: [
+          {
+            required: true,
+            message: "请输入说明",
+            trigger: "blur"
+          }
+        ],
+        applyStatus: [
+          {
+            required: true,
+            message: "请选择状态",
+            trigger: "blur"
+          }
+        ]
       },
       // applyCompanyInfo: {
       //     applyUserNo: '',
@@ -249,17 +267,6 @@ export default {
             break;
           case "05":
             this.applyCompanyInfo.assetType = "数码相机";
-            break;
-        }
-        switch (this.applyCompanyInfo.ccc) {
-          case "01":
-            this.applyCompanyInfo.ccc = "管理CCC";
-            break;
-          case "02":
-            this.applyCompanyInfo.ccc = "售前CCC";
-            break;
-          case "03":
-            this.applyCompanyInfo.ccc = "项目CCC";
             break;
         }
       })
@@ -317,31 +324,35 @@ export default {
       obj2.applyNo = this.$route.query.applyNo;
       let data = Object.assign(obj, obj2);
       console.log(data);
-      self.$refs.applyCompanyInfo.validate(valid => {
+      self.$refs.applyCompanyInfo1.validate(valid => {
         if (valid) {
-          self.$axios
-            .put(modAssUse, data)
-            .then(res => {
-              let resData = res.data.data;
-              console.log(resData);
-              if (resData === null) {
-                self.$message({
-                  message: res.data.retMsg,
-                  type: "error"
+          self.$refs.applyCompanyInfo2.validate(valid => {
+            if (valid) {
+              self.$axios
+                .put(modAssUse, data)
+                .then(res => {
+                  let resData = res.data.data;
+                  console.log(resData);
+                  if (resData === null) {
+                    self.$message({
+                      message: res.data.retMsg,
+                      type: "error"
+                    });
+                  } else {
+                    self.$message({
+                      message: res.data.retMsg,
+                      type: "success"
+                    });
+                  }
+                })
+                .catch(e => {
+                  self.$message({
+                    message: e.retMsg,
+                    type: "error"
+                  });
                 });
-              } else {
-                self.$message({
-                  message: res.data.retMsg,
-                  type: "success"
-                });
-              }
-            })
-            .catch(e => {
-              self.$message({
-                message: e.retMsg,
-                type: "error"
-              });
-            });
+            }
+          });
         }
       });
     }
@@ -351,4 +362,3 @@ export default {
   }
 };
 </script>
-

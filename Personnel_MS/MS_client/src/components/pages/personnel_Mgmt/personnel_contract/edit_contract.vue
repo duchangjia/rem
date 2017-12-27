@@ -9,7 +9,7 @@
       </div>
       <div class="add-wrapper">
         <el-form :inline="true" :model="editPactMsg" :rules="pactMsgRules" ref="editPactMsgRules" :label-position="labelPosition"
-          label-width="110px">
+          label-width="122px">
           <el-col :sm="24" :md="12">
             <el-form-item label="工号">
               <el-input v-model="editPactMsg.userNo" :disabled="true"></el-input>
@@ -119,6 +119,8 @@
               </el-upload>
             </el-form-item>
           </el-col>
+        </el-form>
+        <el-form :model="editPactMsg" :label-position="labelPosition" label-width="122px" style="margin-top:0;">
           <el-col :span="24">
             <el-form-item label="终止原因" prop="stopReason">
               <el-input type="textarea" v-model="editPactMsg.stopReason"></el-input>

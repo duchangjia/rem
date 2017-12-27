@@ -7,7 +7,7 @@
                 <span class="title-text">合同续签详情</span>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="detailPRenewMsg" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="detailPRenewMsg" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同编号">
                             <el-input v-model="detailPRenewMsg.pactNo" :disabled="true"></el-input>
@@ -32,7 +32,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">员工信息</el-col>
-                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工号">
                             <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
@@ -83,7 +83,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">合同续签信息</el-col>
-                <el-form :inline="true" :model="detailPRenewMsg" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="detailPRenewMsg" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="续签时间" prop="renewTime">
                             <el-date-picker type="date" placeholder="选择日期" v-model="detailPRenewMsg.renewTime" :disabled="true" style="width: 100%;"></el-date-picker>
@@ -104,11 +104,15 @@
                             <el-date-picker type="date" placeholder="选择日期" v-model="detailPRenewMsg.renewLostTime" :disabled="true" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :model="detailPRenewMsg" :label-position="labelPosition" label-width="122px" style="margin-top:0;">
                     <el-col :span="24">
                         <el-form-item label="续签内容">
                             <el-input type="textarea" v-model="detailPRenewMsg.renewContent" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :inline="true" :model="detailPRenewMsg" :label-position="labelPosition" label-width="122px" style="margin-top:0;">
                     <el-col :span="24">
                         <el-form-item label="附件" prop="attachm">
                             <ul>

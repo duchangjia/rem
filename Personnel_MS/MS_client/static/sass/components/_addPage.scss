@@ -1,5 +1,5 @@
 //新增修改页样式
-.content-wrapper{
+.content-wrapper {
     background: #ffffff;
     padding: 0 20px 20px;
     color: #333333;
@@ -15,7 +15,7 @@
             display: inline-block;
             height: 50px;
             position: relative;
-            &:after{
+            &:after {
                 content: "";
                 position: absolute;
                 left: 0;
@@ -33,54 +33,54 @@
             width: 120px;
             background: #ff9900;
             border: none;
-            padding:0;
+            padding: 0;
         }
-    } 
-    .add-wrapper{
-        form { 
+    }
+    .add-wrapper {
+        form {
             font-size: 0;
             margin-top: 30px;
             @include clearfix;
         }
         .el-input__inner {
             width: 300px;
-            height:40px;
-            line-height:normal;
+            height: 40px;
+            line-height: normal;
         }
-        .el-form-item__label{
-            font-weight:normal;
+        .el-form-item__label {
+            font-weight: normal;
             color: #999999;
             padding: 13px 12px 13px 0;
             margin-right: 0;
         }
-        .el-input-group--append{
+        .el-input-group--append {
             .el-input__inner {
                 width: 253px;
             }
         }
         .upload-demo {
             height: auto;
-            .uploadBtn{
+            .uploadBtn {
                 position: absolute;
-                height:40px;
+                height: 40px;
                 top: 0;
-                right: 0;
+                right: 0; // left: 234px;
                 margin: 0;
-                border:none;
+                border: none;
                 border-bottom-left-radius: 0;
                 border-top-left-radius: 0;
                 background: #ff9900;
                 font-family: "PingFang SC";
             }
-            .el-upload__input{
-                display:none;
+            .el-upload__input {
+                display: none;
             }
             .el-button--primary {
                 height: 40px;
                 background-color: #ff9900;
                 border-color: #ff9900;
             }
-            .el-button--primary:focus, 
+            .el-button--primary:focus,
             .el-button--primary:hover {
                 background: #ff9900;
                 border-color: #ff9900;
@@ -91,8 +91,16 @@
                 display: none;
             }
         }
-        .el-textarea__inner{
-            min-width:850px;
+        .el-textarea {
+            width: 86.1%;
+            max-width: 918px;
+        }
+        .el-checkbox__input.is-checked .el-checkbox__inner {
+            background-color: #ff9900;
+            border-color: #ff9900;
+        }
+        .el-checkbox__inner:hover {
+            border-color: #ff9900;
         }
         .item-title {
             font-size: 14px;
@@ -109,11 +117,11 @@
             color: #ffffff;
             background: #ff9900;
         }
-        .el-button.downBtn:focus, .el-button.downBtn:hover {
+        .el-button.downBtn:focus,
+        .el-button.downBtn:hover {
             color: #ffffff;
             border-color: #ff9900;
         }
-        
     }
     .add-wrapper.role-msg {
         .el-form-item__label {

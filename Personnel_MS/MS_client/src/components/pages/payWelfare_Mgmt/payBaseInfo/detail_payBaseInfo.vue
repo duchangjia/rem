@@ -7,7 +7,7 @@
                 <span class="title-text">薪酬基数详情</span>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="公司">
                             <el-input v-model="custInfo.organName" :disabled="true"></el-input>
@@ -46,7 +46,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">薪酬基数信息</el-col>
-                <el-form :inline="true" :model="payBaseInfoDetail" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="payBaseInfoDetail" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="基本工资">
                             <el-input v-model="payBaseInfoDetail.wagesBase" :disabled="true"></el-input>
@@ -140,7 +140,7 @@
                         </el-form-item>
                     </el-col> 
                 </el-form>
-                <el-form :inline="true" :model="insurancePayTemp" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :model="insurancePayTemp" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险(个人)">
                             <el-input v-model="_perEndm" :disabled="true"></el-input>
@@ -202,12 +202,14 @@
                         </el-form-item>
                     </el-col>
                 </el-form>
-                <el-form :inline="true" :model="payBaseInfoDetail" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :model="payBaseInfoDetail" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="24">
                         <el-form-item label="薪资超限说明">
                             <el-input type="textarea" v-model="payBaseInfoDetail.remark" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :inline="true" :model="payBaseInfoDetail" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="最新更新人">
                             <el-input v-model="payBaseInfoDetail.updatedBy" :disabled="true"></el-input>

@@ -7,7 +7,7 @@
                 <span class="title-text">资产详情</span>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="公司名称">
                             <el-input v-model="custInfo.organName" :disabled="true"></el-input>
@@ -46,7 +46,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">采购信息</el-col>
-                <el-form :inline="true" :model="assetInfoDetail" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="assetInfoDetail" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="采购订单号" prop="buyApplyNo">
                             <el-input v-model="assetInfoDetail.buyApplyNo" :disabled="true"></el-input>
@@ -122,6 +122,8 @@
                             </ul>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :model="assetInfoDetail" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :span="24">
                         <el-form-item label="主要性能说明" prop="remark">
                             <el-input type="textarea" v-model="assetInfoDetail.remark" placeholder="配置说明" :disabled="true"></el-input>

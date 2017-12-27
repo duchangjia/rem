@@ -8,7 +8,7 @@
                 <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="公司">
                             <el-input v-model="custInfo.organName" :disabled="true"></el-input>
@@ -47,7 +47,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">薪酬基数信息</el-col>
-                <el-form :inline="true" :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules1" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules1" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                       <el-form-item label="基本工资" prop="wagesBase">
                          <el-input v-model="editPayBaseInfo.wagesBase" @blur="wagesBaseChange"></el-input>
@@ -141,7 +141,7 @@
                         </el-form-item>
                     </el-col> 
                 </el-form>
-                <el-form :inline="true" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险(个人)">
                             <el-input v-model="_perEndm" :readonly="true"></el-input>
@@ -203,12 +203,14 @@
                         </el-form-item>
                     </el-col>
                 </el-form>
-                <el-form :inline="true" :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules2" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="24">
                         <el-form-item label="薪资超限说明" prop="remark">
                             <el-input type="textarea" v-model="editPayBaseInfo.remark"></el-input>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :inline="true" :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
                             <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
@@ -557,6 +559,10 @@ export default {
                 required: true,
                 message: "请输入薪资超限说明",
                 trigger: "blur"
+              });
+              this.$alert("员工薪酬超过公司标准，请线下邮件审批，并于当前页补充薪资超限说明。", "提示", {
+                confirmButtonText: "确定",
+                type: "warning"
               });
             } else {
               this.payBaseInfoRules.remark = [];

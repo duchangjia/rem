@@ -5,10 +5,10 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">资产新增</span>
-                <el-button type="primary" @click="handleSave('addAssetInfoRules')" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="公司名称">
                             <el-input v-model="custInfo.organName" :disabled="true"></el-input>
@@ -60,7 +60,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">采购信息</el-col>
-                <el-form :inline="true" :model="addAssetInfo" :rules="assetInfoRules" ref="addAssetInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form  :inline="true" :model="addAssetInfo" :rules="assetInfoRules" ref="addAssetInfoRules1" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="采购订单号" prop="buyApplyNo">
                             <el-input v-model="addAssetInfo.buyApplyNo"></el-input>
@@ -147,6 +147,8 @@
                             </el-upload>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :model="addAssetInfo" :rules="assetInfoRules" ref="addAssetInfoRules2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="24">
                         <el-form-item label="主要性能说明" prop="remark">
                             <el-input type="textarea" v-model="addAssetInfo.remark" placeholder="配置说明"></el-input>
@@ -351,25 +353,11 @@ export default {
     },
 
     handleSave(addAssetInfoRules) {
-      this.$refs[addAssetInfoRules].validate(valid => {
+      let rulesValid1 = false;
+      let rulesValid2 = false;
+      this.$refs.addAssetInfoRules1.validate(valid => {
         if (valid) {
-          console.log("newAssetInfo", this.addAssetInfo);
-          if (this.addAssetInfo.attachm != "") {
-            this.$refs.upload.submit(); // 触发上传文件
-          } else {
-            this.$axios
-              .post("/iem_hrm/EpAssetInf/addEpAssetInf", this.addAssetInfo)
-              .then(res => {
-                console.log(res);
-                if (res.data.code == "S00000") {
-                  this.$message({ type: "success", message: "操作成功!" });
-                  this.$router.push("/query_asset");
-                } else this.$message.error(res.data.retMsg);
-              })
-              .catch(() => {
-                this.$message.error("操作失败！");
-              });
-          }
+          rulesValid1 = true;
         } else {
           console.log("error submit!!");
           this.$message({
@@ -379,6 +367,40 @@ export default {
           return false;
         }
       });
+      this.$refs.addAssetInfoRules2.validate(valid => {
+        if (valid) {
+          rulesValid2 = true;
+        } else {
+          console.log("error submit!!");
+          if (rulesValid1 == true) {
+            this.$message({
+              type: "error",
+              message: "请确保必填信息填写正确!"
+            });
+          }
+          return false;
+        }
+      });
+      if (rulesValid1 && rulesValid2) {
+        console.log("newAssetInfo", this.addAssetInfo);
+        if (this.addAssetInfo.attachm != "") {
+          this.$refs.upload.submit(); // 触发上传文件
+        } else {
+          this.$axios
+            .post("/iem_hrm/EpAssetInf/addEpAssetInf", this.addAssetInfo)
+            .then(res => {
+              console.log(res);
+              if (res.data.code == "S00000") {
+                this.$message({ type: "success", message: "操作成功!" });
+                this.$router.push("/query_asset");
+              } else this.$message.error(res.data.retMsg);
+            })
+            .catch(() => {
+              this.$message.error("操作失败！");
+            });
+        }
+      }
+
     }
   }
 };
