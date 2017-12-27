@@ -389,7 +389,9 @@ export default {
   				if(res.data.code === "S00000") {
   					self.$message({ message: '操作成功', type: 'success' });
   					self.$router.push('/welfare_coefficient');
-  				}
+  				} else {
+					this.$message.error(res.data.retMsg);
+				}
   			}).catch((err) => {
   				console.log(err)
   			})

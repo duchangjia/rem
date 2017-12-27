@@ -122,7 +122,9 @@ export default {
   				if(res.data.code === "S00000") {
   					self.$message({ message: '税率组新增成功', type: 'success' });
   					self.$router.push('/tax_rate');
-  				}
+  				} else {
+					this.$message.error(res.data.retMsg);
+				}
   				
   			}).catch((err) => {
   				console.log('error');
