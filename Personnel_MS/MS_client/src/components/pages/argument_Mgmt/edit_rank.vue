@@ -185,6 +185,8 @@
 					if(res.data.code === "S00000") {
 						self.$message({ message: res.data.retMsg, type: 'success' });
 						self.$router.push('/rank');
+					} else {
+						this.$message.error(res.data.retMsg);
 					}
 					
 				}).catch((err) => {

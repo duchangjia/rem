@@ -139,7 +139,9 @@ export default {
   					self.formdata.applyNo = res.data.data;
 	  				self.$message({ message: '操作成功', type: 'success' });
 	  				self.$router.push('/rate_info');
-  				}
+  				} else {
+					this.$message.error(res.data.retMsg);
+				}
 	  				
   			})
 		}

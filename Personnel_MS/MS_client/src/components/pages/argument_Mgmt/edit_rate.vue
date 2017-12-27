@@ -158,8 +158,8 @@ export default {
   					self.$message({ message: res.data.retMsg, type: 'success' });
   					self.$router.push('/rate_info');
   				} else {
-  					console.log('error')
-  				}
+					this.$message.error(res.data.retMsg);
+				}
   				
   			}).catch((err) => {
   				console.log('error')
