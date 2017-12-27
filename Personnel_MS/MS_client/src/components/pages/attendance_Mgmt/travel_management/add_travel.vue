@@ -9,16 +9,7 @@
 			</div>
 			<div class="add-wrapper">
 				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="110px">
-					<el-col :sm="24" :md="12">
-						<el-form-item label="公司名称">
-							<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
-					  	</el-form-item>
-					</el-col>	
-					<el-col :sm="24" :md="12">
-						<el-form-item label="申请部门名称">
-							<el-input v-model="formdata1.deptName" :disabled="true"></el-input>
-					  	</el-form-item>
-					</el-col>	
+						
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号" prop="userNo">
 						    <el-input v-model="formdata1.userNo">
@@ -41,10 +32,19 @@
 						<el-form-item label="姓名">
 						    <el-input v-model="formdata1.custName" :disabled="true"></el-input>
 					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="公司名称">
+							<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="申请部门名称">
+							<el-input v-model="formdata1.deptName" :disabled="true"></el-input>
+					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <!--<el-input v-model="custPostName" :disabled="true"></el-input>-->
 						    <el-select v-model="formdata1.custPost" :disabled="true">
 								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
@@ -52,7 +52,6 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <!--<el-input v-model="custClass" :disabled="true"></el-input>-->
 					  		<el-select v-model="formdata1.custPost" :disabled="true">
 								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>

@@ -8,16 +8,7 @@
 			</div>
 			<div class="add-wrapper">
 				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
-					<el-col :sm="24" :md="12">
-						<el-form-item label="公司名称">
-							<el-input v-model="formdata2.companyName" :disabled="true"></el-input>
-					  	</el-form-item>
-					</el-col>	
-					<el-col :sm="24" :md="12">
-						<el-form-item label="申请部门名称">
-							<el-input v-model="formdata2.deptName" :disabled="true"></el-input>
-					  	</el-form-item>
-					</el-col>		
+						
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
 						    <el-input v-model="formdata2.userNo" :disabled="true"></el-input>
@@ -27,7 +18,17 @@
 						<el-form-item label="姓名">
 						    <el-input v-model="formdata2.custName" :disabled="true"></el-input>
 					  	</el-form-item>
-					</el-col>		
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="公司名称">
+							<el-input v-model="formdata2.companyName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="申请部门名称">
+							<el-input v-model="formdata2.deptName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>			
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
 						    <el-select v-model="formdata2.custPost" :disabled="true">
