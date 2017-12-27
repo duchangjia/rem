@@ -626,6 +626,10 @@ export default {
                 message: "请输入薪资超限说明",
                 trigger: "blur"
               });
+              this.$alert("员工薪酬超过公司标准，请线下邮件审批，并于当前页补充薪资超限说明。", "提示", {
+                confirmButtonText: "确定",
+                type: "warning"
+              });
             } else {
               this.payBaseInfoRules.remark = [];
             }
