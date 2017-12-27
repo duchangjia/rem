@@ -3,6 +3,9 @@
         <el-col :span="24">
             <div class="canvas-box" :id="echartId"></div>
         </el-col>
+        <div class="chart-title">
+            {{title}}
+        </div>
         <div class="chart-button-list">
             <span class="c-dark" v-for="(item,index) of rightList" @click="chooseMonth(index,item)" :class="{'active':index==number}">{{item.month}}</span>
         </div>
@@ -49,6 +52,10 @@ export default {
           default:{}
       },
       echartId:{
+          type:String,
+          default:''
+      },
+      title:{
           type:String,
           default:''
       }

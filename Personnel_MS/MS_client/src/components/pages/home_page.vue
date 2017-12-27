@@ -25,14 +25,14 @@
                             MORE
                         </div>
                     </div>
-                    <div class="msg-content">
+                    <!-- <div class="msg-content">
                         <ul>
                             <li class="msg-list clearfix msg-large-list txt-size" v-for="item in newsList" v-bind:class="item.class">
                                 <span class="msg-txt ">{{item.txt}}</span>
                                 <div class="msg-time">{{item.time}}</div>
                             </li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="msg-item msg-large-item">
@@ -45,7 +45,7 @@
                             MORE
                         </div>
                     </div>
-                    <div class="msg-content">
+                    <!-- <div class="msg-content">
                         <ul>
                             <li class="msg-list clearfix msg-large-list txt-size" v-for="item in newsList" v-bind:class="item.class">
                                 <div class="msg-icon"></div>
@@ -53,7 +53,7 @@
                                 <div class="msg-time">{{item.time}}</div>
                             </li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </el-row>
@@ -63,12 +63,14 @@
         :option="entryOption"
         @jobEchart="jobEchart"
         echartId="jobEchart"
+        title="入离职情况(人)"
         ></v-DrawBar>
         <v-DrawLine 
         :rightList="monthList"
         :option="salaryOption"
         @salaryEchart="salaryEchart"
         echartId="salaryEchart"
+        title="薪酬发放"
         ></v-DrawLine>
         <el-row :gutter="20">
             <el-col :span="12">
@@ -76,6 +78,7 @@
                     :rightList="[]"
                     :option="leaveOption"
                     echartId="leaveEchart"
+                    title="请假情况"
                 ></v-DrawBar>
             </el-col>
             <el-col :span="12">
@@ -83,6 +86,7 @@
                     :rightList="[]"
                     :option="contractOption"
                     echartId="contractEchart"
+                    title="合同到期"
                 ></v-DrawLine>
             </el-col>
         </el-row>
@@ -326,7 +330,7 @@
                     //标题，每个图表最多仅有一个标题控件，每个标题控件可设主副标题
                     title: {
                         //主标题文本，'\n'指定换行
-                        text: '入离职情况(人)',
+                        
                         //主标题文本超链接
                         link: '',
                         //副标题文本，'\n'指定换行
@@ -479,7 +483,7 @@
                 let self = this;
                     self.salaryOption = {
                         title: {
-                            text: '薪酬发放',//水平安放位置，默认为左侧，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
+                            text: '',//水平安放位置，默认为左侧，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
                             x: 'left',
                             //垂直安放位置，默认为全图顶端，可选为：'top' | 'bottom' | 'center' | {number}（y坐标，单位px）
                             y: 'top',
@@ -561,7 +565,7 @@
                     //标题，每个图表最多仅有一个标题控件，每个标题控件可设主副标题
                     title: {
                         //主标题文本，'\n'指定换行
-                        text: '请假情况',
+                        text: '',
                         //主标题文本超链接
                         link: '',
                         //副标题文本，'\n'指定换行
@@ -693,7 +697,7 @@
                 
                 self.contractOption = {
                         title: {
-                            text: '合同到期',//水平安放位置，默认为左侧，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
+                            text: '',//水平安放位置，默认为左侧，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
                             x: 'left',
                             //垂直安放位置，默认为全图顶端，可选为：'top' | 'bottom' | 'center' | {number}（y坐标，单位px）
                             y: 'top',
