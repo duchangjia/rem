@@ -148,11 +148,7 @@ export default {
 						{
 							menuUrl: 'overtime_management',
 							menuName: '加班管理'
-						},
-						// {
-						// 	menuUrl: 'preSale_query',
-						// 	menuName: '售前立项'
-						// }
+						}
 					]
 				},
 				{
@@ -171,27 +167,8 @@ export default {
 					]
 				},
 				{
-					menuImg: 'icon-khgx',
-					menuUrl: '8',
-					menuName: '员工自助',
-					menuList: [
-						{
-							menuUrl: 'query_personalInfo',
-							menuName: '个人信息查询'
-						},
-						{
-							menuUrl: 'query_billingInfo',
-							menuName: '开票信息查询'
-						},
-						{
-							menuUrl: 'lineManager_Mgmt',
-							menuName: '直线经理管理'
-						}
-					]
-				},
-				{
 					menuImg: 'icon-xmgl',
-					menuUrl: '9',
+					menuUrl: '8',
 					menuName: '历史薪酬',
 					menuList: [
 						{
