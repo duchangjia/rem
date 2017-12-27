@@ -8,16 +8,6 @@
           <div class="add-wrapper">
             <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="122px">
               <el-col :sm="24" :md="12">
-                <el-form-item label="公司名称">
-                  <el-input v-model="basicPactMsg.organName" :disabled="true"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :sm="24" :md="12">
-                <el-form-item label="部门名称">
-                  <el-input v-model="basicPactMsg.derpName" :disabled="true"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :sm="24" :md="12">
                 <el-form-item label="工号">
                   <el-input v-model="basicPactMsg.userNo" :disabled="true"></el-input>
                 </el-form-item>
@@ -37,7 +27,22 @@
                   <el-input v-model="basicPactMsg.certNo" :disabled="true"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="24">
+              <el-col :sm="24" :md="12">
+                <el-form-item label="公司名称">
+                  <el-input v-model="basicPactMsg.organName" :disabled="true"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :sm="24" :md="12">
+                <el-form-item label="部门名称">
+                  <el-input v-model="basicPactMsg.derpName" :disabled="true"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :sm="24" :md="12">
+                <el-form-item label="合同主体">
+                  <el-input v-model="basicPactMsg.pactSubject" :disabled="true"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :sm="24" :md="12">
                 <el-form-item label="合同编号">
                   <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
                 </el-form-item>

@@ -9,24 +9,6 @@
                 <div class="add-wrapper clearfix">
                     <el-form  :model="info" :rules="rules" :inline="true" ref="info1" label-width="122px"  label-position="right" >
                         <el-col :sm="24" :md="12" >
-                            <el-form-item label="公司名称">
-                                <el-input :disabled="true" v-model="applyUserInfo.organName">
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :sm="24" :md="12" >
-                            <el-form-item label="申请部门名称">
-                                <el-input :disabled="true" v-model="applyUserInfo.derpName">
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :sm="24" :md="12" >
-                            <el-form-item label="CCC">
-                                <el-input :disabled="true" v-model="applyUserInfo.costCode">
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :sm="24" :md="12" >
                             <el-form-item label="申请使用人工号" prop="applyUserNo">
                                 <el-input readonly="readonly" v-model="info.applyUserNo" placeholder="请选择员工编号">
                                     <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
@@ -52,6 +34,24 @@
                         <el-col :sm="24" :md="12">
                             <el-form-item label="手机号">
                                 <el-input :disabled="true" v-model="applyUserInfo.mobileNo"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12" >
+                            <el-form-item label="CCC">
+                                <el-input :disabled="true" v-model="applyUserInfo.costCode">
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12" >
+                            <el-form-item label="公司名称">
+                                <el-input :disabled="true" v-model="applyUserInfo.organName">
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12" >
+                            <el-form-item label="申请部门名称">
+                                <el-input :disabled="true" v-model="applyUserInfo.derpName">
+                                </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :sm="24" :md="12">

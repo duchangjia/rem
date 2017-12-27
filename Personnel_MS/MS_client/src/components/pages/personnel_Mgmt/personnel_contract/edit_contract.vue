@@ -40,7 +40,12 @@
               <el-input v-model="editPactMsg.derpName" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="24">
+          <el-col :sm="24" :md="12">
+            <el-form-item label="合同主体">
+              <el-input v-model="editPactMsg.pactSubject" :disabled="true"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :sm="24" :md="12">
             <el-form-item label="合同编号">
               <el-input v-model="editPactMsg.pactNo" :disabled="true"></el-input>
             </el-form-item>
@@ -51,7 +56,7 @@
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
-            <el-form-item label="合同名称">
+            <el-form-item label="合同名称" prop="pactName">
               <el-input v-model="editPactMsg.pactName"></el-input>
             </el-form-item>
           </el-col>
@@ -197,6 +202,13 @@ export default {
         }
       },
       pactMsgRules: {
+        pactName: [
+          {
+            required: true,
+            message: "合同名称不能为空",
+            trigger: "blur"
+          }
+        ],
         pactType: [
           {
             required: true,
@@ -436,6 +448,7 @@ export default {
           editPact.paperPactNo = this.editPactMsg.paperPactNo;
           editPact.pactName = this.editPactMsg.pactName;
           editPact.userNo = this.editPactMsg.userNo;
+          editPact.pactSubject = this.editPactMsg.pactSubject;
           editPact.pactType = this.editPactMsg.pactType;
           editPact.signTime = this.editPactMsg.signTime;
           editPact.pactStartTime = this.editPactMsg.pactStartTime;

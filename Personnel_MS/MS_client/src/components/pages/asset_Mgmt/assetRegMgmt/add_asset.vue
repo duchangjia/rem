@@ -10,16 +10,6 @@
             <div class="add-wrapper">
                 <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="公司名称">
-                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="申请部门名称">
-                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
                         <el-form-item label="工号" prop="userNo">
                             <el-input v-model="custInfo.userNo" placeholder="请选择员工编号">
                                 <el-button slot="append" icon="search" @click="userNoSelect"></el-button>
@@ -40,6 +30,16 @@
                     <el-col :sm="24" :md="12">
                         <el-form-item label="姓名">
                             <el-input v-model="custInfo.custName" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="公司名称">
+                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="申请部门名称">
+                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">

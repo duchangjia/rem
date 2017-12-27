@@ -10,24 +10,6 @@
                 <div class="add-wrapper clearfix">
                     <el-form :model="applyCompanyInfo" label-width="122px" label-position="right" :inline="true">
                         <el-col :sm="24" :md="12">
-                            <el-form-item label="公司名称">
-                                <el-input v-model="applyCompanyInfo.organName" :disabled="true">
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :sm="24" :md="12">
-                            <el-form-item label="申请部门名称">
-                                <el-input v-model="applyCompanyInfo.derpName" :disabled="true">
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :sm="24" :md="12">
-                            <el-form-item label="CCC">
-                                <el-input v-model="applyCompanyInfo.costCode" :disabled="true">
-                                </el-input>
-                            </el-form-item>
-                        </el-col>
-                        <el-col :sm="24" :md="12">
                             <el-form-item label="申请使用人工号" prop="applyUserNo">
                                 <el-input v-model="applyCompanyInfo.applyUserNo" :disabled="true">
                                 </el-input>
@@ -41,6 +23,24 @@
                         <el-col :sm="24" :md="12">
                             <el-form-item label="手机号">
                                 <el-input :disabled="true" v-model="applyCompanyInfo.mobileNo"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="CCC">
+                                <el-input v-model="applyCompanyInfo.costCode" :disabled="true">
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="公司名称">
+                                <el-input v-model="applyCompanyInfo.organName" :disabled="true">
+                                </el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :sm="24" :md="12">
+                            <el-form-item label="申请部门名称">
+                                <el-input v-model="applyCompanyInfo.derpName" :disabled="true">
+                                </el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :sm="24" :md="12">
