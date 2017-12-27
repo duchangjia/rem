@@ -3,6 +3,9 @@
         <el-col :span="24">
             <div class="canvas-box" :id="echartId"></div>
         </el-col>
+        <div class="chart-title">
+            {{title}}
+        </div>
         <div class="chart-button-list" v-show="rightList.length>0">
             <span class="c-dark" v-for="(item,index) of rightList" @click="chooseMonth(index,item)" :class="{'active':index==number}">{{item.month}}</span>
         </div>
@@ -26,7 +29,7 @@ export default {
     },
     methods:{
         draw(option){ 
-            console.log(echartId,'option')
+          
             // self.echartId = ;
             let echartId = this.echartId,
                 myChart = this.$echarts.init(document.getElementById(echartId));
@@ -50,6 +53,10 @@ export default {
           default:{}
       },
       echartId:{
+          type:String,
+          default:''
+      },
+      title:{
           type:String,
           default:''
       }

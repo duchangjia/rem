@@ -62,7 +62,7 @@
                                 MORE
                             </div>
                         </div>
-                        <div class="msg-content">
+                        <!-- <div class="msg-content">
                             <ul>
                                 <li class="msg-list clearfix msg-large-list txt-size" v-for="item in newsList" v-bind:class="item.class">
                                     <div class="msg-icon"></div>
@@ -70,7 +70,7 @@
                                     <div class="msg-time">{{item.time}}</div>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="msg-item">
@@ -83,14 +83,14 @@
                                 MORE
                             </div>
                         </div>
-                        <div class="msg-content">
+                        <!-- <div class="msg-content">
                             <ul>
                                 <li class="msg-list clearfix  txt-size" v-for="item in toDoList" v-bind:class="item.class" >
                                     <span class="msg-txt ">{{item.txt}}</span>
                                     <div class="msg-time">{{item.time}}</div>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="msg-item-box mt">
                         <div class="msg-item-head clearfix">
@@ -101,14 +101,14 @@
                                 MORE
                             </div>
                         </div>
-                        <div class="msg-content">
+                        <!-- <div class="msg-content">
                             <ul>
                                 <li class="msg-list clearfix  txt-size" v-for="item in toDoList" v-bind:class="item.class">
                                     <span class="msg-txt ">{{item.txt}}</span>
                                     <div class="msg-time">{{item.time}}</div>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                 </div>   
             </div>
