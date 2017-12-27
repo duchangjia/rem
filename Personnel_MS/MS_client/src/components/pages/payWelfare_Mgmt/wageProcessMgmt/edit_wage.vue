@@ -17,7 +17,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="类别" prop="batchType">
 							<el-select v-model="formdata2.batchType" value-key="batchTypeNo" class="bg-white">
-								<el-option v-for="(item,k) in batchTypeList" :key="item.batchTypeNo" :label="item.batchTypeName" :value="item.batchTypeNo"></el-option>
+								<el-option v-for="item in batchTypeList" :key="item.batchTypeNo" :label="item.batchTypeName" :value="item.batchTypeNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	
@@ -268,8 +268,6 @@
 		        }, this);
 		      } else {
 				this.$set(this.isFuncsIndeterminate, index, false);
-				// this.formdata2.derpRange.splice(index, 1);//没有选择人员时去掉相应部门
-				// this.checkedSubmenus = this.formdata2.derpRange;
 		        targetFucsList.forEach(function(ele, index) {
 		          if (JSON.stringify(this.formdata2.preRange).indexOf(ele) != -1) {
 		            this.formdata2.preRange.splice(JSON.stringify(this.formdata2.preRange).indexOf(ele)-1, 1);
@@ -279,7 +277,6 @@
 		          }
 		        }, this);
 			  }
-			  console.log("这是全选人员的derpRange", this.formdata2.derpRange);
 		      console.log("这是全选的checkPres", this.checkPres);
 		      console.log("这是全选的preRange", this.formdata2.preRange);
 		    },
@@ -300,39 +297,19 @@
 						this.checkATFlagList[index] = false;
 					}
 				},this)
-				// if(checkATrue || checkAFalse) {
-				// 	this.checkATFlagList[index] = true;
-				// } else {
-					// this.checkATFlagList[index] = false;
-				// }
-				// this.checkATFlagList[index] = checkATFlag;
 				console.log('checkATFlag',this.checkATFlagList);
 				if(this.checkATFlagList[index]) {
 					this.checkPresAll[index] = true;
 					this.$set(this.isFuncsIndeterminate, index, true);
-					if(JSON.stringify(this.formdata2.derpRange).indexOf(JSON.stringify(MDerp)) ==-1) {
-						// this.formdata2.derpRange.push(MDerp);
-					}
 					
 				} else {
 					this.checkPresAll[index] = false;
 					this.$set(this.isFuncsIndeterminate, index, false);
-					// this.formdata2.derpRange.splice(index, 1);//没有选择人员时去掉相应部门
 				}
-		    //   if (val.length == this.checkedSubmenus[index].preRangeList.length) {
-		    //     this.checkPresAll[index] = true;
-		    //     this.$set(this.isFuncsIndeterminate, index, true);
-		    //   } else {
-		    //     this.checkPresAll[index] = false;
-			// 	this.$set(this.isFuncsIndeterminate, index, false);
-			// 	// this.formdata2.derpRange.splice(index, 1);//没有选择人员时去掉相应部门
-			// 	// this.checkedSubmenus = this.formdata2.derpRange;
-		    //   }
 		      this.formdata2.preRange = [];
 		      val.forEach(function(ele) {
 		        this.formdata2.preRange.push(ele);
 			  }, this);
-			  console.log("这是单选人员的derpRange", this.formdata2.derpRange);
 		      console.log("这是单选人员的checkPres", this.checkPres);
 		      console.log("这是单选人员的preRange", this.formdata2.preRange);
 		    },
@@ -342,47 +319,29 @@
 			        if (valid) {
 			        	let preRanges = [],
 			        		preRange = [],
-			        		derpRanges = [],
 			        		derpRange = [];
-			        	// if(JSON.stringify(self.formdata2.derpRange).indexOf('derpNo') != -1) {
-			        	// 	self.formdata2.derpRange.forEach(function(ele) {
-				        // 		derpRanges.push(ele.derpNo);
-				        // 		derpRange.push(ele.derpNo);
-				        // 	},this);
-			        	// } else {
-			        	// 	derpRanges = self.formdata2.derpRange;
-			        	// 	derpRange = self.formdata2.derpRange;
-			        	// }
 						let checkObj = {};
-						console.log('self.formdata2.preRange',self.formdata2.preRange)
-			        	self.formdata2.preRange.forEach(function(ele) {
-							console.log('pre ele', ele);
-			        		preRanges.push(ele.userNo);
-							preRange.push(ele.userNo);
-							// if(JSON.stringify(checkObj).indexOf(ele.derpNo) == -1) {
-							// 	console.log('true')
-							// 	checkObj.derpNo = ele.derpNo;
-							// 	derpRanges.push(ele.derpNo);
-							// 	derpRange.push(ele.derpNo);
-							// }
-						},this); 
+						// console.log('self.formdata2.preRange',self.formdata2.preRange)
+			        	// self.formdata2.preRange.forEach(function(ele) {
+						// 	console.log('pre ele', ele);
+			        	// 	preRanges.push(ele.userNo);
+						// 	preRange.push(ele.userNo);
+						// },this); 
 						self.formdata2.derpRange.forEach(function(ele,index) {
 							let checkFlag_1 = '';
 							let checkFlag_2 = '';
 							if(ele.preRangeList) {
 								ele.preRangeList.forEach(function(ele2,index2) {
 									if(JSON.stringify(self.formdata2.preRange).indexOf(ele2.userNo) !=-1) {
-										console.log('true');
 										checkFlag_1 = true;
 									} else {
-										console.log('false');
 										checkFlag_2 = false;
 									}
 								})
 								if(checkFlag_1 || checkFlag_2) {
 									derpRange.push(ele.derpNo);
 								} else {
-									// derpRange
+									// 
 								}
 							}
 							
@@ -398,7 +357,7 @@
 								settleEndTime: self.formdata2.settleEndTime,
 								remark: self.formdata2.remark,
 				          		preRanges: self.formdata2.preRange,
-				          		derpRanges: derpRanges,
+				          		derpRanges: derpRange,
 				          		derpRange: JSON.stringify(derpRange),
 				          		preRange: JSON.stringify(self.formdata2.preRange)
 				          	}
@@ -423,10 +382,6 @@
 						self.formdata2 = res.data.data;
 						self.formdata2.preRange = JSON.parse(self.formdata2.preRange);
 						self.formdata2.derpRange = JSON.parse(self.formdata2.derpRange);
-						// let range = [];
-						// self.formdata2.preRange.forEach(function(ele) {
-						// 	range.push({userNo: ele})
-						// })
 				      	// 人员范围（反显）
 						  self.checkPres = self.formdata2.preRange;
 						  console.log('人员反显的checkPres',self.checkPres)
@@ -454,22 +409,16 @@
 				let self = this;
 				self.$axios.get(baseURL+'/wage/queryDerpAndUserByDerpNo', {params: params})
 				.then((res) => {
-					console.log('userList',res)
+					// console.log('userList',res)
 					if(res.data.code === "S00000") {
-						// let preSrange = [];
 						res.data.data.forEach(function(ele) {
-							console.log('renyuan ele' ,ele);
 							if(JSON.stringify(self.formdata2.preRange).indexOf(ele.userNo) != -1) {
-								console.log('renyuan true');
 								if(JSON.stringify(self.preSrange).indexOf(JSON.stringify(ele)) ==-1){
 									self.preSrange.push(ele);
 								}
 								
 							}
 						})
-				      	// //人员范围（反显）
-						//   self.checkPres = self.preSrange;
-						//   console.log('人员反显的checkPres',self.checkPres)
 
 						if(self.checkSubAllFlag) {//查全部人员时
 							// console.log('self.checkSubAllFlag',self.checkSubAllFlag);

@@ -16,13 +16,12 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="类别" prop="batchType">
 							<el-select v-model="formdata2.batchType" value-key="batchType" class="bg-white" :disabled="true">
-								<el-option v-for="(item,k) in batchTypeList" :key="item.batchType" :label="item.batchTypeName" :value="item.batchType"></el-option>
+								<el-option v-for="item in batchTypeList" :key="item.batchType" :label="item.batchTypeName" :value="item.batchType"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称" prop="organNo">
-							<!--<el-input v-model="formdata2.organName" :disabled="true"></el-input>-->
 							<el-select v-model="formdata2.organNo" value-key="compOrgNo" @change="changeComp" :disabled="true">
 								<el-option v-for="item in compList" :key="item.organNo" :label="item.organName" :value="item.organNo"></el-option>
 							</el-select>
@@ -30,9 +29,8 @@
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="状态" prop="batchStatus">
-							<!--<el-input v-model="formdata2.batchStatus" :disabled="true"></el-input>-->
 							<el-select v-model="formdata2.batchStatus" value-key="compOrgNo" :disabled="true">
-								<el-option v-for="item in batchStatusList" :key="item.batchStatus" :label="item.batchStatusName" :value="item.batchStatus"></el-option>
+								<el-option v-for="item in batchStatusList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -140,7 +138,11 @@
 				//公司列表
 				compList: [],
 				//状态列表
-				batchStatusList: [],
+				batchStatusList: [
+					{paraValue: '01',paraShowMsg: '录入'},
+					{paraValue: '02',paraShowMsg: '启用'},
+					{paraValue: '03',paraShowMsg: '废弃'},
+				],
 				//部门列表
 				derpRangeList: [],
 			 	rules: {
@@ -245,14 +247,14 @@
 				let self = this;
 				self.$axios.get(baseURL+'/wage/queryDerpAndUserByDerpNo', {params: params})
 				.then((res) => {
-					console.log('userList',res);
+					// console.log('userList',res);
 					if(res.data.code === "S00000") {
 						self.derpRangeList.forEach(function(ele,num) {
 							if(ele.derpNo == res.data.data[0].derpNo) {
 								self.derpRangeList[num].preRangeList = res.data.data;
 								self.$set(self.derpRangeList, num, self.derpRangeList[num]);
 							}else {
-								console.log('deparNo false')
+								// console.log('deparNo false')
 							}
 						})
 						self.formdata2.derpRange.forEach(function(ele,num) {
@@ -260,11 +262,11 @@
 								self.formdata2.derpRange[num].preRangeList = res.data.data;
 								self.$set(self.formdata2.derpRange,num,self.formdata2.derpRange[num]);
 							}else {
-								console.log('formdata2 false')
+								// console.log('formdata2 false')
 							}
 						})
-								console.log('self.derpRangeList',self.derpRangeList)
-								console.log('self.formdata2.derpRange',self.formdata2.derpRange)
+								// console.log('self.derpRangeList',self.derpRangeList)
+								// console.log('self.formdata2.derpRange',self.formdata2.derpRange)
 					}
 				}).catch((err) => {
 					console.log(err);
