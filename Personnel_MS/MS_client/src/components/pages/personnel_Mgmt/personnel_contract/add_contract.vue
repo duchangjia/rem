@@ -44,13 +44,18 @@
               <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="24">
+            <el-form-item label="合同主体">
+              <el-input v-model="custInfo.pactSubject" :disabled="true"></el-input>
+            </el-form-item>
+          </el-col>
           <el-col :sm="24" :md="12">
-            <el-form-item label="纸质合同编号">
+            <el-form-item label="纸质合同编号" prop="paperPactNo">
               <el-input v-model="addPactMsg.paperPactNo"></el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
-            <el-form-item label="合同名称">
+            <el-form-item label="合同名称" prop="pactName">
               <el-input v-model="addPactMsg.pactName"></el-input>
             </el-form-item>
           </el-col>
@@ -168,6 +173,7 @@ export default {
         paperPactNo: "",
         pactName: "",
         userNo: "",
+        pactSubject: "",
         pactType: "",
         signTime: "",
         pactStartTime: "",
@@ -225,6 +231,20 @@ export default {
           {
             required: true,
             message: "工号不能为空",
+            trigger: "blur"
+          }
+        ],
+        paperPactNo: [
+          {
+            required: true,
+            message: "纸质合同编号不能为空",
+            trigger: "blur"
+          }
+        ],
+        pactName: [
+          {
+            required: true,
+            message: "合同名称不能为空",
             trigger: "blur"
           }
         ],
@@ -372,6 +392,7 @@ export default {
             self.dialogVisible = false;
             self.custInfo = res.data.data;
             self.addPactMsg.userNo = self.custInfo.userNo;
+            self.addPactMsg.pactSubject = self.custInfo.pactSubject;
             console.log("custInfo", self.custInfo);
           }
         })
