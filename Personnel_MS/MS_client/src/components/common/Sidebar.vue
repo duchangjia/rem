@@ -72,6 +72,10 @@ export default {
 					menuUrl: '3',
 					menuName: '人事事务',
 					menuList: [
+                        {
+                            menuUrl: 'personnel_archives',
+                            menuName: '人事档案'
+                        },
 						{
 							menuUrl: 'personnel_contract',
 							menuName: '人事合同'
@@ -79,11 +83,7 @@ export default {
 						{
 							menuUrl: 'personnel_transfer',
 							menuName: '人事调动'
-						},
-                        {
-                            menuUrl: 'personnel_archives',
-                            menuName: '人事档案'
-                        }
+						}
 					]
 				},
 				{
@@ -107,16 +107,16 @@ export default {
 					menuName: '薪酬福利',
 					menuList: [
 						{
-							menuUrl: 'payBaseInfo_setting',
-							menuName: '薪酬基数设置'
+							menuUrl: 'wageProcess_manage',
+							menuName: '工资流程管理'
 						},
 						{
 							menuUrl: 'payChange_manage',
 							menuName: '调薪管理'
 						},
 						{
-							menuUrl: 'wageProcess_manage',
-							menuName: '工资流程管理'
+							menuUrl: 'payBaseInfo_setting',
+							menuName: '薪酬基数设置'
 						},
 //						{
 //							menuUrl: 'awardProcess_manage',
@@ -184,7 +184,7 @@ export default {
 	},
 	created() {
 		
-		this.queryList();
+		this.queryMenuList();
 	},
 	methods: {
 		changeRadio(value) {
@@ -206,12 +206,12 @@ export default {
 		collapse() {
 			console.log('collapse');
 		},
-		queryList() {
+		queryMenuList() {
 			let self = this;
 			self.$axios.get(baseURL+'/menu/queryMenuInfo')
 			.then(function(res) {
 //				console.log('menuList',res);
-//				self.items = res.data.data;
+				// self.items = res.data.data;
 			}).catch(function(err) {
 				console.log('error');
 			})
