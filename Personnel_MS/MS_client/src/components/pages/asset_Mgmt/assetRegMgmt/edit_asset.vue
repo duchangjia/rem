@@ -5,10 +5,10 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">资产修改</span>
-                <el-button type="primary" @click="handleSave('editAssetInfoRules')" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="公司名称">
                             <el-input v-model="custInfo.organName" :disabled="true"></el-input>
@@ -47,7 +47,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">采购信息</el-col>
-                <el-form :inline="true" :model="assetInfoDetail" :rules="assetInfoRules" ref="editAssetInfoRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :model="assetInfoDetail" :rules="assetInfoRules" ref="editAssetInfoRules1" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="采购订单号" prop="buyApplyNo">
                             <el-input v-model="assetInfoDetail.buyApplyNo"></el-input>
@@ -135,6 +135,8 @@
                             </el-upload>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :model="assetInfoDetail" :rules="assetInfoRules" ref="editAssetInfoRules2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="24">
                         <el-form-item label="主要性能说明" prop="remark">
                             <el-input type="textarea" v-model="assetInfoDetail.remark" placeholder="配置说明"></el-input>
@@ -368,49 +370,12 @@ export default {
         this.$message({ type: "success", message: "文件上传成功!" });
       } else this.$message.error(res.retMsg);
     },
-    handleSave(editAssetInfoRules) {
-      this.$refs[editAssetInfoRules].validate(valid => {
+    handleSave() {
+      let rulesValid1 = false;
+      let rulesValid2 = false;
+      this.$refs.editAssetInfoRules1.validate(valid => {
         if (valid) {
-          let fileIds = [];
-          for (let k in this.fileList) {
-            fileIds.push(this.fileList[k].fileId);
-          }
-          console.log("fileIds", fileIds);
-          let editAssetInfo = {};
-          editAssetInfo.applyUserNo = this.custInfo.userNo;
-          editAssetInfo.organNo = this.custInfo.organNo;
-          editAssetInfo.derpNo = this.custInfo.derpNo;
-          editAssetInfo.assetNo = this.assetInfoDetail.assetNo;
-          editAssetInfo.buyApplyNo = this.assetInfoDetail.buyApplyNo;
-          editAssetInfo.buyUnitPrice = this.assetInfoDetail.buyUnitPrice;
-          editAssetInfo.buyNum = this.assetInfoDetail.buyNum;
-          editAssetInfo.stockNum = this.assetInfoDetail.stockNum;
-          editAssetInfo.buyAmount = this.assetInfoDetail.buyAmount;
-          editAssetInfo.mfrs = this.assetInfoDetail.mfrs;
-          editAssetInfo.supplier = this.assetInfoDetail.supplier;
-          editAssetInfo.assetType = this.assetInfoDetail.assetType;
-          editAssetInfo.assetName = this.assetInfoDetail.assetName;
-          editAssetInfo.faxfreeTime = this.assetInfoDetail.faxfreeTime;
-          editAssetInfo.snNo = this.assetInfoDetail.snNo;
-          editAssetInfo.status = this.assetInfoDetail.status;
-          editAssetInfo.derpLimit = this.assetInfoDetail.derpLimit;
-          editAssetInfo.specType = this.assetInfoDetail.specType;
-          editAssetInfo.factoryTime = this.assetInfoDetail.factoryTime;
-          editAssetInfo.remark = this.assetInfoDetail.remark;
-          editAssetInfo.fileIds = fileIds;
-          console.log("editAssetInfo", editAssetInfo);
-          this.$axios
-            .put("/iem_hrm/EpAssetInf/updateEpAssetInf", editAssetInfo)
-            .then(res => {
-              console.log(res);
-              if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/query_asset");
-              } else this.$message.error(res.data.retMsg);
-            })
-            .catch(() => {
-              this.$message.error("操作失败！");
-            });
+          rulesValid1 = true;
         } else {
           console.log("error submit!!");
           this.$message({
@@ -420,6 +385,62 @@ export default {
           return false;
         }
       });
+      this.$refs.editAssetInfoRules2.validate(valid => {
+        if (valid) {
+          rulesValid2 = true;
+        } else {
+          console.log("error submit!!");
+          if (rulesValid1 == true) {
+            this.$message({
+              type: "error",
+              message: "请确保必填信息填写正确!"
+            });
+          }
+          return false;
+        }
+      });
+      if (rulesValid1 && rulesValid2) {
+        let fileIds = [];
+        for (let k in this.fileList) {
+          fileIds.push(this.fileList[k].fileId);
+        }
+        console.log("fileIds", fileIds);
+        let editAssetInfo = {};
+        editAssetInfo.applyUserNo = this.custInfo.userNo;
+        editAssetInfo.organNo = this.custInfo.organNo;
+        editAssetInfo.derpNo = this.custInfo.derpNo;
+        editAssetInfo.assetNo = this.assetInfoDetail.assetNo;
+        editAssetInfo.buyApplyNo = this.assetInfoDetail.buyApplyNo;
+        editAssetInfo.buyUnitPrice = this.assetInfoDetail.buyUnitPrice;
+        editAssetInfo.buyNum = this.assetInfoDetail.buyNum;
+        editAssetInfo.stockNum = this.assetInfoDetail.stockNum;
+        editAssetInfo.buyAmount = this.assetInfoDetail.buyAmount;
+        editAssetInfo.mfrs = this.assetInfoDetail.mfrs;
+        editAssetInfo.supplier = this.assetInfoDetail.supplier;
+        editAssetInfo.assetType = this.assetInfoDetail.assetType;
+        editAssetInfo.assetName = this.assetInfoDetail.assetName;
+        editAssetInfo.faxfreeTime = this.assetInfoDetail.faxfreeTime;
+        editAssetInfo.snNo = this.assetInfoDetail.snNo;
+        editAssetInfo.status = this.assetInfoDetail.status;
+        editAssetInfo.derpLimit = this.assetInfoDetail.derpLimit;
+        editAssetInfo.specType = this.assetInfoDetail.specType;
+        editAssetInfo.factoryTime = this.assetInfoDetail.factoryTime;
+        editAssetInfo.remark = this.assetInfoDetail.remark;
+        editAssetInfo.fileIds = fileIds;
+        console.log("editAssetInfo", editAssetInfo);
+        this.$axios
+          .put("/iem_hrm/EpAssetInf/updateEpAssetInf", editAssetInfo)
+          .then(res => {
+            console.log(res);
+            if (res.data.code == "S00000") {
+              this.$message({ type: "success", message: "操作成功!" });
+              this.$router.push("/query_asset");
+            } else this.$message.error(res.data.retMsg);
+          })
+          .catch(() => {
+            this.$message.error("操作失败！");
+          });
+      }
     }
   }
 };

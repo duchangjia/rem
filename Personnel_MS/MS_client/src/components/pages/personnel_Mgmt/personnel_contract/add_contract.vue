@@ -8,7 +8,7 @@
         <el-button type="primary" @click="handleSave('addPactMsgRules')" class="toolBtn">保存</el-button>
       </div>
       <div class="add-wrapper clearfix">
-        <el-form :inline="true" :model="addPactMsg" :rules="pactMsgRules" ref="addPactMsgRules" :label-position="labelPosition" label-width="110px">
+        <el-form :inline="true" :model="addPactMsg" :rules="pactMsgRules" ref="addPactMsgRules" :label-position="labelPosition" label-width="122px">
           <el-col :sm="24" :md="12">
             <el-form-item label="工号" prop="userNo">
               <el-input readonly="readonly" v-model="custInfo.userNo" placeholder="请选择员工编号">
@@ -117,6 +117,8 @@
               </el-upload>
             </el-form-item>
           </el-col>
+        </el-form>
+        <el-form :model="addPactMsg" :label-position="labelPosition" label-width="122px" style="margin-top:0;">
           <el-col :span="24">
             <el-form-item label="终止原因" prop="stopReason">
               <el-input type="textarea" v-model="addPactMsg.stopReason"></el-input>

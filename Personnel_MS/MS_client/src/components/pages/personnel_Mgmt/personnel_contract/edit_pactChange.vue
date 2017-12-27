@@ -5,10 +5,10 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">合同变更修改</span>
-                <el-button type="primary" @click="handleSave('pactMsgRules')" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同编号">
                             <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
@@ -33,7 +33,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">员工信息</el-col>
-                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工号">
                             <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
@@ -84,7 +84,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">合同变更信息</el-col>
-                <el-form :inline="true" :model="editPChangeMsg" :rules="pactMsgRules" ref="pactMsgRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="editPChangeMsg" :rules="pactMsgRules" ref="pactMsgRules1" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="变更时间" prop="changeTime">
                             <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="editPChangeMsg.changeTime" @change="changeTimeChange" style="width: 100%;"></el-date-picker>
@@ -95,11 +95,15 @@
                             <el-input v-model="_changeType"></el-input>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :model="editPChangeMsg" :rules="pactMsgRules" ref="pactMsgRules2" :label-position="labelPosition" label-width="122px" style="margin-top:0;"> 
                     <el-col :span="24">
                         <el-form-item label="变更内容" prop="changeContent">
                             <el-input type="textarea" v-model="editPChangeMsg.changeContent"></el-input>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :inline="true" :model="editPChangeMsg" :label-position="labelPosition" label-width="122px" style="margin-top:0;">
                     <el-col :span="24">
                         <el-form-item label="附件">
                             <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
@@ -344,34 +348,13 @@ export default {
         });
       } else this.$message.error(res.retMsg);
     },
-    handleSave(pactMsgRules) {
-      this.$refs[pactMsgRules].validate(valid => {
+    handleSave() {
+      let rulesValid1 = false;
+      let rulesValid2 = false;
+
+      this.$refs.pactMsgRules1.validate(valid => {
         if (valid) {
-          let fileIds = [];
-          for (let k in this.fileList) {
-            fileIds.push(this.fileList[k].fileId);
-          }
-          console.log("fileIds", fileIds);
-          let newPChange = {};
-          newPChange.pactNo = this.pactNo;
-          newPChange.changeId = this.changeId;
-          newPChange.changeTime = this.editPChangeMsg.changeTime;
-          newPChange.changeType = this.editPChangeMsg.changeType;
-          newPChange.changeContent = this.editPChangeMsg.changeContent;
-          newPChange.attachm = this.editPChangeMsg.attachm;
-          newPChange.fileIds = fileIds;
-          this.$axios
-            .put("/iem_hrm/pact/updatePactChange", newPChange)
-            .then(res => {
-              console.log(res);
-              if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/detail_contract");
-              } else this.$message.error(res.data.retMsg);
-            })
-            .catch(() => {
-              this.$message.error("操作失败！");
-            });
+          rulesValid1 = true;
         } else {
           console.log("error submit!!");
           this.$message({
@@ -381,6 +364,48 @@ export default {
           return false;
         }
       });
+      this.$refs.pactMsgRules2.validate(valid => {
+        if (valid) {
+          rulesValid2 = true;
+        } else {
+          console.log("error submit!!");
+          if (rulesValid1 == true) {
+            this.$message({
+              type: "error",
+              message: "请确保必填信息填写正确!"
+            });
+          }
+          return false;
+        }
+      });
+      if (rulesValid1 && rulesValid2) {
+        let fileIds = [];
+        for (let k in this.fileList) {
+          fileIds.push(this.fileList[k].fileId);
+        }
+        console.log("fileIds", fileIds);
+        let newPChange = {};
+        newPChange.pactNo = this.pactNo;
+        newPChange.changeId = this.changeId;
+        newPChange.changeTime = this.editPChangeMsg.changeTime;
+        newPChange.changeType = this.editPChangeMsg.changeType;
+        newPChange.changeContent = this.editPChangeMsg.changeContent;
+        newPChange.attachm = this.editPChangeMsg.attachm;
+        newPChange.fileIds = fileIds;
+        this.$axios
+          .put("/iem_hrm/pact/updatePactChange", newPChange)
+          .then(res => {
+            console.log(res);
+            if (res.data.code == "S00000") {
+              this.$message({ type: "success", message: "操作成功!" });
+              this.$router.push("/detail_contract");
+            } else this.$message.error(res.data.retMsg);
+          })
+          .catch(() => {
+            this.$message.error("操作失败！");
+          });
+      }
+
     }
   }
 };

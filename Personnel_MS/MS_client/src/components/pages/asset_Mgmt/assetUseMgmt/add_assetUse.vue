@@ -7,7 +7,7 @@
                     <el-button type="primary" class="toolBtn btn-primary" @click="save">保存</el-button>
                 </div>
                 <div class="add-wrapper clearfix">
-                    <el-form  :model="info" :rules="rules" :inline="true" ref="info1" label-width="130px"  label-position="right" >
+                    <el-form  :model="info" :rules="rules" :inline="true" ref="info1" label-width="122px"  label-position="right" >
                         <el-col :sm="24" :md="12" >
                             <el-form-item label="公司名称">
                                 <el-input :disabled="true" v-model="applyUserInfo.organName">
@@ -22,7 +22,7 @@
                         </el-col>
                         <el-col :sm="24" :md="12" >
                             <el-form-item label="CCC">
-                                <el-input :disabled="true" v-model="applyUserInfo.ccc">
+                                <el-input :disabled="true" v-model="applyUserInfo.costCode">
                                 </el-input>
                             </el-form-item>
                         </el-col>
@@ -70,7 +70,7 @@
                          </el-col>
                     </el-form>
                     <el-col :span="24" class="item-title">资产信息</el-col>
-                    <el-form label-width="130px" :model="info" :rules="rules" ref="info2" class="clearfix" :inline="true">
+                    <el-form label-width="122px" :model="info" :rules="rules" ref="info2" class="clearfix" :inline="true">
                         <el-col :sm="24" :md="12">
                             <el-form-item label="资产编号" prop="assetNo">
                                 <el-input v-model="info.assetNo" placeholder="请选择资产编号" readonly="readonly">
@@ -135,6 +135,8 @@
                                 <el-input :disabled="true" :value="assetInfo.faxFreeTime"></el-input>
                             </el-form-item>
                         </el-col>
+                    </el-form>
+                    <el-form label-width="122px" class="clearfix" style="margin-top:0;">
                         <el-col :span="24">
                             <el-form-item label="主要性能说明">
                                 <el-input type="textarea" :disabled="true" v-model="assetInfo.configInstr"></el-input>
@@ -142,7 +144,7 @@
                         </el-col>
                     </el-form>
                     <el-col :span="24" class="item-title">使用信息</el-col>
-                    <el-form label-width="130px" :model="applyInfo" :rules="rules" ref="info3" class="clearfix" :inline="true">
+                    <el-form label-width="122px" :model="applyInfo" :rules="rules" ref="info3" class="clearfix" :inline="true">
                         <el-col :sm="24" :md="12">
                             <el-form-item label="使用类别" prop="applyType">
                                 <el-select placeholder="请选择使用类别" v-model="applyInfo.applyType">
@@ -183,6 +185,8 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
+                    </el-form>
+                    <el-form label-width="122px" :model="applyInfo" :rules="rules" ref="info4" class="clearfix" style="margin-top:0;">
                         <el-col :span="24">
                             <el-form-item label="说明" prop="remark">
                                 <el-input type="textarea" v-model="applyInfo.remark"></el-input>
@@ -269,17 +273,6 @@ export default {
               case 1:
                 self.applyUserInfo = res.data.data;
                 self.info.applyUserNo = ajaxNo.stateNo;
-                switch (self.applyUserInfo.ccc) {
-                  case "01":
-                    self.applyUserInfo.ccc = "管理CCC";
-                    break;
-                  case "02":
-                    self.applyUserInfo.ccc = "售前CCC";
-                    break;
-                  case "03":
-                    self.applyUserInfo.ccc = "项目CCC";
-                    break;
-                }
                 break;
               case 2:
                 self.assetInfo = res.data.data;
@@ -435,29 +428,33 @@ export default {
             if (valid) {
               self.$refs.info3.validate(valid => {
                 if (valid) {
-                  let data = Object.assign(this.applyInfo, this.info);
-                  self.$axios
-                    .post(addAssetUseINF, data)
-                    .then(res => {
-                      let result = res.data.retMsg;
-                      if ("操作成功" === result) {
-                        self.$message({
-                          message: result,
-                          type: "success"
+                  self.$refs.info4.validate(valid => {
+                    if (valid) {
+                      let data = Object.assign(this.applyInfo, this.info);
+                      self.$axios
+                        .post(addAssetUseINF, data)
+                        .then(res => {
+                          let result = res.data.retMsg;
+                          if ("操作成功" === result) {
+                            self.$message({
+                              message: result,
+                              type: "success"
+                            });
+                          } else {
+                            self.$message({
+                              message: result,
+                              type: "error"
+                            });
+                          }
+                        })
+                        .catch(e => {
+                          self.$message({
+                            message: e.retMsg,
+                            type: "error"
+                          });
                         });
-                      } else {
-                        self.$message({
-                          message: result,
-                          type: "error"
-                        });
-                      }
-                    })
-                    .catch(e => {
-                      self.$message({
-                        message: e.retMsg,
-                        type: "error"
-                      });
-                    });
+                    }
+                  });
                 }
               });
             }

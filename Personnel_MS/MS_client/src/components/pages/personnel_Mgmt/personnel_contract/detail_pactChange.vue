@@ -7,7 +7,7 @@
                 <span class="title-text">合同变更详情</span>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同编号">
                             <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
@@ -32,7 +32,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">员工信息</el-col>
-                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工号">
                             <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
@@ -83,7 +83,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">合同变更信息</el-col>
-                <el-form :inline="true" :model="detailPChangeMsg" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="detailPChangeMsg" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="变更时间" prop="changeTime">
                             <el-date-picker type="date" placeholder="选择日期" v-model="detailPChangeMsg.changeTime" :disabled="true" style="width: 100%;"></el-date-picker>
@@ -94,11 +94,15 @@
                             <el-input v-model="_changeType" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :model="detailPChangeMsg" :rules="pactMsgRules" ref="pactMsgRules2" :label-position="labelPosition" label-width="122px" style="margin-top:0;">
                     <el-col :span="24">
                         <el-form-item label="变更内容">
                             <el-input type="textarea" v-model="detailPChangeMsg.changeContent" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :inline="true" :model="detailPChangeMsg" :label-position="labelPosition" label-width="122px" style="margin-top:0;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="最新更新人">
                             <el-input v-model="detailPChangeMsg.updatedBy" :disabled="true"></el-input>
