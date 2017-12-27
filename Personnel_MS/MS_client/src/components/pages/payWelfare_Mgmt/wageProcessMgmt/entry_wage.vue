@@ -4,10 +4,7 @@
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
 				<span class="title-text">录入工资</span>
-				<!--<div class="titleBtn_wrapper">
-					<el-button type="primary" class="btn-primary" @click="autoCalc('formdata2')">自动计算</el-button>
-					<el-button type="primary" class="btn-primary" @click="save">保存</el-button>
-				</div>-->
+				
 			</div>
 			<div class="queryContent_inner">
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
@@ -35,11 +32,16 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<div class="queryButton_wrapper">
+					<div class="queryButton_wrapper" style="position: relative;">
 						<el-button class="btn-default" @click="resetForm('ruleForm2')">重置</el-button>
 						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
+						<div class="titleBtn_wrapper" >
+							<el-button type="primary" class="btn-primary" @click="autoCalcAll">自动计算</el-button>
+							<el-button type="primary" class="btn-primary" @click="saveAll">保存</el-button>
+						</div>
 					</div>
 				</el-form>
+				
 				<el-table :data="socialInfoData" border fit stripe style="width: 100%;">
 					<el-table-column prop="month" label="工资月份" width="100" min-height="60px"></el-table-column>
 					<el-table-column prop="userNo" label="工号" width="100"></el-table-column>
@@ -162,11 +164,6 @@
 							</el-form>
 						</template>
 					</el-table-column>
-					<!--<el-table-column prop="pretaxTotal" label="合计（扣税前）" min-width="200px">
-						<template scope="scope">
-							<el-input size="small" v-model="scope.row.pretaxTotal" @change="handleEdit($event, scope.$index, scope.row)"></el-input>
-						</template>
-					</el-table-column>-->
 					<el-table-column prop="perPayTotal" label="保险缴费合计(个人)" width="100" :formatter="perPayTotalFormatter"></el-table-column>
 					<el-table-column prop="comPayTotal" label="保险缴费合计(单位)" width="100" :formatter="comPayTotalFormatter"></el-table-column>
 					<el-table-column label="保险缴纳" width="100">
@@ -223,6 +220,7 @@ export default {
 				startDate: [
 				]
 			},
+			//输入工资数据校验
 			rules1: {
 				wagesBase: [
 					{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的金额", trigger: 'change' }
@@ -419,7 +417,6 @@ export default {
 				realHair: row.realHair
           	}
           	//保存修改
-			//   this.modWageInfo(params);
 			let self = this;
 			  self.$axios.post(baseURL+'/wage/addCustPayInfo',params)
 			.then((res) => {
@@ -431,19 +428,80 @@ export default {
 				console.log('error');
 			})
 		},
-		
-		autoCalc() {
+		//全部计算
+		autoCalcAll() {
+			for(let i=0; i<this.socialInfoData.length; i++) {
+				let params = {
+					wagesBase: this.socialInfoData[i].wagesBase, //基本工资
+					wagesPerf: this.socialInfoData[i].wagesPerf,	//绩效工资
+					postPension: this.socialInfoData[i].postPension,	//岗位补贴
+					phonePension: this.socialInfoData[i].phonePension,	//通讯补贴
+					trafficPension: this.socialInfoData[i].trafficPension, 	//交通补贴
+					livingPension: this.socialInfoData[i].livingPension,	//生活补贴
+					bonusPerf: this.socialInfoData[i].bonusPerf,	//绩效奖金
+					overtimePay: this.socialInfoData[i].overtimePay,	//加班工资
+					otherPension: this.socialInfoData[i].otherPension,	//其他补贴
+					lateArrivalPay: this.socialInfoData[i].lateArrivalPay,	//迟到早退
+					leavePay: this.socialInfoData[i].leavePay,	//病事假
+					absentPay: this.socialInfoData[i].absentPay,	//旷工
+					perCommercialPay: this.socialInfoData[i].perCommercialPay,	//个人商业保险
+					otherCutPay: this.socialInfoData[i].otherCutPay,	//其他扣款
+					perHousePay: this.socialInfoData[i].perHousePay,	//个人公积基金
+					perEndmPay: this.socialInfoData[i].perEndmPay,	//个人养老
+					perMediPay: this.socialInfoData[i].perMediPay,	//个人医疗
+					perUnemPay: this.socialInfoData[i].perUnemPay,	//个人失业 
+					perEmplPay: this.socialInfoData[i].perEmplPay,	//个人工伤
+					perMatePay: this.socialInfoData[i].perMatePay,	//个人生育
+					pretaxTotal: this.socialInfoData[i].pretaxTotal	//税前合计
+				}
+				this.autoCaclWage(i,params);
+			}
 			
 			
 		},
-		save() {
-			const self = this;
-//			self.$refs.formdata2.validate(valid => {
-//		        if (valid) {
-//		        	
-		          	
-//		        }
-//	       })
+		//全部保存
+		saveAll() {
+			for(let i=0; i<this.socialInfoData.length; i++) {
+				let params = {
+					batchNo: this.socialInfoData[i].batchNo,
+					userNo : this.socialInfoData[i].userNo,
+					perEndmPay: this.socialInfoData[i].perEndmPay,
+					perMediPay: this.socialInfoData[i].perMediPay,
+					perUnemPay: this.socialInfoData[i].perUnemPay,
+					perEmplPay: this.socialInfoData[i].perEmplPay,
+					perMatePay: this.socialInfoData[i].perMatePay,
+					perHousePay: this.socialInfoData[i].perHousePay,
+					pretaxTotal: this.socialInfoData[i].pretaxTotal,
+					perCommercialPay: this.socialInfoData[i].perCommercialPay,//商保个人
+					comCommercialPay: this.socialInfoData[i].comCommercialPay,//商保单位
+					wagesBase: this.socialInfoData[i].wagesBase,  // 基础工资
+					postPension: this.socialInfoData[i].postPension,  // 岗位工资
+					wagesPerf: this.socialInfoData[i].wagesPerf, // 绩效工资
+					phonePension: this.socialInfoData[i].phonePension,// 通讯补贴
+					trafficPension: this.socialInfoData[i].trafficPension, // 交通补贴
+					livingPension: this.socialInfoData[i].livingPension,  // 生活补贴
+					otherPension: this.socialInfoData[i].otherPension, // 其他补贴
+					payBonus: this.socialInfoData[i].payBonus, // 绩效奖金
+					overtimePay: this.socialInfoData[i].overtimePay,  // 加班工资
+					lateArrivalPay: this.socialInfoData[i].lateArrivalPay, // 病事假扣款
+					absentPay: this.socialInfoData[i].absentPay, // 旷工扣款
+					otherCutPay: this.socialInfoData[i].otherCutPay,
+					payTax: this.socialInfoData[i].payTax,
+					realHair: this.socialInfoData[i].realHair
+				}
+				//保存修改
+				let self = this;
+				self.$axios.post(baseURL+'/wage/addCustPayInfo',params)
+				.then((res) => {
+					console.log('modWage',res);
+					if(res.data.code === "S00000") {
+						self.$message({ message: '操作成功', type: 'success' });
+					}
+				}).catch((err) => {
+					console.log('error');
+				})
+			}
+			
 		},
 		queryWageInfoList() {
 			let self = this;
@@ -550,5 +608,10 @@ export default {
 .entry_wage .el-table .el-form-item__content {
     line-height: normal;
     width: 164px;
+}
+.entry_wage .titleBtn_wrapper {
+	position: absolute; 
+	right: -426px;
+	top:2px;
 }
 </style>
