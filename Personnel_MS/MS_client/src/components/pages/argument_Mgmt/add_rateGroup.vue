@@ -48,8 +48,8 @@ export default {
 		var checkEndTime = (rule, value, callback) => {
 	        if (value === '') {
 	          	callback();
-	        } else if (value <= this.formdata.startTime) {
-	          	callback(new Error('失效日期必须大于生效日期'));
+	        } else if (value < this.formdata.startTime) {
+	          	callback(new Error('失效日期必须大于等于生效日期'));
 	        } else {
 	          	callback();
 	        }
