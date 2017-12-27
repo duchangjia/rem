@@ -10,31 +10,6 @@
       <div class="add-wrapper">
         <el-form :inline="true" :model="editPactMsg" :rules="pactMsgRules" ref="editPactMsgRules" :label-position="labelPosition"
           label-width="110px">
-          <el-col :span="24">
-            <el-form-item label="合同编号">
-              <el-input v-model="editPactMsg.pactNo" :disabled="true"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :sm="24" :md="12">
-            <el-form-item label="纸质合同编号">
-              <el-input v-model="editPactMsg.paperPactNo" :disabled="true"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :sm="24" :md="12">
-            <el-form-item label="合同名称">
-              <el-input v-model="editPactMsg.pactName"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :sm="24" :md="12">
-            <el-form-item label="公司名称">
-              <el-input v-model="editPactMsg.organName" :disabled="true"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :sm="24" :md="12">
-            <el-form-item label="部门名称">
-              <el-input v-model="editPactMsg.derpName" :disabled="true"></el-input>
-            </el-form-item>
-          </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="工号">
               <el-input v-model="editPactMsg.userNo" :disabled="true"></el-input>
@@ -53,6 +28,31 @@
           <el-col :sm="24" :md="12">
             <el-form-item label="身份证">
               <el-input v-model="editPactMsg.certNo" :disabled="true"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :sm="24" :md="12">
+            <el-form-item label="公司名称">
+              <el-input v-model="editPactMsg.organName" :disabled="true"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :sm="24" :md="12">
+            <el-form-item label="部门名称">
+              <el-input v-model="editPactMsg.derpName" :disabled="true"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="24">
+            <el-form-item label="合同编号">
+              <el-input v-model="editPactMsg.pactNo" :disabled="true"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :sm="24" :md="12">
+            <el-form-item label="纸质合同编号">
+              <el-input v-model="editPactMsg.paperPactNo" :disabled="true"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :sm="24" :md="12">
+            <el-form-item label="合同名称">
+              <el-input v-model="editPactMsg.pactName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">

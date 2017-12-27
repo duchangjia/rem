@@ -7,21 +7,6 @@
         <el-tab-pane label="合同基本情况" name="basicPactMsg">
           <div class="add-wrapper">
             <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
-              <el-col :span="24">
-                <el-form-item label="合同编号">
-                  <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :sm="24" :md="12">
-                <el-form-item label="纸质合同编号">
-                  <el-input v-model="basicPactMsg.paperPactNo" :disabled="true"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :sm="24" :md="12">
-                <el-form-item label="合同名称">
-                  <el-input v-model="basicPactMsg.pactName" :disabled="true"></el-input>
-                </el-form-item>
-              </el-col>
               <el-col :sm="24" :md="12">
                 <el-form-item label="公司名称">
                   <el-input v-model="basicPactMsg.organName" :disabled="true"></el-input>
@@ -50,6 +35,21 @@
               <el-col :sm="24" :md="12">
                 <el-form-item label="身份证">
                   <el-input v-model="basicPactMsg.certNo" :disabled="true"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="24">
+                <el-form-item label="合同编号">
+                  <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :sm="24" :md="12">
+                <el-form-item label="纸质合同编号">
+                  <el-input v-model="basicPactMsg.paperPactNo" :disabled="true"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :sm="24" :md="12">
+                <el-form-item label="合同名称">
+                  <el-input v-model="basicPactMsg.pactName" :disabled="true"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :sm="24" :md="12">
