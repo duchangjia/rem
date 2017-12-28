@@ -82,6 +82,7 @@
 
 <script type='text/ecmascript-6'>
 import current from '../../../common/current_position.vue'
+import getDeepDerp from '../../../../common/GetDeepDerp'
 import moment from 'moment'
 const baseURL = 'iem_hrm'
 export default {
@@ -139,11 +140,11 @@ export default {
 		current
 	},
 	created() {
-		this.ruleForm2.compOrgNo = '',
-		this.ruleForm2.departOrgNo = '',
-		this.ruleForm2.userNo = '',
-		this.ruleForm2.startDate = '',
-		this.ruleForm2.endDate = ''
+		this.ruleForm2.compOrgNo = '';
+		this.ruleForm2.departOrgNo = '';
+		this.ruleForm2.userNo = '';
+		this.ruleForm2.startDate = '';
+		this.ruleForm2.endDate = '';
 		//查询公司列表
 		this.queryCompList();
 		//查询考勤列表
@@ -346,11 +347,21 @@ export default {
 		//查询部门列表
 		queryDerpList(params) {
 			let self = this;
+			self.departList = [];
 			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
 			.then((res) => {
 				console.log('DerpList',res);
+				this.ruleForm2.departOrgNo = '';
 				if(res.data.code === "S00000") {
-					self.departList = res.data.data;
+					res.data.data.forEach(item=>{
+						self.departList.push({
+							derpName: item.derpName,
+							derpNo: item.derpNo,
+						})
+						if(item.depList.length!=0){
+							getDeepDerp(item.depList,self.departList)
+						}
+					})
 				}
 				
 			}).catch((err) => {
