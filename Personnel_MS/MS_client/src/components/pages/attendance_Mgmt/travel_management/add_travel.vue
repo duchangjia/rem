@@ -8,7 +8,7 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="110px">
+				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="122px">
 						
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号" prop="userNo">
@@ -58,7 +58,7 @@
 						</el-form-item>
 					</el-col>  
 				</el-form>
-				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="110px">
+				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="122px">
 					<el-col :span="24" class="item-title">出差信息</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差开始时间" prop="travelStartTime">
@@ -95,7 +95,9 @@
 						<el-form-item label="差补标准" prop="travelSTD">
 						    <el-input v-model="formdata1.travelSTD" :disabled="true"></el-input>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  	 	
+				</el-form>
+				<el-form :model="formdata2" :rules="rules2" ref="formdata2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
 					<el-col :span="24">
 						<el-form-item class="remark" label="出差备注" prop="remark">
 						    <el-input
@@ -105,7 +107,9 @@
 							  v-model="formdata2.remark">
 							</el-input>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  	         
+				</el-form>
+				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width: 100%;">
 				  		 	<el-input v-model="formdata2.attachm"></el-input>
@@ -156,6 +160,7 @@
 		        }
 	      	};
 			return {
+      			labelPosition: "right",
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},

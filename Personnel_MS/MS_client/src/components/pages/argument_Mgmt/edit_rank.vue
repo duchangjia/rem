@@ -7,7 +7,7 @@
 				<el-button type="primary" class="toolBtn btn-primary" @click="save('cParmDetal')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="cParmDetal" :inline="true" :rules="rules" :model="cParmDetal" label-width="130px">
+				<el-form ref="cParmDetal" :inline="true" :rules="rules" :model="cParmDetal" label-width="122px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="模版编号" prop="applyNo">
 							<el-input v-model="cParmDetal.applyNo" :disabled="true"></el-input>
@@ -43,17 +43,20 @@
 						</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="出差标准（人/天）" prop="businessStandard">
+						<el-form-item label="出差标准(人/天)" prop="businessStandard">
 							<el-input v-model="cParmDetal.businessStandard"></el-input>
 						</el-form-item>
 					</el-col>	
-					<el-col :sm="24" :md="12">
-						<el-form-item label="备注" prop="remark">
-							<el-input v-model="cParmDetal.remark"></el-input>
-						</el-form-item>
-					</el-col>	
-						
 				</el-form>
+				<el-form :model="cParmDetal" :rules="rules" ref="cParmDetal" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+					<el-col :span="24">
+						<el-form-item label="备注" prop="remark">
+							<el-input type="textarea" v-model="cParmDetal.remark"></el-input>
+						</el-form-item>
+					</el-col>	         
+				</el-form>
+						
+						
 			</div>
 		</div>
 	</div>
@@ -83,6 +86,7 @@
 				}
 			};
 			return {
+      			labelPosition: "right",
 				cParmDetal: {
 					applyNo: "",
 					organName: "",

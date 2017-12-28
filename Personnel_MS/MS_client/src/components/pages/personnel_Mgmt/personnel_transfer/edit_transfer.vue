@@ -8,7 +8,7 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="110px">
+				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="122px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
 							<el-input v-model="formdata.oldOrganName" :disabled="true"></el-input>
@@ -76,21 +76,7 @@
 							<el-select v-model="formdata.newLineManager" :disabled=disabledFlag>
 								<el-option v-for="item in userList" :key="item.userNo" :label="item.userNo" :value="item.userNo"></el-option>
 							</el-select>
-						    <!-- <el-input v-model="formdata.newLineManager" @change="newLineManagerChange" :disabled=disabledFlag >
-								<el-button slot="append" icon="search" @click="userNoSelect"></el-button>
-							</el-input> -->
-					  		<messageBox 
-                                :title="boxTitle"
-                                :tableOption.sync="tableOption"  
-                                :inputFirstOption.sync="inputFirstOption" 
-                                :inputSecOption.sync="inputSecOption"
-                                :searchData.sync="searchData" 
-                                :searchUrl="searchUrl"
-                                :dialogVisible.sync="dialogVisible"
-                                :pagination.sync="msgPagination"
-                                @dialogConfirm="dialogConfirm"
-                                ></messageBox>
-						  </el-form-item>
+						</el-form-item>
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="原岗位">
@@ -119,7 +105,9 @@
 								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  	  	        
+				</el-form>
+				<el-form :model="formdata" :rules="rules" ref="formdata" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
 					<el-col :span="24">
 						<el-form-item label="调动原因" prop="shiftReason">
 						    <el-input
@@ -129,7 +117,9 @@
 							  v-model="formdata.shiftReason">
 							</el-input>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  	        
+				</el-form>
+				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="122px" style="margin-top:0;overflow:visible;">	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件">
 					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
@@ -157,7 +147,6 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
-	import messageBox from "../../../common/messageBox-components.vue";
 	import moment from 'moment'
 	const baseURL = 'iem_hrm';
 	export default {
@@ -166,15 +155,12 @@
 		        if (value == '') {
 		          	callback(new Error('直线经理不能为空'));
 				} 
-				// else if (!this.newLineManagerFlag) {
-				// 	console.log('newLineManagerFlag',this.newLineManagerFlag)
-		        //   	callback(new Error('请输入正确的直线经理工号'));
-				// }
 				 else {
 		          	callback();
 		        }
 	      	};
 			return {
+      			labelPosition: "right",
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
@@ -201,17 +187,6 @@
 				//调动类型列表
 				shiftTypeList: [],
 
-				dialogVisible:false,
-			    tableOption:[],
-			    inputFirstOption:{},
-			    inputSecOption:{},
-			    msgPagination:{},
-			    searchData:{},
-			    searchUrl:'',
-			    saveUrl:'',
-			    boxTitle:'',
-				numType:'',
-				
 			 	rules: {
 		          	shiftType: [
 		            	{ required: true, message: '调动类型不能为空', trigger: 'blur' }
@@ -241,8 +216,7 @@
 			}
 		},
 		components: {
-			current,
-			messageBox
+			current
 		},
 		created() {
 			
@@ -333,24 +307,6 @@
 					self.disabledFlag=false;
 				}
 				
-			},
-			  //校验直线经理是否存在
-			newLineManagerChange(value) {
-				let params = {
-					userNo: value
-				}
-				this.$axios.get(baseURL+'/CustInfo/queryCustInfoByUserNo/'+ value)
-				.then((res) => {
-					console.log('newLineManagerChange',res);
-					if(!res.data.data.userNo) {
-						this.newLineManagerFlag = false;
-					} else {
-						this.newLineManagerFlag = true;
-					}
-					
-				}).catch((err) => {
-					console.log(err);
-				})
 			},
 	      	//上传附件
 	      	changeUpload(file, fileList) {
@@ -505,68 +461,6 @@
 					console.log(err);
 				})
 			},
-			dialogConfirm(ajaxNo){
-		        let self = this;
-		        let params = {
-		        	userNo: ajaxNo.stateNo
-		        }
-		        self.$axios
-		        .get( self.saveUrl, {params} )
-		        .then(res => {
-		          if (res.data.code == 'S00000'){
-		            self.dialogVisible = false;
-		            self.formdata.newLineManager = res.data.data.userNo;
-		          }
-		        })
-		        .catch(e => {
-		          console.log('error')
-		        });
-		    },
-		    userNoSelect(){
-		        //table
-		        this.tableOption = [
-		            {
-		                thName:'工号',//table 表头
-		                dataKey:'userNo'//table-col所绑定的prop值
-		            },
-		            {
-		                thName:'姓名',//table 表头
-		                dataKey:'custName'//table-col所绑定的prop值
-		            }
-		            ];
-		        //input 第一个搜索框的配置项
-		        this.inputFirstOption  = {
-		            labelName:'姓名',//label头
-		            placeholder:'请输入姓名'//input placeholder
-		        },
-		        //input 第二个搜索框的配置项
-		        this.inputSecOption  = {
-		            labelName:'工号',
-		            placeholder:'请输入工号'
-		        },
-		        //搜索所需传值
-		        this.searchData = {
-		            custName:'',
-		            userNo:''
-		        }
-		        //table分页所需传值
-		        this.msgPagination =  {
-		            pageNum:1,
-		            pageSize:5,
-		            totalRows:0
-		        }
-		        //点击确定后需要修改的对象 numType为changeNo方法所改变的type
-		//      this.applyUserInfo = this.applyUserInfo
-		        this.numType = 1
-		        //dialog打开
-		        this.dialogVisible=true
-		        //查询接口
-		        this.searchUrl = "/iem_hrm/CustInfo/queryCustInfList"
-		        //点击确定后根据号码查询用户信息借口 没有则为空
-		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
-		        //dialog标题
-		        this.boxTitle = '人工编号选择'
-		    },
 			queryCompList() {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')

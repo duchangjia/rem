@@ -7,7 +7,7 @@
 				<span class="title-text">出差详情</span>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata" :inline="true"  :rules="rules" :model="formdata" label-width="100px">
+				<el-form ref="formdata" :inline="true"  :rules="rules" :model="formdata" label-width="122px">
 					
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
@@ -79,8 +79,10 @@
 						<el-form-item label="差补标准">
 						    <el-input v-model="formdata.travelSTD" :disabled="true"></el-input>
 					  	</el-form-item>
-					</el-col>  	
-				  	<el-col :span="24">
+					</el-col>  
+				</el-form>	
+				<el-form :model="formdata" :rules="rules" ref="formdata" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+					<el-col :span="24">
 				  		<el-form-item class="remark" label="出差备注" prop="remark">
 						    <el-input
 							  type="textarea"
@@ -89,7 +91,9 @@
 							  v-model="formdata.remark" :disabled="true">
 							</el-input>
 					  	</el-form-item>
-				  	</el-col>
+				  	</el-col>        
+				</el-form>
+				<el-form ref="formdata" :inline="true"  :rules="rules" :model="formdata" label-width="122px" style="margin-top:0;overflow:visible;">  	
 				  	<el-col :sm="24" :md="12">
 						<el-form-item label="最新更新人">
 						    <el-input v-model="formdata.updatedBy" :disabled="true"></el-input>
@@ -102,7 +106,6 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width:100%;">
-						    <!-- <el-button class="downloadBtn" @click="handleDownload">下载</el-button> -->
 							<ul>
 								<li v-for="item in fileList" :key="item.fileId">
 									<span class="fileText">{{item.name}}</span>
@@ -111,7 +114,6 @@
 							</ul>
 					  	</el-form-item>
 					</el-col>  	
-					  	
 				</el-form>
 			</div>
 		</div>
@@ -125,6 +127,7 @@
 	export default {
 		data() {
 			return {
+      			labelPosition: "right",
 				fileList: [],
 				custPostName: '',
 				custClass: '',

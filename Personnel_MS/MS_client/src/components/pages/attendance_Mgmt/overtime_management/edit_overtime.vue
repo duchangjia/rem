@@ -8,7 +8,7 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
+				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="122px">
 						
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
@@ -67,7 +67,9 @@
 						    <el-input v-model="formdata2.timeSheet" placeholder="请输入加班累计工时"></el-input>
 					  	</el-form-item>
 					</el-col>	 
-				  	<el-col :span="24">
+				</el-form>
+				<el-form :model="formdata2" :rules="rules" ref="formdata2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+					<el-col :span="24">
 				  		<el-form-item class="remark" label="加班备注" prop="remark">
 						    <el-input
 							  type="textarea"
@@ -76,7 +78,9 @@
 							  v-model="formdata2.remark">
 							</el-input>
 					  	</el-form-item>
-				  	</el-col>
+				  	</el-col>       
+				</el-form>
+				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">  	
 				  	<el-col :sm="24" :md="12">
 						<el-form-item label="附件">
 					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
@@ -125,6 +129,7 @@
 		        }
 	      	};
 			return {
+      			labelPosition: "right",
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
