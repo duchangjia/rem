@@ -163,7 +163,7 @@
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="部门名称" prop="derpNo">
-                                                <el-select v-model="ruleForm.derpNo" placeholder="请选择部门名称" :disabled="edit" @change="selectCCC(ruleForm.organNo)">
+                                                <el-select v-model="ruleForm.derpNo" placeholder="请选择部门名称" :disabled="edit" @change="selectCCC(ruleForm.derpNo)">
                                                     <el-option :label="item.derpName" :value="item.derpNo" v-for="item in basicInfo.department"></el-option>
                                                 </el-select>
                                             </el-form-item>
@@ -425,6 +425,7 @@
     import projectItem from './project_experience_item.vue'
     import messageBox from "../../../common/messageBox-components.vue"
     import moment from 'moment'
+    import getDeepDerp from '../../../../common/GetDeepDerp'
     export default {
         data() {
             let that = this
@@ -988,13 +989,22 @@
             // 选择机构方法
             selectDep(organNo) {
                 let data = {organNo}
+                this.basicInfo.department = []
                 this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
                     .then(res=>{
-                        this.basicInfo.department = res.data.data
-                        if(this.selectFlag) {
+                        res.data.data.forEach(item=>{
+                            this.basicInfo.department.push({
+                                derpName: item.derpName,
+                                derpNo: item.derpNo,
+                            })
+                            if(item.depList.length!=0){
+                                getDeepDerp(item.depList,this.basicInfo.department)
+                            }
+                        })
+                        if(this.selectFlag){
                             this.ruleForm.derpNo = ''
                             this.ruleForm.ownerCCC = ''
-                            this.basicInfo.CCC = []
+                            this.basicInfo.CCC = ''
                         }
                         this.selectFlag = true
                     })
@@ -1002,8 +1012,8 @@
                         console.log(e)
                     })
             },
-            selectCCC(organNo) {
-                this.$axios.get('/iem_hrm/organ/queryOrganCCCManagementByOrganNo/'+organNo)
+            selectCCC(derpNo) {
+                this.$axios.get('/iem_hrm/organ/queryOrganCCCManagementByOrganNo/'+derpNo)
                     .then(res=>{
                         this.basicInfo.CCC = res.data.data
                     })
