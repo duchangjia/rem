@@ -1015,17 +1015,19 @@
                 this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
                     .then(res=>{
                         this.ruleForm.derpNo = ''
-                        res.data.data.forEach(item=>{
-                            this.basicInfo.department.push({
-                                derpName: item.derpName,
-                                derpNo: item.derpNo,
-                            })
-                            if(item.depList.length!=0){
-                                getDeepDerp(item.depList,this.basicInfo.department)
-                            }
-                        })
                         this.ruleForm.ownerCCC = ''
                         this.basicInfo.CCC = ''
+                        if( res.data.data){
+                            res.data.data.forEach(item=>{
+                                this.basicInfo.department.push({
+                                    derpName: item.derpName,
+                                    derpNo: item.derpNo,
+                                })
+                                if(item.depList.length!=0){
+                                    getDeepDerp(item.depList,this.basicInfo.department)
+                                }
+                            })
+                        }
                     })
                     .catch(e=>{
                         console.log(e)
