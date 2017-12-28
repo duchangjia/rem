@@ -170,7 +170,7 @@ import vFooter from './footer.vue';
                         url:''
                     },
                     {
-                        class:'item-five-list',
+                        class:'item-five-list disabled',
                         txt:'',
                         title:'费用报销',
                         url:'billing_imformation'

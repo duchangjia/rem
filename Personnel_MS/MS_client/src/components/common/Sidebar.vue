@@ -54,12 +54,12 @@ export default {
 							menuName: '组织架构'
 						},
 						{
-							menuUrl: 'management_role',
-							menuName: '角色管理'
-						},
-						{
 							menuUrl: 'management_user',
 							menuName: '用户管理'
+						},
+						{
+							menuUrl: 'management_role',
+							menuName: '角色管理'
 						},
 						{
 							menuUrl: 'management_fun',
@@ -67,24 +67,24 @@ export default {
 						}
 					]
 				},
-				{
-					menuImg: 'icon-csgl',
-					menuUrl: '3',
-					menuName: '参数管理',
-					menuList: [
-						{
-							menuUrl: 'argument_1',
-							menuName: '系统参数'
-						},
-						{
-							menuUrl: 'argument_2',
-							menuName: '业务参数'
-						},
-					]
-				},	
-				{
+                {
+                    menuImg: 'icon-csgl',
+                    menuUrl: '3',
+                    menuName: '参数管理',
+                    menuList: [
+                        {
+                            menuUrl: 'argument_1',
+                            menuName: '系统参数'
+                        },
+                        {
+                            menuUrl: 'argument_2',
+                            menuName: '业务参数'
+                        },
+                    ]
+                },
+                {
 					menuImg: 'icon-khgx',
-					menuUrl: '4	',
+					menuUrl: '4',
 					menuName: '人事事务',
 					menuList: [
                         {
@@ -98,45 +98,45 @@ export default {
 						{
 							menuUrl: 'personnel_transfer',
 							menuName: '人事调动'
-						}
+						},
 					]
 				},
-				{
-					menuImg: 'icon-ywgl',
-					menuUrl: '5',
-					menuName: '考勤管理',
-					menuList: [
-						{
-							menuUrl: 'attendance_record',
-							menuName: '考勤记录管理'
-						},
-						{
-							menuUrl: 'travel_management',
-							menuName: '出差管理'
-						},
-						{
-							menuUrl: 'leave_management',
-							menuName: '请假管理'
-						},
-						{
-							menuUrl: 'overtime_management',
-							menuName: '加班管理'
-						}
-					]
-				},
+                {
+                    menuImg: 'icon-ywgl',
+                    menuUrl: '5',
+                    menuName: '考勤管理',
+                    menuList: [
+                        {
+                            menuUrl: 'attendance_record',
+                            menuName: '考勤记录管理'
+                        },
+                        {
+                            menuUrl: 'travel_management',
+                            menuName: '出差管理'
+                        },
+                        {
+                            menuUrl: 'leave_management',
+                            menuName: '请假管理'
+                        },
+                        {
+                            menuUrl: 'overtime_management',
+                            menuName: '加班管理'
+                        }
+                    ]
+                },
 				{
 					menuImg: 'icon-xmgl',
 					menuUrl: '6',
 					menuName: '薪酬福利',
 					menuList: [
-						{
-							menuUrl: 'wageProcess_manage',
-							menuName: '工资流程管理'
-						},
-						{
-							menuUrl: 'payChange_manage',
-							menuName: '调薪管理'
-						},
+                        {
+                            menuUrl: 'wageProcess_manage',
+                            menuName: '工资流程管理'
+                        },
+                        {
+                            menuUrl: 'payChange_manage',
+                            menuName: '调薪管理'
+                        },
 						{
 							menuUrl: 'payBaseInfo_setting',
 							menuName: '薪酬基数设置'
@@ -151,7 +151,6 @@ export default {
 //						}
 					]
 				},
-				
 				{
 					menuImg: 'icon-tjbb',
 					menuUrl: '7',
@@ -180,12 +179,11 @@ export default {
 				},
 				
 			]
-
 		};
 	},
 	created() {
 		
-		this.queryMenuList();
+		this.queryList();
 	},
 	methods: {
 		changeRadio(value) {
@@ -207,12 +205,12 @@ export default {
 		collapse() {
 			console.log('collapse');
 		},
-		queryMenuList() {
+		queryList() {
 			let self = this;
 			self.$axios.get(baseURL+'/menu/queryMenuInfo')
 			.then(function(res) {
 //				console.log('menuList',res);
-				// self.items = res.data.data;
+//				self.items = res.data.data;
 			}).catch(function(err) {
 				console.log('error');
 			})

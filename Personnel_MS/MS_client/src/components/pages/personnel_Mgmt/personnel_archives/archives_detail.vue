@@ -46,7 +46,7 @@
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="出生年月" prop="birthday">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.birthday" :disabled="edit" @change="holdBirthday"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.birthday" :disabled="edit" @change="holdBirthday" :editable="false"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
@@ -95,7 +95,7 @@
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="毕业时间" prop="gradTime">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.gradTime" :disabled="edit" @change="holdGradTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.gradTime" :disabled="edit" @change="holdGradTime" :editable="false"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
@@ -171,7 +171,7 @@
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="CCC" prop="ownerCCC">
                                                 <el-select v-model="ruleForm.ownerCCC" placeholder="请选择CCC" :disabled="edit">
-                                                    <el-option :label="item=='01'?'管理CCC':item=='02'?'售前CCC':'项目CCC'" :value="item" v-for="item in basicInfo.CCC"></el-option>
+                                                    <el-option :label="item.costType=='01'?`管理CCC_${item.costCode}`:item.costType=='02'?`售前CCC_${item.costCode}`:`项目CCC_${item.costCode}`" :value="item.costType+'_'+item.costCode" v-for="item in basicInfo.CCC"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -195,94 +195,84 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
+                                            <el-form-item label="合同主体" prop="contractSubject">
+                                                <el-select v-model="ruleForm.contractSubject" placeholder="请选择合同主体" :disabled="edit">
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.contractSubject"></el-option>
+                                                </el-select>
+                                            </el-form-item>
+                                        </el-col>
+                                        <el-col :md="8" :sm="12">
                                             <el-form-item label="员工类别" prop="custType">
                                                 <el-select v-model="ruleForm.custType" placeholder="请选择员工类别" :disabled="edit">
-                                                    <el-option label="在编" value="01"></el-option>
-                                                    <el-option label="借用" value="02"></el-option>
-                                                    <el-option label="合同制" value="03"></el-option>
-                                                    <el-option label="兼职" value="04"></el-option>
-                                                    <el-option label="实习" value="05"></el-option>
-                                                    <el-option label="其他" value="99"></el-option>
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.custType"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="岗位" prop="custPost">
                                                 <el-select v-model="ruleForm.custPost" placeholder="请选择岗位" :disabled="edit">
-                                                    <el-option label="架构师" value="01"></el-option>
-                                                    <el-option label="前端开发工程师" value="02"></el-option>
-                                                    <el-option label="测试工程师" value="03"></el-option>
-                                                    <el-option label="后端开发" value="04"></el-option>
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.custPost"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="职级" prop="custClass">
                                                 <el-select v-model="ruleForm.custClass" placeholder="请选择职级" :disabled="edit">
-                                                    <el-option label="B10-初级软件工程师" value="B10"></el-option>
-                                                    <el-option label="B11-中级软件工程师" value="B11"></el-option>
-                                                    <el-option label="B12-高级软件工程师" value="B12"></el-option>
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.custClass"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="员工状态" prop="custStatus">
                                                 <el-select v-model="ruleForm.custStatus" placeholder="请选择员工状态" :disabled="edit">
-                                                    <el-option label="试用期" value="01"></el-option>
-                                                    <el-option label="合同期" value="02"></el-option>
-                                                    <el-option label="已退休" value="03"></el-option>
-                                                    <el-option label="已离职" value="04"></el-option>
-                                                    <el-option label="停薪留职" value="05"></el-option>
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.custStatus"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="入职日期" prop="entryTime">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.entryTime" :disabled="edit" @change="changeEntryTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.entryTime" :disabled="edit" @change="changeEntryTime" :editable="false"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="上岗日期">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.leftJobTime" :disabled="edit" @change="changeLeftJobTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.leftJobTime" :disabled="edit" @change="changeLeftJobTime" :editable="false"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="工作日期">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.workTime" :disabled="edit" @change="changeWorkTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.workTime" :disabled="edit" @change="changeWorkTime" :editable="false"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="职称日期">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.profTitleTime" :disabled="edit" @change="changeProfTitleTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.profTitleTime" :disabled="edit" @change="changeProfTitleTime" :editable="false"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="合同开始">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactStartTime" :disabled="edit" @change="changeCompactStartTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactStartTime" :disabled="edit" @change="changeCompactStartTime" :editable="false"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="合同终止">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactEndTime" :disabled="edit" @change="changeCompactEndTime" :picker-options="pickerOptions"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.compactEndTime" :disabled="edit" @change="changeCompactEndTime" :picker-options="pickerOptions" :editable="false"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="试用开始" prop="probStartTime">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probStartTime" :disabled="edit" @change="changeProbStartTime"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probStartTime" :disabled="edit" @change="changeProbStartTime" :editable="false"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="试用结束" prop="probEndTime">
-                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probEndTime" :disabled="edit" @change="changeProbEndTime" :picker-options="pickerOptions1"></el-date-picker>
+                                                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.probEndTime" :disabled="edit" @change="changeProbEndTime" :picker-options="pickerOptions1" :editable="false"></el-date-picker>
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
                                             <el-form-item label="招聘来源">
                                                 <el-select v-model="ruleForm.recruitQuarry" placeholder="招聘来源" :disabled="edit">
-                                                    <el-option label="网上招聘" value="01"></el-option>
-                                                    <el-option label="内部推荐" value="02"></el-option>
-                                                    <el-option label="现场招聘" value="03"></el-option>
-                                                    <el-option label="其他" value="99"></el-option>
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.recruitQuarry"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -463,8 +453,14 @@
                     education:'',
                     degree:'',
                     company:'',
-                    department:'',
+                    department:[],
                     CCC:'',
+                    contractSubject:'',
+                    custType:'',
+                    custPost:'',
+                    custClass:'',
+                    custStatus:'',
+                    recruitQuarry:'',
                 },
                 // 标记
                 flag: false,
@@ -543,6 +539,7 @@
                     derpNo: '',
                     ownerCCC: '',
                     lineManager: '',
+                    contractSubject: '',
                     custType: '',
                     custPost: '',
                     custClass: '',
@@ -631,6 +628,9 @@
                     ownerCCC: [
                         {required: true, message: '请选择CCC', trigger: 'change'}
                     ],
+                    contractSubject: [
+                        {required: true, message: '请选择合同主体', trigger: 'change'}
+                    ],
                     custType: [
                         {required: true, message: '请选择员工类别', trigger: 'change'}
                     ],
@@ -674,12 +674,37 @@
             function getCompany() {
                 return self.$axios.get('/iem_hrm/organ/selectCompanyByUserNo')
             }
-            self.$axios.all([getNation(),getEducation(),getDegree(),getCompany()])
-                .then(self.$axios.spread(function(res1,res2,res3,res4){
+            function getContractSubject() {
+                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PACT_SUBJECT')
+            }
+            function getCustType() {
+                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=EMP_CUST_TYPE')
+            }
+            function getCustPost() {
+                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+            }
+            function getCustClass() {
+                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+            }
+            function getCustStatus() {
+                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_STATUS')
+            }
+            function getRecruitQuarry() {
+                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=RECRUIT_QUARRY')
+            }
+            self.$axios.all([getNation(),getEducation(),getDegree(),getCompany(),getContractSubject(),getCustType(),getCustPost(),
+                getCustClass(),getCustStatus(),getRecruitQuarry()])
+                .then(self.$axios.spread(function(res1,res2,res3,res4,res5,res6,res7,res8,res9,res10){
                     self.basicInfo.nation = res1.data.data
                     self.basicInfo.education = res2.data.data
                     self.basicInfo.degree = res3.data.data
                     self.basicInfo.company = res4.data.data
+                    self.basicInfo.contractSubject = res5.data.data
+                    self.basicInfo.custType = res6.data.data
+                    self.basicInfo.custPost = res7.data.data
+                    self.basicInfo.custClass = res8.data.data
+                    self.basicInfo.custStatus = res9.data.data
+                    self.basicInfo.recruitQuarry = res10.data.data
                 }))
                 .catch(e=>{
                     console.log(e)
