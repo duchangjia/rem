@@ -100,7 +100,8 @@
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="合同年限" prop="pactExpires">
-              <el-input v-model="addPactMsg.pactExpires"></el-input>
+              <!-- <el-input v-model="addPactMsg.pactExpires"></el-input> -->
+              <el-input v-model="_pactExpires" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
@@ -181,7 +182,7 @@ export default {
         pactStartTime: "",
         pactEndTime: "",
         pactStatus: "",
-        pactExpires: "",
+        pactExpires: "0",
         pactStopTime: "",
         attachm: "",
         stopReason: "",
@@ -203,6 +204,9 @@ export default {
       searchData: {},
       searchUrl: "",
       saveUrl: "",
+
+      pactStartMilliSC: 0,
+      pactEndMilliSC: 0,
 
       pactStartTimeOption: {
         disabledDate(time) {
@@ -295,13 +299,6 @@ export default {
             message: "合同状态不能为空",
             trigger: "change"
           }
-        ],
-        pactExpires: [
-          {
-            required: true,
-            message: "合同年限不能为空",
-            trigger: "blur"
-          }
         ]
       }
     };
@@ -346,6 +343,15 @@ export default {
           this.addPactMsg.autoudFlag = "02";
         }
       }
+    },
+    _pactExpires: function() {
+      let temp =
+        Math.round(
+          (this.pactEndMilliSC - this.pactStartMilliSC) /
+            (3600 * 1000 * 24 * 365) *
+            10
+        ) / 10; //合同年限
+      return temp;
     }
   },
   methods: {
@@ -425,9 +431,11 @@ export default {
       this.addPactMsg.signTime = val;
     },
     pactStartTimeChange(val) {
+      this.pactStartMilliSC = new Date(val).getTime(); // 合同开始毫秒数
       this.addPactMsg.pactStartTime = val;
     },
     pactEndTimeChange(val) {
+      this.pactEndMilliSC = new Date(val).getTime(); // 合同结束毫秒数
       this.addPactMsg.pactEndTime = val;
     },
     pactStopTimeChange(val) {
@@ -459,31 +467,31 @@ export default {
         this.$router.push("/personnel_contract");
       } else this.$message.error(res.retMsg);
     },
-    
+
     handleSave(addPactMsgRules) {
       this.$refs[addPactMsgRules].validate(valid => {
         if (valid) {
-          console.log('newPact',this.addPactMsg);
+          this.addPactMsg.pactExpires = this._pactExpires.toString(); // 取合同年限
+          console.log("newPact", this.addPactMsg);
           if (this.addPactMsg.attachm != "") {
             this.$refs.upload.submit(); // 触发上传文件
           } else {
             this.$axios
-            .post("/iem_hrm/pact/addPact", this.addPactMsg)
-            .then(res => {
-              console.log(res);
-              if (res.data.code == "S00000") {
-                this.$message({
-                  type: "success",
-                  message: "操作成功!"
-                });
-                this.$router.push("/personnel_contract");
-              } else this.$message.error(res.data.retMsg);
-            })
-            .catch(() => {
-              this.$message.error("操作失败！");
-            });
+              .post("/iem_hrm/pact/addPact", this.addPactMsg)
+              .then(res => {
+                console.log(res);
+                if (res.data.code == "S00000") {
+                  this.$message({
+                    type: "success",
+                    message: "操作成功!"
+                  });
+                  this.$router.push("/personnel_contract");
+                } else this.$message.error(res.data.retMsg);
+              })
+              .catch(() => {
+                this.$message.error("操作失败！");
+              });
           }
-          
         } else {
           console.log("error submit!!");
           this.$message({
