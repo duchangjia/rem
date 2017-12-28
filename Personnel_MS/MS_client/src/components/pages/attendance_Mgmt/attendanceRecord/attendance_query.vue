@@ -187,7 +187,7 @@ export default {
       			//查询考勤列表
 				this.queryAttenceList();
       		} else {
-      			this.$message({ message: response, type: 'info' });
+      			this.$message({ message: response, type: 'error' });
       		}
       		
       	},
