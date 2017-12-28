@@ -10,12 +10,12 @@
                 </div>
                 <div class="queryContent_inner clearfix">
                     <el-form :model="custInfo" :inline="true" ref="ruleForm2">
-                        <el-form-item label="公司名称">
-                        <el-select v-model="custInfo.organNo"  placeholder="所属公司" @change="changeCompany" class="m-select">
+                        <el-form-item label="合同实体">
+                        <el-select v-model="custInfo.organNo"  placeholder="合同实体" @change="changeCompany" class="m-select">
                                 <el-option v-for="item in companyName" 
-                                :key="item.organNo" 
-                                :label="item.organName" 
-                                :value="item.organNo">
+                                :key="item.paraValue" 
+                                :label="item.paraShowMsg" 
+                                :value="item.paraValue">
                                 </el-option>
                         </el-select>
                         </el-form-item>
@@ -27,7 +27,7 @@
                         </el-form-item>
                     </el-form>
                     <el-table stripe :data="argumentInfoList" >
-                        <el-table-column align="center" prop="organName" label="公司名称" >
+                        <el-table-column align="center" prop="paraShowmsg" label="合同实体" >
                         </el-table-column>
                         <el-table-column align="center" prop="organTaxNo" label="纳税人识别号" >
                         </el-table-column>
@@ -101,8 +101,9 @@
                         })
             },
             getCompanyName(){
-                let self = this;
-                    self.$axios.get("/iem_hrm/organ/queryAllCompany").then(res => {
+                let self = this,
+                    params = {paraCode:'PACT_SUBJECT'};
+                    self.$axios.get("/iem_hrm/sysParamMgmt/queryPubAppParams",{params:params}).then(res => {
                     let result = res.data.data;
                     self.companyName = result;
                     console.log(self.companyName,'公司名')
@@ -136,7 +137,7 @@
             },
             edit(row) {
                 console.log(row)
-                window.localStorage.setItem('ticketOrganNo',row.organNo)
+                window.localStorage.setItem('ticketOrganNo',row.pactSubject)
                 this.$router.push('/edit_ticket')
 
             },
@@ -149,7 +150,7 @@
                 })
                 .then(()=>{
                      self.$axios
-                    .put("/iem_hrm/organBillInfo/delBillInf/" + row.organNo)
+                    .put("/iem_hrm/organBillInfo/delBillInf/" + row.pactSubject)
                     .then(res => {
                     let result = res.data.retMsg;
                     if ("操作成功" === result) {
@@ -157,7 +158,7 @@
                         message: "删除成功",
                         type: "success"
                         });
-                    this.getList()
+                    self.getList()
                     } else {
                         self.$message({
                         message: result,

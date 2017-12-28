@@ -6,10 +6,22 @@
           <div class="add-wrapper">
               <el-form :inline="true" label-width="110px" :rules="rules" :model="custInfo" ref="info">
                   <el-col :sm="24" :md="12">
-                      <el-form-item label="公司" prop="organName"  >
+                      <el-form-item label="公司名称" prop="organName"  >
                           <el-input v-model="custInfo.organName" disabled="disabled">
-                              
                           </el-input>
+                      </el-form-item>
+                  </el-col>
+                   <el-col :sm="24" :md="12">
+                      <el-form-item label="合同实体" prop="pactSubject"  >
+                         <el-input v-model="custInfo.paraShowMsg" disabled="disabled">
+                          </el-input>
+                          <!-- <el-select v-model="custInfo.pactSubject" disabled="disabled">
+                              <el-option
+                                  v-for="item in contactList"
+                                  :label="item.paraShowMsg"
+                                  :value="item.paraValue">
+                              </el-option>
+                          </el-select> -->
                       </el-form-item>
                   </el-col>
                   <!-- <el-col :sm="24" :md="12">
@@ -81,6 +93,7 @@ export default {
         organAddr: "",
         isDelete:''
       },
+      contactList:[],
       rules: {
         organName: [{ required: true, message: "请选择公司名称", trigger: "change" }],
         organNo: [{ required: true, message: "请输入机构号", trigger: "blur" }],
@@ -93,7 +106,8 @@ export default {
   },
   mounted() {
     let self = this;
-    self.getList();
+    self.getList();//获取信息
+    self.getContact();//获取合同实体
   },
   methods: {
     getList(){
@@ -106,7 +120,7 @@ export default {
         )
         .then(res => {
           self.custInfo = res.data.data
-          
+        
           if(self.custInfo.isDelete == '01'){
             self.isDelete = true
           }else{
@@ -117,6 +131,16 @@ export default {
         .catch(e => {
           console.log(e);
         });
+    },
+    getContact(){
+      let self = this,
+         params = {paraCode:'PACT_SUBJECT'}
+      self.$axios.get("/iem_hrm/sysParamMgmt/queryPubAppParams",{params:params}).then(res => {
+        let result = res.data.data;
+        console.log('合同实体',result)
+        self.contactList = result;
+
+      });
     },
     save() {
       console.log(this.info);
