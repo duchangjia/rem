@@ -772,7 +772,7 @@
                 return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
             }
             function getCustClass() {
-                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+                return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
             }
             function getCustStatus() {
                 return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_STATUS')
