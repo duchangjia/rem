@@ -91,8 +91,19 @@ export default {
 					]
 				},
 				{
-					menuImg: 'icon-csgl',
+					menuImg: 'icon-xmgl',
 					menuUrl: '4',
+					menuName: '业务管理',
+					menuList: [
+						{
+							menuUrl: '/query_departPreCheck',
+							menuName: '部门项目一览'
+						}
+					]
+				},
+				{
+					menuImg: 'icon-csgl',
+					menuUrl: '5',
 					menuName: '客户关系',
 					menuList: [
 						{
