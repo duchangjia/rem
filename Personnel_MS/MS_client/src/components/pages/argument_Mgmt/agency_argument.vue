@@ -27,7 +27,7 @@
                     <el-col :sm="12" :md="6">
                         <div class="queryButton_wrapper">
                             <el-button class="resetform btn-default" @click="reset">重置</el-button>
-                            <el-button class="btn-primary" @click="search(searchValue)">查询</el-button>
+                            <el-button class="btn-primary" @click="search(searchValue,searchValue2)">查询</el-button>
                         </div>
                     </el-col>
                 </el-form>
@@ -120,7 +120,8 @@
                 let data = {
                     pageSize:this.fenye.pageSize,
                     pageNum: val,
-                    organName:this.searchValue
+                    organNo:this.searchValue,
+                    derpNo:this.searchValue2,
                 }
                 this.$axios.get('/iem_hrm/organ/queryOrgCCCList',{params:data})
                     .then(res=>{
@@ -144,6 +145,7 @@
             reset() {
                 let self = this
                 this.searchValue = ''
+                this.searchValue2 = ''
                 self.$axios.get('/iem_hrm/organ/queryOrgCCCList')
                     .then(res => {
                         self.fenye.total = res.data.data.total
@@ -184,9 +186,13 @@
                         console.log(e)
                     })
             },
-            search(value) {
+            search(organNo,derpNo) {
                 let self = this
-                self.$axios.get('/iem_hrm/organ/queryOrgCCCList',{params:{organName:value}})
+                let data = {
+                    organNo,derpNo
+                }
+                console.log(data,333)
+                self.$axios.get('/iem_hrm/organ/queryOrgCCCList',{params:data})
                     .then(res => {
                         let result = res.data.retMsg
                         if("没有此信息!"==result){
@@ -214,6 +220,10 @@
                     })
                     .catch(e => {
                         console.log('获取ccc列表失败',e)
+                        self.$message({
+                            type: 'error',
+                            message: '网络超时,请稍后重试！'
+                        });
                     })
             },
             add() {
