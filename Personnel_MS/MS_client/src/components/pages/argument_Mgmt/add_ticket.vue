@@ -8,7 +8,7 @@
                 </div>
                 <div class="add-wrapper">
                     <el-form :inline="true" label-width="110px" :rules="rules" :model="custInfo" ref="info">
-                        <el-col :sm="24" :md="12">
+                        <!-- <el-col :sm="24" :md="12">
                             <el-form-item label="公司" prop="organName">
                                 <el-select v-model="custInfo.organName" @change="changeCompany">
                                     <el-option
@@ -19,7 +19,7 @@
                                     </el-option>
                                 </el-select>
                             </el-form-item>
-                        </el-col>
+                        </el-col> -->
                         <el-col :sm="24" :md="12">
                             <el-form-item label="合同主体" prop="pactSubject">
                                  <el-select v-model="custInfo.pactSubject" >
@@ -31,11 +31,11 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                        <el-col :sm="24" :md="12">
+                        <!-- <el-col :sm="24" :md="12">
                             <el-form-item label="机构号" prop="organNo">
                                  <el-input v-model="custInfo.organNo" placeholder="请输入机构号" readonly="readonly"></el-input>
                             </el-form-item>
-                        </el-col>
+                        </el-col> -->
                         <el-col :sm="24" :md="12">
                             <el-form-item label="纳税人编号" prop="organTaxNo">
                                  <el-input v-model="custInfo.organTaxNo" placeholder="请输入纳税人编号"></el-input>

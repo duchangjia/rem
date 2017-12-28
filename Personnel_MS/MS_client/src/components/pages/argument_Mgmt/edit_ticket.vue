@@ -5,15 +5,9 @@
           <div class="titlebar"><span class="title-text">开票信息修改</span><el-button type="primary" @click="save()" class="toolBtn">保存</el-button></div>
           <div class="add-wrapper">
               <el-form :inline="true" label-width="110px" :rules="rules" :model="custInfo" ref="info">
-                  <el-col :sm="24" :md="12">
-                      <el-form-item label="公司名称" prop="organName"  >
-                          <el-input v-model="custInfo.organName" disabled="disabled">
-                          </el-input>
-                      </el-form-item>
-                  </el-col>
                    <el-col :sm="24" :md="12">
                       <el-form-item label="合同实体" prop="pactSubject"  >
-                         <el-input v-model="custInfo.paraShowMsg" disabled="disabled">
+                         <el-input v-model="custInfo.paraShowmsg" disabled="disabled">
                           </el-input>
                           <!-- <el-select v-model="custInfo.pactSubject" disabled="disabled">
                               <el-option

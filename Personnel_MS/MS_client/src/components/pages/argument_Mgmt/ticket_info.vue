@@ -11,7 +11,7 @@
                 <div class="queryContent_inner clearfix">
                     <el-form :model="custInfo" :inline="true" ref="ruleForm2">
                         <el-form-item label="合同实体">
-                        <el-select v-model="custInfo.organNo"  placeholder="合同实体" @change="changeCompany" class="m-select">
+                        <el-select v-model="custInfo.pactSubject"  placeholder="合同实体" @change="changeCompany" class="m-select">
                                 <el-option v-for="item in companyName" 
                                 :key="item.paraValue" 
                                 :label="item.paraShowMsg" 
@@ -84,9 +84,9 @@
             getList(){
                 let self = this,
                     params = {};
-                    params.organNo = this.custInfo.organNo
-                    params.pageNum = this.pagination.pageNum
-                    params.pageSize = this.pagination.pageSize
+                    params.pactSubject = self.custInfo.pactSubject
+                    params.pageNum = self.pagination.pageNum
+                    params.pageSize = self.pagination.pageSize
                     // argumentInfoList
                     self.$axios.get('/iem_hrm/organBillInfo/queryBillInfoByName',{ params: params })
                         .then(res => {
