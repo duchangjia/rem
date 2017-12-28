@@ -9,11 +9,21 @@
             <div class="add-wrapper clearfix">
                 <el-form label-width="110px" :inline="true" :model="obj" ref="form" :rules="rules">
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="机构名称" prop="organName">
-                            <el-select v-model="obj.organName" placeholder="请选择机构">
+                        <el-form-item label="公司名称" prop="organNo">
+                            <el-select v-model="obj.organNo" placeholder="请选择公司" @change="selectDep(obj.organNo)">
                                 <el-option v-for="item in organItem"
-                                           :label="item"
-                                           :value="item">
+                                           :label="item.organName"
+                                           :value="item.organNo">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="部门名称" prop="derpNo">
+                            <el-select v-model="obj.derpNo" placeholder="请选择部门">
+                                <el-option v-for="item in depItem"
+                                           :label="item.derpName"
+                                           :value="item.derpNo">
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -43,18 +53,23 @@
 
 <script type='text/ecmascript-6'>
     import current from '../../common/current_position.vue'
+    import getDeepDerp from '../../../common/GetDeepDerp'
     export default {
         data() {
             return {
                 obj: {
-                    organName: '',
+                    organNo: '',
+                    derpNo: '',
                     costType: '',
                     costCode: '',
                     descr: '',
                 },
                 rules:{
-                    organName: [
-                        { required: true, message: '机构不能为空', trigger: 'change' }
+                    organNo: [
+                        { required: true, message: '公司不能为空', trigger: 'change' }
+                    ],
+                    derpNo: [
+                        { required: true, message: '部门不能为空', trigger: 'change' }
                     ],
                     costType: [
                         { required: true, message: 'CCC类型不能为空', trigger: 'change'}
@@ -65,6 +80,8 @@
                     ],
                 },
                 organItem:{},
+                depItem:[],
+                list:[],
                 cccItem:{},
             }
         },
@@ -73,12 +90,14 @@
             function COST_TYPE() {
                 return self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=COST_TYPE')
             }
-            function getOrganName() {
-                return self.$axios.get('/iem_hrm/organ/getOrganName')
+//            function getOrganName() {
+//                return self.$axios.get('/iem_hrm/organ/getOrganName')
+//            }
+            function getCompany() {
+                return self.$axios.get('/iem_hrm/organ/selectCompanyByUserNo')
             }
-            self.$axios.all([COST_TYPE(),getOrganName()])
+            self.$axios.all([COST_TYPE(),getCompany()])
                 .then(this.$axios.spread(function(res1,res2){
-                    console.log(res1,res2)
                     self.cccItem = res1.data.data
                     self.organItem = res2.data.data
                 }))
@@ -87,6 +106,34 @@
                 });
         },
         methods: {
+            selectDep(organNo) {
+                let self = this
+                self.depItem = []
+                let data = {organNo}
+                this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
+                    .then(res=>{
+                        this.obj.derpNo = ''
+                        self.list = res.data.data.map(item=>{
+                            return {
+                                derpName: item.derpName,
+                                derpNo: item.derpNo,
+                                depList: item.depList,
+                            }
+                        })
+                        self.list.forEach(item=>{
+                            self.depItem.push({
+                                derpName: item.derpName,
+                                derpNo: item.derpNo,
+                            })
+                            if(item.depList.length!=0){
+                                getDeepDerp(item.depList,self.depItem)
+                            }
+                        })
+                    })
+                    .catch(e=>{
+                        console.log(e)
+                    })
+            },
             save(){
               let self = this
                 this.$refs.form.validate((valid) => {

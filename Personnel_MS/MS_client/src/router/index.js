@@ -99,7 +99,8 @@ const routes = [{
             requireAuth: true,
         },
         component: resolve => require(['../components/common/Home.vue'], resolve),
-        children: [{
+        children: [
+            {
                 path: '/',
                 component: resolve => require(['../components/pages/home_page.vue'], resolve)
             },
@@ -157,23 +158,23 @@ const routes = [{
                 ]
             },
             {
-                path: '/argument_1',
-                component: resolve => require(['../components/pages/argument_Mgmt/argument_1.vue'], resolve),
-
-            },
-            {
                 path: '/management_fun',
                 component: resolve => require(['../components/pages/system_Mgmt/manage_fun.vue'], resolve),
                 children: [{
-                        path: '/',
-                        component: resolve => require(['../components/pages/system_Mgmt/fun.vue'], resolve)
-                    },
+                    path: '/',
+                    component: resolve => require(['../components/pages/system_Mgmt/fun.vue'], resolve)
+                },
                     {
                         name: 'edit_fun',
                         path: '/edit_fun',
                         component: resolve => require(['../components/pages/system_Mgmt/edit_fun.vue'], resolve)
                     }
                 ]
+            },
+            {
+                path: '/argument_1',
+                component: resolve => require(['../components/pages/argument_Mgmt/argument_1.vue'], resolve),
+
             },
             {
                 path: '/argument_2',
@@ -315,6 +316,157 @@ const routes = [{
                 ]
             },
             {
+                path: '/personnel_contract',
+                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/personnel_contract.vue'], resolve),
+                children: [{
+                    path: '/',
+                    component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/query_contract.vue'], resolve)
+                },
+                    {
+                        name: 'query_contract',
+                        path: '/query_contract',
+                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/query_contract.vue'], resolve)
+                    },
+                    {
+                        name: 'add_contract',
+                        path: '/add_contract',
+                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/add_contract.vue'], resolve)
+                    },
+                    {
+                        name: 'edit_contract',
+                        path: '/edit_contract',
+                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/edit_contract.vue'], resolve)
+                    },
+                    {
+                        name: 'detail_contract',
+                        path: '/detail_contract',
+                        redirect: '/detail_contract',
+                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/contract_detailInfo.vue'], resolve),
+                        children: [{
+                            path: '/',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/detail_contract.vue'], resolve)
+                        },
+                            {
+                                name: 'detail_pactChange',
+                                path: '/detail_pactChange',
+                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/detail_pactChange.vue'], resolve)
+                            },
+                            {
+                                name: 'edit_pactChange',
+                                path: '/edit_pactChange',
+                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/edit_pactChange.vue'], resolve)
+                            },
+                            {
+                                name: 'detail_pactRenew',
+                                path: '/detail_pactRenew',
+                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/detail_pactRenew.vue'], resolve)
+                            },
+                            {
+                                name: 'edit_pactRenew',
+                                path: '/edit_pactRenew',
+                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/edit_pactRenew.vue'], resolve)
+                            }
+
+                        ]
+                    },
+
+                    {
+                        name: 'add_pactChange',
+                        path: '/add_pactChange',
+                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/add_pactChange.vue'], resolve)
+                    },
+
+                    {
+                        name: 'add_pactRenew',
+                        path: '/add_pactRenew',
+                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/add_pactRenew.vue'], resolve)
+                    }
+
+                ]
+            },
+            {
+                path: '/personnel_transfer',
+                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/personnel_transfer.vue'], resolve),
+                children: [{
+                    path: '/',
+                    component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/query_personnel.vue'], resolve)
+                },
+                    {
+                        name: 'detail_transfer',
+                        path: '/detail_transfer',
+                        redirect: '/detail_transfer',
+                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/transferRouter.vue'], resolve),
+                        children: [{
+                            path: '/',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/detail_transfer.vue'], resolve)
+                        },
+                            {
+                                name: 'transfer_info',
+                                path: '/transfer_info',
+                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/transfer_info.vue'], resolve)
+                            },
+                            {
+                                name: 'edit_transfer',
+                                path: '/edit_transfer',
+                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/edit_transfer.vue'], resolve)
+                            },
+                            {
+                                name: 'add_transfer',
+                                path: '/add_transfer',
+                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/add_transfer.vue'], resolve)
+                            }
+                        ]
+                    },
+
+                    {
+                        name: 'detail_dimission',
+                        path: '/detail_dimission',
+                        redirect: '/detail_dimission',
+                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/dimissionRouter.vue'], resolve),
+                        children: [{
+                            path: '/',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/detail_dimission.vue'], resolve)
+                        },
+                            {
+                                name: 'dimission_info',
+                                path: '/dimission_info',
+                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/dimission_info.vue'], resolve)
+                            },
+                            {
+                                name: 'edit_dimission',
+                                path: '/edit_dimission',
+                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/edit_dimission.vue'], resolve)
+                            },
+                            {
+                                name: 'add_dimission',
+                                path: '/add_dimission',
+                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/add_dimission.vue'], resolve)
+                            }
+                        ]
+                    }
+
+                ]
+            },
+            {
+                path: '/personnel_archives',
+                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/personnel_archives.vue'], resolve),
+                children: [{
+                    path: '/',
+                    component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/query_archives.vue'], resolve)
+                },
+                    {
+                        path: '/add_archives',
+                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/add_archives.vue'], resolve)
+                    },
+                    {
+                        path: '/archives_detail',
+                        name: 'archives_detail',
+                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/archives_detail.vue'], resolve)
+                    },
+
+                ]
+            },
+            {
                 path: '/attendance_record',
                 component: resolve => require(['../components/pages/attendance_Mgmt/attendanceRecord/attendance_record.vue'], resolve),
                 children: [{
@@ -394,157 +546,7 @@ const routes = [{
                     }
                 ]
             },
-            {
-                path: '/personnel_contract',
-                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/personnel_contract.vue'], resolve),
-                children: [{
-                        path: '/',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/query_contract.vue'], resolve)
-                    },
-                    {
-                        name: 'query_contract',
-                        path: '/query_contract',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/query_contract.vue'], resolve)
-                    },
-                    {
-                        name: 'add_contract',
-                        path: '/add_contract',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/add_contract.vue'], resolve)
-                    },
-                    {
-                        name: 'edit_contract',
-                        path: '/edit_contract',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/edit_contract.vue'], resolve)
-                    },
-                    {
-                        name: 'detail_contract',
-                        path: '/detail_contract',
-                        redirect: '/detail_contract',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/contract_detailInfo.vue'], resolve),
-                        children: [{
-                                path: '/',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/detail_contract.vue'], resolve)
-                            },
-                            {
-                                name: 'detail_pactChange',
-                                path: '/detail_pactChange',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/detail_pactChange.vue'], resolve)
-                            },
-                            {
-                                name: 'edit_pactChange',
-                                path: '/edit_pactChange',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/edit_pactChange.vue'], resolve)
-                            },
-                            {
-                                name: 'detail_pactRenew',
-                                path: '/detail_pactRenew',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/detail_pactRenew.vue'], resolve)
-                            },
-                            {
-                                name: 'edit_pactRenew',
-                                path: '/edit_pactRenew',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/edit_pactRenew.vue'], resolve)
-                            }
 
-                        ]
-                    },
-
-                    {
-                        name: 'add_pactChange',
-                        path: '/add_pactChange',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/add_pactChange.vue'], resolve)
-                    },
-
-                    {
-                        name: 'add_pactRenew',
-                        path: '/add_pactRenew',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/add_pactRenew.vue'], resolve)
-                    }
-
-                ]
-            },
-            {
-                path: '/personnel_transfer',
-                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/personnel_transfer.vue'], resolve),
-                children: [{
-                        path: '/',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/query_personnel.vue'], resolve)
-                    },
-                    {
-                        name: 'detail_transfer',
-                        path: '/detail_transfer',
-                        redirect: '/detail_transfer',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/transferRouter.vue'], resolve),
-                        children: [{
-                                path: '/',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/detail_transfer.vue'], resolve)
-                            },
-                            {
-                                name: 'transfer_info',
-                                path: '/transfer_info',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/transfer_info.vue'], resolve)
-                            },
-                            {
-                                name: 'edit_transfer',
-                                path: '/edit_transfer',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/edit_transfer.vue'], resolve)
-                            },
-                            {
-                                name: 'add_transfer',
-                                path: '/add_transfer',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/add_transfer.vue'], resolve)
-                            }
-                        ]
-                    },
-
-                    {
-                        name: 'detail_dimission',
-                        path: '/detail_dimission',
-                        redirect: '/detail_dimission',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/dimissionRouter.vue'], resolve),
-                        children: [{
-                                path: '/',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/detail_dimission.vue'], resolve)
-                            },
-                            {
-                                name: 'dimission_info',
-                                path: '/dimission_info',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/dimission_info.vue'], resolve)
-                            },
-                            {
-                                name: 'edit_dimission',
-                                path: '/edit_dimission',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/edit_dimission.vue'], resolve)
-                            },
-                            {
-                                name: 'add_dimission',
-                                path: '/add_dimission',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/add_dimission.vue'], resolve)
-                            }
-                        ]
-                    }
-
-                ]
-            },
-            {
-                path: '/personnel_archives',
-                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/personnel_archives.vue'], resolve),
-                children: [{
-                        path: '/',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/query_archives.vue'], resolve)
-                    },
-                    {
-                        path: '/add_archives',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/add_archives.vue'], resolve)
-                    },
-                    {
-                        path: '/archives_detail',
-                        name: 'archives_detail',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/archives_detail.vue'], resolve)
-                    },
-
-                ]
-            },
             {
                 path: '/payBaseInfo_setting',
                 component: resolve => require(['../components/pages/payWelfare_Mgmt/payBaseInfo/payBaseInfo_setting.vue'], resolve),
@@ -763,7 +765,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(r => r.meta.requireAuth)) {
-        if (localStorage.getItem('access_token')) {
+        if (localStorage.getItem('access_token')&&localStorage.getItem('ms_username')) {
             next();
         } else {
             next({
