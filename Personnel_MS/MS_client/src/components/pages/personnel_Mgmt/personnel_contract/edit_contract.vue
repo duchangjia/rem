@@ -101,7 +101,8 @@
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="合同年限" prop="pactExpires">
-              <el-input v-model="editPactMsg.pactExpires"></el-input>
+              <!-- <el-input v-model="editPactMsg.pactExpires"></el-input> -->
+              <el-input v-model="_pactExpires" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
@@ -178,6 +179,8 @@ export default {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
       },
       pactSubjectList: [],
+      pactStartMilliSC: 0,
+      pactEndMilliSC: 0,
       triRemoveFlag: true,
       pactStartTimeOption: {
         disabledDate(time) {
@@ -256,14 +259,8 @@ export default {
             message: "合同状态不能为空",
             trigger: "change"
           }
-        ],
-        pactExpires: [
-          {
-            required: true,
-            message: "合同年限不能为空",
-            trigger: "blur"
-          }
         ]
+        
       }
     };
   },
@@ -308,6 +305,15 @@ export default {
           this.editPactMsg.autoudFlag = "02";
         }
       }
+    },
+    _pactExpires: function() {
+      let temp =
+        Math.round(
+          (this.pactEndMilliSC - this.pactStartMilliSC) /
+            (3600 * 1000 * 24 * 365) *
+            10
+        ) / 10; //合同年限
+      return temp;
     }
   },
   methods: {
@@ -443,9 +449,11 @@ export default {
       this.editPactMsg.signTime = val;
     },
     pactStartTimeChange(val) {
+      this.pactStartMilliSC = new Date(val).getTime(); // 合同开始毫秒数
       this.editPactMsg.pactStartTime = val;
     },
     pactEndTimeChange(val) {
+      this.pactEndMilliSC = new Date(val).getTime(); // 合同结束毫秒数
       this.editPactMsg.pactEndTime = val;
     },
     pactStopTimeChange(val) {
@@ -470,7 +478,7 @@ export default {
           editPact.pactStartTime = this.editPactMsg.pactStartTime;
           editPact.pactEndTime = this.editPactMsg.pactEndTime;
           editPact.pactStatus = this.editPactMsg.pactStatus;
-          editPact.pactExpires = this.editPactMsg.pactExpires;
+          editPact.pactExpires = this._pactExpires.toString();
           editPact.pactStopTime = this.editPactMsg.pactStopTime;
           editPact.attachm = this.editPactMsg.attachm;
           editPact.stopReason = this.editPactMsg.stopReason;
