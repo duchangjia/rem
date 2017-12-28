@@ -53,7 +53,6 @@
 						<template scope="scope">
 					        <span class="roleSpan" v-for="(item,i) in scope.row.roles" :key="i" style="padding:2px 10px; display: inline-block; ">{{ item.roleName }}</span>
 						</template>
-						<!-- <span v-show="i<scope.row.roles.length-1" style="padding-right:10px;">,</span> -->
 					</el-table-column>
 					<el-table-column prop="mobile" label="手机"></el-table-column>
 					<el-table-column prop="status" label="状态" :formatter="statusFormatter"></el-table-column>
@@ -67,6 +66,7 @@
 
 <script type='text/ecmascript-6'>
 import current from '../../common/current_position.vue'
+import getDeepDerp from '../../../common/GetDeepDerp'
 const baseURL = 'iem_hrm'
 export default {
 	data() {
@@ -191,11 +191,21 @@ export default {
 		},
 		queryDerpList(params) {
 			let self = this;
+			self.departList = [];
 			self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
 			.then((res) => {
 				console.log('DerpList',res);
 				if(res.data.code === "S00000") {
-					self.departList = res.data.data;
+					self.ruleForm2.derpNo = '';
+					res.data.data.forEach(item=>{
+						self.departList.push({
+							derpName: item.derpName,
+							derpNo: item.derpNo,
+						})
+						if(item.depList.length!=0){
+							getDeepDerp(item.depList,self.departList)
+						}
+					})
 				}
 				
 			}).catch((err) => {
