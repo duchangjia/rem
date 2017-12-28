@@ -7,7 +7,7 @@
 				<span class="title-text">加班详情</span>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
+				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="122px">
 					
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
@@ -65,7 +65,9 @@
 						<el-form-item label="加班累计工时">
 						    <el-input v-model="formdata2.timeSheet" :disabled="true"></el-input>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  
+				</el-form> 	
+				<el-form :model="formdata2" :rules="rules" ref="formdata2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
 					<el-col :span="24">
 				  		<el-form-item class="remark" label="加班备注" prop="remark">
 						    <el-input
@@ -75,7 +77,9 @@
 							  v-model="formdata2.remark" :disabled="true">
 							</el-input>
 					  	</el-form-item>
-				  	</el-col>  	
+				  	</el-col>	         
+				</el-form>
+				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="最新更新人">
 						    <el-input v-model="formdata2.updatedBy" :disabled="true"></el-input>
@@ -88,20 +92,6 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width:100%;">
-						    <!-- <el-button class="downloadBtn" @click="handleDownload">下载</el-button> -->
-							<!-- <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
-                                 :on-exceed="handleExceed"
-								 :on-preview="handlePreview"
-                                 :on-remove="handleRemove"
-					  			 :on-change="changeUpload"
-					  			 :on-success="successUpload" 
-					  			 :show-file-list="true" 
-					  			 :headers="token"
-								 :limit="3"
-								 :file-list="fileList"
-					  		>
-	                            <el-button slot="trigger" type="primary" disabled>选取文件</el-button>
-	                        </el-upload> -->
 							<ul>
 								<li v-for="item in fileList" :key="item.fileId">
 									<span class="fileText">{{item.name}}</span>
@@ -122,6 +112,7 @@
 	export default {
 		data() {
 			return {
+      			labelPosition: "right",
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},

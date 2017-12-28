@@ -7,7 +7,7 @@
 				<span class="title-text">人事调动详情</span>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata" :inline="true" :model="formdata" label-width="110px">
+				<el-form ref="formdata" :inline="true" :model="formdata" label-width="122px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
 							<el-input v-model="formdata.oldOrganName" :disabled="true"></el-input>
@@ -98,7 +98,9 @@
 								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  
+				</el-form>
+				<el-form :model="formdata" ref="formdata" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
 					<el-col :span="24">
 						<el-form-item label="调动原因">
 						    <el-input
@@ -108,7 +110,9 @@
 							  v-model="formdata.shiftReason" :disabled="true">
 							</el-input>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>         
+				</el-form>	
+				<el-form ref="formdata" :inline="true" :model="formdata" label-width="122px" style="margin-top:0;overflow:visible;">	 	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" >
 						    <ul>
@@ -133,6 +137,7 @@
 	export default {
 		data() {
 			return {
+      			labelPosition: "right",
 				fileList: [],
 				//员工信息
 				formdata: {},

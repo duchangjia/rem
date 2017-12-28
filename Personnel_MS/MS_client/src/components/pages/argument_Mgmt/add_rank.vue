@@ -7,7 +7,7 @@
 				<el-button type="primary" class="toolBtn btn-primary" @click="save('formdata')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="130px">
+				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="122px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
 							<el-select v-model="formdata.organNo" value-key="organNo">
@@ -38,17 +38,20 @@
 						</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="出差标准（人/天）" prop="businessStandard">
+						<el-form-item label="出差标准(人/天)" prop="businessStandard">
 							<el-input v-model="formdata.businessStandard"></el-input>
-						</el-form-item>
-					</el-col>	
-					<el-col :span="24">
-						<el-form-item label="备注" prop="remark">
-							<el-input type="textarea" v-model="formdata.remark"></el-input>
 						</el-form-item>
 					</el-col>	
 						
 				</el-form>
+        <el-form :model="formdata" :rules="rules" ref="formdata" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+           <el-col :span="24">
+						<el-form-item label="备注" prop="remark">
+							<el-input type="textarea" v-model="formdata.remark"></el-input>
+						</el-form-item>
+					</el-col>	         
+        </el-form>
+        
 			</div>
 		</div>
 	</div>
@@ -88,6 +91,7 @@ export default {
       }
     };
     return {
+      labelPosition: "right",
       formdata: {
         organNo: "",
         compName: "",
