@@ -1,10 +1,11 @@
 <template>
 	<div class="add_preSale">
-		<current yuji="项目管理" erji="项目验收">
+		<current yuji="项目管理" erji="项目验收" sanji="项目验收详情">
 		</current>
 		<div class="content-wrapper">
 			<div class="titlebar">
-				<span class="title-text">项目验收</span>
+				<span class="title-text">项目验收详情</span>
+                <el-button type="primary" class="toolBtn btn-primary" @click="save">保存</el-button>
 			</div>
 			<div class="add-wrapper">
 				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="130px">
@@ -121,32 +122,25 @@
 						    <el-input type="text" v-model="formdata3.fenbaoCB"></el-input>
 					  	</el-form-item>
 				  	</el-col>
-					<el-col :sm="24" :md="12">
-				  		<el-form-item label="税金" prop="shuijing">
-						    <el-input type="text" v-model="formdata3.shuijing"></el-input>
-					  	</el-form-item>
+					<el-col :sm="24" :md="12" style="position: relative;">
+				  		<el-upload class="upload-demo" ref="upload" name="file"
+							:data="formdata"
+							:on-change="changeUpload"
+							:on-success="successUpload"
+							action="" 
+							:show-file-list="false" 
+							:auto-upload="false"
+							:headers="token"
+						>
+							<el-button slot="trigger" type="primary" class="uploadBtn">选择文件</el-button>
+						</el-upload>
 				  	</el-col>
-					<el-col :sm="24" :md="12">
-				  		<el-form-item label="总收入" prop="shouruTotal">
-						    <el-input type="text" v-model="formdata3.shouruTotal"></el-input>
-					  	</el-form-item>
-				  	</el-col>
-					<el-col :sm="24" :md="12">
-				  		<el-form-item label="毛利润(GM)%" prop="maolirun">
-						    <el-input type="text" v-model="formdata3.maolirun"></el-input>
-					  	</el-form-item>
-				  	</el-col>
-					<el-col :sm="24" :md="12">
-				  		<el-form-item label="净利润(GM)%" prop="jinglirun">
-						    <el-input type="text" v-model="formdata3.jinglirun"></el-input>
-					  	</el-form-item>
-				  	</el-col>
+					
 				</el-form>
-				<div class="addPreSaleButton_wrapper">
-					<el-button class="btn-primary" @click="saveAndSubmit">保存提交审批</el-button>
-					<el-button class="btn-primary" @click="saveNotSbumit">保存暂不提交审批</el-button>
+				<!-- <div class="addPreSaleButton_wrapper">
+					<el-button class="btn-primary" @click="save">保存</el-button>
 					<el-button class="btn-primary" @click="notSave">取消</el-button>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
@@ -288,14 +282,7 @@
 			formdata: function(){
 				const self = this;
 				return {
-					"applyNo": self.formdata1.applyNo, 
-					"userNo": self.formdata1.userNo,
-	    			"yujiHTTime": self.formdata1.yujiHTTime, 
-	    			"yujiEndTime": self.formdata1.yujiEndTime,
-	    			"yujiHTMony": self.formdata1.yujiHTMony, 
-	    			"dindanType": self.formdata1.dindanType, 
-	    			"xiangmuDidian": self.formdata1.xiangmuDidian,
-	    			attachm: self.formdata1.attachm
+					
 				}
 			}
 		},
@@ -320,10 +307,12 @@
 	      		if(response.code === "S00000") {
 	      			this.$message({ message: '操作成功', type: 'success' });
 					// this.$router.push('/');
-	      		}
+	      		}else {
+					  this.$message({ message: '操作成功', type: 'error' });
+				  }
 			},
-			//保存提交审批
-			saveAndSubmit() {
+			//保存
+			save() {
 				let self = this;
 				self.$refs.formdata1.validate(valid => {
 			        if (valid) {
@@ -334,7 +323,7 @@
 										let params = {
 
 										}
-										//更新(保存+提交)
+										//保存
 										self.saveAndSubmitInfo(params);
 									}
 								})
@@ -343,27 +332,6 @@
 					}
 				})
 
-			},
-			//保存不提交审批
-			saveNotSbumit() {
-				let self = this;
-				self.$refs.formdata1.validate(valid => {
-			        if (valid) {
-			          	self.$refs.formdata2.validate(valid => {
-							if (valid) {
-								self.$refs.formdata3.validate(valid => {
-									if (valid) {
-										let params = {
-
-										}
-										//更新(保存不提交)
-										self.saveutNotSubmitInfo(params);
-									}
-								})
-							}
-						})
-					}
-				})	
 			},
 			//取消
 			notSave() {
@@ -387,29 +355,12 @@
 					console.log(err)
 				})
 			},
-			//更新(保存+提交)
+			//更新
 			saveAndSubmitInfo(params) {
 				const self = this;
 				self.$axios.put(baseURL+'',params)
 				.then((res) => {
 					console.log('保存+提交', res);
-					if(res.data.code=="S00000"){
-			        	self.$message({ message: '操作成功', type: 'success' });
-			        	// self.$router.push('/preSale_query');
-					} else {
-						console.log('error');
-					}
-				})
-				.catch((err) => {
-					console.log('error');
-				})
-			},
-			//更新(保存不提交)
-			saveutNotSubmitInfo(params) {
-				const self = this;
-				self.$axios.put(baseURL+'',params)
-				.then((res) => {
-					console.log('保存不提交',res);
 					if(res.data.code=="S00000"){
 			        	self.$message({ message: '操作成功', type: 'success' });
 			        	// self.$router.push('/preSale_query');
@@ -477,6 +428,10 @@
 }
 .add_preSale .item-title .uploadBtn {
 	right: 151px!important;
+	border-radius: 4px;
+}
+.content-wrapper .add-wrapper .upload-demo .uploadBtn {
+	left: 0;
 	border-radius: 4px;
 }
 </style>
