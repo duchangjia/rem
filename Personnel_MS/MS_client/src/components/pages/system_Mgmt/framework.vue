@@ -199,6 +199,7 @@
                   console.log(res)
                   self.companies = res.data.data[0]
                   if(!self.companies){
+                      self.companies = '',
                       this.$message('请点击新增按钮添加机构');
                     return
                   }else {
@@ -637,6 +638,12 @@
     width: 120px;
     background: #FF9900;
     border: none;
+}
+@-moz-document url-prefix(){
+    .framework-content-wrapper .content-right .title .del { line-height: 0; }
+}
+@-moz-document url-prefix(){
+    .framework-content-wrapper .content-right .title .toolBtn { line-height: 0; }
 }
 .framework-content-wrapper .form1-wrapper{
     padding-left: 10px;

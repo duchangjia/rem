@@ -192,9 +192,9 @@
                                             </el-form-item>
                                         </el-col>
                                         <el-col :md="8" :sm="12">
-                                            <el-form-item label="合同主体" prop="contractSubject">
-                                                <el-select v-model="ruleForm.contractSubject" placeholder="请选择合同主体">
-                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.contractSubject"></el-option>
+                                            <el-form-item label="合同主体" prop="pactSubject">
+                                                <el-select v-model="ruleForm.pactSubject" placeholder="请选择合同主体">
+                                                    <el-option :label="item.paraShowMsg" :value="item.paraValue" v-for="item in basicInfo.pactSubject"></el-option>
                                                 </el-select>
                                             </el-form-item>
                                         </el-col>
@@ -444,8 +444,8 @@
                 degree:'',
                 company:'',
                 department:[],
-                  CCC:'', 
-                contractSubject:'',
+                  CCC:'',
+                  pactSubject:'',
                   custType:'',
                   custPost:'',
                   custClass:'',
@@ -558,7 +558,7 @@
                   derpNo: '',
                   ownerCCC: '',
                   lineManager: '',
-                  contractSubject: '',
+                  pactSubject: '',
                   custType: '',
                   custPost: '',
                   custClass: '',
@@ -647,7 +647,7 @@
                   ownerCCC: [
                       {required: true, message: '请选择CCC', trigger: 'change'}
                   ],
-                  contractSubject: [
+                  pactSubject: [
                       {required: true, message: '请选择合同主体', trigger: 'change'}
                   ],
                   custType: [
@@ -787,7 +787,7 @@
                     self.basicInfo.education = res2.data.data
                     self.basicInfo.degree = res3.data.data
                     self.basicInfo.company = res4.data.data
-                    self.basicInfo.contractSubject = res5.data.data
+                    self.basicInfo.pactSubject = res5.data.data
                     self.basicInfo.custType = res6.data.data
                     self.basicInfo.custPost = res7.data.data
                     self.basicInfo.custClass = res8.data.data
