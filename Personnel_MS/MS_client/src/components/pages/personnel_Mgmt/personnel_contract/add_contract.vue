@@ -46,7 +46,9 @@
           </el-col>
           <el-col :span="24">
             <el-form-item label="合同主体">
-              <el-input v-model="custInfo.pactSubject" :disabled="true"></el-input>
+              <el-select v-model="custInfo.pactSubject" :disabled="true">
+                <el-option v-for="item in pactSubjectList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
@@ -189,6 +191,7 @@ export default {
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
       },
+      pactSubjectList: [],
 
       dialogVisible: false,
       boxTitle: "",
@@ -307,6 +310,9 @@ export default {
     current,
     messageBox
   },
+  created() {
+    this.getPactSubjectList(); //查询合同主体列表
+  },
   computed: {
     _sex: function() {
       if (this.custInfo.sex == "01") {
@@ -397,6 +403,20 @@ export default {
           }
         })
         .catch(e => {
+          console.log("error");
+        });
+    },
+
+    getPactSubjectList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PACT_SUBJECT")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.pactSubjectList = res.data.data;
+          }
+        })
+        .catch(err => {
           console.log("error");
         });
     },
