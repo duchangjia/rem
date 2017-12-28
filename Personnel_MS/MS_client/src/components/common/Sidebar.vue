@@ -54,12 +54,12 @@ export default {
 							menuName: '组织架构'
 						},
 						{
-							menuUrl: 'management_user',
-							menuName: '用户管理'
-						},
-						{
 							menuUrl: 'management_role',
 							menuName: '角色管理'
+						},
+						{
+							menuUrl: 'management_user',
+							menuName: '用户管理'
 						},
 						{
 							menuUrl: 'management_fun',
@@ -68,8 +68,23 @@ export default {
 					]
 				},
 				{
-					menuImg: 'icon-khgx',
+					menuImg: 'icon-csgl',
 					menuUrl: '3',
+					menuName: '参数管理',
+					menuList: [
+						{
+							menuUrl: 'argument_1',
+							menuName: '系统参数'
+						},
+						{
+							menuUrl: 'argument_2',
+							menuName: '业务参数'
+						},
+					]
+				},	
+				{
+					menuImg: 'icon-khgx',
+					menuUrl: '4	',
 					menuName: '人事事务',
 					menuList: [
                         {
@@ -87,23 +102,31 @@ export default {
 					]
 				},
 				{
-					menuImg: 'icon-csgl',
-					menuUrl: '4',
-					menuName: '参数管理',
+					menuImg: 'icon-ywgl',
+					menuUrl: '5',
+					menuName: '考勤管理',
 					menuList: [
 						{
-							menuUrl: 'argument_1',
-							menuName: '系统参数'
+							menuUrl: 'attendance_record',
+							menuName: '考勤记录管理'
 						},
 						{
-							menuUrl: 'argument_2',
-							menuName: '业务参数'
+							menuUrl: 'travel_management',
+							menuName: '出差管理'
 						},
+						{
+							menuUrl: 'leave_management',
+							menuName: '请假管理'
+						},
+						{
+							menuUrl: 'overtime_management',
+							menuName: '加班管理'
+						}
 					]
-				},	
+				},
 				{
 					menuImg: 'icon-xmgl',
-					menuUrl: '5',
+					menuUrl: '6',
 					menuName: '薪酬福利',
 					menuList: [
 						{
@@ -128,29 +151,7 @@ export default {
 //						}
 					]
 				},
-				{
-					menuImg: 'icon-ywgl',
-					menuUrl: '6',
-					menuName: '考勤管理',
-					menuList: [
-						{
-							menuUrl: 'attendance_record',
-							menuName: '考勤记录管理'
-						},
-						{
-							menuUrl: 'travel_management',
-							menuName: '出差管理'
-						},
-						{
-							menuUrl: 'leave_management',
-							menuName: '请假管理'
-						},
-						{
-							menuUrl: 'overtime_management',
-							menuName: '加班管理'
-						}
-					]
-				},
+				
 				{
 					menuImg: 'icon-tjbb',
 					menuUrl: '7',
