@@ -42,7 +42,9 @@
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="合同主体">
-              <el-input v-model="editPactMsg.pactSubject" :disabled="true"></el-input>
+              <el-select v-model="editPactMsg.pactSubject" :disabled="true">
+                <el-option v-for="item in pactSubjectList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
@@ -175,6 +177,7 @@ export default {
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
       },
+      pactSubjectList: [],
       triRemoveFlag: true,
       pactStartTimeOption: {
         disabledDate(time) {
@@ -269,8 +272,8 @@ export default {
   },
   created() {
     this.pactNo = sessionStorage.getItem("contractInfo_pactNo");
-    // 初始查合同基本详情
-    this.getPactDetail();
+    this.getPactDetail(); // 初始查合同基本详情
+    this.getPactSubjectList(); //查询合同主体列表
   },
   computed: {
     _sex: function() {
@@ -334,6 +337,19 @@ export default {
           }
         })
         .catch(() => {
+          console.log("error");
+        });
+    },
+    getPactSubjectList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PACT_SUBJECT")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.pactSubjectList = res.data.data;
+          }
+        })
+        .catch(err => {
           console.log("error");
         });
     },

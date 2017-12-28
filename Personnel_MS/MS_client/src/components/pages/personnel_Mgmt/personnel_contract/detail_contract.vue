@@ -39,7 +39,9 @@
               </el-col>
               <el-col :sm="24" :md="12">
                 <el-form-item label="合同主体">
-                  <el-input v-model="basicPactMsg.pactSubject" :disabled="true"></el-input>
+                  <el-select v-model="basicPactMsg.pactSubject" :disabled="true">
+                    <el-option v-for="item in pactSubjectList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
               <el-col :sm="24" :md="12">
@@ -208,335 +210,350 @@
 </template>
 
 <script type='text/ecmascript-6'>
-  import current from "../../../common/current_position.vue";
-  export default {
-    data() {
-      return {
-        activeName: "",
-        pactSubFlag: "false",
-        labelPosition: "right",
-        userNo: "",
-        pactNo: "",
-        basicPactMsg: {},
-        fileList: [],
-        token: {
-          Authorization: `Bearer ` + localStorage.getItem("access_token")
-        },
-        PChangeListInfo: [],
-        PRenewListInfo: [],
-        pChangePage: {
-          pageNum: 1,
-          pageSize: 10,
-          totalRows: 1
-        },
-        pRenewPage: {
-          pageNum: 1,
-          pageSize: 10,
-          totalRows: 1
-        }
-      };
-    },
-    components: {
-      current
-    },
-    created() {
-      this.pactNo = sessionStorage.getItem("contractInfo_pactNo");
-      this.userNo = sessionStorage.getItem("contractInfo_userNo");
-      if (sessionStorage.getItem("contractInfo_activeName") != "") {
-        this.activeName = sessionStorage.getItem("contractInfo_activeName");
-        if (this.activeName == "changePactMsg") this.getPChangeList();
-        if (this.activeName == "renewPactMsg") this.getPRenewList();
+import current from "../../../common/current_position.vue";
+export default {
+  data() {
+    return {
+      activeName: "",
+      pactSubFlag: "false",
+      labelPosition: "right",
+      userNo: "",
+      pactNo: "",
+      basicPactMsg: {},
+      fileList: [],
+      token: {
+        Authorization: `Bearer ` + localStorage.getItem("access_token")
+      },
+      pactSubjectList: [],
+      PChangeListInfo: [],
+      PRenewListInfo: [],
+      pChangePage: {
+        pageNum: 1,
+        pageSize: 10,
+        totalRows: 1
+      },
+      pRenewPage: {
+        pageNum: 1,
+        pageSize: 10,
+        totalRows: 1
+      }
+    };
+  },
+  components: {
+    current
+  },
+  created() {
+    this.pactNo = sessionStorage.getItem("contractInfo_pactNo");
+    this.userNo = sessionStorage.getItem("contractInfo_userNo");
+    if (sessionStorage.getItem("contractInfo_activeName") != "") {
+      this.activeName = sessionStorage.getItem("contractInfo_activeName");
+      if (this.activeName == "changePactMsg") this.getPChangeList();
+      if (this.activeName == "renewPactMsg") this.getPRenewList();
+    } else {
+      this.activeName = "basicPactMsg";
+      this.getPactDetail(); // 初始查合同基本详情
+    }
+    console.log("详情页当前的activeTab", this.activeName);
+    this.getPactSubjectList(); //查询合同主体列表
+  },
+  computed: {
+    _sex: function() {
+      if (this.basicPactMsg.sex == "01") {
+        return "男";
+      } else if (this.basicPactMsg.sex == "02") {
+        return "女";
+      } else if (this.basicPactMsg.sex == "99") {
+        return "其他";
       } else {
-        this.activeName = "basicPactMsg";
-        this.getPactDetail(); // 初始查合同基本详情
+        return "";
       }
-      console.log("详情页当前的activeTab", this.activeName);
     },
-    computed: {
-      _sex: function () {
-        if (this.basicPactMsg.sex == "01") {
-          return "男";
-        } else if (this.basicPactMsg.sex == "02") {
-          return "女";
-        } else if (this.basicPactMsg.sex == "99") {
-          return "其他";
-        } else {
-          return "";
+    _pactType: function() {
+      if (this.basicPactMsg.pactType == "01") {
+        return "劳动合同";
+      } else if (this.basicPactMsg.pactType == "02") {
+        return "保密协议";
+      } else if (this.basicPactMsg.pactType == "99") {
+        return "其他";
+      } else {
+        return "";
+      }
+    },
+    _pactStatus: function() {
+      if (this.basicPactMsg.pactStatus == "01") {
+        return "试用";
+      } else if (this.basicPactMsg.pactStatus == "02") {
+        return "有效";
+      } else if (this.basicPactMsg.pactStatus == "03") {
+        return "提前解除";
+      } else if (this.basicPactMsg.pactStatus == "04") {
+        return "到期解除";
+      } else if (this.basicPactMsg.pactStatus == "99") {
+        return "其他";
+      } else {
+        return "";
+      }
+    },
+    _autoudFlag: {
+      get: function() {
+        if (
+          this.basicPactMsg.autoudFlag == "01" ||
+          this.basicPactMsg.autoudFlag == true
+        ) {
+          return true;
+        } else if (
+          this.basicPactMsg.autoudFlag == "02" ||
+          this.basicPactMsg.autoudFlag == false
+        ) {
+          return false;
         }
       },
-      _pactType: function () {
-        if (this.basicPactMsg.pactType == "01") {
-          return "劳动合同";
-        } else if (this.basicPactMsg.pactType == "02") {
-          return "保密协议";
-        } else if (this.basicPactMsg.pactType == "99") {
-          return "其他";
+      set: function(val) {
+        if (val == true) {
+          this.basicPactMsg.autoudFlag = "01";
         } else {
-          return "";
+          this.basicPactMsg.autoudFlag = "02";
         }
-      },
-      _pactStatus: function () {
-        if (this.basicPactMsg.pactStatus == "01") {
-          return "试用";
-        } else if (this.basicPactMsg.pactStatus == "02") {
-          return "有效";
-        } else if (this.basicPactMsg.pactStatus == "03") {
-          return "提前解除";
-        } else if (this.basicPactMsg.pactStatus == "04") {
-          return "到期解除";
-        } else if (this.basicPactMsg.pactStatus == "99") {
-          return "其他";
-        } else {
-          return "";
-        }
-      },
-      _autoudFlag: {
-        get: function () {
+      }
+    }
+  },
+  methods: {
+    handleTabClick(tab, event) {
+      console.log(tab.name);
+      this.activeName = tab.name;
+      sessionStorage.setItem("contractInfo_activeName", this.activeName); // 暂存当前activeName
+      if (tab.name == "changePactMsg") this.getPChangeList();
+      if (tab.name == "renewPactMsg") this.getPRenewList();
+      if (tab.name == "basicPactMsg") this.getPactDetail();
+    },
+    getPactSubjectList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PACT_SUBJECT")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.pactSubjectList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
+    getPactDetail() {
+      const self = this;
+      let params = {
+        pactNo: self.pactNo
+      };
+      self.$axios
+        .get("/iem_hrm/pact/queryPactDetail", {
+          params: params
+        })
+        .then(res => {
+          self.basicPactMsg = res.data.data;
+          console.log("basicPactMsg", self.basicPactMsg);
           if (
-            this.basicPactMsg.autoudFlag == "01" ||
-            this.basicPactMsg.autoudFlag == true
+            self.basicPactMsg.epFileManageList &&
+            self.basicPactMsg.epFileManageList.length >= 1
           ) {
-            return true;
-          } else if (
-            this.basicPactMsg.autoudFlag == "02" ||
-            this.basicPactMsg.autoudFlag == false
-          ) {
-            return false;
+            self.fileList = self.basicPactMsg.epFileManageList;
           }
-        },
-        set: function (val) {
-          if (val == true) {
-            this.basicPactMsg.autoudFlag = "01";
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+    getPChangeList() {
+      const self = this;
+      let params = {
+        pageNum: self.pChangePage.pageNum,
+        pageSize: self.pChangePage.pageSize,
+        pactNo: self.pactNo
+      };
+      self.$axios
+        .get("/iem_hrm/pact/queryPactChangeList", {
+          params: params
+        })
+        .then(res => {
+          console.log("pChangeList", res);
+          self.PChangeListInfo = res.data.data.models;
+          self.pChangePage.totalRows = res.data.data.total;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+    getPRenewList() {
+      const self = this;
+      let params = {
+        pageNum: self.pRenewPage.pageNum,
+        pageSize: self.pRenewPage.pageSize,
+        pactNo: self.pactNo
+      };
+      self.$axios
+        .get("/iem_hrm/pact/queryPactRenewList", {
+          params: params
+        })
+        .then(res => {
+          console.log("pRenewList", res);
+          self.PRenewListInfo = res.data.data.models;
+          self.pRenewPage.totalRows = res.data.data.total;
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+    // 合同附件下载
+    handleDownloadFile(file) {
+      console.log(file);
+      let params = {
+        name: file.fileName + "." + file.fileSuffix,
+        fileId: file.fileId
+      };
+      this.downloadFile(params);
+    },
+    downloadFile(params) {
+      const self = this;
+      self.$axios
+        .get("/iem_hrm/file/downloadFile/" + params.fileId, {
+          responseType: "blob"
+        })
+        .then(response => {
+          const fileName = params.name;
+          const blob = response.data;
+
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blob, fileName);
           } else {
-            this.basicPactMsg.autoudFlag = "02";
+            let elink = document.createElement("a"); // 创建a标签
+            elink.download = fileName;
+            elink.style.display = "none";
+            elink.href = URL.createObjectURL(blob);
+            document.body.appendChild(elink);
+            elink.click(); // 触发点击a标签事件
+            document.body.removeChild(elink);
           }
-        }
+        })
+        .catch(e => {
+          console.error(e);
+          this.$message({
+            message: "下载附件失败",
+            type: "error"
+          });
+        });
+    },
+
+    changeTypeFormatter(row, column) {
+      return row.changeType == "01"
+        ? "条款变更"
+        : row.changeType == "99" ? "其他" : "";
+    },
+    renewTypeFormatter(row, column) {
+      return row.renewType == "01" ? "合同延期" : row.renewType == "99" ? "其他" : "";
+    },
+    handleEdit(index, row) {
+      if (this.activeName == "changePactMsg") {
+        sessionStorage.setItem("contractInfo_changeId", row.changeId); // 暂存当前changeId
+        this.$router.push("/edit_pactChange");
+      }
+      if (this.activeName == "renewPactMsg") {
+        sessionStorage.setItem("contractInfo_renewId", row.renewId); // 暂存当前renewId
+        this.$router.push("/edit_pactRenew");
       }
     },
-    methods: {
-      handleTabClick(tab, event) {
-        console.log(tab.name);
-        this.activeName = tab.name;
-        sessionStorage.setItem("contractInfo_activeName", this.activeName); // 暂存当前activeName
-        if (tab.name == "changePactMsg") this.getPChangeList();
-        if (tab.name == "renewPactMsg") this.getPRenewList();
-        if (tab.name == "basicPactMsg") this.getPactDetail();
-      },
-      getPactDetail() {
-        const self = this;
-        let params = {
-          pactNo: self.pactNo
-        };
-        self.$axios
-          .get("/iem_hrm/pact/queryPactDetail", {
-            params: params
-          })
-          .then(res => {
-            self.basicPactMsg = res.data.data;
-            console.log("basicPactMsg", self.basicPactMsg);
-            if (
-              self.basicPactMsg.epFileManageList &&
-              self.basicPactMsg.epFileManageList.length >= 1
-            ) {
-              self.fileList = self.basicPactMsg.epFileManageList;
-            }
-          })
-          .catch(() => {
-            console.log("error");
-          });
-      },
-      getPChangeList() {
-        const self = this;
-        let params = {
-          pageNum: self.pChangePage.pageNum,
-          pageSize: self.pChangePage.pageSize,
-          pactNo: self.pactNo
-        };
-        self.$axios
-          .get("/iem_hrm/pact/queryPactChangeList", {
-            params: params
-          })
-          .then(res => {
-            console.log("pChangeList", res);
-            self.PChangeListInfo = res.data.data.models;
-            self.pChangePage.totalRows = res.data.data.total;
-          })
-          .catch(() => {
-            console.log("error");
-          });
-      },
-      getPRenewList() {
-        const self = this;
-        let params = {
-          pageNum: self.pRenewPage.pageNum,
-          pageSize: self.pRenewPage.pageSize,
-          pactNo: self.pactNo
-        };
-        self.$axios
-          .get("/iem_hrm/pact/queryPactRenewList", {
-            params: params
-          })
-          .then(res => {
-            console.log("pRenewList", res);
-            self.PRenewListInfo = res.data.data.models;
-            self.pRenewPage.totalRows = res.data.data.total;
-          })
-          .catch(() => {
-            console.log("error");
-          });
-      },
-      // 合同附件下载
-      handleDownloadFile(file) {
-        console.log(file);
-        let params = {
-          name: file.fileName + "." + file.fileSuffix,
-          fileId: file.fileId
-        };
-        this.downloadFile(params);
-      },
-      downloadFile(params) {
-        const self = this;
-        self.$axios
-          .get("/iem_hrm/file/downloadFile/" + params.fileId, {
-            responseType: "blob"
-          })
-          .then(response => {
-            const fileName = params.name;
-            const blob = response.data;
-
-            if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-              window.navigator.msSaveOrOpenBlob(blob, fileName);
-            } else {
-              let elink = document.createElement("a"); // 创建a标签
-              elink.download = fileName;
-              elink.style.display = "none";
-              elink.href = URL.createObjectURL(blob);
-              document.body.appendChild(elink);
-              elink.click(); // 触发点击a标签事件
-              document.body.removeChild(elink);
-            }
-          })
-          .catch(e => {
-            console.error(e);
-            this.$message({
-              message: "下载附件失败",
-              type: "error"
-            });
-          });
-      },
-
-      changeTypeFormatter(row, column) {
-        return row.changeType == "01" ?
-          "条款变更" :
-          row.changeType == "99" ? "其他" : "";
-      },
-      renewTypeFormatter(row, column) {
-        return row.renewType == "01" ? "合同延期" : row.renewType == "99" ? "其他" : "";
-      },
-      handleEdit(index, row) {
-        if (this.activeName == "changePactMsg") {
-          sessionStorage.setItem("contractInfo_changeId", row.changeId); // 暂存当前changeId
-          this.$router.push("/edit_pactChange");
-        }
-        if (this.activeName == "renewPactMsg") {
-          sessionStorage.setItem("contractInfo_renewId", row.renewId); // 暂存当前renewId
-          this.$router.push("/edit_pactRenew");
-        }
-      },
-      handleDelete(index, row) {
-        if (this.activeName == "changePactMsg") {
-          this.$confirm("此操作将会删除该条合同变更, 是否继续?", "提示", {
-              confirmButtonText: "确定",
-              cancelButtonText: "取消",
-              type: "warning"
-            })
-            .then(() => {
-              this.$axios
-                .put(
-                  "/iem_hrm/pact/deletePactChange?pactNo=" +
+    handleDelete(index, row) {
+      if (this.activeName == "changePactMsg") {
+        this.$confirm("此操作将会删除该条合同变更, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.$axios
+              .put(
+                "/iem_hrm/pact/deletePactChange?pactNo=" +
                   row.pactNo +
                   "&changeId=" +
                   row.changeId
-                )
-                .then(res => {
-                  console.log(res);
-                  if (res.data.code == "S00000") {
-                    this.$message({
-                      type: "success",
-                      message: "操作成功!"
-                    });
-                    this.getPChangeList();
-                  } else this.$message.error(res.data.retMsg);
-                })
-                .catch(() => {
-                  this.$message.error("操作失败！");
-                });
-            })
-            .catch(() => {
-              this.$message("您已取消删除！");
-            });
-        }
-        if (this.activeName == "renewPactMsg") {
-          this.$confirm("此操作将会删除该条合同续签, 是否继续?", "提示", {
-              confirmButtonText: "确定",
-              cancelButtonText: "取消",
-              type: "warning"
-            })
-            .then(() => {
-              this.$axios
-                .put(
-                  "/iem_hrm/pact/deletePactRenew?pactNo=" +
+              )
+              .then(res => {
+                console.log(res);
+                if (res.data.code == "S00000") {
+                  this.$message({
+                    type: "success",
+                    message: "操作成功!"
+                  });
+                  this.getPChangeList();
+                } else this.$message.error(res.data.retMsg);
+              })
+              .catch(() => {
+                this.$message.error("操作失败！");
+              });
+          })
+          .catch(() => {
+            this.$message("您已取消删除！");
+          });
+      }
+      if (this.activeName == "renewPactMsg") {
+        this.$confirm("此操作将会删除该条合同续签, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.$axios
+              .put(
+                "/iem_hrm/pact/deletePactRenew?pactNo=" +
                   row.pactNo +
                   "&renewId=" +
                   row.renewId
-                )
-                .then(res => {
-                  console.log(res);
-                  if (res.data.code == "S00000") {
-                    this.$message({
-                      type: "success",
-                      message: "操作成功!"
-                    });
-                    this.getPRenewList();
-                  } else this.$message.error(res.data.retMsg);
-                })
-                .catch(() => {
-                  this.$message.error("操作失败！");
-                });
-            })
-            .catch(() => {
-              this.$message("您已取消删除！");
-            });
-        }
-      },
-      handleAddPChange() {
-        this.pactSubFlag = "true"; // 标记新增页为四级页面
-        sessionStorage.setItem("contractInfo_pactSubFlag", this.pactSubFlag); // 暂存当前pactSubFlag
-        this.$router.push("/add_pactChange");
-      },
-      handleAddPRenew() {
-        this.pactSubFlag = "true"; // 标记新增页为四级页面
-        sessionStorage.setItem("contractInfo_pactSubFlag", this.pactSubFlag); // 暂存当前pactSubFlag
-        this.$router.push("/add_pactRenew");
-      },
-      handlePChangeDetail(index, row) {
-        sessionStorage.setItem("contractInfo_changeId", row.changeId); // 暂存当前changeId
-        this.$router.push("/detail_pactChange");
-      },
-      handlePRenewDetail(index, row) {
-        sessionStorage.setItem("contractInfo_renewId", row.renewId); // 暂存当前renewId
-        this.$router.push("/detail_pactRenew");
-      },
-      handlePChangePage(val) {
-        this.pChangePage.pageNum = val;
-        this.getPChangeList(); //分页查询合同变更列表
-      },
-      handlePRenewPage(val) {
-        this.pRenewPage.pageNum = val;
-        this.getPRenewList(); //分页查询合同变更列表
+              )
+              .then(res => {
+                console.log(res);
+                if (res.data.code == "S00000") {
+                  this.$message({
+                    type: "success",
+                    message: "操作成功!"
+                  });
+                  this.getPRenewList();
+                } else this.$message.error(res.data.retMsg);
+              })
+              .catch(() => {
+                this.$message.error("操作失败！");
+              });
+          })
+          .catch(() => {
+            this.$message("您已取消删除！");
+          });
       }
+    },
+    handleAddPChange() {
+      this.pactSubFlag = "true"; // 标记新增页为四级页面
+      sessionStorage.setItem("contractInfo_pactSubFlag", this.pactSubFlag); // 暂存当前pactSubFlag
+      this.$router.push("/add_pactChange");
+    },
+    handleAddPRenew() {
+      this.pactSubFlag = "true"; // 标记新增页为四级页面
+      sessionStorage.setItem("contractInfo_pactSubFlag", this.pactSubFlag); // 暂存当前pactSubFlag
+      this.$router.push("/add_pactRenew");
+    },
+    handlePChangeDetail(index, row) {
+      sessionStorage.setItem("contractInfo_changeId", row.changeId); // 暂存当前changeId
+      this.$router.push("/detail_pactChange");
+    },
+    handlePRenewDetail(index, row) {
+      sessionStorage.setItem("contractInfo_renewId", row.renewId); // 暂存当前renewId
+      this.$router.push("/detail_pactRenew");
+    },
+    handlePChangePage(val) {
+      this.pChangePage.pageNum = val;
+      this.getPChangeList(); //分页查询合同变更列表
+    },
+    handlePRenewPage(val) {
+      this.pRenewPage.pageNum = val;
+      this.getPRenewList(); //分页查询合同变更列表
     }
-  };
+  }
+};
 </script>
 
 <style scoped>
