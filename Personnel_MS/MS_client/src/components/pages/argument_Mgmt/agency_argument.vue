@@ -191,7 +191,6 @@
                 let data = {
                     organNo,derpNo
                 }
-                console.log(data,333)
                 self.$axios.get('/iem_hrm/organ/queryOrgCCCList',{params:data})
                     .then(res => {
                         let result = res.data.retMsg
