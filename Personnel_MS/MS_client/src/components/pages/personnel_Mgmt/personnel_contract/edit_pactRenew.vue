@@ -21,12 +21,12 @@
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="上次生效时间">
-              <el-date-picker type="date" placeholder="选择日期" v-model="editPRenewMsg.renewCameTimeLast" :disabled="true" style="width: 100%;"></el-date-picker>
+              <el-date-picker type="date" v-model="editPRenewMsg.renewCameTimeLast" :disabled="true" style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="上次到期时间">
-              <el-date-picker type="date" placeholder="选择日期" v-model="editPRenewMsg.renewLostTimeLast" :disabled="true" style="width: 100%;"></el-date-picker>
+              <el-date-picker type="date" v-model="editPRenewMsg.renewLostTimeLast" :disabled="true" style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-form>
@@ -88,7 +88,7 @@
           style="margin-top:0;overflow:visible;">
           <el-col :sm="24" :md="12">
             <el-form-item label="续签时间">
-              <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="editPRenewMsg.renewTime" @change="renewTimeChange"
+              <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="editPRenewMsg.renewTime" :picker-options="renewTimeOption" @change="renewTimeChange"
                 style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
@@ -168,6 +168,14 @@
         triRemoveFlag: true,
         custPostList: [],
         custClassList: [],
+        renewTimeOption: {
+        disabledDate(time) {
+          return (
+            time.getTime() <
+            new Date(that.editPRenewMsg.renewLostTimeLast).getTime() - 3600 * 1000 * 24
+          );
+        }
+      },
         renewCameTimeOption: {
           disabledDate(time) {
             return (

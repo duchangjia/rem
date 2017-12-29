@@ -95,7 +95,7 @@
                         </el-form-item>
                     </el-col>
                 </el-form>
-                <el-form :model="detailPChangeMsg" :rules="pactMsgRules" ref="pactMsgRules2" :label-position="labelPosition" label-width="122px" style="margin-top:0;">
+                <el-form :model="detailPChangeMsg" :label-position="labelPosition" label-width="122px" style="margin-top:0;">
                     <el-col :span="24">
                         <el-form-item label="变更内容">
                             <el-input type="textarea" v-model="detailPChangeMsg.changeContent" :disabled="true"></el-input>
