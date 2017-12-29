@@ -280,8 +280,8 @@ const routes = [
                             component: resolve => require(['../components/view/business_Mgmt/depart_project/departPreCheck_query.vue'], resolve),
                         },
                         {
-                            name: 'query_customer',
-                            path: '/query_customer',
+                            name: 'departPreCheck_detail',
+                            path: '/departPreCheck_detail',
                             component: resolve => require(['../components/view/business_Mgmt/depart_project/departPreCheck_detail.vue'], resolve),
                         }
                     ]

@@ -1,10 +1,9 @@
 <template>
 	<div class="query_wrapper">
-        <current yiji="项目管理" erji="项目一览"></current>
+        <current yiji="业务管理" erji="部门项目一览"></current>
         <div class="queryContent_wrapper">
             <div class="titleBar">
-                <span class="title-text">项目一览</span>
-                
+                <span class="title-text">部门项目一览</span>
             </div>
             <div class="queryContent_inner clearfix">
                 <el-form :inline="true">
@@ -17,19 +16,10 @@
                         <el-form-item label="项目状态">
                             <el-select class="search_common" v-model="searchInfo.projState">
                                 <el-option label="售前" value="01"></el-option>
-                                <el-option label="实施" value="02"></el-option>
-                                <el-option label="结束" value="03"></el-option>
+                                <el-option label="实施中:未确认合同" value="02"></el-option>
+                                <el-option label="实施中:合同签署中" value="03"></el-option>
+                                <el-option label="结束" value="04"></el-option>
                             </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="部门">
-                            <el-input class="search_common"  placeholder="请输入部门" v-model="searchInfo.projImpDepname"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="9">
-                        <el-form-item label="项目经理(PM)" class="large-label">
-                            <el-input class="search_large"  placeholder="请输入项目经理(PM)" v-model="searchInfo.projImpPm"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
@@ -45,17 +35,12 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="6">
-                        <el-form-item label="工号" >
-                            <el-input class="search_common"  placeholder="请输入工号" v-model="searchInfo.userNo"></el-input>
-                        </el-form-item>
-                    </el-col>
                     <div class="queryButton_wrapper">
                         <el-button class="resetform btn-default" @click="resetForm()">重置</el-button>
                         <el-button class="btn-primary" @click="search()">查询</el-button>
                     </div>   
                 </el-form>
-                <el-table stripe border :data="tableList" class="table-nopad" @row-click="saveItem">
+                <el-table stripe border :data="tableList" class="table-nopad">
                     <el-table-column align="center" prop="projImpDepno" label="部门编号">
                     </el-table-column>
                     <el-table-column align="center" prop="oppoNo" label="机会号" >
@@ -66,13 +51,9 @@
                     </el-table-column>
                     <el-table-column align="center" prop="projStatus" label="项目状态" :formatter="projStatusFormatter">
                     </el-table-column>
-                    <el-table-column align="center" prop="projIncmType" label="收入类型" :formatter="projIncmTypeFormatter">
-                    </el-table-column>
                     <el-table-column align="center" prop="projIncmConfim" label="收入确认类型" :formatter="projIncmConfimFormatter">
                     </el-table-column>
                     <el-table-column align="center" prop="projSaleName" label="销售" >
-                    </el-table-column>
-                    <el-table-column align="center" prop="projSaleLinemgr" label="直线经理" >
                     </el-table-column>
                     <el-table-column align="center" prop="projImpBegdate" label="预计开始日期">
                     </el-table-column>
@@ -80,14 +61,9 @@
                     </el-table-column>
                     <el-table-column align="center"  label="操作">
                         <template scope="scope">
-                            <el-dropdown @command="handleCommand" trigger="click">
-                                <span class="el-dropdown-link cur-pointer">
-                                    下拉菜单
-                                </span>
-                                <el-dropdown-menu slot="dropdown" >
-                                    <el-dropdown-item :command="item.url" v-for="item in dropDownList" :key="item.url">{{item.name}}</el-dropdown-item>
-                                </el-dropdown-menu>
-                            </el-dropdown>
+                            <span class="c-primary cur-pointer" @click="goDetail(scope.row)">
+                                详情
+                            </span>
                         </template>
                     </el-table-column>
                 </el-table> 
@@ -167,9 +143,6 @@
             projStatusFormatter(row, column) {
                 return row.projStatus=='01' ? '售前' : row.projStatus=='02' ? '实施' : row.projStatus=='03' ? '结束' : '';
             },
-            projIncmTypeFormatter(row, column) {
-                return row.projIncmType=='01'? 'Pipeline' : row.projIncmType=='02' ? 'EATP' : row.projIncmType=='03' ? 'Frotlog' : row.projIncmType=='04' ? 'Backlog' : '';
-            },
             projIncmConfimFormatter(row, column) {
                 return row.projIncmConfim=='01'? '外包' : row.projIncmConfim=='02' ? '固定金额' : '';
             },
@@ -187,29 +160,12 @@
             handleCurrentChange(val){
                 console.log(val)
             },
-            saveItem(row, event, column){
+            goDetail(row){
+                let self = this;
+                self.$router.push('/departPreCheck_detail');
                 window.localStorage.setItem('preCheckOppoNo',row.oppoNo);
             },
-            handleCommand(command){
-                let self = this,
-                oppoNo =  localStorage.getItem('preCheckOppoNo');
-                console.log(command,oppoNo);
-                if(command == 'end'){
-                    self.$confirm('确定项目已经结束，不再进行预算、收入申报','确认项目关闭',{
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        //关闭项目
-                        self.closeProj();
-                    }).catch(() => {
-                        self.$message({ type: 'info', message: '已取消操作' });          
-                    });
-                }else{
-                    self.$router.push(command);
-                }
-                
-            },
+            
             //查询项目一览列表
             queryprojList() {
                 let self = this;
