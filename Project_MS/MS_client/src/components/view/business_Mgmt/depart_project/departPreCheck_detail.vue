@@ -1,9 +1,9 @@
 <template>
     <div class="container-wrap">
-        <current yiji="项目管理" erji="项目一览" sanji="项目详情"></current>
+        <current yiji="业务管理" erji="部门项目一览" sanji="部门项目详情"></current>
         <div class="content-wrapper">
             <div class="titlebar">
-                <span class="title-text">项目详情</span>
+                <span class="title-text">部门项目详情</span>
             </div>
             <div class="add-wrapper">
                 <el-form label-width="140px" :inline="true">
