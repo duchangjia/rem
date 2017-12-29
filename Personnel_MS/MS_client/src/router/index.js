@@ -174,6 +174,21 @@ const routes = [{
             {
                 path: '/argument_1',
                 component: resolve => require(['../components/pages/argument_Mgmt/argument_1.vue'], resolve),
+                children: [{
+                        path: '/',
+                        component: resolve => require(['../components/pages/argument_Mgmt/query_sysParam.vue'], resolve)
+                    },
+                    {
+                        name: 'add_sysParam',
+                        path: '/add_sysParam',
+                        component: resolve => require(['../components/pages/argument_Mgmt/add_sysParam.vue'],resolve)
+                    },
+                    {
+                        name: 'edit_sysParam',
+                        path: '/edit_sysParam',
+                        component: resolve => require(['../components/pages/argument_Mgmt/edit_sysParam.vue'],resolve)
+                    }
+                ]
 
             },
             {

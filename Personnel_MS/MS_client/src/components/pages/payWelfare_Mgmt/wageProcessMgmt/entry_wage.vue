@@ -518,6 +518,7 @@ export default {
 				console.log('wageInfo',res);
 				if(res.data.code === "S00000") {
 					self.socialInfoData = res.data.data.models;
+					console.log('socialInfoData', self.socialInfoData)
 				}
 			}).catch((err) => {
 				console.log('error');
