@@ -62,7 +62,7 @@
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
-            <el-form-item label="合同类型">
+            <el-form-item label="合同类型" prop="pactType">
               <el-select v-model="addPactMsg.pactType">
                 <el-option label="劳动合同" value="01"></el-option>
                 <el-option label="保密协议" value="02"></el-option>
@@ -233,72 +233,20 @@ export default {
       },
 
       pactMsgRules: {
-        userNo: [
-          {
-            required: true,
-            message: "工号不能为空",
-            trigger: "blur"
-          }
-        ],
-        paperPactNo: [
-          {
-            required: true,
-            message: "纸质合同编号不能为空",
-            trigger: "blur"
-          }
-        ],
-        pactName: [
-          {
-            required: true,
-            message: "合同名称不能为空",
-            trigger: "blur"
-          }
-        ],
-        pactType: [
-          {
-            required: true,
-            message: "合同类型不能为空",
-            trigger: "change"
-          }
-        ],
-        signTime: [
-          {
-            required: true,
-            message: "签订日期不能为空",
-            trigger: "change"
-          }
-        ],
+        userNo: [{ required: true, message: "请选择工号", trigger: "blur" }],
+        paperPactNo: [{ required: true, message: "请输入纸质合同编号", trigger: "blur" }],
+        pactName: [{ required: true, message: "请输入合同名称", trigger: "blur" }],
+        pactType: [{ required: true, message: "请选择合同类型", trigger: "change" }],
+        signTime: [{ required: true, message: "请选择签订日期", trigger: "change" }],
         pactStartTime: [
-          {
-            required: true,
-            message: "合同开始日期不能为空",
-            trigger: "change"
-          },
-          {
-            type: "date",
-            validator: validateStartTime,
-            trigger: "change"
-          }
+          { required: true, message: "请选择合同开始日期", trigger: "change"},
+          { type: "date", validator: validateStartTime, trigger: "change"}
         ],
         pactEndTime: [
-          {
-            required: true,
-            message: "合同结束日期不能为空",
-            trigger: "change"
-          },
-          {
-            type: "date",
-            validator: validateEndTime,
-            trigger: "change"
-          }
+          { required: true,  message: "请选择合同结束日期", trigger: "change" },
+          { type: "date", validator: validateEndTime, trigger: "change" }
         ],
-        pactStatus: [
-          {
-            required: true,
-            message: "合同状态不能为空",
-            trigger: "change"
-          }
-        ]
+        pactStatus: [{ required: true, message: "请选择合同状态", trigger: "change" }]
       }
     };
   },
