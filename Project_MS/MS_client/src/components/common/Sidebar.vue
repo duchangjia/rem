@@ -98,7 +98,11 @@ export default {
 						{
 							menuUrl: '/query_departPreCheck',
 							menuName: '部门项目一览'
-						}
+						},
+						{
+							menuUrl: '/query_budgetPreCheck',
+							menuName: '部门预算一览'
+						},
 					]
 				},
 				{
