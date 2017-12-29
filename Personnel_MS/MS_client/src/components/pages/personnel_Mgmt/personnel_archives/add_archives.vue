@@ -16,6 +16,7 @@
                                             :auto-upload="false"
                                             :on-change="handleAvatarChange"
                                             :on-success="handleAvatarSuccess"
+                                            :before-upload="beforeAvatarUpload"
                                             :headers="token"
                                             >
                                         <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -318,6 +319,7 @@
                                                                :auto-upload="false"
                                                                :on-change="handleFileUpload"
                                                                :on-success="successUpload"
+                                                               :before-upload="beforeFileUpload"
                                                                :headers="token"
                                                                >
                                                         <el-button slot="trigger" type="primary" class="uploadBtn">{{this.ruleForm.attachm==''?'上传':'更换'}}附件</el-button>
@@ -466,6 +468,8 @@
               tabName:'first',
               //头像数据
               imageUrl: '',
+              fileList3: [],
+              fileList4: [],
               //证件管理数据
               fileList2:[],
               dialogImageUrl: '',
@@ -807,7 +811,22 @@
 //                })
 //            },
             //头像上传
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                const onlyOne = file.name == this.fileList3[0].name
+                return isJPG && isLt2M && onlyOne;
+            },
             handleAvatarChange(file, fileList) {
+                this.ruleForm.test = file.name
+                this.fileList3 = fileList.filter(file=>{
+                    return this.ruleForm.test == file.name && file.raw.type === 'image/jpeg' && file.raw.size / 1024 / 1024 < 2
+                })
+                if(this.fileList3.length == 0) {
+                    this.fileList3.push(fileList.filter(file=>{
+                        return file.raw.type === 'image/jpeg' && file.raw.size / 1024 / 1024 < 2
+                    }).pop())
+                }
                 const isJPG = file.raw.type === 'image/jpeg';
                 const isLt2M = file.raw.size / 1024 / 1024 < 2;
                 if (!isJPG) {
@@ -869,7 +888,6 @@
                                             type: 'error',
                                             message: result
                                         });
-//                                    fileList.splice(index,0,file)
                                     }
                                 })
                                 .catch(e=>{
@@ -878,7 +896,6 @@
                                         message: e.retMsg
                                     });
                                     console.log(e)
-//                                fileList.splice(index,0,file)
                                 })
                         }
                     }).catch(()=>{
@@ -893,23 +910,28 @@
                 this.dialogImageUrl = file.url;
                 this.dialogVisible2 = true;
             },
+            beforeFileUpload(file) {
+                const onlyOne = file.name == this.fileList4[0].name
+                return onlyOne;
+            },
             handleFileUpload(file, fileList) {
-                if(this.tabName == 'first') {
+                this.ruleForm.test2 = file.name
+                this.fileList4 = fileList.filter(file=>{
+                    return this.ruleForm.test2 == file.name
+                })
                     if(this.ruleForm.attachm == file.name ) return
                     this.ruleForm.attachm = file.name
                     this.ruleForm.attachmFlag = true
-                }
             },
             successUpload(response, file, fileList) {
                 if(this.tabName == 'first') {
                     let self = this
                     let result = response.retMsg
-                    console.log(response,'successUpload',response.data)
                     if('操作成功'==result){
                         self.uploadUserNo.userNo = this.userNo = response.data
                         if(self.ruleForm.avatarFlag){
                             self.ruleForm.avatarFlag = ''
-                            console.log(self.uploadUserNo.userNo,'提交头像上传去了')
+                            console.log(self.uploadUserNo.userNo,'提交头像上传去了','附件提交已经成功')
                             self.$refs.uploadAvatar.submit()
                         }else {
                             this.$message({ message: '操作成功', type: 'success' });
@@ -920,7 +942,6 @@
                     }
                 }
                 if(this.tabName == 'sixth') {
-                    console.log(response,'????????successUpload????????',file,'????????successUpload????????',fileList)
                     if(response.code === "S00000") {
                         this.$message({ message: '操作成功', type: 'success' });
                         this.flag = true
@@ -1080,17 +1101,15 @@
                             this.$axios.post('/iem_hrm/CustInfo/insertCustInfo', this.ruleForm)
                                 .then(res=>{
                                     let result = res.data.retMsg
-                                    console.log(res,res.data.data,'正常提交响应')
                                     if(result=="操作成功"){
                                         self.$message({
                                             type: 'success',
                                             message: result
                                         });
-                                        this.userNo = res.data.data
-                                        self.uploadUserNo.userNo = this.userNo
+                                        self.uploadUserNo.userNo = this.userNo = res.data.data
                                         if(self.ruleForm.avatarFlag){
                                             self.ruleForm.avatarFlag = ''
-                                            console.log('avatar',self.ruleForm.avatarFlag,self.uploadUserNo)
+                                            console.log('avatar',self.ruleForm.avatarFlag,this.userNo)
                                             self.$refs.uploadAvatar.submit()
                                         }else {
                                             self.$message({
