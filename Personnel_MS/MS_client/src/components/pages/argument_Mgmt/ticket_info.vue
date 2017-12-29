@@ -10,7 +10,7 @@
                 </div>
                 <div class="queryContent_inner clearfix">
                     <el-form :model="custInfo" :inline="true" ref="ruleForm2">
-                        <el-form-item label="合同实体">
+                        <el-form-item label="合同主体">
                         <el-select v-model="custInfo.pactSubject"  placeholder="合同实体" @change="changeCompany" class="m-select">
                                 <el-option v-for="item in companyName" 
                                 :key="item.paraValue" 

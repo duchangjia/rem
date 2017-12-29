@@ -6,7 +6,7 @@
           <div class="add-wrapper">
               <el-form :inline="true" label-width="110px" :rules="rules" :model="custInfo" ref="info">
                    <el-col :sm="24" :md="12">
-                      <el-form-item label="合同实体" prop="pactSubject"  >
+                      <el-form-item label="合同主体" prop="pactSubject"  >
                          <el-input v-model="custInfo.paraShowmsg" disabled="disabled">
                           </el-input>
                           <!-- <el-select v-model="custInfo.pactSubject" disabled="disabled">
