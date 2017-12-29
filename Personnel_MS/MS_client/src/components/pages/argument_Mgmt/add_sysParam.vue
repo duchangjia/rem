@@ -53,7 +53,7 @@
 					  	</el-form-item>
 					</el-col>   
 				</el-form>
-				<el-form :model="formdata" :rules="rules" ref="formdata" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+				<el-form :model="formdata" :rules="rules" ref="formdata1" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
 					<el-col :span="24">
 						<el-form-item label="参数描述" prop="paraDesc">
 						    <el-input type="textarea" v-model="formdata.paraDesc"></el-input>
@@ -86,11 +86,15 @@ export default {
 			languageList: [],
 			rules: {
 				paraCode: [{ required: true, message: "请输入参数代码", trigger: "blur" }],
-				paraName: [{ required: true, message: "请输入参数代码", trigger: "blur" }],
-				paraValue: [{ required: true, message: "请输入参数代码", trigger: "blur" }],
-				paraShowMsg: [{ required: true, message: "请输入参数代码", trigger: "blur" }],
-				paraLang: [{ required: true, message: "请输入参数代码", trigger: "blur" }],
-				paraClass: [{ required: true, message: "请输入参数代码", trigger: "blur" }]
+				paraName: [{ required: true, message: "请输入参数名称", trigger: "blur" }],
+				paraValue: [{ required: true, message: "请输入参数值", trigger: "blur" }],
+				paraShowMsg: [
+					{ required: true, message: "请输入显示信息", trigger: "blur" },
+					{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
+				],
+				paraLang: [{ required: true, message: "请选择语种", trigger: "blur" }],
+				paraClass: [{ required: true, message: "请选择参数类型", trigger: "blur" }],
+				paraDesc: [{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }]
 			}
 		}
 	},
@@ -102,21 +106,27 @@ export default {
 	},
 	methods: {
 		save(formName) {
-		 	this.$refs[formName].validate((valid) => {
+		 	this.$refs.formdata.validate((valid) => {
 	          	if (valid) {
-					  console.log('valid')
-	          		const self = this;
-	          		let params = {
-	          			paraName: self.formdata.paraName,
-	          			paraCode: self.formdata.paraCode,
-						paraValue: self.formdata.paraValue,
-						paraShowMsg: self.formdata.paraShowMsg,
-						paraClass: self.formdata.paraClass,
-						paraDesc: self.formdata.paraDesc,
-						paraLang: self.formdata.paraLang,
-						status: self.formdata.status
-					  };
-	          		self.addSysParamMgmt(params);
+					this.$refs.formdata1.validate((valid) => {
+						  if (valid) {
+								console.log('valid')
+								const self = this;
+								let params = {
+									paraName: self.formdata.paraName,
+									paraCode: self.formdata.paraCode,
+									paraValue: self.formdata.paraValue,
+									paraShowMsg: self.formdata.paraShowMsg,
+									paraClass: self.formdata.paraClass,
+									paraDesc: self.formdata.paraDesc,
+									paraLang: self.formdata.paraLang,
+									status: self.formdata.status
+								};
+								self.addSysParamMgmt(params);
+							}
+					})  
+							
+
 	          		
 	          	} else {
 	            	return false;

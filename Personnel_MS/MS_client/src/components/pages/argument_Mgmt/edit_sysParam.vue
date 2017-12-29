@@ -54,7 +54,7 @@
                       </el-form-item>
                   </el-col>
               </el-form>
-              <el-form :model="custInfo" :rules="rules" ref="info" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+              <el-form :model="custInfo" :rules="rules" ref="info1" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                 <el-col :span="24">
                   <el-form-item label="参数描述" prop="paraDesc">
                         <el-input type="textarea" v-model="custInfo.paraDesc"></el-input>
@@ -87,12 +87,16 @@ export default {
       
 			languageList: [],
       rules: {
-        paraClass: [
-
-        ],
-        paraDesc: [
-
-        ]
+        paraCode: [{ required: true, message: "请输入参数代码", trigger: "blur" }],
+				paraName: [{ required: true, message: "请输入参数名称", trigger: "blur" }],
+				paraValue: [{ required: true, message: "请输入参数值", trigger: "blur" }],
+				paraShowMsg: [
+					{ required: true, message: "请输入显示信息", trigger: "blur" },
+					{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
+				],
+				paraLang: [{ required: true, message: "请选择语种", trigger: "blur" }],
+				paraClass: [{ required: true, message: "请选择参数类型", trigger: "blur" }],
+				paraDesc: [{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }]
       },
       companyName: [],
       isDelete: false
@@ -124,30 +128,35 @@ export default {
       let self = this;
       self.$refs.info.validate(valid => {
         if (valid) {
-          let params = {
-            paraName: self.custInfo.paraName,
-            paraCode: self.custInfo.paraCode,
-						paraValue: self.custInfo.paraValue,
-						paraShowMsg: self.custInfo.paraShowMsg,
-						paraClass: self.custInfo.paraClass,
-						paraDesc: self.custInfo.paraDesc,
-						paraLang: self.custInfo.paraLang,
-						status: self.custInfo.status
-          }
-          console.log('params', params)
-          self.$axios.put("/iem_hrm/sysParamMgmt/modSysParMgmtInfo", params)
-            .then(res => {
-              let result = res.data;
-              if ((result.code = "S00000")) {
-                self.$message({ message: result.retMsg, type: "success" });
-                self.$router.push('/argument_1');
-              } else {
-                self.$message({ message: result.retMsg, type: "error" });
+          self.$refs.info1.validate(valid => {
+            if (valid) {
+              let params = {
+                paraName: self.custInfo.paraName,
+                paraCode: self.custInfo.paraCode,
+                paraValue: self.custInfo.paraValue,
+                paraShowMsg: self.custInfo.paraShowMsg,
+                paraClass: self.custInfo.paraClass,
+                paraDesc: self.custInfo.paraDesc,
+                paraLang: self.custInfo.paraLang,
+                status: self.custInfo.status
               }
-            })
-            .catch(e => {
-              console.log(e)
-            });
+              console.log('params', params)
+              self.$axios.put("/iem_hrm/sysParamMgmt/modSysParMgmtInfo", params)
+                .then(res => {
+                  let result = res.data;
+                  if ((result.code = "S00000")) {
+                    self.$message({ message: result.retMsg, type: "success" });
+                    self.$router.push('/argument_1');
+                  } else {
+                    self.$message({ message: result.retMsg, type: "error" });
+                  }
+                })
+                .catch(e => {
+                  console.log(e)
+                });
+            }
+          })
+              
         }
       });
     },
