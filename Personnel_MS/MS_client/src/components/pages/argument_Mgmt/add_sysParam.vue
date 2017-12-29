@@ -10,22 +10,22 @@
 			<div class="add-wrapper">
 				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="122px">
 					<el-col :sm="24" :md="12">
+						<el-form-item label="参数代码" prop="paraCode">
+						    <el-input v-model="formdata.paraCode"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
 						<el-form-item label="参数名称" prop="paraName">
 						    <el-input v-model="formdata.paraName"></el-input>
 					  	</el-form-item>
 					</el-col>  
-					<el-col :sm="24" :md="12">
-						<el-form-item label="参数代码" prop="paraCode">
-						    <el-input v-model="formdata.paraCode"></el-input>
-					  	</el-form-item>
-					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="参数值" prop="paraValue">
 						    <el-input v-model="formdata.paraValue"></el-input>
 					  	</el-form-item>
 					</el-col>    	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="参数显示信息" prop="paraShowMsg">
+						<el-form-item label="显示信息" prop="paraShowMsg">
 						    <el-input v-model="formdata.paraShowMsg"></el-input>
 					  	</el-form-item>
 					</el-col> 
@@ -45,7 +45,7 @@
 					  	</el-form-item>
 					</el-col>  
 					<el-col :sm="24" :md="12">
-						<el-form-item label="参数状态" prop="status">
+						<el-form-item label="状态" prop="status">
 							<el-select  v-model="formdata.status">
 								<el-option label="启用" value="1"></el-option>
 								<el-option label="关闭" value="0"></el-option>
@@ -85,30 +85,12 @@ export default {
 			},
 			languageList: [],
 			rules: {
-				paraCode: [
-					{ required: true, message: '参数代码不能为空', trigger: 'blur' }
-				],
-				paraValue: [
-					{ required: true, message: '参数值不能为空', trigger: 'blur' }
-				],
-				paraLang: [
-					{ required: true, message: '参数语种不能为空', trigger: 'blur' }
-				],
-				paraShowMsg: [
-					{ required: true, message: '参数显示信息不能为空', trigger: 'blur' }
-				],
-				paraName: [
-					{ required: true, message: '参数名称不能为空', trigger: 'blur' }
-				],
-				paraClass: [
-					{ required: true, message: '参数类型不能为空', trigger: 'blur' }
-				],
-				paraShowMsg: [
-					{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
-				],
-				status: [
-					{ required: true, message: '参数状态不能为空', trigger: 'blur' }
-				]
+				paraCode: [{ required: true, message: "请输入参数代码", trigger: "blur" }],
+				paraName: [{ required: true, message: "请输入参数代码", trigger: "blur" }],
+				paraValue: [{ required: true, message: "请输入参数代码", trigger: "blur" }],
+				paraShowMsg: [{ required: true, message: "请输入参数代码", trigger: "blur" }],
+				paraLang: [{ required: true, message: "请输入参数代码", trigger: "blur" }],
+				paraClass: [{ required: true, message: "请输入参数代码", trigger: "blur" }]
 			}
 		}
 	},

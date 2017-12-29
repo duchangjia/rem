@@ -24,7 +24,7 @@
                 <el-col :span="6">
                   <el-form-item label="参数状态">
                     <el-select v-model="filters.status" >
-                        <el-option label="开启" value="1"></el-option>
+                        <el-option label="启用" value="1"></el-option>
                         <el-option label="关闭" value="0"></el-option>
                     </el-select> 
                   </el-form-item>
@@ -130,7 +130,7 @@ export default {
       return row.paraClass == "1" ? "系统参数" : row.paraClass == "2" ? "业务参数" : "";
     },
     paraStatusFormatter(row, column) {
-      return row.status == "1" ? "启动" : row.status == "0" ? "关闭" : "";
+      return row.status == "1" ? "启用" : row.status == "0" ? "关闭" : "";
     },
     // dateFormat(row, column) {},
 

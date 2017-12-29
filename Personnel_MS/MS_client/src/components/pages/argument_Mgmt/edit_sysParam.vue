@@ -9,15 +9,15 @@
           <div class="add-wrapper">
               <el-form :inline="true" label-width="122px" :rules="rules" :model="custInfo" ref="info">
                   <el-col :sm="24" :md="12">
+                      <el-form-item label="参数代码" prop="paraCode">
+                            <el-input v-model="custInfo.paraCode" disabled="disabled"></el-input>
+                      </el-form-item>
+                  </el-col>
+                  <el-col :sm="24" :md="12">
                       <el-form-item label="参数名称" prop="paraName"  >
                           <el-input v-model="custInfo.paraName">
                               
                           </el-input>
-                      </el-form-item>
-                  </el-col>
-                  <el-col :sm="24" :md="12">
-                      <el-form-item label="参数代码" prop="paraCode">
-                            <el-input v-model="custInfo.paraCode" disabled="disabled"></el-input>
                       </el-form-item>
                   </el-col>
                   <el-col :sm="24" :md="12">
@@ -26,7 +26,7 @@
                       </el-form-item>
                   </el-col>
                   <el-col :sm="24" :md="12">
-                      <el-form-item label="参数显示信息" prop="paraShowMsg">
+                      <el-form-item label="显示信息" prop="paraShowMsg">
                             <el-input v-model="custInfo.paraShowMsg"></el-input>
                       </el-form-item>
                   </el-col>
@@ -46,7 +46,7 @@
                       </el-form-item>
                   </el-col>
                   <el-col :sm="24" :md="12">
-                      <el-form-item label="参数状态">
+                      <el-form-item label="状态">
                         <el-select  v-model="custInfo.status">
                           <el-option label="启用" value="1"></el-option>
                           <el-option label="关闭" value="0"></el-option>

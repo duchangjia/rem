@@ -330,7 +330,7 @@
 	      	},
 	      	// 上传前对文件的大小的判断
 		    beforeAvatarUpload (file) {
-//		      const extension = file.name.split('.')[1] === 'xls'
+//const extension = file.name.split('.')[1] === 'xls'
 //		      const extension2 = file.name.split('.')[1] === 'xlsx'
 //		      const extension3 = file.name.split('.')[1] === 'doc'
 //		      const extension4 = file.name.split('.')[1] === 'docx'
@@ -345,10 +345,10 @@
 		    },
 	      	save(formName) {
 				const self = this;
-				self.$refs.formdata1.validate(valid => {
+				self.$refs[formName].validate(valid => {
 			        if (valid) {
-			          	self.$refs.formdata2.validate(valid => {
-			           	 	if (valid) {
+			          	// self.$refs.formdata2.validate(valid => {
+			           	//  	if (valid) {
 								// self.$refs.formdata3.validate(valid => {
 			           	 		// 	if (valid) {	
 										self.$refs.upload.submit();//触发上传
@@ -366,8 +366,8 @@
 										}
 								// 	}
 								// })
-			            	}
-			        	})   
+			            // 	}
+			        	// })   
 			        }
 			  })
 			},
