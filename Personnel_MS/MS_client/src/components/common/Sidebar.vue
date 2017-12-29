@@ -210,7 +210,7 @@ export default {
 			self.$axios.get(baseURL+'/menu/queryMenuInfo')
 			.then(function(res) {
 				console.log('menuList',res);
-				self.items = res.data.data;
+				// self.items = res.data.data;
 			}).catch(function(err) {
 				console.log('error');
 			})
