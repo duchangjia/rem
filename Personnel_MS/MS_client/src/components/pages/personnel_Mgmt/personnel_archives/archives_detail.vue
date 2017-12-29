@@ -18,6 +18,7 @@
                                                    :auto-upload="false"
                                                    :on-success="handleAvatarSuccess"
                                                    :on-change="handleAvatarChange"
+                                                   :before-upload="beforeAvatarUpload"
                                                    :headers="token"
                                                    >
                                             <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -322,6 +323,7 @@
                                                            :auto-upload="false"
                                                            :on-change="handleFileUpload"
                                                            :on-success="successUpload"
+                                                           :before-upload="beforeFileUpload"
                                                            :headers="token"
                                                            >
                                                     <el-button slot="trigger" type="primary" class="uploadBtn" :disabled="edit">{{this.file==''?'上传':'更换'}}附件</el-button>
@@ -468,6 +470,8 @@
                 selectFlag: false,
                 //头像数据
                 imageUrl: '',
+                fileList3: [],
+                fileList4: [],
                 //证件数据
                 fileList2: [],
                 dialogImageUrl: '',
@@ -477,7 +481,6 @@
                 uploadUserNo:{
                     userNo:'',
                 },
-                successAlert:'',
                 count: 0,
                 token: {
                     Authorization:`Bearer `+localStorage.getItem('access_token'),
@@ -789,11 +792,18 @@
                 }
             },
             // 附件方法
+            beforeFileUpload(file) {
+                const onlyOne = file.name == this.fileList4[0].name
+                return onlyOne;
+            },
             handleFileUpload(file, fileList) {
+                this.ruleForm.test2 = file.name
+                this.fileList4 = fileList.filter(file=>{
+                    return this.ruleForm.test2 == file.name
+                })
                 if(this.ruleForm.attachm2 == file.name) return
                 this.ruleForm.fujianFlag = true
                 this.ruleForm.attachm2 = file.name
-                console.log(file.name,this.ruleForm.attachm2,'1111')
             },
             // 证件方法
             handleRemove(file, fileList) {
@@ -850,18 +860,16 @@
             },
             successUpload(response, file, fileList) {
                 if(this.tabName == 'first') {
-                    console.log(response,'上传附件成功')
+                    console.log(response,'上传附件成功',file,fileList,7777)
                     let result = response.retMsg
                     if('操作成功'==result) {
                         if(--this.count <= 0){
+                            this.$message({
+                                type: 'success',
+                                message: result
+                            });
                             this.refreshInfo()
                         }
-                        if(this.successAlert) return
-                        this.$message({
-                            type: 'success',
-                            message: result
-                        });
-                        this.successAlert = true
                     } else {
                         this.$message({
                             type: 'error',
@@ -897,15 +905,32 @@
                 this.dialogVisible2 = true;
             },
             // 头像上传方法
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+                const onlyOne = file.name == this.fileList3[0].name
+                return isJPG && isLt2M && onlyOne;
+            },
             handleAvatarChange(file, fileList) {
+                this.ruleForm.test = file.name
+                this.fileList3 = fileList.filter(file=>{
+                    return this.ruleForm.test == file.name && file.raw.type === 'image/jpeg' && file.raw.size / 1024 / 1024 < 2
+                })
+                if(this.fileList3.length == 0) {
+                    this.fileList3.push(fileList.filter(file=>{
+                        return file.raw.type === 'image/jpeg' && file.raw.size / 1024 / 1024 < 2
+                    }).pop())
+                }
                 const isJPG = file.raw.type === 'image/jpeg';
                 const isLt2M = file.raw.size / 1024 / 1024 < 2;
                 if (!isJPG) {
                     this.$message.error('上传头像图片只能是 JPG 格式!');
+//                    this.$refs.upload.clearFiles(file)
                     return isJPG
                 }
                 if (!isLt2M) {
                     this.$message.error('上传头像图片大小不能超过 2MB!');
+//                    this.$refs.upload.clearFiles(file)
                     return isLt2M
                 }
                 if(this.ruleForm.avatarName == file.name) return
@@ -914,18 +939,16 @@
                 this.imageUrl = URL.createObjectURL(file.raw);
             },
             handleAvatarSuccess(res, file) {
-                console.log(res,'修改头像上传成功',this.uploadUserNo.userNo)
+                console.log(res,'修改头像上传成功',this.uploadUserNo.userNo,file)
                 let result = res.retMsg
                 if('操作成功'===result) {
                     if(--this.count <= 0){
                         this.refreshInfo()
+                        this.$message({
+                            type: 'success',
+                            message: result
+                        });
                     }
-                    if(this.successAlert) return
-                    this.$message({
-                        type: 'success',
-                        message: result
-                    });
-                    this.successAlert = true
                 } else {
                     this.$message({
                         type: 'error',
@@ -1189,14 +1212,12 @@
                                             self.$refs.upload.submit()
                                         }
                                         if(--this.count <= 0){
+                                            self.$message({
+                                                type: 'success',
+                                                message: result
+                                            });
                                             this.refreshInfo()
                                         }
-                                        if(this.successAlert) return
-                                        self.$message({
-                                            type: 'success',
-                                            message: result
-                                        });
-                                        this.successAlert = true
                                     }else{
                                         self.$message({
                                             type: 'error',
@@ -1225,10 +1246,7 @@
                         self.$refs.uploadAvatar.submit()
                     }
                     if(this.ruleForm.fujianFlag) {
-//                        console.log('提交附件去了')
                         this.count++
-//                        this.ruleForm.fujianFlag = ''
-//                        self.$refs.upload.submit()
                     }
                 }
                 if('second'===tabName) {
@@ -1489,7 +1507,6 @@
                             this.ruleForm.attachm2 = this.file.fileName+'.'+this.file.fileSuffix
                         }
                         this.count = 0
-                        this.successAlert = false
                     })
                     .catch(e=>{
                         console.log(e)
