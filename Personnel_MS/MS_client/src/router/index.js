@@ -749,7 +749,7 @@ const routes = [{
                 ]
             },
             {
-                path: '/historicalSalary_query',
+                path: '/payFlows_manage',
                 component: resolve => require(['../components/pages/historicalSalary_Mgmt/historicalSalary_Mgmt.vue'], resolve),
                 children: [{
                         path: '/',
