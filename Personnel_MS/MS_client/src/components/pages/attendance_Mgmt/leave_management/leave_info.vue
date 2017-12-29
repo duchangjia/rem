@@ -7,17 +7,8 @@
 				<span class="title-text">请假详情</span>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="100px">
-					<el-col :sm="24" :md="12">
-						<el-form-item label="公司名称">
-							<el-input v-model="formdata2.companyName" :disabled="true"></el-input>
-					  	</el-form-item>
-					</el-col>	
-					<el-col :sm="24" :md="12">
-						<el-form-item label="申请部门名称">
-							<el-input v-model="formdata2.deptName" :disabled="true"></el-input>
-					  	</el-form-item>
-					</el-col>		
+				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="122px">
+						
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
 						    <el-input v-model="formdata2.userNo" :disabled="true"></el-input>
@@ -27,7 +18,17 @@
 						<el-form-item label="姓名">
 						    <el-input v-model="formdata2.custName" :disabled="true"></el-input>
 					  	</el-form-item>
-					</el-col>		
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="公司名称">
+							<el-input v-model="formdata2.companyName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="申请部门名称">
+							<el-input v-model="formdata2.deptName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>			
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
 						    <el-select v-model="formdata2.custPost" :disabled="true">
@@ -64,8 +65,10 @@
 						<el-form-item label="请假累计工时">
 						    <el-input v-model="formdata2.timeSheet" :disabled="true"></el-input>
 					  	</el-form-item>
-					</el-col>	 
-				  	<el-col :span="24">
+					</el-col>	
+				</el-form> 
+				<el-form :model="formdata2" :rules="rules" ref="formdata2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+					<el-col :span="24">
 				  		<el-form-item class="remark" label="请假备注" prop="remark">
 						    <el-input
 							  type="textarea"
@@ -74,7 +77,9 @@
 							  v-model="formdata2.remark" :disabled="true">
 							</el-input>
 					  	</el-form-item>
-				  	</el-col>
+				  	</el-col> 	      
+				</el-form>
+				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">  	
 				  	<el-col :sm="24" :md="12">
 						<el-form-item label="最新更新人">
 						    <el-input v-model="formdata2.updatedBy" :disabled="true"></el-input>
@@ -87,7 +92,12 @@
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width:100%;">
-						    <el-button class="downloadBtn" @click="handleDownload">下载</el-button>
+							<ul>
+								<li v-for="item in fileList" :key="item.fileId">
+									<span class="fileText">{{item.name}}</span>
+									<el-button class="downBtn" @click="handleDownloadFile(item)">下载</el-button>
+								</li>
+							</ul>
 					  	</el-form-item>
 					</el-col>	  	
 					  	
@@ -103,6 +113,11 @@
 	export default {
 		data() {
 			return {
+      			labelPosition: "right",
+				token: {
+					Authorization:`Bearer `+localStorage.getItem('access_token'),
+				},
+				fileList: [],
 				formdata: {},
 				formdata2: {},
 				//岗位列表
@@ -143,16 +158,53 @@
 			changeValue(value) {
 		 		const self = this;
 	            console.log('value',value);
-	      	},
-	      	handleDownload() {
-	      		const self = this;
-	      		let params = {
-	      			filePath: self.formdata2.attachm,
-	      			isOnLine: "false"
+			},
+			  //上传附件
+	      	changeUpload(file, fileList) {
+		 		this.fileFlag = file;
+				this.fileList = fileList;
+				console.log("选中的fileList", fileList); 
+			},
+			handleRemove(file, fileList) {
+				// 移除文件
+				console.log(file, fileList);
+				console.log("移除的file", file);
+				// let params = {
+				// 	fileId: file.fileId
+				// }
+				// this.removeFile(params);
+			},
+			handlePreview(file) {
+				// 点击已上传的文件链接时
+				console.log(file);
+				// let params = {
+				// 	name: file.name,
+				// 	fileId: file.fileId
+				// }
+				// this.downloadFile(params);
+			},
+			handleExceed(files, fileList) {
+				// 文件超出数量
+				this.$message.warning(
+					`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
+					fileList.length} 个文件`
+				);
+			},
+	      	successUpload(response, file, fileList) {
+	      		if(response.code === "S00000") {
+	      			this.$message({ message: '操作成功', type: 'success' });
+	      			// this.$router.push('/travel_management');
 	      		}
-	      		//下载附件
-				self.downloadFile();
-	      	},
+	      		
+			},
+			handleDownloadFile(file) {
+				console.log(file);
+				let params = {
+					name: file.name,
+					fileId: file.fileId
+				}
+				this.downloadFile(params);
+			},
 			queryLeaveInfo() {
 				const self = this;
 				let applyNo = sessionStorage.getItem('leaveInfo_applyNo');
@@ -164,6 +216,30 @@
 					console.log('queryLeaveInfo',res);
 					if(res.data.code === "S00000") {
 						self.formdata2 = res.data.data;
+						if (
+							self.formdata2.epFileManageList &&
+							self.formdata2.epFileManageList.length >= 1
+						) {
+							self.formdata2.epFileManageList.forEach(function(ele) {
+							self.fileList.push({
+								name: ele.fileName + "." + ele.fileSuffix,
+								url: ele.fileAddr,
+								fileId: ele.fileId
+							});
+							}, this);
+						}
+					}
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
+			removeFile(params) {
+				let self = this;
+				self.$axios.delete(baseURL+'/file/deleteFile/',params)
+				.then((res) => {
+					console.log('deleteFile',res);
+					if(res.data.code === "S00000") {
+						self.$message({ message: '操作成功', type: 'success' });
 					}
 				}).catch((err) => {
 					console.log('error');
@@ -171,30 +247,30 @@
 			},
 			downloadFile(params) {
 				const self = this;
-				self.$axios.get(baseURL+'/leave/downLoadFile?filePath='+params.filePath +"&isOnLine=" + params.isOnLine, {
-				responseType: 'blob'
- 				})
-                .then((response) => {
-                    const fileName = params.filePath.substr(params.filePath.lastIndexOf("/")+1); 
-                    const blob = response.data;
+				self.$axios.get(baseURL+'/file/downloadFile/'+params.fileId, {
+				responseType: 'blob' 
+				})
+				.then((response) => {
+					const fileName = params.name;
+					const blob = response.data;
 
-                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+					if (window.navigator && window.navigator.msSaveOrOpenBlob) {
 
-                        window.navigator.msSaveOrOpenBlob(blob, fileName);
-                    } else {
+						 window.navigator.msSaveOrOpenBlob(blob, fileName);
+					} else {
 
-                        let elink = document.createElement('a'); // 创建a标签
-                        elink.download = fileName;
-                        elink.style.display = 'none';
-                        elink.href = URL.createObjectURL(blob);
-                        document.body.appendChild(elink);
-                        elink.click(); // 触发点击a标签事件
-                        document.body.removeChild(elink);
-                    }
-                }).catch((e) => {
-                    console.error(e)
-                    this.$message({ message: '下载附件失败', type: 'error' });
-                })
+						let elink = document.createElement('a'); // 创建a标签
+						elink.download = fileName;
+						elink.style.display = 'none';
+						elink.href = URL.createObjectURL(blob);
+						document.body.appendChild(elink);
+						elink.click(); // 触发点击a标签事件
+						document.body.removeChild(elink);
+					}
+				}).catch((e) => {
+					console.error(e)
+					this.$message({ message: '下载附件失败', type: 'error' });
+				})
 			},
 			queryCustPostList() {
 				let self = this;
@@ -239,5 +315,17 @@
 </script>
 
 <style>
-
+.fileText {
+	color: #999999;
+	font-size: 14px;
+	padding-right: 20px;
+}
+.downBtn {
+	color: #ffffff;
+	background: #ff9900;
+}
+.el-button.downBtn:focus, .el-button.downBtn:hover {
+    color: #ffffff;
+    border-color: #ff9900;
+}
 </style>

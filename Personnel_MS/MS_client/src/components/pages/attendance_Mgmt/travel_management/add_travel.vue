@@ -8,17 +8,8 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="110px">
-					<el-col :sm="24" :md="12">
-						<el-form-item label="公司名称">
-							<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
-					  	</el-form-item>
-					</el-col>	
-					<el-col :sm="24" :md="12">
-						<el-form-item label="申请部门名称">
-							<el-input v-model="formdata1.deptName" :disabled="true"></el-input>
-					  	</el-form-item>
-					</el-col>	
+				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="122px">
+						
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号" prop="userNo">
 						    <el-input v-model="formdata1.userNo">
@@ -41,10 +32,19 @@
 						<el-form-item label="姓名">
 						    <el-input v-model="formdata1.custName" :disabled="true"></el-input>
 					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="公司名称">
+							<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="申请部门名称">
+							<el-input v-model="formdata1.deptName" :disabled="true"></el-input>
+					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <!--<el-input v-model="custPostName" :disabled="true"></el-input>-->
 						    <el-select v-model="formdata1.custPost" :disabled="true">
 								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
@@ -52,14 +52,13 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <!--<el-input v-model="custClass" :disabled="true"></el-input>-->
 					  		<el-select v-model="formdata1.custPost" :disabled="true">
 								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>  
 				</el-form>
-				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="110px">
+				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="122px">
 					<el-col :span="24" class="item-title">出差信息</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="出差开始时间" prop="travelStartTime">
@@ -96,7 +95,9 @@
 						<el-form-item label="差补标准" prop="travelSTD">
 						    <el-input v-model="formdata1.travelSTD" :disabled="true"></el-input>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  	 	
+				</el-form>
+				<el-form :model="formdata2" :rules="rules2" ref="formdata2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
 					<el-col :span="24">
 						<el-form-item class="remark" label="出差备注" prop="remark">
 						    <el-input
@@ -106,18 +107,23 @@
 							  v-model="formdata2.remark">
 							</el-input>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  	         
+				</el-form>
+				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width: 100%;">
 				  		 	<el-input v-model="formdata2.attachm"></el-input>
-					  		<el-upload class="upload-demo" ref="upload" name="file"
+					  		<el-upload class="upload-demo" ref="upload"
 					  			 :data="formdata"
 					  			 :on-change="changeUpload" 
 					  			 :on-success="successUpload"
+								 :beforeUpload="beforeAvatarUpload"  
 					  			 action="/iem_hrm/travel/addTravelInfo" 
 					  			 :show-file-list="false" 
 					  			 :auto-upload="false"
+								 :name="filesName"
 					  			 :headers="token"
+								 :multiple="true"
 					  		>
 	                            <el-button slot="trigger" type="primary" class="uploadBtn downloadBtn">选取文件</el-button>
 	                        </el-upload>
@@ -154,9 +160,11 @@
 		        }
 	      	};
 			return {
+      			labelPosition: "right",
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
+				filesName: "files",
 				fileFlag: '',
 				dialogVisible:false,
 			    tableOption:[],
@@ -174,7 +182,7 @@
 				travelStartTime: '',
 				travelEndTime: '',
 				formdata1: {},
-				formdata2: {},
+				formdata2: {attachm: ''},
 				//岗位列表
 				custPostList: [],
 				//职级列表
@@ -227,8 +235,7 @@
 				    travelArrivalCity: this.formdata2.travelArrivalCity,//出差到达城市
 				    travelDays: this.formdata2.travelDays, //出差天数  
 				    travelSTD: this.formdata1.travelSTD,//差补标准
-				    remark: this.formdata2.remark,//备注
-				    attachm: this.formdata2.attachm//附件
+				    remark: this.formdata2.remark || '',//备注
 				}
 			}
 		},
@@ -335,7 +342,7 @@
 		        //dialog打开
 		        this.dialogVisible=true
 		        //查询接口
-		        this.searchUrl = "/iem_hrm/CustInfo/queryCustInfList"
+		        this.searchUrl = "/iem_hrmCustInfo/queryCustBasicInfList"
 		        //点击确定后根据号码查询用户信息借口 没有则为空
 		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
 		        //dialog标题
@@ -343,7 +350,11 @@
 		    },
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-		 		this.formdata2.attachm = file.name;
+				 this.formdata2.attachm = file.name;
+				//   fileList.forEach(function(item) {
+				// 	this.formdata2.attachm += item.name + " ";
+				// }, this);
+				console.log("选中的fileList", fileList);
 	      	},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
@@ -353,7 +364,22 @@
 	      			this.$message({ message: response.retMsg, type: 'error' });
 	      		}
 	      		
-	      	},
+			},
+			  // 上传前对文件的大小的判断
+		    beforeAvatarUpload (file) {
+//		      const extension = file.name.split('.')[1] === 'xls'
+//		      const extension2 = file.name.split('.')[1] === 'xlsx'
+//		      const extension3 = file.name.split('.')[1] === 'doc'
+//		      const extension4 = file.name.split('.')[1] === 'docx'
+		      const isLt2M = file.size / 1024 / 1024 < 10
+//		      if (!extension && !extension2 && !extension3 && !extension4) {
+//		        console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
+//		      }
+		      if (!isLt2M) {
+		      	this.$message({ message: '上传文件大小不能超过 10MB!', type: 'error' });
+		      }
+		      return  isLt2M	//extension || extension2 || extension3 || extension4 &&
+		    },
 	      	save(formName) {
 				const self = this;
 				self.$refs.formdata1.validate(valid => {
@@ -371,9 +397,9 @@
 									    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
 									    travelDays: self.formdata2.travelDays, //出差天数  
 									    travelSTD: self.formdata1.travelSTD,//差补标准
-									    remark: self.formdata2.remark,//备注
-									    attachm: self.formdata2.attachm//附件
+									    remark: self.formdata2.remark || '',//备注
 									}
+									console.log('params', params)
 									//无附件时新增信息
 									self.addTravelInfo(params);
 								}
@@ -484,5 +510,8 @@
 .add_travel .travelCity_wrap2 .el-form-item__content {
 	margin-left: 10px;
 }
-
+.add_travel .el-input--small .el-input__inner {
+    height: 30px;
+    width: 145px;
+}
 </style>

@@ -169,8 +169,8 @@
                 left 30px
         .social-address
             .address_special
-                width: 92%;
-                max-width: 619px;
+                    width: 90.5%;
+                    max-width: 627px;
         @-moz-document url-prefix()
             .social-address
                 .address_special

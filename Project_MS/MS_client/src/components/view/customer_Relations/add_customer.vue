@@ -90,7 +90,7 @@
   </div>
 </template>
 
-<script type='text/ecmascript-6'>
+<script>
 import current from "../../common/current_position.vue";
 import Vue from "vue";
 export default {
@@ -171,5 +171,8 @@ export default {
 <style scoped>
 .content-wrapper .add-wrapper .el-select .el-input__inner {
   width: 150px;
+}
+form>div{
+    min-height:63px;
 }
 </style>

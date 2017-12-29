@@ -8,7 +8,7 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="110px">
+				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="122px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
 						    <el-input v-model="formdata.organName" :disabled="true"></el-input>
@@ -75,7 +75,9 @@
 						<el-form-item label="工资截止日" prop="payEndTime">
 						    <el-date-picker type="date" v-model="formdata.payEndTime" @change="changePayEndTime" :editable="false" style="width: 100%;"></el-date-picker>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  	 	         
+				</el-form>
+				<el-form :model="formdata" :rules="rules" ref="formdata" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
 					<el-col :span="24">
 						<el-form-item label="离职原因" prop="dimReason" style="width:100%;">
 						    <el-input
@@ -85,20 +87,24 @@
 							  v-model="formdata.dimReason">
 							</el-input>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>	         
+				</el-form>
+				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="122px" style="margin-top:0;overflow:visible;">	  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="附件" style="width: 100%;">
-					  		<el-input v-model="formdata.attachm"></el-input>
-					  		<el-upload class="upload-demo" ref="upload" name="file"
-					  			 :data="addFormdata"
-					  			 :on-change="changeUpload" 
+						<el-form-item label="附件" >
+					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
+                                 :on-exceed="handleExceed"
+								 :on-preview="handlePreview"
+                                 :on-remove="handleRemove"
+					  			 :on-change="changeUpload"
 					  			 :on-success="successUpload"
-					  			 action="/iem_hrm/custDimhis/updateCustDimhis" 
+								 :beforeUpload="beforeAvatarUpload"  
 					  			 :show-file-list="true" 
-					  			 :auto-upload="false"
 					  			 :headers="token"
+								 :limit="3"
+								 :file-list="fileList"
 					  		>
-	                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
+	                            <el-button slot="trigger" type="primary">选取文件</el-button>
 	                        </el-upload>
 	                        <el-checkbox v-model="formdata.dimProveFlag">是否需要出具离职证明</el-checkbox>
 					  	</el-form-item>
@@ -116,10 +122,13 @@
 	export default {
 		data() {
 			return {
+      			labelPosition: "right",
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
+				fileList: [],
 				fileFlag: '',
+				triRemoveFlag: true,
 				formdata: {},
 				//部门列表
 				departList: [],
@@ -151,19 +160,7 @@
 			current
 		},
 		computed: {
-			addFormdata: function(){
-				return {
-				    dimId: this.formdata.dimId,
-					userNo: this.formdata.userNo,//工号
-				   	dimTime: this.formdata.dimTime,
-					dimType: this.formdata.dimType,
-					hasGone: this.formdata.hasGone,
-					payEndTime: this.formdata.payEndTime,
-					dimReason: this.formdata.dimReason,
-					attachm: this.formdata.attachm,
-					dimProveFlag: this.formdata.dimProveFlag ? '01': '02'
-				}
-			}
+			
 		},
 		created() {
 			
@@ -192,23 +189,87 @@
 	            }
 	            this.queryDerpList(params);
 	      	},
+	      	//上传附件
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-		 		this.formdata.attachm = file.name;
-	      	},
+				this.fileList = fileList;
+				console.log("选中的fileList", fileList); 
+			},
+			handleRemove(file, fileList) {
+				if(this.triRemoveFlag) {
+					// 移除文件
+					console.log("移除的file", file);
+					let index = this.fileList.indexOf(file);
+					fileList.splice(index, 0, file);
+					this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+						confirmButtonText: "确定",
+						cancelButtonText: "取消",
+						type: "warning"
+					}).then(() => {
+						this.$axios.delete("/iem_hrm/file/deleteFile/" + file.fileId)
+							.then(res => {
+							let result = res.data.retMsg;
+							if ("操作成功" == result) {
+								this.$message({ type: "success", message: result });
+								fileList.splice(index, 1);
+							} else {
+								this.$message({ type: "error", message: result });
+							}
+							}).catch(e => {
+								console.log(e);
+								this.$message({ type: "error", message: e.retMsg });
+						});
+					}).catch(() => {
+						this.$message({ type: "info", message: "已取消删除" });
+					});
+				}
+				
+			},
+			handlePreview(file) {
+				// 点击已上传的文件链接时
+				console.log(file);
+			},
+			handleExceed(files, fileList) {
+				// 文件超出数量
+				this.$message.warning(
+					`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
+					fileList.length} 个文件`
+				);
+			},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
-	      			this.$message({ message: '操作成功', type: 'success' });
-	      			this.$router.push('/detail_dimission');
+					file.fileId = response.data;
+	      			this.$message({ message: '操作成功,请点击保存按钮,保存修改', type: 'success' });
 	      		}
-	      		
-	      	},
+	      		console.log('this.fileList',this.fileList);
+				  console.log('上传成功的file',file);
+			},
+			// 上传前对文件的大小的判断
+		    beforeAvatarUpload (file) {
+//		      const extension = file.name.split('.')[1] === 'xls'
+//		      const extension2 = file.name.split('.')[1] === 'xlsx'
+//		      const extension3 = file.name.split('.')[1] === 'doc'
+//		      const extension4 = file.name.split('.')[1] === 'docx'
+		      const isLt2M = file.size / 1024 / 1024 < 10
+//		      if (!extension && !extension2 && !extension3 && !extension4) {
+//		        console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
+//		      }
+		      if (!isLt2M) {
+				  this.$message({ message: '上传文件大小不能超过 10MB!', type: 'error' });
+				  this.triRemoveFlag = false;
+		      } else {
+				  this.triRemoveFlag = true;
+			  }
+		      return  isLt2M	//extension || extension2 || extension3 || extension4 &&
+		    },
 	      	save(formName) {
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						self.$refs.upload.submit();
-						if(!this.fileFlag) {
+							let fileIds = [];
+							for(let k in self.fileList) {
+								fileIds.push(self.fileList[k].fileId);
+							}
 							let params = {
 								dimId: this.formdata.dimId,
 								userNo: this.formdata.userNo,
@@ -217,13 +278,12 @@
 								hasGone: this.formdata.hasGone,
 								payEndTime: this.formdata.payEndTime,
 								dimReason: this.formdata.dimReason,
-								attachm: this.formdata.attachm,
-								dimProveFlag: this.formdata.dimProveFlag ? '01': '02'//01ture  02false
+								dimProveFlag: this.formdata.dimProveFlag ? '01': '02',  //01ture  02false
+								fileIds: fileIds
 							};
 							console.log('params',params)
 							//无附件时修改
 							self.updateCustDimhis(params);
-						}
 							
 
 					} else {
@@ -234,13 +294,13 @@
 			updateCustDimhis(params) {
 				let self = this;
 				self.$axios.put(baseURL+'/custDimhis/updateCustDimhis',params)
-				.then(function(res) {
+				.then((res) => {
 					console.log('updateCustDimhis',res);
 					if(res.data.code === "S00000") {
 		      			self.$message({ message: '操作成功', type: 'success' });
 		      			self.$router.push('/detail_dimission');
 		      		}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
@@ -253,77 +313,88 @@
 					dimId: dimId
 				}
 				self.$axios.get(baseURL+'/custDimhis/queryCustDimhisDetail', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('dimDetail',res);
 					self.formdata = res.data.data;
 					self.formdata.dimProveFlag = self.formdata.dimProveFlag=='01' ? true: false;
-//					self.formdata.updatedDate = moment(self.formdata.updatedDate).format('YYYY-MM-DD hh:mm:ss');
-				}).catch(function(err) {
+					if (
+						self.formdata.epFileManageList &&
+						self.formdata.epFileManageList.length >= 1
+					) {
+						self.formdata.epFileManageList.forEach(function(ele) {
+							self.fileList.push({
+								name: ele.fileName + "." + ele.fileSuffix,
+								url: ele.fileAddr,
+								fileId: ele.fileId
+							});
+						}, this);
+					}
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryCompList() {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CompList',res);
 					if(res.data.code === "S00000") {
 						self.compList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryDerpList(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.departList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			querydimTypeList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=DIM_TYPE')
-				.then(function(res) {
+				.then((res) => {
 					console.log('dimType',res);
 					if(res.data.code === "S00000") {
 						self.dimTypeList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustPostList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustClassList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			}

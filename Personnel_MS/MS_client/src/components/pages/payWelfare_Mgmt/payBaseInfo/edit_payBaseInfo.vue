@@ -8,17 +8,7 @@
                 <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="公司">
-                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="部门">
-                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工号">
                             <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
@@ -27,6 +17,16 @@
                     <el-col :sm="24" :md="12">
                         <el-form-item label="姓名">
                             <el-input v-model="custInfo.custName" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="公司">
+                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="部门">
+                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -47,7 +47,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">薪酬基数信息</el-col>
-                <el-form :inline="true" :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules1" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules1" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                       <el-form-item label="基本工资" prop="wagesBase">
                          <el-input v-model="editPayBaseInfo.wagesBase" @blur="wagesBaseChange"></el-input>
@@ -141,7 +141,7 @@
                         </el-form-item>
                     </el-col> 
                 </el-form>
-                <el-form :inline="true" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险(个人)">
                             <el-input v-model="_perEndm" :readonly="true"></el-input>
@@ -203,17 +203,19 @@
                         </el-form-item>
                     </el-col>
                 </el-form>
-                <el-form :inline="true" :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules2" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="24">
                         <el-form-item label="薪资超限说明" prop="remark">
                             <el-input type="textarea" v-model="editPayBaseInfo.remark"></el-input>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :inline="true" :model="editPayBaseInfo" :rules="payBaseInfoRules" ref="editPayBaseInfoRules2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
                             <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
-                                :on-preview="handlePreview"
                                 :on-remove="handleRemove"
+                                :beforeUpload="beforeAvatarUpload" 
                                 :on-change="handleFileUpload" 
                                 :on-success="successUpload"
                                 :limit="3"
@@ -244,12 +246,14 @@ export default {
           value.match(/^([1-9]\d*|0)(\.\d{2})?$/) == null
         ) {
           callback(new Error("可精确到小数点后2位的正数"));
+        } else {
+          callback();
         }
       } else if (typeof value == "number") {
-          callback();
+        callback();
       } else {
-          callback();
-        }
+        callback();
+      }
     };
     return {
       labelPosition: "right",
@@ -261,6 +265,7 @@ export default {
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
       },
+      triRemoveFlag: true,
       custPostList: [],
       custClassList: [],
       insurancePayTemplates: {},
@@ -476,11 +481,11 @@ export default {
             self.editPayBaseInfo.epFileManageList.forEach(function(ele) {
               self.fileList.push({
                 name: ele.fileName + "." + ele.fileSuffix,
-                url: ele.fileAddr
+                url: ele.fileAddr,
+                fileId: ele.fileId
               });
             }, this);
           }
-
           console.log("当前的fileList", self.fileList);
         })
         .catch(() => {
@@ -540,22 +545,30 @@ export default {
     },
     wagesBaseChange(event) {
       console.log("填入的基本工资", this.editPayBaseInfo.wagesBase);
-      const self = this;
-      let userNo = self.custInfo.userNo;
-      self.$axios
+      console.log("wagesBase类型", typeof this.editPayBaseInfo.wagesBase);
+      let userNo = this.custInfo.userNo;
+      this.$axios
         .get("/iem_hrm/pay/querUserSalaryTop/" + userNo)
         .then(res => {
-          self.salaryTop = res.data.data;
-          console.log("salaryTop", self.salaryTop);
-          if (Number(this.editPayBaseInfo.wagesBase) > self.salaryTop) {
-            this.payBaseInfoRules.remark = [];
-            this.payBaseInfoRules.remark.push({
-              required: true,
-              message: "请输入薪资超限说明",
-              trigger: "blur"
-            });
+          if (res.data.code == "S00000") {
+            this.salaryTop = res.data.data;
+            console.log("salaryTop", this.salaryTop);
+            if (Number(this.editPayBaseInfo.wagesBase) > this.salaryTop) {
+              this.payBaseInfoRules.remark = [];
+              this.payBaseInfoRules.remark.push({
+                required: true,
+                message: "请输入薪资超限说明",
+                trigger: "blur"
+              });
+              this.$alert("员工薪酬超过公司标准，请线下邮件审批，并于当前页补充薪资超限说明。", "提示", {
+                confirmButtonText: "确定",
+                type: "warning"
+              });
+            } else {
+              this.payBaseInfoRules.remark = [];
+            }
           } else {
-            this.payBaseInfoRules.remark = [];
+            this.$message.error(res.data.retMsg);
           }
         })
         .catch(() => {
@@ -568,22 +581,72 @@ export default {
     },
 
     // 附件上传
+    beforeAvatarUpload(file) {
+      // const extension = file.name.split('.')[1] === 'xls'
+      // const extension2 = file.name.split('.')[1] === 'xlsx'
+      // const extension3 = file.name.split('.')[1] === 'doc'
+      // const extension4 = file.name.split('.')[1] === 'docx'
+      // if (!extension && !extension2 && !extension3 && !extension4) {
+      // 		console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
+      // }
+
+      const isLt2M = file.size / 1024 / 1024 < 10;
+      if (!isLt2M) {
+        this.$message({ message: "上传文件大小不能超过 10MB!", type: "error" });
+        this.triRemoveFlag = false;
+      } else {
+        this.triRemoveFlag = true;
+      }
+      return isLt2M; //extension || extension2 || extension3 || extension4 &&
+    },
     handleFileUpload(file, fileList) {
-      // 选择文件
-      console.log("选中的fileList", fileList);
-
       this.fileList = fileList;
-
       console.log("选中的this.fileList:", this.fileList);
     },
     handleRemove(file, fileList) {
-      // 移除文件
-      console.log(file, fileList);
-      console.log("移除的file", file);
-    },
-    handlePreview(file) {
-      // 点击已上传的文件链接时
-      console.log(file);
+      if (this.triRemoveFlag) {
+        console.log("移除的file", file);
+        console.log("移除的fileList", fileList);
+        let index = this.fileList.indexOf(file);
+        fileList.splice(index, 0, file);
+        this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.$axios
+              .delete("/iem_hrm/file/deleteFile/" + file.fileId)
+              .then(res => {
+                let result = res.data.retMsg;
+                if ("操作成功" == result) {
+                  this.$message({
+                    type: "success",
+                    message: result
+                  });
+                  fileList.splice(index, 1);
+                } else {
+                  this.$message({
+                    type: "error",
+                    message: result
+                  });
+                }
+              })
+              .catch(e => {
+                console.log(e);
+                this.$message({
+                  type: "error",
+                  message: e.retMsg
+                });
+              });
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除"
+            });
+          });
+      }
     },
     handleExceed(files, fileList) {
       // 文件超出数量
@@ -594,10 +657,10 @@ export default {
     },
     successUpload(res, file, fileList) {
       // 文件成功上传
-      console.log("upload_response", res);
+      console.log("upload_res_fileList", fileList);
       if (res.code == "S00000") {
+        file.fileId = res.data;
         this.$message({ type: "success", message: "文件上传成功!" });
-        // this.$router.push("/payBaseInfo_setting");
       } else this.$message.error(res.retMsg);
     },
 
@@ -633,6 +696,11 @@ export default {
       });
 
       if (rulesValid1 && rulesValid2) {
+        let fileIds = [];
+        for (let k in this.fileList) {
+          fileIds.push(this.fileList[k].fileId);
+        }
+        console.log("fileIds", fileIds);
         let editPayBaseInfo = {};
         editPayBaseInfo.userNo = this.editPayBaseInfo.userNo;
         editPayBaseInfo.wagesBase = this.editPayBaseInfo.wagesBase;
@@ -652,6 +720,7 @@ export default {
         editPayBaseInfo.wagesProb = this.editPayBaseInfo.wagesProb;
         editPayBaseInfo.welcoeNo = this.editPayBaseInfo.welcoeNo;
         editPayBaseInfo.remark = this.editPayBaseInfo.remark;
+        editPayBaseInfo.fileIds = fileIds;
         console.log(editPayBaseInfo);
         this.$axios
           .put("/iem_hrm/pay/updatePayBaseInfo", editPayBaseInfo)

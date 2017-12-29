@@ -109,7 +109,7 @@ export default {
 
       editRoleRules: {
         roleName: [{ required: true, message: "角色名称不能为空", trigger: "blur" }],
-        status: [{ required: true, message: '请选择状态', trigger: 'change' }],
+        status: [{ required: true, message: "请选择状态", trigger: "change" }],
         roleDescr: [{ required: true, message: "角色描述不能为空", trigger: "blur" }]
       }
     };
@@ -129,7 +129,8 @@ export default {
         roleNo: self.roleNo
       };
       console.log(params);
-      self.$axios.get('/iem_hrm/role/queryRoleDetail', { params })
+      self.$axios
+        .get("/iem_hrm/role/queryRoleDetail", { params })
         .then(res => {
           console.log("roleDetail", res);
           self.roleDetail = res.data.data;
@@ -138,12 +139,18 @@ export default {
           self.editRoleMsg.roleDescr = self.roleDetail.roleDescr;
           self.editRoleMsg.status = self.roleDetail.status;
 
-          self.roleDetail.roleFuncSet.forEach(function(ele) {
-             self.checkFuncs.push(ele.bsnNo);
-             self.editRoleMsg.roleFuncSet.push({ bsnNo: ele });
-          }, this);
-          console.log("選中的功能：" , self.checkFuncs);
+          if (
+            self.roleDetail.roleFuncSet &&
+            self.roleDetail.roleFuncSet.length >= 1
+          ) {
+            self.roleDetail.roleFuncSet.forEach(function(ele) {
+              self.checkFuncs.push(ele.bsnNo);
+              self.editRoleMsg.roleFuncSet.push({ bsnNo: ele.bsnNo });
+            }, this);
+          }
 
+          console.log("当前选中的功能：", self.checkFuncs);
+          console.log("当前的roleFuncSet：", self.editRoleMsg.roleFuncSet);
         })
         .catch(() => {
           console.log("error");
@@ -154,7 +161,7 @@ export default {
       self.$axios
         .get("/iem_hrm/role/queryParentMenu")
         .then(res => {
-            self.menus = res.data.data;
+          self.menus = res.data.data;
         })
         .catch(() => {
           console.log("error");
@@ -191,15 +198,22 @@ export default {
         this.checkedSubmenus = [];
         this.isSubIndeterminate = false;
       }
-      this.checkedSubmenus.length > 0 ? (this.checkedSubmenusFlag = true) : (this.checkedSubmenusFlag = false);
+      this.checkedSubmenus.length > 0
+        ? (this.checkedSubmenusFlag = true)
+        : (this.checkedSubmenusFlag = false);
       this.funcsList = this.checkedSubmenus;
       console.log("这是全选的checkedSubmenus", this.funcsList);
     },
     handleCheckedSubsChange(val) {
       let checkedCount = val.length;
-      this.isSubIndeterminate = checkedCount > 0 && checkedCount < this.submenus.length;
-      checkedCount > 0 ? (this.checkedSubmenusFlag = true) : (this.checkedSubmenusFlag = false);
-      checkedCount == this.submenus.length ? (this.checkSubAll = true) : (this.checkSubAll = false);
+      this.isSubIndeterminate =
+        checkedCount > 0 && checkedCount < this.submenus.length;
+      checkedCount > 0
+        ? (this.checkedSubmenusFlag = true)
+        : (this.checkedSubmenusFlag = false);
+      checkedCount == this.submenus.length
+        ? (this.checkSubAll = true)
+        : (this.checkSubAll = false);
       this.funcsList = val;
       console.log("这是checkedSubmenus", this.funcsList);
     },
@@ -213,20 +227,33 @@ export default {
       if (this.checkFuncsAll[index] == true) {
         this.$set(this.isFuncsIndeterminate, index, true);
         targetFucsList.forEach(function(ele) {
-          if (JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(JSON.stringify({ bsnNo: ele })) == -1) {
+          if (
+            JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(
+              JSON.stringify({ bsnNo: ele })
+            ) == -1
+          ) {
             this.editRoleMsg.roleFuncSet.push({ bsnNo: ele });
           }
-          if ( !this.isInArray(this.checkFuncs, ele) ) {
+          if (!this.isInArray(this.checkFuncs, ele)) {
             this.checkFuncs.push(ele);
           }
         }, this);
       } else {
         this.$set(this.isFuncsIndeterminate, index, false);
         targetFucsList.forEach(function(ele) {
-          if (JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(JSON.stringify({ bsnNo: ele })) != -1) {
-            this.editRoleMsg.roleFuncSet.splice(JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(JSON.stringify({ bsnNo: ele }))-1, 1);
+          if (
+            JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(
+              JSON.stringify({ bsnNo: ele })
+            ) != -1
+          ) {
+            this.editRoleMsg.roleFuncSet.splice(
+              JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(
+                JSON.stringify({ bsnNo: ele })
+              ) - 1,
+              1
+            );
           }
-          if ( this.isInArray(this.checkFuncs, ele) ) {
+          if (this.isInArray(this.checkFuncs, ele)) {
             this.checkFuncs.splice(this.checkFuncs.indexOf(ele), 1);
           }
         }, this);
@@ -252,27 +279,38 @@ export default {
     handleSave(editRoleForm) {
       this.$refs[editRoleForm].validate(valid => {
         if (valid) {
-          let editRole = {};
-          editRole.roleNo = this.editRoleMsg.roleNo;
-          editRole.roleName = this.editRoleMsg.roleName;
-          editRole.roleDescr = this.editRoleMsg.roleDescr;
-          editRole.status = this.editRoleMsg.status;
-          editRole.roleFuncSet = this.editRoleMsg.roleFuncSet;
-          console.dir(editRole);
-          this.$axios
-            .put("/iem_hrm/role/modifyRoleInfo", editRole)
-            .then(res => {
-              console.log(res);
-              if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/management_role");
-              } else this.$message.error("操作失败！");
-            })
-            .catch(() => {
-              this.$message.error("操作失败！");
+          if (this.editRoleMsg.roleFuncSet.length >= 1) {
+            let editRole = {};
+            editRole.roleNo = this.editRoleMsg.roleNo;
+            editRole.roleName = this.editRoleMsg.roleName;
+            editRole.roleDescr = this.editRoleMsg.roleDescr;
+            editRole.status = this.editRoleMsg.status;
+            editRole.roleFuncSet = this.editRoleMsg.roleFuncSet;
+            console.dir(editRole);
+            this.$axios
+              .put("/iem_hrm/role/modifyRoleInfo", editRole)
+              .then(res => {
+                console.log(res);
+                if (res.data.code == "S00000") {
+                  this.$message({ type: "success", message: "操作成功!" });
+                  this.$router.push("/management_role");
+                } else this.$message.error(res.data.retMsg);
+              })
+              .catch(() => {
+                this.$message.error("操作失败！");
+              });
+          } else {
+            this.$alert("角色权限分配为必填项，请先选择", "提示", {
+              confirmButtonText: "确定",
+              type: "warning"
             });
+          }
         } else {
           console.log("error submit!!");
+          this.$message({
+            type: "error",
+            message: "请确保必填信息填写正确!"
+          });
           return false;
         }
       });

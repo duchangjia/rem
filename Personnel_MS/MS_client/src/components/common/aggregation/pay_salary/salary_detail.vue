@@ -1,17 +1,17 @@
 <template>
-	<div class="agg-content ask-leave">
+	<div class="agg-content salary-detail">
 		<current yiji="首页" erji="考勤与休假" sanji="有薪假期查询"></current>
 		<div class="content">
 			<contentTitle titleTxt="个人薪资查询"></contentTitle>
 			<div class="msg-list">
                 <el-row :gutter="20">
-                    <el-col :span="4" class="head-img-box">
-                        <div class="imgUserHead"><img src="../../../../../static/img/common/avatar.png" alt=""></div>
+                    <el-col :span="6" class="head-img-box">
+                        <div class="imgUserHead"><img v-if="imageUrl" :src="imageUrl" alt=""></div>
                     </el-col>
-                    <el-col :span="16">
+                    <el-col :span="15">
                        <el-form :inline="true" class="msg-form">
                             <el-col :sm="24" :md="12" v-for="(item,index) in msgList" >
-                                <el-form-item :label="item.label" class="no-border-input">
+                                <el-form-item :label="item.label" class="no-border-input short-label">
                                     <el-input v-model="item.val" readonly="readonly" ></el-input>
                                 </el-form-item>
 					        </el-col>
@@ -40,7 +40,7 @@
                        <span><input v-model="accountData.allPay" readonly="readonly" :placeholder="baseNum"></span>
                    </li>
                    <li>
-                       <label class="cur-pointer" @click="showSalary()">标准薪资<i class="ico-salary"></i></label>
+                       <label class="cur-pointer" @click="isSalary=!isSalary">标准薪资<i class="ico-salary"></i></label>
                        <span ><input v-model="accountData.salaryStd" readonly="readonly" :placeholder="baseNum"></span>
                        <ul class="sec-list" v-if="isSalary">
                            <li>
@@ -54,9 +54,9 @@
                        </ul>
                    </li>
                    <li>
-                        <label class="cur-pointer"  @click="showBonus()">奖金及补贴<i class="ico-salary"></i></label>
+                        <label class="cur-pointer"  @click="isBonus=!isBonus">奖金及补贴<i class="ico-salary"></i></label>
                         <span><input v-model="accountData.bonuses" readonly="readonly" :placeholder="baseNum"></span>
-                        <ul class="sec-list" v-if="isBonus">
+                            <ul class="sec-list" v-show="isBonus">
                            <li>
                                <label>岗位津贴</label>
                                <span><input v-model="accountData.postPension" readonly="readonly" :placeholder="baseNum"></span>
@@ -99,7 +99,7 @@
                       
                    </li>
                    <li>
-                       <label class="cur-pointer" @click="showWork()">考勤<i class="ico-salary"></i></label>
+                       <label class="cur-pointer" @click="isWork=!isWork">考勤<i class="ico-salary"></i></label>
                        <span><input v-model="accountData.allCheckCount" readonly="readonly" :placeholder="baseNum"></span>
                        <span>迟到、事假、病假等考勤扣款合计</span>
                         <ul class="sec-list" v-if="isWork">
@@ -118,7 +118,7 @@
                        </ul>
                    </li>
                    <li>
-                       <label class="cur-pointer" @click="showWel()">福利<i class="ico-salary"></i></label>
+                       <label class="cur-pointer" @click="isWel=!isWel">福利<i class="ico-salary"></i></label>
                        <span><input v-model="accountData.allWelCount" readonly="readonly" :placeholder="baseNum"></span>
                        <span>当月社保及公积金个人承担部分，包含补发补扣</span>
                         <ul class="sec-list"  v-if="isWel">
@@ -154,7 +154,7 @@
                    </li>
                   
                    <li>
-                       <label class="cur-pointer" @click="showOther()">其他<i class="ico-salary"></i></label>
+                       <label class="cur-pointer" @click="isOther=!isOther">其他<i class="ico-salary"></i></label>
                        <span><input v-model="accountData.otherCutPay" readonly="readonly" :placeholder="baseNum"></span> 
                        <ul class="sec-list" v-show="isOther">
                            <li>
@@ -177,11 +177,12 @@ import current from '../common/current_position.vue'
 import contentTitle from '../common/content_title.vue'
 import moment from "moment";
 import api from '../../../../common/api/api.js'
-let {custSelfInfo,queryCustSalary} = api
+let {custSelfInfo,queryCustSalary,querySalaryHoliday} = api
 
 export default {
     data(){
         return{
+            imageUrl: '',
             msgList:[
                 {
                     label:'姓名',
@@ -216,62 +217,31 @@ export default {
     mounted(){
         let self = this;
             self.getUser();
+            self.queryUserImage();
     },
     methods:{
         getUser(){
             let self = this;
                 self.$axios.get(custSelfInfo).then(res=>{
                     let data = res.data.data;
-                        self.msgList[0].val = data.custName||'暂无数据'
-                        self.msgList[1].val = data.derpName||'暂无数据'
-                        self.msgList[2].val = data.userNo||'暂无数据'
+                    self.msgList[0].val = data.custName||'暂无数据'
+                    self.msgList[1].val = data.derpName||'暂无数据'
+                    self.msgList[2].val = data.userNo||'暂无数据'
                 }).catch(e=>{
                     self.$message({
                         message:e.retMsg||'数据异常',
                         type:'error'
                     })
                 })
-        },
-        showSalary(){
-            let self = this;
-            if(!self.isSalary){
-                self.isSalary = true
-            }else{
-                self.isSalary = false
-            }
-        },
-        showBonus(){
-            let self = this;
-            if(!self.isBonus){
-                self.isBonus = true
-            }else{
-                self.isBonus = false
-            }
-        },
-        showWork(){
-            let self = this;
-            if(!self.isWork){
-                self.isWork = true
-            }else{
-                self.isWork = false
-            }
-        },
-        showWel(){
-            let self = this;
-            if(!self.isWel){
-                self.isWel = true
-            }else{
-                self.isWel = false
-            }
-        },
-        showOther(){
-            let self = this;
-        
-            if(!self.isOther){
-                self.isOther = true
-            }else{
-                self.isOther = false
-            }
+                self.$axios.get(querySalaryHoliday).then(res=>{
+                    let data = res.data.data;
+                    self.msgList[3].val = data.workAge+'' || '暂无数据'
+                }).catch(e=>{
+                    self.$message({
+                        message:e.retMsg||'数据异常',
+                        type:'error'
+                    })
+                })
         },
         searchSalary(){
             let self = this,
@@ -332,7 +302,20 @@ export default {
                 //     type:'error'
                 // })
             })
-        }
+        },
+        queryUserImage() {
+            this.$axios.get('/iem_hrm/CustInfo/queryLoadCustAvatar')
+                .then(res=>{
+                    console.log('头像查询', res)
+                    if(res.data.data) {
+                        let url = 'data:image/jpg;base64,'+res.data.data
+                        this.imageUrl = url
+                    }
+                })
+                .catch(e=>{
+                    console.log(e)
+                })
+        },
     },
     computed:{
         
@@ -346,7 +329,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.ask-leave{
+.salary-detail{
     .msg-list{
         padding:30px 0 30px 30px;
         border-bottom: 1px solid #EEEEEE;
@@ -367,7 +350,7 @@ export default {
         }
         .el-form-item{
             margin-bottom:0;
-            padding-top:10px;
+            vertical-align: middle;
         }
         .msg-form{
             position: relative;
@@ -377,14 +360,13 @@ export default {
             &.el-input{
                 width:280px;
                 .el-input__inner{
-                    height: 32px;
+                    height: 30px;
                     line-height:normal;
                 }
             }
         }
         .btn-mt{
-            margin-top:13px;
-            margin-left:20px;
+            vertical-align: middle;
         }
         
     }
@@ -401,6 +383,7 @@ export default {
                 input{
                     border:none;
                     background:none;
+                    margin-left: 15px;
                 }
                 label{
                     font-weight: normal;
@@ -436,8 +419,11 @@ export default {
                 }
             }
         }
-        
+    }
+    .slide-enter-active {
+        animation: bounce-in 2s;
     }
 }
+
 </style>
 

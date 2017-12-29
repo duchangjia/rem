@@ -9,8 +9,13 @@
             <div class="add-wrapper clearfix">
                 <el-form label-width="110px" :inline="true" :model="obj" ref="form" :rules="rules">
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="机构名称" prop="organName">
-                            <el-input v-model="obj.organName" :disabled="true" placeholder="请输入机构"></el-input>
+                        <el-form-item label="公司名称" prop="organName">
+                            <el-input v-model="obj.organName" :disabled="true" placeholder="请选择公司"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="部门名称" prop="derpName">
+                            <el-input v-model="obj.derpName" :disabled="true" placeholder="请选择部门"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -54,6 +59,7 @@
             return {
                 obj: {
                     organName: '',
+                    depName: '',
                     costType: '',
                     costCode: '',
                     descr: '',
@@ -61,6 +67,9 @@
                 },
                 rules:{
                     organName: [
+                        { required: true, message: '公司不能为空', trigger: 'change' }
+                    ],
+                    depName: [
                         { required: true, message: '机构不能为空', trigger: 'change' }
                     ],
                     costType: [
@@ -75,16 +84,21 @@
         },
         created() {
             let self = this
-            let organNo = this.$route.query.organNo
+            let derpNo = this.$route.query.derpNo
             let costType = this.$route.query.costType
-          this.$axios.get(`/iem_hrm/organ/queryOrganCCCManagementByOrganNoAndCostType/${organNo}/${costType}`)
+            let organNo = this.$route.query.organNo
+            console.log(derpNo,costType,organNo)
+          this.$axios.get(`/iem_hrm/organ/queryOrganCCCManagementByOrganNoAndCostType/${organNo}/${derpNo}/${costType}`)
               .then(res => {
+                  console.log(res,111)
                   self.obj.organName = res.data.data.organName
+                  self.obj.derpName = res.data.data.derpName
                   self.obj.costType = res.data.data.costType
                   self.obj.costCode = res.data.data.costCode
                   self.obj.descr = res.data.data.descr
                   self.obj.oldCostType = res.data.data.costType
                   self.obj.organNo = res.data.data.organNo
+                  self.obj.derpNo = derpNo
               })
               .catch(e=>{
                   console.log(e)
@@ -136,6 +150,5 @@
 <style lang='stylus' rel='stylesheet/stylus'>
     .modify_agency
         padding: 0 0 20px 20px;
-        /*overflow: hidden;*/
         position: relative;
 </style>

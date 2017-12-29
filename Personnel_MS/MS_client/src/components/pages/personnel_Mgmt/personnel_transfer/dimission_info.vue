@@ -7,7 +7,7 @@
 				<span class="title-text">员工离职详情</span>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata" :inline="true" :model="formdata" label-width="110px">
+				<el-form ref="formdata" :inline="true" :model="formdata" label-width="122px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
 							<el-input v-model="formdata.organName" :disabled="true"></el-input>
@@ -74,7 +74,9 @@
 						<el-form-item label="工资截止日">
 						    <el-date-picker type="date" v-model="formdata.payEndTime" @change="changePayEndTime" style="width: 100%;" :disabled="true"></el-date-picker>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  		         
+				</el-form>	
+				<el-form :model="formdata" ref="formdata" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
 					<el-col :span="24">
 						<el-form-item label="离职原因" style="width:100%;">
 						    <el-input
@@ -84,7 +86,9 @@
 							  v-model="formdata.dimReason" :disabled="true">
 							</el-input>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  		         
+				</el-form>
+				<el-form ref="formdata" :inline="true" :model="formdata" label-width="122px" style="margin-top:0;overflow:visible;">	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="最新更新人">
 						    <el-input v-model="formdata.updatedBy" :disabled="true"></el-input>
@@ -97,7 +101,12 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width:100%;">
-						    <el-button class="downloadBtn" @click="handleDownload">下载</el-button>
+							<ul>
+								<li v-for="item in fileList" :key="item.fileId">
+									<span class="fileText">{{item.name}}</span>
+									<el-button class="downBtn" @click="handleDownloadFile(item)">下载</el-button>
+								</li>
+							</ul>
 					  		<el-checkbox v-model="formdata.dimProveFlag" :disabled="true">是否需要出具离职证明</el-checkbox>
 					  	</el-form-item>
 					</el-col>  	
@@ -116,6 +125,8 @@
 	export default {
 		data() {
 			return {
+      			labelPosition: "right",
+				fileList: [],
 				formdata: {},
 				//部门列表
 				departList: [],
@@ -126,13 +137,7 @@
 				//职级列表
 				custClassList: [],
 				//离职类型列表
-				dimTypeList: [
-					{dimTypeName:'辞退',dimTypeNo: "01"},
-					{dimTypeName:'退休',dimTypeNo: "02"},
-					{dimTypeName:'外调',dimTypeNo: "03"},
-					{dimTypeName:'辞职',dimTypeNo: "04"},
-					{dimTypeName:'裁员',dimTypeNo: "05"},
-				],
+				dimTypeList: [],
 			};
 		},
 		components: {
@@ -161,16 +166,16 @@
 			changeValue(value) {
 		 		const self = this;
 	            console.log('value',value);
-	      	},
-	      	handleDownload() {
-	      		const self = this;
-	      		let params = {
-	      			filePath: self.formdata2.attachm,
-	      			isOnLine: "false"
-	      		}
-	      		//下载附件
-//				self.downloadFile(params);
-	      	},
+			  },
+			  //下载附件
+	      	handleDownloadFile(file) {
+				console.log(file);
+				let params = {
+					name: file.name,
+					fileId: file.fileId
+				}
+				this.downloadFile(params);
+			},
 	      	queryCustDimhisDetail() {
 				let self = this;
 				let userNo = sessionStorage.getItem('infoDimission_userNo');
@@ -180,103 +185,114 @@
 					dimId: dimId
 				}
 				self.$axios.get(baseURL+'/custDimhis/queryCustDimhisDetail', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('dimDetail',res);
 					self.formdata = res.data.data;
 					self.formdata.dimProveFlag = self.formdata.dimProveFlag=='01' ? true: false;
-//					self.formdata.shiftCameTime = moment(self.formdata.shiftCameTime).format('YYYY-MM-DD hh:mm:ss');
-				}).catch(function(err) {
+					if (
+						self.formdata.epFileManageList &&
+						self.formdata.epFileManageList.length >= 1
+					) {
+						self.formdata.epFileManageList.forEach(function(ele) {
+						self.fileList.push({
+							name: ele.fileName + "." + ele.fileSuffix,
+							url: ele.fileAddr,
+							fileId: ele.fileId
+						});
+						}, this);
+					}
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryCompList() {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CompList',res);
 					if(res.data.code === "S00000") {
 						self.compList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryDerpList(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.departList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			downloadFile(params) {
 				const self = this;
-				self.$axios.get(baseURL+'/leave/downLoadFile?filePath='+params.filePath +"&isOnLine=" + params.isOnLine, {
-				responseType: 'blob'
- 				})
-                .then((response) => {
-                    const fileName = params.filePath.substr(params.filePath.lastIndexOf("/")+1); 
-                    const blob = response.data;
+				self.$axios.get(baseURL+'/file/downloadFile/'+params.fileId, {
+				responseType: 'blob' 
+				})
+				.then((response) => {
+					const fileName = params.name;
+					const blob = response.data;
 
-                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+					if (window.navigator && window.navigator.msSaveOrOpenBlob) {
 
-                        window.navigator.msSaveOrOpenBlob(blob, fileName);
-                    } else {
+						 window.navigator.msSaveOrOpenBlob(blob, fileName);
+					} else {
 
-                        let elink = document.createElement('a'); // 创建a标签
-                        elink.download = fileName;
-                        elink.style.display = 'none';
-                        elink.href = URL.createObjectURL(blob);
-                        document.body.appendChild(elink);
-                        elink.click(); // 触发点击a标签事件
-                        document.body.removeChild(elink);
-                    }
-                }).catch((e) => {
-                    console.error(e)
-                    this.$message({ message: '下载附件失败', type: 'error' });
-                })
+						let elink = document.createElement('a'); // 创建a标签
+						elink.download = fileName;
+						elink.style.display = 'none';
+						elink.href = URL.createObjectURL(blob);
+						document.body.appendChild(elink);
+						elink.click(); // 触发点击a标签事件
+						document.body.removeChild(elink);
+					}
+				}).catch((e) => {
+					console.error(e)
+					this.$message({ message: '下载附件失败', type: 'error' });
+				})
 			},
 			queryCustPostList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustClassList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			querydimTypeList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=DIM_TYPE')
-				.then(function(res) {
+				.then((res) => {
 					console.log('dimType',res);
 					if(res.data.code === "S00000") {
 						self.dimTypeList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			}
@@ -296,5 +312,18 @@
 }
 .dimission_info .el-checkbox__inner:hover {
     border-color: #20a0ff;
+}
+.dimission_info .fileText {
+	color: #999999;
+	font-size: 14px;
+	padding-right: 20px;
+}
+.dimission_info .downBtn {
+	color: #ffffff;
+	background: #ff9900;
+}
+.dimission_info .el-button.downBtn:focus, .el-button.downBtn:hover {
+    color: #ffffff;
+    border-color: #ff9900;
 }
 </style>

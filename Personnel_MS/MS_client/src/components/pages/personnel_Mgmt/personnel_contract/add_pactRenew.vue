@@ -5,10 +5,10 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">合同续签</span>
-                <el-button type="primary" @click="handleSave('pactMsgRules')" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同编号">
                             <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
@@ -33,7 +33,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">员工信息</el-col>
-                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工号">
                             <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
@@ -61,27 +61,33 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="岗位">
-                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
+                          <el-select v-model="custInfo.custPost" :disabled="true">
+                              <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                          </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
-                            <el-input v-model="custInfo.post" :disabled="true"></el-input>
+                          <el-select v-model="custInfo.custPost" :disabled="true">
+                              <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                          </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职级">
-                            <el-input v-model="_custClass" :disabled="true"></el-input>
+                          <el-select v-model="custInfo.custClass" :disabled="true">
+                              <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                          </el-select>
                         </el-form-item>
                     </el-col>
                 </el-form>
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">合同续签信息</el-col>
-                <el-form :inline="true" :model="addPRenewMsg" :rules="pactMsgRules" ref="pactMsgRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="addPRenewMsg" :rules="pactMsgRules" ref="pactMsgRules1" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="续签时间" prop="renewTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPRenewMsg.renewTime" @change="renewTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="addPRenewMsg.renewTime" @change="renewTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -94,26 +100,37 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="续签生效时间" prop="renewCameTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPRenewMsg.renewCameTime" :picker-options="renewCameTimeOption" @change="renewCameTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="addPRenewMsg.renewCameTime" :picker-options="renewCameTimeOption" @change="renewCameTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="续签失效时间" prop="renewLostTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="addPRenewMsg.renewLostTime" :picker-options="renewLostTimeOption" @change="renewLostTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="addPRenewMsg.renewLostTime" :picker-options="renewLostTimeOption" @change="renewLostTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :model="addPRenewMsg" :rules="pactMsgRules" ref="pactMsgRules2" :label-position="labelPosition" label-width="122px" style="margin-top:0;">
                     <el-col :span="24">
                         <el-form-item label="续签内容" prop="renewContent">
                             <el-input type="textarea" v-model="addPRenewMsg.renewContent"></el-input>
                         </el-form-item>
                     </el-col>
+                 </el-form>
+                <el-form :inline="true" :model="addPRenewMsg" :label-position="labelPosition" label-width="122px" style="margin-top:0;">
                     <el-col :span="24">
                         <el-form-item label="附件" prop="attachm">
-				  		    <el-input v-model="addPRenewMsg.attachm"></el-input>
-				  		    <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
-                                <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
-                            </el-upload>
-				  	    </el-form-item>
+                          <el-input v-model="addPRenewMsg.attachm"></el-input>
+                          <el-upload class="upload-demo" style="height:0;" ref="upload" name="files" action="/iem_hrm/pact/addPactRenew" 
+                                  :headers="token"
+                                  :data="addPRenewMsg"
+                                  :beforeUpload="beforeAvatarUpload" 
+                                  :on-change="handleFileUpload" 
+                                  :on-success="successUpload" 
+                                  :auto-upload="false"
+                                  :show-file-list="false">
+                              <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
+                          </el-upload>
+                        </el-form-item>
                     </el-col>
                 </el-form>
             </div>
@@ -126,14 +143,14 @@ import current from "../../../common/current_position.vue";
 export default {
   data() {
     let that = this;
-    let validateRenewCameTime = (rule, value, callback) => { 
+    let validateRenewCameTime = (rule, value, callback) => {
       if (value < that.addPRenewMsg.renewTime) {
         callback(new Error("续签生效日期不能早于续签日期"));
       } else {
         callback();
       }
     };
-    let validateRenewLostTime = (rule, value, callback) => { 
+    let validateRenewLostTime = (rule, value, callback) => {
       if (value < that.addPRenewMsg.renewCameTime) {
         callback(new Error("续签失效日期不能早于续签生效日期"));
       } else {
@@ -157,14 +174,26 @@ export default {
         renewContent: "",
         attachm: ""
       },
+      token: {
+        Authorization: `Bearer ` + localStorage.getItem("access_token")
+      },
+      custPostList: [],
+      custClassList: [],
       renewCameTimeOption: {
         disabledDate(time) {
-          return time.getTime() < new Date(that.addPRenewMsg.renewTime).getTime() - 3600 * 1000 * 24;
+          return (
+            time.getTime() <
+            new Date(that.addPRenewMsg.renewTime).getTime() - 3600 * 1000 * 24
+          );
         }
       },
       renewLostTimeOption: {
         disabledDate(time) {
-          return time.getTime() < new Date(that.addPRenewMsg.renewCameTime).getTime() - 3600 * 1000 * 24;
+          return (
+            time.getTime() <
+            new Date(that.addPRenewMsg.renewCameTime).getTime() -
+              3600 * 1000 * 24
+          );
         }
       },
       pactMsgRules: {
@@ -185,29 +214,19 @@ export default {
   components: {
     current
   },
-  
+
   created() {
-    this.pactNo = sessionStorage.getItem('contractInfo_pactNo');
-    this.userNo = sessionStorage.getItem('contractInfo_userNo');
+    this.pactNo = sessionStorage.getItem("contractInfo_pactNo");
+    this.userNo = sessionStorage.getItem("contractInfo_userNo");
     if (sessionStorage.getItem("contractInfo_pactSubFlag") == "true") {
       this.pactSubFlag = sessionStorage.getItem("contractInfo_pactSubFlag");
       this.activeName = "renewPactMsg";
     }
+    this.addPRenewMsg.pactNo = this.pactNo;
     this.getPactDetail();
     this.getCustInfo();
-  },
-  computed: {
-    _custClass: function() {
-      if (this.custInfo.custClass == "B10") {
-        return "B10-初级软件工程师";
-      } else if (this.custInfo.custClass == "B11") {
-        return "B11-中级软件工程师";
-      } else if (this.custInfo.custClass == "B12") {
-        return "B12-高级软件工程师";
-      } else {
-        return "";
-      }
-    }
+    this.getCustPostList(); //查询岗位列表
+    this.getCustClassList(); //查询职级列表
   },
   methods: {
     getPactDetail() {
@@ -218,7 +237,7 @@ export default {
       self.$axios
         .get("/iem_hrm/pact/queryPactDetail", { params: params })
         .then(res => {
-          console.log('basicPactMsg',res);
+          console.log("basicPactMsg", res);
           self.basicPactMsg = res.data.data;
         })
         .catch(() => {
@@ -231,10 +250,36 @@ export default {
       self.$axios
         .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
         .then(res => {
-          console.log('cusInfo', res);
+          console.log("cusInfo", res);
           self.custInfo = res.data.data;
         })
         .catch(() => {
+          console.log("error");
+        });
+    },
+    getCustPostList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custPostList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
+    getCustClassList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custClassList = res.data.data;
+          }
+        })
+        .catch(err => {
           console.log("error");
         });
     },
@@ -247,46 +292,94 @@ export default {
     renewLostTimeChange(val) {
       this.addPRenewMsg.renewLostTime = val;
     },
+    // 文件上传
+    beforeAvatarUpload(file) {
+      // const extension = file.name.split('.')[1] === 'xls'
+      // const extension2 = file.name.split('.')[1] === 'xlsx'
+      // const extension3 = file.name.split('.')[1] === 'doc'
+      // const extension4 = file.name.split('.')[1] === 'docx'
+      // if (!extension && !extension2 && !extension3 && !extension4) {
+      // 		console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
+      // }
+      const isLt2M = file.size / 1024 / 1024 < 10;
+      if (!isLt2M) {
+        this.$message({ message: "上传文件大小不能超过 10MB!", type: "error" });
+      }
+      return isLt2M; //extension || extension2 || extension3 || extension4 &&
+    },
     handleFileUpload(file, fileList) {
-      console.log(file);
       this.addPRenewMsg.attachm = file.name;
     },
-    handleSave(pactMsgRules) {
-      this.$refs[pactMsgRules].validate(valid => {
+    successUpload(res, file, fileList) {
+      // 文件成功上传
+      console.log("upload_response", res);
+      if (res.code == "S00000") {
+        this.$message({ type: "success", message: "操作成功!" });
+        if (this.pactSubFlag == "true") {
+          this.$router.push("/detail_contract");
+        } else {
+          this.$router.push("/query_contract");
+        }
+      } else this.$message.error(res.retMsg);
+    },
+    handleSave() {
+      let rulesValid1 = false;
+      let rulesValid2 = false;
+
+      this.$refs.pactMsgRules1.validate(valid => {
         if (valid) {
-          let newPRenew = {};
-          newPRenew.pactNo = this.basicPactMsg.pactNo;
-          newPRenew.renewTime = this.addPRenewMsg.renewTime;
-          newPRenew.renewCameTime = this.addPRenewMsg.renewCameTime;
-          newPRenew.renewLostTime = this.addPRenewMsg.renewLostTime;
-          newPRenew.renewType = this.addPRenewMsg.renewType;
-          newPRenew.renewContent = this.addPRenewMsg.renewContent;
-          newPRenew.attachm = this.addPRenewMsg.attachm;
-          console.log('newPRenew:',newPRenew);
+          rulesValid1 = true;
+        } else {
+          console.log("error submit!!");
+          this.$message({
+            type: "error",
+            message: "请确保必填信息填写正确!"
+          });
+          return false;
+        }
+      });
+      this.$refs.pactMsgRules2.validate(valid => {
+        if (valid) {
+          rulesValid2 = true;
+        } else {
+          console.log("error submit!!");
+          if (rulesValid1 == true) {
+            this.$message({
+              type: "error",
+              message: "请确保必填信息填写正确!"
+            });
+          }
+          return false;
+        }
+      });
+      if (rulesValid1 && rulesValid2) {
+        if (this.addPRenewMsg.attachm != "") {
+          this.$refs.upload.submit(); // 触发上传文件
+        } else {
+          console.log("newPRenew:", this.addPRenewMsg);
           this.$axios
-            .post("/iem_hrm/pact/addPactRenew", newPRenew)
+            .post("/iem_hrm/pact/addPactRenew", this.addPRenewMsg)
             .then(res => {
               console.log(res);
-              if (res.data.code == "S00000"){
+              if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/query_contract");
                 if (this.pactSubFlag == "true") {
                   this.$router.push("/detail_contract");
+                } else {
+                  this.$router.push("/query_contract");
                 }
               } else this.$message.error(res.data.retMsg);
             })
             .catch(() => {
               this.$message.error("操作失败！");
             });
-        } else {
-          console.log("error submit!!");
-          return false;
         }
-      });
+      }
     }
   }
 };
 </script>
 
 <style>
+
 </style>

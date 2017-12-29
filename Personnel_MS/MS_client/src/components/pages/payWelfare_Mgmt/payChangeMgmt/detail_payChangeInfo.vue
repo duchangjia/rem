@@ -7,17 +7,7 @@
                 <span class="title-text">调薪基数详情</span>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="公司">
-                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="申请部门">
-                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工号">
                             <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
@@ -29,8 +19,17 @@
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
+                        <el-form-item label="公司">
+                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="申请部门">
+                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
-                            <!-- <el-input v-model="_custPost" :disabled="true"></el-input> -->
                             <el-select v-model="custInfo.custPost" :disabled="true">
                               <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
@@ -38,7 +37,6 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职级">
-                            <!-- <el-input v-model="_custClass" :disabled="true"></el-input> -->
                             <el-select v-model="custInfo.custClass" :disabled="true">
                               <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
@@ -48,7 +46,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">调整前薪酬基数信息</el-col>
-                <el-form :inline="true" :model="payChangeDetail" :label-position="labelPosition"  label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="payChangeDetail" :label-position="labelPosition"  label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="基本工资">
                             <el-input v-model="payChangeDetail.oWagesBase" :disabled="true"></el-input>
@@ -132,7 +130,7 @@
                     <el-col :sm="24" :md="12">
                         <el-form-item label="保险缴纳标准">
                             <el-select v-model="payChangeDetail.oWelcoeNo" :disabled="true">
-                                <el-option v-for="item in insurancePayTemplates" :label="item.applyName" :value="item.applyNo"></el-option>
+                                <el-option v-for="(item, index) in insurancePayTemplates" :label="item.applyName" :key="index" :value="item.applyNo"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col> 
@@ -140,7 +138,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">调整后薪酬基数信息</el-col>
-                <el-form :inline="true" :model="payChangeDetail" :label-position="labelPosition"  label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="payChangeDetail" :label-position="labelPosition"  label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="基本工资">
                             <el-input v-model="payChangeDetail.nWagesBase" :disabled="true"></el-input>
@@ -224,12 +222,12 @@
                     <el-col :span="24">
                         <el-form-item label="保险缴纳标准">
                             <el-select v-model="payChangeDetail.nWelcoeNo"  @change="nWelcoeNoChange" :disabled="true">
-                                <el-option v-for="item in insurancePayTemplates" :label="item.applyName" :value="item.applyNo"></el-option>
+                                <el-option v-for="(item, index) in insurancePayTemplates" :label="item.applyName" :key="index" :value="item.applyNo"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col> 
                 </el-form>
-                <el-form :inline="true" :model="insurancePayTemp" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :model="insurancePayTemp" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险(个人)">
                             <el-input v-model="_perEndm" :disabled="true"></el-input>
@@ -291,7 +289,7 @@
                         </el-form-item>
                     </el-col>
                 </el-form>
-                <el-form :inline="true" :model="payChangeDetail" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :model="payChangeDetail" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="24">
                         <el-form-item label="调薪说明" prop="remark">
                             <el-input type="textarea" v-model="payChangeDetail.remark" :disabled="true"></el-input>

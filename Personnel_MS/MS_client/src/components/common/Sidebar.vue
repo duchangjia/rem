@@ -67,11 +67,30 @@ export default {
 						}
 					]
 				},
-				{
+                {
+                    menuImg: 'icon-csgl',
+                    menuUrl: '3',
+                    menuName: '参数管理',
+                    menuList: [
+                        {
+                            menuUrl: 'argument_1',
+                            menuName: '系统参数'
+                        },
+                        {
+                            menuUrl: 'argument_2',
+                            menuName: '业务参数'
+                        },
+                    ]
+                },
+                {
 					menuImg: 'icon-khgx',
-					menuUrl: '3',
+					menuUrl: '4',
 					menuName: '人事事务',
 					menuList: [
+                        {
+                            menuUrl: 'personnel_archives',
+                            menuName: '人事档案'
+                        },
 						{
 							menuUrl: 'personnel_contract',
 							menuName: '人事合同'
@@ -80,43 +99,47 @@ export default {
 							menuUrl: 'personnel_transfer',
 							menuName: '人事调动'
 						},
-                        {
-                            menuUrl: 'personnel_archives',
-                            menuName: '人事档案'
-                        }
 					]
 				},
-				{
-					menuImg: 'icon-csgl',
-					menuUrl: '4',
-					menuName: '参数管理',
-					menuList: [
-						{
-							menuUrl: 'argument_1',
-							menuName: '系统参数'
-						},
-						{
-							menuUrl: 'argument_2',
-							menuName: '业务参数'
-						},
-					]
-				},	
+                {
+                    menuImg: 'icon-ywgl',
+                    menuUrl: '5',
+                    menuName: '考勤管理',
+                    menuList: [
+                        {
+                            menuUrl: 'attendance_record',
+                            menuName: '考勤记录管理'
+                        },
+                        {
+                            menuUrl: 'travel_management',
+                            menuName: '出差管理'
+                        },
+                        {
+                            menuUrl: 'leave_management',
+                            menuName: '请假管理'
+                        },
+                        {
+                            menuUrl: 'overtime_management',
+                            menuName: '加班管理'
+                        }
+                    ]
+                },
 				{
 					menuImg: 'icon-xmgl',
-					menuUrl: '5',
+					menuUrl: '6',
 					menuName: '薪酬福利',
 					menuList: [
+                        {
+                            menuUrl: 'wageProcess_manage',
+                            menuName: '工资流程管理'
+                        },
+                        {
+                            menuUrl: 'payChange_manage',
+                            menuName: '调薪管理'
+                        },
 						{
 							menuUrl: 'payBaseInfo_setting',
 							menuName: '薪酬基数设置'
-						},
-						{
-							menuUrl: 'payChange_manage',
-							menuName: '调薪管理'
-						},
-						{
-							menuUrl: 'wageProcess_manage',
-							menuName: '工资流程管理'
 						},
 //						{
 //							menuUrl: 'awardProcess_manage',
@@ -126,33 +149,6 @@ export default {
 //							menuUrl: 'historyPay_query',
 //							menuName: '历史薪酬查询'
 //						}
-					]
-				},
-				{
-					menuImg: 'icon-ywgl',
-					menuUrl: '6',
-					menuName: '考勤管理',
-					menuList: [
-						{
-							menuUrl: 'attendance_record',
-							menuName: '考勤记录管理'
-						},
-						{
-							menuUrl: 'travel_management',
-							menuName: '出差管理'
-						},
-						{
-							menuUrl: 'leave_management',
-							menuName: '请假管理'
-						},
-						{
-							menuUrl: 'overtime_management',
-							menuName: '加班管理'
-						},
-						// {
-						// 	menuUrl: 'preSale_query',
-						// 	menuName: '售前立项'
-						// }
 					]
 				},
 				{
@@ -171,27 +167,8 @@ export default {
 					]
 				},
 				{
-					menuImg: 'icon-khgx',
-					menuUrl: '8',
-					menuName: '员工自助',
-					menuList: [
-						{
-							menuUrl: 'query_personalInfo',
-							menuName: '个人信息查询'
-						},
-						{
-							menuUrl: 'query_billingInfo',
-							menuName: '开票信息查询'
-						},
-						{
-							menuUrl: 'lineManager_Mgmt',
-							menuName: '直线经理管理'
-						}
-					]
-				},
-				{
 					menuImg: 'icon-xmgl',
-					menuUrl: '9',
+					menuUrl: '8',
 					menuName: '历史薪酬',
 					menuList: [
 						{
@@ -202,7 +179,6 @@ export default {
 				},
 				
 			]
-
 		};
 	},
 	created() {
@@ -234,7 +210,7 @@ export default {
 			self.$axios.get(baseURL+'/menu/queryMenuInfo')
 			.then(function(res) {
 //				console.log('menuList',res);
-//				self.items = res.data.data;
+				self.items = res.data.data;
 			}).catch(function(err) {
 				console.log('error');
 			})

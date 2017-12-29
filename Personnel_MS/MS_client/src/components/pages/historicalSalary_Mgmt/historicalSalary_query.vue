@@ -12,7 +12,7 @@
                     <el-col :span="6">
                         <el-form-item label="类别">
                             <el-select v-model="filters.batchType" clearable placeholder="请选择类别">
-                                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                                <el-option v-for="item in options" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue">
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -97,14 +97,14 @@ export default {
                 batchName: "",
                 userNo: "",
                 userName: "",
-        		batchNo: ""
+                batchNo: ""
             },
             pageNum: 1,
             pageSize: 10,
             totalRows: 0,
             exportParams: {},
             assetInfoList: [],
-            options: [{
+            options: [/*{
                 value: '01',
                 label: '工资'
             }, {
@@ -113,7 +113,7 @@ export default {
             }, {
                 value: '03',
                 label: '福利'
-            }],
+            }*/],
             value: ''
         };
     },
@@ -125,10 +125,27 @@ export default {
         this.filters.userName = "";
         this.filters.batchType = "";
         this.filters.batchName = "";
-    	this.filters.batchNo = "";
+        this.filters.batchNo = "";
+        this.getBatchType();//初始化薪酬（批次）类型
         this.getHistoricalSalary(); //初始查询历史薪酬
     },
     methods: {
+        getBatchType(){
+            const self = this;
+            let params = {
+                paraCode: 'BATCH_TYPE'
+            };
+            self.$axios
+                .get("/iem_hrm/sysParamMgmt/queryPubAppParams", { params: params })
+                .then(res => {
+                    //console.log(res);
+                    this.options=res.data.data;   
+                })
+                .catch(() => {
+                    console.log("error");
+                });
+
+        },
         getHistoricalSalary() {
             const self = this;
             let params = {
@@ -138,20 +155,20 @@ export default {
                 userName: self.filters.userName,
                 batchType: self.filters.batchType,
                 batchName: self.filters.batchName,
-        		batchNo: self.filters.batchNo
+                batchNo: self.filters.batchNo
             };
             //console.log("batchType:" + params.batchType);
             //console.log("pageNum:" + params.pageNum + "pageSize" + params.pageSize);
             self.$axios
                 .get("/iem_hrm/EpCustPayFlow/queryEpCustPayFlows", { params: params })
                 .then(res => {
-                    console.log(res);
+                    //console.log(res);
                     self.assetInfoList = res.data.data.list;
                     self.pageNum = params.pageNum;
                     self.pageSize = res.data.data.pageSize;
                     self.totalRows = res.data.data.total;
                     self.exportParams = params;
-                    console.log(self.assetInfoList);
+                    //console.log(self.assetInfoList);
 
                     // self.totalRows = Number(res.data.data.total);
                 })

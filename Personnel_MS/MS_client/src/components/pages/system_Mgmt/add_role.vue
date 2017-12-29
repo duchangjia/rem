@@ -39,13 +39,13 @@
                     <el-col :span="22" class="rightside">
                         <div class="menu">
                             <el-radio-group v-model="menuRadio" @change="handleRadioMenusChange">
-                                <el-radio-button v-for="menu in menus" :label="menu.menuNo" class="menu-item">{{menu.menuName}}</el-radio-button>
+                                <el-radio-button v-for="menu in menus" :key="menu.menuNo" :label="menu.menuNo" class="menu-item">{{menu.menuName}}</el-radio-button>
                             </el-radio-group>
                         </div>
                         <div class="submenu" v-if="menuRadioFlag">
                             <el-checkbox-button v-model="checkSubAll" :indeterminate="isSubIndeterminate" @change="handleSubAllChange" label="全部" class="menu-item"></el-checkbox-button>
                             <el-checkbox-group v-model="checkedSubmenus" @change="handleCheckedSubsChange">
-                                <el-checkbox-button v-for="submenu in submenus" :label="submenu" class="menu-item">{{submenu.menuName}}</el-checkbox-button>
+                                <el-checkbox-button v-for="submenu in submenus" :key="submenu" :label="submenu" class="menu-item">{{submenu.menuName}}</el-checkbox-button>
                             </el-checkbox-group>
                         </div>
                     </el-col>
@@ -60,7 +60,7 @@
                                 <div class="funcs-content">
                                     <el-checkbox v-model="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
                                     <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
-                                        <el-checkbox v-for="funcsDtl in funcs.bsns" :label="funcsDtl.bsnNo" v-bind:title="funcsDtl.interfaceName" >{{ funcsDtl.interfaceName }}</el-checkbox>
+                                        <el-checkbox v-for="funcsDtl in funcs.bsns" :key="funcsDtl.bsnNo" :label="funcsDtl.bsnNo" v-bind:title="funcsDtl.interfaceName" >{{ funcsDtl.interfaceName }}</el-checkbox>
                                     </el-checkbox-group>
                                 </div>
                             </el-col>
@@ -75,7 +75,7 @@
 
 <script type='text/ecmascript-6'>
 import current from "../../common/current_position.vue";
-import Vue from 'vue'
+import Vue from "vue";
 export default {
   data() {
     return {
@@ -103,7 +103,7 @@ export default {
 
       editRoleRules: {
         roleName: [{ required: true, message: "角色名称不能为空", trigger: "blur" }],
-        status: [{ required: true, message: '请选择状态', trigger: 'change' }],
+        status: [{ required: true, message: "请选择状态", trigger: "change" }],
         roleDescr: [{ required: true, message: "角色描述不能为空", trigger: "blur" }]
       }
     };
@@ -184,20 +184,33 @@ export default {
       if (this.checkFuncsAll[index] == true) {
         this.$set(this.isFuncsIndeterminate, index, true);
         targetFucsList.forEach(function(ele) {
-          if (JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(JSON.stringify({ bsnNo: ele })) == -1) {
+          if (
+            JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(
+              JSON.stringify({ bsnNo: ele })
+            ) == -1
+          ) {
             this.addRoleMsg.roleFuncSet.push({ bsnNo: ele });
           }
-          if ( !this.isInArray(this.checkFuncs, ele) ) {
+          if (!this.isInArray(this.checkFuncs, ele)) {
             this.checkFuncs.push(ele);
           }
         }, this);
       } else {
         this.$set(this.isFuncsIndeterminate, index, false);
         targetFucsList.forEach(function(ele, index) {
-          if (JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(JSON.stringify({ bsnNo: ele })) != -1) {
-            this.addRoleMsg.roleFuncSet.splice(JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(JSON.stringify({ bsnNo: ele }))-1, 1);
+          if (
+            JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(
+              JSON.stringify({ bsnNo: ele })
+            ) != -1
+          ) {
+            this.addRoleMsg.roleFuncSet.splice(
+              JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(
+                JSON.stringify({ bsnNo: ele })
+              ) - 1,
+              1
+            );
           }
-          if ( this.isInArray(this.checkFuncs, ele) ) {
+          if (this.isInArray(this.checkFuncs, ele)) {
             this.checkFuncs.splice(this.checkFuncs.indexOf(ele), 1);
           }
         }, this);
@@ -223,26 +236,37 @@ export default {
     handleSave(editRoleForm) {
       this.$refs[editRoleForm].validate(valid => {
         if (valid) {
-          let newRole = {};
-          newRole.roleName = this.addRoleMsg.roleName;
-          newRole.status = this.addRoleMsg.status;
-          newRole.roleDescr = this.addRoleMsg.roleDescr;
-          newRole.roleFuncSet = this.addRoleMsg.roleFuncSet;
-          console.log(newRole);
-          this.$axios
-            .post("/iem_hrm/role/addRoleInfo", newRole)
-            .then(res => {
-              console.log(res);
-              if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/management_role");
-              } else this.$message.error("操作失败！");
-            })
-            .catch(() => {
-              this.$message.error("操作失败！");
+          if (this.addRoleMsg.roleFuncSet.length >= 1) {
+            let newRole = {};
+            newRole.roleName = this.addRoleMsg.roleName;
+            newRole.status = this.addRoleMsg.status;
+            newRole.roleDescr = this.addRoleMsg.roleDescr;
+            newRole.roleFuncSet = this.addRoleMsg.roleFuncSet;
+            console.log(newRole);
+            this.$axios
+              .post("/iem_hrm/role/addRoleInfo", newRole)
+              .then(res => {
+                console.log(res);
+                if (res.data.code == "S00000") {
+                  this.$message({ type: "success", message: "操作成功!" });
+                  this.$router.push("/management_role");
+                } else this.$message.error(res.data.retMsg);
+              })
+              .catch(() => {
+                this.$message.error("操作失败！");
+              });
+          } else {
+            this.$alert("角色权限分配为必填项，请先选择", "提示", {
+              confirmButtonText: "确定",
+              type: "warning"
             });
+          }
         } else {
           console.log("error submit!!");
+          this.$message({
+            type: "error",
+            message: "请确保必填信息填写正确!"
+          });
           return false;
         }
       });

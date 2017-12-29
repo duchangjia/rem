@@ -27,9 +27,12 @@
                     </div>
                     <div class="msg-content">
                         <ul>
-                            <li class="msg-list clearfix msg-large-list txt-size" v-for="item in newsList" v-bind:class="item.class">
+                            <!-- <li class="msg-list clearfix msg-large-list txt-size" v-for="item in newsList" v-bind:class="item.class">
                                 <span class="msg-txt ">{{item.txt}}</span>
                                 <div class="msg-time">{{item.time}}</div>
+                            </li> -->
+                            <li class="msg-list clearfix msg-large-list txt-size">
+                                <span class="msg-txt ">暂无数据</span>
                             </li>
                         </ul>
                     </div>
@@ -47,10 +50,14 @@
                     </div>
                     <div class="msg-content">
                         <ul>
-                            <li class="msg-list clearfix msg-large-list txt-size" v-for="item in newsList" v-bind:class="item.class">
+                            <!-- <li class="msg-list clearfix msg-large-list txt-size" v-for="item in newsList" v-bind:class="item.class">
                                 <div class="msg-icon"></div>
                                 <span class="msg-txt ">{{item.txt}}</span>
                                 <div class="msg-time">{{item.time}}</div>
+                            </li> -->
+                            <li class="msg-list clearfix msg-large-list txt-size">
+                                <div class="warning-icon"></div>
+                                <span class="msg-txt ">暂无数据</span>
                             </li>
                         </ul>
                     </div>
@@ -63,12 +70,14 @@
         :option="entryOption"
         @jobEchart="jobEchart"
         echartId="jobEchart"
+        title="入离职情况(人)"
         ></v-DrawBar>
         <v-DrawLine 
         :rightList="monthList"
         :option="salaryOption"
         @salaryEchart="salaryEchart"
         echartId="salaryEchart"
+        title="薪酬发放"
         ></v-DrawLine>
         <el-row :gutter="20">
             <el-col :span="12">
@@ -76,6 +85,7 @@
                     :rightList="[]"
                     :option="leaveOption"
                     echartId="leaveEchart"
+                    title="请假情况"
                 ></v-DrawBar>
             </el-col>
             <el-col :span="12">
@@ -83,6 +93,7 @@
                     :rightList="[]"
                     :option="contractOption"
                     echartId="contractEchart"
+                    title="合同到期"
                 ></v-DrawLine>
             </el-col>
         </el-row>
@@ -250,24 +261,33 @@
                             monthGapType:'03'
                         };
                     }
-                    
-                // self.number=index
-                self.$axios.post(queryStaffFlow,params).then(res=>{
-                    let inJobArray = [],
+                 let inJobArray = [],
                         monthArray = [],
-                        outJobArray = [],
-                        data = res.data.data;
+                        outJobArray = [];
 
-                        for(let i = 0;i<data[0].length;i++){
-                            inJobArray.push(data[0][i].count);
-                            monthArray.push(data[0][i].month)
+                        for(let i = 0;i<12;i++){
+                            inJobArray.push('暂无数据');
+                            outJobArray.push('暂无数据');
+                            monthArray.push((i+1)+'月')
                         }
-                       for(let i = 0;i<data[1].length;i++){
-                            outJobArray.push(data[1][i].count)
-                        }
-                    // console.log(data,inJobArray,outJobArray,monthArray)
-                    self.drawBar(inJobArray,outJobArray,monthArray)
-                })
+                    self.drawBar(inJobArray,outJobArray,monthArray)   
+                // self.number=index
+                // self.$axios.post(queryStaffFlow,params).then(res=>{
+                //     let inJobArray = [],
+                //         monthArray = [],
+                //         outJobArray = [],
+                //         data = res.data.data;
+
+                //         for(let i = 0;i<data[0].length;i++){
+                //             inJobArray.push(data[0][i].count);
+                //             monthArray.push(data[0][i].month)
+                //         }
+                //        for(let i = 0;i<data[1].length;i++){
+                //             outJobArray.push(data[1][i].count)
+                //         }
+                //     // console.log(data,inJobArray,outJobArray,monthArray)
+                //     self.drawBar(inJobArray,outJobArray,monthArray)
+                // })
             },
             salaryEchart(item){
                 let self = this,
@@ -278,46 +298,66 @@
                     }else{
                         params = {month:12};
                     }
-                    
-                // self.payNumber=index
-                self.$axios.get(queryPayroll,{params:params}).then(res=>{
-                    let monthArray = [],
-                        payArray = [],
-                        data = res.data.data;
-                    for(let i = 0;i<data.length;i++){
-                        monthArray.push(data[i].month)
-                        payArray.push(data[i].realHairTotal)
+                  let monthArray = [],
+                        payArray = [];
+                    for(let i = 0;i<12;i++){
+                        monthArray.push((i+1) + '月')
+                        payArray.push('暂无数据')
                     }
-                    self.drawLine(monthArray,payArray);
-                })
+                    self.drawLine(monthArray,payArray);  
+                // self.payNumber=index
+                // self.$axios.get(queryPayroll,{params:params}).then(res=>{
+                //     let monthArray = [],
+                //         payArray = [],
+                //         data = res.data.data;
+                //     for(let i = 0;i<data.length;i++){
+                //         monthArray.push(data[i].month)
+                //         payArray.push(data[i].realHairTotal)
+                //     }
+                //     self.drawLine(monthArray,payArray);
+                // })
             },
             leaveEchart(){
                 let self = this;
-                 self.$axios.get(leaveForm).then(res=>{
-                     let monthArray = [],
-                        leaveArray = [],
-                        data = res.data.data;
-                        for(let i = 0;i<data.length;i++){
-                            monthArray.push(data[i].month)
-                            leaveArray.push(data[i].leaveNum)
+                let monthArray = [],
+                        leaveArray = [];
+                        for(let i = 0;i<7;i++){
+                            monthArray.push((i+1)+'月')
+                            leaveArray.push('暂无数据')
                         }
                         self.drawSmBar(monthArray,leaveArray);
-                })
+                //  self.$axios.get(leaveForm).then(res=>{
+                //      let monthArray = [],
+                //         leaveArray = [],
+                //         data = res.data.data;
+                //         for(let i = 0;i<data.length;i++){
+                //             monthArray.push(data[i].month)
+                //             leaveArray.push(data[i].leaveNum)
+                //         }
+                //         self.drawSmBar(monthArray,leaveArray);
+                // })
             },
             contractEchart(){
                 let self = this;
-                self.$axios.get( queryPactForm).then(res=>{
-                    let monthArray = [],
-                        contractArray = [],
-                        data = res.data.data;
-                        for(let i = 0;i<data.length;i++){
-                            monthArray.push(data[i].month)
-                            contractArray.push(data[i].pactNum)
-                        }
-                        self.drawSmLine(monthArray,contractArray);
-                }).catch(e=>{
+                let monthArray = [],
+                    contractArray = [];
+                    for(let i = 0;i<7;i++){
+                        monthArray.push((i+1)+'月')
+                        contractArray.push('暂无数据')
+                    }
+                    self.drawSmLine(monthArray,contractArray);
+                // self.$axios.get( queryPactForm).then(res=>{
+                //     let monthArray = [],
+                //         contractArray = [],
+                //         data = res.data.data;
+                //         for(let i = 0;i<data.length;i++){
+                //             monthArray.push(data[i].month)
+                //             contractArray.push(data[i].pactNum)
+                //         }
+                //         self.drawSmLine(monthArray,contractArray);
+                // }).catch(e=>{
 
-                })
+                // })
             },
             drawBar(inJobArray,outJobArray,monthArray){
                 let self = this;
@@ -326,7 +366,7 @@
                     //标题，每个图表最多仅有一个标题控件，每个标题控件可设主副标题
                     title: {
                         //主标题文本，'\n'指定换行
-                        text: '入离职情况(人)',
+                        
                         //主标题文本超链接
                         link: '',
                         //副标题文本，'\n'指定换行
@@ -366,11 +406,12 @@
                         trigger: 'axis',
                         //悬浮后的单位
                         // formatter:'{b1}<br/>{a0}:{c0}人<br/>{a1}:{c1}人'
+                        formatter:'{b1}<br/>{c0}'
                     },
                     //图例，每个图表最多仅有一个图例
                     legend: {
                         //显示策略，可选为：true（显示） | false（隐藏），默认值为true
-                        show: true,
+                        show: false,
                         //水平安放位置，默认为全图居中，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
                         x: 'center',
                         //垂直安放位置，默认为全图顶端，可选为：'top' | 'bottom' | 'center' | {number}（y坐标，单位px）
@@ -479,7 +520,7 @@
                 let self = this;
                     self.salaryOption = {
                         title: {
-                            text: '薪酬发放',//水平安放位置，默认为左侧，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
+                            text: '',//水平安放位置，默认为左侧，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
                             x: 'left',
                             //垂直安放位置，默认为全图顶端，可选为：'top' | 'bottom' | 'center' | {number}（y坐标，单位px）
                             y: 'top',
@@ -511,8 +552,10 @@
                             borderWidth:1
                         },
                         tooltip: {
-                            trigger:'item',
-                            formatter:'{c0}万元'
+                            // trigger:'item',
+                            // formatter:'{c0}万元',
+                            trigger: 'axis',
+                            formatter:'{c0}'
 
                         },
                         xAxis: {
@@ -561,7 +604,7 @@
                     //标题，每个图表最多仅有一个标题控件，每个标题控件可设主副标题
                     title: {
                         //主标题文本，'\n'指定换行
-                        text: '请假情况',
+                        text: '',
                         //主标题文本超链接
                         link: '',
                         //副标题文本，'\n'指定换行
@@ -598,9 +641,11 @@
                     //提示框，鼠标悬浮交互时的信息提示
                     tooltip: {
                         //触发类型，默认（'item'）数据触发，可选为：'item' | 'axis'
-                        trigger: 'item',
+                        // trigger: 'item',
                         //悬浮后的单位
-                        formatter:'{a0}:{c0}人'
+                        // formatter:'{a0}:{c0}人',
+                        trigger: 'axis',
+                        formatter:'{c0}',
                     },
                     
                     //工具箱，每个图表最多仅有一个工具箱
@@ -693,7 +738,7 @@
                 
                 self.contractOption = {
                         title: {
-                            text: '合同到期',//水平安放位置，默认为左侧，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
+                            text: '',//水平安放位置，默认为左侧，可选为：'center' | 'left' | 'right' | {number}（x坐标，单位px）
                             x: 'left',
                             //垂直安放位置，默认为全图顶端，可选为：'top' | 'bottom' | 'center' | {number}（y坐标，单位px）
                             y: 'top',
@@ -725,8 +770,10 @@
                             borderWidth:1
                         },
                         tooltip: {
-                            trigger:'item',
-                            formatter:'{c0}万元'
+                            // trigger:'item',
+                            // formatter:'{c0}万元',
+                            trigger: 'axis',
+                            formatter:'{c0}',
 
                         },
                         xAxis: {
@@ -853,6 +900,12 @@
                                 height:37px;
                                 width:40px;
                                 background:url('../../../static/img/home/mess4.png') no-repeat #a5d16c center;
+                                float:left;
+                            }
+                            .warning-icon{
+                                height:37px;
+                                width:40px;
+                                background:url('../../../static/img/home/mess4.png') no-repeat #FF7E5F center;
                                 float:left;
                             }
                             .msg-txt{

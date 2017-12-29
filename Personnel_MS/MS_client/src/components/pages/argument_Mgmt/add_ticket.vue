@@ -8,23 +8,34 @@
                 </div>
                 <div class="add-wrapper">
                     <el-form :inline="true" label-width="110px" :rules="rules" :model="custInfo" ref="info">
-                        <el-col :sm="24" :md="12">
-                            <el-form-item label="公司" prop="organName" class="is-require">
+                        <!-- <el-col :sm="24" :md="12">
+                            <el-form-item label="公司" prop="organName">
                                 <el-select v-model="custInfo.organName" @change="changeCompany">
                                     <el-option
                                       v-for="item in companyName"
-                                      :key="item.organName"
+                                      :key="item.organNo"
                                       :label="item.organName"
                                       :value="item.organName">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
-                        </el-col>
+                        </el-col> -->
                         <el-col :sm="24" :md="12">
+                            <el-form-item label="合同主体" prop="pactSubject">
+                                 <el-select v-model="custInfo.pactSubject" >
+                                    <el-option
+                                      v-for="item in contactList"
+                                      :label="item.paraShowMsg"
+                                      :value="item.paraValue">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <!-- <el-col :sm="24" :md="12">
                             <el-form-item label="机构号" prop="organNo">
                                  <el-input v-model="custInfo.organNo" placeholder="请输入机构号" readonly="readonly"></el-input>
                             </el-form-item>
-                        </el-col>
+                        </el-col> -->
                         <el-col :sm="24" :md="12">
                             <el-form-item label="纳税人编号" prop="organTaxNo">
                                  <el-input v-model="custInfo.organTaxNo" placeholder="请输入纳税人编号"></el-input>
@@ -77,20 +88,24 @@ export default {
         organTel:"",
         organAcct: "",
         organAcctname: "",
-        organAddr: ""
+        organAddr: "",
+        pactSubject:""
       },
       rules: {
         organName: [{ required: true, message: "请选择公司名称", trigger: "change" }],
         organNo: [{ required: true, message: "请输入机构号", trigger: "blur" }],
         organTaxNo: [{ required: true, message: "请输入纳税人编号", trigger: "blur" }],
-        organTel:[{validator:checkTel,trigger: 'blur'}]
+        organTel:[{validator:checkTel,trigger: 'blur'}],
+        pactSubject:[{ required: true, message: "请选择合同主体", trigger: "change" }]
       },
-      companyName: []
+      companyName: [],
+      contactList:[]
     };
   },
   mounted() {
     //拉取公司名称
     let self = this;
+    self.getContact()//获取合同实体
     self.$axios.get("/iem_hrm/organ/queryAllCompany").then(res => {
       let result = res.data.data;
       self.companyName = result;
@@ -105,6 +120,16 @@ export default {
           self.custInfo.organNo = companyArray[i].organNo;
         }
       }
+    },
+    getContact(){
+      let self = this,
+         params = {paraCode:'PACT_SUBJECT'}
+      self.$axios.get("/iem_hrm/sysParamMgmt/queryPubAppParams",{params:params}).then(res => {
+        let result = res.data.data;
+        console.log('合同实体',result)
+        self.contactList = result;
+
+      });
     },
     save() {
       let self = this;

@@ -7,21 +7,21 @@ Vue.use(Router);
 //     mode: 'history',
 // hashbang: false,
 //     history: true,
-const routes = [
-    {
+const routes = [{
         path: '/',
         redirect: '/login'
     },
     {
         path: '/login',
-        meta: { requireAuth: false, },// 添加该字段，表示进入这个路由是需要登录的
+        meta: {
+            requireAuth: false,
+        }, // 添加该字段，表示进入这个路由是需要登录的
         component: resolve => require(['../components/pages/Login.vue'], resolve)
     },
     {
         path: '/user_center',
         component: resolve => require(['../components/common/user_center.vue'], resolve),
-        children: [
-            {
+        children: [{
                 path: '/',
                 component: resolve => require(['../components/pages/user_Setting/user_info.vue'], resolve)
             },
@@ -33,42 +33,57 @@ const routes = [
     },
     {
         path: '/aggPage',
-        meta: { requireAuth: true, },
+        meta: {
+            requireAuth: true,
+        },
         component: resolve => require(['../components/common/aggregation/common/aggPage.vue'], resolve)
     },
     {
         path: '/aggHome',
-        meta: { requireAuth: true, },
+        meta: {
+            requireAuth: true,
+        },
         component: resolve => require(['../components/common/aggregation/common/Home.vue'], resolve),
-        children: [
-            {
+        children: [{
                 path: '/',
-                meta: { requireAuth: true, },
+                meta: {
+                    requireAuth: true,
+                },
                 component: resolve => require(['../components/common/aggregation/user_Setting/user_info.vue'], resolve)
             },
             {
                 path: '/agg_uesr_center',
-                meta: { requireAuth: true, },
+                meta: {
+                    requireAuth: true,
+                },
                 component: resolve => require(['../components/common/aggregation/user_Setting/user_info.vue'], resolve)
             },
             {
                 path: '/agg_modify_password',
-                meta: { requireAuth: true, },
+                meta: {
+                    requireAuth: true,
+                },
                 component: resolve => require(['../components/common/aggregation/user_Setting/modify_password.vue'], resolve)
             },
             {
                 path: '/ask_leave',
-                meta: { requireAuth: true, },
+                meta: {
+                    requireAuth: true,
+                },
                 component: resolve => require(['../components/common/aggregation/check_work/ask_leave.vue'], resolve)
             },
             {
                 path: '/salary_detail',
-                meta: { requireAuth: true, },
+                meta: {
+                    requireAuth: true,
+                },
                 component: resolve => require(['../components/common/aggregation/pay_salary/salary_detail.vue'], resolve)
             },
             {
                 path: '/billing_imformation',
-                meta: { requireAuth: true, },
+                meta: {
+                    requireAuth: true,
+                },
                 component: resolve => require(['../components/common/aggregation/exp_reimy/billing_imformation.vue'], resolve)
             }
         ]
@@ -80,7 +95,9 @@ const routes = [
     {
 
         path: '/home',
-        meta: { requireAuth: true, },
+        meta: {
+            requireAuth: true,
+        },
         component: resolve => require(['../components/common/Home.vue'], resolve),
         children: [
             {
@@ -90,8 +107,7 @@ const routes = [
             {
                 path: '/management_framework',
                 component: resolve => require(['../components/pages/system_Mgmt/frame.vue'], resolve),
-                children: [
-                    {
+                children: [{
                         path: '/',
                         component: resolve => require(['../components/pages/system_Mgmt/framework.vue'], resolve)
                     },
@@ -112,8 +128,7 @@ const routes = [
             {
                 path: '/management_user',
                 component: resolve => require(['../components/pages/system_Mgmt/manage_user.vue'], resolve),
-                children: [
-                    {
+                children: [{
                         path: '/',
                         component: resolve => require(['../components/pages/system_Mgmt/userM_query.vue'], resolve)
                     },
@@ -127,8 +142,7 @@ const routes = [
             {
                 path: '/management_role',
                 component: resolve => require(['../components/pages/system_Mgmt/manage_role.vue'], resolve),
-                children: [
-                    {
+                children: [{
                         path: '/',
                         component: resolve => require(['../components/pages/system_Mgmt/query_role.vue'], resolve)
                     },
@@ -144,18 +158,12 @@ const routes = [
                 ]
             },
             {
-                path: '/argument_1',
-                component: resolve => require(['../components/pages/argument_Mgmt/argument_1.vue'], resolve),
-
-            },
-            {
                 path: '/management_fun',
                 component: resolve => require(['../components/pages/system_Mgmt/manage_fun.vue'], resolve),
-                children: [
-                    {
-                        path: '/',
-                        component: resolve => require(['../components/pages/system_Mgmt/fun.vue'], resolve)
-                    },
+                children: [{
+                    path: '/',
+                    component: resolve => require(['../components/pages/system_Mgmt/fun.vue'], resolve)
+                },
                     {
                         name: 'edit_fun',
                         path: '/edit_fun',
@@ -164,10 +172,29 @@ const routes = [
                 ]
             },
             {
+                path: '/argument_1',
+                component: resolve => require(['../components/pages/argument_Mgmt/argument_1.vue'], resolve),
+                children: [{
+                        path: '/',
+                        component: resolve => require(['../components/pages/argument_Mgmt/query_sysParam.vue'], resolve)
+                    },
+                    {
+                        name: 'add_sysParam',
+                        path: '/add_sysParam',
+                        component: resolve => require(['../components/pages/argument_Mgmt/add_sysParam.vue'],resolve)
+                    },
+                    {
+                        name: 'edit_sysParam',
+                        path: '/edit_sysParam',
+                        component: resolve => require(['../components/pages/argument_Mgmt/edit_sysParam.vue'],resolve)
+                    }
+                ]
+
+            },
+            {
                 path: '/argument_2',
                 component: resolve => require(['../components/pages/argument_Mgmt/argument_2.vue'], resolve),
-                children: [
-                    {
+                children: [{
                         path: '/',
                         component: resolve => require(['../components/pages/argument_Mgmt/arg_2.vue'], resolve)
                     },
@@ -175,8 +202,7 @@ const routes = [
                         name: 'agency_argument',
                         path: '/agency_argument',
                         component: resolve => require(['../components/pages/argument_Mgmt/agency.vue'], resolve),
-                        children: [
-                            {
+                        children: [{
                                 path: '/',
                                 component: resolve => require(['../components/pages/argument_Mgmt/agency_argument.vue'], resolve)
                             },
@@ -196,8 +222,7 @@ const routes = [
                         name: 'welfare_coefficient',
                         path: '/welfare_coefficient',
                         component: resolve => require(['../components/pages/argument_Mgmt/welfare.vue'], resolve),
-                        children: [
-                            {
+                        children: [{
                                 path: '/',
                                 component: resolve => require(['../components/pages/argument_Mgmt/welfare_coefficient.vue'], resolve)
                             },
@@ -218,8 +243,7 @@ const routes = [
                         name: 'tax_rate',
                         path: '/tax_rate',
                         component: resolve => require(['../components/pages/argument_Mgmt/tax.vue'], resolve),
-                        children: [
-                            {
+                        children: [{
                                 path: '/',
                                 component: resolve => require(['../components/pages/argument_Mgmt/tax_rate.vue'], resolve)
                             },
@@ -228,8 +252,7 @@ const routes = [
                                 path: '/rate_info',
                                 redirect: '/rate_info',
                                 component: resolve => require(['../components/pages/argument_Mgmt/rate.vue'], resolve),
-                                children: [
-                                    {
+                                children: [{
                                         path: '/',
                                         component: resolve => require(['../components/pages/argument_Mgmt/rate_info.vue'], resolve)
                                     },
@@ -257,8 +280,7 @@ const routes = [
                         name: 'rank',
                         path: '/rank',
                         component: resolve => require(['../components/pages/argument_Mgmt/rankRouter.vue'], resolve),
-                        children: [
-                            {
+                        children: [{
                                 path: '/',
                                 component: resolve => require(['../components/pages/argument_Mgmt/rank.vue'], resolve)
                             },
@@ -278,8 +300,7 @@ const routes = [
                     {
                         path: '/ticket_info',
                         component: resolve => require(['../components/pages/argument_Mgmt/ticket.vue'], resolve),
-                        children: [
-                            {
+                        children: [{
                                 path: '/',
                                 component: resolve => require(['../components/pages/argument_Mgmt/ticket_info.vue'], resolve)
                             },
@@ -297,8 +318,7 @@ const routes = [
                     {
                         path: '/holiday_info',
                         component: resolve => require(['../components/pages/argument_Mgmt/holiday.vue'], resolve),
-                        children: [
-                            {
+                        children: [{
                                 path: '/',
                                 component: resolve => require(['../components/pages/argument_Mgmt/holiday_info.vue'], resolve),
                             },
@@ -311,110 +331,12 @@ const routes = [
                 ]
             },
             {
-                path: '/client',
-                component: resolve => require(['../components/pages/client_Relationship/client.vue'], resolve)
-            },
-            {
-                path: '/attendance_record',
-                component: resolve => require(['../components/pages/attendance_Mgmt/attendanceRecord/attendance_record.vue'], resolve),
-                children: [
-                    {
-                        path: '/',
-                        component: resolve => require(['../components/pages/attendance_Mgmt/attendanceRecord/attendance_query.vue'], resolve),
-                    }
-                ]
-            },
-            {
-                path: '/travel_management',
-                component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/travel_management.vue'], resolve),
-                children: [
-                    {
-                        path: '/',
-                        component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/travel_query.vue'], resolve),
-                    },
-                    {
-                        name: 'travel_info',
-                        path: '/travel_info',
-                        component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/travel_info.vue'], resolve),
-                    },
-                    {
-                        name: 'edit_travel',
-                        path: '/edit_travel',
-                        component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/edit_travel.vue'], resolve),
-                    },
-                    {
-                        name: 'add_travel',
-                        path: '/add_travel',
-                        component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/add_travel.vue'], resolve),
-                    }
-                ]
-            },
-            {
-                path: '/leave_management',
-                component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/leave_management.vue'], resolve),
-                children: [
-                    {
-                        path: '/',
-                        component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/leave_query.vue'], resolve),
-                    },
-                    {
-                        name: 'leave_info',
-                        path: '/leave_info',
-                        component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/leave_info.vue'], resolve),
-                    },
-                    {
-                        name: 'edit_leave',
-                        path: '/edit_leave',
-                        component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/edit_leave.vue'], resolve),
-                    },
-                    {
-                        name: 'add_leave',
-                        path: '/add_leave',
-                        component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/add_leave.vue'], resolve),
-                    }
-                ]
-            },
-            {
-                path: '/overtime_management',
-                component: resolve => require(['../components/pages/attendance_Mgmt/overtime_management/overtime_management.vue'], resolve),
-                children: [
-                    {
-                        path: '/',
-                        component: resolve => require(['../components/pages/attendance_Mgmt/overtime_management/overtime_query.vue'], resolve),
-                    },
-                    {
-                        name: 'overtime_info',
-                        path: '/overtime_info',
-                        component: resolve => require(['../components/pages/attendance_Mgmt/overtime_management/overtime_info.vue'], resolve),
-                    },
-                    {
-                        name: 'edit_overtime',
-                        path: '/edit_overtime',
-                        component: resolve => require(['../components/pages/attendance_Mgmt/overtime_management/edit_overtime.vue'], resolve),
-                    },
-                    {
-                        name: 'add_overtime',
-                        path: '/add_overtime',
-                        component: resolve => require(['../components/pages/attendance_Mgmt/overtime_management/add_overtime.vue'], resolve),
-                    }
-                ]
-            },
-            {
-                path: '/statement_1',
-                component: resolve => require(['../components/pages/statement_STAT/statement_1.vue'], resolve)
-            },
-            {
-                path: '/statement_2',
-                component: resolve => require(['../components/pages/statement_STAT/statement_2.vue'], resolve)
-            },
-            {
                 path: '/personnel_contract',
                 component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/personnel_contract.vue'], resolve),
-                children: [
-                    {
-                        path: '/',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/query_contract.vue'], resolve)
-                    },
+                children: [{
+                    path: '/',
+                    component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/query_contract.vue'], resolve)
+                },
                     {
                         name: 'query_contract',
                         path: '/query_contract',
@@ -435,11 +357,10 @@ const routes = [
                         path: '/detail_contract',
                         redirect: '/detail_contract',
                         component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/contract_detailInfo.vue'], resolve),
-                        children: [
-                            {
-                                path: '/',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/detail_contract.vue'], resolve)
-                            },
+                        children: [{
+                            path: '/',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/detail_contract.vue'], resolve)
+                        },
                             {
                                 name: 'detail_pactChange',
                                 path: '/detail_pactChange',
@@ -463,39 +384,37 @@ const routes = [
 
                         ]
                     },
-                    
+
                     {
                         name: 'add_pactChange',
                         path: '/add_pactChange',
                         component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/add_pactChange.vue'], resolve)
                     },
-                    
+
                     {
                         name: 'add_pactRenew',
                         path: '/add_pactRenew',
                         component: resolve => require(['../components/pages/personnel_Mgmt/personnel_contract/add_pactRenew.vue'], resolve)
                     }
-                    
+
                 ]
             },
             {
                 path: '/personnel_transfer',
                 component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/personnel_transfer.vue'], resolve),
-                children: [
-                    {
-                        path: '/',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/query_personnel.vue'], resolve)
-                    },
+                children: [{
+                    path: '/',
+                    component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/query_personnel.vue'], resolve)
+                },
                     {
                         name: 'detail_transfer',
                         path: '/detail_transfer',
                         redirect: '/detail_transfer',
                         component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/transferRouter.vue'], resolve),
-                        children: [
-                            {
-                                path: '/',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/detail_transfer.vue'], resolve)
-                            },
+                        children: [{
+                            path: '/',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/detail_transfer.vue'], resolve)
+                        },
                             {
                                 name: 'transfer_info',
                                 path: '/transfer_info',
@@ -519,11 +438,10 @@ const routes = [
                         path: '/detail_dimission',
                         redirect: '/detail_dimission',
                         component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/dimissionRouter.vue'], resolve),
-                        children: [
-                            {
-                                path: '/',
-                                component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/detail_dimission.vue'], resolve)
-                            },
+                        children: [{
+                            path: '/',
+                            component: resolve => require(['../components/pages/personnel_Mgmt/personnel_transfer/detail_dimission.vue'], resolve)
+                        },
                             {
                                 name: 'dimission_info',
                                 path: '/dimission_info',
@@ -547,11 +465,10 @@ const routes = [
             {
                 path: '/personnel_archives',
                 component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/personnel_archives.vue'], resolve),
-                children: [
-                    {
-                        path: '/',
-                        component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/query_archives.vue'], resolve)
-                    },
+                children: [{
+                    path: '/',
+                    component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/query_archives.vue'], resolve)
+                },
                     {
                         path: '/add_archives',
                         component: resolve => require(['../components/pages/personnel_Mgmt/personnel_archives/add_archives.vue'], resolve)
@@ -565,10 +482,90 @@ const routes = [
                 ]
             },
             {
+                path: '/attendance_record',
+                component: resolve => require(['../components/pages/attendance_Mgmt/attendanceRecord/attendance_record.vue'], resolve),
+                children: [{
+                    path: '/',
+                    component: resolve => require(['../components/pages/attendance_Mgmt/attendanceRecord/attendance_query.vue'], resolve),
+                }]
+            },
+            {
+                path: '/travel_management',
+                component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/travel_management.vue'], resolve),
+                children: [{
+                        path: '/',
+                        component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/travel_query.vue'], resolve),
+                    },
+                    {
+                        name: 'travel_info',
+                        path: '/travel_info',
+                        component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/travel_info.vue'], resolve),
+                    },
+                    {
+                        name: 'edit_travel',
+                        path: '/edit_travel',
+                        component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/edit_travel.vue'], resolve),
+                    },
+                    {
+                        name: 'add_travel',
+                        path: '/add_travel',
+                        component: resolve => require(['../components/pages/attendance_Mgmt/travel_management/add_travel.vue'], resolve),
+                    }
+                ]
+            },
+            {
+                path: '/leave_management',
+                component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/leave_management.vue'], resolve),
+                children: [{
+                        path: '/',
+                        component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/leave_query.vue'], resolve),
+                    },
+                    {
+                        name: 'leave_info',
+                        path: '/leave_info',
+                        component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/leave_info.vue'], resolve),
+                    },
+                    {
+                        name: 'edit_leave',
+                        path: '/edit_leave',
+                        component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/edit_leave.vue'], resolve),
+                    },
+                    {
+                        name: 'add_leave',
+                        path: '/add_leave',
+                        component: resolve => require(['../components/pages/attendance_Mgmt/leave_management/add_leave.vue'], resolve),
+                    }
+                ]
+            },
+            {
+                path: '/overtime_management',
+                component: resolve => require(['../components/pages/attendance_Mgmt/overtime_management/overtime_management.vue'], resolve),
+                children: [{
+                        path: '/',
+                        component: resolve => require(['../components/pages/attendance_Mgmt/overtime_management/overtime_query.vue'], resolve),
+                    },
+                    {
+                        name: 'overtime_info',
+                        path: '/overtime_info',
+                        component: resolve => require(['../components/pages/attendance_Mgmt/overtime_management/overtime_info.vue'], resolve),
+                    },
+                    {
+                        name: 'edit_overtime',
+                        path: '/edit_overtime',
+                        component: resolve => require(['../components/pages/attendance_Mgmt/overtime_management/edit_overtime.vue'], resolve),
+                    },
+                    {
+                        name: 'add_overtime',
+                        path: '/add_overtime',
+                        component: resolve => require(['../components/pages/attendance_Mgmt/overtime_management/add_overtime.vue'], resolve),
+                    }
+                ]
+            },
+
+            {
                 path: '/payBaseInfo_setting',
                 component: resolve => require(['../components/pages/payWelfare_Mgmt/payBaseInfo/payBaseInfo_setting.vue'], resolve),
-                children: [
-                    {
+                children: [{
                         path: '/',
                         component: resolve => require(['../components/pages/payWelfare_Mgmt/payBaseInfo/query_payBaseInfo.vue'], resolve)
                     },
@@ -592,8 +589,7 @@ const routes = [
             {
                 path: '/payChange_manage',
                 component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/payChange_manage.vue'], resolve),
-                children: [
-                    {
+                children: [{
                         path: '/',
                         component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/query_custInfo.vue'], resolve)
                     },
@@ -607,8 +603,7 @@ const routes = [
                         path: '/query_payChangeInfo',
                         redirect: '/query_payChangeInfo',
                         component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/payChangeInfo.vue'], resolve),
-                        children: [
-                            {
+                        children: [{
                                 path: '/',
                                 component: resolve => require(['../components/pages/payWelfare_Mgmt/payChangeMgmt/query_payChangeInfo.vue'], resolve)
                             },
@@ -636,8 +631,7 @@ const routes = [
             {
                 path: '/wageProcess_manage',
                 component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/wageProcess.vue'], resolve),
-                children: [
-                    {
+                children: [{
                         name: 'wage_query',
                         path: '/',
                         component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/wage_query.vue'], resolve)
@@ -661,8 +655,7 @@ const routes = [
                         name: 'entry_wage',
                         path: '/entry_wage',
                         component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/entryWageRouter.vue'], resolve),
-                        children: [
-                            {
+                        children: [{
                                 path: '/',
                                 component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/entry_wage.vue'], resolve)
                             },
@@ -677,8 +670,7 @@ const routes = [
                         name: 'socialSecurity_query',
                         path: '/socialSecurity_query',
                         component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/socialRouter.vue'], resolve),
-                        children: [
-                            {
+                        children: [{
                                 path: '/',
                                 component: resolve => require(['../components/pages/payWelfare_Mgmt/wageProcessMgmt/socialSecurity_query.vue'], resolve)
                             },
@@ -696,8 +688,7 @@ const routes = [
             {
                 path: '/assetReq_manage',
                 component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/assetReq_manage.vue'], resolve),
-                children: [
-                    {
+                children: [{
                         path: '/',
                         component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/query_asset.vue'], resolve)
                     },
@@ -705,8 +696,7 @@ const routes = [
                         name: 'query_asset',
                         path: '/query_asset',
                         component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/assetInfo.vue'], resolve),
-                        children: [
-                            {
+                        children: [{
                                 path: '/',
                                 component: resolve => require(['../components/pages/asset_Mgmt/assetRegMgmt/query_asset.vue'], resolve),
                             },
@@ -732,8 +722,7 @@ const routes = [
             {
                 path: '/assetUse_manage',
                 component: resolve => require(['../components/pages/asset_Mgmt/assetUseMgmt/assetUse_manage.vue'], resolve),
-                children: [
-                    {
+                children: [{
                         path: '/',
                         component: resolve => require(['../components/pages/asset_Mgmt/assetUseMgmt/query_assetUse.vue'], resolve)
                     },
@@ -762,8 +751,7 @@ const routes = [
             {
                 path: '/historicalSalary_query',
                 component: resolve => require(['../components/pages/historicalSalary_Mgmt/historicalSalary_Mgmt.vue'], resolve),
-                children: [
-                    {
+                children: [{
                         path: '/',
                         component: resolve => require(['../components/pages/historicalSalary_Mgmt/historicalSalary_query.vue'], resolve)
                     },
@@ -774,43 +762,6 @@ const routes = [
                     //},
                 ]
             },
-            // {
-            //     path: '/query_personalInfo',
-            //     component: resolve => require(['../components/pages/stuff_selfHelp/stuffSelfHelp_manage.vue'], resolve),
-            //     children: [
-            //         {
-            //             path: '/',
-            //             component: resolve => require(['../components/pages/stuff_selfHelp/query_personalInfo.vue'], resolve)
-            //         },
-            //         {
-            //             path: '/query_billingInfo',
-            //             component: resolve => require(['../components/pages/stuff_selfHelp/stuffSelfHelp_manage.vue'], resolve),
-            //             children: [
-            //                 {
-            //                     path: '/',
-            //                     component: resolve => require(['../components/pages/stuff_selfHelp/query_billingInfo.vue'], resolve)
-            //                 }
-            //             ]
-            //         },
-            //         {
-            //             path: '/lineManager_Mgmt',
-            //             component: resolve => require(['../components/pages/stuff_selfHelp/stuffSelfHelp_manage.vue'], resolve),
-            //             children: [
-            //                 {
-            //                     path: '/',
-            //                     component: resolve => require(['../components/pages/stuff_selfHelp/lineManager_Mgmt/leave_approval.vue'], resolve)
-            //                 },
-            //                 {
-            //                     name: 'leave_approval',
-            //                     path: '/leave_approval',
-            //                     component: resolve => require(['../components/pages/stuff_selfHelp/lineManager_Mgmt/leave_approval.vue'], resolve)
-            //                 }
-            //             ]
-            //         }
-            //     ]
-            // },
-
-
         ]
     }
 ]
@@ -829,17 +780,17 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(r => r.meta.requireAuth)) {
-        if (localStorage.getItem('access_token')) {
+        if (localStorage.getItem('access_token')&&localStorage.getItem('ms_username')) {
             next();
-        }
-        else {
+        } else {
             next({
                 path: '/login',
-                query: { redirect: to.fullPath }
+                query: {
+                    redirect: to.fullPath
+                }
             })
         }
-    }
-    else {
+    } else {
         next();
     }
 })

@@ -4,7 +4,7 @@
         <div class="main">
         	<div class="basic-sider">
 				<div class="top">
-					<img class="avatar" :src="srcUrl" width="100px" height="100px" alt="" />
+					<img class="avatar" v-if="imageUrl" :src="imageUrl" width="100px" height="100px" alt="" />
 					<div class="name">{{userInfo.custName}}</div>
 					<div class="job">{{custPostName}}</div>
 				</div>
@@ -18,18 +18,16 @@
 	            <router-view></router-view>
 	        </transition>
         </div>
-        <success-tip></success-tip>
     </div>
 </template>
 
 <script type='text/ecmascript-6'>
     import vHeader from './Header.vue'
-    import successTip from '../pages/user_Setting/successTip.vue'
 	const baseURL = 'iem_hrm';
     export default {
     	data() {
     		return {
-    			srcUrl: '../../../static/img/common/avatar.png',
+    			imageUrl: '',
     			custPostName: '',
     			userInfo: {
     				custName: "",
@@ -46,10 +44,11 @@
 			}
 		},
         components: {
-            vHeader,successTip
+            vHeader
         },
         created() {
-        	this.queryUserInfo();
+			this.queryUserInfo();
+			this.queryUserImage();
         },
         methods: {
         	handleCommand(commmand) {
@@ -63,21 +62,21 @@
 	        queryUserInfo() {
 				let self = this;
 				self.$axios.get(baseURL+'/CustInfo/queryCustRole')
-				.then(function(res) {
+				.then((res) => {
 					console.log('userInfo',res);
 					if(res.data.code === "S00000") {
 						self.userInfo = res.data.data[0];
 						self.queryCans();
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCans() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res) => {
 					console.log('queryCans',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
@@ -88,10 +87,23 @@
 						},this)
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
-			}
+			},
+			queryUserImage() {
+            	this.$axios.get(baseURL+'/CustInfo/queryLoadCustAvatar')
+                .then(res=>{
+                    console.log('头像查询', res)
+                    if(res.data.data) {
+                        let url = 'data:image/jpg;base64,'+res.data.data
+                        this.imageUrl = url
+                    }
+                })
+                .catch(e=>{
+                    console.log(e)
+                })
+        },
         },
     }
 

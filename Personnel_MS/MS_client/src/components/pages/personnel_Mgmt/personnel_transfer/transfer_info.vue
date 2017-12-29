@@ -7,7 +7,7 @@
 				<span class="title-text">人事调动详情</span>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata" :inline="true" :model="formdata" label-width="110px">
+				<el-form ref="formdata" :inline="true" :model="formdata" label-width="122px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
 							<el-input v-model="formdata.oldOrganName" :disabled="true"></el-input>
@@ -98,7 +98,9 @@
 								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  
+				</el-form>
+				<el-form :model="formdata" ref="formdata" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
 					<el-col :span="24">
 						<el-form-item label="调动原因">
 						    <el-input
@@ -108,10 +110,17 @@
 							  v-model="formdata.shiftReason" :disabled="true">
 							</el-input>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>         
+				</el-form>	
+				<el-form ref="formdata" :inline="true" :model="formdata" label-width="122px" style="margin-top:0;overflow:visible;">	 	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="附件" style="width:100%;">
-						    <el-button class="downloadBtn" @click="handleDownload">下载</el-button>
+						<el-form-item label="附件" >
+						    <ul>
+								<li v-for="item in fileList" :key="item.fileId">
+									<span class="fileText">{{item.name}}</span>
+									<el-button class="downBtn" @click="handleDownloadFile(item)">下载</el-button>
+								</li>
+							</ul>
 					  	</el-form-item>
 					</el-col>  	
 					  	
@@ -128,6 +137,8 @@
 	export default {
 		data() {
 			return {
+      			labelPosition: "right",
+				fileList: [],
 				//员工信息
 				formdata: {},
 				//部门列表
@@ -139,14 +150,7 @@
 				//职级列表
 				custClassList: [],
 				//调动类型列表
-				shiftTypeList: [
-					{shiftType: '01',shiftName: '晋升'},
-					{shiftType: '02',shiftName: '调动'},
-					{shiftType: '03',shiftName: '平调'},
-					{shiftType: '04',shiftName: '轮岗'},
-					{shiftType: '05',shiftName: '工资调整'},
-					{shiftType: '99',shiftName: '其他'},
-				],
+				shiftTypeList: [],
 			};
 		},
 		components: {
@@ -169,16 +173,16 @@
 			changeValue(value) {
 		 		const self = this;
 	            console.log('value',value);
-	      	},
-	      	handleDownload() {
-	      		const self = this;
-	      		let params = {
-	      			filePath: self.formdata2.attachm,
-	      			isOnLine: "false"
-	      		}
-	      		//下载附件
-//				self.downloadFile(params);
-	      	},
+			  },
+			  //下载附件
+	      	handleDownloadFile(file) {
+				console.log(file);
+				let params = {
+					name: file.name,
+					fileId: file.fileId
+				}
+				this.downloadFile(params);
+			},
 			queryCustShifthisInfo() {
 				let self = this;
 				let userNo = sessionStorage.getItem('infoTransfer_userNo');
@@ -188,102 +192,114 @@
 					workhisId: workhisId
 				}
 				self.$axios.get(baseURL+'/custShifthis/queryCustShifthisDetail', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustShifthisDetail',res);
 					self.formdata = res.data.data;
 					self.formdata.shiftCameTime = moment(self.formdata.shiftCameTime).format('YYYY-MM-DD hh:mm:ss');
-				}).catch(function(err) {
+					if (
+						self.formdata.epFileManageList &&
+						self.formdata.epFileManageList.length >= 1
+					) {
+						self.formdata.epFileManageList.forEach(function(ele) {
+						self.fileList.push({
+							name: ele.fileName + "." + ele.fileSuffix,
+							url: ele.fileAddr,
+							fileId: ele.fileId
+						});
+						}, this);
+					}
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			downloadFile(params) {
 				const self = this;
-				self.$axios.get(baseURL+'/leave/downLoadFile?filePath='+params.filePath +"&isOnLine=" + params.isOnLine, {
-				responseType: 'blob'
- 				})
-                .then((response) => {
-                    const fileName = params.filePath.substr(params.filePath.lastIndexOf("/")+1); 
-                    const blob = response.data;
+				self.$axios.get(baseURL+'/file/downloadFile/'+params.fileId, {
+				responseType: 'blob' 
+				})
+				.then((response) => {
+					const fileName = params.name;
+					const blob = response.data;
 
-                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+					if (window.navigator && window.navigator.msSaveOrOpenBlob) {
 
-                        window.navigator.msSaveOrOpenBlob(blob, fileName);
-                    } else {
+						 window.navigator.msSaveOrOpenBlob(blob, fileName);
+					} else {
 
-                        let elink = document.createElement('a'); // 创建a标签
-                        elink.download = fileName;
-                        elink.style.display = 'none';
-                        elink.href = URL.createObjectURL(blob);
-                        document.body.appendChild(elink);
-                        elink.click(); // 触发点击a标签事件
-                        document.body.removeChild(elink);
-                    }
-                }).catch((e) => {
-                    console.error(e)
-                    this.$message({ message: '下载附件失败', type: 'error' });
-                })
+						let elink = document.createElement('a'); // 创建a标签
+						elink.download = fileName;
+						elink.style.display = 'none';
+						elink.href = URL.createObjectURL(blob);
+						document.body.appendChild(elink);
+						elink.click(); // 触发点击a标签事件
+						document.body.removeChild(elink);
+					}
+				}).catch((e) => {
+					console.error(e)
+					this.$message({ message: '下载附件失败', type: 'error' });
+				})
 			},
 			queryCompList() {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectCompanyByUserNo')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CompList',res);
 					if(res.data.code === "S00000") {
 						self.compList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryDerpList(params) {
 				let self = this;
 				self.$axios.get(baseURL+'/organ/selectChildDeparment', {params: params})
-				.then(function(res) {
+				.then((res) => {
 					console.log('DerpList',res);
 					if(res.data.code === "S00000") {
 						self.departList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log(err);
 				})
 			},
 			queryCustPostList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustPost',res);
 					if(res.data.code === "S00000") {
 						self.custPostList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryCustClassList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
-				.then(function(res) {
+				.then((res) => {
 					console.log('CustClass',res);
 					if(res.data.code === "S00000") {
 						self.custClassList = res.data.data;
 					}
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			queryShiftTypeList() {
 				let self = this;
 				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=SHIFT_TYPE')
-				.then(function(res) {
+				.then((res) => {
 					console.log('shiftTypeList',res);
 					if(res.data.code === "S00000") {
 						self.shiftTypeList = res.data.data;
 					}
 					
-				}).catch(function(err) {
+				}).catch((err) => {
 					console.log('error');
 				})
 			}
@@ -297,5 +313,17 @@
     padding-bottom: 20px;
 	width: 100%;
 }
-
+.transfer_info .fileText {
+	color: #999999;
+	font-size: 14px;
+	padding-right: 20px;
+}
+.transfer_info .downBtn {
+	color: #ffffff;
+	background: #ff9900;
+}
+.transfer_info .el-button.downBtn:focus, .el-button.downBtn:hover {
+    color: #ffffff;
+    border-color: #ff9900;
+}
 </style>

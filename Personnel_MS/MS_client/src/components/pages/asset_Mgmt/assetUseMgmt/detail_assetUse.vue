@@ -6,22 +6,7 @@
                 <span class="title-text">资产使用详情</span>
             </div>
             <div class="add-wrapper">
-                <el-form label-width="110px" :inline="true">
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="公司名称">
-                                <el-input :disabled="true" v-model="applyCompanyInfo.organName"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="申请部门名称">
-                            <el-input :disabled="true" v-model="applyCompanyInfo.derpName"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="CCC">
-                                <el-input :disabled="true" v-model="applyCompanyInfo.ccc"></el-input>
-                        </el-form-item>
-                    </el-col>
+                <el-form label-width="122px" :inline="true">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="申请使用人工号">
                             <el-input :disabled="true" v-model="applyCompanyInfo.applyUserNo"></el-input>
@@ -38,16 +23,35 @@
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
+                        <el-form-item label="CCC">
+                            <el-input :disabled="true" v-model="applyCompanyInfo.costCode"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="公司名称">
+                            <el-input :disabled="true" v-model="applyCompanyInfo.organName"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="申请部门名称">
+                            <el-input :disabled="true" v-model="applyCompanyInfo.derpName"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="岗位">
-                            <el-input :disabled="true" v-model="applyCompanyInfo.custPost"></el-input>
+                            <el-select :disabled="true" v-model="applyCompanyInfo.custPost">
+                                <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职级">
-                            <el-input :disabled="true" v-model="applyCompanyInfo.custClass"></el-input>
+                            <el-select :disabled="true" v-model="applyCompanyInfo.custClass">
+                                <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
-                <el-col :span="24" class="item-title">资产信息</el-col>
+                    <el-col :span="24" class="item-title">资产信息</el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="资产编号">
                             <el-input :disabled="true" v-model="applyCompanyInfo.assetNo"></el-input>
@@ -108,12 +112,16 @@
                             <el-input :disabled="true" v-model="applyCompanyInfo.faxFreeTime"></el-input>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form label-width="122px" style="margin-top:0;">
                     <el-col :span="24">
                         <el-form-item label="主要性能说明">
                             <el-input type="textarea" :disabled="true" v-model="applyCompanyInfo.configInstr"></el-input>
                         </el-form-item>
                     </el-col>
-                <el-col :span="24" class="item-title">使用信息</el-col>
+                </el-form>
+                <el-form label-width="122px" :inline="true">
+                    <el-col :span="24" class="item-title">使用信息</el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="使用类别">
                             <el-input :disabled="true" v-model="applyCompanyInfo.applyType"></el-input>
@@ -135,11 +143,15 @@
                             </el-input>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form label-width="122px" style="margin-top:0;">
                     <el-col :span="24">
                         <el-form-item label="说明">
                             <el-input type="textarea" :disabled="true" v-model="applyCompanyInfo.remark"></el-input>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form label-width="122px" :inline="true" style="margin-top:0;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="最新更新人">
                             <el-input :disabled="true" v-model="applyCompanyInfo.updatedBy"></el-input>
@@ -157,23 +169,27 @@
 </template>
 
 <script type='text/ecmascript-6'>
-    import current from "../../../common/current_position.vue"
-    import moment from 'moment'
-    import api from '../../../../common/api/api.js'
-    let {queryAssetUseDetails} = api
+    import current from "../../../common/current_position.vue";
+    import moment from "moment";
+    import api from "../../../../common/api/api.js";
+    let {
+        queryAssetUseDetails
+    } = api;
     export default {
         data() {
             return {
-                applyCompanyInfo: {
-                },
-            }
+                applyCompanyInfo: {},
+                custPostList: [],
+                custClassList: []
+            };
         },
         created() {
-            let self = this
-            let applyNo = this.$route.query.applyNo
-            self.$axios.get(queryAssetUseDetails+applyNo)
+            let self = this;
+            let applyNo = this.$route.query.applyNo;
+            self.$axios
+                .get(queryAssetUseDetails + applyNo)
                 .then(res => {
-                    self.applyCompanyInfo = res.data
+                    self.applyCompanyInfo = res.data;
                     switch (self.applyCompanyInfo.assetType) {
                         case "01":
                             self.applyCompanyInfo.assetType = "办公用品";
@@ -223,18 +239,48 @@
                             break;
                     }
                 })
-                .catch(e=>{
-                    console.log(e)
-                })
+                .catch(e => {
+                    console.log(e);
+                });
+
+            self.getCustPostList(); //查询岗位列表
+            self.getCustClassList(); //查询职级列表
+        },
+        methods: {
+            getCustPostList() {
+                let self = this;
+                self.$axios
+                    .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST")
+                    .then(res => {
+                        if (res.data.code === "S00000") {
+                            self.custPostList = res.data.data;
+                        }
+                    })
+                    .catch(err => {
+                        console.log("error");
+                    });
+            },
+            getCustClassList() {
+                let self = this;
+                self.$axios
+                    .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED")
+                    .then(res => {
+                        if (res.data.code === "S00000") {
+                            self.custClassList = res.data.data;
+                        }
+                    })
+                    .catch(err => {
+                        console.log("error");
+                    });
+            }
         },
         filters: {
             formatDate(time) {
-                return moment(time).format('YYYY-MM-DD hh:mm:ss')
+                return moment(time).format("YYYY-MM-DD hh:mm:ss");
             }
         },
         components: {
-            current,
+            current
         }
-    }
+    };
 </script>
-

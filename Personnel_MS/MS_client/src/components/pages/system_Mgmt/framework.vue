@@ -6,10 +6,8 @@
                 <div class="content-left">
                     <div class="content-left-title" v-show="companies.organName"><img height="21px" src="../../../../static/img/common/home_logo.png" /><span class="head_quarters" @click="getInfo(companies.organNo)" :title="companies.organName">{{companies.organName}}</span></div>
                     <ul class="list " v-show="companies.childrenList" >
-                        <!--<li class="guangzhou common L">广州分公司<span class="count">(111)</span></li>-->
                         <li class="shanghai common L" v-for="(company, $index) in companies.childrenList" :key="$index" @click.stop.prevent="collapse(company.organNo, $event, null)" :class="`L${company.organNo}`">{{company.organName}}<span class="count">({{company.childrenList.length}})</span>
                             <ul class="common-list" v-show="company.childrenList">
-                                <!--<li class=" common dot">行政部<span class="count">(111)</span></li>-->
                                 <li class="common dot X" v-for="(department, index) in company.childrenList" :key="index" @click.stop.prevent="collapse(department.organNo, $event, company.organNo)" :class="`X${department.organNo}`">{{department.organName}}<span class="count">({{department.childrenList.length}})</span>
                                     <ul class="common-list-item" v-show="department.childrenList">
                                         <li class="common dot J" v-for="(childDepartment,index) in department.childrenList" :key="index" @click.stop.prevent="collapse(childDepartment.organNo, $event, company.organNo)" :class="`J${childDepartment.organNo}`">{{childDepartment.organName}}<span class="count">({{childDepartment.childrenList.length}})</span>
@@ -35,7 +33,6 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        <!--<li class="common dot">一部<span class="count">(111)</span></li>-->
                                     </ul>
                                 </li>
                             </ul>
@@ -60,18 +57,10 @@
                        <el-option label="分公司" value="02"></el-option>
                        <el-option label="办事处" value="03"></el-option>
                        <el-option label="部门" value="04"></el-option>
-                       <!--<option value=""></option>-->
-                       <!--<option value="01" :selected="content.organType=='01'">总公司</option>-->
-                       <!--<option value="02" :selected="content.organType=='02'">分公司</option>-->
-                       <!--<option value="03" :selected="content.organType=='03'">办事处</option>-->
-                       <!--<option value="04" :selected="content.organType=='04'">部门</option>-->
                    </el-select><br>
                        <span>状态</span><el-select v-model="content.status" disabled>
                        <el-option label="启用" value="1"></el-option>
                        <el-option label="停用" value="2"></el-option>
-                       <!--<option value=""></option>-->
-                       <!--<option value="1" :selected="content.status=='1'">启用</option>-->
-                       <!--<option value="0" :selected="content.status=='0'">停用</option>-->
                    </el-select>
                    </div>
                    <div class="title" style="margin-top: 36px;">
@@ -210,6 +199,7 @@
                   console.log(res)
                   self.companies = res.data.data[0]
                   if(!self.companies){
+                      self.companies = '',
                       this.$message('请点击新增按钮添加机构');
                     return
                   }else {
@@ -648,6 +638,12 @@
     width: 120px;
     background: #FF9900;
     border: none;
+}
+@-moz-document url-prefix(){
+    .framework-content-wrapper .content-right .title .del { line-height: 0; }
+}
+@-moz-document url-prefix(){
+    .framework-content-wrapper .content-right .title .toolBtn { line-height: 0; }
 }
 .framework-content-wrapper .form1-wrapper{
     padding-left: 10px;

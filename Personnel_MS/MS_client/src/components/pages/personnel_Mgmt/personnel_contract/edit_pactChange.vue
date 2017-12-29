@@ -5,10 +5,10 @@
         <div class="content-wrapper">
             <div class="titlebar">
                 <span class="title-text">合同变更修改</span>
-                <el-button type="primary" @click="handleSave('pactMsgRules')" class="toolBtn">保存</el-button>
+                <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="basicPactMsg" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="合同编号">
                             <el-input v-model="basicPactMsg.pactNo" :disabled="true"></el-input>
@@ -33,7 +33,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">员工信息</el-col>
-                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工号">
                             <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
@@ -61,27 +61,33 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="岗位">
-                            <el-input v-model="custInfo.custPost" :disabled="true"></el-input>
+                            <el-select v-model="custInfo.custPost" :disabled="true">
+                                <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
-                            <el-input v-model="custInfo.post" :disabled="true"></el-input>
+                            <el-select v-model="custInfo.custPost" :disabled="true">
+                                <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="职级">
-                            <el-input v-model="_custClass" :disabled="true"></el-input>
+                            <el-select v-model="custInfo.custClass" :disabled="true">
+                                <el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-form>
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">合同变更信息</el-col>
-                <el-form :inline="true" :model="editPChangeMsg" :rules="pactMsgRules" ref="pactMsgRules" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="editPChangeMsg" :rules="pactMsgRules" ref="pactMsgRules1" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="变更时间" prop="changeTime">
-                            <el-date-picker type="date" placeholder="选择日期" v-model="editPChangeMsg.changeTime" @change="changeTimeChange" style="width: 100%;"></el-date-picker>
+                            <el-date-picker type="date" placeholder="选择日期" :editable="false" v-model="editPChangeMsg.changeTime" @change="changeTimeChange" style="width: 100%;"></el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -89,18 +95,30 @@
                             <el-input v-model="_changeType"></el-input>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :model="editPChangeMsg" :rules="pactMsgRules" ref="pactMsgRules2" :label-position="labelPosition" label-width="122px" style="margin-top:0;"> 
                     <el-col :span="24">
                         <el-form-item label="变更内容" prop="changeContent">
                             <el-input type="textarea" v-model="editPChangeMsg.changeContent"></el-input>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :inline="true" :model="editPChangeMsg" :label-position="labelPosition" label-width="122px" style="margin-top:0;">
                     <el-col :span="24">
                         <el-form-item label="附件">
-				  		    <el-input v-model="editPChangeMsg.attachm"></el-input>
-				  		    <el-upload class="upload-demo" :on-change="handleFileUpload" ref="upload" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :auto-upload="false">
-                                <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
+                            <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
+                                :on-remove="handleRemove"
+                                :beforeUpload="beforeAvatarUpload" 
+                                :on-change="handleFileUpload" 
+                                :on-success="successUpload" 
+                                :limit="3" 
+                                :on-exceed="handleExceed" 
+                                :headers="token"
+                                :file-list="fileList" 
+                                :show-file-list="true">
+                                <el-button size="small" type="primary">选取文件</el-button>
                             </el-upload>
-				  	    </el-form-item>
+				  	            </el-form-item>
                     </el-col>
                 </el-form>
             </div>
@@ -121,6 +139,13 @@ export default {
       basicPactMsg: {},
       custInfo: {},
       editPChangeMsg: {},
+      fileList: [],
+      token: {
+        Authorization: `Bearer ` + localStorage.getItem("access_token")
+      },
+      triRemoveFlag: true,
+      custPostList: [],
+      custClassList: [],
       pactMsgRules: {
         changeTime: [{ required: true, message: "请选择变更日期", trigger: "change" }],
         changeType: [{ required: true, message: "请选择变更类别", trigger: "blur" }],
@@ -132,25 +157,16 @@ export default {
     current
   },
   created() {
-    this.pactNo = sessionStorage.getItem('contractInfo_pactNo');
-    this.userNo = sessionStorage.getItem('contractInfo_userNo');
-    this.changeId = sessionStorage.getItem('contractInfo_changeId');
+    this.pactNo = sessionStorage.getItem("contractInfo_pactNo");
+    this.userNo = sessionStorage.getItem("contractInfo_userNo");
+    this.changeId = sessionStorage.getItem("contractInfo_changeId");
     this.getPactDetail();
-    this.getCustInfo(); 
+    this.getCustInfo();
     this.getPChangeDetail();
+    this.getCustPostList(); //查询岗位列表
+    this.getCustClassList(); //查询职级列表
   },
   computed: {
-    _custClass: function() {
-      if (this.custInfo.custClass == "B10") {
-        return "B10-初级软件工程师";
-      } else if (this.custInfo.custClass == "B11") {
-        return "B11-中级软件工程师";
-      } else if (this.custInfo.custClass == "B12") {
-        return "B12-高级软件工程师";
-      } else {
-        return "";
-      }
-    },
     _changeType: function() {
       if (this.editPChangeMsg.changeType == "01") {
         return "条款变更";
@@ -182,7 +198,7 @@ export default {
       self.$axios
         .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
         .then(res => {
-          console.log('cusInfo', res);
+          console.log("cusInfo", res);
           self.custInfo = res.data.data;
         })
         .catch(() => {
@@ -198,51 +214,203 @@ export default {
       self.$axios
         .get("/iem_hrm/pact/queryPactChangeDetail", { params: params })
         .then(res => {
-          console.log('PChangeDtl',res);
           self.editPChangeMsg = res.data.data;
+          console.log("PChangeDtl", self.editPChangeMsg);
+          if (
+            self.editPChangeMsg.epFileManageList &&
+            self.editPChangeMsg.epFileManageList.length >= 1
+          ) {
+            self.editPChangeMsg.epFileManageList.forEach(function(ele) {
+              self.fileList.push({
+                name: ele.fileName + "." + ele.fileSuffix,
+                url: ele.fileAddr,
+                fileId: ele.fileId
+              });
+            }, this);
+          }
         })
         .catch(() => {
+          console.log("error");
+        });
+    },
+    getCustPostList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custPostList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
+    getCustClassList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custClassList = res.data.data;
+          }
+        })
+        .catch(err => {
           console.log("error");
         });
     },
     changeTimeChange(val) {
       this.editPChangeMsg.changeTime = val;
     },
-    handleFileUpload(file, fileList) {
-      console.log(file);
-      this.editPChangeMsg.attachm = file.name;
+    // 附件上传
+    beforeAvatarUpload(file) {
+      // const extension = file.name.split('.')[1] === 'xls'
+      // const extension2 = file.name.split('.')[1] === 'xlsx'
+      // const extension3 = file.name.split('.')[1] === 'doc'
+      // const extension4 = file.name.split('.')[1] === 'docx'
+      // if (!extension && !extension2 && !extension3 && !extension4) {
+      // 		console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
+      // }
+
+      const isLt2M = file.size / 1024 / 1024 < 10;
+      if (!isLt2M) {
+        this.$message({ message: "上传文件大小不能超过 10MB!", type: "error" });
+        this.triRemoveFlag = false;
+      } else {
+        this.triRemoveFlag = true;
+      }
+      return isLt2M; //extension || extension2 || extension3 || extension4 &&
     },
-    handleSave(pactMsgRules) {
-      this.$refs[pactMsgRules].validate(valid => {
-        if (valid) {
-          let newPChange = {};
-          newPChange.pactNo = this.pactNo;
-          newPChange.changeId = this.changeId;
-          newPChange.changeTime = this.editPChangeMsg.changeTime;
-          newPChange.changeType = this.editPChangeMsg.changeType;
-          newPChange.changeContent = this.editPChangeMsg.changeContent;
-          newPChange.attachm = this.editPChangeMsg.attachm;
-          this.$axios
-            .put("/iem_hrm/pact/updatePactChange", newPChange)
-            .then(res => {
-              console.log(res);
-              if (res.data.code == "S00000") {
-                this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/detail_contract");
-              } else this.$message.error(res.data.retMsg);
-            })
-            .catch(() => {
-              this.$message.error("操作失败！");
+    handleFileUpload(file, fileList) {
+      this.fileList = fileList;
+      console.log("选中的this.fileList:", this.fileList);
+    },
+    handleRemove(file, fileList) {
+      if (this.triRemoveFlag) {
+        console.log("移除的file", file);
+        console.log("移除的fileList", fileList);
+        let index = this.fileList.indexOf(file);
+        fileList.splice(index, 0, file);
+        this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        })
+          .then(() => {
+            this.$axios
+              .delete("/iem_hrm/file/deleteFile/" + file.fileId)
+              .then(res => {
+                let result = res.data.retMsg;
+                if ("操作成功" == result) {
+                  this.$message({
+                    type: "success",
+                    message: result
+                  });
+                  fileList.splice(index, 1);
+                } else {
+                  this.$message({
+                    type: "error",
+                    message: result
+                  });
+                }
+              })
+              .catch(e => {
+                console.log(e);
+                this.$message({
+                  type: "error",
+                  message: e.retMsg
+                });
+              });
+          })
+          .catch(() => {
+            this.$message({
+              type: "info",
+              message: "已取消删除"
             });
+          });
+      }
+    },
+    handleExceed(files, fileList) {
+      // 文件超出数量
+      this.$message.warning(
+        `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
+          fileList.length} 个文件`
+      );
+    },
+    successUpload(res, file, fileList) {
+      // 文件成功上传
+      console.log("upload_res_fileList", fileList);
+      if (res.code == "S00000") {
+        file.fileId = res.data;
+        this.$message({
+          type: "success",
+          message: "文件上传成功!"
+        });
+      } else this.$message.error(res.retMsg);
+    },
+    handleSave() {
+      let rulesValid1 = false;
+      let rulesValid2 = false;
+
+      this.$refs.pactMsgRules1.validate(valid => {
+        if (valid) {
+          rulesValid1 = true;
         } else {
           console.log("error submit!!");
+          this.$message({
+            type: "error",
+            message: "请确保必填信息填写正确!"
+          });
           return false;
         }
       });
+      this.$refs.pactMsgRules2.validate(valid => {
+        if (valid) {
+          rulesValid2 = true;
+        } else {
+          console.log("error submit!!");
+          if (rulesValid1 == true) {
+            this.$message({
+              type: "error",
+              message: "请确保必填信息填写正确!"
+            });
+          }
+          return false;
+        }
+      });
+      if (rulesValid1 && rulesValid2) {
+        let fileIds = [];
+        for (let k in this.fileList) {
+          fileIds.push(this.fileList[k].fileId);
+        }
+        console.log("fileIds", fileIds);
+        let newPChange = {};
+        newPChange.pactNo = this.pactNo;
+        newPChange.changeId = this.changeId;
+        newPChange.changeTime = this.editPChangeMsg.changeTime;
+        newPChange.changeType = this.editPChangeMsg.changeType;
+        newPChange.changeContent = this.editPChangeMsg.changeContent;
+        newPChange.attachm = this.editPChangeMsg.attachm;
+        newPChange.fileIds = fileIds;
+        this.$axios
+          .put("/iem_hrm/pact/updatePactChange", newPChange)
+          .then(res => {
+            console.log(res);
+            if (res.data.code == "S00000") {
+              this.$message({ type: "success", message: "操作成功!" });
+              this.$router.push("/detail_contract");
+            } else this.$message.error(res.data.retMsg);
+          })
+          .catch(() => {
+            this.$message.error("操作失败！");
+          });
+      }
+
     }
   }
 };
 </script>
 
 <style>
+
 </style>

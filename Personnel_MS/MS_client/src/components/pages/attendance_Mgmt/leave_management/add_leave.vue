@@ -8,17 +8,8 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="110px">
-					<el-col :sm="24" :md="12">
-						<el-form-item label="公司名称">
-							<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
-					  	</el-form-item>
-					</el-col>
-					<el-col :sm="24" :md="12">
-						<el-form-item label="申请部门名称">
-							<el-input v-model="formdata1.deptName" :disabled="true"></el-input>
-					  	</el-form-item>
-					</el-col>	
+				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="122px">
+						
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号" prop="userNo">
 						    <el-input v-model="formdata1.userNo">
@@ -43,6 +34,16 @@
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
+						<el-form-item label="公司名称">
+							<el-input v-model="formdata1.companyName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="申请部门名称">
+							<el-input v-model="formdata1.deptName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
 						    <el-select v-model="formdata1.custPost" :disabled="true">
 								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
@@ -57,7 +58,7 @@
 					  	</el-form-item>
 					</el-col> 
 				</el-form>
-				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="110px">
+				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="122px">
 					<el-col :span="24" class="item-title">请假信息</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="请假开始时间" prop="leaveStartTime">
@@ -80,7 +81,9 @@
 						<el-form-item label="请假累计工时" prop="timeSheet">
 						    <el-input v-model="formdata2.timeSheet" placeholder="请输入请假累计工时"></el-input>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  	 
+				</el-form>
+				<el-form :model="formdata2" :rules="rules2" ref="formdata2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
 					<el-col :span="24">
 						<el-form-item class="remark" label="请假备注" prop="remark">
 						    <el-input
@@ -90,19 +93,23 @@
 							  v-model="formdata2.remark">
 							</el-input>
 					  	</el-form-item>
-					</el-col>  	
+					</el-col>  	      
+				</el-form>
+				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width: 100%;">
 				  		 	<el-input v-model="formdata2.attachm"></el-input>
-					  		<el-upload class="upload-demo" ref="upload" name="file"
+					  		<el-upload class="upload-demo" ref="upload"
+					  			 action="/iem_hrm/leave/addLeaveInfo" 
 					  			 :data="formdata"
 					  			 :on-change="changeUpload"
 					  			 :on-success="successUpload"
 					  			 :beforeUpload="beforeAvatarUpload"
-					  			 action="/iem_hrm/leave/addLeaveInfo" 
 					  			 :show-file-list="false" 
 					  			 :auto-upload="false"
 					  			 :headers="token"
+								 name="files"
+                                 :multiple="true"
 					  		>
 	                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
 	                        </el-upload>
@@ -139,10 +146,14 @@
 		        }
 	      	};
 			return {
+      			labelPosition: "right",
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
+				fileList: [],
+				filesName: "files",
 				fileFlag: '',
+				//工号选择弹框数据
 				dialogVisible:false,
 			    tableOption:[],
 			    inputFirstOption:{},
@@ -153,13 +164,14 @@
 			    saveUrl:'',
 			    boxTitle:'',
 			    numType:'',
-			    
+				
+				 
 			    leaveStartTime: '',
 				leaveEndTime: '',
 				//员工基本信息
 				formdata1: {},
 				//请假信息
-				formdata2: {},
+				formdata2: {attachm: "",},
 				//岗位列表
 				custPostList: [],
 				//职级列表
@@ -205,7 +217,6 @@
 	    			"leaveType": self.formdata2.leaveType, //"3"
 	    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
 	    			"remark": self.formdata2.remark, //"请假的详细信息"
-	    			attachm: self.formdata2.attachm
 				}
 			}
 		},
@@ -294,7 +305,7 @@
 		        //dialog打开
 		        this.dialogVisible=true
 		        //查询接口
-		        this.searchUrl = "/iem_hrm/CustInfo/queryCustInfList"
+		        this.searchUrl = "/iem_hrmCustInfo/queryCustBasicInfList"
 		        //点击确定后根据号码查询用户信息借口 没有则为空
 		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
 		        //dialog标题
@@ -302,14 +313,20 @@
 		    },
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-		 		this.formdata2.attachm = file.name;
-	      	},
+				 this.formdata2.attachm = file.name;
+				// fileList.forEach(function(item) {
+				// 	this.formdata2.attachm += item.name + " ";
+				// }, this);
+				console.log("选中的fileList", fileList);
+			},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
 	      			this.$message({ message: '操作成功', type: 'success' });
 					this.$router.push('/leave_management');
-	      		}
-		      		
+	      		} else {
+					this.$message.error(response.retMsg);
+				
+				}
 	      	},
 	      	// 上传前对文件的大小的判断
 		    beforeAvatarUpload (file) {
@@ -317,12 +334,12 @@
 //		      const extension2 = file.name.split('.')[1] === 'xlsx'
 //		      const extension3 = file.name.split('.')[1] === 'doc'
 //		      const extension4 = file.name.split('.')[1] === 'docx'
-		      const isLt2M = file.size / 1024 / 1024 < 1
+		      const isLt2M = file.size / 1024 / 1024 < 10
 //		      if (!extension && !extension2 && !extension3 && !extension4) {
-//		        console.log('上传模板只能是 xls、xlsx、doc、docx 格式!')
+//		        console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
 //		      }
 		      if (!isLt2M) {
-		      	this.$message({ message: '上传模板大小不能超过 1MB!', type: 'error' });
+		      	this.$message({ message: '上传文件大小不能超过 10MB!', type: 'error' });
 		      }
 		      return  isLt2M	//extension || extension2 || extension3 || extension4 &&
 		    },
@@ -332,7 +349,7 @@
 			        if (valid) {
 			          	self.$refs.formdata2.validate(valid => {
 			           	 	if (valid) {
-			            		self.$refs.upload.submit();
+			            		self.$refs.upload.submit();//触发上传
 								if(!self.fileFlag) {
 									let params = {
 										"userNo": self.formdata1.userNo, //"1004"
@@ -341,7 +358,6 @@
 						    			"leaveType": self.formdata2.leaveType, //"3"
 						    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
 						    			"remark": self.formdata2.remark, //"请假的详细信息"
-						    			attachm: self.formdata2.attachm
 									}
 									//无附件时新增
 									self.addLeaveInfo(params);
@@ -418,6 +434,6 @@
 	};
 </script>
 
-<style scoped>
+<style >
 
 </style>

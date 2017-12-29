@@ -10,14 +10,14 @@
         </div>
       </div>
       <div class="queryContent_inner">
-        <el-form :inline="true" :model="filters" class="demo-ruleForm">
+        <el-form :inline="true" :model="filters" ref="filters" class="demo-ruleForm">
           <el-col :span="6">
-            <el-form-item label="客户名称">
+            <el-form-item label="客户名称" prop="custName">
               <el-input v-model="filters.custName" placeholder="请输入客户名称"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="客户行业">
+            <el-form-item label="客户行业" prop="custIndustry">
               <el-select v-model="filters.custIndustry">
                 <el-option label="全部" value=""></el-option>
                 <el-option label="金融" value="01"></el-option>
@@ -28,7 +28,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="客户类别">
+            <el-form-item label="客户类别" prop="custType">
               <el-select v-model="filters.custType">
                 <el-option label="全部" value=""></el-option>
                 <el-option label="普通客户" value="01"></el-option>
@@ -38,7 +38,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="客户级别">
+            <el-form-item label="客户级别" prop="custLevel">
               <el-select v-model="filters.custLevel">
                 <el-option label="全部" value=""></el-option>
                 <el-option label="重点客户" value="01"></el-option>
@@ -49,7 +49,7 @@
             </el-form-item>
           </el-col>
           <div class="queryButton_wrapper">
-            <el-button class="btn-default" @click="handleReset">重置</el-button>
+            <el-button class="btn-default" @click="handleReset('filters')">重置</el-button>
             <el-button class="btn-primary" @click="handleQuery">查询</el-button>
           </div>
         </el-form>
@@ -88,7 +88,7 @@
   </div>
 </template>
 
-<script type='text/ecmascript-6'>
+<script>
   import current from "../../common/current_position.vue";
   export default {
     data() {
@@ -100,9 +100,9 @@
           custType: "",
           custLevel: ""
         },
-        pageNum: 1,
-        pageSize: 10,
-        totalRows: 1,
+        pageNum: 1,//当前页
+        pageSize: 10,//显示几条数据
+        totalRows: 1,//当前页有几条数据
         custInfoList: []
       };
     },
@@ -152,11 +152,8 @@
         this.pageNum = val;
         this.getcustInfoList(); //分页查询
       },
-      handleReset() {
-        this.filters.assetNo = "";
-        this.filters.assetType = "";
-        this.filters.assetName = "";
-        this.filters.status = "";
+      handleReset(formName) {
+        this.$refs[formName].resetFields();
       },
       handleQuery() {
         this.getcustInfoList(); //根据条件查询资产信息列表

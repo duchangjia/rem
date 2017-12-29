@@ -8,17 +8,8 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="110px">
-					<el-col :sm="24" :md="12">
-						<el-form-item label="公司名称">
-							<el-input v-model="formdata2.companyName" :disabled="true"></el-input>
-					  	</el-form-item>
-					</el-col>
-					<el-col :sm="24" :md="12">
-						<el-form-item label="申请部门名称">
-							<el-input v-model="formdata2.deptName" :disabled="true"></el-input>
-					  	</el-form-item>
-					</el-col>	
+				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="122px">
+						
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
 						    <el-input v-model="formdata2.userNo" :disabled="true"></el-input>
@@ -29,6 +20,16 @@
 						    <el-input v-model="formdata2.custName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="公司名称">
+							<el-input v-model="formdata2.companyName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="申请部门名称">
+							<el-input v-model="formdata2.deptName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>
 				 	<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
 						    <el-select v-model="formdata2.custPost" :disabled="true">
@@ -80,7 +81,9 @@
 						    <el-input v-model="formdata2.travelSTD" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>  	
-				  	<el-col :span="24">
+				</el-form>
+				<el-form :model="formdata2" :rules="rules" ref="formdata2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+					 <el-col :span="24">
 				  		<el-form-item class="remark" label="出差备注" prop="remark">
 						    <el-input
 							  type="textarea"
@@ -89,20 +92,24 @@
 							  v-model="formdata2.remark">
 							</el-input>
 					  	</el-form-item>
-				  	</el-col>
+				  	</el-col>	         
+				</el-form>
+				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">  	
 				  	<el-col :sm="24" :md="12">
-						<el-form-item label="附件" style="width: 100%;">
-				  		 	<el-input v-model="formdata2.attachm"></el-input>
-					  		<el-upload class="upload-demo" ref="upload" name="file"
-					  			 :data="formdata"
-					  			 :on-change="changeUpload" 
+						<el-form-item label="附件">
+					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
+					  			 :on-exceed="handleExceed"
+								 :on-preview="handlePreview"
+                                 :on-remove="handleRemove"
+					  			 :on-change="changeUpload"
 					  			 :on-success="successUpload"
-					  			 action="/iem_hrm/travel/modifyTravelInfo" 
-					  			 :show-file-list="false" 
-					  			 :auto-upload="false"
+								 :beforeUpload="beforeAvatarUpload"  
+					  			 :show-file-list="true" 
 					  			 :headers="token"
+								 :limit="3"
+								 :file-list="fileList"
 					  		>
-	                            <el-button slot="trigger" type="primary" class="uploadBtn">选取文件</el-button>
+	                            <el-button slot="trigger" type="primary">选取文件</el-button>
 	                        </el-upload>
 					  	</el-form-item>
 					</el-col>
@@ -138,10 +145,13 @@
 		        }
 	      	};
 			return {
+      			labelPosition: "right",
 				token: {
 					Authorization:`Bearer `+localStorage.getItem('access_token'),
 				},
+				fileList: [],
 				fileFlag: '',
+				triRemoveFlag: true,
 				caclStarttimeFlag: false,
 				caclEndtimeFlag: false,
 				custPostName: '',
@@ -185,21 +195,7 @@
 			current
 		},
 		computed: {
-			formdata: function(){
-				return {
-					applyNo: this.formdata2.applyNo, //出差编号
-				    userNo: this.formdata2.userNo,//工号
-				    travelType: this.formdata2.travelType,//出差类型
-				    travelStartTime: this.formdata2.travelStartTime,//出差开始时间	
-				    travelEndTime: this.formdata2.travelEndTime, //出差结束时间
-				    travelStartCity: this.formdata2.travelStartCity,//出差开始城市	
-				    travelArrivalCity: this.formdata2.travelArrivalCity,//出差到达城市
-				    travelDays: this.formdata2.travelDays, //出差天数  
-				    travelSTD: this.formdata2.travelSTD,//差补标准
-				    remark: this.formdata2.remark,//备注
-				    attachm: this.formdata2.attachm//附件
-				}
-			}
+			
 		},
 		created() {
 			
@@ -254,24 +250,90 @@
 			changeValue(value) {
 		 		const self = this;
 	      	},
+	      	//上传附件
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
-		 		this.formdata2.attachm = file.name;
-	      	},
+				this.fileList = fileList;
+				console.log("选中的fileList", fileList); 
+			},
+			handleRemove(file, fileList) {
+				if(this.triRemoveFlag) {
+					// 移除文件
+					console.log(file, fileList);
+					console.log("移除的file", file);
+					let index = this.fileList.indexOf(file);
+					fileList.splice(index, 0, file);
+					this.$confirm("此操作将永久删除, 是否继续?", "提示", {
+						confirmButtonText: "确定",
+						cancelButtonText: "取消",
+						type: "warning"
+					}).then(() => {
+						this.$axios.delete("/iem_hrm/file/deleteFile/" + file.fileId)
+							.then(res => {
+							let result = res.data.retMsg;
+							if ("操作成功" == result) {
+								this.$message({ type: "success", message: result });
+								fileList.splice(index, 1);
+							} else {
+								this.$message({ type: "error", message: result });
+							}
+							}).catch(e => {
+								console.log(e);
+								this.$message({ type: "error", message: e.retMsg });
+						});
+					}).catch(() => {
+						this.$message({ type: "info", message: "已取消删除" });
+					});
+				}
+				
+			},
+			handlePreview(file) {
+				// 点击已上传的文件链接时
+				console.log(file);
+			},
+			handleExceed(files, fileList) {
+				// 文件超出数量
+				this.$message.warning(
+					`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
+					fileList.length} 个文件`
+				);
+			},
 	      	successUpload(response, file, fileList) {
 	      		if(response.code === "S00000") {
-	      			this.$message({ message: '操作成功', type: 'success' });
-	      			this.$router.push('/travel_management');
-	      		}
-	      		
-	      	},
+					file.fileId = response.data;
+	      			this.$message({ message: '操作成功,请点击保存按钮,保存修改', type: 'success' });
+					// this.$router.push('/leave_management');
+				  }
+				  console.log('this.fileList',this.fileList);
+				  console.log('上传成功的file',file);
+			},
+			  // 上传前对文件的大小的判断
+		    beforeAvatarUpload (file) {
+//		      const extension = file.name.split('.')[1] === 'xls'
+//		      const extension2 = file.name.split('.')[1] === 'xlsx'
+//		      const extension3 = file.name.split('.')[1] === 'doc'
+//		      const extension4 = file.name.split('.')[1] === 'docx'
+		      const isLt2M = file.size / 1024 / 1024 < 10
+//		      if (!extension && !extension2 && !extension3 && !extension4) {
+//		        console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
+//		      }
+		      if (!isLt2M) {
+				  this.$message({ message: '上传文件大小不能超过 10MB!', type: 'error' });
+				  this.triRemoveFlag = false;
+		      } else {
+				  this.triRemoveFlag = true;
+			  }
+		      return  isLt2M	//extension || extension2 || extension3 || extension4 &&
+		    },
 	      	//修改出差详细信息
 	      	save(formName) {
 				const self = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						self.$refs.upload.submit();
-						if(!self.fileFlag){
+							let fileIds = [];
+							for(let k in self.fileList) {
+								fileIds.push(self.fileList[k].fileId);
+							}
 							let params = {
 								applyNo: self.formdata2.applyNo, //出差编号
 							    userNo: self.formdata2.userNo,//工号
@@ -282,12 +344,13 @@
 							    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
 							    travelDays: self.formdata2.travelDays, //出差天数  
 							    travelSTD: self.formdata2.travelSTD,//差补标准
-							    remark: self.formdata2.remark,//备注
-							    //attachm: self.formdata2.attachm//附件
+								remark: self.formdata2.remark,//备注
+								fileIds: fileIds
 							}
-							//无附件时修改信息
+							console.log('self.fileList',self.fileList);
+							console.log('params',params);
+							//修改信息
 							self.modifyTravelInfo(params);
-						}
 						
 					} else {
 						return false;
@@ -306,7 +369,20 @@
 					if(res.data.code === "S00000") {
 						self.formdata2 = res.data.data;
 						self.formdata2.travelDays = self.formdata2.travelDays + '';
+						if (
+							self.formdata2.epFileManageList &&
+							self.formdata2.epFileManageList.length >= 1
+						) {
+							self.formdata2.epFileManageList.forEach(function(ele) {
+							self.fileList.push({
+								name: ele.fileName + "." + ele.fileSuffix,
+								url: ele.fileAddr,
+								fileId: ele.fileId
+							});
+							}, this);
+						}
 					}
+					
 					
 				}).catch((err) => {
 					console.log('error');

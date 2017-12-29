@@ -8,17 +8,7 @@
                 <el-button type="primary" @click="handleSave" class="toolBtn">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="公司">
-                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="部门">
-                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工号">
                             <el-input v-model="custInfo.userNo" placeholder="请选择员工编号" :readonly="true">
@@ -43,6 +33,16 @@
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
+                        <el-form-item label="公司">
+                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="部门">
+                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="职务">
                             <el-select v-model="custInfo.custPost" :disabled="true">
                               <el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
@@ -60,7 +60,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">薪酬基数信息</el-col>
-                <el-form :inline="true" :model="addPayBaseInfo" :rules="payBaseInfoRules" ref="addPayBaseInfoRules1" :label-position="labelPosition"  label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="addPayBaseInfo" :rules="payBaseInfoRules" ref="addPayBaseInfoRules1" :label-position="labelPosition"  label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="基本工资" prop="wagesBase">
                             <el-input v-model="addPayBaseInfo.wagesBase" placeholder="0.00" @blur="wagesBaseChange"></el-input>
@@ -154,7 +154,7 @@
                         </el-form-item>
                     </el-col> 
                 </el-form>
-                <el-form :inline="true" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险(个人)">
                             <el-input v-model="_perEndm" :readonly="true"></el-input>
@@ -216,23 +216,25 @@
                         </el-form-item>
                     </el-col>
                 </el-form>
-                <el-form :inline="true" :model="addPayBaseInfo" :rules="payBaseInfoRules" ref="addPayBaseInfoRules2" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :model="addPayBaseInfo" :rules="payBaseInfoRules" ref="addPayBaseInfoRules2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="24">
                         <el-form-item label="薪资超限说明" prop="remark">
                             <el-input type="textarea" v-model="addPayBaseInfo.remark"></el-input>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form  :inline="true" :model="addPayBaseInfo" :rules="payBaseInfoRules" ref="addPayBaseInfoRules2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
 				  		              <el-input v-model="addPayBaseInfo.attachm"></el-input>
-                            <el-upload class="upload-demo" ref="upload" action="/iem_hrm/pay/addPayBaseInfo" 
+                            <el-upload class="upload-demo" style="height:0;" ref="upload" name="files" action="/iem_hrm/pay/addPayBaseInfo" 
                                 :data="addPayBaseInfo"
+                                :beforeUpload="beforeAvatarUpload" 
                                 :on-change="handleFileUpload" 
                                 :on-success="successUpload"
                                 :show-file-list="false" 
                                 :auto-upload="false"
                                 :headers="token"
-                                :name="filesName"
                                 :multiple="true">
                                 <el-button slot="trigger" size="small" type="primary" class="uploadBtn">选取文件</el-button>
                             </el-upload>
@@ -295,7 +297,6 @@ export default {
         remark: ""
       },
       salaryTop: 0,
-      filesName: "files",
       fileList: [],
       token: {
         Authorization: `Bearer ` + localStorage.getItem("access_token")
@@ -613,22 +614,46 @@ export default {
     },
     wagesBaseChange(event) {
       console.log("填入的基本工资", this.addPayBaseInfo.wagesBase);
-      const self = this;
-      let userNo = self.custInfo.userNo;
-      self.$axios
+      let userNo = this.custInfo.userNo;
+      this.$axios
         .get("/iem_hrm/pay/querUserSalaryTop/" + userNo)
         .then(res => {
-          self.salaryTop = res.data.data;
-          console.log("salaryTop", self.salaryTop);
-          if (Number(this.addPayBaseInfo.wagesBase) > self.salaryTop) {
-            this.payBaseInfoRules.remark = [];
-            this.payBaseInfoRules.remark.push({
-              required: true,
-              message: "请输入薪资超限说明",
-              trigger: "blur"
-            });
+          if (res.data.code == "S00000") {
+            this.salaryTop = res.data.data;
+            console.log("salaryTop", this.salaryTop);
+            if (Number(this.addPayBaseInfo.wagesBase) > this.salaryTop) {
+              this.payBaseInfoRules.remark = [];
+              this.payBaseInfoRules.remark.push({
+                required: true,
+                message: "请输入薪资超限说明",
+                trigger: "blur"
+              });
+              this.$alert("员工薪酬超过公司标准，请线下邮件审批，并于当前页补充薪资超限说明。", "提示", {
+                confirmButtonText: "确定",
+                type: "warning"
+              });
+            } else {
+              this.payBaseInfoRules.remark = [];
+            }
           } else {
-            this.payBaseInfoRules.remark = [];
+            sessionStorage.setItem(
+              "addPayBaseInfo_custClass",
+              this.custInfo.custClass
+            ); // 暂存当前用户职级
+            this.$confirm(
+              res.data.retMsg +
+                " 职级是:" +
+                this.custInfo.custClass +
+                "。可能将导致薪酬基数新增失败，请先前往设置该职级薪酬标准模板。",
+              "提示",
+              {
+                type: "warning"
+              }
+            )
+              .then(() => {
+                this.$router.push("/add_rank");
+              })
+              .catch(() => {});
           }
         })
         .catch(() => {
@@ -640,6 +665,20 @@ export default {
       this.getInsurancePayTemp(); //根据参数值计算保险缴纳标准
     },
     // 文件上传
+    beforeAvatarUpload(file) {
+      // const extension = file.name.split('.')[1] === 'xls'
+      // const extension2 = file.name.split('.')[1] === 'xlsx'
+      // const extension3 = file.name.split('.')[1] === 'doc'
+      // const extension4 = file.name.split('.')[1] === 'docx'
+      // if (!extension && !extension2 && !extension3 && !extension4) {
+      // 		console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
+      // }
+      const isLt2M = file.size / 1024 / 1024 < 10;
+      if (!isLt2M) {
+        this.$message({ message: "上传文件大小不能超过 10MB!", type: "error" });
+      }
+      return isLt2M; //extension || extension2 || extension3 || extension4 &&
+    },
     handleFileUpload(file, fileList) {
       this.fileList = fileList;
       this.addPayBaseInfo.attachm = "";
@@ -653,13 +692,16 @@ export default {
       console.log("upload_response", res);
       if (res.code == "S00000") {
         this.$message({ type: "success", message: "操作成功!" });
-        this.$router.push("/payBaseInfo_setting");
+        if (sessionStorage.getItem("addPayChangeInfo_custInfo")) {
+          this.$router.push("/add_payChangeInfo");
+        } else {
+          this.$router.push("/payBaseInfo_setting");
+        }
       } else this.$message.error(res.retMsg);
     },
     handleSave() {
       let rulesValid1 = false;
       let rulesValid2 = false;
-
       this.$refs.addPayBaseInfoRules1.validate(valid => {
         if (valid) {
           rulesValid1 = true;
@@ -677,41 +719,45 @@ export default {
           rulesValid2 = true;
         } else {
           console.log("error submit!!");
-          if(rulesValid1 == true) {
+          if (rulesValid1 == true) {
             this.$message({
-            type: "error",
-            message: "请确保必填信息填写正确!"
-          });
+              type: "error",
+              message: "请确保必填信息填写正确!"
+            });
           }
           return false;
         }
       });
 
       if (rulesValid1 && rulesValid2) {
+        for (var key in this.addPayBaseInfo) {
+          if (
+            this.addPayBaseInfo[key] == "" &&
+            key != "welcoeNo" &&
+            key != "attachm" &&
+            key != "remark"
+          ) {
+            this.addPayBaseInfo[key] = "0.00";
+          }
+        }
+        let newPayBaseInfo = this.addPayBaseInfo;
+        console.log("newPayBaseInfo", newPayBaseInfo);
         console.log("触发上传时的addPayBaseInfo", this.addPayBaseInfo);
         console.log("触发上传时的this.fileList:", this.fileList);
         if (this.fileList.length != 0) {
           this.$refs.upload.submit(); // 触发上传文件
         } else {
-          let newPayBaseInfo = this.addPayBaseInfo;
-          for (var key in newPayBaseInfo) {
-            if (
-              newPayBaseInfo[key] == "" &&
-              key != "welcoeNo" &&
-              key != "attachm" &&
-              key != "remark"
-            ) {
-              newPayBaseInfo[key] = "0.00";
-            }
-          }
-          console.log("newPayBaseInfo", newPayBaseInfo);
           this.$axios
             .post("/iem_hrm/pay/addPayBaseInfo", newPayBaseInfo)
             .then(res => {
               console.log(res);
               if (res.data.code == "S00000") {
                 this.$message({ type: "success", message: "操作成功!" });
-                this.$router.push("/payBaseInfo_setting");
+                if (sessionStorage.getItem("addPayChangeInfo_custInfo")) {
+                  this.$router.push("/add_payChangeInfo");
+                } else {
+                  this.$router.push("/payBaseInfo_setting");
+                }
               } else this.$message.error(res.data.retMsg);
             })
             .catch(() => {

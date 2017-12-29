@@ -17,7 +17,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="类别" prop="batchType">
 							<el-select v-model="formdata2.batchType" value-key="batchTypeNo" class="bg-white">
-								<el-option v-for="(item,k) in batchTypeList" :key="item.batchTypeNo" :label="item.batchTypeName" :value="item.batchTypeNo"></el-option>
+								<el-option v-for="item in batchTypeList" :key="item.batchTypeNo" :label="item.batchTypeName" :value="item.batchTypeNo"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	
@@ -56,7 +56,7 @@
 			<div class="add-wrapper auth-assign">
 				<el-col :span="24">
 					<div class="context-menu">
-	                    <el-col :span="3" class="wage_leftside" style="text-align: right;">
+	                    <el-col :span="3" class="wage_leftside">
 	                        <div>部门范围</div>
 	                    </el-col>
 	                    <el-col :span="21" class="wage_rightside">
@@ -78,8 +78,8 @@
 	                    <el-row :gutter="20">
 	                        <el-col :span="6" v-for="(depart, index) in checkedSubmenus" :key="index">
 	                            <div class="funcs-content">
-	                                <el-checkbox v-model="checkPresAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ depart.derpName }}</el-checkbox>
-	                                <el-checkbox-group v-model="checkPres" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
+	                                <el-checkbox v-model="checkPresAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index,depart.preRangeList)" class="func-checkall">{{ depart.derpName }}</el-checkbox>
+	                                <el-checkbox-group v-model="checkPres" @change="handleCheckedFuncsChange($event,index,depart)"  class="func-item">
 	                                    <el-checkbox v-for="item in depart.preRangeList" :key="item.userNo" :label="item.userNo" v-bind:title="item.custName" >{{ item.custName }}</el-checkbox>
 	                                </el-checkbox-group>
 	                            </div>
@@ -131,9 +131,11 @@
 		      	isSubIndeterminate: true,
       			
 		      	checkPresAll: {},
+				checkSubAllFlag: false,
 		      	checkPres: [],
 		      	isFuncsIndeterminate: {},
-      			
+				preSrange: [],//人员反显中间存储
+				checkATFlagList: [],
 				formdata2: {},
 				//类别列表
 				batchTypeList: [
@@ -203,6 +205,7 @@
 			// 部门范围 多选
 		    handleSubAllChange(event) {
 		      this.checkSubAll = event.target.checked;
+				this.checkSubAllFlag = event.target.checked;
 		      if (this.checkSubAll == true) {
 		        this.checkedSubmenus = this.derpRangeList;
 		        this.isSubIndeterminate = true;
@@ -247,7 +250,7 @@
 		      	this.queryDerpAndUser(params);
 		    },
 		    // 人员范围 多选
-		    handleFuncsAllChange(event, index) {
+		    handleFuncsAllChange(event, index,MpreRangeList) {
 		      this.checkPresAll[index] = event.target.checked;
 		      let targetFucsList = [];
 		      this.checkedSubmenus[index].preRangeList.forEach(function(ele) {
@@ -264,7 +267,7 @@
 		          }
 		        }, this);
 		      } else {
-		        this.$set(this.isFuncsIndeterminate, index, false);
+				this.$set(this.isFuncsIndeterminate, index, false);
 		        targetFucsList.forEach(function(ele, index) {
 		          if (JSON.stringify(this.formdata2.preRange).indexOf(ele) != -1) {
 		            this.formdata2.preRange.splice(JSON.stringify(this.formdata2.preRange).indexOf(ele)-1, 1);
@@ -273,25 +276,42 @@
 		            this.checkPres.splice(this.checkPres.indexOf(ele), 1);
 		          }
 		        }, this);
-		      }
+			  }
 		      console.log("这是全选的checkPres", this.checkPres);
-		      console.log("preRange", this.formdata2.preRange);
+		      console.log("这是全选的preRange", this.formdata2.preRange);
 		    },
-		    handleCheckedFuncsChange(val, index) {
-		    	console.log('val',val)
-		      if (val.length == this.checkedSubmenus[index].preRangeList.length) {
-		        this.checkPresAll[index] = true;
-		        this.$set(this.isFuncsIndeterminate, index, true);
-		      } else {
-		        this.checkPresAll[index] = false;
-		        this.$set(this.isFuncsIndeterminate, index, false);
-		      }
+		    handleCheckedFuncsChange(val, index,MDerp) {
+				console.log('val',val)
+				//.preRangeList
+				let checkATFlag = '';
+				let checkAFalse = '';
+				let checkATrue = '';
+				console.log('MDerp.preRangeList.length',MDerp.preRangeList.length)
+				MDerp.preRangeList.forEach(function(ele){
+					
+					console.log('false')
+					if(JSON.stringify(val).indexOf(ele.userNo) !=-1) {
+						console.log('true')
+						this.checkATFlagList[index] = true;
+					}else {
+						this.checkATFlagList[index] = false;
+					}
+				},this)
+				console.log('checkATFlag',this.checkATFlagList);
+				if(this.checkATFlagList[index]) {
+					this.checkPresAll[index] = true;
+					this.$set(this.isFuncsIndeterminate, index, true);
+					
+				} else {
+					this.checkPresAll[index] = false;
+					this.$set(this.isFuncsIndeterminate, index, false);
+				}
 		      this.formdata2.preRange = [];
 		      val.forEach(function(ele) {
 		        this.formdata2.preRange.push(ele);
-		      }, this);
-		      console.log("checkPres", this.checkPres);
-		      console.log("this.formdata2.preRange", this.formdata2.preRange);
+			  }, this);
+		      console.log("这是单选人员的checkPres", this.checkPres);
+		      console.log("这是单选人员的preRange", this.formdata2.preRange);
 		    },
 	      	save(formName) {
 				const self = this;
@@ -299,21 +319,34 @@
 			        if (valid) {
 			        	let preRanges = [],
 			        		preRange = [],
-			        		derpRanges = [],
 			        		derpRange = [];
-			        	if(JSON.stringify(self.formdata2.derpRange).indexOf('derpNo') != -1) {
-			        		self.formdata2.derpRange.forEach(function(ele) {
-				        		derpRanges.push(ele.derpNo);
-				        		derpRange.push(ele.derpNo);
-				        	},this);
-			        	} else {
-			        		derpRanges = self.formdata2.derpRange;
-			        		derpRange = self.formdata2.derpRange;
-			        	}
-			        	self.formdata2.preRange.forEach(function(ele) {
-			        		preRanges.push(ele.userNo);
-			        		preRange.push(ele.userNo);
-			        	},this); 
+						let checkObj = {};
+						// console.log('self.formdata2.preRange',self.formdata2.preRange)
+			        	// self.formdata2.preRange.forEach(function(ele) {
+						// 	console.log('pre ele', ele);
+			        	// 	preRanges.push(ele.userNo);
+						// 	preRange.push(ele.userNo);
+						// },this); 
+						self.formdata2.derpRange.forEach(function(ele,index) {
+							let checkFlag_1 = '';
+							let checkFlag_2 = '';
+							if(ele.preRangeList) {
+								ele.preRangeList.forEach(function(ele2,index2) {
+									if(JSON.stringify(self.formdata2.preRange).indexOf(ele2.userNo) !=-1) {
+										checkFlag_1 = true;
+									} else {
+										checkFlag_2 = false;
+									}
+								})
+								if(checkFlag_1 || checkFlag_2) {
+									derpRange.push(ele.derpNo);
+								} else {
+									// 
+								}
+							}
+							
+						})
+						console.log('derpRange',derpRange)
 			        	if(self.checkPres.length>0) {
 			        		let params = {
 	        					batchNo: self.formdata2.batchNo,
@@ -324,7 +357,7 @@
 								settleEndTime: self.formdata2.settleEndTime,
 								remark: self.formdata2.remark,
 				          		preRanges: self.formdata2.preRange,
-				          		derpRanges: derpRanges,
+				          		derpRanges: derpRange,
 				          		derpRange: JSON.stringify(derpRange),
 				          		preRange: JSON.stringify(self.formdata2.preRange)
 				          	}
@@ -349,8 +382,9 @@
 						self.formdata2 = res.data.data;
 						self.formdata2.preRange = JSON.parse(self.formdata2.preRange);
 						self.formdata2.derpRange = JSON.parse(self.formdata2.derpRange);
-				      	//人员范围（反显）
-				      	self.checkPres = self.formdata2.preRange;
+				      	// 人员范围（反显）
+						  self.checkPres = self.formdata2.preRange;
+						  console.log('人员反显的checkPres',self.checkPres)
 					}
 					
 				}).catch((err) => {
@@ -375,26 +409,53 @@
 				let self = this;
 				self.$axios.get(baseURL+'/wage/queryDerpAndUserByDerpNo', {params: params})
 				.then((res) => {
-					console.log('userList',res);
+					// console.log('userList',res)
 					if(res.data.code === "S00000") {
-						self.derpRangeList.forEach(function(ele,num) {
-							if(ele.derpNo == res.data.data[0].derpNo) {
-								self.derpRangeList[num].preRangeList = res.data.data;
-								self.$set(self.derpRangeList, num, self.derpRangeList[num]);
-							}else {
-								console.log('derpNo false')
+						res.data.data.forEach(function(ele) {
+							if(JSON.stringify(self.formdata2.preRange).indexOf(ele.userNo) != -1) {
+								if(JSON.stringify(self.preSrange).indexOf(JSON.stringify(ele)) ==-1){
+									self.preSrange.push(ele);
+								}
+								
 							}
 						})
-						self.formdata2.derpRange.forEach(function(ele,num) {
-							if(ele.derpNo == res.data.data[0].derpNo) {
-								self.formdata2.derpRange[num].preRangeList = res.data.data;
-								self.$set(self.formdata2.derpRange,num,self.formdata2.derpRange[num]);
-							}else {
-								console.log('formdata2 false')
-							}
-						})
-								console.log('self.derpRangeList',self.derpRangeList)
-								console.log('self.formdata2.derpRange',self.formdata2.derpRange)
+
+						if(self.checkSubAllFlag) {//查全部人员时
+							// console.log('self.checkSubAllFlag',self.checkSubAllFlag);
+							// console.log('查全部人员时的userList',res);
+							self.derpRangeList.forEach(function(ele,num) {
+								ele.preRangeList = [];
+							})
+							// self.formdata2.derpRange.forEach(function(ele,num) {
+							// 	ele.preRangeList = [];
+							// })
+							self.derpRangeList.forEach(function(ele,num) {
+								res.data.data.forEach(function(elem1, index1) {
+									if(self.derpRangeList[num].derpNo == elem1.derpNo) {
+										// console.log(self.derpRangeList[num].derpNo+'-----'+elem1.derpNo);
+										self.derpRangeList[num].preRangeList.push(elem1);
+										self.$set(self.derpRangeList, num, self.derpRangeList[num]);
+									}else {
+										// console.log('derpNo false')
+									}
+
+								})
+							})
+						} else {//查单个部门人员时
+							// console.log('self.checkSubAllFlag',self.checkSubAllFlag);
+							// console.log('查单个部门人员时的userList',res);
+							self.derpRangeList.forEach(function(ele,num) {							
+								if(ele.derpNo == res.data.data[0].derpNo) {
+									// console.log('derpNo'+ele.derpNo+ '-----'+res.data.data[0].derpNo);
+									self.derpRangeList[num].preRangeList = res.data.data;
+									self.$set(self.derpRangeList, num, self.derpRangeList[num]);
+								}else {
+									// console.log('derpNo false')
+								}
+							})
+						}
+								// console.log('self.derpRangeList',self.derpRangeList)
+								// console.log('self.formdata2.derpRange',self.formdata2.derpRange)
 					}
 					
 				}).catch((err) => {
@@ -425,19 +486,27 @@
 						self.derpRangeList = res.data.data;
 						let ranges = [];
 						self.derpRangeList.forEach(function(ele) {
-							self.formdata2.derpRange.forEach(function(eles) {
-								if(ele.derpNo == eles) {
-									ranges.push(ele);
-								}
-								let params = {
-							      	derpNo: eles
-						      	}
-						      	//查询人员范围列表（单个部门时）
-						      	self.queryDerpAndUser(params);
-							})
+							if(self.isArray(self.formdata2.derpRange)) {
+								self.formdata2.derpRange.forEach(function(eles) {
+									if(ele.derpNo == eles) {
+										ranges.push(ele);
+									}
+									let params = {
+										derpNo: eles
+									}
+									//查询人员范围列表（单个部门时）
+									self.queryDerpAndUser(params);
+								})
+							}
+							
 						})
 						//部门范围（反显）
 						self.checkedSubmenus = ranges;
+						self.formdata2.derpRange = ranges;
+						for(let i=0;i<self.checkedSubmenus.length;i++) {
+							self.checkATFlagList[i] = true;
+						}
+						console.log('部门反显的checkedSubmenus',self.checkedSubmenus)
 					}
 					
 				}).catch((err) => {
@@ -489,17 +558,19 @@
 }
 .edit_wage .wage_leftside {
 	text-align: right;
-    padding: 9px 27px 10px;
+    padding: 9px 13px 10px;
     color: #999999;
     position: relative;
     margin-bottom: 20px;
+	font-size: 14px;
+	width: 110px;
 }
 .edit_wage .wage_rightside {
-	margin-left: -10px;
+	/* margin-left: -10px; */
 }
 .edit_wage .tips {
     position: absolute;
-    left: 40px;
+    left: 13px;
     bottom: -5px;
     color: #ff4949;
     font-size: 12px;

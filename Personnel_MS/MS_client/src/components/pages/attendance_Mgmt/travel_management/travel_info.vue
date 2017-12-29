@@ -7,17 +7,8 @@
 				<span class="title-text">出差详情</span>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata" :inline="true"  :rules="rules" :model="formdata" label-width="100px">
-					<el-col :sm="24" :md="12">
-						<el-form-item label="公司名称">
-							<el-input v-model="formdata.companyName" :disabled="true"></el-input>
-					  	</el-form-item>
-					</el-col>
-					<el-col :sm="24" :md="12">
-						<el-form-item label="申请部门名称">
-							<el-input v-model="formdata.deptName" :disabled="true"></el-input>
-					  	</el-form-item>
-					</el-col>
+				<el-form ref="formdata" :inline="true"  :rules="rules" :model="formdata" label-width="122px">
+					
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
 						    <el-input v-model="formdata.userNo" :disabled="true"></el-input>
@@ -29,8 +20,17 @@
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
+						<el-form-item label="公司名称">
+							<el-input v-model="formdata.companyName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
+						<el-form-item label="申请部门名称">
+							<el-input v-model="formdata.deptName" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>
+					<el-col :sm="24" :md="12">
 						<el-form-item label="岗位">
-						    <!--<el-input v-model="custPostName" :disabled="true"></el-input>-->
 						    <el-select v-model="formdata.custPost" :disabled="true">
 								<el-option v-for="item in custPostList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
@@ -38,7 +38,6 @@
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="职级">
-						    <!--<el-input v-model="custClass" :disabled="true"></el-input>-->
 						    <el-select v-model="formdata.custClass" :disabled="true">
 								<el-option v-for="item in custClassList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
@@ -80,8 +79,10 @@
 						<el-form-item label="差补标准">
 						    <el-input v-model="formdata.travelSTD" :disabled="true"></el-input>
 					  	</el-form-item>
-					</el-col>  	
-				  	<el-col :span="24">
+					</el-col>  
+				</el-form>	
+				<el-form :model="formdata" :rules="rules" ref="formdata" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+					<el-col :span="24">
 				  		<el-form-item class="remark" label="出差备注" prop="remark">
 						    <el-input
 							  type="textarea"
@@ -90,7 +91,9 @@
 							  v-model="formdata.remark" :disabled="true">
 							</el-input>
 					  	</el-form-item>
-				  	</el-col>
+				  	</el-col>        
+				</el-form>
+				<el-form ref="formdata" :inline="true"  :rules="rules" :model="formdata" label-width="122px" style="margin-top:0;overflow:visible;">  	
 				  	<el-col :sm="24" :md="12">
 						<el-form-item label="最新更新人">
 						    <el-input v-model="formdata.updatedBy" :disabled="true"></el-input>
@@ -103,10 +106,14 @@
 					</el-col>  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width:100%;">
-						    <el-button class="downloadBtn" @click="handleDownload">下载</el-button>
+							<ul>
+								<li v-for="item in fileList" :key="item.fileId">
+									<span class="fileText">{{item.name}}</span>
+									<el-button class="downBtn" @click="handleDownloadFile(item)">下载</el-button>
+								</li>
+							</ul>
 					  	</el-form-item>
 					</el-col>  	
-					  	
 				</el-form>
 			</div>
 		</div>
@@ -120,6 +127,8 @@
 	export default {
 		data() {
 			return {
+      			labelPosition: "right",
+				fileList: [],
 				custPostName: '',
 				custClass: '',
 				formdata: {},
@@ -153,15 +162,14 @@
 			changeEndTime(time) {
 //				this.formdata.travelEndTime = time;
 			},
-	      	handleDownload() {
-	      		const self = this;
-	      		let params = {
-	      			filePath: self.formdata.attachm,
-	      			isOnLine: "false"
-	      		}
-	      		//下载附件
-				self.downloadFile(params);
-	      	},
+	      	handleDownloadFile(file) {
+				console.log(file);
+				let params = {
+					name: file.name,
+					fileId: file.fileId
+				}
+				this.downloadFile(params);
+			},
 			queryTravelInfo() {
 				const self = this;
 				let applyNo = sessionStorage.getItem('InfoTravel_applyNo');
@@ -171,37 +179,53 @@
 				self.$axios.get(baseURL+'/travel/getTravelInfoByApplyNo',{params: params})
 				.then((res) => {
 					console.log('travelInfo',res);
-					self.formdata = res.data.data;
+					if(res.data.code === "S00000") {
+						self.formdata = res.data.data;
+						// self.formdata.travelDays = self.formdata2.travelDays + '';
+						if (
+							self.formdata.epFileManageList &&
+							self.formdata.epFileManageList.length >= 1
+						) {
+							self.formdata.epFileManageList.forEach(function(ele) {
+							self.fileList.push({
+								name: ele.fileName + "." + ele.fileSuffix,
+								url: ele.fileAddr,
+								fileId: ele.fileId
+							});
+							}, this);
+						}
+					}
+
 				}).catch((err) => {
 					console.log('error');
 				})
 			},
 			downloadFile(params) {
 				const self = this;
-				self.$axios.get(baseURL+'/travel/downloadFile?filePath='+params.filePath +"&isOnLine=" + params.isOnLine, {
-                    responseType: 'blob'
-                })
-                .then((response) => {
-				 	const fileName = params.filePath.substr(params.filePath.lastIndexOf("/")+1);
-                    const blob = response.data;
+				self.$axios.get(baseURL+'/file/downloadFile/'+params.fileId, {
+				responseType: 'blob' 
+				})
+				.then((response) => {
+					const fileName = params.name;
+					const blob = response.data;
 
-                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+					if (window.navigator && window.navigator.msSaveOrOpenBlob) {
 
-                        window.navigator.msSaveOrOpenBlob(blob, fileName);
-                    } else {
+						 window.navigator.msSaveOrOpenBlob(blob, fileName);
+					} else {
 
-                        let elink = document.createElement('a'); // 创建a标签
-                        elink.download = fileName;
-                        elink.style.display = 'none';
-                        elink.href = URL.createObjectURL(blob);
-                        document.body.appendChild(elink);
-                        elink.click(); // 触发点击a标签事件
-                        document.body.removeChild(elink);
-                    }
-                }).catch((e) => {
-                    console.error(e)
-                    this.$message({ message: '下载附件失败', type: 'error' });
-                })
+						let elink = document.createElement('a'); // 创建a标签
+						elink.download = fileName;
+						elink.style.display = 'none';
+						elink.href = URL.createObjectURL(blob);
+						document.body.appendChild(elink);
+						elink.click(); // 触发点击a标签事件
+						document.body.removeChild(elink);
+					}
+				}).catch((e) => {
+					console.error(e)
+					this.$message({ message: '下载附件失败', type: 'error' });
+				})
 			},
 			queryCustPostList() {
 				let self = this;
@@ -267,5 +291,17 @@
 .travel_info .travelCity_wrap2 .el-form-item__content {
 	margin-left: 10px;
 }
-
+.travel_info .fileText {
+	color: #999999;
+	font-size: 14px;
+	padding-right: 20px;
+}
+.travel_info .downBtn {
+	color: #ffffff;
+	background: #ff9900;
+}
+.travel_info .el-button.downBtn:focus, .el-button.downBtn:hover {
+    color: #ffffff;
+    border-color: #ff9900;
+}
 </style>

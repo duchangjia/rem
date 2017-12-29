@@ -1,41 +1,38 @@
 <template>
-    <div class="container-wrap">
+    <div class="container-wrap" id="pactMgmt">
         <current yiji="人事事务" erji="人事合同">
         </current>
-        <div class="content-wrapper">
-            <el-col :span="24" class="titlebar">
-                <span class="title-text">人事合同</span>
-                <el-button type="primary" @click="handleAdd" class="toolBtn">新增合同</el-button>
-            </el-col>
-
-            <el-col :span="24" class="querybar" style="padding-bottom: 0px;">
-                <el-form :inline="true" :model="filters">
-                  <el-col :span="5">
-                    <el-form-item label="姓名">
-                        <el-input v-model="filters.custName" placeholder="请输入姓名"></el-input>
+        <div class="queryContent_wrapper">
+            <div class="titleBar">
+              <span class="title-text">人事合同</span>
+                <div class="titleBtn_wrapper">
+                  <el-button type="primary" class="btn-primary" @click="handleAdd">新增</el-button>
+                </div>
+            </div>
+            <div class="queryContent_inner">
+              <el-form :inline="true" :model="filters" class="demo-ruleForm">
+                <el-col :sm="12" :md="6">
+                  <el-form-item label="姓名">
+                      <el-input v-model="filters.custName" placeholder="请输入姓名"></el-input>
                     </el-form-item>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-form-item label="合同类型">
+                </el-col>
+                <el-col :sm="12" :md="6">
+                  <el-form-item label="合同类型">
                         <el-select v-model="filters.pactType">
                             <el-option label="劳动合同" value="01"></el-option>
                             <el-option label="保密协议" value="02"></el-option>
                             <el-option label="其他" value="99"></el-option>
                         </el-select>
                     </el-form-item>
-                  </el-col>
+                </el-col>
+                <el-col :sm="12" :md="6">
                   <div class="queryButton_wrapper">
-                    <el-form-item>
-                      <el-button @click="handleReset" class="btn-default">重置</el-button>
-                    </el-form-item>
-                    <el-form-item>
-                      <el-button @click="handleQuery" class="btn-primary">查询</el-button>
-                    </el-form-item>
+                    <el-button @click="handleReset" class="btn-default">重置</el-button>
+                    <el-button @click="handleQuery" class="btn-primary">查询</el-button>
                   </div>
-                  
-                </el-form>
-            </el-col>
-            <el-table stripe :data="pactListInfo" border>
+                </el-col>
+				      </el-form>
+              <el-table stripe :data="pactListInfo" border>
                 <el-table-column align="center" label="合同编号">
                     <template scope="scope">
                         <span @click="handlePactDetail(scope.$index, scope.row)" class="linkSpan">{{ scope.row.pactNo }}</span>
@@ -74,6 +71,8 @@
             </el-table>
             <el-pagination class="toolbar" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-size="pageSize" layout="total, prev, pager, next, jumper" :total="totalRows">
             </el-pagination>
+
+            </div>
         </div>
     </div>
 </template>

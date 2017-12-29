@@ -7,17 +7,7 @@
                 <span class="title-text">薪酬基数详情</span>
             </div>
             <div class="add-wrapper">
-                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="110px">
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="公司">
-                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="部门">
-                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
-                        </el-form-item>
-                    </el-col>
+                <el-form :inline="true" :model="custInfo" :label-position="labelPosition" label-width="122px">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工号">
                             <el-input v-model="custInfo.userNo" :disabled="true"></el-input>
@@ -26,6 +16,16 @@
                     <el-col :sm="24" :md="12">
                         <el-form-item label="姓名">
                             <el-input v-model="custInfo.custName" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="公司">
+                            <el-input v-model="custInfo.organName" :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="部门">
+                            <el-input v-model="custInfo.derpName" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -46,7 +46,7 @@
             </div>
             <div class="add-wrapper">
                 <el-col :span="24" class="item-title">薪酬基数信息</el-col>
-                <el-form :inline="true" :model="payBaseInfoDetail" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">
+                <el-form :inline="true" :model="payBaseInfoDetail" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="基本工资">
                             <el-input v-model="payBaseInfoDetail.wagesBase" :disabled="true"></el-input>
@@ -140,7 +140,7 @@
                         </el-form-item>
                     </el-col> 
                 </el-form>
-                <el-form :inline="true" :model="insurancePayTemp" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :inline="true" :model="insurancePayTemp" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险(个人)">
                             <el-input v-model="_perEndm" :disabled="true"></el-input>
@@ -202,12 +202,14 @@
                         </el-form-item>
                     </el-col>
                 </el-form>
-                <el-form :inline="true" :model="payBaseInfoDetail" :label-position="labelPosition" label-width="110px" style="margin-top:0;overflow:visible;">                
+                <el-form :model="payBaseInfoDetail" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :span="24">
                         <el-form-item label="薪资超限说明">
                             <el-input type="textarea" v-model="payBaseInfoDetail.remark" :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
+                </el-form>
+                <el-form :inline="true" :model="payBaseInfoDetail" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="最新更新人">
                             <el-input v-model="payBaseInfoDetail.updatedBy" :disabled="true"></el-input>
@@ -220,13 +222,14 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
-                            <el-button class="downloadBtn" @click="downloadFile">批量下载</el-button>
-                            <!-- <el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
-                                :headers="token"
-                                :file-list="fileList"
-                                :show-file-list="true">
-                            </el-upload> -->
+                            <ul>
+								<li v-for="item in fileList" :key="item.fileId">
+									<span class="fileText">{{item.fileName + "." + item.fileSuffix}}</span>
+									<el-button class="downBtn" @click="handleDownloadFile(item)">下载</el-button>
+								</li>
+							</ul>
                         </el-form-item>
+                        
                     </el-col>
                 </el-form>
             </div>
@@ -358,7 +361,7 @@ export default {
       self.$axios
         .get("/iem_hrm/CustInfo/queryCustInfoByUserNo/" + userNo)
         .then(res => {
-          console.log('custInfo_res',res);
+          console.log("custInfo_res", res);
           self.custInfo = res.data.data;
         })
         .catch(() => {
@@ -371,20 +374,15 @@ export default {
       self.$axios
         .get("/iem_hrm/pay/queryPayBaseInfoDetail/" + userNo)
         .then(res => {
-          console.log('payBaseInfoDetail_res',res);
+          console.log("payBaseInfoDetail_res", res);
           self.payBaseInfoDetail = res.data.data;
 
           if (
             self.payBaseInfoDetail.epFileManageList &&
             self.payBaseInfoDetail.epFileManageList.length >= 1
           ) {
-            self.payBaseInfoDetail.epFileManageList.forEach(function(ele) {
-              self.fileList.push({
-                name: ele.fileName + "." + ele.fileSuffix,
-                url: ele.fileAddr
-              });
-            }, this);
-          }
+            self.fileList = self.payBaseInfoDetail.epFileManageList;
+          } 
           console.log("当前的fileList", self.fileList);
         })
         .catch(() => {
@@ -446,7 +444,42 @@ export default {
       this.payBaseInfoDetail.welcoeNo = val;
       this.getInsurancePayTemp(); //根据参数值查询保险缴纳标准
     },
-    downloadFile() {}
+    // 附件下载
+    handleDownloadFile(file) {
+      console.log(file);
+      let params = {
+        name: file.fileName + "." + file.fileSuffix,
+        fileId: file.fileId
+      };
+      this.downloadFile(params);
+    },
+    downloadFile(params) {
+      const self = this;
+      self.$axios
+        .get("/iem_hrm/file/downloadFile/" + params.fileId, {
+          responseType: "blob"
+        })
+        .then(response => {
+          const fileName = params.name;
+          const blob = response.data;
+
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blob, fileName);
+          } else {
+            let elink = document.createElement("a"); // 创建a标签
+            elink.download = fileName;
+            elink.style.display = "none";
+            elink.href = URL.createObjectURL(blob);
+            document.body.appendChild(elink);
+            elink.click(); // 触发点击a标签事件
+            document.body.removeChild(elink);
+          }
+        })
+        .catch(e => {
+          console.error(e);
+          this.$message({ message: "下载附件失败", type: "error" });
+        });
+    }
   }
 };
 </script>

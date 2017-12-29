@@ -267,7 +267,26 @@ const routes = [
                             component: resolve => require(['../components/view/project_Mgmt/proAccept/proAccept_edit.vue'], resolve)
                         },
                     ]
-                }
+                },
+                //业务管理start
+                //部门项目一览start
+                {
+                    path: '/query_departPreCheck',
+                    component: resolve => require(['../components/view/business_Mgmt/depart_project/departPreCheck.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/view/business_Mgmt/depart_project/departPreCheck_query.vue'], resolve),
+                        },
+                        {
+                            name: 'query_customer',
+                            path: '/query_customer',
+                            component: resolve => require(['../components/view/business_Mgmt/depart_project/departPreCheck_detail.vue'], resolve),
+                        }
+                    ]
+                },
+                //部门项目一览end
+                //业务管理end
             ]
         }
     ]

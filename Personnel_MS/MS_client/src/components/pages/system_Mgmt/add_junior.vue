@@ -1,19 +1,19 @@
 <template>
     <div class="add-junior">
         <current yiji="系统管理" erji="组织架构" sanji="新增机构"></current>
-        <div class="edit-content">
-            <div class="title">
-                <span class="text">新增机构</span>
-                <el-button type="primary" @click="save" class="save">保存</el-button>
+        <div class="content-wrapper">
+            <div class="titlebar">
+                <span class="title-text">新增机构</span>
+                <el-button type="primary" @click="save" class="toolBtn">保存</el-button>
             </div>
-            <div class="department-info" v-show="formdata">
-                <el-form ref="formdata" :rules="rules" :model="formdata" label-width="80px">
-                    <el-col :span="12">
+            <div class="add-wrapper clearfix department-info" v-show="formdata">
+                <el-form ref="formdata" :rules="rules" :model="formdata" label-width="122px">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="上级部门">
                             <el-input v-model="formdata.organParentName" disabled></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col ::sm="24" :md="12">
                         <el-form-item label="机构类型" prop="organType">
                             <el-select placeholder="请选择机构类型" v-model="formdata.organType">
                                 <el-option label="总公司" value="01" v-show="show<1&&show==0"></el-option>
@@ -23,12 +23,12 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="部门名称" prop="organName">
                             <el-input v-model="formdata.organName"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="部门状态" prop="status">
                             <el-select placeholder="请选择部门状态" v-model="formdata.status">
                                 <el-option label="启用" value="1"></el-option>
@@ -36,12 +36,12 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12">
+                    <el-col :sm="24" :md="12">
                         <el-form-item label="部门主管" class="organMgeName">
                             <el-input v-model="formdata.organMgeName" v-show="false"></el-input>
                             <el-input v-model="formdata.organMgeId" v-show="false"></el-input>
                             <!--:on-icon-click="handleIconClick" icon="search"-->
-                            <el-input v-model="formdata.organMgeNameAndId" placeholder="请选择员工">
+                            <el-input v-model="formdata.organMgeNameAndId" placeholder="请选择员工" :readonly="true">
                                 <el-button slot="append" icon="search" @click="userNoSelect()"></el-button>
                             </el-input>
                             <messageBox
@@ -258,83 +258,6 @@
     .add-junior{
         padding:0px 0 20px 20px ;
     }
-    .add-junior .edit-wrapper .test{
-        padding-left: 10px;
-    }
-    .add-junior .content-right .title{
-        border-bottom: 1px solid #EEEEEE;
-        display: flex;
-        align-items: center;
-        height: 80px;
-        justify-content: space-between;
-    }
-    .add-junior .edit-content{
-        /*margin-top: 29px;*/
-        background: #fff;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-    .add-junior .edit-content .title{
-        border-bottom: 1px solid #EEEEEE;
-        display: flex;
-        align-items: center;
-        height: 50px;
-        width: 100%;
-        justify-content: space-between;
-    }
-    .add-junior .edit-content .title .text{
-        font-family: PingFangSC-Regular;
-        font-size: 16px;
-        color: #333333;
-        letter-spacing: 0;
-        border-bottom: 2px solid #363D47;
-        height: 50px;
-        line-height: 50px;
-        width: 80px;
-    }
-    .add-junior .edit-content .title .save {
-        border-radius: 4px;
-        height: 30px;
-        width: 120px;
-        background: #F4F4F4;
-        border: none;
-        font-family: PingFangSC-Regular;
-        font-size: 14px;
-        color: #333333;
-        letter-spacing: 0;
-    }
-    .add-junior .edit-content .title .save:hover {
-        color: white;
-        background: orange;
-    }
-    .add-junior .department-info{
-        margin-top: 30px;
-        padding-left: 8px;
-        padding-bottom: 20px;
-        overflow: hidden;
-    }
-    .add-junior .department-info .text{
-        font-family: PingFangSC-Regular;
-        font-size: 14px;
-        color: #333333;
-        letter-spacing: 0;
-        line-height: 14px;
-        width: 56px;
-        height: 14px;
-        margin-bottom: 30px;
-    }
-    .add-junior .department-info .el-form-item{
-        display: inline-block;
-        margin-right: 150px;
-    }
-    .add-junior .department-info .el-form-item__content .el-input, .add-junior .department-info .el-form-item__content .el-select{
-        width: 300px;
-        height: 40px;
-    }
-    .add-junior .department-info .el-form-item__content .el-select .el-input__inner,.add-junior .department-info .el-form-item__content .el-input .el-input__inner{
-        width: 300px;
-        height: 40px;
-    }
     .add-junior .department-info .organMgeName .el-form-item {
         margin-top: 20px;
     }
@@ -345,18 +268,5 @@
     .add-junior .department-info .organMgeName .el-select .el-input__inner,.add-junior .department-info .organMgeName .el-input .el-input__inner{
         width: 253px;
         height: 40px;
-    }
-    .add-junior .department-info .el-form-item__content .el-input__inner:hover, .add-junior .department-info .el-form-item__content .el-input__inner:focus{
-        border-color: #f90;
-    }
-    .add-junior .department-info .item-box .el-form .el-form-item{
-        margin-right: 0;
-    }
-    .add-junior .department-info .item-box .el-form .el-form-item .el-input{
-        width: 164px;
-        height: 30px;
-    }.add-junior .department-info .item-box .el-form .el-form-item .el-input .el-input__inner{
-        width: 164px;
-        height: 30px;
     }
 </style>

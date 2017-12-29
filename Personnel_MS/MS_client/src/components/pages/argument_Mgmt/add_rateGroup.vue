@@ -48,8 +48,8 @@ export default {
 		var checkEndTime = (rule, value, callback) => {
 	        if (value === '') {
 	          	callback();
-	        } else if (value <= this.formdata.startTime) {
-	          	callback(new Error('请输入正确的失效日期'));
+	        } else if (value < this.formdata.startTime) {
+	          	callback(new Error('失效日期必须大于等于生效日期'));
 	        } else {
 	          	callback();
 	        }
@@ -122,7 +122,9 @@ export default {
   				if(res.data.code === "S00000") {
   					self.$message({ message: '税率组新增成功', type: 'success' });
   					self.$router.push('/tax_rate');
-  				}
+  				} else {
+					this.$message.error(res.data.retMsg);
+				}
   				
   			}).catch((err) => {
   				console.log('error');
