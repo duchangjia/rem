@@ -8,7 +8,7 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="122px">
+				<el-form ref="formdata1" :inline="true"  :rules="rules" :model="formdata2" label-width="122px">
 					
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
@@ -80,7 +80,7 @@
 					  	</el-form-item>
 				  	</el-col>	      
 				</el-form>
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">  	 	
+				<el-form ref="formdata3" :inline="true"  :rules="rules" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">  	 	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件">
 					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
@@ -139,7 +139,10 @@
 				leaveStartTime: '',
 				leaveEndTime: '',
 				formdata1: {},
-				formdata2: {},
+				formdata2: {
+					leaveStartTime: '',
+					leaveEndTime: '',
+				},
 				custPostList: [],
 			    custClassList: [],
 				leaveTypeList: [],
@@ -264,25 +267,31 @@
 		    },
 	      	save(formName) {
 				const self = this;
-				this.$refs[formName].validate((valid) => {
+				self.$refs.formdata1.validate((valid) => {
 					if(valid) {
-							let fileIds = [];
-							for(let k in self.fileList) {
-								fileIds.push(self.fileList[k].fileId);
+						self.$refs.formdata1.validate((valid) => {
+							if(valid) {
+								let fileIds = [];
+								for(let k in self.fileList) {
+									fileIds.push(self.fileList[k].fileId);
+								}
+								console.log('fileIds',fileIds)
+								let params = {
+									applyNo: self.formdata2.applyNo, //请假编号
+									"userNo": self.formdata1.userNo, //"1004"
+									"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
+									"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
+									"leaveType": self.formdata2.leaveType, //"3"
+									"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
+									"remark": self.formdata2.remark, //"请假的详细信息"
+									fileIds: fileIds
+								}
+								//修改出差详情
+								self.modifyTravelInfo(params);
 							}
-							console.log('fileIds',fileIds)
-							let params = {
-								applyNo: self.formdata2.applyNo, //请假编号
-								"userNo": self.formdata1.userNo, //"1004"
-				    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
-				    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
-				    			"leaveType": self.formdata2.leaveType, //"3"
-				    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
-				    			"remark": self.formdata2.remark, //"请假的详细信息"
-								fileIds: fileIds
-							}
-							//修改出差详情
-							self.modifyTravelInfo(params);
+						})
+									
+
 					} else {
 						return false;
 					}

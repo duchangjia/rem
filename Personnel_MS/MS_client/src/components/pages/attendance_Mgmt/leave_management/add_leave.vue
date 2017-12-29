@@ -83,7 +83,7 @@
 					  	</el-form-item>
 					</el-col>  	 
 				</el-form>
-				<el-form :model="formdata2" :rules="rules2" ref="formdata2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+				<el-form :model="formdata2" :rules="rules2" ref="formdata3" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
 					<el-col :span="24">
 						<el-form-item class="remark" label="请假备注" prop="remark">
 						    <el-input
@@ -95,7 +95,7 @@
 					  	</el-form-item>
 					</el-col>  	      
 				</el-form>
-				<el-form ref="formdata2" :inline="true" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">	
+				<el-form ref="formdata4" :inline="true" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width: 100%;">
 				  		 	<el-input v-model="formdata2.attachm"></el-input>
@@ -131,7 +131,7 @@
 		        if (value == '') {
 		          	callback(new Error('请假开始时间不能为空'));
 		        } else if (this.formdata2.leaveEndTime && value >= this.formdata2.leaveEndTime) {
-		          	callback(new Error('请输入正确的开始时间'));
+		          	callback(new Error('开始时间不能大于结束时间'));
 		        } else {
 		          	callback();
 		        }
@@ -140,7 +140,7 @@
 		        if (value == '') {
 		          	callback(new Error('请假结束时间不能为空'));
 		        } else if (this.formdata2.leaveStartTime && value <= this.formdata2.leaveStartTime) {
-		          	callback(new Error('请输入正确的结束时间'));
+		          	callback(new Error('开始时间不能大于结束时间'));
 		        } else {
 		          	callback();
 		        }
@@ -171,7 +171,11 @@
 				//员工基本信息
 				formdata1: {},
 				//请假信息
-				formdata2: {attachm: "",},
+				formdata2: {
+					leaveStartTime: '',
+					leaveEndTime: '',
+					attachm: "",
+				},
 				//岗位列表
 				custPostList: [],
 				//职级列表
@@ -185,7 +189,7 @@
 				},
 			 	rules2: {
 			 		leaveStartTime: [
-		            	{ required: true, validator: checkLeaveStartTime, trigger: 'change' }
+		            	{ required: true, validator: checkLeaveStartTime, trigger: 'change,blur' }
 	          		],
 					leaveEndTime: [
 		            	{ required: true, validator: checkLeaveEndTime, trigger: 'change' }
@@ -198,7 +202,8 @@
 						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的工时" }
 	          		],
 	          		remark: [
-		            	{ required: true, min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
+	          			{ required: true, message: '请假备注不能为空', trigger: 'blur' },
+		            	{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 	          		]
 				}
 			}
@@ -330,27 +335,20 @@
 	      	},
 	      	// 上传前对文件的大小的判断
 		    beforeAvatarUpload (file) {
-//const extension = file.name.split('.')[1] === 'xls'
-//		      const extension2 = file.name.split('.')[1] === 'xlsx'
-//		      const extension3 = file.name.split('.')[1] === 'doc'
-//		      const extension4 = file.name.split('.')[1] === 'docx'
 		      const isLt2M = file.size / 1024 / 1024 < 10
-//		      if (!extension && !extension2 && !extension3 && !extension4) {
-//		        console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
-//		      }
 		      if (!isLt2M) {
 		      	this.$message({ message: '上传文件大小不能超过 10MB!', type: 'error' });
 		      }
-		      return  isLt2M	//extension || extension2 || extension3 || extension4 &&
+		      return  isLt2M	
 		    },
 	      	save(formName) {
 				const self = this;
-				self.$refs[formName].validate(valid => {
+				self.$refs.formdata1.validate(valid => {
 			        if (valid) {
-			          	// self.$refs.formdata2.validate(valid => {
-			           	//  	if (valid) {
-								// self.$refs.formdata3.validate(valid => {
-			           	 		// 	if (valid) {	
+			          	self.$refs.formdata2.validate(valid => {
+			           	 	if (valid) {
+								self.$refs.formdata3.validate(valid => {
+			           	 			if (valid) {	
 										self.$refs.upload.submit();//触发上传
 										if(!self.fileFlag) {
 											let params = {
@@ -364,10 +362,10 @@
 											//无附件时新增
 											self.addLeaveInfo(params);
 										}
-								// 	}
-								// })
-			            // 	}
-			        	// })   
+									}
+								})
+			            	}
+			        	})   
 			        }
 			  })
 			},
