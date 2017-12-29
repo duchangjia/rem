@@ -8,7 +8,7 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="122px">
+				<el-form ref="formdata1" :inline="true"  :rules="rules" :model="formdata2" label-width="122px">
 						
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
@@ -94,7 +94,7 @@
 					  	</el-form-item>
 				  	</el-col>	         
 				</el-form>
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">  	
+				<el-form ref="formdata3" :inline="true"  :rules="rules" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">  	
 				  	<el-col :sm="24" :md="12">
 						<el-form-item label="附件">
 					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
@@ -158,7 +158,10 @@
 				custClass: '',
 				travelStartTime: '',
 				travelEndTime: '',
-				formdata2: {},
+				formdata2: {
+					travelStartTime: '',
+					travelEndTime: '',
+				},
 				//岗位列表
 				custPostList: [],
 				//职级列表
@@ -309,52 +312,52 @@
 			},
 			  // 上传前对文件的大小的判断
 		    beforeAvatarUpload (file) {
-//		      const extension = file.name.split('.')[1] === 'xls'
-//		      const extension2 = file.name.split('.')[1] === 'xlsx'
-//		      const extension3 = file.name.split('.')[1] === 'doc'
-//		      const extension4 = file.name.split('.')[1] === 'docx'
 		      const isLt2M = file.size / 1024 / 1024 < 10
-//		      if (!extension && !extension2 && !extension3 && !extension4) {
-//		        console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
-//		      }
 		      if (!isLt2M) {
 				  this.$message({ message: '上传文件大小不能超过 10MB!', type: 'error' });
 				  this.triRemoveFlag = false;
 		      } else {
 				  this.triRemoveFlag = true;
 			  }
-		      return  isLt2M	//extension || extension2 || extension3 || extension4 &&
+		      return  isLt2M	
 		    },
 	      	//修改出差详细信息
 	      	save(formName) {
 				const self = this;
-				this.$refs[formName].validate((valid) => {
+				self.$refs.formdata1.validate((valid) => {
 					if(valid) {
-							let fileIds = [];
-							for(let k in self.fileList) {
-								fileIds.push(self.fileList[k].fileId);
+						self.$refs.formdata2.validate((valid) => {
+							if(valid) {
+								self.$refs.formdata3.validate((valid) => {
+									if(valid) {
+										let fileIds = [];
+										for(let k in self.fileList) {
+											fileIds.push(self.fileList[k].fileId);
+										}
+										let params = {
+											applyNo: self.formdata2.applyNo, //出差编号
+											userNo: self.formdata2.userNo,//工号
+											travelType: self.formdata2.travelType,//出差类型
+											travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
+											travelEndTime: self.formdata2.travelEndTime, //出差结束时间
+											travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
+											travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
+											travelDays: self.formdata2.travelDays, //出差天数  
+											travelSTD: self.formdata2.travelSTD,//差补标准
+											remark: self.formdata2.remark,//备注
+											fileIds: fileIds
+										}
+										console.log('self.fileList',self.fileList);
+										console.log('params',params);
+										//修改信息
+										self.modifyTravelInfo(params);
+									}
+								})
 							}
-							let params = {
-								applyNo: self.formdata2.applyNo, //出差编号
-							    userNo: self.formdata2.userNo,//工号
-							    travelType: self.formdata2.travelType,//出差类型
-							    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
-							    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
-							    travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
-							    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
-							    travelDays: self.formdata2.travelDays, //出差天数  
-							    travelSTD: self.formdata2.travelSTD,//差补标准
-								remark: self.formdata2.remark,//备注
-								fileIds: fileIds
-							}
-							console.log('self.fileList',self.fileList);
-							console.log('params',params);
-							//修改信息
-							self.modifyTravelInfo(params);
+						})
+							
 						
-					} else {
-						return false;
-					}
+					} 
 				});
 			},
 			queryTravelInfo() {

@@ -8,7 +8,7 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="122px">
+				<el-form ref="formdata1" :inline="true" :rules="rules" :model="formdata" label-width="122px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="公司名称">
 						    <el-input v-model="formdata.organName" :disabled="true"></el-input>
@@ -77,7 +77,7 @@
 					  	</el-form-item>
 					</el-col>  	 	         
 				</el-form>
-				<el-form :model="formdata" :rules="rules" ref="formdata" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+				<el-form :model="formdata" :rules="rules" ref="formdata2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
 					<el-col :span="24">
 						<el-form-item label="离职原因" prop="dimReason" style="width:100%;">
 						    <el-input
@@ -89,7 +89,7 @@
 					  	</el-form-item>
 					</el-col>	         
 				</el-form>
-				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="122px" style="margin-top:0;overflow:visible;">	  	
+				<el-form ref="formdata3" :inline="true" :rules="rules" :model="formdata" label-width="122px" style="margin-top:0;overflow:visible;">	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" >
 					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple 
@@ -246,49 +246,44 @@
 			},
 			// 上传前对文件的大小的判断
 		    beforeAvatarUpload (file) {
-//		      const extension = file.name.split('.')[1] === 'xls'
-//		      const extension2 = file.name.split('.')[1] === 'xlsx'
-//		      const extension3 = file.name.split('.')[1] === 'doc'
-//		      const extension4 = file.name.split('.')[1] === 'docx'
 		      const isLt2M = file.size / 1024 / 1024 < 10
-//		      if (!extension && !extension2 && !extension3 && !extension4) {
-//		        console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
-//		      }
 		      if (!isLt2M) {
 				  this.$message({ message: '上传文件大小不能超过 10MB!', type: 'error' });
 				  this.triRemoveFlag = false;
 		      } else {
 				  this.triRemoveFlag = true;
 			  }
-		      return  isLt2M	//extension || extension2 || extension3 || extension4 &&
+		      return  isLt2M	
 		    },
 	      	save(formName) {
 				const self = this;
-				this.$refs[formName].validate((valid) => {
+				self.$refs.formdata1.validate((valid) => {
 					if(valid) {
-							let fileIds = [];
-							for(let k in self.fileList) {
-								fileIds.push(self.fileList[k].fileId);
+						self.$refs.formdata2.validate((valid) => {
+							if(valid) {
+								let fileIds = [];
+								for(let k in self.fileList) {
+									fileIds.push(self.fileList[k].fileId);
+								}
+								let params = {
+									dimId: this.formdata.dimId,
+									userNo: this.formdata.userNo,
+									dimTime: this.formdata.dimTime,
+									dimType: this.formdata.dimType,
+									hasGone: this.formdata.hasGone,
+									payEndTime: this.formdata.payEndTime,
+									dimReason: this.formdata.dimReason,
+									dimProveFlag: this.formdata.dimProveFlag ? '01': '02',  //01ture  02false
+									fileIds: fileIds
+								};
+								console.log('params',params)
+								//无附件时修改
+								self.updateCustDimhis(params);
 							}
-							let params = {
-								dimId: this.formdata.dimId,
-								userNo: this.formdata.userNo,
-							   	dimTime: this.formdata.dimTime,
-								dimType: this.formdata.dimType,
-								hasGone: this.formdata.hasGone,
-								payEndTime: this.formdata.payEndTime,
-								dimReason: this.formdata.dimReason,
-								dimProveFlag: this.formdata.dimProveFlag ? '01': '02',  //01ture  02false
-								fileIds: fileIds
-							};
-							console.log('params',params)
-							//无附件时修改
-							self.updateCustDimhis(params);
+						})
 							
-
-					} else {
-						return false;
-					}
+							
+					} 
 				});
 			},
 			updateCustDimhis(params) {
