@@ -101,7 +101,6 @@
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="合同年限" prop="pactExpires">
-              <!-- <el-input v-model="editPactMsg.pactExpires"></el-input> -->
               <el-input v-model="_pactExpires" :disabled="true"></el-input>
             </el-form-item>
           </el-col>
@@ -208,58 +207,19 @@ export default {
         }
       },
       pactMsgRules: {
-        pactName: [
-          {
-            required: true,
-            message: "合同名称不能为空",
-            trigger: "blur"
-          }
-        ],
-        pactType: [
-          {
-            required: true,
-            message: "合同类型不能为空",
-            trigger: "change"
-          }
-        ],
-        signTime: [
-          {
-            required: true,
-            message: "签订日期不能为空",
-            trigger: "change"
-          }
-        ],
+        pactName: [{ required: true, message: "请输入合同名称", trigger: "blur" }],
+        pactType: [{ required: true, message: "请选择合同类型", trigger: "change" }],
+        signTime: [{ required: true, message: "请选择签订日期", trigger: "change" }],
         pactStartTime: [
-          {
-            required: true,
-            message: "合同开始日期不能为空",
-            trigger: "change"
-          },
-          {
-            type: "date",
-            validator: validateStartTime,
-            trigger: "change"
-          }
+          { required: true, message: "请选择合同开始日期", trigger: "change"},
+          { type: "date", validator: validateStartTime, trigger: "change"}
         ],
         pactEndTime: [
-          {
-            required: true,
-            message: "合同结束日期不能为空",
-            trigger: "change"
-          },
-          {
-            type: "date",
-            validator: validateEndTime,
-            trigger: "change"
-          }
+          { required: true,  message: "请选择合同结束日期", trigger: "change" },
+          { type: "date", validator: validateEndTime, trigger: "change" }
         ],
-        pactStatus: [
-          {
-            required: true,
-            message: "合同状态不能为空",
-            trigger: "change"
-          }
-        ]
+        pactStatus: [{ required: true, message: "请选择合同状态", trigger: "change" }]
+
         
       }
     };

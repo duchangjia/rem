@@ -148,7 +148,7 @@ export default {
       custClassList: [],
       pactMsgRules: {
         changeTime: [{ required: true, message: "请选择变更日期", trigger: "change" }],
-        changeType: [{ required: true, message: "请选择变更类别", trigger: "blur" }],
+        changeType: [{ required: true, message: "请选择变更类别", trigger: "change" }],
         changeContent: [{ required: true, message: "请输入变更内容", trigger: "blur" }]
       }
     };
