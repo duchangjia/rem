@@ -287,6 +287,23 @@ const routes = [
                     ]
                 },
                     //部门项目一览end
+                    //部门预算一览start
+                {
+                    path: '/query_budgetPreCheck',
+                    component: resolve => require(['../components/view/business_Mgmt/depart_budget/budgetPreCheck.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/view/business_Mgmt/depart_budget/budgetPreCheck_query.vue'], resolve),
+                        },
+                        {
+                            name: 'budgetPreCheck_detail',
+                            path: '/budgetPreCheck_detail',
+                            component: resolve => require(['../components/view/business_Mgmt/depart_budget/budgetPreCheck_detail.vue'], resolve),
+                        }
+                    ]
+                }
+                    //部门预算一览end
                 //业务管理end
             ]
         }

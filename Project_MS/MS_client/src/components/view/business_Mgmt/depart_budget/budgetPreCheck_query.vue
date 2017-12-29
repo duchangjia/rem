@@ -1,9 +1,9 @@
 <template>
 	<div class="query_wrapper">
-        <current yiji="业务管理" erji="部门项目一览"></current>
+        <current yiji="业务管理" erji="部门预算一览"></current>
         <div class="queryContent_wrapper">
             <div class="titleBar">
-                <span class="title-text">部门项目一览</span>
+                <span class="title-text">部门预算一览</span>
             </div>
             <div class="queryContent_inner clearfix">
                 <el-form :inline="true">
@@ -163,7 +163,7 @@
             goDetail(row){
                 let self = this;
                 window.localStorage.setItem('preCheckOppoNo',row.oppoNo);
-                self.$router.push('/departPreCheck_detail');
+                self.$router.push('/budgetPreCheck_detail');
             },
             
             //查询项目一览列表
