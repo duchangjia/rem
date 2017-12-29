@@ -8,7 +8,7 @@
 				<el-button type="primary" class="toolBtn btn-primary" @click="save('formdata')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="100px">
+				<el-form ref="formdata" :inline="true" :rules="rules" :model="formdata" label-width="122px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="参数名称" prop="paraName">
 						    <el-input v-model="formdata.paraName"></el-input>
@@ -29,36 +29,38 @@
 						    <el-input v-model="formdata.paraShowMsg"></el-input>
 					  	</el-form-item>
 					</el-col> 
-					 
-					<!-- <el-col :sm="24" :md="12">
-						<el-form-item label="参数类别" prop="paraClass">
-						    <el-input v-model="formdata.paraClass"></el-input> 
+					<el-col :sm="24" :md="12">
+						<el-form-item label="语种" prop="paraLang">
+						    <el-select  v-model="formdata.paraLang">
+								<el-option v-for="item in languageList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							</el-select>
+					  	</el-form-item>
+					</el-col> 
+					<el-col :sm="24" :md="12">
+						<el-form-item label="参数类型" prop="paraClass">
 							<el-select  v-model="formdata.paraClass">
 								<el-option label="系统参数" value="1"></el-option>
 								<el-option label="业务参数" value="2"></el-option>
 							</el-select>
 					  	</el-form-item>
-					</el-col>  -->
-					<!-- <el-col :sm="24" :md="12">
-						<el-form-item label="参数语种" prop="paraLang">
-						    <el-input v-model="formdata.percentRate"></el-input>
-					  	</el-form-item>
-					</el-col> 	 -->
-					   	
+					</el-col>  
 					<el-col :sm="24" :md="12">
-						<el-form-item label="参数状态" prop="paraStatus">
-							<el-select  v-model="formdata.paraStatus">
+						<el-form-item label="参数状态" prop="status">
+							<el-select  v-model="formdata.status">
 								<el-option label="启用" value="1"></el-option>
-								<el-option label="停用" value="2"></el-option>
+								<el-option label="关闭" value="0"></el-option>
 							</el-select>
 					  	</el-form-item>
-					</el-col>    	
-					<el-col :sm="24" :md="12">
-						<el-form-item label="参数描述" prop="paraDesc">
-						    <el-input v-model="formdata.paraDesc"></el-input>
-					  	</el-form-item>
-					</el-col>  	
+					</el-col>   
 				</el-form>
+				<el-form :model="formdata" :rules="rules" ref="formdata" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+					<el-col :span="24">
+						<el-form-item label="参数描述" prop="paraDesc">
+						    <el-input type="textarea" v-model="formdata.paraDesc"></el-input>
+					  	</el-form-item>
+					</el-col>        
+				</el-form>	 	
+					 	
 			</div>
 		</div>
 	</div>
@@ -70,6 +72,7 @@ const baseURL = 'iem_hrm'
 export default {
 	data() {
 		return {
+			labelPosition: "right",
 			formdata: {
 				groupName: '',
 				groupId: "",
@@ -80,6 +83,7 @@ export default {
 				quickCal: '',
 				remark: ''
 			},
+			languageList: [],
 			rules: {
 				paraCode: [
 					{ required: true, message: '参数代码不能为空', trigger: 'blur' }
@@ -90,14 +94,20 @@ export default {
 				paraLang: [
 					{ required: true, message: '参数语种不能为空', trigger: 'blur' }
 				],
+				paraShowMsg: [
+					{ required: true, message: '参数显示信息不能为空', trigger: 'blur' }
+				],
 				paraName: [
 					{ required: true, message: '参数名称不能为空', trigger: 'blur' }
 				],
 				paraClass: [
-					{ required: true, message: '参数类别不能为空', trigger: 'blur' }
+					{ required: true, message: '参数类型不能为空', trigger: 'blur' }
 				],
 				paraShowMsg: [
-					{ required: true, message: '参数显示信息不能为空', trigger: 'blur' }
+					{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
+				],
+				status: [
+					{ required: true, message: '参数状态不能为空', trigger: 'blur' }
 				]
 			}
 		}
@@ -106,12 +116,13 @@ export default {
 		current
 	},
 	created() {
-		
+		this.queryLeaveTypeList();
 	},
 	methods: {
 		save(formName) {
 		 	this.$refs[formName].validate((valid) => {
 	          	if (valid) {
+					  console.log('valid')
 	          		const self = this;
 	          		let params = {
 	          			paraName: self.formdata.paraName,
@@ -119,10 +130,10 @@ export default {
 						paraValue: self.formdata.paraValue,
 						paraShowMsg: self.formdata.paraShowMsg,
 						paraClass: self.formdata.paraClass,
-						paraDesc: self.formdata.paraDesc
-						// percentRate: self.formdata.pers
-						// isDelete: "1"
-	          		};
+						paraDesc: self.formdata.paraDesc,
+						paraLang: self.formdata.paraLang,
+						status: self.formdata.status
+					  };
 	          		self.addSysParamMgmt(params);
 	          		
 	          	} else {
@@ -135,17 +146,29 @@ export default {
 			const self = this;
 			self.$axios.post(baseURL+'/sysParamMgmt/addSysParamMgmt', params)
   			.then((res) => {
-  				console.log("addRate",res);
+  				console.log("add",res);
   				if(res.data.code === "S00000") {
-  					// self.formdata.applyNo = res.data.data;
 	  				self.$message({ message: '操作成功', type: 'success' });
 	  				self.$router.push('/argument_1');
   				} else {
-					this.$message.error(res.data.retMsg);
+					self.$message.error(res.data.retMsg);
 				}
 	  				
   			})
-		}
+		},
+		queryLeaveTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=LANGUAGE')
+				.then((res) => {
+					console.log('sysParamMgmt',res);
+					if(res.data.code === "S00000") {
+						self.languageList = res.data.data;
+					}
+					
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
 	}
 }
 </script>

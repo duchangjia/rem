@@ -329,7 +329,8 @@ export default {
 			console.log('row',row);
 			if(/^\d{1,14}(\.\d{1,2})?$/.test(val)) {
 				console.log('test');
-				let params = {
+				let params = {};
+				let list = [{
 					batchNo: row.batchNo,
 					userNo : row.userNo,
 					livingPension: row.livingPension,
@@ -353,16 +354,20 @@ export default {
 					lateArrivalPay: row.lateArrivalPay, // 病事假扣款
 					absentPay: row.absentPay, // 旷工扣款
 					otherCutPay: row.otherCutPay
-				};
+				}];
+				params.wageFlowList =list;
 				//工资信息录入
 				this.modWageInfo(params);
 			}
 			
 		},
-		//自动计算
+		//单项自动计算
 		handleCalc(index,row) {
 			console.log('row',row);
-			let params = {
+			let params = {};
+			let list = [{
+				batchNo: row.batchNo,
+				userNo : row.userNo,
 				wagesBase: row.wagesBase, //基本工资
 				wagesPerf: row.wagesPerf,	//绩效工资
 				postPension: row.postPension,	//岗位补贴
@@ -384,12 +389,27 @@ export default {
 				perEmplPay: row.perEmplPay,	//个人工伤
 				perMatePay: row.perMatePay,	//个人生育
 				pretaxTotal: row.pretaxTotal	//税前合计
-			}
-			this.autoCaclWage(index,params);
+			}]
+			params.countWageList = list;
+			let self = this;
+			self.$axios.post(baseURL+'/wage/reckonSingleWage', params)
+			.then((res) => {
+				console.log('cacl',res);
+				if(res.data.code === "S00000") {
+					self.$message({ message: '操作成功', type: 'success' });
+					self.socialInfoData[index].payTax = res.data.data[0].payTax;//回写扣税
+					self.socialInfoData[index].realHair = res.data.data[0].realHair;//回写实发
+					self.$set(self.socialInfoData, index, self.socialInfoData[index]);
+				}
+				
+			}).catch((err) => {
+				console.log('error');
+			})
 		},
-		//保存
+		//单项保存
 		handleSave(index,row) {
-			let params = {
+			let params = {};
+			let list = [{
 				batchNo: row.batchNo,
 				userNo : row.userNo,
 				perEndmPay: row.perEndmPay,
@@ -415,9 +435,11 @@ export default {
 				otherCutPay: row.otherCutPay,
 				payTax: row.payTax,
 				realHair: row.realHair
-          	}
+			  }]
+			  params.wageFlowList =list;
           	//保存修改
 			let self = this;
+			console.log('params',params)
 			  self.$axios.post(baseURL+'/wage/addCustPayInfo',params)
 			.then((res) => {
 				console.log('modWage',res);
@@ -430,8 +452,14 @@ export default {
 		},
 		//全部计算
 		autoCalcAll() {
+			let params = {},
+				list = [],
+				self = this;
+
 			for(let i=0; i<this.socialInfoData.length; i++) {
-				let params = {
+				 list.push({
+					batchNo: this.socialInfoData[i].batchNo,
+					userNo : this.socialInfoData[i].userNo,
 					wagesBase: this.socialInfoData[i].wagesBase, //基本工资
 					wagesPerf: this.socialInfoData[i].wagesPerf,	//绩效工资
 					postPension: this.socialInfoData[i].postPension,	//岗位补贴
@@ -453,16 +481,36 @@ export default {
 					perEmplPay: this.socialInfoData[i].perEmplPay,	//个人工伤
 					perMatePay: this.socialInfoData[i].perMatePay,	//个人生育
 					pretaxTotal: this.socialInfoData[i].pretaxTotal	//税前合计
-				}
-				this.autoCaclWage(i,params);
+				})
 			}
+				
+			params.countWageList = list;
+			self.$axios.post(baseURL+'/wage/reckonSingleWage', params)
+			.then((res) => {
+				console.log('caclAll',res);
+				if(res.data.code === "S00000") {
+					self.$message({ message: '操作成功', type: 'success' });
+					for(let index=0;index<self.socialInfoData.length;index++) {
+						// if(self.socialInfoData[index].batchNo == res.data.data[])
+						self.socialInfoData[index].payTax = res.data.data[index].payTax;//回写扣税
+						self.socialInfoData[index].realHair = res.data.data[index].realHair;//回写实发
+						self.$set(self.socialInfoData, index, self.socialInfoData[index]);
+					}
+					
+				}
+				
+			}).catch((err) => {
+				console.log('error');
+			})
 			
 			
 		},
 		//全部保存
 		saveAll() {
+			let params = {},
+				list = [];
 			for(let i=0; i<this.socialInfoData.length; i++) {
-				let params = {
+				list.push({
 					batchNo: this.socialInfoData[i].batchNo,
 					userNo : this.socialInfoData[i].userNo,
 					perEndmPay: this.socialInfoData[i].perEndmPay,
@@ -488,19 +536,21 @@ export default {
 					otherCutPay: this.socialInfoData[i].otherCutPay,
 					payTax: this.socialInfoData[i].payTax,
 					realHair: this.socialInfoData[i].realHair
-				}
-				//保存修改
-				let self = this;
-				self.$axios.post(baseURL+'/wage/addCustPayInfo',params)
-				.then((res) => {
-					console.log('modWage',res);
-					if(res.data.code === "S00000") {
-						self.$message({ message: '操作成功', type: 'success' });
-					}
-				}).catch((err) => {
-					console.log('error');
 				})
 			}
+				
+			params.wageFlowList = list;
+			//保存修改
+			let self = this;
+			self.$axios.post(baseURL+'/wage/addCustPayInfo',params)
+			.then((res) => {
+				console.log('modWageAll',res);
+				if(res.data.code === "S00000") {
+					self.$message({ message: '操作成功', type: 'success' });
+				}
+			}).catch((err) => {
+				console.log('error');
+			})
 			
 		},
 		queryWageInfoList() {
@@ -532,23 +582,6 @@ export default {
 				if(res.data.code === "S00000") {
 					
 				}
-			}).catch((err) => {
-				console.log('error');
-			})
-		},
-		autoCaclWage(index,params) {
-			let self = this;
-			
-			self.$axios.post(baseURL+'/wage/reckonSingleWage', params)
-			.then((res) => {
-				console.log('cacl',res);
-				if(res.data.code === "S00000") {
-					self.$message({ message: '操作成功', type: 'success' });
-					self.socialInfoData[index].payTax = res.data.data.payTax;//回写扣税
-					self.socialInfoData[index].realHair = res.data.data.realHair;//回写实发
-					self.$set(self.socialInfoData, index, self.socialInfoData[index]);
-				}
-				
 			}).catch((err) => {
 				console.log('error');
 			})

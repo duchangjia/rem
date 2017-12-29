@@ -95,7 +95,7 @@
 					  	</el-form-item>
 					</el-col>  	      
 				</el-form>
-				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">	
+				<el-form ref="formdata2" :inline="true" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width: 100%;">
 				  		 	<el-input v-model="formdata2.attachm"></el-input>
@@ -300,7 +300,7 @@
 		            totalRows:0
 		        }
 		        //点击确定后需要修改的对象 numType为changeNo方法所改变的type
-		//      this.applyUserInfo = this.applyUserInfo
+				//      this.applyUserInfo = this.applyUserInfo
 		        this.numType = 1
 		        //dialog打开
 		        this.dialogVisible=true
@@ -349,19 +349,23 @@
 			        if (valid) {
 			          	self.$refs.formdata2.validate(valid => {
 			           	 	if (valid) {
-			            		self.$refs.upload.submit();//触发上传
-								if(!self.fileFlag) {
-									let params = {
-										"userNo": self.formdata1.userNo, //"1004"
-						    			"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
-						    			"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
-						    			"leaveType": self.formdata2.leaveType, //"3"
-						    			"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
-						    			"remark": self.formdata2.remark, //"请假的详细信息"
-									}
-									//无附件时新增
-									self.addLeaveInfo(params);
-								}
+								// self.$refs.formdata3.validate(valid => {
+			           	 		// 	if (valid) {	
+										self.$refs.upload.submit();//触发上传
+										if(!self.fileFlag) {
+											let params = {
+												"userNo": self.formdata1.userNo, //"1004"
+												"leaveStartTime": self.formdata2.leaveStartTime, //"2017-09-10 08:30"
+												"leaveEndTime": self.formdata2.leaveEndTime, //"2017-09-13 09:30"
+												"leaveType": self.formdata2.leaveType, //"3"
+												"timeSheet": self.formdata2.timeSheet, //"23"请假的工时
+												"remark": self.formdata2.remark, //"请假的详细信息"
+											}
+											//无附件时新增
+											self.addLeaveInfo(params);
+										}
+								// 	}
+								// })
 			            	}
 			        	})   
 			        }
