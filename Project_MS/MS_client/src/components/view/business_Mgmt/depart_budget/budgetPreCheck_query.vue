@@ -6,7 +6,7 @@
                 <span class="title-text">部门预算一览</span>
             </div>
             <div class="queryContent_inner clearfix">
-                <el-form :inline="true">
+                <el-form :inline="true" label-width="100px">
                     <el-col :span="9">
                         <el-form-item label="机会号／项目编号／名称" class="large-label">
                             <el-input class="search_large"  placeholder="机会号／项目编号／名称" v-model="searchInfo.oppoNo"></el-input>
@@ -16,14 +16,23 @@
                         <el-form-item label="项目状态">
                             <el-select class="search_common" v-model="searchInfo.projState">
                                 <el-option label="售前" value="01"></el-option>
-                                <el-option label="实施中:未确认合同" value="02"></el-option>
-                                <el-option label="实施中:合同签署中" value="03"></el-option>
-                                <el-option label="结束" value="04"></el-option>
+                                <el-option label="实施" value="02"></el-option>
+                                <el-option label="结束" value="03"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="6">
-                        <el-form-item label="项目类型">
+                        <el-form-item label="收入类型">
+                            <el-select class="search_common" v-model="searchInfo.projState">
+                                <el-option label="Pipeline" value="01"></el-option>
+                                <el-option label="EATP" value="02"></el-option>
+                                <el-option label="Frotlog" value="03"></el-option>
+                                <el-option label="Backlog" value="04"></el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="9">
+                        <el-form-item label="项目类型" class="large-label">
                             <el-select class="search_common" v-model="searchInfo.projType">
                                 <el-option label="应用系统开发" value="01"></el-option>
                                 <el-option label="软件产品开发" value="02"></el-option>
@@ -33,6 +42,16 @@
                                 <el-option label="咨询服务" value="06"></el-option>
                                 <el-option label="其他" value="07"></el-option>
                             </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="部门">
+                            <el-input   placeholder="部门(项目实施部门)" v-model="searchInfo.oppoNo"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="6">
+                        <el-form-item label="项目经理">
+                            <el-input   placeholder="项目经理(PM)" v-model="searchInfo.oppoNo"></el-input>
                         </el-form-item>
                     </el-col>
                     <div class="queryButton_wrapper">
