@@ -54,12 +54,12 @@ export default {
 							menuName: '组织架构'
 						},
 						{
-							menuUrl: 'management_user',
-							menuName: '用户管理'
-						},
-						{
 							menuUrl: 'management_role',
 							menuName: '角色管理'
+						},
+						{
+							menuUrl: 'management_user',
+							menuName: '用户管理'
 						},
 						{
 							menuUrl: 'management_fun',
