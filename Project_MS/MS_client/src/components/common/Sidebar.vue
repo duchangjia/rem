@@ -85,6 +85,10 @@ export default {
 							menuName: '项目立项'
 						},
 						{
+							menuUrl: 'proBudget',
+							menuName: '项目预算'
+						},
+						{
 							menuUrl: 'proAcceptance',
 							menuName: '项目验收'
 						}

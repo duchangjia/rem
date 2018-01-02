@@ -213,6 +213,24 @@ const routes = [
                     ]
                 },
                 {
+                    path: '/proBudget',
+                    component: resolve => require(['../components/view/project_Mgmt/proBudget/proBudget.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/view/project_Mgmt/proBudget/proBudget_query.vue'], resolve),
+                        },
+                        {
+                            path: '/proBudget_info',
+                            component: resolve => require(['../components/view/project_Mgmt/proBudget/proBudget_info.vue'], resolve),
+                        },
+                        {
+                            path: '/proBudget_edit',
+                            component: resolve => require(['../components/view/project_Mgmt/proBudget/proBudget_edit.vue'], resolve),
+                        }
+                    ]
+                },
+                {
                     path: '/proAcceptance',
                     component: resolve => require(['../components/view/project_Mgmt/proAcceptance/proAcceptance.vue'], resolve),
                     children: [
