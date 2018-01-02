@@ -13,12 +13,12 @@
 				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
 					<div class="input-wrap">
 						<el-col :sm="12" :md="6">
-							<el-form-item label="机会号">
-								<el-input v-model="ruleForm2.jihuihao"></el-input>
+							<el-form-item label="项目编号/名称">
+								<el-input v-model="ruleForm2.projNo"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :sm="12" :md="6">
-							<el-form-item label="审批状态">
+							<el-form-item label="项目状态">
 								<el-select v-model="ruleForm2.projApplySta">
 									<el-option v-for="item in projApplyStaList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 								</el-select>
@@ -26,7 +26,7 @@
 						</el-col>
 						<el-col :sm="12" :md="6">
 							<el-form-item label="收入类型">
-								<el-select v-model="ruleForm2.projIncmType">
+								<el-select v-model="ruleForm2.incmConfim">
 									<el-option v-for="item in projIncmTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 								</el-select>
 							</el-form-item>
@@ -38,6 +38,16 @@
 								</el-select>
 							</el-form-item>
 						</el-col>
+                        <el-col :sm="12" :md="6">
+							<el-form-item label="项目实施部门">
+								<el-input v-model="ruleForm2.projDerpNo"></el-input>
+							</el-form-item>
+						</el-col>
+                        <el-col :sm="12" :md="6">
+							<el-form-item label="项目经理(PM)">
+								<el-input v-model="ruleForm2.projPM"></el-input>
+							</el-form-item>
+						</el-col>
 					</div>
 					<div class="queryButton_wrapper">
 						<el-button class="btn-default" @click="resetForm()">重置</el-button>
@@ -47,21 +57,31 @@
 				<div class="info">
 					<el-table :data="projdataList" border stripe style="width: 100%">
 						<el-table-column prop="deptName" label="部门"></el-table-column>
-						<el-table-column prop="jihuihao" label="机会号">
+						<el-table-column prop="projNo" label="机会号">
 							<template scope="scope">
-						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.jihuihao }}</span>
+						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.projNo }}</span>
 					      	</template>
 						</el-table-column>
+						<el-table-column prop="projNo" label="项目编号"></el-table-column>
 						<el-table-column prop="projName" label="项目名称"></el-table-column>
-						<el-table-column prop="projApplySta" label="审批状态" :formatter="projApplyStaFormatter"></el-table-column>
-						<el-table-column prop="projIncmType" label="收入类型" :formatter="projIncmTypeFormatter"></el-table-column>
-						<el-table-column prop="projType" label="项目类型" :formatter="projTypeFormatter"></el-table-column>
-						<el-table-column prop="preSaleStartTime" label="预售开始日期" :formatter="preSaleStartTimeFormatter"></el-table-column>
-						<el-table-column prop="preSaleEndTime" label="预售结束日期" :formatter="preSaleEndTimeFormatter"></el-table-column>
+						<el-table-column prop="projApplySta" label="项目状态" :formatter="projApplyStaFormatter"></el-table-column>
+						<el-table-column prop="incmConfim" label="收入确认类型" :formatter="incmConfimFormatter"></el-table-column>
+						<el-table-column prop="projXiaosouName" label="销售"></el-table-column>
+						<el-table-column prop="preSaleStartTime" label="预计开始日期" :formatter="preSaleStartTimeFormatter"></el-table-column>
 						<el-table-column label="操作" width="100">
-							<template scope="scope">
+                            <template scope="scope">
+                                <el-dropdown @command="handleCommand" trigger="click">
+                                    <span class="el-dropdown-link cur-pointer">
+                                        下拉菜单
+                                    </span>
+                                    <el-dropdown-menu slot="dropdown" >
+                                        <el-dropdown-item :command="item.url" v-for="item in dropDownList" :key="item.url">{{item.name}}</el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </el-dropdown>
+                            </template>
+							<!-- <template scope="scope">
 								<i class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></i>
-							</template>	
+							</template>	 -->
 						</el-table-column>
 					</el-table>
 				</div>
@@ -84,24 +104,42 @@ export default {
 			totalRows: 1,
 			ruleForm2: {
 				projApplySta: '',
-				jihuihao: '',
-				projIncmType: '',
+				projNo: '',
+				incmConfim: '',
 				projType: ''
 			},
 			projdataList: [
 				{
-					jihuihao: "00002",
+					projNo: "00002",
 					companyName: "",
 					deptName: "1232",
 					projApplySta: "01", 
-					projIncmType: "01",
+                    incmConfim: "T&M",
+                    projXiaosouName: 'P0000001',
 					preSaleStartTime: "2017-10-10",
-					preSaleEndTime: "2017-10-11",
 					projName: "33212",
 					projType: "SSI",
 					createdBy: "",
 					createdDate: ""
 				}
+            ],
+            dropDownList:[
+                {
+                    name:'预算编辑',
+                    url:'/proBudget_edit'
+                },
+                {
+                    name:'预算详情',
+                    url:'/proBudget_info'
+                },
+                {
+                    name:'历史版本',
+                    url:'/proBHistory'
+                },
+                {
+                    name:'提交预算',
+                    url:'/saveProBudget'
+                }
             ],
 			//审批状态列表
 			projApplyStaList: [
@@ -135,9 +173,11 @@ export default {
 	},
 	created() {
 		this.ruleForm2.projApplySta = '';
-		this.ruleForm2.jihuihao = '';
-		this.ruleForm2.projIncmType = '';
-		this.ruleForm2.projType = '';
+		this.ruleForm2.projNo = '';
+		this.ruleForm2.incmConfim = '';
+        this.ruleForm2.projType = '';
+        this.ruleForm2.projDerpNo = '';
+        this.ruleForm2.projPM = '';
 		//查询售前立项列表
 		// this.queryprojList();
 		//查询审批状态列表
@@ -153,7 +193,30 @@ export default {
 	   	},
 		preSaleEndTimeFormatter(row, column) {
 	      return row.preSaleEndTime ? moment(row.preSaleEndTime).format('YYYY-MM-DD') : null;
-	   	}, 
+	   	},
+        saveItem(row, event, column){
+            window.localStorage.setItem('preCheckOppoNo',row.oppoNo);
+        },
+        handleCommand(command){
+            let self = this,
+            oppoNo =  localStorage.getItem('preCheckOppoNo');
+            console.log(command,oppoNo);
+            if(command == 'saveProBudget'){
+                // self.$confirm('确定项目已经结束，不再进行预算、收入申报','确认项目关闭',{
+                //     confirmButtonText: '确定',
+                //     cancelButtonText: '取消',
+                //     type: 'warning'
+                // }).then(() => {
+                //     //关闭项目
+                //     self.closeProj();
+                // }).catch(() => {
+                //     self.$message({ type: 'info', message: '已取消操作' });          
+                // });
+            }else{
+                self.$router.push(command);
+            }
+            
+        }, 
 	    handleAdd() {
 	    	this.$router.push('add_preSale');
         },
@@ -162,11 +225,11 @@ export default {
             this.downloadFile();
         },
 		handleEdit(index, row) {
-			sessionStorage.setItem('jihuihao',row.jihuihao);
+			sessionStorage.setItem('projNo',row.projNo);
             this.$router.push("/edit_preSale");
 		},
 		handleInfo(index, row) {
-			sessionStorage.setItem('jihuihao',row.jihuihao);
+			sessionStorage.setItem('projNo',row.projNo);
 			this.$router.push("/preSale_info");
 			
 		},
@@ -185,10 +248,13 @@ export default {
 		},
 		//重置
 		resetForm() {
-			this.ruleForm2.projApplySta = '';
-            this.ruleForm2.jihuihao = '';
-            this.ruleForm2.projIncmType = '';
-            this.ruleForm2.projType = '';
+            this.ruleForm2 = {};
+			// this.ruleForm2.projApplySta = '';
+            // this.ruleForm2.projNo = '';
+            // this.ruleForm2.incmConfim = '';
+            // this.ruleForm2.projType = '';
+            // this.ruleForm2.projDerpNo = '';
+            // this.ruleForm2.projPM = '';
 		},
 		handleCurrentChange(val) {
 			this.pageNum = val;
@@ -258,8 +324,8 @@ export default {
 		projApplyStaFormatter(row, column) {
 			return row.projApplySta=='00'? '审批通过' : row.projApplySta=='99' ? '审批失败' : row.projApplySta=='02' ? '审批中' : row.projApplySta=='01' ? '未提交' : null;
 		},
-		projIncmTypeFormatter(row, column) {
-			return row.projIncmType=='01'? 'Pipeline' : row.projIncmType=='02' ? 'EATP' : row.projIncmType=='03' ? 'Frotlog' : row.projIncmType=='04' ? 'Backlog' : null;
+		incmConfimFormatter(row, column) {
+			return row.incmConfim=='T&M'? '外包' : row.incmConfim=='FIX' ? '固定金额' : null;
 		},
 		projTypeFormatter(row, column) {
 	    	let projType = '';
