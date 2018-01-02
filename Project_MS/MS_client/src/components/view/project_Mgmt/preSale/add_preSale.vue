@@ -172,7 +172,7 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
-	const baseURL = 'iem_hrm';
+	const baseURL = 'iem_pmg';
 	export default {
 		data() {
 			var checkWorkotStartTime = (rule, value, callback) => {

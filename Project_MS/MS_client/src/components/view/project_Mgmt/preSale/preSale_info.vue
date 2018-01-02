@@ -22,7 +22,7 @@
 					</el-col>		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="机会号">
-							<el-input v-model="formdata1.jihuihao"></el-input>
+							<el-input v-model="formdata1.oppoNo"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
@@ -170,7 +170,7 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
-	const baseURL = 'iem_hrm';
+	const baseURL = 'iem_pmg';
 	export default {
 		data() {
 			var checkWorkotStartTime = (rule, value, callback) => {
@@ -281,13 +281,13 @@
 		},
 		created() {
 			//查询详情
-			// this.queryUserDetail();
-            //查询收入金额列表
-            //this.queryprojIncmTypeList()
-			//查询收入确认金额列表
+			this.queryUserDetail();
+            // //查询收入金额列表
+            // this.queryprojIncmTypeList()
+			// //查询收入确认金额列表
             // this.queryincmConfimList();
-            //查询项目类型列表
-            // this.queryprojTypeList()
+            // //查询项目类型列表
+            // this.queryprojTypeList();
 		},
 		computed: {
 			formdata: function(){
@@ -329,10 +329,8 @@
 			},
 			queryUserDetail() {
 				const self = this;
-				let params = {
-					
-				};
-				self.$axios.get(baseURL+'', params)
+				let oppoNo = sessionStorage.getItem('preSaleInfo_oppoNo');
+				self.$axios.get(baseURL+'/presale/queryPresaleProjDetial/'+ oppoNo)
 				.then((res) => {
 					console.log('dtl', res);
 					if(res.data.code == 'S00000') {

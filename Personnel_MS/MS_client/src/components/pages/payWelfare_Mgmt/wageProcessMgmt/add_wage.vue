@@ -324,6 +324,7 @@
 								derpRange.push(ele.derpNo);
 							}
 						},this); 
+						let preRange_join = preRange.join(',');
 			        	if(self.checkPres.length>0) {
 			        		let params = {
 				          		batchType: self.formdata2.batchType,
@@ -332,10 +333,9 @@
 								settleStartTime: self.formdata2.settleStartTime,
 								settleEndTime: self.formdata2.settleEndTime,
 								remark: self.formdata2.remark,
-				          		preRanges: preRanges,
 				          		derpRanges: derpRanges,
 				          		derpRange: JSON.stringify(derpRange),
-				          		preRange: JSON.stringify(preRange)
+				          		preRange: preRange_join
 				          		
 				          	}
 				          	console.log('params',params);
