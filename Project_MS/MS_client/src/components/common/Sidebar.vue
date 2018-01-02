@@ -85,8 +85,8 @@ export default {
 							menuName: '项目立项'
 						},
 						{
-							menuUrl: 'proBudget',
-							menuName: '项目预算'
+							menuUrl: 'proIncome',
+							menuName: '项目收入'
 						},
 						{
 							menuUrl: 'proAcceptance',
@@ -102,11 +102,7 @@ export default {
 						{
 							menuUrl: '/query_departPreCheck',
 							menuName: '部门项目一览'
-						},
-						{
-							menuUrl: '/query_budgetPreCheck',
-							menuName: '部门预算一览'
-						},
+						}
 					]
 				},
 				{

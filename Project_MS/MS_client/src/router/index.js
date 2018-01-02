@@ -213,21 +213,25 @@ const routes = [
                     ]
                 },
                 {
-                    path: '/proBudget',
-                    component: resolve => require(['../components/view/project_Mgmt/proBudget/proBudget.vue'], resolve),
+                    path: '/proIncome',
+                    component: resolve => require(['../components/view/project_Mgmt/proIncome/proIncome.vue'], resolve),
                     children: [
                         {
                             path: '/',
-                            component: resolve => require(['../components/view/project_Mgmt/proBudget/proBudget_query.vue'], resolve),
+                            component: resolve => require(['../components/view/project_Mgmt/proIncome/proIncome_query.vue'], resolve),
                         },
                         {
-                            path: '/proBudget_info',
-                            component: resolve => require(['../components/view/project_Mgmt/proBudget/proBudget_info.vue'], resolve),
+                            path: '/importBills',
+                            component: resolve => require(['../components/view/project_Mgmt/proIncome/importBills.vue'], resolve),
                         },
                         {
-                            path: '/proBudget_edit',
-                            component: resolve => require(['../components/view/project_Mgmt/proBudget/proBudget_edit.vue'], resolve),
-                        }
+                            path: '/queryBills',
+                            component: resolve => require(['../components/view/project_Mgmt/proIncome/queryBills.vue'], resolve),
+                        },
+                        {
+                            path: '/incomeDeclaration',
+                            component: resolve => require(['../components/view/project_Mgmt/proIncome/incomeDeclaration.vue'], resolve),
+                        },
                     ]
                 },
                 {
@@ -305,23 +309,6 @@ const routes = [
                     ]
                 },
                     //部门项目一览end
-                    //部门预算一览start
-                {
-                    path: '/query_budgetPreCheck',
-                    component: resolve => require(['../components/view/business_Mgmt/depart_budget/budgetPreCheck.vue'], resolve),
-                    children: [
-                        {
-                            path: '/',
-                            component: resolve => require(['../components/view/business_Mgmt/depart_budget/budgetPreCheck_query.vue'], resolve),
-                        },
-                        {
-                            name: 'budgetPreCheck_detail',
-                            path: '/budgetPreCheck_detail',
-                            component: resolve => require(['../components/view/business_Mgmt/depart_budget/budgetPreCheck_detail.vue'], resolve),
-                        }
-                    ]
-                }
-                    //部门预算一览end
                 //业务管理end
             ]
         }
