@@ -154,10 +154,36 @@ export default {
 	   	}, 
 	    handleAdd() {
 	    	this.$router.push('add_preSale');
-        },
+		},
+		//下载模版
         handleDownloadTemplate() {
-            //下载模版
-            this.downloadFile();
+            
+            const self = this;
+            self.$axios.get(baseURL+'/file/downloadTemplate?templateName=立项文件基本信息模板', {
+					responseType: 'blob'
+				})
+				.then((response) => {
+                	console.log(response);
+					const fileName = "立项文件信息模板.xlsx"; 
+					const blob = response.data;
+
+					if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+
+						window.navigator.msSaveOrOpenBlob(blob, fileName);
+					} else {
+
+						let elink = document.createElement('a'); // 创建a标签
+						elink.download = fileName;
+						elink.style.display = 'none';
+						elink.href = URL.createObjectURL(blob);
+						document.body.appendChild(elink);
+						elink.click(); // 触发点击a标签事件
+						document.body.removeChild(elink);
+					}
+				}).catch((e) => {
+					console.error(e)
+					self.$message({ message: '下载模版失败', type: 'error' });
+				})
         },
 		handleEdit(index, row) {
 			sessionStorage.setItem('preSaleEdit_oppoNo',row.oppoNo);
@@ -291,34 +317,6 @@ export default {
 				default:
 			}
 	    	return projType;
-        },
-        downloadFile() {
-            const self = this;
-            self.$axios.get(baseURL+'/file/downloadTemplate?templateName=立项文件基本信息模板', {
-                    responseType: 'blob'
-                })
-                .then((response) => {
-                console.log(response);
-                    const fileName = "立项文件信息模板.xlsx"; 
-                    const blob = response.data;
-
-                    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-
-                        window.navigator.msSaveOrOpenBlob(blob, fileName);
-                    } else {
-
-                        let elink = document.createElement('a'); // 创建a标签
-                        elink.download = fileName;
-                        elink.style.display = 'none';
-                        elink.href = URL.createObjectURL(blob);
-                        document.body.appendChild(elink);
-                        elink.click(); // 触发点击a标签事件
-                        document.body.removeChild(elink);
-                    }
-                }).catch((e) => {
-                    console.error(e)
-                    self.$message({ message: '下载模版失败', type: 'error' });
-                })
         }
 	}
 }

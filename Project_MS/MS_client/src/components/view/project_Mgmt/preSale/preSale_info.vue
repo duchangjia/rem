@@ -5,6 +5,7 @@
 		<div class="content-wrapper">
 			<div class="titlebar">
 				<span class="title-text">售前立项详情</span>
+				<span class="preSaleStatusMsg">立项审批状态：{{formdata1.projApplyMsg}}</span>
 			</div>
 			<div class="add-wrapper">
 				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="130px">
@@ -63,7 +64,7 @@
 					<el-col :sm="24" :md="12">
 						<el-form-item label="订单类型" prop="projOrdType">
 						    <el-select v-model="formdata1.projOrdType">
-								<el-option v-for="item in dindanTypeList" :key="item.workotNo" :label="item.label" :value="item.workotNo"></el-option>
+								<el-option v-for="item in dindanTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	 
@@ -74,7 +75,7 @@
 				  	</el-col>
                     <el-col :sm="24" :md="12">
 						<el-form-item label="预计合同签订时间" prop="porjPreconDate">
-				        	<el-date-picker type="datetime" v-model="formdata1.porjPreconDate" @change="changeYujiHTTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="datetime" v-model="formdata1.porjPreconDate" @change="changePorjPreconDate" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
                     <el-col :sm="24" :md="12">
@@ -157,10 +158,10 @@
 				<el-col :span="24" class="item-title">审批历史</el-col>
 				<!-- <el-col :span="24"> -->
 					<ul class="shenpiList">
-						<li>
-							<span>2017-10-10 09:00:09</span>
-							<span>李总</span>
-							<span>审批通过</span>
+						<li v-for="item in formdata1.projApplyStatusList" :key="item.projApplyStatusName">
+							<span>{{item.projApplyStatusTime}}</span>
+							<span>{{item.projApplyStatusName}}</span>
+							<span>{{item.projApplyStatusMsg}}</span>
 						</li>
 					</ul>
 				<!-- </el-col> -->
@@ -225,7 +226,15 @@
 
 				},
 				//项目类型列表
-                projTypeList: [],
+                projTypeList: [
+					{paraValue: 'ASD',paraShowMsg: '应用系统开发'},
+					{paraValue: 'SPD',paraShowMsg: '软件产品开发'},
+					{paraValue: 'APM',paraShowMsg: '应用维护升级'},
+					{paraValue: 'SSI',paraShowMsg: '系统集成'},
+					{paraValue: 'ISS',paraShowMsg: '信息系统安全'},
+					{paraValue: 'ASC',paraShowMsg: '咨询服务'},
+					{paraValue: 'OTH',paraShowMsg: '其他'}
+				],
                 //收入类型列表
 				projIncmTypeList: [
 					{paraValue: '01',paraShowMsg: 'Pipeline'},
@@ -246,11 +255,15 @@
 					{paraValue: '04',paraShowMsg: '其他'}
 				],
 				//收入确认类型列表
-                incmConfimList: [],
+                incmConfimList: [
+					{paraValue: 'T&M',paraShowMsg: '外包'},
+					{paraValue: 'FIX',paraShowMsg: '固定金额'}
+				],
                 //订单类型列表
 				dindanTypeList: [
-					{label: '有薪加班', workotNo: '01'},
-					{label: '调休加班', workotNo: '02'}
+					{paraShowMsg: 'NEW SELL', paraValue: 'NS'},
+					{paraShowMsg: 'UP SELL', paraValue: 'US'},
+					{paraShowMsg: 'RE NEW', paraValue: 'RN'}
 				],
 			 	rules1: {
 			 		projImpBegdate: [
@@ -306,8 +319,8 @@
 			}
 		},
 		methods: {
-            changeYujiHTTime(time) {
-				this.formdata1.yujiHTtTime = time;
+            changePorjPreconDate(time) {
+				this.formdata1.porjPreconDate = time;
 			},
 			changeStartTime(time) {
 				this.formdata1.projImpBegdate = time;
@@ -336,6 +349,11 @@
 					console.log('dtl', res);
 					if(res.data.code == 'S00000') {
 						self.formdata1 = res.data.data;
+						self.formdata1.projApplyMsg = '等待赵总审批';
+						self.formdata1.projApplyStatusList = [
+							{projApplyStatusTime: '2017-12-01 9:10:00',projApplyStatusName: '李总',projApplyStatusMsg: '审批通过'},
+							{projApplyStatusTime: '2017-12-01 9:00:00',projApplyStatusName: '刘总',projApplyStatusMsg: '审批通过'},
+						];
 					}
 					
 				})
@@ -401,5 +419,13 @@
 	padding-left: 20px;
     color: #999999;
     font-size: 14px;
+	clear: both;
+}
+.shenpiList li {
+	padding: 15px 0;
+}
+.preSaleStatusMsg {
+	float: right;
+	margin-right: 130px;
 }
 </style>
