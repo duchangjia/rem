@@ -346,7 +346,7 @@
 							}
 							
 						})
-						console.log('derpRange',derpRange)
+						let preRange_join = self.formdata2.preRange.join(',');
 			        	if(self.checkPres.length>0) {
 			        		let params = {
 	        					batchNo: self.formdata2.batchNo,
@@ -356,10 +356,9 @@
 								settleStartTime: self.formdata2.settleStartTime,
 								settleEndTime: self.formdata2.settleEndTime,
 								remark: self.formdata2.remark,
-				          		preRanges: self.formdata2.preRange,
 				          		derpRanges: derpRange,
 				          		derpRange: JSON.stringify(derpRange),
-				          		preRange: JSON.stringify(self.formdata2.preRange)
+				          		preRange: preRange_join
 				          	}
 				          	console.log('params',params);
 				          	//修改工资流程信息
@@ -380,10 +379,12 @@
 					console.log('WageInfo',res);
 					if(res.data.code === "S00000") {
 						self.formdata2 = res.data.data;
-						self.formdata2.preRange = JSON.parse(self.formdata2.preRange);
 						self.formdata2.derpRange = JSON.parse(self.formdata2.derpRange);
-				      	// 人员范围（反显）
-						  self.checkPres = self.formdata2.preRange;
+						  // 人员范围（反显）
+						let preRange1 = self.formdata2.preRange.split(',');
+						self.formdata2.preRange = preRange1;
+						self.checkPres = preRange1;
+						  
 						  console.log('人员反显的checkPres',self.checkPres)
 					}
 					
@@ -421,18 +422,12 @@
 						})
 
 						if(self.checkSubAllFlag) {//查全部人员时
-							// console.log('self.checkSubAllFlag',self.checkSubAllFlag);
-							// console.log('查全部人员时的userList',res);
 							self.derpRangeList.forEach(function(ele,num) {
 								ele.preRangeList = [];
 							})
-							// self.formdata2.derpRange.forEach(function(ele,num) {
-							// 	ele.preRangeList = [];
-							// })
 							self.derpRangeList.forEach(function(ele,num) {
 								res.data.data.forEach(function(elem1, index1) {
 									if(self.derpRangeList[num].derpNo == elem1.derpNo) {
-										// console.log(self.derpRangeList[num].derpNo+'-----'+elem1.derpNo);
 										self.derpRangeList[num].preRangeList.push(elem1);
 										self.$set(self.derpRangeList, num, self.derpRangeList[num]);
 									}else {
@@ -442,11 +437,8 @@
 								})
 							})
 						} else {//查单个部门人员时
-							// console.log('self.checkSubAllFlag',self.checkSubAllFlag);
-							// console.log('查单个部门人员时的userList',res);
 							self.derpRangeList.forEach(function(ele,num) {							
 								if(ele.derpNo == res.data.data[0].derpNo) {
-									// console.log('derpNo'+ele.derpNo+ '-----'+res.data.data[0].derpNo);
 									self.derpRangeList[num].preRangeList = res.data.data;
 									self.$set(self.derpRangeList, num, self.derpRangeList[num]);
 								}else {

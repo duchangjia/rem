@@ -14,12 +14,12 @@
 					<div class="input-wrap">
 						<el-col :sm="12" :md="6">
 							<el-form-item label="机会号">
-								<el-input v-model="ruleForm2.jihuihao"></el-input>
+								<el-input v-model="ruleForm2.oppoNo"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :sm="12" :md="6">
 							<el-form-item label="审批状态">
-								<el-select v-model="ruleForm2.projApplySta">
+								<el-select v-model="ruleForm2.projApplyStatus">
 									<el-option v-for="item in projApplyStaList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 								</el-select>
 							</el-form-item>
@@ -46,18 +46,18 @@
 				</el-form>
 				<div class="info">
 					<el-table :data="projdataList" border stripe style="width: 100%">
-						<el-table-column prop="deptName" label="部门"></el-table-column>
-						<el-table-column prop="jihuihao" label="机会号">
+						<el-table-column prop="projSaleDept" label="部门"></el-table-column>
+						<el-table-column prop="oppoNo" label="机会号">
 							<template scope="scope">
-						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.jihuihao }}</span>
+						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.oppoNo }}</span>
 					      	</template>
 						</el-table-column>
 						<el-table-column prop="projName" label="项目名称"></el-table-column>
-						<el-table-column prop="projApplySta" label="审批状态" :formatter="projApplyStaFormatter"></el-table-column>
+						<el-table-column prop="projApplyStatus" label="审批状态" :formatter="projApplyStaFormatter"></el-table-column>
 						<el-table-column prop="projIncmType" label="收入类型" :formatter="projIncmTypeFormatter"></el-table-column>
 						<el-table-column prop="projType" label="项目类型" :formatter="projTypeFormatter"></el-table-column>
-						<el-table-column prop="preSaleStartTime" label="预售开始日期" :formatter="preSaleStartTimeFormatter"></el-table-column>
-						<el-table-column prop="preSaleEndTime" label="预售结束日期" :formatter="preSaleEndTimeFormatter"></el-table-column>
+						<el-table-column prop="projImpBegdate" label="预售开始日期" :formatter="preSaleStartTimeFormatter"></el-table-column>
+						<el-table-column prop="projImpEndate" label="预售结束日期" :formatter="preSaleEndTimeFormatter"></el-table-column>
 						<el-table-column label="操作" width="100">
 							<template scope="scope">
 								<i class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></i>
@@ -75,7 +75,7 @@
 <script type='text/ecmascript-6'>
 import current from '../../../common/current_position.vue'
 import moment from 'moment'
-const baseURL = 'iem_hrm'
+const baseURL = 'iem_pmg'
 export default {
 	data() {
 		return {
@@ -83,24 +83,22 @@ export default {
 			pageSize: 10,
 			totalRows: 1,
 			ruleForm2: {
-				projApplySta: '',
-				jihuihao: '',
+				projApplyStatus: '',
+				oppoNo: '',
 				projIncmType: '',
 				projType: ''
 			},
 			projdataList: [
 				{
-					jihuihao: "00002",
+					oppoNo: "",
 					companyName: "",
-					deptName: "1232",
-					projApplySta: "01", 
-					projIncmType: "01",
-					preSaleStartTime: "2017-10-10",
-					preSaleEndTime: "2017-10-11",
-					projName: "33212",
-					projType: "SSI",
-					createdBy: "",
-					createdDate: ""
+					projSaleDept: "",
+					projApplyStatus: "", 
+					projIncmType: "",
+					projImpBegdate: "",
+					projImpEndate: "",
+					projName: "",
+					projType: "",
 				}
             ],
 			//审批状态列表
@@ -134,25 +132,25 @@ export default {
 		current
 	},
 	created() {
-		this.ruleForm2.projApplySta = '';
-		this.ruleForm2.jihuihao = '';
+		this.ruleForm2.projApplyStatus = '';
+		this.ruleForm2.oppoNo = '';
 		this.ruleForm2.projIncmType = '';
 		this.ruleForm2.projType = '';
 		//查询售前立项列表
-		// this.queryprojList();
+		this.querypreSalejList();
 		//查询审批状态列表
 		// this.queryprojApplyStaList();
-		// //查询收入类型列表
+		//查询收入类型列表
 		// this.queryprojIncmTypeList();
-		// //查询项目类型列表
-		// this.queryprojTypeList()
+		//查询项目类型列表
+		// this.queryprojTypeList();
 	},
 	methods: {
 		preSaleStartTimeFormatter(row, column) {
-	      return row.preSaleStartTime ? moment(row.preSaleStartTime).format('YYYY-MM-DD') : null;
+	      return row.projImpBegdate ? moment(row.projImpBegdate).format('YYYY-MM-DD') : null;
 	   	},
 		preSaleEndTimeFormatter(row, column) {
-	      return row.preSaleEndTime ? moment(row.preSaleEndTime).format('YYYY-MM-DD') : null;
+	      return row.projImpEndate ? moment(row.projImpEndate).format('YYYY-MM-DD') : null;
 	   	}, 
 	    handleAdd() {
 	    	this.$router.push('add_preSale');
@@ -162,11 +160,11 @@ export default {
             this.downloadFile();
         },
 		handleEdit(index, row) {
-			sessionStorage.setItem('jihuihao',row.jihuihao);
+			sessionStorage.setItem('preSaleEdit_oppoNo',row.oppoNo);
             this.$router.push("/edit_preSale");
 		},
 		handleInfo(index, row) {
-			sessionStorage.setItem('jihuihao',row.jihuihao);
+			sessionStorage.setItem('preSaleInfo_oppoNo',row.oppoNo);
 			this.$router.push("/preSale_info");
 			
 		},
@@ -176,7 +174,7 @@ export default {
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
 					//售前立项列表查询
-					self.queryprojList();
+					self.querypreSalejList();
 					
 				} else {
 					return false;
@@ -185,27 +183,32 @@ export default {
 		},
 		//重置
 		resetForm() {
-			this.ruleForm2.projApplySta = '';
-            this.ruleForm2.jihuihao = '';
+			this.ruleForm2.projApplyStatus = '';
+            this.ruleForm2.oppoNo = '';
             this.ruleForm2.projIncmType = '';
             this.ruleForm2.projType = '';
 		},
 		handleCurrentChange(val) {
 			this.pageNum = val;
 			//分页列表查询
-			this.queryprojList();
+			this.querypreSalejList();
 		},
 		//查询售前立项列表
-		queryprojList() {
+		querypreSalejList() {
 			let self = this;
 			let params = {
-				
+				pageNum: self.pageNum,
+				pageSize: self.pageSize,
+				projApplyStatus: self.ruleForm2.projApplyStatus,
+				oppoNo: self.ruleForm2.oppoNo,
+				projIncmType: self.ruleForm2.projIncmType,
+				projType: self.ruleForm2.projType,
 			};
-			self.$axios.get(baseURL+'/leave/queryprojList', {params: params})
+			self.$axios.get(baseURL+'/presale/queryPresaleProjs', {params: params})
 			.then((res) => {
-				console.log('LeaveList',res);
+				console.log('PresaleList',res);
 				if(res.data.code === "S00000") {
-					self.projdataList = res.data.data.models;
+					self.projdataList = res.data.data.list;
 					self.pageNum = params.pageNum;
 					self.totalRows = Number(res.data.data.total);
 				}
@@ -256,7 +259,7 @@ export default {
 			})
 		},
 		projApplyStaFormatter(row, column) {
-			return row.projApplySta=='00'? '审批通过' : row.projApplySta=='99' ? '审批失败' : row.projApplySta=='02' ? '审批中' : row.projApplySta=='01' ? '未提交' : null;
+			return row.projApplyStatus=='00'? '审批通过' : row.projApplyStatus=='99' ? '审批失败' : row.projApplyStatus=='02' ? '审批中' : row.projApplyStatus=='01' ? '未提交' : null;
 		},
 		projIncmTypeFormatter(row, column) {
 			return row.projIncmType=='01'? 'Pipeline' : row.projIncmType=='02' ? 'EATP' : row.projIncmType=='03' ? 'Frotlog' : row.projIncmType=='04' ? 'Backlog' : null;
