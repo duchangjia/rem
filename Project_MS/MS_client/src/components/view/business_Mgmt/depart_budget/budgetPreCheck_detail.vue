@@ -1,17 +1,13 @@
 <template>
     <div class="container-wrap">
-        <current yiji="业务管理" erji="部门预算一览" sanji="部门预算详情"></current>
+        <current yiji="业务管理" erji="部门预算一览" sanji="部门项目预算详情"></current>
         <div class="content-wrapper">
             <div class="titlebar">
-                <span class="title-text">部门预算详情</span>
+                <span class="title-text">部门项目预算详情</span>
             </div>
             <div class="add-wrapper">
                 <el-form label-width="140px" :inline="true">
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="机会号">
-                            <el-input :disabled="true" v-model="salesInfo.oppoNo"></el-input>
-                        </el-form-item>
-                    </el-col>
+                    <el-col :span="24" class="item-title">项目基本信息</el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="项目名称">
                                 <el-input :disabled="true" v-model="salesInfo.projName"></el-input>
@@ -23,23 +19,19 @@
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="客户">
-                            <el-select v-model="salesInfo.coocustNo"  :disabled="true">
-                                <el-option v-for="item in coocustNoList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
-                            </el-select>    
+                        <el-form-item label="部门">
+                            <el-input :disabled="true" v-model="salesInfo.projNo"></el-input>  
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="项目经理">
+                            <el-input :disabled="true" v-model="salesInfo.projNo"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="服务管理模式">
-                            <el-select v-model="salesInfo.projSrvMngmode" :disabled="true">
-								<el-option v-for="item in projSrvMngmodeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
-							</el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="项目类型">
                             <el-select v-model="salesInfo.projType" :disabled="true">
-								<el-option v-for="item in projTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+								<el-option v-for="item in projSrvMngmodeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
                         </el-form-item>
                     </el-col>
@@ -51,42 +43,20 @@
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="预计合同金额">
-                                <el-input :disabled="true" v-model="salesInfo.projPreconAmt"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="订单类型">
-                            <el-select  v-model="salesInfo.projOrdType" :disabled="true">
-                                <el-option v-for="item in projOrdTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="项目交付地">
-                                <el-input :disabled="true"  v-model="salesInfo.projImplePla"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="预计合同签订时间">
+                        <el-form-item label="计划开始时间">
                                 <el-input :disabled="true" v-model="salesInfo.projPreconDate"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="预计收入时间">
+                        <el-form-item label="计划结束时间">
                                 <el-input :disabled="true" v-model="salesInfo.projPreincmDate"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="收入类型">
-                            <el-select v-model="salesInfo.projIncmType" :disabled="true">
+                            <el-select v-model="salesInfo.projIncmType">
                                 <el-option v-for="item in projIncmTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="合同编号">
-                                <el-input :disabled="true" v-model="salesInfo.projConno"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -96,70 +66,56 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-
-                    <el-col :span="24" class="item-title">销售信息</el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="销售">
-                                <el-input :disabled="true" v-model="salesInfo.projSaleName"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="销售主管">
-                                <el-input :disabled="true" v-model="salesInfo.projSaleLinemgr"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item label="项目说明">
-                            <el-input type="textarea" :disabled="true" class="b-textarea" v-model="salesInfo.remark"></el-input>
-                        </el-form-item>
-                    </el-col>
                     
-                    <el-col :span="24" class="item-title">项目实施</el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="部门中心">
-                                <el-input :disabled="true" v-model="projImpleInfo.projImpDepname"></el-input>
+                   <el-col :span="24" class="item-title">预算信息V4.0</el-col>
+                   <el-col :sm="24" :md="8">
+                        <el-form-item label="收入" class="sm_item">
+                             <el-input :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="部门编号">
-                                <el-input :disabled="true" v-model="projImpleInfo.projImpDepno"></el-input>
+                    <el-col :sm="24" :md="8">
+                        <el-form-item label="净收入" class="sm_item">
+                             <el-input :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="成本中心">
-                                <el-input :disabled="true" v-model="projImpleInfo.projImpCcc"></el-input>
+                    <el-col :sm="24" :md="8">
+                        <el-form-item label="税金" class="sm_item">
+                             <el-input :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="实施进度">
-                            <el-select v-model="projImpleInfo.projImpStep" :disabled="true">
-                                <el-option v-for="item in projImpStepList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
-                            </el-select>
+                    <el-col :sm="24" :md="8">
+                        <el-form-item label="人力成本" class="sm_item">
+                             <el-input :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="项目经理">
-                                <el-input :disabled="true" v-model="projImpleInfo.projImpPm"></el-input>
+                    <el-col :sm="24" :md="8">
+                        <el-form-item label="费用成本" class="sm_item">
+                             <el-input :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="项目主管">
-                                <el-input :disabled="true" v-model="projImpleInfo.projImpMgr"></el-input>
+                    <el-col :sm="24" :md="8">
+                        <el-form-item label="总成本" class="sm_item">
+                             <el-input :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="计划开始时间">
-                                <el-input :disabled="true" v-model="projImpleInfo.projImpBegdate"></el-input>
+                    <el-col :sm="24" :md="24">
+                        <el-form-item label="毛利率" class="sm_item">
+                             <el-input :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="计划结束时间">
-                                <el-input :disabled="true" v-model="projImpleInfo.projImpEndate"></el-input>
+                    <el-col :sm="24" :md="8">
+                        <el-form-item label="版本" class="sm_item">
+                             <el-input :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="24">
-                        <el-form-item label="项目说明">
-                            <el-input type="textarea" :disabled="true" class="b-textarea" v-model="projImpleInfo.projImpDesc"></el-input>
+                    <el-col :sm="24" :md="8">
+                        <el-form-item label="预算状态" class="sm_item">
+                             <el-input :disabled="true"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="8">
+                        <el-form-item label="提交日期" class="sm_item">
+                            <el-input :disabled="true"></el-input>
                         </el-form-item>
                     </el-col>
                     <!-- <el-col :span="24" class="item-title">项目分包</el-col>
@@ -177,25 +133,50 @@
                             </el-table-column>
                         </el-table>
                     </el-col> -->
-                    <el-col :span="24" class="item-title">项目材料</el-col>
+                    <el-col :span="24" class="item-title">预算明细</el-col>
+                    <el-col :span="24" class="item-title">
+                        <ul class="table_btnBox">
+                            <li class="fl" v-for="(item,index) in tableButton">
+                                <el-button class="btn-default" :class="{'active':item.active}" @click="tableTab(item,index)">{{item.name}}</el-button>
+                            </li>
+                        </ul>
+                    </el-col>
                     <el-col :span="24">
-                        <el-table stripe :data="ProjFileList" class="table-add">
-                            <el-table-column align="center" prop="rid" label="编号">
+                        <el-table stripe :data="tableList" class="table-add"  v-show="showIndex===0">
+                            <el-table-column align="center" prop="title" label="">
                             </el-table-column>
-                            <el-table-column align="center" prop="attaType" label="类型">
-                            </el-table-column>
-                            <el-table-column align="center" prop="attaFile" label="名称">
-                            </el-table-column>
-                            <el-table-column align="center" prop="remark" label="说明">
-                            </el-table-column>
-                            <el-table-column align="center"  label="操作">
-                                <template scope="scope">
-                                    <el-button class="btn-primary">
-                                        下载
-                                    </el-button>
-                                </template>
+                            <el-table-column align="center" :prop="item.dataKey" :label="item.label" v-for="(item,index) in tableList">
                             </el-table-column>
                         </el-table>
+                        <div  v-show="showIndex===1">
+                            <div class="btn_box">
+                                <el-button class="btn-default">添加人员</el-button>
+                                <el-button  class="btn-default">TBD</el-button>
+                                <el-button  class="btn-default">重新计算</el-button>
+                                <el-button  class="btn-default">导入</el-button>
+                                <el-button  class="btn-default">导出</el-button>
+                            </div>
+                            <el-table stripe :data="tableTwoList" class="table-add" v-show="showIndex===1" style="width: 100%">
+                                <el-table-column align="center" prop="department" label="部门">
+                                </el-table-column>
+                                <el-table-column align="center" prop="emNumber" label="员工号"  width="200">
+                                </el-table-column>
+                                <el-table-column align="center" prop="name" label="姓名">
+                                </el-table-column>
+                                <el-table-column align="center" prop="rank" label="职级">
+                                </el-table-column>
+                                <el-table-column align="center" prop="general" label="总收入">
+                                </el-table-column>
+                                <el-table-column align="center" prop="revenue" label="预计收入">
+                                </el-table-column>
+                                <el-table-column align="center" prop="unit" label="单价">
+                                </el-table-column>
+                                <el-table-column align="center" :prop="item.dataKey" :label="item.label" v-for="(item,index) in tableListTwo" width="120">
+                                </el-table-column>
+                            </el-table>
+
+                        </div>
+                        
                     </el-col>
                 </el-form>
             </div>
@@ -210,19 +191,136 @@
 		data() {
 			return{
                 searchInfo:{},
+                showIndex:0,
+                //总表
                 tableList:[
+                    {   
+                        label:'2010-10-10',
+                        cccc:'2000',
+                        title:'人力成本',
+                        dataKey:'cccc'
+                    },
+                    {   
+                        label:'2011-10-10',
+                        title:'费用成本',
+                        cccc:'2002',
+                        dataKey:'cccc'
+                    },
+                    {   
+                        label:'2012-10-10',
+                        title:'收入',
+                        cccc:'2003',
+                        dataKey:'cccc'
+                    },
+                    {   
+                        label:'2013-10-10',
+                        cccc:'2004',
+                        title:'净收入',
+                        dataKey:'cccc'
+                    },
+                    {   
+                        label:'2014-10-10',
+                        title:'税金',
+                        cccc:'2005',
+                        dataKey:'cccc'
+                    },
+                    {   
+                        label:'2015-10-10',
+                        title:'总成本',
+                        cccc:'2006',
+                        dataKey:'cccc'
+                    }
+                ],
+                //人力
+                tableTwoList:[
                     {
-                        projImpDepno:'1002',
-                        oppoNo:'1003223',
-                        projNo:'1002020',
-                        projName:'赚钱项目',
-                        projStatus:'01',
-                        projIncmType:'02',
-                        projIncmConfim:'03',
-                        projSaleName:'周杰伦',
-                        projSaleLinemgr:'马经理',
-                        projImpBegdate:'2017-12-12',
-                        projImpEndate:'2017-12-13'
+                        department:'MOBILE',
+                        emNumber:'10020020',
+                        name:'李先生',
+                        rank:'B9',
+                        general:'100',
+                        revenue:'233',
+                        unit:'2000'
+
+                    },
+                    {
+                        
+                        department:'MOBILE',
+                        emNumber:'10020020',
+                        name:'李先生',
+                        rank:'B9',
+                        general:'100',
+                        revenue:'233',
+                        unit:'2000'
+                    },
+                    {
+                        department:'MOBILE',
+                        emNumber:'10020020',
+                        name:'李先生',
+                        rank:'B9',
+                        general:'100',
+                        revenue:'233',
+                        unit:'2000'
+                    },
+                ],
+                tableListTwo:[
+                    {   
+                        label:'2010-10-10',
+                        cccc:'2000',
+                        title:'人力成本',
+                        dataKey:'cccc'
+                    },
+                    {   
+                        label:'2011-10-10',
+                        title:'费用成本',
+                        cccc:'2002',
+                        dataKey:'cccc'
+                    },
+                    {   
+                        label:'2012-10-10',
+                        title:'收入',
+                        cccc:'2003',
+                        dataKey:'cccc'
+                    },
+                    {   
+                        label:'2013-10-10',
+                        cccc:'2004',
+                        title:'净收入',
+                        dataKey:'cccc'
+                    },
+                    {   
+                        label:'2014-10-10',
+                        title:'税金',
+                        cccc:'2005',
+                        dataKey:'cccc'
+                    },
+                    {   
+                        label:'2015-10-10',
+                        title:'总成本',
+                        cccc:'2006',
+                        dataKey:'cccc'
+                    }
+                ],
+                tableButton:[
+                    {
+                        active:true,
+                        name:'总表'
+                    },
+                    {
+                        active:false,
+                        name:'人力'
+                    },
+                    // {
+                    //     active:false,
+                    //     name:'分包'
+                    // },
+                    {
+                        active:false,
+                        name:'费用'
+                    },
+                    {
+                        active:false,
+                        name:'收入'
                     }
                 ],
                 salesInfo:{
@@ -231,8 +329,8 @@
                     projNo:'',
 		            coocustNo:'',
                     projSrvMngmode:'',
-                    projType:'',
-                    projIncmConfim:'',
+                    projType:'01',
+                    projIncmConfim:'01',
                     projPreconAmt:'',
                     projOrdType:'',
                     projImplePla:'',
@@ -314,14 +412,6 @@
                     {paraValue: '01',paraShowMsg: '客户1'},
 					{paraValue: '02',paraShowMsg: '客户2'},
 					{paraValue: '03',paraShowMsg: '客户3'}
-                ],
-                ProjFileList:[
-                    {
-                        rid:'文件的编号',
-                        attaType:'文件的类型',
-                        attaFile:'文件名称',
-                        remark:'文件说明'
-                    }
                 ]
             }
         },
@@ -358,6 +448,17 @@
 				.catch((err) => {
 					console.log(err)
 				})
+            },
+            //切换table
+            tableTab(item,index){
+                var self = this;
+                //添加减少类
+                self.tableButton.forEach(function(item) {
+                    item.active =false
+                });
+                item.active = true
+               self.showIndex = index
+
             },
             //查询项目实施信息详情
             queryProjImpleInfo() {
@@ -449,12 +550,26 @@
 	};
 </script>
 <style lang="scss">
-    .content-wrapper{
-        .add-wrapper{
-            .b-textarea{
-                min-width:860px !important;
+    .table_btnBox li{
+        margin-left:20px;
+        .btn-default{
+            &:hover,&.active{
+                background:$color-primary;
+                color:#fff;
             }
-           
+            
+        }
+    }
+    .btn_box{
+        padding:20px 0;
+        padding-left:30px;
+        .el-button{
+            &.btn-default{
+                &:hover{
+                    background:$color-primary;
+                    color:#fff;
+                }
+            }
         }
     }
 </style>
