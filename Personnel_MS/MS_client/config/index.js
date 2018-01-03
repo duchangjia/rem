@@ -68,6 +68,7 @@ module.exports = {
         // target: 'http://11.241.8.132:8888/',
         // target: 'http://11.241.8.247:8888/',
         // target: 'http://11.241.8.200:8888/',
+        // target: 'http://192.168.137.90:8888/',
         // target: 'http://localhost:3000/',
         changeOrigin: true,
         secure: false,
