@@ -26,9 +26,10 @@
 					</el-col>		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="客户" prop="coocustNo">
-							<el-select v-model="formdata1.coocustNo">
+							<el-input v-model="formdata1.coocustNo"></el-input>
+							<!-- <el-select v-model="formdata1.coocustNo">
 								<el-option v-for="item in userNoList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
-							</el-select>
+							</el-select> -->
 					 	</el-form-item>
 					</el-col>		
 					<el-col :sm="24" :md="12">
@@ -55,7 +56,7 @@
 						  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="预计合同金额" prop="projPreconAmt">
-                            <el-input v-model.number="formdata1.projPreconAmt"></el-input>
+                            <el-input v-model="formdata1.projPreconAmt"></el-input>
 					  	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
@@ -72,17 +73,17 @@
 				  	</el-col>
                     <el-col :sm="24" :md="12">
 						<el-form-item label="预计合同签订时间" prop="porjPreconDate">
-				        	<el-date-picker type="date" v-model="formdata1.porjPreconDate" @change="changePorjPreconDate" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata1.porjPreconDate" @change="changePorjPreconDate" value-format="yyyy-MM-dd" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
                     <el-col :sm="24" :md="12">
-						<el-form-item label="预计结束时间" prop="projImpBegdate">
-				        	<el-date-picker type="date" v-model="formdata1.projImpBegdate" @change="changeStartTime" style="width:100%;"></el-date-picker>
+						<el-form-item label="计划开始时间" prop="projImpBegdate">
+				        	<el-date-picker type="date" v-model="formdata1.projImpBegdate" @change="changeStartTime" value-format="yyyy-MM-dd" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="预计结束时间" prop="projImpEndate">
-				        	<el-date-picker type="date" v-model="formdata1.projImpEndate" @change="changeEndTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata1.projImpEndate" @change="changeEndTime" value-format="yyyy-MM-dd" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
                 </el-form>
@@ -90,7 +91,7 @@
                 <el-form ref="formdata2" :inline="true"  :rules="rules1" :model="formdata1" label-width="130px">
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="销售" prop="projSaleName">
-						    <el-input type="text" v-model="formdata1.projSaleName"></el-input>
+						    <el-input type="text" v-model="formdata1.projSaleName" @change="changeProjSaleName"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					  <el-col :sm="24" :md="12">
@@ -175,18 +176,20 @@
 	export default {
 		data() {
 			var checkWorkotStartTime = (rule, value, callback) => {
-		        if (value == '') {
-		          	callback(new Error('预计开始时间不能为空'));
-		        } else if (this.formdata1.projImpEndate && value >= this.formdata1.projImpEndate) {
+		        // if (value == '') {
+		        //   	callback(new Error('预计开始时间不能为空'));
+				// } else 
+				if (this.formdata1.projImpEndate && value >= this.formdata1.projImpEndate) {
 		          	callback(new Error('请输入正确的开始时间'));
 		        } else {
 		          	callback();
 		        }
 	      	};
 			var checkWorkotEndTime = (rule, value, callback) => {
-		        if (value == '') {
-		          	callback(new Error('预计结束时间不能为空'));
-		        } else if (this.formdata1.projImpBegdate && value <= this.formdata1.projImpBegdate) {
+		        // if (value == '') {
+		        //   	callback(new Error('预计结束时间不能为空'));
+				// } else 
+				if (this.formdata1.projImpBegdate && value <= this.formdata1.projImpBegdate) {
 		          	callback(new Error('请输入正确的结束时间'));
 		        } else {
 		          	callback();
@@ -281,7 +284,7 @@
 						{ required: true, message: '项目类型不能为空', trigger: 'blur' }
 					], // 项目类型
 					projIncmConfim: [
-						// { required: true, message: '收入确认类型不能为空', trigger: 'blur' }
+						{ required: true, message: '收入确认类型不能为空', trigger: 'blur' }
 					], // 收入确认类型
 					projPreconAmt: [
 						{ required: true, message: '预算合同金额不能为空', trigger: 'blur' }
@@ -290,7 +293,7 @@
 						{ required: true, message: '订单类型不能为空', trigger: 'blur' }
 					], // 订单类型
 					projImplePla: [
-						{ required: true, message: '项目交付地不能为空', trigger: 'blur' }
+						// { required: true, message: '项目交付地不能为空', trigger: 'blur' }
 					], // 项目交付地
 					porjPreconDate: [
 						{ required: true, message: '预计合同签订时间不能为空', trigger: 'change' }
@@ -305,19 +308,43 @@
 						{ required: true, message: '销售人员姓名不能为空', trigger: 'blur' }
 					], // 销售人员姓名
 					projSaleLinemgrno: [
-						{ required: true, message: '销售主管不能为空', trigger: 'blur' }
+						// { required: true, message: '销售主管不能为空', trigger: 'blur' }
 					], // 销售主管
 					remark: [
 						{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 					], // 项目说明(销售信息中的)
-					projBudTalwork: [], // 总工作量
-					projBudHrcost: [], // 人力成本
-					projBudExpcost: [], // 费用成本
-					projBudSubcost: [], // 分包成本
-					projBudTax: [], // 税金
-					projBudTalinc: [], // 总收入
-					projGrsMarg: [], // 毛利润
-					projNetMarg: []  //毛利润
+					projBudTalwork: [
+						{ required: true, message: '总工作量不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					], // 总工作量
+					projBudHrcost: [
+						{ required: true, message: '人力成本不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					], // 人力成本
+					projBudExpcost: [
+						{ required: true, message: '费用成本不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					], // 费用成本
+					projBudSubcost: [
+						{ required: true, message: '分包成本不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					], // 分包成本
+					projBudTax: [
+						{ required: true, message: '税金不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					], // 税金
+					projBudTalinc: [
+						{ required: true, message: '总收入不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					], // 总收入
+					projGrsMarg: [
+						{ required: true, message: '毛利润不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					], // 毛利润
+					projNetMarg: [
+						{ required: true, message: '毛利润不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					]  //毛利润
                 }
 			}
 		},
@@ -351,8 +378,10 @@
 			changeEndTime(time) {
 				this.formdata1.projImpEndate = time;
 			},
-			changeValue(value) {
-		 		const self = this;
+			//销售名字修改
+			changeProjSaleName(value) {
+				console.log(value)
+		 		// this.formdata1.projSaleLinemgrno = ;
 	      	},
 	      	changeUpload(file, fileList) {
 		 		this.fileFlag = file;
@@ -364,7 +393,7 @@
 					// this.$router.push('/');
 	      		}
 			},
-			//保存提交审批点击
+			//保存提交点击
 			handleSaveAndSubmit() {
 				let self = this;
 				self.$refs.formdata1.validate(valid => {
@@ -372,32 +401,35 @@
 			          	self.$refs.formdata2.validate(valid => {
 							if (valid) {
 								self.$refs.formdata3.validate(valid => {
+									
 									if (valid) {
 										console.log('valid')
+										let projGrsMarg= parseFloat((Number(self.formdata1.projGrsMarg)/100).toFixed(8));
+										let projNetMarg= parseFloat((Number(self.formdata1.projNetMarg)/100).toFixed(8));
 										let params = {
 											projName: self.formdata1.projName, //项目名称
 											projIncmConfim: self.formdata1.projIncmConfim, // 收入类型
 											coocustNo: self.formdata1.coocustNo, // 客户
 											projSrvMngmode: self.formdata1.projSrvMngmode, // 服务管理模式
 											projType: self.formdata1.projType, // 项目类型
-											projIncmConfim: self.formdata1.projIncmConfim, // 收入确认类型
+											projIncmType: self.formdata1.projIncmType, // 收入确认类型
 											projPreconAmt: self.formdata1.projPreconAmt, // 预算合同金额
 											projOrdType: self.formdata1.projOrdType, // 订单类型
-											projImplePla: self.formdata1.projImplePla, // 项目交付地
+											projImplePla: self.formdata1.projImplePla || '', // 项目交付地
 											porjPreconDate: self.formdata1.porjPreconDate, // 预计合同签订时间
-											projImpBegdate: self.formdata1.projImpBegdate, // 计划开始时间
-											projImpEndate: self.formdata1.projImpEndate, // 预计结束时间
-											projSaleName: self.formdata1.projSaleName, // 销售人员姓名
-											projSaleLinemgrno: self.formdata1.projSaleLinemgrno, // 销售主管
-											remark: self.formdata1.remark, // 项目说明(销售信息中的)
-											projBudTalwork: self.formdata1.projBudTalwork, // 总工作量
-											projBudHrcost: self.formdata1.projBudHrcost, // 人力成本
-											projBudExpcost: self.formdata1.projBudExpcost, // 费用成本
-											projBudSubcost: self.formdata1.projBudSubcost, // 分包成本
-											projBudTax: self.formdata1.projBudTax, // 税金
-											projBudTalinc: self.formdata1.projBudTalinc, // 总收入
-											projGrsMarg: self.formdata1.projGrsMarg, // 毛利润
-											projNetMarg: self.formdata1.projNetMarg, // 净利润 
+											projImpBegdate: self.formdata1.projImpBegdate || '', // 计划开始时间
+											projImpEndate: self.formdata1.projImpEndate || '', // 预计结束时间
+											projSaleName: self.formdata1.projSaleName || '', // 销售人员姓名
+											projSaleLinemgrno: self.formdata1.projSaleLinemgrno || '', // 销售主管
+											remark: self.formdata1.remark || '', // 项目说明(销售信息中的)
+											projBudTalwork: self.formdata1.projBudTalwork || '', // 总工作量
+											projBudHrcost: self.formdata1.projBudHrcost || '', // 人力成本
+											projBudExpcost: self.formdata1.projBudExpcost || '', // 费用成本
+											projBudSubcost: self.formdata1.projBudSubcost || '', // 分包成本
+											projBudTax: self.formdata1.projBudTax || '', // 税金
+											projBudTalinc: self.formdata1.projBudTalinc || '', // 总收入
+											projGrsMarg: projGrsMarg || '', // 毛利润
+											projNetMarg: projNetMarg || '', // 净利润 
 										}
 										console.log('params',params);
 										//保存
@@ -412,7 +444,7 @@
 				})
 
 			},
-			//保存不提交审批点击
+			//保存不提交点击
 			handleNotSubmit() {
 				let self = this;
 				self.$refs.formdata1.validate(valid => {
@@ -422,30 +454,32 @@
 								self.$refs.formdata3.validate(valid => {
 									if (valid) {
 										console.log('valid1')
+										let projGrsMarg= parseFloat((Number(self.formdata1.projGrsMarg)/100).toFixed(8));
+										let projNetMarg= parseFloat((Number(self.formdata1.projNetMarg)/100).toFixed(8));
 										let params = {
 											projName: self.formdata1.projName, //项目名称
 											projIncmConfim: self.formdata1.projIncmConfim, // 收入类型
 											coocustNo: self.formdata1.coocustNo, // 客户
 											projSrvMngmode: self.formdata1.projSrvMngmode, // 服务管理模式
 											projType: self.formdata1.projType, // 项目类型
-											projIncmConfim: self.formdata1.projIncmConfim, // 收入确认类型
-											projPreconAmt: self.formdata1.projPreconAmt, // 预算合同金额
-											projOrdType: self.formdata1.projOrdType, // 订单类型
-											projImplePla: self.formdata1.projImplePla, // 项目交付地
-											porjPreconDate: self.formdata1.porjPreconDate, // 预计合同签订时间
-											projImpBegdate: self.formdata1.projImpBegdate, // 计划开始时间
-											projImpEndate: self.formdata1.projImpEndate, // 预计结束时间
-											projSaleName: self.formdata1.projSaleName, // 销售人员姓名
-											projSaleLinemgrno: self.formdata1.projSaleLinemgrno, // 销售主管
-											remark: self.formdata1.remark, // 项目说明(销售信息中的)
-											projBudTalwork: self.formdata1.projBudTalwork, // 总工作量
-											projBudHrcost: self.formdata1.projBudHrcost, // 人力成本
-											projBudExpcost: self.formdata1.projBudExpcost, // 费用成本
-											projBudSubcost: self.formdata1.projBudSubcost, // 分包成本
-											projBudTax: self.formdata1.projBudTax, // 税金
-											projBudTalinc: self.formdata1.projBudTalinc, // 总收入
-											projGrsMarg: self.formdata1.projGrsMarg, // 毛利润
-											projNetMarg: self.formdata1.projNetMarg, // 净利润 
+											projIncmType: self.formdata1.projIncmType, // 收入确认类型
+											projPreconAmt: self.formdata1.projPreconAmt || '', // 预算合同金额
+											projOrdType: self.formdata1.projOrdType || '', // 订单类型
+											projImplePla: self.formdata1.projImplePla || '', // 项目交付地
+											porjPreconDate: self.formdata1.porjPreconDate || '', // 预计合同签订时间
+											projImpBegdate: self.formdata1.projImpBegdate || '', // 计划开始时间
+											projImpEndate: self.formdata1.projImpEndate || '', // 预计结束时间
+											projSaleName: self.formdata1.projSaleName || '', // 销售人员姓名
+											projSaleLinemgrno: self.formdata1.projSaleLinemgrno || '', // 销售主管
+											remark: self.formdata1.remark || '', // 项目说明(销售信息中的)
+											projBudTalwork: self.formdata1.projBudTalwork || '', // 总工作量
+											projBudHrcost: self.formdata1.projBudHrcost || '', // 人力成本
+											projBudExpcost: self.formdata1.projBudExpcost || '', // 费用成本
+											projBudSubcost: self.formdata1.projBudSubcost || '', // 分包成本
+											projBudTax: self.formdata1.projBudTax || '', // 税金
+											projBudTalinc: self.formdata1.projBudTalinc || '', // 总收入
+											projGrsMarg: projGrsMarg || '', // 毛利润
+											projNetMarg: projNetMarg || '', // 净利润 
 										}
 										console.log('params',params);
 										//保存

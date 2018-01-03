@@ -16,19 +16,19 @@
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="项目名称">
-							<el-input v-model="formdata1.projName"></el-input>
+							<el-input v-model="formdata1.projName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="收入类型">
-							<el-select v-model="formdata1.projIncmConfim">
+							<el-select v-model="formdata1.projIncmConfim" :disabled="true">
 								<el-option v-for="item in projIncmTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="客户">
-							<el-input v-model="formdata1.coocustNo"></el-input>
+							<el-input v-model="formdata1.coocustNo" :disabled="true"></el-input>
 							<!-- <el-select v-model="formdata1.coocustNo">
 								<el-option v-for="item in userNoList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select> -->
@@ -36,21 +36,21 @@
 					</el-col>		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="服务管理模式">
-							<el-select v-model="formdata1.projSrvMngmode">
+							<el-select v-model="formdata1.projSrvMngmode" :disabled="true">
 								<el-option v-for="item in fuwuModelList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="项目类型">
-						    <el-select v-model="formdata1.projType">
+						    <el-select v-model="formdata1.projType" :disabled="true">
 								<el-option v-for="item in projTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="收入确认类型">
-						    <el-select v-model="formdata1.projIncmType">
+						    <el-select v-model="formdata1.projIncmType" :disabled="true">
 								<el-option v-for="item in incmConfimList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
@@ -58,34 +58,34 @@
 						  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="预计合同金额" prop="projPreconAmt">
-                            <el-input v-model.number="formdata1.projPreconAmt"></el-input>
+                            <el-input v-model.number="formdata1.projPreconAmt" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="订单类型" prop="projOrdType">
-						    <el-select v-model="formdata1.projOrdType">
+						    <el-select v-model="formdata1.projOrdType" :disabled="true">
 								<el-option v-for="item in dindanTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	 
 				  	<el-col :sm="24" :md="12">
 				  		<el-form-item class="projImplePla" label="项目交付地" prop="projImplePla">
-						    <el-input type="text" v-model="formdata1.projImplePla"></el-input>
+						    <el-input type="text" v-model="formdata1.projImplePla" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
                     <el-col :sm="24" :md="12">
 						<el-form-item label="预计合同签订时间" prop="porjPreconDate">
-				        	<el-date-picker type="datetime" v-model="formdata1.porjPreconDate" @change="changePorjPreconDate" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata1.porjPreconDate" @change="changePorjPreconDate" style="width:100%;" :disabled="true"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
                     <el-col :sm="24" :md="12">
 						<el-form-item label="预计结束时间" prop="projImpBegdate">
-				        	<el-date-picker type="datetime" v-model="formdata1.projImpBegdate" @change="changeStartTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata1.projImpBegdate" @change="changeStartTime" style="width:100%;" :disabled="true"></el-date-picker>
 				      	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="预计结束时间" prop="projImpEndate">
-				        	<el-date-picker type="datetime" v-model="formdata1.projImpEndate" @change="changeEndTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata1.projImpEndate" @change="changeEndTime" style="width:100%;" :disabled="true"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
                 </el-form>
@@ -93,12 +93,12 @@
                 <el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata1" label-width="130px">
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="销售" prop="projSaleName">
-						    <el-input type="text" v-model="formdata1.projSaleName"></el-input>
+						    <el-input type="text" v-model="formdata1.projSaleName" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					  <el-col :sm="24" :md="12">
 				  		<el-form-item label="销售主管" prop="projSaleLinemgrno">
-						    <el-input type="text" v-model="formdata1.projSaleLinemgrno"></el-input>
+						    <el-input type="text" v-model="formdata1.projSaleLinemgrno" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :span="24">
@@ -107,7 +107,7 @@
 							  type="textarea"
 							  :autosize="{ minRows: 5, maxRows: 5}"
 							  placeholder="请输入内容"
-							  v-model="formdata1.remark">
+							  v-model="formdata1.remark"  :disabled="true">
 							</el-input>
 					  	</el-form-item>
 				  	</el-col>
@@ -116,47 +116,46 @@
 				<el-form ref="formdata3" :inline="true"  :rules="rules3" :model="formdata2" label-width="130px">
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="总工作量" prop="projBudTalwork">
-						    <el-input type="text" v-model="formdata2.projBudTalwork"></el-input>
+						    <el-input type="text" v-model="formdata2.projBudTalwork" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					  <el-col :sm="24" :md="12">
 				  		<el-form-item label="人力成本" prop="projBudHrcost">
-						    <el-input type="text" v-model="formdata2.projBudHrcost"></el-input>
+						    <el-input type="text" v-model="formdata2.projBudHrcost" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="费用成本" prop="projBudExpcost">
-						    <el-input type="text" v-model="formdata2.projBudExpcost"></el-input>
+						    <el-input type="text" v-model="formdata2.projBudExpcost" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="分包成本" prop="projBudSubcost">
-						    <el-input type="text" v-model="formdata2.projBudSubcost"></el-input>
+						    <el-input type="text" v-model="formdata2.projBudSubcost" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="税金" prop="projBudTax">
-						    <el-input type="text" v-model="formdata2.projBudTax"></el-input>
+						    <el-input type="text" v-model="formdata2.projBudTax" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="总收入" prop="projBudTalinc">
-						    <el-input type="text" v-model="formdata2.projBudTalinc"></el-input>
+						    <el-input type="text" v-model="formdata2.projBudTalinc" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="毛利润(GM)%" prop="projGrsMarg">
-						    <el-input type="text" v-model="formdata2.projGrsMarg"></el-input>
+						    <el-input type="text" v-model="formdata2.projGrsMarg" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="净利润(GM)%" prop="projNetMarg">
-						    <el-input type="text" v-model="formdata2.projNetMarg"></el-input>
+						    <el-input type="text" v-model="formdata2.projNetMarg" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 				</el-form>
 				<el-col :span="24" class="item-title">审批历史</el-col>
-				<!-- <el-col :span="24"> -->
 					<ul class="shenpiList">
 						<li v-for="item in formdata1.projApplyStatusList" :key="item.projApplyStatusName">
 							<span>{{item.projApplyStatusTime}}</span>
@@ -164,7 +163,6 @@
 							<span>{{item.projApplyStatusMsg}}</span>
 						</li>
 					</ul>
-				<!-- </el-col> -->
 			</div>
 		</div>
 	</div>
@@ -357,6 +355,8 @@
 					console.log('presaledtl', res);
 					if(res.data.code == 'S00000') {
 						self.formdata2 = res.data.data;
+						self.formdata2.projGrsMarg = parseFloat((self.formdata2.projGrsMarg*100).toFixed(6));
+						self.formdata2.projNetMarg = parseFloat((self.formdata2.projNetMarg*100).toFixed(6));
 					}
 					
 				})
