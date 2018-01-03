@@ -11,7 +11,7 @@
 				</div>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata1" :inline="true"  :rules="rules" :model="formdata1" label-width="130px">
+				<el-form ref="formdata1" :inline="true" :rules="rules" :model="formdata1" label-width="134px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="机会号">
 							<el-input v-model="formdata1.oppoNo" :disabled="true"></el-input>
@@ -77,17 +77,17 @@
 				  	</el-col>
                     <el-col :sm="24" :md="12">
 						<el-form-item label="预计合同签订时间" prop="porjPreconDate">
-				        	<el-date-picker type="date" v-model="formdata1.porjPreconDate" @change="changePorjPreconDate" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata1.porjPreconDate" @change="changePorjPreconDate" value-format="yyyy-MM-dd" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
                     <el-col :sm="24" :md="12">
 						<el-form-item label="计划开始时间" prop="projImpBegdate">
-				        	<el-date-picker type="date" v-model="formdata1.projImpBegdate" @change="changeStartTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata1.projImpBegdate" @change="changeStartTime" value-format="yyyy-MM-dd" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="预计结束时间" prop="projImpEndate">
-				        	<el-date-picker type="date" v-model="formdata1.projImpEndate" @change="changeEndTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata1.projImpEndate" @change="changeEndTime" value-format="yyyy-MM-dd" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
                 </el-form>
@@ -209,7 +209,7 @@
 					coocustNo: "",
 					projSrvMngmode: "",
 					projType: "",
-					projIncmType: "T&M",
+					projIncmType: "",
 					applyNo: "",
                     porjPreconDate: "", //2017-10-12-21 10:20:20
                     projImpBegdate: "",
@@ -383,30 +383,32 @@
 							if (valid) {
 								self.$refs.formdata3.validate(valid => {
 									if (valid) {
+										let projGrsMarg= parseFloat((Number(self.formdata2.projGrsMarg)/100).toFixed(8));
+										let projNetMarg= parseFloat((Number(self.formdata2.projNetMarg)/100).toFixed(8));
 										let params = {
-											projName: self.formdata1.projName, //项目名称
-											projIncmConfim: self.formdata1.projIncmConfim, // 收入类型
-											coocustNo: self.formdata1.coocustNo, // 客户
-											projSrvMngmode: self.formdata1.projSrvMngmode, // 服务管理模式
-											projType: self.formdata1.projType, // 项目类型
-											projIncmConfim: self.formdata1.projIncmConfim, // 收入确认类型
-											projPreconAmt: self.formdata1.projPreconAmt, // 预算合同金额
-											projOrdType: self.formdata1.projOrdType, // 订单类型
-											projImplePla: self.formdata1.projImplePla, // 项目交付地
-											porjPreconDate: self.formdata1.porjPreconDate, // 预计合同签订时间
-											projImpBegdate: self.formdata1.projImpBegdate, // 计划开始时间
-											projImpEndate: self.formdata1.projImpEndate, // 预计结束时间
-											projSaleName: self.formdata1.projSaleName, // 销售人员姓名
-											projSaleLinemgrno: self.formdata1.projSaleLinemgrno, // 销售主管
-											remark: self.formdata1.remark, // 项目说明(销售信息中的)
-											projBudTalwork: self.formdata2.projBudTalwork, // 总工作量
-											projBudHrcost: self.formdata2.projBudHrcost, // 人力成本
-											projBudExpcost: self.formdata2.projBudExpcost, // 费用成本
-											projBudSubcost: self.formdata2.projBudSubcost, // 分包成本
-											projBudTax: self.formdata2.projBudTax, // 税金
-											projBudTalinc: self.formdata2.projBudTalinc, // 总收入
-											projGrsMarg: self.formdata2.projGrsMarg, // 毛利润
-											projNetMarg: self.formdata2.projNetMarg, // 净利润 
+											projName: self.formdata1.projName || '', //项目名称
+											projIncmConfim: self.formdata1.projIncmConfim || '', // 收入类型
+											coocustNo: self.formdata1.coocustNo || '', // 客户
+											projSrvMngmode: self.formdata1.projSrvMngmode || '', // 服务管理模式
+											projType: self.formdata1.projType || '', // 项目类型
+											projIncmType: self.formdata1.projIncmType || '', // 收入确认类型
+											projPreconAmt: self.formdata1.projPreconAmt || '', // 预算合同金额
+											projOrdType: self.formdata1.projOrdType || '', // 订单类型
+											projImplePla: self.formdata1.projImplePla || '', // 项目交付地
+											porjPreconDate: self.formdata1.porjPreconDate || '', // 预计合同签订时间
+											projImpBegdate: self.formdata1.projImpBegdate || '', // 计划开始时间
+											projImpEndate: self.formdata1.projImpEndate || '', // 预计结束时间
+											projSaleName: self.formdata1.projSaleName || '', // 销售人员姓名
+											projSaleLinemgrno: self.formdata1.projSaleLinemgrno || '', // 销售主管
+											remark: self.formdata1.remark || '', // 项目说明(销售信息中的)
+											projBudTalwork: self.formdata2.projBudTalwork || '', // 总工作量
+											projBudHrcost: self.formdata2.projBudHrcost || '', // 人力成本
+											projBudExpcost: self.formdata2.projBudExpcost || '', // 费用成本
+											projBudSubcost: self.formdata2.projBudSubcost || '', // 分包成本
+											projBudTax: self.formdata2.projBudTax || '', // 税金
+											projBudTalinc: self.formdata2.projBudTalinc || '', // 总收入
+											projGrsMarg: projGrsMarg || '', // 毛利润
+											projNetMarg: projNetMarg || '', // 净利润 
 										}
 										console.log('params', params)
 										//保存
@@ -430,30 +432,32 @@
 							if (valid) {
 								self.$refs.formdata3.validate(valid => {
 									if (valid) {
+										let projGrsMarg= parseFloat((Number(self.formdata2.projGrsMarg)/100).toFixed(8));
+										let projNetMarg= parseFloat((Number(self.formdata2.projNetMarg)/100).toFixed(8));
 										let params = {
-											projName: self.formdata1.projName, //项目名称
-											projIncmConfim: self.formdata1.projIncmConfim, // 收入类型
-											coocustNo: self.formdata1.coocustNo, // 客户
-											projSrvMngmode: self.formdata1.projSrvMngmode, // 服务管理模式
-											projType: self.formdata1.projType, // 项目类型
-											projIncmConfim: self.formdata1.projIncmConfim, // 收入确认类型
-											projPreconAmt: self.formdata1.projPreconAmt, // 预算合同金额
-											projOrdType: self.formdata1.projOrdType, // 订单类型
-											projImplePla: self.formdata1.projImplePla, // 项目交付地
-											porjPreconDate: self.formdata1.porjPreconDate, // 预计合同签订时间
-											projImpBegdate: self.formdata1.projImpBegdate, // 计划开始时间
-											projImpEndate: self.formdata1.projImpEndate, // 预计结束时间
-											projSaleName: self.formdata1.projSaleName, // 销售人员姓名
-											projSaleLinemgrno: self.formdata1.projSaleLinemgrno, // 销售主管
-											remark: self.formdata1.remark, // 项目说明(销售信息中的)
-											projBudTalwork: self.formdata2.projBudTalwork, // 总工作量
-											projBudHrcost: self.formdata2.projBudHrcost, // 人力成本
-											projBudExpcost: self.formdata2.projBudExpcost, // 费用成本
-											projBudSubcost: self.formdata2.projBudSubcost, // 分包成本
-											projBudTax: self.formdata2.projBudTax, // 税金
-											projBudTalinc: self.formdata2.projBudTalinc, // 总收入
-											projGrsMarg: self.formdata2.projGrsMarg, // 毛利润
-											projNetMarg: self.formdata2.projNetMarg, // 净利润 
+											projName: self.formdata1.projName || '', //项目名称
+											projIncmConfim: self.formdata1.projIncmConfim || '', // 收入类型
+											coocustNo: self.formdata1.coocustNo || '', // 客户
+											projSrvMngmode: self.formdata1.projSrvMngmode || '', // 服务管理模式
+											projType: self.formdata1.projType || '', // 项目类型
+											projIncmType: self.formdata1.projIncmType || '', // 收入确认类型
+											projPreconAmt: self.formdata1.projPreconAmt || '', // 预算合同金额
+											projOrdType: self.formdata1.projOrdType || '', // 订单类型
+											projImplePla: self.formdata1.projImplePla || '', // 项目交付地
+											porjPreconDate: self.formdata1.porjPreconDate || '', // 预计合同签订时间
+											projImpBegdate: self.formdata1.projImpBegdate || '', // 计划开始时间
+											projImpEndate: self.formdata1.projImpEndate || '', // 预计结束时间
+											projSaleName: self.formdata1.projSaleName || '', // 销售人员姓名
+											projSaleLinemgrno: self.formdata1.projSaleLinemgrno || '', // 销售主管
+											remark: self.formdata1.remark || '', // 项目说明(销售信息中的)
+											projBudTalwork: self.formdata2.projBudTalwork || '', // 总工作量
+											projBudHrcost: self.formdata2.projBudHrcost || '', // 人力成本
+											projBudExpcost: self.formdata2.projBudExpcost || '', // 费用成本
+											projBudSubcost: self.formdata2.projBudSubcost || '', // 分包成本
+											projBudTax: self.formdata2.projBudTax || '', // 税金
+											projBudTalinc: self.formdata2.projBudTalinc || '', // 总收入
+											projGrsMarg: projGrsMarg || '', // 毛利润
+											projNetMarg: projNetMarg || '', // 净利润 
 										}
 										console.log('params', params)
 										//保存
@@ -516,6 +520,8 @@
 					console.log('presaledtl', res);
 					if(res.data.code == 'S00000') {
 						self.formdata2 = res.data.data;
+						self.formdata2.projGrsMarg = parseFloat((self.formdata2.projGrsMarg*100).toFixed(6));
+						self.formdata2.projNetMarg = parseFloat((self.formdata2.projNetMarg*100).toFixed(6));
 					}
 					
 				})
@@ -580,4 +586,7 @@
 .titleBtn_wrapper {
 	float: right;
 }
+/* .add-wrapper .el-form-item__content {
+    height: 40px;
+} */
 </style>
