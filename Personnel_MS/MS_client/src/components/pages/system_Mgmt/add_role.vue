@@ -156,11 +156,6 @@ export default {
       this.$axios
         .get("/iem_hrm/role/queryChildMenuAndFunc", { params: params })
         .then(res => {
-          console.log(res.data.data,333)
-          // res.data.data.forEach(item=>{
-          //   this.submenus.push(item.menuName)
-          // })
-          // this.checkSubAll = false;
          this.submenus = this.funcsList = res.data.data
         })
         .catch(() => {
@@ -174,19 +169,6 @@ export default {
           arr.push(item.menuName)
       })
       this.checkedSubmenus = val?arr:[]
-      // this.checkSubAll = event.target.checked;
-      // if (this.checkSubAll == true) {
-      //   this.checkedSubmenus = this.submenus;
-      //   this.isSubIndeterminate = true;
-      // } else {
-      //   this.checkedSubmenus = [];
-      //   this.isSubIndeterminate = false;
-      // }
-      // this.checkedSubmenus.length > 0
-      //   ? (this.checkedSubmenusFlag = true)
-      //   : (this.checkedSubmenusFlag = false);
-      // this.funcsList = this.checkedSubmenus;
-      // console.log("这是全选的checkedSubmenus", this.funcsList);
       if(val) {
         this.checkedSubmenusFlag = true
       } else{
@@ -197,22 +179,12 @@ export default {
     handleCheckedSubsChange(val) {
       let checkedCount = val.length;
       this.checkSubAll = checkedCount === this.submenus.length;
-      // let checkedCount = val.length;
-      // this.isIndeterminate =
-      //   checkedCount > 0 && checkedCount < this.submenus.length;
-      // checkedCount > 0
-      //   ? (this.checkedSubmenusFlag = true)
-      //   : (this.checkedSubmenusFlag = false);
-      // checkedCount == this.submenus.length
-      //   ? (this.checkSubAll = true)
-      //   : (this.checkSubAll = false);
       this.funcsList2 = val;
       if(this.funcsList2.length > 0) {
         this.checkedSubmenusFlag = true
       }else {
         this.checkedSubmenusFlag = false
       }
-      // console.log("这是checkedSubmenus", this.funcsList);
     },
     // 功能权限 多选
     handleFuncsAllChange(val,funcs,index) {
@@ -273,13 +245,9 @@ export default {
       if (val.length == funcs.bsns.length) {
           this.isIndeterminate[index] = false
           this.checkFuncsAll[index] = true
-//        this.$set(this.isIndeterminate, index, true);
-//        this.$set(this.checkFuncsAll, index, true);
       } else {
           this.isIndeterminate[index] = true
           this.checkFuncsAll[index] = false
-//        this.$set(this.isIndeterminate, index, false);
-//        this.$set(this.checkFuncsAll, index, false);
       }
       this.addRoleMsg.roleFuncSet = [];
       val.forEach(function(ele) {
