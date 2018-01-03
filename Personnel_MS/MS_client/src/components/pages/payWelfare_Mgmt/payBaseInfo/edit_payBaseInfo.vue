@@ -259,7 +259,8 @@ export default {
       labelPosition: "right",
       userNo: "",
       custInfo: {},
-      editPayBaseInfo: {},
+      editPayBaseInfo: {
+      },
       salaryTop: 0,
       fileList: [],
       token: {
@@ -330,7 +331,7 @@ export default {
     this.getCustPostList(); //查询岗位列表
     this.getCustClassList(); //查询职级列表
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
-    this.getInsurancePayTemp(); //初始查询保险缴纳标准 
+    this.getInsurancePayTemp(); //初始查询保险缴纳标准
     this.getSalaryTop(); // 查当前薪资上限
   },
   computed: {
@@ -475,7 +476,6 @@ export default {
         .get("/iem_hrm/pay/queryPayBaseInfoDetail/" + userNo)
         .then(res => {
           self.editPayBaseInfo = res.data.data;
-          console.log("editPayBaseInfo", self.editPayBaseInfo);
           if (
             self.editPayBaseInfo.epFileManageList &&
             self.editPayBaseInfo.epFileManageList.length >= 1
