@@ -87,7 +87,7 @@
             let derpNo = this.$route.query.derpNo
             let costType = this.$route.query.costType
             let organNo = this.$route.query.organNo
-            console.log(derpNo,costType,organNo)
+            console.log(derpNo,costType,organNo,4444444)
           this.$axios.get(`/iem_hrm/organ/queryOrganCCCManagementByOrganNoAndCostType/${organNo}/${derpNo}/${costType}`)
               .then(res => {
                   console.log(res,111)
