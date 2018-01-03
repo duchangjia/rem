@@ -4,7 +4,7 @@ import utils from 'axios/lib/utils'
 import normalizeHeaderName from 'axios/lib/helpers/normalizeHeaderName'
 import Qs from 'qs'
 import router from '../router/index.js'
-import { Loading } from 'element-ui'
+import { Loading, MessageBox } from 'element-ui'
 // import store from '../store/index'
 // import { LOGIN, LOGOUT } from '../store/types'
 // import router from '../router/index'
@@ -124,7 +124,16 @@ axios.interceptors.response.use(
                     router.replace({
                         path: 'login',
                         query: {redirect: router.currentRoute.fullPath}
-                    })
+                    });
+                    break;
+                case 403:
+                    MessageBox.alert('用户无此操作权限', '提示', {
+                        confirmButtonText: '确定',
+                        callback: action => {
+                        
+                        }
+                    });
+                    break;
             }
         }
         if(--count <= 0) {
