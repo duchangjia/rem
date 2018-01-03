@@ -115,7 +115,7 @@ export default {
 							menuName: '客户一览'
 						}
 					]
-				},	
+				},
 // 				{
 // 					menuImg: 'icon-xmgl',
 // 					menuUrl: '5',

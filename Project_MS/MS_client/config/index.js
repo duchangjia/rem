@@ -38,7 +38,7 @@ module.exports = {
         },
       },
       '/crmCoopcustInfo':{
-        target: 'http://172.21.16.55:9080/',
+        target: 'http://172.21.16.96:9080/',
         // target: 'http://14.21.69.222:5555/',
         changeOrigin: true,
         secure: false,

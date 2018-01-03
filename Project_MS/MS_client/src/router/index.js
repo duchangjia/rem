@@ -294,6 +294,22 @@ const routes = [
                             path: '/',
                             component: resolve => require(['../components/view/project_Mgmt/proBudget/proBudget_query.vue'], resolve),
                         },
+                        {
+                            path: '/proBudget_edit',
+                            component: resolve => require(['../components/view/project_Mgmt/proBudget/proBudget_edit.vue'], resolve),
+                        },
+                        {
+                            path: '/proBudget_detail',
+                            component: resolve => require(['../components/view/project_Mgmt/proBudget/proBudget_detail.vue'], resolve),
+                        },
+                        {
+                            path: '/proBudget_history',
+                            component: resolve => require(['../components/view/project_Mgmt/proBudget/proBudget_history.vue'], resolve),
+                        },
+                        {
+                            path: '/proBudget_submit',
+                            component: resolve => require(['../components/view/project_Mgmt/proBudget/proBudget_submit.vue'], resolve),
+                        },
                     ]
                 },
             ]

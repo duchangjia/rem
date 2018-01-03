@@ -20,7 +20,7 @@
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="行业">
-              <el-input type="text" v-model="detailCustMsg.custIndustry"></el-input>
+              <el-input type="text" v-model="detailCustMsg.custInd"></el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
@@ -35,7 +35,7 @@
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="所属地区">
-              <el-input type="text" v-model="detailCustMsg.custDistrict"></el-input>
+              <el-input type="text" v-model="detailCustMsg.custCity"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -160,8 +160,9 @@ export default {
           .then(res => {
             res=res.data;
             if(res.retMsg=="操作成功"){
-              self.custInfoList=res.data.list;
-              self.totalRows=res.data.total;
+              self.detailCustMsg=res.data;
+              /*self.custInfoList=res.data.list;
+              self.totalRows=res.data.total;*/
             }
           })
           .catch(() => {

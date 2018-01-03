@@ -4,65 +4,75 @@
 		<div class="queryContent_wrapper">
 			<div class="titleBar">
 				<span class="title-text">项目预算</span>
-				<!-- <div class="titleBtn_wrapper">
-					<el-button type="primary" class="btn-primary" @click="handleAdd">新增</el-button>
-				                    <el-button type="primary" class="btn-primary" @click="handleDownloadTemplate">立项文件模板下载</el-button>
-				</div> -->
 			</div>
 			<div class="queryContent_inner">
-				<el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" class="demo-ruleForm">
+				<el-form :model="queryForm" :rules="rules" ref="queryForm" class="demo-ruleForm">
 					<div class="input-wrap">
-						<el-col :sm="12" :md="6">
-							<el-form-item label="项目编号/名称">
-								<el-input v-model="ruleForm2.jihuihao"></el-input>
+						<el-col :sm="12" :md="9">
+							<el-form-item label="项目编号/名称" prop="proName">
+								<el-input v-model="queryForm.proName"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :sm="12" :md="6">
-							<el-form-item label="项目状态">
-								<el-select v-model="ruleForm2.projApplySta">
-									<el-option v-for="item in projApplyStaList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							<el-form-item label="项目状态" prop="proStatus">
+								<el-select v-model="queryForm.proStatus">
+									<el-option v-for="item in proStatusList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
 						<el-col :sm="12" :md="6">
-							<el-form-item label="收入类型">
-								<el-select v-model="ruleForm2.projIncmType">
-									<el-option v-for="item in projIncmTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							<el-form-item label="收入类型" prop="incomeType">
+								<el-select v-model="queryForm.incomeType">
+									<el-option v-for="item in incomeTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :sm="12" :md="9">
+							<el-form-item label="部门（项目实施部门)" prop="proSection">
+								<el-input v-model="queryForm.proSection"></el-input>
 							</el-form-item>
 						</el-col>
                         <el-col :sm="12" :md="6">
-							<el-form-item label="项目类型">
-								<el-select v-model="ruleForm2.projType">
-									<el-option v-for="item in projTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+							<el-form-item label="项目类型" prop="proType">
+								<el-select v-model="queryForm.proType">
+									<el-option v-for="item in proTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 								</el-select>
+							</el-form-item>
+						</el-col>						
+						<el-col :sm="12" :md="6">
+							<el-form-item label="项目经理" prop="proManage">
+								<el-input v-model="queryForm.proManage"></el-input>
 							</el-form-item>
 						</el-col>
 					</div>
 					<div class="queryButton_wrapper">
-						<el-button class="btn-default" @click="resetForm()">重置</el-button>
-						<el-button class="btn-primary" @click="queryForm('ruleForm2')">查询</el-button>
+						<el-button class="btn-default" @click="resetForm('queryForm')">重置</el-button>
+						<el-button class="btn-primary" @click="queryFormBtn('queryForm')">查询</el-button>
 					</div>
 				</el-form>
 				<div class="info">
-					<el-table :data="projdataList" border stripe style="width: 100%">
+					<el-table :data="querydataList" border stripe style="width: 100%">
 						<el-table-column prop="deptName" label="部门"></el-table-column>
 						<el-table-column prop="jihuihao" label="机会号">
-							<template scope="scope">
-						        <span class="link" @click="handleInfo(scope.$index, scope.row)">{{ scope.row.jihuihao }}</span>
-					      	</template>
 						</el-table-column>
-						<el-table-column prop="projName" label="项目名称"></el-table-column>
-						<el-table-column prop="projApplySta" label="审批状态" :formatter="projApplyStaFormatter"></el-table-column>
-						<el-table-column prop="projIncmType" label="收入类型" :formatter="projIncmTypeFormatter"></el-table-column>
-						<el-table-column prop="projType" label="项目类型" :formatter="projTypeFormatter"></el-table-column>
+						<el-table-column prop="projName" label="项目编号"></el-table-column>
+						<el-table-column prop="projApplySta" label="项目名称" :formatter="projApplyStaFormatter"></el-table-column>
+						<el-table-column prop="projIncmType" label="项目状态" :formatter="projIncmTypeFormatter"></el-table-column>
+						<el-table-column prop="projType" label="收入确认类型" :formatter="projTypeFormatter"></el-table-column>
 						<el-table-column prop="projSell" label="销售" :formatter="projSellFormatter"></el-table-column>
-						<el-table-column prop="preSaleStartTime" label="预售开始日期" :formatter="preSaleStartTimeFormatter"></el-table-column>
-						<el-table-column prop="preSaleEndTime" label="预售结束日期" :formatter="preSaleEndTimeFormatter"></el-table-column>
+						<el-table-column prop="preSaleStartTime" label="预计开始日期" :formatter="preSaleStartTimeFormatter"></el-table-column>
+						<el-table-column prop="preSaleEndTime" label="预计结束日期" :formatter="preSaleEndTimeFormatter"></el-table-column>
 						<el-table-column label="操作" width="100">
 							<template scope="scope">
-								<i class="icon_edit" @click="handleEdit(scope.$index, scope.row)"></i>
-							</template>	
+	                            <el-dropdown @command="handleCommand" trigger="hover">
+									<span class="el-dropdown-link cur-pointer">
+								        下拉菜单
+								    </span>
+								    <el-dropdown-menu slot="dropdown">
+								        <el-dropdown-item v-for="item in dropDownList" :command="item.url" :key="item.url">{{item.name}}</el-dropdown-item>
+								     </el-dropdown-menu>
+	                            </el-dropdown>
+							</template>
 						</el-table-column>
 					</el-table>
 				</div>
@@ -91,7 +101,7 @@ export default {
 				proSection:'',
 				proManage:'',
 			},
-			projdataList: [
+			querydataList: [
 				{
 					jihuihao: "00002",
 					companyName: "",
@@ -107,22 +117,21 @@ export default {
 					createdDate: ""
 				}
             ],
-			//审批状态列表
-			projApplyStaList: [
-                {paraShowMsg: '审批通过',paraValue: '00'},
-                {paraShowMsg: '审批失败',paraValue: '99'},
-                {paraShowMsg: '审批中',paraValue: '02'},
-                {paraShowMsg: '未提交',paraValue: '01'}
+			//项目状态列表
+			proStatusList: [
+                {paraShowMsg: '售前',paraValue: '00'},
+                {paraShowMsg: '实施',paraValue: '99'},
+                {paraShowMsg: '结束',paraValue: '02'},
             ],
             //收入类型列表
-            projIncmTypeList: [
+            incomeTypeList: [
                 {paraValue: '01',paraShowMsg: 'Pipeline'},
                 {paraValue: '02',paraShowMsg: 'EATP'},
                 {paraValue: '03',paraShowMsg: 'Frotlog'},
                 {paraValue: '04',paraShowMsg: 'Backlog'}
             ],
 			//项目类型列表
-			projTypeList: [
+			proTypeList: [
                 {paraValue: 'ASD',paraShowMsg: '应用系统开发'},
                 {paraValue: 'SPD',paraShowMsg: '软件产品开发'},
                 {paraValue: 'APM',paraShowMsg: '应用维护升级'},
@@ -131,6 +140,25 @@ export default {
                 {paraValue: 'ASC',paraShowMsg: '咨询服务'},
                 {paraValue: 'OTH',paraShowMsg: '其他'}
             ],
+            //下拉列表
+            dropDownList:[
+                {
+                    name:'编辑预算',
+                    url:'/proBudget_edit'
+                },
+                {
+                    name:'预算详情',
+                    url:'/proBudget_detail'
+                },
+                {
+                    name:'历史版本',
+                    url:'/proBudget_history'
+                },
+                {
+                    name:'提交预算',
+                    url:'/proBudget_submit'
+                },
+            ],
 			rules: {}
 		}
 	},
@@ -138,10 +166,10 @@ export default {
 		current
 	},
 	created() {
-		this.ruleForm2.projApplySta = '';
-		this.ruleForm2.jihuihao = '';
-		this.ruleForm2.projIncmType = '';
-		this.ruleForm2.projType = '';
+		/*this.queryForm.projApplySta = '';
+		this.queryForm.jihuihao = '';
+		this.queryForm.projIncmType = '';
+		this.queryForm.projType = '';*/
 		//查询售前立项列表
 		// this.queryprojList();
 		//查询审批状态列表
@@ -175,7 +203,7 @@ export default {
 			
 		},
 		//查询
-		queryForm(formName) {
+		queryFormBtn(formName) {
 			const self = this;
 			self.$refs[formName].validate((valid) => {
 				if (valid) {
@@ -187,12 +215,14 @@ export default {
 				}
 			});
 		},
+		//handleCommand表格操作
+		handleCommand(command){
+            this.$router.push(command);
+		},
 		//重置
-		resetForm() {
-			this.ruleForm2.projApplySta = '';
-            this.ruleForm2.jihuihao = '';
-            this.ruleForm2.projIncmType = '';
-            this.ruleForm2.projType = '';
+		resetForm(queryForm) {
+			//alert(queryForm)
+			this.$refs[queryForm].resetFields();
 		},
 		handleCurrentChange(val) {
 			this.pageNum = val;
@@ -292,6 +322,9 @@ export default {
 				default:
 			}
 	    	return projType;
+        },
+        projSellFormatter(row,columu){
+
         },
         downloadFile() {
             const self = this;
