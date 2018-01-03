@@ -105,6 +105,7 @@ export default {
 			departList: [],
 			//公司列表
 			compList: [],
+			shiftTypeList: [],
 			transferDataList: [],
 			rules: {
 				compName: [],
@@ -122,10 +123,18 @@ export default {
 		this.queryCustShifthisList();
 		//查询公司列表
 		this.queryCompList();
+		//查询调动类型列表
+		this.queryShiftTypeList();
 	},
 	methods: {
 		shiftTypeFormatter(row, column) {
-			return row.shiftType == "01" ? "晋升" : row.shiftType == "02" ? "调动": row.shiftType == "03" ? "平调": row.shiftType == "04" ? "轮岗" : row.shiftType == "05" ? "工资调整" : row.shiftType == "99" ? "其他" : "";
+			let shiftType = ""
+				this.shiftTypeList.forEach(function(item) {
+					if(row.shiftType == item.paraValue) {
+						shiftType = item.paraShowMsg;
+					}
+				}, this);
+				return shiftType;
 		},
 		travelTimeFormatter(row, column) {
 			let time = row.shiftCameTime;
@@ -245,7 +254,20 @@ export default {
 			}).catch(function(err) {
 				console.log(err);
 			})
-		}
+		},
+		queryShiftTypeList() {
+			let self = this;
+			self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=SHIFT_TYPE')
+			.then((res) => {
+				console.log('shiftTypeList',res);
+				if(res.data.code === "S00000") {
+					self.shiftTypeList = res.data.data;
+				}
+				
+			}).catch((err) => {
+				console.log('error');
+			})
+		},
 	}
 
 }

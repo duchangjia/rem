@@ -124,6 +124,7 @@ export default {
 			departList: [],
 			//公司列表
 			compList: [],
+			workotTypeList: [],
 			rules: {
 				compName: [],
 				departName: []
@@ -143,6 +144,8 @@ export default {
 		this.queryWorkOtList();
 		//查询公司列表
 		this.queryCompList();
+		//查询加班类型列表
+		this.queryWorkotTypeList();
 	},
 	methods: {
 		workotStartTimeFormatter(row, column) {
@@ -155,7 +158,13 @@ export default {
 	      return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null;
 	   	},
 		workotTypeFormatter(row, column) {
-	      return row.workotType == '01' ? "有薪加班" : "调休加班";
+			let workotType = ""
+			this.workotTypeList.forEach(function(item) {
+				if(row.workotType == item.paraValue) {
+					workotType = item.paraShowMsg;
+				}
+			}, this);
+			return workotType;
 		},
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;
@@ -303,6 +312,18 @@ export default {
 				console.log(err);
 			})
 		},
+		queryWorkotTypeList() {
+			let self = this;
+			self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=WORKOT_TYPE')
+			.then((res) => {
+				console.log('workotTypeList',res);
+				if(res.data.code === "S00000") {
+					self.workotTypeList = res.data.data;
+				}
+			}).catch((err) => {
+				console.log('error');
+			})
+		}
 	}
 }
 </script>

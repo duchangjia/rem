@@ -87,7 +87,7 @@
 
 <script>
 	import current from '../../common/current_position.vue'
-	const baseURL = 'iem_hrm'
+	const baseURL = 'iem_pmg'
 	export default {
 		data() {
 			var checkUserName = (rule, value, callback) => {

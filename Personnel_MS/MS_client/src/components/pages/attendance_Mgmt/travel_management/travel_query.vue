@@ -133,6 +133,7 @@ export default {
 			departList: [],
 			//公司列表
 			compList: [],
+			travelTypeList: [],
 			rules: {
 				startDate: [
 	            	{ validator: checkStartDate, trigger: 'change' }
@@ -156,6 +157,8 @@ export default {
 		this.queryTravelList();
 		//公司列表查询
 		this.queryCompList();
+		//加班类型列表查询
+		this.queryTravelTypeList();
 	},
 	methods: {
 		travelStartTimeFormatter(row, column) {
@@ -168,23 +171,13 @@ export default {
 	      return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null;
 	    },
 		travelTypeFormatter(row, column) {
-	    	let travelType = '';
-	    	switch(row.travelType){
-				case '01':
-				  travelType = '业务拓展'
-				  break;
-				case '02':
-				  travelType = '项目实施'
-				  break;
-				case '03':
-				  travelType = '会议'
-				  break;
-				case '99':
-				  travelType = '其他'
-				  break;
-				default:
-			}
-	    	return travelType;
+			let travelType = ""
+			this.travelTypeList.forEach(function(item) {
+				if(row.travelType == item.paraValue) {
+					travelType = item.paraShowMsg;
+				}
+			}, this);
+			return travelType;
 		},
 		changeStartTime(val) {
 			this.ruleForm2.startDate = val;
@@ -330,6 +323,18 @@ export default {
 				}
 			}).catch((err) => {
 				console.log(err);
+			})
+		},
+		queryTravelTypeList() {
+			let self = this;
+			self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=TRAVEL_TYPE')
+			.then((res) => {
+				console.log('travelType',res);
+				if(res.data.code === "S00000") {
+					self.travelTypeList = res.data.data;
+				}
+			}).catch((err) => {
+				console.log('error');
 			})
 		}
 	}
