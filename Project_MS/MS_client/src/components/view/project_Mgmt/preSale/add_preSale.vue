@@ -6,47 +6,47 @@
 			<div class="titlebar">
 				<span class="title-text">售前立项新增</span>
 				<div class="titleBtn_wrapper">
-					<el-button class="btn-primary" @click="savePreSale">保存提交审批</el-button>
-					<el-button class="btn-primary" @click="saveNotSbumit">保存暂不提交审批</el-button>
+					<el-button class="btn-primary" @click="handleSaveAndSubmit">保存提交审批</el-button>
+					<el-button class="btn-primary" @click="handleNotSubmit">保存暂不提交审批</el-button>
 				</div>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="130px">
+				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="134px">
 					<el-col :sm="24" :md="12">
-						<el-form-item label="项目名称">
+						<el-form-item label="项目名称" prop="projName">
 							<el-input v-model="formdata1.projName"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="收入类型">
+						<el-form-item label="收入类型" prop="projIncmConfim">
 							<el-select v-model="formdata1.projIncmConfim">
 								<el-option v-for="item in projIncmTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>		
 					<el-col :sm="24" :md="12">
-						<el-form-item label="客户">
+						<el-form-item label="客户" prop="coocustNo">
 							<el-select v-model="formdata1.coocustNo">
 								<el-option v-for="item in userNoList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					 	</el-form-item>
 					</el-col>		
 					<el-col :sm="24" :md="12">
-						<el-form-item label="服务管理模式">
+						<el-form-item label="服务管理模式" prop="projSrvMngmode">
 							<el-select v-model="formdata1.projSrvMngmode">
 								<el-option v-for="item in fuwuModelList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>		
 					<el-col :sm="24" :md="12">
-						<el-form-item label="项目类型">
+						<el-form-item label="项目类型" prop="projType">
 						    <el-select v-model="formdata1.projType">
 								<el-option v-for="item in projTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="收入确认类型">
+						<el-form-item label="收入确认类型" prop="projIncmType">
 						    <el-select v-model="formdata1.projIncmType">
 								<el-option v-for="item in incmConfimList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
@@ -72,22 +72,22 @@
 				  	</el-col>
                     <el-col :sm="24" :md="12">
 						<el-form-item label="预计合同签订时间" prop="porjPreconDate">
-				        	<el-date-picker type="datetime" v-model="formdata1.porjPreconDate" @change="changePorjPreconDate" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata1.porjPreconDate" @change="changePorjPreconDate" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
                     <el-col :sm="24" :md="12">
 						<el-form-item label="预计结束时间" prop="projImpBegdate">
-				        	<el-date-picker type="datetime" v-model="formdata1.projImpBegdate" @change="changeStartTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata1.projImpBegdate" @change="changeStartTime" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="预计结束时间" prop="projImpEndate">
-				        	<el-date-picker type="datetime" v-model="formdata1.projImpEndate" @change="changeEndTime" style="width:100%;"></el-date-picker>
+				        	<el-date-picker type="date" v-model="formdata1.projImpEndate" @change="changeEndTime" style="width:100%;"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
                 </el-form>
                 <el-col :span="24" class="item-title">销售信息</el-col>  
-                <el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata1" label-width="130px">
+                <el-form ref="formdata2" :inline="true"  :rules="rules1" :model="formdata1" label-width="130px">
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="销售" prop="projSaleName">
 						    <el-input type="text" v-model="formdata1.projSaleName"></el-input>
@@ -122,7 +122,7 @@
 						<el-button slot="trigger" type="primary" class="uploadBtn" style="right: 151px;border-radius: 4px;">上传立项申请表</el-button>
 					</el-upload>
 				</el-col>
-				<el-form ref="formdata3" :inline="true"  :rules="rules3" :model="formdata1" label-width="130px">
+				<el-form ref="formdata3" :inline="true"  :rules="rules1" :model="formdata1" label-width="130px">
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="总工作量" prop="projBudTalwork">
 						    <el-input type="text" v-model="formdata1.projBudTalwork"></el-input>
@@ -218,12 +218,12 @@
 					updateBy: "",
 					updateTime: ""
 				},
-				formdata1: {
+				// formdata1: {
 
-				},
-				formdata1: {
+				// },
+				// formdata1: {
 
-				},
+				// },
 				//项目类型列表
                 projTypeList: [
 					{paraValue: 'ASD',paraShowMsg: '应用系统开发'},
@@ -265,28 +265,60 @@
 					{paraShowMsg: 'RE NEW', paraValue: 'RN'}
 				],
 			 	rules1: {
-			 		projImpBegdate: [
-		            	{ required: true, validator: checkWorkotStartTime, trigger: 'change' }
-	          		],
+					projName: [
+						{ required: true, message: '项目名称不能为空', trigger: 'blur' }
+					], //项目名称
+					projIncmConfim: [
+						{ required: true, message: '收入类型不能为空', trigger: 'blur' }
+					], // 收入类型
+					coocustNo: [
+						{ required: true, message: '客户不能为空', trigger: 'blur' }
+					], // 客户
+					projSrvMngmode: [
+						{ required: true, message: '服务管理模式不能为空', trigger: 'blur' }
+					], // 服务管理模式
+					projType: [
+						{ required: true, message: '项目类型不能为空', trigger: 'blur' }
+					], // 项目类型
+					projIncmConfim: [
+						// { required: true, message: '收入确认类型不能为空', trigger: 'blur' }
+					], // 收入确认类型
+					projPreconAmt: [
+						{ required: true, message: '预算合同金额不能为空', trigger: 'blur' }
+					], // 预算合同金额
+					projOrdType: [
+						{ required: true, message: '订单类型不能为空', trigger: 'blur' }
+					], // 订单类型
+					projImplePla: [
+						{ required: true, message: '项目交付地不能为空', trigger: 'blur' }
+					], // 项目交付地
+					porjPreconDate: [
+						{ required: true, message: '预计合同签订时间不能为空', trigger: 'change' }
+					], // 预计合同签订时间
+					projImpBegdate: [
+						{ required: true, validator: checkWorkotStartTime, trigger: 'change' }
+					], // 计划开始时间
 					projImpEndate: [
-		            	{ required: true, validator: checkWorkotEndTime, trigger: 'change' }
-	          		],
-		          	projPreconAmt: [
-		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
-	          		],
-	          		projOrdType: [
-		            	{ required: true, type: 'number', message: '预计累计工时不能为空', trigger: 'blur' }
-	          		],
-	          		projImplePla: [
-	          			{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
-	          		]
-                },
-                rules2: {
-					
-				},
-                rules3: {
-					
-				}
+						{ required: true, validator: checkWorkotEndTime, trigger: 'change' }
+					], // 预计结束时间
+					projSaleName: [
+						{ required: true, message: '销售人员姓名不能为空', trigger: 'blur' }
+					], // 销售人员姓名
+					projSaleLinemgrno: [
+						{ required: true, message: '销售主管不能为空', trigger: 'blur' }
+					], // 销售主管
+					remark: [
+						{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
+					], // 项目说明(销售信息中的)
+					projBudTalwork: [], // 总工作量
+					projBudHrcost: [], // 人力成本
+					projBudExpcost: [], // 费用成本
+					projBudSubcost: [], // 分包成本
+					projBudTax: [], // 税金
+					projBudTalinc: [], // 总收入
+					projGrsMarg: [], // 毛利润
+					projNetMarg: []  //毛利润
+                }
 			}
 		},
 		components: {
@@ -333,7 +365,7 @@
 	      		}
 			},
 			//保存提交审批点击
-			savePreSale() {
+			handleSaveAndSubmit() {
 				let self = this;
 				self.$refs.formdata1.validate(valid => {
 			        if (valid) {
@@ -341,6 +373,7 @@
 							if (valid) {
 								self.$refs.formdata3.validate(valid => {
 									if (valid) {
+										console.log('valid')
 										let params = {
 											projName: self.formdata1.projName, //项目名称
 											projIncmConfim: self.formdata1.projIncmConfim, // 收入类型
@@ -366,6 +399,7 @@
 											projGrsMarg: self.formdata1.projGrsMarg, // 毛利润
 											projNetMarg: self.formdata1.projNetMarg, // 净利润 
 										}
+										console.log('params',params);
 										//保存
 										self.savePreSale(params);
 										//提交审批
@@ -379,7 +413,7 @@
 
 			},
 			//保存不提交审批点击
-			saveNotSbumit() {
+			handleNotSubmit() {
 				let self = this;
 				self.$refs.formdata1.validate(valid => {
 			        if (valid) {
@@ -387,6 +421,7 @@
 							if (valid) {
 								self.$refs.formdata3.validate(valid => {
 									if (valid) {
+										console.log('valid1')
 										let params = {
 											projName: self.formdata1.projName, //项目名称
 											projIncmConfim: self.formdata1.projIncmConfim, // 收入类型
@@ -412,6 +447,7 @@
 											projGrsMarg: self.formdata1.projGrsMarg, // 毛利润
 											projNetMarg: self.formdata1.projNetMarg, // 净利润 
 										}
+										console.log('params',params);
 										//保存
 										self.savePreSale(params);
 									}
