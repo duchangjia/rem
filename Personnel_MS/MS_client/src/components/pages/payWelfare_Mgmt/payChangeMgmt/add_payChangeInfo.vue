@@ -474,8 +474,8 @@ export default {
           (Number(this.newPayChangeInfo.nEndmBase) *
             this.insurancePayTemp.perEndmRate +
             this.insurancePayTemp.perEndmFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.00
       );
     },
     _comEndm: function() {
@@ -484,8 +484,8 @@ export default {
           (Number(this.newPayChangeInfo.nEndmBase) *
             this.insurancePayTemp.comEndmRate +
             this.insurancePayTemp.comEndmFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.00
       );
     },
     _perMedi: function() {
@@ -494,8 +494,8 @@ export default {
           (Number(this.newPayChangeInfo.nMediBase) *
             this.insurancePayTemp.perMediRate +
             this.insurancePayTemp.perMediFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.00
       );
     },
     _comMedi: function() {
@@ -504,8 +504,8 @@ export default {
           (Number(this.newPayChangeInfo.nMediBase) *
             this.insurancePayTemp.comMediRate +
             this.insurancePayTemp.comMediFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100|| 0.00
       );
     },
     _perUnem: function() {
@@ -514,8 +514,8 @@ export default {
           (Number(this.newPayChangeInfo.nUnemBase) *
             this.insurancePayTemp.perUnemRate +
             this.insurancePayTemp.perUnemFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.00
       );
     },
     _comUnem: function() {
@@ -524,8 +524,8 @@ export default {
           (Number(this.newPayChangeInfo.nUnemBase) *
             this.insurancePayTemp.comUnemRate +
             this.insurancePayTemp.comUnemFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.00
       );
     },
     _perEmpl: function() {
@@ -534,8 +534,8 @@ export default {
           (Number(this.newPayChangeInfo.nEmplBase) *
             this.insurancePayTemp.perEmplRate +
             this.insurancePayTemp.perEmplFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.00
       );
     },
     _comEmpl: function() {
@@ -544,8 +544,8 @@ export default {
           (Number(this.newPayChangeInfo.nEmplBase) *
             this.insurancePayTemp.comEmplRate +
             this.insurancePayTemp.comEmplFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.00
       );
     },
     _perMate: function() {
@@ -554,8 +554,8 @@ export default {
           (Number(this.newPayChangeInfo.nMateBase) *
             this.insurancePayTemp.perMateRate +
             this.insurancePayTemp.perMateFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.00
       );
     },
     _comMate: function() {
@@ -564,8 +564,8 @@ export default {
           (Number(this.newPayChangeInfo.nMateBase) *
             this.insurancePayTemp.comMateRate +
             this.insurancePayTemp.comMateFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.00
       );
     },
     _perHouse: function() {
@@ -574,8 +574,8 @@ export default {
           (Number(this.newPayChangeInfo.nHouseBase) *
             this.insurancePayTemp.perHousRate +
             this.insurancePayTemp.perHousFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.00
       );
     },
     _comHouse: function() {
@@ -584,8 +584,8 @@ export default {
           (Number(this.newPayChangeInfo.nHouseBase) *
             this.insurancePayTemp.comHousRate +
             this.insurancePayTemp.comHousFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.00
       );
     }
   },

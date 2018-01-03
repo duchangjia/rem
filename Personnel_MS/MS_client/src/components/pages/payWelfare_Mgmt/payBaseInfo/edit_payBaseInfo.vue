@@ -271,18 +271,18 @@ export default {
       insurancePayTemplates: {},
       insurancePayTemp: {},
       payBaseInfoRules: {
-        wagesBase: [
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
-        ],
-        wagesPerf: [
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
-        ],
-        postPension: [
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
-        ],
-        phonePension: [
-          { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
-        ],
+        // wagesBase: [
+        //   { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        // ],
+        // wagesPerf: [
+        //   { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        // ],
+        // postPension: [
+        //   { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        // ],
+        // phonePension: [
+        //   { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
+        // ],
         trafficPension: [
           { pattern: /^([1-9]\d*|0)(\.\d{2})?$/, message: "可精确到小数点后2位的正数" }
         ],
@@ -324,6 +324,7 @@ export default {
   },
   created() {
     this.userNo = sessionStorage.getItem("payBaseInfo_userNo");
+    console.log("userNo", this.userNo);
     this.getCustInfo(); //初始查询用户信息
     this.getPayBaseInfoDetail(); //初始查询薪酬基数详情
     this.getCustPostList(); //查询岗位列表
@@ -339,8 +340,8 @@ export default {
           (Number(this.editPayBaseInfo.endmBase) *
             this.insurancePayTemp.perEndmRate +
             this.insurancePayTemp.perEndmFixed) *
-            10
-        ) / 10 || 0.0
+            100
+        ) / 100 || 0.00
       );
     },
     _comEndm: function() {
@@ -349,8 +350,8 @@ export default {
           (Number(this.editPayBaseInfo.endmBase) *
             this.insurancePayTemp.comEndmRate +
             this.insurancePayTemp.comEndmFixed) *
-            10
-        ) / 10 || 0.0
+            100
+        ) / 100 || 0.00
       );
     },
     _perMedi: function() {
@@ -359,8 +360,8 @@ export default {
           (Number(this.editPayBaseInfo.mediBase) *
             this.insurancePayTemp.perMediRate +
             this.insurancePayTemp.perMediFixed) *
-            10
-        ) / 10 || 0.0
+            100
+        ) / 100 || 0.00
       );
     },
     _comMedi: function() {
@@ -369,8 +370,8 @@ export default {
           (Number(this.editPayBaseInfo.mediBase) *
             this.insurancePayTemp.comMediRate +
             this.insurancePayTemp.comMediFixed) *
-            10
-        ) / 10 || 0.0
+            100
+        ) / 100 || 0.00
       );
     },
     _perUnem: function() {
@@ -379,8 +380,8 @@ export default {
           (Number(this.editPayBaseInfo.unemBase) *
             this.insurancePayTemp.perUnemRate +
             this.insurancePayTemp.perUnemFixed) *
-            10
-        ) / 10 || 0.0
+            100
+        ) / 100 || 0.00
       );
     },
     _comUnem: function() {
@@ -389,8 +390,8 @@ export default {
           (Number(this.editPayBaseInfo.unemBase) *
             this.insurancePayTemp.comUnemRate +
             this.insurancePayTemp.comUnemFixed) *
-            10
-        ) / 10 || 0.0
+            100
+        ) / 100 || 0.00
       );
     },
     _perEmpl: function() {
@@ -399,8 +400,8 @@ export default {
           (Number(this.editPayBaseInfo.emplBase) *
             this.insurancePayTemp.perEmplRate +
             this.insurancePayTemp.perEmplFixed) *
-            10
-        ) / 10 || 0.0
+            100
+        ) / 100 || 0.00
       );
     },
     _comEmpl: function() {
@@ -409,8 +410,8 @@ export default {
           (Number(this.editPayBaseInfo.emplBase) *
             this.insurancePayTemp.comEmplRate +
             this.insurancePayTemp.comEmplFixed) *
-            10
-        ) / 10 || 0.0
+            100
+        ) / 100 || 0.00
       );
     },
     _perMate: function() {
@@ -419,8 +420,8 @@ export default {
           (Number(this.editPayBaseInfo.mateBase) *
             this.insurancePayTemp.perMateRate +
             this.insurancePayTemp.perMateFixed) *
-            10
-        ) / 10 || 0.0
+            100
+        ) / 100 || 0.00
       );
     },
     _comMate: function() {
@@ -429,8 +430,8 @@ export default {
           (Number(this.editPayBaseInfo.mateBase) *
             this.insurancePayTemp.comMateRate +
             this.insurancePayTemp.comMateFixed) *
-            10
-        ) / 10 || 0.0
+            100
+        ) / 100 || 0.00
       );
     },
     _perHouse: function() {
@@ -439,8 +440,8 @@ export default {
           (Number(this.editPayBaseInfo.houseBase) *
             this.insurancePayTemp.perHousRate +
             this.insurancePayTemp.perHousFixed) *
-            10
-        ) / 10 || 0.0
+            100
+        ) / 100 || 0.00
       );
     },
     _comHouse: function() {
@@ -449,8 +450,8 @@ export default {
           (Number(this.editPayBaseInfo.houseBase) *
             this.insurancePayTemp.comHousRate +
             this.insurancePayTemp.comHousFixed) *
-            10
-        ) / 10 || 0.0
+            100
+        ) / 100 || 0.00
       );
     }
   },
