@@ -138,24 +138,18 @@ export default {
       this.checkSubAll = false
       this.checkedSubmenus = []
       //重至第三级数据
-      this.isIndeterminate = {
-          '0': true,
-          '1': true,
-          '2': true,
+      for(name in this.isIndeterminate){
+          this.isIndeterminate[name] = true
+      }
+      for(name in this.checkedSubmenusFlag){
+          this.checkedSubmenusFlag[name] = false
+      }
+      for(name in this.checkFuncs){
+          this.checkFuncs[name] = []
       }
       this.funcsList = []
       this.funcsList2 = ''
       this.checkedSubmenusFlag = false;
-      this.checkFuncsAll = {
-          '0': false,
-          '1': false,
-          '2': false,
-      }
-      this.checkFuncs = {
-          '0': [],
-          '1': [],
-          '2': [],
-      }
       let params = {
         upMenuNo: value
       }
