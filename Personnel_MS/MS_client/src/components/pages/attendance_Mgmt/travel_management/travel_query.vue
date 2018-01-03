@@ -115,20 +115,7 @@ export default {
 				startDate: "",
 				endDate: ''
 			},
-			transferDataList: [
-				{
-					applyNo: "",
-					organName: "",
-					departName: "",
-					userNo: "", 
-					custName: "",
-					travelType: "",
-					travelStartTime: "",
-					travelEndTime: "",
-					createdBy: "",
-					createdDate: ""
-				}
-			],
+			transferDataList: [],
 			//部门列表
 			departList: [],
 			//公司列表

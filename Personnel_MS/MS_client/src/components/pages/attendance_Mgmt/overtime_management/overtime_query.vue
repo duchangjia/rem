@@ -106,20 +106,7 @@ export default {
 				endDate: '',
 				value9: ""
 			},
-			transferDataList: [
-				{
-					applyNo: "",
-					companyName: "",
-					deptName: "",
-					userNo: "", 
-					custName: "",
-					workotType: "",
-					workotStartTime: "",
-					workotEndTime: "",
-					createdBy: "",
-					createdDate: ""
-				}
-			],
+			transferDataList: [],
 			//部门列表
 			departList: [],
 			//公司列表
