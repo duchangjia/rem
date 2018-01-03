@@ -83,7 +83,7 @@
 					  	</el-form-item>
 					</el-col>	
 				</el-form> 
-				<el-form :model="formdata2" :rules="rules2" ref="formdata2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+				<el-form :model="formdata2" :rules="rules2" ref="formdata3" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
 					<el-col :span="24">
 						<el-form-item class="remark" label="加班备注" prop="remark">
 						    <el-input
@@ -95,7 +95,7 @@
 					  	</el-form-item>
 					</el-col>		         
 				</el-form> 	
-				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">	  	
+				<el-form ref="formdata4" :inline="true"  :rules="rules2" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width: 100%;">
 				  		 	<el-input v-model="formdata2.attachm"></el-input>
@@ -132,7 +132,7 @@
 		        if (value == '') {
 		          	callback(new Error('加班开始时间不能为空'));
 		        } else if (this.formdata2.workotEndTime && value >= this.formdata2.workotEndTime) {
-		          	callback(new Error('请输入正确的开始时间'));
+		          	callback(new Error('开始时间不能大于结束时间'));
 		        } else {
 		          	callback();
 		        }
@@ -141,7 +141,7 @@
 		        if (value == '') {
 		          	callback(new Error('加班结束时间不能为空'));
 		        } else if (this.formdata2.workotStartTime && value <= this.formdata2.workotStartTime) {
-		          	callback(new Error('请输入正确的结束时间'));
+		          	callback(new Error('开始时间不能大于结束时间'));
 		        } else {
 		          	callback();
 		        }
@@ -169,7 +169,12 @@
 			    //员工基本信息
 				formdata1: {},
 				//员工加班信息
-				formdata2: {attachm: "",},
+				formdata2: {
+					workotStartTime: '',
+			    	workotEndTime: '',
+					attachm: "",
+					remark: ''
+				},
 				//岗位列表
 				custPostList: [],
 				//职级列表
@@ -201,7 +206,8 @@
 						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的工时" }
 	          		],
 	          		remark: [
-	          			{ required: true, min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
+		            	{ required: true, message: '加班备注不能为空', trigger: 'blur' },
+	          			{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 	          		]
 				}
 			}
@@ -308,7 +314,7 @@
 		        //dialog打开
 		        this.dialogVisible=true
 		        //查询接口
-		        this.searchUrl = "/iem_hrmCustInfo/queryCustBasicInfList"
+		        this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
 		        //点击确定后根据号码查询用户信息借口 没有则为空
 		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
 		        //dialog标题
@@ -330,14 +336,7 @@
 			},
 			  // 上传前对文件的大小的判断
 		    beforeAvatarUpload (file) {
-//		      const extension = file.name.split('.')[1] === 'xls'
-//		      const extension2 = file.name.split('.')[1] === 'xlsx'
-//		      const extension3 = file.name.split('.')[1] === 'doc'
-//		      const extension4 = file.name.split('.')[1] === 'docx'
 		      const isLt2M = file.size / 1024 / 1024 < 10
-//		      if (!extension && !extension2 && !extension3 && !extension4) {
-//		        console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
-//		      }
 		      if (!isLt2M) {
 		      	this.$message({ message: '上传文件大小不能超过 10MB!', type: 'error' });
 		      }
@@ -349,20 +348,24 @@
 			        if (valid) {
 			          self.$refs.formdata2.validate(valid => {
 			            if (valid) {
-			            	
-			            	self.$refs.upload.submit();
-							if(!self.fileFlag) {
-							let params = {
-								"userNo": self.formdata1.userNo,
-				    			"workotStartTime": self.formdata2.workotStartTime, 
-				    			"workotEndTime": self.formdata2.workotEndTime,
-				    			"workotType": self.formdata2.workotType, 
-				    			"timeSheet": self.formdata2.timeSheet, 
-				    			"remark": self.formdata2.remark
-							}
-							//无附件时新增加班信息
-							self.addLeaveInfo(params);
-						}
+			            	self.$refs.formdata3.validate(valid => {
+								if (valid) {
+									self.$refs.upload.submit();
+									if(!self.fileFlag) {
+									let params = {
+										"userNo": self.formdata1.userNo,
+										"workotStartTime": self.formdata2.workotStartTime, 
+										"workotEndTime": self.formdata2.workotEndTime,
+										"workotType": self.formdata2.workotType, 
+										"timeSheet": self.formdata2.timeSheet, 
+										"remark": self.formdata2.remark
+									}
+									//无附件时新增加班信息
+									self.addLeaveInfo(params);
+								
+									}
+								}
+							})
 			            }
 			          })
 			        }

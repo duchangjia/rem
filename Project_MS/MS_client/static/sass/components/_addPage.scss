@@ -50,10 +50,20 @@
             }
 
         }
+        .el-form-item__content {
+            height: 40px;
+        }
         .el-input__inner {
             width: 300px;
             height: 40px;
             line-height: normal;
+        }
+        .sm_item{
+            .el-input__inner{
+                width: 200px;
+                height: 40px;
+                line-height: normal;
+            }
         }
         .el-pagination__editor {
             padding: 0;

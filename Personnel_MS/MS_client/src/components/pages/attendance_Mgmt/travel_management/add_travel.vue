@@ -97,7 +97,7 @@
 					  	</el-form-item>
 					</el-col>  	 	
 				</el-form>
-				<el-form :model="formdata2" :rules="rules2" ref="formdata2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+				<el-form :model="formdata2" :rules="rules2" ref="formdata3" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
 					<el-col :span="24">
 						<el-form-item class="remark" label="出差备注" prop="remark">
 						    <el-input
@@ -109,7 +109,7 @@
 					  	</el-form-item>
 					</el-col>  	         
 				</el-form>
-				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">		
+				<el-form ref="formdata4" :inline="true"  :rules="rules2" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width: 100%;">
 				  		 	<el-input v-model="formdata2.attachm"></el-input>
@@ -182,7 +182,11 @@
 				travelStartTime: '',
 				travelEndTime: '',
 				formdata1: {},
-				formdata2: {attachm: ''},
+				formdata2: {
+					travelStartTime: '',
+					travelEndTime: '',
+					attachm: ''
+				},
 				//岗位列表
 				custPostList: [],
 				//职级列表
@@ -342,7 +346,7 @@
 		        //dialog打开
 		        this.dialogVisible=true
 		        //查询接口
-		        this.searchUrl = "/iem_hrmCustInfo/queryCustBasicInfList"
+		        this.searchUrl = "/iem_hrm/CustInfo/queryCustBasicInfList"
 		        //点击确定后根据号码查询用户信息借口 没有则为空
 		        this.saveUrl = '/iem_hrm/travel/getUseInfoByUserNo/'
 		        //dialog标题
@@ -367,18 +371,11 @@
 			},
 			  // 上传前对文件的大小的判断
 		    beforeAvatarUpload (file) {
-//		      const extension = file.name.split('.')[1] === 'xls'
-//		      const extension2 = file.name.split('.')[1] === 'xlsx'
-//		      const extension3 = file.name.split('.')[1] === 'doc'
-//		      const extension4 = file.name.split('.')[1] === 'docx'
 		      const isLt2M = file.size / 1024 / 1024 < 10
-//		      if (!extension && !extension2 && !extension3 && !extension4) {
-//		        console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
-//		      }
 		      if (!isLt2M) {
 		      	this.$message({ message: '上传文件大小不能超过 10MB!', type: 'error' });
 		      }
-		      return  isLt2M	//extension || extension2 || extension3 || extension4 &&
+		      return  isLt2M	
 		    },
 	      	save(formName) {
 				const self = this;
@@ -386,23 +383,29 @@
 			        if (valid) {
 			          	self.$refs.formdata2.validate(valid => {
 			            	if (valid) {
-			            		self.$refs.upload.submit();
-								if(!self.fileFlag){
-									let params = {
-									    userNo: self.formdata1.userNo,//工号
-									    travelType: self.formdata2.travelType,//出差类型
-									    travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
-									    travelEndTime: self.formdata2.travelEndTime, //出差结束时间
-									    travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
-									    travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
-									    travelDays: self.formdata2.travelDays, //出差天数  
-									    travelSTD: self.formdata1.travelSTD,//差补标准
-									    remark: self.formdata2.remark || '',//备注
+								self.$refs.formdata3.validate(valid => {
+									if (valid) {
+										self.$refs.upload.submit();
+										if(!self.fileFlag){
+											let params = {
+												userNo: self.formdata1.userNo,//工号
+												travelType: self.formdata2.travelType,//出差类型
+												travelStartTime: self.formdata2.travelStartTime,//出差开始时间	
+												travelEndTime: self.formdata2.travelEndTime, //出差结束时间
+												travelStartCity: self.formdata2.travelStartCity,//出差开始城市	
+												travelArrivalCity: self.formdata2.travelArrivalCity,//出差到达城市
+												travelDays: self.formdata2.travelDays, //出差天数  
+												travelSTD: self.formdata1.travelSTD,//差补标准
+												remark: self.formdata2.remark || '',//备注
+											}
+											console.log('params', params)
+											//无附件时新增信息
+											self.addTravelInfo(params);
+										}
 									}
-									console.log('params', params)
-									//无附件时新增信息
-									self.addTravelInfo(params);
-								}
+								})
+									
+
 			            	}
 			        	})
 			        }

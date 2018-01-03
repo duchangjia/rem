@@ -73,6 +73,7 @@
 								     </el-dropdown-menu>
 	                            </el-dropdown>
 							</template>
+
 						</el-table-column>
 					</el-table>
 				</div>
@@ -185,7 +186,7 @@ export default {
 	   	},
 		preSaleEndTimeFormatter(row, column) {
 	      return row.preSaleEndTime ? moment(row.preSaleEndTime).format('YYYY-MM-DD') : null;
-	   	}, 
+	   	},
 	    handleAdd() {
 	    	this.$router.push('add_preSale');
         },

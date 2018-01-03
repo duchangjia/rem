@@ -190,10 +190,11 @@
 					console.log('WageInfo',res);
 					if(res.data.code === "S00000") {
 						self.formdata2 = res.data.data;
-						self.formdata2.preRange = JSON.parse(self.formdata2.preRange);
 						self.formdata2.derpRange = JSON.parse(self.formdata2.derpRange);
-				      	//人员范围（反显）
-				      	self.checkPres = self.formdata2.preRange;
+						  //人员范围（反显）
+						let preRange1 = self.formdata2.preRange.split(',');
+						self.formdata2.preRange = preRange1;
+				      	self.checkPres = preRange1;
 					}
 					
 				}).catch((err) => {

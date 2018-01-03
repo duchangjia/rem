@@ -5,164 +5,164 @@
 		<div class="content-wrapper">
 			<div class="titlebar">
 				<span class="title-text">售前立项详情</span>
+				<span class="preSaleStatusMsg">立项审批状态：{{formdata1.projApplyMsg}}</span>
 			</div>
 			<div class="add-wrapper">
 				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="130px">
 					<el-col :sm="24" :md="12">
-						<el-form-item label="项目名称" >
+						<el-form-item label="机会号">
+							<el-input v-model="formdata1.oppoNo" :disabled="true"></el-input>
+					  	</el-form-item>
+					</el-col>	
+					<el-col :sm="24" :md="12">
+						<el-form-item label="项目名称">
 							<el-input v-model="formdata1.projName" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="收入类型">
-							<el-select v-model="formdata1.projIncmType" :disabled="true">
+							<el-select v-model="formdata1.projIncmConfim" :disabled="true">
 								<el-option v-for="item in projIncmTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
-					</el-col>		
-					<el-col :sm="24" :md="12">
-						<el-form-item label="机会号">
-							<el-input v-model="formdata1.jihuihao"></el-input>
-					  	</el-form-item>
-					</el-col>	
+					</el-col>
 					<el-col :sm="24" :md="12">
 						<el-form-item label="客户">
-							<el-select v-model="formdata1.userNo">
+							<el-input v-model="formdata1.coocustNo" :disabled="true"></el-input>
+							<!-- <el-select v-model="formdata1.coocustNo">
 								<el-option v-for="item in userNoList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
-							</el-select>
+							</el-select> -->
 					 	</el-form-item>
 					</el-col>		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="服务管理模式">
-							<el-select v-model="formdata1.fuwuModel">
+							<el-select v-model="formdata1.projSrvMngmode" :disabled="true">
 								<el-option v-for="item in fuwuModelList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>		
 					<el-col :sm="24" :md="12">
 						<el-form-item label="项目类型">
-						    <el-select v-model="formdata1.projType">
+						    <el-select v-model="formdata1.projType" :disabled="true">
 								<el-option v-for="item in projTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="收入确认类型">
-						    <el-select v-model="formdata1.incmConfim">
+						    <el-select v-model="formdata1.projIncmType" :disabled="true">
 								<el-option v-for="item in incmConfimList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	
 						  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="预计合同金额" prop="yujiHTMony">
-                            <el-input v-model.number="formdata1.yujiHTMony"></el-input>
+						<el-form-item label="预计合同金额" prop="projPreconAmt">
+                            <el-input v-model.number="formdata1.projPreconAmt" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="订单类型" prop="dindanType">
-						    <el-select v-model="formdata1.dindanType">
-								<el-option v-for="item in dindanTypeList" :key="item.workotNo" :label="item.label" :value="item.workotNo"></el-option>
+						<el-form-item label="订单类型" prop="projOrdType">
+						    <el-select v-model="formdata1.projOrdType" :disabled="true">
+								<el-option v-for="item in dindanTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
 					  	</el-form-item>
 					</el-col>	 
 				  	<el-col :sm="24" :md="12">
-				  		<el-form-item class="xiangmuDidian" label="项目交付地" prop="xiangmuDidian">
-						    <el-input type="text" v-model="formdata1.xiangmuDidian"></el-input>
+				  		<el-form-item class="projImplePla" label="项目交付地" prop="projImplePla">
+						    <el-input type="text" v-model="formdata1.projImplePla" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
                     <el-col :sm="24" :md="12">
-						<el-form-item label="预计合同签订时间" prop="yujiHTTime">
-				        	<el-date-picker type="datetime" v-model="formdata1.yujiHTTime" @change="changeYujiHTTime" style="width:100%;"></el-date-picker>
+						<el-form-item label="预计合同签订时间" prop="porjPreconDate">
+				        	<el-date-picker type="date" v-model="formdata1.porjPreconDate" @change="changePorjPreconDate" style="width:100%;" :disabled="true"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
                     <el-col :sm="24" :md="12">
-						<el-form-item label="预计结束时间" prop="yujiStartTime">
-				        	<el-date-picker type="datetime" v-model="formdata1.yujiStartTime" @change="changeStartTime" style="width:100%;"></el-date-picker>
+						<el-form-item label="预计结束时间" prop="projImpBegdate">
+				        	<el-date-picker type="date" v-model="formdata1.projImpBegdate" @change="changeStartTime" style="width:100%;" :disabled="true"></el-date-picker>
 				      	</el-form-item>
 					</el-col>	  	
 					<el-col :sm="24" :md="12">
-						<el-form-item label="预计结束时间" prop="yujiEndTime">
-				        	<el-date-picker type="datetime" v-model="formdata1.yujiEndTime" @change="changeEndTime" style="width:100%;"></el-date-picker>
+						<el-form-item label="预计结束时间" prop="projImpEndate">
+				        	<el-date-picker type="date" v-model="formdata1.projImpEndate" @change="changeEndTime" style="width:100%;" :disabled="true"></el-date-picker>
 				      	</el-form-item>
 					</el-col>
                 </el-form>
                 <el-col :span="24" class="item-title">销售信息</el-col>  
-                <el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="110px">
+                <el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata1" label-width="130px">
 					<el-col :sm="24" :md="12">
-				  		<el-form-item label="销售" prop="xiaoshou">
-						    <el-input type="text" v-model="formdata2.xiaoshou"></el-input>
+				  		<el-form-item label="销售" prop="projSaleName">
+						    <el-input type="text" v-model="formdata1.projSaleName" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					  <el-col :sm="24" :md="12">
-				  		<el-form-item label="销售主管" prop="xiaoshouManger">
-						    <el-input type="text" v-model="formdata2.xiaoshouManger"></el-input>
+				  		<el-form-item label="销售主管" prop="projSaleLinemgrno">
+						    <el-input type="text" v-model="formdata1.projSaleLinemgrno" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :span="24">
-				  		<el-form-item label="项目说明" prop="xiangmuRemark">
+				  		<el-form-item label="项目说明" prop="remark">
 							<el-input
 							  type="textarea"
 							  :autosize="{ minRows: 5, maxRows: 5}"
 							  placeholder="请输入内容"
-							  v-model="formdata2.xiangmuRemark">
+							  v-model="formdata1.remark"  :disabled="true">
 							</el-input>
 					  	</el-form-item>
 				  	</el-col>
 				</el-form>
 				<el-col :span="24" class="item-title">立项预算</el-col>
-				<el-form ref="formdata3" :inline="true"  :rules="rules3" :model="formdata3" label-width="110px">
+				<el-form ref="formdata3" :inline="true"  :rules="rules3" :model="formdata2" label-width="130px">
 					<el-col :sm="24" :md="12">
-				  		<el-form-item label="总工作量" prop="gongzuoTotal">
-						    <el-input type="text" v-model="formdata3.gongzuoTotal"></el-input>
+				  		<el-form-item label="总工作量" prop="projBudTalwork">
+						    <el-input type="text" v-model="formdata2.projBudTalwork" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					  <el-col :sm="24" :md="12">
-				  		<el-form-item label="人力成本" prop="renliCB">
-						    <el-input type="text" v-model="formdata3.renliCB"></el-input>
+				  		<el-form-item label="人力成本" prop="projBudHrcost">
+						    <el-input type="text" v-model="formdata2.projBudHrcost" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
-				  		<el-form-item label="费用成本" prop="feiyongCB">
-						    <el-input type="text" v-model="formdata3.feiyongCB"></el-input>
+				  		<el-form-item label="费用成本" prop="projBudExpcost">
+						    <el-input type="text" v-model="formdata2.projBudExpcost" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
-				  		<el-form-item label="分包成本" prop="fenbaoCB">
-						    <el-input type="text" v-model="formdata3.fenbaoCB"></el-input>
+				  		<el-form-item label="分包成本" prop="projBudSubcost">
+						    <el-input type="text" v-model="formdata2.projBudSubcost" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
-				  		<el-form-item label="税金" prop="shuijing">
-						    <el-input type="text" v-model="formdata3.shuijing"></el-input>
+				  		<el-form-item label="税金" prop="projBudTax">
+						    <el-input type="text" v-model="formdata2.projBudTax" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
-				  		<el-form-item label="总收入" prop="shouruTotal">
-						    <el-input type="text" v-model="formdata3.shouruTotal"></el-input>
+				  		<el-form-item label="总收入" prop="projBudTalinc">
+						    <el-input type="text" v-model="formdata2.projBudTalinc" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
-				  		<el-form-item label="毛利润(GM)%" prop="maolirun">
-						    <el-input type="text" v-model="formdata3.maolirun"></el-input>
+				  		<el-form-item label="毛利润(GM)%" prop="projGrsMarg">
+						    <el-input type="text" v-model="formdata2.projGrsMarg" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
-				  		<el-form-item label="净利润(GM)%" prop="jinglirun">
-						    <el-input type="text" v-model="formdata3.jinglirun"></el-input>
+				  		<el-form-item label="净利润(GM)%" prop="projNetMarg">
+						    <el-input type="text" v-model="formdata2.projNetMarg" :disabled="true"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 				</el-form>
 				<el-col :span="24" class="item-title">审批历史</el-col>
-				<!-- <el-col :span="24"> -->
 					<ul class="shenpiList">
-						<li>
-							<span>2017-10-10 09:00:09</span>
-							<span>李总</span>
-							<span>审批通过</span>
+						<li v-for="item in formdata1.projApplyStatusList" :key="item.projApplyStatusName">
+							<span>{{item.projApplyStatusTime}}</span>
+							<span>{{item.projApplyStatusName}}</span>
+							<span>{{item.projApplyStatusMsg}}</span>
 						</li>
 					</ul>
-				<!-- </el-col> -->
 			</div>
 		</div>
 	</div>
@@ -170,13 +170,13 @@
 
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
-	const baseURL = 'iem_hrm';
+	const baseURL = 'iem_pmg';
 	export default {
 		data() {
 			var checkWorkotStartTime = (rule, value, callback) => {
 		        if (value == '') {
 		          	callback(new Error('预计开始时间不能为空'));
-		        } else if (this.formdata1.yujiEndTime && value >= this.formdata1.yujiEndTime) {
+		        } else if (this.formdata1.projImpEndate && value >= this.formdata1.projImpEndate) {
 		          	callback(new Error('请输入正确的开始时间'));
 		        } else {
 		          	callback();
@@ -185,7 +185,7 @@
 			var checkWorkotEndTime = (rule, value, callback) => {
 		        if (value == '') {
 		          	callback(new Error('预计结束时间不能为空'));
-		        } else if (this.formdata1.yujiStartTime && value <= this.formdata1.yujiStartTime) {
+		        } else if (this.formdata1.projImpBegdate && value <= this.formdata1.projImpBegdate) {
 		          	callback(new Error('请输入正确的结束时间'));
 		        } else {
 		          	callback();
@@ -198,21 +198,21 @@
 				fileFlag: '',
 				formdata1: {
 					projName: "",
-					projIncmType: "",
-					userNo: "",
-					fuwuModel: "",
+					projIncmConfim: "",
+					coocustNo: "",
+					projSrvMngmode: "",
 					projType: "",
-					incmConfim: "",
+					projIncmType: "",
 					applyNo: "",
-                    yujiHTTime: "", //2017-10-12-21 10:20:20
-                    yujiStartTime: "",
-					yujiEndTime: "",
-					yujiHTMony: "",
+                    porjPreconDate: "", //2017-10-12-21 10:20:20
+                    projImpBegdate: "",
+					projImpEndate: "",
+					projPreconAmt: "",
 					workotStartCity: "",
 					workotArrivalCity: "",
-					dindanType: "",
+					projOrdType: "",
 					workotSTD: "",
-					xiangmuDidian: "",
+					projImplePla: "",
 					attachm: "",
 					updateBy: "",
 					updateTime: ""
@@ -220,11 +220,19 @@
 				formdata2: {
 
 				},
-				formdata3: {
+				// formdata1: {
 
-				},
+				// },
 				//项目类型列表
-                projTypeList: [],
+                projTypeList: [
+					{paraValue: 'ASD',paraShowMsg: '应用系统开发'},
+					{paraValue: 'SPD',paraShowMsg: '软件产品开发'},
+					{paraValue: 'APM',paraShowMsg: '应用维护升级'},
+					{paraValue: 'SSI',paraShowMsg: '系统集成'},
+					{paraValue: 'ISS',paraShowMsg: '信息系统安全'},
+					{paraValue: 'ASC',paraShowMsg: '咨询服务'},
+					{paraValue: 'OTH',paraShowMsg: '其他'}
+				],
                 //收入类型列表
 				projIncmTypeList: [
 					{paraValue: '01',paraShowMsg: 'Pipeline'},
@@ -245,28 +253,18 @@
 					{paraValue: '04',paraShowMsg: '其他'}
 				],
 				//收入确认类型列表
-                incmConfimList: [],
+                incmConfimList: [
+					{paraValue: 'T&M',paraShowMsg: '外包'},
+					{paraValue: 'FIX',paraShowMsg: '固定金额'}
+				],
                 //订单类型列表
 				dindanTypeList: [
-					{label: '有薪加班', workotNo: '01'},
-					{label: '调休加班', workotNo: '02'}
+					{paraShowMsg: 'NEW SELL', paraValue: 'NS'},
+					{paraShowMsg: 'UP SELL', paraValue: 'US'},
+					{paraShowMsg: 'RE NEW', paraValue: 'RN'}
 				],
 			 	rules1: {
-			 		yujiStartTime: [
-		            	{ required: true, validator: checkWorkotStartTime, trigger: 'change' }
-	          		],
-					yujiEndTime: [
-		            	{ required: true, validator: checkWorkotEndTime, trigger: 'change' }
-	          		],
-		          	yujiHTMony: [
-		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
-	          		],
-	          		dindanType: [
-		            	{ required: true, type: 'number', message: '预计累计工时不能为空', trigger: 'blur' }
-	          		],
-	          		xiangmuDidian: [
-	          			{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
-	          		]
+			 		
                 },
                 rules2: {
 					
@@ -281,38 +279,40 @@
 		},
 		created() {
 			//查询详情
-			// this.queryUserDetail();
-            //查询收入金额列表
-            //this.queryprojIncmTypeList()
-			//查询收入确认金额列表
+			this.queryUserDetail();
+			//查询详情
+			this.queryperSDetail();
+            // //查询收入金额列表
+            // this.queryprojIncmTypeList()
+			// //查询收入确认金额列表
             // this.queryincmConfimList();
-            //查询项目类型列表
-            // this.queryprojTypeList()
+            // //查询项目类型列表
+            // this.queryprojTypeList();
 		},
 		computed: {
 			formdata: function(){
 				const self = this;
 				return {
 					"applyNo": self.formdata1.applyNo, 
-					"userNo": self.formdata1.userNo,
-	    			"yujiHTTime": self.formdata1.yujiHTTime, 
-	    			"yujiEndTime": self.formdata1.yujiEndTime,
-	    			"yujiHTMony": self.formdata1.yujiHTMony, 
-	    			"dindanType": self.formdata1.dindanType, 
-	    			"xiangmuDidian": self.formdata1.xiangmuDidian,
+					"coocustNo": self.formdata1.coocustNo,
+	    			"porjPreconDate": self.formdata1.porjPreconDate, 
+	    			"projImpEndate": self.formdata1.projImpEndate,
+	    			"projPreconAmt": self.formdata1.projPreconAmt, 
+	    			"projOrdType": self.formdata1.projOrdType, 
+	    			"projImplePla": self.formdata1.projImplePla,
 	    			attachm: self.formdata1.attachm
 				}
 			}
 		},
 		methods: {
-            changeYujiHTTime(time) {
-				this.formdata1.yujiHTtTime = time;
+            changePorjPreconDate(time) {
+				this.formdata1.porjPreconDate = time;
 			},
 			changeStartTime(time) {
-				this.formdata1.yujiStartTime = time;
+				this.formdata1.projImpBegdate = time;
 			},
 			changeEndTime(time) {
-				this.formdata1.yujiEndTime = time;
+				this.formdata1.projImpEndate = time;
 			},
 			changeValue(value) {
 		 		const self = this;
@@ -329,14 +329,34 @@
 			},
 			queryUserDetail() {
 				const self = this;
-				let params = {
-					
-				};
-				self.$axios.get(baseURL+'', params)
+				let oppoNo = sessionStorage.getItem('preSaleInfo_oppoNo');
+				self.$axios.get(baseURL+'/presale/queryPresaleProjDetial/'+ oppoNo)
 				.then((res) => {
 					console.log('dtl', res);
 					if(res.data.code == 'S00000') {
 						self.formdata1 = res.data.data;
+						self.formdata1.projApplyMsg = '等待赵总审批';
+						self.formdata1.projApplyStatusList = [
+							{projApplyStatusTime: '2017-12-01 9:10:00',projApplyStatusName: '李总',projApplyStatusMsg: '审批通过'},
+							{projApplyStatusTime: '2017-12-01 9:00:00',projApplyStatusName: '刘总',projApplyStatusMsg: '审批通过'},
+						];
+					}
+					
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+			},
+			queryperSDetail() {
+				const self = this;
+				let oppoNo = sessionStorage.getItem('preSaleInfo_oppoNo');
+				self.$axios.get(baseURL+'budget/queryProjBudgetInfo/'+ oppoNo)
+				.then((res) => {
+					console.log('presaledtl', res);
+					if(res.data.code == 'S00000') {
+						self.formdata2 = res.data.data;
+						self.formdata2.projGrsMarg = parseFloat((self.formdata2.projGrsMarg*100).toFixed(6));
+						self.formdata2.projNetMarg = parseFloat((self.formdata2.projNetMarg*100).toFixed(6));
 					}
 					
 				})
@@ -402,5 +422,13 @@
 	padding-left: 20px;
     color: #999999;
     font-size: 14px;
+	clear: both;
+}
+.shenpiList li {
+	padding: 15px 0;
+}
+.preSaleStatusMsg {
+	float: right;
+	margin-right: 130px;
 }
 </style>

@@ -54,12 +54,12 @@ export default {
 							menuName: '组织架构'
 						},
 						{
-							menuUrl: 'management_user',
-							menuName: '用户管理'
-						},
-						{
 							menuUrl: 'management_role',
 							menuName: '角色管理'
+						},
+						{
+							menuUrl: 'management_user',
+							menuName: '用户管理'
 						},
 						{
 							menuUrl: 'management_fun',
@@ -172,7 +172,7 @@ export default {
 					menuName: '历史薪酬',
 					menuList: [
 						{
-							menuUrl: 'historicalSalary_query',
+							menuUrl: 'payFlows_manage',
 							menuName: '工资查询'
 						}
 					]
@@ -209,7 +209,7 @@ export default {
 			let self = this;
 			self.$axios.get(baseURL+'/menu/queryMenuInfo')
 			.then(function(res) {
-//				console.log('menuList',res);
+				console.log('menuList',res);
 				self.items = res.data.data;
 			}).catch(function(err) {
 				console.log('error');

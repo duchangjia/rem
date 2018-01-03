@@ -55,7 +55,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                       <el-form-item label="绩效工资" prop="wagesPerf">
-                            <el-input v-model="editPayBaseInfo.wagesPerf"></el-input>
+                            <el-input v-model="editPayBaseInfo.wagesPerf" @blur="wagesPerfChange"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -329,7 +329,8 @@ export default {
     this.getCustPostList(); //查询岗位列表
     this.getCustClassList(); //查询职级列表
     this.getAllInsurancePayTemplate(); // 查询保险缴纳标准模板
-    this.getInsurancePayTemp(); //初始查询保险缴纳标准
+    this.getInsurancePayTemp(); //初始查询保险缴纳标准 
+    this.getSalaryTop(); // 查当前薪资上限
   },
   computed: {
     _perEndm: function() {
@@ -543,37 +544,67 @@ export default {
           console.log("error");
         });
     },
-    wagesBaseChange(event) {
-      console.log("填入的基本工资", this.editPayBaseInfo.wagesBase);
-      console.log("wagesBase类型", typeof this.editPayBaseInfo.wagesBase);
-      let userNo = this.custInfo.userNo;
-      this.$axios
-        .get("/iem_hrm/pay/querUserSalaryTop/" + userNo)
+    getSalaryTop() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/pay/querUserSalaryTop/" + self.userNo)
         .then(res => {
           if (res.data.code == "S00000") {
-            this.salaryTop = res.data.data;
-            console.log("salaryTop", this.salaryTop);
-            if (Number(this.editPayBaseInfo.wagesBase) > this.salaryTop) {
-              this.payBaseInfoRules.remark = [];
-              this.payBaseInfoRules.remark.push({
-                required: true,
-                message: "请输入薪资超限说明",
-                trigger: "blur"
-              });
-              this.$alert("员工薪酬超过公司标准，请线下邮件审批，并于当前页补充薪资超限说明。", "提示", {
-                confirmButtonText: "确定",
-                type: "warning"
-              });
-            } else {
-              this.payBaseInfoRules.remark = [];
-            }
-          } else {
-            this.$message.error(res.data.retMsg);
-          }
+            self.salaryTop = res.data.data;
+            console.log("salaryTop", self.salaryTop);
+          } 
         })
-        .catch(() => {
+        .catch(e => {
           console.log("error");
         });
+    },
+    wagesBaseChange(event) {
+      console.log("填入的基本工资", this.editPayBaseInfo.wagesBase);
+      if (this.editPayBaseInfo.wagesPerf == "") {
+        this.editPayBaseInfo.wagesPerf = "0.00";
+      }
+      if (
+        Number(this.editPayBaseInfo.wagesBase) +
+          Number(this.editPayBaseInfo.wagesPerf) >
+        this.salaryTop
+      ) {
+        this.payBaseInfoRules.remark = [];
+        this.payBaseInfoRules.remark.push({
+          required: true,
+          message: "请输入薪资超限说明",
+          trigger: "blur"
+        });
+        this.$alert("员工当前基本工资与绩效工资之和超过公司标准，请线下邮件审批，并于当前页补充薪资超限说明。", "提示", {
+          confirmButtonText: "确定",
+          type: "warning"
+        });
+      } else {
+        this.payBaseInfoRules.remark = [];
+      }
+    },
+    wagesPerfChange(event) {
+      console.log("填入的绩效工资", this.editPayBaseInfo.wagesPerf);
+      if (this.editPayBaseInfo.wagesBase == "") {
+        this.editPayBaseInfo.wagesBase = "0.00";
+      }
+      if (
+        Number(this.editPayBaseInfo.wagesBase) +
+          Number(this.editPayBaseInfo.wagesPerf) >
+        this.salaryTop
+      ) {
+        this.payBaseInfoRules.remark = [];
+        this.payBaseInfoRules.remark.push({
+          required: true,
+          message: "请输入薪资超限说明",
+          trigger: "blur"
+        });
+        this.$alert("员工当前基本工资与绩效工资之和超过公司标准，请线下邮件审批，并于当前页补充薪资超限说明。", "提示", {
+          confirmButtonText: "确定",
+          type: "warning"
+        });
+      } else {
+        this.payBaseInfoRules.remark = [];
+      }
     },
     welcoeNoChange(val) {
       this.editPayBaseInfo.welcoeNo = val;

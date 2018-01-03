@@ -68,7 +68,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="绩效工资" prop="wagesPerf">
-                            <el-input v-model="addPayBaseInfo.wagesPerf" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.wagesPerf" placeholder="0.00" @blur="wagesPerfChange"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
@@ -223,7 +223,7 @@
                         </el-form-item>
                     </el-col>
                 </el-form>
-                <el-form  :inline="true" :model="addPayBaseInfo" :rules="payBaseInfoRules" ref="addPayBaseInfoRules2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+                <el-form  :inline="true" :model="addPayBaseInfo" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
                     <el-col :sm="24" :md="12">
                         <el-form-item label="附件">
 				  		              <el-input v-model="addPayBaseInfo.attachm"></el-input>
@@ -546,14 +546,48 @@ export default {
     dialogConfirm(ajaxInfo) {
       const self = this;
       let userNo = ajaxInfo.stateNo;
+      // 查用户详情
       self.$axios
         .get(self.saveUrl + userNo)
         .then(res => {
           if (res.data.code == "S00000") {
-            self.dialogVisible = false;
+            // self.dialogVisible = false;
             self.custInfo = res.data.data;
             self.addPayBaseInfo.userNo = self.custInfo.userNo;
             console.log("custInfo", self.custInfo);
+            // 查当前薪资上限
+            self.$axios
+              .get("/iem_hrm/pay/querUserSalaryTop/" + userNo)
+              .then(res => {
+                if (res.data.code == "S00000") {
+                  self.dialogVisible = false;
+                  self.salaryTop = res.data.data;
+                  console.log("salaryTop", self.salaryTop);
+                } else {
+                  sessionStorage.setItem(
+                    "addPayBaseInfo_custClass",
+                    self.custInfo.custClass
+                  ); // 暂存当前用户职级
+                  self.dialogVisible = false;
+                  self
+                    .$confirm(
+                      res.data.retMsg +
+                        ",职级是:" +
+                        self.custInfo.custClass +
+                        "。可能将导致薪酬基数新增失败，请先前往设置该职级薪酬标准模板。",
+                      "提示",
+                      {
+                        type: "warning"
+                      }
+                    )
+                    .then(() => {
+                      self.$router.push("/add_rank");
+                    });
+                }
+              })
+              .catch(e => {
+                console.log("error");
+              });
           }
         })
         .catch(e => {
@@ -614,51 +648,51 @@ export default {
     },
     wagesBaseChange(event) {
       console.log("填入的基本工资", this.addPayBaseInfo.wagesBase);
-      let userNo = this.custInfo.userNo;
-      this.$axios
-        .get("/iem_hrm/pay/querUserSalaryTop/" + userNo)
-        .then(res => {
-          if (res.data.code == "S00000") {
-            this.salaryTop = res.data.data;
-            console.log("salaryTop", this.salaryTop);
-            if (Number(this.addPayBaseInfo.wagesBase) > this.salaryTop) {
-              this.payBaseInfoRules.remark = [];
-              this.payBaseInfoRules.remark.push({
-                required: true,
-                message: "请输入薪资超限说明",
-                trigger: "blur"
-              });
-              this.$alert("员工薪酬超过公司标准，请线下邮件审批，并于当前页补充薪资超限说明。", "提示", {
-                confirmButtonText: "确定",
-                type: "warning"
-              });
-            } else {
-              this.payBaseInfoRules.remark = [];
-            }
-          } else {
-            sessionStorage.setItem(
-              "addPayBaseInfo_custClass",
-              this.custInfo.custClass
-            ); // 暂存当前用户职级
-            this.$confirm(
-              res.data.retMsg +
-                " 职级是:" +
-                this.custInfo.custClass +
-                "。可能将导致薪酬基数新增失败，请先前往设置该职级薪酬标准模板。",
-              "提示",
-              {
-                type: "warning"
-              }
-            )
-              .then(() => {
-                this.$router.push("/add_rank");
-              })
-              .catch(() => {});
-          }
-        })
-        .catch(() => {
-          console.log("error");
+      if (this.addPayBaseInfo.wagesPerf == "") {
+        this.addPayBaseInfo.wagesPerf = "0.00";
+      }
+      if (
+        Number(this.addPayBaseInfo.wagesBase) +
+          Number(this.addPayBaseInfo.wagesPerf) >
+        this.salaryTop
+      ) {
+        this.payBaseInfoRules.remark = [];
+        this.payBaseInfoRules.remark.push({
+          required: true,
+          message: "请输入薪资超限说明",
+          trigger: "blur"
         });
+        this.$alert("员工当前基本工资与绩效工资之和超过公司标准，请线下邮件审批，并于当前页补充薪资超限说明。", "提示", {
+          confirmButtonText: "确定",
+          type: "warning"
+        });
+      } else {
+        this.payBaseInfoRules.remark = [];
+      }
+    },
+    wagesPerfChange(event) {
+      console.log("填入的绩效工资", this.addPayBaseInfo.wagesPerf);
+      if (this.addPayBaseInfo.wagesBase == "") {
+        this.addPayBaseInfo.wagesBase = "0.00";
+      }
+      if (
+        Number(this.addPayBaseInfo.wagesBase) +
+          Number(this.addPayBaseInfo.wagesPerf) >
+        this.salaryTop
+      ) {
+        this.payBaseInfoRules.remark = [];
+        this.payBaseInfoRules.remark.push({
+          required: true,
+          message: "请输入薪资超限说明",
+          trigger: "blur"
+        });
+        this.$alert("员工当前基本工资与绩效工资之和超过公司标准，请线下邮件审批，并于当前页补充薪资超限说明。", "提示", {
+          confirmButtonText: "确定",
+          type: "warning"
+        });
+      } else {
+        this.payBaseInfoRules.remark = [];
+      }
     },
     welcoeNoChange(val) {
       this.addPayBaseInfo.welcoeNo = val;

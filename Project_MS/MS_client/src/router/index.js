@@ -1,12 +1,10 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-
 Vue.use(Router);
-
 //export default new Router({
-    //     mode: 'history',
-    // hashbang: false,
-    //     history: true,
+//     mode: 'history',
+// hashbang: false,
+//     history: true,
 const routes = [
         {
             path: '/',
@@ -59,7 +57,6 @@ const routes = [
         //     component: resolve => require(['../components/common/web_standard.vue'], resolve)
         // },
         {
-    
             path: '/home',
             meta: { requireAuth: true, },
             component: resolve => require(['../components/common/Home.vue'], resolve),
@@ -213,10 +210,31 @@ const routes = [
                     ]
                 },
                 {
+                    path: '/proIncome',
+                    component: resolve => require(['../components/view/project_Mgmt/proIncome/proIncome.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/view/project_Mgmt/proIncome/proIncome_query.vue'], resolve),
+                        },
+                        {
+                            path: '/importBills',
+                            component: resolve => require(['../components/view/project_Mgmt/proIncome/importBills.vue'], resolve),
+                        },
+                        {
+                            path: '/queryBills',
+                            component: resolve => require(['../components/view/project_Mgmt/proIncome/queryBills.vue'], resolve),
+                        },
+                        {
+                            path: '/incomeDeclaration',
+                            component: resolve => require(['../components/view/project_Mgmt/proIncome/incomeDeclaration.vue'], resolve),
+                        },
+                    ]
+                },
+               /* {
                     path: '/proAcceptance',
                     component: resolve => require(['../components/view/project_Mgmt/proAcceptance/edit_proAccept.vue'], resolve),
-                    
-                },
+                },*/
                 {
                     path: '/query_customer',
                     component: resolve => require(['../components/view/customer_Relations/customerInfo.vue'], resolve),
@@ -268,7 +286,7 @@ const routes = [
                         },
                     ]
                 },
-                //业务管理start
+                 //业务管理start
                 //部门项目一览start
                 {
                     path: '/query_departPreCheck',
@@ -279,12 +297,31 @@ const routes = [
                             component: resolve => require(['../components/view/business_Mgmt/depart_project/departPreCheck_query.vue'], resolve),
                         },
                         {
-                            name: 'query_customer',
-                            path: '/query_customer',
+                            name: 'departPreCheck_detail',
+                            path: '/departPreCheck_detail',
                             component: resolve => require(['../components/view/business_Mgmt/depart_project/departPreCheck_detail.vue'], resolve),
                         }
                     ]
                 },
+                //部门项目一览end
+                //部门预算一览start
+                {
+                    path: '/query_budgetPreCheck',
+                    component: resolve => require(['../components/view/business_Mgmt/depart_budget/budgetPreCheck.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/view/business_Mgmt/depart_budget/budgetPreCheck_query.vue'], resolve),
+                        },
+                        {
+                            name: 'budgetPreCheck_detail',
+                            path: '/budgetPreCheck_detail',
+                            component: resolve => require(['../components/view/business_Mgmt/depart_budget/budgetPreCheck_detail.vue'], resolve),
+                        }
+                    ]
+                },
+                //部门预算一览end
+                //业务管理end
                 //项目预算
                 {
                     path: '/proBudget',
@@ -315,19 +352,13 @@ const routes = [
             ]
         }
     ]
-//})
-
-
-
 // 页面刷新时，重新赋值token
 if (window.localStorage.getItem('access_token')) {
     window.localStorage.setItem('access_token', window.localStorage.getItem('access_token'))
 }
-
 const router = new Router({
     routes
 });
-
 router.beforeEach((to, from, next) => {
     if (to.matched.some(r => r.meta.requireAuth)) {
         if (localStorage.getItem('access_token')) {
@@ -344,5 +375,4 @@ router.beforeEach((to, from, next) => {
         next();
     }
 })
-
 export default router;

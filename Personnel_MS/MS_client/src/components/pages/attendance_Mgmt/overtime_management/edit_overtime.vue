@@ -8,7 +8,7 @@
 				<el-button type="primary" class="toolBtn" @click="save('formdata2')">保存</el-button>
 			</div>
 			<div class="add-wrapper">
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="122px">
+				<el-form ref="formdata1" :inline="true"  :rules="rules" :model="formdata2" label-width="122px">
 						
 					<el-col :sm="24" :md="12">
 						<el-form-item label="工号">
@@ -80,7 +80,7 @@
 					  	</el-form-item>
 				  	</el-col>       
 				</el-form>
-				<el-form ref="formdata2" :inline="true"  :rules="rules" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">  	
+				<el-form ref="formdata3" :inline="true"  :rules="rules" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">  	
 				  	<el-col :sm="24" :md="12">
 						<el-form-item label="附件">
 					  		<el-upload class="upload-demo" ref="upload" name="file" action="/iem_hrm/file/addFile" multiple
@@ -112,18 +112,18 @@
 		data() {
 			var checkWorkotStartTime = (rule, value, callback) => {
 		        if (value == '') {
-		          	callback(new Error('请假开始时间不能为空'));
+		          	callback(new Error('加班开始时间不能为空'));
 		        } else if (this.formdata2.workotEndTime && value >= this.formdata2.workotEndTime) {
-		          	callback(new Error('请输入正确的开始时间'));
+		          	callback(new Error('开始时间不能大于结束时间'));
 		        } else {
 		          	callback();
 		        }
 	      	};
 			var checkWorkotEndTime = (rule, value, callback) => {
 		        if (value == '') {
-		          	callback(new Error('请假结束时间不能为空'));
+		          	callback(new Error('加班结束时间不能为空'));
 		        } else if (this.formdata2.workotStartTime && value <= this.formdata2.workotStartTime) {
-		          	callback(new Error('请输入正确的结束时间'));
+		          	callback(new Error('开始时间不能大于结束时间'));
 		        } else {
 		          	callback();
 		        }
@@ -172,13 +172,14 @@
 		            	{ required: true, validator: checkWorkotEndTime, trigger: 'change' }
 	          		],
 		          	workotType: [
-		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
+		            	{ required: true, message: '加班类型不能为空', trigger: 'blur' }
 	          		],
 	          		timeSheet: [
-		            	{ required: true, message: '请假累计工时不能为空', trigger: 'blur' },
+		            	{ required: true, message: '加班累计工时不能为空', trigger: 'blur' },
 						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "请输入正确的工时" }
 	          		],
 	          		remark: [
+	          			{ required: true, message: '加班备注不能为空', trigger: 'blur' },
 	          			{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 	          		]
 				}
@@ -284,29 +285,35 @@
 		    },
 	      	save(formName) {
 				const self = this;
-				this.$refs[formName].validate((valid) => {
+				self.$refs.formdata1.validate((valid) => {
 					if(valid) {
-							let fileIds = [];
-							for(let k in self.fileList) {
-								fileIds.push(self.fileList[k].fileId);
+						self.$refs.formdata2.validate((valid) => {
+							if(valid) {
+								self.$refs.formdata3.validate((valid) => {
+									if(valid) {
+										let fileIds = [];
+										for(let k in self.fileList) {
+											fileIds.push(self.fileList[k].fileId);
+										}
+										console.log('fileIds',fileIds)
+										let params = {
+											"applyNo": self.formdata2.applyNo, 
+											"userNo": self.formdata2.userNo,
+											"workotStartTime": self.formdata2.workotStartTime, 
+											"workotEndTime": self.formdata2.workotEndTime,
+											"workotType": self.formdata2.workotType, 
+											"timeSheet": self.formdata2.timeSheet, 
+											"remark": self.formdata2.remark,
+											fileIds: fileIds
+										}
+										//修改加班详细信息
+										self.modifyTravelInfo(params);
+										
+									}
+								})
 							}
-							console.log('fileIds',fileIds)
-							let params = {
-								"applyNo": self.formdata2.applyNo, 
-								"userNo": self.formdata2.userNo,
-				    			"workotStartTime": self.formdata2.workotStartTime, 
-				    			"workotEndTime": self.formdata2.workotEndTime,
-				    			"workotType": self.formdata2.workotType, 
-				    			"timeSheet": self.formdata2.timeSheet, 
-				    			"remark": self.formdata2.remark,
-								fileIds: fileIds
-							}
-							//修改加班详细信息
-							self.modifyTravelInfo(params);
+						})
 							
-						
-					} else {
-						return false;
 					}
 				});
 			},

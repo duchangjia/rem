@@ -110,7 +110,7 @@
 					  	</el-form-item>
 					</el-col>  	
 				</el-form> 	
-				<el-form :model="formdata2" :rules="rules2" ref="formdata2" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
+				<el-form :model="formdata2" :rules="rules2" ref="formdata3" :label-position="labelPosition" label-width="122px" style="margin-top:0;overflow:visible;">                
 					<el-col :span="24">
 						<el-form-item label="调动原因" prop="shiftReason">
 						    <el-input
@@ -122,7 +122,7 @@
 					  	</el-form-item>
 					</el-col>          
 				</el-form>
-				<el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">	
+				<el-form ref="formdata4" :inline="true"  :rules="rules2" :model="formdata2" label-width="122px" style="margin-top:0;overflow:visible;">	
 					<el-col :sm="24" :md="12">
 						<el-form-item label="附件" style="width: 100%;">
 							<el-input v-model="formdata2.attachm"></el-input>
@@ -332,24 +332,17 @@
 			},
 			// 上传前对文件的大小的判断
 		    beforeAvatarUpload (file) {
-//		      const extension = file.name.split('.')[1] === 'xls'
-//		      const extension2 = file.name.split('.')[1] === 'xlsx'
-//		      const extension3 = file.name.split('.')[1] === 'doc'
-//		      const extension4 = file.name.split('.')[1] === 'docx'
 		      const isLt2M = file.size / 1024 / 1024 < 10
-//		      if (!extension && !extension2 && !extension3 && !extension4) {
-//		        console.log('上传文件只能是 xls、xlsx、doc、docx 格式!')
-//		      }
 		      if (!isLt2M) {
 		      	this.$message({ message: '上传文件大小不能超过 10MB!', type: 'error' });
 		      }
-		      return  isLt2M	//extension || extension2 || extension3 || extension4 &&
+		      return  isLt2M	
 		    },
 	      	save(formName) {
 				const self = this;
-				self.$refs.formdata1.validate(valid => {
+				self.$refs.formdata2.validate(valid => {
 			        if (valid) {
-			          	self.$refs.formdata2.validate(valid => {
+			          	self.$refs.formdata3.validate(valid => {
 			            	if (valid) {
 			            		self.$refs.upload.submit();
 								if(!self.fileFlag) {
