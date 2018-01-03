@@ -73,15 +73,7 @@
 					status: '',
 					sysNo: ''
 				},
-				userList: [{
-					sysNo: '',
-					bsnNo: '',
-					methodName: '',
-					interfaceName: '',
-					bsnUrl: '',
-					status: '',
-					status: ''
-				}],
+				userList: [],
 				menuQueryConditions: []
 				
 			};

@@ -122,20 +122,7 @@ export default {
 				startDate: "",
 				endDate: ''
 			},
-			transferDataList: [
-				{
-					applyNo: "",
-					companyName: "",
-					deptName: "",
-					userNo: "", 
-					custName: "",
-					leaveType: "",
-					leaveStartTime: "",
-					leaveEndTime: "",
-					createdBy: "",
-					createdDate: ""
-				}
-			],
+			transferDataList: [],
 			comp: {
 				compName: '',
 				compOrgNo: ''

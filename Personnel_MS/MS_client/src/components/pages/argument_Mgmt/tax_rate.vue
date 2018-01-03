@@ -43,16 +43,7 @@ export default {
 			pageNum: 1,
 			pageSize: 10,
 			totalRows: 1,
-			taxRateGroupList: [
-				{
-					groupName: "",
-					remark: "",
-					startTime: "",
-					endTime: "",
-					createdBy: '',
-					createdDate: ''
-				}
-			]
+			taxRateGroupList: []
 		}
 	},
 	components: {

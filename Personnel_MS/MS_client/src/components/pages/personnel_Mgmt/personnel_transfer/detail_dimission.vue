@@ -115,17 +115,7 @@ export default {
 			departList: [],
 			//公司列表
 			compList: [],
-			transferDataList: [
-				{
-					dimId: "",
-					userNo: "",
-					custName: "",
-					organName: "",
-					derpName: "",
-					dimType: "",
-					dimTime: ""
-				}
-			],
+			transferDataList: [],
 			rules: {
 				organName: [],
 				derpName: []
