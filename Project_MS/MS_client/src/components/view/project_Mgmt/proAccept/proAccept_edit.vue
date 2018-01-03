@@ -21,7 +21,7 @@
                         <el-form-item label="客户">
                             <el-select v-model="proAccept.visitor">
                                 <el-option v-for="item in visitorList" :label="item.visitorMsg" :value="item.visitorID"></el-option>
-                            </el-select>    
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">

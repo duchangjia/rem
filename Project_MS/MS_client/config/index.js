@@ -29,17 +29,26 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://10.0.0.242:5555/',
-        // target: 'http://14.21.69.222:5555/',
+        //target: 'http://10.0.0.242:5555/',
+        target: 'http://14.21.69.222:5555/',
         changeOrigin: true,
         secure: false,
         pathRewrite: {
           '^/api': '/api'
         },
       },
+      '/crmCoopcustInfo':{
+        target: 'http://172.21.16.55:9080/',
+        // target: 'http://14.21.69.222:5555/',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/crmCoopcustInfo': '/crmCoopcustInfo'
+        },
+      },
       '/iem_pmg': {
-        target: 'http://10.0.0.242:8888/',
-        // target: 'http://14.21.69.222:5555/api/hrm/',
+        //target: 'http://10.0.0.242:8888/',
+        target: 'http://14.21.69.222:5555/api/hrm/',
         // target: 'http://192.168.1.102:8888/',
 //            target: 'http://192.168.1.111:8888/',
         // target: 'http://192.168.1.102:8888/',

@@ -285,8 +285,17 @@ const routes = [
                         }
                     ]
                 },
-                //部门项目一览end
-                //业务管理end
+                //项目预算
+                {
+                    path: '/proBudget',
+                    component: resolve => require(['../components/view/project_Mgmt/proBudget/proBudget.vue'], resolve),
+                    children: [
+                        {
+                            path: '/',
+                            component: resolve => require(['../components/view/project_Mgmt/proBudget/proBudget_query.vue'], resolve),
+                        },
+                    ]
+                },
             ]
         }
     ]

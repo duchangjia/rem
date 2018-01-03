@@ -19,32 +19,21 @@
           <el-col :span="6">
             <el-form-item label="客户行业" prop="custIndustry">
               <el-select v-model="filters.custIndustry">
-                <el-option label="全部" value=""></el-option>
-                <el-option label="金融" value="01"></el-option>
-                <el-option label="制造" value="02"></el-option>
-                <el-option label="医疗" value="03"></el-option>
-                <el-option label="航空" value="04"></el-option>
+                <el-option v-for="item in custIndustryList" :label="item.custIndustryMsg" :value="item.visitorID"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="客户类别" prop="custType">
               <el-select v-model="filters.custType">
-                <el-option label="全部" value=""></el-option>
-                <el-option label="普通客户" value="01"></el-option>
-                <el-option label="重要客户" value="02"></el-option>
-                <el-option label="软件供应商" value="03"></el-option>
+                <el-option v-for="item in custTypeList" :label="item.custTypeMsg" :value="item.visitorID"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="6">
             <el-form-item label="客户级别" prop="custLevel">
               <el-select v-model="filters.custLevel">
-                <el-option label="全部" value=""></el-option>
-                <el-option label="重点客户" value="01"></el-option>
-                <el-option label="普通客户" value="02"></el-option>
-                <el-option label="低价值客户" value="03"></el-option>
-                <el-option label="黑名单客户" value="04"></el-option>
+                <el-option v-for="item in custLevelList" :label="item.custLevelMsg" :value="item.visitorID"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -54,19 +43,22 @@
           </div>
         </el-form>
         <el-table stripe :data="custInfoList" border>
-          <el-table-column align="center" prop="custNo" label="客户编码">
+          <el-table-column align="center" prop="coocustNo" label="客户编码">
           </el-table-column>
           <el-table-column align="center" prop="custName" label="客户名称">
           </el-table-column>
-          <el-table-column align="center" prop="custDistrict" label="地区">
+          <el-table-column align="center" prop="custCity" label="地区">
           </el-table-column>
-          <el-table-column align="center" prop="custIndustry" label="行业">
+          <el-table-column align="center" prop="custInd" :formatter="custIndFormatter" label="行业">
           </el-table-column>
-          <el-table-column align="center" prop="custType" label="类别">
+          <el-table-column align="center" prop="custType":formatter="custTypeFormatter" label="类别">
           </el-table-column>
-          <el-table-column align="center" prop="contact" label="客户联系人">
+          <el-table-column align="center" label="客户联系人">
+            <template scope="scope">
+              <p>{{scope.row.attnName}}<br>{{scope.row.attnMobile}}</p>
+            </template>
           </el-table-column>
-          <el-table-column align="center" prop="sales" label="销售">
+          <el-table-column align="center" prop="salesName" label="销售">
           </el-table-column>
           <el-table-column align="center" label="操作" width="200">
             <template scope="scope">
@@ -90,6 +82,7 @@
 
 <script>
   import current from "../../common/current_position.vue";
+  const basicUrl="crmCoopcustInfo";
   export default {
     data() {
       let that = this;
@@ -102,8 +95,40 @@
         },
         pageNum: 1,//当前页
         pageSize: 10,//显示几条数据
-        totalRows: 1,//当前页有几条数据
-        custInfoList: []
+        totalRows: 1,//所有数据条数
+        custInfoList: [],
+        //客户行业列表
+        custIndustryList:[
+          {visitorID:"",custIndustryMsg:"全部"},
+          {visitorID:"A",custIndustryMsg:"农、林、牧、渔业"},
+          {visitorID:"B",custIndustryMsg:"采掘业"},
+          {visitorID:"C",custIndustryMsg:"制造业"},
+          {visitorID:"D",custIndustryMsg:"电力、煤气、热水的生产和供应业"},
+          {visitorID:"E",custIndustryMsg:"建筑业"},
+          {visitorID:"F",custIndustryMsg:"批发和零售业"},
+          {visitorID:"N",custIndustryMsg:"地质勘查业、水利管理业"},
+          {visitorID:"G",custIndustryMsg:"交通运输、仓储和邮电通信业"},
+          {visitorID:"H",custIndustryMsg:"住宿和餐饮业"},
+          {visitorID:"I",custIndustryMsg:"信息传输、软件和信息技术服务业"},
+          {visitorID:"J",custIndustryMsg:"金融、保险业"},
+          {visitorID:"K",custIndustryMsg:"房地产业"},
+          {visitorID:"M",custIndustryMsg:"科学研究和综合技术服务业"},
+          {visitorID:"P",custIndustryMsg:"教育"},
+        ],
+        //客户类别
+        custTypeList:[
+          {visitorID:"",custTypeMsg:"全部"},
+          {visitorID:"01",custTypeMsg:"客户"},
+          {visitorID:"02",custTypeMsg:"供应商"},
+        ],
+        //客户级别
+        custLevelList:[
+          {visitorID:"",custLevelMsg:"全部"},
+          {visitorID:"01",custLevelMsg:"重点客户"},
+          {visitorID:"02",custLevelMsg:"普通客户"},
+          {visitorID:"02",custLevelMsg:"低价值客户"},
+          {visitorID:"02",custLevelMsg:"黑名单客户"},
+        ],
       };
     },
     components: {
@@ -123,31 +148,45 @@
           pageNum: self.pageNum,
           pageSize: self.pageSize,
           custName: self.filters.custName,
-          custIndustry: self.filters.custIndustry,
+          custInd: self.filters.custIndustry,
           custType: self.filters.custType,
           custLevel: self.filters.custLevel
         };
-        // self.$axios
-        //   .get("/iem_hrm/EpAssetInf/queryEpAssetInfList", { params: params })
-        //   .then(res => {
-        //     console.log(res);
-        //     self.custInfoList = res.data.data.list;
-        //     self.totalRows = res.data.data.total;
-        //   })
-        //   .catch(() => {
-        //     console.log("error");
-        //   });
-        self.custInfoList = [{
-          custNo: "C000001",
-          custName: "中国平安",
-          custDistrict: "深圳市福田区农林路69号深国投广场1栋7楼",
-          custIndustry: "01",
-          custType: "02",
-          contact: "张黎东 13300110010",
-          sales: "赵琪"
-        }];
-      },
 
+        self.$axios
+          .get(basicUrl+"/queryCocustList", { params: params })
+          .then(res => {
+            res=res.data;
+            if(res.retMsg=="操作成功"){
+              //console.log(res.data)
+              self.custInfoList=res.data.list;
+              self.totalRows=res.data.total;
+            }
+          })
+          .catch(() => {
+            console.log("error");
+        });
+      },
+      //判断表格行业
+      custIndFormatter(row, column){
+        return row.custInd=='A'? "农、林、牧、渔业" :
+               row.custInd=='B' ? '审批失败' :
+               row.custInd=='C' ? '采掘业' :
+               row.custInd=='D' ? '制造业' :
+               row.custInd=='E' ? '电力、煤气、热水的生产和供应业' :
+               row.custInd=='F' ? '建筑业' :
+               row.custInd=='N' ? '批发和零售业' :
+               row.custInd=='G' ? '地质勘查业、水利管理业' :
+               row.custInd=='H' ? '交通运输、仓储和邮电通信业' :
+               row.custInd=='I' ? '信息传输、软件和信息技术服务业' :
+               row.custInd=='J' ? '金融、保险业' : null;
+      },
+      //判断表格类别
+      custTypeFormatter(row,column){
+        return row.custType=='1'? "客户" :
+               row.custType=='2' ? '供应商' :null;
+      },
+      //
       handleCurrentChange(val) {
         this.pageNum = val;
         this.getcustInfoList(); //分页查询
@@ -165,9 +204,11 @@
         });
       },
       handleDetail(index, row) {
+        //console.log(index, row)
+        //console.log()
         this.$router.push({
           name: "detail_customer",
-          params: {}
+          params: {coocustNo:row.coocustNo}
         });
       },
       handleEdit(index, row) {
