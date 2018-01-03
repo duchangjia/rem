@@ -586,7 +586,4 @@
 .titleBtn_wrapper {
 	float: right;
 }
-/* .add-wrapper .el-form-item__content {
-    height: 40px;
-} */
 </style>
