@@ -38,7 +38,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12" >
                         <el-form-item label="CCC值" prop="costCode">
-                            <el-input v-model="obj.costCode" placeholder="请输入CCC值(数字或英文)" :maxlength="32"></el-input>
+                            <el-input v-model="obj.costCode" placeholder="请输入CCC值(数字或英文)" :maxlength="10"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12" >
