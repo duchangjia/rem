@@ -11,7 +11,7 @@
 				<el-form ref="formdata1" :inline="true"  :rules="rules1" :model="formdata1" label-width="130px">
 					<el-col :sm="24" :md="12">
 						<el-form-item label="机会号">
-							<el-input v-model="formdata1.oppoNo"></el-input>
+							<el-input v-model="formdata1.oppoNo" :disabled="true"></el-input>
 					  	</el-form-item>
 					</el-col>	
 					<el-col :sm="24" :md="12">
@@ -90,7 +90,7 @@
 					</el-col>
                 </el-form>
                 <el-col :span="24" class="item-title">销售信息</el-col>  
-                <el-form ref="formdata1" :inline="true"  :rules="rules2" :model="formdata1" label-width="130px">
+                <el-form ref="formdata2" :inline="true"  :rules="rules2" :model="formdata1" label-width="130px">
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="销售" prop="projSaleName">
 						    <el-input type="text" v-model="formdata1.projSaleName"></el-input>
@@ -113,45 +113,45 @@
 				  	</el-col>
 				</el-form>
 				<el-col :span="24" class="item-title">立项预算</el-col>
-				<el-form ref="formdata1" :inline="true"  :rules="rules3" :model="formdata1" label-width="130px">
+				<el-form ref="formdata3" :inline="true"  :rules="rules3" :model="formdata2" label-width="130px">
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="总工作量" prop="projBudTalwork">
-						    <el-input type="text" v-model="formdata1.projBudTalwork"></el-input>
+						    <el-input type="text" v-model="formdata2.projBudTalwork"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					  <el-col :sm="24" :md="12">
 				  		<el-form-item label="人力成本" prop="projBudHrcost">
-						    <el-input type="text" v-model="formdata1.projBudHrcost"></el-input>
+						    <el-input type="text" v-model="formdata2.projBudHrcost"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="费用成本" prop="projBudExpcost">
-						    <el-input type="text" v-model="formdata1.projBudExpcost"></el-input>
+						    <el-input type="text" v-model="formdata2.projBudExpcost"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="分包成本" prop="projBudSubcost">
-						    <el-input type="text" v-model="formdata1.projBudSubcost"></el-input>
+						    <el-input type="text" v-model="formdata2.projBudSubcost"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="税金" prop="projBudTax">
-						    <el-input type="text" v-model="formdata1.projBudTax"></el-input>
+						    <el-input type="text" v-model="formdata2.projBudTax"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="总收入" prop="projBudTalinc">
-						    <el-input type="text" v-model="formdata1.projBudTalinc"></el-input>
+						    <el-input type="text" v-model="formdata2.projBudTalinc"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="毛利润(GM)%" prop="projGrsMarg">
-						    <el-input type="text" v-model="formdata1.projGrsMarg"></el-input>
+						    <el-input type="text" v-model="formdata2.projGrsMarg"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 					<el-col :sm="24" :md="12">
 				  		<el-form-item label="净利润(GM)%" prop="projNetMarg">
-						    <el-input type="text" v-model="formdata1.projNetMarg"></el-input>
+						    <el-input type="text" v-model="formdata2.projNetMarg"></el-input>
 					  	</el-form-item>
 				  	</el-col>
 				</el-form>
@@ -219,12 +219,12 @@
 					updateBy: "",
 					updateTime: ""
 				},
-				formdata1: {
+				formdata2: {
 
 				},
-				formdata1: {
+				// formdata1: {
 
-				},
+				// },
 				//项目类型列表
                 projTypeList: [
 					{paraValue: 'ASD',paraShowMsg: '应用系统开发'},
@@ -266,21 +266,7 @@
 					{paraShowMsg: 'RE NEW', paraValue: 'RN'}
 				],
 			 	rules1: {
-			 		projImpBegdate: [
-		            	{ required: true, validator: checkWorkotStartTime, trigger: 'change' }
-	          		],
-					projImpEndate: [
-		            	{ required: true, validator: checkWorkotEndTime, trigger: 'change' }
-	          		],
-		          	projPreconAmt: [
-		            	{ required: true, message: '出差类型不能为空', trigger: 'blur' }
-	          		],
-	          		projOrdType: [
-		            	{ required: true, type: 'number', message: '预计累计工时不能为空', trigger: 'blur' }
-	          		],
-	          		projImplePla: [
-	          			{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
-	          		]
+			 		
                 },
                 rules2: {
 					
@@ -296,6 +282,8 @@
 		created() {
 			//查询详情
 			this.queryUserDetail();
+			//查询详情
+			this.queryperSDetail();
             // //查询收入金额列表
             // this.queryprojIncmTypeList()
 			// //查询收入确认金额列表
@@ -354,6 +342,21 @@
 							{projApplyStatusTime: '2017-12-01 9:10:00',projApplyStatusName: '李总',projApplyStatusMsg: '审批通过'},
 							{projApplyStatusTime: '2017-12-01 9:00:00',projApplyStatusName: '刘总',projApplyStatusMsg: '审批通过'},
 						];
+					}
+					
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+			},
+			queryperSDetail() {
+				const self = this;
+				let oppoNo = sessionStorage.getItem('preSaleInfo_oppoNo');
+				self.$axios.get(baseURL+'budget/queryProjBudgetInfo/'+ oppoNo)
+				.then((res) => {
+					console.log('presaledtl', res);
+					if(res.data.code == 'S00000') {
+						self.formdata2 = res.data.data;
 					}
 					
 				})
