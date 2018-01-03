@@ -170,7 +170,7 @@
 	</div>
 </template>
 
-<script type='text/ecmascript-6'>
+<script>
 	import current from "../../../common/current_position.vue";
 	const baseURL = 'iem_pmg';
 	export default {
@@ -194,6 +194,15 @@
 		        } else {
 		          	callback();
 		        }
+	      	};
+	      	var validatorYujiHTMony=(rule,value, callback)=>{
+	      		if(value==''){
+	      			callback(new Error('预计合同金额不能为空'));
+	      		}else if(!Number.isInteger(value)){
+	      			callback(new Error('请输入数字值'));
+	      		}else{
+	      			callback();
+	      		}
 	      	};
 			return {
 				token: {
@@ -565,7 +574,7 @@
 	};
 </script>
 
-<style>
+<style scoped>
 .add_preSale {
 	padding: 0 0 20px 20px;
 }

@@ -72,7 +72,7 @@
 	</div>
 </template>
 
-<script type='text/ecmascript-6'>
+<script>
 import current from '../../../common/current_position.vue'
 import moment from 'moment'
 const baseURL = 'iem_pmg'

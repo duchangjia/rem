@@ -20,36 +20,22 @@
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="行业">
-              <el-select v-model="detailCustMsg.custIndustry">
-                <el-option label="金融" value="01"></el-option>
-                <el-option label="制造" value="02"></el-option>
-                <el-option label="医疗" value="03"></el-option>
-                <el-option label="航空" value="04"></el-option>
-              </el-select>
+              <el-input type="text" v-model="detailCustMsg.custInd"></el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="类别">
-              <el-select v-model="detailCustMsg.custType">
-                <el-option label="普通客户" value="01"></el-option>
-                <el-option label="重要客户" value="02"></el-option>
-                <el-option label="软件供应商" value="03"></el-option>
-              </el-select>
+              <el-input type="text" v-model="detailCustMsg.custType"></el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="级别">
-              <el-select v-model="detailCustMsg.custLevel">
-                <el-option label="重点客户" value="01"></el-option>
-                <el-option label="普通客户" value="02"></el-option>
-                <el-option label="低价值客户" value="03"></el-option>
-                <el-option label="黑名单客户" value="04"></el-option>
-              </el-select>
+              <el-input type="text" v-model="detailCustMsg.custLevel"></el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="所属地区">
-              <el-input type="text" v-model="detailCustMsg.custDistrict"></el-input>
+              <el-input type="text" v-model="detailCustMsg.custCity"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -131,9 +117,10 @@
   </div>
 </template>
 
-<script type='text/ecmascript-6'>
+<script>
 import current from "../../common/current_position.vue";
 import Vue from "vue";
+const basicUrl="crmCoopcustInfo";
 export default {
   data() {
     return {
@@ -150,7 +137,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         totalRows: 1
-      }
+      },
     };
   },
   components: {
@@ -158,9 +145,30 @@ export default {
   },
   created() {
     const self = this;
+    this.getCustomerDetail();
   },
   methods: {
-    getCustomerDetail() {}, // 客户详情
+    // 客户详情
+    getCustomerDetail() {
+        const self = this;
+        let params = {
+          coocustNo: self.$route.params.coocustNo
+        };
+        console.log(self.$route.params.coocustNo);
+        self.$axios
+          .get(basicUrl+"/queryCocustDetail", { params: params })
+          .then(res => {
+            res=res.data;
+            if(res.retMsg=="操作成功"){
+              self.detailCustMsg=res.data;
+              /*self.custInfoList=res.data.list;
+              self.totalRows=res.data.total;*/
+            }
+          })
+          .catch(() => {
+            console.log("error");
+        });
+    },
     getCustContactList() {}, // 联系人列表
     getSalesInfoList() {}, // 公司销售信息列表
     handleEdit(index, row) {},

@@ -20,5 +20,4 @@ export default {
   background: #ff9900;
   font-family: "PingFang SC";
 }
-
 </style>

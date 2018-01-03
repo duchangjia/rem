@@ -28,101 +28,101 @@
 	</div>
 </template>
 <script>
-    const baseURL = 'iem_hrm'
-    export default {
-        data() {
-            return {
-                isCollapse: false,
-                //subMenu menuUrl
-                subMenuOldIndex: '',
-                //nav item activeClass
-                itemActive: {},
-                items: [
-                    {
-                        menuImg: 'icon-home',
-                        menuUrl: 'home',
-                        menuName: '主页'
-                    },
-                    {
-                        menuImg: 'icon-sys',
-                        menuUrl: '2',
-                        menuName: '系统管理',
-                        menuList: [
-                            {
-                                menuUrl: 'management_framework',
-                                menuName: '组织架构'
-                            },
-                            {
-                                menuUrl: 'management_user',
-                                menuName: '用户管理'
-                            },
-                            {
-                                menuUrl: 'management_role',
-                                menuName: '角色管理'
-                            },
-                            {
-                                menuUrl: 'management_fun',
-                                menuName: '功能管理'
-                            }
-                        ]
-                    },
-                    {
-                        menuImg: 'icon-khgx',
-                        menuUrl: '3',
-                        menuName: '项目管理',
-                        menuList: [
-                            {
-                                menuUrl: 'preCheck_query',
-                                menuName: '项目一览'
-                            },
-                            {
-                                menuUrl: 'preSale_query',
-                                menuName: '售前立项'
-                            },
-                            {
-                                menuUrl: 'proSetUp',
-                                menuName: '项目立项'
-                            },
-                            {
-                                menuUrl: 'proBudget',
-                                menuName: '项目预算'
-                            },
-                            {
-                                menuUrl: 'proIncome',
-                                menuName: '项目收入'
-                            },
-                            {
-                                menuUrl: 'proAcceptance',
-                                menuName: '项目验收'
-                            }
-                        ]
-                    },
-                    {
-                        menuImg: 'icon-xmgl',
-                        menuUrl: '4',
-                        menuName: '业务管理',
-                        menuList: [
-                            {
-                                menuUrl: '/query_departPreCheck',
-                                menuName: '部门项目一览'
-                            },
-                            {
-                                menuUrl: '/query_budgetPreCheck',
-                                menuName: '部门预算一览'
-                            },
-                        ]
-                    },
-                    {
-                        menuImg: 'icon-csgl',
-                        menuUrl: '5',
-                        menuName: '客户关系',
-                        menuList: [
-                            {
-                                menuUrl: 'query_customer',
-                                menuName: '客户一览'
-                            }
-                        ]
-                    },
+const baseURL = 'iem_hrm'
+export default {
+	data() {
+		return {
+			isCollapse: false,
+			//subMenu menuUrl
+			subMenuOldIndex: '',
+			//nav item activeClass
+			itemActive: {},
+			items: [
+				{
+					menuImg: 'icon-home',
+					menuUrl: 'home',
+					menuName: '主页'
+				},
+				{
+					menuImg: 'icon-sys',
+					menuUrl: '2',
+					menuName: '系统管理',
+					menuList: [
+						{
+							menuUrl: 'management_framework',
+							menuName: '组织架构'
+						},
+						{
+							menuUrl: 'management_user',
+							menuName: '用户管理'
+						},
+						{
+							menuUrl: 'management_role',
+							menuName: '角色管理'
+						},
+						{
+							menuUrl: 'management_fun',
+							menuName: '功能管理'
+						}
+					]
+				},
+				{
+					menuImg: 'icon-khgx',
+					menuUrl: '3',
+					menuName: '项目管理',
+					menuList: [
+						{
+							menuUrl: 'preCheck_query',
+							menuName: '项目一览'
+						},
+						{
+							menuUrl: 'preSale_query',
+							menuName: '售前立项'
+						},
+						{
+							menuUrl: 'proSetUp',
+							menuName: '项目立项'
+						},
+						{
+							menuUrl: 'proAccept',
+							menuName: '项目验收'
+						},
+						{
+							menuUrl: 'proBudget',
+							menuName: '项目预算'
+						},
+						{
+                            menuUrl: 'proIncome',
+                            menuName: '项目收入'
+                        },
+					]
+				},
+				{
+					menuImg: 'icon-xmgl',
+					menuUrl: '4',
+					menuName: '业务管理',
+					menuList: [
+						{
+							menuUrl: '/query_departPreCheck',
+							menuName: '部门项目一览'
+						},
+						{
+                            menuUrl: '/query_budgetPreCheck',
+                            menuName: '部门预算一览'
+                        },
+					]
+				},
+				{
+					menuImg: 'icon-csgl',
+					menuUrl: '5',
+					menuName: '客户关系',
+					menuList: [
+						{
+							menuUrl: 'query_customer',
+							menuName: '客户一览'
+						}
+					]
+				},
 // 				{
 // 					menuImg: 'icon-xmgl',
 // 					menuUrl: '5',
