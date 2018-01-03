@@ -87,8 +87,8 @@
 				pageNum: 1,
 				pageSize: 10,
 				totalRows: 1,
-				handleTransferFlag: [],
-				handDimissionFlag: [],
+				handleTransferFlag: [],//调动禁用标志
+				handDimissionFlag: [],//离职禁用标志
 				ruleForm2: {
 					organName: "",
 					derpName: "",
@@ -100,6 +100,11 @@
 				departList: [],
 				//公司列表
 				compList: [],
+				//岗位列表
+				custPostList: [],
+				//职级列表
+				custClassList: [],
+				custStatusList: [],
 				rules: {
 
 				}
@@ -113,27 +118,43 @@
     		this.ruleForm2.custName = "";
 			//查询员工列表
 			this.queryList();
+			//查询岗位列表
+			this.queryCustPostList();
+			//查询职级列表
+			this.queryCustClassList();
+			//查询员工状态列表
+			this.queryCustStatusList();
 		},
 		methods: {
 			custSexFormatter(row, column) {
 		      return row.sex == "01" ? "男" : row.sex == "02" ? "女": row.sex == "99" ? "其他" : "";
 			},
 			custPostFormatter(row, column) {
-				return row.custPost == "01" ? "架构师" : row.custPost == "02" ? "前端开发工程师": row.custPost == "03" ? "测试工程师": row.custPost == "04" ? "后端开发" : "";
+				let custPost = ""
+				this.custPostList.forEach(function(item) {
+				if(row.custPost == item.paraValue) {
+				custPost = item.paraShowMsg;
+				}
+				}, this);
+				return custPost;
 			},
 		    custClassFormatter(row, column) {
-		      return row.custClass == "B10" ? "B10-初级软件工程师" : row.custClass == "B11" ? "B11-中级软件工程师": row.custClass == "B12" ? "B12-高级软件工程师" : "";
+		      	let custClass = ""
+				this.custClassList.forEach(function(item) {
+					if(row.custClass == item.paraValue) {
+						custClass = item.paraShowMsg;
+					}
+				}, this);
+				return custClass;
 		    },
 		    custStatusFormatter(row, column) {
-		      return row.custStatus == "01"
-		        ? "试用"
-		        : row.custStatus == "02"
-		          ? "在职"
-		          : row.custStatus == "03"
-		            ? "退休"
-		            : row.custStatus == "04"
-		              ? "离职"
-		              : row.custStatus == "05" ? "停薪留职" : "";
+				let custStatus = ""
+				this.custStatusList.forEach(function(item) {
+					if(row.custStatus == item.paraValue) {
+						custStatus = item.paraShowMsg;
+					}
+				}, this);
+				return custStatus;
 		    },
 			//重置
 			resetForm() {
@@ -212,6 +233,7 @@
 					self.totalRows = Number(res.data.data.total);
 					
 					self.pactListInfo.forEach(function(ele,index) {
+						//离职或退休时,员工不可调动
 						if(ele.custStatus == '03' || ele.custStatus == '04') {
 							self.handleTransferFlag[index] = true;
 							// self.handDimissionFlag[index] = true;
@@ -223,7 +245,46 @@
 				}).catch(function(err) {
 					console.log(err);
 				})
-			}
+			},
+			queryCustPostList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+				.then((res) => {
+					console.log('CustPost',res);
+					if(res.data.code === "S00000") {
+						self.custPostList = res.data.data;
+					}
+					
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
+			queryCustClassList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=PER_ENDM_FIXED')
+				.then((res) => {
+					console.log('CustClass',res);
+					if(res.data.code === "S00000") {
+						self.custClassList = res.data.data;
+					}
+					
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
+			queryCustStatusList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=CUST_STATUS')
+				.then((res) => {
+					console.log('CustStatus',res);
+					if(res.data.code === "S00000") {
+						self.custStatusList = res.data.data;
+					}
+					
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
 		}
 	};
 </script>
