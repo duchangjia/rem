@@ -12,4 +12,6 @@ export default{
     queryProjFileInfo:baseUrl+'projectBuild/queryProjFileInfo',
     //项目管理=>项目一览=>项目修改---项目信息更新
     updateProjInfo:baseUrl+'projectBuild/',
+    //业务管理=>部门项目一览=>查询
+    queryDeptProjLists:baseUrl+'deptProjList/queryDeptProjLists'
 }

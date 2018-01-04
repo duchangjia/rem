@@ -174,7 +174,6 @@
                                 <el-table-column align="center" :prop="item.dataKey" :label="item.label" v-for="(item,index) in tableListTwo" width="120">
                                 </el-table-column>
                             </el-table>
-
                         </div>
                         
                     </el-col>
