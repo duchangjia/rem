@@ -187,8 +187,10 @@
                 this.checkedSubmenus = val ? arr : []
                 if (val) {
                     this.checkedSubmenusFlag = true
+                    this.funcsList2 = arr
                 } else {
                     this.checkedSubmenusFlag = false
+                    this.funcsList2 = []
                 }
             },
             // 第二级change
@@ -210,51 +212,6 @@
                 })
                 this.checkFuncs[index] = val ? arr : []
                 this.isIndeterminate[index] = false
-//      this.$set(this.checkFuncs, index, val?arr:[])
-//      this.$set(this.isIndeterminate, index, false)
-//      this.$set(this.checkFuncsAll, index, val)
-//      console.log(this.checkFuncsAll[index],34343)
-                // this.checkFuncsAll[index] = event.target.checked;
-                // let targetFucsList = [];
-                // this.funcsList[index].bsns.forEach(function(ele) {
-                //   targetFucsList.push(ele.bsnNo);
-                // }, this);
-                // if (this.checkFuncsAll[index] == true) {
-                //   this.$set(this.isFuncsIndeterminate, index, true);
-                //   targetFucsList.forEach(function(ele) {
-                //     if (
-                //       JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(
-                //         JSON.stringify({ bsnNo: ele })
-                //       ) == -1
-                //     ) {
-                //       this.addRoleMsg.roleFuncSet.push({ bsnNo: ele });
-                //     }
-                //     if (!this.isInArray(this.checkFuncs, ele)) {
-                //       this.checkFuncs.push(ele);
-                //     }
-                //   }, this);
-                // } else {
-                //   this.$set(this.isFuncsIndeterminate, index, false);
-                //   targetFucsList.forEach(function(ele, index) {
-                //     if (
-                //       JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(
-                //         JSON.stringify({ bsnNo: ele })
-                //       ) != -1
-                //     ) {
-                //       this.addRoleMsg.roleFuncSet.splice(
-                //         JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(
-                //           JSON.stringify({ bsnNo: ele })
-                //         ) - 1,
-                //         1
-                //       );
-                //     }
-                //     if (this.isInArray(this.checkFuncs, ele)) {
-                //       this.checkFuncs.splice(this.checkFuncs.indexOf(ele), 1);
-                //     }
-                //   }, this);
-                // }
-                // console.log("这是全选的checkFuncs", this.checkFuncs);
-                // console.log("roleFuncSet", this.addRoleMsg.roleFuncSet);
             },
             handleCheckedFuncsChange(val, funcs, index) {
                 console.log(val, funcs, index)
@@ -270,6 +227,8 @@
                     this.addRoleMsg.roleFuncSet.push({bsnNo: ele});
                 }, this);
                 console.log("roleFuncSet", this.addRoleMsg.roleFuncSet);
+
+
             },
 
             handleSave(editRoleForm) {
