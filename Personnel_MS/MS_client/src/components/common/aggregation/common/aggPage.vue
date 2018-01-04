@@ -131,7 +131,7 @@
                     <el-table-column prop="derpName" label="部门" align="center"></el-table-column>
                     <el-table-column prop="comEmail" label="公司邮箱"  align="center"></el-table-column>
                     <el-table-column prop="custPost" label="职位" align="center" :formatter="custPostFormatter"></el-table-column>
-                    <el-table-column prop="organName" label="合同实体" align="center"></el-table-column>
+                    <el-table-column prop="pactSubject" label="合同实体" align="center" :formatter="pactSubjectFormatter"></el-table-column>
                 </el-table>
         </el-dialog> 
         </div>
@@ -181,7 +181,9 @@ import vFooter from './footer.vue';
                     accountNo:''
                 },
                 //岗位列表
-				        custPostList: [],
+                custPostList: [],
+                //合同实体列表
+                pactSubjectList: [],
                 newsList:[
                     {
                         class:'',
@@ -246,7 +248,9 @@ import vFooter from './footer.vue';
         },
         created() {
           //查询岗位列表
-			    this.queryCustPostList();
+          this.queryCustPostList();
+          //查询合同实体列表
+          this.queryPactSubjectList();
         },
         methods:{
            searchUser(){
@@ -332,6 +336,15 @@ import vFooter from './footer.vue';
               }, this);
                 return custPost;
            },
+           pactSubjectFormatter(row, column) {
+             let pactSubject = '';
+              this.pactSubjectList.forEach(function(item) {
+                if(row.pactSubject == item.paraValue) {
+                  pactSubject = item.paraShowMsg;
+                }
+              }, this);
+                return pactSubject;
+           },
            assetTypeFormatter(row, column) {
             return row.assetType == "01"
                 ? "全部"
@@ -351,6 +364,19 @@ import vFooter from './footer.vue';
                 console.log('CustPost',res);
                 if(res.data.code === "S00000") {
                   self.custPostList = res.data.data;
+                }
+                
+              }).catch((err) => {
+                console.log('error');
+              })
+            },
+            queryPactSubjectList() {
+              let self = this;
+              self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PACT_SUBJECT')
+              .then((res) => {
+                console.log('PactSubject',res);
+                if(res.data.code === "S00000") {
+                  self.pactSubjectList = res.data.data;
                 }
                 
               }).catch((err) => {
