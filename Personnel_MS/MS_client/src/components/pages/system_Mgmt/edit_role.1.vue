@@ -9,7 +9,8 @@
             </div>
             <div class="add-wrapper role-msg">
                 <el-col :span="24" class="item-title">角色信息</el-col>
-                <el-form :inline="true" :model="editRoleMsg" :rules="editRoleRules" ref="editRoleForm" label-width="80px">
+                <el-form :inline="true" :model="editRoleMsg" :rules="editRoleRules" ref="editRoleForm"
+                         label-width="80px">
                     <el-col :span="12">
                         <el-form-item label="角色ID">
                             <el-input v-model="editRoleMsg.roleNo" :disabled="true"></el-input>
@@ -44,13 +45,19 @@
                     <el-col :span="22" class="rightside">
                         <div class="menu">
                             <el-radio-group v-model="menuRadio" @change="handleRadioMenusChange">
-                                <el-radio-button v-for="menu in menus" :key="menu.menuNo" :label="menu.menuNo" class="menu-item">{{menu.menuName}}</el-radio-button>
+                                <el-radio-button v-for="menu in menus" :key="menu.menuNo" :label="menu.menuNo"
+                                                 class="menu-item">{{menu.menuName}}
+                                </el-radio-button>
                             </el-radio-group>
                         </div>
                         <div class="submenu" v-if="menuRadioFlag">
-                            <el-checkbox-button v-model="checkSubAll" :indeterminate="isSubIndeterminate" @change="handleSubAllChange" label="全部" class="menu-item"></el-checkbox-button>
+                            <el-checkbox-button v-model="checkSubAll"
+                                                @change="handleSubAllChange(checkSubAll)" label="全部"
+                                                class="menu-item"></el-checkbox-button>
                             <el-checkbox-group v-model="checkedSubmenus" @change="handleCheckedSubsChange">
-                                <el-checkbox-button v-for="submenu in submenus" :key="submenu" :label="submenu" class="menu-item">{{submenu.menuName}}</el-checkbox-button>
+                                <el-checkbox-button v-for="submenu in submenus" :key='submenu.menuName' :label="submenu.menuName"
+                                                    class="menu-item">
+                                </el-checkbox-button>
                             </el-checkbox-group>
                         </div>
                     </el-col>
@@ -61,11 +68,19 @@
                     </el-col>
                     <el-col :span="22" class="rightside">
                         <el-row :gutter="20">
-                            <el-col :span="6" v-for="(funcs, index) in funcsList" :key="index">
+                            <el-col :span="6" v-for="(funcs, index) in funcsList" :key="index" v-show='funcsList2.indexOf(funcs.menuName)!=-1'>
                                 <div class="funcs-content">
-                                    <el-checkbox :value="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
-                                    <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
-                                        <el-checkbox v-for="funcsDtl in funcs.bsns" :key="funcsDtl.bsnNo" :label="funcsDtl.bsnNo" v-bind:title="funcsDtl.interfaceName" >{{ funcsDtl.interfaceName }}</el-checkbox>
+                                    <el-checkbox v-model="checkFuncsAll[index]" :indeterminate="isIndeterminate[index]"
+                                                 @change="handleFuncsAllChange(checkFuncsAll[index],funcs,index)" class="func-checkall">
+                                        {{ funcs.menuName }}
+                                    </el-checkbox>
+                                    <el-checkbox-group v-model="checkFuncs[index]"
+                                                       @change="handleCheckedFuncsChange($event,funcs,index)"
+                                                       class="func-item">
+                                        <el-checkbox v-for="funcsDtl in funcs.bsns" :key="funcsDtl.bsnNo"
+                                                     :label="funcsDtl.bsnNo" v-bind:title="funcsDtl.interfaceName">
+                                            {{ funcsDtl.interfaceName }}
+                                        </el-checkbox>
                                     </el-checkbox-group>
                                 </div>
                             </el-col>
@@ -80,6 +95,7 @@
 
 <script type='text/ecmascript-6'>
 import current from "../../common/current_position.vue";
+
 export default {
   data() {
     return {
@@ -92,20 +108,21 @@ export default {
         roleDescr: "",
         roleFuncSet: []
       },
+      // 控制第一级
       menuRadio: "",
-      menuRadioFlag: false,
       menus: [],
-
-      checkSubAll: {},
-      checkedSubmenusFlag: false,
-      checkedSubmenus: [],
+      // 控制第二级
+      menuRadioFlag: false,
       submenus: [],
-      isSubIndeterminate: true,
-
-      funcsList: [],
+      checkSubAll: false,
+      checkedSubmenus: [],
+      // 控制第三级
+      checkedSubmenusFlag: false,
+      isIndeterminate: {},
       checkFuncsAll: {},
-      checkFuncs: [],
-      isFuncsIndeterminate: {},
+      funcsList: [],
+      funcsList2: [],
+      checkFuncs: {},
 
       editRoleRules: {
         roleName: [{ required: true, message: "角色名称不能为空", trigger: "blur" }],
@@ -121,6 +138,11 @@ export default {
     this.roleNo = sessionStorage.getItem("roleMgmt_roleNo");
     this.queryRoleDetail(); // 查询角色详情
     this.queryParentMenu(); // 查询父级菜单
+    for (let i = 0; i < 10; i++) {
+      this.$set(this.isIndeterminate, i, true);
+      this.$set(this.checkFuncsAll, i, false);
+      this.$set(this.checkFuncs, i, []);
+    }
   },
   methods: {
     queryRoleDetail() {
@@ -167,65 +189,79 @@ export default {
           console.log("error");
         });
     },
-    // 父级菜单-单选
+    // 第一级change
     handleRadioMenusChange(value) {
+      // 重置第二级数据
       this.menuRadioFlag = true;
-      this.checkedSubmenusFlag = false;
+      this.submenus = [];
+      this.checkSubAll = false;
       this.checkedSubmenus = [];
-      this.funcsList = [];
-      console.log(this.funcsList);
-      this.menuRadio = value;
+      //重置第三级数据
+      for (name in this.isIndeterminate) {
+        this.isIndeterminate[name] = true;
+      }
+      for (name in this.checkFuncsAll) {
+        this.checkFuncsAll[name] = false;
+      }
+      // for (name in this.checkFuncs) {
+      //   this.checkFuncs[name] = [];
+      // }
+      // this.funcsList = [];
+      // this.funcsList2 = "";
+      this.checkedSubmenusFlag = false;
       let params = {
-        upMenuNo: this.menuRadio
+        upMenuNo: value
       };
       this.$axios
         .get("/iem_hrm/role/queryChildMenuAndFunc", { params: params })
         .then(res => {
-          this.submenus = res.data.data;
-          this.checkSubAll = false;
+          this.submenus = this.funcsList = res.data.data;
         })
         .catch(() => {
           console.log("error");
         });
     },
     // 次级菜单 多选
-    handleSubAllChange(event) {
-      this.checkSubAll = event.target.checked;
-      if (this.checkSubAll == true) {
-        this.checkedSubmenus = this.submenus;
-        this.isSubIndeterminate = true;
+    // 第二级控制全选
+    handleSubAllChange(val) {
+      let arr = [];
+      this.submenus.forEach(item => {
+        arr.push(item.menuName);
+      });
+      this.checkedSubmenus = val ? arr : [];
+      if (val) {
+        this.checkedSubmenusFlag = true;
+        this.funcsList2 = arr;
       } else {
-        this.checkedSubmenus = [];
-        this.isSubIndeterminate = false;
+        this.checkedSubmenusFlag = false;
+        this.funcsList2 = [];
       }
-      this.checkedSubmenus.length > 0
-        ? (this.checkedSubmenusFlag = true)
-        : (this.checkedSubmenusFlag = false);
-      this.funcsList = this.checkedSubmenus;
-      console.log("这是全选的checkedSubmenus", this.funcsList);
     },
+    // 第二级change
     handleCheckedSubsChange(val) {
       let checkedCount = val.length;
-      this.isSubIndeterminate =
-        checkedCount > 0 && checkedCount < this.submenus.length;
-      checkedCount > 0
-        ? (this.checkedSubmenusFlag = true)
-        : (this.checkedSubmenusFlag = false);
-      checkedCount == this.submenus.length
-        ? (this.checkSubAll = true)
-        : (this.checkSubAll = false);
-      this.funcsList = val;
-      console.log("这是checkedSubmenus", this.funcsList);
+      this.checkSubAll = checkedCount === this.submenus.length;
+      this.funcsList2 = val;
+      if (this.funcsList2.length > 0) {
+        this.checkedSubmenusFlag = true;
+      } else {
+        this.checkedSubmenusFlag = false;
+      }
     },
     // 功能权限 多选
-    handleFuncsAllChange(event, index) {
-      this.checkFuncsAll[index] = event.target.checked;
+    handleFuncsAllChange(val, funcs, index) {
+      let arr = [];
+      funcs.bsns.forEach(item => {
+        arr.push(item.bsnNo);
+      });
+      this.checkFuncs[index] = val ? arr : [];
+      this.isIndeterminate[index] = false;
+
       let targetFucsList = [];
-      this.funcsList[index].bsns.forEach(function(ele) {
+      funcs.bsns.forEach(function(ele) {
         targetFucsList.push(ele.bsnNo);
       }, this);
       if (this.checkFuncsAll[index] == true) {
-        this.$set(this.isFuncsIndeterminate, index, true);
         targetFucsList.forEach(function(ele) {
           if (
             JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(
@@ -234,13 +270,9 @@ export default {
           ) {
             this.editRoleMsg.roleFuncSet.push({ bsnNo: ele });
           }
-          if (!this.isInArray(this.checkFuncs, ele)) {
-            this.checkFuncs.push(ele);
-          }
         }, this);
       } else {
-        this.$set(this.isFuncsIndeterminate, index, false);
-        targetFucsList.forEach(function(ele) {
+        targetFucsList.forEach(function(ele, index) {
           if (
             JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(
               JSON.stringify({ bsnNo: ele })
@@ -253,21 +285,18 @@ export default {
               1
             );
           }
-          if (this.isInArray(this.checkFuncs, ele)) {
-            this.checkFuncs.splice(this.checkFuncs.indexOf(ele), 1);
-          }
         }, this);
       }
-      console.log("这是全选的checkFuncs", this.checkFuncs);
+      console.log("这是全选的checkFuncs", this.checkFuncs[index]);
       console.log("roleFuncSet", this.editRoleMsg.roleFuncSet);
     },
-    handleCheckedFuncsChange(val, index) {
-      if (val.length == this.funcsList[index].bsns.length) {
+    handleCheckedFuncsChange(val, funcs, index) {
+      if (val.length == funcs.bsns.length) {
+        this.isIndeterminate[index] = false;
         this.checkFuncsAll[index] = true;
-        this.$set(this.isFuncsIndeterminate, index, true);
       } else {
+        this.isIndeterminate[index] = true;
         this.checkFuncsAll[index] = false;
-        this.$set(this.isFuncsIndeterminate, index, false);
       }
       this.editRoleMsg.roleFuncSet = [];
       val.forEach(function(ele) {
@@ -275,7 +304,26 @@ export default {
       }, this);
       console.log("roleFuncSet", this.editRoleMsg.roleFuncSet);
     },
-
+    handleCheckedFuncsChange(val, funcs, index) {
+      console.log(val, funcs, index);
+      if (val.length == funcs.bsns.length) {
+        this.isIndeterminate[index] = false;
+        this.checkFuncsAll[index] = true;
+      } else {
+        this.isIndeterminate[index] = true;
+        this.checkFuncsAll[index] = false;
+      }
+      val.forEach(function(ele) {
+        if (
+          JSON.stringify(this.editRoleMsg.roleFuncSet).indexOf(
+            JSON.stringify({ bsnNo: ele })
+          ) == -1
+        ) {
+          this.editRoleMsg.roleFuncSet.push({ bsnNo: ele });
+        }
+      }, this);
+      console.log("roleFuncSet", this.editRoleMsg.roleFuncSet);
+    },
     handleSave(editRoleForm) {
       this.$refs[editRoleForm].validate(valid => {
         if (valid) {
