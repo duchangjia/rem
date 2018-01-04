@@ -180,6 +180,8 @@ import vFooter from './footer.vue';
                     userNo:'',
                     accountNo:''
                 },
+                //岗位列表
+				        custPostList: [],
                 newsList:[
                     {
                         class:'',
@@ -241,6 +243,10 @@ import vFooter from './footer.vue';
                 }
             }
            
+        },
+        created() {
+          //查询岗位列表
+			    this.queryCustPostList();
         },
         methods:{
            searchUser(){
@@ -318,7 +324,13 @@ import vFooter from './footer.vue';
                
            },
            custPostFormatter(row, column) {
-            return row.custPost == "01" ? "架构师" : row.custPost == "02" ? "前端开发工程师": row.custPost == "03" ? "测试工程师": row.custPost == "04" ? "后端开发" : "";
+             let custPost = '';
+              this.custPostList.forEach(function(item) {
+                if(row.custPost == item.paraValue) {
+                  custPost = item.paraShowMsg;
+                }
+              }, this);
+                return custPost;
            },
            assetTypeFormatter(row, column) {
             return row.assetType == "01"
@@ -331,7 +343,20 @@ import vFooter from './footer.vue';
             },
             linkToItem(url){
                 this.$router.push(url)
-            }
+            },
+            queryCustPostList() {
+              let self = this;
+              self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+              .then((res) => {
+                console.log('CustPost',res);
+                if(res.data.code === "S00000") {
+                  self.custPostList = res.data.data;
+                }
+                
+              }).catch((err) => {
+                console.log('error');
+              })
+            },
         },
         components:{
             vHead,vFooter
