@@ -436,7 +436,7 @@ export default {
             this.insurancePayTemp.perEndmRate +
             this.insurancePayTemp.perEndmFixed) *
             100
-        ) / 100 || 0.00
+        ) / 100 || 0.0
       );
     },
     _comEndm: function() {
@@ -446,7 +446,7 @@ export default {
             this.insurancePayTemp.comEndmRate +
             this.insurancePayTemp.comEndmFixed) *
             100
-        ) / 100 || 0.00
+        ) / 100 || 0.0
       );
     },
     _perMedi: function() {
@@ -456,7 +456,7 @@ export default {
             this.insurancePayTemp.perMediRate +
             this.insurancePayTemp.perMediFixed) *
             100
-        ) / 100 || 0.00
+        ) / 100 || 0.0
       );
     },
     _comMedi: function() {
@@ -466,7 +466,7 @@ export default {
             this.insurancePayTemp.comMediRate +
             this.insurancePayTemp.comMediFixed) *
             100
-        ) / 100 || 0.00
+        ) / 100 || 0.0
       );
     },
     _perUnem: function() {
@@ -476,7 +476,7 @@ export default {
             this.insurancePayTemp.perUnemRate +
             this.insurancePayTemp.perUnemFixed) *
             100
-        ) / 100 || 0.00
+        ) / 100 || 0.0
       );
     },
     _comUnem: function() {
@@ -486,7 +486,7 @@ export default {
             this.insurancePayTemp.comUnemRate +
             this.insurancePayTemp.comUnemFixed) *
             100
-        ) / 100 || 0.00
+        ) / 100 || 0.0
       );
     },
     _perEmpl: function() {
@@ -496,7 +496,7 @@ export default {
             this.insurancePayTemp.perEmplRate +
             this.insurancePayTemp.perEmplFixed) *
             100
-        ) / 100 || 0.00
+        ) / 100 || 0.0
       );
     },
     _comEmpl: function() {
@@ -506,7 +506,7 @@ export default {
             this.insurancePayTemp.comEmplRate +
             this.insurancePayTemp.comEmplFixed) *
             100
-        ) / 100 || 0.00
+        ) / 100 || 0.0
       );
     },
     _perMate: function() {
@@ -516,7 +516,7 @@ export default {
             this.insurancePayTemp.perMateRate +
             this.insurancePayTemp.perMateFixed) *
             100
-        ) / 100 || 0.00
+        ) / 100 || 0.0
       );
     },
     _comMate: function() {
@@ -526,7 +526,7 @@ export default {
             this.insurancePayTemp.comMateRate +
             this.insurancePayTemp.comMateFixed) *
             100
-        ) / 100 || 0.00
+        ) / 100 || 0.0
       );
     },
     _perHouse: function() {
@@ -536,7 +536,7 @@ export default {
             this.insurancePayTemp.perHousRate +
             this.insurancePayTemp.perHousFixed) *
             100
-        ) / 100 || 0.00
+        ) / 100 || 0.0
       );
     },
     _comHouse: function() {
@@ -546,7 +546,7 @@ export default {
             this.insurancePayTemp.comHousRate +
             this.insurancePayTemp.comHousFixed) *
             100
-        ) / 100 || 0.00
+        ) / 100 || 0.0
       );
     }
   },
@@ -643,6 +643,28 @@ export default {
       let rulesValid1 = false;
       let rulesValid2 = false;
 
+      let editPayChangeDetail = {};
+      editPayChangeDetail.userNo = this.userNo;
+      editPayChangeDetail.applyNo = this.payChangeDetail.applyNo;
+      editPayChangeDetail.nWelcoeNo = this.payChangeDetail.nWelcoeNo;
+      editPayChangeDetail.remark = this.payChangeDetail.remark;
+      editPayChangeDetail.updFlag = this.payChangeDetail.updFlag;
+      editPayChangeDetail.chageStatus = this.payChangeDetail.chageStatus;
+      for (var name in this.payChangeDetail) {
+        if (name.indexOf("n") == 0 && name != "nWelcoeNo") {
+          console.log("n开头的name", name);
+          console.log("typeof nWagesBase", typeof this.payChangeDetail["nWagesBase"]);
+          if (typeof (this.payChangeDetail[name]) == "number") {
+            console.log("aaaaaaaaa");
+            this.payChangeDetail[name] = this.payChangeDetail[name].toString();
+            editPayChangeDetail[name] = this.payChangeDetail[name];
+          } else {
+            editPayChangeDetail[name] = this.payChangeDetail[name];
+          }
+        }
+      }
+      console.log(editPayChangeDetail);
+
       this.$refs.payChangeDetailRules1.validate(valid => {
         if (valid) {
           rulesValid1 = true;
@@ -670,30 +692,6 @@ export default {
         }
       });
       if (rulesValid1 && rulesValid2) {
-        let editPayChangeDetail = {};
-        editPayChangeDetail.userNo = this.userNo;
-        editPayChangeDetail.applyNo = this.payChangeDetail.applyNo;
-        editPayChangeDetail.nWagesBase = this.payChangeDetail.nWagesBase;
-        editPayChangeDetail.nWagesPerf = this.payChangeDetail.nWagesPerf;
-        editPayChangeDetail.nPostPension = this.payChangeDetail.nPostPension;
-        editPayChangeDetail.nPhonePension = this.payChangeDetail.nPhonePension;
-        editPayChangeDetail.nTrafficPension = this.payChangeDetail.nTrafficPension;
-        editPayChangeDetail.nLivingPension = this.payChangeDetail.nLivingPension;
-        editPayChangeDetail.nAttendanceBonus = this.payChangeDetail.nAttendanceBonus;
-        editPayChangeDetail.nSeniorityPay = this.payChangeDetail.nSeniorityPay;
-        editPayChangeDetail.nOvertimePay = this.payChangeDetail.nOvertimePay;
-        editPayChangeDetail.nOtherPension = this.payChangeDetail.nOtherPension;
-        editPayChangeDetail.nEndmBase = this.payChangeDetail.nEndmBase;
-        editPayChangeDetail.nMediBase = this.payChangeDetail.nMediBase;
-        editPayChangeDetail.nUnemBase = this.payChangeDetail.nUnemBase;
-        editPayChangeDetail.nEmplBase = this.payChangeDetail.nEmplBase;
-        editPayChangeDetail.nMateBase = this.payChangeDetail.nMateBase;
-        editPayChangeDetail.nHouseBase = this.payChangeDetail.nHouseBase;
-        editPayChangeDetail.nWelcoeNo = this.payChangeDetail.nWelcoeNo;
-        editPayChangeDetail.remark = this.payChangeDetail.remark;
-        editPayChangeDetail.updFlag = this.payChangeDetail.updFlag;
-        editPayChangeDetail.chageStatus = this.payChangeDetail.chageStatus;
-        console.log(editPayChangeDetail);
         this.$axios
           .put("/iem_hrm/epPayChageInf/modEpPayChageInf", editPayChangeDetail)
           .then(res => {
