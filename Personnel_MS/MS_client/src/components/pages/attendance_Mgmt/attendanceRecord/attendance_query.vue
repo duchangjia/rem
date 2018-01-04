@@ -154,13 +154,13 @@ export default {
 	},
 	methods: {
 		attenceTypeFormatter(row, column) {
-			let attence = '';
+			let attenceType = '';
 			this.attenceTypeList.forEach(function(item) {
-				if(row.attence == item.paraValue) {
-					attence = item.paraShowMsg;
+				if(row.attenceType == item.paraValue) {
+					attenceType = item.paraShowMsg;
 				}
 			}, this);
-	    	return attence;
+	    	return attenceType;
 		},
 		travelTimeFormatter(row, column) {
 			let time = row.createdDate;
