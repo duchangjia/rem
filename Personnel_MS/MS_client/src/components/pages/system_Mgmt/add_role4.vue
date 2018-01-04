@@ -45,12 +45,12 @@
                         <div class="submenu" v-if="menuRadioFlag">
                             <el-checkbox-button v-model="checkSubAll" :indeterminate="isSubIndeterminate" @change="handleSubAllChange" label="全部" class="menu-item"></el-checkbox-button>
                             <el-checkbox-group v-model="checkedSubmenus" @change="handleCheckedSubsChange">
-                                <el-checkbox-button v-for="submenu in submenus" :key="submenu" :label="submenu" class="menu-item">{{submenu.menuName}}</el-checkbox-button>
+                                <el-checkbox-button v-for="submenu in submenus" :label="submenu" class="menu-item">{{submenu.menuName}}</el-checkbox-button>
                             </el-checkbox-group>
                         </div>
                     </el-col>
                 </div>
-                <div class="func-permission" v-if="checkedSubmenusFlag">
+                <div class="func-permission" v-show="checkedSubmenusFlag">
                     <el-col :span="2" class="leftside">
                         <div>功能权限</div>
                     </el-col>
@@ -58,7 +58,7 @@
                         <el-row :gutter="20">
                             <el-col :span="6" v-for="(funcs, index) in funcsList" :key="index">
                                 <div class="funcs-content">
-                                    <el-checkbox v-model="checkFuncsAll[index]" :indeterminate="!isFuncsIndeterminate[index]" @change="handleFuncsAllChange($event,index)" class="func-checkall">{{ funcs.menuName }}</el-checkbox>
+                                    <roleChild :isFuncsIndeterminate="isFuncsIndeterminate" :checkFuncsAll="checkFuncsAll" :funcs="funcs" @handleFuncsAllChange="handleFuncsAllChange"></roleChild>
                                     <el-checkbox-group v-model="checkFuncs" @change="handleCheckedFuncsChange($event,index)"  class="func-item">
                                         <el-checkbox v-for="funcsDtl in funcs.bsns" :key="funcsDtl.bsnNo" :label="funcsDtl.bsnNo" v-bind:title="funcsDtl.interfaceName" >{{ funcsDtl.interfaceName }}</el-checkbox>
                                     </el-checkbox-group>
@@ -75,6 +75,7 @@
 
 <script type='text/ecmascript-6'>
 import current from "../../common/current_position.vue";
+import roleChild from "./role_child.vue";
 import Vue from "vue";
 export default {
   data() {
@@ -89,17 +90,19 @@ export default {
       menuRadio: "",
       menuRadioFlag: false,
       menus: [],
+        flag:'',
+        flag2:[],
 
       checkSubAll: {},
       checkedSubmenusFlag: false,
       checkedSubmenus: [],
       submenus: [],
       isSubIndeterminate: true,
-
+        checkFuncsAll:false,
       funcsList: [],
-      checkFuncsAll: {},
+
       checkFuncs: [],
-      isFuncsIndeterminate: {},
+      isFuncsIndeterminate: true,
 
       editRoleRules: {
         roleName: [{ required: true, message: "角色名称不能为空", trigger: "blur" }],
@@ -108,8 +111,18 @@ export default {
       }
     };
   },
+//    computed:{
+//        checkFuncsAll: {
+//            get: function () {
+//                return true
+//            },
+////            set: function (v) {
+////                this.checkFuncsAll = v
+////            }
+//        }
+//    },
   components: {
-    current
+    current,roleChild
   },
   created() {
     const self = this;
@@ -117,6 +130,10 @@ export default {
       .get("/iem_hrm/role/queryParentMenu")
       .then(res => {
         self.menus = res.data.data;
+          res.data.data.forEach(item=>{
+              this.flag2.push(item.menuNo)
+              console.log(this.flag2,4444)
+          })
       })
       .catch(() => {
         console.log("error");
@@ -125,6 +142,8 @@ export default {
   methods: {
     // 父级菜单-单选
     handleRadioMenusChange(value) {
+        console.log(value,333)
+        this.flag = value
       this.menuRadioFlag = true;
       this.checkedSubmenusFlag = false;
       this.checkedSubmenus = [];
@@ -175,14 +194,13 @@ export default {
       console.log("这是checkedSubmenus", this.funcsList);
     },
     // 功能权限 多选
-    handleFuncsAllChange(event, index) {
-      this.checkFuncsAll[index] = event.target.checked;
-      let targetFucsList = [];
-      this.funcsList[index].bsns.forEach(function(ele) {
+    handleFuncsAllChange(val) {
+      let targetFucsList = []
+      val[1].bsns.forEach(function(ele) {
         targetFucsList.push(ele.bsnNo);
-      }, this);
-      if (this.checkFuncsAll[index] == true) {
-        this.$set(this.isFuncsIndeterminate, index, true);
+      });
+        return
+      if (val[0] == true) {
         targetFucsList.forEach(function(ele) {
           if (
             JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(
@@ -196,7 +214,6 @@ export default {
           }
         }, this);
       } else {
-        this.$set(this.isFuncsIndeterminate, index, false);
         targetFucsList.forEach(function(ele, index) {
           if (
             JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(
@@ -218,13 +235,13 @@ export default {
       console.log("这是全选的checkFuncs", this.checkFuncs);
       console.log("roleFuncSet", this.addRoleMsg.roleFuncSet);
     },
-    handleCheckedFuncsChange(val, index) {
+    handleCheckedFuncsChange(val,index) {
       if (val.length == this.funcsList[index].bsns.length) {
-        this.checkFuncsAll[index] = true;
-        this.$set(this.isFuncsIndeterminate, index, true);
+          this.isFuncsIndeterminate = false
+          this.checkFuncsAll = true
       } else {
-        this.checkFuncsAll[index] = false;
-        this.$set(this.isFuncsIndeterminate, index, false);
+          this.isFuncsIndeterminate = true
+          this.checkFuncsAll = false
       }
       this.addRoleMsg.roleFuncSet = [];
       val.forEach(function(ele) {
