@@ -316,14 +316,38 @@
 					remark: [
 						{ min: 0, max: 512, message: '长度在 0 到 512 个字符之间', trigger: 'blur' }
 					], // 项目说明(销售信息中的)
-					projBudTalwork: [], // 总工作量
-					projBudHrcost: [], // 人力成本
-					projBudExpcost: [], // 费用成本
-					// projBudSubcost: [], // 分包成本
-					projBudTax: [], // 税金
-					projBudTalinc: [], // 总收入
-					projGrsMarg: [], // 毛利润
-					projNetMarg: []  //毛利润
+					projBudTalwork: [
+						{ required: true, message: '总工作量不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					], // 总工作量
+					projBudHrcost: [
+						{ required: true, message: '人力成本不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					], // 人力成本
+					projBudExpcost: [
+						{ required: true, message: '费用成本不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					], // 费用成本
+					projBudSubcost: [
+						// { required: true, message: '分包成本不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数", trigger: 'blur' }
+					], // 分包成本
+					projBudTax: [
+						{ required: true, message: '税金不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					], // 税金
+					projBudTalinc: [
+						{ required: true, message: '总收入不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					], // 总收入
+					projGrsMarg: [
+						{ required: true, message: '毛利润不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					], // 毛利润
+					projNetMarg: [
+						{ required: true, message: '毛利润不能为空', trigger: 'blur' },
+						{ pattern: /^\d{1,14}(\.\d{1,2})?$/, message: "可精确到小数点后2位的数" }
+					]  //毛利润
                 },
 			}
 		},
@@ -410,7 +434,7 @@
 											projGrsMarg: projGrsMarg || '', // 毛利润
 											projNetMarg: projNetMarg || '', // 净利润 
 										}
-										console.log('params', params)
+										console.log('params_save_submit', params)
 										//保存
 										self.savePreSale(params);
 										//提交审批
@@ -459,7 +483,7 @@
 											projGrsMarg: projGrsMarg || '', // 毛利润
 											projNetMarg: projNetMarg || '', // 净利润 
 										}
-										console.log('params', params)
+										console.log('params_savePreSale', params)
 										//保存
 										self.savePreSale(params);
 									}
@@ -472,7 +496,7 @@
 			//保存修改
 			savePreSale(params) {
 				let self = this;
-				self.$axios.post(baseURL+'/presale/updatePresaleProjInfo',params)
+				self.$axios.put(baseURL+'/presale/updatePresaleProjInfo',params)
 				.then((res) => {
 					console.log('save',res);
 					if(res.data.code === "S00000") {
@@ -480,13 +504,13 @@
 						// self.$router.push('/preSale_query');
 		      		}
 				}).catch((err) => {
-					console.log('error');
+					console.log(err);
 				})
 			},
 			//提交审批
 			submitPreSale(params) {
 				let self = this;
-				self.$axios.post(baseURL+'',params)
+				self.$axios.put(baseURL+'',params)
 				.then((res) => {
 					console.log('Submit',res);
 					if(res.data.code === "S00000") {
@@ -494,7 +518,7 @@
 						// self.$router.push('/preSale_query');
 		      		}
 				}).catch((err) => {
-					console.log('error');
+					console.log(err);
 				})
 			},
 			queryUserDetail() {
@@ -579,11 +603,17 @@
 .add_preSale {
 	padding: 0 0 20px 20px;
 }
-.addPreSaleButton_wrapper {
+.add_preSale .addPreSaleButton_wrapper {
 	width: 400px;
 	margin: 0 auto;
 }
-.titleBtn_wrapper {
+.add_preSale .titleBtn_wrapper {
 	float: right;
 }
+/* .add_preSale .el-form-item.is-success .el-input__inner, 
+.add_preSale .el-form-item.is-success .el-input__inner:focus, 
+.add_preSale .el-form-item.is-success .el-textarea__inner, 
+.add_preSale .el-form-item.is-success .el-textarea__inner:focus {
+    border-color: #d8dce5;
+} */
 </style>
