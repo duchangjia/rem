@@ -63,87 +63,87 @@
                 <el-form :inline="true" :model="addPayBaseInfo" :rules="payBaseInfoRules" ref="addPayBaseInfoRules1" :label-position="labelPosition"  label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="基本工资" prop="wagesBase">
-                            <el-input v-model="addPayBaseInfo.wagesBase" placeholder="0.00" @blur="wagesBaseChange"></el-input>
+                            <el-input v-model="addPayBaseInfo.wagesBase" placeholder="0" @blur="wagesBaseChange"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="绩效工资" prop="wagesPerf">
-                            <el-input v-model="addPayBaseInfo.wagesPerf" placeholder="0.00" @blur="wagesPerfChange"></el-input>
+                            <el-input v-model="addPayBaseInfo.wagesPerf" placeholder="0" @blur="wagesPerfChange"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="岗位补贴" prop="postPension">
-                            <el-input v-model="addPayBaseInfo.postPension" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.postPension" placeholder="0"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="通讯补贴" prop="phonePension">
-                            <el-input v-model="addPayBaseInfo.phonePension" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.phonePension" placeholder="0"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="交通补贴" prop="trafficPension">
-                            <el-input v-model="addPayBaseInfo.trafficPension" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.trafficPension" placeholder="0"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="生活补贴" prop="livingPension">
-                            <el-input v-model="addPayBaseInfo.livingPension" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.livingPension" placeholder="0"></el-input>
                         </el-form-item>
                     </el-col>
                     <!-- <el-col :sm="24" :md="12">
                         <el-form-item label="全勤奖">
-                            <el-input v-model="addPayBaseInfo.attendanceBonus" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.attendanceBonus" placeholder="0"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工龄奖">
-                            <el-input v-model="addPayBaseInfo.seniorityPay" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.seniorityPay" placeholder="0"></el-input>
                         </el-form-item>
                     </el-col> -->
                     <el-col :sm="24" :md="12">
                         <el-form-item label="加班工资" prop="overtimePay">
-                            <el-input v-model="addPayBaseInfo.overtimePay" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.overtimePay" placeholder="0"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="其他补贴" prop="otherPension">
-                            <el-input v-model="addPayBaseInfo.otherPension" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.otherPension" placeholder="0"></el-input>
                         </el-form-item>
                     </el-col>  
                     <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险基数" prop="endmBase">
-                            <el-input v-model="addPayBaseInfo.endmBase" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.endmBase" placeholder="0"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="医疗保险基数" prop="mediBase">
-                            <el-input v-model="addPayBaseInfo.mediBase" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.mediBase" placeholder="0"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="失业保险基数" prop="unemBase">
-                            <el-input v-model="addPayBaseInfo.unemBase" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.unemBase" placeholder="0"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工伤保险基数" prop="emplBase">
-                            <el-input v-model="addPayBaseInfo.emplBase" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.emplBase" placeholder="0"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="生育保险基数" prop="mateBase">
-                            <el-input v-model="addPayBaseInfo.mateBase" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.mateBase" placeholder="0"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="公积金基数" prop="houseBase">
-                            <el-input v-model="addPayBaseInfo.houseBase" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.houseBase" placeholder="0"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="试用期工资" prop="wagesProb">
-                            <el-input v-model="addPayBaseInfo.wagesProb" placeholder="0.00"></el-input>
+                            <el-input v-model="addPayBaseInfo.wagesProb" placeholder="0"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">

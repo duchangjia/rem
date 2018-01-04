@@ -148,24 +148,25 @@ export default {
     // 第一级change
     handleRadioMenusChange(value) {
       console.log(value, 222);
-      // 重至第二级数据
+      // 第二级数据
       this.menuRadioFlag = true;
       this.submenus = [];
       this.checkSubAll = false;
       this.checkedSubmenus = [];
-      //重至第三级数据
+      //重置第三级数据
       for (name in this.isIndeterminate) {
         this.isIndeterminate[name] = true;
       }
       for (name in this.checkFuncsAll) {
         this.checkFuncsAll[name] = false;
       }
-      for (name in this.checkFuncs) {
-        this.checkFuncs[name] = [];
-      }
-      this.funcsList = [];
-      this.funcsList2 = "";
+    //   for (name in this.checkFuncs) {
+    //     this.checkFuncs[name] = [];
+    //   }
+    //   this.funcsList = [];
+    //   this.funcsList2 = "";
       this.checkedSubmenusFlag = false;
+
       let params = {
         upMenuNo: value
       };
