@@ -76,7 +76,7 @@
                     ],
                     costCode: [
                         { required: true, message: 'CCC值不能为空', trigger: 'blur'},
-                        { pattern: /^[a-zA-Z0-9]*$/, message: "CCC值只能为数字或英文" }
+                        { pattern: /^[a-zA-Z0-9]{10}$/, message: "CCC值只能为数字或英文且长度为10位" }
                     ],
                 },
                 organItem:{},
