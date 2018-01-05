@@ -13,32 +13,32 @@
                 <el-form :model="ruleForm" ref="ruleForm">
                     <el-col :sm="12" :md="6">
                         <el-form-item label="机会号">
-                            <el-input v-model="ruleForm.jihuihao"></el-input>
+                            <el-input v-model="ruleForm.oppoNo"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="12" :md="6">
                         <el-form-item label="项目编号">
-                            <el-input v-model="ruleForm.proNo"></el-input>
+                            <el-input v-model="ruleForm.projNo"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="12" :md="6">
                         <el-form-item label="项目名称">
-                            <el-input v-model="ruleForm.proName"></el-input>
+                            <el-input v-model="ruleForm.projName"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="12" :md="6">
                         <el-form-item label="部门">
-                            <el-input v-model="ruleForm.department"></el-input>
+                            <el-input v-model="ruleForm.projImpDepNo"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="12" :md="6">
                         <el-form-item label="项目经理">
-                            <el-input v-model="ruleForm.manager"></el-input>
+                            <el-input v-model="ruleForm.projImpPm"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="12" :md="6">
                         <el-form-item label="立项状态">
-                            <el-select v-model="ruleForm.status">
+                            <el-select v-model="ruleForm.projAppState">
                                 <el-option value="01">xxxx</el-option>
                                 <el-option value="01">xxxx</el-option>
                             </el-select>
@@ -57,15 +57,15 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="projName" label="项目名称"></el-table-column>
-                    <el-table-column prop="projset" label="立项状态" :formatter="projApplyStaFormatter"></el-table-column>
+                    <el-table-column prop="projAppState" label="立项状态" :formatter="projApplyStaFormatter"></el-table-column>
                     <el-table-column prop="projstatus" label="项目状态"
                                      :formatter="projApplyStaFormatter"></el-table-column>
-                    <el-table-column prop="shouru" label="收入确认类型" :formatter="projApplyStaFormatter"></el-table-column>
-                    <el-table-column prop="manager" label="项目经理" :formatter="projApplyStaFormatter"></el-table-column>
+                    <el-table-column prop="projIncmConfim" label="收入确认类型" :formatter="projApplyStaFormatter"></el-table-column>
+                    <el-table-column prop="projImpPmnm" label="项目经理"></el-table-column>
                     <el-table-column prop="sale" label="销售" :formatter="projApplyStaFormatter"></el-table-column>
-                    <el-table-column prop="statrTime" label="预计开始日期"
+                    <el-table-column prop="projBegDate" label="预计开始日期"
                                      :formatter="projApplyStaFormatter"></el-table-column>
-                    <el-table-column prop="endTime" label="预计结束日期" :formatter="projApplyStaFormatter"></el-table-column>
+                    <el-table-column prop="projEndDate" label="预计结束日期" :formatter="projApplyStaFormatter"></el-table-column>
                     <el-table-column label="操作" width="100">
                         <template scope="scope">
                             <i class="el-icon-edit" @click="handleEdit(scope.row.proNo)"></i>

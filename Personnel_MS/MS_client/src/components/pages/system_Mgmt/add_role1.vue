@@ -86,20 +86,21 @@ export default {
         roleDescr: "",
         roleFuncSet: []
       },
+      // 控制第一级
       menuRadio: "",
-      menuRadioFlag: false,
       menus: [],
-
-      checkSubAll: {},
-      checkedSubmenusFlag: false,
-      checkedSubmenus: [],
+      // 控制第二级
+      menuRadioFlag: false,
       submenus: [],
-      isSubIndeterminate: true,
-
-      funcsList: [],
+      checkSubAll: false,
+      checkedSubmenus: [],
+      // 控制第三级
+      checkedSubmenusFlag: false,
+      isIndeterminate: {},
       checkFuncsAll: {},
-      checkFuncs: [],
-      isFuncsIndeterminate: {},
+      funcsList: [],
+      funcsList2: [],
+      checkFuncs: {},
 
       editRoleRules: {
         roleName: [{ required: true, message: "角色名称不能为空", trigger: "blur" }],
@@ -121,68 +122,88 @@ export default {
       .catch(() => {
         console.log("error");
       });
+    for (let i = 0; i < 10; i++) {
+      this.$set(this.isIndeterminate, i, true);
+      this.$set(this.checkFuncsAll, i, false);
+      this.$set(this.checkFuncs, i, []);
+    }
   },
   methods: {
-    // 父级菜单-单选
+    // 第一级change
     handleRadioMenusChange(value) {
+      console.log(value, 222);
+      // 第二级数据
       this.menuRadioFlag = true;
-      this.checkedSubmenusFlag = false;
+      this.submenus = [];
+      this.checkSubAll = false;
       this.checkedSubmenus = [];
-      this.funcsList = [];
-      console.log(this.funcsList);
-      this.menuRadio = value;
+      //重置第三级数据
+      for (name in this.isIndeterminate) {
+        this.isIndeterminate[name] = true;
+      }
+      for (name in this.checkFuncsAll) {
+        this.checkFuncsAll[name] = false;
+      }
+    //   for (name in this.checkFuncs) {
+    //     this.checkFuncs[name] = [];
+    //   }
+    //   this.funcsList = [];
+    //   this.funcsList2 = "";
+      this.checkedSubmenusFlag = false;
+
       let params = {
-        upMenuNo: this.menuRadio
+        upMenuNo: value
       };
       this.$axios
         .get("/iem_hrm/role/queryChildMenuAndFunc", { params: params })
         .then(res => {
-          this.submenus = res.data.data;
-          this.checkSubAll = false;
-          console.log("这是submenus", this.submenus);
+          this.submenus = this.funcsList = res.data.data;
         })
         .catch(() => {
           console.log("error");
         });
     },
-    // 次级菜单 多选
-    handleSubAllChange(event) {
-      this.checkSubAll = event.target.checked;
-      if (this.checkSubAll == true) {
-        this.checkedSubmenus = this.submenus;
-        this.isSubIndeterminate = true;
+    // 第二级控制全选
+    handleSubAllChange(val) {
+      let arr = [];
+      this.submenus.forEach(item => {
+        arr.push(item.menuName);
+      });
+      this.checkedSubmenus = val ? arr : [];
+      if (val) {
+        this.checkedSubmenusFlag = true;
+        this.funcsList2 = arr;
       } else {
-        this.checkedSubmenus = [];
-        this.isSubIndeterminate = false;
+        this.checkedSubmenusFlag = false;
+        this.funcsList2 = [];
       }
-      this.checkedSubmenus.length > 0
-        ? (this.checkedSubmenusFlag = true)
-        : (this.checkedSubmenusFlag = false);
-      this.funcsList = this.checkedSubmenus;
-      console.log("这是全选的checkedSubmenus", this.funcsList);
     },
+    // 第二级change
     handleCheckedSubsChange(val) {
       let checkedCount = val.length;
-      this.isSubIndeterminate =
-        checkedCount > 0 && checkedCount < this.submenus.length;
-      checkedCount > 0
-        ? (this.checkedSubmenusFlag = true)
-        : (this.checkedSubmenusFlag = false);
-      checkedCount == this.submenus.length
-        ? (this.checkSubAll = true)
-        : (this.checkSubAll = false);
-      this.funcsList = val;
-      console.log("这是checkedSubmenus", this.funcsList);
+      this.checkSubAll = checkedCount === this.submenus.length;
+      this.funcsList2 = val;
+      if (this.funcsList2.length > 0) {
+        this.checkedSubmenusFlag = true;
+      } else {
+        this.checkedSubmenusFlag = false;
+      }
     },
     // 功能权限 多选
-    handleFuncsAllChange(event, index) {
-      this.checkFuncsAll[index] = event.target.checked;
+    handleFuncsAllChange(val, funcs, index) {
+      console.log("funcs", funcs);
+      let arr = [];
+      funcs.bsns.forEach(item => {
+        arr.push(item.bsnNo);
+      });
+      this.checkFuncs[index] = val ? arr : [];
+      this.isIndeterminate[index] = false;
+
       let targetFucsList = [];
-      this.funcsList[index].bsns.forEach(function(ele) {
+      funcs.bsns.forEach(function(ele) {
         targetFucsList.push(ele.bsnNo);
       }, this);
       if (this.checkFuncsAll[index] == true) {
-        this.$set(this.isFuncsIndeterminate, index, true);
         targetFucsList.forEach(function(ele) {
           if (
             JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(
@@ -191,12 +212,8 @@ export default {
           ) {
             this.addRoleMsg.roleFuncSet.push({ bsnNo: ele });
           }
-          if (!this.isInArray(this.checkFuncs, ele)) {
-            this.checkFuncs.push(ele);
-          }
         }, this);
       } else {
-        this.$set(this.isFuncsIndeterminate, index, false);
         targetFucsList.forEach(function(ele, index) {
           if (
             JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(
@@ -210,25 +227,27 @@ export default {
               1
             );
           }
-          if (this.isInArray(this.checkFuncs, ele)) {
-            this.checkFuncs.splice(this.checkFuncs.indexOf(ele), 1);
-          }
         }, this);
       }
-      console.log("这是全选的checkFuncs", this.checkFuncs);
+      console.log("这是全选的checkFuncs", this.checkFuncs[index]);
       console.log("roleFuncSet", this.addRoleMsg.roleFuncSet);
     },
-    handleCheckedFuncsChange(val, index) {
-      if (val.length == this.funcsList[index].bsns.length) {
+    handleCheckedFuncsChange(val, funcs, index) {
+      if (val.length == funcs.bsns.length) {
+        this.isIndeterminate[index] = false;
         this.checkFuncsAll[index] = true;
-        this.$set(this.isFuncsIndeterminate, index, true);
       } else {
+        this.isIndeterminate[index] = true;
         this.checkFuncsAll[index] = false;
-        this.$set(this.isFuncsIndeterminate, index, false);
       }
-      this.addRoleMsg.roleFuncSet = [];
       val.forEach(function(ele) {
-        this.addRoleMsg.roleFuncSet.push({ bsnNo: ele });
+        if (
+          JSON.stringify(this.addRoleMsg.roleFuncSet).indexOf(
+            JSON.stringify({ bsnNo: ele })
+          ) == -1
+        ) {
+          this.addRoleMsg.roleFuncSet.push({ bsnNo: ele });
+        }
       }, this);
       console.log("roleFuncSet", this.addRoleMsg.roleFuncSet);
     },

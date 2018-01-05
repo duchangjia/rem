@@ -2,6 +2,7 @@
 .vscode
 node_modules/
 dist/
+config/index.js
 static/build/.sass-cache
 config/index.js
 npm-debug.log*
