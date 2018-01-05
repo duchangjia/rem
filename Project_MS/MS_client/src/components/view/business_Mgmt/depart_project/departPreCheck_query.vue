@@ -22,7 +22,7 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="6">
+                    <!-- <el-col :span="6">
                         <el-form-item label="项目类型">
                             <el-select class="search_common" v-model="searchInfo.projType">
                                 <el-option label="应用系统开发" value="01"></el-option>
@@ -34,11 +34,17 @@
                                 <el-option label="其他" value="07"></el-option>
                             </el-select>
                         </el-form-item>
-                    </el-col>
-                    <div class="queryButton_wrapper">
+                    </el-col> -->
+                    <!-- <div class="queryButton_wrapper">
                         <el-button class="resetform btn-default" @click="resetForm()">重置</el-button>
                         <el-button class="btn-primary" @click="search()">查询</el-button>
-                    </div>   
+                    </div> -->
+                    <el-form-item>
+                        <el-button class="resetform btn-default" @click="resetForm()">重置</el-button>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button class="btn-primary" @click="search()">查询</el-button>
+                    </el-form-item>     
                 </el-form>
                 <el-table stripe border :data="tableList" class="table-nopad">
                     <el-table-column align="center" prop="projImpDepno" label="部门编号">
@@ -82,6 +88,7 @@
 <script type='text/ecmascript-6'>
 	import current from "../../../common/current_position.vue";
     import api from "../../../../common/api/api.js"
+    let {queryDeptProjLists} = api
 	export default {
 		data() {
 			return{
@@ -170,10 +177,10 @@
             queryprojList() {
                 let self = this;
                 let params = self.searchInfo;
-                params.pageNum = self.pagination.pageNum;
-                params.pageSize = self.pagination.pageSize;
+                // params.pageNum = self.pagination.pageNum;
+                // params.pageSize = self.pagination.pageSize;
                 console.log('params', params);
-                self.$axios.get(api.queryProjList, {params: params})
+                self.$axios.get(queryDeptProjLists, {params: params})
                 .then((res) => {
                     console.log('tableList',res);
                     if(res.data.code === "S00000") {

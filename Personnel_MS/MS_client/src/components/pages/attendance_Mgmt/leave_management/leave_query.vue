@@ -122,20 +122,7 @@ export default {
 				startDate: "",
 				endDate: ''
 			},
-			transferDataList: [
-				{
-					applyNo: "",
-					companyName: "",
-					deptName: "",
-					userNo: "", 
-					custName: "",
-					leaveType: "",
-					leaveStartTime: "",
-					leaveEndTime: "",
-					createdBy: "",
-					createdDate: ""
-				}
-			],
+			transferDataList: [],
 			comp: {
 				compName: '',
 				compOrgNo: ''
@@ -148,6 +135,8 @@ export default {
 			departList: [],
 			//公司列表
 			compList: [],
+			//请假类型列表
+			leaveTypeList: [],
 			rules: {
 				startDate: [
 	            	{ validator: checkStartDate, trigger: 'change' }
@@ -171,6 +160,8 @@ export default {
 		this.queryLeaveList();
 		//查询公司列表
 		this.queryCompList();
+		//请假类型列表查询
+		this.queryLeaveTypeList();
 	},
 	methods: {
 		leaveStartTimeFormatter(row, column) {
@@ -328,60 +319,27 @@ export default {
 				console.log(err);
 			})
 		},
+		queryLeaveTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=LEAVE_TYPE')
+				.then((res) => {
+					console.log('sysParamMgmt',res);
+					if(res.data.code === "S00000") {
+						self.leaveTypeList = res.data.data;
+					}
+					
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
 		leaveTypeFormatter(row, column) {
-	    	let leaveType = '';
-	    	switch(row.leaveType){
-				case '01':
-				  leaveType = '有薪休假'
-				  break;
-				case '02':
-				  leaveType = '事假'
-				  break;
-				case '03':
-				  leaveType = '病假'
-				  break;
-				case '04':
-				  leaveType = '因公外出'
-				  break;
-				case '05':
-				  leaveType = '出差'
-				  break;
-				case '06':
-				  leaveType = '婚假'
-				  break;
-				case '07':
-				  leaveType = '生育产假'
-				  break;
-				case '08':
-				  leaveType = '哺乳假'
-				  break;
-				case '09':
-				  leaveType = '护理假'
-				  break;
-				case '10':
-				  leaveType = '流产假'
-				  break;
-				case '11':
-				  leaveType = '产前检查'
-				  break;
-				case '12':
-				  leaveType = '丧假'
-				  break;
-				case '13':
-				  leaveType = '忘打卡'
-				  break;
-				case '14':
-				  leaveType = '忘带卡'
-				  break;
-				case '15':
-				  leaveType = '特殊'
-				  break;
-				case '16':
-				  leaveType = '调休假'
-				  break;
-				default:
-			}
-	    	return leaveType;
+			let leaveType = ""
+			this.leaveTypeList.forEach(function(item) {
+				if(row.leaveType == item.paraValue) {
+					leaveType = item.paraShowMsg;
+				}
+			}, this);
+			return leaveType;
 		}
 	}
 }

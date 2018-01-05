@@ -119,6 +119,7 @@ export default {
 			departList: [],
 			//公司列表
 			compList: [],
+			batchStatusList: [],
 			rules: {
 				startDate: [
 				]
@@ -142,6 +143,7 @@ export default {
 		this.queryWageList();
 		//公司列表查询
 		this.queryCompList();
+		this.querygrpStatusList();
 	},
 	methods: {
 		settleStartTimeFormatter(row, column) {
@@ -151,7 +153,14 @@ export default {
 	      return row.settleEndTime ? moment(row.settleEndTime).format('YYYY-MM-DD') : null;
 	   	}, 
 	   	batchStatusFormatter(row, column) {
-	   		return row.batchStatus=="01" ? "录入" : row.batchStatus=="02" ? "启用" : row.batchStatus=="03" ? "废弃" : "";
+			   
+			   let batchStatus = ""
+			this.batchStatusList.forEach(function(item) {
+				if(row.batchStatus == item.paraValue) {
+					batchStatus = item.paraShowMsg;
+				}
+			}, this);
+			return batchStatus;
 	   	},
 	   	createdDateFormatter(row, column) {
 	      return row.createdDate ? moment(row.createdDate).format('YYYY-MM-DD') : null;
@@ -384,6 +393,19 @@ export default {
 				
 			}).catch((err) => {
 				console.log(err);
+			})
+		},
+		querygrpStatusList() {
+			let self = this;
+			self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=GRP_STATUS')
+			.then((res) => {
+				console.log('grpStatus',res);
+				if(res.data.code === "S00000") {
+					self.batchStatusList = res.data.data;
+				}
+				
+			}).catch((err) => {
+				console.log('error');
 			})
 		}
 	}

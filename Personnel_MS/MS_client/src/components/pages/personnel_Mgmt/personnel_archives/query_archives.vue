@@ -106,272 +106,349 @@
 </template>
 
 <script type='text/ecmascript-6'>
-    import current from "../../../common/current_position.vue";
-    export default {
-        data() {
-          return {
-              dialogTableVisible: false,
-              basicInfo: {
-                  company:'',
-                  department:'',
-              },
-              gridData: [
-
-              ],
-              searchInfo: {
-                  organNo: '',
-                  derpNo: '',
-                  nameOrNo: '',
-                  custStatus: '',
-              },
-              table: {
-                  th:['工号', '姓名', '公司名称', '部门名称', '性别', '岗位', '手机', '入职时间', '状态', '资产'],
-                  td:[
-
-                  ]
-              },
-              fenye: {
-                  total:0,
-                  pageSize:10
-              },
-              fenye2: {
-                  total:0,
-                  pageSize:5
-              }
+import current from "../../../common/current_position.vue";
+export default {
+  data() {
+    return {
+      dialogTableVisible: false,
+      basicInfo: {
+        company: "",
+        department: ""
+      },
+      gridData: [],
+      searchInfo: {
+        organNo: "",
+        derpNo: "",
+        nameOrNo: "",
+        custStatus: ""
+      },
+      table: {
+        th: ["工号", "姓名", "公司名称", "部门名称", "性别", "岗位", "手机", "入职时间", "状态", "资产"],
+        td: []
+      },
+      fenye: {
+        total: 0,
+        pageSize: 10
+      },
+      fenye2: {
+        total: 0,
+        pageSize: 5
+      },
+      custPostList: [],
+      custStatusList: [],
+      assetTypeList: []
+    };
+  },
+  created() {
+    let self = this;
+    self.$axios
+      .get("/iem_hrm/CustInfo/queryCustInfList")
+      .then(res => {
+        self.table.td = res.data.data.list;
+        this.fenye.total = res.data.data.total;
+        this.fenye.pageSize = res.data.data.pageSize;
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    self.$axios
+      .get("/iem_hrm/organ/selectCompanyByUserNo")
+      .then(res => {
+        self.basicInfo.company = res.data.data;
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    self.getCustPostList(); //查询岗位列表
+    self.getCustStatusList(); //查询员工状态
+    self.getAssetTypeList(); //查询资产类型
+  },
+  components: {
+    current
+  },
+  methods: {
+    add() {
+      this.$router.push("add_archives");
+    },
+    getCustPostList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custPostList = res.data.data;
           }
-        },
-        created() {
-            let self = this
-            self.$axios.get('/iem_hrm/CustInfo/queryCustInfList')
-                .then(res => {
-                    self.table.td = res.data.data.list
-                    this.fenye.total = res.data.data.total
-                    this.fenye.pageSize = res.data.data.pageSize
-                })
-                .catch(e=>{
-                    console.log(e)
-                })
-            self.$axios.get('/iem_hrm/organ/selectCompanyByUserNo')
-                .then(res => {
-                    self.basicInfo.company = res.data.data
-                })
-                .catch(e=>{
-                    console.log(e)
-                })
-        },
-        components: {
-            current
-        },
-        methods: {
-            add() {
-                this.$router.push('add_archives')
-            },
-            handleSizeChange() {
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
+    getCustStatusList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_STATUS")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.custStatusList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
+    getAssetTypeList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=ASSET_TYPE")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.assetTypeList = res.data.data;
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
 
-            },
-            handleCurrentChange(val) {
-                let self = this
-                let organNo = self.searchInfo.organNo
-                let derpNo = self.searchInfo.derpNo
-                let nameOrNo = self.searchInfo.nameOrNo
-                let custStatus = self.searchInfo.custStatus
-                let data = {
-                    organNo,
-                    derpNo,
-                    nameOrNo,
-                    custStatus,
-                    pageNum:val
-                }
-                for(var name in data){
-                    if(data[name]==''){
-                        delete data[name]
-                    }
-                }
-//                let loadingInstance = this.$loading({
-//                    target: '.form-content',
-//                    lock: true,
-//                    text: '加载中',
-//                    customClass: 'loading-bg'
-//                })
-                self.$axios.get('/iem_hrm/CustInfo/queryCustInfList',{params:data})
-                    .then(res => {
-//                        loadingInstance.close()
-                        self.table.td = res.data.data.list
-                        this.fenye.total = res.data.data.total
-                        this.fenye.pageSize = res.data.data.pageSize
-                    })
-                    .catch(e=>{
-                        console.log(e)
-                    })
-            },
-            selectDep(organNo) {
-                let data = {organNo}
-                this.$axios.get('/iem_hrm/organ/selectChildDeparment',{params:data})
-                    .then(res=>{
-                        this.searchInfo.derpNo = ''
-                        this.basicInfo.department = res.data.data
-                    })
-                    .catch(e=>{
-                        console.log(e)
-                    })
-            },
-            see(userNo) {
-                let self = this
-                let data = {
-                    noNameEmail: userNo,
-                    pageSize: 5
-                }
-                this.dialogTableVisible = true
-                self.$axios.get('/iem_hrm/CustInfo/queryAllCustAsset',{params:data})
-                    .then(res => {
-                        self.gridData = res.data.data.list
-                        self.gridData.userNo = userNo
-                        self.fenye2.total = res.data.data.total
-                        self.fenye2.pageSize = res.data.data.pageSize
-                    })
-                    .catch(e=>{
-                        console.log(e)
-                    })
-            },
-            detailInfo(userNo) {
-                this.$router.push({name:'archives_detail',query:{userNo}})
-            },
-            reset() {
-                let self = this
-                self.searchInfo.organNo = ''
-                self.searchInfo.derpNo = ''
-                self.searchInfo.nameOrNo = ''
-                self.searchInfo.custStatus = ''
-                self.$axios.get('/iem_hrm/CustInfo/queryCustInfList')
-                    .then(res => {
-                        self.table.td = res.data.data.list
-                        this.fenye.total = res.data.data.total
-                        this.fenye.pageSize = res.data.data.pageSize
-                    })
-                    .catch(e=>{
-                        console.log(e)
-                    })
-            },
-            search() {
-                let self = this
-                let organNo = self.searchInfo.organNo
-                let derpNo = self.searchInfo.derpNo
-                let nameOrNo = self.searchInfo.nameOrNo
-                let custStatus = self.searchInfo.custStatus
-                let data = {
-                    organNo,
-                    derpNo,
-                    nameOrNo,
-                    custStatus,
-                }
-                for(var name in data){
-                    if(data[name]==''){
-                        delete data[name]
-                    }
-                }
-//                let loadingInstance = this.$loading({
-//                            target: '.form-content',
-//                            lock: true,
-//                            text: '加载中',
-//                            customClass: 'loading-bg'
-//                        })
-                self.$axios.get('/iem_hrm/CustInfo/queryCustInfList', {params:data})
-                    .then(res => {
-                        console.log(res)
-//                        loadingInstance.close()
-                        let length = res.data.data.list.length
-                        if(!length) {
-                            self.$message({
-                                type: 'error',
-                                message: '没有此信息'
-                            });
-                            self.table.td = res.data.data.list
-                            this.fenye.total = res.data.data.total
-                            this.fenye.pageSize = res.data.data.pageSize
-                        }else {
-                            self.table.td = res.data.data.list
-                            this.fenye.total = res.data.data.total
-                            this.fenye.pageSize = res.data.data.pageSize
-                        }
-                    })
-                    .catch(e=>{
-//                        loadingInstance.close()
-                        self.$message({
-                            type: 'error',
-                            message: '系统繁忙，请稍后再试'
-                        });
-                        console.log(e)
-                    })
-            },
-            assetTypeFormatter(row, column) {
-                return row.assetType == "01"
-                    ? "办公用品"
-                    : row.assetType == "02"
-                        ? "电脑"
-                        : row.assetType == "03"
-                            ? "手机"
-                            : row.assetType == "04"
-                                ? "后勤用品"
-                                : "数码相机";
-            },
-            handleSizeChange(val) {
-            },
-            handleCurrentChange2(val) {
-                let self = this
-                let userNo = self.gridData.userNo
-                let data = {
-                    noNameEmail: userNo,
-                    pageNum: val,
-                    pageSize: 5
-                }
-                self.$axios.get('/iem_hrm/CustInfo/queryAllCustAsset',{params:data})
-                    .then(res => {
-                        self.gridData = res.data.data.list
-                        self.gridData.userNo = userNo
-                        self.fenye2.total = res.data.data.total
-                        self.fenye2.pageSize = res.data.data.pageSize
-                    })
-                    .catch(e=>{
-                        console.log(e)
-                    })
-            },
-            percentRateFormatter(row, column) {
-                return row.sex == '01'?'男':'女';
-            },
-            percentRateFormatter2(row, column) {
-                return row.custStatus =='01'?'试用期':row.custStatus=='02'?'合同期':row.custStatus=='03'?'已退休':row.custStatus=='04'?'已离职':'停薪留职';
-            },
-            percentRateFormatter3(row, column) {
-                return row.custPost =='01'?'架构师':row.custPost=='02'?'前端开发工程师':row.custPost=='03'?'测试工程师':'后端开发';
-            },
-        },
+    handleSizeChange() {},
+    handleCurrentChange(val) {
+      let self = this;
+      let organNo = self.searchInfo.organNo;
+      let derpNo = self.searchInfo.derpNo;
+      let nameOrNo = self.searchInfo.nameOrNo;
+      let custStatus = self.searchInfo.custStatus;
+      let data = {
+        organNo,
+        derpNo,
+        nameOrNo,
+        custStatus,
+        pageNum: val
+      };
+      for (var name in data) {
+        if (data[name] == "") {
+          delete data[name];
+        }
+      }
+      //                let loadingInstance = this.$loading({
+      //                    target: '.form-content',
+      //                    lock: true,
+      //                    text: '加载中',
+      //                    customClass: 'loading-bg'
+      //                })
+      self.$axios
+        .get("/iem_hrm/CustInfo/queryCustInfList", { params: data })
+        .then(res => {
+          //                        loadingInstance.close()
+          self.table.td = res.data.data.list;
+          this.fenye.total = res.data.data.total;
+          this.fenye.pageSize = res.data.data.pageSize;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    selectDep(organNo) {
+      let data = { organNo };
+      this.$axios
+        .get("/iem_hrm/organ/selectChildDeparment", { params: data })
+        .then(res => {
+          this.searchInfo.derpNo = "";
+          this.basicInfo.department = res.data.data;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    see(userNo) {
+      let self = this;
+      let data = {
+        noNameEmail: userNo,
+        pageSize: 5
+      };
+      this.dialogTableVisible = true;
+      self.$axios
+        .get("/iem_hrm/CustInfo/queryAllCustAsset", { params: data })
+        .then(res => {
+          self.gridData = res.data.data.list;
+          self.gridData.userNo = userNo;
+          self.fenye2.total = res.data.data.total;
+          self.fenye2.pageSize = res.data.data.pageSize;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    detailInfo(userNo) {
+      this.$router.push({ name: "archives_detail", query: { userNo } });
+    },
+    reset() {
+      let self = this;
+      self.searchInfo.organNo = "";
+      self.searchInfo.derpNo = "";
+      self.searchInfo.nameOrNo = "";
+      self.searchInfo.custStatus = "";
+      self.$axios
+        .get("/iem_hrm/CustInfo/queryCustInfList")
+        .then(res => {
+          self.table.td = res.data.data.list;
+          this.fenye.total = res.data.data.total;
+          this.fenye.pageSize = res.data.data.pageSize;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    search() {
+      let self = this;
+      let organNo = self.searchInfo.organNo;
+      let derpNo = self.searchInfo.derpNo;
+      let nameOrNo = self.searchInfo.nameOrNo;
+      let custStatus = self.searchInfo.custStatus;
+      let data = {
+        organNo,
+        derpNo,
+        nameOrNo,
+        custStatus
+      };
+      for (var name in data) {
+        if (data[name] == "") {
+          delete data[name];
+        }
+      }
+      //                let loadingInstance = this.$loading({
+      //                            target: '.form-content',
+      //                            lock: true,
+      //                            text: '加载中',
+      //                            customClass: 'loading-bg'
+      //                        })
+      self.$axios
+        .get("/iem_hrm/CustInfo/queryCustInfList", { params: data })
+        .then(res => {
+          console.log(res);
+          //                        loadingInstance.close()
+          let length = res.data.data.list.length;
+          if (!length) {
+            self.$message({
+              type: "error",
+              message: "没有此信息"
+            });
+            self.table.td = res.data.data.list;
+            this.fenye.total = res.data.data.total;
+            this.fenye.pageSize = res.data.data.pageSize;
+          } else {
+            self.table.td = res.data.data.list;
+            this.fenye.total = res.data.data.total;
+            this.fenye.pageSize = res.data.data.pageSize;
+          }
+        })
+        .catch(e => {
+          //                        loadingInstance.close()
+          self.$message({
+            type: "error",
+            message: "系统繁忙，请稍后再试"
+          });
+          console.log(e);
+        });
+    },
+
+    handleSizeChange(val) {},
+    handleCurrentChange2(val) {
+      let self = this;
+      let userNo = self.gridData.userNo;
+      let data = {
+        noNameEmail: userNo,
+        pageNum: val,
+        pageSize: 5
+      };
+      self.$axios
+        .get("/iem_hrm/CustInfo/queryAllCustAsset", { params: data })
+        .then(res => {
+          self.gridData = res.data.data.list;
+          self.gridData.userNo = userNo;
+          self.fenye2.total = res.data.data.total;
+          self.fenye2.pageSize = res.data.data.pageSize;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    },
+    percentRateFormatter(row, column) {
+      return row.sex == "01"
+        ? "男"
+        : row.sex == "02" ? "女" : row.sex == "99" ? "其他" : "";
+    },
+    percentRateFormatter2(row, column) {
+      let custStatus = "";
+      this.custStatusList.forEach(function(item) {
+        if (row.custStatus == item.paraValue) {
+          custStatus = item.paraShowMsg;
+        }
+      }, this);
+      return custStatus;
+    },
+    percentRateFormatter3(row, column) {
+      let custPost = "";
+      this.custPostList.forEach(function(item) {
+        if (row.custPost == item.paraValue) {
+          custPost = item.paraShowMsg;
+        }
+      }, this);
+      return custPost;
+    },
+    assetTypeFormatter(row, column) {
+      let assetType = "";
+      this.assetTypeList.forEach(function(item) {
+        if (row.assetType == item.paraValue) {
+          assetType = item.paraShowMsg;
+        }
+      }, this);
+      return assetType;
     }
+  }
+};
 </script>
 <style lang='stylus' rel='stylesheet/stylus'>
-    .query_archives
-        .dialog-wrapper
-            .el-dialog--small
-                width 85%
-                .el-dialog__header
-                    background: #f4f4f4;
-                    height 60px
-                    .el-dialog__close
-                        color #f90
-                .el-dialog__body
-                    padding: 10px 20px 40px 20px
-                    position relative
-                    .el-pagination
-                        position absolute
-                        right 23px
-                        bottom 5px
-            .tishi
-                font-family: PingFangSC-Light;
-                font-size: 14px;
-                color: #FF6666;
-                margin-bottom 8px
-            .el-table .cell, .el-table th>div
-                padding 0
-        .special
-            color #f90
+.query_archives {
+    .dialog-wrapper {
+        .el-dialog--small {
+            width: 85%;
+
+            .el-dialog__header {
+                background: #f4f4f4;
+                height: 60px;
+
+                .el-dialog__close {
+                    color: #f90;
+                }
+            }
+
+            .el-dialog__body {
+                padding: 10px 20px 40px 20px;
+                position: relative;
+
+                .el-pagination {
+                    position: absolute;
+                    right: 23px;
+                    bottom: 5px;
+                }
+            }
+        }
+
+        .tishi {
+            font-family: PingFangSC-Light;
+            font-size: 14px;
+            color: #FF6666;
+            margin-bottom: 8px;
+        }
+
+        .el-table .cell, .el-table th>div {
+            padding: 0;
+        }
+    }
+
+    .special {
+        color: #f90;
+    }
+}
 </style>
 

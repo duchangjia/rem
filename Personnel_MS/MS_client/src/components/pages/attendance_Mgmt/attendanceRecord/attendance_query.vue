@@ -126,6 +126,7 @@ export default {
 			compList: [],
 			//考勤信息列表
 			transferDataList: [],
+			attenceTypeList: [],
 			rules: {
 				startDate: [
 	            	{ validator: checkStartDate, trigger: 'change' }
@@ -149,30 +150,17 @@ export default {
 		this.queryCompList();
 		//查询考勤列表
 		this.queryAttenceList();
+		this.queryAttenceTypeList();
 	},
 	methods: {
 		attenceTypeFormatter(row, column) {
-	    	let attence = '';
-	    	switch(row.attenceType){
-				case '01':
-				  attence = '迟到早退'
-				  break;
-				case '02':
-				  attence = '旷工'
-				  break;
-				case '03':
-				  attence = '事假'
-				  break;
-				case '04':
-				  attence = '病假'
-				  break;
-				case '05':
-				  attence = '产假'
-				  break;
-				default:
-				  
-			}
-	    	return attence;
+			let attenceType = '';
+			this.attenceTypeList.forEach(function(item) {
+				if(row.attenceType == item.paraValue) {
+					attenceType = item.paraShowMsg;
+				}
+			}, this);
+	    	return attenceType;
 		},
 		travelTimeFormatter(row, column) {
 			let time = row.createdDate;
@@ -367,7 +355,20 @@ export default {
 			}).catch((err) => {
 				console.log(err);
 			})
-		}
+		},
+		queryAttenceTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=ATTENCE_TYPE')
+				.then((res) => {
+					console.log('ATTENCE_TYPE',res);
+					if(res.data.code === "S00000") {
+						self.attenceTypeList = res.data.data;
+					}
+					
+				}).catch((err) => {
+					console.log('error');
+				})
+			},
 	}
 }
 </script>

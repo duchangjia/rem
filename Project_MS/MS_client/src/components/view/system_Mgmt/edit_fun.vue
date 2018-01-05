@@ -76,7 +76,7 @@
 <script>
 	import current from '../../common/current_position.vue'
 	import moment from 'moment'
-	const baseURL = 'iem_hrm'
+	const baseURL = 'iem_pmg'
 	export default {
 		data() {
 			return {

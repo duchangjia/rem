@@ -29,8 +29,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        //target: 'http://10.0.0.242:5555/',
-        target: 'http://14.21.69.222:5555/',
+        target: 'http://10.0.0.242:5555/',
+        // target: 'http://14.21.69.222:5555/',
         changeOrigin: true,
         secure: false,
         pathRewrite: {
@@ -48,7 +48,7 @@ module.exports = {
       },
       '/iem_pmg': {
         //target: 'http://10.0.0.242:8888/',
-        target: 'http://14.21.69.222:5555/api/hrm/',
+        // target: 'http://14.21.69.222:5555/api/hrm/',
         // target: 'http://192.168.1.102:8888/',
 //            target: 'http://192.168.1.111:8888/',
         // target: 'http://192.168.1.102:8888/',
@@ -73,7 +73,7 @@ module.exports = {
         changeOrigin: true,
         secure: false,
         pathRewrite: {
-          '^/iem_hrm': ''
+          '^/iem_pmg': ''
         }
       }
     },

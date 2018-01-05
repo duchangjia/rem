@@ -142,82 +142,82 @@
                 <el-form :inline="true" :model="newPayChangeInfo" :rules="payChangeInfoRules" ref="newPayChangeInfoRules1" :label-position="labelPosition"  label-width="122px" style="margin-top:0;overflow:visible;">
                     <el-col :sm="24" :md="12">
                         <el-form-item label="基本工资" prop="nWagesBase">
-                            <el-input v-model="newPayChangeInfo.nWagesBase" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nWagesBase" :placeholder="oldPayBaseInfo.wagesBase.toString()" ref="nWagesBase"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="绩效工资" prop="nWagesPerf">
-                            <el-input v-model="newPayChangeInfo.nWagesPerf" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nWagesPerf" :placeholder="oldPayBaseInfo.wagesPerf.toString()" ref="nWagesPerf"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="岗位补贴" prop="nPostPension">
-                            <el-input v-model="newPayChangeInfo.nPostPension" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nPostPension" :placeholder="oldPayBaseInfo.postPension.toString()" ref="nPostPension"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="通讯补贴" prop="nPhonePension">
-                            <el-input v-model="newPayChangeInfo.nPhonePension" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nPhonePension" :placeholder="oldPayBaseInfo.phonePension.toString()"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="交通补贴" prop="nTrafficPension">
-                            <el-input v-model="newPayChangeInfo.nTrafficPension" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nTrafficPension" :placeholder="oldPayBaseInfo.trafficPension.toString()"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="生活补贴" prop="nLivingPension">
-                            <el-input v-model="newPayChangeInfo.nLivingPension" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nLivingPension" :placeholder="oldPayBaseInfo.livingPension.toString()"></el-input>
                         </el-form-item>
                     </el-col>
                     <!-- <el-col :sm="24" :md="12">
                         <el-form-item label="全勤奖" prop="nAttendanceBonus">
-                            <el-input v-model="newPayChangeInfo.nAttendanceBonus" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nAttendanceBonus" :placeholder="oldPayBaseInfo.attendanceBonus.toString()"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工龄奖" prop="nSeniorityPay">
-                            <el-input v-model="newPayChangeInfo.nSeniorityPay" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nSeniorityPay" :placeholder="oldPayBaseInfo.seniorityPay.toString()"></el-input>
                         </el-form-item>
                     </el-col> -->
                     <el-col :sm="24" :md="12">
                         <el-form-item label="加班工资" prop="nOvertimePay">
-                            <el-input v-model="newPayChangeInfo.nOvertimePay" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nOvertimePay" :placeholder="oldPayBaseInfo.overtimePay.toString()"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="其他补贴" prop="nOtherPension">
-                            <el-input v-model="newPayChangeInfo.nOtherPension" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nOtherPension" :placeholder="oldPayBaseInfo.otherPension.toString()"></el-input>
                         </el-form-item>
                     </el-col>  
                     <el-col :sm="24" :md="12">
                         <el-form-item label="养老保险基数" prop="nEndmBase">
-                            <el-input v-model="newPayChangeInfo.nEndmBase" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nEndmBase" :placeholder="oldPayBaseInfo.endmBase.toString()"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="医疗保险基数" prop="nMediBase">
-                            <el-input v-model="newPayChangeInfo.nMediBase" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nMediBase" :placeholder="oldPayBaseInfo.mediBase.toString()"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="失业保险基数" prop="nUnemBase">
-                            <el-input v-model="newPayChangeInfo.nUnemBase" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nUnemBase" :placeholder="oldPayBaseInfo.unemBase.toString()"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="工伤保险基数" prop="nEmplBase">
-                            <el-input v-model="newPayChangeInfo.nEmplBase" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nEmplBase" :placeholder="oldPayBaseInfo.emplBase.toString()"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="生育保险基数" prop="nMateBase">
-                            <el-input v-model="newPayChangeInfo.nMateBase" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nMateBase" :placeholder="oldPayBaseInfo.mateBase.toString()"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :sm="24" :md="12">
                         <el-form-item label="公积金基数" prop="nHouseBase">
-                            <el-input v-model="newPayChangeInfo.nHouseBase" placeholder="0.00"></el-input>
+                            <el-input v-model="newPayChangeInfo.nHouseBase" :placeholder="oldPayBaseInfo.houseBase.toString()"></el-input>
                         </el-form-item>
                     </el-col> 
                     <el-col :span="24">
@@ -352,7 +352,6 @@ export default {
         nEmplBase: "",
         nMateBase: "",
         nHouseBase: "",
-        nProbRatio: "",
         nWelcoeNo: "",
         updFlag: "02",
         chageStatus: "01"
@@ -474,8 +473,8 @@ export default {
           (Number(this.newPayChangeInfo.nEndmBase) *
             this.insurancePayTemp.perEndmRate +
             this.insurancePayTemp.perEndmFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.0
       );
     },
     _comEndm: function() {
@@ -484,8 +483,8 @@ export default {
           (Number(this.newPayChangeInfo.nEndmBase) *
             this.insurancePayTemp.comEndmRate +
             this.insurancePayTemp.comEndmFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.0
       );
     },
     _perMedi: function() {
@@ -494,8 +493,8 @@ export default {
           (Number(this.newPayChangeInfo.nMediBase) *
             this.insurancePayTemp.perMediRate +
             this.insurancePayTemp.perMediFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.0
       );
     },
     _comMedi: function() {
@@ -504,8 +503,8 @@ export default {
           (Number(this.newPayChangeInfo.nMediBase) *
             this.insurancePayTemp.comMediRate +
             this.insurancePayTemp.comMediFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.0
       );
     },
     _perUnem: function() {
@@ -514,8 +513,8 @@ export default {
           (Number(this.newPayChangeInfo.nUnemBase) *
             this.insurancePayTemp.perUnemRate +
             this.insurancePayTemp.perUnemFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.0
       );
     },
     _comUnem: function() {
@@ -524,8 +523,8 @@ export default {
           (Number(this.newPayChangeInfo.nUnemBase) *
             this.insurancePayTemp.comUnemRate +
             this.insurancePayTemp.comUnemFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.0
       );
     },
     _perEmpl: function() {
@@ -534,8 +533,8 @@ export default {
           (Number(this.newPayChangeInfo.nEmplBase) *
             this.insurancePayTemp.perEmplRate +
             this.insurancePayTemp.perEmplFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.0
       );
     },
     _comEmpl: function() {
@@ -544,8 +543,8 @@ export default {
           (Number(this.newPayChangeInfo.nEmplBase) *
             this.insurancePayTemp.comEmplRate +
             this.insurancePayTemp.comEmplFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.0
       );
     },
     _perMate: function() {
@@ -554,8 +553,8 @@ export default {
           (Number(this.newPayChangeInfo.nMateBase) *
             this.insurancePayTemp.perMateRate +
             this.insurancePayTemp.perMateFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.0
       );
     },
     _comMate: function() {
@@ -564,8 +563,8 @@ export default {
           (Number(this.newPayChangeInfo.nMateBase) *
             this.insurancePayTemp.comMateRate +
             this.insurancePayTemp.comMateFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.0
       );
     },
     _perHouse: function() {
@@ -574,8 +573,8 @@ export default {
           (Number(this.newPayChangeInfo.nHouseBase) *
             this.insurancePayTemp.perHousRate +
             this.insurancePayTemp.perHousFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.0
       );
     },
     _comHouse: function() {
@@ -584,8 +583,8 @@ export default {
           (Number(this.newPayChangeInfo.nHouseBase) *
             this.insurancePayTemp.comHousRate +
             this.insurancePayTemp.comHousFixed) *
-            10
-        ) / 10 || 0
+            100
+        ) / 100 || 0.0
       );
     }
   },
@@ -612,6 +611,23 @@ export default {
           console.log("调整前基数", res);
           if (res.data.data != null) {
             self.oldPayBaseInfo = res.data.data;
+            self.newPayChangeInfo.nWagesBase = self.oldPayBaseInfo.wagesBase.toString();
+            self.newPayChangeInfo.nWagesPerf = self.oldPayBaseInfo.wagesPerf.toString();
+            self.newPayChangeInfo.nPostPension = self.oldPayBaseInfo.postPension.toString();
+            self.newPayChangeInfo.nPhonePension = self.oldPayBaseInfo.phonePension.toString();
+            self.newPayChangeInfo.nTrafficPension = self.oldPayBaseInfo.trafficPension.toString();
+            self.newPayChangeInfo.nLivingPension = self.oldPayBaseInfo.livingPension.toString();
+            self.newPayChangeInfo.nAttendanceBonus = self.oldPayBaseInfo.attendanceBonus.toString();
+            self.newPayChangeInfo.nSeniorityPay = self.oldPayBaseInfo.seniorityPay.toString();
+            self.newPayChangeInfo.nOvertimePay = self.oldPayBaseInfo.overtimePay.toString();
+            self.newPayChangeInfo.nOtherPension = self.oldPayBaseInfo.otherPension.toString();
+            self.newPayChangeInfo.nEndmBase = self.oldPayBaseInfo.endmBase.toString();
+            self.newPayChangeInfo.nMediBase = self.oldPayBaseInfo.mediBase.toString();
+            self.newPayChangeInfo.nUnemBase = self.oldPayBaseInfo.unemBase.toString();
+            self.newPayChangeInfo.nEmplBase = self.oldPayBaseInfo.emplBase.toString();
+            self.newPayChangeInfo.nMateBase = self.oldPayBaseInfo.mateBase.toString();
+            self.newPayChangeInfo.nHouseBase = self.oldPayBaseInfo.houseBase.toString();
+            self.newPayChangeInfo.nWelcoeNo = self.oldPayBaseInfo.welcoeNo;
           } else {
             sessionStorage.setItem(
               "addPayChangeInfo_custInfo",
@@ -692,6 +708,32 @@ export default {
       let rulesValid1 = false;
       let rulesValid2 = false;
 
+      let newPayChangeDetail = {};
+      newPayChangeDetail.userNo = this.userNo;
+      newPayChangeDetail.oWagesBase = this.oldPayBaseInfo.wagesBase;
+      newPayChangeDetail.oWagesPerf = this.oldPayBaseInfo.wagesPerf;
+      newPayChangeDetail.oPostPension = this.oldPayBaseInfo.postPension;
+      newPayChangeDetail.oPhonePension = this.oldPayBaseInfo.phonePension;
+      newPayChangeDetail.oTrafficPension = this.oldPayBaseInfo.trafficPension;
+      newPayChangeDetail.oLivingPension = this.oldPayBaseInfo.livingPension;
+      newPayChangeDetail.oAttendanceBonus = this.oldPayBaseInfo.attendanceBonus;
+      newPayChangeDetail.oSeniorityPay = this.oldPayBaseInfo.seniorityPay;
+      newPayChangeDetail.oOvertimePay = this.oldPayBaseInfo.overtimePay;
+      newPayChangeDetail.oOtherPension = this.oldPayBaseInfo.otherPension;
+      newPayChangeDetail.oEndmBase = this.oldPayBaseInfo.endmBase;
+      newPayChangeDetail.oMediBase = this.oldPayBaseInfo.mediBase;
+      newPayChangeDetail.oUnemBase = this.oldPayBaseInfo.unemBase;
+      newPayChangeDetail.oEmplBase = this.oldPayBaseInfo.emplBase;
+      newPayChangeDetail.oMateBase = this.oldPayBaseInfo.mateBase;
+      newPayChangeDetail.oHouseBase = this.oldPayBaseInfo.houseBase;
+      newPayChangeDetail.oWelcoeNo = this.oldPayBaseInfo.welcoeNo;
+      for (var name in this.newPayChangeInfo) {
+        if (this.newPayChangeInfo[name]) {
+          newPayChangeDetail[name] = this.newPayChangeInfo[name];
+        }
+      }
+      console.log(newPayChangeDetail);
+
       this.$refs.newPayChangeInfoRules1.validate(valid => {
         if (valid) {
           rulesValid1 = true;
@@ -718,32 +760,8 @@ export default {
           return false;
         }
       });
+
       if (rulesValid1 && rulesValid2) {
-        let newPayChangeDetail = {};
-        newPayChangeDetail.userNo = this.userNo;
-        newPayChangeDetail.oWagesBase = this.oldPayBaseInfo.wagesBase;
-        newPayChangeDetail.oWagesPerf = this.oldPayBaseInfo.wagesPerf;
-        newPayChangeDetail.oPostPension = this.oldPayBaseInfo.postPension;
-        newPayChangeDetail.oPhonePension = this.oldPayBaseInfo.phonePension;
-        newPayChangeDetail.oTrafficPension = this.oldPayBaseInfo.trafficPension;
-        newPayChangeDetail.oLivingPension = this.oldPayBaseInfo.livingPension;
-        newPayChangeDetail.oAttendanceBonus = this.oldPayBaseInfo.attendanceBonus;
-        newPayChangeDetail.oSeniorityPay = this.oldPayBaseInfo.seniorityPay;
-        newPayChangeDetail.oOvertimePay = this.oldPayBaseInfo.overtimePay;
-        newPayChangeDetail.oOtherPension = this.oldPayBaseInfo.otherPension;
-        newPayChangeDetail.oEndmBase = this.oldPayBaseInfo.endmBase;
-        newPayChangeDetail.oMediBase = this.oldPayBaseInfo.mediBase;
-        newPayChangeDetail.oUnemBase = this.oldPayBaseInfo.unemBase;
-        newPayChangeDetail.oEmplBase = this.oldPayBaseInfo.emplBase;
-        newPayChangeDetail.oMateBase = this.oldPayBaseInfo.mateBase;
-        newPayChangeDetail.oHouseBase = this.oldPayBaseInfo.houseBase;
-        newPayChangeDetail.oWelcoeNo = this.oldPayBaseInfo.welcoeNo;
-        for (var name in this.newPayChangeInfo) {
-          if (this.newPayChangeInfo[name]) {
-            newPayChangeDetail[name] = this.newPayChangeInfo[name];
-          }
-        }
-        console.log(newPayChangeDetail);
         this.$axios
           .post("/iem_hrm/epPayChageInf/addEpPayChageInf", newPayChangeDetail)
           .then(res => {

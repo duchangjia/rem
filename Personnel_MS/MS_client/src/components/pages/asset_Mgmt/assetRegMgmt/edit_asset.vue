@@ -1,6 +1,6 @@
 <template>
     <div class="container-wrap">
-        <current yiji="资产管理" erji="资产登记管理" sanji="资产信息查询" siji="资产修改">
+        <current yiji="资产管理" erji="资产登记管理" sanji="资产修改">
         </current>
         <div class="content-wrapper">
             <div class="titlebar">
@@ -86,6 +86,7 @@
                             <el-option label="手机" value="03"></el-option>
                             <el-option label="后勤用品" value="04"></el-option>
                             <el-option label="数码相机" value="05"></el-option>
+                            
                           </el-select>
                       </el-form-item>
                     </el-col> 

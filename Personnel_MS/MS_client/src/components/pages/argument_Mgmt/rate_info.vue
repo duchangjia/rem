@@ -41,18 +41,7 @@ export default {
 			pageNum: 1,
 			pageSize: 10,
 			totalRows: 0,
-			taxRateList: [
-				{
-					"applyNo": "",
-					"groupId": "",
-					"applyNo": "",
-					"groupLimit": "",
-					"groupLowerLimit": "",
-					"remark": "",
-					"percentRate": "5",
-					"quickCal": ""
-				}
-			]
+			taxRateList: []
 		}
 	},
 	components: {

@@ -81,21 +81,7 @@ export default {
 				status: '',
 				user: ''
 			},
-			operatorList: [
-				{
-					userNo: "",
-					userName: "",
-					compName: "",
-					departName: "",
-					roleNo: "",
-					mobile: "",
-					status: "",
-					roles: [
-						{roleName: "", roleNo: ""},
-						{roleName: "", roleNo: ""},
-					]
-				}
-			],
+			operatorList: [],
 			comp: {
 				compName: '',
 				compOrgNo: ''

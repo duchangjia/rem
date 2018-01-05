@@ -137,7 +137,7 @@ export default {
 		this.ruleForm2.projIncmType = '';
 		this.ruleForm2.projType = '';
 		//查询售前立项列表
-		// this.querypreSalejList();
+		this.querypreSalejList();
 		//查询审批状态列表
 		// this.queryprojApplyStaList();
 		//查询收入类型列表

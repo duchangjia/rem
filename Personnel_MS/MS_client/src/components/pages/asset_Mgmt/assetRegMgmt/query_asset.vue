@@ -1,6 +1,6 @@
 <template>
     <div class="container-wrap">
-        <current yiji="资产管理" erji="资产登记管理" sanji="资产信息查询">
+        <current yiji="资产管理" erji="资产登记管理">
         </current>
         <div class="queryContent_wrapper">
             <!-- <el-col :span="24" class="titlebar">
@@ -115,7 +115,8 @@ export default {
       pageNum: 1,
       pageSize: 10,
       totalRows: 1,
-      assetInfoList: []
+      assetInfoList: [],
+      assetTypeList: []
     };
   },
   components: {
@@ -127,8 +128,23 @@ export default {
     this.filters.assetName = "";
     this.filters.status = "";
     this.getAssetInfoList(); //初始查询资产信息列表
+    this.getAssetTypeList(); //查询资产类型
   },
   methods: {
+    getAssetTypeList() {
+      let self = this;
+      self.$axios
+        .get("/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=ASSET_TYPE")
+        .then(res => {
+          if (res.data.code === "S00000") {
+            self.assetTypeList = res.data.data;
+            console.log("assetTypeList",self.assetTypeList);
+          }
+        })
+        .catch(err => {
+          console.log("error");
+        });
+    },
     getAssetInfoList() {
       const self = this;
       let params = {
@@ -151,15 +167,13 @@ export default {
         });
     },
     assetTypeFormatter(row, column) {
-      return row.assetType == "01"
-        ? "办公用品"
-        : row.assetType == "02"
-          ? "电脑"
-          : row.assetType == "03"
-            ? "手机"
-            : row.assetType == "04"
-              ? "后勤用品"
-              : row.assetType == "05" ? "数码相机" : "";
+      let assetType = "";
+      this.assetTypeList.forEach(function(item) {
+        if (row.assetType == item.paraValue) {
+          assetType = item.paraShowMsg;
+        }
+      }, this);
+      return assetType;
     },
     
     handleCurrentChange(val) {

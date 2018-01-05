@@ -109,29 +109,13 @@ export default {
 				derpName: '',
 				derpNo: ''
 			},
+			//离职类型列表
+			dimTypeList: [],
 			//部门列表
-			departList: [
-				{derpName: "上海魔方分公司",derpNo: '01'},
-				{derpName: "魔方分公司深圳分公司",derpNo: 'p1'},
-				{derpName: "深圳前海橙色魔方信息技术有限公司",derpNo: '0'}
-			],
+			departList: [],
 			//公司列表
-			compList: [
-				{organName: "上海魔方分公司",organNo: '01'},
-				{organName: "魔方分公司深圳分公司",organNo: 'p1'},
-				{organName: "深圳前海橙色魔方信息技术有限公司",organNo: '0'}
-			],
-			transferDataList: [
-				{
-					dimId: "",
-					userNo: "",
-					custName: "",
-					organName: "",
-					derpName: "",
-					dimType: "",
-					dimTime: ""
-				}
-			],
+			compList: [],
+			transferDataList: [],
 			rules: {
 				organName: [],
 				derpName: []
@@ -154,10 +138,18 @@ export default {
 		this.queryCustDimhisList();
 		//查询公司列表
 		this.queryCompList();
+		//查询离职类型列表
+		this.querydimTypeList();
 	},
 	methods: {
 		dimTypeFormatter(row, column) {
-			return row.dimType == "01" ? "辞退" : row.dimType == "02" ? "退休": row.dimType == "03" ? "外调": row.dimType == "04" ? "辞职" : row.dimType == "05" ? "裁员" : row.dimType == "99" ? "其他" : "";
+			let dimType = ""
+			this.dimTypeList.forEach(function(item) {
+				if(row.dimType == item.paraValue) {
+					dimType = item.paraShowMsg;
+				}
+			}, this);
+			return dimType;
 		},
 		dimTimeFormatter(row, column) {
 			let time = row.dimTime;
@@ -266,7 +258,20 @@ export default {
 			}).catch(function(err) {
 				console.log(err);
 			})
-		}
+		},
+		querydimTypeList() {
+				let self = this;
+				self.$axios.get(baseURL+'/sysParamMgmt/queryPubAppParams?paraCode=DIM_TYPE')
+				.then((res) => {
+					console.log('dimType',res);
+					if(res.data.code === "S00000") {
+						self.dimTypeList = res.data.data;
+					}
+					
+				}).catch((err) => {
+					console.log('error');
+				})
+			}
 	}
 
 }

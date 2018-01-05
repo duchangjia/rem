@@ -84,6 +84,7 @@
           let self = this
           self.$axios.get('/iem_hrm/organ/queryOrgCCCList')
               .then(res => {
+                  console.log(res.data.data,777777777)
                   if(res.data.data){
                       self.fenye.total = res.data.data.total
                       self.fenye.pageNum = res.data.data.pageNum

@@ -65,20 +65,7 @@ export default {
 			ruleForm2: {
 				organNo: ""
 			},
-			dataList: [
-				{
-					applyNo: "",
-					applyName: "",
-					organName: '',
-					rank: '',
-					salaryFloor: '',
-					salaryTop: '',
-					businessStandard: '',
-					remark: "",
-					createdBy: "",
-					createdDate: ""
-				}
-			],
+			dataList: [],
 			//公司列表
 			compList: []
 		}

@@ -66,7 +66,7 @@
 
 <script type='text/ecmascript-6'>
 import current from '../../common/current_position.vue'
-const baseURL = 'iem_hrm'
+const baseURL = 'iem_pmg'
 export default {
 	data() {
 		return {
@@ -80,25 +80,7 @@ export default {
 				status: '',
 				user: ''
 			},
-			operatorList: [
-				{
-					userNo: "",
-					userName: "",
-					compName: "",
-					departName: "",
-					roleNo: "",
-					mobile: "",
-					status: "",
-					roles: [
-						{roleName: "", roleNo: ""},
-						{roleName: "", roleNo: ""},
-					]
-				}
-			],
-			comp: {
-				compName: '',
-				compOrgNo: ''
-			},
+			operatorList: [],
 			//部门列表
 			departList: [],
 			//公司列表
@@ -138,7 +120,6 @@ export default {
             });
 		},
 		changeComp(val) {
-			console.log('comp',val);
 			const self = this;
 			let params = {
 				organNo: val
@@ -157,13 +138,6 @@ export default {
 		changeValue(value) {
 	 		const self = this;
 	 		console.log(value)
-//          console.log('value',value);
-//				self.userDetail.compName = self.comp.compName;
-//				self.userDetail.compOrgNo = self.comp.compOrgNo;
-//				self.userDetail.departName = self.depart.departName;
-//				self.userDetail.departOrgNo = self.depart.departOrgNo;
-//				self.userDetail.roleName = self.role.roleName;
-//				self.userDetail.roleNo = self.role.roleNo;
        },
 		//重置
 		resetForm() {

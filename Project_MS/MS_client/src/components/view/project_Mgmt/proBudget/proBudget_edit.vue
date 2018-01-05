@@ -150,9 +150,11 @@
                 </el-form>
                 <el-col :span="24" class="item-title">预算明细</el-col>
                 <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-                  <el-menu-item index="1">处理中心</el-menu-item>
-                  <el-menu-item index="2">处理中心</el-menu-item>
-                  <el-menu-item index="3"><a target="_blank">订单管理</a></el-menu-item>
+                  <el-menu-item index="1">总表</el-menu-item>
+                  <el-menu-item index="2">人力</el-menu-item>
+                  <el-menu-item index="3">分包</el-menu-item>
+                  <el-menu-item index="3">费用</el-menu-item>
+                  <el-menu-item index="3">收入</el-menu-item>
                 </el-menu>
                 <template>
                     <div class="tableBudget" id="tableBudget" v-if="activeIndex=='1'">
@@ -177,32 +179,39 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="tableBudget" id="" v-if="activeIndex=='2'">
+                    <div v-if="activeIndex=='2'">
                         <div class="tableBtn">
-                            <el-button class="btn-primary" type="primary">添加人员</el-button>
-                            <el-button class="btn-primary" type="primary">TBD</el-button>
-                            <el-button class="btn-primary" type="primary">重新计算</el-button>
-                            <el-button class="btn-primary" type="primary">导入</el-button>
-                            <el-button class="btn-primary" type="primary">导出</el-button>
+                            <el-button class="btn-default" type="primary">添加人员</el-button>
+                            <el-button class="btn-default" type="primary">TBD</el-button>
+                            <el-button class="btn-default" type="primary">重新计算</el-button>
+                            <el-button class="btn-default" type="primary">导入</el-button>
+                            <el-button class="btn-default" type="primary">导出</el-button>
                         </div>
-                        <div class="tableBudgetBox" id="">
-                            <el-table :data="tableData" border>
-                                <el-table-column prop="date" label="日期" width="180">
-                                </el-table-column>
-                                <el-table-column prop="name" label="姓名" width="180">
-                                </el-table-column>
-                                <el-table-column prop="address" label="地址">
-                                </el-table-column>
-                            </el-table>
-                            <ul v-for="item in timePro">
-                                <li>{{item.time}}</li>
-                                <li>{{item.manpower}}</li>
-                                <li>{{item.cost}}</li>
-                                <li>{{item.income}}</li>
-                                <li>{{item.netIncome}}</li>
-                                <li>{{item.taxes}}</li>
-                                <li>{{item.allCost}}</li>
-                            </ul>
+                        <div class="tableBudgetBoxTwo sp-grid-import" id="tableBudgetBoxTwo">
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>部门</th>
+                                        <th>员工号</th>
+                                        <th>姓名</th>
+                                        <th>职级</th>
+                                        <th>总成本</th>
+                                        <th>总工时</th>
+                                        <th v-for="item in tableData[0].history">{{item.time}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in tableData">
+                                        <td>{{item.section}}</td>
+                                        <td>{{item.employeeNu}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.rank}}</td>
+                                        <td>{{item.allAount}}</td>
+                                        <td>{{item.allTime}}</td>
+                                        <td v-for="itemHis in item.history">{{itemHis.result}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </template>
@@ -329,23 +338,30 @@
                         allCost:100,
                     }
                 ],
-                tableData: [{
-                  date: '2016-05-02',
-                  name: '王小虎',
-                  address: '上海市普陀区金沙江路 1518 弄'
-                }, {
-                  date: '2016-05-04',
-                  name: '王小虎',
-                  address: '上海市普陀区金沙江路 1517 弄'
-                }, {
-                  date: '2016-05-01',
-                  name: '王小虎',
-                  address: '上海市普陀区金沙江路 1519 弄'
-                }, {
-                  date: '2016-05-03',
-                  name: '王小虎',
-                  address: '上海市普陀区金沙江路 1516 弄'
-                }],
+                tableData:[
+                    {
+                      section:"技术部",
+                      employeeNu:"001",
+                      name:"aduker",
+                      rank:"B级",
+                      allAount:30000,
+                      allTime:"40小时",
+                      history:[
+                        {
+                            time:2017,
+                            result:2035,
+                        },
+                        {
+                            time:2017,
+                            result:2035,
+                        },
+                        {
+                            time:2017,
+                            result:2035,
+                        },
+                      ]
+                    }
+                ],
                 searchInfo:{},
                 tableList:[
                     {
@@ -553,7 +569,7 @@
 		},
         mounted(){
            this.ulWidth("tableBudget");
-           this.ulWidth("tableBudgetTwo");
+           //this.ulWidth("tableBudgetTwo");
         },
         methods:{
             //表格方法
@@ -724,4 +740,7 @@
 .tableBtn{
     padding: 15px 0px;
 }
+.sp-grid-import{border-collapse: collapse;width:100%; border:1px solid #E1E6EB; border-left:none; width: 100%; overflow-x: scroll;}
+.sp-grid-import thead th{line-height:20px;padding:8px 12px; border-bottom:1px solid #E1E6EB; border-left:1px solid #E1E6EB; white-space: nowrap; text-align:center; font-weight:normal !important;letter-spacing:1px;font-size:14px;}
+.sp-grid-import tbody td{text-align: center;line-height:20px;padding:8px 10px;font-size:14px;border-bottom:1px solid #E1E6EB; border-left:1px solid #E1E6EB;}
 </style>

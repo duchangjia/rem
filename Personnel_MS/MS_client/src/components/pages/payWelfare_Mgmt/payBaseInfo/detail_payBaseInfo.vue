@@ -271,86 +271,121 @@ export default {
   computed: {
     _perEndm: function() {
       return (
-        Number(this.payBaseInfoDetail.endmBase) *
-          this.insurancePayTemp.perEndmRate +
-          this.insurancePayTemp.perEndmFixed || 0.0
+        Math.round(
+          (Number(this.payBaseInfoDetail.endmBase) *
+            this.insurancePayTemp.perEndmRate +
+            this.insurancePayTemp.perEndmFixed) *
+            100
+        ) / 100 || 0.0
       );
     },
     _comEndm: function() {
       return (
-        Number(this.payBaseInfoDetail.endmBase) *
-          this.insurancePayTemp.comEndmRate +
-          this.insurancePayTemp.comEndmFixed || 0.0
+        Math.round(
+          (Number(this.payBaseInfoDetail.endmBase) *
+            this.insurancePayTemp.comEndmRate +
+            this.insurancePayTemp.comEndmFixed) *
+            100
+        ) / 100 || 0.0
       );
     },
     _perMedi: function() {
       return (
-        Number(this.payBaseInfoDetail.mediBase) *
-          this.insurancePayTemp.perMediRate +
-          this.insurancePayTemp.perMediFixed || 0.0
+        Math.round(
+          (Number(this.payBaseInfoDetail.mediBase) *
+            this.insurancePayTemp.perMediRate +
+            this.insurancePayTemp.perMediFixed) *
+            100
+        ) / 100 || 0.0
       );
     },
     _comMedi: function() {
       return (
-        Number(this.payBaseInfoDetail.mediBase) *
-          this.insurancePayTemp.comMediRate +
-          this.insurancePayTemp.comMediFixed || 0.0
+        Math.round(
+          (Number(this.payBaseInfoDetail.mediBase) *
+            this.insurancePayTemp.comMediRate +
+            this.insurancePayTemp.comMediFixed) *
+            100
+        ) / 100 || 0.0
       );
     },
     _perUnem: function() {
       return (
-        Number(this.payBaseInfoDetail.unemBase) *
-          this.insurancePayTemp.perUnemRate +
-          this.insurancePayTemp.perUnemFixed || 0.0
+        Math.round(
+          (Number(this.payBaseInfoDetail.unemBase) *
+            this.insurancePayTemp.perUnemRate +
+            this.insurancePayTemp.perUnemFixed) *
+            100
+        ) / 100 || 0.0
       );
     },
     _comUnem: function() {
       return (
-        Number(this.payBaseInfoDetail.unemBase) *
-          this.insurancePayTemp.comUnemRate +
-          this.insurancePayTemp.comUnemFixed || 0.0
+        Math.round(
+          (Number(this.payBaseInfoDetail.unemBase) *
+            this.insurancePayTemp.comUnemRate +
+            this.insurancePayTemp.comUnemFixed) *
+            100
+        ) / 100 || 0.0
       );
     },
     _perEmpl: function() {
       return (
-        Number(this.payBaseInfoDetail.emplBase) *
-          this.insurancePayTemp.perEmplRate +
-          this.insurancePayTemp.perEmplFixed || 0.0
+        Math.round(
+          (Number(this.payBaseInfoDetail.emplBase) *
+            this.insurancePayTemp.perEmplRate +
+            this.insurancePayTemp.perEmplFixed) *
+            100
+        ) / 100 || 0.0
       );
     },
     _comEmpl: function() {
       return (
-        Number(this.payBaseInfoDetail.emplBase) *
-          this.insurancePayTemp.comEmplRate +
-          this.insurancePayTemp.comEmplFixed || 0.0
+        Math.round(
+          (Number(this.payBaseInfoDetail.emplBase) *
+            this.insurancePayTemp.comEmplRate +
+            this.insurancePayTemp.comEmplFixed) *
+            100
+        ) / 100 || 0.0
       );
     },
     _perMate: function() {
       return (
-        Number(this.payBaseInfoDetail.mateBase) *
-          this.insurancePayTemp.perMateRate +
-          this.insurancePayTemp.perMateFixed || 0.0
+        Math.round(
+          (Number(this.payBaseInfoDetail.mateBase) *
+            this.insurancePayTemp.perMateRate +
+            this.insurancePayTemp.perMateFixed) *
+            100
+        ) / 100 || 0.0
       );
     },
     _comMate: function() {
       return (
-        Number(this.payBaseInfoDetail.mateBase) *
-          this.insurancePayTemp.comMateRate +
-          this.insurancePayTemp.comMateFixed || 0.0
+        Math.round(
+          (Number(this.payBaseInfoDetail.mateBase) *
+            this.insurancePayTemp.comMateRate +
+            this.insurancePayTemp.comMateFixed) *
+            100
+        ) / 100 || 0.0
       );
     },
     _perHouse: function() {
       return (
-        Number(this.payBaseInfoDetail.houseBase) *
-          this.insurancePayTemp.perHousRate +
-          this.insurancePayTemp.perHousFixed || 0.0
+        Math.round(
+          (Number(this.payBaseInfoDetail.houseBase) *
+            this.insurancePayTemp.perHousRate +
+            this.insurancePayTemp.perHousFixed || 0.0) * 100
+        ) / 100 || 0.0
       );
     },
     _comHouse: function() {
       return (
-        Number(this.payBaseInfoDetail.houseBase) *
-          this.insurancePayTemp.comHousRate +
-          this.insurancePayTemp.comHousFixed || 0.0
+        Math.round(
+          (Number(this.payBaseInfoDetail.houseBase) *
+            this.insurancePayTemp.comHousRate +
+            this.insurancePayTemp.comHousFixed) *
+            100
+        ) / 100 || 0.0
       );
     }
   },
@@ -382,7 +417,7 @@ export default {
             self.payBaseInfoDetail.epFileManageList.length >= 1
           ) {
             self.fileList = self.payBaseInfoDetail.epFileManageList;
-          } 
+          }
           console.log("当前的fileList", self.fileList);
         })
         .catch(() => {

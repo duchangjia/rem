@@ -131,7 +131,7 @@
                     <el-table-column prop="derpName" label="部门" align="center"></el-table-column>
                     <el-table-column prop="comEmail" label="公司邮箱"  align="center"></el-table-column>
                     <el-table-column prop="custPost" label="职位" align="center" :formatter="custPostFormatter"></el-table-column>
-                    <el-table-column prop="organName" label="合同实体" align="center"></el-table-column>
+                    <el-table-column prop="pactSubject" label="合同实体" align="center" :formatter="pactSubjectFormatter"></el-table-column>
                 </el-table>
         </el-dialog> 
         </div>
@@ -180,6 +180,10 @@ import vFooter from './footer.vue';
                     userNo:'',
                     accountNo:''
                 },
+                //岗位列表
+                custPostList: [],
+                //合同实体列表
+                pactSubjectList: [],
                 newsList:[
                     {
                         class:'',
@@ -241,6 +245,12 @@ import vFooter from './footer.vue';
                 }
             }
            
+        },
+        created() {
+          //查询岗位列表
+          this.queryCustPostList();
+          //查询合同实体列表
+          this.queryPactSubjectList();
         },
         methods:{
            searchUser(){
@@ -318,7 +328,22 @@ import vFooter from './footer.vue';
                
            },
            custPostFormatter(row, column) {
-            return row.custPost == "01" ? "架构师" : row.custPost == "02" ? "前端开发工程师": row.custPost == "03" ? "测试工程师": row.custPost == "04" ? "后端开发" : "";
+             let custPost = '';
+              this.custPostList.forEach(function(item) {
+                if(row.custPost == item.paraValue) {
+                  custPost = item.paraShowMsg;
+                }
+              }, this);
+                return custPost;
+           },
+           pactSubjectFormatter(row, column) {
+             let pactSubject = '';
+              this.pactSubjectList.forEach(function(item) {
+                if(row.pactSubject == item.paraValue) {
+                  pactSubject = item.paraShowMsg;
+                }
+              }, this);
+                return pactSubject;
            },
            assetTypeFormatter(row, column) {
             return row.assetType == "01"
@@ -331,7 +356,33 @@ import vFooter from './footer.vue';
             },
             linkToItem(url){
                 this.$router.push(url)
-            }
+            },
+            queryCustPostList() {
+              let self = this;
+              self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=CUST_POST')
+              .then((res) => {
+                console.log('CustPost',res);
+                if(res.data.code === "S00000") {
+                  self.custPostList = res.data.data;
+                }
+                
+              }).catch((err) => {
+                console.log('error');
+              })
+            },
+            queryPactSubjectList() {
+              let self = this;
+              self.$axios.get('/iem_hrm/sysParamMgmt/queryPubAppParams?paraCode=PACT_SUBJECT')
+              .then((res) => {
+                console.log('PactSubject',res);
+                if(res.data.code === "S00000") {
+                  self.pactSubjectList = res.data.data;
+                }
+                
+              }).catch((err) => {
+                console.log('error');
+              })
+            },
         },
         components:{
             vHead,vFooter
