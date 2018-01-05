@@ -20,7 +20,7 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="CCC类型" prop="costType">
-                            <el-select placeholder="请选择CCC类型" v-model="obj.costType">
+                            <el-select placeholder="请选择CCC类型" v-model="obj.costType" :disabled="true">
                                 <el-option
                                         label="管理CCC"
                                         value="01">
@@ -77,7 +77,7 @@
                     ],
                     costCode: [
                         { required: true, message: 'CCC值不能为空', trigger: 'blur'},
-                        { pattern: /^[a-zA-Z0-9]*$/, message: "CCC值只能为数字或英文" }
+                        { pattern: /^[a-zA-Z0-9]{10}$/, message: "CCC值只能为数字或英文" }
                     ],
                 },
             }
