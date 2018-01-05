@@ -43,7 +43,7 @@ module.exports = {
         changeOrigin: true,
         secure: false,
         pathRewrite: {
-          '^/crmCoopcustInfo': '/crmCoopcustInfo'
+          '^/crmCoopcustInfo': ''
         },
       },
       '/iem_pmg': {

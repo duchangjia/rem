@@ -1,18 +1,15 @@
 <template>
     <div class="container-wrap">
-        <current yiji="项目管理" erji="项目一览" sanji="项目编辑"></current>
+        <current yiji="项目管理" erji="项目预算" sanji="项目预算编辑"></current>
         <div class="content-wrapper">
             <div class="titlebar">
-                <span class="title-text">项目编辑</span>
+                <span class="title-text">项目预算编辑</span>
                 <el-button type="primary" class="toolBtn btn-primary" @click="save">保存</el-button>
             </div>
             <div class="add-wrapper">
                 <el-form ref="salesInfo" :inline="true"  :rules="rules1" :model="salesInfo" label-width="140px">
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="机会号" prop="oppoNo">
-                                <el-input :disabled="true" v-model="salesInfo.oppoNo"></el-input>
-                        </el-form-item>
-                    </el-col>
+                    <el-col :span="24" class="item-title">项目信息</el-col>
+                   <!--   -->
                     <el-col :sm="24" :md="12">
                         <el-form-item label="项目名称" prop="projName">
                                 <el-input v-model="salesInfo.projName"></el-input>
@@ -24,12 +21,17 @@
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="客户"  prop="coocustNo">
+                        <el-form-item label="部门"  prop="coocustNo">
                             <el-select v-model="salesInfo.coocustNo">
                                 <el-option v-for="item in coocustNoList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
+                    <el-col :sm="24" :md="12">
+                       <el-form-item label="项目经理" prop="oppoNo">
+                               <el-input :disabled="true" v-model="salesInfo.oppoNo"></el-input>
+                       </el-form-item>
+                   </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="服务管理模式" prop="projSrvMngmode">
                             <el-select v-model="salesInfo.projSrvMngmode">
@@ -37,13 +39,13 @@
 							</el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :sm="24" :md="12">
+                    <!-- <el-col :sm="24" :md="12">
                         <el-form-item label="项目类型" prop="projType">
                             <el-select v-model="salesInfo.projType">
-								<el-option v-for="item in projTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
-							</el-select>
+                                                    <el-option v-for="item in projTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                                                </el-select>
                         </el-form-item>
-                    </el-col>
+                    </el-col> -->
                     <el-col :sm="24" :md="12">
                         <el-form-item label="收入确认类型" prop="projIncmConfim">
                             <el-select v-model="salesInfo.projIncmConfim">
@@ -52,24 +54,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="预计合同金额" prop="projPreconAmt">
-                            <el-input v-model="salesInfo.projPreconAmt"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="订单类型" prop="projOrdType">
-                            <el-select  v-model="salesInfo.projOrdType">
-                                <el-option v-for="item in projOrdTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="项目交付地" prop="projImplePla">
-                                <el-input v-model="salesInfo.projImplePla"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="预计合同签订时间" prop="projPreconDate">
+                        <el-form-item label="计划开始时间" prop="projPreconDate">
                             <el-date-picker
                                 type="date"
                                 placeholder="选择日期"
@@ -80,11 +65,11 @@
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="预计收入时间" prop="projPreincmDate">
+                        <el-form-item label="计划结束时间" prop="projPreconDate">
                             <el-date-picker
                                 type="date"
                                 placeholder="选择日期"
-                                v-model="salesInfo.projPreincmDate"
+                                v-model="salesInfo.projPreconDate"
                                  :editable="false"
                                 >
                             </el-date-picker>
@@ -98,110 +83,129 @@
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="合同编号" prop="projConno">
-                            <el-input readonly="readonly" v-model="salesInfo.projConno"></el-input>
-                            <el-upload class="upload-demo" ref="upload" :show-file-list="false" :auto-upload="false" action="">
-                                <el-button slot="trigger" size="small" type="primary" class="uploadBtn">上传合同</el-button>
-                            </el-upload>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
                         <el-form-item label="项目状态" prop="projState">
                             <el-select v-model="salesInfo.projState">
                                 <el-option v-for="item in projStateList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="24" class="item-title">销售信息</el-col>
+                    
+                    <el-col :span="24" class="item-title">预算信息  V4.0</el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="销售" prop="projSaleName">
+                        <el-form-item label="收入" prop="projSaleName">
                                 <el-input v-model="salesInfo.projSaleName"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="销售主管" prop="projSaleLinemgr">
+                        <el-form-item label="净收入" prop="projSaleLinemgr">
                                 <el-input v-model="salesInfo.projSaleLinemgr"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
-                        <el-form-item label="项目说明" prop="remark">
-                            <el-input type="textarea"  class="b-textarea" v-model="salesInfo.remark"></el-input>
+                        <el-form-item label="税金" prop="remark">
+                            <el-input v-model="salesInfo.remark"></el-input>
                         </el-form-item>
-                    </el-col>
-                </el-form>
-                <el-col :span="24" class="item-title">项目实施</el-col>
-                <el-form ref="projImpleInfo" :inline="true"  :rules="rules2" :model="projImpleInfo" label-width="110px">
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="部门中心" prop="projImpDepname">
-                                <el-input v-model="projImpleInfo.projImpDepname"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="部门编号" prop="projImpDepno">
-                            <el-input v-model="projImpleInfo.projImpDepno"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="成本中心" prop="projImpCcc">
-                            <el-input v-model="projImpleInfo.projImpCcc"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="实施进度" prop="projImpStep">
-                            <el-select v-model="projImpleInfo.projImpStep">
-                                <el-option v-for="item in projImpStepList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
-                            </el-select>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="项目经理" prop="projImpPm">
-                            <el-input :disabled="true" v-model="projImpleInfo.projImpPm"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="项目主管" prop="projImpPm">
-                                <el-input :disabled="true" v-model="projImpleInfo.projImpPm"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="计划开始时间" prop="projImpBegdate">
-                                <el-input :disabled="true" v-model="projImpleInfo.projImpBegdate"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :sm="24" :md="12">
-                        <el-form-item label="计划结束时间" prop="projImpEndate">
-                            <el-input :disabled="true" v-model="projImpleInfo.projImpEndate"></el-input>
+                    </el-col> 
+                    <el-col :span="24">
+                        <el-form-item label="人力成本" prop="remark">
+                            <el-input v-model="salesInfo.remark"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
-                        <el-form-item label="项目说明" prop="projImpDesc">
-                            <el-input type="textarea" :disabled="true" class="b-textarea" v-model="projImpleInfo.projImpDesc"></el-input>
+                        <el-form-item label="费用成本" prop="remark">
+                            <el-input v-model="salesInfo.remark"></el-input>
                         </el-form-item>
                     </el-col>
-                    <!-- <el-col :span="24" class="item-title">项目分包</el-col>
                     <el-col :span="24">
-                        <el-table stripe :data="tableList" class="table-add">
-                            <el-table-column align="center" prop="projImpDepno" label="分包合同号">
-                            </el-table-column>
-                            <el-table-column align="center" prop="projImpDepno" label="分包客户">
-                            </el-table-column>
-                            <el-table-column align="center" prop="projImpDepno" label="金额">
-                            </el-table-column>
-                            <el-table-column align="center" prop="projImpDepno" label="类型">
-                            </el-table-column>
-                            <el-table-column align="center" prop="projImpDepno" label="分包说明">
-                            </el-table-column>
-                            <el-table-column align="center"  label="操作">
-                                <template scope="scope">
-                                    <el-button class="btn-primary">
-                                        上传分包合同
-                                    </el-button>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                    </el-col> -->
-                   
+                        <el-form-item label="总成本" prop="remark">
+                            <el-input v-model="salesInfo.remark"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="毛利率" prop="remark">
+                            <el-input v-model="salesInfo.remark"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="预算状态" prop="remark">
+                            <el-input v-model="salesInfo.remark"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="提交日期" prop="projPreconDate">
+                            <el-date-picker
+                                type="date"
+                                placeholder="选择日期"
+                                v-model="salesInfo.projPreconDate"
+                                 :editable="false"
+                                >
+                            </el-date-picker>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="版本" prop="remark">
+                            <el-input v-model="salesInfo.remark"></el-input>
+                        </el-form-item>
+                    </el-col>
                 </el-form>
+                <el-col :span="24" class="item-title">预算明细</el-col>
+                <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+                  <el-menu-item index="1">处理中心</el-menu-item>
+                  <el-menu-item index="2">处理中心</el-menu-item>
+                  <el-menu-item index="3"><a target="_blank">订单管理</a></el-menu-item>
+                </el-menu>
+                <template>
+                    <div class="tableBudget" id="tableBudget" v-if="activeIndex=='1'">
+                        <div class="tableBudgetBox" id="tableBudgetBox">
+                            <ul>
+                                <li>&nbsp</li>
+                                <li>人力成本</li>
+                                <li>费用成本</li>
+                                <li>收入</li>
+                                <li>净收入</li>
+                                <li>税金</li>
+                                <li>总成本</li>
+                            </ul>
+                            <ul v-for="item in timePro">
+                                <li>{{item.time}}</li>
+                                <li>{{item.manpower}}</li>
+                                <li>{{item.cost}}</li>
+                                <li>{{item.income}}</li>
+                                <li>{{item.netIncome}}</li>
+                                <li>{{item.taxes}}</li>
+                                <li>{{item.allCost}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tableBudget" id="" v-if="activeIndex=='2'">
+                        <div class="tableBtn">
+                            <el-button class="btn-primary" type="primary">添加人员</el-button>
+                            <el-button class="btn-primary" type="primary">TBD</el-button>
+                            <el-button class="btn-primary" type="primary">重新计算</el-button>
+                            <el-button class="btn-primary" type="primary">导入</el-button>
+                            <el-button class="btn-primary" type="primary">导出</el-button>
+                        </div>
+                        <div class="tableBudgetBox" id="">
+                            <el-table :data="tableData" border>
+                                <el-table-column prop="date" label="日期" width="180">
+                                </el-table-column>
+                                <el-table-column prop="name" label="姓名" width="180">
+                                </el-table-column>
+                                <el-table-column prop="address" label="地址">
+                                </el-table-column>
+                            </el-table>
+                            <ul v-for="item in timePro">
+                                <li>{{item.time}}</li>
+                                <li>{{item.manpower}}</li>
+                                <li>{{item.cost}}</li>
+                                <li>{{item.income}}</li>
+                                <li>{{item.netIncome}}</li>
+                                <li>{{item.taxes}}</li>
+                                <li>{{item.allCost}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
     </div>
@@ -213,6 +217,135 @@
 	export default {
 		data() {
 			return{
+                //表格
+                activeIndex: '1',
+                timePro:[
+                    {
+                        time:"2017",
+                        manpower:100,
+                        cost:200,
+                        income:100,
+                        netIncome:100,
+                        taxes:100,
+                        allCost:100,
+                    },
+                    {
+                        time:"2018",
+                        manpower:100,
+                        cost:200,
+                        income:100,
+                        netIncome:100,
+                        taxes:100,
+                        allCost:100,
+                    },
+                    {
+                        time:"2018",
+                        manpower:100,
+                        cost:200,
+                        income:100,
+                        netIncome:100,
+                        taxes:100,
+                        allCost:100,
+                    },
+                    {
+                        time:"2018",
+                        manpower:100,
+                        cost:200,
+                        income:100,
+                        netIncome:100,
+                        taxes:100,
+                        allCost:100,
+                    },
+                    {
+                        time:"2017",
+                        manpower:100,
+                        cost:200,
+                        income:100,
+                        netIncome:100,
+                        taxes:100,
+                        allCost:100,
+                    },
+                    {
+                        time:"2018",
+                        manpower:100,
+                        cost:200,
+                        income:100,
+                        netIncome:100,
+                        taxes:100,
+                        allCost:100,
+                    },
+                    {
+                        time:"2018",
+                        manpower:100,
+                        cost:200,
+                        income:100,
+                        netIncome:100,
+                        taxes:100,
+                        allCost:100,
+                    },
+                    {
+                        time:"2018",
+                        manpower:100,
+                        cost:200,
+                        income:100,
+                        netIncome:100,
+                        taxes:100,
+                        allCost:100,
+                    },
+                    {
+                        time:"2017",
+                        manpower:100,
+                        cost:200,
+                        income:100,
+                        netIncome:100,
+                        taxes:100,
+                        allCost:100,
+                    },
+                    {
+                        time:"2018",
+                        manpower:100,
+                        cost:200,
+                        income:100,
+                        netIncome:100,
+                        taxes:100,
+                        allCost:100,
+                    },
+                    {
+                        time:"2018",
+                        manpower:100,
+                        cost:200,
+                        income:100,
+                        netIncome:100,
+                        taxes:100,
+                        allCost:100,
+                    },
+                    {
+                        time:"2018",
+                        manpower:100,
+                        cost:200,
+                        income:100,
+                        netIncome:100,
+                        taxes:100,
+                        allCost:100,
+                    }
+                ],
+                tableData: [{
+                  date: '2016-05-02',
+                  name: '王小虎',
+                  address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                  date: '2016-05-04',
+                  name: '王小虎',
+                  address: '上海市普陀区金沙江路 1517 弄'
+                }, {
+                  date: '2016-05-01',
+                  name: '王小虎',
+                  address: '上海市普陀区金沙江路 1519 弄'
+                }, {
+                  date: '2016-05-03',
+                  name: '王小虎',
+                  address: '上海市普陀区金沙江路 1516 弄'
+                }],
                 searchInfo:{},
                 tableList:[
                     {
@@ -418,7 +551,32 @@
             //查询项目类型列表
             // this.queryprojTypeList()
 		},
+        mounted(){
+           this.ulWidth("tableBudget");
+           this.ulWidth("tableBudgetTwo");
+        },
         methods:{
+            //表格方法
+            handleSelect(key, keyPath) {
+                this.activeIndex=key;
+                console.log(key, keyPath);
+            },
+            //计算ul的宽度
+            ulWidth(tableBudgetBoxId){
+                 //alert(111)
+                let tableBudget=document.getElementById(tableBudgetBoxId);
+                let tableBudgetBox=document.getElementById("tableBudgetBox");
+                let ul=tableBudgetBox.getElementsByTagName("ul");
+                console.log(tableBudget.offsetWidth);
+                let allWidth=this.timePro.length;
+                if(tableBudgetBox.offsetWidth<tableBudget.offsetWidth){
+                    let widthUl=tableBudget.offsetWidth/(this.timePro.length+1);
+                    for (var i = 0; i < ul.length; i++) {
+                        ul[i].style.width=widthUl+"px";
+                    }
+                    tableBudgetBox.style.width=widthUl*(this.timePro.length+1)+"px";
+                }
+            },
             save() {
                 let self = this;
 				self.$refs.salesInfo.validate(valid => {
@@ -539,13 +697,31 @@
 		}
 	};
 </script>
-<style lang="scss">
-    .content-wrapper{
-        .add-wrapper{
-            .b-textarea{
-                min-width:860px !important;
-            }
-           
-        }
-    }
+<style scoped>
+.tableBudget {
+    overflow: hidden;
+    overflow-x: scroll;
+    width: 100%;
+    height: 260px;
+}
+.tableBudgetBox{
+    width: 900px;
+}
+.tableBudget ul{
+    float:left;
+    width: 85px;
+}
+.tableBudget ul li{
+    line-height:20px;
+    padding:8px 12px;
+    font-size: 14px;
+    border-bottom:1px solid #E1E6EB; border-left:1px solid #E1E6EB; white-space: nowrap; text-align:center; font-weight:normal !important;letter-spacing:1px;
+}
+.tableBudget ul:last-child{
+    border-right:1px solid #E1E6EB;
+}
+
+.tableBtn{
+    padding: 15px 0px;
+}
 </style>

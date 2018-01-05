@@ -565,7 +565,6 @@
                     if(res.data.code === "S00000") {
                         self.projTypeList = res.data.data;
                     }
-                    
                 }).catch((err) => {
                     console.log('error');
                 })

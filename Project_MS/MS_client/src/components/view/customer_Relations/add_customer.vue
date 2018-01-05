@@ -9,37 +9,33 @@
       </div>
       <div class="add-wrapper">
         <el-form :inline="true" :model="addCustMsg" :rules="custInfoRules" ref="addCustForm" :label-position="labelPosition" label-width="80px">
-          <el-col :sm="24" :md="12">
+          <!-- <el-col :sm="24" :md="12">
             <el-form-item label="客户编号">
-              <el-input type="text" v-model="addCustMsg.custNo"></el-input>
+              <el-input type="text" v-model="addCustMsg.coocustNo"></el-input>
             </el-form-item>
-          </el-col>
+          </el-col> -->
           <el-col :sm="24" :md="12">
-            <el-form-item label="客户名称">
+            <el-form-item label="客户名称" prop="custName">
               <el-input type="text" v-model="addCustMsg.custName"></el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="行业">
-              <el-select v-model="addCustMsg.custIndustry">
-                <el-option label="金融" value="01"></el-option>
-                <el-option label="制造" value="02"></el-option>
-                <el-option label="医疗" value="03"></el-option>
-                <el-option label="航空" value="04"></el-option>
+              <el-select v-model="addCustMsg.custInd">
+                <el-option v-for="item in custIndustryList" :label="item.custIndustryMsg" :value="item.visitorID"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
-            <el-form-item label="类别">
+            <el-form-item label="类别" prop="custType">
               <el-select v-model="addCustMsg.custType">
-                <el-option label="普通客户" value="01"></el-option>
-                <el-option label="重要客户" value="02"></el-option>
-                <el-option label="软件供应商" value="03"></el-option>
+                <el-option label="客户" value="1"></el-option>
+                <el-option label="供应商" value="2"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
-            <el-form-item label="级别">
+            <el-form-item label="级别" prop="custLevel">
               <el-select v-model="addCustMsg.custLevel">
                 <el-option label="重点客户" value="01"></el-option>
                 <el-option label="普通客户" value="02"></el-option>
@@ -50,27 +46,27 @@
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="所属地区">
-              <el-input type="text" v-model="addCustMsg.custDistrict"></el-input>
+              <el-input type="text" v-model="addCustMsg.custCity"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item label="注册地址">
-              <el-input type="text" v-model="addCustMsg.signAddr" class="w_full"></el-input>
+              <el-input type="text" v-model="addCustMsg.regstAddr" class="w_full"></el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="通讯地址">
-              <el-input type="text" v-model="addCustMsg.contactAddr"></el-input>
+              <el-input type="text" v-model="addCustMsg.contAddr"></el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="邮编">
-              <el-input type="text" v-model="addCustMsg.postCode"></el-input>
+              <el-input type="text" v-model="addCustMsg.contPstCode"></el-input>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="成立时间">
-              <el-date-picker type="date" placeholder="选择日期" v-model="addCustMsg.setUpTime"  @change="pickSetUpTimeTime" style="width: 100%;"></el-date-picker>
+              <el-date-picker type="date" placeholder="选择日期" v-model="addCustMsg.regstDate"  value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :sm="24" :md="12">
@@ -80,7 +76,14 @@
           </el-col>
           <el-col :sm="24" :md="12">
             <el-form-item label="企业规模">
-              <el-input type="text" v-model="addCustMsg.comScale"></el-input>
+              <el-select v-model="addCustMsg .custScale">
+                <el-option label="100人以下" value="1"></el-option>
+                <el-option label="100人以上" value="2"></el-option>
+                <el-option label="500人以上" value="3"></el-option>
+                <el-option label="1000人以上" value="4"></el-option>
+                <el-option label="5000人以上" value="5"></el-option>
+                <el-option label="10000人以上" value="6"></el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-form>
@@ -93,26 +96,54 @@
 <script>
 import current from "../../common/current_position.vue";
 import Vue from "vue";
+const basicUrl="crmCoopcustInfo";
 export default {
   data() {
     return {
       labelPosition: "right",
       addCustMsg: {
-        custNo: "",
+        coocustNo: "",
         custName: "",
-        custDistrict: "",
-        custIndustry: "",
+        custInd: "",
         custType: "",
-        contact: "",
-        sales: "",
-        signAddr: "",
-        contactAddr: "",
-        postCode: "",
-        setUpTime: "",
+        custLevel: "",
+        custCity: "",
+        regstAddr: "",
+        contAddr: "",
+        contPstCode: "",
+        regstDate: "",
         Legal: "",
-        comScale: ""
+        custScale: ""
       },
-      custInfoRules: {}
+      custInfoRules: {
+        custName: [
+          { required: true, message: '请输入客户名称', trigger: 'blur' }
+        ],
+        custType: [
+          { required: true, message: '请输入客户类型', trigger: 'blur' }
+        ],
+        custLevel: [
+          { required: true, message: '请输入客户级别', trigger: 'blur' }
+        ]
+      },
+      //客户行业列表
+        custIndustryList:[
+          {visitorID:"",custIndustryMsg:"全部"},
+          {visitorID:"A",custIndustryMsg:"农、林、牧、渔业"},
+          {visitorID:"B",custIndustryMsg:"采掘业"},
+          {visitorID:"C",custIndustryMsg:"制造业"},
+          {visitorID:"D",custIndustryMsg:"电力、煤气、热水的生产和供应业"},
+          {visitorID:"E",custIndustryMsg:"建筑业"},
+          {visitorID:"F",custIndustryMsg:"批发和零售业"},
+          {visitorID:"N",custIndustryMsg:"地质勘查业、水利管理业"},
+          {visitorID:"G",custIndustryMsg:"交通运输、仓储和邮电通信业"},
+          {visitorID:"H",custIndustryMsg:"住宿和餐饮业"},
+          {visitorID:"I",custIndustryMsg:"信息传输、软件和信息技术服务业"},
+          {visitorID:"J",custIndustryMsg:"金融、保险业"},
+          {visitorID:"K",custIndustryMsg:"房地产业"},
+          {visitorID:"M",custIndustryMsg:"科学研究和综合技术服务业"},
+          {visitorID:"P",custIndustryMsg:"教育"},
+        ],
     };
   },
   components: {
@@ -123,46 +154,24 @@ export default {
   },
   methods: {
     pickSetUpTimeTime(val) {
-      this.addCustMsg.setUpTime = val;
+      this.addCustMsg.regstDate = val;
     },
     handleSave(addCustForm) {
+      const vm = this
       this.$refs[addCustForm].validate(valid => {
         if (valid) {
-          let saveSuccessFlag = false;
-          let newCustMsg = this.addCustMsg;
-          console.log(newCustMsg);
-          // this.$axios
-          //   .post("", newCustMsg)
-          //   .then(res => {
-          //     console.log(res);
-          //     if (res.data.code == "S00000") {
-          //       saveSuccessFlag = true;
-          //     } else this.$message.error(res.data.retMsg);
-          //   })
-          //   .catch(() => {
-          //     this.$message.error("操作失败！");
-          //   });
-
-          // 暂时赋值
-          saveSuccessFlag = true;
-
-          // 成功之后
-          if (saveSuccessFlag) {
-            const _this = this;
-            this.$confirm("操作成功！您是否立即新增联系人?", "提示", {
-              type: "success"
+          delete vm.addCustMsg.createdDate;
+          delete vm.addCustMsg.updatedDate;
+          vm.$axios.post(basicUrl+"/crmCoopcustInfo/addCocustInfo",vm.addCustMsg )
+            .then(res => {
+              this.$message('添加成功');
             })
-              .then(() => {
-                _this.$router.push("/edit_customer");
-              })
-              .catch(() => {
-                _this.$router.push("/query_customer");
-              });
-          }
+            .catch(err =>{
+            })
         } else {
-          console.log("error submit!!");
-          return false;
+          return;
         }
+
       });
     }
   }

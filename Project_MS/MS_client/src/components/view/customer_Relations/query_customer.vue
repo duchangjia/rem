@@ -154,7 +154,7 @@
         };
 
         self.$axios
-          .get(basicUrl+"/queryCocustList", { params: params })
+          .get(basicUrl+"/crmCoopcustInfo/queryCocustList", { params: params })
           .then(res => {
             res=res.data;
             if(res.retMsg=="操作成功"){
@@ -204,17 +204,15 @@
         });
       },
       handleDetail(index, row) {
-        //console.log(index, row)
-        //console.log()
         this.$router.push({
           name: "detail_customer",
-          params: {coocustNo:row.coocustNo}
+          query: {coocustNo:row.coocustNo}
         });
       },
       handleEdit(index, row) {
         this.$router.push({
           name: "edit_customer",
-          params: {}
+          query: {coocustNo:row.coocustNo}
         });
       },
       handleBilllingTemp(index, row) {
