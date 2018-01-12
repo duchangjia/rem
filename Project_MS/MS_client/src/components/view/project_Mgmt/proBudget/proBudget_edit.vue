@@ -7,69 +7,62 @@
                 <el-button type="primary" class="toolBtn btn-primary" @click="save">保存</el-button>
             </div>
             <div class="add-wrapper">
-                <el-form ref="salesInfo" :inline="true"  :rules="rules1" :model="salesInfo" label-width="140px">
+                <el-form ref="proInfo" :inline="true"  :rules="rules1" :model="proInfo" label-width="140px">
                     <el-col :span="24" class="item-title">项目信息</el-col>
                    <!--   -->
                     <el-col :sm="24" :md="12">
                         <el-form-item label="项目名称" prop="projName">
-                                <el-input v-model="salesInfo.projName"></el-input>
+                            <el-input v-model="proInfo.projName"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="项目编号" prop="projNo">
-                                <el-input v-model="salesInfo.projNo"></el-input>
+                                <el-input v-model="proInfo.projNo"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="部门"  prop="coocustNo">
-                            <el-select v-model="salesInfo.coocustNo">
-                                <el-option v-for="item in coocustNoList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
+                        <el-form-item label="部门"  prop="section">
+                            <el-select v-model="proInfo.section">
+                                <el-option v-for="item in sectionList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                       <el-form-item label="项目经理" prop="oppoNo">
-                               <el-input :disabled="true" v-model="salesInfo.oppoNo"></el-input>
+                       <el-form-item label="项目经理" prop="proManage">
+                            <el-input v-model="proInfo.proManage"></el-input>
                        </el-form-item>
                    </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="服务管理模式" prop="projSrvMngmode">
-                            <el-select v-model="salesInfo.projSrvMngmode">
+                            <el-select v-model="proInfo.projSrvMngmode">
 								<el-option v-for="item in projSrvMngmodeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
 							</el-select>
                         </el-form-item>
                     </el-col>
-                    <!-- <el-col :sm="24" :md="12">
-                        <el-form-item label="项目类型" prop="projType">
-                            <el-select v-model="salesInfo.projType">
-                                                    <el-option v-for="item in projTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
-                                                </el-select>
-                        </el-form-item>
-                    </el-col> -->
                     <el-col :sm="24" :md="12">
                         <el-form-item label="收入确认类型" prop="projIncmConfim">
-                            <el-select v-model="salesInfo.projIncmConfim">
+                            <el-select v-model="proInfo.projIncmConfim">
                                 <el-option v-for="item in incmConfimList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="计划开始时间" prop="projPreconDate">
+                        <el-form-item label="计划开始时间" prop="proStartDate">
                             <el-date-picker
                                 type="date"
                                 placeholder="选择日期"
-                                v-model="salesInfo.projPreconDate"
+                                v-model="proInfo.proStartDate"
                                  :editable="false"
                                 >
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="计划结束时间" prop="projPreconDate">
+                        <el-form-item label="计划结束时间" prop="proEndDate">
                             <el-date-picker
                                 type="date"
                                 placeholder="选择日期"
-                                v-model="salesInfo.projPreconDate"
+                                v-model="proInfo.proEndDate"
                                  :editable="false"
                                 >
                             </el-date-picker>
@@ -77,87 +70,89 @@
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="收入类型" prop="projIncmType">
-                            <el-select v-model="salesInfo.projIncmType">
+                            <el-select v-model="proInfo.projIncmType">
                                 <el-option v-for="item in projIncmTypeList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
                         <el-form-item label="项目状态" prop="projState">
-                            <el-select v-model="salesInfo.projState">
+                            <el-select v-model="proInfo.projState">
                                 <el-option v-for="item in projStateList" :key="item.paraValue" :label="item.paraShowMsg" :value="item.paraValue"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    
+
                     <el-col :span="24" class="item-title">预算信息  V4.0</el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="收入" prop="projSaleName">
-                                <el-input v-model="salesInfo.projSaleName"></el-input>
+                        <el-form-item label="收入" prop="income">
+                                <el-input v-model="budgetInfo.income"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="净收入" prop="projSaleLinemgr">
-                                <el-input v-model="salesInfo.projSaleLinemgr"></el-input>
+                        <el-form-item label="净收入" prop="netIncome">
+                                <el-input v-model="budgetInfo.netIncome"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="24">
-                        <el-form-item label="税金" prop="remark">
-                            <el-input v-model="salesInfo.remark"></el-input>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="税金" prop="taxes">
+                            <el-input v-model="budgetInfo.taxes"></el-input>
                         </el-form-item>
                     </el-col> 
-                    <el-col :span="24">
-                        <el-form-item label="人力成本" prop="remark">
-                            <el-input v-model="salesInfo.remark"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item label="费用成本" prop="remark">
-                            <el-input v-model="salesInfo.remark"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item label="总成本" prop="remark">
-                            <el-input v-model="salesInfo.remark"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item label="毛利率" prop="remark">
-                            <el-input v-model="salesInfo.remark"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="24">
-                        <el-form-item label="预算状态" prop="remark">
-                            <el-input v-model="salesInfo.remark"></el-input>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="人力成本" prop="humanCost">
+                            <el-input v-model="budgetInfo.humanCost"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :sm="24" :md="12">
-                        <el-form-item label="提交日期" prop="projPreconDate">
+                        <el-form-item label="费用成本" prop="expenseGost">
+                            <el-input v-model="budgetInfo.expenseGost"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="总成本" prop="totalCost">
+                            <el-input v-model="budgetInfo.totalCost"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="毛利率" prop="grossProfitRate">
+                            <el-input v-model="budgetInfo.grossProfitRate"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="预算状态" prop="budgetState">
+                            <el-input v-model="budgetInfo.budgetState"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="提交日期" prop="submitDate">
                             <el-date-picker
                                 type="date"
                                 placeholder="选择日期"
-                                v-model="salesInfo.projPreconDate"
+                                v-model="budgetInfo.submitDate"
                                  :editable="false"
                                 >
                             </el-date-picker>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="24">
-                        <el-form-item label="版本" prop="remark">
-                            <el-input v-model="salesInfo.remark"></el-input>
+                    <el-col :sm="24" :md="12">
+                        <el-form-item label="版本" prop="release">
+                            <el-input v-model="budgetInfo.release"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form>
-                <el-col :span="24" class="item-title">预算明细</el-col>
-                <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+                <div style="overflow:hidden;">
+                    <el-col :span="24" class="item-title">预算明细</el-col>
+                </div>
+                <el-menu active-text-color="#FF9900" :default-active="activeIndex" class="el-menu-demo nowhite" mode="horizontal" @select="handleSelect">
                   <el-menu-item index="1">总表</el-menu-item>
                   <el-menu-item index="2">人力</el-menu-item>
                   <el-menu-item index="3">分包</el-menu-item>
-                  <el-menu-item index="3">费用</el-menu-item>
-                  <el-menu-item index="3">收入</el-menu-item>
+                  <el-menu-item index="4">费用</el-menu-item>
+                  <el-menu-item index="5">收入</el-menu-item>
                 </el-menu>
                 <template>
-                    <div class="tableBudget" id="tableBudget" v-if="activeIndex=='1'">
+                    <div class="tableBudget" id="tableBudget" v-show="activeIndex=='1'">
                         <div class="tableBudgetBox" id="tableBudgetBox">
                             <ul>
                                 <li>&nbsp</li>
@@ -214,7 +209,111 @@
                             </table>
                         </div>
                     </div>
+                    <div v-if="activeIndex=='3'">
+                        <div class="tableBtn">
+                            <el-button class="btn-default" type="primary">添加人员</el-button>
+                            <el-button class="btn-default" type="primary">TBD</el-button>
+                            <el-button class="btn-default" type="primary">重新计算</el-button>
+                            <el-button class="btn-default" type="primary">导入</el-button>
+                            <el-button class="btn-default" type="primary">导出</el-button>
+                        </div>
+                        <div class="tableBudgetBoxTwo sp-grid-import" id="tableBudgetBoxTwo">
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>部门</th>
+                                        <th>员工号</th>
+                                        <th>姓名</th>
+                                        <th>职级</th>
+                                        <th>总成本</th>
+                                        <th>总工时</th>
+                                        <th v-for="item in tableData[0].history">{{item.time}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in tableData">
+                                        <td>{{item.section}}</td>
+                                        <td>{{item.employeeNu}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.rank}}</td>
+                                        <td>{{item.allAount}}</td>
+                                        <td>{{item.allTime}}</td>
+                                        <td v-for="itemHis in item.history">{{itemHis.result}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div v-if="activeIndex=='4'">
+                        <div class="tableBudgetBoxTwo sp-grid-import" id="tableBudgetBoxTwo">
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>公司</th>
+                                        <th>类型</th>
+                                        <th>合计</th>
+                                        <th v-for="item in tableDataAount[0].history">{{item.time}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in tableDataAount">
+                                        <td>{{item.section}}</td>
+                                        <td>{{item.employeeNu}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td v-for="itemHis in item.history">{{itemHis.result}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div v-if="activeIndex=='5'">
+                        <div class="tableBtn">
+                            <el-button class="btn-default" type="primary">添加人员</el-button>
+                            <el-button class="btn-default" type="primary">TBD</el-button>
+                            <el-button class="btn-default" type="primary">重新计算</el-button>
+                            <el-button class="btn-default" type="primary">导入</el-button>
+                            <el-button class="btn-default" type="primary">导出</el-button>
+                        </div>
+                        <div class="tableBudgetBoxTwo sp-grid-import" id="tableBudgetBoxTwo">
+                            <table width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>部门</th>
+                                        <th>员工号</th>
+                                        <th>姓名</th>
+                                        <th>职级</th>
+                                        <th>总收入</th>
+                                        <th>预计收入</th>
+                                        <th>单价</th>
+                                        <th v-for="item in tableData[0].history">{{item.time}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="item in tableData">
+                                        <td>{{item.section}}</td>
+                                        <td>{{item.employeeNu}}</td>
+                                        <td>{{item.name}}</td>
+                                        <td>{{item.rank}}</td>
+                                        <td>{{item.allAount}}</td>
+                                        <td>{{item.allTime}}</td>
+                                        <td>{{item.price}}</td>
+                                        <td v-for="itemHis in item.history">{{itemHis.result}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </template>
+                <div style="overflow:hidden;">
+                    <el-col :span="24" class="item-title">说明</el-col>
+                    <el-col :span="6" class="item-title">收入=税前收入（预算收入）</el-col>
+                    <el-col :span="6" class="item-title">净收入=收入*0.94</el-col>
+                    <el-col :span="6" class="item-title">税金=收入*0.06</el-col>
+                    <el-col :span="6" class="item-title">人力成本=职级成本*工时</el-col>
+                    <el-col :span="6" class="item-title">费用成本=预算费用</el-col>
+                    <el-col :span="6" class="item-title">总成本=人力成本+费用成本</el-col>
+                    <el-col :span="6" class="item-title">毛利率（PGM）=（净收入- 总成本）/净收入*100%</el-col>
+                </div>
             </div>
         </div>
     </div>
@@ -228,6 +327,7 @@
 			return{
                 //表格
                 activeIndex: '1',
+                //总表
                 timePro:[
                     {
                         time:"2017",
@@ -338,6 +438,7 @@
                         allCost:100,
                     }
                 ],
+                //人力
                 tableData:[
                     {
                       section:"技术部",
@@ -362,54 +463,86 @@
                       ]
                     }
                 ],
-                searchInfo:{},
-                tableList:[
+                //费用
+                tableDataAount:[
                     {
-                        projImpDepno:'1002',
-                        oppoNo:'1003223',
-                        projNo:'1002020',
-                        projName:'赚钱项目',
-                        projStatus:'01',
-                        projIncmType:'02',
-                        projIncmConfim:'03',
-                        projSaleName:'周杰伦',
-                        projSaleLinemgr:'马经理',
-                        projImpBegdate:'2017-12-12',
-                        projImpEndate:'2017-12-13'
+                      section:"技术部",
+                      employeeNu:"001",
+                      name:"aduker",
+                      history:[
+                        {
+                            time:2017,
+                            result:2035,
+                        },
+                        {
+                            time:2017,
+                            result:2035,
+                        },
+                        {
+                            time:2017,
+                            result:2035,
+                        },
+                      ]
                     }
                 ],
-                salesInfo:{
-                    oppoNo:'',
+                //收入
+                tableData:[
+                    {
+                      section:"技术部",
+                      employeeNu:"001",
+                      name:"aduker",
+                      rank:"B级",
+                      allAount:30000,
+                      allTime:"40",
+                      price:"35",
+                      history:[
+                        {
+                            time:2017,
+                            result:2035,
+                        },
+                        {
+                            time:2017,
+                            result:2035,
+                        },
+                        {
+                            time:2017,
+                            result:2035,
+                        },
+                      ]
+                    }
+                ],
+                searchInfo:{},
+                proInfo:{
                     projName:'',
-                    projNo:'',
-		            coocustNo:'',
+                    oppoNo:'',
+                    section:'',
+                    proManage:'',
                     projSrvMngmode:'',
-                    projType:'',
+                    projNo:'',
                     projIncmConfim:'',
-                    projPreconAmt:'',
-                    projOrdType:'',
-                    projImplePla:'',
-                    projPreconDate:'',
-                    projPreincmDate:'',
+                    proStartDate:'',
+                    proEndDate:'',
                     projIncmType:'',
-                    projConno:'',
                     projState:'',
-                    projSaleName:'',
-                    projSaleLinemgr:'',
-                    remark:''
                 },
-                projImpleInfo:{
-                    projImpDepname:'',
-                    projImpDepno:'',
-                    projImpCcc:'',
-                    projImpStep:'',
-                    projImpPm:'',
-                    projImpMgr:'',
-		            projImpBegdate:'',
-                    projImpEndate:'',
-                    projImpDesc:''
-		
+                budgetInfo:{
+                    income:'',
+                    netIncome:'',
+                    taxes:'',
+                    humanCost:'',
+                    expenseGost:'',
+                    totalCost:'',
+                    grossProfitRate:'',
+                    release:'',
+                    budgetState:'',
+                    submitDate:'',
                 },
+                //部门列表
+                sectionList: [
+                    {paraValue: '01',paraShowMsg: '部门1'},
+                    {paraValue: '02',paraShowMsg: '部门2'},
+                    {paraValue: '03',paraShowMsg: '部门3'}
+                ],
                 //服务管理模式列表
 				projSrvMngmodeList: [
 					{paraValue: '01',paraShowMsg: '项目外包'},
@@ -417,56 +550,23 @@
 					{paraValue: '03',paraShowMsg: '解决方案'},
 					{paraValue: '04',paraShowMsg: '其他'}
                 ],
-                //项目类型列表
-                projTypeList: [
-					{paraValue: '01',paraShowMsg: '应用系统开发'},
-					{paraValue: '02',paraShowMsg: '软件产品开发'},
-					{paraValue: '03',paraShowMsg: '应用维护升级'},
-					{paraValue: '04',paraShowMsg: '系统集成'},
-					{paraValue: '05',paraShowMsg: '信息系统安全'},
-					{paraValue: '06',paraShowMsg: '咨询服务'},
-					{paraValue: '07',paraShowMsg: '其他'},
-                ],
                 //收入确认类型列表
                 incmConfimList: [
                     {paraValue: '01',paraShowMsg: '外包'},
-					{paraValue: '02',paraShowMsg: '固定金额'},
+                    {paraValue: '02',paraShowMsg: '固定金额'},
                 ],
-                //收入类型列表
-				projIncmTypeList: [
-					{paraValue: '01',paraShowMsg: 'Pipeline'},
-					{paraValue: '02',paraShowMsg: 'EATP'},
-					{paraValue: '03',paraShowMsg: 'Frotlog'},
-					{paraValue: '04',paraShowMsg: 'Backlog'}
+                 //收入类型列表
+                projIncmTypeList: [
+                    {paraValue: '01',paraShowMsg: 'Pipeline'},
+                    {paraValue: '02',paraShowMsg: 'EATP'},
+                    {paraValue: '03',paraShowMsg: 'Frotlog'},
+                    {paraValue: '04',paraShowMsg: 'Backlog'}
                 ],
-                //实施进度列表
-                projImpStepList: [
-                    {paraValue: '01',paraShowMsg: 'NEW'},
-					{paraValue: '02',paraShowMsg: '需求分析'},
-					{paraValue: '03',paraShowMsg: '设计阶段'},
-					{paraValue: '04',paraShowMsg: '开发阶段'},
-					{paraValue: '05',paraShowMsg: '测试阶段'},
-					{paraValue: '06',paraShowMsg: '完成上线'},
-					{paraValue: '07',paraShowMsg: '验收阶段'},
-					{paraValue: '08',paraShowMsg: 'END'},
-                ],
-                //订单类型列表
-                projOrdTypeList: [
-                    {paraValue: '01',paraShowMsg: 'new sell'},
-					{paraValue: '02',paraShowMsg: 'Up sell'},
-					{paraValue: '03',paraShowMsg: 'Renew'}
-                ],
-                //项目状态列表
+                 //项目状态列表
                 projStateList: [
                     {paraValue: '01',paraShowMsg: '售前'},
-					{paraValue: '02',paraShowMsg: '实施'},
-					{paraValue: '03',paraShowMsg: '结束'}
-                ],
-                //客户列表
-                coocustNoList: [
-                    {paraValue: '01',paraShowMsg: '客户1'},
-					{paraValue: '02',paraShowMsg: '客户2'},
-					{paraValue: '03',paraShowMsg: '客户3'}
+                    {paraValue: '02',paraShowMsg: '实施'},
+                    {paraValue: '03',paraShowMsg: '结束'}
                 ],
                 rules1: {
                     oppoNo: [
@@ -595,7 +695,7 @@
             },
             save() {
                 let self = this;
-				self.$refs.salesInfo.validate(valid => {
+				self.$refs.proInfo.validate(valid => {
 			        if (valid) {
 			          	self.$refs.projImpleInfo.validate(valid => {
                               console.log('valid')
@@ -609,7 +709,7 @@
 				})
             },
             //查询项目信息详情
-			queryProjAndSalesInfo() {
+			/*queryProjAndSalesInfo() {
                 const self = this;
                 let oppoNo =  localStorage.getItem('preCheckOppoNo');
 				let params = {
@@ -626,7 +726,7 @@
 				.catch((err) => {
 					console.log(err)
 				})
-            },
+            },*/
             //查询项目实施信息详情
             queryProjImpleInfo() {
                 const self = this;
@@ -743,4 +843,5 @@
 .sp-grid-import{border-collapse: collapse;width:100%; border:1px solid #E1E6EB; border-left:none; width: 100%; overflow-x: scroll;}
 .sp-grid-import thead th{line-height:20px;padding:8px 12px; border-bottom:1px solid #E1E6EB; border-left:1px solid #E1E6EB; white-space: nowrap; text-align:center; font-weight:normal !important;letter-spacing:1px;font-size:14px;}
 .sp-grid-import tbody td{text-align: center;line-height:20px;padding:8px 10px;font-size:14px;border-bottom:1px solid #E1E6EB; border-left:1px solid #E1E6EB;}
+
 </style>
